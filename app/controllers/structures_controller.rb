@@ -87,7 +87,7 @@ class StructuresController < ApplicationController
     #     Metric.delay.print(@similar_profiles.map(&:id), current_user, cookies[:fingerprint], request.ip)
     #   end
     # end
-    @medias = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
+    @medias = @structure.medias.cover_first.videos_first
     @model = StructureShowSerializer.new(@structure, {
       structure:          @structure,
       unlimited_comments: false,

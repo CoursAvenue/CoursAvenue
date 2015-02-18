@@ -1,78 +1,17 @@
-- without_map = false if without_map.nil?
-.gray-box.push--bottom.relative#lieux-photos
-  .flexbox
-    .flexbox__item.one-whole.v-top
-      .rslides-wrapper.rslides--big#media-grid{ style: 'height: 27em;'}>
-        %ul.galery-rslides.hidden>
-          - unless without_map
-            %li
-              #structure-profile-map{ style: 'height: 27em;'}>
-          - medias.each_with_index do |media, index|
-            - cache ['structure_top1', media] do
-              %li.relative.bg-contain
-                %a.rslides_nav.rslides_nav--icon{ rel: 'slideshow', href: media.url, class: (media.video? ? 'visible' : ''), data: { behavior: "fancy" } }
-                  - if media.video?
-                    %i.fa.fa-youtube-play
-                .one-whole.media__item.media__item--slides>
-                  %a.block.break-all{ href: media.url, title: media.caption, data: { behavior: "fancy" } }
-                    = media.thumbnail_url_html
-                    %i.fa.fa-expand
-                - if media.caption.present?
-                  %p.one-whole.absolute.south.soft-half.flush.white.media-caption.f-weight-bold= media.caption
-    .flexbox__item.relative.overflow-hidden.v-top
-      .thumbnails-container
-        %a.bordered--bottom.absolute.on-top.one-whole.north.west.bg-white.block.text--center.thumbnails-container__nav.prev.cursor-pointer{ data: { 'slide-prev' => true } }
-          %i.delta.fa-chevron-up.v-middle.gray-light
-        .relative
-          %ul.flush--left.soft--ends.no-bullet-list.rslides__custom-pager.slideshow-thumbnails.thumbnails-slide-panel#galery-controls-thumb.overflow-hidden{ style: 'height: 27em;'}
-            - unless without_map
-              %li.rslides-thumbnail
-                %a.cursor-pointer.media-photo.media-slideshow#map-thumbnail
-                  = image_tag 'icons/google-maps-thumb.jpg', height: 70, width: 70, data: { src2x: asset_path('icons/google-maps-thumb@2x.jpg') }
-            - medias.each do |media|
-              - cache ['structure_top2', media] do
-                %li.rslides-thumbnail
-                  %a.cursor-pointer.media-photo.bg-cover{ href: '#', title: (@structure ? subjects_name_from_string(@structure.subjects_string) : ''), style: "height: 70px; width: 70px; background-image: url('#{media.small_thumbnail_url}')" }
-        %a.bordered--top.absolute.on-top.one-whole.south.west.bg-white.block.text--center.thumbnails-container__nav.next.cursor-pointer{ data: { 'slide-next' => true } }
-          %i.delta.fa-chevron-down.v-middle.gray-light
-  %a.absolute.north.west.push--right.push--top.on-under-top.heart-link{ href: '#', data: { behavior: 'add-to-favorite', toggle: 'tooltip', added_title: 'Retirer de mes favoris', not_added_title: 'Ajouter à mes favoris', placement: 'left' } }
-    %i.fa.fa-heart-o.fa-4x
+.grid.push--bottom.text--center#medias
+  - medias[0..3].each_with_index do |media, index|
+    .grid__item.relative.one-quarter>
+      - if index == 3 and medias.length > 4
+        %a.relative.media-photo.rounded.soft-black-box-shadow.muted-link.text--center.block.bg-cover{ href: media.url, rel: 'slideshow', style: "height: 110px; background-image: url('#{media.image.url(:thumbnail_blurry)}')", data: { behavior: "fancy" } }
+          .black-curtain.north.west.one-whole.absolute
+          .white.smooth-black-text-shadow.relative
+            %i.fa.fa-camera.fa-2x.white.soft--top.push-half--top.smooth-black-text-shadow
+            %br
+            %strong.block.epsilon.very-soft Tout voir (#{medias.count})
+      - else
+        %a.media-photo.rounded.soft-black-box-shadow.muted-link.text--center.block.bg-cover{ href: media.url, rel: 'slideshow', style: "height: 110px; background-image: url('#{media.thumbnail_url}')", data: { behavior: "fancy" } }
+          - if media.video?
+            %i.fa.fa-youtube-play.fa-3x.white.soft--top.push-half--top.smooth-black-text-shadow
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        // Start slideshow
-        // Removing images and adding the image url to background image in order to have the image being covered
-        $('.galery-rslides img').each(function(){
-            var $this = $(this);
-            $this.closest('.media__item').hide();
-            $this.closest('li').css('background-image', 'url("' + $this.attr('src') + '")')
-        });
-        $galery_controls_thumb = $('#galery-controls-thumb');
-        $('.thumbnails-container [data-slide-prev]').click(function() { $('.rslides_nav.prev').click(); });
-        $('.thumbnails-container [data-slide-next]').click(function() { $('.rslides_nav.next').click(); });
-        $(".galery-rslides").responsiveSlides({
-            auto          : false,
-            nav           : true,
-            prevText      : '<i class="fa-2x fa-chevron-left soft-black-text-shadow"></i>',
-            nextText      : '<i class="fa-2x fa-chevron-right soft-black-text-shadow"></i>',
-            manualControls: '#galery-controls-thumb',
-            before: function before (currentlySelectedIndex) {
-                //------
-                // Code that move the selected thumb
-                //------
-                var li_nb = $('#galery-controls-thumb li').length;
-                currentlySelectedIndex = (currentlySelectedIndex === -1 ? (li_nb - 1) : currentlySelectedIndex)
-                $selected_thumb = $($('#galery-controls-thumb li')[currentlySelectedIndex % li_nb]);
-                $galery_controls_thumb.stop(true, true)
-                                      .scrollTo($selected_thumb,
-                                                { easing: 'easeOutCubic', duration: 300, offset: { top: -150 } });
-            }
-        });
-        if ($('.rslides__custom-pager li a').length > 1 && $('.rslides__custom-pager li a')[1].click) { $('.rslides__custom-pager li a')[1].click(); }
-        // Set the height of the slides
-        var media_height = $('#media-grid').height();
-        $('.galery-rslides li').css('height', media_height);
-        $('.galery-rslides').removeClass('hidden');
-        // End slideshow
-    });
+  - medias[0..-3].each do |media|
+    %a.muted-link.text--center.block.bg-cover{ href: media.url, rel: 'slideshow', data: { behavior: "fancy" } }

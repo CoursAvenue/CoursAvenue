@@ -12,7 +12,7 @@ class StructureShowSerializer < ActiveModel::Serializer
              :audience, :gives_group_courses,
              :gives_individual_courses, :structure_type, :given_course_types,
              :given_funding_type, :places_count, :subjects, :has_teachers, :has_only_one_more_info,
-             :phone_numbers, :is_sleeping, :website, :premium, :has_trial_courses
+             :phone_numbers, :is_sleeping, :website, :premium, :has_trial_courses, :cities_text
 
   has_many :places                            , serializer: PlaceSerializer
   has_many :courses_open_for_trial            , serializer: ShortCourseSerializer
@@ -45,7 +45,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def description_short
-    truncate(object.description, length: 500, separator: ' ') if object.description
+    truncate(object.description.gsub(/\r\n\r\n/, ' '), length: 250, separator: ' ') if object.description
   end
 
   def structure_type

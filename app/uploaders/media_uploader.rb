@@ -42,6 +42,14 @@ class MediaUploader < CarrierWave::Uploader::Base
     process quality: 70
   end
 
+  version :wide_and_blurry do
+    cloudinary_transformation transformation: [{ width: 1024, height: 300, crop: :fill, effect: 'blur:900' }]
+  end
+
+  version :thumbnail_blurry do
+    cloudinary_transformation transformation: [{ width: 300, height: 200, crop: :fill, effect: 'blur:900' }]
+  end
+
   private
 
   def thumbnail_email_cropped

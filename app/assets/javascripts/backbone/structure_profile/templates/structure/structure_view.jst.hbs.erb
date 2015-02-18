@@ -1,129 +1,117 @@
-<div class="panel push--bottom" id="presentation">
-    <div class="panel__header soft-half--ends soft--sides">
-        <h4 class="flush">À propos de {{about}}</h4>
-    </div>
-    <div class="panel__body">
-        <article>
-            <div class="soft">
-                {{#if logo_thumb_url}}
-                <div class="float--left push--right push-half--bottom text--center">
-                    <div class="media-photo">
-                        <img src="{{logo_thumb_url}}" alt="Image de profil de {{name}}" height="200" class="block">
+<article id="presentation">
+    <div class="soft">
+        <div class="flexbox push-half--bottom">
+          {{#if logo_thumb_url}}
+          <div class="flexbox__item v-top">
+              <div class="float--left push--right push-half--bottom text--center">
+                  <div class="media-photo">
+                      <img src="{{ logo_thumb_url }}" alt="Image de profil de {{ name }}" height="150" width="150" class="block">
+                  </div>
+              </div>
+          </div>
+          {{/if}}
+          <div class="flexbox__item v-top">
+              <h1 class="beta gray push-half--bottom">{{ name }}</h1>
+              <div class="delta f-weight-500 push-half--bottom gray">
+                {{ structure_type }} - {{ cities_text }}
+              </div>
+              {{#each subjects}}
+              <div class="{{#ifCond @index '>' 1}}description-more-long hidden{{/ifCond}}">
+                  <h3 class="flush f-weight-normal inline-block inherit-font-size">
+                    <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
+                    <strong>{{this.root_name}} : </strong>{{this.child_names}}
+                  </h3>
+              </div>
+              {{/each}}
+          </div>
+        </div>
+        <div class="push-half--bottom">
+            {{#if description}}
+              {{#ifCond description '!=' description_short}}
+              <div id="description-short" class="gray last-p-push-half--bottom">
+                  {{{ simple_format_hide_contacts description_short }}}
+                  <a href="#" data-behavior="show-long-version" data-short-version="#description-short" data-long-version=".show-more-description-more-info-long">+ Plus</a>
+              </div>
+              {{else}}
+              <div class="gray" itemprop="description">
+                  {{{ simple_format_hide_contacts description }}}
+                  <a href="#" data-behavior="show-long-version" data-long-version=".show-more-description-more-info-long">+ Plus</a>
+              </div>
+              {{/ifCond}}
+            {{else}}
+              <div class="gray">
+                  {{ capitalize about }} n'a pas ajouté sa description :
+                  <a href="#" data-behavior="show-long-version" data-long-version=".show-more-description-more-info-long">+ Plus</a>
+              </div>
+            {{/if}}
+            <div class="show-more-description-more-info-long hidden">
+                <div class="gray" itemprop="description">
+                    {{{ simple_format_hide_contacts description }}}
+                </div>
+                <div>
+                    <hr class="push--bottom push-half--top">
+                    <div class="flexbox">
+                        <div class="flexbox__item v-top one-quarter">
+                            <strong class="gray-light">Plus d'infos</strong>
+                        </div>
+                        <div class="flexbox__item v-top three-quarters">
+                            <table class="table--data table--striped table--striped-reversed bordered push-half--bottom">
+                                <tbody>
+                                    {{#if given_funding_type}}
+                                    <tr>
+                                        <td class="one-third">Financements acceptés</td>
+                                        <td class="two-thirds"><strong>{{given_funding_type}}</strong></td>
+                                    </tr>
+                                    {{/if}}
+                                    {{#if audience}}
+                                    <tr class="{{#if given_funding_type}}description-more-info-long hidden{{/if}}">
+                                        <td class="one-third">Public</td>
+                                        <td class="two-thirds"><strong>{{audience}}</strong></td>
+                                    </tr>
+                                    {{/if}}
+                                    {{#if structure_type}}
+                                    <tr class="{{#if given_funding_type}}description-more-info-long hidden{{/if}}{{#if audience}}description-more-info-long hidden{{/if}}">
+                                        <td class="one-third">Type de structure</td>
+                                        <td class="two-thirds"><strong>{{structure_type}}</strong></td>
+                                    </tr>
+                                    {{/if}}
+                                    {{#if given_course_types}}
+                                    <tr class="{{#unless has_only_one_more_info}}description-more-info-long hidden{{/unless}}">
+                                        <td class="one-third">Cours proposés</td>
+                                        <td class="two-thirds"><strong>{{given_course_types}}</strong></td>
+                                    </tr>
+                                    {{/if}}
+                                </tbody>
+                            </table>
+                            {{#unless has_only_one_more_info}}{{#if given_course_types}}
+                            <div>
+                                <a href="#" data-behavior="show-long-version" data-long-version=".description-more-info-long">
+                                + Plus
+                                </a>
+                            </div>
+                            {{/if}}{{/unless}}
+                        </div>
                     </div>
-                    <i class="gray-light">Logo {{about_bis}}</i>
+                </div>
+                {{#if has_teachers}}
+                <hr class="push--ends">
+                <div class="flexbox">
+                    <div class="flexbox__item v-top one-quarter">
+                        <strong class="gray-light">Professeurs</strong>
+                    </div>
+                    <div data-type="teachers-collection" class="flexbox__item v-top three-quarters">
+                        <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-teachers-loader style="display: none;">
+                    </div>
                 </div>
                 {{/if}}
-                <div class="push-half--bottom" {{#if logo_thumb_url}}style="min-height: 200px"{{/if}}>
-                    {{#if description}}
-                      {{#ifCond description '!=' description_short}}
-                      <div id="description-short" class="gray last-p-push-half--bottom">
-                          {{{ simple_format_hide_contacts description_short }}}
-                      </div>
-                      <a href="#" data-behavior="show-long-version" data-short-version="#description-short" data-long-version="#description-long">
-                      + Plus
-                      </a>
-                      <div id="description-long" class="gray hidden" itemprop="description">
-                          {{{ simple_format_hide_contacts description }}}
-                      </div>
-                      {{else}}
-                      <div class="gray" itemprop="description">
-                          {{{ simple_format_hide_contacts description }}}
-                      </div>
-                      {{/ifCond}}
-                      <div class="push-half--bottom text--center">
-                          <a class="cursor-pointer soft-half--right" data-behavior="show-contact-panel">Contacter {{about}}</a>
-                          <a href="#" data-behavior="show-long-version" data-long-version=".show-more-description-more-info-long">En savoir plus <i class="fa fa-caret-down"></i></a>
-                      </div>
-                    {{else}}
-                      <div class="gray">
-                          {{ capitalize about }} n'a pas ajouté sa description :
-                          <a class="cursor-pointer soft-half--right" data-behavior="show-contact-panel" data-info-planning="true" href="#">contactez-{{about_genre}}.</a>
-                          <a href="#" data-behavior="show-long-version" data-long-version=".show-more-description-more-info-long">En savoir plus <i class="fa fa-caret-down"></i></a>
-                      </div>
-                    {{/if}}
-                    <div class="show-more-description-more-info-long hidden">
-                        <hr class="push--ends flexbox">
-                        <div class="flexbox" id="disciplines">
-                            <div class="flexbox__item v-top one-quarter">
-                                <strong class="gray-light">Disciplines enseignées</strong>
-                            </div>
-                            <div class="flexbox__item v-top three-quarters">
-                                {{#each subjects}}
-                                <div class="push-half--bottom {{#ifCond @index '>' 1}}description-more-long hidden{{/ifCond}}">
-                                    <h3 class="f-weight-normal inline-block inherit-font-size">
-                                      <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
-                                      <strong>{{this.root_name}} : </strong>{{this.child_names}}
-                                    </h3>
-                                </div>
-                                {{/each}}
-                            </div>
-                        </div>
-                        <div>
-                            <hr class="push--bottom push-half--top">
-                            <div class="flexbox">
-                                <div class="flexbox__item v-top one-quarter">
-                                    <strong class="gray-light">Plus d'infos</strong>
-                                </div>
-                                <div class="flexbox__item v-top three-quarters">
-                                    <table class="table--data table--striped table--striped-reversed bordered push-half--bottom">
-                                        <tbody>
-                                            {{#if given_funding_type}}
-                                            <tr>
-                                                <td class="one-third">Financements acceptés</td>
-                                                <td class="two-thirds"><strong>{{given_funding_type}}</strong></td>
-                                            </tr>
-                                            {{/if}}
-                                            {{#if audience}}
-                                            <tr class="{{#if given_funding_type}}description-more-info-long hidden{{/if}}">
-                                                <td class="one-third">Public</td>
-                                                <td class="two-thirds"><strong>{{audience}}</strong></td>
-                                            </tr>
-                                            {{/if}}
-                                            {{#if structure_type}}
-                                            <tr class="{{#if given_funding_type}}description-more-info-long hidden{{/if}}{{#if audience}}description-more-info-long hidden{{/if}}">
-                                                <td class="one-third">Type de structure</td>
-                                                <td class="two-thirds"><strong>{{structure_type}}</strong></td>
-                                            </tr>
-                                            {{/if}}
-                                            {{#if given_course_types}}
-                                            <tr class="{{#unless has_only_one_more_info}}description-more-info-long hidden{{/unless}}">
-                                                <td class="one-third">Cours proposés</td>
-                                                <td class="two-thirds"><strong>{{given_course_types}}</strong></td>
-                                            </tr>
-                                            {{/if}}
-                                        </tbody>
-                                    </table>
-                                    {{#unless has_only_one_more_info}}{{#if given_course_types}}
-                                    <div>
-                                        <a href="#" data-behavior="show-long-version" data-long-version=".description-more-info-long">
-                                        + Plus
-                                        </a>
-                                    </div>
-                                    {{/if}}{{/unless}}
-                                </div>
-                            </div>
-                        </div>
-                        {{#if has_teachers}}
-                        <hr class="push--ends">
-                        <div class="flexbox">
-                            <div class="flexbox__item v-top one-quarter">
-                                <strong class="gray-light">Professeurs</strong>
-                            </div>
-                            <div data-type="teachers-collection" class="flexbox__item v-top three-quarters">
-                                <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push--ends" height="10" data-teachers-loader style="display: none;">
-                            </div>
-                        </div>
-                        {{/if}}
-                    </div>
-                </div>
             </div>
-        </article>
+        </div>
     </div>
-</div>
+</article>
 
-<div class="panel push--bottom" id="cours-reguliers">
-    <div class="panel__header soft-half--ends soft--sides">
-        <div class="flush delta line-height-1-7"><strong>Cours réguliers</strong></div>
+<div class="push--bottom bordered--top" id="cours-reguliers" data-wrapper>
+    <div class="soft-half--ends soft--sides">
+        <div class="flush gamma line-height-1-7"><strong>Cours réguliers</strong></div>
     </div>
     <div class="panel__body soft--bottom soft--sides">
         <article>
@@ -138,9 +126,9 @@
     </div>
 </div>
 
-<div class="panel push--bottom" id="stages-ateliers">
-    <div class="panel__header soft-half--ends soft--sides">
-        <div class="flush delta line-height-1-7"><strong>Stages et ateliers</strong></div>
+<div class="push--bottom bordered--top" id="stages-ateliers" data-wrapper>
+    <div class="soft-half--ends soft--sides">
+        <div class="flush gamma line-height-1-7"><strong>Stages et ateliers</strong></div>
     </div>
     <div class="panel__body soft--bottom soft--sides">
         <article>

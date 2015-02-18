@@ -19,12 +19,12 @@ StructureProfile.addInitializer(function(options) {
       model: participation_request
     } );
 
-    google_maps_view           = new StructureProfile.Views.Map.GoogleMapsView({
-        collection:         places_collection,
-        infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) },
-        mapOptions:         { scrollwheel: false },
-        mapClass:           'google-map--medium'
-    });
+    // google_maps_view           = new StructureProfile.Views.Map.GoogleMapsView({
+    //     collection:         places_collection,
+    //     infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) },
+    //     mapOptions:         { scrollwheel: false },
+    //     mapClass:           'google-map--medium'
+    // });
 
     sticky_google_maps_view    = new StructureProfile.Views.Map.StickyGoogleMapsView({
         collection:         places_collection,

@@ -79,8 +79,6 @@
           - if @subject.tips.present?
             %h3 Matériel à prévoir
             %p= @subject.tips
-      - if @vertical_page.medias.any?
-        = render partial: 'structures/map_and_gallery', locals: { medias: @vertical_page.medias, without_map: true }
 
       %h3= "Les lieux les plus recherchés"
       .grid

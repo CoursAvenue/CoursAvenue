@@ -81,7 +81,6 @@
                 </tr>
             </thead>
             <tbody>
-                {{#if premium}}
                 {{#if premium_prices}}
                 {{#each premium_prices}}
                     <tr>
@@ -101,7 +100,6 @@
                     </tr>
                 {{/each}}
                 {{/if}}
-                {{/if}}
                 {{#each prices}}
                     {{#ifCond @index '==' 2}}
                         <tr data-behavior="show-long-version" data-long-version=".course-{{../../id}}-prices-long">
@@ -116,7 +114,7 @@
                         <td>
                             {{this.libelle}}
                         </td>
-                        <td class="text--center {{#if ../premium}}{{#if this.promo_amount}}line-through{{/if}}{{/if}}">
+                        <td class="text--center {{#if this.promo_amount}}line-through{{/if}}">
                             {{#if this.is_free}}
                               <strong class="green">Gratuit{{#if this.is_registration}}e{{/if}}</strong>
                             {{else}}
@@ -124,10 +122,8 @@
                             {{/if}}
                         </td>
                         <td class="text--center">
-                            {{#if ../premium}}
-                              {{#if this.promo_amount}}
-                                <strong class="green">{{this.promo_amount}}</strong>
-                              {{/if}}
+                            {{#if this.promo_amount}}
+                              <strong class="green">{{this.promo_amount}}</strong>
                             {{/if}}
                         </td>
                         <td>{{{ hide_contacts this.info }}}</td>
