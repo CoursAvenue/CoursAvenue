@@ -148,8 +148,7 @@ FilteredSearch.addInitializer(function(options) {
 
     layout.showWidget(subjects_collection_filter, {
         events: {
-          'filter:subject_input'     : 'setup',
-          'filter:subject'           : 'setup'
+          'structures:updated:filter': 'setup'
         }
     });
     layout.showWidget(location_filter);
