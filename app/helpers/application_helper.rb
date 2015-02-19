@@ -41,11 +41,7 @@ module ApplicationHelper
   end
 
   def current_pro_admin_as_json
-    if current_pro_admin.super_admin? and @structure
-      AdminSerializer.new(@structure.main_contact).to_json
-    else
-      AdminSerializer.new(current_pro_admin).to_json
-    end
+    AdminSerializer.new(current_pro_admin).to_json
   end
 
   def media_share_url(url, provider = :facebook, text='')
