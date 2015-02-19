@@ -1,5 +1,5 @@
 %header.header.header--pro
-  .main-container.main-container--medium.grid--full
+  .main-container.grid--full
     %h1.accessibility
       CoursAvenue
     .grid__item.one-third.v-middle>
@@ -8,23 +8,29 @@
     .grid__item.two-thirds.v-middle.text--right
       %ul.nav
         %li.soft--right.visuallyhidden--palm
-          = link_to 'Accueil', root_path
+          = link_to 'Bienvenue', root_path
         %li.soft--right.visuallyhidden--palm
-          = link_to 'Portraits', pro_portraits_path
+          = link_to 'Fonctionnalités', pro_pages_features_path
         %li.soft--right.visuallyhidden--palm
-          = render 'shared/question_dropdown_menu'
-        - if current_pro_admin
-          %li.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
-            - if current_pro_admin.super_admin?
-              = link_to 'Espace super admin', pro_dashboard_path, class: 'btn btn--green btn--small'
-            - elsif current_pro_admin.structure.present?
-              = link_to 'Mon profil', dashboard_pro_structure_path(current_pro_admin.structure), class: 'btn btn--green btn--small'
-            %ul.drop-down__el
-              %li.nowrap
-                = link_to destroy_pro_admin_session_path, method: :delete do
-                  %i.fa.fa-sign-out
-                  Déconnexion
-        - else
-          %li
-            = link_to new_pro_admin_session_path, class: 'btn btn--small fancybox.ajax', data: { behavior: 'modal', width: '300', padding: 0 } do
-              Connexion
+          = link_to 'Tarifs', pro_pages_price_path
+        %li.soft--right.visuallyhidden--palm
+          = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'btn btn--green', data: { try: true }
+        -# %li.soft--right.visuallyhidden--palm
+        -#   = link_to 'Portraits', pro_portraits_path
+        -# %li.soft--right.visuallyhidden--palm
+        -#   = render 'shared/question_dropdown_menu'
+        -# - if current_pro_admin
+        -#   %li.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
+        -#     - if current_pro_admin.super_admin?
+        -#       = link_to 'Espace super admin', pro_dashboard_path, class: 'btn btn--green btn--small'
+        -#     - elsif current_pro_admin.structure.present?
+        -#       = link_to 'Mon profil', dashboard_pro_structure_path(current_pro_admin.structure), class: 'btn btn--green btn--small'
+        -#     %ul.drop-down__el
+        -#       %li.nowrap
+        -#         = link_to destroy_pro_admin_session_path, method: :delete do
+        -#           %i.fa.fa-sign-out
+        -#           Déconnexion
+        -# - else
+        -#   %li
+        -#     = link_to new_pro_admin_session_path, class: 'btn btn--small fancybox.ajax', data: { behavior: 'modal', width: '300', padding: 0 } do
+        -#       Connexion

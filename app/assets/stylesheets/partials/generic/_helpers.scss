@@ -10,12 +10,18 @@
     height: 35vh;
     @include media-query(palm) { height: 15vh; }
 }
+.height-three-quarters {
+    height: 750px; // Fallback
+    height: 75vh;
+    @include media-query(palm) { height: 50vh; }
+}
 .height-whole { height: 100%; }
 .full-screen-item {
     height: 750px; // Fallback
     height: 100vh;
     // @include media-query(palm) { height: auto; }
 }
+
 
 /*------------------------------------*\
     RADIUS
@@ -34,25 +40,29 @@
 /*------------------------------------*\
     BORDERS
 \*------------------------------------*/
-.bordered--right     { border-right  : 1px solid $gray-smooth; }
-.bordered--left      { border-left   : 1px solid $gray-smooth; }
-.bordered--bottom    { border-bottom : 1px solid $gray-smooth; }
-.bordered--top       { border-top    : 1px solid $gray-smooth; }
-.bordered            { border        : 1px solid $gray-smooth; }
-.bordered--blue      { border        : 1px solid $blue; }
-.bordered--red       { border        : 1px solid $red; }
-.border-none         { border        : none !important; }
-.border-none--sides  { border-left   : none !important; border-right: none !important; }
-.border-none--bottom { border-bottom : none !important; }
-.border-none--left   { border-left  : none !important; }
-.border-none--right  { border-right  : none !important; }
-.border-none--left   { border-left   : none !important; }
-.border-none--top    { border-top    : none !important; }
-.bordered--larger    { border-width  : 2px !important; }
-.bordered--thick     { border-width  : 4px !important; }
-.bordered--orange    { border-color  : $orange; }
-.border-color-gray   { border-color  : $gray; }
-.border-color-white  { border-color  : white; }
+.bordered--right        { border-right  : 1px solid $gray-smooth; }
+.bordered--left         { border-left   : 1px solid $gray-smooth; }
+.bordered--right        { border-right   : 1px solid $gray-smooth; }
+.bordered--bottom       { border-bottom : 1px solid $gray-smooth; }
+.bordered--top          { border-top    : 1px solid $gray-smooth; }
+.bordered               { border        : 1px solid $gray-smooth; }
+.bordered--blue         { border        : 1px solid $blue; }
+.bordered--red          { border        : 1px solid $red; }
+.border-none            { border        : none !important; }
+.border-none--sides     { border-left   : none !important; border-right: none !important; }
+.border-none--bottom    { border-bottom : none !important; }
+.border-none--left      { border-left  : none !important; }
+.border-none--right     { border-right  : none !important; }
+.border-none--left      { border-left   : none !important; }
+.border-none--top       { border-top    : none !important; }
+.bordered--larger       { border-width  : 2px !important; }
+.bordered--thick        { border-width  : 4px !important; }
+.bordered--orange       { border-color  : $orange !important; }
+.border-color-gray      { border-color  : $gray !important; }
+.border-color-white     { border-color  : white !important; }
+.border-color-orange    { border-color  : $orange !important; }
+.border-color-green     { border-color  : $green !important; }
+.border-color-dark-blue { border-color  : $dark_blue !important; }
 
 /*------------------------------------*\
     ALIGNMENTS
@@ -67,11 +77,14 @@
     COLORS
 \*------------------------------------*/
 .white              { color: white; }
+.white-faded        { color: #DDDDDD; }
 .black              { color: $text-black; }
 .yellow             { color: $yellow; }
 .yellow--dark       { color: darken($yellow, 8%); }
 .red                { color: $red !important; }
 .green              { color: $green-success !important; }
+.dark-blue          { color: $dark_blue; }
+.green              { color: $green; }
 .blue               { color: $blue-green !important; }
 .blue-darker        { color: darken($blue-green, 10%) !important; }
 .fb-blue            { color: $facebook-blue; }
@@ -86,6 +99,7 @@
 .bg-orange          { background-color: $orange; }
 .bg-red             { background-color: $red; }
 .bg-white           { background-color: white; }
+.bg-gray-smooth     { background-color: $gray-smooth; }
 .bg-gray-light      { background-color: $gray-lighter; }
 .bg-white-faded     { background-color: white; background-color: rgba(255, 255, 255, 0.65) }
 .bg-site-background { background-color: $site-background-color; }
@@ -163,6 +177,7 @@
 .very-soft--left  { padding-left: 5px; }
 .very-soft--right { padding-right: 5px; }
 .island-top { margin-top: $base-spacing-unit * 3.5; }
+.mega-soft--top { padding-top: $base-spacing-unit * 3.5; }
 .mega-soft--ends {
     padding-top   : $base-spacing-unit * 3.5;
     padding-bottom: $base-spacing-unit * 3.5;

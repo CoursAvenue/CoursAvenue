@@ -1,10 +1,14 @@
 class Pro::HomeController < Pro::ProController
-  layout 'admin_pages'
+
+  layout :get_layout
 
   def mailjet_custo
   end
 
   def portraits
+  end
+
+  def features
   end
 
   def index
@@ -40,5 +44,15 @@ class Pro::HomeController < Pro::ProController
     @sections = ::Faq::Section.pro
 
     render template: 'pages/faq_users'
+  end
+
+  private
+
+  def get_layout
+    if action_name == 'index'
+      'home'
+    else
+      'admin_pages'
+    end
   end
 end

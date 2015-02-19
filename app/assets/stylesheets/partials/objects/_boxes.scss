@@ -15,8 +15,8 @@
 .orange-transparent-box { background-color: transparentize($orange, 0.15); }
 .orange-box             { background-color: $orange; }
 .red-box                { background-color: $red; }
-.dark-blue-box          { background-color: #515e78; }
-.green-box              { background-color: #27ae60; }
+.dark-blue-box          { background-color: $dark_blue; }
+.green-box              { background-color: $green; }
 .blue-box {
     color     : white;
     background: $blue;
