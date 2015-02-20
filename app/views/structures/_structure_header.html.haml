@@ -52,7 +52,7 @@
         .push-half--top
           - cache [@structure, "structures_header"] do
             - if @structure.structure_type.present?
-              .milli.inline-block.structure__header-icon.semi-muted.v-top
+              .milli.inline-block.structure__header-icon.opacity-75.v-top
                 = link_to '#presentation', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
                   %i.fa-3x.fa-house.flexbox__item
                   .flexbox__item.soft-half--left.soft--right
@@ -61,7 +61,7 @@
                         %br
                       = splitted_structure_type
             - if @structure.gives_group_courses or @structure.gives_individual_courses.blank?
-              .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.group_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+              .milli.inline-block.structure__header-icon.opacity-75.v-top{ data: { toggle: 'popover', content: @structure_decorator.group_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
                 = link_to '#cours-reguliers', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
                   %i.fa-3x.fa-group.flexbox__item
                   .flexbox__item.soft-half--left.soft--right
@@ -73,7 +73,7 @@
                     %br
                     = "collectif".pluralize(collectif_courses_nb)
             - if @structure.gives_individual_courses
-              .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.individual_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+              .milli.structure__header-icon.inline-block.opacity-75.v-top{ data: { toggle: 'popover', content: @structure_decorator.individual_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
                 = link_to '#cours-reguliers', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
                   %i.fa-3x.fa-user.flexbox__item
                   .flexbox__item.soft-half--left.soft--right
@@ -84,14 +84,14 @@
                       Cours
                     %br
                     = "particulier".pluralize(privates_courses_length)
-            .milli.structure__header-icon.inline-block.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+            .milli.structure__header-icon.inline-block.opacity-75.v-top{ data: { toggle: 'popover', content: @structure_decorator.subjects_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
               = link_to '#disciplines', class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}", data: { behavior: 'scroll-to', offset_top: '-55' } do
                 %i.fa-3x.fa-tag.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
                   = @structure_decorator.subjects_at_depth_2_count
                   = "disciplines".pluralize @structure_decorator.subjects_at_depth_2_count
 
-            .milli.inline-block.structure__header-icon.semi-muted.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
+            .milli.inline-block.structure__header-icon.opacity-75.v-top{ data: { toggle: 'popover', content: @structure_decorator.places_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
               = link_to '#', onclick: "$('#map-thumbnail').click();", class: "muted-link flexbox #{@structure.is_sleeping? ? 'cursor-default' : ''}" do
                 %i.fa-3x.fa-map-marker.flexbox__item
                 .flexbox__item.soft-half--left.soft--right
@@ -99,7 +99,7 @@
                   = "lieu#{@structure.places.count > 1 ? 'x' : ''}"
 
             - if @structure.comments_count > 0
-              .milli.inline-block.structure__header-icon.inline-block.semi-muted.v-top{ itemscope: true, itemtype: "http://data-vocabulary.org/Review-aggregate" }
+              .milli.inline-block.structure__header-icon.inline-block.opacity-75.v-top{ itemscope: true, itemtype: "http://data-vocabulary.org/Review-aggregate" }
                 %meta{ itemprop: 'itemreviewed', content: structure.name }
                 %meta{ itemprop: 'rating', content: structure.rating || 5 }
                 %meta{ itemprop: 'photo', content: structure.logo.url(:original) }

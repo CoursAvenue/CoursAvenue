@@ -17,7 +17,7 @@
         .text--center
           %strong= comment.author_name
           %br
-          %i.semi-muted{ itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date) }
+          %i.opacity-75{ itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date) }
             Il y a #{distance_of_time_in_words_to_now comment.created_at}
           - if current_pro_admin and current_pro_admin.super_admin?
             .break-word (#{comment.email})

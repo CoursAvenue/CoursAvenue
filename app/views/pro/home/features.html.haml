@@ -1,3 +1,11 @@
+- @is_responsive = true
+
+= content_for :title do
+  Fonctionnalités | CoursAvenue PRO
+
+= content_for :meta_description do
+  Visibilité, attractivité, fidélisation : enfin simple et efficace
+
 .mega-soft--ends.relative.push--bottom
   %div.home-page-fullscreen-video.bg-cover.bg-position-top{ style: "background-image: url('#{asset_path('pro/homepage/bg.jpg')}')", data: { behavior: 'parallax' } }
     .black-curtain.north.west.one-whole.absolute
@@ -39,33 +47,33 @@
           Questionnaire de satisfaction
 
 
-.home-screen-promotion-wrapper.soft.bordered--top.bordered--thick.border-color-orange.border-none--sides.border-none--bottom#visibilite
+.home-screen-promotion-wrapper.soft--sides.bordered--top.bordered--thick.border-color-orange.border-none--sides.border-none--bottom#visibilite
   .main-container.main-container--medium.mega-soft--ends
     %h2.f-size-big.orange.push-half--bottom Visibilité
     %h3.gamma.soft--bottom.orange Pour recruter de nouveaux élèves grâce à Internet
     .flexbox.palm-block.push--bottom
-      .flexbox__item.v-top.soft--right.palm-block.palm-text--center
-        = image_tag 'pro/homepage/icons/responsive.png', height: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/responsive@2x.png') }
-      .flexbox__item.v-top.palm-block
-        %h4.beta.flush Profil CoursAvenue
+      .flexbox__item.v-top.soft--right.palm-block.palm-text--center.palm-hard
+        = image_tag 'pro/homepage/icons/responsive.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/responsive@2x.png') }
+      .flexbox__item.v-top.palm-block.soft--left.palm-hard
+        %h4.beta.flush.line-height-1-7 Profil CoursAvenue
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
           Apparaissez sur CoursAvenue et faites connaître vos activités à un maximum d'Internautes à la recherche de ce que vous proposez
-        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white
+        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white.bordered.border-color-darker
           %strong Le saviez-vous ?
           9 Français sur 10 passent par Internet pour trouver une activité de loisir. En priorité, ils ciblent sur la localisation puis recherchent des avis, et CoursAvenue représente la meillleure réponse
 
     .flexbox.palm-block.push--bottom
       .flexbox__item.v-top.soft--right.palm-block
-        %h4.beta.flush Avis & Livre d'Or
+        %h4.beta.flush.line-height-1-7 Avis & Livre d'Or
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
           Affichez les avis de vos élèves sur votre site Internet et bénéficiez des effets du bouche-à-oreille
-        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white
+        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white.bordered.border-color-darker
           %strong Le saviez-vous ?
           90% des Français recherchent des avis sur Internet avant de s'inscrire à un nouveau cours
-      .flexbox__item.v-top.palm-block.palm-text--center
-        = image_tag 'pro/homepage/icons/bubbles.png', height: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/bubbles@2x.png') }
+      .flexbox__item.v-top.palm-block.palm-text--center.soft--left.palm-hard
+        = image_tag 'pro/homepage/icons/bubbles.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/bubbles@2x.png') }
 
-    %h4.beta.flush La presse parle de CoursAvenue
+    %h4.beta.flush.line-height-1-7.text--center La presse parle de CoursAvenue
     .soft--ends.text--center
       .inline-block.palm-block.palm-text--center.grayscale.v-middle.push--sides.soft--sides.palm-hard.palm-flush>
         = image_tag 'presses/logos/elle.png', height: 40
@@ -83,36 +91,36 @@
     %h2.f-size-big.dark-blue.push-half--bottom Attractivité
     %h3.gamma.soft--bottom.dark-blue Pour convertir les visiteurs de votre site en élèves inscrits
     .flexbox.palm-block.push--bottom
-      .flexbox__item.v-top.soft--right.palm-block.palm-text--center
-        = image_tag 'pro/homepage/icons/calendar.png', height: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/calendar@2x.png') }
-      .flexbox__item.v-top.palm-block
-        %h4.beta.flush Page planning optimisée mobiles & tablettes sur votre site Internet
+      .flexbox__item.v-top.soft--right.palm-block.palm-text--center.palm-hard
+        = image_tag 'pro/homepage/icons/calendar.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/calendar@2x.png') }
+      .flexbox__item.v-top.palm-block.soft--left.palm-hard
+        %h4.beta.flush.line-height-1-7 Page planning optimisée mobiles & tablettes sur votre site Internet
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
           Affichez une page planning optimisée multi-supports sur votre site Internet et augmentez votre nombre d'inscrits
-        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white
+        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white.bordered.border-color-darker
           %strong Le saviez-vous ?
           La plage planning est la page la plus visitée de votre site Internet, et la moitié des visites se fait sur mobile ou tablette
 
 
     .flexbox.palm-block.push--bottom
       .flexbox__item.v-top.soft--right.palm-block
-        %h4.beta.flush Inscriptions en ligne
+        %h4.beta.flush.line-height-1-7 Inscriptions en ligne
         %p.delta.line-height-1-7.f-weight-500
-          Augmentez votre nombre de nouveaux élèves en proposant l'inscription en ligne et ne gaspillez plus votre temps à rappeler les appels .push-half--bottommanqués
-        %p.delta.line-height-1-7.f-style-italic.gray
-          %strong Le saviez.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white-vous ?
+          Augmentez votre nombre de nouveaux élèves en proposant l'inscription en ligne et ne gaspillez plus votre temps à rappeler les appels manqués
+        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white.bordered.border-color-darker
+          %strong Le saviez-vous ?
           Nos partenaires qui proposent l'inscription en ligne sur leur site génèrent 3 fois plus d'inscriptions que ceux qui ne le font pas
-      .flexbox__item.v-top.palm-block.palm-text--center
-        = image_tag 'pro/homepage/icons/bookmark.png', height: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/bookmark@2x.png') }
+      .flexbox__item.v-top.palm-block.palm-text--center.soft--left.palm-hard
+        = image_tag 'pro/homepage/icons/growth.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/growth@2x.png') }
 
     .flexbox.palm-block.push--bottom
-      .flexbox__item.v-top.soft--right.palm-block.palm-text--center
-        = image_tag 'pro/homepage/icons/graph.png', height: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/graph@2x.png') }
-      .flexbox__item.v-top.palm-block
-        %h4.beta.flush Statistiques de votre trafic et suivi des conversions
+      .flexbox__item.v-top.soft--right.palm-block.palm-text--center.palm-hard
+        = image_tag 'pro/homepage/icons/graph.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/graph@2x.png') }
+      .flexbox__item.v-top.palm-block.soft--left.palm-hard
+        %h4.beta.flush.line-height-1-7 Statistiques de votre trafic et suivi des conversions
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
           Suivez le nombre de visiteurs de votre page planning et mesurez le pourcentage d'inscriptions
-        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white
+        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white.bordered.border-color-darker
           %strong Le saviez-vous ?
           En moyennne, un site Internet efficace doit convertir plus de 3% des visiteurs en nouveaux élèves inscrits
 
@@ -122,34 +130,38 @@
     %h2.f-size-big.green.push-half--bottom Fidélisation
     %h3.gamma.soft--bottom.green Pour faire revenir plus souvent vos élèves
     .flexbox.palm-block.push--bottom
-      .flexbox__item.v-top.soft--right.palm-block.palm-text--center
-        = image_tag 'pro/homepage/icons/newsletter.png', height: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/newsletter@2x.png') }
-      .flexbox__item.v-top.palm-block
-        %h4.beta.flush Newsletter et fichier élèves
+      .flexbox__item.v-top.soft--right.palm-block.palm-text--center.palm-hard
+        = image_tag 'pro/homepage/icons/newsletter.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/newsletter@2x.png') }
+      .flexbox__item.v-top.palm-block.soft--left.palm-hard
+        %h4.beta.flush.line-height-1-7 Newsletter et fichier élèves
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
           Envoyez des newsletters de qualité à vos élèves pour qu'ils participent régulièrement à vos activités
-        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white
+        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white.bordered.border-color-darker
           %strong Le saviez-vous ?
           Plus de 80% des participants à un stage ou un événement s'y sont inscrits après avoir reçu une newsletter attractive
 
     .flexbox.palm-block.push--bottom
       .flexbox__item.v-top.soft--right.palm-block
-        %h4.beta.flush Multi-postage sur les réseaux sociaux
+        %h4.beta.flush.line-height-1-7 Multi-postage sur les réseaux sociaux
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
           Gérez tous vos réseaux sociaux au même endroit pour mieux fidéliser vos élèves
-        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white
+        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white.bordered.border-color-darker
           %strong Le saviez-vous ?
           Vos élèves sont 7 fois plus susceptibles de revenir à une nouvelle activité s'ils sont fans de votre page Facebook
-      .flexbox__item.v-top.palm-block.palm-text--center
-        = image_tag 'pro/homepage/icons/like.png', height: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/like@2x.png') }
+      .flexbox__item.v-top.palm-block.palm-text--center.soft--left.palm-hard
+        = image_tag 'pro/homepage/icons/like.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/like@2x.png') }
 
     .flexbox.palm-block.push--bottom
-      .flexbox__item.v-top.soft--right.palm-block.palm-text--center
-        = image_tag 'pro/homepage/icons/checklist.png', height: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/checklist@2x.png') }
-      .flexbox__item.v-top.palm-block
-        %h4.beta.flush Questionnaire de satisfaction
+      .flexbox__item.v-top.soft--right.palm-block.palm-text--center.palm-hard
+        = image_tag 'pro/homepage/icons/checklist.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/checklist@2x.png') }
+      .flexbox__item.v-top.palm-block.soft--left.palm-hard
+        %h4.beta.flush.line-height-1-7 Questionnaire de satisfaction
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
           Offrez la possibilité à chaque nouvel inscrit de s'exprimer sur vos activités pour créer du lien, échanger et mieux le fidéliser
-        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white
+        %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white.bordered.border-color-darker
           %strong Le saviez-vous ?
           3 élèves sur 4 se disent contents de pouvoir déposer leur témoignage après un 1er essai et reconnaissent que cela participe à l'idée d'y revenir
+
+.home-screen-promotion-wrapper
+  .text--center.mega-soft--ends
+    = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'btn btn--large soft--sides btn--green push--right'

@@ -2,6 +2,7 @@
   %ul
     - if current_pro_admin and current_pro_admin.super_admin?
       = pro_side_menu_link 'pro_dashboard'        , pro_dashboard_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)             , current: current_tab, icon: 'fa fa-dashboard'
+      = pro_side_menu_link 'call_reminders'       , pro_call_reminders_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)        , current: current_tab, icon: 'fa fa-phone'
       = pro_side_menu_link 'pro_trial_courses'    , pro_participation_requests_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)     , current: current_tab, icon: 'fa fa-ticket'
       = pro_side_menu_link 'sleepers'             , sleepings_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)  , current: current_tab, icon: 'fa fa-moon-o'
       = pro_side_menu_link 'activity'             , pro_conversations_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)         , current: current_tab, icon: 'fa fa-pulse'

@@ -1,95 +1,136 @@
+- @is_responsive = true
+
 = content_for :title do
-  Pro.CoursAvenue.com - Offres & Tarifs
+  Offres & Tarifs | CoursAvenue PRO
 
 = content_for :meta_description do
   Optimisez votre visibilité, augmentez votre taux d'inscription et de fidélisation. Trafic supplémentaire ciblé et rentabilité.
 
-- cache 'pro/pricing/V3' do
-  .home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})", data: { behavior: 'parallax' } }
-    .main-container.main-container--medium
-      %header.grid
-        .grid__item.one-third.v-top.soft--top.text--right.soft--right.visuallyhidden--palm>
-          = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/premium/testimonies/nicolas-bourseul.jpg', class: 'rounded--circle inline-block bordered border-color-gray', width: 150, height: 150
-        .grid__item.two-thirds.v-top.soft--top.soft--right.hard--left.palm-one-whole>
-          .soft--top.white.soft-black-text-shadow
-            %p.gamma.line-height-1-5.push-half--bottom
-              %strong.quoted<
-                Les 2 offres proposées sont en ligne avec mes besoins. Après avoir créé mon profil gratuit, j'ai ensuite basculé au Premium pour booster mes inscriptions.
-            %p.f-style-italic.f-weight-600
-              Nicolas, Professeur de qi gong et yoga taoïste chez Les Ventres Libres à Toulouse
-          .soft.push.flush--top.hard--top
-            %h1.flush
-              2 offres adaptées à vos besoins
-            .soft--right.f-weight-600
-              Le profil
-              %strong Basic
-              est gratuit et vous permet d'être visible sur CoursAvenue. Pour recruter encore plus d'élèves, passez au profil
-              %strong Premium
-              qui fonctionne par abonnement et qui vous donne accès à toutes les fonctionnalités.
+.mega-soft--ends.relative.push--bottom
+  %div.home-page-fullscreen-video.bg-cover.bg-position-top{ style: "background-image: url('#{asset_path('pro/homepage/bg.jpg')}')", data: { behavior: 'parallax' } }
+    .black-curtain.north.west.one-whole.absolute
+  %h1.f-size-big.text--center.white.relative.main-container
+    Essayez CoursAvenue gratuitement.
 
+.main-container.main-container--medium.relative.soft--ends
+  .grid--full
+    %a.muted-link.grid__item.palm-hard.soft--right.one-half.palm-one-whole.text--center.zoom-on-hover{ href: inscription_pro_structures_path }>
+      .soft.rounded.bordered.bg-white{ style: 'min-height: 13em;'}
+        %h1 Basic
+        %h4 Gratuit
+      .btn.soft--sides.btn--green.btn--bigger{ style: 'margin-top: -15px; margin-bottom: -15px;'} Essayer gratuitement
+      .bordered.soft.bg-white.push-half--bottom
+        .text--center.gamma.line-height-1-7.v-middle.f-weight-bold.orange.soft--top>
+          Visibilité
+        .epsilon.orange.soft--bottom
+          Pour recruter de nouveaux élèves
+          %br
+          grâce à Internet
+        .text--center.delta.line-height-1-7.v-middle.f-weight-500.orange.soft-half--bottom>
+          Profil CoursAvenue
+        .text--center.delta.line-height-1-7.v-middle.f-weight-500.orange>
+          Avis & Livre d'Or
+        %hr.push--ends
+        .text--center.gamma.line-height-1-7.v-middle.f-weight-bold.green>
+          Attractivité
+        .epsilon.green.soft--bottom
+          Pour convertir les visiteurs
+          %br
+          de votre site en inscrits
+        .text--center.delta.line-height-1-7.v-middle.f-weight-500.green.soft-half--bottom>
+          Page planning sur votre site Internet
+          %br
+          optimisée mobiles & tablettes
+      %p.textt--center.soft--sides.epsilon
+        %i
+          Le minimum pour augmenter votre visibilité et
+          %br
+          améliorer l'efficacité de votre site Internet
+    %a.muted-link.grid__item.palm-hard.soft--right.one-half.palm-one-whole.text--center.zoom-on-hover{ class: 'fancybox.ajax', href: new_pro_call_reminder_path, data: { behavior: 'modal', width: 600, padding: 0 } }>
+      .soft.rounded.bordered.bg-white{ style: 'min-height: 13em;'}
+        %h1 Pro
+        %h4.flush 39€/mois
+        %p.flush Sans engagement
+      .btn.soft--sides.btn--yellow.btn--bigger{ style: 'margin-top: -15px; margin-bottom: -15px;'} Rappel immédiat
+      .bordered.soft.bg-white.push-half--bottom
+        .text--center.gamma.line-height-1-7.v-middle.f-weight-bold.orange.soft--top>
+          Visibilité
+        .epsilon.orange.soft--bottom
+          Pour recruter de nouveaux élèves
+          %br
+          grâce à Internet
+        .text--center.delta.line-height-1-7.v-middle.f-weight-500.orange.soft-half--bottom>
+          Profil CoursAvenue
+        .text--center.delta.line-height-1-7.v-middle.f-weight-500.orange>
+          Avis & Livre d'Or
+        %hr.push--ends
+        .text--center.gamma.line-height-1-7.v-middle.f-weight-bold.green>
+          Attractivité
+        .epsilon.green.soft--bottom
+          Pour convertir les visiteurs
+          %br
+          de votre site en inscrits
+        .text--center.delta.line-height-1-7.v-middle.f-weight-500.green.soft-half--bottom>
+          Page planning sur votre site Internet
+          %br
+          optimisée mobiles & tablettes
+        .text--center.delta.line-height-1-7.v-middle.f-weight-500.green.soft-half--bottom>
+          Inscriptions en ligne
+        .text--center.delta.line-height-1-7.v-middle.f-weight-500.green>
+          Statistiques de trafic &
+          %br
+          suivi des conversions
+        %hr.push--ends
+        .text--center.gamma.line-height-1-7.v-middle.f-weight-bold.dark-blue>
+          Fidélisation
+        .epsilon.dark-blue.soft--bottom
+          Pour faire revenir plus souvent
+          %br
+          vos élèves
+        .text--center.delta.line-height-1-7.v-middle.f-weight-500.dark-blue.soft-half--bottom>
+          Newsletters & fichier élèves
+        .text--center.delta.line-height-1-7.v-middle.f-weight-500.dark-blue.soft-half--bottom>
+          Multi-postage sur les réseaux sociaux
+        .text--center.delta.line-height-1-7.v-middle.f-weight-500.dark-blue.soft-half--bottom>
+          Questionnaire de satisfaction
+      %p.textt--center.soft--sides.epsilon
+        %i
+          Idéal pour booster le nombre de nouveaux
+          %br
+          inscrits et fidéliser vos élèves
 
-  .main-container.main-container--medium.soft
-    %h2.text--center.f-weight-300 Nos 2 offres en quelques mots
-    .grid.text--center
-      .grid__item.one-half.palm-one-whole.soft--sides>
-        .push--sides
-          %div.push-half--bottom
-            %i.fa.fa-leaf.fa-3x.blue
-          %h3.flush.text--center.blue Basic
-          %h4.text--center.f-weight-300
-            Votre profil apparaît sur le moteur
-            %br
-            de recherche CoursAvenue
-      .grid__item.one-half.palm-one-whole.soft--sides>
-        .push--sides
-          %div.push-half--bottom
-            %i.fa.fa-star.yellow.fa-3x
-          %h3.flush.text--center.yellow Premium
-          %h4.text--center.f-weight-300 Votre profil complet bénéficie directement de nos campagnes de communication ciblées, votre trafic augmente et vous recrutez plus d'élèves
-    .grid.text--center
-      .grid__item.one-half.palm-one-whole.soft--sides>
-        %p
-          %i Gratuit et sans engagement
-      .grid__item.one-half.palm-one-whole.soft--sides>
-        %p
-          %i Abonnement annuel (36€ / mois) ou mensuel (44€ / mois)
+= render partial: 'testimonies_banner', locals: { profile: 'alain'}
 
-  .home-screen-promotion-wrapper
-    .main-container.main-container--medium.soft
-      %h2.text--center.f-weight-300 Comparatif détaillé
-      %div
-        = render 'pro/home/pricing_details_table'
+.home-screen-promotion-wrapper.soft--sides.relative
+  .main-container.main-container--medium.mega-soft--ends
+    .grid.push--bottom
+      .grid__item.one-half.palm-one-whole>
+        %h4 L'offre Basic est-elle vraiment gratuite&nbsp;?
+        %p.epsilon
+          Oui, totalement gratuite. Votre profil complet apparaîtra alors sur le moteur de recherche géolocalisé CoursAvenue et vous pourrez afficher sur votre propre site Internet votre page planning optimisée tous supports ainsi que votre Livre d'Or.
+      .grid__item.one-half.palm-one-whole>
+        %h4 L'offre Pro inclut-elle une durée d'engagement minimale&nbsp;?
+        %p.epsilon
+          Non. CoursAvenue est un service à la demande. Il n'y a pas de contrat ni d'engagement de votre part. Vous payez tout simplement chaque mois. En cas de résiliation, vous serez facturé pour le mois en cours, mais vous ne serez pas facturé à nouveau.
 
-  .main-container.main-container--medium.soft.push--bottom
-    = render 'pro/shared/premium_graph'
+    .grid.push--bottom
+      .grid__item.one-half.palm-one-whole>
+        %h4 Comment vous contacter pour toute aide&nbsp;?
+        %p.epsilon
+          Nous sommes à votre écoute prêts à vous aider tous les jours du lundi au vendredi, de 9h à 18h. Vous pouvez nous appeler, chatter en temps réel ou nous envoyer un e-mail.
+      .grid__item.one-half.palm-one-whole>
+        %h4 Quels moyens de paiement acceptez-vous&nbsp;?
+        %p.epsilon
+          Le paiement se fait en ligne par carte bleue (Visa ou Mastercard) ou via Paypal. Nous n'acceptons pas les paiements traditionnels de type chèques, virements ou espèces.
 
-  = render 'pro/shared/premium_testimonies'
-
-  .home-screen-promotion-wrapper
-    .main-container.main-container--medium.soft.push--bottom
-      %h2.text--center.push--bottom.soft--ends.f-weight-300 Ils ont déjà souscrit au Premium
-      = render 'pro/shared/they_already_subscribed'
-
-  .main-container.main-container--medium.soft
-    %h2.text--center.f-weight-300.push--bottom
-      Détail du profil
-      %ul.nav.tabs--link.inline-block.flush
-        %li.active
-          %a{ href: '#basic-details', data: { toggle: 'tab' } } Basic
-        %span.gray= '|'
-        %li
-          %a{ href: '#premium-details', data: { toggle: 'tab' } } Premium
-
-    .tab-content
-      .tab-pane#basic-details.active
-        = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: false }
-      .tab-pane#premium-details
-        %h4.text--center.f-weight-300.flush
-          Avantages du profil
-          %strong Basic
-        %h4.text--center.f-weight-300.push--bottom
-          +
-        .main-container.main-container--medium
-          = render 'pro/shared/premium_advantages'
+    .grid.push--bottom
+      .grid__item.one-half.palm-one-whole>
+        %h4 Existe-t-il d'autres frais cachés&nbsp;?
+        %p.epsilon
+          Non, vous ne paierez jamais plus que votre abonnement mensuel. Tous les services inclus dans l'offre son illimités, et vous n'aurez aucune mauvaise surprise.
+      .grid__item.one-half.palm-one-whole>
+        %h4 Comment faire pour obtenir mes factures mensuelles&nbsp;?
+        %p.epsilon
+          Dans votre profil privé, vous accèderez à toutes vos informations de compte, y compris vos factures mensuelles à télécharger en format pdf.
 
 = render 'shared/live_chat'

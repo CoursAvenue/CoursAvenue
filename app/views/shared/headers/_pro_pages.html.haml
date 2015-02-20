@@ -10,11 +10,11 @@
         %li.soft--right.visuallyhidden--palm
           = link_to 'Bienvenue', root_path
         %li.soft--right.visuallyhidden--palm
-          = link_to 'Fonctionnalités', pro_pages_features_path
+          = link_to 'Fonctionnalités', pro_pages_features_path, class: (action_name == 'features' ? 'active' : '')
         %li.soft--right.visuallyhidden--palm
-          = link_to 'Tarifs', pro_pages_price_path
+          = link_to 'Tarifs', pro_pages_price_path, class: (action_name == 'price' ? 'active' : '')
         %li.soft--right.visuallyhidden--palm
-          = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'btn btn--green', data: { try: true }
+          = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'btn btn--green'
         -# %li.soft--right.visuallyhidden--palm
         -#   = link_to 'Portraits', pro_portraits_path
         -# %li.soft--right.visuallyhidden--palm

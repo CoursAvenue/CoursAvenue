@@ -53,6 +53,7 @@ CoursAvenue::Application.routes.draw do
       get 'modifier-mon-profil'                      , to: 'redirect#structure_edit',      as: 'structure_edit_redirect'
       get 'etablissements/:structure_id/journees-portes-ouvertes', to: 'redirect#structures_jpo_index'
 
+      resources :call_reminders
       resources :portraits, controller: 'portraits' do
         collection do
           get :list

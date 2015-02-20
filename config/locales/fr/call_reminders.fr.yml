@@ -1,0 +1,15 @@
+fr:
+  activerecord:
+    models:
+      call_reminder: Rappel téléphonique
+    attributes:
+      call_reminder:
+        name: Nom
+        phone_number: N° de téléphone
+        website: Site Internet
+  simple_form:
+    placeholders:
+      call_reminder:
+        name: Prénom Nom
+        phone_number: Numéro pour vous joindre
+        website: Lien de votre site (optionnel)

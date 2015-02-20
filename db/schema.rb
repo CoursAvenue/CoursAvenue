@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150217161357) do
+ActiveRecord::Schema.define(version: 20150220095414) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,15 @@ ActiveRecord::Schema.define(version: 20150217161357) do
   end
 
   add_index "blog_articles_subjects", ["article_id", "subject_id"], name: "index_blog_articles_subjects_on_article_id_and_subject_id", using: :btree
+
+  create_table "call_reminders", force: true do |t|
+    t.string   "name"
+    t.string   "phone_number"
+    t.string   "website"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "cities", force: true do |t|
     t.string   "name"
@@ -539,7 +548,6 @@ ActiveRecord::Schema.define(version: 20150217161357) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
-    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_requests", force: true do |t|
@@ -684,9 +692,6 @@ ActiveRecord::Schema.define(version: 20150217161357) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
-    t.string   "address"
-    t.float    "latitude"
-    t.float    "longitude"
     t.datetime "deleted_at"
   end
 

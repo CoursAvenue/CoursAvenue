@@ -4,7 +4,6 @@ class Pro::PromotionCodesController < Pro::ProController
 
   layout 'admin'
 
-
   def index
     @promotion_codes = PromotionCode.all
   end
