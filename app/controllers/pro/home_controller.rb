@@ -49,7 +49,9 @@ class Pro::HomeController < Pro::ProController
   private
 
   def get_layout
-    if action_name == 'index'
+    if action_name == 'index' or
+       action_name == 'features' or
+       action_name == 'price'
       'home'
     else
       'admin_pages'

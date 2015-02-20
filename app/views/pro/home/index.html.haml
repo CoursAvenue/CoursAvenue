@@ -6,46 +6,18 @@
 = content_for :meta_description do
   CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en visibilité pour recruter de nouveaux élèves. L'inscription est gratuite. Faites partie d'une communauté en pleine expansion passionnée par les cours de loisirs.
 
-.main-container.relative.hard
-  .absolute.north.east.on-top-of-the-world.f-weight-bold.visuallyhidden--palm
-    .bg-black-faded.rounded.rounded-top--none.inline-block.push--right
-      %a.inline-block.soft--left.soft-half--ends.muted-link.push--right.white-faded{ href: 'mailto:contact@coursavenue.com' } contact@coursavenue.com
-      %a.inline-block.soft--right.soft-half--ends.muted-link.white-faded{ href: 'tel:09 82 24 27 74' }
-        %i.fa.fa-phone
-        09 82 24 27 74
-    - if current_pro_admin
-      - if current_pro_admin.super_admin?
-        = link_to 'Espace super admin', pro_dashboard_path, class: 'white muted-link'
-      - elsif current_pro_admin.structure.present?
-        = link_to 'Mon profil', dashboard_pro_structure_path(current_pro_admin.structure), class: 'white muted-link'
-    - else
-      = link_to 'Connexion', new_pro_admin_session_path, class: 'white muted-link fancybox.ajax', data: { behavior: 'modal', width: '300', padding: 0 }
-.one-whole.relative.overflow-hidden
-  %div.home-page-fullscreen-video.bg-cover.bg-position-top{ style: "background-image: url('#{asset_path('pro/homepage/bg.jpg')}')", data: { behavior: 'parallax' } }
-    .black-curtain.north.west.one-whole.absolute
-  .relative.white
-    .one-whole
-      .mega-soft--ends.hard--bottom.palm-hard
-        .text--right.soft-half--ends.transition-all-linear#sticky-header
-          .main-container.relative
-            = image_tag 'logos/logo_pro_white.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo_pro_white@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute ', style: 'left: 3px; top: 3px;'
-            = image_tag 'logos/logo-pro.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo-pro@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute hidden', id: 'home-logo-dark'
-            %ul.nav.flush.epsilon.f-weight-600
-              %li.palm-hidden.palm-block.palm-text--center.line-height-1-7.soft--right= link_to 'Bienvenue', root_path, class: 'white active'
-              %li.palm-block.palm-text--center.line-height-1-7.soft--right= link_to 'Fonctionnalités', pro_pages_features_path, class: 'white'
-              %li.palm-block.palm-text--center.line-height-1-7.soft--right= link_to 'Tarifs', pro_pages_price_path, class: 'white'
-              %li.visuallyhidden--palm.soft--right
-                = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'muted-link white bordered border-color-white soft-half--ends soft--sides', data: { try: true }
-        .grid.main-container.mega-soft--top
-          .grid__item.v-bottom.one-half.visuallyhidden--palm.visuallyhidden--lap>
-            = image_tag 'pro/homepage/computer.png', class: 'one-whole block'
-          .grid__item.v-top.one-half.text--left.soft--bottom.palm-one-whole.lap-one-whole>
-            %h1.white.soft-black-text-shadow
-              Le meilleur outil pour gagner et fidéliser de nouveaux élèves pour vos activités de loisirs
-            .inline-block.text--center
-              = link_to 'Essayer CoursAvenue', inscription_pro_structures_path, class: 'btn btn--bigger soft--sides btn--green'
-              %br
-              %strong Gratuit et sans engagement
+
+= render layout: 'pro/home/header_layout', locals: { current: 'home' } do
+  .grid.main-container.mega-soft--top
+    .grid__item.v-bottom.one-half.visuallyhidden--palm.visuallyhidden--lap>
+      = image_tag 'pro/homepage/computer.png', class: 'one-whole block'
+    .grid__item.v-top.one-half.text--left.soft--bottom.palm-one-whole.lap-one-whole>
+      %h1.white.soft-black-text-shadow
+        Le meilleur outil pour gagner et fidéliser de nouveaux élèves pour vos activités de loisirs
+      .inline-block.text--center
+        = link_to 'Essayer CoursAvenue', inscription_pro_structures_path, class: 'btn btn--bigger soft--sides btn--green'
+        %br
+        %strong Gratuit et sans engagement
 
 .home-screen-promotion-wrapper.soft
   .main-container.soft--ends.text--center
@@ -103,26 +75,6 @@
     .text--center
       = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'btn btn--bigger soft--sides btn--green push--right palm-flush'
       = link_to 'En savoir plus', pro_pages_features_path, class: 'btn btn--bigger soft--sides'
-
-- content_for :scripts do
-  :javascript
-      $(function() {
-          $('#sticky-header').sticky({
-              oldWidth: true,
-              onUnStick: function onUnStick ($element) {
-                  $element.find('a').addClass('white');
-                  $element.find('[data-try]').removeClass('btn btn--green');
-                  $element.removeClass('bg-white bordered--bottom');
-                  $('#home-logo-dark').fadeOut();
-              },
-              onStick: function onStick ($element) {
-                  $element.find('a').removeClass('white');
-                  $element.find('[data-try]').addClass('btn btn--green');
-                  $element.addClass('bg-white bordered--bottom');
-                  $('#home-logo-dark').fadeIn();
-              }
-          });
-      })
 
 = render partial: 'testimonies_banner', locals: { profile: 'emilie'}
 = render 'shared/live_chat'

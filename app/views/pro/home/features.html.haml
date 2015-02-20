@@ -6,10 +6,8 @@
 = content_for :meta_description do
   Visibilité, attractivité, fidélisation : enfin simple et efficace
 
-.mega-soft--ends.relative.push--bottom
-  %div.home-page-fullscreen-video.bg-cover.bg-position-top{ style: "background-image: url('#{asset_path('pro/homepage/bg.jpg')}')", data: { behavior: 'parallax' } }
-    .black-curtain.north.west.one-whole.absolute
-  %h1.f-size-big.text--center.white.relative.main-container
+= render layout: 'pro/home/header_layout', locals: { current: 'features' } do
+  %h1.f-size-big.text--center.white.relative.main-container.mega-soft--ends
     Visibilité, attractivité, fidélisation : enfin simple et efficace
 
 .main-container.main-container--medium.relative.mega-soft--ends
