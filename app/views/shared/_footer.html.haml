@@ -9,14 +9,21 @@
             = link_to 'CoursAvenue ', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Comment ça marche ?"
             est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent.
 
-        - unless on_pro_subdomain?
-          .grid__item.one-fifth.visuallyhidden--palm>
+        .grid__item.one-fifth.visuallyhidden--palm>
+          - if on_pro_subdomain?
+            %p.push-half--bottom.epsilon
+              %strong Fonctionnalités
+            %ul.no-bullet-list.line-height-2
+              %li= link_to 'Visibilité'    , pro_pages_features_url(anchor: 'visibilite', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: "Comment ça marche ?", rel: :nofollow
+              %li= link_to 'Attractivité'  , pro_pages_features_url(anchor: 'attractivite', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: "Comment ça marche ?", rel: :nofollow
+              %li= link_to 'Fidélisation'  , pro_pages_features_url(anchor: 'fidelisation', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), title: "Comment ça marche ?", rel: :nofollow
+          - else
             %p.push-half--bottom.epsilon
               %strong Élèves
             %ul.no-bullet-list.line-height-2
               %li= link_to 'Comment ça marche ?'  , pages_what_is_it_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Comment ça marche ?", rel: :nofollow
               %li= link_to 'Guide des disciplines', vertical_pages_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Foire aux questions Utilisateurs', rel: :nofollow
-              %li= link_to 'Blog'                                   , blog_articles_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Blog CoursAvenue'
+              %li= link_to 'Blog'                 , blog_articles_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Blog CoursAvenue'
               %li= link_to 'Aide'                 , pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: 'Aide', rel: :nofollow
 
         - if !current_user
