@@ -233,6 +233,9 @@
 .black-text-shadow        { @include text-shadow(0 0 2px #000, 0 0 12px #000, 0 0 22px #000, 0 0 42px #000, 0 0 92px #000); }
 .soft-black-text-shadow   { @include text-shadow(0px 2px 2px #444, 0px 2px 15px #444); }
 .smooth-black-text-shadow { @include text-shadow(0px 0px 2px #444); }
+.image-drop-shadow        {
+    @include vendor(filter, drop-shadow(4px 4px 5px #CCCCCC));
+}
 
 .highlight {
     font-weight     : bold;

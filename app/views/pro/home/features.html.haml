@@ -13,38 +13,41 @@
     Visibilité, attractivité, fidélisation : enfin simple et efficace
 
 .main-container.main-container--medium.relative.mega-soft--ends
-  .grid--full.white
-    %a.muted-link.grid__item.palm-hard.soft--right.one-third.palm-one-whole.text--center.zoom-on-hover{ href: '#visibilite', data: { behavior: 'scroll-to' } }>
-      .orange-box.soft.rounded
-        %h1.push--top Visibilité
-        %h4.soft--bottom Pour recruter de nouveaux élèves grâce à Internet
-      .bordered.border-none--top.soft--top.bg-white{ style: 'min-height: 18em' }
-        .text--center.delta.line-height-1-7.v-middle.f-weight-600.orange.soft--bottom>
-          Profil CoursAvenue
-        .text--center.delta.line-height-1-7.v-middle.f-weight-600.orange.soft--bottom>
-          Avis & Livre d'Or
-    %a.muted-link.grid__item.palm-hard.soft--right.one-third.palm-one-whole.text--center.zoom-on-hover{ href: '#attractivite', data: { behavior: 'scroll-to' } }>
-      .dark-blue-box.soft.rounded
-        %h1.push--top Attractivité
-        %h4.soft--bottom Pour convertir les visiteurs de votre site en inscrits
-      .bordered.border-none--top.soft--top.bg-white{ style: 'min-height: 18em' }
-        .text--center.delta.line-height-1-7.v-middle.f-weight-600.dark-blue.soft--bottom>
-          Planning optimisé mobiles & tablettes
-        .text--center.delta.line-height-1-7.v-middle.f-weight-600.dark-blue.soft--bottom>
-          Inscriptions en ligne
-        .text--center.delta.line-height-1-7.v-middle.f-weight-600.dark-blue.soft--bottom>
-          Statistiques de trafics & des conversions
-    %a.muted-link.grid__item.palm-hard.soft--right.one-third.palm-one-whole.text--center.zoom-on-hover{ href: '#fidelisation', data: { behavior: 'scroll-to' } }>
-      .green-box.soft.rounded
-        %h1.push--top Fidélisation
-        %h4.soft--bottom Pour faire revenir plus souvent vos élèves
-      .bordered.border-none--top.soft--top.bg-white{ style: 'min-height: 18em' }
-        .text--center.delta.line-height-1-7.v-middle.f-weight-600.green.soft--bottom>
-          Newsletters
-        .text--center.delta.line-height-1-7.v-middle.f-weight-600.green.soft--bottom>
-          Multi-postage réseaux sociaux
-        .text--center.delta.line-height-1-7.v-middle.f-weight-600.green.soft--bottom>
-          Questionnaire de satisfaction
+  .grid.white
+    .grid__item.one-third.palm-one-whole.text--center.zoom-on-hover>
+      %a.muted-link.shadowed--bottom{ href: '#visibilite', data: { behavior: 'scroll-to' } }>
+        .orange-box.soft.rounded
+          %h1.push--top Visibilité
+          %h4.soft--bottom Pour recruter de nouveaux élèves grâce à Internet
+        .shadowed--bottom.bordered.border-none--top.soft--top.bg-white{ style: 'min-height: 18em' }
+          .text--center.delta.line-height-1-7.v-middle.f-weight-600.orange.soft--bottom>
+            Profil CoursAvenue
+          .text--center.delta.line-height-1-7.v-middle.f-weight-600.orange.soft--bottom>
+            Avis & Livre d'Or
+    .grid__item.one-third.palm-one-whole.text--center.zoom-on-hover>
+      %a.muted-link.shadowed--bottom{ href: '#attractivite', data: { behavior: 'scroll-to' } }>
+        .dark-blue-box.soft.rounded
+          %h1.push--top Attractivité
+          %h4.soft--bottom Pour convertir les visiteurs de votre site en inscrits
+        .shadowed--bottom.bordered.border-none--top.soft--top.bg-white{ style: 'min-height: 18em' }
+          .text--center.delta.line-height-1-7.v-middle.f-weight-600.dark-blue.soft--bottom>
+            Planning optimisé mobiles & tablettes
+          .text--center.delta.line-height-1-7.v-middle.f-weight-600.dark-blue.soft--bottom>
+            Inscriptions en ligne
+          .text--center.delta.line-height-1-7.v-middle.f-weight-600.dark-blue.soft--bottom>
+            Statistiques de trafics & des conversions
+    .grid__item.one-third.palm-one-whole.text--center.zoom-on-hover>
+      %a.muted-link.shadowed--bottom{ href: '#fidelisation', data: { behavior: 'scroll-to' } }>
+        .green-box.soft.rounded
+          %h1.push--top Fidélisation
+          %h4.soft--bottom Pour faire revenir plus souvent vos élèves
+        .shadowed--bottom.bordered.border-none--top.soft--top.bg-white{ style: 'min-height: 18em' }
+          .text--center.delta.line-height-1-7.v-middle.f-weight-600.green.soft--bottom>
+            Newsletters
+          .text--center.delta.line-height-1-7.v-middle.f-weight-600.green.soft--bottom>
+            Multi-postage réseaux sociaux
+          .text--center.delta.line-height-1-7.v-middle.f-weight-600.green.soft--bottom>
+            Questionnaire de satisfaction
 
 
 .home-screen-promotion-wrapper.soft--sides.bordered--top.bordered--thick.border-color-orange.border-none--sides.border-none--bottom#visibilite
@@ -53,7 +56,7 @@
     %h3.gamma.soft--bottom.orange Pour recruter de nouveaux élèves grâce à Internet
     .flexbox.palm-block.push--bottom
       .flexbox__item.v-top.soft--right.palm-block.palm-text--center.palm-hard
-        = image_tag 'pro/homepage/icons/responsive.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/responsive@2x.png') }
+        = image_tag 'pro/homepage/icons/responsive.png', height: 150, width: 150, class: 'image-drop-shadow push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/responsive@2x.png') }
       .flexbox__item.v-top.palm-block.soft--left.palm-hard
         %h4.beta.flush.line-height-1-7 Profil CoursAvenue
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
@@ -63,6 +66,8 @@
           9 Français sur 10 passent par Internet pour trouver une activité de loisir. En priorité, ils ciblent sur la localisation puis recherchent des avis, et CoursAvenue représente la meillleure réponse
 
     .flexbox.palm-block.push--bottom
+      .flexbox__item.v-top.palm-block.palm-text--center.soft--left.palm-hard.visuallyhidden--lap-and-up
+        = image_tag 'pro/homepage/icons/bubbles.png', height: 150, width: 150, class: 'image-drop-shadow push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/bubbles@2x.png') }
       .flexbox__item.v-top.soft--right.palm-block
         %h4.beta.flush.line-height-1-7 Avis & Livre d'Or
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
@@ -70,8 +75,8 @@
         %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white.bordered.border-color-darker
           %strong Le saviez-vous ?
           90% des Français recherchent des avis sur Internet avant de s'inscrire à un nouveau cours
-      .flexbox__item.v-top.palm-block.palm-text--center.soft--left.palm-hard
-        = image_tag 'pro/homepage/icons/bubbles.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/bubbles@2x.png') }
+      .flexbox__item.v-top.palm-block.palm-text--center.soft--left.visuallyhidden--palm
+        = image_tag 'pro/homepage/icons/bubbles.png', height: 150, width: 150, class: 'image-drop-shadow push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/bubbles@2x.png') }
 
     %h4.beta.flush.line-height-1-7.text--center La presse parle de CoursAvenue
     .soft--ends.text--center
@@ -85,14 +90,13 @@
         = image_tag 'presses/logos/que-faire-a-paris.png', height: 55
 
 
-
 .bordered--top.bordered--thick.border-color-dark-blue.border-none--sides.border-none--bottom#attractivite
   .main-container.main-container--medium.mega-soft--ends
     %h2.f-size-big.dark-blue.push-half--bottom Attractivité
     %h3.gamma.soft--bottom.dark-blue Pour convertir les visiteurs de votre site en élèves inscrits
     .flexbox.palm-block.push--bottom
       .flexbox__item.v-top.soft--right.palm-block.palm-text--center.palm-hard
-        = image_tag 'pro/homepage/icons/calendar.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/calendar@2x.png') }
+        = image_tag 'pro/homepage/icons/calendar.png', height: 150, width: 150, class: 'image-drop-shadow push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/calendar@2x.png') }
       .flexbox__item.v-top.palm-block.soft--left.palm-hard
         %h4.beta.flush.line-height-1-7 Page planning optimisée mobiles & tablettes sur votre site Internet
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
@@ -103,6 +107,8 @@
 
 
     .flexbox.palm-block.push--bottom
+      .flexbox__item.v-top.palm-block.palm-text--center.soft--left.palm-hard.visuallyhidden--lap-and-up
+        = image_tag 'pro/homepage/icons/growth.png', height: 150, width: 150, class: 'image-drop-shadow push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/growth@2x.png') }
       .flexbox__item.v-top.soft--right.palm-block
         %h4.beta.flush.line-height-1-7 Inscriptions en ligne
         %p.delta.line-height-1-7.f-weight-500
@@ -110,12 +116,12 @@
         %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white.bordered.border-color-darker
           %strong Le saviez-vous ?
           Nos partenaires qui proposent l'inscription en ligne sur leur site génèrent 3 fois plus d'inscriptions que ceux qui ne le font pas
-      .flexbox__item.v-top.palm-block.palm-text--center.soft--left.palm-hard
-        = image_tag 'pro/homepage/icons/growth.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/growth@2x.png') }
+      .flexbox__item.v-top.palm-block.palm-text--center.soft--left.palm-hard.visuallyhidden--palm
+        = image_tag 'pro/homepage/icons/growth.png', height: 150, width: 150, class: 'image-drop-shadow push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/growth@2x.png') }
 
     .flexbox.palm-block.push--bottom
       .flexbox__item.v-top.soft--right.palm-block.palm-text--center.palm-hard
-        = image_tag 'pro/homepage/icons/graph.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/graph@2x.png') }
+        = image_tag 'pro/homepage/icons/graph.png', height: 150, width: 150, class: 'image-drop-shadow push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/graph@2x.png') }
       .flexbox__item.v-top.palm-block.soft--left.palm-hard
         %h4.beta.flush.line-height-1-7 Statistiques de votre trafic et suivi des conversions
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
@@ -131,7 +137,7 @@
     %h3.gamma.soft--bottom.green Pour faire revenir plus souvent vos élèves
     .flexbox.palm-block.push--bottom
       .flexbox__item.v-top.soft--right.palm-block.palm-text--center.palm-hard
-        = image_tag 'pro/homepage/icons/newsletter.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/newsletter@2x.png') }
+        = image_tag 'pro/homepage/icons/newsletter.png', height: 150, width: 150, class: 'image-drop-shadow push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/newsletter@2x.png') }
       .flexbox__item.v-top.palm-block.soft--left.palm-hard
         %h4.beta.flush.line-height-1-7 Newsletter et fichier élèves
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
@@ -141,6 +147,8 @@
           Plus de 80% des participants à un stage ou un événement s'y sont inscrits après avoir reçu une newsletter attractive
 
     .flexbox.palm-block.push--bottom
+      .flexbox__item.v-top.palm-block.palm-text--center.soft--left.palm-hard.visuallyhidden--lap-and-up
+        = image_tag 'pro/homepage/icons/like.png', height: 150, width: 150, class: 'image-drop-shadow push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/like@2x.png') }
       .flexbox__item.v-top.soft--right.palm-block
         %h4.beta.flush.line-height-1-7 Multi-postage sur les réseaux sociaux
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
@@ -148,12 +156,12 @@
         %p.delta.line-height-1-7.f-style-italic.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white.bordered.border-color-darker
           %strong Le saviez-vous ?
           Vos élèves sont 7 fois plus susceptibles de revenir à une nouvelle activité s'ils sont fans de votre page Facebook
-      .flexbox__item.v-top.palm-block.palm-text--center.soft--left.palm-hard
-        = image_tag 'pro/homepage/icons/like.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/like@2x.png') }
+      .flexbox__item.v-top.palm-block.palm-text--center.soft--left.palm-hard.visuallyhidden--palm
+        = image_tag 'pro/homepage/icons/like.png', height: 150, width: 150, class: 'image-drop-shadow push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/like@2x.png') }
 
     .flexbox.palm-block.push--bottom
       .flexbox__item.v-top.soft--right.palm-block.palm-text--center.palm-hard
-        = image_tag 'pro/homepage/icons/checklist.png', height: 150, width: 150, class: 'push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/checklist@2x.png') }
+        = image_tag 'pro/homepage/icons/checklist.png', height: 150, width: 150, class: 'image-drop-shadow push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/checklist@2x.png') }
       .flexbox__item.v-top.palm-block.soft--left.palm-hard
         %h4.beta.flush.line-height-1-7 Questionnaire de satisfaction
         %p.delta.line-height-1-7.f-weight-500.push-half--bottom
