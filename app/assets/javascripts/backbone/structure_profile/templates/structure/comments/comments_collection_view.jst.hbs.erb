@@ -1,16 +1,16 @@
-<div class="panel push--bottom" id="avis">
-    <div class="panel__header soft-half--ends soft--sides">
-        <div class="flush delta line-height-1-7 f-weight-bold">Avis</div>
-    </div>
-    <div class="panel__body soft">
-        <p class="text--center" data-not-empty-comments>
-          <a href="{{ new_comments_path }}" target="_blank" rel="nofollow">Déposer mon avis</a>
-        </p>
-        <div data-empty-comments class="hidden">
-          {{ capitalize about }} n'a encore aucun avis : <a href="{{ new_comments_path }}" target="_blank" rel="nofollow">déposer mon avis</a>.
+<div id="avis" class="bordered--top">
+    <div class="grid--full">
+        <div class="grid__item one-half palm-one-whole v-middle soft gamma line-height-1-7">
+            <strong>Avis</strong>
+        </div><!--
+     --><div class="grid__item one-half palm-one-whole v-middle one-half text--right soft--right">
+            <a href="{{ new_comments_path }}" target="_blank" rel="nofollow" class="epsilon">Déposer mon avis</a>
         </div>
-        <article class="tab-pane active hard {{#unless has_comments}}hidden{{/unless}}" data-type="container">
-        </article>
-        <div class="push--bottom" data-not-empty-comments data-type="bottom-pagination-tool"></div>
     </div>
+    <div data-empty-comments class="hidden soft--sides">
+      {{ capitalize about }} n'a encore aucun avis : <a href="{{ new_comments_path }}" target="_blank" rel="nofollow">déposer mon avis</a>.
+    </div>
+    <article class="soft--sides" data-type="container">
+    </article>
+    <div class="push--bottom" data-not-empty-comments data-type="bottom-pagination-tool"></div>
 </div>

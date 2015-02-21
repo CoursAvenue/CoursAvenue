@@ -1,21 +1,24 @@
 class CourseSerializer < ActiveModel::Serializer
-  include CoursesHelper
-  include PlanningsHelper
+  include CoursesHelper, PlanningsHelper, PricesHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
 
-  cached
-  delegate :cache_key, to: :object
+  # cached
+  # delegate :cache_key, to: :object
 
   attributes :id, :name, :description, :description_short, :db_type, :type, :subjects,
              :is_individual, :is_lesson, :frequency, :premium, :on_appointment,
              :course_location, :min_age_for_kid, :max_age_for_kid, :audiences,
              :levels, :details, :prices, :premium_prices, :has_price_group,
-             :is_open_for_trial, :has_promotion, :trial_courses_policy_popover
+             :is_open_for_trial, :has_promotion, :trial_courses_policy_popover, :min_price
 
   has_many :plannings,      serializer: PlanningSerializer
   has_many :prices,         serializer: PriceSerializer
   has_many :premium_prices, serializer: PriceSerializer
+
+  def min_price
+    readable_amount(object.min_price) if object.min_price
+  end
 
   def plannings
     @options[:plannings] || object.plannings.visible.future.ordered_by_day
@@ -49,7 +52,7 @@ class CourseSerializer < ActiveModel::Serializer
       _subjects << {
         root_name: root_subject.name,
         child_names: child_subjects.map(&:name).join(', '),
-        icon: ActionController::Base.helpers.asset_path("icons/subjects/#{root_subject.slug}.png"),
+        icon: root_subject.slug,
         child_length: child_subjects.length
       }
     end

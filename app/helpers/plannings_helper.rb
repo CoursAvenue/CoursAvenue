@@ -6,19 +6,10 @@ module PlanningsHelper
     number_to_currency(course.price)
   end
 
-  def readable_planning(planning)
-    if planning.course.is_lesson? or planning.course.is_private?
-      week_day_for(planning)
-    else
-      _date = "#{planning_date_for(planning)}".capitalize
-      _date << " (#{planning.length} jours)" if planning.length > 1
-      _date
-    end
-  end
-
   def planning_date_for(planning)
     if planning.end_date and planning.start_date != planning.end_date
-      "Du #{I18n.l(planning.start_date, format: :semi_long)} au #{I18n.l(planning.end_date, format: :semi_long)}"
+      # If the training is happening on multiple days but on the same month, we show only the month one time.
+      "Du #{I18n.l(planning.start_date, format: (planning.start_date.month == planning.end_date.month ? :date_without_month : :semi_long))} au #{I18n.l(planning.end_date, format: :semi_long)}"
     elsif planning.start_date
       "#{I18n.l(planning.start_date, format: :semi_long)}"
     end
@@ -75,7 +66,7 @@ module PlanningsHelper
       if planning.start_date == planning.end_date or planning.end_date.nil?
         "#{I18n.l(planning.start_date, format: :semi_longer).capitalize}"
       else
-        "Du #{I18n.l(planning.start_date, format: :semi_long)} au #{I18n.l(planning.end_date, format: :semi_shorter)}"
+        "Du #{I18n.l(planning.start_date, format: :semi_long)} au #{I18n.l(planning.end_date, format: :long)}"
       end
     end
   end

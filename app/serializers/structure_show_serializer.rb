@@ -2,8 +2,8 @@ class StructureShowSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
-  cached
-  delegate :cache_key, to: :object
+  # cached
+  # delegate :cache_key, to: :object
 
   attributes :id, :name, :slug, :description, :description_short, :trial_courses_policy,
              :logo_thumb_url, :courses_without_open_for_trials,
@@ -109,7 +109,7 @@ class StructureShowSerializer < ActiveModel::Serializer
       _subjects << {
         root_name: root_subject.name,
         child_names: child_subjects.map(&:name).join(', '),
-        icon: ActionController::Base.helpers.asset_path("icons/subjects/#{root_subject.slug}.png")
+        icon: root_subject.slug
       }
     end
     _subjects.sort_by(&:length).reverse

@@ -14,7 +14,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
           'click [data-behavior=register-to-course]': 'registerToCourse'
         },
 
-        initialize: function(options) {
+        initialize: function initialize (options) {
             this.model.set('is_last', options.is_last);
             this.model.set('about', options.about);
             this.model.set('about_genre', options.about_genre);
@@ -49,8 +49,11 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.trigger("register", { course_id: this.model.get('id') });
         },
 
-        itemViewOptions: function itemViewOptions (model, index) {
-            return { course: this.model.toJSON() };
+        childViewOptions: function childViewOptions (model, index) {
+            return {
+                course: this.model.toJSON(),
+                is_last: (index == (this.collection.length - 1))
+            };
         }
 
     });

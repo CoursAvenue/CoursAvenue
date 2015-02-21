@@ -37,13 +37,13 @@ fr:
   'no': Non
   date:
     formats:
-      default: "%d/%m/%Y"
-      short: "%d %b"
-      semi_short: "%d %B"
-      semi_shorter: "%d %B %Y"
-      semi_long: "%A %d %B"
-      semi_longer: "%A %d %B %Y"
-      long: "%d %B %Y"
+      default: "%d/%m/%Y"         # => "24/02/2015"
+      short: "%d %b"              # => "24 fév."
+      semi_short: "%d %B"         # => "24 février"
+      date_without_month: "%A %d" # => "mardi 24"
+      semi_long: "%A %d %B"       # => "mardi 24 février"
+      semi_longer: "%A %d %B %Y"  # => "mardi 24 février 2015"
+      long: "%d %B %Y"            # => "24 février 2015"
     day_names:
       - dimanche
       - lundi

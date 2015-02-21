@@ -12,7 +12,7 @@ StructureProfile.module('Views.Structure.Courses.Plannings', function(Module, Ap
         },
 
         initialize: function initialize (options) {
-            this.course = options.course;
+            this.options = options;
         },
 
         onRender: function onRender (argument) {
@@ -42,7 +42,7 @@ StructureProfile.module('Views.Structure.Courses.Plannings', function(Module, Ap
 
         serializeData: function serializeData () {
             var attributes = this.model.toJSON();
-            _.extend(attributes, { course: this.course });
+            _.extend(attributes, this.options);
             return attributes;
         }
     });

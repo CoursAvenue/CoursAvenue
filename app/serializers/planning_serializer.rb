@@ -54,11 +54,19 @@ class PlanningSerializer < ActiveModel::Serializer
   end
 
   def date
-    readable_planning(object)
+    if object.course.is_lesson? or object.course.is_private?
+      week_day_for(object)
+    else
+      planning_date_for(object).capitalize
+    end
   end
 
   def duration
-    readable_duration object.duration
+    if object.course.is_training? and object.length > 1
+      "#{object.length} jours"
+    else
+      readable_duration(object.duration)
+    end
   end
 
   def time_slot

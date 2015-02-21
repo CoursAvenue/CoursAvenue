@@ -10,20 +10,20 @@
               </div>
           </div>
           {{/if}}
-          <div class="flexbox__item v-top">
-              <h1 class="beta gray push-half--bottom">{{ name }}</h1>
-              <div class="delta f-weight-500 push-half--bottom gray">
-                {{ structure_type }} - {{ cities_text }}
-              </div>
-              {{#each subjects}}
-              <div class="{{#ifCond @index '>' 1}}description-more-long hidden{{/ifCond}}">
-                  <h3 class="flush f-weight-normal inline-block inherit-font-size">
-                    <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
-                    <strong>{{this.root_name}} : </strong>{{this.child_names}}
-                  </h3>
-              </div>
-              {{/each}}
-          </div>
+            <div class="flexbox__item one-whole v-top">
+                <h1 class="beta gray push-half--bottom">{{ name }}</h1>
+                <div class="delta f-weight-500 push-half--bottom gray">
+                    {{ structure_type }} - {{ cities_text }}
+                </div>
+                {{#each subjects}}
+                <div class="{{#ifCond @index '>' 1}}description-more-long hidden{{/ifCond}}">
+                    <h3 class="flush f-weight-normal inline-block inherit-font-size">
+                      <i class="fa fa-{{ this.icon }}"></i>
+                      <strong>{{this.root_name}} : </strong>{{this.child_names}}
+                    </h3>
+                </div>
+                {{/each}}
+            </div>
         </div>
         <div class="push-half--bottom">
             {{#if description}}
@@ -110,8 +110,8 @@
 </article>
 
 <div class="push--bottom bordered--top" id="cours-reguliers" data-wrapper>
-    <div class="soft-half--ends soft--sides">
-        <div class="flush gamma line-height-1-7"><strong>Cours réguliers</strong></div>
+    <div class="soft gamma line-height-1-7">
+        <strong>Cours réguliers</strong>
     </div>
     <div class="panel__body soft--bottom soft--sides">
         <article>
@@ -127,8 +127,8 @@
 </div>
 
 <div class="push--bottom bordered--top" id="stages-ateliers" data-wrapper>
-    <div class="soft-half--ends soft--sides">
-        <div class="flush gamma line-height-1-7"><strong>Stages et ateliers</strong></div>
+    <div class="soft gamma line-height-1-7">
+        <strong>Stages et ateliers</strong>
     </div>
     <div class="panel__body soft--bottom soft--sides">
         <article>
