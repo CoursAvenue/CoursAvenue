@@ -1,6 +1,6 @@
 #structure-header.one-whole.west.push-half--bottom
   .main-container.soft--sides.soft-half--ends.relative{ itemscope: true, itemtype: "http://schema.org/Organization" }
-    - cache [@structure, 'structure/show/breadcrumb'] do
+    - cache [@structure, @city, 'structure/show/breadcrumb'] do
       .main-container
         %ol.nav.breadcrumb.epsilon.flush
           %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
