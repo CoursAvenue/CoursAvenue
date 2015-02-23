@@ -80,8 +80,10 @@ module StructuresHelper
     end
   end
 
-  def structures_path_for_city_and_subject(city, subject)
-    if subject.depth == 0
+  def structures_path_for_city_and_subject(city, subject=nil)
+    if subject.nil?
+      root_search_page_without_subject_path(city)
+    elsif subject.depth == 0
       root_search_page_path(subject, city)
     else
       search_page_path(subject.root, subject, city)

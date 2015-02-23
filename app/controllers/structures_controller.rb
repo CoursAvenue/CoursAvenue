@@ -32,6 +32,7 @@ class StructuresController < ApplicationController
     end
     @app_slug = "filtered-search"
     @subject  = filter_by_subject?
+    proceed_to_redirection_if_needed
 
     # We remove bbox parameters if user is on mobile since we don't show the map
     if mobile_device?
@@ -196,5 +197,16 @@ class StructuresController < ApplicationController
   def set_current_structure
     @structure = Structure.fetch_by_id_or_slug(params[:id])
     raise ActiveRecord::RecordNotFound.new(params) if @structure.nil?
+  end
+
+  # We have cases where we need 301 redirections
+  # This is due to old wrong links
+  def proceed_to_redirection_if_needed
+    if params[:city_id].is_number?
+      redirect_to structures_path_for_city_and_subject(@city, @subject), status: 301
+    end
+    if params[:page] and params[:page].is_negative_or_zero_number?
+      redirect_to structures_path_for_city_and_subject(@city, @subject), status: 301
+    end
   end
 end
