@@ -76,8 +76,9 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         onRender: function onRender () {
-            this.renderRelation('courses');
+            this.renderRelation('lessons');
             this.renderRelation('trainings');
+            this.renderRelation('privates');
             this.renderRelation('teachers');
         },
 
@@ -100,7 +101,11 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
          * Return the collectionView related to the resource based on its name
          */
         findCollectionViewForResource: function findCollectionViewForResource (resources) {
-            return Module[_.capitalize(resources)][_.capitalize(resources) + 'CollectionView'];
+            if (['trainings', 'privates', 'lessons'].indexOf(resources) != -1) {
+                return Module['Courses'][_.capitalize(resources)][_.capitalize(resources) + 'CollectionView'];
+            } else {
+                return Module[_.capitalize(resources)][_.capitalize(resources) + 'CollectionView'];
+            }
         }
 
     });

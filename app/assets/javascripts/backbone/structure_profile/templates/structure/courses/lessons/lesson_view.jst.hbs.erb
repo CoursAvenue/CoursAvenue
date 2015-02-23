@@ -1,0 +1,222 @@
+<div class="bordered--bottom-on-stick soft--ends bg-white relative" id="course-{{id}}" data-type="course-view-title">
+  <h2 class="v-middle flush inline-block delta">{{ name }}</h3>
+  {{#if is_open_for_trial}}
+    <a href="#" class="v-middle lbl lbl--yellow muted-link push-half--left" data-toggle="popover" data-content="{{trial_courses_policy_popover}}" data-trigger="hover" data-behavior='show-contact-panel' data-course-id="{{id}}"><i class="fa-ticket"></i> Essai gratuit</a>
+  {{/if}}
+  {{#if has_promotion}}
+    <a href="#course-{{id}}-tarifs" class="v-middle lbl lbl--yellow muted-link push-half--left" data-behavior='scroll-to' data-offset-top='-115'><i class="fa-star"></i> Promotions</a>
+  {{else}}
+    {{! Here to keep same height if there is no promo. If not here, iPhone effect will be buggy }}
+    <div class="lbl visibility-hidden">&nbsp;</div>
+  {{/if}}
+</div>
+{{#if on_appointment}}
+    {{#if course_location}}
+      <div class="flexbox push--bottom">
+          <div class="flexbox__item v-top one-fifth">
+              <strong class="gray-light text--right">Lieux</strong>
+          </div>
+          <div class="flexbox__item v-top four-fifths">
+              {{{ course_location }}}
+          </div>
+      </div>
+    {{/if}}
+{{/if}}
+<div class="flexbox push--bottom">
+    <div class="flexbox__item v-top one-fifth">
+        <strong class="gray-light">Planning</strong>
+    </div>
+    <div class="flexbox__item v-top four-fifths">
+        {{#if on_appointment}}
+        <table class="table--striped table--data table--data-small">
+            <thead class="gray-light">
+                <tr>
+                    <th class="two-tenths">Disponibilités</th>
+                    <th class="two-tenths">Niveau</th>
+                    <th class="two-tenths">Public</th>
+                    <th class="three-tenths">Lieu</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Sur rendez-vous</td>
+                <td>{{ levels }}</td>
+                <td>{{ audiences }}</td>
+                <td>{{{ course_location }}}</td>
+                <td><a data-behavior="register-to-course" class="btn btn--small btn--green">M'inscrire</a></td>
+              </tr>
+            </tbody>
+        </table>
+        {{/if}}
+        <table class="push-half--bottom table--striped table--data table--data-small {{#if on_appointment}}hidden{{/if}}">
+            <thead class="gray-light">
+                <tr>
+                    <th class="one-tenths">Jour</th>
+                    <th class="two-tenths text--center">Horaires</th>
+                    <th class="two-tenths">Niveau</th>
+                    <th class="two-tenths">Public</th>
+                    <th class="three-tenths">Lieu</th>
+                    <th><i class="fa fa-info"></i></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-type="plannings-container"></tbody>
+        </table>
+    </div>
+</div>
+<div class="flexbox push--bottom">
+    <div class="flexbox__item v-top one-fifth">
+        <strong class="gray-light">Détails</strong>
+    </div>
+    <div class="flexbox__item v-top four-fifths">
+        <div><!--
+         -->{{#each details}}<!--
+          --><div class="inline-block one-half v-middle push-half--bottom soft-half--right">
+                <div class="flexbox">
+                    <div class="flexbox__item v-middle two-twelfths text--center">
+                        <i class="fa {{this.icon}} v-middle" title="{{this.alt}}"></i>
+                    </div>
+                    <div class="flexbox__item v-middle ten-twelfths">
+                        {{this.text}}
+                    </div>
+                </div>
+            </div><!--
+         -->{{/each}}<!--
+      --></div>
+        <div>
+            <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">En savoir plus <i class="fa fa-caret-down"></i></a>
+        </div>
+    </div>
+</div>
+<div class="flexbox push--bottom course-{{id}}-know-more hidden">
+    <div class="flexbox__item v-top one-fifth">
+        <strong class="gray-light">Description</strong>
+    </div>
+    <div class="flexbox__item v-top four-fifths">
+        {{#if description}}
+            {{#ifCond description '!=' description_short}}
+            <div id="course-{{id}}-description-short" class="gray last-p-push-half--bottom">
+                {{{ simple_format_hide_contacts description_short }}}
+            </div>
+            <a href="#" data-behavior="show-long-version" data-short-version="#course-{{id}}-description-short" data-long-version="#course-{{id}}-description-long">
+            + Plus
+            </a>
+            <div id="course-{{id}}-description-long" class="gray hidden" itemprop="description">
+                {{{ simple_format_hide_contacts description }}}
+            </div>
+            {{else}}
+            <div class="gray" itemprop="description">
+                {{{ simple_format_hide_contacts description }}}
+            </div>
+            {{/ifCond}}
+        {{else}}
+            <div class="gray" itemprop="description">
+                Pas de description
+            </div>
+        {{/if}}
+    </div>
+</div>
+<div class="flexbox push--bottom course-{{id}}-know-more hidden" id="course-{{id}}-tarifs">
+    <div class="flexbox__item v-top one-fifth">
+        <strong class="gray-light v-middle">Tarifs</strong>
+    </div>
+    <div class="flexbox__item v-top four-fifths">
+        {{#unless has_price_group}}
+          {{capitalize about}} n'a pas mis à jour ses tarifs : <a href="#" data-behavior="show-contact-panel" data-course-id="{{id}}">contacter-{{about_genre}}</a>.
+        {{/unless}}
+        <table class="table--striped table--data table--data-small {{#unless has_price_group}}hidden{{/unless}}">
+            <thead class="gray-light">
+                <tr>
+                    <th class="three-twelfths">Formule</th>
+                    <th class="two-twelfths text--center">Prix</th>
+                    <th class="two-twelfths text--center">Promotion</th>
+                    <th class="five-twelfths"><i class="fa fa-info"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if premium}}
+                {{#if premium_prices}}
+                {{#each premium_prices}}
+                    <tr>
+                        <td class="nowrap">
+                            <img src="<%= asset_path '/icons/icon-star-yellow-full-bordered.png' %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
+                            <span class="v-middle">
+                            {{#if this.discount}} {{ this.libelle_type }} {{else}} {{ this.libelle }} {{/if}}
+                            </span>
+                        </td>
+                        <td class="text--center">
+                            <strong class="green">{{this.amount}}</strong>
+                        </td>
+                        <td class="text--center">
+                            <strong class="green">{{this.promo_amount}}</strong>
+                        </td>
+                        <td>{{{ hide_contacts this.info }}}</td>
+                    </tr>
+                {{/each}}
+                {{/if}}
+                {{/if}}
+                {{#each prices}}
+                    {{#ifCond @index '==' 2}}
+                        <tr data-behavior="show-long-version" data-long-version=".course-{{../../id}}-prices-long">
+                          <td colspan="4" class="text--left">
+                              <a href="#" class="block">
+                              + Plus
+                              </a>
+                          </td>
+                        </tr>
+                    {{/ifCond}}
+                    <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}} {{#ifCond @index '>' 1}}course-{{../../id}}-prices-long hidden{{/ifCond}}">
+                        <td>
+                            {{#if ../premium}}{{#if this.promo_amount}}
+                            <img src="<%= asset_path '/icons/icon-star-yellow-full-bordered.png' %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
+                            {{/if}}{{/if}}
+                            <span class="v-middle">{{this.libelle}}</span>
+                        </td>
+                        <td class="text--center {{#if ../premium}}{{#if this.promo_amount}}line-through{{/if}}{{/if}}">
+                            {{#if this.is_free}}
+                              <strong class="green">Gratuit{{#if this.is_registration}}e{{/if}}</strong>
+                            {{else}}
+                              {{this.amount}}
+                            {{/if}}
+                        </td>
+                        <td class="text--center">
+                            {{#if ../premium}}
+                              {{#if this.promo_amount}}
+                                <strong class="green">{{this.promo_amount}}</strong>
+                              {{/if}}
+                            {{/if}}
+                        </td>
+                        <td>{{{ hide_contacts this.info }}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="flexbox push--bottom course-{{id}}-know-more hidden">
+    <div class="flexbox__item v-top one-fifth">
+        <strong class="gray-light">Disciplines</strong>
+    </div>
+    <div class="flexbox__item v-top four-fifths">
+        <div>
+            {{#each subjects}}
+            <div class="push-half--bottom {{#ifCond @index '>' 0}}course-{{../../id}}-subjects-long hidden{{/ifCond}}">
+                <img src="{{this.icon}}" alt="Disciplines pratiquées : {{this.icon}}" height="16" class="v-middle">
+                <strong>{{this.root_name}} : </strong>{{this.child_names}}
+            </div>
+            {{#ifCond @index '==' 1}}
+                <div>
+                    <a href="#" data-behavior="show-long-version" data-long-version=".course-{{../../id}}-subjects-long">
+                    + Plus
+                    </a>
+                </div>
+            {{/ifCond}}
+            {{/each}}
+        </div>
+    </div>
+</div>
+{{#unless is_last}}
+<hr class="push--top flush--bottom">
+{{/unless}}

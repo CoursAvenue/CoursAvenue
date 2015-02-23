@@ -3,10 +3,10 @@ class Structures::CoursesController < ApplicationController
 
   def index
     @structure = Structure.find params[:structure_id]
-    if params[:course_type] == 'trainings'
-      @courses = @structure.courses.trainings
+    if params[:course_type].present?
+      @courses = @structure.courses.send(params[:course_type])
     else
-      @courses = @structure.courses.regulars
+      @courses = @structure.courses
     end
 
     @json_courses = []

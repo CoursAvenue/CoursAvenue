@@ -4,7 +4,7 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
     Module.Structure = Backbone.Model.extend({
 
         initialize: function initialize(bootstrap, bootstrap_meta) {
-            var relations = ['places', 'courses', 'trainings', 'comments', 'teachers'],
+            var relations = ['places', 'lessons', 'privates', 'trainings', 'comments', 'teachers'],
                 self      = this;
             bootstrap_meta = bootstrap_meta || {};
             // Creating relations

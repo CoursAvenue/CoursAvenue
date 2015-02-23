@@ -181,8 +181,9 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         },
 
         onRender: function onRender () {
+            var courses_collection = new Backbone.Collection(_.union(this.model.get('structure').get('lessons').models, this.model.get('structure').get('privates').models));
             var options =  {
-              courses_collection  : this.model.get('structure').get('courses'),
+              courses_collection  : courses_collection,
               trainings_collection: this.model.get('structure').get('trainings'),
               model               : this.model
             };

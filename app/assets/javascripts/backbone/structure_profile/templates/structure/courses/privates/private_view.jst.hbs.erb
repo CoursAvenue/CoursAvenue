@@ -1,0 +1,116 @@
+<div class="grid soft--ends">
+    <div class="grid__item v-top four-twelfths palm-one-whole">
+        <h3 class="line-height-1-7 v-middle flush inline-block delta">{{ name }}</h3>
+        <div class="line-height-1-7">
+            {{#each subjects}}
+            <div class="inline-block very-soft--right" data-behavior="popover" data-content="<strong>{{this.root_name}} : </strong>{{this.child_names}}" data-html="true">
+              <i class="delta fa fa-{{ this.icon }} gray-light"></i>
+            </div>
+            {{/each}}
+        </div>
+        <div>
+            {{#if description}}
+                {{#ifCond description '!=' description_short}}
+                <div id="course-{{id}}-description-short" class="gray last-p-push-half--bottom">
+                    {{{ simple_format_hide_contacts description_short }}}
+                </div>
+                <a href="#" data-behavior="show-long-version" data-short-version="#course-{{id}}-description-short" data-long-version="#course-{{id}}-description-long">
+                + Plus
+                </a>
+                <div id="course-{{id}}-description-long" class="gray hidden" itemprop="description">
+                    {{{ simple_format_hide_contacts description }}}
+                </div>
+                {{else}}
+                <div class="gray" itemprop="description">
+                    {{{ simple_format_hide_contacts description }}}
+                </div>
+                {{/ifCond}}
+            {{/if}}
+        </div>
+    </div><!--
+ --><div class="grid__item v-top eight-twelfths palm-one-whole">
+        <div class="float--right">
+            <div class="text--center gamma push-half--bottom f-weight-500">{{ min_price }}</div>
+            <a data-behavior="register-to-course" class="btn btn--green soft--sides">M'inscrire</a>
+            {{#if is_open_for_trial}}
+              <a href="#" class="v-middle lbl lbl--yellow muted-link push-half--left" data-toggle="popover" data-content="{{trial_courses_policy_popover}}" data-trigger="hover" data-behavior='show-contact-panel' data-course-id="{{id}}"><i class="fa-ticket"></i> Essai gratuit</a>
+            {{/if}}
+        </div>
+        <div data-type="plannings-container" class="push-half--bottom"></div>
+
+        <div>
+          <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">Détail des tarifs <i class="fa fa-caret-down"></i></a>
+        </div>
+        <div class="flexbox push--bottom course-{{id}}-know-more hidden" id="course-{{id}}-tarifs">
+            <div>
+                {{#unless has_price_group}}
+                  {{capitalize about}} n'a pas mis à jour ses tarifs : <a href="#" data-behavior="show-contact-panel">contactez-{{about_genre}}</a>.
+                {{/unless}}
+                <table class="table--striped table--data table--data-small {{#unless has_price_group}}hidden{{/unless}}">
+                    <thead class="gray-light">
+                        <tr>
+                            <th class="four-twelfths">Formule</th>
+                            <th class="two-twelfths text--center">Prix</th>
+                            <th class="two-twelfths text--center">Promotion</th>
+                            <th class="four-twelfths"><i class="fa fa-info"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if premium_prices}}
+                        {{#each premium_prices}}
+                            <tr>
+                                <td class="nowrap">
+                                    <img src="<%= asset_path '/icons/icon-star-yellow-full-bordered.png' %>" height="14" class="v-middle" data-toggle="tooltip" data-title="{{this.libelle_type}}">
+                                    <span class="v-middle">
+                                    {{#if this.discount}} {{ this.libelle_type }} {{else}} {{ this.libelle }} {{/if}}
+                                    </span>
+                                </td>
+                                <td class="text--center">
+                                    <strong class="green">{{this.amount}}</strong>
+                                </td>
+                                <td class="text--center">
+                                    <strong class="green">{{this.promo_amount}}</strong>
+                                </td>
+                                <td>{{{ hide_contacts this.info }}}</td>
+                            </tr>
+                        {{/each}}
+                        {{/if}}
+                        {{#each prices}}
+                            {{#ifCond @index '==' 2}}
+                                <tr data-behavior="show-long-version" data-long-version=".course-{{../../id}}-prices-long">
+                                  <td colspan="4" class="text--left">
+                                      <a href="#" class="block">
+                                      + Plus
+                                      </a>
+                                  </td>
+                                </tr>
+                            {{/ifCond}}
+                            <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}} {{#ifCond @index '>' 1}}course-{{../../id}}-prices-long hidden{{/ifCond}}">
+                                <td>
+                                    {{this.libelle}}
+                                </td>
+                                <td class="text--center {{#if this.promo_amount}}line-through{{/if}}">
+                                    {{#if this.is_free}}
+                                      <strong class="green">Gratuit{{#if this.is_registration}}e{{/if}}</strong>
+                                    {{else}}
+                                      {{this.amount}}
+                                    {{/if}}
+                                </td>
+                                <td class="text--center">
+                                    {{#if this.promo_amount}}
+                                      <strong class="green">{{this.promo_amount}}</strong>
+                                    {{/if}}
+                                </td>
+                                <td>{{{ hide_contacts this.info }}}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#unless is_last}}
+<hr class="push--top flush--bottom">
+{{/unless}}

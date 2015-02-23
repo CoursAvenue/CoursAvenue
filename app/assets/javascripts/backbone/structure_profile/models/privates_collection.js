@@ -1,7 +1,7 @@
 /* just a basic backbone model */
 StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
-    Module.CoursesCollection = Backbone.Collection.extend({
+    Module.PrivatesCollection = Backbone.Collection.extend({
         model: Backbone.Model.extend(),
         comparator: 'type',
 
@@ -19,7 +19,7 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
                     format: 'json',
                     id: this.structure_id
                 };
-            return Routes.structure_courses_path(route_details, { course_type: 'regulars' });
+            return Routes.structure_courses_path(route_details, { course_type: 'privates' });
         }
     });
 });
