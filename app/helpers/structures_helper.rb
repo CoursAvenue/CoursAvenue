@@ -81,6 +81,7 @@ module StructuresHelper
   end
 
   def structures_path_for_city_and_subject(city, subject=nil)
+    subject = Subject.find(subject) if subject.is_a? String
     if subject.nil?
       root_search_page_without_subject_path(city)
     elsif subject.depth == 0
