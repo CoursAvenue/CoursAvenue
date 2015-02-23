@@ -8,6 +8,8 @@ Disallow: /etablissements/*/recommendations/new
 Disallow: /etablissements/*/recommandations/new
 Disallow: /etablissements/*/avis/new
 Disallow: /etablissements/*/contact_form
+Disallow: /connexion
+Disallow: /inscription
 Disallow: /password/new
 Disallow: /verification/new
 Disallow: /professeurs/*

@@ -201,11 +201,9 @@ class StructuresController < ApplicationController
     if params[:subject_id] and params[:subject_id].include?('--')
       @subject = Subject.friendly.find(params[:subject_id].gsub(/--.*/, ''))
       redirect_to structures_path_for_city_and_subject(@city, @subject), status: 301
-    end
-    if params[:city_id] and params[:city_id].is_number?
+    elsif params[:city_id] and params[:city_id].is_number?
       redirect_to structures_path_for_city_and_subject(@city, (params[:subject_id] || params[:root_subject_id])), status: 301
-    end
-    if params[:page] and params[:page].is_negative_or_zero_number?
+    elsif params[:page] and params[:page].is_negative_or_zero_number?
       redirect_to structures_path_for_city_and_subject(@city, (params[:subject_id] || params[:root_subject_id])), status: 301
     end
   end
