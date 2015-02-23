@@ -3,6 +3,7 @@
 # To ban all spiders from the entire site uncomment the next two lines:
 User-Agent: *
 Allow: /
+Disallow: /etablissements/*/rejoindre-coursavenue-pro
 Disallow: /etablissements/*/recommendations/new
 Disallow: /etablissements/*/recommandations/new
 Disallow: /etablissements/*/avis/new
