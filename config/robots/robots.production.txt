@@ -8,10 +8,13 @@ Disallow: /etablissements/*/recommendations/new
 Disallow: /etablissements/*/recommandations/new
 Disallow: /etablissements/*/avis/new
 Disallow: /etablissements/*/contact_form
+Disallow: /connexion
+Disallow: /inscription
 Disallow: /password/new
 Disallow: /verification/new
 Disallow: /professeurs/*
 Disallow: */contact_form‎
 Disallow: /offre-et-tarifs
 Disallow: /pourquoi-etre-recommande
+Disallow: /tous-les-cours-a/*
 Sitemap: https://www.coursavenue.com/sitemap.xml.gz

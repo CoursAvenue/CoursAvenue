@@ -22,11 +22,8 @@ class StructuresController < ApplicationController
   # GET /danse--paris
   # GET /danse/danse-orientale--paris
   def index
-    if params[:city_id]
-      @city = City.find(params[:city_id])
-    else
-      @city = City.find('paris')
-    end
+    @city = City.find(params[:city_id]) rescue City.find('paris')
+    proceed_to_redirection_if_needed
     if params[:root_subject_id].present? and params[:subject_id].blank?
       params[:subject_id] = params[:root_subject_id]
     end
@@ -196,5 +193,18 @@ class StructuresController < ApplicationController
   def set_current_structure
     @structure = Structure.fetch_by_id_or_slug(params[:id])
     raise ActiveRecord::RecordNotFound.new(params) if @structure.nil?
+  end
+
+  # We have cases where we need 301 redirections
+  # This is due to old wrong links
+  def proceed_to_redirection_if_needed
+    if params[:subject_id] and params[:subject_id].include?('--')
+      @subject = Subject.friendly.find(params[:subject_id].gsub(/--.*/, ''))
+      redirect_to structures_path_for_city_and_subject(@city, @subject), status: 301
+    elsif params[:city_id] and params[:city_id].is_number?
+      redirect_to structures_path_for_city_and_subject(@city, (params[:subject_id] || params[:root_subject_id])), status: 301
+    elsif params[:page] and params[:page].is_negative_or_zero_number?
+      redirect_to structures_path_for_city_and_subject(@city, (params[:subject_id] || params[:root_subject_id])), status: 301
+    end
   end
 end

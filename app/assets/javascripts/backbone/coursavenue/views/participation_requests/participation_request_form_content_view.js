@@ -147,7 +147,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 this.ui.$datepicker_input.datepicker('setDaysOfWeekDisabled', []);
                 return;
             }
-            var formatted_date = moment(this.getCurrentPlanning().next_date, "DD/MM/YYYY").format('MM-DD-YYYY');
+            var formatted_date = moment(this.getCurrentPlanning().next_date, "DD/MM/YYYY").format(GLOBAL.MOMENT_DATE_FORMAT);
             this.ui.$datepicker_input.datepicker('update', formatted_date);
             // Disable days of week
             var days_of_week = [0,1,2,3,4,5,6];
