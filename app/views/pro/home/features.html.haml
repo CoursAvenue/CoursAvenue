@@ -7,8 +7,9 @@
   L'essentiel pour développer vos activités de loisirs
 
 = render layout: 'pro/home/header_layout', locals: { current: 'features', full: true } do
-  %h1.f-size-really-big.text--center.white.relative.main-container.mega-soft--top
-    L'essentiel pour développer vos activités de loisirs
+  .main-container.mega-soft--top
+    %h1.flush.f-size-really-big.text--center.white.relative
+      L'essentiel pour développer vos activités de loisirs
 
   .main-container.main-container--medium.relative.mega-soft--ends
     .grid.white
@@ -17,8 +18,8 @@
           .opacity-hidden-on-hover__wrapper
             .transparant-white-box.rounded.soft.orange-box--on-hover
               %h1.push--top Visibilité
-              %h4.soft--bottom Pour recruter de nouveaux élèves grâce à Internet
-            .opacity-hidden-on-hover__child.soft--top
+              %h4.visuallyhidden--palm.soft--bottom Pour recruter de nouveaux élèves grâce à Internet
+            .opacity-hidden-on-hover__child.soft--top.visuallyhidden--palm
               .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
                 Profil CoursAvenue
               .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
@@ -28,8 +29,8 @@
           .opacity-hidden-on-hover__wrapper
             .transparant-white-box.rounded.soft.dark-blue-box--on-hover
               %h1.push--top Inscriptions
-              %h4.soft--bottom Pour convertir les visiteurs de votre site en inscrits
-            .opacity-hidden-on-hover__child.soft--top
+              %h4.visuallyhidden--palm.soft--bottom Pour convertir les visiteurs de votre site en inscrits
+            .opacity-hidden-on-hover__child.soft--top.visuallyhidden--palm
               .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
                 Planning optimisé mobiles & tablettes
               .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
@@ -42,8 +43,8 @@
             .show-on-hover__wrapper
               .transparant-white-box.rounded.soft.green-box--on-hover
                 %h1.push--top Fidélisation
-                %h4.soft--bottom Pour faire revenir plus souvent vos élèves
-              .opacity-hidden-on-hover__child.soft--top
+                %h4.visuallyhidden--palm.soft--bottom Pour faire revenir plus souvent vos élèves
+              .opacity-hidden-on-hover__child.soft--top.visuallyhidden--palm
                 .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
                   Newsletters
                 .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>

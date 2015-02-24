@@ -180,17 +180,26 @@
 .very-soft--right { padding-right: 5px; }
 .island-top { margin-top: $base-spacing-unit * 3.5; }
 .mega-soft--top    {
+    @include transition(padding 200ms linear);
     @include media-query(desk-wide) { padding-top: $base-spacing-unit * 3.5; }
+    @include small-height { padding-top: $base-spacing-unit; }
     padding-top: $base-spacing-unit * 3;
 }
 .mega-soft--bottom {
+    @include transition(padding 200ms linear);
     @include media-query(desk-wide) { padding-bottom: $base-spacing-unit * 3.5; }
+    @include small-height { padding-bottom: $base-spacing-unit; }
     padding-bottom: $base-spacing-unit * 3;
 }
 .mega-soft--ends {
+    @include transition(padding 200ms linear);
     @include media-query(desk-wide) {
         padding-top   : $base-spacing-unit * 3.5;
         padding-bottom: $base-spacing-unit * 3.5;
+    }
+    @include small-height {
+        padding-top   : $base-spacing-unit;
+        padding-bottom: $base-spacing-unit;
     }
     padding-top   : $base-spacing-unit * 3;
     padding-bottom: $base-spacing-unit * 3;
