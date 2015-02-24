@@ -26,9 +26,9 @@
           = image_tag 'logos/logo-pro.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo-pro@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute hidden', id: 'home-logo-dark'
         %ul.nav.flush.epsilon.f-weight-600
           %li.palm-hidden.palm-block.palm-text--center.line-height-1-7.soft--right
-            = link_to 'Bienvenue', root_path, class: ['white', 'header--pro__link', (current == 'home' ? 'active bordered--bottom bordered--larger' : '')]
+            = link_to 'Bienvenue', root_path, class: ['white-transparent', 'header--pro__link', (current == 'home' ? 'active bordered--bottom bordered--larger' : '')]
           %li.palm-block.palm-text--center.line-height-1-7.soft--right
-            = link_to 'Fonctionnalités', pro_pages_features_path, class: ['white', 'header--pro__link', (current == 'features' ? 'active bordered--bottom bordered--larger' : '')]
+            = link_to 'Fonctionnalités', pro_pages_features_path, class: ['white-transparent', 'header--pro__link', (current == 'features' ? 'active bordered--bottom bordered--larger' : '')]
           %li.visuallyhidden--palm.soft--right
             - if current_pro_admin and !current_pro_admin.super_admin?
               = link_to 'Accéder à mon espace Pro', pro_structure_path(current_pro_admin.structure), class: 'muted-link btn btn--white-transparent', data: { try: true }
@@ -50,15 +50,15 @@
               oldWidth: true,
               onUnStick: function onUnStick ($element) {
                   $element.find('a').removeClass('border-color-orange');
-                  $element.find('a').addClass('white');
+                  $element.find('a').addClass('white-transparent');
                   $element.find('[data-try]').removeClass('btn--green');
                   $element.find('[data-try]').addClass('btn--white-transparent');
                   $element.removeClass('bg-white bordered--bottom');
                   $('#home-logo-dark').fadeOut();
               },
               onStick: function onStick ($element) {
-                  $element.find('a').removeClass('white');
-                  $element.find('a').addClass('border-color-orange');
+                  $element.find('a').removeClass('white-transparent');
+                  $element.find('.header--pro__link').addClass('border-color-orange orange');
                   $element.find('[data-try]').removeClass('btn--white-transparent');
                   $element.find('[data-try]').addClass('btn btn--green');
                   $element.addClass('bg-white bordered--bottom');

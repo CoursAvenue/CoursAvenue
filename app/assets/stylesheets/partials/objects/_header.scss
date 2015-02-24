@@ -55,8 +55,11 @@
         @include background-image-retina('pro/homepage/bg.jpg', 'pro/homepage/bg@2x.jpg');
     }
     .header--pro__link {
+        @include transition(all 200ms linear);
+        border-color: transparentize(white, 0.2);
         &:hover {
-            border-bottom  : 2px solid transparentize(white, 0.60);
+            border-color   : white;
+            color          : white;
             text-decoration: none;
         }
     }
