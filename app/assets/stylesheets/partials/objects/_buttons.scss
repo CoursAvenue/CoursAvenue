@@ -285,3 +285,14 @@
         display: block;
     }
 }
+.btn--white-transparent {
+    color     : white;
+    border    : 2px solid white;
+    background: none;
+    @include text-shadow(none);
+    @include transition(all 200ms linear);
+    &:hover {
+        border-color    : $btn--green;
+        background-color: $btn--green;
+    }
+}

@@ -7,74 +7,51 @@
   CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en visibilité pour recruter de nouveaux élèves. L'inscription est gratuite. Faites partie d'une communauté en pleine expansion passionnée par les cours de loisirs.
 
 
-= render layout: 'pro/home/header_layout', locals: { current: 'home' } do
-  .grid.main-container.mega-soft--top
-    .grid__item.v-bottom.one-half.visuallyhidden--palm.visuallyhidden--lap>
-      = image_tag 'pro/homepage/computer.png', class: 'one-whole block'
-    .grid__item.v-top.one-half.text--left.soft--bottom.palm-one-whole.lap-one-whole>
-      %h1.white.soft-black-text-shadow
-        Le meilleur outil pour gagner et fidéliser de nouveaux élèves pour vos activités de loisirs
-      .inline-block.text--center
-        = link_to 'Essayer CoursAvenue', inscription_pro_structures_path, class: 'btn btn--bigger soft--sides btn--green'
-        %br
-        %strong Gratuit et sans engagement
+= render layout: 'pro/home/header_layout', locals: { current: 'home', full: true } do
+  .main-container.soft--sides.mega-soft--top
+    %h1.white.soft-black-text-shadow.f-size-really-big.relative
+      Rejoignez la 1ère communauté
+      %br
+      des professionnels de loisirs et
+      %br
+      développez vos activités
+    .inline-block.text--center.relative
+      = link_to 'Essayer CoursAvenue', inscription_pro_structures_path, class: 'btn btn--bigger soft--sides btn--green'
+      %br
+      %strong.white Gratuit et sans engagement
 
-.home-screen-promotion-wrapper.soft
+.home-screen-promotion-wrapper#en-savoir-plus
   .main-container.soft--ends.text--center
     .inline-block.grayscale.v-middle.push--sides.soft--sides>
-      = image_tag 'presses/logos/elle.png', height: 40, data: { src2x: asset_path('presses/logos/elle.png') }
+      = image_tag 'presses/logos/elle.png', height: 40, data: { src2x: asset_path('presses/logos/elle@2x.png') }
     .inline-block.grayscale.v-middle.push--sides.soft--sides>
       = image_tag 'presses/logos/leparisien.jpg', height: 40, data: { src2x: asset_path('presses/logos/leparisien.jpg') }
     .inline-block.grayscale.v-middle.push--sides.soft--sides>
-      = image_tag 'presses/logos/au-feminin.png', height: 40, data: { src2x: asset_path('presses/logos/au-feminin.png') }
-    .inline-block.grayscale.v-middle.push--sides.soft--sides>
-      = image_tag 'presses/logos/que-faire-a-paris.png', height: 55, data: { src2x: asset_path('presses/logos/que-faire-a-paris.png') }
+      = image_tag 'presses/logos/au-feminin.png', height: 40, data: { src2x: asset_path('presses/logos/au-feminin@2x.png') }
 
-.main-container.main-container--medium.mega-soft--ends
-  .text--center.main-container.main-container--medium
-    %h2.push-half--bottom.f-size-big.f-weight-300
-      L'outil tout-en-un pour votre
-      %br
-      communication sur Internet
-    %p.push--bottom.delta.line-height-1-7
-      En un minimum de temps et sans compétence technique, vos activités deviennent
-      %br
-      plus visibles, votre site Internet plus efficace et vous fidélisez plus d'élèves.
-
-  .grid.soft--ends
-    %a.muted-link.grid__item.one-third.delta.text--center.line-height-1-7.palm-one-whole.push--bottom.zoom-on-hover{ href: pro_pages_features_url(anchor: 'visibilite') }>
-      = image_tag 'pro/homepage/icons/responsive.png', height: 150, width: 150, class: 'push-half--bottom image-drop-shadow'
-      %br
-      Profil CoursAvenue
-    %a.muted-link.grid__item.one-third.delta.text--center.line-height-1-7.palm-one-whole.push--bottom.zoom-on-hover{ href: pro_pages_features_url(anchor: 'attractivite') }>
-      = image_tag 'pro/homepage/icons/calendar.png', height: 150, width: 150, class: 'push-half--bottom image-drop-shadow'
-      %br
-      Page planning sur votre site Internet
-      %br
-      \& inscriptions en ligne
-    %a.muted-link.grid__item.one-third.delta.text--center.line-height-1-7.palm-one-whole.push--bottom.zoom-on-hover{ href: pro_pages_features_url(anchor: 'visibilite') }>
-      = image_tag 'pro/homepage/icons/bubbles.png', height: 150, width: 150, class: 'push-half--bottom image-drop-shadow'
-      %br
-      Page Livre d'Or sur votre site Internet
+.main-container.mega-soft--ends
   .grid
-    %a.muted-link.grid__item.one-third.delta.text--center.line-height-1-7.palm-one-whole.push--bottom.zoom-on-hover{ href: pro_pages_features_url(anchor: 'fidelisation') }>
-      = image_tag 'pro/homepage/icons/newsletter.png', height: 150, width: 150, class: 'push-half--bottom image-drop-shadow'
-      %br
-      Newsletters & fichier élèves
-    %a.muted-link.grid__item.one-third.delta.text--center.line-height-1-7.palm-one-whole.push--bottom.zoom-on-hover{ href: pro_pages_features_url(anchor: 'fidelisation') }>
-      = image_tag 'pro/homepage/icons/like.png', height: 150, width: 150, class: 'push-half--bottom image-drop-shadow'
-      %br
-      Multi-postage sur les réseaux sociaux
-    %a.muted-link.grid__item.one-third.delta.text--center.line-height-1-7.palm-one-whole.push--bottom.zoom-on-hover{ href: pro_pages_features_url(anchor: 'attractivite') }>
-      = image_tag 'pro/homepage/icons/graph.png', height: 150, width: 150, class: 'push-half--bottom image-drop-shadow'
-      %br
-      Statistiques de trafic
-      %br
-      \& suivi des conversions
+    .grid__item.palm-one-whole.one-half.text--right>
+      = image_tag 'pro/homepage/computer.png', class: 'block margin-left-auto', class: 'one-whole'
+    .grid__item.palm-one-whole.one-half>
+      %h3.line-height-1-7.push-half--bottom Un outil simple et intuitif pour développer vos activités de loisirs
+      %p.push--bottom.epsilon.line-height-1-7
+        Votre quotidien ne se résume pas à proposer des activités de loisirs. Chaque jour, vous rencontrez de nouvelles personnes et inventez de nouveaux projets, et c'est ce qui vous motive. Mais vous devez également gérer l'administratif, ce qui prend beaucoup d'énergie. CoursAvenue se charge de votre communication, trop souvent oubliée mais essentielle pour vous développer : avec notre outil, améliorez votre visibilité sur Internet, augmentez votre nombre d'inscrits et fidélisez vos membres. Il n'y a rien à installer, essayez-le dès maintenant.
 
+.home-screen-promotion-wrapper
+  .main-container.mega-soft--ends
     .text--center
-      = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'btn btn--bigger soft--sides btn--green push--right palm-flush'
-      = link_to 'En savoir plus', pro_pages_features_path, class: 'btn btn--bigger soft--sides'
+      %h2.push-half--bottom.f-size-big.f-weight-300
+        L'outil tout-en-un pour votre communication sur Internet
+      %p.push--bottom.epsilon.line-height-1-7
+        En un minimum de temps et sans compétence technique, vos activités deviennent
+        %br
+        plus visibles, votre site Internet plus efficace et vous fidélisez plus d'élèves.
+
+      = render partial: 'pro/home/advantages'
+      .text--center
+        = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'btn btn--bigger soft--sides btn--green push--right palm-flush'
+        = link_to 'En savoir plus', pro_pages_features_path, class: 'btn btn--bigger soft--sides'
 
 = render partial: 'testimonies_banner', locals: { profile: 'emilie'}
 = render 'shared/live_chat'

@@ -1,5 +1,5 @@
 class Pro::CallRemindersController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
+  before_action :authenticate_pro_super_admin!, except: [:index]
 
   layout 'admin'
 

@@ -13,10 +13,18 @@
 }
 
 .orange-transparent-box { background-color: transparentize($orange, 0.15); }
-.orange-box             { background-color: $orange; }
-.red-box                { background-color: $red; }
-.dark-blue-box          { background-color: $dark_blue; }
-.green-box              { background-color: $green; }
+.transparant-white-box {
+    background-color: transparentize(black, 0.6);
+    border          : 2px solid white;
+    @include transition(all 200ms linear);
+}
+.orange-box                    { background-color: $orange; }
+.orange-box--on-hover:hover    { background-color: $orange; }
+.red-box                       { background-color: $red; }
+.dark-blue-box--on-hover:hover { background-color: $dark_blue; }
+.dark-blue-box                 { background-color: $dark_blue; }
+.green-box                     { background-color: $green; }
+.green-box--on-hover:hover     { background-color: $green; }
 .blue-box {
     color     : white;
     background: $blue;
