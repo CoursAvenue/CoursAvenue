@@ -1,0 +1,63 @@
+{{#if structure.is_sleeping}}
+  {{#if structure.phone_numbers}}
+    {{#if structure.phone_numbers}}
+    <a href="javascript:void(0)" class="btn btn--green btn--full" data-behavior="show-phone-numbers">
+        <i class="fa fa-phone v-middle"></i>
+        <span class="v-middle">Contacter</span>
+    </a>
+    <div class="phone_number hidden white-box">
+        <div class="soft text--center">
+            {{#each structure.phone_numbers}}
+                {{#ifCond @index '>' 0}}<br>{{/ifCond}}
+                <strong class="epsilon v-middle" itemprop="telephone">{{this}}</strong>
+                {{#if structure.premium }}
+                    <i class="soft-half--left v-middle fa fa-check-circle green"></i>
+                    <i class="v-middle green milli">vérifié</i>
+                {{/if}}
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+  {{/if}}
+{{else}}
+<div class="panel__header soft-half--ends soft--sides">
+    <h5 class="flush">
+      Contacter
+      {{ structure.about }}
+    </h5>
+</div>
+<div class="panel__body soft">
+    {{#if last_message_sent_at}}
+        <div class="green"><i class="fa fa-check"></i> <strong>Dernier message envoyé le {{last_message_sent_at}}</strong></div>
+        <hr class="push--ends">
+    {{/if}}
+    {{#if last_message_sent_at}}
+      <div class="btn btn--green btn--full" data-behavior="show-long-version" data-long-version="#structure-request-form-wrapper">Nouveau message</div>
+    {{/if}}
+    <article class="{{#if last_message_sent_at}}hidden{{/if}}" id="structure-request-form-wrapper">
+        <form action="{{url}}">
+            <div class="input flush--top push-half--bottom">
+                <textarea name="body" id="" cols="30" rows="10" class="one-whole input--large" style='height: 170px;' data-behavior='autoresize'>{{#unless errors.body}}{{#if body}}{{ body }}{{/if}}{{/unless}}</textarea>
+            </div>
+            {{#if errors.body}}
+                <div class="input_field_error red f-weight-bold text--right">{{errors.body}}</div>
+            {{/if}}
+            <div class="one-whole v-middle push-half--bottom" class="one-whole">
+                <div class="input-addon">
+                    <div class="input-prefix">
+                        <i class="fa fa-phone-o"></i>
+                    </div>
+                    <input type="text" class="input--large one-whole hard--right" name='user[phone_number]' type='text' placeholder='Votre téléphone (confidentiel)' value="{{#if user.phone_number}}{{ user.phone_number }}{{/if}}">
+                </div>
+                {{#if errors.user.phone_number}}
+                    <div class="input_field_error red f-weight-bold text--right">{{errors.user.phone_number}}</div>
+                {{/if}}
+            </div>
+            <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
+                <i class="fa fa-envelope"></i>
+                Envoyer mon message
+            </button>
+        </form>
+    </article>
+</div>
+{{/if}}

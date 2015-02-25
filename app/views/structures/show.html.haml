@@ -119,7 +119,8 @@
           current_pro_admin: #{(current_pro_admin ? true : false)},
           structure: #{ @model.to_json },
           meta: {
-              structure_id  : #{ @structure.id }
+              have_upcoming_plannings: #{ @structure.plannings.future.any? },
+              structure_id: #{ @structure.id }
           }
       };
     }());

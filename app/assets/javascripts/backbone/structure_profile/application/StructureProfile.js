@@ -11,13 +11,11 @@ StructureProfile.addInitializer(function(options) {
         structure_view = new StructureProfile.Views.Structure.StructureView({
             model: structure
         }),
-        google_maps_view, sticky_google_maps_view, places_collection, certified_comments_collection_view, guestbook_collection_view;
+        google_maps_view, sticky_google_maps_view, places_collection,
+        certified_comments_collection_view, guestbook_collection_view, participation_request,
+        participation_request_view, message_form_view, message;
 
     places_collection          = structure.get('places');
-    participation_request      = new StructureProfile.Models.ParticipationRequest({ structure: structure });
-    participation_request_view = new StructureProfile.Views.ParticipationRequests.RequestFormView( {
-      model: participation_request
-    } );
 
     sticky_google_maps_view    = new StructureProfile.Views.Map.StickyGoogleMapsView({
         collection:         places_collection,
@@ -37,12 +35,24 @@ StructureProfile.addInitializer(function(options) {
 
     layout.render();
 
-    layout.showWidget(participation_request_view, {
-        selector: '[data-type=contact-form]',
-        events: {
-            'planning:register' : 'showRegistrationForm'
-        }
-    });
+    if (bootstrap.meta.have_upcoming_plannings) {
+        participation_request      = new StructureProfile.Models.ParticipationRequest({ structure: structure });
+        participation_request_view = new StructureProfile.Views.ParticipationRequests.RequestFormView( {
+          model: participation_request
+        } );
+        layout.showWidget(participation_request_view, {
+            selector: '[data-type=contact-form]',
+            events: {
+                'planning:register' : 'showRegistrationForm'
+            }
+        });
+    } else {
+        message      = new StructureProfile.Models.Message({ structure: structure });
+        message_form_view = new StructureProfile.Views.Messages.MessageFormView( {
+          model: message
+        } );
+        layout.showWidget(message_form_view, { selector: '[data-type=contact-form]' });
+    }
 
     layout.showWidget(sticky_google_maps_view, {
         selector: '[data-type=sticky-map]',
@@ -93,9 +103,7 @@ $(document).ready(function() {
                 }
                 CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: infos });
                 if (CoursAvenue.isProduction()) {
-                    window._fbq.push(['track', '6016785958627', {'value':'0.00','currency':'EUR'}]);
                     ga('send', 'event', 'Action', infos);
-                    goog_report_conversion();
                 }
             });
         }

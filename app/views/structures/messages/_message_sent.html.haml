@@ -1,16 +1,22 @@
-.panel.center-block{ style: 'width: 700px;'}
-  .panel__header.soft
-    .grid
-      .grid__item.one-tenth.v-middle>
-        %i.fa.fa-check.fa-3x.green
-      .grid__item.nine-tenths.v-middle>
-        %h3.flush Message envoyé à #{@structure.name}
+- user = @participation_request.user
+.panel.center-block{ style: 'width: 500px;'}
+  .panel__header.soft.text--center
+    %div.push-half--bottom
+      %i.fa.fa-check.fa-3x.green
+    %h3.flush.green
+      Votre message
+      %br
+      a bien été envoyée
+    %h5.flush
+      Retrouvez tous vos message
+      = link_to "votre espace perso.", user_conversations_path(user)
   .panel__body.soft
-    %h4 Ne vous arrêtez pas et contactez 3 autres profils
+    %h5 Ne vous arrêtez pas là et contactez d'autres profils !
     %p.epsilon
-      Nous vous conseillons de contacter 3 autres profils pour multiplier vos chances de trouver le cours de votre choix. Voici quelques suggestions pour vous :
+      Les élèves qui ont réservé ce cours ont également découvert :
     %div{ style: 'height: 20em; overflow-y: scroll; overflow-x: hidden;'}
-      - @structure.similar_profiles(12, { medias_count: 1 }).each_with_index do |structure, index|
-        - next if structure.medias.empty?
+      - PlanningSearch.search({ limit: 12, is_open_for_trial: true }, group: :structure_id_str).group(:structure_id_str).groups.each do |planning_group|
+        - structure = planning_group.results.first.try(:structure)
+        - next if structure.nil? or @structure == structure or structure.medias.empty?
         .inline-block.one-half.very-soft.relative>
-          = render partial: "structures/similar_profile", locals: { structure: structure }
+          = render partial: "structures/similar_profile", locals: { structure: structure, show_promotion: false }

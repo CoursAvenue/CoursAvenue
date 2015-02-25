@@ -8,6 +8,10 @@ class Structures::CoursesController < ApplicationController
     else
       @courses = @structure.courses
     end
+    # Reject courses that does not have upcoming plannings if it is a training
+    if params[:course_type] == 'trainings'
+      @courses = @courses.reject{ |course| course.plannings.future.empty? }
+    end
 
     @json_courses = []
     @courses.each do |course|
