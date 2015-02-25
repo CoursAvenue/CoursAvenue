@@ -34,7 +34,10 @@
         </div>
         <hr class="push--ends">
     </div>
-    <article class="tab-pane active hard">
+    {{#if last_message_sent_at}}
+      <div class="btn btn--green btn--full" data-behavior="show-long-version" data-long-version="#structure-request-form-wrapper">Nouvelle demande d'inscription</div>
+    {{/if}}
+    <article class="{{#if last_message_sent_at}}hidden{{/if}}" id="structure-request-form-wrapper">
         <form action="{{participation_request.url}}">
             <div class="push-half--bottom" data-type="participation-request-form-content"></div>
             <div class="one-whole v-middle push-half--bottom" class="one-whole">

@@ -27,7 +27,7 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   before_save   :update_times
   before_create :set_default_attributes
-  after_create  :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher
+  after_create  :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher, :touch_user
   after_destroy :destroy_conversation_attached
 
   ######################################################################
@@ -287,5 +287,9 @@ class ParticipationRequest < ActiveRecord::Base
       request_attributes.delete(:start_min)
     end
     request_attributes
+  end
+
+  def touch_user
+    self.user.touch
   end
 end

@@ -78,16 +78,7 @@
                         {{/each}}
                         {{/if}}
                         {{#each prices}}
-                            {{#ifCond @index '==' 2}}
-                                <tr data-behavior="show-long-version" data-long-version=".course-{{../../id}}-prices-long">
-                                  <td colspan="4" class="text--left">
-                                      <a href="#" class="block">
-                                      + Plus
-                                      </a>
-                                  </td>
-                                </tr>
-                            {{/ifCond}}
-                            <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}} {{#ifCond @index '>' 1}}course-{{../../id}}-prices-long hidden{{/ifCond}}">
+                            <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}} ">
                                 <td>
                                     {{this.libelle}}
                                 </td>

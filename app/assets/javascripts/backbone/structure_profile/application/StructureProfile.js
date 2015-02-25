@@ -25,7 +25,7 @@ StructureProfile.addInitializer(function(options) {
         infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) }
     });
 
-    certified_comments_collection_view = new StructureProfile.Views.Structure.Comments.CommentsCollectionView({
+    certified_comments_collection_view = new StructureProfile.Views.Structure.Comments.CertifiedCommentsCollectionView({
         collection: structure.get('certified_comments'),
         about     :  structure.get('about')
     });
