@@ -8,11 +8,13 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
 
 
         initialize: function initialize (options) {
+            _.bindAll(this, 'announcePaginatorUpdated');
             this.about = options.about;
             this.pagination_bottom = new CoursAvenue.Views.PaginationToolView({});
             this.pagination_bottom.on('pagination:next', this.nextPage.bind(this));
             this.pagination_bottom.on('pagination:prev', this.prevPage.bind(this));
             this.pagination_bottom.on('pagination:page', this.goToPage.bind(this));
+            this.collection.on('comments:updated', this.announcePaginatorUpdated)
         },
 
         onRender: function onRender () {
@@ -33,6 +35,9 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             if (this.collection.state.grandTotal == 0) {
                 this.$('[data-empty-comments]').removeClass('hidden');
                 this.$('[data-not-empty-comments]').hide();
+            } else {
+                this.$('[data-empty-comments]').addClass('hidden');
+                this.$('[data-not-empty-comments]').show();
             }
         },
 

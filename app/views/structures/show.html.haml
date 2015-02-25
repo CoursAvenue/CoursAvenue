@@ -35,6 +35,7 @@
           - else
             #structure-region
           %div{ data: { type: "comments-collection" } }
+          %div{ data: { type: "guestbook-collection" } }
       .grid__item.four-twelfths>
         %div{ data: { type: 'contact-form' } }
         - unless @is_sleeping
@@ -118,7 +119,6 @@
           current_pro_admin: #{(current_pro_admin ? true : false)},
           structure: #{ @model.to_json },
           meta: {
-              total_comments: #{ @structure.comments_count },
               structure_id  : #{ @structure.id }
           }
       };

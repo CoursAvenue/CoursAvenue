@@ -11,7 +11,7 @@ StructureProfile.addInitializer(function(options) {
         structure_view = new StructureProfile.Views.Structure.StructureView({
             model: structure
         }),
-        google_maps_view, sticky_google_maps_view, places_collection, comments_collection_view;
+        google_maps_view, sticky_google_maps_view, places_collection, certified_comments_collection_view, guestbook_collection_view;
 
     places_collection          = structure.get('places');
     participation_request      = new StructureProfile.Models.ParticipationRequest({ structure: structure });
@@ -19,21 +19,19 @@ StructureProfile.addInitializer(function(options) {
       model: participation_request
     } );
 
-    // google_maps_view           = new StructureProfile.Views.Map.GoogleMapsView({
-    //     collection:         places_collection,
-    //     infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) },
-    //     mapOptions:         { scrollwheel: false },
-    //     mapClass:           'google-map--medium'
-    // });
-
     sticky_google_maps_view    = new StructureProfile.Views.Map.StickyGoogleMapsView({
         collection:         places_collection,
         mapOptions:         { scrollwheel: false },
         infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) }
     });
 
-    comments_collection_view = new StructureProfile.Views.Structure.Comments.CommentsCollectionView({
-        collection: structure.get('comments'),
+    certified_comments_collection_view = new StructureProfile.Views.Structure.Comments.CommentsCollectionView({
+        collection: structure.get('certified_comments'),
+        about     :  structure.get('about')
+    });
+
+    guestbook_collection_view = new StructureProfile.Views.Structure.Comments.GuestbookCollectionView({
+        collection: structure.get('guestbook'),
         about     :  structure.get('about')
     });
 
@@ -58,7 +56,8 @@ StructureProfile.addInitializer(function(options) {
         }
     });
 
-    layout.showWidget(comments_collection_view);
+    layout.showWidget(certified_comments_collection_view);
+    layout.showWidget(guestbook_collection_view);
 
     layout.master.show(structure_view);
 
