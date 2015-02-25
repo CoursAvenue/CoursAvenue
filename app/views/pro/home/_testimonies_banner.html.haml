@@ -4,7 +4,7 @@
 
 - if profile == 'emilie'
   - selected_profile = profiles.first
-- else
+- elsif profile == 'alain'
   - selected_profile = profiles.last
 
 - cache [selected_profile, ENV["ETAG_VERSION_ID"]] do

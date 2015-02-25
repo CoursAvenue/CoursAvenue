@@ -8,7 +8,7 @@
 
 = render layout: 'pro/home/header_layout', locals: { current: 'features', full: true } do
   .main-container.mega-soft--top
-    %h1.flush.f-size-really-big.text--center.white.relative
+    %h1.flush.f-size-big.text--center.white.relative
       L'essentiel pour développer vos activités de loisirs
 
   .main-container.main-container--medium.relative.mega-soft--ends
@@ -29,14 +29,14 @@
           .opacity-hidden-on-hover__wrapper
             .transparant-white-box.rounded.soft.dark-blue-box--on-hover
               %h1.push--top Inscriptions
-              %h4.visuallyhidden--palm.soft--bottom Pour convertir les visiteurs de votre site en inscrits
+              %h4.visuallyhidden--palm.soft--bottom Pour convertir les visiteurs de votre site en élèves inscrits
             .opacity-hidden-on-hover__child.soft--top.visuallyhidden--palm
               .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
                 Planning optimisé mobiles & tablettes
               .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
                 Inscriptions en ligne
               .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
-                Statistiques de trafics & des conversions
+                Statistiques de trafic & des conversions
       .grid__item.one-third.palm-one-whole.text--center>
         %a.muted-link{ href: '#fidelisation', data: { behavior: 'scroll-to' } }>
           .opacity-hidden-on-hover__wrapper
@@ -55,7 +55,7 @@
 
 #en-savoir-plus
   .home-screen-promotion-wrapper.soft--sides.bordered--top.bordered--thick.border-color-orange.border-none--sides.border-none--bottom#visibilite
-    .main-container.main-container--medium.mega-soft--ends.soft--sides
+    .main-container.main-container--medium-small.mega-soft--ends.soft--sides
       %h2.f-size-big.flush.orange Visibilité
       %h3.delta.soft--bottom.orange Pour recruter de nouveaux élèves grâce à Internet
       .flexbox.palm-block.push--bottom
@@ -67,7 +67,7 @@
             Apparaissez sur CoursAvenue et faites connaître vos activités à un maximum d'Internautes à la recherche de ce que vous proposez
           %p.line-height-1-7.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white.bordered.border-color-darker
             %strong Le saviez-vous ?
-            9 Français sur 10 passent par Internet pour trouver une activité de loisir. En priorité, ils ciblent sur la localisation puis recherchent des avis, et CoursAvenue représente la meillleure réponse
+            9 Français sur 10 passent par Internet pour trouver une activité de loisir. En priorité, ils ciblent sur la localisation puis recherchent des avis, et CoursAvenue représente la meilleure réponse
 
       .flexbox.palm-block.push--bottom
         .flexbox__item.v-top.palm-block.palm-text--center.soft--left.palm-hard.visuallyhidden--lap-and-up
@@ -85,7 +85,7 @@
       .flexbox.palm-block.push--bottom
         .flexbox__item.v-top.soft--right.palm-block.palm-text--center.palm-hard
           = image_tag 'pro/homepage/icons/bullhorn.png', height: 150, width: 150, class: 'image-drop-shadow push-half--bottom', data: { src2x: asset_path('pro/homepage/icons/bullhorn@2x.png') }
-        .flexbox__item.v-top.palm-block.soft--left.palm-hard.soft--right
+        .flexbox__item.v-top.palm-block.soft--left.palm-hard.soft--right.one-whole
           %h4.beta.line-height-1-7 La presse parle de CoursAvenue
           %div
             .inline-block.palm-block.palm-text--center.grayscale.v-middle.push--right.palm-hard.palm-flush>
@@ -97,7 +97,7 @@
 
 
   .bordered--top.bordered--thick.border-color-dark-blue.border-none--sides.border-none--bottom#inscriptions
-    .main-container.main-container--medium.mega-soft--ends.soft--sides
+    .main-container.main-container--medium-small.mega-soft--ends.soft--sides
       %h2.f-size-big.flush.dark-blue Inscriptions
       %h3.delta.soft--bottom.dark-blue Pour convertir les visiteurs de votre site en élèves inscrits
       .flexbox.palm-block.push--bottom
@@ -138,7 +138,7 @@
 
 
   .home-screen-promotion-wrapper.soft.bordered--top.bordered--thick.border-color-green.border-none--sides.border-none--bottom#fidelisation
-    .main-container.main-container--medium.mega-soft--ends.soft--sides
+    .main-container.main-container--medium-small.mega-soft--ends.soft--sides
       %h2.f-size-big.flush.green Fidélisation
       %h3.delta.soft--bottom.green Pour faire revenir plus souvent vos élèves
       .flexbox.palm-block.push--bottom
@@ -175,3 +175,5 @@
           %p.line-height-1-7.gray.soft--sides.soft-half--ends.bg-gray-smooth.rounded.white.bordered.border-color-darker
             %strong Le saviez-vous ?
             3 élèves sur 4 se disent contents de pouvoir déposer leur témoignage après un 1er essai et reconnaissent que cela participe à l'idée d'y revenir
+
+.bordered--top= render partial: 'testimonies_banner', locals: { profile: 'alain' }
