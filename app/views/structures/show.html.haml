@@ -26,7 +26,7 @@
           .inline-block.v-middle.milli.white.f-style-italic
             \— #{comment.author_name}, #{truncate(comment.course_name, length: 15)} —
           .inline-block.v-middle.milli.f-style-italic
-            = link_to '#avis', data: { behavior: 'scroll-to' }, class: 'white' do
+            = link_to '#avis', data: { behavior: 'scroll-to', offset_top: '-50' }, class: 'white' do
               Voir les #{@structure.comments_count} avis
         #structure-profile.bg-white.bordered{ data: { type: 'structure-profile-root' } }
           - if @is_sleeping

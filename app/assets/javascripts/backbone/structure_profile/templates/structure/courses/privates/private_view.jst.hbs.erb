@@ -30,14 +30,20 @@
     </div><!--
  --><div class="grid__item v-top eight-twelfths palm-one-whole">
         <div class="float--right">
-            <div class="text--center gamma push-half--bottom f-weight-500">{{ min_price }}</div>
+            <div class="text--center push-half--bottom f-weight-500">
+                <span class="f-weight-500 gray-light v-bottom">À p. de </span><span class="gamma v-bottom">{{ min_price }}</span>
+            </div>
             <a data-behavior="register-to-course" class="btn btn--green soft--sides">M'inscrire</a>
             {{#if is_open_for_trial}}
               <a href="#" class="v-middle lbl lbl--yellow muted-link push-half--left" data-toggle="popover" data-content="{{trial_courses_policy_popover}}" data-trigger="hover" data-behavior='show-contact-panel' data-course-id="{{id}}"><i class="fa-ticket"></i> Essai gratuit</a>
             {{/if}}
         </div>
-        <div data-type="plannings-container" class="push-half--bottom"></div>
-
+        {{#if on_appointment}}
+        <div class="epsilon f-weight-600 line-height-1-7">Cours particulier sur demande</div>
+        <div class="milli f-weight-500"><i class="fa fa-map-marker"></i> {{{ course_location }}}</div>
+        <div class="gray-light f-weight-500">{{ levels }}, {{ audiences }}</div>
+        {{/if}}
+        <div data-type="plannings-container" class="push-half--bottom {{#if on_appointment}}hidden{{/if}}"></div>
         <div>
           <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">Détail des tarifs <i class="fa fa-caret-down"></i></a>
         </div>

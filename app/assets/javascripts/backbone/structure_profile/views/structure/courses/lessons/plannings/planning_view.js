@@ -2,7 +2,7 @@ StructureProfile.module('Views.Structure.Courses.Lessons.Plannings', function(Mo
 
     Module.PlanningView = StructureProfile.Views.Structure.Courses.Plannings.PlanningView.extend({
         template: Module.templateDirname() + 'planning_view',
-        tagName: 'div'
+        tagName: 'tr'
     });
 
 }, undefined);

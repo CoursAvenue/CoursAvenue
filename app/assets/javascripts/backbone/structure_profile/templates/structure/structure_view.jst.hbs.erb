@@ -111,7 +111,7 @@
 
 <div class="push--bottom bordered--top" id="cours-reguliers" data-wrapper>
     <div class="soft gamma line-height-1-7">
-        <strong>Cours réguliers</strong>
+        <strong>Cours collectifs</strong>
     </div>
     <div class="panel__body soft--bottom soft--sides">
         <article>
@@ -122,6 +122,22 @@
                 <div data-type="courses-summary"></div>
             </div>
             <div data-type="lessons-collection"></div>
+        </article>
+    </div>
+</div>
+
+<div class="push--bottom bordered--top" id="cours-particuliers" data-wrapper>
+    <div class="soft gamma line-height-1-7">
+        <strong>Cours particuliers</strong>
+    </div>
+    <div class="panel__body soft--bottom soft--sides">
+        <article>
+            <div class="one-whole text--center">
+                <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="push--ends" height="10" data-courses-loader style="display: none;">
+            </div>
+            <div data-summary-container class="text--left epsilon rounded--none">
+                <div data-type="privates-summary"></div>
+            </div>
             <div data-type="privates-collection"></div>
         </article>
     </div>
