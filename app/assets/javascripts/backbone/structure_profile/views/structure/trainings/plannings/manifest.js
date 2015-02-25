@@ -1,0 +1,1 @@
+//= require ./planning_view

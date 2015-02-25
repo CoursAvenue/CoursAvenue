@@ -51,3 +51,15 @@
         width  : 262px;
     }
 }
+    .header--pro__background {
+        @include background-image-retina('pro/homepage/bg.jpg', 'pro/homepage/bg@2x.jpg');
+    }
+    .header--pro__link {
+        @include transition(all 200ms linear);
+        border-color: transparentize(white, 0.2);
+        &:hover {
+            border-color   : white;
+            color          : white;
+            text-decoration: none;
+        }
+    }

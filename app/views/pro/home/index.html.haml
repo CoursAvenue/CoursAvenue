@@ -1,120 +1,53 @@
+- @is_responsive = true
+
 = content_for :title do
-  Recrutez de nouveaux élèves
+  Recrutez de nouveaux élèves | CoursAvenue PRO
 
 = content_for :meta_description do
   CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en visibilité pour recruter de nouveaux élèves. L'inscription est gratuite. Faites partie d'une communauté en pleine expansion passionnée par les cours de loisirs.
 
-- profiles = [{ name: "Emilie, Professeur de yoga chez Yoga Sattva Paris", slug: 'yoga-sattva-paris', bg: asset_path('pro/home_background.jpg'), image_name: 'emilie', quote: "Communiquer sur Internet me prenait trop de temps, <br> je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.", image_width: 350, profile_style: '58', medium: true }]
-- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: asset_path('pro/home_background_alain.jpg'), image_name: 'alain', quote: "Gérer ma présence sur Internet relève du quotidien. Grâce à CoursAvenue, c'est devenu simple et je peux enfin me consacrer à la qualité de mes cours.", image_width: 450, profile_style: '62' }
 
-- if cookies[:have_seen_alain]
-  - selected_profile = profiles.first
-- else
-  - selected_profile = profiles.sample
+= render layout: 'pro/home/header_layout', locals: { current: 'home', full: true } do
+  .main-container.soft--sides.mega-soft--top
+    %h1.white.soft-black-text-shadow.f-size-big.relative.mega-soft--top
+      Rejoignez la 1ère communauté de professionnels
+      %br
+      des loisirs et développez vos activités
+    .inline-block.text--center.relative
+      = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'btn btn--bigger soft--sides btn--green'
 
-- cache [selected_profile, ENV["ETAG_VERSION_ID"]] do
-  .bg-position-top.home-screen-promotion-wrapper.soft--sides.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path(selected_profile[:bg])})", data: { behavior: 'parallax' } }
-    .main-container{ class: ( selected_profile[:medium] ? 'main-container--medium' : '')}
-      %header.grid--full
-        .grid__item.soft--top.v-bottom.relative.visuallyhidden--palm{ class: ( selected_profile[:medium] ? 'three-tenths' : 'five-twelfths')}>
-          = link_to structure_url(selected_profile[:slug], subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute', target: :_blank, id: 'emilie-profile', style: "bottom: -155px; left: #{selected_profile[:profile_style]}%; margin-left: -137px;" do
-            = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/testimonies/#{selected_profile[:image_name]}-profile-small.jpg", class: 'block', width: 275
-          = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/testimonies/#{selected_profile[:image_name]}-detour.png", class: 'block', width: selected_profile[:image_width], style: 'margin-left: auto'
-        .grid__item.v-bottom.soft--top.palm-one-whole.relative{ class: ( selected_profile[:medium] ? 'seven-tenths' : 'seven-twelfths')}>
-          .center-block
-            .soft--top.white.soft-black-text-shadow
-              %p.gamma.line-height-1-5.push-half--bottom
-                %strong.quoted<
-                  = selected_profile[:quote].html_safe
-              %p.f-style-italic.f-weight-600
-                = selected_profile[:name]
-          .soft--left.push--left.soft--right.push--right
-            .soft--left
-              %h1.flush
-                Recrutez de nouveaux élèves
-              .push-half--bottom.f-weight-600
-                CoursAvenue permet à chaque professeur, association, ou école de gagner facilement en visibilité pour recruter de nouveaux élèves. L'inscription est gratuite. Faites partie d'une communauté en pleine expansion passionnée par les cours de loisirs.
-              %div
-                = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green btn--bigger soft--sides'
-              %div.push--bottom.f-weight-600
-                %i Gratuit et sans engagement
+.home-screen-promotion-wrapper#en-savoir-plus
+  .main-container.soft--ends.text--center
+    .inline-block.grayscale.v-middle.push--sides.soft--sides>
+      = image_tag 'presses/logos/elle.png', height: 40, data: { src2x: asset_path('presses/logos/elle@2x.png') }
+    .inline-block.grayscale.v-middle.push--sides.soft--sides>
+      = image_tag 'presses/logos/leparisien.jpg', height: 40, data: { src2x: asset_path('presses/logos/leparisien.jpg') }
+    .inline-block.grayscale.v-middle.push--sides.soft--sides>
+      = image_tag 'presses/logos/au-feminin.png', height: 40, data: { src2x: asset_path('presses/logos/au-feminin@2x.png') }
 
-- cache 'pro/shared/free_profile_advantages_V1' do
-  .home-screen-promotion-wrapper.relative
-    .main-container.main-container--medium.mega-soft--ends
-      %h2.text--center.push--top.push--bottom.f-size-big.f-weight-300.soft--bottom Les avantages du profil CoursAvenue
-      = render partial: 'pro/shared/free_profile_advantages', locals: { show_all: true }
+.main-container.mega-soft--ends
+  .grid
+    .grid__item.palm-one-whole.one-half.text--right>
+      = image_tag 'pro/homepage/computer.png', class: 'block margin-left-auto', class: 'one-whole'
+    .grid__item.palm-one-whole.one-half>
+      %h3.line-height-1-7.push-half--bottom Un outil simple et intuitif pour gagner et fidéliser de nouveaux élèves
+      %p.push--bottom.epsilon.line-height-1-7
+        Votre quotidien ne se résume pas à proposer des activités de loisirs. Chaque jour, vous rencontrez de nouvelles personnes et inventez de nouveaux projets, et c'est ce qui vous motive. Pour continuer à vous développer, vous devez également gérer votre communication, et cela vous prend beaucoup de temps et d'énergie : s'assurer d'être visible sur Internet, maintenir son site à jour, gérer les nouvelles demandes d'inscription, suivre les règlements pour les stages, envoyer des newsletters... CoursAvenue vous accompagne et se charge de l'essentiel : avec notre outil, améliorez votre visibilité sur Internet, augmentez votre nombre d'inscrits et fidélisez vos membres. Il n'y a rien à installer, vous pouvez l'essayez dès maintenant.
 
-- cache 'pro/home_index_1_2_3_V2' do
-  .relative.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{asset_path('pro/home_background6.jpg')}')", data: { behavior: 'parallax' } }
-    .black-curtain.north.west.one-whole.absolute
-    .v-middle.text--center.relative.main-container
-      %h2.text--center.push--top.push--bottom.f-size-big.f-weight-300.white Simple et rapide
-      .grid
-        .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
-          .inline-block.alpha.soft 1
-          %p.gamma.white
-            %strong Créez
-          %p.white.epsilon
-            %strong Créez votre profil qui vous permettra de gérer l'ensemble de vos informations
-        .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
-          .inline-block.alpha.soft 2
-          %p.gamma.white
-            %strong Complétez
-          %p.white.epsilon
-            %strong Ajoutez photos, textes, planning et obtenez votre 1ères recommandations : votre profil gagne en visibilité
-        .grid__item.one-third.text--center.lap-one-whole.text--center.palm-one-whole>
-          .inline-block.alpha.soft 3
-          %p.gamma.white
-            %strong Recrutez
-          %p.white.epsilon
-            %strong Les élèves intéressés par vos cours prennent gratuitement contact avec vous
+.home-screen-promotion-wrapper
+  .main-container.mega-soft--ends
+    .text--center
+      %h2.push-half--bottom.f-size-big.f-weight-300
+        L'outil tout-en-un pour votre communication sur Internet
+      %p.push--bottom.epsilon.line-height-1-7
+        En un minimum de temps et sans compétence technique, vos activités deviennent
+        %br
+        plus visibles, votre site Internet plus efficace et vous fidélisez plus d'élèves.
+
+      = render partial: 'pro/home/advantages'
       .text--center
-        = link_to "Commencer !", inscription_pro_structures_path, class: 'btn btn--green'
+        = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'btn btn--bigger soft--sides btn--green push--right palm-flush'
+        = link_to 'En savoir plus', pro_pages_features_path, class: 'btn btn--bigger soft--sides'
 
-.home-screen-promotion-wrapper.soft
-  .main-container.main-container--medium.mega-soft--ends
-    %h2.text--center.push--top.push--bottom.f-size-big.f-weight-300 + de 2 000 profils
-    - structures = StructureSearch.search(per_page: 9, has_logo: true, sort: 'premium').results
-    - structures.each do |structure|
-      .inline-block.one-third.palm-one-whole.lap-one-half>
-        - cache [structure, 'pro/home/index'] do
-          .grid.push--ends.soft--ends
-            .grid__item.one-quarter.epsilon.v-middle>
-              = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block muted-link media-photo', target: :_blank do
-                = image_tag '', class: 'block one-whole', data: { behavior: 'lazy-load', original: structure.logo.url(:thumb) }
-            .grid__item.three-quarters.v-middle>
-              = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'muted-link block' do
-                %p.flush.epsilon
-                  %strong= structure.name
-                  %br
-                  - if structure.structure_type.present?
-                    = t(structure.structure_type)
-                  - else
-                    Association
-                  %br
-                  %i= truncate(join_parent_subjects_text(structure), lenght: 36)
-
-.main-container.main-container--medium.mega-soft--ends
-  %h2.text--center.push--top.push--bottom.f-size-big.f-weight-300 Développez votre bouche à oreille sur Internet
-  = render 'home/bottom_comments'
-
-- cache 'pro/home/bottom_link_V2' do
-  .home-screen-promotion-wrapper.mega-soft--ends
-    .main-container.main-container--medium
-      .soft.alpha.text--center.line-height-2
-        %span.soft--right Rejoignez la communauté CoursAvenue et recrutez de nouveaux élèves :
-        = link_to "Publiez vos cours", inscription_pro_structures_path, class: 'btn btn--green btn btn--large push-half--ends'
-
+= render partial: 'testimonies_banner', locals: { profile: 'emilie' }
 = render 'shared/live_chat'
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#emilie-profile').hover(function() {
-            $(this).stop(true, false).animate({ bottom:  '0' }, 600, 'easeOutExpo');
-        }, function() {
-            $(this).stop(true, false).animate({ bottom: '-155px' }, 600, 'easeOutExpo');
-        });
-    });
-

@@ -410,7 +410,9 @@ France
   end
 
   def get_layout
-    if action_name == 'new' || action_name == 'create' || action_name == 'someone_already_took_control'
+    if action_name == 'new'
+      'home'
+    elsif action_name == 'create' || action_name == 'someone_already_took_control'
       'admin_pages'
     else
       'admin'

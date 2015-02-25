@@ -13,6 +13,12 @@
     }
 }
 
+@mixin small-height(){
+    @media screen and (max-height: 700px) {
+        @content;
+    }
+}
+
 @mixin background-image-retina($image, $image_2x) {
   background-image: image-url($image);
   // If we have a retina image then add styles for it too

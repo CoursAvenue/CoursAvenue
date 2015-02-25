@@ -116,7 +116,7 @@
             this.$element.addClass(this.old_classes);
             this.$element.css({ width: "", margin: "" });
             this.sticky_home = -1;
-            this.options.onUnStick();
+            this.options.onUnStick(this.$element);
         },
 
         fixIt: function fixIt () {
@@ -144,7 +144,7 @@
                 this.$element.css('width', $placeholder.outerWidth() + 'px');
             }
             this.$element.css('top', this.options.offsetTop + 'px');
-            this.options.onStick();
+            this.options.onStick(this.$element);
         },
 
         fixAndPush: function fixAndPush () {
