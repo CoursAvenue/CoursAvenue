@@ -14,13 +14,17 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             '$message_sent'                           : '[data-type=message-sent]',
             '$participation_request_message_body'     : '[name="message[body]"]',
             '$participation_request_user_phone_number': '[name="user[phone_number]"]',
-            '$user_participation_requests_path'       : '[data-type=user-participation-requests-path]'
+            '$user_participation_requests_path'       : '[data-type=user-participation-requests-path]',
+            '$first_step_form_wrapper'                : '[data-element=first-step-form-wrapper]',
+            '$second_step_form_wrapper'               : '[data-element=second-step-form-wrapper]'
         },
 
         events: {
-            'click'                                   : 'trackEvent',
-            'submit form'                             : 'submitForm',
-            'click [data-behavior=show-phone-numbers]': 'showPhoneNumbers'
+            'click [data-behavior=show-second-step-form]': 'showSecondStepForm',
+            'click [data-behavior=show-first-step-form]' : 'showFirstStepForm',
+            'click'                                      : 'trackEvent',
+            'submit form'                                : 'submitForm',
+            'click [data-behavior=show-phone-numbers]'   : 'showPhoneNumbers'
         },
 
         initialize: function initialize (options) {
@@ -190,6 +194,16 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         resetCourseCollection: function resetCourseCollection () {
             var courses_array = _.union(this.model.get('structure').get('lessons').models, this.model.get('structure').get('privates').models)
             this.pr_content_view_courses_collection.reset(courses_array);
+        },
+
+        showFirstStepForm: function showFirstStepForm () {
+            this.ui.$first_step_form_wrapper.slideDown();
+            this.ui.$second_step_form_wrapper.slideUp();
+        },
+
+        showSecondStepForm: function showSecondStepForm () {
+            this.ui.$first_step_form_wrapper.slideUp();
+            this.ui.$second_step_form_wrapper.slideDown();
         },
 
         onRender: function onRender () {
