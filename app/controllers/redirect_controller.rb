@@ -22,22 +22,22 @@ class RedirectController < ApplicationController
   def vertical_page
     @subject = Subject.fetch_by_id_or_slug params[:id]
     if @subject
-      redirect_to root_search_page_path(@subject.root, 'paris'), status: 301
+      redirect_to root_search_page_url(@subject.root, 'paris', subdomain: 'www'), status: 301
     else
-      redirect_to vertical_pages_path, status: 301
+      redirect_to vertical_pages_url(subdomain: 'www'), status: 301
     end
   end
 
   def vertical_page_city
     @subject = Subject.fetch_by_id_or_slug params[:subject_id]
     @city    = City.find params[:id]
-    redirect_to root_search_page_path(@subject.root, @city), status: 301
+    redirect_to root_search_page_url(@subject.root, @city, subdomain: 'www'), status: 301
   end
 
   def vertical_page_subject_city
     @subject = Subject.fetch_by_id_or_slug params[:subject_id]
     @city    = City.find params[:id]
-    redirect_to root_search_page_path(@subject.root, @city), status: 301
+    redirect_to root_search_page_url(@subject.root, @city, subdomain: 'www'), status: 301
   end
 
   def why_coursavenue
@@ -49,42 +49,65 @@ class RedirectController < ApplicationController
   end
 
   def structures_new
-    redirect_to inscription_pro_structures_path(params_for_search), status: 301
+    redirect_to inscription_pro_structures_url(params_for_search.merge(subdomain: 'www')), status: 301
   end
 
   def disciplines
-    redirect_to subject_courses_path(params[:id]), status: 301
+    redirect_to subject_courses_url(params[:id], subdomain: 'www'), status: 301
   end
 
   def place_show
-    redirect_to structure_path(params[:id]), status: 301
+    redirect_to structure_url(params[:id], subdomain: 'www'), status: 301
   end
 
   def place_index
-    redirect_to structures_path(params_for_search), status: 301
+    redirect_to structures_url(params_for_search.merge(subdomain: 'www')), status: 301
   end
 
   def subject_place_index
-    redirect_to subject_structures_path(params[:subject_id], params_for_search), status: 301
+    redirect_to subject_structures_url(params[:subject_id], params_for_search.merge(subdomain: 'www')), status: 301
   end
 
   def lieux
-    redirect_to structures_path(params_for_search), status: 301
+    redirect_to structures_url(params_for_search.merge(subdomain: 'www')), status: 301
   end
 
   def lieux_show
-    redirect_to structure_path(params[:id]), status: 301
+    redirect_to structure_url(params[:id], subdomain: 'www'), status: 301
   end
 
   def city
-    redirect_to courses_path, status: 301
+    redirect_to courses_url(subdomain: 'www'), status: 301
   end
 
   def city_subject
-    redirect_to subject_courses_path(params[:subject_id]), status: 301
+    redirect_to subject_courses_url(params[:subject_id], subdomain: 'www'), status: 301
+  end
+
+  # GET 'cours/:id--:city_id'
+  def vertical_pages__show_with_city
+    redirect_to root_vertical_page_with_city_url(params.merge(subdomain: 'www'))
+  end
+  # GET 'cours/:id'
+  def vertical_pages__show_root
+    redirect_to root_vertical_page_url(params.merge(subdomain: 'www'))
+  end
+  # GET 'cours/:root_subject_id/:id'
+  def vertical_pages__show
+    redirect_to vertical_page_url(params.merge(subdomain: 'www'))
+  end
+  # GET 'cours/:root_subject_id/:id/:city_id'
+  def vertical_pages__show_with_city
+    redirect_to vertical_page_with_city_url(params.merge(subdomain: 'www'))
+  end
+
+  # GET 'guide-des-disciplines'
+  def vertical_pages__index
+    redirect_to vertical_pages_url(params.merge(subdomain: 'www'))
   end
 
   private
+
   def params_for_search
     params.delete(:action)
     params.delete(:controller)
