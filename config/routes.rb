@@ -503,21 +503,12 @@ CoursAvenue::Application.routes.draw do
     resources :reply_token, only: [:show]
 
     ########### Vertical pages ###########
-    get 'cours/:id--:city_id'                        , to: 'vertical_pages#show_with_city', as: :root_vertical_page_with_city
-    get 'cours/:id'                                  , to: 'vertical_pages#show_root', as: :root_vertical_page
-    get 'cours/:root_subject_id/:id'                 , to: 'vertical_pages#show', as: :vertical_page
-    get 'cours/:root_subject_id/:id/:city_id'        , to: 'vertical_pages#show_with_city', as: :vertical_page_with_city
+    get 'cours/:id--:city_id'                        , to: 'vertical_pages#show_with_city'  , as: :root_vertical_page_with_city
+    get 'cours/:id'                                  , to: 'vertical_pages#show_root'       , as: :root_vertical_page
+    get 'cours/:root_subject_id/:id'                 , to: 'vertical_pages#show'            , as: :vertical_page
+    get 'cours/:root_subject_id/:id/:city_id'        , to: 'vertical_pages#show_with_city'  , as: :vertical_page_with_city
     get 'cours-de-:id'                               , to: 'vertical_pages#redirect_to_show'
-    get 'guide-des-disciplines'                      , to: 'vertical_pages#index', as: :vertical_pages
-    ###########  REDIRECTIONS --old
-    ## With city
-    # Root subject
-    get 'cours-de-:subject_id-a/:id'                 , to: 'subjects/cities#show', as: :vertical_root_subject_city
-    # Child subject
-    get 'cours-de-:parent_subject_id/:subject_id/:id', to: 'subjects/cities#show', as: :vertical_subject_city
-    ## Without city
-    # Child subject
-    get 'cours-de-:parent_subject_id/:id'            , to: 'subjects#show'       , as: :vertical_subject
+    get 'guide-des-disciplines'                      , to: 'vertical_pages#index'           , as: :vertical_pages
     ########### Vertical pages ###########
 
     resources :cities, only: [], path: 'villes' do
@@ -550,30 +541,6 @@ CoursAvenue::Application.routes.draw do
 
     resources :reservation_loggers, only: [:create]
     resources :click_logs, only: [:create]
-
-    # ---------------------------------------------------------
-    # ----------------------------------------- Redirection 301
-    # ---------------------------------------------------------
-    # Catching all 301 redirection
-    resources :subjects, only: [:index], path: 'cours' do
-      resources :cities, only: [:show], path: 'a', to: 'redirect#vertical_page_subject_city'
-    end
-    resources :subjects, only: [], path: 'disciplines' do
-      resources :cities, only: [:show], path: 'villes', to: 'redirect#vertical_page_subject_city'
-      member do
-        get 'cours', to: 'redirect#vertical_page'
-      end
-    end
-    resources :subjects, only: [], path: 'disciplines' do
-      resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
-    end
-    resources :places, only: [:show],  path: 'etablissement',          to: 'redirect#place_show' # établissement without S
-    resources :places, only: [:index], path: 'etablissement',          to: 'redirect#place_index' # établissement without S
-    get 'lieux',                                                       to: 'redirect#lieux'
-    get 'lieux/:id',                                                   to: 'redirect#lieux_show'
-    get 'ville/:city_id/disciplines/:subject_id',                      to: 'redirect#city_subject'
-    get 'ville/:city_id/cours/:subject_id',                            to: 'redirect#city_subject'
-    get 'ville/:id',                                                   to: 'redirect#city'
 
     # ------------------------------------------------------
     # ----------------------------------------- Static pages
@@ -642,4 +609,47 @@ CoursAvenue::Application.routes.draw do
   get ':root_subject_id--:city_id'                 , to: 'redirect#structures_index'
   get ':city_id'                                   , to: 'redirect#structures_index'
   ########### Search pages ###########
+
+
+  # ---------------------------------------------------------
+  # ----------------------------------------- Redirection 301
+  # ---------------------------------------------------------
+  # Catching all 301 redirection
+  resources :subjects, only: [:index], path: 'cours' do
+    resources :cities, only: [:show], path: 'a', to: 'redirect#vertical_page_subject_city'
+  end
+  resources :subjects, only: [], path: 'disciplines' do
+    resources :cities, only: [:show], path: 'villes', to: 'redirect#vertical_page_subject_city'
+    member do
+      get 'cours', to: 'redirect#vertical_page'
+    end
+  end
+  resources :subjects, only: [], path: 'disciplines' do
+    resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
+  end
+  resources :places, only: [:show],  path: 'etablissement',          to: 'redirect#place_show' # établissement without S
+  resources :places, only: [:index], path: 'etablissement',          to: 'redirect#place_index' # établissement without S
+  get 'lieux',                                                       to: 'redirect#lieux'
+  get 'lieux/:id',                                                   to: 'redirect#lieux_show'
+  get 'ville/:city_id/disciplines/:subject_id',                      to: 'redirect#city_subject'
+  get 'ville/:city_id/cours/:subject_id',                            to: 'redirect#city_subject'
+  get 'ville/:id',                                                   to: 'redirect#city'
+
+  ########### Vertical pages ###########
+  get 'cours/:id--:city_id'                        , to: 'redirect#vertical_pages__show_with_city'
+  get 'cours/:id'                                  , to: 'redirect#vertical_pages__show_root'
+  get 'cours/:root_subject_id/:id'                 , to: 'redirect#vertical_pages__show'
+  get 'cours/:root_subject_id/:id/:city_id'        , to: 'redirect#vertical_pages__show_with_city'
+  get 'cours-de-:id'                               , to: 'vertical_pages#redirect_to_show'
+  get 'guide-des-disciplines'                      , to: 'redirect#vertical_pages__index'
+  ###########  REDIRECTIONS --old
+  ## With city
+  # Root subject
+  get 'cours-de-:subject_id-a/:id'                 , to: 'subjects/cities#show', as: :vertical_root_subject_city
+  # Child subject
+  get 'cours-de-:parent_subject_id/:subject_id/:id', to: 'subjects/cities#show', as: :vertical_subject_city
+  ## Without city
+  # Child subject
+  get 'cours-de-:parent_subject_id/:id'            , to: 'subjects#show'       , as: :vertical_subject
+  ########### Vertical pages ###########
 end

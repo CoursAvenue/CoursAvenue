@@ -1,7 +1,7 @@
 = content_for :title do
   Publiez vos cours gratuitement et recruter de nouveaux élèves.
 
-= render layout: 'pro/home/header_layout', locals: { hide_menu: true } do
+= render layout: 'pro/home/header_layout', locals: { hide_menu: true, bg_center: true } do
   .main-container.soft--sides.mega-soft--ends.text--center
     %h1.white.soft-black-text-shadow.f-size-big.relative.flush
       L'outil tout-en-un pour votre communication sur Internet
@@ -39,7 +39,7 @@
           .grid__item.one-third.text--right.v-middle>
             .gamma.white.smooth-black-text-shadow> Disciplines générales pratiquées
           .grid__item.v-middle.two-thirds>
-            = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+            = f.association :subjects, as: :select, collection: Subject.roots.order('position ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
         #descendants-subject.grid.push--bottom
           .grid__item.one-third.text--right.v-middle>
             .gamma.white.smooth-black-text-shadow> Sous disciplines

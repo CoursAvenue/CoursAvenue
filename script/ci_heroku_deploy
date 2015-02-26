@@ -44,11 +44,16 @@ if (( $DEPLOY_SUCCESS == 0)); then
   curl -d "apiKey=${BUGSNAG_API_KEY}&releaseStage=${RELEASE_STAGE}&repository=${REPOSITORY}&revision=${CIRCLE_SHA1}&branch=${CIRCLE_BRANCH}" http://notify.bugsnag.com/deploy
 fi
 
+# TODO: fix that?
 # Check if the deploy requires a migration.
-REQUIRES_MIGRATION=$(git diff HEAD heroku/master --name-only -- db | wc -l)
+# REQUIRES_MIGRATION=$(git diff HEAD heroku/master --name-only -- db | wc -l)
 
 # Run migrations if needed.
-if (( $REQUIRES_MIGRATION )) && (( $DEPLOY_SUCCESS == 0 )); then
-  echo "[CIRCLECI_DEPLOY] Running migration."
-  heroku run rake db:migrate -a $APP_NAME
-fi
+# if (( $REQUIRES_MIGRATION )) && (( $DEPLOY_SUCCESS == 0 )); then
+#   echo "[CIRCLECI_DEPLOY] Running migration."
+#   heroku run rake db:migrate -a $APP_NAME
+# fi
+
+# Run migrayions
+echo "[CIRCLECI_DEPLOY] Running migration."
+heroku run rake db:migrate -a $APP_NAME

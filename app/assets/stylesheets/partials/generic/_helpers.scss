@@ -143,7 +143,8 @@
         background-position: top;
     }
 }
-.bg-position-top { background-position: top; }
+.bg-position-center { background-position: center !important; }
+.bg-position-top    { background-position: top; }
 .bg-fixed { background-attachment: fixed; }
 .bg-cover   { @include background-size(cover); }
 .bg-contain { @include background-size(contain); }
