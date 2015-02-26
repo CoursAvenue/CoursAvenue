@@ -1,3 +1,4 @@
+- bg_center = false if bg_center.nil?
 - hide_menu = false if hide_menu.nil?
 - full      = false if full.nil?
 - current   = '' if current.nil?
@@ -17,7 +18,7 @@
       = link_to 'Connexion', new_pro_admin_session_path, class: 'white muted-link fancybox.ajax', data: { behavior: 'modal', width: '300', padding: 0 }
 
 .one-whole.relative.overflow-hidden{ class: (full ? 'full-screen-item' : '')}
-  %div.home-page-fullscreen-video.bg-cover.bg-position-top.header--pro__background{ data: { behavior: 'parallax' } }
+  %div.home-page-fullscreen-video.bg-cover.bg-position-top.header--pro__background{ class: (bg_center ? 'bg-position-center' : ''), data: { behavior: 'parallax' } }
     .black-curtain.north.west.one-whole.absolute
   .push--top.soft--ends.hard--bottom.palm-hard
     .text--right.soft-half--ends.transition-all-linear#sticky-header
