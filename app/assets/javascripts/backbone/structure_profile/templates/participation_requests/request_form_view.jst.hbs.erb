@@ -19,11 +19,9 @@
   {{/if}}
 {{else}}
 <div class="panel__header soft-half--ends soft--sides">
-    <h5 class="flush">
-      Contacter {{structure.about}}
-    </h5>
+    <h5 class="flush">Demande d'inscription</h5>
 </div>
-<div class="panel__body soft">
+<div class="panel__body">
     <div data-type="message-sent" class="{{#unless last_message_sent_at}}hidden{{/unless}} text--center">
         <div class="green">
             <i class="fa fa-check"></i>
@@ -39,8 +37,8 @@
     {{/if}}
     <article class="{{#if last_message_sent_at}}hidden{{/if}}" id="structure-request-form-wrapper">
         <form action="{{participation_request.url}}">
-            <div class="push-half--bottom" data-type="participation-request-form-content"></div>
-            <div class="one-whole v-middle push-half--bottom" class="one-whole">
+            <div class="push-half--ends" data-type="participation-request-form-content"></div>
+            <div class="one-whole v-middle push-half--bottom soft--sides" class="one-whole">
                 <div class="input-addon">
                     <div class="input-prefix">
                         <i class="fa fa-phone-o"></i>
@@ -50,13 +48,15 @@
 
                 <div data-error="user_phone_number" class="{{#unless errors.user.phone_number}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.user.phone_number}}</div>
             </div>
-            <div class="input flush--top push-half--bottom">
+            <div class="input flush--top push-half--bottom soft--sides">
                 <textarea name="message[body]" id="" cols="30" rows="12" class="one-whole input--large" style='height: 185px;' data-behavior='autoresize'>{{#unless errors.body}}{{ participation_request.message.body }}{{/unless}}</textarea>
             </div>
-            <div data-error="message_body" class="{{#unless errors.body}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.body}}</div>
-            <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
-                Envoyer ma demande d'inscription
-            </button>
+            <div data-error="message_body" class="soft--sides {{#unless errors.body}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.body}}</div>
+            <div class="soft--sides">
+                <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
+                    Envoyer ma demande d'inscription
+                </button>
+            </div>
         </form>
     </article>
 </div>

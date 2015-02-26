@@ -28,11 +28,16 @@
 </div>
 <div class="panel__body soft">
     {{#if last_message_sent_at}}
-        <div class="green"><i class="fa fa-check"></i> <strong>Dernier message envoyé le {{last_message_sent_at}}</strong></div>
+        <div class="green text--center"><i class="fa fa-check"></i> <strong>Dernier message envoyé le {{last_message_sent_at}}</strong></div>
+        <div class="text--center">
+            <a data-type="user-conversations-path" href="{{ user_conversations_path }}" class="f-weight-500">Voir mes messages</a>
+        </div>
         <hr class="push--ends">
     {{/if}}
     {{#if last_message_sent_at}}
-      <div class="btn btn--green btn--full" data-behavior="show-long-version" data-long-version="#structure-request-form-wrapper">Nouveau message</div>
+      <div class="btn btn--green btn--full" data-behavior="show-long-version" data-long-version="#structure-request-form-wrapper">
+        Nouvelle demande d'information
+      </div>
     {{/if}}
     <article class="{{#if last_message_sent_at}}hidden{{/if}}" id="structure-request-form-wrapper">
         <form action="{{url}}">

@@ -28,7 +28,7 @@ class ParticipationRequest < ActiveRecord::Base
   before_save   :update_times
   before_create :set_default_attributes
   after_create  :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher, :touch_user
-  after_destroy :destroy_conversation_attached
+  after_destroy :destroy_conversation_attached, :touch_user
 
   ######################################################################
   # Validation                                                         #

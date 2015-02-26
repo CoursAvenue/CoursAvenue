@@ -16,6 +16,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             '$start_hour_select_input'         : '[data-element=start-hour-select]',
             '$time_wrapper'                    : '[data-element="time-wrapper"]',
             '$start_minute_select'             : '[data-element="start-minute-select"]',
+            '$address_info_wrapper'            : '[data-element="address-info-wrapper"]',
             '$address_info'                    : '[data-element="address-info"]'
         },
 
@@ -109,6 +110,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 this.ui.$time_wrapper.show();
                 this.ui.$planning_select_wrapper.slideUp();
                 if (this.getCurrentCourse()) {
+                    this.ui.$address_info_wrapper.show();
                     this.ui.$address_info.text(this.getCurrentCourse().get('course_location'));
                 }
             }
@@ -153,7 +155,8 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             var days_of_week = [0,1,2,3,4,5,6];
             days_of_week.splice(days_of_week.indexOf(this.getCurrentPlanning().week_day), 1);
             this.ui.$datepicker_input.datepicker('setDaysOfWeekDisabled', days_of_week);
-            this.ui.$address_info.text(this.getCurrentPlanning().address_name);
+            this.ui.$address_info_wrapper.show();
+            this.ui.$address_info.text(this.getCurrentPlanning().address);
         },
 
         serializeData: function serializeData () {

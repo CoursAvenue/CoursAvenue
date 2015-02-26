@@ -172,7 +172,6 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             _.extend(data, {
                 structure: structure_json,
                 today: moment().format(GLOBAL.MOMENT_DATE_FORMAT),
-                user_participation_requests_path: Routes.user_participation_requests_path({ id: '__USER_ID__' }),
                 user: {
                     phone_number: CoursAvenue.currentUser().get('phone_number') || $.cookie('user_phone_number')
                 }

@@ -32,6 +32,13 @@ input, textarea {
     &:-ms-input-placeholder      { font-weight: 300; }
 }
 
+.input--medium {
+    &, &.radio_buttons + label {
+        padding-top   : 6px;
+        padding-bottom: 6px;
+        font-size     : 14px;
+    }
+}
 .input--large {
     // We also apply the style to the radio buttons generated.
     // The HTML code is:

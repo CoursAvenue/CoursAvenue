@@ -12,6 +12,10 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             _.bindAll(this, 'showPopupMessageDidntSend');
         },
 
+        ui: {
+          '$user_conversations_path': '[data-type=user-conversations-path]'
+        },
+
         onRender: function onRender () {
             // Not having panel class for sleeping structures
             if (this.model.get('structure').get('is_sleeping')){
@@ -93,6 +97,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
                         ga('send', 'event', 'Action', 'message');
                     }
                     this.$('form').trigger('ajax:complete.rails');
+                    this.ui.$user_conversations_path.attr('href', Routes.user_conversations_path({ id: CoursAvenue.currentUser().get('slug') }));
                     $.magnificPopup.open({
                           items: {
                               src: $(response.popup_to_show),
@@ -123,7 +128,8 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             });
             if (CoursAvenue.currentUser().get('last_messages_sent')) {
                 _.extend(data, {
-                    last_message_sent_at: CoursAvenue.currentUser().get('last_messages_sent')[this.model.get('structure').get('id')]
+                    last_message_sent_at: CoursAvenue.currentUser().get('last_messages_sent')[this.model.get('structure').get('id')],
+                    user_conversations_path: Routes.user_conversations_path({ id: CoursAvenue.currentUser().get('slug') })
                 })
             }
             return data;

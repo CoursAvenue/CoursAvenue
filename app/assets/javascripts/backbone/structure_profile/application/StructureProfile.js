@@ -43,7 +43,10 @@ StructureProfile.addInitializer(function(options) {
         layout.showWidget(participation_request_view, {
             selector: '[data-type=contact-form]',
             events: {
-                'planning:register' : 'showRegistrationForm'
+                'planning:register'         : 'showRegistrationForm',
+                'lessons:collection:reset'  : 'render',
+                'trainings:collection:reset': 'render',
+                'privates:collection:reset' : 'render'
             }
         });
     } else {
@@ -57,12 +60,11 @@ StructureProfile.addInitializer(function(options) {
     layout.showWidget(sticky_google_maps_view, {
         selector: '[data-type=sticky-map]',
         events: {
-            'course:mouse:enter'       : 'exciteMarkers',
-            'course:mouse:leave'       : 'unexciteMarkers',
-            'place:mouse:enter'        : 'exciteMarkers',
-            'place:mouse:leave'        : 'unexciteMarkers',
-            'places:collection:updated': 'recenterMap',
-            'map:marker:click'         : 'showInfoWindow'
+            'course:mouse:enter': 'exciteMarkers',
+            'course:mouse:leave': 'unexciteMarkers',
+            'place:mouse:enter' : 'exciteMarkers',
+            'place:mouse:leave' : 'unexciteMarkers',
+            'map:marker:click'  : 'showInfoWindow'
         }
     });
 

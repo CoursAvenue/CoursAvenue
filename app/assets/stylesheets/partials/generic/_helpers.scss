@@ -39,6 +39,7 @@
 /*------------------------------------*\
     BORDERS
 \*------------------------------------*/
+.bordered--ends         { border-top: 1px solid $gray-smooth; border-bottom: 1px solid $gray-smooth; }
 .bordered--right        { border-right  : 1px solid $gray-smooth; }
 .bordered--left         { border-left   : 1px solid $gray-smooth; }
 .bordered--right        { border-right   : 1px solid $gray-smooth; }
@@ -179,6 +180,8 @@
 .very-soft        { padding: 5px; }
 .very-soft--left  { padding-left: 5px; }
 .very-soft--right { padding-right: 5px; }
+.very-soft--top   { padding-top: 5px; }
+.very-soft--bottom{ padding-bottom: 5px; }
 .island-top { margin-top: $base-spacing-unit * 3.5; }
 .mega-soft--top    {
     @include transition(padding 200ms linear);
