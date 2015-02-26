@@ -11,7 +11,7 @@ StructureProfile.addInitializer(function(options) {
         structure_view = new StructureProfile.Views.Structure.StructureView({
             model: structure
         }),
-        google_maps_view, sticky_google_maps_view, places_collection,
+        sticky_google_maps_view, places_collection,
         certified_comments_collection_view, guestbook_collection_view, participation_request,
         participation_request_view, message_form_view, message;
 
@@ -44,9 +44,8 @@ StructureProfile.addInitializer(function(options) {
             selector: '[data-type=contact-form]',
             events: {
                 'planning:register'         : 'showRegistrationForm',
-                'lessons:collection:reset'  : 'render',
-                'trainings:collection:reset': 'render',
-                'privates:collection:reset' : 'render'
+                'lessons:collection:reset'  : 'resetCourseCollection',
+                'privates:collection:reset' : 'resetCourseCollection'
             }
         });
     } else {

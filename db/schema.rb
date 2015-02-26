@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220095414) do
+ActiveRecord::Schema.define(version: 20150226104845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -570,6 +570,9 @@ ActiveRecord::Schema.define(version: 20150220095414) do
     t.integer  "old_course_id"
     t.boolean  "structure_responded",       default: false
     t.datetime "deleted_at"
+    t.string   "street"
+    t.string   "zip_code"
+    t.integer  "city_id"
   end
 
   create_table "participations", force: true do |t|

@@ -36,11 +36,15 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
          * Set attributes on message model for validations
          */
         populateRequest: function populateRequest (event) {
-            this.model.set({
-                structure_id  : this.model.get('structure').get('id'),
-                date          : this.$('[name="participation_request[date]"]').val(),
-                start_hour    : this.$('[name="participation_request[start_hour]"]').val(),
-                start_min     : this.$('[name="participation_request[start_min]"]').val(),
+            // Retrieve all attributes regarding the name of their input
+            var new_attributes = {}
+            this.$('[name^="participation_request["]').each(function (index, input) {
+                $input         = $(input);
+                attribute_name = $input.attr('name').replace('participation_request[', '').replace(']', '');
+                new_attributes[attribute_name] = $input.val();
+            });
+            _.extend(new_attributes, {
+                structure_id: this.model.get('structure').get('id'),
                 message: {
                     body: this.ui.$participation_request_message_body.val()
                 },
@@ -48,6 +52,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
                     phone_number: this.ui.$participation_request_user_phone_number.val()
                 }
             });
+            this.model.set(new_attributes);
         },
 
         /*
@@ -55,8 +60,10 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
          * We create an instance of a message form view
          */
         showRegistrationForm: function showRegistrationForm (planning_data) {
-            if (this.model.get('structure').get('courses').findWhere({ id: planning_data.course_id })) {
-                this.model.set('course_collection_type', 'courses');
+            if (this.model.get('structure').get('lessons').findWhere({ id: planning_data.course_id })) {
+                this.model.set('course_collection_type', 'lessons');
+            } else if (this.model.get('structure').get('privates').findWhere({ id: planning_data.course_id })) {
+                this.model.set('course_collection_type', 'privates');
             } else {
                 this.model.set('course_collection_type', 'trainings');
             }
@@ -179,16 +186,25 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             return data;
         },
 
+        // Reset course collection passed to content_form_view in order to rerender the course select
+        resetCourseCollection: function resetCourseCollection () {
+            var courses_array = _.union(this.model.get('structure').get('lessons').models, this.model.get('structure').get('privates').models)
+            this.pr_content_view_courses_collection.reset(courses_array);
+        },
+
         onRender: function onRender () {
-            var courses_collection = new Backbone.Collection(_.union(this.model.get('structure').get('lessons').models, this.model.get('structure').get('privates').models));
+            var courses_array = _.union(this.model.get('structure').get('lessons').models, this.model.get('structure').get('privates').models)
+            // We create a new collection from private AND lesson courses
+            this.pr_content_view_courses_collection = new Backbone.Collection(courses_array);
             var options =  {
-              courses_collection  : courses_collection,
+              courses_collection  : this.pr_content_view_courses_collection,
               trainings_collection: this.model.get('structure').get('trainings'),
               model               : this.model
             };
-            if (this.$(this.regions.request_form_content).length > 0) {
-                var pr_content_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView(options);
-                this.getRegion('request_form_content').show(pr_content_view);
+            // Don't re render content_form_view because it's being
+            if (!this.pr_content_view & this.$(this.regions.request_form_content).length > 0) {
+                this.pr_content_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView(options);
+                this.getRegion('request_form_content').show(this.pr_content_view);
                 this.ui.$participation_request_message_body.preventFromContact();
             }
         }

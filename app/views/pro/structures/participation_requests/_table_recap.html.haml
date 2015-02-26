@@ -76,3 +76,13 @@
                   = link_to edit_infos_pro_structure_place_path(participation_request.structure, participation_request.place, return_to: pro_structure_participation_request_path(@structure, participation_request)), class: 'milli fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
                     %i.fa.fa-pencil
                     Modifier
+      - elsif participation_request.at_student_home?
+        %tr.bordered--bottom
+          %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Lieu
+          %td.v-middle.soft--sides.one-whole
+            .flexbox
+              .flexbox__item.one-whole
+                Au domicile de l'élève :
+                = participation_request_decorator.student_home_address
+              .flexbox__item.v-middle.nowrap.nowrap.text--right
+                = link_to t('.see_on_map'), URI.encode("http://maps.google.com/?q=#{participation_request_decorator.student_home_address}"), target: :_blank

@@ -97,3 +97,5 @@ fr:
           ask_more_info: Envoyer un message
           decline: Refuser
           accept: Accepter
+        table_recap:
+          see_on_map: Voir sur la carte

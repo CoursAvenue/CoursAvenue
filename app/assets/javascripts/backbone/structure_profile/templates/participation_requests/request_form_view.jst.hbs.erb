@@ -21,19 +21,23 @@
 <div class="panel__header soft-half--ends soft--sides">
     <h5 class="flush">Demande d'inscription</h5>
 </div>
-<div class="panel__body">
-    <div data-type="message-sent" class="{{#unless last_message_sent_at}}hidden{{/unless}} text--center">
-        <div class="green">
-            <i class="fa fa-check"></i>
-            <strong>Dernière demande envoyée le {{#if last_message_sent_at}}{{ last_message_sent_at }}{{else}}{{ today }}{{/if}}</strong>
+<div class="panel__body soft--ends">
+    <div class="soft--sides {{#unless last_message_sent_at}}hidden{{/unless}}">
+        <div data-type="message-sent" class="text--center">
+            <div class="green">
+                <i class="fa fa-check"></i>
+                <strong>Dernière demande envoyée le {{#if last_message_sent_at}}{{ last_message_sent_at }}{{else}}{{ today }}{{/if}}</strong>
+            </div>
+            <div>
+                <a data-type="user-participation-requests-path" href="{{ user_participation_requests_path }}" class="f-weight-500">Voir mes inscriptions</a>
+            </div>
         </div>
-        <div>
-            <a data-type="user-participation-requests-path" href="{{ user_participation_requests_path }}" class="f-weight-500">Voir mes inscriptions</a>
-        </div>
-        <hr class="push--ends">
     </div>
     {{#if last_message_sent_at}}
-      <div class="btn btn--green btn--full" data-behavior="show-long-version" data-long-version="#structure-request-form-wrapper">Nouvelle demande d'inscription</div>
+      <div class="soft--sides" id="new-participation-request-wrapper">
+          <hr class="push--ends">
+          <a class="btn btn--green btn--full" data-behavior="show-long-version" data-short-version="#new-participation-request-wrapper" data-long-version="#structure-request-form-wrapper">Nouvelle demande d'inscription</a>
+      </div>
     {{/if}}
     <article class="{{#if last_message_sent_at}}hidden{{/if}}" id="structure-request-form-wrapper">
         <form action="{{participation_request.url}}">

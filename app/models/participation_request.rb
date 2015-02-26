@@ -9,13 +9,14 @@ class ParticipationRequest < ActiveRecord::Base
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
                   :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
                   :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
-                  :old_course_id, :structure_responded
+                  :old_course_id, :structure_responded, :street, :zip_code, :city_id
 
   ######################################################################
   # Relations                                                          #
   ######################################################################
   belongs_to :conversation, class_name: 'Mailboxer::Conversation', foreign_key: 'mailboxer_conversation_id', touch: true
   belongs_to :planning
+  belongs_to :city
   belongs_to :course
   belongs_to :user
   belongs_to :structure
@@ -55,7 +56,11 @@ class ParticipationRequest < ActiveRecord::Base
   def self.create_and_send_message(request_attributes, message_body, user, structure)
     message_body                    = StringHelper.replace_contact_infos(message_body)
     request_attributes              = self.set_start_time(request_attributes)
-    participation_request           = ParticipationRequest.new date: request_attributes[:date], start_time: request_attributes[:start_time], planning_id: request_attributes[:planning_id], course_id: request_attributes[:course_id]
+    participation_request           = ParticipationRequest.new request_attributes.slice(*ParticipationRequest.attribute_names)
+    # participation_request           = ParticipationRequest.new date: request_attributes[:date],
+    #                                                            start_time: request_attributes[:start_time],
+    #                                                            planning_id: request_attributes[:planning_id],
+    #                                                            course_id: request_attributes[:course_id]
     participation_request.user      = user
     participation_request.structure = structure
     if participation_request.valid?
@@ -169,6 +174,14 @@ class ParticipationRequest < ActiveRecord::Base
     elsif self.last_modified_by == 'User'
       ParticipationRequestMailer.delay.request_has_been_canceled_by_user_to_teacher(self, message)
     end
+  end
+
+
+  # Tell wether the course will happen at student place
+  #
+  # @return Boolean
+  def at_student_home?
+    (self.course.is_private? and self.street.present? and self.zip_code.present? and self.city.present?)
   end
 
   def place

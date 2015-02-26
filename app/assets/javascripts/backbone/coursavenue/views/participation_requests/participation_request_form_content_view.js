@@ -4,7 +4,8 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
 
         events: {
             'change @ui.$course_select'         : 'showAssociatedPlannings',
-            'change @ui.$planning_select_input' : 'updateDatePicker'
+            'change @ui.$planning_select_input' : 'updateDatePicker',
+            'change @ui.$choose_place_select'   : 'showStudentAddressFields'
         },
 
         ui: {
@@ -17,7 +18,9 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             '$time_wrapper'                    : '[data-element="time-wrapper"]',
             '$start_minute_select'             : '[data-element="start-minute-select"]',
             '$address_info_wrapper'            : '[data-element="address-info-wrapper"]',
-            '$address_info'                    : '[data-element="address-info"]'
+            '$address_info'                    : '[data-element="address-info"]',
+            '$student_address_wrapper'         : '[data-element="student-address-wrapper"]',
+            '$choose_place_select'             : '[data-element="choose-place-select"]'
         },
 
         initialize: function initialize (options) {
@@ -56,6 +59,10 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             this.ui.$datepicker_input.datepicker(datepicker_options);
             if (this.model.get('course_id')) { this.selectCourse(); }
             if (this.model.get('planning_id')) { this.selectPlanning(); }
+            // Wait in order that everything is in the dom
+            setTimeout(function() {
+                this.$('[data-behavior=city-autocomplete]').cityAutocomplete()
+            }.bind(this), 50)
         },
 
         selectPlanning: function selectPlanning () {
@@ -109,12 +116,9 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             } else {
                 this.ui.$time_wrapper.show();
                 this.ui.$planning_select_wrapper.slideUp();
-                if (this.getCurrentCourse()) {
-                    this.ui.$address_info_wrapper.show();
-                    this.ui.$address_info.text(this.getCurrentCourse().get('course_location'));
-                }
             }
             this.populatePlannings();
+            this.updateAddressField();
             if (this.getCurrentCourse().get('db_type') == 'Course::Training') {
                 this.ui.$datepicker_wrapper.slideUp();
             } else {
@@ -139,6 +143,50 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             this.updateDatePicker();
         },
 
+        showStudentAddressFields: function showStudentAddressFields () {
+            if (this.ui.$choose_place_select.val() == 'at_home') {
+                this.ui.$student_address_wrapper.slideDown();
+            } else {
+                this.ui.$student_address_wrapper.slideUp();
+            }
+        },
+        /*
+         * If there is only one address, we show it
+         * If the course is at student home, we show a form
+         * If the student can choose between his home and an address, we show a dropdown
+         */
+        updateAddressField: function updateAddressField () {
+            if (!this.getCurrentCourse()) { return; }
+
+            // Hide everything in case some stuff was visible
+            this.ui.$address_info_wrapper.show();
+            this.ui.$choose_place_select.hide();
+            this.ui.$student_address_wrapper.hide();
+            this.ui.$address_info.hide();
+            // If teaches at home AND has a place, show select box
+            if (this.getCurrentCourse().get('teaches_at_home') &&
+                this.getCurrentCourse().get('place')) {
+                var teacher_place_option = this.ui.$choose_place_select.find('[data-option=teachers-place]');
+                this.ui.$choose_place_select.show();
+                teacher_place_option.text('Chez le professeur (' +  this.getCurrentCourse().get('place').address + ')');
+                teacher_place_option.val(this.getCurrentCourse().get('place').id);
+            // If teachers at home but DO NOT have a place, show address form
+            } else if (this.getCurrentCourse().get('teaches_at_home')) {
+                this.ui.$address_info.show().text('À votre domicile');
+                this.ui.$student_address_wrapper.slideDown();
+            // Else, show the address
+            } else {
+                var address = '';
+                if (this.getCurrentCoursePlannings().length > 0) {
+                  address = this.getCurrentPlanning().address;
+                } else if (this.getCurrentCourse()) {
+                  address = this.getCurrentCourse().get('course_location');
+                }
+                this.ui.$address_info.show().text(address)
+                                            .data('content', address);
+            }
+        },
+
         /*
          * Set the datepicker to the next possible date
          */
@@ -155,18 +203,17 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             var days_of_week = [0,1,2,3,4,5,6];
             days_of_week.splice(days_of_week.indexOf(this.getCurrentPlanning().week_day), 1);
             this.ui.$datepicker_input.datepicker('setDaysOfWeekDisabled', days_of_week);
-            this.ui.$address_info_wrapper.show();
-            this.ui.$address_info.text(this.getCurrentPlanning().address);
         },
 
         serializeData: function serializeData () {
             var courses_open_for_trial = this.courses_collection.select(function(course) { return course.get('is_open_for_trial') == true });
             var courses_without_open_for_trials = this.courses_collection.select(function(course) { return course.get('is_open_for_trial') != true });
             var data = {
-                trial_courses_policy: this.model.get('structure').get('trial_courses_policy'),
-                courses_open_for_trial: _.invoke(courses_open_for_trial, 'toJSON'),
-                courses_without_open_for_trials: _.invoke(courses_without_open_for_trials, 'toJSON'),
-                trainings_without_open_for_trials: this.trainings_collection.toJSON()
+                trial_courses_policy             : this.model.get('structure').get('trial_courses_policy'),
+                courses_open_for_trial           : _.invoke(courses_open_for_trial, 'toJSON'),
+                courses_without_open_for_trials  : _.invoke(courses_without_open_for_trials, 'toJSON'),
+                trainings_without_open_for_trials: this.trainings_collection.toJSON(),
+                cid                              : this.cid
             };
             return data;
         }

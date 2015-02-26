@@ -114,4 +114,8 @@ class ParticipationRequestDecorator < Draper::Decorator
       "#{I18n.l(object.date, format: :semi_long)} de #{I18n.l(object.start_time, format: :short).gsub('00', '')} à #{I18n.l(object.end_time, format: :short).gsub('00', '')}"
     end
   end
+
+  def student_home_address
+    "#{object.street}, #{object.zip_code} #{object.city.name}"
+  end
 end

@@ -10,8 +10,10 @@ class CourseSerializer < ActiveModel::Serializer
              :is_individual, :is_lesson, :frequency, :premium, :on_appointment,
              :course_location, :min_age_for_kid, :max_age_for_kid, :audiences,
              :levels, :details, :prices, :premium_prices, :has_price_group,
-             :is_open_for_trial, :has_promotion, :trial_courses_policy_popover, :min_price
+             :is_open_for_trial, :has_promotion, :trial_courses_policy_popover, :min_price,
+             :teaches_at_home
 
+  has_one  :place,          serializer: PlaceSerializer
   has_many :plannings,      serializer: PlanningSerializer
   has_many :prices,         serializer: PriceSerializer
   has_many :premium_prices, serializer: PriceSerializer
