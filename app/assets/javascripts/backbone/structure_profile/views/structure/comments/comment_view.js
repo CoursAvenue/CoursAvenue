@@ -15,7 +15,7 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         serializeData: function serializeData () {
             var attributes = this.model.toJSON();
             if (attributes.reply) {
-                attributes.reply.content = GLOBAL.hideContactsInfo(attributes.reply.content);
+                attributes.reply.content = COURSAVENUE.helperMethods.hideContactsInfo(attributes.reply.content);
             }
             return attributes;
         }

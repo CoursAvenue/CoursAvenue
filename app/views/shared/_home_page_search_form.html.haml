@@ -36,11 +36,11 @@
 
     var handleError = function handleError (positionError) {
         if (positionError.code == 1) {
-            GLOBAL.flash('Vous avez refusé la géolocalisation.');
+            COURSAVENUE.helperMethods.flash('Vous avez refusé la géolocalisation.');
         } else if (positionError.code == 2) {
-            GLOBAL.flash("La géolocalisation n'est pas disponible pour votre navigateur.");
+            COURSAVENUE.helperMethods.flash("La géolocalisation n'est pas disponible pour votre navigateur.");
         } else {
-            GLOBAL.flash("La géolocalisation n'est pas disponible pour le moment, veuillez rééssayer dans quelques instants.");
+            COURSAVENUE.helperMethods.flash("La géolocalisation n'est pas disponible pour le moment, veuillez rééssayer dans quelques instants.");
         }
     };
 
@@ -49,7 +49,7 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(setPosition, handleError);
             } else {
-                GLOBAL.flash("La géolocalisation n'est pas disponible pour votre navigateur.");
+                COURSAVENUE.helperMethods.flash("La géolocalisation n'est pas disponible pour votre navigateur.");
             }
         });
     });

@@ -76,5 +76,5 @@ $(function() {
     var readmore_initializer = function() {
         $('[data-behavior=read-more]').readMore();
     };
-    GLOBAL.initialize_callbacks.push(readmore_initializer);
+    COURSAVENUE.initialize_callbacks.push(readmore_initializer);
 });

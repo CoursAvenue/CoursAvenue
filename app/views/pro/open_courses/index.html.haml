@@ -134,10 +134,10 @@
         }
         $('[data-method="patch"]').bind('ajax:complete', function() {
             $(this).find('i').toggleClass('fa-times fa-check green red');
-            GLOBAL.flash('Cours mis à jour')
+            COURSAVENUE.helperMethods.flash('Cours mis à jour')
         });
         $('form').on('ajax:success', function() {
-              GLOBAL.flash('Follow up enregistré')
+              COURSAVENUE.helperMethods.flash('Follow up enregistré')
         });
         var myTextExtraction = function(node) {
             // extract data from markup and return it

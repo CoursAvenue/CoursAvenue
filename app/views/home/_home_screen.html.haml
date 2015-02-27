@@ -35,7 +35,7 @@
 - content_for :scripts do
   :javascript
       $(function() {
-          if (GLOBAL.isMobile.any()) {
+          if (COURSAVENUE.helperMethods.isMobile.any()) {
               $('[data-behavior=block-parallax]').removeAttr('data-behavior');
               $('[data-replacement=video]').show();
               $('video').remove();

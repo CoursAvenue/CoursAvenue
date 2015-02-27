@@ -154,5 +154,5 @@ $(function() {
     var address_picker_initializer = function() {
         $('[data-behavior=address-picker]').addressPicker();
     };
-    GLOBAL.initialize_callbacks.push(address_picker_initializer);
+    COURSAVENUE.initialize_callbacks.push(address_picker_initializer);
 });

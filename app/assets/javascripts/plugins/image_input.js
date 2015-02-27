@@ -55,7 +55,7 @@
                 input_element.click();
             });
             this.$input_element.change(function(){
-                if (GLOBAL.isImageValid(this.files[0])) {
+                if (COURSAVENUE.isImageValid(this.files[0])) {
                     if (this.files && this.files[0]) {
                         var reader = new FileReader();
                         reader.onload = function (e) {
@@ -66,7 +66,7 @@
                         reader.readAsDataURL(this.files[0]);
                     }
                 } else {
-                    GLOBAL.flash("Veuillez insérer une image au bon format", 'alert');
+                    COURSAVENUE.helperMethods.flash("Veuillez insérer une image au bon format", 'alert');
                     setTimeout(function(){
                         progress_bar_el.hide();
                     }, 5);
@@ -93,5 +93,5 @@ $(function() {
     var image_input_initializer = function() {
         $('[data-behavior=image-input]').imageInput();
     };
-    GLOBAL.initialize_callbacks.push(image_input_initializer);
+    COURSAVENUE.initialize_callbacks.push(image_input_initializer);
 });

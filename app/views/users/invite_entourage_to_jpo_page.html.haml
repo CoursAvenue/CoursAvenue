@@ -62,7 +62,7 @@
                 $(function() {
                     $('#invite-user-form').submit(function() {
                         if ($('#user_name').val().length === 0) {
-                            GLOBAL.flash('Vous devez renseigner un nom', 'alert');
+                            COURSAVENUE.helperMethods.flash('Vous devez renseigner un nom', 'alert');
                             $('#user_name').focus();
                             return false;
                         }
@@ -76,7 +76,7 @@
     $(function() {
         $('#invite-user-form').submit(function() {
             if ($('#user-emails').val().length == 0) {
-                GLOBAL.flash("Vous n'avez rempli aucun email");
+                COURSAVENUE.helperMethods.flash("Vous n'avez rempli aucun email");
                 return false;
             } else {
                 return true;

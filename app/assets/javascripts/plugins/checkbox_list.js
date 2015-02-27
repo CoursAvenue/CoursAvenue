@@ -99,5 +99,5 @@ $(function() {
     var checkbox_list_initializer = function(){
         $('[data-behavior=checkbox-list]').checkboxList();
     };
-    GLOBAL.initialize_callbacks.push(checkbox_list_initializer);
+    COURSAVENUE.initialize_callbacks.push(checkbox_list_initializer);
 });

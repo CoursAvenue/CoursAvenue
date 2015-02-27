@@ -1,6 +1,6 @@
 - content_for :scripts do
   :javascript
     $(function() {
-        opener.window.GLOBAL.flash("#{ @error_message }");
+        opener.window.COURSAVENUE.helperMethods.flash("#{ @error_message }");
         window.close();
     });

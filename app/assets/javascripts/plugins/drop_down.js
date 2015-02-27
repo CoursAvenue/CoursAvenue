@@ -100,5 +100,5 @@ $(function() {
     var drop_down_initializer = function() {
         $('[data-behavior=drop-down]').dropDown();
     };
-    GLOBAL.initialize_callbacks.push(drop_down_initializer);
+    COURSAVENUE.initialize_callbacks.push(drop_down_initializer);
 });

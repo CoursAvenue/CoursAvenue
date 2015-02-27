@@ -22,7 +22,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var structure_types = this.ui.$select.val();
             this.trigger("filter:structure_type", { 'structure_types[]': structure_types });
             this.announceBreadcrumb(structure_types);
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         announceBreadcrumb: function(structure_types) {
             structure_types = structure_types || this.ui.$select.val();

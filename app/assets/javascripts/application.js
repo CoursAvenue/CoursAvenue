@@ -1,6 +1,7 @@
 //= require libs/underscore
 //= require underscore_extend
 //= require global
+//= require helpers
 
 // ---------------------------------- Core include
 //= require libs/jquery

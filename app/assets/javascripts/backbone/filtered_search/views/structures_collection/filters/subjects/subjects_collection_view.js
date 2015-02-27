@@ -121,7 +121,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             }
             this.trigger("filter:subject", data);
             this.showSubjectBreadcrumb(data);
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         /*
          * @args data: {

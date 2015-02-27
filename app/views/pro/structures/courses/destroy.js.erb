@@ -5,7 +5,7 @@ setTimeout(function() {
         $("[data-empty=<%= @course.underscore_name %>]").slideDown();
     }
 }, 500);
-GLOBAL.flash("Cours supprimé", 'success');
+COURSAVENUE.helperMethods.flash("Cours supprimé", 'success');
 $.fancybox.close();
 
 <%-# Show big red sign %>

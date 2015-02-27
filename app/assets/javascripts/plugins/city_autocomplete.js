@@ -82,5 +82,5 @@ $(function() {
     var city_autocomplete_initializer = function() {
         $('[data-behavior=city-autocomplete]').cityAutocomplete();
     };
-    GLOBAL.initialize_callbacks.push(city_autocomplete_initializer);
+    COURSAVENUE.initialize_callbacks.push(city_autocomplete_initializer);
 });

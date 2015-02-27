@@ -101,5 +101,5 @@ $(function() {
     var textcounter_initializer = function() {
         $('[data-behavior=text-counter]').textCounter();
     };
-    GLOBAL.initialize_callbacks.push(textcounter_initializer);
+    COURSAVENUE.initialize_callbacks.push(textcounter_initializer);
 });

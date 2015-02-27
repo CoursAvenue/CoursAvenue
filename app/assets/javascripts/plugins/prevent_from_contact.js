@@ -58,9 +58,9 @@
 
         hasContactInfo: function hasContactInfo () {
             var text = this.$element.val()
-            if (text.match(GLOBAL.REGEX.email))        { return true; }
-            if (text.match(GLOBAL.REGEX.phone_number)) { return true; }
-            if (_.select(GLOBAL.REGEX.links, function(link_regex) {
+            if (text.match(COURSAVENUE.constants.REGEX.email))        { return true; }
+            if (text.match(COURSAVENUE.constants.REGEX.phone_number)) { return true; }
+            if (_.select(COURSAVENUE.constants.REGEX.links, function(link_regex) {
                 return text.match(link_regex);
             }).length > 0) { return true; }
             return false;
@@ -84,5 +84,5 @@ $(function() {
     var prevent_from_contact_initializer = function() {
         $('[data-behavior=prevent_from_contact]').preventFromContact();
     }
-    GLOBAL.initialize_callbacks.push(prevent_from_contact_initializer);
+    COURSAVENUE.initialize_callbacks.push(prevent_from_contact_initializer);
 });

@@ -8,8 +8,8 @@
         $.fancybox.close();
         $('#planning-<%= @planning.id %>').yellowFade({ delay: 400 });
     <% end %>
-    GLOBAL.flash("Créneau enregistré", 'success');
+    COURSAVENUE.helperMethods.flash("Créneau enregistré", 'success');
 <% else %>
     $.fancybox("<%= escape_javascript(render partial: 'pro/structures/courses/plannings/form') %>", { width: 800, minWidth: 800, maxWidth: 800, padding: 0 });
 <% end %>
-GLOBAL.reinitializePlugins();
+COURSAVENUE.helperMethods.reinitializePlugins();

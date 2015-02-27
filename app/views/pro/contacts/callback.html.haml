@@ -40,6 +40,6 @@
               previous_content += ', ' + emails;
           }
           $('textarea[name=emails]', opener.window.document).val(previous_content);
-          opener.window.GLOBAL.flash('Contact importés avec succés.', 'notice');
+          opener.window.COURSAVENUE.helperMethods.flash('Contact importés avec succés.', 'notice');
           window.close();
       });

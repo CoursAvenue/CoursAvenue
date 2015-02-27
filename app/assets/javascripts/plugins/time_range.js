@@ -97,5 +97,5 @@ $(function() {
     var time_range_initializer = function() {
         $('[data-behavior=time-range]').timeRange();
     };
-    GLOBAL.initialize_callbacks.push(time_range_initializer);
+    COURSAVENUE.initialize_callbacks.push(time_range_initializer);
 });

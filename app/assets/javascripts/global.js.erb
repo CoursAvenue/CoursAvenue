@@ -1,34 +1,5 @@
-var GLOBAL = GLOBAL || {};
-GLOBAL.initialize_callbacks  = [];
-GLOBAL.IMAGE_TYPE_REGEX      = /(\.|\/)(gif|jpe?g|png|bmp)$/i;
-GLOBAL.MAX_IMAGE_SIZE        = 5000000; // 5mo
-GLOBAL.MOMENT_DATE_FORMAT    = 'DD/MM/YYYY';
-GLOBAL.DATE_FORMAT           = 'dd/mm/yyyy';
-GLOBAL.EXCLUDED_SEARCH_WORDS = "cours,atelier,stage,activité,séance,de,d',cours de,cours d',atelier de,atelier d,stage de,stage d',activité,séance";
-GLOBAL.isImageValid = function(file) {
-  return file.type.match(GLOBAL.IMAGE_TYPE_REGEX) && file.size < GLOBAL.MAX_IMAGE_SIZE
-}
-
-/*
- * @params text Text that will appear in the flash
- * @params class_name class added to the flash, by default it will be alert
-                      the flash will be an error
- */
-GLOBAL.flash = function(text, class_name) {
-    class_name = class_name || 'alert';
-    var flash = $('<div class="flash ' + class_name + '">').text(text);
-    $(document.body).append(flash)
-    flash.flash();
-}
-
-// GLOBAL.DataTable = GLOBAL.DataTable || {};
-// GLOBAL.DataTable.dateParseFunction = function(date) {
-//     if (date.replace(/^\s+|\s+$/g, '').length === 0) { // Strip
-//         return 0;
-//     } else {
-//         return new Date(date).getTime();
-//     }
-// };
+// Adding JavaScript functions
+// ----------------------------------------------
 
 // ----------------------- BIND Fuction
 if (!Function.prototype.bind) {
@@ -53,15 +24,6 @@ if (!Function.prototype.bind) {
 
     return fBound;
   };
-}
-
-GLOBAL.DEBOUNCE_DELAY = 400;
-
-GLOBAL.normalizeAccents = function(string) {
-  string = string.replace(/[éèêë]/g, 'e');
-  string = string.replace(/[àäâ]/g, 'a');
-  string = string.replace(/[îï]/g, 'i');
-  return string;
 }
 
 
@@ -99,51 +61,8 @@ if (!Function.prototype.debounce) {
         return _.debounce(this, wait, immediate);
     }
 }
-GLOBAL.REGEX              = {};
-// Catches foo@bar.baz | foo azobaz bar.baz | foo azobase bar.baz | foo azobaze bar.baz
-GLOBAL.REGEX.email        = /([^@\s]+)(@|\ ?(arobaz|azobaze|azobase)\ ?)(([-a-z0-9]+\.)+[a-z]{2,})/gi;
-GLOBAL.REGEX.phone_number = /((\+|00)33\s?|0)[0-9]([\s-\. ]*?\d{2}){4}/g;
-GLOBAL.REGEX.links        = []
-GLOBAL.REGEX.links.push(/((http|ftp|https):\/\/)?[\w\-_]{2,}(\(point\)[\w\-_]|\.[\w\-_])+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/gi);
-// Catches something .com | something com | something.com
-GLOBAL.REGEX.links.push(/[\w\-_]{2,} \.?(com|fr|org)( |\.)/gi);
-// Test links that should be matched
-// ["toto.com", "http://toto.com", "http://www.coazd.com", "www.my-site.com"].join(' ')
-// Test links that should NOT be matched
-// ["U.S.A"]
-GLOBAL.hideContactsInfo = function hideContactsInfo (text) {
-    if (!text) { return ''; }
-    // Emails
-    text = text.replace(GLOBAL.REGEX.email, '<a class="cursor-pointer" data-behavior="show-contact-panel">(contact)</a>');
-    // Phone numbers
-    text = text.replace(GLOBAL.REGEX.phone_number, '<a class="cursor-pointer" data-behavior="show-contact-panel">(contact)</a>')
-    // Links
-    _.each(GLOBAL.REGEX.links, function(link_regex) {
-        text = text.replace(link_regex, '<a class="cursor-pointer" data-behavior="show-contact-panel">(contact)</a>')
-    });
-    return text;
-}
 
-GLOBAL.isMobile = {
-    Android: function() {
-        return navigator.userAgent.match(/Android/i);
-    },
-    BlackBerry: function() {
-        return navigator.userAgent.match(/BlackBerry/i);
-    },
-    iOS: function() {
-        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-    },
-    Opera: function() {
-        return navigator.userAgent.match(/Opera Mini/i);
-    },
-    Windows: function() {
-        return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
-    },
-    any: function() {
-        return (GLOBAL.isMobile.Android() || GLOBAL.isMobile.BlackBerry() || GLOBAL.isMobile.iOS() || GLOBAL.isMobile.Opera() || GLOBAL.isMobile.Windows());
-    }
-};
+
 // In case pushState function does not exist
 if (_.isUndefined(window.history.pushState)) {
     window.history.pushState = function pushState () { return ''; }

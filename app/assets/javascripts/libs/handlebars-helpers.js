@@ -30,8 +30,8 @@ Handlebars.registerHelper('truncate', function(text, length) {
 
 // usage: {{highlight 'all the text' 'word to highlight' length_of_the_truncated_text}}
 Handlebars.registerHelper('highlight', function(text, highlight_word, length) {
-    highlight_word = GLOBAL.normalizeAccents(highlight_word);
-    text           = GLOBAL.normalizeAccents(text);
+    highlight_word = COURSAVENUE.helperMethods.normalizeAccents(highlight_word);
+    text           = COURSAVENUE.helperMethods.normalizeAccents(text);
     var start_ellipsis;
     if (text.length < length) {
         return text;
@@ -156,17 +156,17 @@ Handlebars.registerHelper("xif", function (expression, options) {
 
 // Ex. of usage: {{ hide_contacts description }}
 Handlebars.registerHelper("hide_contacts", function (text, options) {
-    return GLOBAL.hideContactsInfo(text);
+    return COURSAVENUE.helperMethods.hideContactsInfo(text);
 });
 
 // Ex. of usage: {{ hide_contacts description }}
 Handlebars.registerHelper("hide_contacts_and_escape", function (text, options) {
-    return GLOBAL.hideContactsInfo(text).replace(/"/g, '\\$1');
+    return COURSAVENUE.helperMethods.hideContactsInfo(text).replace(/"/g, '\\$1');
 });
 
 // Ex. of usage: {{ simple_format_hide_contacts description }}
 Handlebars.registerHelper("simple_format_hide_contacts", function (text, options) {
-    return Handlebars.helpers.simple_format(GLOBAL.hideContactsInfo(text));
+    return Handlebars.helpers.simple_format(COURSAVENUE.helperMethods.hideContactsInfo(text));
 });
 
 // usage: {{root_search_page_path 'danse' 'paris'}}
@@ -182,4 +182,9 @@ Handlebars.registerHelper('search_page_path', function(root_subject_id, subject_
 // usage: {{#if_collection_count_more_than my_collection_var 3}}
 Handlebars.registerHelper('if_collection_count_more_than', function(my_collection, count, options) {
     return my_collection.length > count ? options.fn(this) : options.inverse(this)
+});
+
+// usage: {{readable_amount 23.00 20}}
+Handlebars.registerHelper('readable_amount', function(amount, promo_amount) {
+    return COURSAVENUE.helperMethods.readableAmount(amount, promo_amount);
 });

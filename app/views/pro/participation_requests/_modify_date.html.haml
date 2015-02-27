@@ -46,7 +46,7 @@
 - if !discuss_only
   :javascript
       // IMPORTANT: Initialize datepicker to have correct format
-      GLOBAL.datepicker_initializer();
+      COURSAVENUE.helperMethods.datepicker_initializer();
       var regular_courses  = #{ActiveModel::ArraySerializer.new(@structure.courses.regulars, each_serializer: CourseSerializer).to_json};
       var training_courses = #{ActiveModel::ArraySerializer.new(@structure.courses.trainings.reject{ |training| training.plannings.future.empty? }, each_serializer: CourseSerializer).to_json};
       var structure                   = new CoursAvenue.Models.Structure(#{StructureSerializer.new(@structure).to_json});

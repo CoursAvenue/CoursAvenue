@@ -73,5 +73,5 @@ $(function() {
     var flash_initializer = function() {
         $('[data-behavior=flash]').flash();
     };
-    GLOBAL.initialize_callbacks.push(flash_initializer);
+    COURSAVENUE.initialize_callbacks.push(flash_initializer);
 });

@@ -81,5 +81,5 @@ $(function() {
     var wizard_helper_initializer = function() {
         $('[data-behavior=wizard-helper]').wizardHelper();
     };
-    GLOBAL.initialize_callbacks.push(wizard_helper_initializer);
+    COURSAVENUE.initialize_callbacks.push(wizard_helper_initializer);
 });

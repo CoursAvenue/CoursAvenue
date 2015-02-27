@@ -43,7 +43,7 @@
                 $(this).change(function() {
                     teacher_form = $(this).parents('form')
                     teacher_form.submit();
-                    GLOBAL.flash('Le professeur a bien été changé.', 'success')
+                    COURSAVENUE.helperMethods.flash('Le professeur a bien été changé.', 'success')
                 })
             });
         }
@@ -52,7 +52,7 @@
                 $(this).change(function() {
                     planning_form = $(this).parents('form')
                     planning_form.submit();
-                    GLOBAL.flash('Le lieu a bien été changé.', 'success')
+                    COURSAVENUE.helperMethods.flash('Le lieu a bien été changé.', 'success')
                 })
             });
         }
