@@ -91,6 +91,12 @@
 
       %li.subtitle INTERACTIONS
       - to_complete_step_nb += 1 if @structure.comments.empty?
+
+      = pro_side_menu_link 'newsletters',
+                            pro_structure_newsletters_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                            current: current_tab,
+                            icon: 'fa fa-send'
+
       = pro_side_menu_link 'comments',
                             pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,

@@ -206,6 +206,7 @@ fr:
         vertical_pages: Pages verticales
         visitors: Visiteurs
         emailings: Newsletters
+        newsletters: Newsletters
       wizard_helper:
         name: >
           <p><strong>Un bon titre de profil</strong>
