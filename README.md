@@ -282,8 +282,8 @@ create role udrhnkjoqg1jmn with login createdb createrole password 'password';
 killall ruby
 dropdb -h localhost -U postgres coursavenue_development
 createdb -h localhost -O postgres -U postgres coursavenue_development && \
-           psql coursavenue_development -c 'create extension hstore;' -U postgres && \
-           pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "udrhnkjoqg1jmn" --no-password  --verbose "/Users/Nima/Downloads/a569.dump"
+psql coursavenue_development -c 'create extension hstore;' -U postgres && \
+pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "udrhnkjoqg1jmn" --no-password  --verbose "/Users/Nima/Downloads/a569.dump"
 
 pg_restore --host localhost --port 5432 --dbname "coursavenue_development" --role "udrhnkjoqg1jmn" --verbose /Users/Nima/Downloads/a532.dump -U postgres
 ```
@@ -293,6 +293,18 @@ pg_restore --host localhost --port 5432 --dbname "coursavenue_development" --rol
 ```shell
 pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" -f 20_fev.tar --format=t
 ```
+
+### SMS with Nexmo
+
+Add to the environment the Nexmo [API key and secret](https://dashboard.nexmo.com/private/settings):
+
+### Icon webfonts
+We use FontAwesome and Fontcustom to generate own icon font
+Command to regenerate fonts:
+```sh
+bundle exec fontcustom compile app/assets/images/icons/svg/
+```
+
 ---
 [ci]: https://circleci.com
 [ci-config]: circle.yml
@@ -307,12 +319,3 @@ pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue
 [prerender]: https://github.com/CoursAvenue/coursavenue-prerender
 [sunspot]: http://sunspot.github.io
 [brew]: http://brew.sh
-
-### SMS with Nexmo
-
-Add to the environment the Nexmo [API key and secret](https://dashboard.nexmo.com/private/settings):
-
-### Icon webfonts
-We use FontAwesome and Fontcustom to generate own icon font
-Command to regenerate fonts:
-`bundle exec fontcustom compile app/assets/images/icons/svg/`
