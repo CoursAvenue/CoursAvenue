@@ -83,6 +83,8 @@ class Structure < ActiveRecord::Base
   # The structure that is editable by the admin.
   belongs_to :controled_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
 
+  has_many :newsletters
+
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
