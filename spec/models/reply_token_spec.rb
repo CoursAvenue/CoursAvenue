@@ -63,6 +63,5 @@ RSpec.describe ReplyToken, type: :model do
         end
       end
     end
-
   end
 end

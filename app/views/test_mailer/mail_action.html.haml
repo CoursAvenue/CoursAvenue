@@ -1,0 +1,6 @@
+= content_for :email_action do
+  = content_tag :script, type: 'application/ld+json' do
+    = ""
+    = JSON.pretty_generate(@data).html_safe
+
+= JSON.pretty_generate(@data).html_safe

@@ -6,6 +6,8 @@ class ReplyToken < ActiveRecord::Base
   ######################################################################
 
   REPLY_TYPES = %w(participation_request conversation)
+  GOOGLE_ACTION_USER_AGENT =
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/1.0 (KHTML, like Gecko; Gmail Actions)'
 
   ######################################################################
   # Macros                                                             #

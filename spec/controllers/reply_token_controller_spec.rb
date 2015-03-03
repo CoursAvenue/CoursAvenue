@@ -1,0 +1,81 @@
+# -*- encoding : utf-8 -*-
+require 'rails_helper'
+
+describe ReplyTokenController, type: :controller do
+  describe '#show' do
+    context 'with wrong user agent' do
+      it 'redirects to the root_url' do
+        get :show, id: Faker::Internet.password
+
+        expect(response).to redirect_to(root_path)
+      end
+    end
+
+    context 'with the right user agent' do
+
+      before do
+        allow_any_instance_of(ActionDispatch::Request).
+          to receive(:user_agent).and_return(ReplyToken::GOOGLE_ACTION_USER_AGENT)
+      end
+
+      # context 'bad request' do
+      #   subject { FactoryGirl.create(:reply_token) }
+      #
+      #   it 'returns 400' do
+      #     get :show, id: subject.id
+      #
+      #     expect(response).to have_http_status(400)
+      #   end
+      # end
+
+      context 'unauthorized request' do
+        subject { FactoryGirl.create(:reply_token) }
+
+        before do
+          subject.use!
+        end
+
+        it 'returns 401' do
+          get :show, id: subject.id
+
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+
+      context 'not found request' do
+        it 'returns 404' do
+          get :show, id: Faker::Internet.password
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+
+      # context 'request timeout' do
+      #   subject { FactoryGirl.create(:reply_token) }
+      #
+      #   it 'returns 408' do
+      #     get :show, id: subject.id
+      #
+      #     expect(response).to have_http_status(408)
+      #   end
+      # end
+
+      context 'everything good' do
+        subject { FactoryGirl.create(:reply_token) }
+
+        it 'returns 200' do
+          get :show, id: subject.id
+
+          expect(response).to have_http_status(:ok)
+        end
+
+        it 'consumes the token' do
+          get :show, id: subject.id
+          subject.reload
+
+          expect(subject.still_valid?).to be false
+        end
+      end
+    end
+  end
+end

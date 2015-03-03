@@ -1,4 +1,5 @@
 class ReplyTokenController < ApplicationController
+  before_filter :check_user_agent
 
   # This is the route Google will use when a user clicks on the email action.
   #
@@ -11,18 +12,29 @@ class ReplyTokenController < ApplicationController
   #
   # We start by checking the validity of the token, and then execute the
   # actions.
-  # TODO: Test for UserAgent: it should be
-  #  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/1.0 (KHTML, like Gecko; Gmail Actions)"
   def show
-    # @reply_token = ReplyToken.find params[:id]
-    @reply_token = ReplyToken.where(token: params[:id]).first
-    head :not_found if @reply_token.nil?
+    begin
+      @reply_token = ReplyToken.find params[:id]
+    rescue ActiveRecord::RecordNotFound
+      return head :not_found
+    end
 
-    if @token.still_valid?
-      @token.use!
+    if @reply_token.still_valid?
+      @reply_token.use!
       head :ok
     else
       head :unauthorized
+    end
+  end
+
+  private
+
+  # Check if the request is sent by the authorized user agent.
+  #
+  # @return nothing
+  def check_user_agent
+    if request.user_agent != ReplyToken::GOOGLE_ACTION_USER_AGENT
+      redirect_to root_path, alert: "Vous n'avez pas le droit !"
     end
   end
 end
