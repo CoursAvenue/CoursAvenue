@@ -1,5 +1,5 @@
 .subject_icon {
-    height              : 30px;
+    height              : 20px;
     margin-left         : auto;
     margin-right        : auto;
     margin-bottom       : 5px;
@@ -9,49 +9,49 @@
 }
 
 .subject_icon__danse{
-    width            : 24px;
+    width            : 15px;
     @include background-image-retina('icons/subjects/danse.png', 'icons/subjects/danse@2x.png');
-    @include background-size(24px 30px);
+    @include background-size(15px 20px);
 }
 .subject_icon__theatre-scene {
-    width            : 40px;
+    width            : 27px;
     @include background-image-retina('icons/subjects/theatre-scene.png', 'icons/subjects/theatre-scene@2x.png');
-    @include background-size(40px 30px);
+    @include background-size(27px 20px);
 }
 .subject_icon__yoga-bien-etre-sante {
-    width            : 30px;
+    width            : 22px;
     @include background-image-retina('icons/subjects/yoga-bien-etre-sante.png', 'icons/subjects/yoga-bien-etre-sante@2x.png');
-    @include background-size(30px 30px);
+    @include background-size(22px 20px);
 }
 .subject_icon__musique-chant {
-    width            : 30px;
+    width            : 20px;
     @include background-image-retina('icons/subjects/musique-chant.png', 'icons/subjects/musique-chant@2x.png');
-    @include background-size(30px 30px);
+    @include background-size(20px 20px);
 }
 .subject_icon__dessin-peinture-arts-plastiques {
-    width            : 34px;
+    width            : 22px;
     @include background-image-retina('icons/subjects/dessin-peinture-arts-plastiques.png', 'icons/subjects/dessin-peinture-arts-plastiques@2x.png');
-    @include background-size(34px 30px);
+    @include background-size(22px 20px);
 }
 .subject_icon__sports-arts-martiaux {
-    width            : 33px;
+    width            : 21px;
     @include background-image-retina('icons/subjects/sports-arts-martiaux.png', 'icons/subjects/sports-arts-martiaux@2x.png');
-    @include background-size(33px 30px);
+    @include background-size(21px 20px);
 }
 .subject_icon__cuisine-vins {
-    width            : 32px;
+    width            : 21px;
     @include background-image-retina('icons/subjects/cuisine-vins.png', 'icons/subjects/cuisine-vins@2x.png');
-    @include background-size(32px 30px);
+    @include background-size(21px 20px);
 }
 .subject_icon__deco-mode-bricolage {
-    width            : 35px;
+    width            : 23px;
     @include background-image-retina('icons/subjects/deco-mode-bricolage.png', 'icons/subjects/deco-mode-bricolage@2x.png');
-    @include background-size(35px 30px);
+    @include background-size(23px 20px);
 }
 .subject_icon__photo-video {
-    width            : 42px;
+    width            : 26px;
     @include background-image-retina('icons/subjects/photo-video.png', 'icons/subjects/photo-video@2x.png');
-    @include background-size(42px 30px);
+    @include background-size(26px 20px);
 }
 
 .subject-active, .keyword-subjects {
@@ -81,13 +81,5 @@
     }
     .subject_icon__photo-video {
         @include background-image-retina('icons/subjects/photo-video-white.png', 'icons/subjects/photo-video-white@2x.png');
-    }
-}
-
-.btn.subject_icon__other {
-    height     : 85px;
-    line-height: 60px;
-    > div {
-        line-height: 1.2;
     }
 }

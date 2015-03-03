@@ -43,7 +43,7 @@
     color           : #555555;
     @include text-shadow(0 1px 0 white);
     &[type=submit] {
-        font-weight: 400;
+        font-weight: 600;
     }
     &:active {
         cursor: default;
@@ -120,19 +120,6 @@
         color           : #EEE;
     }
 }
-// .btn--blue {
-//     text-transform  : uppercase;
-//     background-color: $btn--blue;
-//     border          : none;
-//     color           : white;
-//     @include text-shadow(-1px -1px 1px darken($btn--blue, 10%));
-//     &:hover, &:active {
-//         background-color: lighten($btn--blue, 5%);
-//     }
-//     &.disabled, &[disabled] {
-//         background-color: lighten($btn--blue, 15%);
-//     }
-// }
 
 .btn--blue , .btn--blue-green {
     text-transform  : uppercase;
@@ -176,7 +163,7 @@
 
 .btn--social {
     text-transform  : uppercase;
-    @include text-shadow(-1px -1px 0 darken($facebook-blue, 10%));
+    @include text-shadow(-1px -1px 0 darken($facebook-blue, 5%));
     color           : white;
     vertical-align  : middle;
     display         : inline-block;
@@ -194,20 +181,31 @@
 }
 
 .btn--facebook {
+    white-space     : nowrap;
+    text-transform  : none;
+    font-size       : 1.1em;
     @extend .btn--social;
     line-height     : 1;
     overflow        : hidden;
     border-color    : darken($facebook-blue, 3%);
     background-color: $facebook-blue;
-    padding         : 0 0.4em;
-    border-left     : 1px solid darken($facebook-blue, 8%);
+    @include background-image(linear-gradient(lighten($facebook-blue, 8%), $facebook-blue));
+    padding         : 0.5em 0.6em;
+    span {
+        padding    : 15px;
+        border-left: 1px solid darken($facebook-blue, 5%);
+    }
     &:hover {
         background-color: lighten($facebook-blue, 5%);
     }
     &:before {
+        font-size       : 45px;
+        margin-top      : -15px;
+        padding-right   : 5px;
+        margin-right    : 0;
         content         : 'f';
         position        : relative;
-        top             : 0.2em;
+        top             : 0.4em;
     }
 }
 .btn--facebook.btn--small {
@@ -241,10 +239,12 @@
 }
 
 .btn-group {
+    display: table;
     i {
         font-size: 1em;
     }
     .btn, .btn.active {
+        display: table-cell;
         padding: 0.8em;
         @include border-radius(0);
     }
@@ -276,5 +276,23 @@
     }
     input {
         display: none;
+    }
+}
+.btn-group--column {
+    display       : flex;
+    flex-direction: column;
+    .btn, .btn.active {
+        display: block;
+    }
+}
+.btn--white-transparent {
+    color     : white;
+    border    : 2px solid white;
+    background: none;
+    @include text-shadow(none);
+    @include transition(all 200ms linear);
+    &:hover {
+        border-color    : $btn--green;
+        background-color: $btn--green;
     }
 }

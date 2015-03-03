@@ -4,6 +4,8 @@ class Structure < ActiveRecord::Base
   include Concerns::ActiveHashHelper
   include Concerns::HasDeliveryStatus
   include Concerns::IdentityCacheFetchHelper
+  include Concerns::SMSSender
+  include Concerns::ReminderEmailStatus
   include StructuresHelper
   include HasSubjects
   include ActsAsCommentable
@@ -35,6 +37,7 @@ class Structure < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   belongs_to :city
+  belongs_to :principal_mobile, class_name: 'PhoneNumber'
 
   has_many :invited_users             , foreign_key: :referrer_id, dependent: :destroy
   has_many :invited_teachers          , -> { where(type: 'InvitedUser::Teacher') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
@@ -103,7 +106,8 @@ class Structure < ActiveRecord::Base
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason,
                   :order_recipient, :delivery_email_status, :trial_courses_policy,
-                  :sleeping_structure, :premium, :cities_text
+                  :sleeping_structure, :premium, :cities_text, :sms_opt_in,
+                  :principal_mobile_id
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -172,7 +176,8 @@ class Structure < ActiveRecord::Base
   ######################################################################
   # Algolia                                                            #
   ######################################################################
-  algoliasearch per_environment: true do
+  # :nocov:
+  algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
     attribute :name, :slug
     add_attribute :search_score do
       self.search_score.try(:to_i)
@@ -194,10 +199,12 @@ class Structure < ActiveRecord::Base
     end
     customRanking ['desc(search_score)', 'desc(is_sleeping)']
   end
+  # :nocov:
 
   ######################################################################
   # Solr                                                               #
   ######################################################################
+  # :nocov:
   searchable do
 
     integer :search_score do
@@ -390,6 +397,7 @@ class Structure < ActiveRecord::Base
 
     double :jpo_score
   end
+  # :nocov:
 
   handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
@@ -414,13 +422,29 @@ class Structure < ActiveRecord::Base
     return email_status
   end
 
-  ######################################################################
-  # Email reminder END                                                 #
-  ######################################################################
-
+  # :nocov:
   def places_around(latitude, longitude, radius=3.5)
     places.reject do |place|
       Geocoder::Calculations.distance_between([latitude, longitude], [place.latitude, place.longitude], unit: :km) >= radius.to_i
+    end
+  end
+  # :nocov:
+
+  # Sends a SMS to contact number.
+  #
+  # @param participation_request — The Participation Request
+  #
+  # @return a Boolean, whether the sms was sent or not.
+  def notify_new_participation_request_via_sms(participation_request)
+    number = principal_mobile
+
+    if number and sms_opt_in?
+      message = I18n.t('sms.structures.new_participation_request',
+                       user_name: participation_request.user.name,
+                       date: I18n.l(participation_request.date, format: :short),
+                       start_time: I18n.l(participation_request.start_time, format: :short))
+
+      delay.send_sms(message, number.number)
     end
   end
 
@@ -1019,6 +1043,7 @@ class Structure < ActiveRecord::Base
     main_contact.delete
 
     sleeping_structure.destroy
+    structure.is_sleeping = true
 
     save
   end
@@ -1107,17 +1132,6 @@ class Structure < ActiveRecord::Base
     return Rails.cache.fetch ['Structure#is_open_for_trial?', self] do
       courses.open_for_trial.any?
     end
-  end
-
-  # Update the last email sent fields
-  #
-  # @param status: The structure status.
-  # @param date:   The date the email was sent.
-  #
-  # @return nil
-  def update_last_email_sent_status!(status, date = Time.now)
-    update_column :last_email_sent_at, date
-    update_column :last_email_sent_status, status
   end
 
   private
@@ -1252,8 +1266,11 @@ class Structure < ActiveRecord::Base
     nil
   end
 
+  # Get the dominant city from the planning or from the courses
+  #
+  # @return City
   def dominant_city_from_planning
-    plannings.map(&:place).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first ||
+    plannings.map(&:place).compact.flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first ||
       courses.flat_map(&:places).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first
   end
 end

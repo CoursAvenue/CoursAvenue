@@ -41,21 +41,7 @@ module ApplicationHelper
   end
 
   def current_pro_admin_as_json
-    if current_pro_admin.super_admin? and @structure
-      AdminSerializer.new(@structure.main_contact).to_json
-    else
-      AdminSerializer.new(current_pro_admin).to_json
-    end
-  end
-
-  # Public: Checks if the user agent is one of a scrapper | robot
-  #
-  # @return Boolean
-  def robot?(user_agent)
-    return true if user_agent.nil?
-    matches = [/\(.*https?:\/\/.*\)/, /Twitterbot\/1.0/, /Prerender/]
-
-    matches.any? { |robot| user_agent.match(robot) }
+    AdminSerializer.new(current_pro_admin).to_json
   end
 
   def media_share_url(url, provider = :facebook, text='')

@@ -3,5 +3,6 @@
 //= require ./accordion_item_view
 //= require ./editable_field_view
 //= require ./map/manifest.js
+//= require ./participation_requests/manifest
 //
 //= require_tree .

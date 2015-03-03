@@ -24,7 +24,8 @@ class ::Admin < ActiveRecord::Base
                   :structure_id,
                   :email_opt_in,
                   :student_action_email_opt_in, :newsletter_email_opt_in,
-                  :monday_email_opt_in, :jpo_email_opt_in, :stats_email, :delivery_email_status
+                  :monday_email_opt_in, :jpo_email_opt_in, :stats_email, :delivery_email_status,
+                  :sms_opt_in, :structure_attributes
 
   store_accessor :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in,
                                        :monday_email_opt_in, :jpo_email_opt_in, :stats_email
@@ -36,6 +37,7 @@ class ::Admin < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   belongs_to :structure
+  accepts_nested_attributes_for :structure
 
   ######################################################################
   # Validations                                                        #
@@ -58,6 +60,7 @@ class ::Admin < ActiveRecord::Base
   # ------------------------------------
   # ------------------ Search attributes
   # ------------------------------------
+  # :nocov:
   searchable do
     text :name
     text :email
@@ -77,8 +80,12 @@ class ::Admin < ActiveRecord::Base
     boolean :super_admin
   end
   handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
+  # :nocov:
 
-  def mailboxer_email(object)
+  # Override of a Mailboxer method.
+  #
+  # @return String, the admin email.
+  def mailboxer_email(_)
     self.email
   end
 
@@ -109,22 +116,17 @@ class ::Admin < ActiveRecord::Base
     return nil if admin.nil? and structure.nil?
 
     if admin.nil?
-      admin                  = Admin.new
-
-      admin.provider         = auth.provider
-      admin.uid              = auth.uid
-      admin.oauth_token      = auth.credentials.token
-      admin.oauth_expires_at = Time.at(auth.credentials.expires_at)
-
-      admin.email            = auth.info.email
-      admin.password         = Devise.friendly_token[0, 20] if admin.password.blank?
-
-      admin.structure        = structure
-
+      admin           = Admin.new
+      admin.email     = auth.info.email
+      admin.password  = Devise.friendly_token[0, 20] if admin.password.blank?
+      admin.structure = structure
       admin.confirm!
-
-      admin.save
     end
+    admin.provider         = auth.provider
+    admin.uid              = auth.uid
+    admin.oauth_token      = auth.credentials.token
+    admin.oauth_expires_at = Time.at(auth.credentials.expires_at)
+    admin.save
 
     admin
   end
@@ -141,7 +143,6 @@ class ::Admin < ActiveRecord::Base
   # @return an Array of Array of [ page_name, URL ]
   def facebook_pages
     return [] unless from_facebook? and oauth_expires_at > Time.current
-
     user = FbGraph::User.me(oauth_token).fetch
     user.accounts.map { |page| [page.name, page.link] }
   end

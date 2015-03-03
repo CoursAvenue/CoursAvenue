@@ -1,15 +1,12 @@
 = content_for :title do
   Publiez vos cours gratuitement et recruter de nouveaux élèves.
 
-.bg-fixed.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background.jpg'})" }
-  .main-container.soft.text--center
-    %header
-      %h1.flush
-        Publiez vos cours
-      .delta.line-height-1-7
-        CoursAvenue vous permet de recruter de nouveaux élèves.
-        %br
-        Gratuit et sans engagement.
+= render layout: 'pro/home/header_layout', locals: { hide_menu: true, bg_center: true } do
+  .main-container.soft--sides.mega-soft--ends.text--center
+    %h1.white.soft-black-text-shadow.f-size-big.relative.flush
+      L'outil tout-en-un pour votre communication sur Internet
+    %h3.line-height-1-7.white.relative
+      Création de profil
 
 .soft.panel-background-blue-radial
   .main-container
@@ -42,7 +39,7 @@
           .grid__item.one-third.text--right.v-middle>
             .gamma.white.smooth-black-text-shadow> Disciplines générales pratiquées
           .grid__item.v-middle.two-thirds>
-            = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+            = f.association :subjects, as: :select, collection: Subject.roots.order('position ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
         #descendants-subject.grid.push--bottom
           .grid__item.one-third.text--right.v-middle>
             .gamma.white.smooth-black-text-shadow> Sous disciplines
@@ -80,45 +77,14 @@
         .grid__item.v-middle.two-thirds>
           = f.submit 'Continuer', class: 'btn--large btn btn--full btn--green', data: { disable_with: "Profil en cours de création" }, style: 'max-width: 600px;'
 
-.home-screen-promotion-wrapper.soft
-  .main-container.main-container--medium.soft
-    .grid.text--center
-      .grid__item.one-third>
-        %i.fa.fa-handshake.fa-3x.orange
-        %h3.soft-half--top Mise en relation gratuite
-        %p Les élèves intéressés par vos cours vous contactent gratuitement sans frais cachés.
-      .grid__item.one-third>
-        %i.fa.fa-cogs.fa-3x.orange
-        %h3.soft-half--top Contrôle de votre profil
-        %p Vous gardez le contrôle des informations présentes sur votre profil : à tout moment, mettez à jour votre planning, affichez vos dernières photos ou invitez vos élèves à déposer leur recommandation.
-      .grid__item.one-third>
-        %i.fa.fa-eye.fa-3x.orange
-        %h3.soft-half--top Transparence
-        %p Grâce à votre outil de statistiques, suivez au quotidien le nombre de fois que votre profil apparaît dans les résultats de recherche.
-    %h4.text--center.push-half--bottom.push--top Pourquoi CoursAvenue ?
-    %p.epsilon.text--center
-      L'objectif de CoursAvenue est de relier les Français aux meilleurs cours de loisirs locaux.
-      = link_to 'En savoir plus', root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
 
-.main-container.main-container--medium.soft--ends
-  %h2.text--center.push--bottom.soft--ends.f-weight-300
-    + de 2 000 profils et 6 000 avis
-  - StructureSearch.search(per_page: 9, has_logo: true, sort: 'premium', nb_comments: 4).results.each do |structure|
-    .inline-block.one-third.palm-one-whole.lap-one-half>
-      .grid.push--bottom
-        .grid__item.one-third.epsilon>
-          = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block muted-link media-photo', target: :_blank do
-            = image_tag structure.logo.url(:thumb), class: 'block'
-        .grid__item.two-thirds>
-          = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'muted-link' do
-            %p.flush
-              %strong= "#{structure.name} (#{structure.city.name})"
-            - if structure.highlighted_comment
-              %p.quoted<>
-                = structure.highlighted_comment.title
-            - else
-              %p.quoted<>
-                = structure.comments.order('created_at DESC').first.title
+.main-container.mega-soft--ends
+  .text--center
+    %p.push--bottom.gamma.line-height-1-7
+      En un minimum de temps et sans compétence technique, vos activités deviennent
+      %br
+      plus visibles, votre site Internet plus efficace et vous fidélisez plus d'élèves.
+  = render partial: 'pro/home/advantages'
 
 = content_for :scripts do
   :javascript

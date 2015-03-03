@@ -4,7 +4,9 @@
 <div class="soft panel__body">
     <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block push-half--bottom hidden" height="10" data-loader>
     <div class="text--center">
-      <a href="#" data-behavior="login-with-facebook" data-disable-with="Inscription en cours..." class="btn btn--facebook">S'inscrire avec Facebook</a>
+      <a href="#" data-behavior="login-with-facebook" data-disable-with="Inscription en cours..." class="btn btn--facebook btn--full">
+        <span>Inscription avec Facebook</span>
+      </a>
     </div>
     <ul class="no-bullet-list flush--bottom push-half--top">
       <li>
@@ -23,7 +25,6 @@
     <div class="or">
       <span>ou</span>
     </div>
-
     <div data-type="email-section" class="{{#unless errors}}hidden{{/unless}}">
         <form action="/">
             <div class="push-half--bottom">
@@ -78,13 +79,15 @@
 
     {{#unless errors}}
     <div class="text--center push--bottom">
-        <a href="#" data-behavior="sign-up-with-email">Inscription avec votre adresse e-mail</a>
+        <a href="#" data-behavior="sign-up-with-email">
+          <i class="fa fa-envelope-o"></i> <strong>Inscription avec un e-mail</strong>
+        </a>
     </div>
     {{/unless}}
     <p>
-      <strong>
+      <div>
         En m'inscrivant, j'accepte <a href="{{ pages_mentions_partners_path }}" target="_blank">les conditions générales d'utilisation.</a>
-      </strong>
+      </div>
     </p>
     <hr>
     <div class="push-half--top">

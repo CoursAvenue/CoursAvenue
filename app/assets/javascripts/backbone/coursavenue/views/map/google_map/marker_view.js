@@ -44,7 +44,6 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         markerClicked: function markerClicked (e) {
-            this.setSelectLock(true); // while one marker is selected, the rest should be unselectable
             this.trigger('click', e);
             e.stopPropagation();
         },
@@ -113,11 +112,6 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.$el.finish().animate({ top: crest }, 200, 'easeOutQuint', function () {
                 self.$el.finish().animate({ top: old_top }, 400, 'easeOutBounce', _.bind(self.bounce, self));
             });
-        },
-
-        setSelectLock: function setSelectLock (bool) {
-            this.select_lock = bool;
-        },
-
+        }
     });
 });

@@ -82,7 +82,7 @@
                   %label.inline-block.label--large{ for: 'course_place_id_checkbox' }
                     %input#course_place_id_checkbox{ type: 'checkbox', checked: @course.place.present? }
                     Les cours ont lieu à cette adresse :
-                  = f.input :place_id, as: :select, collection: @structure.places.publics, input_html: { class: 'input--large', style: 'max-width: 13em;' }, label: false, wrapper_html: { class: 'flush--bottom inline-block v-middle' }, include_blank: 'Sélectionnez une adresse'
+                  = f.input :place_id, as: :select, collection: @structure.places.publics, input_html: { class: 'input--large', style: 'max-width: 13em;' }, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, include_blank: 'Sélectionnez une adresse'
                 - if @course.new_record?
                   - return_to_action = "$('[data-course-type=private][data-action=new_course]').click();"
                 - else

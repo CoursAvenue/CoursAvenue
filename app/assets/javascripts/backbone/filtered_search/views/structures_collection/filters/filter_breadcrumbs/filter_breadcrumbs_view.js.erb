@@ -97,8 +97,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
             var data = $(e.currentTarget).data();
 
             // announce that clearing has happened, and which filter was cleared
-            this.trigger('breadcrumbs:clear', data);
-            this.trigger('breadcrumbs:clear:' + data.target, data);
+            this.trigger('filters:clear', data);
+            this.trigger('filters:clear:' + data.target, data);
 
             this.removeBreadCrumb(data);
             this.render();

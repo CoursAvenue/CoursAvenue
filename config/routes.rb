@@ -21,6 +21,7 @@ CoursAvenue::Application.routes.draw do
       get 'livre-d-or'                          => 'home#widget',             as: 'pages_widget'
       get 'questions-les-plus-frequentes'       => 'home#questions',          as: 'pages_questions'
       get 'pass-decouverte'                     => 'home#discovery_pass',     as: 'pages_discovery_pass'
+      get 'fonctionnalites'                     => 'home#features',           as: 'pages_features'
       get 'offre-et-tarifs'                     => 'home#price',              as: 'pages_price'
       get 'nos-convictions'                     => 'home#convictions',        as: 'pages_convictions'
       get 'presse'                              => redirect('presse', subdomain: 'www', status: 301)
@@ -52,6 +53,7 @@ CoursAvenue::Application.routes.draw do
       get 'modifier-mon-profil'                      , to: 'redirect#structure_edit',      as: 'structure_edit_redirect'
       get 'etablissements/:structure_id/journees-portes-ouvertes', to: 'redirect#structures_jpo_index'
 
+      resources :call_reminders
       resources :portraits, controller: 'portraits' do
         collection do
           get :list
@@ -275,6 +277,7 @@ CoursAvenue::Application.routes.draw do
         resources :teachers, controller: 'structures/teachers', path: 'professeurs'
         resources :places  , controller: 'structures/places'  , path: 'lieux' do
           member do
+            get :edit_infos
             get :ask_for_deletion
           end
         end
@@ -323,13 +326,16 @@ CoursAvenue::Application.routes.draw do
             get :ca_communication, path: 'communication-coursavenue'
           end
         end
-        resources :participation_requests, only: [:edit, :index], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
+        resources :participation_requests, only: [:edit, :index, :show], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
           member do
+            get   :report_form
             get   :cancel_form
+            get   :accept_form
             patch :accept
+            patch :discuss
             patch :modify_date
-            patch :decline
             patch :cancel
+            patch :report
           end
         end
       end
@@ -363,186 +369,248 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
-
-  resources :press_releases, path: 'communiques-de-presse', only: [:show]
-  resources :blog_articles, controller: 'blog/articles', path: 'blog' do
-    collection do
-      get 'tag/:tag', to: 'blog/articles#tags', as: :tags
-    end
-  end
-
-  devise_for :users, controllers: {
-                      sessions: 'users/sessions',
-                      registrations: 'users/registrations',
-                      confirmations: 'users/confirmations',
-                      passwords: 'users/passwords'
-                    }, path: '/', path_names: {
-                      sign_in: '/connexion',
-                      sign_up: '/inscription',
-                      confirmation: 'verification'
-                    }
-
-
-  get '/auth/facebook/callback', to: 'users#facebook_auth_callback'
-  get '/auth/facebook/failure',  to: 'users#facebook_auth_failure'
-
-  resources  :users, only: [:destroy, :create, :edit, :show, :update], path: 'eleves' do
-    collection do
-      get :unsubscribed
-      get :invite_entourage_to_jpo_page , path: 'inviter-mes-amis'
-      get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
-      get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
-      get :welcome
-    end
-    member do
-      get    :destroy_confirmation
-      get    :edit_private_infos, path: 'mon-compte'
-      patch  :update_password
-      patch  :update_passions
-      get  :wizard
-      get  :dashboard
-      get  :choose_password
-      get  :notifications
-      post :recommend_friends
-    end
-    resources :followings, only: [:index], controller: 'users/followings', path: 'favoris'
-    resources :invited_users, only: [:index, :new], controller: 'users/invited_users' do
+  constraints subdomain: (Rails.env.staging? ? 'staging' : 'www') do
+    resources :press_releases, path: 'communiques-de-presse', only: [:show]
+    resources :blog_articles, controller: 'blog/articles', path: 'blog' do
       collection do
-        post :bulk_create
-        post :bulk_create_jpo
-        get :jpo_new
-        get :jpo
+        get 'tag/:tag', to: 'blog/articles#tags', as: :tags
       end
     end
-    resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
-    resources :messages     , controller: 'users/messages'
-    resources :conversations, controller: 'users/conversations'
-    resources :lived_places, only: [:destroy], controller: 'users/lived_places'
-    resources :passions, only: [:index, :destroy], controller: 'users/passions' do
+
+    devise_for :users, controllers: {
+                        sessions: 'users/sessions',
+                        registrations: 'users/registrations',
+                        confirmations: 'users/confirmations',
+                        passwords: 'users/passwords'
+                      }, path: '/', path_names: {
+                        sign_in: '/connexion',
+                        sign_up: '/inscription',
+                        confirmation: 'verification'
+                      }
+
+
+    get '/auth/facebook/callback', to: 'users#facebook_auth_callback'
+    get '/auth/facebook/failure',  to: 'users#facebook_auth_failure'
+
+    resources  :users, only: [:destroy, :create, :edit, :show, :update], path: 'eleves' do
       collection do
-        get :offers
-        get :suggestions
-      end
-    end
-    resources :participations, only: [:update, :index, :destroy], controller: 'users/participations' do
-      member do
-        get   :add_invited_friends
-      end
-    end
-    resources :orders, only: [:index, :show], controller: 'users/orders', path: 'mes-factures'
-    resources :sponsorships, only: [:index, :new, :create], controller: 'users/sponsorships', path: 'mes-parrainages'
-    resources :participation_requests, only: [:index, :edit], controller: 'users/participation_requests', path: 'mes-inscriptions' do
-      member do
-        get   :recap
-        get   :cancel_form
-        patch :accept
-        patch :modify_date
-        patch :decline
-        patch :cancel
-      end
-    end
-  end
-  resources :sponsorships, only: [:show], path: 'obtenir-mon-pass-decouverte'
-  resources :emails, only: [:create]
-
-  resources :visitors, only: [:create, :update, :index]
-
-  resources :plannings, only: [] do
-    resources :participations, only: [:new, :create], controller: 'plannings/participations'
-  end
-  resources :locations, only: [:index]
-
-  resources :reservations, only: [:create]
-
-  resources :open_courses, path: 'portes-ouvertes-cours-loisirs', only: [:index], controller: 'open_courses'
-
-  resources :statistics, only: [:create]
-
-  resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
-    member do
-      get  :jpo, path: 'portes-ouvertes-cours-loisirs'
-      post :add_to_favorite
-      post :remove_from_favorite
-    end
-    collection do
-      post :recommendation
-      get :search
-      get :typeahead
-    end
-    resources :participation_requests, only: [:create]                                    , controller: 'structures/participation_requests'
-    resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'
-    resources :messages              , only: [:create]                                    , controller: 'structures/messages'
-    resources :places                , only: [:index]                                     , controller: 'structures/places'
-    resources :courses               , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
-    resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'   , path: 'avis' do
-      collection do
-        get :create_from_email
+        get :unsubscribed
+        get :invite_entourage_to_jpo_page , path: 'inviter-mes-amis'
+        get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
+        get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
+        get :welcome
       end
       member do
-        get :add_private_message, path: 'envoyer-un-message-prive'
+        get    :destroy_confirmation
+        get    :edit_private_infos, path: 'mon-compte'
+        patch  :update_password
+        patch  :update_passions
+        get  :wizard
+        get  :dashboard
+        get  :choose_password
+        post :recommend_friends
+      end
+      resources :followings, only: [:index], controller: 'users/followings', path: 'favoris'
+      resources :invited_users, only: [:index, :new], controller: 'users/invited_users' do
+        collection do
+          post :bulk_create
+          post :bulk_create_jpo
+          get :jpo_new
+          get :jpo
+        end
+      end
+      resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
+      resources :messages     , controller: 'users/messages'
+      resources :conversations, controller: 'users/conversations'
+      resources :lived_places, only: [:destroy], controller: 'users/lived_places'
+      resources :passions, only: [:index, :destroy], controller: 'users/passions' do
+        collection do
+          get :offers
+          get :suggestions
+        end
+      end
+      resources :participations, only: [:update, :index, :destroy], controller: 'users/participations' do
+        member do
+          get   :add_invited_friends
+        end
+      end
+      resources :orders, only: [:index, :show], controller: 'users/orders', path: 'mes-factures'
+      resources :sponsorships, only: [:index, :new, :create], controller: 'users/sponsorships', path: 'mes-parrainages'
+      resources :participation_requests, only: [:index, :edit, :show], controller: 'users/participation_requests', path: 'mes-inscriptions' do
+        member do
+          get   :report_form
+          get   :cancel_form
+          get   :accept_form
+          patch :accept
+          patch :discuss
+          patch :modify_date
+          patch :cancel
+          patch :report
+        end
       end
     end
-    # Here for old 404
-    resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
-    resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommandations'
-    resources :teachers              , only: [:index]                                     , controller: 'structures/teachers'
-    resources :medias                , only: [:index]                                     , controller: 'structures/medias'
-  end
+    resources :sponsorships, only: [:show], path: 'obtenir-mon-pass-decouverte'
+    resources :emails, only: [:create]
 
-  resources :courses, only: [:index], path: 'cours' do
-    resources :reservations, only: [:new, :create] # Redirection 301 in controller
-  end
+    resources :visitors, only: [:create, :update, :index]
 
-  resources :keywords, only: [:index]
-  resources :reply_token, only: [:show]
-
-  ########### Vertical pages ###########
-  get 'cours/:id--:city_id'                        , to: 'vertical_pages#show_with_city', as: :root_vertical_page_with_city
-  get 'cours/:id'                                  , to: 'vertical_pages#show_root', as: :root_vertical_page
-  get 'cours/:root_subject_id/:id'                 , to: 'vertical_pages#show', as: :vertical_page
-  get 'cours/:root_subject_id/:id/:city_id'        , to: 'vertical_pages#show_with_city', as: :vertical_page_with_city
-  get 'cours-de-:id'                               , to: 'vertical_pages#redirect_to_show'
-  get 'guide-des-disciplines'                      , to: 'vertical_pages#index', as: :vertical_pages
-  ###########  REDIRECTIONS --old
-  ## With city
-  # Root subject
-  get 'cours-de-:subject_id-a/:id'                 , to: 'subjects/cities#show', as: :vertical_root_subject_city
-  # Child subject
-  get 'cours-de-:parent_subject_id/:subject_id/:id', to: 'subjects/cities#show', as: :vertical_subject_city
-  ## Without city
-  # Child subject
-  get 'cours-de-:parent_subject_id/:id'            , to: 'subjects#show'       , as: :vertical_subject
-  ########### Vertical pages ###########
-
-  resources :cities, only: [], path: 'villes' do
-    collection do
-      get :zip_code_search
+    resources :plannings, only: [] do
+      resources :participations, only: [:new, :create], controller: 'plannings/participations'
     end
-  end
-  resources :cities, only: [:show], path: 'tous-les-cours-a', controller: 'cities' do
-    resources :subjects, only: [:show], path: 'disciplines'
+    resources :locations, only: [:index]
+
+    resources :reservations, only: [:create]
+
+    resources :open_courses, path: 'portes-ouvertes-cours-loisirs', only: [:index], controller: 'open_courses'
+
+    resources :statistics, only: [:create]
+
+    resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
+      member do
+        get  :jpo, path: 'portes-ouvertes-cours-loisirs'
+        post :add_to_favorite
+        post :remove_from_favorite
+      end
+      collection do
+        post :recommendation
+        get :search
+        get :typeahead
+      end
+      resources :participation_requests, only: [:create]                                    , controller: 'structures/participation_requests'
+      resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'
+      resources :messages              , only: [:create]                                    , controller: 'structures/messages'
+      resources :places                , only: [:index]                                     , controller: 'structures/places'
+      resources :courses               , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
+      resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'   , path: 'avis' do
+        collection do
+          get :create_from_email
+        end
+        member do
+          get :add_private_message, path: 'envoyer-un-message-prive'
+        end
+      end
+      # Here for old 404
+      resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
+      resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommandations'
+      resources :teachers              , only: [:index]                                     , controller: 'structures/teachers'
+      resources :medias                , only: [:index]                                     , controller: 'structures/medias'
+    end
+
+    resources :courses, only: [:index], path: 'cours' do
+      resources :reservations, only: [:new, :create] # Redirection 301 in controller
+    end
+
+    resources :keywords, only: [:index]
+    resources :reply_token, only: [:show]
+
+    ########### Vertical pages ###########
+    get 'cours/:id--:city_id'                        , to: 'vertical_pages#show_with_city'  , as: :root_vertical_page_with_city
+    get 'cours/:id'                                  , to: 'vertical_pages#show_root'       , as: :root_vertical_page
+    get 'cours/:root_subject_id/:id'                 , to: 'vertical_pages#show'            , as: :vertical_page
+    get 'cours/:root_subject_id/:id/:city_id'        , to: 'vertical_pages#show_with_city'  , as: :vertical_page_with_city
+    get 'cours-de-:id'                               , to: 'vertical_pages#redirect_to_show'
+    get 'guide-des-disciplines'                      , to: 'vertical_pages#index'           , as: :vertical_pages
+    ########### Vertical pages ###########
+
+    resources :cities, only: [], path: 'villes' do
+      collection do
+        get :zip_code_search
+      end
+    end
+    resources :cities, only: [:show], path: 'tous-les-cours-a', controller: 'cities' do
+      resources :subjects, only: [:show], path: 'disciplines'
+    end
+
+    resources :subjects, only: [] do
+      collection do
+      end
+    end
+    resources :subjects, only: [:index] do
+      member do
+        get :depth_2
+      end
+      collection do
+        get :list
+        get :descendants
+        get :search
+      end
+      resources :structures, only: [:index], path: 'etablissements'
+      # resources :places, only: [:index], path: 'etablissements'
+      resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index' # établissement without S
+      resources :courses, only: [:index], path: 'cours'
+    end
+
+    resources :reservation_loggers, only: [:create]
+    resources :click_logs, only: [:create]
+
+    # ------------------------------------------------------
+    # ----------------------------------------- Static pages
+    # ------------------------------------------------------
+    # Pages
+    get 'vos-resolutions-2015'               => 'home#resolutions',          as: 'home_resolutions'
+    get 'vos-resolutions-2015/resultats/:id' => 'home#resolutions_results',  as: 'home_resolutions_results'
+
+    get 'mon-compte'                    => 'home#redirect_to_account'
+    get 'pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
+    get 'portes-ouvertes-cours-loisirs' => 'pages#jpo',                  as: 'pages_jpo'
+    get 'comment-ca-marche'             => 'pages#what_is_it',           as: 'pages_what_is_it'
+    get 'faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'
+    get 'faq-partenaires'               => 'pages#faq_partners',         as: 'pages_faq_partners'
+    get 'qui-sommes-nous'               => 'pages#who_are_we',           as: 'pages_who_are_we'
+    get 'contact'                       => 'pages#contact',              as: 'pages_contact'
+    get 'service-client'                => 'pages#customer_service',     as: 'pages_customer_service'
+    get 'presse'                        => 'pages#press',                as: 'pages_press'
+    get 'mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
+    get 'conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
+    get 'cours-d-essai-gratuits'        => 'pages#free_trial',           as: 'pages_free_trial'
+
+    # Jobs
+    get 'jobs'                          => 'jobs#index'
+    get 'jobs/frontend-developpeur'     => 'jobs#frontend_developper',   as: 'jobs_frontend_developper'
+    get 'jobs/business-developpeur'     => 'jobs#business_developper',   as: 'jobs_business_developper'
+    get 'jobs/marketing'                => 'jobs#marketing',             as: 'jobs_marketing'
+
+    # Redirect old pages
+    get 'pages/pourquoi-le-bon-cours'         => redirect('pourquoi-le-bon-cours'         , status: 301)
+    get 'pages/portes-ouvertes-cours-loisirs' => redirect('portes-ouvertes-cours-loisirs' , status: 301)
+    get 'qu-est-ce-que-coursavenue'           => redirect('comment-ca-marche'             , status: 301)
+    get 'pages/qu-est-ce-que-coursavenue'     => redirect('qu-est-ce-que-coursavenue'     , status: 301)
+    get 'pages/faq-utilisateurs'              => redirect('faq-utilisateurs'              , status: 301)
+    get 'pages/faq-partenaires'               => redirect('faq-partenaires'               , status: 301)
+    get 'pages/qui-sommes-nous'               => redirect('qui-sommes-nous'               , status: 301)
+    get 'pages/contact'                       => redirect('contact'                       , status: 301)
+    get 'pages/service-client'                => redirect('service-client'                , status: 301)
+    get 'pages/presse'                        => redirect('presse'                        , status: 301)
+    get 'pages/jobs'                          => redirect('jobs'                          , status: 301)
+    get 'pages/mentions-legales-partenaires'  => redirect('mentions-legales-partenaires'  , status: 301)
+    get 'pages/conditions-generale-de-vente'  => redirect('conditions-generale-de-vente'  , status: 301)
+    get 'pass-decouverte'                     => redirect('comment-ca-marche'             , status: 301)
+
+    post 'contact/' => 'pages#send_message'
+
+    post '/mandrill-webhook' => 'mandrill_webhook#create'
+    get  '/mandrill-webhook' => 'mandrill_webhook#index'
+    root :to => 'home#index'
+
+    ########### Search pages ###########
+    # Must be at the end not to stop other routes
+    get ':root_subject_id/:subject_id--:city_id'     , to: 'structures#index', as: :search_page
+    get ':root_subject_id--:city_id'                 , to: 'structures#index', as: :root_search_page
+    get ':city_id'                                   , to: 'structures#index', as: :root_search_page_without_subject
+    ########### Search pages ###########
+
+    # Needed to catch 404 requests in ApplicationController
+    # match "*path", to: "application#routing_error", via: :get
   end
 
-  resources :subjects, only: [] do
-    collection do
-    end
-  end
-  resources :subjects, only: [:index] do
-    member do
-      get :depth_2
-    end
-    collection do
-      get :descendants
-      get :search
-    end
-    resources :structures, only: [:index], path: 'etablissements'
-    # resources :places, only: [:index], path: 'etablissements'
-    resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index' # établissement without S
-    resources :courses, only: [:index], path: 'cours'
-  end
+  get '/', to: 'redirect#www_root'
+  ########### Search pages ###########
+  # Redirect if it's not on WWW subdomain
+  get ':root_subject_id/:subject_id--:city_id'     , to: 'redirect#structures_index'
+  get ':root_subject_id--:city_id'                 , to: 'redirect#structures_index'
+  get ':city_id'                                   , to: 'redirect#structures_index'
+  ########### Search pages ###########
 
-  resources :reservation_loggers, only: [:create]
-  resources :click_logs, only: [:create]
 
   # ---------------------------------------------------------
   # ----------------------------------------- Redirection 301
@@ -568,62 +636,21 @@ CoursAvenue::Application.routes.draw do
   get 'ville/:city_id/cours/:subject_id',                            to: 'redirect#city_subject'
   get 'ville/:id',                                                   to: 'redirect#city'
 
-  # ------------------------------------------------------
-  # ----------------------------------------- Static pages
-  # ------------------------------------------------------
-  # Pages
-  get 'vos-resolutions-2015'               => 'home#resolutions',          as: 'home_resolutions'
-  get 'vos-resolutions-2015/resultats/:id' => 'home#resolutions_results',  as: 'home_resolutions_results'
-
-  get 'mon-compte'                    => 'home#redirect_to_account'
-  get 'pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
-  get 'portes-ouvertes-cours-loisirs' => 'pages#jpo',                  as: 'pages_jpo'
-  get 'comment-ca-marche'             => 'pages#what_is_it',           as: 'pages_what_is_it'
-  get 'faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'
-  get 'faq-partenaires'               => 'pages#faq_partners',         as: 'pages_faq_partners'
-  get 'qui-sommes-nous'               => 'pages#who_are_we',           as: 'pages_who_are_we'
-  get 'contact'                       => 'pages#contact',              as: 'pages_contact'
-  get 'service-client'                => 'pages#customer_service',     as: 'pages_customer_service'
-  get 'presse'                        => 'pages#press',                as: 'pages_press'
-  get 'mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
-  get 'conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
-  get 'cours-d-essai-gratuits'        => 'pages#free_trial',           as: 'pages_free_trial'
-
-  # Jobs
-  get 'jobs'                          => 'jobs#index'
-  get 'jobs/frontend-developpeur'     => 'jobs#frontend_developper',   as: 'jobs_frontend_developper'
-  get 'jobs/business-developpeur'     => 'jobs#business_developper',   as: 'jobs_business_developper'
-  get 'jobs/marketing'                => 'jobs#marketing',             as: 'jobs_marketing'
-
-  # Redirect old pages
-  get 'pages/pourquoi-le-bon-cours'         => redirect('pourquoi-le-bon-cours'         , status: 301)
-  get 'pages/portes-ouvertes-cours-loisirs' => redirect('portes-ouvertes-cours-loisirs' , status: 301)
-  get 'qu-est-ce-que-coursavenue'           => redirect('comment-ca-marche'             , status: 301)
-  get 'pages/qu-est-ce-que-coursavenue'     => redirect('qu-est-ce-que-coursavenue'     , status: 301)
-  get 'pages/faq-utilisateurs'              => redirect('faq-utilisateurs'              , status: 301)
-  get 'pages/faq-partenaires'               => redirect('faq-partenaires'               , status: 301)
-  get 'pages/qui-sommes-nous'               => redirect('qui-sommes-nous'               , status: 301)
-  get 'pages/contact'                       => redirect('contact'                       , status: 301)
-  get 'pages/service-client'                => redirect('service-client'                , status: 301)
-  get 'pages/presse'                        => redirect('presse'                        , status: 301)
-  get 'pages/jobs'                          => redirect('jobs'                          , status: 301)
-  get 'pages/mentions-legales-partenaires'  => redirect('mentions-legales-partenaires'  , status: 301)
-  get 'pages/conditions-generale-de-vente'  => redirect('conditions-generale-de-vente'  , status: 301)
-  get 'pass-decouverte'                     => redirect('comment-ca-marche'             , status: 301)
-
-  post 'contact/' => 'pages#send_message'
-
-  post '/mandrill-webhook' => 'mandrill_webhook#create'
-  get  '/mandrill-webhook' => 'mandrill_webhook#index'
-  root :to => 'home#index'
-
-  ########### Search pages ###########
-  # Must be at the end not to stop other routes
-  get ':root_subject_id/:subject_id--:city_id'     , to: 'structures#index', as: :search_page
-  get ':root_subject_id--:city_id'                 , to: 'structures#index', as: :root_search_page
-  get ':city_id'                                   , to: 'structures#index', as: :root_search_page_without_subject
-  ########### Search pages ###########
-
-  # Needed to catch 404 requests in ApplicationController
-  # match "*path", to: "application#routing_error", via: :get
+  ########### Vertical pages ###########
+  get 'cours/:id--:city_id'                        , to: 'redirect#vertical_pages__show_with_city'
+  get 'cours/:id'                                  , to: 'redirect#vertical_pages__show_root'
+  get 'cours/:root_subject_id/:id'                 , to: 'redirect#vertical_pages__show'
+  get 'cours/:root_subject_id/:id/:city_id'        , to: 'redirect#vertical_pages__show_with_city'
+  get 'cours-de-:id'                               , to: 'vertical_pages#redirect_to_show'
+  get 'guide-des-disciplines'                      , to: 'redirect#vertical_pages__index'
+  ###########  REDIRECTIONS --old
+  ## With city
+  # Root subject
+  get 'cours-de-:subject_id-a/:id'                 , to: 'subjects/cities#show', as: :vertical_root_subject_city
+  # Child subject
+  get 'cours-de-:parent_subject_id/:subject_id/:id', to: 'subjects/cities#show', as: :vertical_subject_city
+  ## Without city
+  # Child subject
+  get 'cours-de-:parent_subject_id/:id'            , to: 'subjects#show'       , as: :vertical_subject
+  ########### Vertical pages ###########
 end

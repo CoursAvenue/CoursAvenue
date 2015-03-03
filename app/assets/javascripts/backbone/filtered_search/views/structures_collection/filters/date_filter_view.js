@@ -5,18 +5,22 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.DateFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'date_filter_view',
 
-        initialize: function() {
-            this.data = {start_date: '', end_date: ''};
+        initialize: function initialize () {
+            this.data = { start_date: '', end_date: '' };
+            // Prevent the dropdown to close if a datepicker is open
+            this.lock_dropdown_hide = false;
         },
 
-        setup: function (data) {
+        setup: function setup (data) {
             this.data    = data;
             // Re render to have the data in the view.
             this.render();
 
             this.populateHourRange(this.ui.$hour_range.find('select').first(), 0, 24);
             this.populateHourRange(this.ui.$hour_range.find('select').last(), 0, 24);
-            this.ui.$week_days_select.val(data.week_days);
+
+            this.selectWeekDays(data.week_days);
+
             this.ui.$date_range.hide();
             this.ui.$hour_range.hide();
 
@@ -34,85 +38,85 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             if (this.ui.$start_date.val().length > 0 || this.ui.$end_date.val().length > 0 ) {
                 this.showDateRange();
             }
-            this.announceBreadcrumbs();
+            if (data.start_date.length > 0  || data.end_date.length > 0 ) {
+                this.ui.$date_filter_type_inputs.filter('[value=trainings]').prop('checked', true);
+            } else {
+                this.ui.$date_filter_type_inputs.filter('[value=regulars]').prop('checked', true);
+            }
+            this.setButtonState();
         },
 
         ui: {
-            '$week_days_select': '[data-type=day]',
-            '$time':             '[data-type=time]',
-            '$time_select':      '[data-type=time] select',
-            '$date':             '[data-type=date]',
-            '$date_range':       '[data-type=date-range]',
-            '$start_date':       '[data-value=start-date]',
-            '$end_date':         '[data-value=end-date]',
-            '$hour_range':       '[data-type=hour-range]'
+            '$week_days_inputs'       : '[data-type=day]',
+            '$time'                   : '[data-type=time]',
+            '$time_select'            : '[data-type=time] select',
+            '$week_day_wrapper'       : '[data-type=week-day-wrapper]',
+            '$date_range'             : '[data-type=date-range]',
+            '$start_date'             : '[data-value=start-date]',
+            '$end_date'               : '[data-value=end-date]',
+            '$hour_range'             : '[data-type=hour-range]',
+            '$clear_filter_button'    : '[data-behavior=clear-filter]',
+            '$clearer'                : '[data-el=clearer]',
+            '$date_filter_type_inputs': '[name=date-filter-type]'
         },
 
         events: {
-            'click  [data-behaviour=toggle]':         'toggleModes',
-            'change [data-type=day]':                 'announceDay',
-            'change [data-type=time] select':         'announceTime',
-            'change [data-type=time] > select':       'showHourRange',
-            'change [data-type=hour-range] select':   'narrowHourRange',
+            'mouseenter' : 'showDropdown',
+            'mouseleave' : 'hideDropdown',
+            'change @ui.$date_filter_type_inputs'   : 'toggleModes',
+            'change [data-type=day]'                : 'announceDay',
+            'change [data-type=time] select'        : 'announceTime',
+            'change [data-type=time] > select'      : 'showHourRange',
+            'change [data-type=hour-range] select'  : 'narrowHourRange',
             'change [data-type=hour-range] > select': 'announceHourRange',
-            'change [data-type=date-range] input':    'announceDateRange'
+            'change [data-type=date-range] input'   : 'announceDateRange',
+            'click @ui.$clear_filter_button'        : 'clear'
         },
 
+        showDropdown: function showDropdown () {
+            this.$('.drop-down__el').show();
+        },
+
+        hideDropdown: function hideDropdown () {
+            if (!this.lock_dropdown_hide) {
+                this.$('.drop-down__el').hide();
+            }
+        },
         // this creates several requests, but only the most current one will
         // actually be processed, since the structures_collection_view cancels
         // out of date requests.
-        announce: function () {
+        announce: function announce () {
             this.announceDay();
             this.announceTime();
             this.announceHourRange();
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
-        announceBreadcrumbs: function() {
-            // Remove breadcrumb if all values are not set
-            if ((this.ui.$week_days_select.val() === null) &&
-                (this.ui.$start_date.val().length === 0) &&
-                (this.ui.$end_date.val().length === 0) &&
-                this.ui.$time_select.val() === 'all-day') {
-                this.trigger("filter:breadcrumb:remove", {target: 'date'});
+        /*
+         * Set the state of the button, wether or not there are filters or not
+         */
+        setButtonState: function setButtonState () {
+            if (this.weekDaysVal().length == 0 &&
+                this.ui.$start_date.val().length == 0 &&
+                this.ui.$end_date.val().length == 0 &&
+                this.ui.$time_select.val() == 'all-day') {
+                this.ui.$clear_filter_button.addClass('btn--gray');
+                this.ui.$clearer.hide();
             } else {
-                this.trigger("filter:breadcrumb:add", {target: 'date', title: this.breadcrumbTitle()});
+                this.ui.$clearer.show();
+                this.ui.$clear_filter_button.removeClass('btn--gray');
             }
         },
 
-        breadcrumbTitle: function() {
-            var title = '',
-                self  = this;
-            if (this.ui.$week_days_select.val() !== null) {
-                var week_days = [];
-                _.each(this.ui.$week_days_select.val(), function(value) {
-                    week_days.push(self.ui.$week_days_select.find('option[value=' + value + ']').text());
-                });
-                title += week_days.join(', ')
-            }
-            if (this.ui.$time_select.val() === 'all-day') {
-                title += ' Toute la journée';
-            } else if (this.ui.$time_select.val() === 'choose-slot') {
-                title += ' de ' + this.$el.find('#start-hour').val() + 'h'
-                if (this.$el.find('#end-hour').val().length > 0) { title += ' à ' + this.$el.find('#end-hour').val() + 'h' }
-            } else if (this.ui.$time_select.val() !== 'all-day') {
-                title += ' / ' + this.ui.$time_select.find('option[value=' + this.ui.$time_select.val() + ']').text()
-            }
-            if (this.ui.$start_date.val().length !== 0 && this.ui.$end_date.val().length !== 0) {
-                title += ' Du '+ this.ui.$start_date.val() + ' au ' + this.ui.$end_date.val()
-            }
-            return title;
-        },
-
-        announceDay: function () {
+        announceDay: function announceDay () {
             this.trigger("filter:date", {
-                'week_days[]'  : this.ui.$week_days_select.val(),
-                start_date: null,
-                end_date  : null
+                'week_days[]': this.weekDaysVal(),
+                start_date   : null,
+                end_date     : null
             });
-            this.announceBreadcrumbs();
+            this.setButtonState();
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
-        announceTime: function (e, data) {
+        announceTime: function announceTime (e, data) {
             var range, data;
             switch(this.ui.$time.find('select').val()) {
                 case 'choose-slot':
@@ -131,10 +135,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 break;
             }
             this.trigger("filter:date", data);
-            this.announceBreadcrumbs();
+            this.setButtonState();
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
-        announceHourRange: function (e) {
+        announceHourRange: function announceHourRange (e) {
             if (this.ui.$time.find('select').val() !== "choose-slot") {
                 return;
             }
@@ -143,13 +147,29 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 start_hour: this.$el.find('#start-hour').val(),
                 end_hour:   this.$el.find('#end-hour').val(),
             });
-            this.announceBreadcrumbs();
+            this.setButtonState();
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
+
+        onRender: function onRender () {
+            GLOBAL.datepicker_initializer();
+            this.$('[data-behavior=datepicker]').datepicker().on('show', function(e){
+                this.lock_dropdown_hide = true;
+                // Hide dropdown and datepicker mouse user leave datepicker
+                $('.datepicker').on('mouseleave', function() {
+                    this.lock_dropdown_hide = false;
+                    this.hideDropdown();
+                    $('.datepicker').hide();
+                }.bind(this));
+            }.bind(this));
+            $('[data-behavior=datepicker]').datepicker().on('hide', function(e){
+                this.lock_dropdown_hide = false;
+            }.bind(this));
+        },
 
         /* this method is called any time the datepicker closes. So that's too
          * often, but there really isn't much we can do about it.
          * see card #314 [https://trello.com/c/KlTOIsZp] */
-        announceDateRange: function () {
+        announceDateRange: function announceDateRange () {
             this.trigger("filter:date", {
                 start_date:     (this.ui.$start_date.val().length > 0 ? this.ui.$start_date.val() : null),
                 end_date:       (this.ui.$end_date.val().length > 0   ? this.ui.$end_date.val()   : null),
@@ -157,10 +177,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 'week_days[]':  null,
                 end_hour:       null
             });
-            this.announceBreadcrumbs();
+            this.setButtonState();
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
-        showHourRange: function () {
+        showHourRange: function showHourRange () {
             if (this.ui.$time.find('select').val() !== "choose-slot") {
                 this.ui.$hour_range.slideUp();
                 return;
@@ -176,7 +196,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
         },
 
-        narrowHourRange: function (e) {
+        narrowHourRange: function narrowHourRange (e) {
             var $select = this.ui.$hour_range.find('select:not(#' + e.currentTarget.id + ')'),
                 val = e.currentTarget.value, min, max;
 
@@ -191,7 +211,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.populateHourRange($select, min, max);
         },
 
-        populateHourRange: function ($select, min, max) {
+        populateHourRange: function populateHourRange ($select, min, max) {
             var val = parseInt($select.val(), 10) || 0;
             $select.empty();
 
@@ -207,8 +227,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
         },
 
-        toggleModes: function () {
-            if (this.ui.$date_range.is(':visible')) {
+        toggleModes: function toggleModes () {
+            if (this.ui.$date_filter_type_inputs.filter(':checked').val() == 'regulars') {
                 this.showWeekDays();
                 this.announce();
             } else {
@@ -217,30 +237,51 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
         },
 
-        showDateRange: function () {
-            this.ui.$date_range.slideDown();
-            this.ui.$date.slideUp();
+        showDateRange: function showDateRange () {
+            this.ui.$date_range.show();
+            this.ui.$week_day_wrapper.hide();
         },
 
-        showWeekDays: function () {
-            this.ui.$date_range.slideUp();
-            this.ui.$date.slideDown();
+        showWeekDays: function showWeekDays () {
+            this.ui.$date_range.hide();
+            this.ui.$week_day_wrapper.show();
         },
 
-        serializeData: function () {
+        serializeData: function serializeData () {
             return {
                 start_date: this.data.start_date,
                 end_date:   this.data.end_date
             };
         },
 
+        weekDaysVal: function weekDaysVal () {
+            return _.map(this.ui.$week_days_inputs.filter(':checked'), function(input){ return input.value });
+        },
+
+        selectWeekDays: function selectWeekDays (week_days) {
+            _.each(this.ui.$week_days_inputs, function(input) {
+                var $input = $(input);
+                if (parseInt($input.val(), 10) == parseInt(week_days, 10)) {
+                    $input.prop("checked", true);
+                    $input.parent('.btn').addClass('active');
+                }
+            });
+        },
+
         // Clears all the given filters
-        clear: function () {
-            this.ui.$week_days_select.val('').trigger('chosen:updated');
+        clear: function clear () {
+            this.showWeekDays();
+            this.ui.$date_filter_type_inputs.filter('[value=regulars]').prop('checked', true);
+            _.each(this.ui.$week_days_inputs, function(input) {
+                var $input = $(input);
+                $input.prop("checked", false);
+                $input.parent('.btn').removeClass('active');
+            });
             this.ui.$start_date.val('');
             this.ui.$end_date.val('');
             this.ui.$time.find('select').val('all-day');
             this.announce();
+            this.setButtonState();
         }
     });
 });

@@ -1,3 +1,9 @@
+.structure-item-view {
+    @include transition(all 200ms linear);
+    &:hover {
+        background-color: $site-background-color;
+    }
+}
 .heart-link:hover {
     i {
         @extend .fa-heart;

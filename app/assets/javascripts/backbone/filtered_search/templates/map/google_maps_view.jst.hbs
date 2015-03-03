@@ -1,14 +1,10 @@
 <div class="relative filtered-search__map" data-type="map-container">
-
-  <div class="filtered-search__map-control" data-behavior="bounds-controls">
+  <div class="filtered-search__map-control push-half--top" data-behavior="bounds-controls">
       <div class="white-box soft-half">
-        <div data-type="location-filter"></div>
-        <div class="very-soft hard--sides hard--bottom">
-            <input id="filtered-search__map-bounds-controls-checkbox" data-behavior="live-update" type="checkbox" {{#if update_live }}checked{{/if}} class="v-middle"></input>
-            <label for="filtered-search__map-bounds-controls-checkbox" class="inline soft-half--left v-middle">
-              Rechercher quand je déplace la carte
-            </label>
-        </div>
+        <input id="filtered-search__map-bounds-controls-checkbox" data-behavior="live-update" type="checkbox" {{#if update_live }}checked{{/if}} class="v-middle"></input>
+        <label for="filtered-search__map-bounds-controls-checkbox" class="inline soft-half--left v-middle">
+          Rechercher quand je déplace la carte
+        </label>
       </div>
   </div>
 </div>

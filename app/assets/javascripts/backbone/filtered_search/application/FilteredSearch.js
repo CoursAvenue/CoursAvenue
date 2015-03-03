@@ -22,7 +22,9 @@ FilteredSearch.addInitializer(function(options) {
             'pagination:page'       : 'goToPage',
             'filter:summary'        : 'filterQuery',
             'map:bounds'            : 'filterQuery',
-            'filter:subject'        : 'filterQuery',
+            'filter:subject'        : 'updateUrlAndFilter',
+            'filter:subject_input'  : 'updateUrlAndFilter',
+            'filter:location'       : 'updateUrlAndFilter',
             'filter:level'          : 'filterQuery',
             'filter:audience'       : 'filterQuery',
             'filter:course_type'    : 'filterQuery',
@@ -32,15 +34,12 @@ FilteredSearch.addInitializer(function(options) {
             'filter:structure_type' : 'filterQuery',
             'filter:payment_method' : 'filterQuery',
             'filter:search_term'    : 'filterQuery',
-            'filter:location'       : 'filterQuery',
             'filter:trial_course'   : 'filterQuery',
             'map:marker:click'      : 'findChildView',
-            'structures:updated'    : 'structuresUpdated'
+            'structures:updated'    : 'structuresUpdated',
+            'paginator:updating'    : 'scrollToTop'
         }
     });
-
-    if ( !structures.queryParams['address_name'] ) { structures.queryParams['address_name'] = 'Paris' }
-    //structures.bootstrap();
 
     /* set up the layouts */
     layout = new FilteredSearch.Views.SearchWidgetsLayout();
@@ -79,6 +78,7 @@ FilteredSearch.addInitializer(function(options) {
     var subjects = new FilteredSearch.Models.SubjectsCollection(coursavenue.bootstrap.subjects);
 
     /* basic filters */
+    top_results_summary        = new FiltersModule.TopResultsSummaryView({});
     results_summary            = new FiltersModule.ResultsSummaryView({});
     keyword_filter             = new FiltersModule.KeywordFilterView({});
     subjects_collection_filter = new FiltersModule.Subjects.SubjectsCollectionView({ collection: subjects });
@@ -101,6 +101,7 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
+    input_subject_filter      = new CoursAvenue.Views.InputSubjectFilterView({ className: 'filtered-search__location-input palm-one-whole'});
     location_filter           = new FiltersModule.LocationFilterView({});
     level_filter              = new FiltersModule.LevelFilterView({});
     course_type_filter        = new FiltersModule.CourseTypeFilterView({});
@@ -120,14 +121,16 @@ FilteredSearch.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         events: {
-            'structures:updated'               : '_renderChildren',
-            'paginator:updating'               : 'hideInfoWindow',
+            'structures:updated'                : '_renderChildren',
+            'filter:location'                   : 'lockBoundsOnce',
+            'paginator:updating'                : 'hideInfoWindow',
             'structures:childview:highlighted'  : 'exciteMarkers',
             'structures:childview:unhighlighted': 'exciteMarkers',
-            'map:update:zoom'                  : 'updateZoom',
-            'filter:update:map'                : 'centerMap',
+            'map:update:zoom'                   : 'updateZoom',
+            'filter:update:map'                 : 'centerMap',
             'structures:childview:found'        : 'setMarkerViewAndshowInfoWindow',
-            'structures:childview:peacock'      : 'togglePeacockingMarkers'
+            'structures:childview:peacock'      : 'togglePeacockingMarkers',
+            'map:zoom:out'                      : 'zoomOut'
         }
     });
 
@@ -143,20 +146,81 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    layout.showWidget(subjects_collection_filter, { events: { 'structures:updated:filter': 'setup' }});
+    layout.showWidget(subjects_collection_filter, {
+        events: {
+          'structures:updated:filter': 'setup'
+        }
+    });
     layout.showWidget(location_filter);
+    layout.showWidget(input_subject_filter);
     layout.showWidget(results_summary);
+    layout.showWidget(top_results_summary, {
+        events: {
+          'filter:subject'       : 'updateSubjectName',
+          'filter:subject_input' : 'updateSubjectName'
+        }
+    });
 
-    layout.showWidget(keyword_filter,        { events: { 'breadcrumbs:clear:search_term':     'clear'} });
-    layout.showWidget(level_filter,          { events: { 'breadcrumbs:clear:level':           'clear'} });
-    layout.showWidget(course_type_filter,    { events: { 'breadcrumbs:clear:course_type':     'clear'} });
-    layout.showWidget(audience_filter,       { events: { 'breadcrumbs:clear:audience':        'clear'} });
-    layout.showWidget(structure_type_filter, { events: { 'breadcrumbs:clear:structure_types': 'clear'} });
-    layout.showWidget(payment_method_filter, { events: { 'breadcrumbs:clear:payment_method':  'clear'} });
-    layout.showWidget(discount_filter,       { events: { 'breadcrumbs:clear:discount':        'clear'} });
-    layout.showWidget(date_filter,           { events: { 'breadcrumbs:clear:date':            'clear'} });
-    layout.showWidget(price_filter,          { events: { 'breadcrumbs:clear:price':           'clear'} });
-    layout.showWidget(trial_course_filter,   { events: { 'breadcrumbs:clear:trial_course':    'clear'} });
+    layout.showWidget(keyword_filter, {
+        events: {
+          'filters:clear:search_term': 'clear',
+          'filters:clear:all'        : 'clear'
+        }
+      });
+    layout.showWidget(level_filter, {
+        events: {
+          'filters:clear:level': 'clear',
+          'filters:clear:all'  : 'clear'
+        }
+      });
+    layout.showWidget(course_type_filter, {
+        events: {
+          'filters:clear:course_type': 'clear',
+          'filters:clear:all'        : 'clear'
+        }
+      });
+    layout.showWidget(audience_filter, {
+        events: {
+          'filters:clear:audience': 'clear',
+          'filters:clear:all'     : 'clear'
+        }
+      });
+    layout.showWidget(structure_type_filter, {
+        events: {
+          'filters:clear:structure_types': 'clear',
+          'filters:clear:all'            : 'clear'
+        }
+      });
+    layout.showWidget(payment_method_filter, {
+        events: {
+          'filters:clear:payment_method': 'clear',
+          'filters:clear:all'           : 'clear'
+        }
+      });
+    layout.showWidget(discount_filter, {
+        events: {
+          'filters:clear:discount': 'clear',
+          'filters:clear:all'     : 'clear'
+        }
+      });
+    layout.showWidget(date_filter, {
+        events: {
+          'filters:clear:date': 'clear',
+          'filters:clear:all' : 'clear'
+        }
+      });
+    layout.showWidget(price_filter, {
+        events: {
+          'filters:clear:price': 'clear',
+          'filters:clear:all'  : 'clear'
+        }
+      });
+    layout.showWidget(trial_course_filter, {
+        events: {
+          'filters:clear:trial_course': 'clear',
+          'filters:clear:all'         : 'clear'
+        }
+      });
 
     layout.showWidget(pagination_bottom, {
         events: {
@@ -168,15 +232,22 @@ FilteredSearch.addInitializer(function(options) {
 
     layout.master.show(structures_view);
     GLOBAL.chosen_initializer();
-
-    if (GLOBAL.is_mobile) {
-        $('[data-type="location-filter"]').appendTo($('#mobile-location-filter'));
-    }
 });
 
 $(document).ready(function() {
     /* we only want the filteredsearch on the search page */
     if (FilteredSearch.detectRoot()) {
         FilteredSearch.start({});
+        CoursAvenue.initializeUserNav();
+        setTimeout(function() {
+            $('[data-behavior=drop-down]').dropDown();
+            if (!$.cookie('have-seen-filtered-search-map-help')) {
+                setTimeout(function() { $('[data-map-helper]').fadeIn(); }, 2000);
+                $('[data-map-helper]').click(function() {
+                    $(this).fadeOut();
+                    $.cookie('have-seen-filtered-search-map-help', true, { expires: 999999 }); // Never expires
+                });
+            }
+        });
     }
 });

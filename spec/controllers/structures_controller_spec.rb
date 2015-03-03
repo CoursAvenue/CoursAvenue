@@ -6,9 +6,9 @@ describe StructuresController, type: :controller do
 
   def required_keys
     %w(id name slug comments_count logo_thumb_url logo_large_url data_url
-      query_params structure_type highlighted_comment_title premium has_promotion
-      is_open_for_trial cover_media subjects trial_courses_policy places
-      preloaded_medias)
+      query_params structure_type highlighted_comment_title has_promotion
+      is_open_for_trial cover_media subjects current_filtered_subject_name cities_text
+      min_price_amount places preloaded_medias)
   end
 
   describe 'show' do
@@ -75,8 +75,9 @@ describe StructuresController, type: :controller do
       expect(structure.followings.count).to eq followings_count + 1
     end
 
-    it 'creates a new Metric action' do
-      expect { post :add_to_favorite, id: structure.id }.to change { structure.metrics.actions.count }.by(1)
-    end
+    # We freezed the metrics
+    # it 'creates a new Metric action' do
+    #   expect { post :add_to_favorite, id: structure.id }.to change { structure.metrics.actions.count }.by(1)
+    # end
   end
 end

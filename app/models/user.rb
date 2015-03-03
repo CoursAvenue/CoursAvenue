@@ -3,10 +3,13 @@ class User < ActiveRecord::Base
   include Concerns::HstoreHelper
   include Concerns::HasDeliveryStatus
   include Concerns::MessagableWithLabel
+  include Concerns::SMSSender
+  include Concerns::ReminderEmailStatus
   include ActsAsUnsubscribable
   include Rails.application.routes.url_helpers
 
   acts_as_messageable
+  acts_as_paranoid
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
@@ -17,10 +20,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
-                  :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
+                  :name, :first_name, :last_name, :gender, :fb_avatar, :location,
+                  :avatar, :remote_avatar_url,
                   :birthdate, :phone_number, :zip_code, :city_id, :passion_zip_code, :passion_city_id, :passions_attributes, :description,
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
@@ -36,12 +39,7 @@ class User < ActiveRecord::Base
 
   define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
 
-
-  has_attached_file :avatar,
-                    styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' },
-                    processors: [:thumbnail, :paperclip_optimizer]
-
-  validates_attachment_content_type :avatar, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+  mount_uploader :avatar, UserAvatarUploader
 
   ######################################################################
   # Relations                                                          #
@@ -110,9 +108,9 @@ class User < ActiveRecord::Base
   ######################################################################
   scope :active,   -> { where.not(encrypted_password: '') }
   scope :inactive, -> { where( User.arel_table[:encrypted_password].eq('').or(User.arel_table[:encrypted_password] == nil)) }
-  scope :with_avatar, -> { where.not(avatar_file_name: nil) }
+  scope :with_avatar, -> { where.not(avatar: nil) }
 
-
+  # :nocov:
   searchable do
     text :first_name
     text :last_name
@@ -145,6 +143,7 @@ class User < ActiveRecord::Base
     time :created_at
 
   end
+  # :nocov:
 
   # Creates a user from Facebook
   #
@@ -198,22 +197,24 @@ class User < ActiveRecord::Base
     user
   end
 
-  ######################################################################
-  # Email reminder                                                     #
-  ######################################################################
-
-  # Sends reminder depending on the email status of the user
-  # This method is called every week through user_reminder rake task
-  # (Executed on Heroku by the scheduler)
+  # Sends a reminder of classes on the following day.
   #
-  # @return nil
-  def send_reminder
-    if self.email_status and self.email_passions_opt_in?
-      if self.update_email_status.present?
-        self.update_column :last_email_sent_at, Time.now
-        self.update_column :last_email_sent_status, self.email_status
-        UserMailer.delay.send(self.email_status.to_sym, self)
+  # @return a Boolean, whether the sms was sent or not.
+  def send_sms_reminder
+    if phone_number and sms_opt_in?
+      courses = participation_requests.where(date: Date.tomorrow, state: 'accepted')
+      return false if courses.empty?
+
+      if courses.length > 1
+        message = I18n.t('sms.users.day_before_reminder.multiple_course',
+                         nb_courses: courses.length,
+                         start_time: I18n.l(courses.first.start_time, format: :short))
+      else
+        message = I18n.t('sms.users.day_before_reminder.one_course',
+                         start_time: I18n.l(courses.first.start_time, format: :short))
       end
+
+      self.delay.send_sms(message, phone_number)
     end
   end
 
@@ -229,17 +230,22 @@ class User < ActiveRecord::Base
     return email_status
   end
 
+  # Check if the user has a avatar.
+  # We check if the avatar has a URL because the uploader always creates the
+  # avatar object.
+  #
+  # @return Boolean
   def has_avatar?
-    self.avatar.exists? or self.fb_avatar
+    avatar.present? or read_attribute(:fb_avatar)
   end
 
-  def avatar_url(format=:normal)
-    if self.avatar.exists?
+  def avatar_url(format = :normal)
+    if avatar.present?
       self.avatar.url(format)
-    elsif self.fb_avatar
+    elsif read_attribute(:fb_avatar)
       self.fb_avatar(format)
     else
-      self.avatar
+      self.avatar.url(format) # To provide default image
     end
   end
 
@@ -346,7 +352,11 @@ class User < ActiveRecord::Base
   #
   # @return string the url
   def around_courses_url
-    structures_path(around_courses_params)
+    if city
+      root_search_page_without_subject_path(city)
+    else
+      root_search_page_without_subject_path('paris')
+    end
   end
 
   def around_courses_search
@@ -542,10 +552,11 @@ class User < ActiveRecord::Base
     self.comments.where(commentable_id: structure.id, commentable_type: 'Structure').any?
   end
 
-  def migrate_avatar_to_cloudinary
-    if avatar and c_image.nil?
-      cloudinary_image = Cloudinary::Uploader.upload(avatar.url)
-      self.update_column(:c_image, "v#{cloudinary_image['version']}/#{cloudinary_image['public_id']}.#{cloudinary_image['format']}")
+  def age
+    if self.birthdate
+      age = Date.today.year - self.birthdate.year
+      age -= 1 if Date.today < self.birthdate + age.years # for days before birthdate
+      age
     end
   end
 
@@ -622,5 +633,4 @@ class User < ActiveRecord::Base
     end
     nil
   end
-
 end

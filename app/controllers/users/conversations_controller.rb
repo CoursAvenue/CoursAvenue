@@ -14,7 +14,11 @@ class Users::ConversationsController < ApplicationController
     @message               = @conversation.messages.build
     @participation_request = conversation_participation_request(@conversation)
     respond_to do |format|
-      format.html
+      if @participation_request and !@participation_request.past?
+        format.html { redirect_to user_participation_request_path(@user, @participation_request) }
+      else
+        format.html
+      end
     end
   end
 
@@ -40,7 +44,7 @@ class Users::ConversationsController < ApplicationController
       if params[:conversation][:message][:body].blank?
         format.html { redirect_to user_conversation_path(@user, @conversation), alert: 'Vous ne pouvez pas envoyer de message vide' }
       else
-        format.html { redirect_to user_conversation_path(@user, @conversation), notice: 'Message envoyé' }
+        format.html { redirect_to (params[:return_to].present? ? params[:return_to] : user_conversation_path(@user, @conversation)), notice: 'Message envoyé' }
       end
     end
   end

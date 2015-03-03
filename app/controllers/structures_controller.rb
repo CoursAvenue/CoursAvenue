@@ -22,16 +22,13 @@ class StructuresController < ApplicationController
   # GET /danse--paris
   # GET /danse/danse-orientale--paris
   def index
-    if params[:city_id]
-      @city = City.find(params[:city_id])
-    else
-      @city = City.find('paris')
-    end
+    @city = City.find(params[:city_id]) rescue City.find('paris')
+    proceed_to_redirection_if_needed
     if params[:root_subject_id].present? and params[:subject_id].blank?
       params[:subject_id] = params[:root_subject_id]
     end
     @app_slug = "filtered-search"
-    @subject = filter_by_subject?
+    @subject  = filter_by_subject?
 
     # We remove bbox parameters if user is on mobile since we don't show the map
     if mobile_device?
@@ -57,13 +54,14 @@ class StructuresController < ApplicationController
     @total_medias   = Media.count
     respond_to do |format|
       format.html do
-        @models = jasonify @structures, place_ids: @places
+        @models = jasonify @structures, place_ids: @places, current_filtered_subject_name: @subject.try(:name)
         cookies[:structure_search_path] = request.fullpath
       end
       format.json do
         render json: @structures,
                root: 'structures',
                place_ids: @places,
+               current_filtered_subject_name: @subject.try(:name),
                each_serializer: StructureSerializer,
                meta: { total: @total, location: @latlng }
       end
@@ -76,15 +74,16 @@ class StructuresController < ApplicationController
     @place_ids                            = @structure.places.map(&:id)
     @city                                 = @structure.city
 
-    if !current_pro_admin
-      Metric.delay(queue: 'metric').view(@structure.id, current_user, cookies[:fingerprint], request.ip)
-    end
-    if !@structure.premium?
-      @similar_profiles = @structure.similar_profiles(21)
-      if !current_pro_admin
-        Metric.delay.print(@similar_profiles.map(&:id), current_user, cookies[:fingerprint], request.ip)
-      end
-    end
+    # Stopping stat. We have to find something else.
+    # if !current_pro_admin
+    #   Metric.delay(queue: 'metric').view(@structure.id, current_user, cookies[:fingerprint], request.ip)
+    # end
+    # if !@structure.premium?
+    #   @similar_profiles = @structure.similar_profiles(21)
+    #   if !current_pro_admin
+    #     Metric.delay.print(@similar_profiles.map(&:id), current_user, cookies[:fingerprint], request.ip)
+    #   end
+    # end
     @medias = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
     @model = StructureShowSerializer.new(@structure, {
       structure:          @structure,
@@ -96,11 +95,13 @@ class StructuresController < ApplicationController
   end
 
   # GET /etablissements/:id/portes-ouvertes-cours-loisirs
+  # :nocov:
   def jpo
     respond_to do |format|
       format.html { redirect_to structure_path(@structure), status: 301 }
     end
   end
+  # :nocov:
 
   # Used for search on typeahead dropdown
   # GET /etablissements/search.json
@@ -141,7 +142,7 @@ class StructuresController < ApplicationController
   def add_to_favorite
     @structure.followings.create(user: current_user)
     AdminMailer.delay.user_is_now_following_you(@structure, current_user)
-    Metric.action(@structure.id, current_user, cookies[:fingerprint], request.ip, 'follow')
+    Metric.action(@structure.id, cookies[:fingerprint], request.ip, 'follow')
     respond_to do |format|
       format.html { redirect_to structure_path(@structure), notice: "#{@structure.name} a été ajouté à vos favoris"}
       format.json { render json: { succes: true } }
@@ -192,5 +193,18 @@ class StructuresController < ApplicationController
   def set_current_structure
     @structure = Structure.fetch_by_id_or_slug(params[:id])
     raise ActiveRecord::RecordNotFound.new(params) if @structure.nil?
+  end
+
+  # We have cases where we need 301 redirections
+  # This is due to old wrong links
+  def proceed_to_redirection_if_needed
+    if params[:subject_id] and params[:subject_id].include?('--')
+      @subject = Subject.friendly.find(params[:subject_id].gsub(/--.*/, ''))
+      redirect_to structures_path_for_city_and_subject(@city, @subject), status: 301
+    elsif params[:city_id] and params[:city_id].is_number?
+      redirect_to structures_path_for_city_and_subject(@city, (params[:subject_id] || params[:root_subject_id])), status: 301
+    elsif params[:page] and params[:page].is_negative_or_zero_number?
+      redirect_to structures_path_for_city_and_subject(@city, (params[:subject_id] || params[:root_subject_id])), status: 301
+    end
   end
 end

@@ -5,16 +5,17 @@
   Que vous soyez un professeur, une association ou une école à proposer des cours de yoga, de dessin ou de danse, la même envie vous réunit : transmettre votre passion à un maximum d'élèves, de manière à pouvoir en vivre et continuer à développer des cours de qualité. Vos parcours nous passionnent, c'est pourquoi notre équipe vient à votre rencontre pour mieux vous connaître. Voici une sélection de portraits inédits.
 
 - cache 'pro/portrait/header_V2' do
-  .bg-fixed.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/portraits/bg_blur.jpg'})" }
-    .main-container.main-container--medium.soft--ends.push--ends
-      %h1.text--center
-        Vos parcours sont notre passion
-      %h4.text--center
-        Que vous soyez un professeur, une association ou une école à proposer des cours de yoga, de dessin ou de danse, la même envie vous réunit : transmettre votre passion à un maximum d'élèves, de manière à pouvoir en vivre et continuer à développer des cours de qualité. Vos parcours nous passionnent, c'est pourquoi notre équipe vient à votre rencontre pour mieux vous connaître. Voici une sélection de portraits inédits.
+  .relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/pro/portraits/bg_blur.jpg')", data: { behavior: 'parallax' } }
+    .black-curtain.north.west.one-whole.absolute
+    .flexbox__item.v-middle.text--center.relative
+      %h1.f-size-really-big.flush Vos parcours sont notre passion
+
+%h3.main-container.main-container--medium.text--center.f-weight-500.mega-soft--ends
+  Que vous soyez un professeur, une association ou une école à proposer des cours de yoga, de dessin ou de danse, la même envie vous réunit : transmettre votre passion à un maximum d'élèves, de manière à pouvoir en vivre et continuer à développer des cours de qualité. Vos parcours nous passionnent, c'est pourquoi notre équipe vient à votre rencontre pour mieux vous connaître. Voici une sélection de portraits inédits.
 
 - @portraits.each do |portrait|
   - cache [portrait, 'portrait'] do
-    .main-container.main-container--medium.soft--ends.push--ends
+    .main-container.main-container--medium.soft--bottom.push--bottom
       - medias = portrait.medias.order('caption ASC')
       .opacity-hidden-on-hover__wrapper.bg-cover.text--center.relative{ style: "background-image: url(#{medias.limit(1).first.url}); height: 400px;" }>
         = link_to pro_portrait_path(portrait), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain' do

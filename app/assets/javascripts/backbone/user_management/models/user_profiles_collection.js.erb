@@ -23,7 +23,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             // now write back the queryParams so that the search bar is up to date
             // we are passing this.queryParams for fun! ^o^ why not?
-            if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
+            window.history.pushState({}, "Search Results", this.getQuery());
 
             this.state.currentPage = 1;
 
@@ -72,7 +72,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
         parse: function parse (response) {
             // we did some kind of request, I guess we should update the query
-            if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
+            window.history.pushState({}, "Search Results", this.getQuery());
 
             this.grandTotal = response.meta.total;
             this.totalPages = Math.ceil(response.meta.total / this.state.perPage);

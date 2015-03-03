@@ -3,10 +3,11 @@
 = content_for :meta_description do
   Press | Tous savoir sur CoursAvenue
 
-.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})" }
-  .main-container.main-container--medium.soft
-    %h1.flush
-      Presse
+.relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{asset_path('pages/press.jpg')}')", data: { behavior: 'parallax' } }
+  .black-curtain.north.west.one-whole.absolute
+  .flexbox__item.v-middle.text--center.relative
+    %h1.f-size-really-big.flush Presse
+
 .main-container.main-container--medium.soft
   .grid
     .grid__item.seven-tenths>

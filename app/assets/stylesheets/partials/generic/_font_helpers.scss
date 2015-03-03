@@ -2,9 +2,10 @@
      FAMILY
 \*------------------------------------*/
 
+.ff-georgia   { font-family: Georgia,Cambria,"Times New Roman",Times,serif; }
 .ff-open-sans { font-family: "Open Sans"; }
 .ff-pacifico  { font-family: "Pacifico"; }
-.ff-kameron    { font-family: "Kameron"; }
+.ff-kameron   { font-family: "Kameron"; }
 
 /*------------------------------------*\
      WEIGHTS
@@ -22,9 +23,10 @@
      STYLES & VARIANTS
 \*------------------------------------*/
 
-.f-style-italic { font-style: italic; }
-.f-small-caps   { font-variant: small-caps; }
-
+.f-style-italic            { font-style    : italic; }
+.f-small-caps              { font-variant  : small-caps; }
+.text-transform-none       { text-transform: none !important; }
+.text-transform-capitalize { text-transform: capitalize; }
 /*------------------------------------*\
      DECORATIONS
 \*------------------------------------*/
@@ -49,18 +51,21 @@
 
 .inherit-font-size { font-size  : inherit; }
 .f-size-really-big {
-    font-size: 70px;
+    font-size: 55px;
+    @include media-query(desk-wide) { font-size: 65px; }
     @include media-query(palm) { font-size: 30px; }
 }
 .f-size-big {
     font-size: 40px;
-    @include media-query(palm) { font-size: 20px; }
+    @include media-query(palm) { font-size: 30px; }
 }
 .f-size-20  { font-size: 20px; }
 .f-size-16  { font-size: 16px; }
 .f-size-14  { font-size: 14px; }
 .f-size-13  { font-size: 13px; }
 .f-size-12  { font-size: 12px; }
+
+.palm-f-size-12 { @include media-query(palm) { font-size: 12px; } }
 
 .milli {
     p {
@@ -90,14 +95,14 @@
      LINE HEIGHT
 \*------------------------------------*/
 .line-height-normal { line-height: normal !important; }
-.line-height-1      { line-height: 1 !important; }
-.line-height-2      { line-height: 2 !important; }
+.line-height-1      { line-height: 1   !important; }
 .line-height-1-5    { line-height: 1.5 !important; }
 .line-height-1-7    { line-height: 1.7 !important; }
+.line-height-2      { line-height: 2   !important; }
+.line-height-2-5    { line-height: 2.5 !important; }
 
-.palm-text--center {
-    @include media-query(palm) { text-align: center !important; }
-}
+.palm-text--center { @include media-query(palm) { text-align: center !important; } }
+.palm-text--left   { @include media-query(palm) { text-align: left !important; } }
 
 .palm-text--milli {
     @include media-query(palm) { font-size: 0.9em; }

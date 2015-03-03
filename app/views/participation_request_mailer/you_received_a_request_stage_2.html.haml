@@ -1,21 +1,21 @@
 - content_for :email_title do
-  %strong Acceptez la demande d'inscription de #{@user.name} en répondant directement à cet e-mail
+  Acceptez la demande d'inscription de #{@user.name} en répondant directement à cet e-mail
   %hr
 
 .p
   Bonjour,
 
 .p
-  Il y a 2 jours, #{@user.name} vous a envoyé une demande d'inscription au cours d'essai "#{@participation_request.course.name}" le
-  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+  Il y a 2 jours, #{@user.name} vous a envoyé une demande d'inscription au cours "#{@participation_request.course.name}" du
+  %strong= "#{@participation_request_decorator.day_and_hour}."
   Pour continuer à recevoir de nouveaux élèves, nous vous conseillons de répondre maintenant :
 
 .p.action
-  = link_to "Accepter / Proposer un autre créneau / Refuser", pro_structure_conversation_url(@admin.structure, @conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Accepter / Proposer une autre date / Refuser", pro_structure_participation_request_url(@admin.structure, @participation_request, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
 - if @message
   .soft--bottom
-    = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
+    = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user }
 
 .p En répondant maintenant, votre profil remontera dans le moteur de recherche et vous continuerez à recevoir des demandes d'inscription.
 

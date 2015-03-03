@@ -1,28 +1,31 @@
 {{#if children}}
-    <div class="flexbox">
-        <ul class="tabs--stacked flexbox__item v-top one-third">
+    <ul class="soft-half flexbox__item v-top one-third no-bullet-list line-height-1-7 bordered--right bordered--left">
+        {{#each children}}
+            <li data-type="tab-li" class="subject-tabs {{#ifCond slug '==' ../selected_slug}}selected{{/ifCond}} {{#ifCond slug '==' ../selected_parent_subject_id}}selected{{/ifCond}}" data-behavior="tab" data-el="#tab-subjects-filter-{{slug}}">
+                <a data-subject data-depth="1" data-type="btn" href="{{search_page_path ../slug slug ../city_id}}" data-value="{{slug}}" data-root-subject="{{../slug}}" class="nowrap muted-link cursor-pointer flexbox" title="{{ name }}">
+                  <div class="flexbox__item soft-half--right">
+                        {{ name }}
+                  </div>
+                  <div class="flexbox__item text--right">
+                      <i class="fa fa-chevron-right"></i>
+                  </div>
+                </a>
+            </li>
+        {{/each}}
+    </ul>{{!--
+--}}<div class="flexbox__item two-thirds v-top">
+        <div class="tab-content" style="min-width: 150px;">
             {{#each children}}
-                <li class="{{#ifCond slug '==' ../selected_slug}}selected{{/ifCond}} {{#ifCond slug '==' ../selected_parent_subject_id}}selected{{/ifCond}}">
-                    <a data-subject data-depth="1" data-type="btn" data-toggle="tab" href="#tab-subjects-filter-{{slug}}" data-value="{{slug}}" data-toggle="tab" data-root-subject="{{../slug}}" class="cursor-pointer {{#ifCond slug '==' ../selected_slug}}f-weight-bold{{/ifCond}} {{#ifCond slug '==' ../selected_parent_subject_id}}f-weight-bold{{/ifCond}}">
-                        {{name}}
-                    </a>
-                </li>
+                <article id="tab-subjects-filter-{{slug}}" class="tab-pane soft-half {{#ifCond @index '==' 0}}active{{/ifCond}}">
+                    <ul class="no-bullet-list line-height-1-7 {{#if_collection_count_more_than children 20}}column-count-3{{else}}{{#if_collection_count_more_than children 10}}column-count-2{{/if_collection_count_more_than}}{{/if_collection_count_more_than}}">
+                    {{#each this.children}}
+                        <li>
+                            <a class="block text-ellipsis nowrap cursor-pointer black {{#ifCond slug '==' ../../selected_slug}}f-weight-bold{{/ifCond}}" data-depth="2" data-subject data-value="{{slug}}" data-parent-subject="{{../slug}}" data-root-subject="{{../../slug}}" href="{{search_page_path ../../slug slug ../../city_id}}" {{#if_collection_count_more_than ../children 10}}style="max-width: 200px;"{{/if_collection_count_more_than}} title="{{ name }}">{{ name }}</a>
+                        </li>
+                    {{/each}}
+                    </ul>
+                </article>
             {{/each}}
-        </ul>{{!--
-    --}}<div class="flexbox__item two-thirds v-top">
-            <div class="tab-content text--left">
-                {{#each children}}
-                    <article id="tab-subjects-filter-{{slug}}" class="tab-pane soft-half">
-                        <ul class="no-bullet-list line-height-1-7">
-                        {{#each this.children}}
-                            <li>
-                                <a class="cursor-pointer black {{#ifCond slug '==' ../../selected_slug}}f-weight-bold{{/ifCond}}" data-depth="2" data-subject data-value="{{slug}}" data-parent-subject="{{../slug}}" data-root-subject="{{../../slug}}">{{name}}</a>
-                            </li>
-                        {{/each}}
-                        </ul>
-                    </article>
-                {{/each}}
-            </div>
         </div>
     </div>
 {{else}}

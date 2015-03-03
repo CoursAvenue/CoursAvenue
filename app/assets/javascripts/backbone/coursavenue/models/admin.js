@@ -4,12 +4,12 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
     Models.Admin = Backbone.Model.extend({
 
         /*
-         * Check wether the admin is premium or not.
+         * Check wether the user is signed in or not.
          * Return Boolean
          */
-        isPremium: function isLogged () {
-            return this.get('premium')
-        },
+        isLogged: function isLogged () {
+            return !_.isUndefined(this.get('id'));
+        }
 
     });
 });

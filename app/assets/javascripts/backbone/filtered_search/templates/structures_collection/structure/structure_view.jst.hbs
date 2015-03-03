@@ -1,9 +1,9 @@
-<a href="{{ data_url }}" class="muted-link opacity-hidden-on-hover__wrapper block">
-    <div class="relative rslides-wrapper push-half--bottom" data-resizeable-height style="height: 200px">
+<a href="{{ data_url }}" class="muted-link grid--full f-weight-500 block bordered--bottom soft-half--ends relative structure-item-view">
+    <div class="visuallyhidden--palm grid__item three-twelfths relative rslides-wrapper" data-resizeable-height style="height: 110px">
         <ul class="rslides">
             {{#if preloaded_medias}}
                 {{#each preloaded_medias}}
-                    <li class="bg-cover" data-resizeable-height style="height: 200px">
+                    <li class="bg-cover" data-resizeable-height style="height: 110px">
                         <div class="media__item media__item--slides">
                             <span class="break-all" title="{{this.caption}}">
                                 <img src="{{this.thumbnail_url}}" alt="{{this.caption}}"/>
@@ -12,7 +12,7 @@
                     </li>
                 {{/each}}
             {{else}}
-                <li class="bg-cover" data-resizeable-height style="height: 200px">
+                <li class="bg-cover" data-resizeable-height style="height: 110px">
                     <div class="media__item media__item--slides">
                         <span class="break-all">
                             <img src="{{logo_large_url}}" itemprop="logo"/>
@@ -21,40 +21,48 @@
                 </li>
             {{/if}}
         </ul>
-        <div rel="slideshow-{{mediable_id}}" class="rslides_nav one-whole text--center">Voir le profil</div>
-    </div>
-    {{#if has_promotion}}
-        <div class="north west absolute push on-under-top">
-            <div class="inline-block lbl lbl--gray-light milli v-middle"><i class="fa fa-star"></i> Promotions</div>
+        <div href="#" class="orange north east absolute push-half on-under-top heart-link" data-behavior='add-to-favorite' data-toggle='tooltip' data-html="true" data-added-title='<div class="nowrap">Retirer de mes favoris</div>' data-not-added-title='<div class="nowrap">Ajouter à mes favoris</div>' data-placement='right'>
+            <i class="fa fa-heart-o fa-2x"></i>
         </div>
-    {{/if}}
-    {{#if is_open_for_trial}}
-        <div class="north west absolute push on-under-top">
-            <div class="inline-block lbl lbl--yellow milli v-middle"><i class="fa fa-ticket"></i> {{ trial_courses_policy }}</div>
-        </div>
-    {{/if}}
-    <div href="#" class="orange north east absolute push on-under-top heart-link" data-behavior='add-to-favorite' data-toggle='tooltip' data-added-title='Retirer de mes favoris' data-not-added-title='Ajouter à mes favoris' data-placement='left'>
-        <i class="fa fa-heart-o fa-3x"></i>
-    </div>
-
-    <div class="soft-half--sides relative">
-        <h4 class="flush v-top">
-            {{ truncate name 29 }}
-        </h4>
-        <div style="padding-right: 60px;" class="text-ellipsis">
-            {{ subjects }}
+    </div>{{!--
+--}}<div class="grid__item palm-one-whole nine-twelfths soft--sides epsilon line-height-2">
+        <div>
+            <h3 class="blue flush text-ellipsis" style="padding-right: 80px;">{{ name }}</h3>
         </div>
         <div>
-            <div class="text-ellipsis">
-                <strong>
-                    <i class="fa fa-comment"></i> {{ comments_count }} avis
-                    {{#if highlighted_comment_title}}
-                    ・ <i class="quoted milli">{{{ highlighted_comment_title }}}</i>
+            <div>
+                <div class="f-size-12 gray-light f-weight-500 text-ellipsis">
+                    {{#if structure_type}}
+                        {{structure_type}} ・
                     {{/if}}
-                </strong>
+                    {{ cities_text }}
+                </div>
+                <div class="text-ellipsis">
+                    {{#if highlighted_comment_title}}
+                        <div class="f-size-14 f-weight-600 inline-block v-middle text-ellipsis gray" style="max-width: 80%;">
+                            <i class="fa fa-quotes v-super"></i> {{{ highlighted_comment_title }}}
+                        </div>・
+                    {{/if}}
+                    <div class="inline-block v-middle f-size-14">
+                        <i class="fa fa-comment"></i> {{ comments_count }} avis
+                    </div>
+                </div>
+                <div class="text-ellipsis f-size-12 ">
+                    <span class="f-weight-600">{{ current_filtered_subject_name }}</span>
+                    {{#if subjects}}{{#if current_filtered_subject_name}}, {{/if}}{{ subjects }}{{/if}}
+                </div>
             </div>
+         </div>
+    </div>
+    <div class="absolute north east soft-half">
+        <div class="epsilon f-weight-600 gray f-style-italic">
+            {{#if is_open_for_trial}}
+                Essai gratuit
+            {{else}}
+                {{#if min_price_amount}}
+                    À p. de {{ min_price_amount }}€
+                {{/if}}
+            {{/if}}
         </div>
-
-        <img src="{{ logo_thumb_url }}" class="absolute on-under-top bordered rounded--circle bordered--larger border-color-white" alt="Cours de {{ parent_subjects_text }} à {{ name }}" style='width: 85px; height: 85px; top: -45px; right: 0;'>
     </div>
 </a>

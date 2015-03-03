@@ -2,7 +2,7 @@
 %html{ lang: 'fr' }
   %head
     %meta{ content: 'text/html; charset=utf-8', 'httpequiv' => 'Content-Type' }/
-    %link{  rel:'stylesheet', href: 'email.css' }
+    %link{ rel:'stylesheet', href: 'email.css' }
     - if content_for? :title
       %title= yield :title
     - elsif @_message and @_message.subject
@@ -131,6 +131,6 @@
                   - elsif @user
                     %div
                       - if @user.active?
-                        = link_to 'Préférences e-mail.', notifications_user_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'fix-class'
+                        = link_to 'Préférences e-mail.', edit_private_infos_user_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'fix-class'
                       - else
                         = link_to 'Me désinscrire de la liste.', unsubscribe_users_url(@user.access_token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'fix-class'

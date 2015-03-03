@@ -1,11 +1,13 @@
-.bg-fixed.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})" }
-  .main-container.main-container--medium.soft
-    %h1.flush
-      L'équipe
-    %p.delta.line-height-1-7.f-weight-bold
-      Basés en plein coeur de la ville lumière et de la ville rose (Paris & Toulouse), nous sommes une équipe de passionnés prêts à tout pour relier chacun de nous aux meilleurs cours de loisirs qui nous entourent. Nos 3 piliers fondateurs ? L'implication, l'humilité, la passion.
+.relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{asset_path('pro/home_background6.jpg')}')", data: { behavior: 'parallax' } }
+  .black-curtain.north.west.one-whole.absolute
+  .flexbox__item.v-middle.text--center.relative
+    %h1.f-size-really-big.flush L'équipe
+    %h2.main-container.text--center
+      Implication. Humilité. Passion
 
 .main-container.soft
+  %h3.main-container.main-container--medium.text--center.f-weight-500.mega-soft--ends
+    Basés en plein coeur de la ville lumière et de la ville rose (Paris & Toulouse), nous sommes une équipe de passionnés prêts à tout pour relier chacun de nous aux meilleurs cours de loisirs qui nous entourent.
   .team-wrapper.text--center
     .inline-block.team.team__nicolas{ data: { el: '#nicolas-description' } }
     .inline-block.team.team__nima{ data: { el: '#nima-description' } }

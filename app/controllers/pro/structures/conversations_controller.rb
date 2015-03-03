@@ -38,11 +38,12 @@ class Pro::Structures::ConversationsController < ApplicationController
   def show
     @conversation = @admin.mailbox.conversations.find(params[:id])
     @conversation.mark_as_read(@admin)
-    @message               = @conversation.messages.build
     @participation_request = conversation_participation_request(@conversation)
     @is_xhr = request.xhr?
     respond_to do |format|
-      if request.xhr?
+      if @participation_request and !@participation_request.past?
+        format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request) }
+      elsif request.xhr?
         format.html { render layout: false }
       else
         format.html
@@ -61,7 +62,6 @@ class Pro::Structures::ConversationsController < ApplicationController
 
   def new
     @conversation = @admin.mailbox.conversations.build
-    @message      = @conversation.messages.build
   end
 
   def update

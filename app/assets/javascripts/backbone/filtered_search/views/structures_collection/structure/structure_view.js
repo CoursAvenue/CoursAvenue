@@ -3,7 +3,7 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
 
     Module.StructureView = CoursAvenue.Views.RelationalAccordionItemView.extend({
         template: Module.templateDirname() + 'structure_view',
-        className: 'v-top push-half--bottom inline-block very-soft relative filtered_search__structure-item',
+        className: '',
         attributes: {
             'data-type': 'structure-element'
         },
@@ -66,9 +66,7 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
 
         /* return toJSON for the places relation */
         placesToJSON: function placesToJSON () {
-            return this.model.getRelation('places').related.models.map(function (model) {
-                return _.extend(model.toJSON(), { cid: model.cid });
-            });
+            return this.model.get('places');
         },
 
         goToStructurePage: function goToStructurePage (event) {

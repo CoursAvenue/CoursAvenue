@@ -25,7 +25,7 @@
                 %br
                 = structure_form.filepicker_field :logo_filepicker_url, button_text: "Changer de logo", button_class: 'btn btn--blue btn--small fa push-half--bottom', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
                 %br
-                %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
+                %a.btn.btn--small.btn--red#delete-logo{ href: 'javascript:void(0)' }
                   %i.fa.fa-trash-o.soft--sides-half--right
                   Supprimer
             - elsif @structure.valid?
@@ -57,7 +57,7 @@
       .input-container>
         = structure_form.input :gives_group_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
         = structure_form.input :gives_individual_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left ' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large hard--bottom' }
-    -# %label.text--left.hard--top.label--large.control-label> Type de cours
+
     .input#teaches-at-home{ class: @structure.gives_individual_courses ? '' : 'hidden'}
       %label.control-label.label--large.inline-block.v-middle{ for: 'structure_teaches_at_home' }> Je me déplace à domicile autour de
       .input-container.v-middle>
@@ -104,7 +104,7 @@
     = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }
 
 = content_for :scripts do
-  = render 'shared/libs/filepicker_scripts'
+  = filepicker_js_include_tag
   :javascript
     $(function() {
         $('#structure_gives_individual_courses').change(function(){

@@ -6,7 +6,6 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
 
         initialize: function initialize(collection, bootstrap_meta) {
             this.structure_id = bootstrap_meta.structure_id;
-            this.structure_id = bootstrap_meta.structure_id;
             this.fetch({
                 success: function(trainings_collection, response) {
                     trainings_collection.reset(response.courses)

@@ -42,26 +42,23 @@
                     %a.not-hoverable.f-weight-normal Pas de nouveau message
                 - else
                   %li
-                    - if unread_conversations_count == 1
-                      %a.not-hoverable.f-weight-normal= "#{unread_conversations_count} nouveau message"
-                    - else
-                      %a.not-hoverable.f-weight-normal= "#{unread_conversations_count} nouveaux messages"
+                    %a.not-hoverable.f-weight-normal= "#{unread_conversations_count} #{(unread_conversations_count == 1 ? 'nouveau message' : 'nouveaux messages')}"
                 - unread_conversations.each do |conversation|
                   - cache [conversation, 'pro/structures/layout/unread_conversations'] do
                     %li
-                      = link_to pro_structure_conversation_path(@structure, conversation), class: 'grid--full' do
-                        .grid__item.two-twelfths.v-middle>
+                      = link_to pro_structure_conversation_path(@structure, conversation), class: 'flexbox' do
+                        .flexbox__item.two-twelfths.v-middle.soft-half--right>
                           - last_sender = conversation.messages.order('created_at DESC').first.sender
-                          = image_tag last_sender.avatar_url(:thumb), class: 'block bordered rounded--circle'
-                        .grid__item.six-twelfths.v-top.text--left.soft-half--left.f-weight-normal>
+                          = image_tag last_sender.avatar_url(:thumb), class: 'block bordered rounded--circle', width: 50, height: 50
+                        .flexbox__item.six-twelfths.v-middle.text--left.soft-half--left.f-weight-normal>
                           %strong= conversation.subject
                           %br
                           = last_sender.name
-                        .grid__item.four-twelfths.v-middle.text--right.f-weight-normal>
-                          .grid--full
-                            .grid__item.v-middle.ten-twelfths>
+                        .flexbox__item.four-twelfths.v-middle.text--right.f-weight-normal>
+                          .flexbox
+                            .flexbox__item.v-middle.one-whole>
                               = conversation_label_name conversation
-                            .grid__item.v-middle.two-twelfths>
+                            .flexbox__item.v-middle.soft-half--left>
                               = conversation_label conversation, class: 'lbl--small'
                 %li= link_to 'Voir tous les messages', pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
         %span.v-middle.push-half--sides= '|'
@@ -82,10 +79,10 @@
               - @structure.comments.pending.each do |comment|
                 - cache [comment, 'pro/structures/layout/pending_comment'] do
                   %li
-                    = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'grid--full' do
-                      .grid__item.two-twelfths.v-middle>
-                        = image_tag comment.user.avatar_url(:small), height: 30, width: 30, class: 'bordered rounded--circle'
-                      .grid__item.ten-twelfths.f-weight-normal.text--left>
+                    = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'flexbox' do
+                      .flexbox__item.two-twelfths.v-middle.soft-half--right>
+                        = image_tag comment.user.avatar_url(:small), height: 50, width: 50, class: 'bordered rounded--circle'
+                      .flexbox__item.ten-twelfths.f-weight-normal.text--left>
                         %strong= comment.author_name
                         %br
                         = comment.email
@@ -107,9 +104,3 @@
 
 = render :template => 'layouts/application'
 = render 'shared/live_chat'
-
-- if current_pro_admin
-  :javascript
-      CoursAvenue.addInitializer(function(options){
-          this.setCurrentAdmin(#{current_pro_admin_as_json});
-      });

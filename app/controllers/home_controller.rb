@@ -18,9 +18,6 @@ class HomeController < ApplicationController
   end
 
   def index
-    @comments     = Comment::Review.ordered.accepted.includes(:commentable).limit(4)
-    @last_comment = @comments.to_a.shift
-
     @google_search_box_metadata = {
       "@context" => "http://schema.org",
       "@type" => "WebSite",
@@ -40,6 +37,8 @@ class HomeController < ApplicationController
        action_name == 'resolutions' or
        action_name == 'resolutions_results'
       'empty'
+    elsif action_name == 'index'
+      'home'
     else
       'pages'
     end

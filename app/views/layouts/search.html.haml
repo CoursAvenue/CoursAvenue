@@ -1,9 +1,4 @@
-= content_for :header do
-  = render partial: 'shared/headers/header', locals: { expanded: true }
-
 = content_for :content do
-  .relative
-    .search-wrapper
-      = yield
+  = yield
 
 = render :template => 'layouts/application'

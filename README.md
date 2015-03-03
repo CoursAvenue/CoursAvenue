@@ -27,6 +27,7 @@ The old readme is available [here](doc/README.md).
   - [Installing `postgres` and creating a Role](#installing-postgres-and-creating-a-role)
   - [Recovering a dump](#recovering-a-dump)
   - [Making a dump](#making-a-dump)
+  - [SMS with Nexmo](#sms-nexmo)
   - [Icon webfont](#webfont)
 
 ## Local environment
@@ -160,6 +161,7 @@ bundle exec rubocop -c config/hound.yml
 
 We develop a lot using branches, so you can locally find yourself with a lot of
 unused old branches. To remove them:
+
 ```shell
 # Remove local branch
 git branch -D branch_name
@@ -232,10 +234,12 @@ Depending on the environment, you need to add the `PRERENDER_SERVICE_URL`
 variable:
 ```shell
 # Staging
-$ heroku config:set PRERENDER_SERVICE_URL="http://coursavenue-prerender-staging.herokuapp.com/"
+$ heroku config:set \
+    PRERENDER_SERVICE_URL="http://coursavenue-prerender-staging.herokuapp.com/"
 
 # Production
-$ heroku config:set PRERENDER_SERVICE_URL="http://coursavenue-prerender.herokuapp.com/"
+$ heroku config:set \
+    PRERENDER_SERVICE_URL="http://coursavenue-prerender.herokuapp.com/"
 ```
 
 And finally add the task `rake scheduler:ping` to the scheduler so the Prerender
@@ -246,7 +250,7 @@ service can keep running.
 ### Delayed Jobs
 
 Reinvoke all jobs:
-```
+```ruby
 Delayed::Job.where.not(last_error: nil).each{ |dj| dj.run_at = Time.now; dj.attempts = 0; dj.save! }
 ```
 
@@ -278,8 +282,8 @@ create role udrhnkjoqg1jmn with login createdb createrole password 'password';
 killall ruby
 dropdb -h localhost -U postgres coursavenue_development
 createdb -h localhost -O postgres -U postgres coursavenue_development && \
-           psql coursavenue_development -c 'create extension hstore;' -U postgres && \
-           pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "udrhnkjoqg1jmn" --no-password  --verbose "/Users/Nima/Downloads/a569.dump"
+psql coursavenue_development -c 'create extension hstore;' -U postgres && \
+pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "udrhnkjoqg1jmn" --no-password  --verbose "/Users/Nima/Downloads/a569.dump"
 
 pg_restore --host localhost --port 5432 --dbname "coursavenue_development" --role "udrhnkjoqg1jmn" --verbose /Users/Nima/Downloads/a532.dump -U postgres
 ```
@@ -289,6 +293,18 @@ pg_restore --host localhost --port 5432 --dbname "coursavenue_development" --rol
 ```shell
 pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" -f 20_fev.tar --format=t
 ```
+
+### SMS with Nexmo
+
+Add to the environment the Nexmo [API key and secret](https://dashboard.nexmo.com/private/settings):
+
+### Icon webfonts
+We use FontAwesome and Fontcustom to generate own icon font
+Command to regenerate fonts:
+```sh
+bundle exec fontcustom compile app/assets/images/icons/svg/
+```
+
 ---
 [ci]: https://circleci.com
 [ci-config]: circle.yml
@@ -303,8 +319,3 @@ pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue
 [prerender]: https://github.com/CoursAvenue/coursavenue-prerender
 [sunspot]: http://sunspot.github.io
 [brew]: http://brew.sh
-
-### Icon webfonts
-We use FontAwesome and Fontcustom to generate own icon font
-Command to regenerate fonts:
-`bundle exec fontcustom compile app/assets/images/icons/svg/`

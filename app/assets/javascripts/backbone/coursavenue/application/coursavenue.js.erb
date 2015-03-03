@@ -3,6 +3,10 @@ CoursAvenue = new Backbone.Marionette.Application({
     FACEBOOK_SCOPE: 'public_profile,email,user_location,user_birthday,user_relationships,user_activities,user_friends',
     PRO_FACEBOOK_SCOPE: 'public_profile,email,user_location,user_birthday,user_relationships,user_activities,user_friends,manage_pages',
 
+    initializeUserNav: function initializeUserNav () {
+        this.userNav.show(new CoursAvenue.Views.UserNavView({ model: this.currentUser() }));
+    },
+
     slug: 'coursavenue',
 
     isProduction: function isProduction () {
@@ -106,6 +110,26 @@ CoursAvenue = new Backbone.Marionette.Application({
             }
         }.bind(this), { scope: (options.pro ? this.PRO_FACEBOOK_SCOPE : this.FACEBOOK_SCOPE) });
     },
+
+    // Return search path url regarding data passed.
+    // Should be put in some sort of helper
+    // @data : Hash {
+    //    city           : 'paris'
+    //    root_subject_id: 'danse'
+    //    subject_id     : 'salsa'
+    //    depth          : 2
+    //  }
+    searchPath: function searchPath (data) {
+        data.city = (data.city ? data.city.replace(/[^A-Za-z]/g, '-').toLowerCase() : 'paris');
+        if (data.depth == 0) {
+            return Routes.root_search_page_path(data.subject_id, data.city);
+        } else if (data.subject_id) {
+            return Routes.search_page_path((data.root_subject_id || data.subject_id), data.subject_id, data.city);
+        } else {
+            return Routes.root_search_page_without_subject_path(data.city);
+        }
+    }
+
 });
 
 CoursAvenue.addRegions({
@@ -123,7 +147,7 @@ $(function() {
     CoursAvenue.start({});
     // Show the region only if it exists (not in pro for instance)
     if ($(CoursAvenue.userNav.el).length > 0) {
-        CoursAvenue.userNav.show(new CoursAvenue.Views.UserNavView({ model: CoursAvenue.currentUser() }));
+        CoursAvenue.initializeUserNav();
     }
     $('body').on('click', '[data-behavior=facebook-login]', function(event) {
         CoursAvenue.loginWithFacebook($(this).data());

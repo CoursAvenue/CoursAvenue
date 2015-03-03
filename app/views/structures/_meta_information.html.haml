@@ -28,8 +28,8 @@
   = content_for :meta_description do
     -# Ex: Professeur Yoga Sattva Paris à Paris : Cours d'Essai Gratuits & Promotions.
     -#     Réservez gratuitement et consultez les 30 avis, notés 5 sur 5 sur CoursAvenue.
-    - cache [@structure, 'structure/show/meta/description'] do
+    - cache [@structure, 'structure/show/meta/description/v2'] do
       - infos = []
       - infos << "Cours d'Essai Gratuits" if @structure.is_open_for_trial?
       - infos << "Promotions"             if @structure.has_promotion?
-      #{t("#{@structure.structure_type}_for_meta_description")} #{@structure.name} à #{@structure.city.try(:name)} : #{infos.any? ? "#{infos.join(' & ')}." : ''} Réservez gratuitement et consultez les #{@structure.comments_count} avis, notés 5 sur 5 sur CoursAvenue.
+      #{t("#{(@structure.structure_type.present? ? @structure.structure_type : 'independant')}_for_meta_description")} #{@structure.name} à #{@structure.city.try(:name)} : #{infos.any? ? "#{infos.join(' & ')}." : ''} Réservez gratuitement et consultez les #{@structure.comments_count} avis, notés 5 sur 5 sur CoursAvenue.

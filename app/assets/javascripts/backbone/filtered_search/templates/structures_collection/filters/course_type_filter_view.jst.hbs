@@ -1,23 +1,23 @@
-<div class="grid--full">
-    <div class="grid__item v-middle one-fifth palm-one-whole palm-text--center">
-        <strong class="gray-light">TYPE DE COURS</strong>
-    </div><!--
- --><div class="grid__item v-middle four-fifths palm-one-whole">
-        <div class="inline-block btn-group" data-toggle="buttons"><!--
-            --><label class="btn" for="lesson">
-                    <input id="lesson" name="course_types[]" value="lesson" type="checkbox">
-                    Cours réguliers
-               </label><!--
-            --><label class="btn" for="private">
-                    <input id="private" name="course_types[]" value="private" type="checkbox">
-                    Cours particulier
-               </label><!--
-            --><label class="btn" for="training">
-                    <input id="training" name="course_types[]" value="training" type="checkbox">
-                    Stages / Ateliers
-                </label><!--
-      --></div>
-        <i class="push-half--left cursor-pointer fa fa-question-circle" data-toggle="popover" data-html="true" data-content="<strong>Cours régulier</strong><p>Cours proposé tout au long de l'année à heure fixe. Ex. : un cours de danse donné tous les mardis entre 19h et 20h30, dès la rentrée de septembre jusqu'à fin juin. Parfois, pour respecter la progression des élèves, ces cours ne peuvent pas être rejoints en cours d'année.</p><strong>Cours-atelier</strong><p>Cours ponctuel qui ne se répète pas forcément tout au long de l'année, et qui n'implique pas une notion de progression dans le temps. Ex. : un cours de cuisine de 2h qui se déroule samedi prochain sera proposé en cours-atelier.</p><strong>Stage</strong><p>Un stage est un cours-atelier étalé sur plusieurs jours.</p>", data-trigger="hover" data-placement="right"></i>
+<div class="drop-down__wrapper" data-behavior="drop-down" data-el="> .drop-down__el" data-position="center">
+    <div class="btn btn--gray btn--full text-transform-none btn--small soft-half--sides" data-behavior="clear-filter">
+      Type de cours
+      <i class="fa fa-times hidden" data-el="clearer"></i>
+    </div>
+    <div class="drop-down__el soft-half on-top">
+        <div class="btn-group btn-group--column" data-toggle="buttons">
+            <label class="btn btn--gray text-transform-none nowrap" for="lesson">
+                <input id="lesson" name="course_types[]" value="lesson" type="checkbox">
+                Cours réguliers
+            </label>
+            <label class="btn btn--gray text-transform-none nowrap" for="private">
+                <input id="private" name="course_types[]" value="private" type="checkbox">
+                Cours particulier
+            </label>
+            <label class="btn btn--gray text-transform-none nowrap" for="training">
+                <input id="training" name="course_types[]" value="training" type="checkbox">
+                Stages / Ateliers
+            </label>
+        </div>
     </div>
 </div>
 

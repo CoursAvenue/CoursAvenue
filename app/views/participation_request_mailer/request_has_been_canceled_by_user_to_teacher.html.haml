@@ -1,20 +1,24 @@
 - content_for :email_title do
-  %strong Répondez à #{@user.name} en répondant directement à cet e-mail
+  Répondez à #{@user.name} en répondant directement à cet e-mail
   %hr
 
 .p
   Bonjour,
 
 .p
-  Malheureusement, #{@user.name} vient d'annuler son inscription au cours d'essai "#{@course.name}" qui était prévu le
-  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}."
-  Si vous souhaitez lui envoyer un message, notamment pour lui proposer de venir à un autre cours, envoyez-lui un message depuis votre onglet "Suvi des inscriptions" :
+  Malheureusement, #{@user.name} vient d'annuler son inscription au cours "#{@course.name}" qui était prévu le
+  - if @participation_request.cancelation_reason and !@participation_request.cancelation_reason.hidden?
+    %strong= "#{@participation_request_decorator.day_and_hour}"
+    = "(motif : \"#{t(@participation_request.cancelation_reason.name).downcase})\"."
+  - else
+    %strong= "#{@participation_request_decorator.day_and_hour}."
+  Pour lui proposer une autre séance ou tout simplement discuter, envoyez-lui un message depuis votre onglet "Mes inscriptions" :
 
 .p.action
   = link_to "Visualiser mes inscriptions", pro_structure_participation_requests_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
 - if @message
-  = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
+  = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user }
 
 .soft-half--top
   = render 'shared/mailers/footer'

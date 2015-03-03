@@ -11,7 +11,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         signIn: function signIn (event, options) {
-            options = options || { show_admin_form: true };
+            options = options || {};
             CoursAvenue.signIn(options);
         },
 
@@ -26,18 +26,23 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         onRender: function onRender () {
             this.$('[data-behavior=drop-down]').dropDown();
             if (location.hash == '#connexion') {
-                this.signIn({}, { show_admin_form: false});
+                this.signIn({}, {});
             }
         },
 
         serializeData: function serializeData () {
             var data = {
-                logged_in                            : this.model.isLogged(),
-                on_sleeping_page                     : window.on_sleeping_page,
-                take_control_url                     : window.take_control_url,
-                pages_faq_users_url                  : Routes.pages_faq_users_path()
+                logged_in          : this.model.isLogged(),
+                on_sleeping_page   : window.on_sleeping_page,
+                take_control_url   : window.take_control_url,
+                pages_faq_users_url: Routes.pages_faq_users_path(),
+                pro_structures_url : 'https://pro.coursavenue.com'
             }
-            if (this.model.isLogged()) {
+            if (CoursAvenue.currentAdmin().isLogged() && CoursAvenue.currentAdmin().get('structure_slug')) {
+                _.extend(data, { admin_logged_in: true,
+                                 structure_path  : Routes.dashboard_pro_structure_path({ id: CoursAvenue.currentAdmin().get('structure_slug') })
+                               });
+            } else if (this.model.isLogged()) {
                 _.extend(data, {
                     dashboard_user_path               : Routes.dashboard_user_path({ id: this.model.get('slug') }),
                     edit_user_path                    : Routes.edit_user_path({ id: this.model.get('slug') }),
@@ -50,10 +55,6 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     user_conversations_path           : Routes.user_conversations_path({ id: this.model.get('slug') }),
                     new_user_invited_user_path        : Routes.new_user_invited_user_path({ id: this.model.get('slug') }),
                     destroy_user_session_path         : Routes.destroy_user_session_path()
-                });
-            } else {
-                _.extend(data, {
-                    inscription_pro_structures_url: 'https://pro.coursavenue.com/etablissements/inscription'
                 });
             }
             _.extend(data, this.model.toJSON());

@@ -9,6 +9,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
          * Save Statistic to server with POST request
          */
         logStat: function logStat (structure_id, action_type, params) {
+            return; // STOPPING METRICS TODO: do something about it.
             params = params || {};
             if (<%= Metric::ACTION_TYPES %>.indexOf(action_type) === -1) {
                 throw new TypeError("Action type does not exist");

@@ -9,18 +9,14 @@
     - conversation_request_count      = @user.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::REQUEST.id).count
 
     .push--bottom
-      .v-middle.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}= conversation_request_count
-      %strong.v-middle Inscriptions
-      .v-middle.push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}= conversation_information_count
-      %strong.v-middle Demandes d'informations
-      .v-middle.push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}= conversation_comment_count
-      %strong.v-middle Avis déposés
-      .v-middle.push-half--left.lbl.rounded--thick{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}= conversation_conversation_count
-      %strong.v-middle Conversations
-    - unless cookies[:understood__user_conversation_message]
-      %p.alert.alert--info#conversation-info
-        Envoyez des messages personnels aux professeurs, associations ou écoles que vous avez ajoutés en favori ou qui vous ont déjà sollicité(e) pour déposer votre avis.
-        %a#understood__user_conversation_message{href: 'javascript:void(0)'} J'ai compris
+      .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}
+      %strong.push--right Inscription (#{conversation_request_count})
+      .lbl.lbl--small.lbl--chip{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
+      %strong.push--right Demande d'information (#{conversation_information_count})
+      .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}
+      %strong.push--right Avis déposé (#{conversation_comment_count})
+      .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}
+      %strong Conversation (#{conversation_conversation_count})
 
     .grid.push-half--bottom
       .grid__item.one-third>
@@ -41,16 +37,9 @@
       %p
         Vous n'avez pas de conversation en cours
 
-
 = content_for :scripts do
   :javascript
     $(function() {
-        if ($('#understood__user_conversation_message')) {
-            $('#understood__user_conversation_message').click(function() {
-                $.cookie('understood__user_conversation_message', true, {expires: 100000});
-                $('#conversation-info').remove();
-            });
-        }
         $('#conversation_label').change(function() {
             window.location = '?conversation_label_id=' + $(this).val()
         });

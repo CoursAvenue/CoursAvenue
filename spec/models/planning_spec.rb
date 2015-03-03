@@ -5,6 +5,8 @@ describe Planning do
 
   subject { Planning.new }
 
+  it_behaves_like 'HasAudiencesAndLevels'
+
   context 'initialization' do
     it 'has default values' do
       expect(subject.audiences).to include Audience::ADULT

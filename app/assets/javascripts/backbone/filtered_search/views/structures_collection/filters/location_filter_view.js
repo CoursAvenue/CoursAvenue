@@ -4,8 +4,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         template: Module.templateDirname() + 'location_filter_view',
 
         setup: function setup (data) {
-            if (data.address_name) { data.address_name = data.address_name.replace('+', ' '); }
-            this.ui.$address_picker.attr('value', data.address_name);
+            this.ui.$address_picker.typeahead('val', data.address_name);
         },
 
         ui: {
@@ -24,9 +23,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.trigger("filter:location", data);
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
-        ui: {
-            $address_picker: '#address-picker'
-        },
         // Clears all the given filters
         clear: function clear (filters) {
             this.ui.$address_picker.val('');

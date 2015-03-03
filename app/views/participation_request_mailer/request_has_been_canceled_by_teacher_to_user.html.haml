@@ -1,23 +1,37 @@
 - content_for :email_title do
-  %strong Répondez à #{@structure.name} en répondant directement à cet e-mail
+  Répondez à #{@structure.name} en répondant directement à cet e-mail
   %hr
 
 .p
   Bonjour #{@user.first_name},
 
 .p
-  Malheureusement, #{@user.name} vient d'annuler son inscription au cours d'essai "#{@course.name}" qui était prévu le
-  %strong= "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}."
-  Si vous souhaitez lui envoyer un message, notamment pour lui proposer de venir à un autre cours, envoyez-lui un message depuis votre onglet "Suvi des inscriptions" :
+  Malheureusement, #{@structure.name} vient de refuser votre demande d'inscription au cours "#{@course.name}" du
+  - if @participation_request.cancelation_reason and !@participation_request.cancelation_reason.hidden?
+    %strong= @participation_request_decorator.day_and_hour
+    = "(motif : \"#{t(@participation_request.cancelation_reason.name).downcase})\"."
+  - else
+    %strong= "#{@participation_request_decorator.day_and_hour}."
+  Notre objectif est de vous faire découvrir le maximum de cours, continuez à vous inscrire aux séances de votre choix :
 
 .p.action
-  = link_to "Visualiser mes inscriptions", pro_structure_participation_requests_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Découvrir les meilleurs cours", root_search_page_url(@structure.dominant_root_subject, @structure.city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
 
 - if @message
-  = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user, show_phone_number: false }
+  = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
+  .p.action.soft--top
+    = link_to "Répondre", user_participation_request_path(@user, @conversation, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn'
 
-.soft-half--top
-  = render 'shared/mailers/footer'
+.p.soft--top
+  Pour éviter qu'une telle situation se reproduise, notre équipe prendra contact avec ce partenaire pour comprendre les raisons de son annulation.
+  %br
+  Merci pour votre compréhension, à très bientôt,
+
+.p
+  = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/emails_logo/signature.png', height: 25, width: 177, class: 'soft-half--top', alt: "L'équipe CoursAvenue"
+
 
 - content_for :under_content_gray do
   = render 'participation_request_mailer/shared/user_faq'
+
+

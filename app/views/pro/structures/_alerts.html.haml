@@ -1,3 +1,4 @@
+- global_index = 0
 - if @structure.unanswered_information_message.any? or @structure.comments.pending.any?
   .soft--sides
     %h4
@@ -6,34 +7,30 @@
     .gray-box
       - @structure.unanswered_information_message.each_with_index do |conversation, index|
         - participation_request = conversation_participation_request(conversation)
+        - global_index += 1
         - if index > 0
           %hr.push-half--ends
-        .soft.grid--full
-          .grid__item.two-twelfths.soft-half--right>
-            .lbl{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
-              - if participation_request
-                Demande d'inscription
-              - else
-                Demande d'information
-          .grid__item.ten-twelfths>
-            %p
-              %strong Félicitations !
-              - if participation_request
-                Vous avez reçu une demande d'inscription de
-              - else
-                Vous avez reçu une demande d'information de
-              %strong= "#{conversation.messages.first.sender.name}."
-              Plus vous répondez rapidement (de préférence sous 48h), plus vous avez de chances que cet élève s'inscrive à vos cours.
-
+        .soft
+          %h4 Demande d'inscription
+          %p
+            %strong Félicitations !
+            Vous avez reçu une demande d'inscription de
+            %strong= "#{conversation.messages.first.sender.name}."
+            Plus vous répondez rapidement (de préférence sous 48h), plus vous avez de chances que cet élève s'inscrive à vos cours.
+          - if conversation.created_at > 2.days.ago
             .float--right.nowrap.orange
               %i.fa.fa-clock-o.delta
-              %strong.epsilon Reçu il y a
+              %strong.epsilon Expire dans
               %strong.delta{ id: "conversation-countdown-#{conversation.id}" }
-            = link_to 'Répondre maintenant', pro_structure_conversation_path(@structure, conversation), class: 'btn btn--green btn--small'
+          %div
+            - if participation_request
+              = link_to 'Répondre maintenant', pro_structure_participation_request_path(@structure, participation_request), class: 'btn btn--green btn--small'
+            - else
+              = link_to 'Répondre maintenant', pro_structure_conversation_path(@structure, conversation), class: 'btn btn--green btn--small'
         = content_for :scripts do
           :javascript
             $(function() {
-              var date            = Date.parse("#{l(local_time(conversation.created_at), format: :js )}");
+              var date            = Date.parse("#{l(local_time(conversation.created_at + 48.hours), format: :js )}");
               var $countdown_div = $('#conversation-countdown-#{conversation.id}');
               countdown(date,
                   function(ts) {
@@ -46,23 +43,21 @@
             });
 
       - @structure.comments.pending.each_with_index do |comment, index|
-        - if index > 0
-          %hr.push-half--ends
-        .soft.grid--full
-          .grid__item.two-twelfths.soft-half--right>
-            .lbl.lbl--green
-              Avis déposé
-          .grid__item.ten-twelfths>
-            %p
-              Félicitations ! L'élève
-              %strong= "#{comment.author_name} (#{comment.email})"
-              a déposé son avis sur votre profil CoursAvenue. S'il s'agit bien d'un de vos élèves, validez-le pour qu'il apparaisse sur votre profil public :
-            = succeed ' ' do
-              = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
-                %i.fa.fa-check
-                Valider
-            = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--red', method: :patch do
-              %i.fa.fa-times
-              Rejeter
+        - if global_index > 0
+          %hr.flush
+        - global_index +=1
+        .soft
+          %h4 Avis en attente de validation
+          %p
+            Félicitations ! L'élève
+            %strong= "#{comment.author_name} (#{comment.email})"
+            a déposé son avis sur votre profil CoursAvenue. S'il s'agit bien d'un de vos élèves, validez-le pour qu'il apparaisse sur votre profil public :
+          = succeed ' ' do
+            = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
+              %i.fa.fa-check
+              Valider
+          = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--red', method: :patch do
+            %i.fa.fa-times
+            Rejeter
 
-  %hr.push--ends
+  %hr.flush

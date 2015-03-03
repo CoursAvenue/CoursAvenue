@@ -1,51 +1,55 @@
-- if @last_comment
-  - if @last_comment.subjects.any?
-    - slug = @last_comment.subjects.first.root.slug
-  - else
-    - slug = @last_comment.structure.subjects.at_depth(0).first.slug
-  - url = asset_path("home_backgrounds/#{slug}.jpg")
-- else
-  - url = asset_path("pro/home_background#{[2,3,4,5,6,7].sample}.jpg")
-.bg-fixed.home-screen.soft--top.white.bg-cover{ style: "background-image: url(#{url})" }
-  .main-container.main-container--medium.soft-half--bottom
-    %h1.palm-text--center.soft--top.soft-black-text-shadow.flush
-      Trouvez votre cours de loisir idéal.
-    %h4.palm-text--center.push--bottom.soft-black-text-shadow
-      Parmi plus de 10 000 cours recommandés par les élèves.
-    .push--bottom.soft--bottom
-      = render 'shared/home_page_search_form'
+.full-screen-item.one-whole.relative.overflow-hidden
+  %div.hidden.home-page-fullscreen-video.bg-cover{ style: "background-image: url('#{asset_path('home-page/coursavenue_homepage_cover.jpg')}')", data: { replacement: 'video' } }
+  %video.home-page-fullscreen-video{ preload: 'auto', loop: 'loop', autoplay: 'autoplay', poster: asset_path('home-page/coursavenue_homepage_cover.jpg') }
+    - if params[:geek].present?
+      %source{ type: "video/mp4", src: 'https://coursavenue-public.s3.amazonaws.com/public_assets/videos/mario.mp4' }
+      %source{ type: "video/webm", src: 'https://coursavenue-public.s3.amazonaws.com/public_assets/videos/mario.webm' }
+    - else
+      %source{ type: "video/mp4", src: asset_path('coursavenue_homepage_video.mp4') }
+      %source{ type: "video/webm", src: asset_path('coursavenue_homepage_video.webm') }
 
-    .relative.bg-cover.visuallyhidden--palm{ style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); width: 150px; height: 75px;" }>
-      = link_to 'https://www.youtube.com/watch?v=-hq0sxFEcOw', class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', data: { behavior: 'fancy', height: 560, width: 1000 } do
-        .home-screen-gallery__title.text--center
-          %i.fa-youtube-play.alpha
-          .show-on-hover__child.milli Voir la vidéo
-    .push-half--bottom.very-soft.hard--sides.visuallyhidden--palm
-      = link_to 'javascript:void(0);', data: { behavior: 'toggleable', el: '#comment-ca-marche' }, style: 'width: 150px;', class: 'text--center inline-block semi-muted-link soft-black-text-shadow' do
-        Comment ça marche
-        %i.fa.fa-caret-down
+  .relative.full-screen-item.white
+    .grid--full.one-whole.homescreen-header.homescreen-header--transparent.fixed.one-whole.on-top
+      .grid__item.one-third.v-middle.palm-one-whole.palm-push>
+        = image_tag 'logos/logo_white.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo_white@2x.png') }, class: 'homescreen-header__logo v-middle push--left push-half--top absolute', style: 'left: 3px; top: 3px;'
+        = image_tag 'logos/logo.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'homescreen-header__logo v-middle push--left push-half--top west north absolute hidden', id: 'home-logo-dark'
+      .grid__item.two-thirds.v-middle.text--right.visuallyhidden--palm>
+        .white.soft.inline-block.v-middle.epsilon#user-nav
+        .top-right-hidden-button.inline-block.v-middle.visuallyhidden--palm.visuallyhidden--lap
+          = link_to 'Trouver un cours', root_search_page_without_subject_path('paris'), class: 'btn btn--blue nowrap push--right'
+.absolute.one-whole.soft--sides.top-30vh{ data: { behavior: 'block-parallax' } }
+  %h1.white.text--center.f-size-really-big.palm-text--center.soft--top.soft-black-text-shadow.flush--bottom.main-container
+    - if params[:geek].present?
+      ARRÊTEZ DE GEEKER.
+    - else
+      ARTS. SPORTS. BIEN-ÊTRE.
+  %h3.white.text--center.palm-text--center.push--bottom.soft-black-text-shadow.main-container
+    Trouvez votre cours de loisir idéal.
+  .push--bottom.soft--bottom
+    = render partial: 'shared/home_page_search_form', locals: { form_class: 'header-search-bar center-block' }
+.text--center.absolute.one-whole{ style: ' top: 85%;' }
+  %a.block.not-outlined.white{ href: '#vivez-passionnement', data: { behavior: 'scroll-to', duration: 900 } }
+    %i.fa.fa-chevron-down.fa-3x.smooth-black-text-shadow.animated-arrow-1.block
+    %i.fa.fa-chevron-down.fa-3x.smooth-black-text-shadow.animated-arrow-2.block
 
-  - if @last_comment
-    - cache @last_comment do
-      .home-screen-comment.visuallyhidden--palm.soft-black-text-shadow
-        .grid
-          .grid__item.two-twelfths.v-middle>
-            = link_to structure_path(@last_comment.structure), class: 'muted-link block' do
-              = image_tag @last_comment.structure.logo.url(:small_thumb), class: 'block white-circle'
-          .grid__item.ten-twelfths.v-middle>
-            .quoted.epsilon.quoted--large<
-              = link_to @last_comment.title, structure_path(@last_comment.structure), class: 'muted-link'
-            %p.flush
-              = link_to structure_path(@last_comment.structure), class: 'muted-link' do
-                = truncate(@last_comment.content, length: 50)
-            .milli
-              = link_to "Avis rédigé par #{@last_comment.author_name} il y a #{distance_of_time_in_words_to_now(@last_comment.created_at)}", structure_path(@last_comment.structure), class: 'muted-link'
-            %strong
-              = truncate(@last_comment.course_name.capitalize, length: 65)
-
-- cache "how_it_works_#{ENV["ETAG_VERSION_ID"]}" do
-  .main-container.main-container--medium.hidden#comment-ca-marche
-    .soft
-      = render 'how_it_works'
-      .text--center.epsilon
-        = link_to 'En savoir plus', pages_what_is_it_path
+- content_for :scripts do
+  :javascript
+      $(function() {
+          if (GLOBAL.isMobile.any()) {
+              $('[data-behavior=block-parallax]').removeAttr('data-behavior');
+              $('[data-replacement=video]').show();
+              $('video').remove();
+          }
+          $(window).scroll(function() {
+              var $this = $(this);
+              if ($this.scrollTop() > window.innerHeight - 10) {
+                  $('.homescreen-header').removeClass('homescreen-header--transparent');
+                  $('.top-right-hidden-button').addClass('in');
+                  $('#home-logo-dark').fadeIn();
+              } else {
+                  $('.homescreen-header').addClass('homescreen-header--transparent');
+                  $('.top-right-hidden-button').removeClass('in');
+                  $('#home-logo-dark').fadeOut();
+              }
+          });
+      });

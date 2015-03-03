@@ -1,57 +1,48 @@
+<header class="on-top-of-the-world bg-white fixed north west one-whole bordered--bottom">
+  <div class="very-soft soft-half--sides flexbox expanded">
+    <div class="flexbox__item palm-one-whole v-middle relative nowrap">
+      <a href="https://www.coursavenue.com" class="palm-center-block v-middle coursavenue-header-logo mixpanel-tracker" title="CoursAvenue | Tous les cours autour de vous"></a>
+      <div data-type="input-subject-filter" class="inline-block palm-block v-middle"></div>
+      <div data-type="location-filter" class="inline-block palm-block v-middle"></div>
+    </div>
+      <nav class="text--right flexbox__item v-middle nowrap visuallyhidden--palm print--hidden">
+        <div id="user-nav" class="inline-block v-middle"></div>
+      </nav>
+  </div>
+</header>
+
 <div data-type="loader" class="filtered-search__loader" style="display: none;">
-  <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block" height="10">
+  <img src="<%= asset_path 'gifs/loading-indicator.gif' %>" class="center-block" height="10">
 </div>
-<div class="flexbox">
-  <section id="widgets-container" class="filtered-search__map-wrapper flexbox__item four-tenths relative visuallyhidden--palm" data-type="google-maps">
-      {{#each widget}}
-          <div id="{{ id }}" data-type="widget"></div>
-      {{/each}}
+<div class="filtered-search-wrapper">
+  <section id="widgets-container" class="fixed filtered-search__map-wrapper east visuallyhidden--palm" data-type="google-maps">
+    <div class="hidden black-curtain f-weight-bold delta white north west one-whole cursor-pointer absolute on-top soft--sides mega-soft--ends" data-map-helper>
+      <img src="<%= asset_path 'onboarding-helps/filtered-search-map.png' %>" class="center-block" height="200" width="527">
+    </div>
   </section>
-
-  <section class="filtered-search__list-wrapper flexbox__item six-tenths palm-one-whole">
-      <div class="white-box soft-half--bottom">
-          <div class="visuallyhidden--lap-and-up soft-half--sides">
-              <div class="text--center"><strong>Lieux</strong></div>
-              <div id="mobile-location-filter"></div>
-              <hr class="push--ends" />
+  <section class="filtered-search__list-wrapper palm-one-whole">
+      <div class="visuallyhidden--palm bordered--bottom bg-white" data-behavior="sticky" data-el="filters-wrapper">
+          <div class="flexbox soft">
+            <h2 class="flexbox__item v-middle delta f-weight-500" data-type="top-results-summary"></h2>
+            <div class="flexbox__item v-middle text--right nowrap" data-type="results-summary"></div>
           </div>
-          <div class="soft-half--sides push--bottom" data-type="subjects-collection"></div>
-
-          <div class="soft-half--sides" data-type="filters-results">
-              <div class="hard--top collapse" id="advanced-filters">
-                  <hr/>
-                  <div data-type="keyword-filter"></div>
-                  <hr class="push--ends" />
-                  <div data-type="audience-filter"></div>
-                  <hr class="push--ends" />
-                  <div data-type="level-filter"></div>
-                  <hr class="push--ends" />
-                  <div class="one-whole" data-type="price-filter"></div>
-                  <hr class="push--ends" />
-                  <div data-type="course-type-filter"></div>
-                  <hr class="push--ends" />
-                  <div class="one-whole" data-type="date-filter"></div>
-                  <hr class="push--ends" />
-                  <div class="one-whole" data-type="discount-filter"></div>
-                  <hr class="push--ends" />
-                  <button class="push-half--bottom btn btn--blue-green btn--full text--center" data-toggle="collapse" data-target="#advanced-filters">Voir les résultats</button>
-              </div>
+          <div class="soft-half bg-gray-light bordered--top">
+            <!-- <strong class="epsilon v-middle">Filtres : </strong> -->
+            <div class="inline-block v-middle f-weight-500"> Filtres : </div>
+            <div class="inline-block v-middle" data-type="subjects-collection"></div>
+            <div class="inline-block v-middle" data-type="audience-filter"></div>
+            <!-- <div class="inline-block v-middle" data-type="keyword-filter"></div> -->
+            <div class="inline-block v-middle" data-type="level-filter"></div>
+            <div class="inline-block v-middle" data-type="price-filter"></div>
+            <div class="inline-block v-middle" data-type="course-type-filter"></div>
+            <div class="inline-block v-middle" data-type="date-filter"></div>
+            <div class="inline-block v-middle" data-type="discount-filter"></div>
           </div>
-          <div>
-              <div data-behavior="sticky" class="bordered--bottom-on-stick">
-                  <div data-type="trial-course-filter" class="soft-half--sides bg-white"></div>
-                  <div class="flexbox soft-half--sides soft-half--ends bg-white">
-                      <div class="flexbox__item one-whole palm-one-whole v-middle" data-type="filter-breadcrumbs">
-                      </div><!--
-                   --><div class="flexbox__item nowrap text--right palm-one-whole v-middle" data-type="results-summary">
-                      </div>
-                  </div>
-              </div>
-          </div>
+          <div data-type="subjects-collection-wrapper"></div>
+          <ol data-type="subjects-breadcrumb" class="visuallyhidden nav breadcrumb epsilon flush--bottom" itemprop='breadcrumb'></ol>
       </div>
 
-      <div class="active tab-pane" id="search-results" data-tab="search-results"></div>
-      <hr class="push--sides">
+      <div id="search-results" data-tab="search-results" class="bg-white push--bottom"></div>
       <footer class="push-half--bottom">
           <div class="one-whole" data-type="pagination-bottom"></div>
       </footer>

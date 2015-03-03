@@ -7,6 +7,8 @@
     = render 'shared/meta_information'
 
     - if Rails.env.production?
+      -# Must be above Google analytics code
+      = render 'layouts/kissmetrics'
       - if request.subdomain == 'pro'
         = render 'layouts/pro_g_analytics'
       - else
@@ -16,15 +18,13 @@
       = yield :after_ga
     = yield :head
     = favicon_link_tag 'favicon.png'
-    %link{ href: 'favicon.png', rel: 'apple-touch-icon' }
+    %link{ href: asset_path('favicon.ico'), rel: 'icon', type: 'image/ico' }
+    %link{ href: asset_path('favicon.png'), rel: 'apple-touch-icon' }
     = javascript_include_tag 'modernizr' # MUST BE In the Head and before CSS
     = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags unless response.cache_control[:public]
-    :javascript
-      window.GLOBAL = window.GLOBAL || {};
-      GLOBAL.is_mobile = #{mobile_device?};
 
-  %body{ style: (Rails.env.development? ? 'border-top: 5px solid yellow;' : '') }
+  %body
     - unless response.cache_control[:public]
       - flash.each do |key, msg|
         .flash{ class: key, data: { behavior: 'flash', type: key } }
@@ -55,6 +55,12 @@
           CoursAvenue.addInitializer(function(options){
               this.setCurrentUser(#{current_user_as_json});
           });
+    - if current_pro_admin and !current_pro_admin.super_admin?
+      :javascript
+          CoursAvenue.addInitializer(function(options){
+              this.setCurrentAdmin(#{current_pro_admin_as_json});
+          });
+
     - if Rails.env.production? and request.subdomain == 'www'
       :javascript
           mixpanel.identify($.cookie('fingerprint'));

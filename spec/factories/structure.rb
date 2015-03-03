@@ -22,6 +22,7 @@ FactoryGirl.define do
         structure.admins << FactoryGirl.build(:admin)
       end
     end
+
     factory :structure_with_place do
       after(:create) do |structure|
         structure.places << FactoryGirl.build(:place)
@@ -43,12 +44,29 @@ FactoryGirl.define do
         structure.index
       end
     end
+
     factory :sleeping_structure do
       after(:build) do |structure|
         structure.is_sleeping = true
         structure.active      = true
         structure.admins      = []
       end
+    end
+
+    factory :independant_structure do
+      structure_type 'structures.independant'
+    end
+
+    trait :with_contact_email do
+      contact_email { Faker::Internet.email }
+    end
+
+    trait :with_contact_mobile_phone do
+      contact_mobile_phone '0601928374'
+    end
+
+    trait :with_contact_phone do
+      contact_phone '0101928374'
     end
   end
 end

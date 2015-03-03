@@ -19,7 +19,7 @@ class Order < ActiveRecord::Base
   validates :order_id, uniqueness: { scope: :type }
 
   def public_order_id
-    order_number = (self.structure || self.user).orders.index(self) + 1
+    order_number = (self.structure || self.user).orders.order('created_at ASC').index(self) + 1
     "FR#{self.created_at.to_date.year}_#{self.created_at.to_date.month}_#{self.created_at.to_date.day}_#{(self.structure || self.user).id}#{order_number}"
   end
 

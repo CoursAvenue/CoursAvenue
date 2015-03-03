@@ -1,26 +1,29 @@
-= user_menu_currently_at 'reviews'
+= user_menu_currently_at 'profile'
 
-.panel
-  .panel__body.soft
-    - if @comments.pending.any?
-      %h3
-        %i.fa.fa-comments-alt
-        Avis en attente de validation
-        %i.fa.fa-question-circle{data: {toggle: 'popover', html: 'true', content: "<p>Votre avis est en attente de validation : pour le rendre visible de tous, votre professeur doit préalablement valider votre identité en tant qu'élève (à ce moment-là, votre professeur ne peut pas visualiter votre avis). Une fois votre identité confirmée, votre témoignage devient alors automatiquement visible sur son profil public. En moyenne, les avis sont validés en moins de 24h.</p><p>Lorsque votre avis est en attente de validation, vous pouvez modifier votre témoignage autant de fois que vous le souhaitez. Une fois validé, vous ne pourrez plus le changer.<p>", trigger: 'hover', placement: 'right'}}
+.flexbox
+  = render partial: 'users/left_menu', locals: { current: 'reviews' }
+  .flexbox__item.four-fifths.v-top
+    .panel
+      .panel__body.soft
+        - if @comments.pending.any?
+          %h3
+            %i.fa.fa-comments-alt
+            Avis en attente de validation
+            %span.f-size-13.f-weight-normal
+              %i.fa.fa-question-circle{data: {toggle: 'popover', html: 'true', content: "<p>Votre avis est en attente de validation : pour le rendre visible de tous, votre professeur doit préalablement valider votre identité en tant qu'élève (à ce moment-là, votre professeur ne peut pas visualiter votre avis). Une fois votre identité confirmée, votre témoignage devient alors automatiquement visible sur son profil public. En moyenne, les avis sont validés en moins de 24h.</p><p>Lorsque votre avis est en attente de validation, vous pouvez modifier votre témoignage autant de fois que vous le souhaitez. Une fois validé, vous ne pourrez plus le changer.<p>", trigger: 'hover', placement: 'right'}}
 
-      %ul.comment-list
-        = render partial: '/comments/comment', collection: @comments.pending, locals: { with_link: true }
-
-
-    %h3
-      %i.fa.fa-comments-alt
-      Mes avis postés
-    - if @comments.accepted.any?
-      %ul.comment-list
-        = render partial: '/comments/comment', collection: @comments.accepted, locals: { with_link: true }
-    - else
-      %p
-        Vous n'avez écrit aucun avis.
-        %br
-        Vous avez pris des cours mais ils ne sont pas référencés ?
-        = link_to 'Faites-le nous savoir !', pages_contact_path, onclick: "ga('send', 'event', 'Connait un professeur', 'click', '#{@user.email}')"
+          %ul.comment-list
+            = render partial: '/comments/comment', collection: @comments.pending, locals: { with_link: true }
+          %hr
+        %h3
+          %i.fa.fa-comments-alt
+          Mes avis postés
+        - if @comments.accepted.any?
+          %ul.comment-list
+            = render partial: '/comments/comment', collection: @comments.accepted, locals: { with_link: true }
+        - else
+          %p
+            Vous n'avez écrit aucun avis.
+            %br
+            Vous avez pris des cours mais ils ne sont pas référencés ?
+            = link_to 'Faites-le nous savoir !', pages_contact_path, onclick: "ga('send', 'event', 'Connait un professeur', 'click', '#{@user.email}')"

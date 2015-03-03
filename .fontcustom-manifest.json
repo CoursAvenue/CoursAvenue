@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "054a70fede6e51425034e64a2d3f542ecfa21165a51d83a9b3b277c702e98a96",
-    "current": "054a70fede6e51425034e64a2d3f542ecfa21165a51d83a9b3b277c702e98a96"
+    "previous": "1e31cfc96e48b4148243c115c0eb593e8cf62eff2e36d6e6ad003039c8922f25",
+    "current": "1e31cfc96e48b4148243c115c0eb593e8cf62eff2e36d6e6ad003039c8922f25"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -17,6 +17,10 @@
     "audiences-old": {
       "codepoint": 61845,
       "source": "app/assets/images/icons/svg/audiences-old.svg"
+    },
+    "avatar": {
+      "codepoint": 61857,
+      "source": "app/assets/images/icons/svg/avatar.svg"
     },
     "bar-chart-o": {
       "codepoint": 61846,
@@ -97,6 +101,10 @@
     "download": {
       "codepoint": 61818,
       "source": "app/assets/images/icons/svg/download.svg"
+    },
+    "ear": {
+      "codepoint": 61863,
+      "source": "app/assets/images/icons/svg/ear.svg"
     },
     "eiffel-tower": {
       "codepoint": 61852,
@@ -183,7 +191,7 @@
       "source": "app/assets/images/icons/svg/list.svg"
     },
     "lock": {
-      "codepoint": 61851,
+      "codepoint": 61861,
       "source": "app/assets/images/icons/svg/lock.svg"
     },
     "map-marker": {
@@ -210,9 +218,25 @@
       "codepoint": 61817,
       "source": "app/assets/images/icons/svg/pulse.svg"
     },
+    "quote": {
+      "codepoint": 61862,
+      "source": "app/assets/images/icons/svg/quote.svg"
+    },
+    "quotes": {
+      "codepoint": 61867,
+      "source": "app/assets/images/icons/svg/quotes.svg"
+    },
+    "reload": {
+      "codepoint": 61865,
+      "source": "app/assets/images/icons/svg/reload.svg"
+    },
     "repeat": {
       "codepoint": 61733,
       "source": "app/assets/images/icons/svg/repeat.svg"
+    },
+    "right-to-left": {
+      "codepoint": 61854,
+      "source": "app/assets/images/icons/svg/right-to-left.svg"
     },
     "rugby-ball": {
       "codepoint": 61853,

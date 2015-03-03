@@ -49,19 +49,19 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         nextPage: function nextPage (e) {
             var page = Math.min((parseInt(this.collection.state.currentPage, 10) + 1), this.collection.state.totalPages);
-
+            this.trigger('pagination:changed');
             return this.changePage(page);
         },
 
         prevPage: function prevPage (e) {
             var page = Math.max((parseInt(this.collection.state.currentPage, 10) - 1), 1);
-
+            this.trigger('pagination:changed');
             return this.changePage(page);
         },
 
         goToPage: function goToPage (e) {
             var page = parseInt(e.currentTarget.text, 10);
-
+            this.trigger('pagination:changed');
             return this.changePage(page);
         },
 
@@ -88,9 +88,9 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             return false;
         },
 
-        scrollToView: function scrollToView (view) {
+        scrollToView: function scrollToView (view, offset) {
             var element = view.$el;
-            this.$el.parents('section').scrollTo(element[0], { duration: 400, offset: -50 });
+            this.$el.closest('section').scrollTo(element[0], { duration: 400, offset: (offset || 0) });
         }
     });
 });

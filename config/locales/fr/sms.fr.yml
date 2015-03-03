@@ -1,0 +1,14 @@
+fr:
+  sms:
+    users:
+      day_before_reminder:
+        multiple_course: >
+          Rappel : vous avez #{nb_courses} cours demain et le premier commence à %{start_time}.
+          CoursAvenue vous souhaite une très belle séance ! Pour l'annuler, connectez-vous ("Mes inscriptions")."
+        one_course: >
+          Rappel : vous avez 1 cours demain qui commence à %{start_time}.
+          CoursAvenue vous souhaite une très belle séance ! Pour l'annuler, connectez-vous ("Mes inscriptions")."
+    structures:
+      new_participation_request: >
+        Bonne nouvelle ! %{user_name} souhaite venir à une séance le %{date} à %{start_time}.
+        Connectez-vous à votre profil CoursAvenue pour lui répondre directement.

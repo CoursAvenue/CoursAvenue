@@ -3,6 +3,13 @@
 = content_for :title do
   Le blog CoursAvenue
 
+= content_for :above_content do
+  .relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{asset_path('pages/colored_pencils.jpg')}')", data: { behavior: 'parallax' } }
+    .black-curtain.north.west.one-whole.absolute
+    .flexbox__item.v-middle.text--center.relative
+      %h1.f-size-really-big.flush= link_to "Arts. Sports. Bien-être.", blog_articles_path, class: 'muted-link'
+      %h2.flush= link_to "Le Blog CoursAvenue", blog_articles_path, class: 'muted-link'
+
 - @articles.each_with_index do |article, index|
   - cache [article, 'blog/articles/index'] do
     = render partial: 'blog/articles/article', locals: { article: article }

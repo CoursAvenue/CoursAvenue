@@ -1,0 +1,31 @@
+= user_menu_currently_at 'inscriptions'
+= render 'shared/include_addthisevent'
+- structure_decorator = @structure.decorate
+
+.panel.push--bottom
+  .panel__header.soft
+    %ol.nav.breadcrumb.epsilon.flush
+      %li.f-weight-600.delta= link_to 'Mes inscriptions', user_participation_requests_path(@user)
+      %li.f-weight-600.delta= @structure.name
+  .panel__body.soft--top
+    = render partial: 'users/participation_requests/table_recap', locals: { participation_request: @participation_request }
+
+.panel.push--bottom
+  .panel__header.soft
+    %h4.flush À propos de #{t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")}
+  .panel__body.soft
+    .grid.push--bottom
+      .grid__item.two-twelfths>
+        = link_to structure_path(@structure), target: :_blank, class: 'center-block' do
+          = image_tag @structure.logo.url(:thumb), class: 'center-block rounded--circle'
+      .grid__item.ten-twelfths>
+        %h4.line-height-1-7.flush
+          = @structure.name
+          = link_to structure_path(@structure), target: :_blank do
+            %span.orange (Voir le profil)
+        - if @participation_request.accepted?
+          %div.line-height-1-7= structure_decorator.phone_numbers(!@participation_request.accepted?)
+          %div= structure_decorator.website_link
+    - if !@participation_request.pending?
+      = render partial: 'users/conversations/form', locals: { conversation: @participation_request.conversation }
+    = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)

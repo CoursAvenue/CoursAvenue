@@ -1,30 +1,31 @@
-.bg-fixed.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background5.jpg'})" }
-  .main-container.main-container--medium.soft
-    %h1.flush Une question ? Besoin d'aide ?
-    %h3.flush Parcourez les questions suivantes pour accéder à toutes les réponses
+.relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{asset_path('pro/home_background.jpg')}')", data: { behavior: 'parallax' } }
+  .black-curtain.north.west.one-whole.absolute
+  .flexbox__item.v-middle.text--center.relative
+    %h1.f-size-really-big.flush Une question ? Besoin d'aide ?
+    %h2.main-container.text--center Parcourez les questions suivantes pour accéder à toutes les réponses
 
-.main-container.main-container--medium.soft
+.main-container.main-container--medium.mega-soft--ends.soft-half--sides
   .grid.epsilon
-    .grid__item.one-half>
-      %h3.flush Centre d'aide élèves
+    .grid__item.one-half.soft-half--right>
+      %h3.f-weight-300.alpha.push-half--bottom Centre d'aide élèves
       .epsilon.push--bottom
         %i Pour les Internautes à la recherche de cours de loisirs
-      %ul
-        %li Comment trouver puis s'inscrire à un cours de loisir ?
-        %li Comment contacter un professeur, une association ou une école ?
-        %li Je n'ai pas reçu mon mail d'activation : comment faire ?
-        %li Pourquoi créer un compte élève ?
-        %li Comment déposer une recommandation ?
-    .grid__item.one-half.bordered--left>
-      %h3.flush Centre d'aide professionnels
+      %ul.line-height-2
+        %li Comment trouver puis s'inscrire à un cours de loisir&nbsp;?
+        %li Comment contacter un professeur, une association ou une école&nbsp;?
+        %li Je n'ai pas reçu mon mail d'activation : comment faire&nbsp;?
+        %li Pourquoi créer un compte élève&nbsp;?
+        %li Comment déposer une recommandation&nbsp;?
+    .grid__item.one-half>
+      %h3.f-weight-300.alpha.push-half--bottom Centre d'aide professionnels
       .epsilon.push--bottom
         %i Pour les professionnels proposant des cours de loisirs
-      %ul
-        %li Comment faire pour me connecter à mon compte ?
-        %li J'ai perdu mon mot de passe : comment faire ?
-        %li Comment recevoir des recommandations de mes élèves ?
-        %li Un profil CoursAvenue : pour quoi faire ?
-        %li Quels sont les avantages du profil Premium ?
+      %ul.line-height-2
+        %li Comment faire pour me connecter à mon compte&nbsp;?
+        %li J'ai perdu mon mot de passe : comment faire&nbsp;?
+        %li Comment recevoir des recommandations de mes élèves&nbsp;?
+        %li Un profil CoursAvenue : pour quoi faire&nbsp;?
+        %li Quels sont les avantages du profil Premium&nbsp;?
   .grid.epsilon
     .grid__item.one-half>
       = link_to "Voir toute l'aide élèves", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn'
@@ -32,7 +33,7 @@
       = link_to "Voir toute l'aide professionnels", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
 
 .home-screen-promotion-wrapper
-  .main-container.main-container--medium.soft
+  .main-container.main-container--medium.mega-soft--ends
     %h2.text--center.f-weight-300 Découvrez comment fonctionne CoursAvenue
     .center-block.relative.bg-cover.push--bottom{ style: "background-image: url('#{asset_path('home-page/video_thumbnail.jpg')}'); max-width: 600px; height: 260px;" }>
       = link_to 'https://www.youtube.com/watch?v=-hq0sxFEcOw', class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', data: { behavior: 'fancy', height: 560, width: 1000 } do
@@ -40,17 +41,16 @@
           %i.fa.fa-youtube-play.fa-3x
           .show-on-hover__child Voir la vidéo
 
-.main-container.main-container--medium.soft
+.main-container.main-container--medium.mega-soft--ends
   %h2.text--center.flush.f-weight-300 Vous recherchez un cours de loisir ?
   %h4.text--center.f-weight-300 Choisissez la discipline générale et votre ville, vous pourrez ensuite affiner votre recherche :
-  .text--center
-    = render partial: 'shared/home_page_search_form', locals: { form_class: 'inline-block', wrapper_class: '' }
+  = render partial: 'shared/home_page_search_form', locals: { form_class: 'header-search-bar center-block push-half--bottom', wrapper_class: '' }
   %p.epsilon.text--center
     Besoin d'aide pour trouver un cours ? Accédez à toutes nos réponses dans notre
     = link_to "centre d'aide", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
 
 .home-screen-promotion-wrapper
-  .main-container.soft
+  .main-container.mega-soft--ends
     %h2.text--center.f-weight-300 Toujours une question ? 2 solutions :
     %p.epsilon.flush.text--center
       1. Discutez en direct avec l'un de nos conseillers entre 9h et 18h en cliquant sur la fenêtre de chat

@@ -1,7 +1,17 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill, :dont_want_to_take_control_of_my_sleeping_account, :someone_already_took_control]
-  load_and_authorize_resource :structure, except: [:new, :create, :widget_ext, :best, :payment_confirmation_be2_bill, :dont_want_to_take_control_of_my_sleeping_account, :someone_already_took_control], find_by: :slug
+  before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best,
+                                                   :payment_confirmation_be2_bill,
+                                                   :dont_want_to_take_control_of_my_sleeping_account,
+                                                   :someone_already_took_control]
+
+  load_and_authorize_resource :structure, except: [:new, :create,
+                                                   :widget_ext, :best, :payment_confirmation_be2_bill,
+                                                   :dont_want_to_take_control_of_my_sleeping_account,
+                                                   :someone_already_took_control], find_by: :slug
+
+  # We add update in case the update fails and we need the variable in the view
+  before_action :retrieve_facebook_pages, only: [:edit_contact, :update]
 
   layout :get_layout
 
@@ -95,6 +105,7 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  # :nocov:
   # GET member
   def widget_jpo
     @structure = Structure.friendly.find params[:id]
@@ -116,6 +127,7 @@ class Pro::StructuresController < Pro::ProController
       format.json { render text: render_to_string(partial: 'pro/structures/widget_jpo', layout: false) }
     end
   end
+  # :nocov:
 
   # GET member
   #   format :json
@@ -228,16 +240,9 @@ France
   end
 
   def edit_contact
-    @structure = Structure.friendly.find(params[:id])
-    @admin     = @structure.main_contact
-
+    @structure      = Structure.friendly.find(params[:id])
+    @admin          = @structure.main_contact
     5.times { @structure.phone_numbers.build }
-
-    if @admin.from_facebook?
-      @facebook_pages = facebook_pages
-    else
-      @facebook_pages = []
-    end
   end
 
   def new
@@ -405,7 +410,9 @@ France
   end
 
   def get_layout
-    if action_name == 'new' || action_name == 'create' || action_name == 'someone_already_took_control'
+    if action_name == 'new'
+      'home'
+    elsif action_name == 'create' || action_name == 'someone_already_took_control'
       'admin_pages'
     else
       'admin'
@@ -428,17 +435,21 @@ France
   # pages managed by the admin.
   #
   # @return an Array of Array of [page_name, URL]
-  def facebook_pages
-    pages = @admin.facebook_pages
+  def retrieve_facebook_pages
+    @admin ||= @structure.main_contact
+    return @facebook_pages = [] if @admin.nil?
+    if @admin.from_facebook?
+      pages = @admin.facebook_pages
 
-    if @structure.facebook_url?
-      if pages.map(&:second).include?(@structure.facebook_url)
-        pages << ['Autre', 'other']
-      else
+      if @structure.facebook_url? and !pages.map(&:second).include?(@structure.facebook_url)
         pages << ['Autre', @structure.facebook_url] unless pages.empty?
+      else
+        pages << ['Autre', 'other']
       end
-    end
 
-    pages
+      @facebook_pages = pages
+    else
+      @facebook_pages = []
+    end
   end
 end

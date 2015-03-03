@@ -31,6 +31,7 @@ class Metric
   # Creation and migration methods                                     #
   ######################################################################
 
+  # :nocov:
   # Migrate the statistics from a structure to if it hasn't already been done.
   # @param structure The structure to migrate
   #
@@ -55,58 +56,56 @@ class Metric
                    ip_address:       statistic.ip_address,
                    created_at:       statistic.created_at)
   end
+  # :nocov:
 
   # Creates a statistic when a structure appears in the results of a search
   # @param structure_id Integer Structure id that appeared in the search OR an array of ids
-  # @param user User who searched for it
   # @param fingerprint String, Fingerprint (hash) generated client side to identify a unique user
   # @param infos=nil String, more info on the stat
   #
   # @return Metric
-  def self.print(structure_id, user, fingerprint, ip_address, infos=nil)
+  def self.print(structure_id, fingerprint, ip_address, infos=nil)
     if structure_id.is_a? Array
       structure_id.each do |s_id|
-        Metric.print(s_id, user, fingerprint, ip_address, infos)
+        Metric.print(s_id, fingerprint, ip_address, infos)
       end
     else
-      Metric.create_action('impression', structure_id, user, fingerprint, ip_address, infos)
+      Metric.create_action('impression', structure_id, fingerprint, ip_address, infos)
     end
   end
 
   # Creates a statistic when a structure has been viewed (#show action)
   # @param structure_id Integer Structure id that appeared in the search
-  # @param user User who searched for it
   # @param fingerprint String, Fingerprint (hash) generated client side to identify a unique user
   # @param infos=nil String, more info on the stat
   #
   # @return Metric
-  def self.view(structure_id, user, fingerprint, ip_address, infos=nil)
-    Metric.create_action('view', structure_id, user, fingerprint, ip_address, infos)
+  def self.view(structure_id, fingerprint, ip_address, infos=nil)
+    Metric.create_action('view', structure_id, fingerprint, ip_address, infos)
   end
 
   # Creates a statistic when there has been an action on a structure (eg. contact etc.)
   # @param structure_id Integer Structure id that appeared in the search
-  # @param user User who searched for it
   # @param fingerprint String, Fingerprint (hash) generated client side to identify a unique user
   # @param infos=nil String, more info on the stat
   #
   # @return Metric
-  def self.action(structure_id, user, fingerprint, ip_address, infos=nil)
-    Metric.create_action('action', structure_id, user, fingerprint, ip_address, infos)
+  def self.action(structure_id, fingerprint, ip_address, infos=nil)
+    Metric.create_action('action', structure_id, fingerprint, ip_address, infos)
   end
 
   # Creates a statistic regarding the action name
   # @param action_name String Type of an action
   # @param structure_id Integer Structure id that appeared in the search
-  # @param user User who searched for it
   # @param fingerprint String, Fingerprint (hash) generated client side to identify a unique user
   # @param infos=nil String, more info on the stat
   #
   # @return Metric
-  def self.create_action(action_name, structure_id, user, fingerprint, ip_address, infos=nil)
+  def self.create_action(action_name, structure_id, fingerprint, ip_address, infos=nil)
+    return false # STOPPING METRICS TO DO ANYTHING
     if structure_id.is_a? Array
       structure_id.each do |_structure_id|
-        Metric.create_action(action_name, _structure_id, user, fingerprint, ip_address, infos=nil)
+        Metric.create_action(action_name, _structure_id, fingerprint, ip_address, infos=nil)
       end
     else
       data = { action_type: action_name, structure_id: structure_id, user_fingerprint: fingerprint, ip_address: ip_address, infos: infos }

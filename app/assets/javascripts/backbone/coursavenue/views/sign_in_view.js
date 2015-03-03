@@ -5,9 +5,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         className: 'panel center-block',
 
         options: {
-            show_admin_form      : false,
-            width                : 280,
-            width_with_admin_form: 560
+            width: 300
         },
 
         initialize: function initialize (options) {
@@ -19,7 +17,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 func();
             });
 
-            this.$el.css('width', this.popupWidth() + 'px');
+            this.$el.css('width', this.options.width + 'px');
             $.magnificPopup.open({
                   items: {
                       src: this.$el,
@@ -29,11 +27,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.render();
         },
 
-        popupWidth: function popupWidth () {
-            return (this.options.show_admin_form ? this.options.width_with_admin_form : this.options.width);
-        },
-
         events: {
+            'click @ui.$facebook_login_button'    : 'loginWithFacebook',
             'click [data-behavior=sign-up]'       : 'signUp',
             'submit form[data-behavior=user-form]': 'signIn',
             'click @ui.$facebook_login_button'    : 'loginWithFacebook'
@@ -51,12 +46,13 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             CoursAvenue.loginWithFacebook(this.options);
         },
 
-
-        onRender: function onRender () {
-            if (this.options.show_admin_form) {
-                this.$('[name=authenticity_token]').val($('meta[name="csrf-token"]').attr('content'));
-            }
+        /*
+         * We have to keep this action in this model to ensure to pass this.options attributes
+         */
+        loginWithFacebook: function loginWithFacebook () {
+            CoursAvenue.loginWithFacebook(this.options);
         },
+
         signUp: function signUp () {
             new Module.SignUpView(this.options);
             return false;
@@ -82,7 +78,13 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     this.$('form').trigger('ajax:complete.rails');
                 }.bind(this),
                 error: function error (response) {
-                    this.$('[data-type=errors]').show();
+                    var json_response = $.parseJSON(response.responseText);
+                    if (json_response.is_admin) {
+                        this.$('[data-el=form-wrapper]').slideUp();
+                        this.$('[data-type=admin-errors]').show();
+                    } else {
+                        this.$('[data-type=errors]').show();
+                    }
                 }.bind(this),
                 success: function success (response) {
                     CoursAvenue.setCurrentUser(response);

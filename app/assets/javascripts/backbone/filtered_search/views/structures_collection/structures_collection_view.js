@@ -6,18 +6,18 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         tagName: 'div',
         template: Module.templateDirname() + 'empty_structures_collection_view',
 
-        initialize: function initialize (options) {
-            this.search_term  = options.search_term;
-            this.subject_name = options.subject_name;
+        events: {
+          'click [data-behavior=zoom-out]': 'triggerZoomOut',
+          'click [data-behavior=remove-filters]': 'triggerRemoveFilers',
         },
 
-        serializeData: function serializeData () {
-            return {
-                search_term: this.search_term,
-                subject_name: this.subject_name
-            }
-        }
+        triggerRemoveFilers: function  triggerRemoveFilers () {
+            this.trigger('filters:remove:all');
+        },
 
+        triggerZoomOut: function  triggerZoomOut () {
+            this.trigger('map:zoom:out');
+        }
     });
 
     Module.StructuresCollectionView = CoursAvenue.Views.PaginatedCollectionView.extend({
@@ -29,9 +29,13 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         emptyView: EmptyStrcutureList,
 
         initialize: function initialize () {
-            window.onresize = this.resize_thumbnails;
-            _.bindAll(this, 'initializeAddToFavoriteLinks');
+            _.bindAll(this, 'initializeAddToFavoriteLinks', 'scrollToTop');
             CoursAvenue.on('user:signed:in', this.initializeAddToFavoriteLinks);
+            this.on('pagination:changed', this.scrollToTop);
+        },
+
+        scrollToTop: function scrollToTop () {
+            $.scrollTo(0, { easing: 'easeOutCubic', duration: 350 });
         },
 
         initializeAddToFavoriteLinks: function initializeAddToFavoriteLinks () {
@@ -40,20 +44,15 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             });
         },
 
-        resize_thumbnails: function resize_thumbnails () {
-            $('[data-resizeable-height]').css('height', $('[data-resizeable-height]').first().width() * 2 / 3);
+        onAfterShow: function onAfterShow () {
+          this.announcePaginatorUpdated(true);
+          var $sticky = $('[data-behavior=sticky]');
+          $sticky.sticky({ offsetTop: 50,
+                           z        : 1200,
+                           oldWidth : true });
+          this.renderSlideshows();
         },
 
-        onAfterShow: function onAfterShow () {
-          this.announcePaginatorUpdated();
-          var $sticky = $('[data-behavior=sticky]');
-          $sticky.sticky({ scrollContainer: '.filtered-search__list-wrapper',
-                           z: 1200,
-                           oldWidth: true,
-                           onStick: function() {
-                              $sticky.css({ top: '50px', paddingTop: '8px' }).addClass('bg-white');
-                           } });
-        },
         /* forward events with only the necessary data */
         onChildviewHighlighted: function onChildviewHighlighted (view, data) {
             this.trigger('structures:childview:highlighted', data);
@@ -61,6 +60,14 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
         onChildviewUnhighlighted: function onChildviewUnhighlighted (view, data) {
             this.trigger('structures:childview:unhighlighted', data);
+        },
+
+        onChildviewFiltersRemoveAll: function onChildviewFiltersRemoveAll () {
+            this.trigger('filters:clear:all');
+        },
+
+        onChildviewMapZoomOut: function onChildviewMapZoomOut () {
+            this.trigger('map:zoom:out');
         },
 
         /* WHOA so this event is actually getting the course:focus event
@@ -73,31 +80,28 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
         findChildView: function findChildView (data) {
             /* find the first place that has any locations that match the given lat/lng */
-            var position = data.model.getLatLng();
+            var position         = data.model.getLatLng();
+            var $filters_wrapper = $('[data-el=filters-wrapper]')
 
-            var relevant_structure = this.collection.find(function (model) {
+            var relevant_structure = this.collection.findWhere({id: data.model.get('structure_id') })
 
-                return _.find(model.getRelation('places').related.models, function (place) {
-                    var latlng = new google.maps.LatLng(place.get('latitude'), place.get('longitude'));
-                    return (position.equals(latlng)); // ha! google to the rescue
-                });
-            });
-
+            if (!relevant_structure) { return; }
             var childview = this.children.findByModel(relevant_structure);
 
             /* announce the view we found */
             this.trigger('structures:childview:found', { structure_view: childview, location_view: data } );
-            this.scrollToView(childview);
+            $.scrollTo(childview.el, { duration: 400, offset: -($('header').first().outerHeight() + $filters_wrapper.outerHeight()) });
 
         },
 
         /* override inherited method */
-        announcePaginatorUpdated: function announcePaginatorUpdated () {
+        announcePaginatorUpdated: function announcePaginatorUpdated (is_first) {
             var state         = this.collection.state;
             var queryParams   = this.collection.queryParams;
             var first_result = (state.currentPage - 1) * state.perPage + 1;
-
-            this.trigger('structures:updated', this.collection.map(function(structure) { return structure.get('id') } ));
+            if (is_first !== true) {
+                this.trigger('structures:updated', this.collection.map(function(structure) { return structure.get('id') } ));
+            }
 
             /* announce the pagination statistics for the current page */
             this.trigger('structures:updated:pagination', {
@@ -111,9 +115,12 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             /* announce the summary of the result set */
             this.trigger('structures:updated:summary', {
-                first: first_result,
-                last: Math.min(first_result + state.perPage - 1, state.grandTotal),
-                total: state.grandTotal
+                first       : first_result,
+                last        : Math.min(first_result + state.perPage - 1, state.grandTotal),
+                total       : state.grandTotal,
+                subject     : queryParams.subject_id,
+                // We replace + by ' ' because space is replaced by a "+" in the query parameters on home page.
+                city        : (queryParams.city ? queryParams.city.replace(/\+/g, ' ') : window.coursavenue.bootstrap.city_id),
             });
 
             this.trigger('structures:updated:query', { query: this.collection.getQuery().replace('?', '') }); // Removing the first '?' character
@@ -122,7 +129,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 zoom: (queryParams.zoom ? queryParams.zoom : 12),
             });
             this.trigger('structures:updated:filter', {
-                address_name         : (queryParams.address_name         ? queryParams.address_name                         : ''),
+                address_name         : (queryParams.address_name         ? queryParams.address_name.replace(/\+/g, ' ')       : ''),
                 name                 : (queryParams.name                 ? queryParams.name                                 : ''),
                 subject_id           : (queryParams.subject_id           ? queryParams.subject_id                           : ''),
                 root_subject_id      : (queryParams.root_subject_id      ? queryParams.root_subject_id                      : ''),
@@ -152,7 +159,6 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         structuresUpdated: function structuresUpdated (structure_ids) {
             this.logImpressions(structure_ids);
             this.renderSlideshows();
-            setTimeout(this.resize_thumbnails);
         },
 
         logImpressions: function logImpressions (structure_ids) {
@@ -188,6 +194,12 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 });
                 GLOBAL.initialize_fancy(self.$('.rslides-wrapper [data-behavior="fancy"]'));
             });
+        },
+
+        updateUrlAndFilter: function updateUrlAndFilter (data) {
+            data.city = data.city || this.collection.queryParams.city || window.coursavenue.bootstrap.city_id;
+            window.history.pushState('', '', CoursAvenue.searchPath(_.extend(this.collection.queryParams, data)));
+            this.filterQuery(data);
         },
 
         childViewOptions: function childViewOptions () {

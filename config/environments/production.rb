@@ -135,7 +135,7 @@ CoursAvenue::Application.configure do
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { host: 'coursavenue.com' }
-  config.action_mailer.asset_host          = 'https://www.coursavenue.com'
+  config.action_mailer.asset_host          = 'https://dqggv9zcmarb3.cloudfront.net'
 
   config.action_mailer.smtp_settings = {
     address:          'smtp.mandrillapp.com',
@@ -155,5 +155,5 @@ CoursAvenue::Application.configure do
   # For our CoursAvenue prerender that is on heroku
   # config.middleware.use Rack::Prerender, prerender_service_url: ENV['PRERENDER_SERVICE_URL']
   # For Prerender.io
-  # config.middleware.use Rack::Prerender, prerender_token: ENV['PRERENDER_TOKEN']
+  config.middleware.use Rack::Prerender, prerender_token: ENV['PRERENDER_TOKEN'], protocol: 'https'
 end

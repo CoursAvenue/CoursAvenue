@@ -5,42 +5,51 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.CourseTypeFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'course_type_filter_view',
 
-        setup: function (data) {
+        setup: function setup (data) {
             var self = this;
             _.each(data.course_types, function(course_type) {
                 self.activateInput(course_type);
             });
-            this.announceBreadcrumb();
+            this.setButtonState();
+        },
+
+        ui: {
+            '$clear_filter_button' : '[data-behavior=clear-filter]',
+            '$clearer'             : '[data-el=clearer]',
         },
 
         events: {
-            'change input': 'announce'
+            'change input': 'announce',
+            'click @ui.$clear_filter_button': 'clear'
         },
 
-        announce: function (e, data) {
+        announce: function announce (e, data) {
             var course_types = _.map(this.$('[name="course_types[]"]:checked'), function(input){ return input.value });
             this.trigger("filter:level", { 'course_types[]': course_types });
-            this.announceBreadcrumb(course_types);
+            this.setButtonState(course_types);
         }.debounce(GLOBAL.DEBOUNCE_DELAY),
 
-        announceBreadcrumb: function(course_types) {
-            var title;
+        /*
+         * Set the state of the button, wether or not there are filters or not
+         */
+        setButtonState: function setButtonState (course_types) {
             course_types = course_types || _.map(this.$('[name="course_types[]"]:checked'), function(input){ return input.value });
-            if (course_types.length === 0) {
-                this.trigger("filter:breadcrumb:remove", {target: 'course_type'});
+            if (course_types.length > 0) {
+                this.ui.$clearer.show();
+                this.ui.$clear_filter_button.removeClass('btn--gray');
             } else {
-                title = _.map(this.$('[name="course_types[]"]:checked'), function(input){ return $(input).parent().text().trim() });
-                this.trigger("filter:breadcrumb:add", {target: 'course_type', title: title.join(', ')});
+                this.ui.$clear_filter_button.addClass('btn--gray');
+                this.ui.$clearer.hide();
             }
         },
 
-        activateInput: function(course_type) {
+        activateInput: function activateInput (course_type) {
              var $input = this.$('[value=' + course_type + ']');
             $input.prop('checked', true);
             $input.parent('.btn').addClass('active');
         },
         // Clears all the given filters
-        clear: function () {
+        clear: function clear () {
             _.each(this.$('input'), function(input) {
                 var $input = $(input);
                 $input.prop("checked", false);

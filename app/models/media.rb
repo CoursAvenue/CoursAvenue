@@ -36,6 +36,7 @@ class Media < ActiveRecord::Base
   scope :cover_first,  -> { order('cover DESC NULLS LAST') }
 
   # ------------------------------------------------------------------------------------ Search attributes
+  # :nocov:
   searchable do
     latlon :location, multiple: true do
       if self.mediable.is_a? Structure
@@ -71,11 +72,12 @@ class Media < ActiveRecord::Base
       end
     end
   end
+  # :nocov:
 
   handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
   def url_html(options={})
-    read_attribute(:url_html).html_safe
+    read_attribute(:url_html).try(:html_safe)
   end
 
   def video?

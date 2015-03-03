@@ -37,9 +37,7 @@ fr:
         street: "N° + rue"
         zip_code: "Ex. : 75008"
         info: "Indiquez comment y accéder (station de métro, arrêt de bus...) et toute information pratique"
-        private_info: >
-          Indiquez les informations pratiques confidentielles : digicode, étage, etc. (non visibles sur votre profil
-          public et communiquées qu'aux élèves inscrits à vos activités)
+        private_info: Indiquez le digicode, l'étage, ou toute autre précision qui sera uniquement visible des élèves inscrits
 
   pro:
     places:

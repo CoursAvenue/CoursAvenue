@@ -5,16 +5,16 @@
 
   .main-container.soft
     .white-box.soft
-      = simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f|
+      = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
 
         = f.error_notification
 
-        = f.input :reset_password_token, :as => :hidden
+        = f.input :reset_password_token, as: :hidden
         = f.full_error :reset_password_token
 
         .form-inputs
-          = f.input :password, :label => "Nouveau mot de passe", :required => true, :autofocus => true
-          = f.input :password_confirmation, :label => "Nouveau mot de passe (confirmation)", :required => true
+          = f.input :password, label: "Nouveau mot de passe", required: true, autofocus: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+          = f.input :password_confirmation, label: "Nouveau mot de passe (confirmation)", required: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
 
         .form-actions
           = f.button :submit, "Valider", class: 'btn btn--green'
