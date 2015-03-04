@@ -1,12 +1,8 @@
 StructureProfile.module('Views.ParticipationRequests', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
-    Module.RequestFormView = Marionette.LayoutView.extend({
+    Module.RequestFormView = CoursAvenue.Views.EventLayout.extend({
         template: Module.templateDirname() + 'request_form_view',
         message_failed_to_send_template: Module.templateDirname() + 'message_failed_to_send',
-
-        regions: {
-            request_form_content: '[data-type=participation-request-form-content]'
-        },
 
         className: 'panel center-block push--bottom',
 
@@ -45,7 +41,19 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             this.$('[name^="participation_request["]').each(function (index, input) {
                 $input         = $(input);
                 attribute_name = $input.attr('name').replace('participation_request[', '').replace(']', '');
-                new_attributes[attribute_name] = $input.val();
+                // If it is a nested attributes
+                if (attribute_name.indexOf('[') != -1) {
+                    // Ex. : "participants_attributes[0][price_id]"
+                    var nested_attribute_name             = attribute_name.split('[')[0];
+                    var attribute_index                   = attribute_name.split(/(\[[0-9]*\])/)[1].replace('[', '').replace(']', '');
+                    var attribute_name                    = attribute_name.split(/(\[[0-9]*\])/)[2].replace('[', '').replace(']', '');
+                    new_attributes[nested_attribute_name] = new_attributes[nested_attribute_name] || [];
+                    new_attributes[nested_attribute_name][attribute_index] = new_attributes[nested_attribute_name][attribute_index] || {}
+                    new_attributes[nested_attribute_name][attribute_index][attribute_name] = $input.val();
+
+                } else {
+                    new_attributes[attribute_name] = $input.val();
+                }
             });
             _.extend(new_attributes, {
                 structure_id: this.model.get('structure').get('id'),
@@ -114,17 +122,17 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
                     });
                 }
             } else {
-                this.errors = this.model.validate();
-                if (this.errors['user.phone_number']) {
-                    this.errors.user = { phone_number: this.errors['user.phone_number'] }
-                }
                 this.showErrors();
             }
             return false;
         },
 
         showErrors: function showErrors () {
-            this.$('[data-errors]').hide();
+            this.errors = this.model.validate();
+            if (this.errors['user.phone_number']) {
+                this.errors.user = { phone_number: this.errors['user.phone_number'] }
+            }
+            this.$('[data-error]').hide();
             _.each(this.errors, function(value, key) {
                 // We replace `.` by `_` because we can't have `.` in data attributes
                 key = key.replace('.', '_');
@@ -182,7 +190,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             $.cookie('user_phone_number')
             _.extend(data, {
                 structure: structure_json,
-                today: moment().format(GLOBAL.MOMENT_DATE_FORMAT),
+                today: moment().format(COURSAVENUE.constants.MOMENT_DATE_FORMAT),
                 user: {
                     phone_number: CoursAvenue.currentUser().get('phone_number') || $.cookie('user_phone_number')
                 }
@@ -202,8 +210,14 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         },
 
         showSecondStepForm: function showSecondStepForm () {
-            this.ui.$first_step_form_wrapper.slideUp();
-            this.ui.$second_step_form_wrapper.slideDown();
+            this.populateRequest();
+            if (this.model.isValid(true)) {
+                this.ui.$first_step_form_wrapper.slideUp();
+                this.ui.$second_step_form_wrapper.slideDown();
+                this.$('[data-error]').hide(); // Hide errors if there was any
+            } else {
+                this.showErrors();
+            }
         },
 
         onRender: function onRender () {
@@ -216,10 +230,19 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
               model               : this.model
             };
             // Don't re render content_form_view because it's being
-            if (!this.pr_content_view & this.$(this.regions.request_form_content).length > 0) {
+            if (!this.pr_content_view) {
                 this.pr_content_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView(options);
-                this.getRegion('request_form_content').show(this.pr_content_view);
+                this.showWidget(this.pr_content_view);
                 this.ui.$participation_request_message_body.preventFromContact();
+            }
+            if (!this.pr_participants_view) {
+                this.pr_participants_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestParticipantsView();
+                this.showWidget(this.pr_participants_view, {
+                    events: {
+                        'participation_request:course:selected'   : 'resetPricesCollection',
+                        'participation_request:course:deselected' : 'hidePricesCollection'
+                    }
+                });
             }
         }
     });

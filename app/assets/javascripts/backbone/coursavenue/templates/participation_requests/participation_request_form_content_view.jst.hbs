@@ -5,7 +5,7 @@
         </div>{{!--
     --}}<div class="grid__item v-middle nine-twelfths soft--sides">
             <select name="participation_request[course_id]" class="one-whole" id="participation_request_courses_select">
-                <option>Quel cours vous intéresse ?</option>
+                <option value="">Quel cours vous intéresse ?</option>
                 {{#if courses_open_for_trial}}
                     <optgroup label="Cours avec essai gratuit ({{trial_courses_policy}})">
                         {{#each courses_open_for_trial}}
@@ -28,9 +28,9 @@
                     </optgroup>
                 {{/if}}
             </select>
+            <div data-error="course_id" class="{{#unless errors.course_id}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.course_id}}</div>
         </div>
     </div>
-    <div data-error="course_id" class="{{#unless errors.course_id}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.course_id}}</div>
     <div class="grid--full bordered--top" data-element="planning-select-wrapper" style="display: none">
         <div class="grid__item v-middle three-twelfths soft--sides soft-half--ends bordered--right">
             <label class="label--large nowrap" for="participation_request_plannings_select">Date</label>
@@ -78,6 +78,7 @@
         </div>
     </div>
     <div data-element="student-address-wrapper" class="soft--sides soft-half--ends hidden bordered--top">
+        <input type="hidden" data-element="student-address-input" name="participation_request[at_student_home]">
         <div class="epsilon">Votre adresse :</div>
         <div class="soft-half--ends">
           <input type="text" placeholder="N° + rue" class="one-whole" name="participation_request[street]">
@@ -90,5 +91,6 @@
               <select name="participation_request[city_id]" id="participation-request-city-select-{{ cid }}" class="one-whole" data-toggle="popover" data-placement="top" data-content="Entrez votre code postal pour pouvoir sélectionner la ville."></select>
             </div>
         </div>
+        <div data-error="street" class="{{#unless errors.street}}hidden{{/unless}} soft-half--top input_field_error red f-weight-bold text--right">{{errors.street}}</div>
     </div>
 </div>

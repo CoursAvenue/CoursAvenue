@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150226104845) do
+ActiveRecord::Schema.define(version: 20150226142040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -549,6 +549,15 @@ ActiveRecord::Schema.define(version: 20150226104845) do
     t.string   "type"
     t.integer  "user_id"
   end
+
+  create_table "participation_request_participants", force: true do |t|
+    t.integer  "number"
+    t.datetime "deleted_at"
+    t.integer  "participation_request_id"
+    t.integer  "price_id"
+  end
+
+  add_index "participation_request_participants", ["participation_request_id", "price_id"], name: "participation_requests_participants_index", using: :btree
 
   create_table "participation_requests", force: true do |t|
     t.integer  "mailboxer_conversation_id"

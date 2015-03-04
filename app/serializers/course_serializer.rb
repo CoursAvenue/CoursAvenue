@@ -7,16 +7,16 @@ class CourseSerializer < ActiveModel::Serializer
   # delegate :cache_key, to: :object
 
   attributes :id, :name, :description, :description_short, :db_type, :type, :subjects,
-             :is_individual, :is_lesson, :frequency, :premium, :on_appointment,
+             :is_individual, :is_lesson, :frequency, :on_appointment,
              :course_location, :min_age_for_kid, :max_age_for_kid, :audiences,
-             :levels, :details, :prices, :premium_prices, :has_price_group,
+             :levels, :details, :prices, :has_price_group,
              :is_open_for_trial, :has_promotion, :trial_courses_policy_popover, :min_price,
              :teaches_at_home
 
   has_one  :place,          serializer: PlaceSerializer
   has_many :plannings,      serializer: PlanningSerializer
   has_many :prices,         serializer: PriceSerializer
-  has_many :premium_prices, serializer: PriceSerializer
+  has_many :registrations,  serializer: PriceSerializer
 
   def min_price
     readable_amount(object.min_price) if object.min_price
@@ -63,10 +63,6 @@ class CourseSerializer < ActiveModel::Serializer
 
   def frequency
     I18n.t(object.frequency) if object.frequency.present?
-  end
-
-  def premium
-    object.structure.premium?
   end
 
   def course_location
@@ -123,17 +119,17 @@ class CourseSerializer < ActiveModel::Serializer
     _details
   end
 
-  def premium_prices
+  def prices
     if object.price_group
-      object.price_group.prices.premium_prices
+      object.price_group.prices.order('amount ASC')
     else
       []
     end
   end
 
-  def prices
+  def registrations
     if object.price_group
-      object.price_group.prices.non_premium_prices.order('amount ASC') + object.price_group.prices.registrations.order('amount ASC')
+      object.price_group.prices.registrations.order('amount ASC')
     else
       []
     end
@@ -144,7 +140,7 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def trial_courses_policy_popover
-    I18n.t("structures.trial_courses_policy.#{object.structure.trial_courses_policy}_nb_given")
+    I18n.t("structures.trial_courses_policy.#{(object.structure.trial_courses_policy.blank? ? '1_trial' : object.structure.trial_courses_policy)}_nb_given")
   end
 
 end

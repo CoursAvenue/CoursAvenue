@@ -101,7 +101,7 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    input_subject_filter      = new CoursAvenue.Views.InputSubjectFilterView({ className: 'filtered-search__location-input palm-one-whole'});
+    input_subject_filter      = new CoursAvenue.Views.InputSubjectFilterView({ className: 'filtered-search__location-input palm-one-whole' });
     location_filter           = new FiltersModule.LocationFilterView({});
     level_filter              = new FiltersModule.LevelFilterView({});
     course_type_filter        = new FiltersModule.CourseTypeFilterView({});

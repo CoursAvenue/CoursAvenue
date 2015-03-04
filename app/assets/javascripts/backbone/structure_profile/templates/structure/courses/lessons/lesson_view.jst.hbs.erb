@@ -96,27 +96,6 @@
                 </tr>
             </thead>
             <tbody>
-                {{#if premium}}
-                {{#if premium_prices}}
-                {{#each premium_prices}}
-                    <tr>
-                        <td class="nowrap">
-                            <img src="<%= asset_path '/icons/icon-star-yellow-full-bordered.png' %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
-                            <span class="v-middle">
-                            {{#if this.discount}} {{ this.libelle_type }} {{else}} {{ this.libelle }} {{/if}}
-                            </span>
-                        </td>
-                        <td class="text--center">
-                            <strong class="green">{{this.amount}}</strong>
-                        </td>
-                        <td class="text--center">
-                            <strong class="green">{{this.promo_amount}}</strong>
-                        </td>
-                        <td>{{{ hide_contacts this.info }}}</td>
-                    </tr>
-                {{/each}}
-                {{/if}}
-                {{/if}}
                 {{#each prices}}
                     {{#ifCond @index '==' 2}}
                         <tr data-behavior="show-long-version" data-long-version=".course-{{../../id}}-prices-long">
@@ -129,12 +108,12 @@
                     {{/ifCond}}
                     <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}} {{#ifCond @index '>' 1}}course-{{../../id}}-prices-long hidden{{/ifCond}}">
                         <td>
-                            {{#if ../premium}}{{#if this.promo_amount}}
+                            {{#if this.promo_amount}}
                             <img src="<%= asset_path '/icons/icon-star-yellow-full-bordered.png' %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
-                            {{/if}}{{/if}}
+                            {{/if}}
                             <span class="v-middle">{{this.libelle}}</span>
                         </td>
-                        <td class="text--center {{#if ../premium}}{{#if this.promo_amount}}line-through{{/if}}{{/if}}">
+                        <td class="text--center {{#if this.promo_amount}}line-through{{/if}}">
                             {{#if this.is_free}}
                               <strong class="green">Gratuit{{#if this.is_registration}}e{{/if}}</strong>
                             {{else}}
@@ -142,10 +121,8 @@
                             {{/if}}
                         </td>
                         <td class="text--center">
-                            {{#if ../premium}}
-                              {{#if this.promo_amount}}
-                                <strong class="green">{{this.promo_amount}}</strong>
-                              {{/if}}
+                            {{#if this.promo_amount}}
+                              <strong class="green">{{this.promo_amount}}</strong>
                             {{/if}}
                         </td>
                         <td>{{{ hide_contacts this.info }}}</td>

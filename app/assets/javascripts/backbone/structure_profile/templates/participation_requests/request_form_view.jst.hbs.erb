@@ -43,6 +43,7 @@
         <form action="{{participation_request.url}}">
             <div data-element="first-step-form-wrapper">
                 <div class="push-half--bottom" data-type="participation-request-form-content"></div>
+                <div class="push-half--bottom soft--sides" data-type="participation-request-participants"></div>
                 <div class="soft--sides">
                     <a data-behavior="show-second-step-form" class="btn btn--green btn--full">
                         Envoyer ma demande d'inscription
@@ -50,8 +51,8 @@
                 </div>
             </div>
             <div data-element="second-step-form-wrapper" class="hidden">
-                <div class="soft--sides push-half--bottom">
-                  <div><a href="#" data-behavior="show-first-step-form">← Changer les informations</a></div>
+                <div class="soft--sides push-half--bottom bordered--top">
+                  <div class="soft-half--ends"><a href="#" data-behavior="show-first-step-form">← Changer les informations</a></div>
                   <div class="epsilon f-weight-500">
                       Envoyez un message personnalisé avec votre inscription
                   </div>

@@ -14,8 +14,29 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
                 required: true,
                 msg: 'Vous devez remplir un message'
             },
+            street: function street () {
+                if (this.get('at_student_home') == 'true') {
+                    if (_.isEmpty(this.get('street')) || _.isEmpty(this.get('zip_code')) ||
+                                                         _.isEmpty(this.get('city_id'))) {
+                        return 'Vous devez rentrer une adresse';
+                    }
+                }
+            },
+            participants: function participants () {
+                if (this.get('participants_attributes')) {
+                    var number_of_participants;
+                    number_of_participants = this.get('participants_attributes').map(function(participant_attribute) {
+                        return parseInt(participant_attribute.number, 10)
+                    }).reduce(function(a, b) {
+                        return a + b;
+                    });
+                    if (number_of_participants == 0) {
+                        return 'Vous devez être au moins 1 participant';
+                    }
+                }
+            },
             course_id: function course_id () {
-                if (!this.get('course_id')) {
+                if (_.isEmpty(this.get('course_id'))) {
                     return 'Vous devez sélectionner un cours';
                 }
             },

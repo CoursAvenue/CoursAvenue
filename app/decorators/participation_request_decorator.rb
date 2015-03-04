@@ -118,4 +118,17 @@ class ParticipationRequestDecorator < Draper::Decorator
   def student_home_address
     "#{object.street}, #{object.zip_code} #{object.city.name}"
   end
+
+  def details
+    _details = ""
+    if object.participants.any?
+      object.participants.each_with_index do |participant, index|
+        _details << '<br>' if index > 0
+        _details << participant.price.decorate.details
+      end
+    else
+      _details = object.course.decorate.first_session_detail
+    end
+    _details
+  end
 end

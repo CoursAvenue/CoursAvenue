@@ -30,9 +30,11 @@
     </div><!--
  --><div class="grid__item v-top eight-twelfths palm-one-whole">
         <div class="float--right">
-            <div class="text--center push-half--bottom f-weight-500">
-                <span class="f-weight-500 gray-light v-bottom">À p. de </span><span class="gamma v-bottom">{{ min_price }}</span>
-            </div>
+            {{#if min_price}}
+                <div class="text--center push-half--bottom f-weight-500">
+                    <span class="f-weight-500 gray-light v-bottom">À p. de </span><span class="gamma v-bottom">{{ min_price }}</span>
+                </div>
+            {{/if}}
             <a data-behavior="register-to-course" class="btn btn--green soft--sides">M'inscrire</a>
             {{#if is_open_for_trial}}
               <a href="#" class="v-middle lbl lbl--yellow muted-link push-half--left" data-toggle="popover" data-content="{{trial_courses_policy_popover}}" data-trigger="hover" data-behavior='show-contact-panel' data-course-id="{{id}}"><i class="fa-ticket"></i> Essai gratuit</a>
@@ -58,25 +60,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#if premium_prices}}
-                        {{#each premium_prices}}
-                            <tr>
-                                <td class="nowrap">
-                                    <img src="<%= asset_path '/icons/icon-star-yellow-full-bordered.png' %>" height="14" class="v-middle" data-toggle="tooltip" data-title="{{this.libelle_type}}">
-                                    <span class="v-middle">
-                                    {{#if this.discount}} {{ this.libelle_type }} {{else}} {{ this.libelle }} {{/if}}
-                                    </span>
-                                </td>
-                                <td class="text--center">
-                                    <strong class="green">{{this.amount}}</strong>
-                                </td>
-                                <td class="text--center">
-                                    <strong class="green">{{this.promo_amount}}</strong>
-                                </td>
-                                <td>{{{ hide_contacts this.info }}}</td>
-                            </tr>
-                        {{/each}}
-                        {{/if}}
                         {{#each prices}}
                             <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}} ">
                                 <td>

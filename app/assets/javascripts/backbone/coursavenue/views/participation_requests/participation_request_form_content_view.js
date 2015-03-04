@@ -15,12 +15,13 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             '$datepicker_wrapper'              : '[data-element=datepicker-wrapper]',
             '$datepicker_input'                : '[data-element=datepicker-wrapper] input',
             '$start_hour_select_input'         : '[data-element=start-hour-select]',
-            '$time_wrapper'                    : '[data-element="time-wrapper"]',
-            '$start_minute_select'             : '[data-element="start-minute-select"]',
-            '$address_info_wrapper'            : '[data-element="address-info-wrapper"]',
-            '$address_info'                    : '[data-element="address-info"]',
-            '$student_address_wrapper'         : '[data-element="student-address-wrapper"]',
-            '$choose_place_select'             : '[data-element="choose-place-select"]'
+            '$time_wrapper'                    : '[data-element=time-wrapper]',
+            '$start_minute_select'             : '[data-element=start-minute-select]',
+            '$address_info_wrapper'            : '[data-element=address-info-wrapper]',
+            '$address_info'                    : '[data-element=address-info]',
+            '$student_address_wrapper'         : '[data-element=student-address-wrapper]',
+            '$student_address_input'           : '[data-element=student-address-input]',
+            '$choose_place_select'             : '[data-element=choose-place-select]'
         },
 
         initialize: function initialize (options) {
@@ -49,7 +50,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
         onRender: function onRender () {
             this.initializeStartHourSelect();
             var datepicker_options = {
-                format: GLOBAL.DATE_FORMAT,
+                format: COURSAVENUE.constants.DATE_FORMAT,
                 weekStart: 1,
                 language: 'fr',
                 autoclose: true,
@@ -74,8 +75,39 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
          */
         showAssociatedPlannings: function showAssociatedPlannings () {
             var course_id = parseInt(this.ui.$course_select.val());
-            this.model.set('course_id', course_id);
-            this.selectCourse();
+            if (_.isNaN(course_id)) {
+                this.model.set('course_id', null);
+                this.hideAllFields();
+            } else {
+                this.model.set('course_id', course_id);
+                this.selectCourse();
+            }
+        },
+
+        /*
+         * Hide fields if they were opened and trigger event to tell that the course has been deselected
+         */
+        hideAllFields: function hideAllFields () {
+            this.ui.$address_info_wrapper.slideUp();
+            this.ui.$planning_select_wrapper.slideUp();
+            this.ui.$datepicker_wrapper.slideUp();
+            this.ui.$student_address_wrapper.slideUp();
+            this.hideStudentAddressWrapper();
+            this.trigger('participation_request:course:deselected');
+        },
+
+        /*
+         * We have specific methods to show and hide student address wrapper because we want to
+         * set the hidden input to true or false. It will help to validate the model
+         */
+        hideStudentAddressWrapper: function hideStudentAddressWrapper () {
+            this.ui.$student_address_input.val(false);
+            this.ui.$student_address_wrapper.slideUp();
+        },
+
+        showStudentAddressWrapper: function showStudentAddressWrapper () {
+            this.ui.$student_address_input.val(true);
+            this.ui.$student_address_wrapper.slideDown();
         },
 
         /*
@@ -124,6 +156,13 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             } else {
                 this.ui.$datepicker_wrapper.slideDown();
             }
+            // TODO: Refactor this
+            // This is ugly, I know.
+            // Delay trigger in order to be sure that the participation request participants receive the event.
+            // To try without the delay, try clicking on the "m'inscrire" links on the page, not on the upper form.
+            setTimeout(function() {
+                this.trigger('participation_request:course:selected', this.getCurrentCourse().toJSON());
+            }.bind(this), 50);
         },
 
         /*
@@ -145,9 +184,9 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
 
         showStudentAddressFields: function showStudentAddressFields () {
             if (this.ui.$choose_place_select.val() == 'at_home') {
-                this.ui.$student_address_wrapper.slideDown();
+                this.showStudentAddressWrapper();
             } else {
-                this.ui.$student_address_wrapper.slideUp();
+                this.hideStudentAddressWrapper();
             }
         },
         /*
@@ -161,7 +200,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             // Hide everything in case some stuff was visible
             this.ui.$address_info_wrapper.show();
             this.ui.$choose_place_select.hide();
-            this.ui.$student_address_wrapper.hide();
+            this.hideStudentAddressWrapper();
             this.ui.$address_info.hide();
             // If teaches at home AND has a place, show select box
             if (this.getCurrentCourse().get('teaches_at_home') &&
@@ -173,7 +212,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             // If teachers at home but DO NOT have a place, show address form
             } else if (this.getCurrentCourse().get('teaches_at_home')) {
                 this.ui.$address_info.show().text('À votre domicile');
-                this.ui.$student_address_wrapper.slideDown();
+                this.showStudentAddressWrapper();
             // Else, show the address
             } else {
                 var address = '';
@@ -197,7 +236,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 this.ui.$datepicker_input.datepicker('setDaysOfWeekDisabled', []);
                 return;
             }
-            var formatted_date = moment(this.getCurrentPlanning().next_date, "DD/MM/YYYY").format(GLOBAL.MOMENT_DATE_FORMAT);
+            var formatted_date = moment(this.getCurrentPlanning().next_date, "DD/MM/YYYY").format(COURSAVENUE.constants.MOMENT_DATE_FORMAT);
             this.ui.$datepicker_input.datepicker('update', formatted_date);
             // Disable days of week
             var days_of_week = [0,1,2,3,4,5,6];

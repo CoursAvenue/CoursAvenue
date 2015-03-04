@@ -184,7 +184,3 @@ Handlebars.registerHelper('if_collection_count_more_than', function(my_collectio
     return my_collection.length > count ? options.fn(this) : options.inverse(this)
 });
 
-// usage: {{readable_amount 23.00 20}}
-Handlebars.registerHelper('readable_amount', function(amount, promo_amount) {
-    return COURSAVENUE.helperMethods.readableAmount(amount, promo_amount);
-});
