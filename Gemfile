@@ -250,6 +250,9 @@ group :development, :test do
   gem 'byebug'
   # Permits to travel in the past
   gem 'delorean'
+
+  gem 'spring'
+  gem 'spring-commands-rspec'
 end
 
 gem 'dotenv-rails'
