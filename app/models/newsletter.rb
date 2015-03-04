@@ -1,4 +1,5 @@
 class Newsletter < ActiveRecord::Base
+  extend ActiveHash::Associations::ActiveRecordExtensions
 
   ######################################################################
   # Constants                                                          #
@@ -12,11 +13,13 @@ class Newsletter < ActiveRecord::Base
 
   attr_accessible :title, :content, :state,
     :object, :sender_name, :reply_to,
-    :newsletter_blocs
+    :blocs, :layout_id
 
   belongs_to :structure
 
   has_many :blocs, class_name: 'Newsletter::Bloc'
+
+  # has_one :layout, class_name: 'Newsletter::Layout'
 
   validates :title, presence: true
   validates :content, presence: true
@@ -27,6 +30,19 @@ class Newsletter < ActiveRecord::Base
   ######################################################################
   # Methods                                                            #
   ######################################################################
+
+  # The layout used by the Newsletter.
+  #
+  # Since Newsletter::Layout is not a regular ActiveRecord inhereited class, we
+  # can't use the classic
+  #     has_one :layout, class_name: 'Newsletter::Layout'
+  # So we just save the layout_id in the model and manually find the
+  # corresponding layout.
+  #
+  # @return Newsletter::Layout or nil.
+  def layout
+    Newsletter::Layout.where(id: self.layout_id).first
+  end
 
   private
 
