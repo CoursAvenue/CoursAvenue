@@ -8,3 +8,4 @@
 //= require ./user_management/manifest
 //
 //= require ./emailings/manifest
+//= require ./pro/manifest

@@ -23,25 +23,11 @@
             .break-word (#{comment.email})
             = icon_rating(comment, 'fa-2x')
 
-      .grid__item.ten-twelfths>
+      .grid__item.eight-twelfths>
         - # User can share if:
         - #   - comment is accepted
         - #   - user is owner
         .gray-box.soft-half.rounded--top.message__appendix
-          - if comment.accepted? and (current_pro_admin or current_user) and comment.owner?(current_pro_admin || current_user)
-            .drop-down__wrapper.float--right{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
-              = link_to share_comment_url(comment, :facebook), target: '_blank', class: 'btn btn--small', onclick: "ga('send', 'event', 'Share comment on Facebook', 'click')" do
-                %i.fa.fa-share
-                Partager
-              %ul.drop-down__el.text--left
-                %li.nowrap
-                  = link_to share_comment_url(comment, :facebook), target: '_blank', onclick: "ga('send', 'event', 'Share comment on', 'click', 'Facebook')" do
-                    %i.fa.fa-facebook.soft-half--right
-                    Partager sur Facebook
-                %li.nowrap
-                  = link_to share_comment_url(comment, :twitter), target: '_blank', onclick: "ga('send', 'event', 'Share comment on', 'click', 'Twitter')" do
-                    %i.fa.fa-twitter.soft-half--right
-                    Partager sur Twitter
           - if comment.title.present?
             %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: comment.title}= "#{comment.title}"
             - if comment.course_name
@@ -65,84 +51,51 @@
             %meta{itemprop: 'url', content: commentable_url(comment)}
             %meta{itemprop: 'name', content: comment.commentable.name}
 
-          - if with_reply
-            %div{ id: "comment-reply-#{comment.id}" }
-              - if comment.reply
-                = render partial: 'comments/reply', locals: { structure: @structure, comment: comment, reply: comment.reply }
-
-        - if current_user and comment.owner?(current_user)
-          .gray-box__footer.soft-half.text--right.rounded--bottom
-            = link_to new_user_message_path(current_user, message: { recipients: [comment.commentable.id] }), class: 'btn btn--small btn--blue' do
-              %i.fa.fa-envelope
-              Envoyer un message
-            - if comment.pending?
-              = link_to edit_user_comment_path(current_user, comment), class: 'btn btn--small btn--orange' do
-                %i.fa.fa-pencil
-                Modifier mon avis
-            = link_to structure_url(comment.commentable), target: :_blank, class: 'btn btn--small' do
-              %i.fa.fa-eye
-              Voir tous les avis du profil
-
-        - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
-          .gray-box__footer.soft-half.text--right.rounded--bottom
-            - if comment.waiting_for_deletion?
-              %p.red.flush.float--left
-                Motif de suppression :
-                %strong= t(comment.deletion_reason)
-            - unless comment.highlighted?
-              = succeed ' ' do
-                = link_to highlight_pro_structure_comment_path(structure, comment), class: 'btn btn--yellow btn--small', method: 'patch', data: { behavior: 'tooltip', title: 'Utiliser le titre de cet avis comme accroche de profil' } do
-                  %i.fa.fa-thumb-tack
-                  Accroche
-            = succeed ' ' do
-              - if structure.premium?
-                = link_to new_pro_structure_comment_comment_reply_path(structure, comment), class: "#{(comment.reply.nil? ? '' : 'hidden')} btn btn--small btn--yellow fancybox.ajax", data: { toggle: 'tooltip', title: 'Répondre par un commentaire qui sera affiché sur mon profil public', behavior: 'modal', width: '700', padding: 0 }, id: "comment-reply-button-#{comment.id}" do
-                  %i.fa.fa-comment.v-middle
-                  %span.v-middle Commentaire public
-              - else
-                = link_to premium_modal_pro_structure_path(structure, title: 'répondre publiquement à vos avis ?'), data: {  toggle: 'tooltip', title: 'Répondre par un commentaire qui sera affiché sur mon profil public', behavior: 'modal', padding: 0, width: 900 }, class: "#{(comment.reply.nil? ? '' : 'hidden')} btn btn--small btn--yellow fancybox.ajax" do
-                  %i.fa.fa-comment.v-middle
-                  %span.v-middle Commentaire public
-            - if comment.user
-              = succeed ' ' do
-                - if comment.associated_message_id
-                  - message = Mailboxer::Message.find comment.associated_message_id
-                  = link_to pro_structure_conversation_path(structure, message.conversation, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(structure).id] }), class: 'btn btn--small btn--blue fancybox.ajax', data: {  toggle: 'tooltip', behavior: 'modal', width: '780', padding: 0 }, title: "Répondre par un message privé à #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
-                    %i.fa.fa-envelope-o.v-middle
-                    %span.v-middle Message privé
-                - else
-                  = link_to new_pro_structure_message_path(structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(structure).id] }), class: 'btn btn--small btn--blue fancybox.ajax', data: {  toggle: 'tooltip', behavior: 'modal', width: '780' }, title: "Répondre par un message privé à #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
-                    %i.fa.fa-envelope-o.v-middle
-                    %span.v-middle Message privé
-            - if comment.persisted? and !comment.waiting_for_deletion?
-              = succeed ' ' do
-                .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-                  %a.btn.btn--small{ href: 'javascript:void(0)', data: { behavior: 'tooltip', html: 'true', title: "Signaler&nbsp;un&nbsp;incident&nbsp;à l'équipe&nbsp;CoursAvenue" } }
-                    %i.fa.fa-flag.v-middle
-                    Signaler
-                    %i.fa.fa-chevron-down.soft-half--left
-                  %ul.drop-down__el.text--left
-                    - t('comments.deletion_reasons').each do |i18n_key, traducted_string|
-                      %li.nowrap
-                        = link_to ask_for_deletion_pro_structure_comment_path(structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
-                          = traducted_string
-            - if current_pro_admin.super_admin?
-              .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-                %a.btn.btn--small{href: 'javascript:void(0)'}
-                  %i.fa.fa-cogs
-                  %i.fa.fa-chevron-down.soft-half--left
-                %ul.drop-down__el.text--left
-                  - if comment.persisted? and can?(:destroy, comment)
-                    - if comment.waiting_for_deletion?
-                      %li.nowrap
-                        = link_to recover_pro_comment_path(comment), method: :patch do
-                          %i.fa.fa-check
-                          Rétablir
-                    %li.nowrap
-                      = link_to edit_pro_comment_path(comment) do
-                        %i.fa.fa-pencil
-                        Modifier
-                    %li.nowrap
-                      = link_to pro_comment_path(comment), method: :delete do
-                        %i.fa.fa-trash-o
-                        Supprimer
+      .grid__item.two-twelfths.soft>
+        - if with_reply
+          %div{ id: "comment-reply-#{comment.id}" }
+            - if comment.reply
+              = render partial: 'comments/reply', locals: { structure: @structure, comment: comment, reply: comment.reply }
+        - if comment.user
+          = succeed ' ' do
+            - if comment.associated_message_id
+              - message = Mailboxer::Message.find comment.associated_message_id
+              = link_to pro_structure_conversation_path(structure, message.conversation, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(structure).id] }), class: 'btn btn--small btn--blue fancybox.ajax', data: {  toggle: 'tooltip', behavior: 'modal', width: '780', padding: 0 }, title: "Répondre par un message privé à #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
+                %i.fa.fa-envelope-o.v-middle
+                %span.v-middle Répondre
+            - else
+              = link_to new_pro_structure_message_path(structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(structure).id] }), class: 'btn btn--small btn--blue fancybox.ajax', data: {  toggle: 'tooltip', behavior: 'modal', width: '780' }, title: "Répondre par un message privé à #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
+                %i.fa.fa-envelope-o.v-middle
+                %span.v-middle Répondre
+        - if comment.persisted? and !comment.waiting_for_deletion?
+          = succeed ' ' do
+            .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+              %a.btn.btn--small{ href: 'javascript:void(0)', data: { behavior: 'tooltip', html: 'true', title: "Signaler&nbsp;un&nbsp;incident&nbsp;à l'équipe&nbsp;CoursAvenue" } }
+                %i.fa.fa-flag.v-middle
+                Signaler
+                %i.fa.fa-chevron-down.soft-half--left
+              %ul.drop-down__el.text--left
+                - t('comments.deletion_reasons').each do |i18n_key, traducted_string|
+                  %li.nowrap
+                    = link_to ask_for_deletion_pro_structure_comment_path(structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
+                      = traducted_string
+        - if current_pro_admin.super_admin?
+          .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+            %a.btn.btn--small{href: 'javascript:void(0)'}
+              %i.fa.fa-cogs
+              %i.fa.fa-chevron-down.soft-half--left
+            %ul.drop-down__el.text--left
+              - if comment.persisted? and can?(:destroy, comment)
+                - if comment.waiting_for_deletion?
+                  %li.nowrap
+                    = link_to recover_pro_comment_path(comment), method: :patch do
+                      %i.fa.fa-check
+                      Rétablir
+                %li.nowrap
+                  = link_to edit_pro_comment_path(comment) do
+                    %i.fa.fa-pencil
+                    Modifier
+                %li.nowrap
+                  = link_to pro_comment_path(comment), method: :delete do
+                    %i.fa.fa-trash-o
+                    Supprimer

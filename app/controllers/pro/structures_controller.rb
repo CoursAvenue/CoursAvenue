@@ -207,8 +207,8 @@ class Pro::StructuresController < Pro::ProController
   # GET member
   def show
     @structure = Structure.friendly.find params[:id]
-    retrieve_home_places
-    render action: :edit
+    # retrieve_home_places
+    # render action: :edit
   end
 
   def add_subjects
@@ -410,7 +410,9 @@ France
   end
 
   def get_layout
-    if action_name == 'new'
+    if action_name == 'show'
+      'empty'
+    elsif action_name == 'new'
       'home'
     elsif action_name == 'create' || action_name == 'someone_already_took_control'
       'admin_pages'

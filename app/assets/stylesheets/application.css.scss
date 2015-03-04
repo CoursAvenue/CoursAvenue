@@ -30,6 +30,7 @@
 @import "partials/base/lists";
 
 @import "partials/generic/headings";
+@import "partials/generic/flex";
 @import "partials/generic/mixins";
 @import "partials/generic/grid";
 @import "partials/generic/helpers";
@@ -82,6 +83,7 @@
 @import "partials/objects/team";
 @import "partials/objects/toggler";
 @import "partials/objects/wizard";
+@import "partials/objects/hint-panel";
 
 @import "libs/autocomplete";
 @import "libs/simplemodal";
