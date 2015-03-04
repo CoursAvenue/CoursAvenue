@@ -31,9 +31,17 @@ class Newsletter < ActiveRecord::Base
   #
   # @return self.
   def set_defaults
-    name     = structure.name if name.nil?
-    reply_to = structure.contact_email if reply_to.nil? and structure.contact_email.present?
-    object   = title if object.nil?
+    if sender_name.nil?
+      self.sender_name = self.structure.name
+    end
+
+    if reply_to.nil? and structure.contact_email.present?
+      self.reply_to = self.structure.contact_email
+    end
+
+    if object.nil?
+      self.object = self.title
+    end
 
     save
   end

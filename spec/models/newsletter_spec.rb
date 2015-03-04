@@ -6,8 +6,8 @@ RSpec.describe Newsletter, type: :model do
   it { should validate_presence_of :state }
   it { should belong_to(:structure) }
 
-  subject         { FactoryGirl.create(:newsletter) }
-  let(:structure) { subject.structure }
+  subject          { FactoryGirl.create(:newsletter) }
+  let!(:structure) { subject.structure }
 
   describe 'defaults' do
     it 'is a draft by default' do
@@ -26,4 +26,5 @@ RSpec.describe Newsletter, type: :model do
       expect(subject.object).to eq(subject.title)
     end
   end
+
 end
