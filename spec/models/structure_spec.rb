@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe Structure do
-  it { should have_many(:newsletters) }
+  # it { should have_many(:newsletters) }
 
   subject {structure}
   let(:structure) { FactoryGirl.create(:structure) }

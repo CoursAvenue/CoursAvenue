@@ -252,7 +252,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
 
-        resources :newsletters, only: [:index], controller: 'structures/newsletters'
+        resources :newsletters, only: [:index, :new], controller: 'structures/newsletters'
         resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments', path: 'avis' do
           member do

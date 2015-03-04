@@ -5,7 +5,11 @@ class Pro::Structures::NewslettersController < ApplicationController
   layout 'admin'
 
   def index
-    # @newsletters = @structure.newsletters
+    @newsletters = @structure.newsletters
+  end
+
+  def new
+    @newsletter = @structure.newsletters.new
   end
 
   private

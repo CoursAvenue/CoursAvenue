@@ -1,1 +1,6 @@
 = side_menu_currently_at 'newsletters'
+
+- if @newsletters.empty?
+  = render 'newsletter_empty'
+- else
+  = render 'newsletter_list'
