@@ -1,4 +1,4 @@
-Newsletter = new Backbone.Marionette.Application({ slug: 'newsletters' });
+var Newsletter = new Backbone.Marionette.Application({ slug: 'newsletters' });
 
 Newsletter.addRegions({
     mainRegion: '#newsletter'
@@ -14,7 +14,7 @@ Newsletter.addInitializer(function(options) {
 
     var layout = new Newsletter.Views.NewsletterLayout();
 
-    Newsletter.mainRegion.show(layout)
+    Newsletter.mainRegion.show(layout);
     layout.sidebar.show(layouts_collection_view);
 });
 
