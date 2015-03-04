@@ -18,8 +18,14 @@
     {{/if}}
   {{/if}}
 {{else}}
-<div class="panel__header soft-half--ends soft--sides">
-    <h5 class="flush">Demande d'inscription</h5>
+<div class="panel__header soft--ends soft--sides">
+    <div class="flexbox">
+      <div class="flexbox__item v-middle">
+          <h4 class="flush">Demande d'inscription</h5>
+      </div>
+      <div class="flexbox__item v-middle text--right green f-weight-bold delta" data-pr-total>
+      </div>
+    </div>
 </div>
 <div class="panel__body soft--ends">
     <div class="soft--sides push--bottom {{#unless last_message_sent_at}}hidden{{/unless}}">
@@ -51,8 +57,8 @@
                 </div>
             </div>
             <div data-element="second-step-form-wrapper" class="hidden">
-                <div class="soft--sides push-half--bottom bordered--top">
-                  <div class="soft-half--ends"><a href="#" data-behavior="show-first-step-form">← Changer les informations</a></div>
+                <div class="soft--sides push-half--bottom {{#if last_message_sent_at}}bordered--top{{/if}}">
+                  <div class="{{#if last_message_sent_at}}soft-half--top{{/if}} soft-half--bottom"><a href="#" data-behavior="show-first-step-form">← Changer les informations</a></div>
                   <div class="epsilon f-weight-500">
                       Envoyez un message personnalisé avec votre inscription
                   </div>

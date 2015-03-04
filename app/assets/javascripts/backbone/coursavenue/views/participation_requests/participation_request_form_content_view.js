@@ -211,7 +211,8 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 teacher_place_option.val(this.getCurrentCourse().get('place').id);
             // If teachers at home but DO NOT have a place, show address form
             } else if (this.getCurrentCourse().get('teaches_at_home') || this.getCurrentPlanning().teaches_at_home) {
-                this.ui.$address_info.show().text('À votre domicile').attr('data-content', this.getCurrentPlanning().address);
+                var address = (this.getCurrentPlanning() ? this.getCurrentPlanning().address : this.getCurrentCourse().get('course_location'));
+                this.ui.$address_info.show().text('À votre domicile').attr('data-content', address);
                 this.showStudentAddressWrapper();
             // Else, show the address
             } else {

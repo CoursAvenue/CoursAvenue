@@ -26,6 +26,10 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         initialize: function initialize (options) {
             Backbone.Validation.bind(this);
             _.bindAll(this, 'showPopupMessageDidntSend');
+            this.on('participation_request:total', function(data) {
+                this.$('[data-pr-total]').text(data.total);
+            }.bind(this));
+
         },
 
         showPhoneNumbers: function showPhoneNumbers () {
