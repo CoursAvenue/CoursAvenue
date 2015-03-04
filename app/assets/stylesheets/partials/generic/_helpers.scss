@@ -90,12 +90,11 @@
 .border-color-orange    { border-color  : $orange !important; }
 .border-color-green     { border-color  : $green !important; }
 .border-color-dark-blue { border-color  : $dark_blue !important; }
-
 // dashed border
-.dashed--small           { border        : 1px dashed $gray-smooth; }
-.dashed--medium          { border        : 3px dashed $gray-smooth; }
-.dashed--big             { border        : 5px dashed $gray-smooth; }
-.dashed--xl              { border        : 7px dashed $gray-smooth; }
+.dashed--small          { border        : 1px dashed $gray-smooth; }
+.dashed--medium         { border        : 3px dashed $gray-smooth; }
+.dashed--big            { border        : 5px dashed $gray-smooth; }
+.dashed--xl             { border        : 7px dashed $gray-smooth; }
 /*------------------------------------*\
     ALIGNMENTS
 \*------------------------------------*/
