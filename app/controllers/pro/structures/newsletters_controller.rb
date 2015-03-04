@@ -9,7 +9,9 @@ class Pro::Structures::NewslettersController < ApplicationController
   end
 
   def new
-    @newsletter = @structure.newsletters.new
+    @layouts = Newsletter::Layout.all.as_json.map do |layout|
+      layout["attributes"]
+    end
   end
 
   private
