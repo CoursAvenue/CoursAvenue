@@ -210,8 +210,8 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 teacher_place_option.text('Chez le professeur (' +  this.getCurrentCourse().get('place').address + ')');
                 teacher_place_option.val(this.getCurrentCourse().get('place').id);
             // If teachers at home but DO NOT have a place, show address form
-            } else if (this.getCurrentCourse().get('teaches_at_home')) {
-                this.ui.$address_info.show().text('À votre domicile');
+            } else if (this.getCurrentCourse().get('teaches_at_home') || this.getCurrentPlanning().teaches_at_home) {
+                this.ui.$address_info.show().text('À votre domicile').attr('data-content', this.getCurrentPlanning().address);
                 this.showStudentAddressWrapper();
             // Else, show the address
             } else {
@@ -222,7 +222,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                   address = this.getCurrentCourse().get('course_location');
                 }
                 this.ui.$address_info.show().text(address)
-                                            .data('content', address);
+                                            .attr('data-content', address);
             }
         },
 
@@ -242,6 +242,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             var days_of_week = [0,1,2,3,4,5,6];
             days_of_week.splice(days_of_week.indexOf(this.getCurrentPlanning().week_day), 1);
             this.ui.$datepicker_input.datepicker('setDaysOfWeekDisabled', days_of_week);
+            this.updateAddressField();
         },
 
         serializeData: function serializeData () {

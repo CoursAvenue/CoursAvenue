@@ -12,30 +12,32 @@
     .relative.bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under{ style: "height:300px; background-image: url('#{@structure.medias.cover_first.images_first.first.image.url(:wide_and_blurry)}')", data: { behavior: 'parallax' } }
       .black-curtain.black-curtain--soft.north.west.one-whole.absolute
   .soft--sides.soft--top
+    - if @is_sleeping
+      = render partial: 'structures/structure_header', locals: { structure: @structure }
     .grid
       .grid__item.eight-twelfths.soft-half--right>
         - if @structure.medias.any?
           = render partial: 'structures/map_and_gallery', locals: { medias: @medias }
-        = render partial: 'structures/structure_header', locals: { structure: @structure }
 
         - comment = (@structure.highlighted_comment || @structure.comments.last)
-        %div.epsilon.soft--bottom.f-weight-bold
-          %i.fa.fa-quotes.v-super.white
-          .inline-block.v-middle.white.inline-block.very-soft.hard--ends
-            = truncate(comment.title, length: 60)
-          .inline-block.v-middle.milli.white.f-style-italic
-            \— #{comment.author_name}, #{truncate(comment.course_name, length: 15)} —
-          .inline-block.v-middle.milli.f-style-italic
-            = link_to '#avis', data: { behavior: 'scroll-to', offset_top: '-50' }, class: 'white' do
-              Voir les #{@structure.comments_count} avis
-        #structure-profile.bg-white.bordered{ data: { type: 'structure-profile-root' } }
+        - if comment
+          %div.epsilon.soft--bottom.f-weight-bold
+            %i.fa.fa-quotes.v-super.white
+            .inline-block.v-middle.white.inline-block.very-soft.hard--ends
+              = truncate(comment.title, length: 60)
+            .inline-block.v-middle.milli.white.f-style-italic
+              \— #{comment.author_name}, #{truncate(comment.course_name, length: 15)} —
+            .inline-block.v-middle.milli.f-style-italic
+              = link_to '#avis', data: { behavior: 'scroll-to', offset_top: '-50' }, class: 'white' do
+                Voir les #{@structure.comments_count} avis
+        #structure-profile{ class: (@is_sleeping ? '' : 'bg-white bordered'), data: { type: 'structure-profile-root' } }
           - if @is_sleeping
             = render partial: 'structures/sleeping_content', locals: { medias: @medias }
             #structure-region.hidden
           - else
             #structure-region
-          %div{ data: { type: "certified-comments-collection" } }
-          %div{ data: { type: "guestbook-collection" } }
+            %div{ data: { type: "certified-comments-collection" } }
+            %div{ data: { type: "guestbook-collection" } }
       .grid__item.four-twelfths>
         %div{ data: { type: 'contact-form' } }
         - unless @is_sleeping

@@ -96,7 +96,7 @@ gem 'gmaps4rails'               , '~>2.1.2'
 # Helper methods for geolocations
 gem 'geocoder'                  , '~>1.2.4'
 # To have model serializers apart from models
-gem 'active_model_serializers'  , '~>0.8.1'
+gem 'active_model_serializers'  , '0.8.3'
 
 # Generate slugs for records
 gem 'friendly_id'               , '~>5.0.4'
@@ -149,7 +149,7 @@ gem 'roadie-rails'              , '~>1.0.4'
 # See issue: https://github.com/leshill/handlebars_assets/pull/46
 gem 'handlebars_assets'         , '~>0.15', git: 'git://github.com/variousauthors/handlebars_assets.git'
 # Decorator
-gem 'draper'                    , '~>1.3.1'
+gem 'draper'                    , '~>1.4.0'
 # allows sharing of handlebars templates
 gem 'sht_rails'
 gem 'sass-rails'                , '~>4.0.3'

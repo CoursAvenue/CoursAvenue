@@ -50,43 +50,7 @@
           <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">Détail des tarifs <i class="fa fa-caret-down"></i></a>
         </div>
         <div class="flexbox push--bottom course-{{id}}-know-more hidden" id="course-{{id}}-tarifs">
-            <div>
-                {{#unless has_price_group}}
-                  {{capitalize about}} n'a pas mis à jour ses tarifs : <a href="#" data-behavior="show-contact-panel">contactez-{{about_genre}}</a>.
-                {{/unless}}
-                <table class="table--striped table--data table--data-small {{#unless has_price_group}}hidden{{/unless}}">
-                    <thead class="gray-light">
-                        <tr>
-                            <th class="four-twelfths">Formule</th>
-                            <th class="two-twelfths text--center">Prix</th>
-                            <th class="two-twelfths text--center">Promotion</th>
-                            <th class="four-twelfths"><i class="fa fa-info"></i></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each prices}}
-                            <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}}">
-                                <td>
-                                    {{this.libelle}}
-                                </td>
-                                <td class="text--center {{#if this.promo_amount}}line-through{{/if}}">
-                                    {{#if this.is_free}}
-                                      <strong class="green">Gratuit{{#if this.is_registration}}e{{/if}}</strong>
-                                    {{else}}
-                                      {{this.amount}}
-                                    {{/if}}
-                                </td>
-                                <td class="text--center">
-                                    {{#if this.promo_amount}}
-                                      <strong class="green">{{this.promo_amount}}</strong>
-                                    {{/if}}
-                                </td>
-                                <td>{{{ hide_contacts this.info }}}</td>
-                            </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            </div>
+            <div data-type="prices-collection-container"></div>
         </div>
     </div>
 </div>

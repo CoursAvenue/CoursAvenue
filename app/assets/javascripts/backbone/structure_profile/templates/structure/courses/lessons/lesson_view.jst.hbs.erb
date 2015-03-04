@@ -83,53 +83,7 @@
         <strong class="gray-light v-middle">Tarifs</strong>
     </div>
     <div class="flexbox__item v-top four-fifths">
-        {{#unless has_price_group}}
-          {{capitalize about}} n'a pas mis à jour ses tarifs : <a href="#" data-behavior="show-contact-panel" data-course-id="{{id}}">contacter-{{about_genre}}</a>.
-        {{/unless}}
-        <table class="table--striped table--data table--data-small {{#unless has_price_group}}hidden{{/unless}}">
-            <thead class="gray-light">
-                <tr>
-                    <th class="three-twelfths">Formule</th>
-                    <th class="two-twelfths text--center">Prix</th>
-                    <th class="two-twelfths text--center">Promotion</th>
-                    <th class="five-twelfths"><i class="fa fa-info"></i></th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each prices}}
-                    {{#ifCond @index '==' 2}}
-                        <tr data-behavior="show-long-version" data-long-version=".course-{{../../id}}-prices-long">
-                          <td colspan="4" class="text--left">
-                              <a href="#" class="block">
-                              + Plus
-                              </a>
-                          </td>
-                        </tr>
-                    {{/ifCond}}
-                    <tr class="{{#ifCond @index '==' 0}}bordered--top{{/ifCond}} {{#ifCond @index '>' 1}}course-{{../../id}}-prices-long hidden{{/ifCond}}">
-                        <td>
-                            {{#if this.promo_amount}}
-                            <img src="<%= asset_path '/icons/icon-star-yellow-full-bordered.png' %>" height="14" class="v-middle" data-toggle="tooltip" data-title="Offre spéciale CoursAvenue">
-                            {{/if}}
-                            <span class="v-middle">{{this.libelle}}</span>
-                        </td>
-                        <td class="text--center {{#if this.promo_amount}}line-through{{/if}}">
-                            {{#if this.is_free}}
-                              <strong class="green">Gratuit{{#if this.is_registration}}e{{/if}}</strong>
-                            {{else}}
-                              {{this.amount}}
-                            {{/if}}
-                        </td>
-                        <td class="text--center">
-                            {{#if this.promo_amount}}
-                              <strong class="green">{{this.promo_amount}}</strong>
-                            {{/if}}
-                        </td>
-                        <td>{{{ hide_contacts this.info }}}</td>
-                    </tr>
-                {{/each}}
-            </tbody>
-        </table>
+        <div data-type="prices-collection-container"></div>
     </div>
 </div>
 {{#unless is_last}}

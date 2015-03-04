@@ -3,8 +3,7 @@ class CourseSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
 
-  # cached
-  # delegate :cache_key, to: :object
+  cache
 
   attributes :id, :name, :description, :description_short, :db_type, :type, :subjects,
              :is_individual, :is_lesson, :frequency, :on_appointment,
@@ -23,7 +22,7 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def plannings
-    @options[:plannings] || object.plannings.visible.future.ordered_by_day
+    (@options && @options[:plannings]) || object.plannings.visible.future.ordered_by_day
   end
 
   def description_short

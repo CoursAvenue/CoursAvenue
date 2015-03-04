@@ -4,7 +4,17 @@ class PlanningSerializer < ActiveModel::Serializer
 
   attributes :id, :date, :duration, :time_slot, :levels, :audiences, :place_id,
              :course_id, :info, :address, :address_with_info, :address_name, :home_place_id,
-             :next_date, :week_day, :address_lat, :address_lng, :start_date_datetime, :end_date_datetime
+             :next_date, :week_day, :address_lat, :address_lng, :start_date_datetime,
+             :end_date_datetime, :teaches_at_home
+
+  def teaches_at_home
+    if (object.course.is_private? and object.course.teaches_at_home?) or
+        (object.place and object.place.is_home?)
+      true
+    else
+      false
+    end
+  end
 
   def home_place_id
     if object.course.is_private? and object.course.teaches_at_home?

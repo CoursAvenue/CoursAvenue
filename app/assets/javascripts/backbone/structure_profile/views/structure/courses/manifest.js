@@ -6,3 +6,6 @@
 //= require ./trainings/manifest
 //= require ./privates/manifest
 //= require ./lessons/manifest
+
+//= require ./price_view
+//= require ./prices_collection_view
