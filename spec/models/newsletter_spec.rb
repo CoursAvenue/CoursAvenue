@@ -5,6 +5,7 @@ RSpec.describe Newsletter, type: :model do
   it { should validate_presence_of :content }
   it { should validate_presence_of :state }
   # it { should belong_to(:structure) }
+  # it { should have_many(:blocs) }
 
   subject          { FactoryGirl.create(:newsletter) }
   let!(:structure) { subject.structure }

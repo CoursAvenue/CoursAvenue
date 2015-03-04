@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150303174147) do
+ActiveRecord::Schema.define(version: 20150304130917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -536,6 +536,15 @@ ActiveRecord::Schema.define(version: 20150303174147) do
   create_table "medias_subjects", id: false, force: true do |t|
     t.integer "subject_id"
     t.integer "media_id"
+  end
+
+  create_table "newsletter_blocs", force: true do |t|
+    t.string   "type"
+    t.integer  "newsletter_id"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "image"
   end
 
   create_table "newsletters", force: true do |t|

@@ -10,9 +10,13 @@ class Newsletter < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :title, :content, :state, :object, :sender_name, :reply_to
+  attr_accessible :title, :content, :state,
+    :object, :sender_name, :reply_to,
+    :newsletter_blocs
 
   belongs_to :structure
+
+  has_many :blocs, class_name: 'Newsletter::Bloc'
 
   validates :title, presence: true
   validates :content, presence: true
