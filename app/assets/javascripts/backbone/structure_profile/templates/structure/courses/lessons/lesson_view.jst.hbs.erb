@@ -1,7 +1,7 @@
 <div class="bordered--bottom-on-stick soft--ends bg-white relative" id="course-{{id}}" data-type="course-view-title">
     <h2 class="v-middle flush--bottom push-half--right inline-block delta">{{ name }}</h3>
     {{#if is_open_for_trial}}
-      <a href="#" class="v-middle lbl lbl--yellow muted-link" data-toggle="popover" data-content="{{trial_courses_policy_popover}}" data-trigger="hover" data-behavior='show-contact-panel' data-course-id="{{id}}"><i class="fa-ticket"></i> Essai gratuit</a>
+      <a href="#" class="v-middle lbl lbl--yellow muted-link push-half--right" data-toggle="popover" data-content="{{trial_courses_policy_popover}}" data-trigger="hover" data-behavior='show-contact-panel' data-course-id="{{id}}"><i class="fa-ticket"></i> Essai gratuit</a>
     {{/if}}
     {{#each subjects}}
     <div class="v-middle inline-block very-soft--right" data-behavior="popover" data-content="<strong>{{this.root_name}} : </strong>{{this.child_names}}" data-html="true">

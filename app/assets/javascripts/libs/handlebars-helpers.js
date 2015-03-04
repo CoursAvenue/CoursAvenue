@@ -184,3 +184,8 @@ Handlebars.registerHelper('if_collection_count_more_than', function(my_collectio
     return my_collection.length > count ? options.fn(this) : options.inverse(this)
 });
 
+// usage: {{#if_string_length_is_more_than string 100}}
+Handlebars.registerHelper('if_string_length_is_more_than', function(string, length, options) {
+    return string.length > length ? options.fn(this) : options.inverse(this)
+});
+

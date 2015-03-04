@@ -1,25 +1,26 @@
 <article id="presentation">
     <div class="soft">
-        <div class="flexbox push-half--bottom">
-          {{#if logo_thumb_url}}
-          <div class="flexbox__item v-top">
-              <div class="float--left push--right push-half--bottom text--center">
-                  <div class="media-photo">
-                      <img src="{{ logo_thumb_url }}" alt="Image de profil de {{ name }}" height="150" width="150" class="block">
-                  </div>
-              </div>
-          </div>
-          {{/if}}
-            <div class="flexbox__item one-whole v-top">
+        <div class="grid push-half--bottom">
+            {{#if logo_thumb_url}}<!--
+             --><div class="grid__item v-top three-twelfths text--center">
+                    <div class="media-photo">
+                        <img src="{{ logo_thumb_url }}" alt="Image de profil de {{ name }}" class="block">
+                    </div>
+                </div><!--
+          -->{{/if}}<!--
+          --><div class="grid__item {{#if logo_thumb_url}}nine-twelfths{{else}}one-whole{{/if}} v-top">
                 <h1 class="beta gray push-half--bottom">{{ name }}</h1>
                 <div class="delta f-weight-500 push-half--bottom gray">
                     {{ structure_type }} - {{ cities_text }}
                 </div>
                 {{#each subjects}}
                 <div class="{{#ifCond @index '>' 1}}description-more-long hidden{{/ifCond}}">
-                    <h3 class="flush f-weight-normal inline-block inherit-font-size">
-                      <i class="fa fa-{{ this.icon }}"></i>
-                      <strong>{{this.root_name}} : </strong>{{this.child_names}}
+                    <h3 class="flush very-soft--bottom f-weight-normal inherit-font-size text-ellipsis">
+                        {{#if_string_length_is_more_than this.child_names 60 }}
+                            <a class="relative float--right cursor-pointer" onclick="$(this).parent().removeClass('text-ellipsis'); $(this).remove();">+ Plus</a>
+                        {{/if_string_length_is_more_than}}
+                        <i class="fa fa-{{ this.icon }}"></i>
+                        <strong>{{this.root_name}} : </strong> {{this.child_names}}
                     </h3>
                 </div>
                 {{/each}}
@@ -29,8 +30,8 @@
             {{#if description}}
               {{#ifCond description '!=' description_short}}
               <div id="description-short" class="gray last-p-push-half--bottom">
-                  {{{ simple_format_hide_contacts description_short }}}
-                  <a href="#" data-behavior="show-long-version" data-short-version="#description-short" data-long-version=".show-more-description-more-info-long">+ Plus</a>
+                  {{{ hide_contacts description_short }}}
+                  <a href="#" data-behavior="show-long-version" data-short-version="#description-short" data-long-version=".show-more-description-more-info-long" class="float--right">+ Plus</a>
               </div>
               {{else}}
               <div class="gray" itemprop="description">
