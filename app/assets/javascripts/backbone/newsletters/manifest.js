@@ -6,6 +6,7 @@
 
 //---------- Models
 //= require ./models/newsletter
+//= require ./models/bloc
 //= require ./models/layout
 //= require ./models/layouts_collection
 
