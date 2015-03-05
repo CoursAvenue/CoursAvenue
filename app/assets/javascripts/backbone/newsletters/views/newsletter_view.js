@@ -33,9 +33,17 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             return result;
         },
 
+        // TODO: Ask for confirmation ("Changing layout will lose your current
+        // blocs. Are you sure you want to continue ?").
         updateLayout: function updateLayout (data) {
-            // Store the chosen model in the layout.
             var model = data.model;
+
+            // If the layout is already selected, do nothing.
+            if (model.id == this.model.get('id')) {
+                return ;
+            }
+
+            // Store the chosen model in the layout.
             this.model.set({ layout_id: model.get('id'), layout: model });
 
             // Create associated newsletter blocs.
