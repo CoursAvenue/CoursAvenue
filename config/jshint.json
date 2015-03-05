@@ -17,6 +17,10 @@
     "$",
     "jQuery",
 
+    "Backbone",
+    "Marionette",
+    "_",
+
     "jasmine",
     "beforeEach",
     "describe",
