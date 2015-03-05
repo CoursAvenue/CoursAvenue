@@ -13,6 +13,7 @@
     window.coursavenue.bootstrap = {
         structure: "#{ @structure.slug }",
         models: {
-          layouts:  #{ @layouts.to_json }
+            layouts:  #{ @layouts.to_json },
+            newsletter: #{ @newsletter.nil? ? {} : @newsletter }
         }
     };

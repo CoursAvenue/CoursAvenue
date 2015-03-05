@@ -7,6 +7,9 @@ Newsletter.addRegions({
 Newsletter.addInitializer(function(options) {
     var bootstrap = window.coursavenue.bootstrap;
 
+    var newsletter = new Newsletter.Models.Newsletter(bootstrap.models.newsletter);
+    var newsletter_view = new Newsletter.Views.NewsletterView({ model: newsletter });
+
     var layouts_collection = new Newsletter.Models.LayoutsCollection(bootstrap.models.layouts);
     var layouts_collection_view = new Newsletter.Views.LayoutsCollectionView({
         collection: layouts_collection
@@ -15,7 +18,13 @@ Newsletter.addInitializer(function(options) {
     var layout = new Newsletter.Views.NewsletterLayout();
 
     Newsletter.mainRegion.show(layout);
-    layout.sidebar.show(layouts_collection_view);
+
+    layout.showWidget(newsletter_view, {
+        events: {
+            'layout:selected': 'updateLayout'
+        }
+    });
+    layout.showWidget(layouts_collection_view);
 });
 
 $(document).ready(function() {
