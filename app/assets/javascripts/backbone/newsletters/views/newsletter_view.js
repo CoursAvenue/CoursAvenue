@@ -56,15 +56,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             // console.log(blocs);
             this.model.set('blocs', blocs);
 
-            // TODO: Call this.stickit with the bloc views.
-
             this.render();
         },
 
-        layoutTemplate: function layoutTemplate (model) {
-            var path = Module.templateDirname() + 'newsletter_view_bloc_' + model.get('type');
+        renderedBloc: function renderedBloc (bloc) {
+            var path = Module.templateDirname() + 'bloc_' + bloc.get('type');
 
-            return (JST[path](model));
+            return (JST[path](bloc.attributes));
         },
 
         // TODO: - Save / Create the newsletter.
