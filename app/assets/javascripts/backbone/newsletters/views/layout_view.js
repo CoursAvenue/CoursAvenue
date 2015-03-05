@@ -4,12 +4,15 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
     tagName: 'div',
 
     events: {
-      'click .layout': 'selectLayout'
+      'click [data-layout]': 'selectLayout'
     },
 
     initialize: function initialize () {
-      // _.bindAll(this, 'selectLayout', 'showSavingIndicator');
-      // this.model.on('change', this.showSavingIndicator);
+      _.bindAll(this, 'selectLayout');
+    },
+
+    selectLayout: function selectLayout (event) {
+        console.log(this.model);
     },
 
     // TODO: Look in the emailings backbone application for example.
