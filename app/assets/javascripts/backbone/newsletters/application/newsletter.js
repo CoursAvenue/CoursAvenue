@@ -1,3 +1,5 @@
+// TODO: Update the names of the inputs to match the names the rails contoller
+// is wating for.
 var Newsletter = new Backbone.Marionette.Application({ slug: 'newsletters' });
 
 Newsletter.addRegions({
