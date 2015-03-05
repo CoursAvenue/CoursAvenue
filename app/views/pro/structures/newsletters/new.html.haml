@@ -14,6 +14,6 @@
         structure: "#{ @structure.slug }",
         models: {
             layouts:  #{ @layouts.to_json },
-            newsletter: #{ @newsletter.nil? ? {} : @newsletter }
+            newsletter: #{ @newsletter.nil? ? {}.to_json : @newsletter.to_json }
         }
     };
