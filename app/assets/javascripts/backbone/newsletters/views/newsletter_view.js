@@ -39,7 +39,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var model = data.model;
 
             // If the layout is already selected, do nothing.
-            if (model.id == this.model.get('id')) {
+            if (model.get('id') == this.model.get('layout_id')) {
                 return ;
             }
 

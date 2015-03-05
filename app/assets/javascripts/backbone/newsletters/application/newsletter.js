@@ -9,10 +9,11 @@ Newsletter.addRegions({
 Newsletter.addInitializer(function(options) {
     var bootstrap = window.coursavenue.bootstrap;
 
-    var newsletter = new Newsletter.Models.Newsletter(bootstrap.models.newsletter);
+    var layouts_collection = new Newsletter.Models.LayoutsCollection(bootstrap.models.layouts);
+    var newsletter = new Newsletter.Models.Newsletter(bootstrap.models.newsletter, { layouts: layouts_collection });
+
     var newsletter_view = new Newsletter.Views.NewsletterView({ model: newsletter });
 
-    var layouts_collection = new Newsletter.Models.LayoutsCollection(bootstrap.models.layouts);
     var layouts_collection_view = new Newsletter.Views.LayoutsCollectionView({
         collection: layouts_collection
     });
