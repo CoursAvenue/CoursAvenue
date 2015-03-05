@@ -213,7 +213,6 @@ group :test do
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'rspec-core',         '~> 3.1.7'
   gem 'rspec-rails',        '~> 3.1.0'
-  gem 'faker',              '~> 1.4.3'
   gem 'simplecov',          '~> 0.9.1'
   gem 'database_cleaner',   '~> 1.2.0'
   gem 'capybara',           '~> 2.2.1'
@@ -253,6 +252,7 @@ group :development, :test do
 
   gem 'spring'
   gem 'spring-commands-rspec'
+  gem 'faker',              '~> 1.4.3'
 end
 
 gem 'dotenv-rails'
