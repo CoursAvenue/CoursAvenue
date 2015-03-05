@@ -64,7 +64,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         layoutTemplate: function layoutTemplate (model) {
             var path = Module.templateDirname() + 'newsletter_view_bloc_' + model.get('type');
 
-            return (JST[path]);
+            return (JST[path](model));
         },
 
         // TODO: - Save / Create the newsletter.
