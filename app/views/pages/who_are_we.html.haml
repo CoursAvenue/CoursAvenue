@@ -8,13 +8,14 @@
 .main-container.soft
   %h3.main-container.main-container--medium.text--center.f-weight-500.mega-soft--ends
     Basés en plein coeur de la ville lumière et de la ville rose (Paris & Toulouse), nous sommes une équipe de passionnés prêts à tout pour relier chacun de nous aux meilleurs cours de loisirs qui nous entourent.
-  .team-wrapper.text--center
+  .team-wrapper.text--center.nowrap
     .inline-block.team.team__nicolas{ data: { el: '#nicolas-description' } }
     .inline-block.team.team__nima{ data: { el: '#nima-description' } }
-    .inline-block.team.team__nabil{ data: { el: '#nabil-description' } }
-    .inline-block.team.team__thanh{ data: { el: '#thanh-description' } }
-    .inline-block.team.team__boris{ data: { el: '#boris-description' } }
-    %a.inline-block.team.team__offre{ href: pages_contact_path, data: { el: '#offre-description' } }
+    .inline-block.team.team__olivier{ data: { el: '#olivier-description' } }
+    .inline-block.team.team__anne{ data: { el: '#anne-description' } }
+    .inline-block.team.team__benjamin{ data: { el: '#benjamin-description' } }
+    .inline-block.team.team__camille{ data: { el: '#camille-description' } }
+    .inline-block.team.team__aliou{ data: { el: '#aliou-description' } }
 
 
 .home-screen-promotion-wrapper
@@ -34,37 +35,46 @@
         %p.epsilon.line-height-1-7
           Depuis mon plus jeune âge, je me suis interessé à plusieurs types d'activités : karaté, tennis, basket et j'en passe. Mais ce n'est qu'à l'adolescence que je suis tombé amoureux de la musique. J'ai appris à jouer de la guitare par moi-même avant de former un groupe avec des amis. Aujourd'hui, c'est surtout sur mon clavier d'ordinateur que je pratique la gratte : je suis un passionné d'informatique, mais surtout du web. J'adore les innovations technologiques et par-dessus tout le plaisir d'y contribuer.
 
-      %div.delta.text--left.push--top.hidden.north.absolute#nabil-description
+      %div.delta.text--left.push--top.hidden.north.absolute#olivier-description
         %p.gamma
-          %strong Nabil
+          %strong Olivier
           %i.gray-light — Relations Partenaires
         %p.epsilon.line-height-1-7
           Selon moi, s'occuper autrement et utilement aide à s'épanouir. Côté sportif, je pratique surtout le football et tennis. L'été, cap vers l'océan avec ma planche pour surfer sur les plus belles vagues du pays basque. Côté artistique, je m'intéresse à tous les arts, en particulier la photo et les expositions d'artistes. Mon rôle chez CoursAvenue ? Vous guider au quotidien !
 
 
-      %div.delta.text--left.push--top.hidden.north.absolute#thanh-description
+      %div.delta.text--left.push--top.hidden.north.absolute#anne-description
         %p.gamma
-          %strong Thanh Hang
+          %strong Anne
           %i.gray-light — Chargée de marketing digital
 
         %p.epsilon.line-height-1-7
           Passionnée de danse, j'ai fait plusieurs années de danse classique : comme toutes les petites filles, je rêvais d'avoir la grâce d'une danseuse étoile ! Mais mon véritable domaine de prédilection, c'est le piano. Pendant mes huit années de conservatoire, j'ai découvert tous les styles qu'offre cet instrument magique : du jazz au classique en passant par la pop, le champ des possibles est large ! De quoi partager des moments de partage privilégiés avec mon entourage.
 
-      %div.delta.text--left.push--top.hidden.north.absolute#boris-description
+      %div.delta.text--left.push--top.hidden.north.absolute#benjamin-description
         %p.gamma
-          %strong Boris
-          %i.gray-light — Community manager
+          %strong Benjamin
+          %i.gray-light — Relations Partenaires
 
         %p.epsilon.line-height-1-7
           Cinéphile de la première heure (je tiens un blog !), mes passions se tournent vers la production vidéo, le théâtre, le montage et l'écriture scénaristique. J'ai aussi pratiqué le judo étant plus jeune, mais malheureusement j'ai rapidement arrêté, j'étais un piètre judoka... Hadjimé !
 
-      %div.delta.text--left.push--top.hidden.north.absolute#offre-description
+      %div.delta.text--left.push--top.hidden.north.absolute#camille-description
         %p.gamma
-          %strong Vous !
+          %strong Camille
+          %i.gray-light — Chargée de marketing digital
 
         %p.epsilon.line-height-1-7
-          Envie de nous rejoindre ? Nous sommes sans cesse à la recherche de talents. Vous avez un profil de développeur web Ruby (front et surtout back-end), de commercial, du web en général (community management, web marketing, etc.) :
-          = link_to 'Contactez-nous !', pages_contact_path
+          Véritable curieuse dès l'enfance, incapable de garder un seul hobby du mercredi après-midi d'une année sur l'autre, j'ai testé toutes les disciplines classiques possibles : danse, escalade, natation, piano, dessin...  Plus récemment, je me suis tournée vers les activités "hippies" comme le yoga pour canaliser ma super-activité et développer un meilleur équilibre corps-esprit.
+
+      %div.delta.text--left.push--top.hidden.north.absolute#aliou-description
+        %p.gamma
+          %strong Aliou
+          %i.gray-light — Back-end développeur
+
+        %p.epsilon.line-height-1-7
+          Plus à l'aise pour coder que pour peindre, c’est devant mon écran que je prends le plus de plaisir. Le cinéma américain me fascine et j’aime découvrir les activités liées à la réalisation des films. J’ai déjà travaillé sur quelques scénarios, mais pas sûr que ce seront les prochains Nolan !
+
 
 = content_for :scripts do
   :javascript
