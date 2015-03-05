@@ -6,7 +6,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         bindings: {
-          '#title': 'title',
+            '#title': 'title',
         },
 
         initialize: function initialize () {
@@ -14,15 +14,23 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         // We overwrite render so we can call the stickit plugin.
         render: function render () {
-          // Invoke original render function
-          var args = Array.prototype.slice.apply(arguments);
-          var result = Marionette.ItemView.prototype.render.apply(this, args);
+            // Invoke original render function
+            var args = Array.prototype.slice.apply(arguments);
+            var result = Marionette.ItemView.prototype.render.apply(this, args);
 
-          // Apply stickit
-          this.stickit();
+            // Apply stickit
+            this.stickit();
 
-          // Return render result
-          return result;
+            // Apply stickit to the submodels.
+            _.each(this.model.get('blocs'), function(model) {
+                this.stickit(model, {
+                  '#image': 'remote_image_url',
+                  '#content': 'content'
+                });
+            }, this);
+
+            // Return render result
+            return result;
         },
 
         updateLayout: function updateLayout (data) {
