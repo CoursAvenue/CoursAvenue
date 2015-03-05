@@ -26,11 +26,34 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         updateLayout: function updateLayout (data) {
+            // Store the chosen model in the layout.
             var model = data.model;
-            this.model.set({ layout_id: model.get('id') });
+            this.model.set({ layout_id: model.get('id'), layout: model });
+
+            // Create associated newsletter blocs.
+            var blocs = [];
+            _.each(model.get('blocs'), function(blocType, index) {
+                var bloc = new Newsletter.Models.Bloc({ type: blocType, position: index + 1 })
+                blocs.push(bloc);
+            }, this);
+
+            // console.log(blocs);
+            this.model.set('blocs', blocs);
+
+            // TODO: Call this.stickit with the bloc views.
 
             this.render();
         },
+
+        layoutTemplate: function layoutTemplate (model) {
+            var path = Module.templateDirname() + 'newsletter_view_bloc_' + model.get('type');
+
+            return (JST[path]);
+        },
+
+        // TODO: - Save / Create the newsletter.
+        //       - Save the blocs using the (id / slug) of the newsletter.
+        submit: function submit () {
+        },
     });
 });
-
