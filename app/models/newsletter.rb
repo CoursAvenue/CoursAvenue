@@ -62,6 +62,10 @@ class Newsletter < ActiveRecord::Base
       self.object = self.title
     end
 
+    if layout_id.nil?
+      self.layout_id = 1
+    end
+
     save
   end
 end
