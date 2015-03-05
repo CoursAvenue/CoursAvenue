@@ -11,7 +11,7 @@ class Newsletter < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :title, :content, :state,
+  attr_accessible :title, :state,
     :object, :sender_name, :reply_to,
     :blocs, :layout_id
 
@@ -22,7 +22,6 @@ class Newsletter < ActiveRecord::Base
   # has_one :layout, class_name: 'Newsletter::Layout'
 
   validates :title, presence: true
-  validates :content, presence: true
   validates :state, presence: true
 
   after_create :set_defaults
