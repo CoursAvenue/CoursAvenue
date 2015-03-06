@@ -29,6 +29,8 @@ class Newsletter::Bloc < ActiveRecord::Base
   #
   # @return self.
   def set_default_position
-    self.position = newsletter.blocs.count + 1
+    if self.position.nil?
+      self.position = newsletter.blocs.count + 1
+    end
   end
 end
