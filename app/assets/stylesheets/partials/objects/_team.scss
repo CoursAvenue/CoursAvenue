@@ -26,16 +26,16 @@
 }
 .team__nima {
     height     : 400px;
-    width      : 290px;
+    width      : 270px;
     margin-left: -35px;
-    @include background-size((290px * 2 ) 400px);
+    @include background-size((270px * 2 ) 400px);
     @include background-image-retina('pages/equipe/nima.png', 'pages/equipe/nima@2x.png');
-    &:hover { background-position: -293px 0px; }
+    &:hover { background-position: -273px 0px; }
 }
 .team__anne {
     height     : 420px;
     width      : 180px;
-    margin-left: -35px;
+    margin-left: -15px;
     @include background-size((180px * 2 ) 420px);
     @include background-image-retina('pages/equipe/anne.png', 'pages/equipe/anne@2x.png');
     &:hover { background-position: -195px 0px; }
@@ -51,7 +51,7 @@
 .team__olivier {
     height     : 400px;
     width      : 160px;
-    margin-left: -40px;
+    margin-left: -70px;
     @include background-size((160px * 2 ) 400px);
     @include background-image-retina('pages/equipe/olivier.png', 'pages/equipe/olivier@2x.png');
     &:hover { background-position: -173px 0px; }
