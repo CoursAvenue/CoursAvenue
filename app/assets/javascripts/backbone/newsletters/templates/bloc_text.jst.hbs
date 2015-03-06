@@ -1,5 +1,8 @@
 <label for="remote-image-url" class='label--large blue'>Bloc texte {{ position }}</label>
 <p class="flush">Rédiger un bloc de texte de votre newsletter</p>
-<textarea id='content' class='input--large one-whole' name='newsletter[bloc_attributes][0][content]'></textarea>
+<textarea id='content' class='input--large one-whole' name='newsletter[blocs_attributes][{{ index }}][content]'></textarea>
+
+<input type='hidden' name='newsletter[blocs_attributes][{{ index }}][position]' value='{{ position }}'>
+<input type='hidden' name='newsletter[blocs_attributes][{{ index }}][type]' value='Newsletter::Bloc::Text'>
 
 <hr />

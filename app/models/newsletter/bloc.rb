@@ -10,7 +10,7 @@ class Newsletter::Bloc < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :position
+  attr_accessible :position, :type, :content, :remote_image_url, :image
 
   belongs_to :newsletter
 

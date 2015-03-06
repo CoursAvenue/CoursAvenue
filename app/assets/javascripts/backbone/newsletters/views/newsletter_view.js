@@ -47,7 +47,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
                     this.blocs.forEach(function(bloc) {
                         var path = Module.templateDirname() + 'bloc_' + bloc.get('type');
+
+                        bloc.set('index', bloc.get('position') - 1);
                         content += JST[path](bloc.attributes);
+                        bloc.unset('index', { silent: true });
                     });
 
                     return content;
