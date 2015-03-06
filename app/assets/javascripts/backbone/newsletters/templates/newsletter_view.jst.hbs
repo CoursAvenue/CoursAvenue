@@ -1,9 +1,10 @@
-<form>
+<form method='POST'>
   <label for="title" class='label--large blue'>Titre de votre newsletter</label>
   <p class="flush">Le titre de votre newsletter sera également l'objet de votre email. Pensez à être claire dans sa formulation.</p>
-  <input id="title" class='input--large one-whole' name="title" type="text" placeholder="Prochains stages à venir !" />
+  <input id="title" class='input--large one-whole' name="newsletter[title]" type="text" placeholder="Prochains stages à venir !" />
 
   <hr />
+
   <!-- Loop on the layout blocs. -->
   <input type='submit' class='btn btn--green btn--full' data-disable_with="En cours d'enregistrement" />
 </form>
