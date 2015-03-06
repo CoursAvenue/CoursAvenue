@@ -61,18 +61,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 return ;
             }
 
-            // Store the chosen model in the layout.
-            this.model.set({ layout_id: model.get('id'), layout: model });
-
-            // Create associated newsletter blocs.
-            var blocs = [];
-            _.each(model.get('blocs'), function(blocType, index) {
-                var bloc = new Newsletter.Models.Bloc({ type: blocType, position: index + 1 })
-                blocs.push(bloc);
-            }, this);
-
-            // console.log(blocs);
-            this.model.set('blocs', blocs);
+            this.model.set('layout_id', model.get('id'));
 
             this.render();
         },
