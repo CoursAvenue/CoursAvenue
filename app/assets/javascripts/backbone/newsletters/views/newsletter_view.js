@@ -5,10 +5,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         events: {
         },
 
-        bindings: {
-            '#title': 'title',
-        },
-
         initialize: function initialize () {
         },
 
@@ -17,17 +13,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             // Invoke original render function
             var args = Array.prototype.slice.apply(arguments);
             var result = Marionette.ItemView.prototype.render.apply(this, args);
-
-            // Apply stickit
-            this.stickit();
-
-            // Apply stickit to the submodels.
-            _.each(this.model.get('blocs'), function(model) {
-                this.stickit(model, {
-                  '#image': 'remote_image_url',
-                  '#content': 'content'
-                });
-            }, this);
 
             // Return render result
             return result;
