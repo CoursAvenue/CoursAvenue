@@ -3,7 +3,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         template: Module.templateDirname() + 'newsletter_view',
 
         events: {
-            'click [type=submit]': 'submit'
         },
 
         bindings: {
@@ -74,20 +73,5 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.render();
         },
 
-        // TODO: - Save / Create the newsletter.
-        //       - Save the blocs using the (id / slug) of the newsletter.
-        submit: function submit (event) {
-            event.preventDefault();
-            this.$('form').trigger('ajax:beforeSend.rails');
-
-            this.$('form').attr('action', Routes.pro_structure_newsletters_path(window.coursavenue.bootstrap.structure));
-            this.$('form').submit();
-
-            // this.model.save({
-            //     success: function(model, response, options) {
-            //     }, error: function(model, response, options) {
-            //     }
-            // })
-        },
     });
 });
