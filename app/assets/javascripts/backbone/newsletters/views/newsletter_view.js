@@ -8,16 +8,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         initialize: function initialize () {
         },
 
-        // We overwrite render so we can call the stickit plugin.
-        render: function render () {
-            // Invoke original render function
-            var args = Array.prototype.slice.apply(arguments);
-            var result = Marionette.ItemView.prototype.render.apply(this, args);
-
-            // Return render result
-            return result;
-        },
-
         // The templateHelpers function allows us to create helper methods that
         // can be called from our template.
         //
