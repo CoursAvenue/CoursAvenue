@@ -7,22 +7,22 @@ class Newsletter::Layout < ActiveHash::Base
     },
     {
       id: 1,
-      blocs: ['image', 'text'],
+      blocs: ['text', 'text'],
       name: 'Layout #02'
     },
     {
       id: 2,
-      blocs: ['image', 'text'],
+      blocs: ['image', 'image'],
       name: 'Layout #03'
     },
     {
       id: 3,
-      blocs: ['image', 'text'],
+      blocs: ['image', 'text', 'text'],
       name: 'Layout #04'
     },
     {
       id: 4,
-      blocs: ['image', 'text'],
+      blocs: ['image', 'text', 'image', 'text'],
       name: 'Layout #05'
     },
   ]

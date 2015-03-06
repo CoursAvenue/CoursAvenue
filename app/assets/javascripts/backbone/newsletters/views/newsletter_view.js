@@ -43,10 +43,15 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         templateHelpers: function templateHelpers () {
             return {
                 // Renders the bloc's template with the bloc's attributes.
-                renderBloc: function renderedBloc (bloc) {
-                    var path = Module.templateDirname() + 'bloc_' + bloc.get('type');
+                renderBlocs: function renderedBlocs (bloc) {
+                    var content = '';
 
-                    return (JST[path](bloc.attributes));
+                    this.blocs.forEach(function(bloc) {
+                        var path = Module.templateDirname() + 'bloc_' + bloc.get('type');
+                        content += JST[path](bloc.attributes);
+                    });
+
+                    return content;
                 },
             };
         },

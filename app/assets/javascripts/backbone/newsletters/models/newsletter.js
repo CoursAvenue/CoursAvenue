@@ -4,7 +4,6 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
         initialize: function initialize () {
             this.setLayout();
             this.bind('change:layout_id', this.setLayout);
-            // _.bindAll(this, 'setLayout', 'setBlocs');
         },
 
         url: function url () {
@@ -13,18 +12,15 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         setLayout: function setLayout (layouts) {
-            console.log('layout changed');
             var layouts = new Module.LayoutsCollection(window.coursavenue.bootstrap.models.layouts);
             if (!this.get('layout_id')) {
                 this.set('layout_id', 1);
             }
 
-            if (!this.get('layout')) {
-                var layout = layouts.get(this.get('layout_id'))
-                this.set('layout', layout);
+            var layout = layouts.get(this.get('layout_id'))
+            this.set('layout', layout);
 
-                this.setBlocs();
-            }
+            this.setBlocs();
         },
 
         setBlocs: function setBlocs () {
@@ -35,7 +31,7 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
                 blocs.push(bloc);
             }, this);
 
-            console.log(blocs);
+            this.set('blocs', blocs);
         },
 
     });
