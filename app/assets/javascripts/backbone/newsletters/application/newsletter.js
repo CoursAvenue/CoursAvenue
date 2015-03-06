@@ -10,7 +10,9 @@ Newsletter.addInitializer(function(options) {
     var bootstrap = window.coursavenue.bootstrap;
 
     var layouts_collection = new Newsletter.Models.LayoutsCollection(bootstrap.models.layouts);
-    var newsletter = new Newsletter.Models.Newsletter(bootstrap.models.newsletter, { layouts: layouts_collection });
+    var newsletter = new Newsletter.Models.Newsletter(bootstrap.models.newsletter, {
+      layouts: layouts_collection
+    });
 
     var newsletter_view = new Newsletter.Views.NewsletterView({ model: newsletter });
 
