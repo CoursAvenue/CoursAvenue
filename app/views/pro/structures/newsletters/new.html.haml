@@ -8,6 +8,7 @@
     #newsletter{ data: { type: 'newsletters-root' } }
 
 - content_for :scripts do
+  = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
   :javascript
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
