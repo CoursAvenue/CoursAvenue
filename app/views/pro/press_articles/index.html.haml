@@ -2,8 +2,14 @@
 
 = render partial: 'pro/shared/pages_tabs', locals: { current: 'press' }
 
-.text--center.push--bottom
-  = link_to 'Nouvel article de presse', new_pro_press_article_path, class: 'btn btn--large btn--green'
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Articles de presse
+  .flexbox__item.v-middle.text--right
+    = link_to new_pro_press_article_path, class: 'btn btn--green' do
+      %i.fa.fa-plus
+      Ajouter un article de presse
+
 - @press_articles.each do |press_article|
   - cache [press_article, 'pro/press_article/index'] do
     .grid.push--bottom

@@ -2,8 +2,13 @@
 
 = render partial: 'pro/subscription_plans/tabs', locals: { current: 'promotion_codes' }
 
-.text--center.push--bottom
-  = link_to 'Nouveau code', new_pro_promotion_code_path, class: 'btn btn--green'
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Codes promos
+  .flexbox__item.v-middle.text--right
+    = link_to new_pro_promotion_code_path, class: 'btn btn--green' do
+      %i.fa.fa-plus
+      Ajouter un code
 %table.table--striped
   %thead
     %tr

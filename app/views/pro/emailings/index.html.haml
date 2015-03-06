@@ -1,7 +1,12 @@
 = side_menu_currently_at 'emailings'
 
-.soft.text--center
-  = link_to 'Nouvelle newsletter', new_pro_emailing_path, class: 'btn btn--green btn--large'
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Newsletter
+  .flexbox__item.v-middle.text--right
+    = link_to new_pro_emailing_path, class: 'btn btn--green' do
+      %i.fa.fa-plus
+      Ajouter une newsletter
 
 %table.table--data.table--striped#dataTable
   %thead

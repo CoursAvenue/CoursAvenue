@@ -2,8 +2,13 @@
 
 = render partial: 'pro/shared/pages_tabs', locals: { current: 'portraits' }
 
-.soft.text--center
-  = link_to 'Nouvel portrait', new_pro_portrait_path, class: 'btn btn--large btn--green'
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Blog
+  .flexbox__item.v-middle.text--right
+    = link_to new_pro_portrait_path, class: 'btn btn--green' do
+      %i.fa.fa-plus
+      Ajouter un portrait
 %table.table--data.table--striped
   %thead
     %tr

@@ -1,8 +1,15 @@
 = side_menu_currently_at 'pages'
 
 = render partial: 'pro/shared/pages_tabs', locals: { current: 'vertical_pages' }
-.soft.text--center
-  = link_to 'Nouvelle page', new_pro_vertical_page_path, class: 'btn btn--green btn--large'
+
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Pages verticale
+  .flexbox__item.v-middle.text--right.soft.text--center
+    = link_to new_pro_vertical_page_path, class: 'btn btn--green' do
+      %i.fa.fa-plus
+      Ajouter une page
+
 %table.table--data.table--striped#dataTable
   %thead
     %tr

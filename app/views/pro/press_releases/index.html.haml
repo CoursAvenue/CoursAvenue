@@ -2,8 +2,13 @@
 
 = render partial: 'pro/shared/pages_tabs', locals: { current: 'press_releases' }
 
-.soft.text--center
-  = link_to 'Nouveau CP', new_pro_press_release_path, class: 'btn btn--large btn--green'
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Articles de presse
+  .flexbox__item.v-middle.text--right
+    = link_to new_pro_press_release_path, class: 'btn btn--green' do
+      %i.fa.fa-plus
+      Ajouter un CP
 %table.table--data.table--striped
   %thead
     %tr
