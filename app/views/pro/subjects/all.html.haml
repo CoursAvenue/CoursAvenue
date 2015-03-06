@@ -1,10 +1,10 @@
 = side_menu_currently_at 'subjects'
 
-%h1.flush Disciplines
-.soft--sides
-  - @paris = City.find('paris')
-  %input#zip_code.one-whole.push--bottom{placeholder: 'Zip code'}
-  %btn.btn.btn--full.btn--green.push--bottom#load Load !
+%h1 Disciplines
+
+- @paris = City.find('paris')
+%input#zip_code.one-whole.push--bottom{placeholder: 'Zip code'}
+%btn.btn.btn--full.btn--green.push--bottom#load Load !
 %table.table--data.table--striped.white-box#dataTable
   %thead
     %tr
