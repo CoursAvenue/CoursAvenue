@@ -15,6 +15,7 @@
           %i.fa.fa-picture-o
           Modifier
     - else
+      %br
       = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: { trigger: true } do
         %i.fa.fa-picture-o
         Choisir l'image de l'article
@@ -22,9 +23,9 @@
 
   = f.input :published, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush' }, label: 'Article publié', label_html: { class: 'label--large' }
 
-  .input.input-daterange.input-group{ data: { behavior: 'datepicker' } }
-    %label.label--large.required.control-label{ for: 'published_date' } Date de publication
-    %input.input-sm.input--large.datepicker-input#published_date{ type: 'text', value: (@article.published_at.nil? ? '' : l(@article.published_at.to_date)), name: 'blog_article[published_at]' }
+  .flexbox.input.input-daterange.input-group{ data: { behavior: 'datepicker' } }>
+    %label.flexbox__item.label--large.required.control-label{ for: 'published_date' }> Date de publication
+    %input.input-container.flexbox__item.input-sm.input--large.datepicker-input#published_date{ type: 'text', value: (@article.published_at.nil? ? '' : l(@article.published_at.to_date)), name: 'blog_article[published_at]' }
 
   = f.input :tag_list, input_html: { class: 'input--large one-whole' }, label: false
   = f.input :title, label: false, input_html: { class: 'input--large one-whole' }

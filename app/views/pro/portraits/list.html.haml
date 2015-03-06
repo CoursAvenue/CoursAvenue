@@ -1,24 +1,23 @@
 = side_menu_currently_at 'pages'
 
-.panel
-  = render partial: 'pro/shared/pages_tabs', locals: { current: 'portraits' }
-  .panel__body
-    .soft.text--center
-      = link_to 'Nouvel portrait', new_pro_portrait_path, class: 'btn btn--large btn--green'
-    %table.table--data.table--striped
-      %thead
-        %tr
-          %th Nom
-          %th
-          %th
-      %tbody
-      - @portraits.each do |portrait|
-        %tr
-          %td= portrait.thumb_title
-          %td= portrait.thumb_subtitle
-          %td.nowrap
-            = link_to 'Modifier', edit_pro_portrait_path(portrait), class: 'orange'
-            \/
-            = link_to 'Supprimer', pro_portrait_path(portrait), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette portrait ?' }, class: 'red'
-            \/
-            = link_to 'Voir', pro_portrait_path(portrait)
+= render partial: 'pro/shared/pages_tabs', locals: { current: 'portraits' }
+
+.soft.text--center
+  = link_to 'Nouvel portrait', new_pro_portrait_path, class: 'btn btn--large btn--green'
+%table.table--data.table--striped
+  %thead
+    %tr
+      %th Nom
+      %th
+      %th
+  %tbody
+  - @portraits.each do |portrait|
+    %tr
+      %td= portrait.thumb_title
+      %td= portrait.thumb_subtitle
+      %td.nowrap
+        = link_to 'Modifier', edit_pro_portrait_path(portrait), class: 'orange'
+        \/
+        = link_to 'Supprimer', pro_portrait_path(portrait), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette portrait ?' }, class: 'red'
+        \/
+        = link_to 'Voir', pro_portrait_path(portrait)

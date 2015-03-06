@@ -68,7 +68,7 @@
                         = comment.email
               %li= link_to 'Voir toutes les recommandations', pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
         %span.v-middle.push-half--sides= '|'
-        .inline-block.v-middle.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+        .inline-block.v-middle.drop-down__wrapper{ data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
           %h5.flush--bottom.white.inline-block.v-middle.nowrap
             = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'very-soft--right muted-link' do
               = truncate(@structure.name, length: 80)
@@ -101,6 +101,20 @@
         %span.v-middle.push-half--sides= '|'
         = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'white v-middle', target: :_blank, title: 'Voir mon profil public', data: { toggle: 'tooltip', placement: 'left' } do
           .fa.fa-eye.v-middle.epsilon
+  - else
+    .pro-public-top-menu.darkgray-box.flexbox.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000 } }
+      .flexbox__item.v-middle.soft--left
+        = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
+      .flexbox__item.text--right
+        .inline-block.v-middle.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+          %h5.flush--bottom.white.inline-block.v-middle.nowrap
+            = current_pro_admin.name
+            .fa.fa-caret-down
+          %ul.drop-down__el
+            %li.nowrap.text--left
+              = link_to destroy_pro_admin_session_path, method: :delete do
+                %i.fa.fa-sign-out
+                Déconnexion
 
   .main-container.soft--sides
     .flexbox.push-double--top

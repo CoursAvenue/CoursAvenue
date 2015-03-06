@@ -1,40 +1,38 @@
 = side_menu_currently_at 'pro_dashboard'
 
-.panel
-  = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'statistics' }
-  .panel__body.soft
-    %table.table--data.table--striped
-      %thead
-        %tr
-          %th URL
-          %th #
-      %tbody
-        - Metric.structure_go_premium.group_by(&:action_type).each do |url, statistics|
-          %tr
-            %td= url
-            %td= statistics.count
-    %hr
-    .grid.push--bottom
-      .grid__item.one-third.text--center>
-        .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
-          .lbl.lbl--chip.lbl--red.v-middle.lbl--small
-          %h5.flush.v-middle.inline-block
-            Affichage :
-            = @impressions_total_count
-      .grid__item.one-third.text--center>
-        .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
-          .lbl.lbl--chip.lbl--blue.v-middle.lbl--small
-          %h5.flush.v-middle.inline-block
-            Vue :
-            = @views_total_count
-      .grid__item.one-third.text--center>
-        .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
-          .lbl.lbl--chip.lbl--green.v-middle.lbl--small
-          %h5.flush.v-middle.inline-block
-            Action :
-            = @actions_total_count
+= render partial: 'pro/shared/dashboard_tabs', locals: { current: 'statistics' }
+%table.table--data.table--striped
+  %thead
+    %tr
+      %th URL
+      %th #
+  %tbody
+    - Metric.structure_go_premium.group_by(&:action_type).each do |url, statistics|
+      %tr
+        %td= url
+        %td= statistics.count
+%hr
+.grid.push--bottom
+  .grid__item.one-third.text--center>
+    .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
+      .lbl.lbl--chip.lbl--red.v-middle.lbl--small
+      %h5.flush.v-middle.inline-block
+        Affichage :
+        = @impressions_total_count
+  .grid__item.one-third.text--center>
+    .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
+      .lbl.lbl--chip.lbl--blue.v-middle.lbl--small
+      %h5.flush.v-middle.inline-block
+        Vue :
+        = @views_total_count
+  .grid__item.one-third.text--center>
+    .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
+      .lbl.lbl--chip.lbl--green.v-middle.lbl--small
+      %h5.flush.v-middle.inline-block
+        Action :
+        = @actions_total_count
 
-    #statistics
+#statistics
 
 = content_for :scripts do
   = javascript_include_tag 'libs/highcharts/highcharts'

@@ -1,200 +1,146 @@
 = side_menu_currently_at 'pro_dashboard'
-.panel
-  = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'dashboard' }
-  .panel__body.soft
-    .grid
-      .grid__item.one-quarter.bordered--right>
-        .soft-half.text--center
-          %h3.flush= "#{number_with_delimiter Admin.normal.count} profs"
-          %h6.flush dont #{number_with_delimiter Admin.where( Admin.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
-          %div et #{number_with_delimiter Admin.where( Admin.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
-      .grid__item.one-quarter.bordered--right>
-        .soft-half.text--center
-          %h3.flush= "#{number_with_delimiter Comment::Review.count} avis"
-          %h6.flush dont #{number_with_delimiter Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
-          %div et #{number_with_delimiter Comment::Review.where( Comment::Review.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
-      .grid__item.one-quarter.bordered--right>
-        .soft-half.text--center
-          %h3.flush= "#{number_with_delimiter Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])).count} mess"
-          %h6.flush
-            dont
-            = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id]).and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today)) ).count
-            aujourd'hui
-          %div
-            et
-            = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id]).and(Mailboxer::Conversation.arel_table[:created_at].gt(7.days.ago)) ).count
-            les 7 derniers jours
-      .grid__item.one-quarter>
-        .soft-half.text--center
-          %h3.flush= "#{number_with_delimiter User.active.count} élèves"
-          %h6.flush dont #{number_with_delimiter User.active.where( User.arel_table[:sign_up_at].gt(Date.today) ).count} aujourd'hui
-          %div et #{number_with_delimiter User.active.where( User.arel_table[:sign_up_at].gt(7.days.ago) ).count} les 7 derniers jours
-    .grid
-      .grid__item.center-block>
-        .soft-half.text--center
-          %h3.flush= "Base email exploitable : #{number_with_delimiter User.where(delivery_email_status: nil).count}"
-          %h6.flush dont #{number_with_delimiter User.where(User.arel_table[:created_at].gt(Date.today).and(User.arel_table[:delivery_email_status].eq(nil))).count} aujourd'hui
-          %div et #{number_with_delimiter User.where(User.arel_table[:created_at].gt(7.days.ago).and(User.arel_table[:delivery_email_status].eq(nil))).count} les 7 derniers jours
+
+= render partial: 'pro/shared/dashboard_tabs', locals: { current: 'dashboard' }
+
+.grid
+  .grid__item.one-quarter.bordered--right>
+    .soft-half.text--center
+      %h3.flush= "#{number_with_delimiter Admin.normal.count} profs"
+      %h6.flush dont #{number_with_delimiter Admin.where( Admin.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+      %div et #{number_with_delimiter Admin.where( Admin.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
+  .grid__item.one-quarter.bordered--right>
+    .soft-half.text--center
+      %h3.flush= "#{number_with_delimiter Comment::Review.count} avis"
+      %h6.flush dont #{number_with_delimiter Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+      %div et #{number_with_delimiter Comment::Review.where( Comment::Review.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
+  .grid__item.one-quarter.bordered--right>
+    .soft-half.text--center
+      %h3.flush= "#{number_with_delimiter Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])).count} mess"
+      %h6.flush
+        dont
+        = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id]).and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today)) ).count
+        aujourd'hui
+      %div
+        et
+        = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id]).and(Mailboxer::Conversation.arel_table[:created_at].gt(7.days.ago)) ).count
+        les 7 derniers jours
+  .grid__item.one-quarter>
+    .soft-half.text--center
+      %h3.flush= "#{number_with_delimiter User.active.count} élèves"
+      %h6.flush dont #{number_with_delimiter User.active.where( User.arel_table[:sign_up_at].gt(Date.today) ).count} aujourd'hui
+      %div et #{number_with_delimiter User.active.where( User.arel_table[:sign_up_at].gt(7.days.ago) ).count} les 7 derniers jours
+.grid
+  .grid__item.center-block>
+    .soft-half.text--center
+      %h3.flush= "Base email exploitable : #{number_with_delimiter User.where(delivery_email_status: nil).count}"
+      %h6.flush dont #{number_with_delimiter User.where(User.arel_table[:created_at].gt(Date.today).and(User.arel_table[:delivery_email_status].eq(nil))).count} aujourd'hui
+      %div et #{number_with_delimiter User.where(User.arel_table[:created_at].gt(7.days.ago).and(User.arel_table[:delivery_email_status].eq(nil))).count} les 7 derniers jours
 
 
+%hr.push--ends
+%h3.text--center Cours d'essai
+- cache ["pro/structures/trial_courses/#{Course.open_for_trial.count}"] do
+  .grid
+    .grid__item.one-third.text--center>
+      %h3.flush= Course.open_for_trial.group_by(&:structure_id).count
+      %h6 profs
+    .grid__item.one-third.text--center>
+      %h3.flush= Course.open_for_trial.count
+      %h6 cours
+    .grid__item.one-third.text--center>
+      %h3.flush= Course.open_for_trial.flat_map(&:plannings).count
+      %h6 créneaux
+%h5.text--center Répartition / disciplines
+- subjects_count = {}
+- max_value = 1
+- Subject.stars.each do |subject|
+  - structure_count = PlanningSearch.search(subject_id: subject.slug, is_open_for_trial: true).total
+  - subjects_count[subject.name] = structure_count
+  - max_value = structure_count if structure_count > max_value
+
+- subjects_count.each do |key, value|
+  .grid.push-half--bottom
+    .grid__item.one-quarter.text--right>= key
+    .grid__item.three-quarters>
+      .progress
+        .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value
+%h5.text--center # de cours d'essai offert
+.grid
+  .grid__item.one-third.text--center>
+    - trial_courses_policy = Course.open_for_trial.map(&:structure).uniq.group_by(&:trial_courses_policy)
+    %h3.flush= trial_courses_policy['1_trial'].try(:count)
+    %h6 1 cours
+  .grid__item.one-third.text--center>
+    %h3.flush= trial_courses_policy['2_trials'].try(:count)
+    %h6 2 cours
+  .grid__item.one-third.text--center>
+    %h3.flush= trial_courses_policy['3_trials'].try(:count)
+    %h6 3 cours
+
+%hr.push--ends
+.text--center
+  #messages-months
+
+%hr.push--ends
+%h3
+  %i.fa.fa-map-marker
+  Professeurs enregistrés / Avis laissés (non cumulé)
+.text--center
+  .gamma
+    = Admin.normal.count
+    profs
+    \/
+    = Comment::Review.count
+    avis
+  #admins
+
+.text--center
+  .gamma
+    = Admin.normal.count
+    profs
+
+- if params[:more].present?
   %hr.push--ends
-  %h3.text--center Cours d'essai
-  - cache ["pro/structures/trial_courses/#{Course.open_for_trial.count}"] do
-    .grid
-      .grid__item.one-third.text--center>
-        %h3.flush= Course.open_for_trial.group_by(&:structure_id).count
-        %h6 profs
-      .grid__item.one-third.text--center>
-        %h3.flush= Course.open_for_trial.count
-        %h6 cours
-      .grid__item.one-third.text--center>
-        %h3.flush= Course.open_for_trial.flat_map(&:plannings).count
-        %h6 créneaux
-    %h5.text--center Répartition / disciplines
-    - subjects_count = {}
-    - max_value = 1
-    - Subject.stars.each do |subject|
-      - structure_count = PlanningSearch.search(subject_id: subject.slug, is_open_for_trial: true).total
-      - subjects_count[subject.name] = structure_count
-      - max_value = structure_count if structure_count > max_value
-    .soft--sides
-      - subjects_count.each do |key, value|
-        .grid.push-half--bottom
-          .grid__item.one-quarter.text--right>= key
-          .grid__item.three-quarters>
-            .progress
-              .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value
-    %h5.text--center # de cours d'essai offert
-    .grid
-      .grid__item.one-third.text--center>
-        - trial_courses_policy = Course.open_for_trial.map(&:structure).uniq.group_by(&:trial_courses_policy)
-        %h3.flush= trial_courses_policy['1_trial'].try(:count)
-        %h6 1 cours
-      .grid__item.one-third.text--center>
-        %h3.flush= trial_courses_policy['2_trials'].try(:count)
-        %h6 2 cours
-      .grid__item.one-third.text--center>
-        %h3.flush= trial_courses_policy['3_trials'].try(:count)
-        %h6 3 cours
-
-  -# - pass_9  = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_9').and(Email.arel_table[:email].not_eq('')))
-  -# - pass_19 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_19').and(Email.arel_table[:email].not_eq('')))
-  -# - pass_29 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_29').and(Email.arel_table[:email].not_eq('')))
-  -# - pass_39 = Email.where(Email.arel_table[:email_type].matches('pass-decouverte_39').and(Email.arel_table[:email].not_eq('')))
-  -# %hr.push--ends
-  -#  %table.table--striped.table--data.text--center
-  -#    %thead
-  -#      %tr
-  -#        %th.text--center Prix
-  -#        %th.text--center Total
-  -#        %th.text--center Emails
-  -#        %th.text--center Emails
-  -#        %th.text--center Emails
-  -#        %th.text--center Emails
-  -#    %tbody
-  -#      - interested_in_discovery_pass_users = User.where("meta_data -> 'interested_in_discovery_pass' LIKE '%true%'")
-  -#      - interested_in_discovery_pass_users.sort_by(&:interested_at).group_by{|u| u.interested_at.to_date }.each do |date, users|
-  -#        %tr
-  -#          %td.text--center= l(date, format: :long)
-  -#          %td.text--center= users.count
-  -#          - users.group_by(&:test_name).each do |group_name, users|
-  -#            %td
-  -#              %strong= users.length
-  -#              - if group_name.present?
-  -#                %strong= "#{group_name} :"
-  -#              = users.map(&:email).join(', ')
-
-  -# %table.table--striped.table--data.text--center
-  -#   %thead
-  -#     %tr
-  -#       %th.text--center Prix
-  -#       %th.text--center Conversion
-  -#       %th.text--center Emails
-  -#   %tbody
-  -#     %tr
-  -#       %td.text--center 9€
-  -#       %td.text--center= pass_9.count
-  -#       %td.text--center= pass_9.map(&:email).join('; ')
-  -#     %tr
-  -#       %td.text--center 19€
-  -#       %td.text--center= pass_19.count
-  -#       %td.text--center= pass_19.map(&:email).join('; ')
-  -#     %tr
-  -#       %td.text--center 29€
-  -#       %td.text--center= pass_29.count
-  -#       %td.text--center= pass_29.map(&:email).join('; ')
-  -#     %tr
-  -#       %td.text--center 39€
-  -#       %td.text--center= pass_39.count
-  -#       %td.text--center= pass_39.map(&:email).join('; ')
-
-  %hr.push--ends
-  .soft--sides
-    .text--center
-      #messages-months
-  %hr.push--ends
-  .soft--sides
-    %h3
-      %i.fa.fa-map-marker
-      Professeurs enregistrés / Avis laissés (non cumulé)
-    .text--center
-      .gamma
-        = Admin.normal.count
-        profs
-        \/
-        = Comment::Review.count
-        avis
-      #admins
-
-    .text--center
-      .gamma
-        = Admin.normal.count
-        profs
-
-  - if params[:more].present?
-    %hr.push--ends
-    .soft--sides
-      %h3
-        %i.fa.fa-envelope-o
-        Demande d'infos
-      .text--center
-        .gamma
-          = Mailboxer::Conversation.where( subject: I18n.t(Mailboxer::Label::INFORMATION.name) ).count
-          Messages
-        #messages
-
-    %hr.push--ends
-    .soft--sides
-      %h3
-        %i.fa.fa-group
-        Élèves notifiés pour avis
-      .text--center
-        .gamma
-          = User.count
-          élèves
-        #students
-
-    %hr.push--ends
-    .soft--sides
-      %h3
-        %i.fa.fa-youtube-play
-        Photos & Vidéos
-      .text--center
-        .gamma
-          = Media::Video.count
-          Vidéos /
-          = Media::Image.count
-          Photos
-        #medias
-
+  %h3
+    %i.fa.fa-envelope-o
+    Demande d'infos
   .text--center
-    = link_to 'Voir plus de stat', pro_dashboard_path(more: true), class: 'btn btn--blue push-half--sides'
-    = link_to 'Mots clés', pro_keywords_path, class: 'btn btn--blue push-half--sides'
-    = link_to 'Mots clés tapé par les utilisateurs', pro_search_term_logs_path, class: 'btn btn--blue push-half--sides'
+    .gamma
+      = Mailboxer::Conversation.where( subject: I18n.t(Mailboxer::Label::INFORMATION.name) ).count
+      Messages
+    #messages
+
+  %hr.push--ends
+  %h3
+    %i.fa.fa-group
+    Élèves notifiés pour avis
+  .text--center
+    .gamma
+      = User.count
+      élèves
+    #students
+
+  %hr.push--ends
+  %h3
+    %i.fa.fa-youtube-play
+    Photos & Vidéos
+  .text--center
+    .gamma
+      = Media::Video.count
+      Vidéos /
+      = Media::Image.count
+      Photos
+    #medias
+
+.text--center
+  = link_to 'Voir plus de stat', pro_dashboard_path(more: true), class: 'btn btn--blue push-half--sides'
+  = link_to 'Mots clés', pro_keywords_path, class: 'btn btn--blue push-half--sides'
+  = link_to 'Mots clés tapé par les utilisateurs', pro_search_term_logs_path, class: 'btn btn--blue push-half--sides'
 
 = content_for :scripts do
   = javascript_include_tag 'libs/highcharts/highcharts'
   = javascript_include_tag 'libs/highcharts/modules/exporting'
+
 - if params[:more].present?
   = content_for :scripts do
     :javascript

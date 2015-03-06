@@ -1,34 +1,32 @@
 = side_menu_currently_at 'pro_dashboard'
 
-.panel
-  = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'teacher_stars' }
-  .panel__body.soft--ends
-    %table.table--striped.table--data#dataTable
-      %thead
-        %tr
-          %th.four-tenths
-            %span Établissements
-          %th.four-tenths
-            %span Disciplines
-          %th
-            %span Avis
-          %th
-            %span Livre d'or
-      %tbody
-        - @structures.each do |structure|
-          %tr
-            %td
-              = link_to dashboard_pro_structure_path(structure) do
-                - if structure.logo?
-                  = image_tag structure.logo.url(:thumb), height: 15
-                = structure.name
-            %td
-              = join_parent_subjects_text structure
-            %td
-              = structure.comments_count
+= render partial: 'pro/shared/dashboard_tabs', locals: { current: 'teacher_stars' }
+%table.table--striped.table--data#dataTable
+  %thead
+    %tr
+      %th.four-tenths
+        %span Établissements
+      %th.four-tenths
+        %span Disciplines
+      %th
+        %span Avis
+      %th
+        %span Livre d'or
+  %tbody
+    - @structures.each do |structure|
+      %tr
+        %td
+          = link_to dashboard_pro_structure_path(structure) do
+            - if structure.logo?
+              = image_tag structure.logo.url(:thumb), height: 15
+            = structure.name
+        %td
+          = join_parent_subjects_text structure
+        %td
+          = structure.comments_count
 
-            %td
-              - if structure.widget_url.present?
-                = link_to structure.widget_url, target: '_blank' do
-                  %i.fa.fa-check
-              = structure.widget_status
+        %td
+          - if structure.widget_url.present?
+            = link_to structure.widget_url, target: '_blank' do
+              %i.fa.fa-check
+          = structure.widget_status
