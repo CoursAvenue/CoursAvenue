@@ -8,7 +8,9 @@
     #newsletter{ data: { type: 'newsletters-root' } }
 
 - content_for :scripts do
+  = filepicker_js_include_tag
   = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
+
   :javascript
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
@@ -18,10 +20,3 @@
               newsletter: #{ @newsletter.nil? ? {}.to_json : @newsletter.to_json }
           }
       };
-
-      $(document).ready(function() {
-          // TODO: Replace all the bloc_text contents.
-          // CKEDITOR.replace('newsletter[content]', {
-          //     customConfig: '#{asset_path('ckeditor/config.js')}'
-          // });
-      });
