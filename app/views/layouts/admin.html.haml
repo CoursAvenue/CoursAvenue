@@ -107,7 +107,7 @@
         = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
       .flexbox__item.text--right
         .inline-block.v-middle.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-          %h5.flush--bottom.white.inline-block.v-middle.nowrap
+          %h5.flush--bottom.white.inline-block.v-middle.nowrap.soft--right
             = current_pro_admin.name
             .fa.fa-caret-down
           %ul.drop-down__el
@@ -120,7 +120,8 @@
     .flexbox.push-double--top
       - if content_for? :side_menu
         %nav.flexbox__item.v-top.grid__item.v-top.border-none--right.side-menu.print--hidden.soft--top
-          .border-none--right.side-menu.side-menu--sticky{ data: { behavior: 'sticky', 'offset-top' => 45, old_height: 'false' } }
+          -# { data: { behavior: 'sticky', 'offset-top' => 45, old_height: 'false' } }
+          .border-none--right.side-menu.side-menu--sticky
             = yield :side_menu
       .flexbox__item.v-top
         .pro-top-menu.rounded--top--double{ class: (content_for?(:top_menu) ? 'soft--left bg-orange' : 'bordered--top bordered--orange bordered--very-thick') }

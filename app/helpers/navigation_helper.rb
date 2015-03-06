@@ -15,7 +15,7 @@ module NavigationHelper
     if options[:icon].present?
       html_title = "<i class='#{options[:icon]}'></i><div class='very-soft--top'>#{I18n.t('pro.structures.side_menu.' + title)}</div>".html_safe
     end
-    content_tag(:li, link_to(html_title, url, class: 'side-menu-link block muted-link relative text--center soft'), options)
+    content_tag(:li, link_to(html_title, url, class: 'side-menu-link block muted-link relative text--center soft-half'), options)
   end
 
   def pro_submenu_link(title, url, options = {})
