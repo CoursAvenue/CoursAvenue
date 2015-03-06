@@ -13,13 +13,16 @@ class Newsletter < ActiveRecord::Base
 
   attr_accessible :title, :state,
     :object, :sender_name, :reply_to,
-    :blocs, :layout_id
+    :layout_id,
+    :blocs, :blocs_attributes
 
   belongs_to :structure
 
   has_many :blocs, class_name: 'Newsletter::Bloc'
 
-  # has_one :layout, class_name: 'Newsletter::Layout'
+  accepts_nested_attributes_for :blocs,
+                                reject_if: :reject_bloc,
+                                allow_destroy: true
 
   validates :title, presence: true
   validates :state, presence: true
@@ -67,5 +70,22 @@ class Newsletter < ActiveRecord::Base
     end
 
     save
+  end
+
+  # Check if we should reject the bloc.
+  # We only reject it if the bloc has no content or no image.
+  #
+  # @return a Boolean.
+  def reject_bloc(attributes)
+    exists = attributes[:id].present?
+    blank = (attributes[:content].blank? or
+             attributes[:remote_image_url].blank? or
+             attributes[:image].blank?)
+
+    if blank and exists
+      attributes.merge!({ :_destroy => 1 })
+    end
+
+    (blank and !exists)
   end
 end
