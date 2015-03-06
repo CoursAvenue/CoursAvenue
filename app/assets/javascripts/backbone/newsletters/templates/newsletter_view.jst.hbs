@@ -1,4 +1,6 @@
-<form method='POST'>
+<form method='POST' action='{{ formAction }}'>
+  <input type="hidden" name="{{ csrfName }}" value="{{ csrfToken }}">
+
   <label for="title" class='label--large blue'>Titre de votre newsletter</label>
   <p class="flush">Le titre de votre newsletter sera également l'objet de votre email. Pensez à être claire dans sa formulation.</p>
   <input id="title" class='input--large one-whole' name="newsletter[title]" type="text" placeholder="Prochains stages à venir !" />

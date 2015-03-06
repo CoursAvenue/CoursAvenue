@@ -53,6 +53,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
                     return content;
                 },
+                formAction: Routes.pro_structure_newsletters_path(window.coursavenue.bootstrap.structure),
+                csrfName: $('meta[name="csrf-param"]').attr('content'),
+                csrfToken: $('meta[name="csrf-token"]').attr('content'),
             };
         },
 
