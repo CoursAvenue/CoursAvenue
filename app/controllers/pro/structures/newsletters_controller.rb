@@ -62,14 +62,14 @@ class Pro::Structures::NewslettersController < ApplicationController
   # 1. Check all of the required informations are given.
   # 2. Generate the newsletter content.
   # 3. Send the newsletter to the associated mailing list.
-  def send
+  def send_newsletter
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
   end
 
   private
 
   def set_structure
-    @structure = Structure.includes(:newsletters).find(params[:structure_id])
+    @structure = Structure.find(params[:structure_id])
   end
 
   def set_layouts

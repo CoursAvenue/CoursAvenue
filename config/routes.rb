@@ -254,7 +254,7 @@ CoursAvenue::Application.routes.draw do
 
         resources :newsletters, controller: 'structures/newsletters' do
           member do
-            get :send
+            get :send_newsletter
           end
         end
         resources :comment_notifications, controller: 'structures/comment_notifications'
