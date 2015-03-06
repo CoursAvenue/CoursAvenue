@@ -35,6 +35,22 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             return result;
         },
 
+        // The templateHelpers function allows us to create helper methods that
+        // can be called from our template.
+        //
+        // More information:
+        // <http://git.io/xpMt>
+        templateHelpers: function templateHelpers () {
+            return {
+                // Renders the bloc's template with the bloc's attributes.
+                renderBloc: function renderedBloc (bloc) {
+                    var path = Module.templateDirname() + 'bloc_' + bloc.get('type');
+
+                    return (JST[path](bloc.attributes));
+                },
+            };
+        },
+
         // TODO: Ask for confirmation ("Changing layout will lose your current
         // blocs. Are you sure you want to continue ?").
         updateLayout: function updateLayout (data) {
@@ -59,12 +75,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.model.set('blocs', blocs);
 
             this.render();
-        },
-
-        renderedBloc: function renderedBloc (bloc) {
-            var path = Module.templateDirname() + 'bloc_' + bloc.get('type');
-
-            return (JST[path](bloc.attributes));
         },
 
         // TODO: - Save / Create the newsletter.
