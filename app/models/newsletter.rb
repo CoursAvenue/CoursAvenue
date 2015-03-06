@@ -17,12 +17,12 @@ class Newsletter < ActiveRecord::Base
     :blocs, :blocs_attributes
 
   belongs_to :structure
-
   has_many :blocs, class_name: 'Newsletter::Bloc'
 
-  accepts_nested_attributes_for :blocs,
-                                reject_if: :reject_bloc,
-                                allow_destroy: true
+
+  accepts_nested_attributes_for :blocs
+                                # reject_if: :reject_bloc,
+                                # allow_destroy: true
 
   validates :title, presence: true
   validates :state, presence: true

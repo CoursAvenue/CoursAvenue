@@ -79,6 +79,6 @@ class Pro::Structures::NewslettersController < ApplicationController
   end
 
   def required_params
-    params.require(:newsletter).permit(:title, :layout_id, :bloc_attributes)
+    params.require(:newsletter).permit(:title, :layout_id, :blocs_attributes)
   end
 end

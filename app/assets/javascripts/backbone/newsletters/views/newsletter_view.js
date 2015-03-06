@@ -10,7 +10,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initialize: function initialize () {
-            _.bindAll(this, 'submit');
         },
 
         // We overwrite render so we can call the stickit plugin.
