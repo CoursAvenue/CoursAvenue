@@ -1,5 +1,5 @@
 - content_for :side_menu do
-  %ul.push-half--top
+  %ul.push--top
     - if current_pro_admin and current_pro_admin.super_admin?
       - if !@structure
         = pro_side_menu_link 'pro_dashboard'        , pro_dashboard_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)             , current: current_tab, icon: 'fa fa-2x fa-dashboard'
