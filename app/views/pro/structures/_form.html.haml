@@ -2,7 +2,7 @@
 
   - if params[:return_to].present?
     %input{type: 'hidden', value: params[:return_to], name: 'return_to'}
-  .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.logo')} }
+  %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.logo')} }
     %h5 Logo
     %div
       %div
@@ -32,12 +32,12 @@
               = structure_form.filepicker_field :logo_filepicker_url, button_text: 'Choisir mon logo', button_class: 'btn btn--blue btn--small fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
 
   %hr.push--ends
-  .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.name') } }
+  %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.name') } }
     %h5#informations Structure
     = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
     = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: { class: 'input--large', style: 'max-width: 29em;' }, label_html: { class: 'label--large' }, wrapper_html: { class: 'flush--bottom' }
   %hr.push--ends
-  .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.subjects') } }
+  %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.subjects') } }
     %h5#informations Étiquettes de disciplines
     %div
       %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
@@ -50,7 +50,7 @@
         .input_field_error.red.text--right= @structure.errors[:children_subjects].to_sentence
 
   %hr.push--ends
-  .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.courses') } }
+  %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.courses') } }
     %h5 Cours proposés
     .input
       %label.text--left.hard--top.label--large.control-label> Type de cours
@@ -80,13 +80,13 @@
 
 
   %hr.push--ends
-  .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.funding_types') } }
+  %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.funding_types') } }
 
     %h5 Financements acceptés
     = structure_form.input :funding_type_ids, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: { class: 'input--large', style: 'width: 74%;', multiple: true, data: { behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id), label_html: { class: 'label--large' }, wrapper_html: { class: ' flush--bottom' }
 
   %hr.push--ends
-  .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.description') } }
+  %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.description') } }
     %h5.push--top Description
     .input
       = structure_form.label :description, class: 'label--large'
@@ -94,13 +94,13 @@
         = structure_form.input :description, label: false, wrapper_html: { class: 'flush one-whole' }, input_html: { style: 'height: 130px;', id: 'description-textarea', class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
   - if @structure.comments_count >= 5
     %hr.push--ends
-    .soft--sides
+    %div
       %h5 Autre
       %div
         = structure_form.input :widget_status, as: :select, collection: Structure::WIDGET_STATUS, label_method: lambda{|status| t("structures.widget_status.#{status}")}, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
         = structure_form.input :widget_url, as: :string, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
-  .soft--sides
+  %div
     = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }
 
 = content_for :scripts do

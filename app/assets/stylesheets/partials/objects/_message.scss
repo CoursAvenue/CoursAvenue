@@ -61,4 +61,7 @@
         top          : -8px;
         left         : 11px;
     }
+    &.message__appendix--top--white:after {
+        border-bottom-color: white;
+    }
 }

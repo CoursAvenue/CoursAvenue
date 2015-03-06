@@ -45,7 +45,11 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 var number = parseInt($(this).find('[data-element=number-select]').val() || 0, 10);
                 var total  = price * number;
                 grand_total  = grand_total + total;
-                $(this).find('[data-element=row-total]').text(COURSAVENUE.helperMethods.readableAmount(total))
+                if (number > 1 && price != 0) {
+                    $(this).find('[data-element=row-total]').text(number + ' x ' + COURSAVENUE.helperMethods.readableAmount(price));
+                } else {
+                    $(this).find('[data-element=row-total]').text(COURSAVENUE.helperMethods.readableAmount(total));
+                }
             });
             if (this.ui.$price_rows.length > 0) {
                 this.ui.$grand_total.text(COURSAVENUE.helperMethods.readableAmount(grand_total));

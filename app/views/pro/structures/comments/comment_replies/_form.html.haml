@@ -1,9 +1,13 @@
-.soft.gray-box
+.soft
   .comment__content
     %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: @comment.title}= @comment.title
     .read-more{itemprop: 'reviewBody', data: {behavior: 'read-more'}}<
       = simple_format @comment.content
-  %hr.push-half--ends.message__appendix--top
+
+  - unless action_name == 'edit'
+    .push--ends= render partial: 'messages/message', collection: @conversation.messages.order('created_at DESC').reject(&:new_record?)
+
+  %hr.push-half--ends.message__appendix--top.message__appendix--top--white
   %p.push-half--bottom
     %strong.flush Votre réponse à #{@comment.author_name}
   - if @comment_reply.new_record?
@@ -12,4 +16,6 @@
     - url = pro_structure_comment_comment_reply_path(@structure, @comment, @comment_reply)
   = simple_form_for [:pro, @structure, @comment, @comment_reply], url: url, remote: true do |f|
     = f.input :content, label: false, input_html: { class: 'one-whole input--large', placeholder: 'Ajoutez votre réponse ici', data: { behavior: 'autoresize' } }
+    - unless action_name == 'edit'
+      = f.input :show_to_everyone, label: "Afficher publiquement ma réponse à la suite de l'avis (recommandé)", as: :boolean, wrapper_html: { class: 'checkbox-at-left' }
     = f.submit (@comment_reply.new_record? ? 'Répondre' : 'Modifier votre réponse'), class: 'btn btn--full btn--green', data: { disable_with: 'Enregistrement en cours...' }

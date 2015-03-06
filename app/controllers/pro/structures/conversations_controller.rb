@@ -2,6 +2,7 @@ class Pro::Structures::ConversationsController < ApplicationController
   # For an example of a conversation controller see:
   # https://github.com/ging/social_stream/blob/master/base/app/controllers/conversations_controller.rb
   before_action :authenticate_pro_admin!
+  load_and_authorize_resource :structure
   before_action :get_structure, :get_admin
 
   include ConversationsHelper

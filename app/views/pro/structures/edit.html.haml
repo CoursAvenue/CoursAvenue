@@ -6,8 +6,8 @@
           $.fancybox($('#helper-modal'), { padding: 0, maxWidth: 600, minWidth: 600 });
       });
 
-
 = side_menu_currently_at 'presentation'
-.panel
-  = render partial: 'pro/structures/tabs', locals:{ current: 'établissement'}
-  .panel__body.soft--top= render 'form'
+
+= render partial: 'pro/structures/tabs', locals:{ current: 'établissement' }
+%h1 Infos
+= render 'form'

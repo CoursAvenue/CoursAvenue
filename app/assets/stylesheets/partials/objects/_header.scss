@@ -34,6 +34,11 @@
         &.coursavenue-header-logo--pro {
             width: 222px;
             @include background-image-retina('logos/logo-pro.png', 'logos/logo-pro@2x.png');
+            &.coursavenue-header-logo--white {
+                width : 180px;
+                height: 28px;
+                @include background-image-retina('logos/logo-pro-white.png', 'logos/logo-pro-white@2x.png');
+            }
         }
         img {
             width: 100%;

@@ -1,26 +1,25 @@
 = side_menu_currently_at 'comments'
 
-.panel
-  = render partial: 'pro/structures/comments_tabs', locals: { current: 'comment_notification' }
-  .panel__body.soft--ends
-    .text--center.push-half--bottom= paginate @comment_notifications, window: 1, outer_window: 3
+= render partial: 'pro/structures/comments_tabs', locals: { current: 'comment_notification' }
 
-    %table.table--striped.table--data#comment-notification-table
-      %thead
-        %tr
-          %th Email
-          %th.text--center À laissé une recommandation
-          - if current_pro_admin.super_admin?
-            %th
-      %tbody
-        - @comment_notifications.each do |comment_notification|
-          %tr
-            %td= comment_notification.user.email
-            %td.text--center{data: {value: comment_notification.complete? ? '0' : '1'}}
-              - if comment_notification.complete?
-                %i.fa.fa-check
-            - if current_pro_admin.super_admin?
-              %td
-                = link_to 'Supprimer', pro_structure_comment_notification_path(@structure, comment_notification), method: :delete, class: 'red'
+.text--center.push-half--bottom= paginate @comment_notifications, window: 1, outer_window: 3
 
-    .text--center.push-half--ends= paginate @comment_notifications, window: 1, outer_window: 3
+%table.table--striped.table--data#comment-notification-table
+  %thead
+    %tr
+      %th Email
+      %th.text--center À laissé une recommandation
+      - if current_pro_admin.super_admin?
+        %th
+  %tbody
+    - @comment_notifications.each do |comment_notification|
+      %tr
+        %td= comment_notification.user.email
+        %td.text--center{data: {value: comment_notification.complete? ? '0' : '1'}}
+          - if comment_notification.complete?
+            %i.fa.fa-check
+        - if current_pro_admin.super_admin?
+          %td
+            = link_to 'Supprimer', pro_structure_comment_notification_path(@structure, comment_notification), method: :delete, class: 'red'
+
+.text--center.push-half--ends= paginate @comment_notifications, window: 1, outer_window: 3

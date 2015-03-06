@@ -1,5 +1,5 @@
 - content_for :side_menu do
-  %ul
+  %ul.push--top
     - if current_pro_admin and current_pro_admin.super_admin?
       = pro_side_menu_link 'pro_dashboard'        , pro_dashboard_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)             , current: current_tab, icon: 'fa fa-dashboard'
       = pro_side_menu_link 'call_reminders'       , pro_call_reminders_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)        , current: current_tab, icon: 'fa fa-phone'
@@ -14,141 +14,45 @@
       %li &nbsp;
 
     - if @structure
-      - to_complete_step_nb = 0
-      %li.subtitle ACTIVITÉ
-      = pro_side_menu_link 'dashboard',
+      = pro_side_menu_link 'general',
                             dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
-                            icon: 'fa fa-dashboard'
+                            icon: 'fa fa-2x fa-house'
 
-      = pro_side_menu_link 'statistics',
-                            pro_structure_statistics_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-                            current: current_tab,
-                            icon: 'fa fa-bar-chart-o'
-      %li.subtitle DESCRIPTION
-      - to_complete_step_nb += 1 if @structure.description.blank? or @structure.logo.blank?
       = pro_side_menu_link 'presentation',
                             edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
-                            icon: 'fa fa-user',
-                            completed: (@structure.description.present? and @structure.logo.present?)
+                            icon: 'fa fa-2x fa-user'
 
-      = pro_side_menu_link 'places',
-                            pro_structure_places_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-                            current: current_tab,
-                            icon: 'fa fa-map-marker',
-                            completed: true
-
-      - to_complete_step_nb += 1 if @structure.phone_numbers.empty?
-      = pro_side_menu_link 'contact',
-                            edit_contact_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-                            current: current_tab,
-                            icon: 'fa fa-phone-o',
-                            completed: (!@structure.is_sleeping and @structure.phone_numbers.reject(&:new_record?).any?)
-
-      - to_complete_step_nb += 1 if @structure.medias.empty?
-      = pro_side_menu_link 'medias',
-                            pro_structure_medias_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-                            current: current_tab,
-                            icon: 'fa fa-youtube-play',
-                            completed: @structure.medias.reject(&:new_record?).any?
-
-      %li.subtitle PLANNINGS & TARIFS
-      - courses_options_link = { current: current_tab, icon: 'fa fa-circle-o' }
-      - if @structure.courses.without_open_courses.detect(&:is_published?).nil?
-        - courses_options_link[:completed] = false
-      - elsif @structure.courses.lessons.detect(&:is_published?) or @structure.courses.privates.detect(&:is_published?)
-        - courses_options_link[:completed] = true
-
-      - to_complete_step_nb += 1 if courses_options_link[:completed] == false
-      = pro_side_menu_link 'courses',
+      = pro_side_menu_link 'plannings',
                             regular_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-                            courses_options_link
-
-      - trainings_options_link = { current: current_tab, icon: 'fa fa-dot-circle-o' }
-      - if @structure.courses.without_open_courses.detect(&:is_published?).nil?
-        - trainings_options_link[:completed] = false
-      - elsif @structure.courses.trainings.detect(&:is_published?)
-        - trainings_options_link[:completed] = true
-      - to_complete_step_nb += 1 if trainings_options_link[:completed] == false
-      = pro_side_menu_link 'trainings',
-                            trainings_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-                            trainings_options_link
-
-      - to_complete_step_nb += 1 if @structure.courses.open_for_trial.empty?
-      = pro_side_menu_link 'trial_courses',
-                            trial_courses_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
-                            icon: 'fa fa-ticket',
-                            completed: @structure.courses.open_for_trial.any?
-
-      - to_complete_step_nb += 1 if @structure.price_groups.empty?
-      = pro_side_menu_link 'price_groups',
-                            pro_structure_price_groups_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-                            current: current_tab,
-                            icon: 'fa fa-eur',
-                            completed: @structure.price_groups.any?
-
-      %li.subtitle INTERACTIONS
-      - to_complete_step_nb += 1 if @structure.comments.empty?
-      = pro_side_menu_link 'comments',
-                            pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-                            current: current_tab,
-                            icon: 'fa fa-comment',
-                            completed: @structure.comments.any?
-
-      = pro_side_menu_link 'messages',
-                            pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-                            current: current_tab,
-                            icon: 'fa fa-envelope-o'
+                            icon: 'fa fa-2x fa-calendar'
 
       = pro_side_menu_link 'inscriptions',
                             pro_structure_participation_requests_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
-                            icon: 'fa fa-group'
+                            icon: 'fa fa-2x fa-group'
+
+      = pro_side_menu_link 'comments',
+                            pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                            current: current_tab,
+                            icon: 'fa fa-2x fa-comment'
+
+      = pro_side_menu_link 'messages',
+                            pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                            current: current_tab,
+                            icon: 'fa fa-2x fa-envelope-o'
+
       - if current_pro_admin
         = pro_side_menu_link 'crm',
                               pro_structure_user_profiles_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) ,
                               current: current_tab,
-                              icon: 'fa fa-contact'
+                              icon: 'fa fa-2x fa-contact'
 
-      - if @structure.comments_count >= 5
-        - communcate_url = widget_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
-      - else
-        - communcate_url = signature_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
-      = pro_side_menu_link 'communicate',
-                            communcate_url,
-                            current: current_tab,
-                            icon: 'fa fa-bullhorn'
-
-      = pro_side_menu_link 'share',
-                            new_pro_structure_invited_teacher_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-                            current: current_tab,
-                            icon: 'fa fa-gift', id: 'recommandation-side-menu'
-      %li.subtitle PARAMÈTRES
-      - if @structure.main_contact
-        = pro_side_menu_link 'account'        , edit_pro_structure_admin_url(@structure, @structure.main_contact)     , current: current_tab,
-        icon: 'fa fa-cogs'
       - if @structure.premium?
         = pro_side_menu_link 'premium',
                              pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                              current: current_tab,
                              icon: 'fa fa-star'
 
-    - if @structure and to_complete_step_nb > 0
-      %li.side-menu__footer.fixed.south.soft.epsilon.text--center.gray-light.gray-box
-        = link_to '#side-menu-helper-modal', class: 'muted-link', data: { behavior: 'modal', width: 600, padding: 0 } do
-          Pour un
-          %strong profil complet :
-          renseignez
-          - if to_complete_step_nb == 1
-            %strong.orange la rubrique
-            marquée du signe
-          - else
-            les
-            %strong.orange #{to_complete_step_nb} rubriques
-            marquées du signe
-          %i.fa.fa-plus.orange.v-middle
-
-  - if @structure and to_complete_step_nb > 0
-    = render partial: 'pro/structures/modal_helper_popup', locals: { to_complete_step_nb: to_complete_step_nb }

@@ -1,27 +1,29 @@
 = side_menu_currently_at 'crm'
 
-.panel
-  = render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'tags' }
-  .panel__body
-    .soft.text--center
-      = link_to 'Ajouter une etiquette', new_pro_structure_tag_path(@structure), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: 700, padding: 0 }
-
-    %table.table--data.table--striped
-      %thead
-        %tr
-          %th Nom de l'étiquette
-          %th Nombre d'élèves
-          %th
-      %tbody
-        - @tags.each do |tag|
-          %tr
-            %td= tag.name
-            %td= @structure.user_profiles.tagged_with(tag.name, match_all: false).count
-            %td.text--right
-              = link_to edit_pro_structure_tag_path(@structure, tag), class: 'fancybox.ajax', data: { behavior: 'modal' } do
-                %i.fa.fa-pencil
-                Modifier
-              \/
-              = link_to pro_structure_tag_path(@structure, tag), class: 'red', method: :delete do
-                %i.fa.fa-trash-o
-                Supprimer
+= render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'tags' }
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Étiquettes
+  .flexbox__item.v-middle.text--right
+    = link_to new_pro_structure_tag_path(@structure), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 700, padding: 0 } do
+      %i.fa.fa-plus
+      Ajouter une etiquette
+%table.table--data.table--striped
+  %thead
+    %tr
+      %th Nom de l'étiquette
+      %th Nombre d'élèves
+      %th
+  %tbody
+    - @tags.each do |tag|
+      %tr
+        %td= tag.name
+        %td= @structure.user_profiles.tagged_with(tag.name, match_all: false).count
+        %td.text--right
+          = link_to edit_pro_structure_tag_path(@structure, tag), class: 'fancybox.ajax', data: { behavior: 'modal' } do
+            %i.fa.fa-pencil
+            Modifier
+          \/
+          = link_to pro_structure_tag_path(@structure, tag), class: 'red', method: :delete do
+            %i.fa.fa-trash-o
+            Supprimer

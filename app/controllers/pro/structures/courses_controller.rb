@@ -15,15 +15,17 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def index
-    redirect_to regular_pro_structure_courses_path(@structure)
+    @trainings = @structure.courses.trainings.order('name ASC')
+    @lessons   = @structure.courses.lessons.order('name ASC')
+    @privates  = @structure.courses.privates.order('name ASC')
   end
 
   def regular
-    @courses = @structure.courses.without_open_courses.order('name ASC')
+    redirect_to pro_structure_courses_path(@structure)
   end
 
   def trainings
-    @courses = @structure.courses.without_open_courses.order('name ASC')
+    redirect_to pro_structure_courses_path(@structure)
   end
 
   def trial_courses

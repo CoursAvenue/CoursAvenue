@@ -1,19 +1,18 @@
 = side_menu_currently_at 'crm'
 
-.panel
-  = render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'import' }
-  .panel__body.soft
-    %h4 Importez votre répertoire personnel (excel)
+= render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'import' }
 
-    = simple_form_for [:pro, @structure, @user_profile_import] do |f|
-      %p.epsilon
-        Téléchargez votre fichier Excel de contacts puis affectez les colonnes aux champs correspondants :
-      = f.error_notification
-      %label.btn.btn--full.btn--green{ for: 'user_profile_import_file' }
-        Choisir mon fichier
-        = f.input :file, as: :file, label: false, wrapper_html: { class: 'visuallyhidden' }
-      .text--center
-        = image_tag 'gifs/loading-indicator.gif', height: 10, id: 'loader', class: 'hidden'
+%h1 Importez votre répertoire personnel (excel)
+
+= simple_form_for [:pro, @structure, @user_profile_import] do |f|
+  %p.epsilon
+    Téléchargez votre fichier Excel de contacts puis affectez les colonnes aux champs correspondants :
+  = f.error_notification
+  %label.btn.btn--full.btn--green{ for: 'user_profile_import_file' }
+    Choisir mon fichier
+    = f.input :file, as: :file, label: false, wrapper_html: { class: 'visuallyhidden' }
+  .text--center
+    = image_tag 'gifs/loading-indicator.gif', height: 10, id: 'loader', class: 'hidden'
 
 
 = content_for :scripts do

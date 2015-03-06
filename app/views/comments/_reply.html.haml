@@ -2,13 +2,10 @@
   %p
     - if comment.owner?(current_pro_admin)
       .float--right
-        = link_to edit_pro_structure_comment_comment_reply_path(structure, comment, reply), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 } do
-          %i.fa.fa-pencil
-          Modifier
-        \/
-        = link_to ask_for_deletion_pro_structure_comment_comment_reply_path(structure, comment, reply), class: 'red fancybox.ajax',  data: { behavior: 'modal', width: '400', padding: 0 } do
-          %i.fa.fa-trash-o
-          Supprimer
+        = link_to edit_pro_structure_comment_comment_reply_path(structure, comment, reply), class: 'muted-link orange very-soft--right fancybox.ajax', title: 'Modifier', data: { toggle: 'tooltip', behavior: 'modal', width: '700', padding: 0 } do
+          %i.fa.fa-pencil.epsilon
+        = link_to ask_for_deletion_pro_structure_comment_comment_reply_path(structure, comment, reply), class: 'muted-link red fancybox.ajax', title: 'Supprimer', data: { toggle: 'tooltip', behavior: 'modal', width: '400', padding: 0 } do
+          %i.fa.fa-trash-o.epsilon
     %strong
       - if current_pro_admin
         Vous avez répondu publiquement à cet avis

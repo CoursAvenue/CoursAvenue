@@ -1,28 +1,8 @@
-= content_for :header do
-  = render 'shared/headers/pro'
-
 = content_for :content do
   - if @structure
-    .pro-top-menu.darkgray-box.flexbox.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000 } }
-      - cache [@structure, 'pro/structures/layout'] do
-        .flexbox__item.v-middle.soft-half--left{ style: 'width: 40px;' }
-          - if @structure.logo?
-            = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'block push-half--right' do
-              = image_tag @structure.logo.url(:thumb), width: 40, height: 40, class: 'block'
-          - else
-            = link_to '', edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'fa-2x fa fa-picture-o soft-half muted-link white', data: { toggle: 'popover', content: "Ajouter un logo", placement: 'right', trigger: 'hover' }
-        .flexbox__item.v-middle
-          %h5.flush--bottom.white.inline-block.v-middle
-            = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'block semi-muted-link' do
-              = truncate(@structure.name, length: 80)
-          %span.push-half--sides= '|'
-          - if @structure.premium?
-            = link_to pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'yellow' do
-              Premium
-              %i.fa.fa-check
-          - if @structure.is_sleeping?
-            %span.push-half--sides= '|'
-            %span.v-middle.lbl.lbl--red{ data: { toggle: 'popover', content: "Vous venez de prendre le contrôle de votre profil : complétez-le pendant que l'équipe CoursAvenue vérifie votre identité. Vous recevrez un e-mail dès que c'est validé !  Les modifications que vous avez apportées deviendront alors directement visibles sur votre profil public.", trigger: 'hover' } } En attente de validation
+    .pro-public-top-menu.darkgray-box.flexbox.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000 } }
+      .flexbox__item.v-middle.soft--left
+        = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
       .flexbox__item.v-middle.text--right.soft-half--right
         - if @structure.mailbox
           - unread_conversations       = @structure.mailbox.inbox(read: false)
@@ -88,19 +68,52 @@
                         = comment.email
               %li= link_to 'Voir toutes les recommandations', pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
         %span.v-middle.push-half--sides= '|'
-        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'white v-middle', target: :_blank do
-          .fa.fa-eye.v-middle
-          %span.v-middle Voir mon profil public
+        .inline-block.v-middle.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+          %h5.flush--bottom.white.inline-block.v-middle.nowrap
+            = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'very-soft--right muted-link' do
+              = truncate(@structure.name, length: 80)
+            .fa.fa-caret-down
+          %ul.drop-down__el
+            - if @structure.main_contact
+              %li.nowrap.text--left
+                = link_to edit_pro_structure_admin_path(@structure, @structure.main_contact) do
+                  %i.fa.fa-cogs
+                  = t('pro.structures.side_menu.account')
+            %li.nowrap.text--left
+              = link_to new_pro_structure_invited_teacher_path(@structure, @structure.main_contact) do
+                %i.fa.fa-gift
+                = t('pro.structures.side_menu.share')
+            - if @structure.comments_count >= 5
+              - communcate_url = widget_pro_structure_path(@structure)
+            - else
+              - communcate_url = signature_pro_structure_path(@structure)
+            %li.nowrap.text--left
+              = link_to communcate_url do
+                %i.fa.fa-bullhorn
+                = t('pro.structures.side_menu.communicate')
+            %li.nowrap.text--left
+              = link_to destroy_pro_admin_session_path, method: :delete do
+                %i.fa.fa-sign-out
+                Déconnexion
+          - if @structure.is_sleeping?
+            %span.push-half--sides= '|'
+            %span.v-middle.lbl.lbl--red{ data: { toggle: 'popover', content: "Vous venez de prendre le contrôle de votre profil : complétez-le pendant que l'équipe CoursAvenue vérifie votre identité. Vous recevrez un e-mail dès que c'est validé !  Les modifications que vous avez apportées deviendront alors directement visibles sur votre profil public.", trigger: 'hover' } } En attente de validation
+        %span.v-middle.push-half--sides= '|'
+        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'white v-middle', target: :_blank, title: 'Voir mon profil public', data: { toggle: 'tooltip', placement: 'left' } do
+          .fa.fa-eye.v-middle.epsilon
 
-  .flexbox
-    - if content_for? :side_menu
-      %nav.flexbox__item.v-top.border-none--right.side-menu.print--hidden
-        .border-none--right.side-menu.side-menu--sticky.gray-box.west{ data: { behavior: 'sticky', 'offset-top' => 45, old_height: 'false' } }
-          = yield :side_menu
-    .flexbox__item.v-top.small-container
-      = yield :breadcrumb
-      = yield
-    .grid__item.relative.wizard-container.print--hidden
+  .main-container.soft--sides
+    .flexbox.push-double--top
+      - if content_for? :side_menu
+        %nav.flexbox__item.v-top.grid__item.v-top.border-none--right.side-menu.print--hidden.soft--top
+          .border-none--right.side-menu.side-menu--sticky{ data: { behavior: 'sticky', 'offset-top' => 45, old_height: 'false' } }
+            = yield :side_menu
+      .flexbox__item.v-top
+        .pro-top-menu.rounded--top--double{ class: (content_for?(:top_menu) ? 'soft--left bg-orange' : 'bordered--top bordered--orange bordered--very-thick') }
+          = yield :top_menu
+        .bg-white.bordered--left.bordered--right.bordered--right.bordered--bottom.soft--ends.soft-double--sides.shadowed--bottom.rounded--top.min-height-800
+          %div{ class: (content_for?(:top_menu) ? 'push--top' : '') }= yield
+      .flexbox__item.v-top.wizard-container.relative.print--hidden
 
 = render :template => 'layouts/application'
 = render 'shared/live_chat'

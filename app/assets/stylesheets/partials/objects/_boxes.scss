@@ -4,6 +4,7 @@
 .white-box, .blue-box {
     @include border-radius($brand-round);
 }
+.blue-box .textarea-counter { color: white!important; }
 .white-box {
     background: white;
     border    : 1px solid #DDD;

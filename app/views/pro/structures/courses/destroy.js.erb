@@ -1,9 +1,9 @@
 $('#course-<%= @course.id %>').slideUp();
 setTimeout(function() {
     $('#course-<%= @course.id %>').remove();
-    if ($("#<%= @course.underscore_name %>-list > div").length == 0) {
-        $("[data-empty=<%= @course.underscore_name %>]").slideDown();
-    }
+    <% if @structure.courses.empty? %>
+        $("[data-empty=courses]").slideDown();
+    <% end %>
 }, 500);
 COURSAVENUE.helperMethods.flash("Cours supprimé", 'success');
 $.fancybox.close();

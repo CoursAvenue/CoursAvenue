@@ -4,7 +4,7 @@
         $("#course-<%= @course.id %>").replaceWith('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
         $('#course-<%= @course.id %>').yellowFade({ delay: 400 });
     <% else %>
-        $('#course-planning-list-<%= @course.id %> tbody').append('<%= escape_javascript(render partial: "pro/structures/courses/plannings/#{@course.underscore_name}_row", locals: { planning: @planning, course: @course }) %>');
+        $('#course-planning-list-<%= @course.id %>').append('<%= escape_javascript(render partial: "pro/structures/courses/plannings/#{@course.underscore_name}_row", locals: { planning: @planning, course: @course }) %>');
     <% end %>
 
     <%- # When saving a course, user can choose wether or not to add a planning after saving. %>
