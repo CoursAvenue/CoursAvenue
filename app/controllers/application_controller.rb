@@ -2,6 +2,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   caches_page :robots
+  skip_after_filter :intercom_rails_auto_include
 
   layout 'users'
 

@@ -6,7 +6,11 @@
 
     = render 'shared/meta_information'
 
+    - if on_pro_subdomain?
+      = intercom_script_tag
     - if Rails.env.production?
+      -# Must be above Google analytics code
+      = render 'layouts/kissmetrics'
       - if request.subdomain == 'pro'
         = render 'layouts/pro_g_analytics'
       - else

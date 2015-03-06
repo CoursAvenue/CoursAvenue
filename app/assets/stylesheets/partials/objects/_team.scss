@@ -21,43 +21,54 @@
     height: 400px;
     width : 158px;
     @include background-size((158px * 2 ) 400px);
-    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/nicolas.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/nicolas@2x.png');
+    @include background-image-retina('pages/equipe/nicolas.png', 'pages/equipe/nicolas@2x.png');
     &:hover { background-position: -157px 0px; }
 }
 .team__nima {
-    height: 400px;
-    width : 270px;
+    height     : 400px;
+    width      : 270px;
+    margin-left: -35px;
     @include background-size((270px * 2 ) 400px);
-    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/nima.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/nima@2x.png');
-    &:hover {
-        background-position: -272px 0px;
-    }
+    @include background-image-retina('pages/equipe/nima.png', 'pages/equipe/nima@2x.png');
+    &:hover { background-position: -273px 0px; }
 }
-.team__thanh  {
-    height: 400px;
-    width : 170px;
-    @include background-size((170px * 2 ) 400px);
-    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/thanh.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/thanh@2x.png');
-    &:hover { background-position: -174px 0px; }
+.team__anne {
+    height     : 420px;
+    width      : 180px;
+    margin-left: -15px;
+    @include background-size((180px * 2 ) 420px);
+    @include background-image-retina('pages/equipe/anne.png', 'pages/equipe/anne@2x.png');
+    &:hover { background-position: -195px 0px; }
 }
-.team__boris {
-    height: 400px;
-    width : 156px;
-    @include background-size((156px * 2 ) 400px);
-    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/boris.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/boris@2x.png');
-    &:hover { background-position: -160px 0px; }
+.team__benjamin {
+    height     : 400px;
+    width      : 175px;
+    margin-left: -40px;
+    @include background-size((175px * 2 ) 400px);
+    @include background-image-retina('pages/equipe/benjamin.png', 'pages/equipe/benjamin@2x.png');
+    &:hover { background-position: -195px 0px; }
 }
-.team__nabil {
-    height: 400px;
-    width : 160px;
+.team__olivier {
+    height     : 400px;
+    width      : 160px;
+    margin-left: -70px;
     @include background-size((160px * 2 ) 400px);
-    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/nabil.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/nabil@2x.png');
-    &:hover { background-position: -171px 0px; }
+    @include background-image-retina('pages/equipe/olivier.png', 'pages/equipe/olivier@2x.png');
+    &:hover { background-position: -173px 0px; }
 }
-.team__offre {
-    height: 400px;
-    width : 110px;
-    @include background-size((110px * 2 ) 400px);
-    @include background-image-retina('https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/offre.png', 'https://coursavenue-public.s3.amazonaws.com/public_assets/pages/equipe/offre@2x.png');
-    &:hover { background-position: -112px 0px; }
+.team__camille {
+    height     : 450px;
+    width      : 145px;
+    margin-left: -40px;
+    @include background-size((145px * 2 ) 450px);
+    @include background-image-retina('pages/equipe/camille.png', 'pages/equipe/camille@2x.png');
+    &:hover { background-position: -168px 0px; }
+}
+.team__aliou {
+    height     : 400px;
+    width      : 200px;
+    margin-left: -40px;
+    @include background-size((200px * 2 ) 400px);
+    @include background-image-retina('pages/equipe/aliou.png', 'pages/equipe/aliou@2x.png');
+    &:hover { background-position: -222px 0px; }
 }

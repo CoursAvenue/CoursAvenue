@@ -17,6 +17,8 @@ gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 gem 'rack-ssl-enforcer',    '~> 0.2.7'
 gem 'lograge'
 
+gem 'intercom-rails'
+
 # Webserver
 # gem 'unicorn'
 # gem 'puma'
