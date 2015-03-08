@@ -370,9 +370,12 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   constraints subdomain: (Rails.env.staging? ? 'staging' : 'www') do
     resources :press_releases, path: 'communiques-de-presse', only: [:show]
+
     resources :blog_articles, controller: 'blog/articles', path: 'blog' do
       collection do
-        get 'tag/:tag', to: 'blog/articles#tags', as: :tags
+        get 'tag/:tag'        , to: 'blog/articles#tags', as: :tags
+        get ':category_id'    , to: 'blog/articles#category_index', as: :category
+        get ':category_id/:id', to: 'blog/articles#category_show'
       end
     end
 

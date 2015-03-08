@@ -42,13 +42,11 @@
   .gamma.soft-half--bottom.push-half--bottom.f-weight-bold Catégories
   %hr
 %ul.no-bullet-list.push--bottom
-  - Blog::Article.tag_counts_on(:tags).each do |tag|
-    - tag_count = Blog::Article.published.tagged_with(tag.name).count
-    - cache [tag, tag_count] do
-      %li.epsilon.line-height-1-7
-        = link_to tags_blog_articles_path(tag: tag.name) do
-          = tag.name
-          = "(#{tag_count})"
+  - Blog::Category.find_each do |category|
+    %li.epsilon.line-height-1-7
+      = link_to category_blog_articles_path(category_id: category.slug) do
+        = category.name
+        = "(#{category.articles.count})"
 
 - cache 'blog/side_bottom_content/V1' do
   .gamma.soft-half--bottom.push-half--bottom.f-weight-bold Suivez-nous sur les réseaux sociaux

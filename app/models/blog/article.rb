@@ -7,9 +7,10 @@ class Blog::Article < ActiveRecord::Base
   acts_as_taggable_on :tags
 
   attr_accessible :title, :description, :content, :published, :subject_ids, :cover_image, :published_at,
-                  :tag_list
+                  :tag_list, :category_id
 
   has_and_belongs_to_many :subjects
+  belongs_to :category, class_name: 'Blog::Category', foreign_key: :category_id
 
   has_attached_file :cover_image,
                     styles: { default: '750x', small: '250x200#', very_small: '150x120#' },

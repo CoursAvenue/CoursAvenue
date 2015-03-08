@@ -11,7 +11,7 @@
           %th.one-half Nom
           %th Description
           %th.three-twelfths Date de publication
-          %th Tags
+          %th Catégorie
           %th Publié
           %th
       %tbody
@@ -25,7 +25,8 @@
             %td
               = l(article.published_at, format: :date_with_year) if article.published_at
             %td
-              = article.tags.map(&:name).join(', ')
+              - if article.category
+                = article.category.name
             %td.text--center
               - if article.published?
                 %i.fa.fa-check.green

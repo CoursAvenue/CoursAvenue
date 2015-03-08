@@ -13,8 +13,22 @@ class Blog::ArticlesController < ApplicationController
 
   def show
     @article = Blog::Article.find params[:id]
-    unless current_pro_admin and current_pro_admin.super_admin?
-      redirect_to blog_articles_path if ! @article.published?
+    if !current_pro_admin and !current_pro_admin.super_admin? and !@article.published?
+      redirect_to blog_articles_path
     end
+  end
+
+  def category_show
+    @category = Blog::Category.find params[:category_id]
+    @article  = Blog::Article.find params[:id]
+    if !current_pro_admin and !current_pro_admin.super_admin? and !@article.published?
+      redirect_to blog_articles_path
+    end
+    render action: :show
+  end
+
+  def category_index
+    @category = Blog::Category.find params[:category_id]
+    @articles = @category.articles.page(params[:page] || 1).per(5)
   end
 end

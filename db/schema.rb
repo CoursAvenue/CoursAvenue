@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220095414) do
+ActiveRecord::Schema.define(version: 20150308213542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20150220095414) do
     t.string   "cover_image_content_type"
     t.integer  "cover_image_file_size"
     t.datetime "cover_image_updated_at"
+    t.integer  "category_id"
   end
 
   create_table "blog_articles_subjects", force: true do |t|
@@ -85,6 +86,13 @@ ActiveRecord::Schema.define(version: 20150220095414) do
   end
 
   add_index "blog_articles_subjects", ["article_id", "subject_id"], name: "index_blog_articles_subjects_on_article_id_and_subject_id", using: :btree
+
+  create_table "blog_categories", force: true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "call_reminders", force: true do |t|
     t.string   "name"
@@ -550,6 +558,15 @@ ActiveRecord::Schema.define(version: 20150220095414) do
     t.integer  "user_id"
   end
 
+  create_table "participation_request_participants", force: true do |t|
+    t.integer  "number"
+    t.datetime "deleted_at"
+    t.integer  "participation_request_id"
+    t.integer  "price_id"
+  end
+
+  add_index "participation_request_participants", ["participation_request_id", "price_id"], name: "participation_requests_participants_index", using: :btree
+
   create_table "participation_requests", force: true do |t|
     t.integer  "mailboxer_conversation_id"
     t.integer  "planning_id"
@@ -570,6 +587,9 @@ ActiveRecord::Schema.define(version: 20150220095414) do
     t.integer  "old_course_id"
     t.boolean  "structure_responded",       default: false
     t.datetime "deleted_at"
+    t.string   "street"
+    t.string   "zip_code"
+    t.integer  "city_id"
   end
 
   create_table "participations", force: true do |t|
