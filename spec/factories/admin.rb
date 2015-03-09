@@ -22,5 +22,9 @@ FactoryGirl.define do
       oauth_expires_at { 10.years.from_now }
       provider 'facebook'
     end
+
+    trait :super_admin do
+      super_admin true
+    end
   end
 end

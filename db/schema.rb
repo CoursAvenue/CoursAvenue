@@ -548,6 +548,7 @@ ActiveRecord::Schema.define(version: 20150220095414) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
+    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_requests", force: true do |t|
@@ -633,6 +634,7 @@ ActiveRecord::Schema.define(version: 20150220095414) do
     t.string   "callable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "principal_mobile", default: false
   end
 
   add_index "phone_numbers", ["callable_id", "callable_type"], name: "index_phone_numbers_on_callable_id_and_callable_type", using: :btree
@@ -692,6 +694,9 @@ ActiveRecord::Schema.define(version: 20150220095414) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
     t.datetime "deleted_at"
   end
 

@@ -4,7 +4,11 @@ class Pro::SubscriptionPlansController < Pro::ProController
   before_action :set_subscription_plan, only: [:stat_info, :update]
 
   def index
-    @orders = Order::Premium.all
+    @orders         = Order::Premium.all
+    @dropbox_orders = Order.where(on_dropbox: false).map do |order|
+      { url: order.S3_invoice_path, filename: "#{order.public_order_id}.pdf", id: order.id }
+    end
+
 
     # @orders_per_month  = Order::Premium.order("DATE_TRUNC('month', created_at) ASC").group("DATE_TRUNC('month', created_at)").count
     @orders_per_month = {}
@@ -72,6 +76,12 @@ class Pro::SubscriptionPlansController < Pro::ProController
   def download
     SubscriptionPlanExport.create
     redirect_to premium_tracking_pro_subscription_plans_path, notice: 'Le fichier est en cours de création.'
+  end
+
+  # Set the orders as uploaded on dropbox.
+  def update_dropbox_orders
+    Order.where(on_dropbox: false).update_all(:on_dropbox, true)
+    head :ok
   end
 
   private
