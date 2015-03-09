@@ -46,6 +46,27 @@ class Newsletter < ActiveRecord::Base
     Newsletter::Layout.where(id: self.layout_id).first
   end
 
+  def mailing_list
+    "Inscrits a la newsletter"
+  end
+
+  def sent?
+    state == 'sent'
+  end
+
+  def draft?
+    state == 'draft'
+  end
+
+  # TODO: Move this into a View helper.
+  def string_status
+    if sent?
+      "envoyée le #{I18n.l(sent_at, format: :long_human)}"
+    else
+      "brouillon enregistré le #{I18n.l(updated_at, format: :long_human)}"
+    end
+  end
+
   private
 
   # Sets the default values for the sender name, the reply_to address and the

@@ -58,12 +58,16 @@ class Pro::Structures::NewslettersController < ApplicationController
     end
   end
 
-  # TODO:
+  # TODO: (Use a service?)
   # 1. Check all of the required informations are given.
   # 2. Generate the newsletter content.
   # 3. Send the newsletter to the associated mailing list.
   def send_newsletter
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
+  end
+
+  def duplicate
+    redirect_to @newsletter
   end
 
   private
