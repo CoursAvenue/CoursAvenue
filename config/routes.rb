@@ -373,9 +373,9 @@ CoursAvenue::Application.routes.draw do
 
     resources :blog_articles, controller: 'blog/articles', path: 'blog' do
       collection do
-        get 'tag/:tag'        , to: 'blog/articles#tags', as: :tags
-        get ':category_id'    , to: 'blog/articles#category_index', as: :category
-        get ':category_id/:id', to: 'blog/articles#category_show'
+        get 'tag/:tag'                , to: 'blog/articles#tags', as: :tags
+        get 'categories/:category_id' , to: 'blog/articles#category_index', as: :category
+        get ':category_id/:id'        , to: 'blog/articles#category_show'
       end
     end
 
