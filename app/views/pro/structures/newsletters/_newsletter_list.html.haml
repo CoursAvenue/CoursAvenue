@@ -4,11 +4,15 @@
 .soft--sides
   - @newsletters.each do |newsletter|
     .grid.push--bottom.palm-flush
-      .grid__item.soft-half--sides.palm-hard.two-thirds.palm-one-whole>
+      .grid__item.soft-half--sides.palm-hard.two-thirds.palm-one-whole.push--bottom>
         = link_to pro_structure_newsletter_path(@structure, newsletter) do
           %h4.blue= newsletter.title
-        %p= "Liste de diffusion : #{newsletter.mailing_list}"
-        %p= "Status : #{newsletter.string_status}"
+        Liste de diffusion :
+        %strong #{newsletter.mailing_list}
+        %br
+        Status :
+        %strong #{newsletter.string_status}
+
       .grid__item.soft-half--sides.palm-hard.one-third.palm-one-whole
         = link_to pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger btn--green' do
           %i.fa.fa-eye
