@@ -594,9 +594,9 @@ CoursAvenue::Application.routes.draw do
     ########### Search pages ###########
     # Must be at the end not to stop other routes
     # Redirect cities that have been deleted and have slug like 'tours--57'
-    get ':root_subject_id/:subject_id--:city_id--:old_slug', to: 'redirect#structures_index'
-    get ':root_subject_id--:city_id--:old_slug'            , to: 'structures#index'
-    get ':city_id--:old_slug'                              , to: 'structures#index'
+    get ':root_subject_id/:subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
+    get ':root_subject_id--:city_id--:old_city_slug'            , to: 'structures#index'
+    get ':city_id--:old_city_slug'                              , to: 'structures#index'
     # end-redirect
     get ':root_subject_id/:subject_id--:city_id'           , to: 'structures#index', as: :search_page
     get ':root_subject_id--:city_id'                       , to: 'structures#index', as: :root_search_page
@@ -611,9 +611,9 @@ CoursAvenue::Application.routes.draw do
   ########### Search pages ###########
   # Redirect if it's not on WWW subdomain
   # Redirect cities that have been deleted and have slug like 'tours--57'
-  get ':root_subject_id/:subject_id--:city_id--:old_slug', to: 'redirect#structures_index'
-  get ':root_subject_id--:city_id--:old_slug'            , to: 'structures#index'
-  get ':city_id--:old_slug'                              , to: 'structures#index'
+  get ':root_subject_id/:subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
+  get ':root_subject_id--:city_id--:old_city_slug'            , to: 'structures#index'
+  get ':city_id--:old_city_slug'                              , to: 'structures#index'
   get ':root_subject_id/:subject_id--:city_id'           , to: 'redirect#structures_index'
   get ':root_subject_id--:city_id'                       , to: 'redirect#structures_index'
   get ':city_id'                                         , to: 'redirect#structures_index'
