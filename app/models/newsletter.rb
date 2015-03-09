@@ -20,7 +20,6 @@ class Newsletter < ActiveRecord::Base
   has_many :blocs,       class_name: 'Newsletter::Bloc'
   has_one :mailing_list, class_name: 'Newsletter::MailingList'
 
-
   accepts_nested_attributes_for :blocs
                                 # reject_if: :reject_bloc,
                                 # allow_destroy: true
@@ -62,6 +61,15 @@ class Newsletter < ActiveRecord::Base
       "envoyée le #{I18n.l(sent_at, format: :long_human)}"
     else
       "brouillon enregistré le #{I18n.l(updated_at, format: :long_human)}"
+    end
+  end
+
+  # TODO: Move this into a View helper.
+  def string_mailing_list
+    if mailing_list?
+      mailing_list.name
+    else
+      "Pas encore choisie"
     end
   end
 
