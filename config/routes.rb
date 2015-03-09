@@ -256,6 +256,7 @@ CoursAvenue::Application.routes.draw do
           member do
             get :send_newsletter
             get :duplicate
+            get :preview_newsletter
           end
         end
         resources :comment_notifications, controller: 'structures/comment_notifications'

@@ -66,22 +66,43 @@ class Pro::Structures::NewslettersController < ApplicationController
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
   end
 
+  # Duplicate the newsletter and all associated models.
   def duplicate
-    redirect_to @newsletter
+    duplicated_newsletter = @newsletter.duplicate!
+
+    redirect_to duplicated_newsletter
+  end
+
+  # Generate the newsletter as a String
+  #
+  # @return a String.
+  def preview_newsletter
+    @newsletter = @structure.newsletter.includes(:blocs).find params[:id]
+
+    newsletter = NewsletterMailer.preview(@newsletter)
+    mail_inliner = Roadie::Rails::MailInliner.new(newsletter, Rails.application.config.roadie)
+    mail = mail.mail_inliner.execute
+
+    @body = mail.html_part.decoded
   end
 
   private
 
+  # Set the current structure.
   def set_structure
     @structure = Structure.find(params[:structure_id])
   end
 
+  # Set the layouts as usable JSON.
   def set_layouts
     @layouts = Newsletter::Layout.all.as_json.map do |layout|
       layout["attributes"]
     end
   end
 
+  # Use the strong parameters.
+  #
+  # @return the permitted parameters as a Hash.
   def required_params
     params.require(:newsletter).permit(:title, :layout_id, :blocs_attributes)
   end
