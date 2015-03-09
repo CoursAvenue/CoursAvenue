@@ -195,10 +195,7 @@ class StructuresController < ApplicationController
   # We have cases where we need 301 redirections
   # This is due to old wrong links
   def proceed_to_redirection_if_needed
-    if params[:subject_id] and params[:subject_id].include?('--')
-      @subject = Subject.friendly.find(params[:subject_id].gsub(/--.*/, ''))
-      redirect_to structures_path_for_city_and_subject(@city, @subject), status: 301
-    elsif params[:city_id] and params[:city_id].is_number?
+    if params[:city_id] and params[:city_id].is_number?
       redirect_to structures_path_for_city_and_subject(@city, (params[:subject_id] || params[:root_subject_id])), status: 301
     elsif params[:page] and params[:page].is_negative_or_zero_number?
       redirect_to structures_path_for_city_and_subject(@city, (params[:subject_id] || params[:root_subject_id])), status: 301
