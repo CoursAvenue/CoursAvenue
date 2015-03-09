@@ -6,7 +6,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initialize: function initialize () {
-            this.initial = true;
+            // We need this to make sure we don't render some of the blocs filepickers twice.
+            this.initialRender = true;
         },
 
         // The templateHelpers function allows us to create helper methods that
@@ -36,9 +37,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             };
         },
 
+        // TODO: Save newsletter title before update.
         // TODO: Ask for confirmation ("Changing layout will lose your current
         // blocs. Are you sure you want to continue ?").
-        // TODO: Save newsletter title.
         updateLayout: function updateLayout (data) {
             var model = data.model;
 
@@ -59,7 +60,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var pickers = this.$el.find('[name$=\\[remote_image_url\\]]');
 
             CKEDITOR.replaceAll();
-            if (!this.initial) {
+            if (!this.initialRender) {
                 pickers.each(function(index, elem) {
                     filepicker.constructWidget(elem);
                 });
