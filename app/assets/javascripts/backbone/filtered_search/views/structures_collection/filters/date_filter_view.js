@@ -151,7 +151,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         onRender: function onRender () {
-            COURSAVENUE.helperMethods.datepicker_initializer();
+            COURSAVENUE.datepicker_initializer();
             this.$('[data-behavior=datepicker]').datepicker().on('show', function(e){
                 this.lock_dropdown_hide = true;
                 // Hide dropdown and datepicker mouse user leave datepicker
