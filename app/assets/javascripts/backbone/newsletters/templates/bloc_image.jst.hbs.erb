@@ -1,6 +1,7 @@
 <label for="newsletter[blocs_attributes][{{ index }}][remote_image_url]" class='label--large blue'>Bloc image {{ position }}</label>
 <p class="flush">Donnez plus de visuel à votre newsletter en ajoutant des images</p>
-<input type='filepicker' class='input--large one-whole' id='{{ index }}_remote_image_url' name='newsletter[blocs_attributes][{{ index }}][remote_image_url]' data-fp-apikey="<%= ENV['FILEPICKER_API_KEY'] %>" data-fp-mimetypes="image/*" data-fp-container="window" />
+
+<input type='filepicker' class='btn btn--large btn--green' id='{{ index }}_remote_image_url' name='newsletter[blocs_attributes][{{ index }}][remote_image_url]' data-fp-apikey="<%= ENV['FILEPICKER_API_KEY'] %>" data-fp-mimetypes="image/*" data-fp-container="window" data-fp-button-text="Ajouter une image"/>
 
 <input type='hidden' name='newsletter[blocs_attributes][{{ index }}][position]' value='{{ position }}'>
 <input type='hidden' name='newsletter[blocs_attributes][{{ index }}][type]' value='Newsletter::Bloc::Image'>
