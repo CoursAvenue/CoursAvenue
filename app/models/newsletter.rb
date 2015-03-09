@@ -46,10 +46,12 @@ class Newsletter < ActiveRecord::Base
     Newsletter::Layout.where(id: self.layout_id).first
   end
 
+  # TODO: Remove this when the mailing_list model is created.
   def mailing_list
     "Inscrits a la newsletter"
   end
 
+  # TODO: Move these two methods in a concern ?
   def sent?
     state == 'sent'
   end

@@ -27,4 +27,39 @@ RSpec.describe Newsletter, type: :model do
     end
   end
 
+  describe '#layout' do
+    it 'returns the layout used by the newsletter' do
+      expect(subject.layout).to eq(Newsletter::Layout.find(subject.layout_id))
+    end
+  end
+
+  describe '#sent?' do
+    context 'the newsletter was not sent' do
+      it 'returns false' do
+        expect(subject.sent?).to be_falsy
+      end
+    end
+
+    context 'the newsletter was sent' do
+      subject { FactoryGirl.create(:newsletter, :sent) }
+      it 'returns true' do
+        expect(subject.sent?).to be_truthy
+      end
+    end
+  end
+
+  describe 'draft?' do
+    context 'the newsletter was not sent' do
+      it 'returns false' do
+        expect(subject.draft?).to be_truthy
+      end
+    end
+
+    context 'the newsletter was sent' do
+      subject { FactoryGirl.create(:newsletter, :sent) }
+      it 'returns true' do
+        expect(subject.draft?).to be_falsy
+      end
+    end
+  end
 end
