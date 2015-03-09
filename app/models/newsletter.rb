@@ -17,8 +17,8 @@ class Newsletter < ActiveRecord::Base
     :blocs, :blocs_attributes
 
   belongs_to :structure
-  has_many :blocs,         class_name: 'Newsletter::Bloc'
-  has_many :mailing_lists, class_name: 'Newsletter::MailingList'
+  has_many :blocs,       class_name: 'Newsletter::Bloc'
+  has_one :mailing_list, class_name: 'Newsletter::MailingList'
 
 
   accepts_nested_attributes_for :blocs
@@ -45,11 +45,6 @@ class Newsletter < ActiveRecord::Base
   # @return Newsletter::Layout or nil.
   def layout
     Newsletter::Layout.where(id: self.layout_id).first
-  end
-
-  # TODO: Remove this when the mailing_list model is created.
-  def mailing_list
-    "Inscrits a la newsletter"
   end
 
   # TODO: Move these two methods in a concern ?
