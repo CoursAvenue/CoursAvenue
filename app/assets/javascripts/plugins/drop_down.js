@@ -35,7 +35,7 @@
 
     Plugin.prototype = {
 
-        init: function() {
+        init: function init () {
             // Access to this.element
             this.trigger        = this.$element;
             this.drop_down      = this.$element.find(this.$element.data('el'));
@@ -45,7 +45,7 @@
             this.attachEvents();
         },
 
-        setPositionning: function() {
+        setPositionning: function setPositionning () {
             if (this.position) {
                 switch(this.position) {
                     case 'right':
