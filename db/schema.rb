@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309162723) do
+ActiveRecord::Schema.define(version: 20150309163828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -563,6 +563,7 @@ ActiveRecord::Schema.define(version: 20150309162723) do
     t.integer  "user_profile_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "subscribed",                 default: true
   end
 
   add_index "newsletter_subscriptions", ["newsletter_mailing_list_id", "user_profile_id"], name: "subscription_index", using: :btree
