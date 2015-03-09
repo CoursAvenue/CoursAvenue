@@ -14,7 +14,7 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
         setLayout: function setLayout (layouts) {
             var layouts = new Module.LayoutsCollection(window.coursavenue.bootstrap.models.layouts);
             if (!this.get('layout_id')) {
-                this.set('layout_id', 1);
+                this.set('layout_id', 0);
             }
 
             var layout = layouts.get(this.get('layout_id'))
