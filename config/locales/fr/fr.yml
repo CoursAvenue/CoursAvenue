@@ -99,6 +99,7 @@ fr:
       default: "%d %B %Y %H:%M:%S"
       short: "%Hh%M"
       long: "%A %d %B %Y %H:%M"
+      long_human: "%d/%m/%Y à %H:%M"
       date: "%A %d %B"
       date_with_year: "%A %d %B %Y"
       date_short: "%d/%m/%Y"
