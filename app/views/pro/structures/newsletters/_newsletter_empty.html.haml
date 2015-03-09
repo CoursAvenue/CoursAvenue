@@ -2,4 +2,9 @@
   .panel__body.soft
     .soft.text--center
       %h3 Vous n'avez pas encore envoyé de newsletter.
-      = link_to 'Envoyer une newsletter', new_pro_structure_newsletter_path(@structure), class: 'btn btn--green btn--large'
+      = link_to new_pro_structure_newsletter_path(@structure), class: 'btn btn--green btn--large' do
+        %i.fa.fa-plus
+        Envoyer une newsletter
+
+      %br
+      = link_to 'En savoir plus', '#'

@@ -8,10 +8,10 @@
         = link_to pro_structure_newsletter_path(@structure, newsletter) do
           %h4.blue= newsletter.title
         Liste de diffusion :
-        %strong #{newsletter.mailing_list}
+        %strong= newsletter.mailing_list
         %br
         Status :
-        %strong #{newsletter.string_status}
+        %strong= newsletter.string_status
 
       .grid__item.soft-half--sides.palm-hard.one-third.palm-one-whole
         = link_to pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger btn--green' do

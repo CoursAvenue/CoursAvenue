@@ -54,14 +54,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // - Replacing a `textarea` by a CKeditor,
         // - Replacing a `remote_image_url` input by a filepicker button.
         onRender: function onRender () {
-            var textAreas = this.$el.find('[name$=\\[content\\]]')
             var imageUrl = this.$el.find('[name$=\\[remote_image_url\\]]');
-
-            textAreas.each(function(index, elem) {
-                // CKEDITOR.replace(elem.id, {
-                //     customConfig: "<%= asset_path('ckeditor/config.js') %>"
-                // });
-            });
+            CKEDITOR.replaceAll();
         },
 
     });
