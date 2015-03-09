@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     session['user_return_to'] || request.referrer || root_path
   end
 
-  unless Rails.configuration.consider_all_requests_local
+  # unless Rails.configuration.consider_all_requests_local
     rescue_from Exception,                            with: :render_error
     rescue_from Timeout::Error,                       with: :render_timeout
     rescue_from CanCan::AccessDenied,                 with: :not_allowed
@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     rescue_from ActionController::RoutingError,       with: :render_not_found
     rescue_from ActionController::UnknownController,  with: :render_not_found
     rescue_from AbstractController::ActionNotFound,   with: :render_not_found
-  end
+  # end
 
   def current_ability
     if current_pro_admin
@@ -55,8 +55,12 @@ class ApplicationController < ActionController::Base
   # Redirect users if there is a not found resource
   # @param  exception
   def render_not_found(exception)
-    Bugsnag.notify(exception)
-    redirect_to root_path, status: 410, notice: "Cette page n'existe plus."
+    if params[:id] and (s = Structure.only_deleted.find(params[:id]))
+      redirect_to structures_path_for_city_and_subject(s.city, s.dominant_root_subject), status: 301, notice: "Cette page n'existe plus."
+    else
+      Bugsnag.notify(exception)
+      redirect_to root_path, status: 301, notice: "Cette page n'existe plus."
+    end
   end
 
   # Render the bubble error if there is an error
