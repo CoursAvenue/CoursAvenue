@@ -6,6 +6,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initialize: function initialize () {
+            this.initial = true;
         },
 
         // The templateHelpers function allows us to create helper methods that
@@ -57,10 +58,15 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var pickers = this.$el.find('[name$=\\[remote_image_url\\]]');
 
             CKEDITOR.replaceAll();
-            pickers.each(function(index, elem) {
-                filepicker.constructWidget(elem);
-            });
+            if (!this.initial) {
+                pickers.each(function(index, elem) {
+                    filepicker.constructWidget(elem);
+                });
+            }
 
+            if (this.initial) {
+                this.initial = false;
+            }
         },
 
     });
