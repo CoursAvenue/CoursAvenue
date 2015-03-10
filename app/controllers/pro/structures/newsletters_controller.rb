@@ -78,7 +78,7 @@ class Pro::Structures::NewslettersController < ApplicationController
   #
   # @return a String.
   def preview_newsletter
-    @newsletter = @structure.newsletter.includes(:blocs).find params[:id]
+    @newsletter = @structure.newsletter.find params[:id]
 
     newsletter = NewsletterMailer.preview(@newsletter)
     mail_inliner = Roadie::Rails::MailInliner.new(newsletter, Rails.application.config.roadie)
