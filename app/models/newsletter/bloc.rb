@@ -4,7 +4,7 @@ class Newsletter::Bloc < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  BLOC_TYPES = %w(text image)
+  BLOC_TYPES = ['Newsletter::Bloc::Text', 'Newsletter::Bloc::Image']
 
   ######################################################################
   # Macros                                                             #
@@ -22,6 +22,23 @@ class Newsletter::Bloc < ActiveRecord::Base
   ######################################################################
   # Methods                                                            #
   ######################################################################
+
+  # Duplicate this Newsletter Bloc model.
+  #
+  # TODO: Duplicate the image if image.
+  # @param bloc_owner: The owner of the new bloc. By default the current newsletter owner.
+  #
+  # @return The duplicated bloc.
+  def duplicate!(bloc_owner = self.newsletter)
+    duplicated_bloc = bloc_owner.blocs.create({
+      position: self.position,
+      type: self.type,
+      # image: self.image,
+      content: self.content
+    })
+
+    duplicated_bloc
+  end
 
   private
 

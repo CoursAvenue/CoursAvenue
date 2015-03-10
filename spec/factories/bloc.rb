@@ -5,11 +5,11 @@ FactoryGirl.define do
     type { Newsletter::Bloc::BLOC_TYPES.sample }
 
     factory :text_bloc do
-      type 'text'
+      type 'Newsletter::Bloc::Text'
     end
 
     factory :image_bloc do
-      type 'image'
+      type 'Newsletter::Bloc::Image'
     end
   end
 end

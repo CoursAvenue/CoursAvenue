@@ -62,4 +62,22 @@ RSpec.describe Newsletter, type: :model do
       end
     end
   end
+
+  describe '#duplicate!' do
+    it 'duplicates all of the attributes of the newsletter except the state' do
+      duplicated_newsletter = subject.duplicate!
+
+      expect(duplicated_newsletter.title).to       eq(subject.title)
+      expect(duplicated_newsletter.object).to      eq(subject.object)
+      expect(duplicated_newsletter.sender_name).to eq(subject.sender_name)
+      expect(duplicated_newsletter.reply_to).to    eq(subject.reply_to)
+      expect(duplicated_newsletter.layout_id).to   eq(subject.layout_id)
+    end
+
+    it 'makes the duplicated newsletter a draft' do
+      duplicated_newsletter = subject.duplicate!
+
+      expect(duplicated_newsletter.state).to eq('draft')
+    end
+  end
 end

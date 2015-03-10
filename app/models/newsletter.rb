@@ -73,6 +73,26 @@ class Newsletter < ActiveRecord::Base
     end
   end
 
+  # Duplicate this Newsletter model.
+  #
+  # @return the duplicated newsletter.
+  def duplicate!
+    duplicated_newsletter = structure.newsletters.create({
+      title:       self.title,
+      state:       'draft',
+      object:      self.object,
+      sender_name: self.sender_name,
+      reply_to:    self.reply_to,
+      layout_id:   self.layout_id
+    })
+
+    self.blocs.each do |bloc|
+      bloc.duplicate!(duplicated_newsletter)
+    end
+
+    duplicated_newsletter
+  end
+
   private
 
   # Sets the default values for the sender name, the reply_to address and the
