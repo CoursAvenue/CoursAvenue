@@ -258,6 +258,9 @@ CoursAvenue::Application.routes.draw do
             get :duplicate
             get :preview_newsletter
             get :mailing_list
+            get :metadata
+
+            post :save_and_send
           end
         end
         resources :comment_notifications, controller: 'structures/comment_notifications'

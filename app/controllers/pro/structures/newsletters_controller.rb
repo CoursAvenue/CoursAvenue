@@ -36,6 +36,7 @@ class Pro::Structures::NewslettersController < ApplicationController
 
   def update
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
+
     respond_to do |format|
       if @newsletter.update_attributes params[:newsletter]
         format.html { redirect_to pro_structure_newsletter_path(@structure, @newsletter),
@@ -52,9 +53,11 @@ class Pro::Structures::NewslettersController < ApplicationController
 
     respond_to do |format|
       if @newsletter.destroy
-        format.html { redirect_to pro_structure_newsletters_path(@newsletter), notice: 'Supprimé' }
+        format.html { redirect_to pro_structure_newsletters_path(@structure),
+                      notice: 'La newsletter a été supprimée avec succés' }
       else
-        format.html { redirect_to pro_structure_newsletters_path(@newsletter), notice: 'Error' }
+        format.html { redirect_to pro_structure_newsletters_path(@structure),
+                      error: "Erreur lors de la suppression de la newsletter, veillez rééssayer." }
       end
     end
   end
@@ -88,10 +91,37 @@ class Pro::Structures::NewslettersController < ApplicationController
     @body = mail.html_part.decoded
   end
 
+  # Step 2.
   def mailing_list
-    @newsletter   = @structure.newsletters.find params[:id]
-    @current_tags = @structure.user_profiles.flat_map(&:tags).uniq
-    @has_contacts = @structure.user_profiles.any?
+    @newsletter    = @structure.newsletters.find params[:id]
+    @has_contacts  = @structure.user_profiles.any?
+
+    @mailing_lists = @structure.mailing_lists
+    @mailing_list  = @structure.mailing_lists.new
+
+    @used_tags = @structure.user_profiles.includes(:tags).flat_map(&:tags).uniq.map(&:name)
+  end
+
+  # Step 3.
+  def metadata
+    @newsletter = @structure.newsletters.find params[:id]
+  end
+
+  # Step 3.
+  def save_and_send
+    @newsletter = @structure.newsletters.find param[:id]
+
+    respond_to do |format|
+      if @newsletter.update_attributes required_params
+        @newsletter.delay.send!
+
+        format.html { redirect_to pro_structure_newsletters_path(@structure),
+                      notice: "Votre newsletter est en cours d'envoi" }
+      else
+        format.html { redirect_to metadata_pro_structure_newsletter_path(@structure, @newsletter),
+                      error: "Erreur lors de l'envoi de la newsletter, veillez rééssayer." }
+      end
+    end
   end
 
   private
@@ -112,6 +142,7 @@ class Pro::Structures::NewslettersController < ApplicationController
   #
   # @return the permitted parameters as a Hash.
   def required_params
-    params.require(:newsletter).permit(:title, :layout_id, :blocs_attributes)
+    params.require(:newsletter).permit(:title, :layout_id, :blocs_attributes,
+                                       :sender_name, :reply_to, :object)
   end
 end

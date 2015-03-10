@@ -1,0 +1,11 @@
+= side_menu_currently_at 'newsletters'
+
+%h3 Derniers paramètres avant l'envoi de votre newsletter
+
+= simple_form_for @newsletter, url: save_and_send_pro_structure_newsletter_path(@structure, @newsletter) do |f|
+  = f.input :sender_name, label: "Nom de l'expéditeur"
+  = f.input :reply_to, label: 'E-mail de réponse'
+  = f.input :object, label: "Objet de l'e-mail"
+
+  .text--center.push--down
+    = f.submit 'Enregistrer et Envoyer', class: 'btn btn--green btn--large'

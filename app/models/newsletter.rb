@@ -93,6 +93,11 @@ class Newsletter < ActiveRecord::Base
     duplicated_newsletter
   end
 
+  # TODO: Move this into a Service.
+  def send!
+
+  end
+
   private
 
   # Sets the default values for the sender name, the reply_to address and the

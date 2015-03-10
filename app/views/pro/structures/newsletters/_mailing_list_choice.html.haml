@@ -1,0 +1,18 @@
+.panel
+  .panel__body.soft
+    .soft
+      %input{ type: 'radio', name: 'mailing_list_type', value: 'all', class: 'one-whole' }
+        Envoyer à tous les contacts du répertoire
+      %input{ type: 'radio', name: 'mailing_list_type', value: 'some', class: 'one-whole' }
+        Envoyer uniquement aux contacts dont l'étiquette [][]
+      %input{ type: 'radio', name: 'mailing_list_type', value: 'new', class: 'one-whole' }
+        Importer une nouvelle liste de contacts
+
+      %div.text--center.soft
+        %p Attention : le ficher d'import doit étre un fichier Excel (format .xls, .xlsx ou .csv) et ne doit contenir qu'une colonne contenant toutes vos adresses emails.
+        = link_to new_pro_structure_user_profile_import_path(@structure), class: 'btn btn--blue btn--large' do
+          %i.fa.fa-plus
+          Importer mon fichier de contact
+
+  .text--center
+    = link_to 'Continuer', metadata_pro_structure_newsletter_path(@structure, @newsletter), class: 'btn btn--bigger btn--green'
