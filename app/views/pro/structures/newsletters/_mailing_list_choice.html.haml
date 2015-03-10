@@ -1,14 +1,17 @@
-.panel
+.panel.push--down
   .panel__body.soft
     .soft
-      %input{ type: 'radio', name: 'mailing_list_type', value: 'all', class: 'one-whole' }
-        Envoyer à tous les contacts du répertoire
-      %input{ type: 'radio', name: 'mailing_list_type', value: 'some', class: 'one-whole' }
-        Envoyer uniquement aux contacts dont l'étiquette [][]
-      %input{ type: 'radio', name: 'mailing_list_type', value: 'new', class: 'one-whole' }
-        Importer une nouvelle liste de contacts
+      .one-whole
+        %input{ type: 'radio', name: 'mailing_list_type', value: 'all', class: 'one-whole', data: { hide: { import: true } } }
+          Envoyer à tous les contacts du répertoire
+      .one-whole
+        %input{ type: 'radio', name: 'mailing_list_type', value: 'some', class: 'one-whole', data: { hide: { import: true } } }
+          Envoyer uniquement aux contacts dont l'étiquette [][]
+      .one-whole
+        %input{ type: 'radio', name: 'mailing_list_type', value: 'new', class: 'one-whole', data: { show: { import: true } } }
+          Importer une nouvelle liste de contacts
 
-      %div.text--center.soft
+      %div.text--center.soft.hidden{ data: { import: true } }
         %p Attention : le ficher d'import doit étre un fichier Excel (format .xls, .xlsx ou .csv) et ne doit contenir qu'une colonne contenant toutes vos adresses emails.
         = link_to new_pro_structure_user_profile_import_path(@structure), class: 'btn btn--blue btn--large' do
           %i.fa.fa-plus
@@ -16,3 +19,17 @@
 
   .text--center
     = link_to 'Continuer', metadata_pro_structure_newsletter_path(@structure, @newsletter), class: 'btn btn--bigger btn--green'
+
+= content_for :scripts do
+  :javascript
+    $('input[data-hide-import]').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('[data-import]').slideUp();
+        }
+    });
+
+    $('input[data-show-import]').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('[data-import]').slideDown();
+        }
+    });

@@ -1,6 +1,13 @@
-%h1 Newsletters
+%h1
+  Newsletters
+  = link_to new_pro_structure_newsletter_path(@structure), class: 'btn btn--green' do
+    %i.fa.fa-plus
+    Envoyer une newsletter
 
-%h2 Newsletters précédentes
+%div
+  %h2
+    Newsletters précédentes
+
 .soft--sides
   - @newsletters.each do |newsletter|
     .grid.push--bottom.palm-flush

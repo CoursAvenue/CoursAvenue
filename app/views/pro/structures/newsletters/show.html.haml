@@ -7,10 +7,13 @@
   .panel_body.soft
     .gray-box
       .soft-half--ends.gray.milli.text--center= @newsletter.title
-      %div.text--center.white-box.center-bloc.bordered{ style: 'width: 600px' }
+      %div.text--center.white-box.center-bloc.bordered
         - @blocs.each do |bloc|
           %div
             - if bloc.image?
               = image_tag bloc.image_url, class: 'very-soft', alt: @newsletter.title
             - else
               %p= bloc.content.html_safe
+
+  .text--center
+    = link_to 'Continuer', mailing_list_pro_structure_newsletter_path(@structure, @newsletter), class: 'btn btn--bigger btn--green'
