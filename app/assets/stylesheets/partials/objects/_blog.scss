@@ -3,6 +3,7 @@
     margin    : auto;
 }
 .blog-article__content {
+    img { width: 100%; display: block; }
     p, ul, div {
         color      : #1E1E1E;
         &.white {
@@ -23,6 +24,15 @@
         padding-left: 1em;
     }
 }
+
+    .blog-article__image-with-legend {
+        .blog-article__legend { opacity: 0; }
+        &:hover {
+          .blog-article__legend { opacity: 1; }
+        }
+    }
+    .blog-article__legend {
+    }
 
 .blog-feed {
     margin-left: 0;
