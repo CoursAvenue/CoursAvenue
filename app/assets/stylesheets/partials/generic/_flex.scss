@@ -1,0 +1,28 @@
+/*------------------------------------*\
+    FLEXBOX
+\*------------------------------------*/
+
+// todo: flex-self... etc
+
+.flex { display: flex; }
+
+.flex-row { flex-direction: row; }
+.flex-col { flex-direction: column; }
+
+.flex-wrap { flex-wrap: wrap; }
+
+@for $i from 1 through 10 {
+  .flex-#{$i} { flex: $i; }
+}
+
+.flex-just-start  { justify-content: flex-start; }
+.flex-just-center { justify-content: center; }
+.flex-just-around { justify-content: space-around; }
+.flex-just-end    { justify-content: flex-end; }
+
+.flex-align-start  { align-items: flex-start; }
+.flex-align-center  { align-items: center; }
+.flex-align-end  { align-items: flex-end; }
+.flex-align-stretch  { align-items: stretch; }
+
+.flex-self-end { align-self: flex-end; }

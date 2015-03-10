@@ -15,7 +15,7 @@
 
     - if @structure
       - to_complete_step_nb = 0
-      %li.subtitle ACTIVITÉ
+
       = pro_side_menu_link 'dashboard',
                             dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
@@ -25,7 +25,7 @@
                             pro_structure_statistics_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
                             icon: 'fa fa-bar-chart-o'
-      %li.subtitle DESCRIPTION
+
       - to_complete_step_nb += 1 if @structure.description.blank? or @structure.logo.blank?
       = pro_side_menu_link 'presentation',
                             edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
@@ -53,7 +53,7 @@
                             icon: 'fa fa-youtube-play',
                             completed: @structure.medias.reject(&:new_record?).any?
 
-      %li.subtitle PLANNINGS & TARIFS
+
       - courses_options_link = { current: current_tab, icon: 'fa fa-circle-o' }
       - if @structure.courses.without_open_courses.detect(&:is_published?).nil?
         - courses_options_link[:completed] = false
@@ -89,7 +89,7 @@
                             icon: 'fa fa-eur',
                             completed: @structure.price_groups.any?
 
-      %li.subtitle INTERACTIONS
+
       - to_complete_step_nb += 1 if @structure.comments.empty?
       = pro_side_menu_link 'comments',
                             pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
@@ -125,7 +125,7 @@
                             new_pro_structure_invited_teacher_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
                             current: current_tab,
                             icon: 'fa fa-gift', id: 'recommandation-side-menu'
-      %li.subtitle PARAMÈTRES
+      
       - if @structure.main_contact
         = pro_side_menu_link 'account'        , edit_pro_structure_admin_url(@structure, @structure.main_contact)     , current: current_tab,
         icon: 'fa fa-cogs'

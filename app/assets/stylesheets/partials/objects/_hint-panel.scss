@@ -1,0 +1,10 @@
+.hint-panel {
+  height: 100%;
+  width: 210px;
+  right: -210px;
+  transition: all 0.3s ease;
+}
+
+.hint-panel.show {
+  right: 0px;
+}

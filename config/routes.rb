@@ -52,6 +52,7 @@ CoursAvenue::Application.routes.draw do
       get 'tableau-de-bord'                          , to: 'redirect#structure_dashboard', as: 'structure_dashboard_redirect'
       get 'modifier-mon-profil'                      , to: 'redirect#structure_edit',      as: 'structure_edit_redirect'
       get 'etablissements/:structure_id/journees-portes-ouvertes', to: 'redirect#structures_jpo_index'
+      get 'etablissements/:id/*path', to: 'structures#show'
 
       resources :call_reminders
       resources :portraits, controller: 'portraits' do

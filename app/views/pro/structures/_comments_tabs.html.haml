@@ -6,7 +6,7 @@
   %li{ class: current == 'recommandation' ? 'active' : '' }
     = link_to recommendations_pro_structure_path(@structure) do
       %i.fa.fa-bullhorn
-      Demander des recommandations
+      Livre d'Or
   - if @structure.comment_notifications.any?
     %li{ class: current == 'comment_notification' ? 'active' : '' }
       = link_to pro_structure_comment_notifications_path(@structure) do

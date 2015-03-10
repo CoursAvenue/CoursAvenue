@@ -1,8 +1,7 @@
-= side_menu_currently_at 'presentation'
-= render partial: 'pro/structures/tabs', locals:{ current: 'établissement'}
-
-= link_to edit_pro_structure_path(@structure), class: 'btn btn--orange btn--small push--bottom' do
-  %i.fa.fa-pencil
-  %span.soft-half--left Modifier mes informations
-
-= render 'pro/structures/structure'
+%div{ data: { type: 'pro-root' } }
+  #main-content
+  #top-bar
+  #side-menu
+:javascript
+  window.coursavenue = {};
+  window.coursavenue.bootstrap = { root_url: '#{pro_structure_path(@structure)}' }

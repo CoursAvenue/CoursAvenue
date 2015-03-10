@@ -21,7 +21,34 @@
     height: 100vh;
 }
 
+// max width && min width
 
+.max-w1 { max-width: 400px; }
+.max-w2 { max-width: 500px; }
+.max-w3 { max-width: 600px; }
+.max-w4 { max-width: 800px; }
+
+.min-w1 { min-width: 400px; }
+.min-w2 { min-width: 600px; }
+.min-w3 { min-width: 700px; }
+.min-w4 { min-width: 800px; }
+
+
+/*------------------------------------*\
+    TRANSITION
+\*------------------------------------*/
+
+.tr-1 { transition: all .3s; }
+.tr-2 { transition: all .5s; }
+.tr-3 { transition: all .9s; }
+
+
+/*------------------------------------*\
+    SMOOTH SHOW/HIDE
+\*------------------------------------*/
+
+.hide--smooth {  opacity: 0; visibility: hidden; }
+.show--smooth {  opacity: 1; visibility: visible; }
 /*------------------------------------*\
     RADIUS
 \*------------------------------------*/
@@ -63,7 +90,11 @@
 .border-color-orange    { border-color  : $orange !important; }
 .border-color-green     { border-color  : $green !important; }
 .border-color-dark-blue { border-color  : $dark_blue !important; }
-
+// dashed border
+.dashed--small          { border        : 1px dashed $gray-smooth; }
+.dashed--medium         { border        : 3px dashed $gray-smooth; }
+.dashed--big            { border        : 5px dashed $gray-smooth; }
+.dashed--xl             { border        : 7px dashed $gray-smooth; }
 /*------------------------------------*\
     ALIGNMENTS
 \*------------------------------------*/
