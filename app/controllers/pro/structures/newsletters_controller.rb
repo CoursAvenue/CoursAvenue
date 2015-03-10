@@ -88,9 +88,9 @@ class Pro::Structures::NewslettersController < ApplicationController
   end
 
   def mailing_list
-    @newsletter   = @structure.newsletter.find params[:id]
-    @current_tags = structure.user_profiles.flat_map(&:tags).uniq
-    @has_contatcs = structure.user_profiles.any?
+    @newsletter   = @structure.newsletters.find params[:id]
+    @current_tags = @structure.user_profiles.flat_map(&:tags).uniq
+    @has_contacts = @structure.user_profiles.any?
   end
 
   private
