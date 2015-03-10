@@ -111,6 +111,8 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 query_strings:       this.buildPageQueriesForRange(state.totalPages),
                 is_last_page:        this.collection.isLastPage(),
                 is_first_page:       this.collection.isFirstPage(),
+                next_query:          this.buildPageQueriesForRange(state.totalPages)[state.currentPage + 1],
+                previous_query:      this.buildPageQueriesForRange(state.totalPages)[state.currentPage - 1]
             });
 
             /* announce the summary of the result set */

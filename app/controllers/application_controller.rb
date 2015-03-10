@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     session['user_return_to'] || request.referrer || root_path
   end
 
-  # unless Rails.configuration.consider_all_requests_local
+  unless Rails.configuration.consider_all_requests_local
     rescue_from Exception,                            with: :render_error
     rescue_from Timeout::Error,                       with: :render_timeout
     rescue_from CanCan::AccessDenied,                 with: :not_allowed
@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     rescue_from ActionController::RoutingError,       with: :render_not_found
     rescue_from ActionController::UnknownController,  with: :render_not_found
     rescue_from AbstractController::ActionNotFound,   with: :render_not_found
-  # end
+  end
 
   def current_ability
     if current_pro_admin
