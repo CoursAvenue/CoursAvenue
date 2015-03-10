@@ -109,7 +109,7 @@ class Pro::Structures::NewslettersController < ApplicationController
 
   # Step 3.
   def save_and_send
-    @newsletter = @structure.newsletters.find param[:id]
+    @newsletter = @structure.newsletters.find params[:id]
 
     respond_to do |format|
       if @newsletter.update_attributes required_params
@@ -119,7 +119,7 @@ class Pro::Structures::NewslettersController < ApplicationController
                       notice: "Votre newsletter est en cours d'envoi" }
       else
         format.html { redirect_to metadata_pro_structure_newsletter_path(@structure, @newsletter),
-                      error: "Erreur lors de l'envoi de la newsletter, veillez rééssayer." }
+                      error: "Erreur lors de la mise a jour des informations de la newsletter, veillez rééssayer." }
       end
     end
   end
