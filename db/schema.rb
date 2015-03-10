@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309170007) do
+ActiveRecord::Schema.define(version: 20150310103157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -556,9 +556,11 @@ ActiveRecord::Schema.define(version: 20150309170007) do
     t.datetime "updated_at"
     t.string   "tag"
     t.string   "name"
+    t.integer  "structure_id"
   end
 
   add_index "newsletter_mailing_lists", ["newsletter_id"], name: "index_newsletter_mailing_lists_on_newsletter_id", using: :btree
+  add_index "newsletter_mailing_lists", ["structure_id"], name: "index_newsletter_mailing_lists_on_structure_id", using: :btree
 
   create_table "newsletter_subscriptions", id: false, force: true do |t|
     t.integer  "newsletter_mailing_list_id"

@@ -84,6 +84,7 @@ class Structure < ActiveRecord::Base
   belongs_to :controled_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
 
   has_many :newsletters
+  has_many :mailing_lists, class_name: 'Newsletter::MailingList'
 
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,

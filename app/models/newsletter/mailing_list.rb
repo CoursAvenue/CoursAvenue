@@ -1,5 +1,6 @@
 class Newsletter::MailingList < ActiveRecord::Base
   belongs_to :newsletter
+  has_one :structure
   has_many :subscriptions, class_name: 'Newsletter::Subscription'
 
   validates :name, presence: true
