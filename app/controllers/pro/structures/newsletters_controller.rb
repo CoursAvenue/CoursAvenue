@@ -87,6 +87,12 @@ class Pro::Structures::NewslettersController < ApplicationController
     @body = mail.html_part.decoded
   end
 
+  def mailing_list
+    @newsletter   = @structure.newsletter.find params[:id]
+    @current_tags = structure.user_profiles.flat_map(&:tags).uniq
+    @has_contatcs = structure.user_profiles.any?
+  end
+
   private
 
   # Set the current structure.

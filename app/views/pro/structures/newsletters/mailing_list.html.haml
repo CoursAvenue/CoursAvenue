@@ -1,0 +1,6 @@
+= side_menu_currently_at 'newsletters'
+
+- if @has_contacts?
+  = render 'mailing_list_choice'
+- else
+  = render 'mailing_list_import'
