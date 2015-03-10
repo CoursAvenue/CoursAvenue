@@ -68,9 +68,10 @@ class Pro::Structures::NewslettersController < ApplicationController
 
   # Duplicate the newsletter and all associated models.
   def duplicate
+    @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
     duplicated_newsletter = @newsletter.duplicate!
 
-    redirect_to duplicated_newsletter
+    redirect_to duplicated_newsletter, notice: 'Newsletter dupliqué avec succés.'
   end
 
   # Generate the newsletter as a String
