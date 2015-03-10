@@ -260,7 +260,7 @@ CoursAvenue::Application.routes.draw do
             get :mailing_list
             get :metadata
 
-            post :save_and_send
+            patch :save_and_send
           end
         end
         resources :mailing_lists, only: [:create], controller: 'structures/mailing_list'
