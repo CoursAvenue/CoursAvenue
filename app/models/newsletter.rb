@@ -17,7 +17,7 @@ class Newsletter < ActiveRecord::Base
     :blocs, :blocs_attributes
 
   belongs_to :structure
-  has_many :blocs,       class_name: 'Newsletter::Bloc'
+  has_many :blocs,       class_name: 'Newsletter::Bloc', dependent: :destroy
   has_one :mailing_list, class_name: 'Newsletter::MailingList'
 
   accepts_nested_attributes_for :blocs
