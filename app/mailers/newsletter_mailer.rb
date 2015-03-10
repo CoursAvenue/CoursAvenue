@@ -14,6 +14,10 @@ class NewsletterMailer < ActionMailer::Base
       from: "#{@newsletter.sender_name} <noreply@coursavenue.com>"
   end
 
+  def send_newsletter(newsletter)
+    @newsletter = newsletter
+  end
+
   # Sends the unsubscription confirmation.
   def confirm_unsubscribtion(newsletter_subscription)
     mail to: newsletter_subscription.email,

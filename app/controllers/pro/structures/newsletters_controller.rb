@@ -112,14 +112,12 @@ class Pro::Structures::NewslettersController < ApplicationController
     @newsletter = @structure.newsletters.find params[:id]
 
     respond_to do |format|
-      if @newsletter.update_attributes required_params
-        @newsletter.delay.send!
-
+      if @newsletter.update_attributes(required_params) and NewsletterSender.send_newsletter(@newsletter)
         format.html { redirect_to pro_structure_newsletters_path(@structure),
                       notice: "Votre newsletter est en cours d'envoi" }
       else
         format.html { redirect_to metadata_pro_structure_newsletter_path(@structure, @newsletter),
-                      error: "Erreur lors de la mise a jour des informations de la newsletter, veillez rééssayer." }
+                      error: "Erreur lors de la mise a jour des informations ou l'envoi de la newsletter, veillez rééssayer." }
       end
     end
   end

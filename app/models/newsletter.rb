@@ -93,9 +93,12 @@ class Newsletter < ActiveRecord::Base
     duplicated_newsletter
   end
 
-  # TODO: Move this into a Service.
+  # Set the newsletter as sent.
+  #
+  # @return self
   def send!
-
+    self.sent = true
+    save
   end
 
   private
