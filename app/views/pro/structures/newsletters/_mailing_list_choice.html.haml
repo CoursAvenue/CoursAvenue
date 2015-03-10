@@ -6,7 +6,15 @@
           Envoyer à tous les contacts du répertoire
       .one-whole
         %input{ type: 'radio', name: 'mailing_list_type', value: 'some', class: 'one-whole', data: { hide: { import: true } } }
-          Envoyer uniquement aux contacts dont l'étiquette [][]
+          Envoyer uniquement aux contacts dont l'étiquette
+          %select
+            %option{ value: 'is' } est
+            %option{ value: 'isnot' } n'est pas
+            %option{ value: 'contains' } contient
+            %option{ value: 'containsnot' } ne contient pas
+          %select
+            - @used_tags.each do |tag|
+              %option{ value: tag }= tag
       .one-whole
         %input{ type: 'radio', name: 'mailing_list_type', value: 'new', class: 'one-whole', data: { show: { import: true } } }
           Importer une nouvelle liste de contacts
