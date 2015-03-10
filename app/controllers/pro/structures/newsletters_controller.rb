@@ -14,6 +14,7 @@ class Pro::Structures::NewslettersController < ApplicationController
 
   def show
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
+    @blocs = @newsletter.blocs.order(:position)
   end
 
   def create

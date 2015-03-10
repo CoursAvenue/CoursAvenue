@@ -1,3 +1,16 @@
 = side_menu_currently_at 'newsletters'
 
+.panel
+  .panel__header.soft.text--center
+    %h3.flush Aperçu de la newsletter
 
+  .panel_body.soft
+    .gray-box
+      .soft-half--ends.gray.milli.text--center= @newsletter.title
+      %div.text--center.white-box.center-bloc.bordered{ style: 'width: 600px' }
+        - @blocs.each do |bloc|
+          %div
+            - if bloc.image?
+              = image_tag bloc.image_url, class: 'very-soft', alt: @newsletter.title
+            - else
+              %p= bloc.content.html_safe
