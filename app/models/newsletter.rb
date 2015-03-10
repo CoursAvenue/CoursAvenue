@@ -66,7 +66,7 @@ class Newsletter < ActiveRecord::Base
 
   # TODO: Move this into a View helper.
   def string_mailing_list
-    if mailing_list?
+    if mailing_list.present?
       mailing_list.name
     else
       "Pas encore choisie"
