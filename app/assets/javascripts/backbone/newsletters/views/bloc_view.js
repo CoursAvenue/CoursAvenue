@@ -10,8 +10,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             'change input[type=filepicker]': 'updateImage'
         },
 
-        initialize: function initialize () {
-            this.initialRender = true;
+        initialize: function initialize (options) {
             _.bindAll(this, 'deleteImage', 'updateImage');
         },
 
@@ -39,14 +38,14 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 CKEDITOR.replace(elem);
             });
 
-            if (!this.initialRender) {
+            if (!this.model.collection.initialRender) {
                 pickers.each(function(index, elem) {
                     filepicker.constructWidget(elem);
                 });
             }
 
-            if (this.initialRender) {
-                this.initialRender = false;
+            if (this.model.collection.initialRender) {
+                this.model.collection.initialRender = false;
             }
         },
 
