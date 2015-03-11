@@ -17,7 +17,6 @@ class CrmSync
         data = self.data_for_structure(structure, existing_contact_id)
         self.client.update_lead(existing_lead['id'], data)
       else
-        byebug
         self.client.create_lead(self.data_for_structure(structure))
       end
     end
