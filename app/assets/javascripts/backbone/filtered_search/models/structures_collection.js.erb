@@ -6,7 +6,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
 
         state: {
             firstPage:   1,
-            perPage:     18,
+            perPage:     <%= Structure::NB_STRUCTURE_PER_PAGE %>,
             totalPages:  0,
             grandTotal:  0,
             radius:      2 // determines the behaviour of the ellipsis

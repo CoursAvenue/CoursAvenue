@@ -174,9 +174,13 @@
         padding-left    : 15px;
         font-size       : 35px;
         vertical-align  : middle;
-        margin-right    : 15px;
         padding-right   : 15px;
         margin-top      : -2px;
+    }
+    span {
+        padding     : 15px;
+        padding-left: 20px;
+        border-left : 1px solid darken($facebook-blue, 5%);
     }
 }
 
@@ -191,40 +195,22 @@
     background-color: $facebook-blue;
     @include background-image(linear-gradient(lighten($facebook-blue, 8%), $facebook-blue));
     padding         : 0.5em 0.6em;
-    span {
-        padding    : 15px;
-        border-left: 1px solid darken($facebook-blue, 5%);
-    }
     &:hover {
         background-color: lighten($facebook-blue, 5%);
     }
     &:before {
         font-size       : 45px;
         margin-top      : -15px;
-        padding-right   : 5px;
+        padding-right   : 15px;
         margin-right    : 0;
         content         : 'f';
         position        : relative;
         top             : 0.4em;
     }
 }
-.btn--facebook.btn--small {
-    padding-right: 0.4em 0.7em 0.3em 0.7em;
-    &:before {
-        font-size: 19px;
-    }
-}
-
-.btn--facebook.btn--bigger {
-    padding: 0 0.5em;
-    &:before {
-        font-size: 40px;
-    }
-}
-
 .btn--twitter {
     @extend .btn--social;
-    padding         : 0.4em;
+    padding         : 8px;
     border-color    : darken($twitter-blue, 3%);
     background-color: $twitter-blue;
     &:hover {
@@ -232,9 +218,11 @@
     }
     &:before {
         content         : "\f099";
-        font-size       : 23px;
+        font-size       : 26px;
         font-family     : 'FontAwesome';
-        border-right    : 1px solid darken($twitter-blue, 8%);
+    }
+    span {
+        border-color: darken($twitter-blue, 5%);
     }
 }
 

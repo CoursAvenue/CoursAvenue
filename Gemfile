@@ -18,6 +18,7 @@ gem 'rack-ssl-enforcer',    '~> 0.2.7'
 gem 'lograge'
 
 gem 'intercom-rails'
+gem 'closeio'              , '~>2.0.4'
 
 # Webserver
 # gem 'unicorn'

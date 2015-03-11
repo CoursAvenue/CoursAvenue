@@ -521,3 +521,11 @@
     top: 30vh;
     @include media-query(palm) { top: 20vh; }
 }
+
+
+/*------------------------------------*\
+    TRANSITIONS
+\*------------------------------------*/
+.transition-all-300 { transition: all .3s; }
+.transition-all-500 { transition: all .5s; }
+.transition-all-900 { transition: all .9s; }

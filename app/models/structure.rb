@@ -20,6 +20,7 @@ class Structure < ActiveRecord::Base
 
   extend FriendlyId
 
+  NB_STRUCTURE_PER_PAGE = 25
   STRUCTURE_STATUS      = %w(SA SAS SASU EURL SARL)
   TRIAL_COURSES_POLICY  = %w(1_trial 2_trials 3_trials)
   STRUCTURE_TYPES       = ['structures.company',

@@ -55,8 +55,12 @@ class ApplicationController < ActionController::Base
   # Redirect users if there is a not found resource
   # @param  exception
   def render_not_found(exception)
-    Bugsnag.notify(exception)
-    redirect_to root_path, status: 410, notice: "Cette page n'existe plus."
+    if params[:id] and (s = Structure.only_deleted.find(params[:id]))
+      redirect_to structures_path_for_city_and_subject(s.city, s.dominant_root_subject), status: 301, notice: "Cette page n'existe plus."
+    else
+      Bugsnag.notify(exception)
+      redirect_to root_path, status: 301, notice: "Cette page n'existe plus."
+    end
   end
 
   # Render the bubble error if there is an error
