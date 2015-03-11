@@ -42,6 +42,12 @@
       = @article.content.html_safe
     .visuallyhidden= link_to "Lien vers l'article", blog_article_url(@article), itemprop: 'url'
 
+  %div
+    .f-weight-600.epsilon.push-half--right.inline-block.v-middle Partager sur :
+    = link_to @article_decorator.share_url(:facebook), class: 'v-middle btn btn--facebook', target: :_blank do
+      %span Facebook
+    = link_to @article_decorator.share_url(:twitter), class: 'v-middle btn btn--twitter', target: :_blank do
+      %span Twitter
   %hr.push--ends
   %h4 Articles similaires
   .grid

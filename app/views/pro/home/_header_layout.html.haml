@@ -15,7 +15,7 @@
       - elsif current_pro_admin.structure.present?
         = link_to 'Mon profil', dashboard_pro_structure_path(current_pro_admin.structure), class: 'white muted-link'
     - else
-      = link_to 'Connexion', new_pro_admin_session_path, class: 'white muted-link fancybox.ajax', data: { behavior: 'modal', width: '300', padding: 0 }
+      = link_to 'Connexion', new_pro_admin_session_path, class: 'white muted-link fancybox.ajax', data: { behavior: 'modal', width: '320', padding: 0 }
 
 .one-whole.relative.overflow-hidden{ class: (full ? 'full-screen-item' : '')}
   %div.home-page-fullscreen-video.bg-cover.bg-position-top.header--pro__background{ class: (bg_center ? 'bg-position-center' : ''), data: { behavior: 'parallax' } }

@@ -5,7 +5,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         className: 'panel center-block',
 
         options: {
-            width: 300
+            width: 320
         },
 
         initialize: function initialize (options) {
