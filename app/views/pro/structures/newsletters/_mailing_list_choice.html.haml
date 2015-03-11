@@ -4,10 +4,12 @@
     .panel__body.soft
       .soft
         .one-whole
-          %input{ type: 'radio', name: 'mailing_list_type', value: 'all', class: 'one-whole', data: { hide: { import: true } } }
+          %input{ type: 'radio', id: 'mailing_list_type_all', name: 'mailing_list_type', value: 'all', class: 'one-whole', data: { hide: { import: true } } }
+          %label{ for: 'mailing_list_type_all' }
             Envoyer à tous les contacts du répertoire
         .one-whole
-          %input{ type: 'radio', name: 'mailing_list_type', value: 'some', class: 'one-whole', data: { hide: { import: true } } }
+          %input{ type: 'radio', id: 'mailing_list_type_some', name: 'mailing_list_type', value: 'some', class: 'one-whole', data: { hide: { import: true } } }
+          %label{for: 'mailing_list_type_some'}
             Envoyer uniquement aux contacts dont l'étiquette
             %select
               %option{ value: 'is' } est
@@ -18,7 +20,8 @@
               - @used_tags.each do |tag|
                 %option{ value: tag }= tag
         .one-whole
-          %input{ type: 'radio', name: 'mailing_list_type', value: 'new', class: 'one-whole', data: { show: { import: true } } }
+          %input{ type: 'radio', id: 'mailing_list_type_new', name: 'mailing_list_type', value: 'new', class: 'one-whole', data: { show: { import: true } } }
+          %label{for: 'mailing_list_type_new'}
             Importer une nouvelle liste de contacts
 
         %div.text--center.soft.hidden{ data: { import: true } }
