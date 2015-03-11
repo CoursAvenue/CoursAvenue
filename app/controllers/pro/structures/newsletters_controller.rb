@@ -101,6 +101,29 @@ class Pro::Structures::NewslettersController < ApplicationController
     @used_tags = @structure.user_profiles.includes(:tags).flat_map(&:tags).uniq.map(&:name)
   end
 
+  # Step 2.
+  def mailing_list_create
+    @newsletter = @structure.newsletters.find params[:id]
+    @mailing_list = @structure.mailing_lists.new
+
+    mailing_list_type = params[:mailing_list_type]
+    case mailing_list_type
+    when mailing_list_type == 'new'
+    when mailing_list_type == 'some'
+    else
+    end
+
+    respond_to do |format|
+      if true
+        format.html { redirect_to metadata_pro_structure_newsletter_path(@structure, @newsletter),
+                      notice: 'La liste de diffusion a été créé avec succéé' }
+      else
+        format.html { redirect_to mailing_list_pro_structure_newsletter_path(@structure, @newsletter),
+                      notice: 'Erreur lors de la création de la liste de diffusion' }
+      end
+    end
+  end
+
   # Step 3.
   def metadata
     @newsletter = @structure.newsletters.find params[:id]
