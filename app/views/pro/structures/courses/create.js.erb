@@ -1,4 +1,5 @@
 <% if @course.persisted? %>
+    $("#<%= @course.underscore_name %>-list").prev('[data-course-container-title]').slideDown();
     $("#<%= @course.underscore_name %>-list").prepend('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
     $("[data-empty=courses]").hide();
     COURSAVENUE.helperMethods.flash("Cours enregistré", 'success');

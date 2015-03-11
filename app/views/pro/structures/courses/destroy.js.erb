@@ -2,6 +2,7 @@ $('#course-<%= @course.id %>').slideUp();
 setTimeout(function() {
     $('#course-<%= @course.id %>').remove();
     <% if @structure.courses.empty? %>
+        $("[data-course-container-title]").slideUp();
         $("[data-empty=courses]").slideDown();
     <% end %>
 }, 500);
