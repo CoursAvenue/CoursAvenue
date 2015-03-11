@@ -1,3 +1,4 @@
+//= require ./bloc_view
 //= require ./newsletter_view
 //= require ./newsletter_layout
 //= require ./layout_view

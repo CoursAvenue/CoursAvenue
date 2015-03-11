@@ -11,8 +11,12 @@ Newsletter.addInitializer(function(options) {
 
     var layouts_collection = new Newsletter.Models.LayoutsCollection(bootstrap.models.layouts);
     var newsletter = new Newsletter.Models.Newsletter(bootstrap.models.newsletter);
+    var bloc_collection = new Newsletter.Models.BlocsCollection(newsletter.get('blocs'))
 
-    var newsletter_view = new Newsletter.Views.NewsletterView({ model: newsletter });
+    var newsletter_view = new Newsletter.Views.NewsletterView({
+        model: newsletter,
+        collection: bloc_collection
+    });
 
     var layouts_collection_view = new Newsletter.Views.LayoutsCollectionView({
         collection: layouts_collection

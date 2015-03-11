@@ -1,16 +1,16 @@
 Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
-    Module.NewsletterView = Backbone.Marionette.ItemView.extend({
+    Module.NewsletterView = Backbone.Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'newsletter_view',
+        tagName: 'div',
+        childViewContainer: '[data-type=bloc]',
+        childView: Module.BlocView,
 
         events: {
-            'click [data-delete-image]': 'deleteImage'
         },
 
         initialize: function initialize () {
             // We need this to make sure we don't render some of the blocs filepickers twice.
             this.initialRender = true;
-
-            _.bindAll(this, 'deleteImage');
         },
 
         // The templateHelpers function allows us to create helper methods that
@@ -72,15 +72,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             if (this.initialRender) {
                 this.initialRender = false;
             }
-        },
-
-        // TODO:
-        // 1. Ask for confirmation.
-        // 2. Empty input.
-        // 3. Remove image..
-        //
-        deleteImage: function echo (event) {
-            console.log(event);
         },
 
     });
