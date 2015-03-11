@@ -8,7 +8,6 @@ StructureProfile.module('Views.Structure.Courses.Privates', function(Module, App
         collectionReset: function collectionReset () {
             this.trigger('privates:collection:reset', this.serializeData());
             if (this.collection.length == 0) { this.$('[data-empty-privates]').removeClass('hidden') }
-            _.delay(this.iPhonizeCourseTitles, 500);
         }
     });
 });

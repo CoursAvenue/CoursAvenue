@@ -1,14 +1,4 @@
 <div {{#if is_hidden}}class="hidden" data-course-plannings-hidden="{{ course_id }}"{{/if}}>
-    {{#if is_hidden}}<hr class="push-half--ends">{{/if}}
-    <div class="epsilon f-weight-600 line-height-1-7">
-        <meta itemprop="summary" content="{{course.name}}">
-        {{ date }}
-    </div>
-    <div class="f-weight-500">
-        Durée : {{ duration }} -
-        <time itemprop="startDate" datetime="{{start_date_datetime}}">{{ time_slot }}</time>
-        <time itemprop="endDate" datetime="{{end_date_datetime}}"></time>
-    </div>
     <div class="gray-light f-weight-500">{{ levels }} - {{ audiences }}</div>
     <div style="min-width: 80px;" itemprop="location" itemscope itemtype="http://data-vocabulary.org/Organization">
         {{#if address_name }}

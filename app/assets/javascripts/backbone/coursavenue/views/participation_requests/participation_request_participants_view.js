@@ -34,23 +34,25 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
         },
 
         computePrices: function computePrices (options) {
-            var grand_total = 0;
-            if (this.ui.$price_rows.filter(':not([data-hidden])').length > 1) {
-                this.ui.$grand_total_wrapper.removeClass('hidden');
-            } else {
-                this.ui.$grand_total_wrapper.addClass('hidden');
-            }
+            var grand_total = 0,
+                total_nb_participants = 0;
             this.ui.$price_rows.filter(':not([data-hidden])').each(function() {
-                var price  = parseFloat($(this).find('[data-element=price-select]').find(':selected').data('amount'), 10);
-                var number = parseInt($(this).find('[data-element=number-select]').val() || 0, 10);
-                var total  = price * number;
-                grand_total  = grand_total + total;
-                if (number > 1 && price != 0) {
-                    $(this).find('[data-element=row-total]').text(number + ' x ' + COURSAVENUE.helperMethods.readableAmount(price));
+                var price             = parseFloat($(this).find('[data-element=price-select]').find(':selected').data('amount'), 10);
+                nb_participants       = parseInt($(this).find('[data-element=number-select]').val() || 0, 10);
+                total_nb_participants = total_nb_participants + nb_participants;
+                var total             = price * nb_participants;
+                grand_total           = grand_total + total;
+                if (nb_participants > 1 && price != 0) {
+                    $(this).find('[data-element=row-total]').text(nb_participants + ' x ' + COURSAVENUE.helperMethods.readableAmount(price));
                 } else {
                     $(this).find('[data-element=row-total]').text(COURSAVENUE.helperMethods.readableAmount(total));
                 }
             });
+            if (total_nb_participants > 1) {
+                this.ui.$grand_total_wrapper.removeClass('hidden');
+            } else {
+                this.ui.$grand_total_wrapper.addClass('hidden');
+            }
             if (this.ui.$price_rows.length > 0) {
                 this.ui.$grand_total.text(COURSAVENUE.helperMethods.readableAmount(grand_total));
                 this.trigger('participation_request:total', { total: COURSAVENUE.helperMethods.readableAmount(grand_total) });

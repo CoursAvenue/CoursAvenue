@@ -1,13 +1,18 @@
-<div class="bordered--bottom-on-stick soft--ends bg-white relative" id="course-{{id}}" data-type="course-view-title">
-    <h2 class="v-middle flush--bottom push-half--right inline-block delta">{{ name }}</h3>
-    {{#if is_open_for_trial}}
-      <a href="#" class="v-middle lbl lbl--yellow muted-link push-half--right" data-toggle="popover" data-content="{{trial_courses_policy_popover}}" data-trigger="hover" data-behavior='show-contact-panel' data-course-id="{{id}}"><i class="fa-ticket"></i> Essai gratuit</a>
-    {{/if}}
-    {{#each subjects}}
-    <div class="v-middle inline-block very-soft--right" data-behavior="popover" data-content="<strong>{{this.root_name}} : </strong>{{this.child_names}}" data-html="true">
-      <i class="delta fa fa-{{ this.icon }} gray-light"></i>
+<div class="bordered--bottom-on-stick soft--bottom bg-white relative" id="course-{{id}}" data-type="course-view-title">
+    <h3 class="v-middle flush--bottom push-half--right inline-block delta">{{ name }}</h3>
+    <div class="float--right">
+        {{#if min_price}}
+            <div class="text--center push-half--bottom f-weight-500">
+                {{#if is_open_for_trial}}
+                <span class="delta v-bottom">Essai gratuit</span>
+                {{else}}
+                <span class="f-weight-500 gray-light v-bottom">À p. de </span><span class="gamma v-bottom">{{ min_price }}</span>
+                {{/if}}
+            </div>
+        {{/if}}
+        <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full">M'inscrire</a>
     </div>
-    {{/each}}
+
 </div>
 <div class="push--bottom">
     <table class="push-half--bottom table--striped table--data table--data-small">
@@ -19,7 +24,6 @@
                 <th class="two-tenths">Public</th>
                 <th class="three-tenths">Lieu</th>
                 <th><i class="fa fa-info"></i></th>
-                <th></th>
             </tr>
         </thead>
         <tbody data-type="plannings-container"></tbody>
@@ -41,7 +45,7 @@
      -->{{/each}}<!--
   --></div>
     <div>
-        <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">En savoir plus <i class="fa fa-caret-down"></i></a>
+        <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">Plus de détails <i class="fa fa-caret-down"></i></a>
     </div>
 </div>
 <div class="flexbox push--bottom course-{{id}}-know-more hidden">
@@ -80,6 +84,3 @@
         <div data-type="prices-collection-container"></div>
     </div>
 </div>
-{{#unless is_last}}
-<hr class="push--top flush--bottom">
-{{/unless}}

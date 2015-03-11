@@ -124,11 +124,11 @@ class ParticipationRequestDecorator < Draper::Decorator
     if object.participants.any?
       object.participants.each_with_index do |participant, index|
         _details << '<br>' if index > 0
-        _details << participant.price.decorate.details
+        _details << participant.price.decorate.details if participant.price
       end
     else
       _details = object.course.decorate.first_session_detail
     end
-    _details
+    _details.html_safe
   end
 end

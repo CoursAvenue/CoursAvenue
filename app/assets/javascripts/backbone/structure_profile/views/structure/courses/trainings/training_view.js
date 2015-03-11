@@ -10,7 +10,7 @@ StructureProfile.module('Views.Structure.Courses.Trainings', function(Module, Ap
             return {
                 course              : this.model.toJSON(),
                 is_last             : (index == (this.collection.length - 1)),
-                is_second           : (index == 1),
+                is_first            : (index == 0),
                 is_hidden           : (index > 0),
                 number_of_other_date: (this.collection.length - 1),
                 course_id           : this.model.get('id')

@@ -194,7 +194,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                     prevText: '<i class="alpha fa fa-chevron-left"></i>',
                     nextText: '<i class="alpha fa fa-chevron-right"></i>'
                 });
-                COURSAVENUE.helperMethods.initialize_fancy(self.$('.rslides-wrapper [data-behavior="fancy"]'));
+                COURSAVENUE.initialize_fancy(self.$('.rslides-wrapper [data-behavior="fancy"]'));
             });
         },
 

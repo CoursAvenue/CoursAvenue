@@ -87,13 +87,6 @@ class CourseSerializer < ActiveModel::Serializer
       _details << { text: 'Pas de créneau précis, uniquement sur demande',
                     icon: 'delta fa fa-phone-o' }
     end
-    if object.is_individual?
-      _details << { text: 'Cours particulier',
-                    icon: 'delta fa fa-user' }
-    else
-      _details << { text: 'Cours collectif',
-                    icon: 'fa-2x fa-group' }
-    end
     if object.is_lesson?
       _details << { text: frequency,
                     icon: 'delta fa fa-calendar' }

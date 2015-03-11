@@ -10,19 +10,19 @@
             - unread_conversations      += @structure.unanswered_information_message
             - unread_conversations       = unread_conversations.uniq.sort_by(&:created_at).reverse
             - unread_conversations_count = unread_conversations.count
-            .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
+            .inline-block.v-middle.drop-down__wrapper
               = link_to pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft--ends muted-link f-weight-bold' do
                 %i.fa.fa-envelope-o
                 = pluralize @structure.mailbox.inbox.count, 'message'
                 - if unread_conversations_count > 0
                   %span.push--left.lbl.lbl--orange.lbl--small= unread_conversations_count
               .drop-down__el
-                %ul.no-bullet-list.flush{ style: 'width: 400px' }
+                %ul.drop-down__el-inner-box.overflow-auto.no-bullet-list.flush.text--left{ style: 'width: 400px; max-height: 60vh;' }
                   - if unread_conversations_count == 0
-                    %li
+                    %li.text--center
                       %a.not-hoverable.f-weight-normal Pas de nouveau message
                   - else
-                    %li
+                    %li.text--center
                       %a.not-hoverable.f-weight-normal= "#{unread_conversations_count} #{(unread_conversations_count == 1 ? 'nouveau message' : 'nouveaux messages')}"
                   - unread_conversations.each do |conversation|
                     - cache [conversation, 'pro/structures/layout/unread_conversations'] do
@@ -41,21 +41,21 @@
                                 = conversation_label_name conversation
                               .flexbox__item.v-middle.soft-half--left>
                                 = conversation_label conversation, class: 'lbl--small'
-                  %li= link_to 'Voir tous les messages', pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+                  %li.text--center= link_to 'Voir tous les messages', pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
           %span.v-middle.push-half--sides= '|'
-          .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
+          .inline-block.v-middle.drop-down__wrapper
             = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft--ends muted-link f-weight-bold' do
               %i.fa.fa-comment.v-middle
               %span.v-middle= "#{@structure.comments.accepted.count} recommandations"
               - if @structure.comments.pending.count > 0
                 %span.push--left.lbl.lbl--orange.lbl--small= "#{@structure.comments.pending.count}"
             .drop-down__el
-              %ul.no-bullet-list.flush{ style: 'width: 350px' }
+              %ul.drop-down__el-inner-box.overflow-auto.no-bullet-list.flush.text--left{ style: 'width: 350px; max-height: 60vh;' }
                 - if @structure.comments.pending.count == 0
-                  %li
+                  %li.text--center
                     %a.not-hoverable.f-weight-normal Pas de recommandations en attente
                 - else
-                  %li
+                  %li.text--center
                     %a.not-hoverable.f-weight-normal= "#{@structure.comments.pending.count} recommandations en attente de validation"
                 - @structure.comments.pending.each do |comment|
                   - cache [comment, 'pro/structures/layout/pending_comment'] do
@@ -67,37 +67,38 @@
                           %strong= comment.author_name
                           %br
                           = comment.email
-                %li= link_to 'Voir toutes les recommandations', pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+                %li.text--center= link_to 'Voir toutes les recommandations', pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
           %span.v-middle.push-half--sides= '|'
-          .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
+          .inline-block.v-middle.drop-down__wrapper
             = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft--ends muted-link f-weight-bold' do
               = truncate(@structure.name, length: 80)
               .fa.fa-caret-down.very-soft--left
-            %ul.drop-down__el
-              - if @structure.main_contact
+            .drop-down__el
+              %ul.drop-down__el-inner-box.text--left
+                - if @structure.main_contact
+                  %li.nowrap.text--left
+                    = link_to edit_pro_structure_admin_path(@structure, @structure.main_contact) do
+                      %i.fa.fa-cogs.soft-half--right
+                      = t('pro.structures.side_menu.account')
                 %li.nowrap.text--left
-                  = link_to edit_pro_structure_admin_path(@structure, @structure.main_contact) do
-                    %i.fa.fa-cogs.soft-half--right
-                    = t('pro.structures.side_menu.account')
-              %li.nowrap.text--left
-                = link_to new_pro_structure_invited_teacher_path(@structure, @structure.main_contact) do
-                  %i.fa.fa-gift.soft-half--right
-                  = t('pro.structures.side_menu.share')
-              - if @structure.comments_count >= 5
-                - communcate_url = widget_pro_structure_path(@structure)
-              - else
-                - communcate_url = signature_pro_structure_path(@structure)
-              %li.nowrap.text--left
-                = link_to communcate_url do
-                  %i.fa.fa-bullhorn.soft-half--right
-                  = t('pro.structures.side_menu.communicate')
-              %li.nowrap.text--left
-                = link_to destroy_pro_admin_session_path, method: :delete do
-                  %i.fa.fa-sign-out.soft-half--right
-                  Déconnexion
-            - if @structure.is_sleeping?
-              %span.push-half--sides= '|'
-              %span.v-middle.lbl.lbl--red{ data: { toggle: 'popover', content: "Vous venez de prendre le contrôle de votre profil : complétez-le pendant que l'équipe CoursAvenue vérifie votre identité. Vous recevrez un e-mail dès que c'est validé !  Les modifications que vous avez apportées deviendront alors directement visibles sur votre profil public.", trigger: 'hover' } } En attente de validation
+                  = link_to new_pro_structure_invited_teacher_path(@structure, @structure.main_contact) do
+                    %i.fa.fa-gift.soft-half--right
+                    = t('pro.structures.side_menu.share')
+                - if @structure.comments_count >= 5
+                  - communcate_url = widget_pro_structure_path(@structure)
+                - else
+                  - communcate_url = signature_pro_structure_path(@structure)
+                %li.nowrap.text--left
+                  = link_to communcate_url do
+                    %i.fa.fa-bullhorn.soft-half--right
+                    = t('pro.structures.side_menu.communicate')
+                %li.nowrap.text--left
+                  = link_to destroy_pro_admin_session_path, method: :delete do
+                    %i.fa.fa-sign-out.soft-half--right
+                    Déconnexion
+          - if @structure.is_sleeping?
+            %span.push-half--sides= '|'
+            %span.v-middle.lbl.lbl--red{ data: { toggle: 'popover', content: "Vous venez de prendre le contrôle de votre profil : complétez-le pendant que l'équipe CoursAvenue vérifie votre identité. Vous recevrez un e-mail dès que c'est validé !  Les modifications que vous avez apportées deviendront alors directement visibles sur votre profil public.", trigger: 'hover' } } En attente de validation
           %span.v-middle.push-half--sides= '|'
           = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'white v-middle', target: :_blank, title: 'Voir mon profil public', data: { toggle: 'tooltip', placement: 'left' } do
             .fa.fa-eye.v-middle.epsilon
@@ -109,15 +110,16 @@
         .flexbox__item.v-middle.soft--left
           = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
         .flexbox__item.text--right
-          .inline-block.v-middle.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+          .inline-block.v-middle.drop-down__wrapper
             %h5.flush--bottom.white.inline-block.v-middle.nowrap.soft--right
               = current_pro_admin.name
               .fa.fa-caret-down
-            %ul.drop-down__el
-              %li.nowrap.text--left
-                = link_to destroy_pro_admin_session_path, method: :delete do
-                  %i.fa.fa-sign-out
-                  Déconnexion
+            .drop-down__el
+              %ul.drop-down__el-inner-box.text--left
+                %li.nowrap.text--left
+                  = link_to destroy_pro_admin_session_path, method: :delete do
+                    %i.fa.fa-sign-out
+                    Déconnexion
 
   .main-container.soft--sides
     .flexbox.push-double--top

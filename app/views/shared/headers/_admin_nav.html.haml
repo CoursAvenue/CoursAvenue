@@ -1,10 +1,11 @@
-.push-half--left.inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
+.push-half--left.inline-block.v-middle.drop-down__wrapper
   - if current_pro_admin.super_admin?
     = link_to 'Dashboard', pro_dashboard_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--blue btn--small'
   - if current_pro_admin.structure
     = link_to 'Mon profil', pro_structure_url(current_pro_admin.structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--blue btn--small'
-  %ul.drop-down__el
-    %li.nowrap
-      = link_to destroy_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), method: :delete do
-        %i.fa.fa-sign-out
-        Déconnexion
+  .drop-down__el
+    %ul.drop-down__el-inner-box
+      %li.nowrap
+        = link_to destroy_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), method: :delete do
+          %i.fa.fa-sign-out
+          Déconnexion

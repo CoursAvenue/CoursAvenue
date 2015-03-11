@@ -1,50 +1,55 @@
 .drop-down__wrapper {
     position: relative;
+    &:hover .drop-down__el {
+        display: block;
+    }
 }
     .drop-down__el {
-        display         : none;
-        position        : absolute;
-        left            : 0;
-        top             : 100%;
-        list-style      : none;
-        background-color: white;
-        margin-left     : 0;
-        // margin-top      : 5px;
-        padding         : 0;
-        z-index         : 10;
-        text-align      : center;
-        border          : 1px solid #BBBBBB;
-        overflow-y      : hidden;
-        @include border-radius($brand-round * 2);
-        @include box-shadow(0 2px 3px rgba(56,67,67,0.2));
-        &, ul { max-height: 30em; }
-        ul {
-            overflow-y: scroll;
-        }
-        li:last-child a {
-            border-bottom: none !important;
-        }
-        a {
-            display      : block;
-            padding      : 0.8em 1.8em;
-            border-bottom: 1px solid #EEE;
-            color        : #393C3D;
-            font-weight  : bold;
-            i {
-                margin-right: 0.8em;
-                font-size   : 15px;
-            }
-            &:hover, &:hover > .green {
-                text-decoration : none;
-                background-color: $blue;
-                border-color    : $blue;
-                color           : white !important;
-            }
-            &.not-hoverable:hover {
-                text-decoration : inherit;
-                background-color: inherit;
-                border-color    : #EEE;
-                color           : inherit !important;
-            }
+        padding-top: 5px;
+        display    : none;
+        position   : absolute;
+        left       : 0;
+        top        : 100%;
+        z-index    : 10;
+        &.drop-down__el--left {
+            left : auto;
+            right: 0;
         }
     }
+        .drop-down__el-inner-box {
+            list-style      : none;
+            background-color: white;
+            margin-left     : 0;
+            padding         : 0;
+            border          : 1px solid #BBBBBB;
+            @include border-radius($brand-round * 2);
+            @include box-shadow(0 2px 3px rgba(56,67,67,0.2));
+        }
+        .drop-down__el {
+            li:last-child a {
+                border-bottom: none !important;
+            }
+                a {
+                    display      : block;
+                    padding      : 0.8em 1.8em;
+                    border-bottom: 1px solid #EEE;
+                    color        : #393C3D;
+                    font-weight  : bold;
+                    i {
+                        margin-right: 0.8em;
+                        font-size   : 15px;
+                    }
+                    &:hover, &:hover > .green {
+                        text-decoration : none;
+                        background-color: $blue;
+                        border-color    : $blue;
+                        color           : white !important;
+                    }
+                    &.not-hoverable:hover {
+                        text-decoration : inherit;
+                        background-color: inherit;
+                        border-color    : #EEE;
+                        color           : inherit !important;
+                    }
+                }
+        }

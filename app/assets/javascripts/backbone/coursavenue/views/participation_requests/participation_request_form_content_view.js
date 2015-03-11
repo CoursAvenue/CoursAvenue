@@ -141,13 +141,13 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
         selectCourse: function selectCourse () {
             this.ui.$course_select.find('option').removeProp('selected').removeAttr('selected');
             this.ui.$course_select.find('option[value=' + this.model.get('course_id') + ']').prop('selected', true).attr('selected', true);
-            if (this.getCurrentCoursePlannings().length > 0) {
-                this.ui.$planning_select_wrapper.slideDown();
-                this.ui.$time_wrapper.hide();
-            // If it's a private course without
-            } else {
+            // If it's a private course
+            if (this.getCurrentCourse().get('db_type') == 'Course::Private' || this.getCurrentCoursePlannings() == 0) {
                 this.ui.$time_wrapper.show();
                 this.ui.$planning_select_wrapper.slideUp();
+            } else {
+                this.ui.$planning_select_wrapper.slideDown();
+                this.ui.$time_wrapper.hide();
             }
             this.populatePlannings();
             this.updateAddressField();
@@ -241,7 +241,15 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             this.ui.$datepicker_input.datepicker('update', formatted_date);
             // Disable days of week
             var days_of_week = [0,1,2,3,4,5,6];
-            days_of_week.splice(days_of_week.indexOf(this.getCurrentPlanning().week_day), 1);
+            if (this.getCurrentCourse().get('db_type') == 'Course::Private') {
+                _.each(this.getCurrentCourse().get('plannings'), function(planning) {
+                    if (days_of_week.indexOf(planning.week_day) != -1) {
+                        days_of_week.splice(days_of_week.indexOf(planning.week_day), 1);
+                    }
+                });
+            } else {
+                days_of_week.splice(days_of_week.indexOf(this.getCurrentPlanning().week_day), 1);
+            }
             this.ui.$datepicker_input.datepicker('setDaysOfWeekDisabled', days_of_week);
             this.updateAddressField();
         },

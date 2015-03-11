@@ -24,6 +24,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         },
 
         initialize: function initialize (options) {
+            this.in_two_steps = options.in_two_steps;
             Backbone.Validation.bind(this);
             _.bindAll(this, 'showPopupMessageDidntSend');
             this.on('participation_request:total', function(data) {
@@ -85,7 +86,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             }
             this.model.set('course_id', planning_data.course_id);
             this.model.set('planning_id', planning_data.id);
-            var request_form_view = new Module.RequestFormView( { structure: this.model.get('structure'), model: this.model } ).render();
+            var request_form_view = new Module.RequestFormView( { structure: this.model.get('structure'), model: this.model, in_two_steps: true } ).render();
             $.magnificPopup.open({
                   items: {
                       src: $(request_form_view.$el),
@@ -195,6 +196,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             _.extend(data, {
                 structure: structure_json,
                 today: moment().format(COURSAVENUE.constants.MOMENT_DATE_FORMAT),
+                in_two_steps: this.in_two_steps,
                 user: {
                     phone_number: CoursAvenue.currentUser().get('phone_number') || $.cookie('user_phone_number')
                 }

@@ -24,7 +24,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
                     this.$el.removeClass('push--bottom');
                 }
             }
-            setTimeout(COURSAVENUE.helperMethods.chosen_initializer, 5)
+            setTimeout(COURSAVENUE.chosen_initializer, 5)
         },
 
         events: {

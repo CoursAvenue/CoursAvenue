@@ -86,17 +86,18 @@
                   %span.v-middle Message privé
 
             - if comment.accepted? and (current_pro_admin or current_user) and comment.owner?(current_pro_admin || current_user)
-              .drop-down__wrapper.very-soft--bottom{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
+              .drop-down__wrapper.very-soft--bottom
                 = link_to 'Partager', share_comment_url(comment, :facebook), target: '_blank', class: 'btn btn--small btn--full', onclick: "ga('send', 'event', 'Share comment on Facebook', 'click')"
-                %ul.drop-down__el.text--left
-                  %li.nowrap
-                    = link_to share_comment_url(comment, :facebook), target: '_blank', onclick: "ga('send', 'event', 'Share comment on', 'click', 'Facebook')" do
-                      %i.fa.fa-facebook.soft-half--right
-                      Partager sur Facebook
-                  %li.nowrap
-                    = link_to share_comment_url(comment, :twitter), target: '_blank', onclick: "ga('send', 'event', 'Share comment on', 'click', 'Twitter')" do
-                      %i.fa.fa-twitter.soft-half--right
-                      Partager sur Twitter
+                .drop-down__el
+                  %ul.drop-down__el-inner-box.text--left
+                    %li.nowrap
+                      = link_to share_comment_url(comment, :facebook), target: '_blank', onclick: "ga('send', 'event', 'Share comment on', 'click', 'Facebook')" do
+                        %i.fa.fa-facebook.soft-half--right
+                        Partager sur Facebook
+                    %li.nowrap
+                      = link_to share_comment_url(comment, :twitter), target: '_blank', onclick: "ga('send', 'event', 'Share comment on', 'click', 'Twitter')" do
+                        %i.fa.fa-twitter.soft-half--right
+                        Partager sur Twitter
           - if comment.waiting_for_deletion?
             %p.red.flush.float--left
               Motif de suppression :
@@ -106,15 +107,16 @@
               = link_to 'Accroche de profil', highlight_pro_structure_comment_path(structure, comment), class: 'btn btn--small btn--full', method: 'patch', data: { behavior: 'tooltip', title: 'Utiliser le titre de cet avis comme accroche de profil' }
 
           - if comment.persisted? and !comment.waiting_for_deletion?
-            .drop-down__wrapper.text--center{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
+            .drop-down__wrapper.text--center
               %a.red{ href: 'javascript:void(0)', data: { behavior: 'tooltip', html: 'true', title: "Signaler&nbsp;un&nbsp;incident&nbsp;à l'équipe&nbsp;CoursAvenue" } }
                 Signaler
                 %i.fa.fa-chevron-down.soft-half--left
-              %ul.drop-down__el.text--left
-                - t('comments.deletion_reasons').each do |i18n_key, traducted_string|
-                  %li.nowrap
-                    = link_to ask_for_deletion_pro_structure_comment_path(structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
-                      = traducted_string
+              .drop-down__el
+                %ul.drop-down__el-inner-box.text--left
+                  - t('comments.deletion_reasons').each do |i18n_key, traducted_string|
+                    %li.nowrap
+                      = link_to ask_for_deletion_pro_structure_comment_path(structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
+                        = traducted_string
           - if current_pro_admin.super_admin?
             .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
               %a.btn.btn--small{href: 'javascript:void(0)'}

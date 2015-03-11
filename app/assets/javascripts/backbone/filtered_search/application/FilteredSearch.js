@@ -231,7 +231,7 @@ FilteredSearch.addInitializer(function(options) {
 
 
     layout.master.show(structures_view);
-    COURSAVENUE.helperMethods.chosen_initializer();
+    COURSAVENUE.chosen_initializer();
 });
 
 $(document).ready(function() {

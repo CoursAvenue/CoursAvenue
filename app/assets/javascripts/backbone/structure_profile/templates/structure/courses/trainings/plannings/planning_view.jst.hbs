@@ -3,6 +3,13 @@
     <div class="epsilon f-weight-600 line-height-1-7">
         <meta itemprop="summary" content="{{course.name}}">
         {{ date }}
+        {{#if is_first}}
+          {{#ifCond number_of_other_date '>' 0}}
+            <a href="#" data-behavior="show-long-version" data-long-version="[data-course-plannings-hidden={{ course_id }}]">
+                <i class="fa fa fa-plus f-size-9"></i> {{ number_of_other_date }} {{ pluralize number_of_other_date 'autre date' 'autres dates' }}
+            </a>
+          {{/ifCond}}
+        {{/if}}
     </div>
     <div class="f-weight-500">
         Durée : {{ duration }} -
@@ -22,8 +29,3 @@
      --}}{{/if}}
     </div>
 </div>
-{{#if is_second}}
-    <a href="#" data-behavior="show-long-version" data-long-version="[data-course-plannings-hidden={{ course_id }}]">
-        <i class="fa fa fa-plus f-size-9"></i> {{ number_of_other_date }} {{ pluralize number_of_other_date 'autre date' 'autres dates' }}
-    </a>
-{{/if}}

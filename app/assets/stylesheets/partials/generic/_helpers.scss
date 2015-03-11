@@ -413,6 +413,7 @@
         @include prefix(filter, grayscale(0));
     }
 }
+.overflow-auto     { overflow  : auto; }
 .overflow-hidden   { overflow  : hidden; }
 .overflow-x-hidden { overflow-x: hidden; }
 

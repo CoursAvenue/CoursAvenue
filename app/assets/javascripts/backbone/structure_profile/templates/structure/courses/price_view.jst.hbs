@@ -1,16 +1,11 @@
 <td>
     {{libelle}}
 </td>
-<td class="text--center {{#if promo_amount}}line-through{{/if}}">
+<td class="text--center">
     {{#if is_free}}
       <strong class="green">Gratuit{{#if is_registration}}e{{/if}}</strong>
     {{else}}
       {{readable_amount}}
-    {{/if}}
-</td>
-<td class="text--center">
-    {{#if promo_amount}}
-      <strong class="green">{{promo_amount}}</strong>
     {{/if}}
 </td>
 <td>{{{ hide_contacts info }}}</td>

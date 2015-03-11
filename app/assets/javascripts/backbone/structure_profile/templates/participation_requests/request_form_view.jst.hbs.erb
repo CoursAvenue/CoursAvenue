@@ -27,8 +27,8 @@
       </div>
     </div>
 </div>
-<div class="panel__body soft--ends">
-    <div class="soft--sides push--bottom {{#unless last_message_sent_at}}hidden{{/unless}}">
+<div class="panel__body soft--bottom">
+    <div class="soft--sides soft--top soft--bottom bordered--bottom {{#unless last_message_sent_at}}hidden{{/unless}}">
         <div data-type="message-sent" class="text--center">
             <div class="green">
                 <i class="fa fa-check"></i>
@@ -40,8 +40,7 @@
         </div>
     </div>
     {{#if last_message_sent_at}}
-      <div class="soft--sides" id="new-participation-request-wrapper">
-          <hr class="push--bottom flush--top">
+      <div class="soft--sides soft--top" id="new-participation-request-wrapper">
           <a class="btn btn--green btn--full" data-behavior="show-long-version" data-short-version="#new-participation-request-wrapper" data-long-version="#structure-request-form-wrapper">Nouvelle demande d'inscription</a>
       </div>
     {{/if}}
@@ -49,20 +48,24 @@
         <form action="{{participation_request.url}}">
             <div data-element="first-step-form-wrapper">
                 <div class="push-half--bottom" data-type="participation-request-form-content"></div>
-                <div class="push-half--bottom soft--sides" data-type="participation-request-participants"></div>
-                <div class="soft--sides">
-                    <a data-behavior="show-second-step-form" class="btn btn--green btn--full">
-                        Envoyer ma demande d'inscription
-                    </a>
-                </div>
-            </div>
-            <div data-element="second-step-form-wrapper" class="hidden">
-                <div class="soft--sides push-half--bottom {{#if last_message_sent_at}}bordered--top{{/if}}">
-                  <div class="{{#if last_message_sent_at}}soft-half--top{{/if}} soft-half--bottom"><a href="#" data-behavior="show-first-step-form">← Changer les informations</a></div>
-                  <div class="epsilon f-weight-500">
-                      Envoyez un message personnalisé avec votre inscription
+                <div class="push-half--bottom soft--sides bordered--bottom soft-half--bottom" data-type="participation-request-participants"></div>
+                {{#if in_two_steps}}
+                  <div class="soft--sides">
+                      <a data-behavior="show-second-step-form" class="btn btn--green btn--full">
+                          Valider
+                      </a>
                   </div>
-                </div>
+                {{/if}}
+            </div>
+            <div data-element="second-step-form-wrapper" {{#if in_two_steps}}class="hidden"{{/if}}>
+                {{#if in_two_steps}}
+                  <div class="soft--sides soft-half--top push-half--bottom">
+                    <div class="{{#if last_message_sent_at}}soft-half--top{{/if}} soft-half--bottom"><a href="#" data-behavior="show-first-step-form">← Changer les informations</a></div>
+                    <div class="epsilon f-weight-500">
+                        Envoyez un message personnalisé avec votre inscription
+                    </div>
+                  </div>
+                {{/if}}
                 <div class="push-half--bottom soft--sides">
                     <div class="input-addon">
                         <div class="input-prefix">
