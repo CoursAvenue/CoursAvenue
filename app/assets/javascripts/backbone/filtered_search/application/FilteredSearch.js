@@ -240,7 +240,6 @@ $(document).ready(function() {
         FilteredSearch.start({});
         CoursAvenue.initializeUserNav();
         setTimeout(function() {
-            $('[data-behavior=drop-down]').dropDown();
             if (!$.cookie('have-seen-filtered-search-map-help')) {
                 setTimeout(function() { $('[data-map-helper]').fadeIn(); }, 2000);
                 $('[data-map-helper]').click(function() {

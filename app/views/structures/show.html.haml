@@ -8,15 +8,18 @@
     = render 'users/waiting_for_activation_text'
 
 %div
-  - if @structure.medias.any?
-    #photos-videos.relative.bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under{ style: "height:300px; background-image: url('#{@structure.medias.cover_first.images_first.first.image.url(:wide_and_blurry)}')", data: { behavior: 'parallax' } }
+  - if @structure.medias.any? or @structure.logo.present?
+    - image = (@structure.medias.any? ? @structure.medias.cover_first.images_first.first.image : @structure.logo)
+    #photos-videos.bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under{ style: "height:300px; background-image: url('#{image.url(:wide_and_blurry)}')", data: { behavior: 'parallax' } }
       .black-curtain.black-curtain--soft.north.west.one-whole.absolute
+  - else
+    #header-map.bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under{ style: "height:300px;" }
   .soft--sides.soft--top
     = render partial: 'structures/structure_header', locals: { structure: @structure }
     .grid
-      .grid__item.eight-twelfths.soft-half--right>
-        - if @structure.medias.any?
-          = render partial: 'structures/map_and_gallery', locals: { medias: @medias }
+      .grid__item.eight-twelfths.soft-half--right{ style: (@structure.medias.any? or @structure.logo.present? ? '' : 'margin-top: 150px;') }>
+        - if @structure.medias.any? or @structure.logo.present?
+          = render partial: 'structures/map_and_gallery', locals: { medias: @medias, structure: @structure }
 
         - comment = (@structure.highlighted_comment || @structure.comments.last)
         - if comment
@@ -35,8 +38,8 @@
             #structure-region.hidden
           - else
             #structure-region
-            %div{ data: { type: "certified-comments-collection" } }
-            %div{ data: { type: "guestbook-collection" } }
+            .soft--bottom{ data: { type: "certified-comments-collection" } }
+            .soft--bottom{ data: { type: "guestbook-collection" } }
       .grid__item.four-twelfths>
         %div{ data: { type: 'contact-form' } }
         - unless @is_sleeping
@@ -112,9 +115,23 @@
                               .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
 
 
+- if @structure.medias.empty? and @structure.logo.blank?
+  - @structure_locations = Gmaps4rails.build_markers([@structure]) do |structure, marker|
+    - marker.lat structure.latitude
+    - marker.lng structure.longitude
+
 = content_for :scripts do
   :javascript
     (function () {
+      if ($('#header-map').length == 1) {
+          google_map_handler = Gmaps.build('Google');
+          google_map_handler.buildMap({ provider: { scrollwheel: false }, internal: { id: 'header-map' }}, function(){
+              markers = google_map_handler.addMarkers(#{@structure_locations.to_json});
+              google_map_handler.bounds.extendWith(markers);
+              google_map_handler.fitMapToBounds();
+              google_map_handler.getMap().setZoom(15);
+          });
+      }
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
           current_pro_admin: #{(current_pro_admin ? true : false)},

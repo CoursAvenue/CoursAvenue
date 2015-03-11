@@ -7,20 +7,21 @@
             .flexbox.top-page-menu
               .flexbox__item.one-twelfth.nowrap.soft-half--right
                 %strong= truncate @structure.name, lenght: 25
-              .flexbox__item
-                %ul.nav.flush.v-middle.inline-block
-                  %li.soft-half--sides
-                    %a.muted-link.orange{ href: '#photos-videos', data: { behavior: 'scroll-to' } } Photos
-                  %li.soft-half--sides
-                    %a.muted-link.orange{ href: '#presentation', data: { behavior: 'scroll-to' } } Présentation
-                  %li.soft-half--sides
-                    %a.muted-link.orange{ href: '#cours-reguliers', data: { behavior: 'scroll-to' } } Cours réguliers
-                  %li.soft-half--sides
-                    %a.muted-link.orange{ href: '#cours-particuliers', data: { behavior: 'scroll-to' } } Cours particuliers
-                  %li.soft-half--sides
-                    %a.muted-link.orange{ href: '#stages-ateliers ', data: { behavior: 'scroll-to' } } Stages & ateliers
-                  %li.soft-half--sides
-                    %a.muted-link.orange{ href: '#avis', data: { behavior: 'scroll-to' } } Avis
+              - if @is_sleeping
+                .flexbox__item
+                  %ul.nav.flush.v-middle.inline-block
+                    %li.soft-half--sides
+                      %a.muted-link.orange{ href: '#photos-videos', data: { behavior: 'scroll-to' } } Photos
+                    %li.soft-half--sides
+                      %a.muted-link.orange{ href: '#presentation', data: { behavior: 'scroll-to' } } Présentation
+                    %li.soft-half--sides
+                      %a.muted-link.orange{ href: '#cours-reguliers', data: { behavior: 'scroll-to' } } Cours réguliers
+                    %li.soft-half--sides
+                      %a.muted-link.orange{ href: '#cours-particuliers', data: { behavior: 'scroll-to' } } Cours particuliers
+                    %li.soft-half--sides
+                      %a.muted-link.orange{ href: '#stages-ateliers ', data: { behavior: 'scroll-to' } } Stages & ateliers
+                    %li.soft-half--sides
+                      %a.muted-link.orange{ href: '#avis', data: { behavior: 'scroll-to' } } Avis
 
           .flexbox__item.v-middle.nowrap.text--right>
             %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel' } }

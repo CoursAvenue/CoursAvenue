@@ -40,6 +40,10 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
     process :crop_email
   end
 
+  version :wide_and_blurry do
+    cloudinary_transformation transformation: [{ width: 1024, height: 300, crop: :fill, effect: 'blur:900' }]
+  end
+
   # We don't add white list extension because we want to be able to add images from urls
   # that does not have extension, eg: http://filepicker.io/api/file/X8iSrLQESv27CTIXXHU1
   # def extension_white_list

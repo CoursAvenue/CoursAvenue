@@ -3,7 +3,6 @@
 StructureProfile.module('Views.Structure', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.StructureView = CoursAvenue.Views.EventLayout.extend({
-        className: 'tabs-container',
         template: Module.templateDirname() + 'structure_view',
 
         ui: {
