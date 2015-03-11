@@ -47,7 +47,6 @@ class Pro::Structures::NewslettersController < ApplicationController
     end
   end
 
-  # TODO: Fix error message..
   def destroy
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
 
@@ -75,7 +74,7 @@ class Pro::Structures::NewslettersController < ApplicationController
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
     duplicated_newsletter = @newsletter.duplicate!
 
-    redirect_to duplicated_newsletter, notice: 'Newsletter dupliqué avec succés.'
+    redirect_to pro_structure_newsletter_path(@structure, duplicated_newsletter), notice: 'Newsletter dupliquée avec succés.'
   end
 
   # Generate the newsletter as a String
