@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150311162259) do
+ActiveRecord::Schema.define(version: 20150311162817) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1119,6 +1119,7 @@ ActiveRecord::Schema.define(version: 20150311162259) do
     t.string  "phone"
     t.string  "mobile_phone"
     t.text    "address"
+    t.boolean "subscribed",   default: true
   end
 
   add_index "user_profiles", ["structure_id", "user_id"], name: "index_user_profiles_on_structure_id_and_user_id", using: :btree

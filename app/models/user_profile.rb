@@ -14,7 +14,7 @@ class UserProfile < ActiveRecord::Base
   belongs_to :structure
   belongs_to :user
   attr_accessible :email, :first_name, :last_name, :birthdate, :notes, :phone, :mobile_phone,
-                  :address, :structure_id
+                  :address, :structure_id, :subscribed
 
   after_create :associate_to_user_or_create
 
