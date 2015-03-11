@@ -13,8 +13,6 @@ class UserProfile < ActiveRecord::Base
 
   belongs_to :structure
   belongs_to :user
-  has_many :subscriptions, class_name: 'Newsletter::Subscription'
-
   attr_accessible :email, :first_name, :last_name, :birthdate, :notes, :phone, :mobile_phone,
                   :address, :structure_id
 
