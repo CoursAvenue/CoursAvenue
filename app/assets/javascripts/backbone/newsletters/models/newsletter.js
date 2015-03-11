@@ -24,14 +24,10 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         setBlocs: function setBlocs () {
-            if (this.get('blocs')) {
-                return ;
-            }
-
             var blocs = [];
 
             this.get('layout').get('blocs').forEach(function(blocType, index) {
-                var bloc = { type: blocType, position: index + 1 };
+                var bloc = { type: blocType, position: index + 1, index: index };
                 blocs.push(bloc);
             }, this);
 

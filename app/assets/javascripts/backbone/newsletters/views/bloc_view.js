@@ -11,11 +11,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initialize: function initialize () {
+            this.initialRender = true;
             _.bindAll(this, 'deleteImage', 'updateImage');
         },
 
         updateImage: function updateImage (event) {
-            // this.$el.find('img[data-fpimage]#').attr('src', event.originalEvent.fpfile.url);
         },
 
         // TODO:
@@ -25,6 +25,29 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         //
         deleteImage: function echo (event) {
             console.log(event);
+        },
+
+        // Replace the HTML elements with their rich version:
+        // - Replacing a `textarea` by a CKeditor,
+        // - Replacing a `remote_image_url` input by a filepicker button.
+        onRender: function onRender () {
+            var textAreas = this.$el.find('[name$=\\[content\\]]');
+            var pickers = this.$el.find('[name$=\\[remote_image_url\\]]');
+
+            // CKEDITOR.replaceAll();
+            textAreas.each(function(index, elem) {
+                CKEDITOR.replace(elem);
+            });
+
+            if (!this.initialRender) {
+                pickers.each(function(index, elem) {
+                    filepicker.constructWidget(elem);
+                });
+            }
+
+            if (this.initialRender) {
+                this.initialRender = false;
+            }
         },
 
     })

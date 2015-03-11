@@ -9,8 +9,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initialize: function initialize () {
-            // We need this to make sure we don't render some of the blocs filepickers twice.
-            this.initialRender = true;
         },
 
         // The templateHelpers function allows us to create helper methods that
@@ -50,29 +48,14 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             if (model.get('id') == this.model.get('layout_id')) {
                 return ;
             }
+            // Reset the bloc collection.
+            this.collection.reset();
 
+            // Store the new layout id and trigger a bloc refresh.
             this.model.set('layout_id', model.get('id'));
 
-            this.render();
+            // Update the bloc collection.
+            this.collection.add(this.model.get('blocs'));
         },
-
-        // Replace the HTML elements with their rich version:
-        // - Replacing a `textarea` by a CKeditor,
-        // - Replacing a `remote_image_url` input by a filepicker button.
-        onRender: function onRender () {
-            var pickers = this.$el.find('[name$=\\[remote_image_url\\]]');
-
-            CKEDITOR.replaceAll();
-            if (!this.initialRender) {
-                pickers.each(function(index, elem) {
-                    filepicker.constructWidget(elem);
-                });
-            }
-
-            if (this.initialRender) {
-                this.initialRender = false;
-            }
-        },
-
     });
 });
