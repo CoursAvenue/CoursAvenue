@@ -13,7 +13,8 @@ class CrmSync
     else
       existing_lead = self.client.list_leads("email:\"#{structure.main_contact.email.downcase}\"")['data'].first
       if existing_lead
-        existing_contact_id = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].first[:email] == structure.main_contact.email.downcase }[:id]
+        existing_contact = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].first[:email] == structure.main_contact.email.downcase }
+        existing_contact_id = existing_contact[:id] if existing_contact
         data = self.data_for_structure(structure, existing_contact_id)
         self.client.update_lead(existing_lead['id'], data)
       else
