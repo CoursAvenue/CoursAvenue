@@ -166,6 +166,11 @@ GEM
       orm_adapter (~> 0.5.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
+    closeio (2.0.4)
+      faraday
+      faraday_middleware
+      hashie
+      json
     cloudinary (1.0.78)
       aws_cf_signer
       rest-client
@@ -239,6 +244,8 @@ GEM
       i18n (~> 0.5)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.9.1)
+      faraday (>= 0.7.4, < 0.10)
     fastercsv (1.5.5)
     fb_graph (2.7.16)
       httpclient (>= 2.2.0.2)
@@ -730,6 +737,7 @@ DEPENDENCIES
   certified (~> 0.1.1)
   cityhash (~> 0.8.1)
   ckeditor (~> 4.1.0)
+  closeio (~> 2.0.4)
   cloudinary (~> 1.0.78)
   compass (~> 0.12.2)
   compass-inuit (~> 5.0.2)
