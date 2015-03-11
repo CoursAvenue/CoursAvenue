@@ -9,17 +9,17 @@
     = render partial: 'pro/structures/courses/add_activity_button'
 
 %h3{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } } Stages & ateliers
-#training-list
+#training-list.soft--bottom
   - @trainings.each do |course|
     = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
 %h3{ class: @lessons.any? ? 'bordered--top soft--top' : 'hidden', data: { 'course-container-title' => true } } Cours collectifs
-#lesson-list
+#lesson-list.soft--bottom
   - @lessons.each do |course|
     = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
 %h3{ class: @privates.any? ? 'bordered--top soft--top' : 'hidden', data: { 'course-container-title' => true } } Cours particuliers
-#private-list
+#private-list.soft--bottom
   - @privates.each do |course|
     = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
