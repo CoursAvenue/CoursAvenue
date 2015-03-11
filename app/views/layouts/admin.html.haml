@@ -16,7 +16,7 @@
                 = pluralize @structure.mailbox.inbox.count, 'message'
                 - if unread_conversations_count > 0
                   %span.push--left.lbl.lbl--orange.lbl--small= unread_conversations_count
-              .drop-down__el
+              .drop-down__el.drop-down__el--left
                 %ul.drop-down__el-inner-box.overflow-auto.no-bullet-list.flush.text--left{ style: 'width: 400px; max-height: 60vh;' }
                   - if unread_conversations_count == 0
                     %li.text--center
@@ -49,7 +49,7 @@
               %span.v-middle= "#{@structure.comments.accepted.count} recommandations"
               - if @structure.comments.pending.count > 0
                 %span.push--left.lbl.lbl--orange.lbl--small= "#{@structure.comments.pending.count}"
-            .drop-down__el
+            .drop-down__el.drop-down__el--left
               %ul.drop-down__el-inner-box.overflow-auto.no-bullet-list.flush.text--left{ style: 'width: 350px; max-height: 60vh;' }
                 - if @structure.comments.pending.count == 0
                   %li.text--center
@@ -73,7 +73,7 @@
             = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft--ends muted-link f-weight-bold' do
               = truncate(@structure.name, length: 80)
               .fa.fa-caret-down.very-soft--left
-            .drop-down__el
+            .drop-down__el.drop-down__el--left
               %ul.drop-down__el-inner-box.text--left
                 - if @structure.main_contact
                   %li.nowrap.text--left
@@ -114,7 +114,7 @@
             %h5.flush--bottom.white.inline-block.v-middle.nowrap.soft--right
               = current_pro_admin.name
               .fa.fa-caret-down
-            .drop-down__el
+            .drop-down__el.drop-down__el--left
               %ul.drop-down__el-inner-box.text--left
                 %li.nowrap.text--left
                   = link_to destroy_pro_admin_session_path, method: :delete do
