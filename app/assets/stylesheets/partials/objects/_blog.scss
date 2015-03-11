@@ -41,6 +41,7 @@
         font-weight: 600;
         text-align : left !important;
         font-size  : 14px !important;
+        @include media-query(palm) { opacity: 1!important; }
     }
 
 .blog-feed {
