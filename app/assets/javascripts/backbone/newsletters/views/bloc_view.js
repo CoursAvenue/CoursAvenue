@@ -10,11 +10,15 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             'change input[type=filepicker]': 'updateImage'
         },
 
-        initialize: function initialize (options) {
+        initialize: function initialize () {
             _.bindAll(this, 'deleteImage', 'updateImage');
         },
 
-        updateImage: function updateImage (event) {
+        updateImage: function updateImage () {
+            this.model.set('remote_image_url', event.originalEvent.fpfile.url);
+            this.$el.find('img').attr('src', event.originalEvent.fpfile.url);
+            this.$el.find('img').show();
+            this.$el.find('button').hide();
         },
 
         // TODO:
@@ -22,8 +26,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // 1. Ask for confirmation.
         // 3. Remove image..
         //
-        deleteImage: function echo (event) {
-            console.log(event);
+        deleteImage: function deleteImage () {
+            this.model.set('image', '');
+
+            this.$el.find('img').hide();
+            this.$el.find('button').show()
         },
 
         // Replace the HTML elements with their rich version:
@@ -33,7 +40,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var textAreas = this.$el.find('[name$=\\[content\\]]');
             var pickers = this.$el.find('[name$=\\[remote_image_url\\]]');
 
-            // CKEDITOR.replaceAll();
             textAreas.each(function(index, elem) {
                 CKEDITOR.replace(elem);
             });

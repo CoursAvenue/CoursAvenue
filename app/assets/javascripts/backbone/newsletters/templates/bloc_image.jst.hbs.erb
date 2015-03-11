@@ -2,6 +2,8 @@
 <p class="flush">Donnez plus de visuel à votre newsletter en ajoutant des images</p>
 
 <div class='text--center'>
+  <img class='hidden' data-fpimage='true'>
+
   <input type='filepicker' class='btn btn--large btn--green' id='{{ index }}_remote_image_url' name='newsletter[blocs_attributes][{{ index }}][remote_image_url]' data-fp-apikey="<%= ENV['FILEPICKER_API_KEY'] %>" data-fp-mimetypes="image/*" data-fp-container="window" data-fp-button-text="Ajouter une image"/>
 
   <a href='javascript:void(0)' class='btn btn--large btn--red' data-delete-image="true">
