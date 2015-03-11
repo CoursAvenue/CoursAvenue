@@ -133,6 +133,7 @@
     .text--center
       #messages-months
   %hr.push--ends
+  #admins-cumul
   .soft--sides
     %h3
       %i.fa.fa-map-marker
@@ -232,6 +233,18 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        new Highcharts.Chart({
+            chart: { renderTo: 'admins-cumul', type: 'spline' },
+            title: { text: null },
+            xAxis: { categories: #{@admins_cumul_hash.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [
+              { data: #{@admins_cumul_hash.map{|date, count| count}},
+                name: 'Profs cumul'
+               }
+            ]
+        });
+
         new Highcharts.Chart({
             chart: { renderTo: 'admins', type: 'column' },
             title: { text: null },

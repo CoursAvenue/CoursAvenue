@@ -8,6 +8,10 @@ class Pro::DashboardController < Pro::ProController
     # Compute all the days to have all the days shown in the graph even when values are empty
     hash_of_days = {}
     ((1.months).ago.to_date..Date.today).each { |date| hash_of_days[date.strftime('%Y-%m-%d')] = 0 }
+    @admins_cumul_hash = {}
+    ((3.months).ago.to_date..Date.today).each do |day, index|
+      @admins_cumul_hash[day] = Admin.where( Admin.arel_table[:created_at].lteq(day) ).count
+    end
     @comments_hash  = {}
     @comments.each { |date, count| @comments_hash[date.to_s] = count }
     @admins_hash    = {}
