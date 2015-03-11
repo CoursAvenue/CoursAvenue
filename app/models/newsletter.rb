@@ -55,24 +55,6 @@ class Newsletter < ActiveRecord::Base
     state == 'draft'
   end
 
-  # TODO: Move this into a View helper.
-  def string_status
-    if sent?
-      "envoyée le #{I18n.l(sent_at, format: :long_human)}"
-    else
-      "brouillon enregistré le #{I18n.l(updated_at, format: :long_human)}"
-    end
-  end
-
-  # TODO: Move this into a View helper.
-  def string_mailing_list
-    if mailing_list.present?
-      mailing_list.name
-    else
-      "Pas encore choisie"
-    end
-  end
-
   # Duplicate this Newsletter model.
   #
   # @return the duplicated newsletter.
