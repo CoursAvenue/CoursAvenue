@@ -10,7 +10,7 @@ class NewsletterMailer < ActionMailer::Base
 
     mail to: to,
       subject: "[Aperçu CoursAvenue] #{@newsletter.object}",
-      from: "#{@newsletter.sender_name} <noreply@coursavenue.com>"
+      from: "\"#{@newsletter.sender_name}\" <noreply@coursavenue.com>"
   end
 
   # Actually send the newsletter.
@@ -19,7 +19,7 @@ class NewsletterMailer < ActionMailer::Base
 
     mail subject: @newsletter.object,
       bcc: recipients,
-      from: "#{@newsletter.sender_name} <noreply@coursavenue.com>",
+      from: "\"#{@newsletter.sender_name}\" <noreply@coursavenue.com>",
       reply_to: @newsletter.reply_to
   end
 
@@ -29,6 +29,6 @@ class NewsletterMailer < ActionMailer::Base
 
     mail to: user_profile.email,
       subject: '',
-      from:  "#{@newsletter.sender_name} <noreply@coursavenue.com>"
+      from:  "\"#{@newsletter.sender_name}\" <noreply@coursavenue.com>"
   end
 end
