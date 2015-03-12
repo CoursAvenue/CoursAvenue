@@ -81,7 +81,9 @@ class Newsletter < ActiveRecord::Base
   #
   # @return self
   def send!
-    self.sent = true
+    self.state = 'sent'
+    self.sent_at = Time.now
+
     save
   end
 
