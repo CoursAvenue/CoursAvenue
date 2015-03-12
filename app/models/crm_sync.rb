@@ -21,7 +21,7 @@ class CrmSync
         results = self.client.create_lead(self.data_for_structure(structure))
       end
     end
-    if results['errors'].any? or results['field-errors'].any?
+    if (results['errors'] and results['errors'].any?) or (results['field-errors'] and results['field-errors'].any?)
       structure_hash_info = { structure_slug: structure.slug, structure_name: structure.name }
       Bugsnag.notify(RuntimeError.new("CrmSync error"), results.merge(structure_hash_info))
     end
