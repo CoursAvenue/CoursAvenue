@@ -2,7 +2,7 @@
   = simple_form_for [:pro, @structure, @newsletter, @mailing_list],
     url: mailing_list_create_pro_structure_newsletter_path(@structure, @newsletter) do |form|
 
-    %input{ type: 'radio', id: 'mailing_list_all', name: 'newsletter_mailing_list[type]', value: 'all', class: 'one--whole', data: { hide: { name: true } } }
+    %input{ type: 'radio', id: 'mailing_list_all', name: 'newsletter_mailing_list[type]', value: 'all', class: 'one--whole', data: { hide: { name: true, contacts: true } }  }
     %label{ for: 'mailing_list_all' }
       = "Envoyer à tout les contacts du répertoire (#{@user_profiles.count} contacts)"
 
@@ -15,7 +15,7 @@
 
     - if @tags.any?
       %br
-      %input{ type: 'radio', id: 'mailing_list_some', name: 'newsletter_mailing_list[type]', value: 'some', class: 'one--whole', data: { show: { name: true } } }
+      %input{ type: 'radio', id: 'mailing_list_some', name: 'newsletter_mailing_list[type]', value: 'some', class: 'one--whole', data: { show: { name: true }, hide: { contacts: true } } }
       %label{ for: 'mailing_list_some' }
         Envoyer uniquement aux contacts dont l'étiquette
         %select{ id: 'predicate', name: 'newsletter_mailing_list[filters][0][predicate]' }
@@ -37,6 +37,18 @@
       .hidden{ data: { name: true } }
         = form.input :name, data: { show: { name: true } }, label: 'Nom de la liste de diffusion'
 
+    %br
+    %input{ type: 'radio', id: 'mailing_list_new', name: 'newsletter_mailing_list[type]', value: 'all', class: 'one--whole', data: { hide: { name: true }, show: { contacts: true } } }
+    %label{ for: 'mailing_list_new' }
+      Importer une nouvelle liste de contacts
+
+    .hidden{ data: { contacts: true } }
+      .soft.text--center
+        %p Attention : le ficher d'import doit étre un fichier Excel (format .xls, .xlsx ou .csv) et ne doit contenir qu'une colonne contenant toutes vos adresses emails.
+        = link_to new_pro_structure_user_profile_import_path(@structure, return_to: @newsletter.id),
+          class: 'btn btn--blue btn--large' do
+          %i.fa.fa-plus
+          Importer mon fichier de contact
 
     .text--center.push--down
       = form.submit 'Enregistrer et Continuer', class: 'btn btn--bigger btn--green'
@@ -52,5 +64,17 @@
     $('input[data-show-name]').on('change', function() {
         if ($(this).is(':checked')) {
             $('[data-name]').slideDown();
+        }
+    });
+
+    $('input[data-hide-contacts]').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('[data-contacts]').slideUp();
+        }
+    });
+
+    $('input[data-show-contacts]').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('[data-contacts]').slideDown();
         }
     });
