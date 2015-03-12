@@ -23,7 +23,7 @@ class CrmSync
     end
     if results['errors'].any? or results['field-errors'].any?
       structure_hash_info = { structure_slug: structure.slug, structure_name: structure.name }
-      Bugsnag.notify(RuntimeError.new("Payment refused"), results.merge(structure_hash_info))
+      Bugsnag.notify(RuntimeError.new("CrmSync error"), results.merge(structure_hash_info))
     end
   end
 
