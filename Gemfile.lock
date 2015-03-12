@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git://github.com/nim1989/closeio.git
-  revision: 80725c2803190396d9292c728bcb95b0124ec918
+  revision: 57eb73c768c80f42c63d97e218928656f2750f1f
   specs:
     closeio (2.0.4)
       faraday
@@ -237,7 +237,7 @@ GEM
       railties (>= 3.0.0)
     faker (1.4.3)
       i18n (~> 0.5)
-    faraday (0.9.0)
+    faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
@@ -329,7 +329,7 @@ GEM
     has_scope (0.6.0.rc)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
-    hashie (3.2.0)
+    hashie (3.4.0)
     heroku-api (0.3.19)
       excon (~> 0.38)
       multi_json (~> 1.8)
