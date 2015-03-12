@@ -151,7 +151,7 @@ gem 'roadie'                    , '~>3.0.3'
 gem 'roadie-rails'              , '~>1.0.4'
 
 # See issue: https://github.com/leshill/handlebars_assets/pull/46
-gem 'handlebars_assets'         , '~>0.15', git: 'git://github.com/variousauthors/handlebars_assets.git'
+gem 'handlebars_assets'         , '~>0.20.1'#, git: 'git://github.com/variousauthors/handlebars_assets.git'
 # Decorator
 gem 'draper'                    , '~>1.3.1'
 # allows sharing of handlebars templates

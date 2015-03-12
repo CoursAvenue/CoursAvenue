@@ -33,16 +33,6 @@ GIT
     rails-dev-boost (0.3.0)
       railties (>= 3.0)
 
-GIT
-  remote: git://github.com/variousauthors/handlebars_assets.git
-  revision: 6257ec6f2ae67763ab20d6b84644dad8cfd5e9f3
-  specs:
-    handlebars_assets (0.15)
-      execjs (>= 1.2.9)
-      multi_json
-      sprockets (>= 2.0.3)
-      tilt
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -331,6 +321,11 @@ GEM
       handlebars-source (~> 1.3.0)
       therubyracer (~> 0.12.0)
     handlebars-source (1.3.0)
+    handlebars_assets (0.20.1)
+      execjs (~> 2.0)
+      multi_json (~> 1.0)
+      sprockets (~> 2.0)
+      tilt (~> 1.2)
     has_scope (0.6.0.rc)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
@@ -773,7 +768,7 @@ DEPENDENCIES
   griddler-mandrill (~> 1.0.1)
   guard-pow
   haml (~> 4.0.3)
-  handlebars_assets (~> 0.15)!
+  handlebars_assets (~> 0.20.1)
   heroku-api
   heroku-deflater
   highrise
