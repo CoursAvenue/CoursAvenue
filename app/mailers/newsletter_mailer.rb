@@ -17,7 +17,7 @@ class NewsletterMailer < ActionMailer::Base
   def send_newsletter(newsletter, recipients)
     @newsletter = newsletter
 
-    mail: subject: @newsletter.object,
+    mail subject: @newsletter.object,
       bcc: recipients,
       from: "#{@newsletter.sender_name} <noreply@coursavenue.com>",
       reply_to: @newsletter.reply_to

@@ -7,7 +7,12 @@ class NewsletterSender
     return false if newsletter.mailing_list.nil? or newsletter.sent?
 
     newsletter.send!
-    NewsletterMailer.delay.send_newsletter(newsletter)
+    recipients = newsletter.mailing_list.create_recipients.map(&:email)
+    NewsletterMailer.delay.send_newsletter(newsletter, recipients)
     true
+  end
+
+  def self.send_preview(newsletter, to)
+    NewsletterMailer.delay.preview(newsletter, to)
   end
 end
