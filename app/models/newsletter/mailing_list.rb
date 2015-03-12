@@ -13,7 +13,7 @@ class Newsletter::MailingList < ActiveRecord::Base
   store_accessor :metadata, :filters
   define_array_accessor_for :metadata, :filters
 
-  before_create :set_name
+  before_validation :set_name, on: :create
 
   # Create the recipients from the defined filters and their subscription state.
   # We loop on the filters and depending on the predicate, we get the corresponding profiles and
@@ -58,7 +58,7 @@ class Newsletter::MailingList < ActiveRecord::Base
 
   # If the name is not defined, set a default on using the define filters.
   def set_name
-    if self.name.nil?
+    if self.name.nil? or self.name.empty?
       self.name = "Liste de diffusion du #{I18n.l(Time.current, format: :long_name)}"
       save
     end
