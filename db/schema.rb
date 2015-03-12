@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150226142040) do
+ActiveRecord::Schema.define(version: 20150312093908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20150226142040) do
     t.string   "cover_image_content_type"
     t.integer  "cover_image_file_size"
     t.datetime "cover_image_updated_at"
+    t.integer  "category_id"
   end
 
   create_table "blog_articles_subjects", force: true do |t|
@@ -85,6 +86,13 @@ ActiveRecord::Schema.define(version: 20150226142040) do
   end
 
   add_index "blog_articles_subjects", ["article_id", "subject_id"], name: "index_blog_articles_subjects_on_article_id_and_subject_id", using: :btree
+
+  create_table "blog_categories", force: true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "call_reminders", force: true do |t|
     t.string   "name"
@@ -118,6 +126,7 @@ ActiveRecord::Schema.define(version: 20150226142040) do
     t.text     "title"
     t.text     "subtitle"
     t.text     "description"
+    t.hstore   "meta_data"
   end
 
   add_index "cities", ["name"], name: "index_cities_on_name", using: :btree

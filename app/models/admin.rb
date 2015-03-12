@@ -150,7 +150,7 @@ class ::Admin < ActiveRecord::Base
   private
 
   def subscribe_to_crm
-    CrmSync.delay.create_contact(self.structure) if self.structure and Rails.env.production?
+    CrmSync.delay.update(self.structure) if self.structure
   end
 
   def check_if_was_invited

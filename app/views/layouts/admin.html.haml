@@ -5,6 +5,12 @@
         .flexbox__item.v-middle.soft--left
           = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
         .flexbox__item.v-middle.text--right.soft--right
+          - if @structure.is_sleeping?
+            - if current_pro_admin and current_pro_admin.super_admin?
+              = link_to 'Supprimer ce profil', pro_structure_path(@structure), class: 'btn btn--red btn--small', data: { method: :delete, confirm: 'Êtes-vous sûr ?'}
+              %span.push-half--sides= '|'
+            %span.v-middle.lbl.lbl--red{ data: { toggle: 'popover', content: "Vous venez de prendre le contrôle de votre profil : complétez-le pendant que l'équipe CoursAvenue vérifie votre identité. Vous recevrez un e-mail dès que c'est validé !  Les modifications que vous avez apportées deviendront alors directement visibles sur votre profil public.", trigger: 'hover' } } En attente de validation
+
           - if @structure.mailbox
             - unread_conversations       = @structure.mailbox.inbox(read: false)
             - unread_conversations      += @structure.unanswered_information_message
@@ -96,9 +102,7 @@
                   = link_to destroy_pro_admin_session_path, method: :delete do
                     %i.fa.fa-sign-out.soft-half--right
                     Déconnexion
-          - if @structure.is_sleeping?
-            %span.push-half--sides= '|'
-            %span.v-middle.lbl.lbl--red{ data: { toggle: 'popover', content: "Vous venez de prendre le contrôle de votre profil : complétez-le pendant que l'équipe CoursAvenue vérifie votre identité. Vous recevrez un e-mail dès que c'est validé !  Les modifications que vous avez apportées deviendront alors directement visibles sur votre profil public.", trigger: 'hover' } } En attente de validation
+
           %span.v-middle.push-half--sides= '|'
           = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'white v-middle', target: :_blank, title: 'Voir mon profil public', data: { toggle: 'tooltip', placement: 'left' } do
             .fa.fa-eye.v-middle.epsilon

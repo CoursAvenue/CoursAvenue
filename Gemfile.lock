@@ -8,6 +8,16 @@ GIT
       sprockets (<= 2.11.0)
 
 GIT
+  remote: git://github.com/nim1989/closeio.git
+  revision: 57eb73c768c80f42c63d97e218928656f2750f1f
+  specs:
+    closeio (2.0.4)
+      faraday
+      faraday_middleware
+      hashie
+      json
+
+GIT
   remote: git://github.com/rails/activerecord-session_store.git
   revision: e879bf087eb684452aaddb734efa20b95588b141
   specs:
@@ -166,11 +176,6 @@ GEM
       orm_adapter (~> 0.5.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
-    closeio (2.0.4)
-      faraday
-      faraday_middleware
-      hashie
-      json
     cloudinary (1.0.78)
       aws_cf_signer
       rest-client
@@ -242,7 +247,7 @@ GEM
       railties (>= 3.0.0)
     faker (1.4.3)
       i18n (~> 0.5)
-    faraday (0.9.0)
+    faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
@@ -329,7 +334,7 @@ GEM
     has_scope (0.6.0.rc)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
-    hashie (3.2.0)
+    hashie (3.4.0)
     heroku-api (0.3.19)
       excon (~> 0.38)
       multi_json (~> 1.8)
@@ -737,7 +742,7 @@ DEPENDENCIES
   certified (~> 0.1.1)
   cityhash (~> 0.8.1)
   ckeditor (~> 4.1.0)
-  closeio (~> 2.0.4)
+  closeio!
   cloudinary (~> 1.0.78)
   compass (~> 0.12.2)
   compass-inuit (~> 5.0.2)

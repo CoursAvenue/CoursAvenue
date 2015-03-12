@@ -1,7 +1,7 @@
 # encoding: utf-8
 source 'https://rubygems.org'
 
-ruby '2.1.5'
+ruby '2.2.1'
 
 gem 'rails', '4.1.8'
 
@@ -18,7 +18,8 @@ gem 'rack-ssl-enforcer',    '~> 0.2.7'
 gem 'lograge'
 
 gem 'intercom-rails'
-gem 'closeio'              , '~>2.0.4'
+# gem 'closeio'              , '~>2.0.4'
+gem 'closeio', github: 'nim1989/closeio'
 
 # Webserver
 # gem 'unicorn'
