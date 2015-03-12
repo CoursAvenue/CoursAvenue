@@ -56,7 +56,7 @@ class CrmSync
       end
     end
     contact = { name: structure.name,
-                phones: structure.phone_numbers.uniq.map{|pn| { phone: pn.number, type: 'office' } },
+                phones: structure.phone_numbers.uniq.map{|pn| { phone: pn.international_format, type: 'office' } }.reject{|hash| hash[:phone].length < 10 or hash[:phone].length > 15},
                 emails: email_addresses }
     contact[:id] = existing_contact_id if existing_contact_id
     {
@@ -72,7 +72,7 @@ class CrmSync
   def self.data_for_structure(structure, existing_contact_id=nil)
     admin = structure.main_contact
     contact = { name: structure.name,
-                phones: structure.phone_numbers.uniq.map{|pn| { phone: pn.international_format, type: 'office' } }.reject{|hash| hash[:phone].length < 10},
+                phones: structure.phone_numbers.uniq.map{|pn| { phone: pn.international_format, type: 'office' } }.reject{|hash| hash[:phone].length < 10 or hash[:phone].length > 15},
                 emails: [{ email: admin.email.downcase, type: 'office' }]
               }
     contact[:id] = existing_contact_id if existing_contact_id
@@ -97,8 +97,8 @@ class CrmSync
     custom_datas["Nbre de discussions"]             = structure.mailbox.conversations.count if structure.mailbox
     custom_datas["Nbre de photos/vidéos"]           = structure.medias.count
     custom_datas["Dernière connexion à son profil"] = I18n.l(admin.current_sign_in_at, format: :date_short_en) if admin and admin.current_sign_in_at
-    custom_datas["Disciplines 1"]                   = structure.subjects.at_depth(0).uniq.map(&:name).join('; ')
-    custom_datas["Disciplines 3"]                   = structure.subjects.at_depth(2).uniq.map(&:name).join('; ')
+    custom_datas["Disciplines 1"]                   = structure.subjects.at_depth(0).uniq.map(&:name).join('; ') if structure.subjects.at_depth(0).any?
+    custom_datas["Disciplines 3"]                   = structure.subjects.at_depth(2).uniq.map(&:name).join('; ') if structure.subjects.at_depth(2).any?
     custom_datas["JPO"]                             = (structure.courses.open_courses.any? ? 'Oui' : 'Non')
     custom_datas["Premium ?"]                       = (structure.premium? ? 'Oui' : 'Non')
     # "Stats : # d'actions" => ,
