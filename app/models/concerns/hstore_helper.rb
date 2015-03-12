@@ -38,7 +38,11 @@ module Concerns
               if self.send(store_field_name)[key.to_s].is_a? Array
                 self.send(store_field_name)[key.to_s]
               else
-                JSON::parse self.send(store_field_name)[key.to_s]
+                begin
+                  JSON::parse self.send(store_field_name)[key.to_s]
+                rescue JSON::ParserError
+                  eval self.send(store_field_name)[key.to_s]
+                end
               end
             else
               []
