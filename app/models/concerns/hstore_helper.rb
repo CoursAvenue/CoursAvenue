@@ -40,8 +40,13 @@ module Concerns
               else
                 begin
                   JSON::parse self.send(store_field_name)[key.to_s]
-                rescue JSON::ParserError
-                  eval self.send(store_field_name)[key.to_s]
+                rescue JSON::ParserError => error
+                  # We test if it is a JSON array of hashes.
+                  if self.send(store_field_name)[key.to_s].starts_with? '[{'
+                    eval self.send(store_field_name)[key.to_s]
+                  else
+                    raise error
+                  end
                 end
               end
             else
