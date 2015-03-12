@@ -1,4 +1,6 @@
 class Newsletter::MailingList < ActiveRecord::Base
+  attr_accessible :name, :tag, :filters
+
   belongs_to :newsletter
   belongs_to :structure
 
@@ -6,4 +8,7 @@ class Newsletter::MailingList < ActiveRecord::Base
 
   validates :name, presence: true
   validates :tag, presence: true
+
+  store_accessor :metadata, :filters
+
 end
