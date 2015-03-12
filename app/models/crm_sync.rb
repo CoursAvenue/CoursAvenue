@@ -9,17 +9,21 @@ class CrmSync
   def self.update(structure)
     admin = structure.main_contact
     if admin.nil?
-      CrmSync.create_sleeping_contact(structure)
+      results = CrmSync.create_sleeping_contact(structure)
     else
       existing_lead = self.client.list_leads("email:\"#{structure.main_contact.email.downcase}\"")['data'].first
       if existing_lead
         existing_contact = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].first[:email] == structure.main_contact.email.downcase }
         existing_contact_id = existing_contact[:id] if existing_contact
         data = self.data_for_structure(structure, existing_contact_id)
-        self.client.update_lead(existing_lead['id'], data)
+        results = self.client.update_lead(existing_lead['id'], data)
       else
-        self.client.create_lead(self.data_for_structure(structure))
+        results = self.client.create_lead(self.data_for_structure(structure))
       end
+    end
+    if results['errors'].any? or results['field-errors'].any?
+      structure_hash_info = { structure_slug: structure.slug, structure_name: structure.name }
+      Bugsnag.notify(RuntimeError.new("Payment refused"), results.merge(structure_hash_info))
     end
   end
 
@@ -81,13 +85,14 @@ class CrmSync
   end
 
   def self.structure_custom_datas(structure)
+    admin = structure.main_contact
     custom_datas = {}
     custom_datas[:facebook_url] = structure.facebook_url if structure.facebook_url
     custom_datas['1. Profil public']                = Rails.application.routes.url_helpers.structure_url(structure, subdomain: 'www', host: 'coursavenue.com')
     custom_datas['2. Profil privée']                = Rails.application.routes.url_helpers.pro_structure_url(structure, subdomain: 'pro', host: 'coursavenue.com')
     custom_datas["Nbre avis"]                       = structure.comments_count if structure.comments_count
     custom_datas["Nbre de cours actifs"]            = structure.plannings.future.group_by(&:course_id).length
-    custom_datas["Nbre de discussions"]             = structure.mailbox.conversations.count
+    custom_datas["Nbre de discussions"]             = structure.mailbox.conversations.count if structure.mailbox
     custom_datas["Nbre de photos/vidéos"]           = structure.medias.count
     custom_datas["Dernière connexion à son profil"] = I18n.l(admin.current_sign_in_at, format: :date_short_en) if admin and admin.current_sign_in_at
     custom_datas["Disciplines 1"]                   = structure.subjects.at_depth(0).uniq.map(&:name).join('; ')
@@ -98,6 +103,7 @@ class CrmSync
     # "Stats : # d’affichages" => ,
     # "Stats : # de demandes d’info" => ,
     # "Stats : # de vues" => ,
+    custom_datas
   end
 
   def self.structure_status(structure)
