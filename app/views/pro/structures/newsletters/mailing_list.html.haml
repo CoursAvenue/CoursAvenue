@@ -2,7 +2,7 @@
 
 %h3 Choix des destinataires de la newsletter
 
-- if @has_contacts
+- if @user_profiles.any?
   = render 'mailing_list_choice'
 - else
   = render 'mailing_list_import'

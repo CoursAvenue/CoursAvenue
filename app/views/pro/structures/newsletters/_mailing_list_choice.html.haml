@@ -1,50 +1,57 @@
-= simple_form_for [:pro, @structure, @newsletter],
-  url: mailing_list_create_pro_structure_newsletter_path(@structure, @newsletter) do |f|
-  .panel.push--down
-    .panel__body.soft
-      .soft
-        .one-whole
-          %input{ type: 'radio', id: 'mailing_list_type_all', name: 'mailing_list_type', value: 'all', class: 'one-whole', data: { hide: { import: true } } }
-          %label{ for: 'mailing_list_type_all' }
-            Envoyer à tous les contacts du répertoire
-        .one-whole
-          %input{ type: 'radio', id: 'mailing_list_type_some', name: 'mailing_list_type', value: 'some', class: 'one-whole', data: { hide: { import: true } } }
-          %label{for: 'mailing_list_type_some'}
-            Envoyer uniquement aux contacts dont l'étiquette
-            %select
-              %option{ value: 'is' } est
-              %option{ value: 'isnot' } n'est pas
-              %option{ value: 'contains' } contient
-              %option{ value: 'containsnot' } ne contient pas
-            %select
-              - @used_tags.each do |tag|
-                %option{ value: tag }= tag
-        .one-whole
-          %input{ type: 'radio', id: 'mailing_list_type_new', name: 'mailing_list_type', value: 'new', class: 'one-whole', data: { show: { import: true } } }
-          %label{for: 'mailing_list_type_new'}
-            Importer une nouvelle liste de contacts
+-# = render 'old_choice'
+.push--down
+  = simple_form_for [:pro, @structure, @newsletter, @mailing_list],
+    url: mailing_list_create_pro_structure_newsletter_path(@structure, @newsletter) do |form|
 
-        %div.text--center.soft.hidden{ data: { import: true } }
-          %p Attention : le ficher d'import doit étre un fichier Excel (format .xls, .xlsx ou .csv) et ne doit contenir qu'une colonne contenant toutes vos adresses emails.
-          = link_to new_pro_structure_user_profile_import_path(@structure), class: 'btn btn--blue btn--large' do
-            %i.fa.fa-plus
-            Importer mon fichier de contact
+    %input{ type: 'radio', id: 'mailing_list_all', name: 'newsletter_mailing_list[type]', value: 'all', class: 'one--whole', data: { hide: { name: true } } }
+    %label{ for: 'mailing_list_all' }
+      = "Envoyer à tout les contacts du répertoire (#{@user_profiles.count} contacts)"
 
-    .text--center
-      = f.submit 'Enregistrer et Continuer', class: 'btn btn--bigger btn--green'
+    -# - if @mailing_lists.any?
+    -#   %h6 Choisir une liste de diffusion existante :
+    -#   - @mailing_lists.each do |mailing_list|
+    -#     %input{ type: 'radio', id: 'mailing_list_all', name: 'mailing_list[type]', value: 'all', class: 'one--whole' }
+    -#     %label{ for: 'mailing_list_all' }
+    -#       = "Envoyer à la liste #{mailing_list.name} (#{mailing_list.count} contacts)"
 
-      -# = link_to 'Enregistrer et Continuer', metadata_pro_structure_newsletter_path(@structure, @newsletter), class: 'btn btn--bigger btn--green'
+    - if @tags.any?
+      %br
+      %input{ type: 'radio', id: 'mailing_list_some', name: 'newsletter_mailing_list[type]', value: 'some', class: 'one--whole', data: { show: { name: true } } }
+      %label{ for: 'mailing_list_some' }
+        Envoyer uniquement aux contacts dont l'étiquette
+        %select{ id: 'predicate', name: 'newsletter_mailing_list[filters][0][predicate]' }
+          %option{ value: 'is' } est
+          %option{ value: 'isnot' } n'est pas
+          %option{ value: 'contains' } contient
+          %option{ value: 'containsnot' } ne contient pas
+        %select{ name: 'newsletter_mailing_list[filters][0][tag]' }
+          - @tags.each do |tag|
+            %option{ value: tag }= tag
+        %select{ id: 'predicate', name: 'newsletter_mailing_list[filters][1][predicate]' }
+          %option{ value: 'is' } est
+          %option{ value: 'isnot' } n'est pas
+          %option{ value: 'contains' } contient
+          %option{ value: 'containsnot' } ne contient pas
+        %select{ name: 'newsletter_mailing_list[filters][1][tag]' }
+          - @tags.each do |tag|
+            %option{ value: tag }= tag
+      .hidden{ data: { name: true } }
+        = form.input :name, data: { show: { name: true } }, label: 'Nom de la liste de diffusion'
+
+
+    .text--center.push--down
+      = form.submit 'Enregistrer et Continuer', class: 'btn btn--bigger btn--green'
 
 = content_for :scripts do
   :javascript
-    $('input[data-hide-import]').on('change', function() {
+    $('input[data-hide-name]').on('change', function() {
         if ($(this).is(':checked')) {
-            $('[data-import]').slideUp();
+            $('[data-name]').slideUp();
         }
     });
 
-    $('input[data-show-import]').on('change', function() {
+    $('input[data-show-name]').on('change', function() {
         if ($(this).is(':checked')) {
-            $('[data-import]').slideDown();
+            $('[data-name]').slideDown();
         }
     });

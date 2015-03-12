@@ -260,7 +260,7 @@ CoursAvenue::Application.routes.draw do
             get :mailing_list
             get :metadata
 
-            patch :mailing_list_create
+            post :mailing_list_create
             patch :save_and_send
           end
         end
