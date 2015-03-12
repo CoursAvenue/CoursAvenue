@@ -117,8 +117,12 @@ class Pro::Structures::NewslettersController < ApplicationController
       end
     end
 
+
     respond_to do |format|
       if @mailing_list.save
+        @newsletter.mailing_list = @mailing_list
+        @newsletter.save
+
         format.html { redirect_to metadata_pro_structure_newsletter_path(@structure, @newsletter),
                       notice: 'La liste de diffusion a été créé avec succés' }
       else
