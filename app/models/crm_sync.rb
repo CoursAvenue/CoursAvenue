@@ -39,7 +39,7 @@ class CrmSync
   def self.place_addresses_from_structure(structure)
     places_address = [{ address_1: structure.street, zipcode: structure.zip_code, city: structure.city.name, country: 'FR' }]
     places_address += structure.places.map{ |place| { address_1: place.street, zipcode: place.zip_code, city: place.city.name, country: 'FR' }}
-    places_address
+    places_address.uniq
   end
 
   def self.data_for_sleeping_structure(structure, existing_contact_id=nil)
@@ -49,10 +49,6 @@ class CrmSync
         email_addresses << { email: email.downcase, type: 'office' }
       end
     end
-    custom_datas = {}
-    custom_datas['1. Profil public'] = Rails.application.routes.url_helpers.structure_url(structure, subdomain: 'www', host: 'coursavenue.com')
-    custom_datas['2. Profil privée'] = Rails.application.routes.url_helpers.pro_structure_url(structure, subdomain: 'pro', host: 'coursavenue.com')
-    custom_datas[:facebook_url] = structure.facebook_url if structure.facebook_url
     contact = { name: structure.name,
                 phones: structure.phone_numbers.uniq.map{|pn| { phone: pn.number, type: 'office' } },
                 emails: email_addresses }
@@ -62,30 +58,13 @@ class CrmSync
       addresses: self.place_addresses_from_structure(structure),
       url: structure.website,
       status: self.structure_status(structure),
-      custom: custom_datas,
+      custom: self.structure_custom_datas(structure),
       contacts: [contact]
     }
   end
 
   def self.data_for_structure(structure, existing_contact_id=nil)
     admin = structure.main_contact
-    custom_datas = {}
-    custom_datas[:facebook_url] = structure.facebook_url if structure.facebook_url
-    custom_datas['1. Profil public']                = Rails.application.routes.url_helpers.structure_url(structure, subdomain: 'www', host: 'coursavenue.com')
-    custom_datas['2. Profil privée']                = Rails.application.routes.url_helpers.pro_structure_url(structure, subdomain: 'pro', host: 'coursavenue.com')
-    custom_datas["Nbre avis"]                       = structure.comments_count if structure.comments_count
-    custom_datas["Nbre de cours actifs"]            = structure.plannings.future.group_by(&:course_id).length
-    custom_datas["Nbre de discussions"]             = structure.mailbox.conversations.count
-    custom_datas["Nbre de photos/vidéos"]           = structure.medias.count
-    custom_datas["Dernière connexion à son profil"] = I18n.l(admin.current_sign_in_at, format: :date_short_en) if admin.current_sign_in_at
-    custom_datas["Disciplines 1"]                   = structure.subjects.at_depth(0).uniq.map(&:name).join('; ')
-    custom_datas["Disciplines 3"]                   = structure.subjects.at_depth(2).uniq.map(&:name).join('; ')
-    custom_datas["JPO"]                             = (structure.courses.open_courses.any? ? 'Oui' : 'Non')
-    custom_datas["Premium ?"]                       = (structure.premium? ? 'Oui' : 'Non')
-    # "Stats : # d'actions" => ,
-    # "Stats : # d’affichages" => ,
-    # "Stats : # de demandes d’info" => ,
-    # "Stats : # de vues" => ,
     contact = { name: structure.name,
                 phones: structure.phone_numbers.uniq.map{|pn| { phone: pn.international_format, type: 'office' } }.reject{|hash| hash[:phone].length < 10},
                 emails: [{ email: admin.email.downcase, type: 'office' }]
@@ -96,9 +75,29 @@ class CrmSync
       addresses: self.place_addresses_from_structure(structure),
       url: structure.website,
       status: self.structure_status(structure),
-      custom: custom_datas,
+      custom: self.structure_custom_datas(structure),
       contacts: [contact]
     }
+  end
+
+  def self.structure_custom_datas(structure)
+    custom_datas = {}
+    custom_datas[:facebook_url] = structure.facebook_url if structure.facebook_url
+    custom_datas['1. Profil public']                = Rails.application.routes.url_helpers.structure_url(structure, subdomain: 'www', host: 'coursavenue.com')
+    custom_datas['2. Profil privée']                = Rails.application.routes.url_helpers.pro_structure_url(structure, subdomain: 'pro', host: 'coursavenue.com')
+    custom_datas["Nbre avis"]                       = structure.comments_count if structure.comments_count
+    custom_datas["Nbre de cours actifs"]            = structure.plannings.future.group_by(&:course_id).length
+    custom_datas["Nbre de discussions"]             = structure.mailbox.conversations.count
+    custom_datas["Nbre de photos/vidéos"]           = structure.medias.count
+    custom_datas["Dernière connexion à son profil"] = I18n.l(admin.current_sign_in_at, format: :date_short_en) if admin and admin.current_sign_in_at
+    custom_datas["Disciplines 1"]                   = structure.subjects.at_depth(0).uniq.map(&:name).join('; ')
+    custom_datas["Disciplines 3"]                   = structure.subjects.at_depth(2).uniq.map(&:name).join('; ')
+    custom_datas["JPO"]                             = (structure.courses.open_courses.any? ? 'Oui' : 'Non')
+    custom_datas["Premium ?"]                       = (structure.premium? ? 'Oui' : 'Non')
+    # "Stats : # d'actions" => ,
+    # "Stats : # d’affichages" => ,
+    # "Stats : # de demandes d’info" => ,
+    # "Stats : # de vues" => ,
   end
 
   def self.structure_status(structure)
