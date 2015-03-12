@@ -1,11 +1,11 @@
 # encoding: utf-8
 class Pro::CitiesController < Pro::ProController
+  include CitySearch
   before_action :authenticate_pro_super_admin!, except: [:zip_code_search]
   layout 'admin'
 
   def zip_code_search
-    term = params[:term]
-    @cities = City.where( City.arel_table[:zip_code].matches(term) ).limit(20)
+    @cities = cities_from_zip_code params[:term]
 
     respond_to do |format|
       format.json { render json: @cities }

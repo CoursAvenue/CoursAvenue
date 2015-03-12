@@ -1,6 +1,8 @@
 # encoding: utf-8
 class City < ActiveRecord::Base
   extend FriendlyId
+  include Concerns::HstoreHelper
+
   friendly_id :name, use: [:slugged, :finders]
 
   ######################################################################
@@ -30,12 +32,27 @@ class City < ActiveRecord::Base
                   :title, :subtitle, :description
 
 
+  store_accessor            :meta_data, :associated_zip_codes
+  define_array_accessor_for :meta_data, :associated_zip_codes
+
   has_attached_file :image,
-                    styles: { default: '900x600#', small: '250x200#'}
+                    styles: { default: '900x600#', small: '250x200#' }
+
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
+  ######################################################################
+  # SOLR                                                               #
+  ######################################################################
+  # :nocov:
+  searchable do
+    integer :zip_codes, multiple: true do
+      (self.associated_zip_codes + [self.zip_code]).uniq
+    end
+  end
+  # :nocov:
+
   def to_gmap_json
-    {lng: self.longitude, lat: self.latitude}
+    { lng: self.longitude, lat: self.latitude }
   end
 
   def should_generate_new_friendly_id?

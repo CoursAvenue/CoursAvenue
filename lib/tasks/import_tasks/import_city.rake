@@ -28,7 +28,7 @@ namespace :import do
   desc 'Import City from TXT'
   task :cities, [:filename] => :environment do |t, args|
     file_name = args.filename || 'Export/FR.txt'
-    City.delete_all
+    # City.delete_all
     bar = ProgressBar.new( 51129 )
     # csv_text = File.read(file_name)
     # csv = CSV.parse(csv_text, { col_sep: "\t" })
@@ -37,23 +37,19 @@ namespace :import do
     # end
 
     CSV.foreach(file_name, { col_sep: "\t" }) do |row|
-      City.create(cities_hash_from_row(row))
+      city = City.where(name: cities_hash_from_row(row)[:name]).first
+      if city.nil?
+        puts cities_hash_from_row(row)[:name]
+        city = City.create(cities_hash_from_row(row))
+        next
+      end
+      city.associated_zip_codes ||= []
+      city.associated_zip_codes = city.associated_zip_codes + [cities_hash_from_row(row)[:zip_code].gsub(/\D/, '')]
+      city.associated_zip_codes.uniq!
+      city.save
+      # City.create(cities_hash_from_row(row))
       bar.increment! 1
     end
-    City.create(
-              name: "Paris",
-          iso_code: "FR",
-          zip_code: "75000",
-       region_name: "Île-de-France",
-       region_code: "A8",
-   department_name: "Paris",
-   department_code: "75",
-      commune_name: "Paris",
-      commune_code: "751",
-          latitude: 48.8592,
-         longitude: 2.3417,
-           acuracy: 5
-      )
 
   end
 end
