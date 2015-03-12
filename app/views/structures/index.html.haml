@@ -22,6 +22,8 @@
   window.coursavenue.bootstrap = {
       current_pro_admin: #{(current_pro_admin ? true : false)},
       city_id: '#{ @city.slug }',
+      selected_subject: #{ @subject ? SubjectSearchSerializer.new(@subject).to_json : '""' },
+      subject_slugs_with_more_than_five_results: #{ @subject_slugs_with_more_than_five_results.to_json },
       options: {
           total: #{ @total },
           latlng: #{ @latlng },

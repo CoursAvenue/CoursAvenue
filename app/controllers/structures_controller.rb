@@ -41,9 +41,9 @@ class StructuresController < ApplicationController
     params[:per_page]      = Structure::NB_STRUCTURE_PER_PAGE
 
     if params_has_planning_filters?
-      @structures, @places, @total = search_plannings
+      @structures, @places, @total, @subject_slugs_with_more_than_five_results = search_plannings
     else
-      @structures, @total = search_structures
+      @structures, @total, @subject_slugs_with_more_than_five_results = search_structures
     end
     @latlng = retrieve_location
     @models = jasonify @structures

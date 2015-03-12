@@ -4,83 +4,16 @@
         <i class="fa fa-times hidden" data-el="clearer"></i>
     </div>
     <div class="hidden absolute white-box on-top soft-half" id="subjects-filter-view">
-        <div class="relative" data-type="button-wrapper" data-value="danse">
-          <a class="grid--full text--center btn btn--gray btn--full" data-type="button" data-value="danse" href="{{root_search_page_path 'danse' city_id}}">
-            <div class="grid__item two-twelfths v-middle">
-                <div class="subject_icon subject_icon__danse"></div>
-            </div>{{!--
-         --}}<div class="grid__item v-middle ten-twelfths text-transform-none soft-half--sides nowrap text--left">Danse</div>
-          </a>
-        </div>
-        <div class="relative" data-type="button-wrapper" data-value="theatre-scene">
-          <a class="grid--full block text--center btn btn--gray btn--full" data-type="button" data-value="theatre-scene" href="{{root_search_page_path 'theatre-scene' city_id}}">
-            <div class="grid__item two-twelfths v-middle">
-                <div class="subject_icon subject_icon__theatre-scene"></div>
-            </div>{{!--
-        --}}<div class="grid__item v-middle ten-twelfths text-transform-none soft-half--sides nowrap text--left">Théâtre & Scène</div>
-          </a>
-        </div>
-        <div class="relative" data-type="button-wrapper" data-value="yoga-bien-etre-sante">
-          <a class="grid--full block text--center btn btn--gray btn--full" data-type="button" data-value="yoga-bien-etre-sante" href="{{root_search_page_path 'yoga-bien-etre-sante' city_id}}">
-            <div class="grid__item two-twelfths v-middle">
-                <div class="subject_icon subject_icon__yoga-bien-etre-sante"></div>
-            </div>{{!--
-        --}}<div class="grid__item v-middle ten-twelfths text-transform-none soft-half--sides nowrap text--left">Yoga,Bien-être & Santé</div>
-          </a>
-        </div>
-        <div class="relative" data-type="button-wrapper" data-value="musique-chant">
-          <a class="grid--full block text--center btn btn--gray btn--full" data-type="button" data-value="musique-chant" href="{{root_search_page_path 'musique-chant' city_id}}">
-            <div class="grid__item two-twelfths v-middle">
-                <div class="subject_icon subject_icon__musique-chant"></div>
-            </div>{{!--
-         --}}<div class="grid__item v-middle ten-twelfths text-transform-none soft-half--sides nowrap text--left">Musique & Chant</div>
-          </a>
-        </div>
-        <div class="relative" data-type="button-wrapper" data-value="deco-mode-bricolage">
-          <a class="grid--full block text--center btn btn--gray btn--full" data-type="button" data-value="deco-mode-bricolage" href="{{root_search_page_path 'deco-mode-bricolage' city_id}}">
-            <div class="grid__item two-twelfths v-middle">
-                <div class="subject_icon subject_icon__deco-mode-bricolage"></div>
-            </div>{{!--
-        --}}<div class="grid__item v-middle ten-twelfths text-transform-none soft-half--sides nowrap text--left">Déco, Mode & Bricolage</div>
-          </a>
-        </div>
-        <div class="relative" data-type="button-wrapper" data-value="dessin-peinture-arts-plastiques">
-          <a class="grid--full block text--center btn btn--gray btn--full" data-type="button" data-value="dessin-peinture-arts-plastiques" href="{{root_search_page_path 'dessin-peinture-arts-plastiques' city_id}}">
-            <div class="grid__item two-twelfths v-middle">
-                <div class="subject_icon subject_icon__dessin-peinture-arts-plastiques"></div>
-            </div>{{!--
-        --}}<div class="grid__item v-middle ten-twelfths text-transform-none soft-half--sides nowrap text--left">Dessin, Peinture & Arts</div>
-          </a>
-        </div>
-        <div class="relative" data-type="button-wrapper" data-value="sports-arts-martiaux">
-          <a class="grid--full block text--center btn btn--gray btn--full" data-type="button" data-value="sports-arts-martiaux" href="{{root_search_page_path 'sports-arts-martiaux' city_id}}">
-            <div class="grid__item two-twelfths v-middle">
-                <div class="subject_icon subject_icon__sports-arts-martiaux"></div>
-            </div>{{!--
-        --}}<div class="grid__item v-middle ten-twelfths text-transform-none soft-half--sides nowrap text--left">Sports & Arts martiaux</div>
-          </a>
-        </div>
-        <div class="relative" data-type="button-wrapper" data-value="cuisine-vins">
-          <a class="grid--full block text--center btn btn--gray btn--full" data-type="button" data-value="cuisine-vins" href="{{root_search_page_path 'cuisine-vins' city_id}}">
-            <div class="grid__item two-twelfths v-middle">
-                <div class="subject_icon subject_icon__cuisine-vins"></div>
-            </div>{{!--
-        --}}<div class="grid__item v-middle ten-twelfths text-transform-none soft-half--sides nowrap text--left">Cuisine & Vins</div>
-          </a>
-        </div>
-        <div class="relative" data-type="button-wrapper" data-value="photo-video">
-          <a class="grid--full block text--center btn btn--gray btn--full" data-type="button" data-value="photo-video" href="{{root_search_page_path 'photo-video' city_id}}">
-            <div class="grid__item two-twelfths v-middle">
-                <div class="subject_icon subject_icon__photo-video"></div>
-            </div>{{!--
-        --}}<div class="grid__item v-middle ten-twelfths text-transform-none soft-half--sides nowrap text--left">Photo & Vidéo</div>
-          </a>
-        </div>
-{{!--   <div class="relative" data-type="button-wrapper" data-value="other">
-          <a class="grid--full block text--center btn btn--gray btn--full subject_icon__other" data-type="button" data-value="other" href="{{root_search_page_path 'other' city_id}}">
-            Autres
-          </a>
-        </div> --}}
+        {{#each subjects}}
+            <div class="relative" data-type="button-wrapper" data-value="{{ slug }}">
+              <a class="grid--full text--center btn btn--gray btn--full" data-type="button" data-value="{{ slug }}" {{#if show_href}}href="{{root_search_page_path slug ../../city_id}}"{{/if}}>
+                <div class="grid__item two-twelfths v-middle">
+                    <div class="subject_icon subject_icon__{{ slug }}"></div>
+                </div>{{!--
+             --}}<div class="grid__item v-middle ten-twelfths text-transform-none soft-half--sides nowrap text--left">{{ name }}</div>
+              </a>
+            </div>
+        {{/each}}
     </div>
     <div data-type="menu" class="on-top hidden bordered--top bordered--right bordered--bottom absolute north no-text-shadow no-text-transform" style="margin-top: -1px;">
         <div data-type="subject-children-view"></div>

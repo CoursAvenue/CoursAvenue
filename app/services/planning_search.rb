@@ -16,7 +16,7 @@ class PlanningSearch
         fulltext params[:name]
       end
 
-      facet :subject_ids
+      facet :subject_ids, :subject_slugs
 
       # --------------- Geolocation
       if params[:bbox_sw].present? && params[:bbox_ne].present?
