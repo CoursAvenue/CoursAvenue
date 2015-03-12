@@ -1,7 +1,7 @@
 class Newsletter::MailingList < ActiveRecord::Base
   include Concerns::HstoreHelper
 
-  attr_accessible :name, :filters
+  attr_accessible :name, :filters, :all_profiles
 
   belongs_to :newsletter
   belongs_to :structure
@@ -10,17 +10,41 @@ class Newsletter::MailingList < ActiveRecord::Base
 
   validates :name, presence: true
 
-  store_accessor :metadata, :filters
+  store_accessor :metadata, :filters, :all_profiles
   define_array_accessor_for :metadata, :filters
+  define_boolean_accessor_for :metadata, :all_profiles
 
   before_validation :set_name, on: :create
 
-  # Create the recipients from the defined filters and their subscription state.
-  # We loop on the filters and depending on the predicate, we get the corresponding profiles and
-  # transform them into recipients.
+  # Create the recipients to send the Newsletter to.
   #
-  # @return an Array of Newsletter::Recipients.
+  # @return an Array of Newsletter::Recipient.
   def create_recipients
+    if self.all_profiles?
+      profiles = structure.user_profiles.where(subscribed: true)
+    else
+      profiles = filter_profiles
+    end
+    profiles.uniq.each do |profile|
+      newsletter.recipients.create(user_profile: profile)
+    end
+  end
+
+  private
+
+  # If the name is not defined, set a default on using the define filters.
+  def set_name
+    if self.name.nil? or self.name.empty?
+      self.name = "Liste de diffusion du #{I18n.l(Time.current, format: :long_name)}"
+      save
+    end
+  end
+
+  # Filter the UserProfiles using the defined filters.
+  # We loop on the filters and depending on the predicate, we get the corresponding profiles.
+  #
+  # @return an Array of UserProfiles.
+  def filter_profiles
     profiles = []
     self.filters.each do |filter|
       case
@@ -49,18 +73,10 @@ class Newsletter::MailingList < ActiveRecord::Base
       end
     end
 
-    profiles.uniq.each do |profile|
-      newsletter.recipients.create(user_profile: profile)
+    profiles.select! do |profile|
+      profile.subscribed?
     end
-  end
 
-  private
-
-  # If the name is not defined, set a default on using the define filters.
-  def set_name
-    if self.name.nil? or self.name.empty?
-      self.name = "Liste de diffusion du #{I18n.l(Time.current, format: :long_name)}"
-      save
-    end
+    profiles
   end
 end

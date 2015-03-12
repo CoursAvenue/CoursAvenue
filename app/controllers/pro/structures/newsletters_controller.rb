@@ -107,10 +107,9 @@ class Pro::Structures::NewslettersController < ApplicationController
     @mailing_list = @structure.mailing_lists.new
 
     if params[:newsletter_mailing_list][:type] == 'all'
-      @mailing_list.tag  = 'all'
       @mailing_list.name = 'Tout les contacts'
+      @mailing_list.all_profiles = true
     else
-      # @mailing_list.update_attributes params[:newsletter_mailing_list]
       @mailing_list.name = params[:newsletter_mailing_list][:name]
       @mailing_list.filters = params[:newsletter_mailing_list][:filters].map do |k, v|
         { predicate: v["predicate"], tag: v["tag"] }
