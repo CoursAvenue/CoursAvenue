@@ -2,10 +2,6 @@
 # Updates to Highrise
 class CrmSync
 
-  def self.client
-    Closeio::Client.new(ENV['CLOSE_IO_API_KEY'])
-  end
-
   def self.update(structure)
     admin = structure.main_contact
     if admin.nil?
@@ -27,6 +23,12 @@ class CrmSync
       Bugsnag.notify(RuntimeError.new("CrmSync error"), results.merge(structure_hash_info))
     end
     results
+  end
+
+  private
+
+  def self.client
+    CloseioFactory.client
   end
 
   def self.create_sleeping_contact(structure)
