@@ -13,7 +13,7 @@ class UserProfile < ActiveRecord::Base
 
   belongs_to :structure
   belongs_to :user
-  belongs_to :mailing_list, class_name: 'Newsletter::MailingList'
+  has_many :newsletter_recipients, class_name: 'Newsletter::Recipient'
 
   attr_accessible :email, :first_name, :last_name, :birthdate, :notes, :phone, :mobile_phone,
                   :address, :structure_id, :subscribed
