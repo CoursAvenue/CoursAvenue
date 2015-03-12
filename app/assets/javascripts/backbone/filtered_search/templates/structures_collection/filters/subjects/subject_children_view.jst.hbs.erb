@@ -3,7 +3,7 @@
         {{#each children}}
             <li data-type="tab-li" class="subject-tabs {{#ifCond slug '==' ../selected_slug}}selected{{/ifCond}} {{#ifCond slug '==' ../selected_parent_subject_id}}selected{{/ifCond}}" data-behavior="tab" data-el="#tab-subjects-filter-{{slug}}">
                 <a data-subject data-depth="1" data-type="btn"
-                   {{#if this.show_href}}href="{{search_page_path ../../slug slug ../../city_id}}" data-bite{{/if}}
+                   {{#if this.show_href}}href="{{search_page_path ../../slug slug ../../city_id}}"{{/if}}
                    data-value="{{slug}}" data-root-subject="{{../slug}}" class="nowrap muted-link cursor-pointer flexbox" title="{{ name }}">
                   <div class="flexbox__item soft-half--right">
                         {{ name }}
@@ -28,7 +28,7 @@
                                data-value="{{slug}}"
                                data-parent-subject="{{../slug}}"
                                data-root-subject="{{../../slug}}"
-                               {{#if this.show_href}}href="{{search_page_path ../../../slug ../slug ../../../city_id}}" data-bite{{/if}}
+                               {{#if this.show_href}}href="{{search_page_path ../../../slug ../slug ../../../city_id}}"{{/if}}
                                {{#if_collection_count_more_than ../children 10}}style="max-width: 200px;"{{/if_collection_count_more_than}} title="{{ name }}">{{ name }}</a>
                         </li>
                     {{/each}}
