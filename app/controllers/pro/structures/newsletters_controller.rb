@@ -93,33 +93,37 @@ class Pro::Structures::NewslettersController < ApplicationController
   # Step 2.
   def mailing_list
     @newsletter    = @structure.newsletters.find params[:id]
-    @has_contacts  = @structure.user_profiles.any?
-
+    @user_profiles = @structure.user_profiles
+    @tags          = @structure.user_profiles.includes(:tags).flat_map(&:tags).uniq.map(&:name)
     @mailing_lists = @structure.mailing_lists
     @mailing_list  = @structure.mailing_lists.new
-
-    @used_tags = @structure.user_profiles.includes(:tags).flat_map(&:tags).uniq.map(&:name)
   end
 
   # Step 2.
+  # TODO: Use show more of.
+  #
   def mailing_list_create
-    @newsletter = @structure.newsletters.find params[:id]
+    @newsletter   = @structure.newsletters.find params[:id]
     @mailing_list = @structure.mailing_lists.new
 
-    mailing_list_type = params[:mailing_list_type]
-    case mailing_list_type
-    when mailing_list_type == 'new'
-    when mailing_list_type == 'some'
+    if params[:newsletter_mailing_list][:type] == 'all'
+      @mailing_list.tag  = 'all'
+      @mailing_list.name = 'Tout les contacts'
     else
+      # @mailing_list.update_attributes params[:newsletter_mailing_list]
+      @mailing_list.name = params[:newsletter_mailing_list][:name]
+      @mailing_list.filters = params[:newsletter_mailing_list][:filters].map do |k, v|
+        { predicate: v["predicate"], tag: v["tag"] }
+      end
     end
 
     respond_to do |format|
-      if true
+      if @mailing_list.save
         format.html { redirect_to metadata_pro_structure_newsletter_path(@structure, @newsletter),
-                      notice: 'La liste de diffusion a été créé avec succéé' }
+                      notice: 'La liste de diffusion a été créé avec succés' }
       else
         format.html { redirect_to mailing_list_pro_structure_newsletter_path(@structure, @newsletter),
-                      notice: 'Erreur lors de la création de la liste de diffusion' }
+                      error: 'Erreur lors de la création de la liste de diffusion, veuillez rééssayer' }
       end
     end
   end

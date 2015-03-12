@@ -1,4 +1,6 @@
 class Newsletter::MailingList < ActiveRecord::Base
+  include Concerns::HstoreHelper
+
   attr_accessible :name, :filters
 
   belongs_to :newsletter
