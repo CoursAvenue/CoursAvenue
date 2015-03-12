@@ -31,6 +31,9 @@ class Newsletter < ActiveRecord::Base
 
   after_create :set_defaults
 
+  scope :sent,   -> { where(state: 'sent') }
+  scope :drafts, -> { where(state: 'draft') }
+
   ######################################################################
   # Methods                                                            #
   ######################################################################
