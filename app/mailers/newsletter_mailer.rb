@@ -9,18 +9,25 @@ class NewsletterMailer < ActionMailer::Base
     @newsletter = newsletter
 
     mail to: to,
-      subject: @newsletter.object,
-      reply_to: @newsletter.reply_to,
+      subject: "[Aperçu CoursAvenue] #{@newsletter.object}",
       from: "#{@newsletter.sender_name} <noreply@coursavenue.com>"
   end
 
-  def send_newsletter(newsletter)
+  # Actually send the newsletter.
+  def send_newsletter(newsletter, recipients)
     @newsletter = newsletter
+
+    mail: subject: @newsletter.object,
+      bcc: recipients,
+      from: "#{@newsletter.sender_name} <noreply@coursavenue.com>",
+      reply_to: @newsletter.reply_to
   end
 
   # Sends the unsubscription confirmation.
-  def confirm_unsubscribtion(newsletter_subscription)
-    mail to: newsletter_subscription.email,
+  def confirm_unsubscribtion(user_profile, newsletter)
+    @newsletter = newsletter
+
+    mail to: user_profile.email,
       subject: '',
       from:  "#{@newsletter.sender_name} <noreply@coursavenue.com>"
   end

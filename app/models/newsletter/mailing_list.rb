@@ -25,6 +25,7 @@ class Newsletter::MailingList < ActiveRecord::Base
     else
       profiles = filter_profiles
     end
+
     profiles.uniq.each do |profile|
       newsletter.recipients.create(user_profile: profile)
     end
