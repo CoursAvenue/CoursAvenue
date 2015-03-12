@@ -55,7 +55,7 @@ class CrmSync
         email_addresses << { email: email.downcase, type: 'office' }
       end
     end
-    contact = { name: 'Infos contact CoursAvenue - ne pas modifier',
+    contact = { name: structure.name,
                 phones: structure.phone_numbers.uniq.map{|pn| { phone: pn.international_format, type: 'office' } }.reject{|hash| hash[:phone].length < 10 or hash[:phone].length > 15},
                 emails: email_addresses }
     contact[:id] = existing_contact_id if existing_contact_id
@@ -71,7 +71,7 @@ class CrmSync
 
   def self.data_for_structure(structure, existing_contact_id=nil)
     admin = structure.main_contact
-    contact = { name: 'Infos contact CoursAvenue - ne pas modifier',
+    contact = { name: structure.name,
                 phones: structure.phone_numbers.uniq.map{|pn| { phone: pn.international_format, type: 'office' } }.reject{|hash| hash[:phone].length < 10 or hash[:phone].length > 15},
                 emails: [{ email: admin.email.downcase, type: 'office' }]
               }
