@@ -15,8 +15,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         updateImage: function updateImage () {
-            this.model.set('remote_image_url', event.originalEvent.fpfile.url);
-            this.$el.find('img').attr('src', event.originalEvent.fpfile.url);
+            this.model.set('remote_image_url', event.fpfile.url);
+            this.$el.find('img').attr('src', event.fpfile.url);
             this.$el.find('img').show();
             this.$el.find('button').hide();
         },
