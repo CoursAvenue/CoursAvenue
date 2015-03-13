@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 describe MailerPreviewer do
-  describe '.convert' do
+  describe '.preview' do
     let(:content) { Faker::Lorem.paragraph }
     let(:mail)    { TestMailer.preview_test(content) }
 
-    subject { MailerPreviewer.convert(mail) }
+    subject { MailerPreviewer.preview(mail) }
 
     it 'returns the content of the mailer' do
       expect(subject).to include(content)

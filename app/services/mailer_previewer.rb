@@ -10,7 +10,7 @@ class MailerPreviewer
   # @param mail The Mail object to preview.
   #
   # @return The Mail content as a String.
-  def self.convert(mail_object)
+  def self.preview(mail_object)
     inliner = Roadie::Rails::MailInliner.new(mail_object, Rails.application.config.roadie)
     mail = inliner.execute
 
