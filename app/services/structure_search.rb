@@ -17,7 +17,7 @@ class StructureSearch
     params[:name] = params[:name].force_encoding("UTF-8") if params[:name].present?
     @search = Sunspot.search(Structure) do
 
-      facet :subject_ids
+      facet :subject_ids, :subject_slugs
       fulltext params[:name]                                                           if params[:name].present?
 
       with :is_open_for_trial,           true                                          if params[:is_open_for_trial].present?

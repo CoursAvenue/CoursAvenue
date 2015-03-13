@@ -13,11 +13,11 @@ class SubjectSearchSerializer < ActiveModel::Serializer
   end
 
   def parent
-    object.parent.slug unless object.depth == 0
+    object.parent.slug if object.parent
   end
 
   def root
-    object.root.slug unless object.depth == 0
+    object.root.slug
   end
 
 end
