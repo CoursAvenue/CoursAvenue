@@ -7,22 +7,22 @@
 # This way, should a new version add support for a library we do not yet disable here,
 # things won't suddenly break.
 
-if Rails.env.production? or Rails.env.staging?
-  Paperclip::PaperclipOptimizer.default_options = {
-    skip_missing_workers: true,
-    advpng: true,
-    gifsicle: true,
-    jhead: true,
-    jpegoptim: true,
-    jpegrecompress: true,
-    jpegtran: true,
-    optipng: true,
-    pngcrush: true,
-    pngout: true,
-    pngquant: true,
-    svgo: true
-  }
-end
+# if Rails.env.production? or Rails.env.staging?
+#   Paperclip::PaperclipOptimizer.default_options = {
+#     skip_missing_workers: true,
+#     advpng: true,
+#     gifsicle: true,
+#     jhead: true,
+#     jpegoptim: true,
+#     jpegrecompress: true,
+#     jpegtran: true,
+#     optipng: true,
+#     pngcrush: true,
+#     pngout: true,
+#     pngquant: true,
+#     svgo: true
+#   }
+# end
 
 # All available image_optim options. See https://github.com/toy/image_optim for more information
 
