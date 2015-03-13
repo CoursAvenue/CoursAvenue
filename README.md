@@ -122,18 +122,6 @@ run it every time you start the application. To launch it:
 $ bundle exec rake sunspot:solr:start
 ```
 
-The command might return the error:
-```
-Successfully started Solr ...
-rake aborted!
-Sunspot::Solr::Server::AlreadyRunningError: Server is already running with PID 3430
-
-Tasks: TOP => sunspot:solr:start
-(See full trace by running task with --trace)
-```
-
-You can safely ignore it.
-
 ### Testing
 
 To run the tests, run the following commands:
