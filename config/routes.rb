@@ -501,6 +501,8 @@ CoursAvenue::Application.routes.draw do
           get :add_private_message, path: 'envoyer-un-message-prive'
         end
       end
+      resources :newsletter, only: [:show]
+
       # Here for old 404
       resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
       resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommandations'
