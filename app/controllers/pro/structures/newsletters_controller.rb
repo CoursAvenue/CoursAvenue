@@ -81,7 +81,7 @@ class Pro::Structures::NewslettersController < ApplicationController
   #
   # @return a String.
   def preview_newsletter
-    @newsletter = @structure.newsletters.find params[:id]
+    @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
 
     mail = NewsletterMailer.send_newsletter(@newsletter, nil)
     @body = MailerPreviewer.preview(mail)
