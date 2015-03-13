@@ -1,8 +1,8 @@
 <ul class="pagination">
     {{#if buttons }}
     {{!-- make a previous button --}}
-    <li class="btn {{#if is_first_page}}disabled{{/if}}" {{#unless is_first_page}} href="{{previous_query}}"{{/unless}}>
-        <a {{#unless is_first_page}}rel="prev" {{/unless}}><i class="fa-chevron-left"></i></a>
+    <li class="btn {{#if is_first_page}}disabled{{/if}}" >
+        <a {{#unless is_first_page}}rel="prev" href="{{ previous_query }}"{{/unless}}><i class="fa-chevron-left"></i></a>
     </li>
     {{#each buttons}}
     <li class="btn {{#if active}}btn--active current{{/if}} {{#if disabled}}disabled{{/if}}">
