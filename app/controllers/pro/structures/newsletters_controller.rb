@@ -10,6 +10,7 @@ class Pro::Structures::NewslettersController < ApplicationController
   end
 
   def new
+    @layout_id = params[:layout_id]
   end
 
   def choose_layout
