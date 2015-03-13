@@ -105,7 +105,7 @@ gem 'active_model_serializers'  , '~>0.8.1'
 # Generate slugs for records
 gem 'friendly_id'               , '~>5.0.4'
 # Handy forms
-gem 'simple_form'               , '~>3.0.2'
+gem 'simple_form'               , '~>3.1.0'
 # Dry the controllers
 gem 'inherited_resources'       , '~>1.4.1'
 
@@ -197,7 +197,7 @@ group :production, :staging do
   gem 'execjs'                    , '~>2.0.2'
   gem 'rails_12factor'            , '~> 0.0.3'
   # Sync assets to S3 and CloudFront
-  gem 'asset_sync'                , '~>1.0.0'
+  gem 'asset_sync'                , '~>1.1.0'
   # Enable gzip compression on heroku, but don't compress images
   # gem 'heroku_rails_deflate'      , '~>1.0.3'
   # gem 'rack-zippy'
