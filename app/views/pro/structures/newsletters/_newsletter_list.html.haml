@@ -21,7 +21,7 @@
         %strong= newsletter.status
 
       .grid__item.soft-half--sides.palm-hard.one-third.palm-one-whole
-        = link_to pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger btn--green' do
+        = link_to preview_newsletter_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger btn--green fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 } do
           %i.fa.fa-eye
         = link_to edit_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger btn--green' do
           %i.fa.fa-pencil
