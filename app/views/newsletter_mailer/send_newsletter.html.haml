@@ -1,9 +1,9 @@
 - content_for :email_title do
   = @newsletter.object
 
-- content_for :email_permalink do
+- content_for :permalink do
   Si vous ne parvenez pas à lire cet email,
-  = link_to "cliquez ici", structure_newsletter_url(@structure, @newsletter)
+  = link_to "cliquez ici", structure_newsletter_url(@newsletter.structure, @newsletter)
 
 - content_for :under_content_no_box do
   %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '600' }

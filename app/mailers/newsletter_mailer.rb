@@ -7,6 +7,7 @@ class NewsletterMailer < ActionMailer::Base
   # Send the newsletter, also used to preview the newsletter.
   def send_newsletter(newsletter, recipients)
     @newsletter = newsletter
+    @structure = newsletter.structure
 
     mail subject: @newsletter.object,
       bcc: recipients,
@@ -17,6 +18,7 @@ class NewsletterMailer < ActionMailer::Base
   # Sends the unsubscription confirmation.
   def confirm_unsubscribtion(user_profile, newsletter)
     @newsletter = newsletter
+    @structure = newsletter.structure
 
     mail to: user_profile.email,
       subject: '',
