@@ -1,7 +1,7 @@
 class Pro::Structures::NewslettersController < ApplicationController
   before_action :authenticate_pro_admin!
   before_action :set_structure
-  before_action :set_layouts, only: [:new, :edit]
+  before_action :set_layouts, only: [:new, :edit, :choose_layout]
 
   layout 'admin'
 
@@ -10,6 +10,13 @@ class Pro::Structures::NewslettersController < ApplicationController
   end
 
   def new
+  end
+
+  def choose_layout
+    if params[:id]
+      @newsletter = @structure.newsletters.find params[:id]
+      @layout = @newsletter.layout_id
+    end
   end
 
   def show

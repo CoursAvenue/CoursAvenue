@@ -31,7 +31,7 @@ Newsletter.addInitializer(function(options) {
             'layout:selected': 'updateLayout'
         }
     });
-    layout.showWidget(layouts_collection_view);
+    // layout.showWidget(layouts_collection_view);
 });
 
 $(document).ready(function() {

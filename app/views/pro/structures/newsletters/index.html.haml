@@ -1,5 +1,13 @@
 = side_menu_currently_at 'newsletters'
 
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Newsletters
+  .flexbox__item.v-middle.text--right
+    = link_to new_pro_structure_newsletter_path(@structure), class: 'btn btn--green' do
+      %i.fa.fa-plus
+      Envoyer une newsletter
+
 - if @newsletters.any?
   = render 'newsletter_list'
 - else

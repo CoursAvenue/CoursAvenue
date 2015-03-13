@@ -1,0 +1,32 @@
+= side_menu_currently_at 'newsletters'
+= render partial: 'pro/structures/newsletter_edit_tabs', locals: { current: 'design' }
+
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h3.flush Choix du modéle
+  .flexbox__item.v-middle.text--right
+    = link_to new_pro_structure_newsletter_path(@structure) do
+      %button.btn.btn--green{ class: @layout.present? ? '' : 'disabled', data: { next: true } }
+        Passer à l'étape suivante
+
+.grid.push--bottom.palm-flush
+  - @layouts.each do |layout|
+    .grid__item.soft-half--sides.palm-hard.one-third.palm-one-whole>
+      = link_to 'javascript:void(0)', data: { select: true, id: layout["id"] } do
+        %h4{ class: layout["id"] == @layout_id ? 'active' : '' }
+          = layout["name"]
+
+= content_for :scripts do
+  :javascript
+
+    $(document).ready(function() {
+        var structure = "#{ @structure.slug }";
+        var button = $('[data-next]');
+        var link = button.parent();
+        // TODO: Backbone thing ?
+
+        $('[data-select]').click(function() {
+          button.removeClass('disabled');
+          link.attr('href', Routes.new_pro_structure_newsletter_path(structure, { layout_id: $(this).data('id') }));
+        });
+    });

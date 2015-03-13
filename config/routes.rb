@@ -263,6 +263,10 @@ CoursAvenue::Application.routes.draw do
             post :mailing_list_create
             patch :save_and_send
           end
+
+          collection do
+            get :choose_layout
+          end
         end
         resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments', path: 'avis' do

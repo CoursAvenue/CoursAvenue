@@ -1,17 +1,11 @@
-%h1
-  Newsletters
-  = link_to new_pro_structure_newsletter_path(@structure), class: 'btn btn--green' do
-    %i.fa.fa-plus
-    Envoyer une newsletter
-
 %div
   %h2
     Newsletters précédentes
 
 .soft--sides
   - @newsletters.each do |newsletter|
-    .grid.push--bottom.palm-flush
-      .grid__item.soft-half--sides.palm-hard.two-thirds.palm-one-whole.push--bottom>
+    .flexbox.push--bottom
+      .flexbox__item.v-middle
         = link_to pro_structure_newsletter_path(@structure, newsletter) do
           %h4.blue= newsletter.title
         Liste de diffusion :
@@ -20,7 +14,7 @@
         Status :
         %strong= newsletter.status
 
-      .grid__item.soft-half--sides.palm-hard.one-third.palm-one-whole
+      .flexbox__item.v-middle.text--right
         = link_to preview_newsletter_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger btn--green fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 } do
           %i.fa.fa-eye
         = link_to edit_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger btn--green' do

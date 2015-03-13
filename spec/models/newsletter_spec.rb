@@ -80,4 +80,18 @@ RSpec.describe Newsletter, type: :model do
       expect(duplicated_newsletter.state).to eq('draft')
     end
   end
+
+  describe 'send!' do
+    it 'updates the state' do
+      subject.send!
+
+      expect(subject.state).to eq('sent')
+    end
+
+    it 'updates the send_at date' do
+      subject.send!
+
+      expect(subject.sent_at).to_not be_nil
+    end
+  end
 end
