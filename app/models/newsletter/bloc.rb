@@ -30,13 +30,18 @@ class Newsletter::Bloc < ActiveRecord::Base
   #
   # @return The duplicated bloc.
   def duplicate!(bloc_owner = self.newsletter)
-    duplicated_bloc = bloc_owner.blocs.create({
+    duplicated_bloc = bloc_owner.blocs.build({
       position: self.position,
       type: self.type,
       # image: self.image,
       content: self.content
     })
 
+    if self.image?
+      duplicated_bloc.remote_image_url = self.image.url
+    end
+
+    duplicated_bloc.save
     duplicated_bloc
   end
 

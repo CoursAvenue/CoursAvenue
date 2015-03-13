@@ -29,7 +29,7 @@ RSpec.describe Newsletter::Bloc, type: :model do
     let(:other_newsletter) { FactoryGirl.create(:newsletter) }
 
     it 'duplicates all of the attributes of the bloc' do
-      duplicated_bloc = subject.duplicate!
+      duplicated_bloc = subject.duplicate!(other_newsletter)
 
       expect(duplicated_bloc.position).to eq(subject.position)
       expect(duplicated_bloc.type).to     eq(subject.type)
