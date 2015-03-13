@@ -126,8 +126,6 @@ gem 'certified'                 , '~> 1.0.0'
 
 # Search engine
 gem 'sunspot'                   , '~> 2.1.1'
-# Add solr server for development
-gem 'sunspot_solr'              , '~> 2.1.1'
 gem 'sunspot_rails'             , '~> 2.1.1'
 
 gem 'truncate_html'             , '~> 0.9.3'
@@ -223,6 +221,8 @@ group :test do
 end
 
 group :development do
+  # Add solr server for development
+  gem 'sunspot_solr'              , '~> 2.1.1'
   gem 'rails_best_practices', require: false
   gem 'ruby-prof'
   # Speed up slow Rails development mode
