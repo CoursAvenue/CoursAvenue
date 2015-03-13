@@ -81,13 +81,12 @@ class Pro::Structures::NewslettersController < ApplicationController
   #
   # @return a String.
   def preview_newsletter
-    @newsletter = @structure.newsletter.find params[:id]
+    @newsletter = @structure.newsletters.find params[:id]
 
-    newsletter = NewsletterMailer.preview(@newsletter)
-    mail_inliner = Roadie::Rails::MailInliner.new(newsletter, Rails.application.config.roadie)
-    mail = mail.mail_inliner.execute
+    mail = NewsletterMailer.send_newsletter(@newsletter, nil)
+    @body = MailerPreviewer.preview(mail)
 
-    @body = mail.html_part.decoded
+    render layout: false
   end
 
   # Step 2.
