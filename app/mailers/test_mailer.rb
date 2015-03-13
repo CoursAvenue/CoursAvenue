@@ -13,4 +13,10 @@ class TestMailer < ActionMailer::Base
 
     mail subject: "form_test"
   end
+
+  # Used in the MailerPreview service spec.
+  def preview_test(content = 'Random content')
+    @content = content
+    mail subject: 'preview_test'
+  end
 end

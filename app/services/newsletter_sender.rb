@@ -12,6 +12,9 @@ class NewsletterSender
     true
   end
 
+  # Send the newsletter to the passed recipients.
+  #
+  # @return nothing.
   def self.send_preview(newsletter, to)
     NewsletterMailer.delay.preview(newsletter, to)
   end
