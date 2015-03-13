@@ -544,7 +544,7 @@ GEM
       rack
       rake (>= 0.8.1)
     paypal-recurring (1.1.0)
-    pg (0.17.1)
+    pg (0.18.1)
     powerpack (0.0.9)
     pr_geohash (1.0.0)
     prerender_rails (1.1.1)
@@ -748,7 +748,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
-    truncate_html (0.9.2)
+    truncate_html (0.9.3)
     turbolinks (2.2.2)
       coffee-rails
     tzinfo (1.2.2)
@@ -866,7 +866,7 @@ DEPENDENCIES
   paranoia (~> 2.0)
   passenger
   paypal-recurring (~> 1.1.0)
-  pg
+  pg (~> 0.18.1)
   prerender_rails (~> 1.1.1)
   progress_bar (~> 1.0.3)
   protected_attributes (~> 1.0.8)
@@ -902,7 +902,7 @@ DEPENDENCIES
   sunspot-rails-tester (~> 1.0.0)
   sunspot_rails (~> 2.1.1)
   sunspot_solr (~> 2.1.1)
-  truncate_html (~> 0.9.2)
+  truncate_html (~> 0.9.3)
   turbolinks
   uglifier (>= 1.0.3)
   wicked_pdf
