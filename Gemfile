@@ -203,7 +203,7 @@ group :production, :staging do
   # # gem 'htmlcompressor'            , '~> 0.1.2'
   # # gem 'image_optim'               , '~> 0.20.2'
   # # gem 'image_optim_pack'          , '~> 0.2.1.20150310'
-  # # gem 'paperclip-optimizer'       , '~> 2.0.0'
+  gem 'paperclip-optimizer'       , '~> 2.0.0'
 end
 
 group :test do
