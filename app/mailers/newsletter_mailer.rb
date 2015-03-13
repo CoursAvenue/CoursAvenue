@@ -2,8 +2,7 @@ class NewsletterMailer < ActionMailer::Base
   include ::ActionMailerWithTextPart
   include Roadie::Rails::Automatic
 
-  # TODO: Custom layout without the CoursAvenue stuff.
-  layout 'email'
+  layout 'newsletter'
 
   # Send the newsletter, also used to preview the newsletter.
   def send_newsletter(newsletter, recipients)
