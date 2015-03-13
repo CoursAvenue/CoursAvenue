@@ -30,7 +30,8 @@ class Pro::Structures::NewslettersController < ApplicationController
 
     respond_to do |format|
       if @newsletter.save
-        format.html { redirect_to pro_structure_newsletter_path(@structure, @newsletter),
+        # format.html { redirect_to pro_structure_newsletter_path(@structure, @newsletter),
+        format.html { redirect_to mailing_list_pro_structure_newsletter_path(@structure, @newsletter),
                       notice: 'Bien enregistré' }
       else
         format.html { render action: :edit }
