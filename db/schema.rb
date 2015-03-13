@@ -78,7 +78,6 @@ ActiveRecord::Schema.define(version: 20150312105727) do
     t.string   "cover_image_content_type"
     t.integer  "cover_image_file_size"
     t.datetime "cover_image_updated_at"
-    t.integer  "category_id"
   end
 
   create_table "blog_articles_subjects", force: true do |t|
@@ -87,13 +86,6 @@ ActiveRecord::Schema.define(version: 20150312105727) do
   end
 
   add_index "blog_articles_subjects", ["article_id", "subject_id"], name: "index_blog_articles_subjects_on_article_id_and_subject_id", using: :btree
-
-  create_table "blog_categories", force: true do |t|
-    t.string   "name"
-    t.string   "slug"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "call_reminders", force: true do |t|
     t.string   "name"
