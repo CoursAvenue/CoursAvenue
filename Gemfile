@@ -29,7 +29,7 @@ gem 'algoliasearch-rails', '~>1.11.9'
 gem 'google-api-client'
 
 # Database
-gem 'pg'
+gem 'pg',               '~>0.18.1'
 
 gem 'actionpack-page_caching'
 # Lets you access the version of the deploy on Heroku
@@ -126,12 +126,9 @@ gem 'certified'                 , '~>0.1.1'
 
 # Search engine
 gem 'sunspot'                   , '~>2.1.1'
-# Add solr server for development
-gem 'sunspot_solr'              , '~>2.1.1', group: :development
 gem 'sunspot_rails'             , '~>2.1.1'
-gem 'sunspot-rails-tester'      , '~>1.0.0'
 
-gem 'truncate_html'             , '~>0.9.2'
+gem 'truncate_html'             , '~>0.9.3'
 
 # Add taggable behavior to models
 # https://github.com/mbleigh/acts-as-taggable-on
@@ -210,19 +207,23 @@ group :production, :staging do
 end
 
 group :test do
-  gem 'rspec',              '~> 3.1.0'
-  gem 'factory_girl_rails', '~> 4.5.0'
-  gem 'rspec-core',         '~> 3.1.7'
-  gem 'rspec-rails',        '~> 3.1.0'
-  gem 'faker',              '~> 1.4.3'
-  gem 'simplecov',          '~> 0.9.1'
-  gem 'database_cleaner',   '~> 1.2.0'
-  gem 'capybara',           '~> 2.2.1'
-  gem 'rspec-instafail',    '~> 0.2.5'
-  gem 'mongoid-rspec',      '~> 2.0.0.rc1'
+  gem 'sunspot-rails-tester', '~> 1.0.0'
+  gem 'rspec',                '~> 3.1.0'
+  gem 'factory_girl_rails',   '~> 4.5.0'
+  gem 'rspec-core',           '~> 3.1.7'
+  gem 'rspec-rails',          '~> 3.1.0'
+  gem 'faker',                '~> 1.4.3'
+  gem 'simplecov',            '~> 0.9.1'
+  gem 'database_cleaner',     '~> 1.2.0'
+  gem 'capybara',             '~> 2.2.1'
+  gem 'rspec-instafail',      '~> 0.2.5'
+  gem 'mongoid-rspec',        '~> 2.0.0.rc1'
 end
 
 group :development do
+  # Add solr server for development
+  gem 'sunspot_solr'              , '~>2.1.1'
+
   gem 'rails_best_practices', require: false
   gem 'ruby-prof'
   # Speed up slow Rails development mode

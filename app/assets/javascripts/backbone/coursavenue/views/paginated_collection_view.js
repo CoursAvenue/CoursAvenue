@@ -70,6 +70,9 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         changePage: function changePage (page, options) {
+            // We have to skip the page parameters because unless it will override the new page
+            // if the user want to change the page.
+            delete this.collection.queryParams.page;
             // normally we won't want to change to the current page
             // so we require a force option to be true
             if (page == this.collection.state.currentPage && !(options && options.force)) { return false };
