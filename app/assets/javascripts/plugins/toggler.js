@@ -90,5 +90,5 @@ $(function() {
             $(this).toggler();
         });
     };
-    GLOBAL.initialize_callbacks.push(toggleable_initializer);
+    COURSAVENUE.initialize_callbacks.push(toggleable_initializer);
 });

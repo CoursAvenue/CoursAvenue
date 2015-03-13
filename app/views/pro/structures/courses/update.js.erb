@@ -4,7 +4,7 @@
 <% elsif !params.has_key?(:live_form) %>
     <%- # When saving a course, user can choose wether or not to add a planning after saving. %>
     $("#course-<%= @course.id %>").replaceWith('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
-    GLOBAL.flash("Cours enregistré", 'success');
+    COURSAVENUE.helperMethods.flash("Cours enregistré", 'success');
     <% if params[:add_planning] and params[:add_planning] == 'true' %>
         $.fancybox('<%= escape_javascript(render partial: "pro/structures/courses/plannings/form") %>', { width: 800, minWidth: 800, maxWidth: 800, padding: 0 });
     <% else %>
@@ -12,7 +12,7 @@
         $('#course-<%= @course.id %>').yellowFade({ delay: 400 });
     <% end %>
 <% end %>
-GLOBAL.reinitializePlugins();
+COURSAVENUE.helperMethods.reinitializePlugins();
 
 
 <%-# Show big red sign %>

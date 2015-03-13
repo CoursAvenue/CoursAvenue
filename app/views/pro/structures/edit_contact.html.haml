@@ -1,59 +1,60 @@
-= side_menu_currently_at 'contact'
+= side_menu_currently_at 'presentation'
 
-.soft--ends.white-box
-  = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |form|
-    %input{ type: 'hidden', name: 'return_to', value: edit_contact_pro_structure_path(@structure)}
+= render partial: 'pro/structures/tabs', locals:{ current: 'contact' }
+%h1 Contact
+= simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |form|
+  %input{ type: 'hidden', name: 'return_to', value: edit_contact_pro_structure_path(@structure)}
 
-    .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts.coordinates') } }
-      %h5 Coordonnées de réservation
-      - if @structure.main_contact
-        = render "pro/structures/admins/change_email"
+  .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts.coordinates') } }
+    %h5 Coordonnées de réservation
+    - if @structure.main_contact
+      = render "pro/structures/admins/change_email"
 
-      %div{ data: { behavior: 'show-more-on-demand' } }<>
-        - @structure.phone_numbers.each_with_index do |phone_number, i|
-          = form.simple_fields_for :phone_numbers, phone_number, child_index: i do |phone_number_form|
-            %div{ class: (!phone_number_form.object.persisted? ? 'hidden' : ''), data: { el: true, hidden: !phone_number_form.object.persisted? } }<>
-              .input.flush--bottom
-                %label.control-label.label--large{ for: "phone_number_number_#{i}" }> Téléphone
-                .input-container>
-                  = phone_number_form.input :number, label: false, input_html: { class: 'input--large one-whole', id: "phone_number_number_#{i}" }, wrapper_html: { class: 'inline-block v-middle flush' }
-                  %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
-                    %i.fa.fa-trash-o
-                    Supprimer
-        .input
-          .control-label>
-          .input-container>
-            %a{ href: 'javascript:void(0)', data: { trigger: true } }>
-              %i.fa.fa-plus
-              Ajouter un numéro de téléphone
+    %div{ data: { behavior: 'show-more-on-demand' } }<>
+      - @structure.phone_numbers.each_with_index do |phone_number, i|
+        = form.simple_fields_for :phone_numbers, phone_number, child_index: i do |phone_number_form|
+          %div{ class: (!phone_number_form.object.persisted? ? 'hidden' : ''), data: { el: true, hidden: !phone_number_form.object.persisted? } }<>
+            .input.flush--bottom
+              %label.control-label.label--large{ for: "phone_number_number_#{i}" }> Téléphone
+              .input-container>
+                = phone_number_form.input :number, label: false, input_html: { class: 'input--large one-whole', id: "phone_number_number_#{i}" }, wrapper_html: { class: 'inline-block v-middle flush' }
+                %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+                  %i.fa.fa-trash-o
+                  Supprimer
+      .input
+        .control-label>
+        .input-container>
+          %a{ href: 'javascript:void(0)', data: { trigger: true } }>
+            %i.fa.fa-plus
+            Ajouter un numéro de téléphone
 
-    %hr.push--ends
-    .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts.sms') } }
-      %h5 Alertes SMS
-      .grid
-        .grid__item.one-quarter>
-          -# .label--large.hard--top Ne passez pas à côté d'une demande et recevez un SMS à chaque nouvel inscrit (gratuit).
-          .label--large.hard--top Recevez un SMS à chaque nouvel inscrit (gratuit).
-        .grid__item.three-quarters>
-          .checkbox-at-left
-            = form.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush' }
-          %div
-            .inline-block.v-middle= form.label :principal_mobile, class: 'nowrap label--large'
-            = form.input :principal_mobile_id, as: :select, collection: @structure.phone_numbers.select(&:mobile?), label_method: :number, label: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, include_blank: false
+  %hr.push--ends
+  .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts.sms') } }
+    %h5 Alertes SMS
+    .grid
+      .grid__item.one-quarter>
+        -# .label--large.hard--top Ne passez pas à côté d'une demande et recevez un SMS à chaque nouvel inscrit (gratuit).
+        .label--large.hard--top Recevez un SMS à chaque nouvel inscrit (gratuit).
+      .grid__item.three-quarters>
+        .checkbox-at-left
+          = form.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush' }
+        %div
+          .inline-block.v-middle= form.label :principal_mobile, class: 'nowrap label--large'
+          = form.input :principal_mobile_id, as: :select, collection: @structure.phone_numbers.select(&:mobile?), label_method: :number, label: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, include_blank: false
 
-    %hr.push--ends
-    .soft--sides
-      %h5 Liens vers vos pages
+  %hr.push--ends
+  .soft--sides
+    %h5 Liens vers vos pages
 
-      = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+    = form.input :website, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
-      - show_input = @facebook_pages.empty? or (@facebook_pages.any? and @facebook_pages.last[1] == 'other')
-      - if @facebook_pages.any?
-        = form.input :facebook_url, as: :select, collection: @facebook_pages, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }, input_html: { class: 'input--large', id: 'facebook_select' }
-      = form.input :facebook_url, as: :url, wrapper_html: { class: "flush--bottom #{show_input ? '' : 'hidden'}", id: 'facebook_text' }, label_html: { class: 'label--large' }, input_html: { id: 'facebook_text_input', class: 'input--large' }
+    - show_input = @facebook_pages.empty? or (@facebook_pages.any? and @facebook_pages.last[1] == 'other')
+    - if @facebook_pages.any?
+      = form.input :facebook_url, as: :select, collection: @facebook_pages, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }, input_html: { class: 'input--large', id: 'facebook_select' }
+    = form.input :facebook_url, as: :url, wrapper_html: { class: "flush--bottom #{show_input ? '' : 'hidden'}", id: 'facebook_text' }, label_html: { class: 'label--large' }, input_html: { id: 'facebook_text_input', class: 'input--large' }
 
 
-      .soft--top= form.button :submit, "Enregistrer", class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
+    .soft--top= form.button :submit, "Enregistrer", class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
 
 - if @facebook_pages.any?
   - content_for :scripts do

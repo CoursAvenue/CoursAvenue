@@ -41,9 +41,9 @@ class StructuresController < ApplicationController
     params[:per_page]      = Structure::NB_STRUCTURE_PER_PAGE
 
     if params_has_planning_filters?
-      @structures, @places, @total = search_plannings
+      @structures, @places, @total, @subject_slugs_with_more_than_five_results = search_plannings
     else
-      @structures, @total = search_structures
+      @structures, @total, @subject_slugs_with_more_than_five_results = search_structures
     end
     @latlng = retrieve_location
     @models = jasonify @structures
@@ -78,13 +78,10 @@ class StructuresController < ApplicationController
     # if !current_pro_admin
     #   Metric.delay(queue: 'metric').view(@structure.id, current_user, cookies[:fingerprint], request.ip)
     # end
-    # if !@structure.premium?
-    #   @similar_profiles = @structure.similar_profiles(21)
-    #   if !current_pro_admin
-    #     Metric.delay.print(@similar_profiles.map(&:id), current_user, cookies[:fingerprint], request.ip)
-    #   end
-    # end
-    @medias = (@structure.premium? ? @structure.medias.cover_first.videos_first : @structure.medias.cover_first.videos_first.limit(Media::FREE_PROFIL_LIMIT))
+    if @structure.is_sleeping?
+      @similar_profiles = @structure.similar_profiles(21)
+    end
+    @medias = @structure.medias.cover_first.videos_first
     @model = StructureShowSerializer.new(@structure, {
       structure:          @structure,
       unlimited_comments: false,

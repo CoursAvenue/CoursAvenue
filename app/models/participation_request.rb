@@ -9,26 +9,34 @@ class ParticipationRequest < ActiveRecord::Base
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
                   :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
                   :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
-                  :old_course_id, :structure_responded
+                  :old_course_id, :structure_responded, :street, :zip_code, :city_id, :participants_attributes
 
   ######################################################################
   # Relations                                                          #
   ######################################################################
   belongs_to :conversation, class_name: 'Mailboxer::Conversation', foreign_key: 'mailboxer_conversation_id', touch: true
   belongs_to :planning
+  belongs_to :city
   belongs_to :course
   belongs_to :user
   belongs_to :structure
   belongs_to :cancelation_reason, class_name: 'ParticipationRequest::CancelationReason'
   belongs_to :report_reason     , class_name: 'ParticipationRequest::ReportReason'
 
+  has_many :participants, class_name: 'ParticipationRequest::Participant'
+  has_many :prices, through: :participants
+
+  accepts_nested_attributes_for :participants,
+                                 reject_if: :reject_participants,
+                                 allow_destroy: false
+
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
   before_save   :update_times
   before_create :set_default_attributes
-  after_create  :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher
-  after_destroy :destroy_conversation_attached
+  after_create  :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher, :touch_user
+  after_destroy :destroy_conversation_attached, :touch_user
 
   ######################################################################
   # Validation                                                         #
@@ -55,7 +63,11 @@ class ParticipationRequest < ActiveRecord::Base
   def self.create_and_send_message(request_attributes, message_body, user, structure)
     message_body                    = StringHelper.replace_contact_infos(message_body)
     request_attributes              = self.set_start_time(request_attributes)
-    participation_request           = ParticipationRequest.new date: request_attributes[:date], start_time: request_attributes[:start_time], planning_id: request_attributes[:planning_id], course_id: request_attributes[:course_id]
+    participants_attributes = { participants_attributes: request_attributes['participants_attributes'] }
+    request_attributes      = request_attributes.slice(*ParticipationRequest.attribute_names)
+    request_attributes      = request_attributes.merge(participants_attributes)
+    participation_request           = ParticipationRequest.new request_attributes
+
     participation_request.user      = user
     participation_request.structure = structure
     if participation_request.valid?
@@ -171,6 +183,14 @@ class ParticipationRequest < ActiveRecord::Base
     end
   end
 
+
+  # Tell wether the course will happen at student place
+  #
+  # @return Boolean
+  def at_student_home?
+    (self.course.is_private? and self.street.present? and self.zip_code.present? and self.city.present?)
+  end
+
   def place
     if planning
       planning.place
@@ -194,6 +214,10 @@ class ParticipationRequest < ActiveRecord::Base
   # @return Boolean, wether the date is passed
   def past?
     date < Date.today
+  end
+
+  def nb_participants
+    participants.map(&:number).reduce(&:+) || 0
   end
 
   private
@@ -287,5 +311,13 @@ class ParticipationRequest < ActiveRecord::Base
       request_attributes.delete(:start_min)
     end
     request_attributes
+  end
+
+  def touch_user
+    self.user.touch
+  end
+
+  def reject_participants attributes
+    return (attributes[:price_id].blank? or attributes[:number].blank? or attributes[:number] == '0')
   end
 end

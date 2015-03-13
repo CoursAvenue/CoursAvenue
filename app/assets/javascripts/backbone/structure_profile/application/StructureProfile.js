@@ -11,20 +11,11 @@ StructureProfile.addInitializer(function(options) {
         structure_view = new StructureProfile.Views.Structure.StructureView({
             model: structure
         }),
-        google_maps_view, sticky_google_maps_view, places_collection, comments_collection_view;
+        sticky_google_maps_view, places_collection,
+        certified_comments_collection_view, guestbook_collection_view, participation_request,
+        participation_request_view, message_form_view, message;
 
     places_collection          = structure.get('places');
-    participation_request      = new StructureProfile.Models.ParticipationRequest({ structure: structure });
-    participation_request_view = new StructureProfile.Views.ParticipationRequests.RequestFormView( {
-      model: participation_request
-    } );
-
-    google_maps_view           = new StructureProfile.Views.Map.GoogleMapsView({
-        collection:         places_collection,
-        infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) },
-        mapOptions:         { scrollwheel: false },
-        mapClass:           'google-map--medium'
-    });
 
     sticky_google_maps_view    = new StructureProfile.Views.Map.StickyGoogleMapsView({
         collection:         places_collection,
@@ -32,33 +23,52 @@ StructureProfile.addInitializer(function(options) {
         infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) }
     });
 
-    comments_collection_view = new StructureProfile.Views.Structure.Comments.CommentsCollectionView({
-        collection: structure.get('comments'),
+    certified_comments_collection_view = new StructureProfile.Views.Structure.Comments.CertifiedCommentsCollectionView({
+        collection: structure.get('certified_comments'),
+        about     :  structure.get('about')
+    });
+
+    guestbook_collection_view = new StructureProfile.Views.Structure.Comments.GuestbookCollectionView({
+        collection: structure.get('guestbook'),
         about     :  structure.get('about')
     });
 
     layout.render();
 
-    layout.showWidget(participation_request_view, {
-        selector: '[data-type=contact-form]',
-        events: {
-            'planning:register' : 'showRegistrationForm'
-        }
-    });
+    if (bootstrap.meta.have_upcoming_plannings) {
+        participation_request      = new StructureProfile.Models.ParticipationRequest({ structure: structure });
+        participation_request_view = new StructureProfile.Views.ParticipationRequests.RequestFormView( {
+          model: participation_request
+        } );
+        layout.showWidget(participation_request_view, {
+            selector: '[data-type=contact-form]',
+            events: {
+                'planning:register'         : 'showRegistrationForm',
+                'lessons:collection:reset'  : 'resetCourseCollection',
+                'privates:collection:reset' : 'resetCourseCollection'
+            }
+        });
+    } else {
+        message      = new StructureProfile.Models.Message({ structure: structure });
+        message_form_view = new StructureProfile.Views.Messages.MessageFormView( {
+          model: message
+        } );
+        layout.showWidget(message_form_view, { selector: '[data-type=contact-form]' });
+    }
 
     layout.showWidget(sticky_google_maps_view, {
         selector: '[data-type=sticky-map]',
         events: {
-            'course:mouse:enter'       : 'exciteMarkers',
-            'course:mouse:leave'       : 'unexciteMarkers',
-            'place:mouse:enter'        : 'exciteMarkers',
-            'place:mouse:leave'        : 'unexciteMarkers',
-            'places:collection:updated': 'recenterMap',
-            'map:marker:click'         : 'showInfoWindow'
+            'course:mouse:enter': 'exciteMarkers',
+            'course:mouse:leave': 'unexciteMarkers',
+            'place:mouse:enter' : 'exciteMarkers',
+            'place:mouse:leave' : 'unexciteMarkers',
+            'map:marker:click'  : 'showInfoWindow'
         }
     });
 
-    layout.showWidget(comments_collection_view);
+    layout.showWidget(certified_comments_collection_view);
+    layout.showWidget(guestbook_collection_view);
 
     layout.master.show(structure_view);
 
@@ -94,9 +104,7 @@ $(document).ready(function() {
                 }
                 CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: infos });
                 if (CoursAvenue.isProduction()) {
-                    window._fbq.push(['track', '6016785958627', {'value':'0.00','currency':'EUR'}]);
                     ga('send', 'event', 'Action', infos);
-                    goog_report_conversion();
                 }
             });
         }

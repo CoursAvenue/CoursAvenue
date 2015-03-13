@@ -24,7 +24,6 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         onRender: function onRender () {
-            this.$('[data-behavior=drop-down]').dropDown();
             if (location.hash == '#connexion') {
                 this.signIn({}, {});
             }

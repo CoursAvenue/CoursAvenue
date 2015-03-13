@@ -3,7 +3,7 @@ $price_group_to_remove.slideUp();
 setTimeout(function() {
     $price_group_to_remove.remove();
 }, 500);
-GLOBAL.flash("Grille tarifaire supprimée", 'success');
+COURSAVENUE.helperMethods.flash("Grille tarifaire supprimée", 'success');
 $.fancybox.close();
 
 var $course_to_affect_container = $('#<%= @price_group.course_type.pluralize %>-to-affect');

@@ -1,0 +1,85 @@
+<div class="push--bottom {{#unless is_last}}bordered--bottom{{/unless}}">
+    <h3 class="v-middle flush--bottom push-half--right inline-block delta">{{ name }}</h3>
+    <div class="float--right push-half--bottom">
+        {{#if min_price}}
+            <div class="text--center push-half--bottom f-weight-500">
+                {{#if is_open_for_trial}}
+                <span class="delta v-bottom">Essai gratuit</span>
+                {{else}}
+                <span class="f-weight-500 gray-light v-bottom">À p. de </span><span class="gamma v-bottom">{{ min_price }}</span>
+                {{/if}}
+            </div>
+        {{/if}}
+        <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full">M'inscrire</a>
+    </div>
+    <div class="push--bottom">
+        <table class="push-half--bottom table--striped table--data table--data-small">
+            <thead class="gray-light">
+                <tr>
+                    <th class="one-tenths">Jour</th>
+                    <th class="two-tenths text--center">Horaires</th>
+                    <th class="two-tenths">Niveau</th>
+                    <th class="two-tenths">Public</th>
+                    <th class="three-tenths">Lieu</th>
+                    <th><i class="fa fa-info"></i></th>
+                </tr>
+            </thead>
+            <tbody data-type="plannings-container"></tbody>
+        </table>
+    </div>
+    <div class="push--bottom">
+        <div><!--
+         -->{{#each details}}<!--
+         --><div class="inline-block v-middle push-half--bottom soft-half--right">
+                <div class="flexbox push-half--right">
+                    <div class="flexbox__item v-middle text--center">
+                        <i class="fa {{this.icon}} v-middle" title="{{this.alt}}"></i>
+                    </div>
+                    <div class="flexbox__item soft-half--left v-middle">
+                        {{this.text}}
+                    </div>
+                </div>
+            </div><!--
+         -->{{/each}}<!--
+      --></div>
+        <div>
+            <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">Plus de détails <i class="fa fa-caret-down"></i></a>
+        </div>
+    </div>
+    <div class="flexbox push--bottom course-{{id}}-know-more hidden">
+        <div class="flexbox__item v-top one-fifth">
+            <strong class="gray-light">Description</strong>
+        </div>
+        <div class="flexbox__item v-top four-fifths">
+            {{#if description}}
+                {{#ifCond description '!=' description_short}}
+                <div id="course-{{id}}-description-short" class="gray last-p-push-half--bottom">
+                    {{{ simple_format_hide_contacts description_short }}}
+                </div>
+                <a href="#" data-behavior="show-long-version" data-short-version="#course-{{id}}-description-short" data-long-version="#course-{{id}}-description-long">
+                + Plus
+                </a>
+                <div id="course-{{id}}-description-long" class="gray hidden" itemprop="description">
+                    {{{ simple_format_hide_contacts description }}}
+                </div>
+                {{else}}
+                <div class="gray" itemprop="description">
+                    {{{ simple_format_hide_contacts description }}}
+                </div>
+                {{/ifCond}}
+            {{else}}
+                <div class="gray" itemprop="description">
+                    Pas de description
+                </div>
+            {{/if}}
+        </div>
+    </div>
+    <div class="flexbox push--bottom course-{{id}}-know-more hidden" id="course-{{id}}-tarifs">
+        <div class="flexbox__item v-top one-fifth">
+            <strong class="gray-light v-middle">Tarifs</strong>
+        </div>
+        <div class="flexbox__item v-top four-fifths">
+            <div data-type="prices-collection-container"></div>
+        </div>
+    </div>
+</div>

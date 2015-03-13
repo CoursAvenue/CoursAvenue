@@ -3,7 +3,7 @@
     $('#course-<%= @course.id %>').yellowFade();
 <% else %>
     $('#planning-<%= @planning.id %>').remove();
-    GLOBAL.flash("Créneau supprimé", 'success');
+    COURSAVENUE.helperMethods.flash("Créneau supprimé", 'success');
 <% end %>
 
 <%-# Show big red sign %>

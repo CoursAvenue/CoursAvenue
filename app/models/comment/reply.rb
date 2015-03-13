@@ -4,4 +4,5 @@ class Comment::Reply < Comment
 
   has_one :structure, through: :commentable
 
+  attr_accessor :show_to_everyone
 end

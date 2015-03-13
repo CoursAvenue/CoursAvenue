@@ -173,10 +173,12 @@ fr:
         comments: Avis
         communicate: Communiquer
         contact: Contact
+        plannings: Planning
         courses: Cours réguliers
         crm: Répertoire
-        pro_dashboard: Tableau de bord
+        pro_dashboard: Admin
         call_reminders: Profs à rappeler
+        general: Général
         dashboard: Tableau de bord
         invitations: Invitations
         jpo: Portes Ouvertes
@@ -187,18 +189,18 @@ fr:
         messages: Messages
         places: Lieux
         premium: Premium
-        presentation: Présentation
+        presentation: Vous
         price_groups: Tarifs
         pro_trial_courses: Demande d'inscriptions
         trial_courses: Essais gratuits
         inscriptions: Inscriptions
         share: Parrainer
         statistics: Statistiques
-        sleepers: Profils dormants
+        sleepers: Pr. dormants
         stickers: Demande de stickers
         students_invitations: Invitation élèves
         subjects: Disciplines
-        subscription_plans: Abonnements
+        subscription_plans: Abos
         teachers: Derniers professeurs
         teachers_stars: Profs stars
         trainings: Stages & ateliers

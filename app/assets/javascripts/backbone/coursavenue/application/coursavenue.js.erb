@@ -72,7 +72,7 @@ CoursAvenue = new Backbone.Marionette.Application({
                             if (options.error) {
                                 options.error(response);
                             } else {
-                                GLOBAL.flash("Nous n'avons pas pu vous connecter. Assurez-vous d'être bien connecté à Facebook et réessayez.")
+                                COURSAVENUE.helperMethods.flash("Nous n'avons pas pu vous connecter. Assurez-vous d'être bien connecté à Facebook et réessayez.");
                                 $.magnificPopup.close();
                             }
                             return;
@@ -102,7 +102,7 @@ CoursAvenue = new Backbone.Marionette.Application({
                 // Logged into your app and Facebook.
             } else if (response.status === 'not_authorized') {
                 options.error();
-                GLOBAL.flash('Nous ne pouvons vous authentifier')
+                COURSAVENUE.helperMethods.flash('Nous ne pouvons vous authentifier');
                 // The person is logged into Facebook, but not your app.
             } else {
               // The person is not logged into Facebook, so we're not sure if
@@ -121,7 +121,7 @@ CoursAvenue = new Backbone.Marionette.Application({
     //  }
     searchPath: function searchPath (data) {
         data.city = (data.city ? data.city.replace(/[^A-Za-z]/g, '-').toLowerCase() : 'paris');
-        if (data.depth == 0) {
+        if (data.depth == 0 || (data.subject_id && data.subject_id == data.root_subject_id)) {
             return Routes.root_search_page_path(data.subject_id, data.city);
         } else if (data.subject_id) {
             return Routes.search_page_path((data.root_subject_id || data.subject_id), data.subject_id, data.city);

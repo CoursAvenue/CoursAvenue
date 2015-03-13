@@ -47,3 +47,12 @@
           %strong Lieu
       %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
         .p.hard= participation_request.place.try(:name)
+  - elsif participation_request.at_student_home?
+    %tr.table-row-alternate-color{ valign: 'top' }
+      %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
+        .p.hard
+          %strong Lieu
+      %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
+        .p.hard
+          Au domicile de l'élève :
+          = participation_request_decorator.student_home_address

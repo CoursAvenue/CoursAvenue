@@ -1,17 +1,12 @@
 - planning_decorator = planning.decorate
 - course           ||= planning.course
 - structure        ||= course.structure
-%tr{ id: "planning-#{planning.id}" }
-  %td= planning_decorator.week_day_name
-  %td= planning_decorator.time_slot
-  %td.text--center
-    - if planning.info.present?
-      %i.fa.fa-info{ data: { behavior: 'tooltip', 'original-title' => planning.info } }
-  %td.text--right.nowrap
-    = link_to edit_pro_structure_course_planning_path(course.structure, course, planning), title: 'Modifier le créneau', data: { behavior: 'modal', width: '800', padding: '0', planning_id: planning.id, action: 'edit', lock_overlay: true }, class: 'fancybox.ajax nowrap' do
-      %i.fa.fa-pencil
-      Modifier
-    \/
-    = link_to pro_structure_course_planning_path(course.structure, course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer le créneau', class: 'nowrap', remote: true do
-      %i.fa.fa-trash-o
-      Supprimer
+%div.flexbox.very-soft{ id: "planning-#{planning.id}" }
+  .flexbox__item.one-whole
+    = planning_decorator.week_day_name
+    = planning_decorator.time_slot
+  .flexbox__item.text--right.nowrap
+    = link_to edit_pro_structure_course_planning_path(course.structure, course, planning), title: 'Modifier le créneau', data: { toggle: 'tooltip', behavior: 'modal', width: '800', padding: '0', planning_id: planning.id, action: 'edit', lock_overlay: true }, class: 'muted-link orange fancybox.ajax nowrap very-soft--right' do
+      %i.fa.fa-pencil.epsilon
+    = link_to pro_structure_course_planning_path(course.structure, course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer le créneau', class: 'red nowrap muted-link', remote: true, data: { toggle: 'tooltip' } do
+      %i.fa.fa-trash-o.epsilon

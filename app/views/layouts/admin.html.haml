@@ -1,106 +1,142 @@
-= content_for :header do
-  = render 'shared/headers/pro'
-
 = content_for :content do
   - if @structure
-    .pro-top-menu.darkgray-box.flexbox.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000 } }
-      - cache [@structure, 'pro/structures/layout'] do
-        .flexbox__item.v-middle.soft-half--left{ style: 'width: 40px;' }
-          - if @structure.logo?
-            = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'block push-half--right' do
-              = image_tag @structure.logo.url(:thumb), width: 40, height: 40, class: 'block'
-          - else
-            = link_to '', edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'fa-2x fa fa-picture-o soft-half muted-link white', data: { toggle: 'popover', content: "Ajouter un logo", placement: 'right', trigger: 'hover' }
-        .flexbox__item.v-middle
-          %h5.flush--bottom.white.inline-block.v-middle
-            = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'block semi-muted-link' do
-              = truncate(@structure.name, length: 80)
-          %span.push-half--sides= '|'
-          - if @structure.premium?
-            = link_to pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'yellow' do
-              Premium
-              %i.fa.fa-check
+    .darkgray-box.flexbox.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000 } }
+      .main-container.flexbox
+        .flexbox__item.v-middle.soft--left
+          = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
+        .flexbox__item.v-middle.text--right.soft--right
           - if @structure.is_sleeping?
-            %span.push-half--sides= '|'
+            - if current_pro_admin and current_pro_admin.super_admin?
+              = link_to 'Supprimer ce profil', pro_structure_path(@structure), class: 'btn btn--red btn--small', data: { method: :delete, confirm: 'Êtes-vous sûr ?'}
+              %span.push-half--sides= '|'
             %span.v-middle.lbl.lbl--red{ data: { toggle: 'popover', content: "Vous venez de prendre le contrôle de votre profil : complétez-le pendant que l'équipe CoursAvenue vérifie votre identité. Vous recevrez un e-mail dès que c'est validé !  Les modifications que vous avez apportées deviendront alors directement visibles sur votre profil public.", trigger: 'hover' } } En attente de validation
-      .flexbox__item.v-middle.text--right.soft-half--right
-        - if @structure.mailbox
-          - unread_conversations       = @structure.mailbox.inbox(read: false)
-          - unread_conversations      += @structure.unanswered_information_message
-          - unread_conversations       = unread_conversations.uniq.sort_by(&:created_at).reverse
-          - unread_conversations_count = unread_conversations.count
-          .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
-            = link_to pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft-half--ends muted-link f-weight-bold' do
-              %i.fa.fa-envelope-o
-              = pluralize @structure.mailbox.inbox.count, 'message'
-              - if unread_conversations_count > 0
-                %span.push--left.lbl.lbl--orange.lbl--small= unread_conversations_count
-            .drop-down__el
-              %ul.no-bullet-list.flush{ style: 'width: 400px' }
-                - if unread_conversations_count == 0
-                  %li
-                    %a.not-hoverable.f-weight-normal Pas de nouveau message
-                - else
-                  %li
-                    %a.not-hoverable.f-weight-normal= "#{unread_conversations_count} #{(unread_conversations_count == 1 ? 'nouveau message' : 'nouveaux messages')}"
-                - unread_conversations.each do |conversation|
-                  - cache [conversation, 'pro/structures/layout/unread_conversations'] do
-                    %li
-                      = link_to pro_structure_conversation_path(@structure, conversation), class: 'flexbox' do
-                        .flexbox__item.two-twelfths.v-middle.soft-half--right>
-                          - last_sender = conversation.messages.order('created_at DESC').first.sender
-                          = image_tag last_sender.avatar_url(:thumb), class: 'block bordered rounded--circle', width: 50, height: 50
-                        .flexbox__item.six-twelfths.v-middle.text--left.soft-half--left.f-weight-normal>
-                          %strong= conversation.subject
-                          %br
-                          = last_sender.name
-                        .flexbox__item.four-twelfths.v-middle.text--right.f-weight-normal>
-                          .flexbox
-                            .flexbox__item.v-middle.one-whole>
-                              = conversation_label_name conversation
-                            .flexbox__item.v-middle.soft-half--left>
-                              = conversation_label conversation, class: 'lbl--small'
-                %li= link_to 'Voir tous les messages', pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
-        %span.v-middle.push-half--sides= '|'
-        .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
-          = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft-half--ends muted-link f-weight-bold' do
-            %i.fa.fa-comment.v-middle
-            %span.v-middle= "#{@structure.comments.accepted.count} recommandations"
-            - if @structure.comments.pending.count > 0
-              %span.push--left.lbl.lbl--orange.lbl--small= "#{@structure.comments.pending.count}"
-          .drop-down__el
-            %ul.no-bullet-list.flush{ style: 'width: 350px' }
-              - if @structure.comments.pending.count == 0
-                %li
-                  %a.not-hoverable.f-weight-normal Pas de recommandations en attente
-              - else
-                %li
-                  %a.not-hoverable.f-weight-normal= "#{@structure.comments.pending.count} recommandations en attente de validation"
-              - @structure.comments.pending.each do |comment|
-                - cache [comment, 'pro/structures/layout/pending_comment'] do
-                  %li
-                    = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'flexbox' do
-                      .flexbox__item.two-twelfths.v-middle.soft-half--right>
-                        = image_tag comment.user.avatar_url(:small), height: 50, width: 50, class: 'bordered rounded--circle'
-                      .flexbox__item.ten-twelfths.f-weight-normal.text--left>
-                        %strong= comment.author_name
-                        %br
-                        = comment.email
-              %li= link_to 'Voir toutes les recommandations', pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
-        %span.v-middle.push-half--sides= '|'
-        = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'white v-middle', target: :_blank do
-          .fa.fa-eye.v-middle
-          %span.v-middle Voir mon profil public
 
-  .flexbox
-    - if content_for? :side_menu
-      %nav.flexbox__item.v-top.border-none--right.side-menu.print--hidden
-        .border-none--right.side-menu.side-menu--sticky.gray-box.west{ data: { behavior: 'sticky', 'offset-top' => 45, old_height: 'false' } }
-          = yield :side_menu
-    .flexbox__item.v-top.small-container
-      = yield :breadcrumb
-      = yield
-    .grid__item.relative.wizard-container.print--hidden
+          - if @structure.mailbox
+            - unread_conversations       = @structure.mailbox.inbox(read: false)
+            - unread_conversations      += @structure.unanswered_information_message
+            - unread_conversations       = unread_conversations.uniq.sort_by(&:created_at).reverse
+            - unread_conversations_count = unread_conversations.count
+            .inline-block.v-middle.drop-down__wrapper
+              = link_to pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft--ends muted-link f-weight-bold' do
+                %i.fa.fa-envelope-o
+                = pluralize @structure.mailbox.inbox.count, 'message'
+                - if unread_conversations_count > 0
+                  %span.push--left.lbl.lbl--orange.lbl--small= unread_conversations_count
+              .drop-down__el.drop-down__el--left
+                %ul.drop-down__el-inner-box.overflow-auto.no-bullet-list.flush.text--left{ style: 'width: 400px; max-height: 60vh;' }
+                  - if unread_conversations_count == 0
+                    %li.text--center
+                      %a.not-hoverable.f-weight-normal Pas de nouveau message
+                  - else
+                    %li.text--center
+                      %a.not-hoverable.f-weight-normal= "#{unread_conversations_count} #{(unread_conversations_count == 1 ? 'nouveau message' : 'nouveaux messages')}"
+                  - unread_conversations.each do |conversation|
+                    - cache [conversation, 'pro/structures/layout/unread_conversations'] do
+                      %li
+                        = link_to pro_structure_conversation_path(@structure, conversation), class: 'flexbox' do
+                          .flexbox__item.two-twelfths.v-middle>
+                            - last_sender = conversation.messages.order('created_at DESC').first.sender
+                            = image_tag last_sender.avatar_url(:thumb), class: 'block bordered rounded--circle', width: 50, height: 50
+                          .flexbox__item.six-twelfths.v-middle.text--left.f-weight-normal>
+                            %strong= conversation.subject
+                            %br
+                            = last_sender.name
+                          .flexbox__item.four-twelfths.v-middle.text--right.f-weight-normal>
+                            .flexbox
+                              .flexbox__item.v-middle.one-whole>
+                                = conversation_label_name conversation
+                              .flexbox__item.v-middle.soft-half--left>
+                                = conversation_label conversation, class: 'lbl--small'
+                  %li.text--center= link_to 'Voir tous les messages', pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+          %span.v-middle.push-half--sides= '|'
+          .inline-block.v-middle.drop-down__wrapper
+            = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft--ends muted-link f-weight-bold' do
+              %i.fa.fa-comment.v-middle
+              %span.v-middle= "#{@structure.comments.accepted.count} recommandations"
+              - if @structure.comments.pending.count > 0
+                %span.push--left.lbl.lbl--orange.lbl--small= "#{@structure.comments.pending.count}"
+            .drop-down__el.drop-down__el--left
+              %ul.drop-down__el-inner-box.overflow-auto.no-bullet-list.flush.text--left{ style: 'width: 350px; max-height: 60vh;' }
+                - if @structure.comments.pending.count == 0
+                  %li.text--center
+                    %a.not-hoverable.f-weight-normal Pas de recommandations en attente
+                - else
+                  %li.text--center
+                    %a.not-hoverable.f-weight-normal= "#{@structure.comments.pending.count} recommandations en attente de validation"
+                - @structure.comments.pending.each do |comment|
+                  - cache [comment, 'pro/structures/layout/pending_comment'] do
+                    %li
+                      = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'flexbox' do
+                        .flexbox__item.two-twelfths.v-middle.soft-half--right>
+                          = image_tag comment.user.avatar_url(:small), height: 50, width: 50, class: 'bordered rounded--circle'
+                        .flexbox__item.ten-twelfths.f-weight-normal.text--left>
+                          %strong= comment.author_name
+                          %br
+                          = comment.email
+                %li.text--center= link_to 'Voir toutes les recommandations', pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+          %span.v-middle.push-half--sides= '|'
+          .inline-block.v-middle.drop-down__wrapper
+            = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft--ends muted-link f-weight-bold' do
+              = truncate(@structure.name, length: 80)
+              .fa.fa-caret-down.very-soft--left
+            .drop-down__el.drop-down__el--left
+              %ul.drop-down__el-inner-box.text--left
+                - if @structure.main_contact
+                  %li.nowrap.text--left
+                    = link_to edit_pro_structure_admin_path(@structure, @structure.main_contact) do
+                      %i.fa.fa-cogs.soft-half--right
+                      = t('pro.structures.side_menu.account')
+                %li.nowrap.text--left
+                  = link_to new_pro_structure_invited_teacher_path(@structure, @structure.main_contact) do
+                    %i.fa.fa-gift.soft-half--right
+                    = t('pro.structures.side_menu.share')
+                - if @structure.comments_count >= 5
+                  - communcate_url = widget_pro_structure_path(@structure)
+                - else
+                  - communcate_url = signature_pro_structure_path(@structure)
+                %li.nowrap.text--left
+                  = link_to communcate_url do
+                    %i.fa.fa-bullhorn.soft-half--right
+                    = t('pro.structures.side_menu.communicate')
+                %li.nowrap.text--left
+                  = link_to destroy_pro_admin_session_path, method: :delete do
+                    %i.fa.fa-sign-out.soft-half--right
+                    Déconnexion
+
+          %span.v-middle.push-half--sides= '|'
+          = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'white v-middle', target: :_blank, title: 'Voir mon profil public', data: { toggle: 'tooltip', placement: 'left' } do
+            .fa.fa-eye.v-middle.epsilon
+        .flexbox__item.wizard-container-width.visuallyhidden--palm
+
+  - else
+    .darkgray-box.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000 } }
+      .main-container.flexbox.pro-public-top-menu
+        .flexbox__item.v-middle.soft--left
+          = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
+        .flexbox__item.text--right
+          .inline-block.v-middle.drop-down__wrapper
+            %h5.flush--bottom.white.inline-block.v-middle.nowrap.soft--right
+              = current_pro_admin.name
+              .fa.fa-caret-down
+            .drop-down__el.drop-down__el--left
+              %ul.drop-down__el-inner-box.text--left
+                %li.nowrap.text--left
+                  = link_to destroy_pro_admin_session_path, method: :delete do
+                    %i.fa.fa-sign-out
+                    Déconnexion
+
+  .main-container.soft--sides
+    .flexbox.push-double--top
+      - if content_for? :side_menu
+        %nav.flexbox__item.v-top.v-top.border-none--right.print--hidden.soft--top.side-menu-width.relative
+          .border-none--right.side-menu.side-menu-width.relative
+            = yield :side_menu
+      .flexbox__item.v-top
+        .pro-top-menu.rounded--top--double{ class: (content_for?(:top_menu) ? 'soft--left bg-orange' : 'bordered--top bordered--orange bordered--very-thick') }
+          = yield :top_menu
+        .bg-white.bordered--left.bordered--right.bordered--right.bordered--bottom.soft--ends.soft-double--sides.shadowed--bottom.rounded--top.min-height-800
+          %div{ class: (content_for?(:top_menu) ? 'push--top' : '') }= yield
+      .flexbox__item.v-top.wizard-container.relative.print--hidden
 
 = render :template => 'layouts/application'
 = render 'shared/live_chat'

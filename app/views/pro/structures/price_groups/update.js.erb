@@ -1,12 +1,12 @@
 <% if @price_group.errors.empty? %>
     <% if @course %>
         var $element = $("#course-<%= @course.id %>").replaceWith('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
-        GLOBAL.flash("Grille tarifaire enregistrée", 'success');
+        COURSAVENUE.helperMethods.flash("Grille tarifaire enregistrée", 'success');
         $.fancybox.close();
         $element.yellowFade({ delay: 400 });
     <% else %>
       $('#price-group-<%= @price_group.id %>').replaceWith('<%= escape_javascript(render partial: "pro/structures/price_groups/price_group", locals: { price_group: @price_group }) %>')
-      GLOBAL.flash("Grille tarifaire enregistrée", 'success');
+      COURSAVENUE.helperMethods.flash("Grille tarifaire enregistrée", 'success');
       $.fancybox.close();
       $('#price-group-<%= @price_group.id %>').yellowFade({ delay: 400 });
     <% end %>

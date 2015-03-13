@@ -1,43 +1,38 @@
 = side_menu_currently_at 'messages'
-.panel
-  .panel__header.soft.text--center
-    - if @structure.users.any?
-      = link_to 'Nouveau message', new_pro_structure_message_path(@structure), class: 'btn btn--green btn--large'
-    - else
-      = link_to 'Nouveau message', '#no_users', class: 'btn btn--green btn--large', data: { behavior: 'modal', width: 600, padding: 0 }
 
-  .panel__body.soft
-    %div{ data: { behavior: 'wizard-helper', content: t('messages.wizard.index') } }
-      - if @conversations.any?
-        - conversation_information_count  = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count
-        - conversation_comment_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count
-        - conversation_conversation_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
-        - conversation_request_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::REQUEST.id).count
-        .push--bottom
-          .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}
-          %strong.push--right Inscription (#{conversation_request_count})
-          .lbl.lbl--small.lbl--chip{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
-          %strong.push--right Demande d'information (#{conversation_information_count})
-          .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}
-          %strong.push--right Avis déposé (#{conversation_comment_count})
-          .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}
-          %strong Conversation (#{conversation_conversation_count})
-        .grid
-          .grid__item.one-third>
-            %select#conversation_label{ name: 'conversation_label_id' }
-              %option{ value: '' } Tous les messages
-              %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demandes d'informations (#{conversation_information_count})
-              %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposés (#{conversation_comment_count})
-              %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
-              - if conversation_request_count > 0
-                %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::REQUEST.id), value: Mailboxer::Label::REQUEST.id } Pass Découverte (#{conversation_request_count})
-          .grid__item.two-thirds.text--center>
-            = paginate @conversations, window: 1, outer_window: 3
-        - @conversations.each do |conversation|
-          = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }
+%h1 Messages
+
+%div{ data: { behavior: 'wizard-helper', content: t('messages.wizard.index') } }
+  - if @conversations.any?
+    - conversation_information_count  = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count
+    - conversation_comment_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count
+    - conversation_conversation_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
+    - conversation_request_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::REQUEST.id).count
+    .push--bottom
+      .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}
+      %strong.push--right Inscription (#{conversation_request_count})
+      .lbl.lbl--small.lbl--chip{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
+      %strong.push--right Demande d'information (#{conversation_information_count})
+      .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}
+      %strong.push--right Avis déposé (#{conversation_comment_count})
+      .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}
+      %strong Conversation (#{conversation_conversation_count})
+    .grid
+      .grid__item.one-third>
+        %select#conversation_label{ name: 'conversation_label_id' }
+          %option{ value: '' } Tous les messages
+          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demandes d'informations (#{conversation_information_count})
+          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposés (#{conversation_comment_count})
+          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
+          - if conversation_request_count > 0
+            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::REQUEST.id), value: Mailboxer::Label::REQUEST.id } Pass Découverte (#{conversation_request_count})
+      .grid__item.two-thirds.text--center>
+        = paginate @conversations, window: 1, outer_window: 3
+    - @conversations.each do |conversation|
+      = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }
 
 
-    .text--center.push--top= paginate @conversations, window: 1, outer_window: 3
+.text--center.push--top= paginate @conversations, window: 1, outer_window: 3
 
 - if @structure.users.empty?
   #no_users.hidden

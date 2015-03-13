@@ -16,7 +16,14 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
 
         initialize: function initialize () {
             if ($.cookie('last_sent_message')) {
+                // De serialize the previously serialized sent message if it exists
                 this.set(JSON.parse($.cookie('last_sent_message')));
+            } else {
+                var prefilled_body = $.cookie('participation_request_body') || 'Bonjour,\n\n' +
+                                     "Je serais intéressé par vos cours. Pouvez-vous me détailler votre planning et m'envoyer toute information utile (prix d'une séance d'essai, tenue exigée, etc.) ?" +
+                                     'Merci et à très bientôt !';
+                this.set('body', prefilled_body);
+
             }
             if (CoursAvenue.currentUser()) {
                 this.set('user', CoursAvenue.currentUser().toJSON());
@@ -24,27 +31,7 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
         },
 
         url: function url () {
-            return Routes.structure_messages_path({ structure_id: this.get('structure_id') });
-        },
-
-        sync: function sync (options) {
-            $.ajax({
-                beforeSend: function beforeSend (xhr) {
-                    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
-                },
-                url: this.url(),
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    message: this.toJSON()
-                },
-                error: function error (response) {
-                    if (options.error) { options.error(response); }
-                },
-                success: function success (response) {
-                    if (options.success) { options.success(response); }
-                }
-            });
+            return Routes.structure_messages_path({ structure_id: this.get('structure').get('id') });
         }
     });
 });

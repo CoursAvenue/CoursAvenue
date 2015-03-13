@@ -1,4 +1,4 @@
-<% if @comment_reply.persisted? %>
+<% if params[:comment_reply][:show_to_everyone] == '0' || @comment_reply.persisted? %>
     $('#comment-reply-<%= @comment.id %>').html("<%= escape_javascript(render partial: 'comments/reply', locals: { structure: @structure, comment: @comment, reply: @comment_reply}) %>")
     $('#comment-reply-button-<%= @comment.id %>').hide();
     $('#comment-reply-<%= @comment.id %>').yellowFade({ delay: 400 });

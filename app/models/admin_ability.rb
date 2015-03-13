@@ -17,6 +17,7 @@ class AdminAbility
         can :manage, admin.structure.courses
         can :manage, admin.structure.teachers
         can :manage, admin.structure.invited_users
+        can :manage, admin.structure.participation_requests
         can :manage, admin
       end
       can :create, Place

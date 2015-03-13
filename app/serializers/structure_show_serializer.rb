@@ -2,8 +2,8 @@ class StructureShowSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
-  cached
-  delegate :cache_key, to: :object
+  # cached
+  # delegate :cache_key, to: :object
 
   attributes :id, :name, :slug, :description, :description_short, :trial_courses_policy,
              :logo_thumb_url, :courses_without_open_for_trials,
@@ -12,7 +12,7 @@ class StructureShowSerializer < ActiveModel::Serializer
              :audience, :gives_group_courses,
              :gives_individual_courses, :structure_type, :given_course_types,
              :given_funding_type, :places_count, :subjects, :has_teachers, :has_only_one_more_info,
-             :phone_numbers, :is_sleeping, :website, :premium, :has_trial_courses
+             :phone_numbers, :is_sleeping, :website, :premium, :has_trial_courses, :cities_text
 
   has_many :places                            , serializer: PlaceSerializer
   has_many :courses_open_for_trial            , serializer: ShortCourseSerializer
@@ -36,7 +36,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def places
-    if @options[:place_ids].present?
+    if @options and @options[:place_ids].present?
       place_ids = @options[:place_ids]
       object.places.where( Place.arel_table[:id].eq_any(place_ids) )
     else
@@ -45,7 +45,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def description_short
-    truncate(object.description, length: 500, separator: ' ') if object.description
+    truncate(object.description.gsub(/\r\n\r\n/, ' '), length: 250, separator: ' ') if object.description
   end
 
   def structure_type
@@ -109,7 +109,7 @@ class StructureShowSerializer < ActiveModel::Serializer
       _subjects << {
         root_name: root_subject.name,
         child_names: child_subjects.map(&:name).join(', '),
-        icon: ActionController::Base.helpers.asset_path("icons/subjects/#{root_subject.slug}.png")
+        icon: root_subject.slug
       }
     end
     _subjects.sort_by(&:length).reverse

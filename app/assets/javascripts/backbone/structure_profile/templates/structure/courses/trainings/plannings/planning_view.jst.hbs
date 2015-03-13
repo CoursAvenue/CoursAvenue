@@ -1,0 +1,31 @@
+<div {{#if is_hidden}}class="hidden" data-course-plannings-hidden="{{ course_id }}"{{/if}}>
+    {{#if is_hidden}}<hr class="push-half--ends">{{/if}}
+    <div class="epsilon f-weight-600 line-height-1-7">
+        <meta itemprop="summary" content="{{course.name}}">
+        {{ date }}
+        {{#if is_first}}
+          {{#ifCond number_of_other_date '>' 0}}
+            <a href="#" data-behavior="show-long-version" data-long-version="[data-course-plannings-hidden={{ course_id }}]">
+                <i class="fa fa fa-plus f-size-9"></i> {{ number_of_other_date }} {{ pluralize number_of_other_date 'autre date' 'autres dates' }}
+            </a>
+          {{/ifCond}}
+        {{/if}}
+    </div>
+    <div class="f-weight-500">
+        Durée : {{ duration }} -
+        <time itemprop="startDate" datetime="{{start_date_datetime}}">{{ time_slot }}</time>
+        <time itemprop="endDate" datetime="{{end_date_datetime}}"></time>
+    </div>
+    <div class="gray-light f-weight-500">{{ levels }} - {{ audiences }}</div>
+    <div style="min-width: 80px;" itemprop="location" itemscope itemtype="http://data-vocabulary.org/Organization">
+        {{#if address_name }}
+            <div itemprop="name" class="inline-block gray milli f-weight-500" data-toggle="popover" data-html="true" data-trigger="hover" data-content="{{ hide_contacts_and_escape address_with_info }}"><i class="fa fa-map-marker"></i> {{ address_name }}</div>{{!--
+         --}}<span itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">{{!--
+             --}}<meta itemprop="street-address" content="{{address}}">
+             </span>{{!--
+          --}}<span itemprop="geo" itemscope itemtype="http://data-vocabulary.org/Geo">{{!--
+            --}}<meta itemprop="latitude" content="{{latitude}}"><meta itemprop="longitude" content="{{longitude}}">{{!--
+         --}}</span>{{!--
+     --}}{{/if}}
+    </div>
+</div>

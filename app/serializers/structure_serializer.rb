@@ -2,8 +2,8 @@ class StructureSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
-  cached
-  delegate :cache_key, to: :object
+  # cached
+  # delegate :cache_key, to: :object
 
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url,
               :data_url, :query_params, :structure_type, :highlighted_comment_title,
@@ -22,11 +22,12 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def places
-    if @options[:place_ids].present?
-      place_ids = @options[:place_ids]
-      object.places.where( Place.arel_table[:id].eq_any(place_ids) )
-    elsif @options[:query] and @options[:query][:lat] and @options[:query][:lng]
-      object.places_around @options[:query][:lat].to_f, @options[:query][:lng].to_f, (@options[:query][:radius] || 5)
+    if @options and @options[:place_ids].present?
+        place_ids = @options[:place_ids]
+        object.places.where( Place.arel_table[:id].eq_any(place_ids) )
+    if @options and @options[:query] and @options[:query][:lat] and @options[:query][:lng]
+        object.places_around @options[:query][:lat].to_f, @options[:query][:lng].to_f, (@options[:query][:radius] || 5)
+      end
     else
       object.places
     end

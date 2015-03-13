@@ -71,7 +71,6 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 $region_hook  = $('<div/>', { id: new_region.el.slice(1) }),
                 events        = options.events,
                 selector      = options.selector;
-
             /* remember the region and listen to its show method */
             this.listenTo(this[region_name], 'show', function (view) {
                 this.bindWidgetEvents(view, events, region_name);

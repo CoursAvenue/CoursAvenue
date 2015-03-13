@@ -5,6 +5,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         template: Module.templateDirname() + 'course_view',
         childView: Module.Plannings.PlanningView,
         childViewContainer: '[data-type=plannings-container]',
+        priceCollectionViewContainer: '[data-type=prices-collection-container]',
         emptyView: Module.EmptyView,
 
         modelEvents: {
@@ -14,10 +15,20 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
           'click [data-behavior=register-to-course]': 'registerToCourse'
         },
 
-        initialize: function(options) {
+        initialize: function initialize (options) {
             this.model.set('is_last', options.is_last);
             this.model.set('about', options.about);
             this.model.set('about_genre', options.about_genre);
+        },
+
+        onRender: function onRender (options) {
+            var prices_collection_container = this.$(this.priceCollectionViewContainer);
+            var prices_collection           = new CoursAvenue.Models.PricesCollection(this.model.get('prices'));
+            var prices_collection_view      = new Module.PricesCollectionView({ collection:  prices_collection,
+                                                                                about_genre: this.model.get('about_genre'),
+                                                                                about:       this.model.get('about') });
+            prices_collection_view.render();
+            prices_collection_container.append(prices_collection_view.el);
         },
 
         /* the Course model used here as the composite part is the actual
@@ -49,8 +60,11 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.trigger("register", { course_id: this.model.get('id') });
         },
 
-        itemViewOptions: function itemViewOptions (model, index) {
-            return { course: this.model.toJSON() };
+        childViewOptions: function childViewOptions (model, index) {
+            return {
+                course: this.model.toJSON(),
+                is_last: (index == (this.collection.length - 1))
+            };
         }
 
     });

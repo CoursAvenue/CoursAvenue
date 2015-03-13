@@ -1,0 +1,76 @@
+<div class="soft--ends {{#unless is_last}}bordered--bottom{{/unless}}">
+    <div class="grid soft--ends">
+        <div class="grid__item v-top four-twelfths palm-one-whole">
+            <h3 class="bg-gray-light soft-half text--center bordered line-height-1-7 v-middle flush delta">{{ name }}</h3>
+        </div><!--
+     --><div class="grid__item v-top eight-twelfths palm-one-whole">
+            <div class="float--right">
+                {{#if min_price}}
+                    <div class="text--center push-half--bottom f-weight-500">
+                        {{#if is_open_for_trial}}
+                        <span class="delta v-bottom">Essai gratuit</span>
+                        {{else}}
+                        <span class="f-weight-500 gray-light v-bottom">À p. de </span><span class="gamma v-bottom">{{ min_price }}</span>
+                        {{/if}}
+                    </div>
+                {{/if}}
+                <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full">M'inscrire</a>
+            </div>
+            <div data-type="plannings-container" class="push-half--bottom"></div>
+
+            <div>
+              <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">Plus de détail <i class="fa fa-caret-down"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="course-{{id}}-know-more hidden">
+        <div class="grid soft--ends">
+            <div class="grid__item v-top four-twelfths palm-one-whole">
+                <strong class="gray-light">Disciplines</strong>
+            </div><!--
+         --><div class="grid__item v-top eight-twelfths palm-one-whole">
+                <div class="line-height-1-7">
+                    {{#each subjects}}
+                    <div>
+                      <i class="delta fa fa-{{ this.icon }} gray v-middle"></i>
+                      <strong class="v-middle gray">{{this.root_name}} : </strong><span class="v-middle">{{this.child_names}}</span>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        {{#if description}}
+          <div class="grid soft--ends">
+              <div class="grid__item v-top four-twelfths palm-one-whole">
+                  <strong class="gray-light">Description</strong>
+              </div><!--
+           --><div class="grid__item v-top eight-twelfths palm-one-whole">
+
+                    {{#ifCond description '!=' description_short}}
+                    <div id="course-{{id}}-description-short" class="gray last-p-push-half--bottom">
+                        {{{ simple_format_hide_contacts description_short }}}
+                    </div>
+                    <a href="#" data-behavior="show-long-version" data-short-version="#course-{{id}}-description-short" data-long-version="#course-{{id}}-description-long">
+                    + Plus
+                    </a>
+                    <div id="course-{{id}}-description-long" class="gray hidden" itemprop="description">
+                        {{{ simple_format_hide_contacts description }}}
+                    </div>
+                    {{else}}
+                    <div class="gray" itemprop="description">
+                        {{{ simple_format_hide_contacts description }}}
+                    </div>
+                    {{/ifCond}}
+                </div>
+            </div>
+        {{/if}}
+        <div class="grid soft--ends">
+            <div class="grid__item v-top four-twelfths palm-one-whole">
+                <strong class="gray-light">Tarifs</strong>
+            </div><!--
+         --><div class="grid__item v-top eight-twelfths palm-one-whole">
+                <div data-type="prices-collection-container"></div>
+            </div>
+        </div>
+    </div>
+</div>

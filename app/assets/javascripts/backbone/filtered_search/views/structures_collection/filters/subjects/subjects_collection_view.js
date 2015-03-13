@@ -25,7 +25,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         setup: function setup (data) {
             this.activateButton(data.root_subject_id);
-            this.current_subject_slug = data.subject_id;
+            this.current_subject_slug = data.root_subject_id || data.subject_id;
             if (this.menu_items[data.root_subject_id]) {
                 this.menu_items[data.root_subject_id].current_subject_slug       = data.subject_id;
                 this.menu_items[data.root_subject_id].selected_parent_subject_id = data.parent_subject_id;
@@ -90,7 +90,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
                 subject_name = null;
             this.hideMenu();
             if (event) {
-                window.history.pushState('', '', event.currentTarget.pathname);
                 subject_slug = event.currentTarget.dataset.value;
                 subject_name = event.currentTarget.text.trim();
             } else {
@@ -121,7 +120,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             }
             this.trigger("filter:subject", data);
             this.showSubjectBreadcrumb(data);
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         /*
          * @args data: {
@@ -222,7 +221,57 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             }
         },
         serializeData: function serializeData () {
-            return { city_id: window.coursavenue.bootstrap.city_id };
+            var subjects = [
+              {
+                slug: 'danse',
+                name: 'Danse',
+                show_href: (_.isUndefined(window.coursavenue.bootstrap.selected_subject.root) || window.coursavenue.bootstrap.selected_subject.root == 'danse')
+              },
+              {
+                slug: 'theatre-scene',
+                name: 'Théâtre & Scène',
+                show_href: (_.isUndefined(window.coursavenue.bootstrap.selected_subject.root) || window.coursavenue.bootstrap.selected_subject.root == 'theatre-scene')
+              },
+              {
+                slug: 'yoga-bien-etre-sante',
+                name: 'Yoga,Bien-être & Santé',
+                show_href: (_.isUndefined(window.coursavenue.bootstrap.selected_subject.root) || window.coursavenue.bootstrap.selected_subject.root == 'yoga-bien-etre-sante')
+              },
+              {
+                slug: 'musique-chant',
+                name: 'Musique & Chant',
+                show_href: (_.isUndefined(window.coursavenue.bootstrap.selected_subject.root) || window.coursavenue.bootstrap.selected_subject.root == 'musique-chant')
+              },
+              {
+                slug: 'deco-mode-bricolage',
+                name: 'Déco, Mode & Bricolage',
+                show_href: (_.isUndefined(window.coursavenue.bootstrap.selected_subject.root) || window.coursavenue.bootstrap.selected_subject.root == 'deco-mode-bricolage')
+              },
+              {
+                slug: 'dessin-peinture-arts-plastiques',
+                name: 'Dessin, Peinture & Arts',
+                show_href: (_.isUndefined(window.coursavenue.bootstrap.selected_subject.root) || window.coursavenue.bootstrap.selected_subject.root == 'dessin-peinture-arts-plastiques')
+              },
+              {
+                slug: 'sports-arts-martiaux',
+                name: 'Sports & Arts martiaux',
+                show_href: (_.isUndefined(window.coursavenue.bootstrap.selected_subject.root) || window.coursavenue.bootstrap.selected_subject.root == 'sports-arts-martiaux')
+              },
+              {
+                slug: 'cuisine-vins',
+                name: 'Cuisine & Vins',
+                show_href: (_.isUndefined(window.coursavenue.bootstrap.selected_subject.root) || window.coursavenue.bootstrap.selected_subject.root == 'cuisine-vins')
+              },
+              {
+                slug: 'photo-video',
+                name: 'Photo & Vidéo',
+                show_href: (_.isUndefined(window.coursavenue.bootstrap.selected_subject.root) || window.coursavenue.bootstrap.selected_subject.root == 'cuisine-vins')
+              }
+            ]
+            return {
+                subjects: subjects,
+                city_id: window.coursavenue.bootstrap.city_id
+            };
         }
     });
 });

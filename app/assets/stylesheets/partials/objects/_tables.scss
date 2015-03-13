@@ -9,6 +9,9 @@
 /**
  * Striped tables
  */
+.table-striped-like {
+    > div:nth-of-type(even) { background-color: $alternative-background; }
+}
 .table-row-alternate-color{
     background-color: $alternative-background;
 }

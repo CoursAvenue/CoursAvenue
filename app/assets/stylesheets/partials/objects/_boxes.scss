@@ -4,6 +4,7 @@
 .white-box, .blue-box {
     @include border-radius($brand-round);
 }
+.blue-box .textarea-counter { color: white!important; }
 .white-box {
     background: white;
     border    : 1px solid #DDD;
@@ -84,7 +85,7 @@
     border    : 1px solid $pane-border-color;
 }
 .darkgray-box {
-    border-top      : 1px solid #1D1D1D;
+    // border-top      : 1px solid #1D1D1D;
     border-bottom   : 1px solid #1D1D1D;
     background-color: #575A5D;
     @include background-image(linear-gradient(#575A5D, #4C4F50));

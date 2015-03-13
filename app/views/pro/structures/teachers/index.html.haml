@@ -1,17 +1,16 @@
 = side_menu_currently_at 'presentation'
 
-.panel
-  = render partial: 'pro/structures/tabs', locals: { current: 'professeurs'}
-  .panel__body.soft--ends
-    .soft--sides
-      .text--center.push--bottom
-        = link_to 'Ajouter un professeur', new_pro_structure_teacher_path(@structure), class: 'fancybox.ajax btn btn--green btn--large', data: {behavior: 'modal', width: 700}
+= render partial: 'pro/structures/tabs', locals: { current: 'professeurs'}
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Professeurs
+  .flexbox__item.v-middle.text--right
+    = link_to new_pro_structure_teacher_path(@structure), class: 'fancybox.ajax btn btn--green', data: { behavior: 'modal', width: 700 } do
+      %i.fa.fa-plus
+      Ajouter un professeur
 
-    %hr.push--ends
-    .soft--sides
-      - @teachers.each_with_index do |teacher, index|
-        = render partial: 'pro/teachers/teacher', locals: { teacher: teacher }
-      - if @teachers.empty?
-        %p Aucun professeur n'est renseigné.
-
-
+.soft--top
+  - @teachers.each_with_index do |teacher, index|
+    = render partial: 'pro/teachers/teacher', locals: { teacher: teacher }
+  - if @teachers.empty?
+    %p Aucun professeur n'est renseigné.

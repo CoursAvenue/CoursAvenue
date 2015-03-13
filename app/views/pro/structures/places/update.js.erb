@@ -11,4 +11,4 @@
 <% else %>
     $.fancybox("<%== escape_javascript(render partial: 'pro/structures/places/form') %>", { width: 650, minWidth: 650, maxWidth: 650, padding: 0, helpers: { overlay : { closeClick: false } } });
 <% end %>
-$.each(GLOBAL.initialize_callbacks, function(i, func) { func(); });
+$.each(COURSAVENUE.initialize_callbacks, function(i, func) { func(); });

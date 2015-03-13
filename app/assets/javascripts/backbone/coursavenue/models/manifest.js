@@ -7,3 +7,5 @@
 //= require ./statistic
 //= require ./course
 //= require ./courses_collection
+//= require ./price
+//= require ./prices_collection

@@ -36,9 +36,9 @@ class PlanningDecorator < Draper::Decorator
     if start_time.nil? or end_time.nil?
       '-'
     elsif end_time
-      "#{I18n.l(start_time, format: :short).gsub('00', '').gsub(/^0/, '')} - #{I18n.l(end_time, format: :short).gsub('00', '').gsub(/^0/, '')}"
+      "de #{I18n.l(start_time, format: :short).gsub('00', '').gsub(/^0/, '')} à #{I18n.l(end_time, format: :short).gsub('00', '').gsub(/^0/, '')}"
     else
-      "#{I18n.l(start_time, format: :short).gsub('00', '').gsub(/^0/, '')}"
+      "à #{I18n.l(start_time, format: :short).gsub('00', '').gsub(/^0/, '')}"
     end
   end
 
@@ -49,7 +49,7 @@ class PlanningDecorator < Draper::Decorator
     if start_date == end_date
       "#{I18n.l(start_date, format: :semi_longer).capitalize}"
     else
-      "Du #{I18n.l(start_date, format: :semi_long)} au #{I18n.l(end_date, format: :semi_shorter)}"
+      "Du #{I18n.l(start_date, format: :semi_long)} au #{I18n.l(end_date, format: :long)}"
     end
   end
 

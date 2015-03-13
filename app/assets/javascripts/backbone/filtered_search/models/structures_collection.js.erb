@@ -68,6 +68,13 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
             return (window.location.pathname || Routes.structures_path());
         },
 
+        /*
+         * We override this method because we do not want parameters in URLs given to Google.
+         */
+        pageQuery: function pageQuery (page) {
+            return this.url() + '?page=' + page;
+        },
+
         parse: function parse (response) {
             // we did some kind of request, I guess we should update the query
             window.history.pushState({}, document.title, this.getQuery());

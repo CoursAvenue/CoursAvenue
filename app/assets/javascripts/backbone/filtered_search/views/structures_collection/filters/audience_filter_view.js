@@ -93,7 +93,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
             this.trigger("filter:audience", value_to_trigger);
             this.setButtonState(audience_ids);
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         /*
          * Set the state of the button, wether or not there are filters or not

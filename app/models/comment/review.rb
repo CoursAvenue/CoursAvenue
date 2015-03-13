@@ -59,6 +59,8 @@ class Comment::Review < Comment
   scope :accepted                 , -> { where(status: 'accepted') }
   scope :waiting_for_deletion     , -> { where(status: 'waiting_for_deletion') }
   scope :certified                , -> { where(certified: true) }
+  scope :not_certified            , -> { where(arel_table[:certified].eq(nil)
+                                          .or(arel_table[:certified].eq(false))) }
 
   # ------------------------------------------------------------------------------------ Search attributes
   # :nocov:

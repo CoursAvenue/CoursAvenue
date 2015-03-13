@@ -1,7 +1,7 @@
 # encoding: utf-8
 source 'https://rubygems.org'
 
-ruby '2.1.5'
+ruby '2.2.1'
 
 gem 'rails', '4.1.8'
 
@@ -18,17 +18,18 @@ gem 'rack-ssl-enforcer',    '~> 0.2.7'
 gem 'lograge'
 
 gem 'intercom-rails'
-gem 'closeio'              , '~>2.0.4'
+# gem 'closeio'              , '~>2.0.4'
+gem 'closeio', github: 'nim1989/closeio'
 
 # Webserver
 # gem 'unicorn'
 # gem 'puma'
-gem 'passenger'
+gem 'passenger',          '~> 5.0.4'
 gem 'algoliasearch-rails', '~>1.11.9'
 gem 'google-api-client'
 
 # Database
-gem 'pg'
+gem 'pg',               '~>0.18.1'
 
 gem 'actionpack-page_caching'
 # Lets you access the version of the deploy on Heroku
@@ -99,12 +100,12 @@ gem 'gmaps4rails'               , '~>2.1.2'
 # Helper methods for geolocations
 gem 'geocoder'                  , '~>1.2.4'
 # To have model serializers apart from models
-gem 'active_model_serializers'  , '~>0.8.1'
+gem 'active_model_serializers'  , '0.8.3'
 
 # Generate slugs for records
 gem 'friendly_id'               , '~>5.0.4'
 # Handy forms
-gem 'simple_form'               , '~>3.0.2'
+gem 'simple_form'               , '~>3.1.0'
 # Dry the controllers
 gem 'inherited_resources'       , '~>1.4.1'
 
@@ -125,12 +126,9 @@ gem 'certified'                 , '~>0.1.1'
 
 # Search engine
 gem 'sunspot'                   , '~>2.1.1'
-# Add solr server for development
-gem 'sunspot_solr'              , '~>2.1.1', group: :development
 gem 'sunspot_rails'             , '~>2.1.1'
-gem 'sunspot-rails-tester'      , '~>1.0.0'
 
-gem 'truncate_html'             , '~>0.9.2'
+gem 'truncate_html'             , '~>0.9.3'
 
 # Add taggable behavior to models
 # https://github.com/mbleigh/acts-as-taggable-on
@@ -150,9 +148,9 @@ gem 'roadie'                    , '~>3.0.3'
 gem 'roadie-rails'              , '~>1.0.4'
 
 # See issue: https://github.com/leshill/handlebars_assets/pull/46
-gem 'handlebars_assets'         , '~>0.15', git: 'git://github.com/variousauthors/handlebars_assets.git'
+gem 'handlebars_assets'         , '~>0.20.1'#, git: 'git://github.com/variousauthors/handlebars_assets.git'
 # Decorator
-gem 'draper'                    , '~>1.3.1'
+gem 'draper'                    , '~>1.4.0'
 # allows sharing of handlebars templates
 gem 'sht_rails'
 gem 'sass-rails'                , '~>4.0.3'
@@ -196,32 +194,36 @@ group :production, :staging do
   gem 'execjs'                    , '~>2.0.2'
   gem 'rails_12factor'            , '~> 0.0.3'
   # Sync assets to S3 and CloudFront
-  gem 'asset_sync'                , '~>1.0.0'
+  gem 'asset_sync'                , '~>1.1.0'
   # Enable gzip compression on heroku, but don't compress images
   # gem 'heroku_rails_deflate'      , '~>1.0.3'
   # gem 'rack-zippy'
   gem 'heroku-deflater'
   # gem 'sprockets-image_compressor', '~>0.3.0'
   gem 'htmlcompressor'            , '~>0.1.2'
-  gem 'image_optim'               , '~>0.19.1'
+  gem 'image_optim'               , '~>0.20.2'
   gem 'image_optim_pack'          , '~>0.2.0.20141210'
-  gem 'paperclip-optimizer'       , '2.0.0.beta.2'
+  gem 'paperclip-optimizer'       , '2.0.0'
 end
 
 group :test do
-  gem 'rspec',              '~> 3.1.0'
-  gem 'factory_girl_rails', '~> 4.5.0'
-  gem 'rspec-core',         '~> 3.1.7'
-  gem 'rspec-rails',        '~> 3.1.0'
-  gem 'simplecov',          '~> 0.9.1'
-  gem 'database_cleaner',   '~> 1.2.0'
-  gem 'capybara',           '~> 2.2.1'
-  gem 'rspec-instafail',    '~> 0.2.5'
-  gem 'mongoid-rspec',      '~> 2.0.0.rc1'
+  gem 'sunspot-rails-tester', '~> 1.0.0'
+  gem 'rspec',                '~> 3.1.0'
+  gem 'factory_girl_rails',   '~> 4.5.0'
+  gem 'rspec-core',           '~> 3.1.7'
+  gem 'rspec-rails',          '~> 3.1.0'
+  gem 'simplecov',            '~> 0.9.1'
+  gem 'database_cleaner',     '~> 1.2.0'
+  gem 'capybara',             '~> 2.2.1'
+  gem 'rspec-instafail',      '~> 0.2.5'
+  gem 'mongoid-rspec',        '~> 2.0.0.rc1'
   gem 'shoulda-matchers',   '~> 2.8.0', require: false
 end
 
 group :development do
+  # Add solr server for development
+  gem 'sunspot_solr'              , '~>2.1.1'
+
   gem 'rails_best_practices', require: false
   gem 'ruby-prof'
   # Speed up slow Rails development mode
@@ -253,6 +255,7 @@ group :development, :test do
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'faker',              '~> 1.4.3'
+  gem 'factory_girl_rails', '~> 4.5.0'
 end
 
 gem 'dotenv-rails'

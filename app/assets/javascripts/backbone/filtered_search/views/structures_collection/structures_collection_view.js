@@ -111,8 +111,9 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 query_strings:       this.buildPageQueriesForRange(state.totalPages),
                 is_last_page:        this.collection.isLastPage(),
                 is_first_page:       this.collection.isFirstPage(),
-                next_query:          this.buildPageQueriesForRange(state.totalPages)[state.currentPage + 1],
-                previous_query:      this.buildPageQueriesForRange(state.totalPages)[state.currentPage - 1]
+                // We don't add query parameters for Google.
+                next_query:          this.collection.url() + '?page=' + (parseInt(state.currentPage + 1), 10),
+                previous_query:      this.collection.url() + '?page=' + (parseInt(state.currentPage - 1), 10),
             });
 
             /* announce the summary of the result set */
@@ -194,7 +195,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                     prevText: '<i class="alpha fa fa-chevron-left"></i>',
                     nextText: '<i class="alpha fa fa-chevron-right"></i>'
                 });
-                GLOBAL.initialize_fancy(self.$('.rslides-wrapper [data-behavior="fancy"]'));
+                COURSAVENUE.initialize_fancy(self.$('.rslides-wrapper [data-behavior="fancy"]'));
             });
         },
 

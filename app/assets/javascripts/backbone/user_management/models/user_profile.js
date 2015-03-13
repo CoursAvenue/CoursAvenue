@@ -8,9 +8,9 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         blurContacts: function blurContacts () {
-            if (!CoursAvenue.currentAdmin().isPremium()) {
-                this.set('email', this.get('email').replace(/.*@/, 'XXXXXXXX@'));
-            }
+            // if (!CoursAvenue.currentAdmin().isPremium()) {
+            //    this.set('email', this.get('email').replace(/.*@/, 'XXXXXXXX@'));
+            // }
         },
 
         url: function url () {

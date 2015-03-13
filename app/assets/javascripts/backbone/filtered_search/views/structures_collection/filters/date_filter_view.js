@@ -89,7 +89,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.announceDay();
             this.announceTime();
             this.announceHourRange();
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         /*
          * Set the state of the button, wether or not there are filters or not
@@ -114,7 +114,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 end_date     : null
             });
             this.setButtonState();
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         announceTime: function announceTime (e, data) {
             var range, data;
@@ -136,7 +136,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
             this.trigger("filter:date", data);
             this.setButtonState();
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         announceHourRange: function announceHourRange (e) {
             if (this.ui.$time.find('select').val() !== "choose-slot") {
@@ -148,10 +148,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 end_hour:   this.$el.find('#end-hour').val(),
             });
             this.setButtonState();
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         onRender: function onRender () {
-            GLOBAL.datepicker_initializer();
+            COURSAVENUE.datepicker_initializer();
             this.$('[data-behavior=datepicker]').datepicker().on('show', function(e){
                 this.lock_dropdown_hide = true;
                 // Hide dropdown and datepicker mouse user leave datepicker
@@ -178,7 +178,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 end_hour:       null
             });
             this.setButtonState();
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         showHourRange: function showHourRange () {
             if (this.ui.$time.find('select').val() !== "choose-slot") {

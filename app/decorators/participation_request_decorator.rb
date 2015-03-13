@@ -114,4 +114,21 @@ class ParticipationRequestDecorator < Draper::Decorator
       "#{I18n.l(object.date, format: :semi_long)} de #{I18n.l(object.start_time, format: :short).gsub('00', '')} à #{I18n.l(object.end_time, format: :short).gsub('00', '')}"
     end
   end
+
+  def student_home_address
+    "#{object.street}, #{object.zip_code} #{object.city.name}"
+  end
+
+  def details
+    _details = ""
+    if object.participants.any?
+      object.participants.each_with_index do |participant, index|
+        _details << '<br>' if index > 0
+        _details << participant.price.decorate.details if participant.price
+      end
+    else
+      _details = object.course.decorate.first_session_detail
+    end
+    _details.html_safe
+  end
 end

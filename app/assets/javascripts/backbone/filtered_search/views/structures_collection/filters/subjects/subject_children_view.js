@@ -97,8 +97,43 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             }
         },
 
+
+        /*
+         * Here we set the flags of links we want to show in the HTML.
+         * If we are filtered on "Danse", we won't put links to subject that root is not "Danse"
+         * So on and so forth
+         * We also check if the subject has more than 5 results (we know this info from Solr facets)
+         */
+        setShowHrefFlag: function setShowHrefFlag (subjects) {
+            if (subjects.slug == window.coursavenue.bootstrap.selected_subject.root) {
+                subjects.show_href = this.hasMoreThanFiveResults(subjects.slug);
+                _.each(subjects.children, function(child_depth_1) {
+                    if (window.coursavenue.bootstrap.selected_subject.depth == 0) {
+                        child_depth_1.show_href = this.hasMoreThanFiveResults(child_depth_1.slug);
+                        _.each(child_depth_1.children, function(child_depth_2) {
+                            child_depth_2.show_href = this.hasMoreThanFiveResults(child_depth_2.slug);
+                        }.bind(this));
+                    } else if (window.coursavenue.bootstrap.selected_subject.depth == 1 &&
+                                window.coursavenue.bootstrap.selected_subject.slug == child_depth_1.slug) {
+                        child_depth_1.show_href = this.hasMoreThanFiveResults(child_depth_1.slug);
+                        _.each(child_depth_1.children, function(child_depth_2) {
+                            child_depth_2.show_href = this.hasMoreThanFiveResults(child_depth_2.slug);
+                        }.bind(this));
+                    }
+                }.bind(this));
+                return subjects;
+            } else {
+                return subjects;
+            }
+        },
+
+        hasMoreThanFiveResults: function hasMoreThanFiveResults (subject_slug) {
+            return (window.coursavenue.bootstrap.subject_slugs_with_more_than_five_results.indexOf(subject_slug) != -1)
+        },
+
         serializeData: function serializeData () {
             var data = this.model.toJSON();
+            this.setShowHrefFlag(data);
             return _.extend(data, {
                 city_id                   : window.coursavenue.bootstrap.city_id,
                 selected_slug             : this.current_subject_slug,

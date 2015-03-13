@@ -1,133 +1,127 @@
 = side_menu_currently_at 'comments'
 
-.panel
-  = render partial: 'pro/structures/comments_tabs', locals: {current: 'recommandation'}
-  .panel__body.soft--ends{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.recommandations.global')} }
-    .soft--sides
-      %h3 Utilisez nos 3 méthodes de recommandations :
+= render partial: 'pro/structures/comments_tabs', locals: {current: 'recommandation'}
 
-    .soft--sides
-      %h4#email-reco
-        Envoyez un e-mail à vos élèves
-        %i= link_to '(voir les 5 avantages de cette méthode la + utilisée)', '#most-used-method', data: { behavior: 'modal', width: 550, padding: 0 }
-      .gray-box.soft.relative
-        = simple_form_for [:pro, @structure, @structure.comment_notifications.build] do |f|
-          .grid.push-half--bottom
-            .grid__item.two-twelfths.text--right>
-              %h4 À
-            .grid__item.ten-twelfths>
-              .grid
-                .grid__item.three-quarters.v-middle>
-                  %textarea.input--large.one-whole{ name: 'emails', rows: 3, placeholder: "Entrez les e-mails de vos élèves gardés confidentiels et non réutilisés. Ex. : patrick@gmail.com, thomas.dupont@wanadoo.fr", data: { behavior: 'autoresize' } }
-                .grid__item.one-quarter.v-middle>
-                  = link_to '#', class: 'btn btn--full line-height-2 text--center btn--blue', id: 'import-from-gmail' do
-                    Importer vos contacts Gmail
-            %hr.push-half--ends
+%div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.recommandations.global')} }
+  %h1 Utilisez nos 3 méthodes de recommandations :
+
+  %h4#email-reco
+    Envoyez un e-mail à vos élèves
+    %i= link_to '(voir les 5 avantages de cette méthode la + utilisée)', '#most-used-method', data: { behavior: 'modal', width: 550, padding: 0 }
+  .gray-box.soft.relative
+    = simple_form_for [:pro, @structure, @structure.comment_notifications.build] do |f|
+      .grid.push-half--bottom
+        .grid__item.two-twelfths.text--right>
+          %h4 À
+        .grid__item.ten-twelfths>
           .grid
-            .grid__item.two-twelfths.text--right>
-              %h4 Message
-            .grid__item.ten-twelfths>
-              %textarea.input--large#recommendation-user-content.one-whole{ name: 'text', rows: 5, data: { behavior: 'autoresize' } }
-                Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques secondes pour laisser un avis sur mon profil ?
-              %p.gray-light.push-half--top.flush--bottom
-                = link_to 'Lien que recevront mes élèves', new_structure_comment_url(@structure, email: @email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank'
-              %p.gray-light.flush
-                Merci et à très bientôt,
-                %br
-                = @structure.name
-              .push-half--top.grid
-                .grid__item.one-fifth>
-                  %a.btn.btn--full#recommendation-overview Aperçu
-                .grid__item.four-fifths>
-                  = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
-                .text--center= link_to 'Envoyer un email depuis ma boîte perso', '#hidden-send', data: { behavior: 'modal', width: 550, padding: 0 }
+            .grid__item.three-quarters.v-middle>
+              %textarea.input--large.one-whole{ name: 'emails', rows: 3, placeholder: "Entrez les e-mails de vos élèves gardés confidentiels et non réutilisés. Ex. : patrick@gmail.com, thomas.dupont@wanadoo.fr", data: { behavior: 'autoresize' } }
+            .grid__item.one-quarter.v-middle>
+              = link_to '#', class: 'btn btn--full line-height-2 text--center btn--blue', id: 'import-from-gmail' do
+                Importer vos contacts Gmail
+        %hr.push-half--ends
+      .grid
+        .grid__item.two-twelfths.text--right>
+          %h4 Message
+        .grid__item.ten-twelfths>
+          %textarea.input--large#recommendation-user-content.one-whole{ name: 'text', rows: 5, data: { behavior: 'autoresize' } }
+            Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques secondes pour laisser un avis sur mon profil ?
+          %p.gray-light.push-half--top.flush--bottom
+            = link_to 'Lien que recevront mes élèves', new_structure_comment_url(@structure, email: @email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank'
+          %p.gray-light.flush
+            Merci et à très bientôt,
+            %br
+            = @structure.name
+          .push-half--top.grid
+            .grid__item.one-fifth>
+              %a.btn.btn--full#recommendation-overview Aperçu
+            .grid__item.four-fifths>
+              = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
+            .text--center= link_to 'Envoyer un email depuis ma boîte perso', '#hidden-send', data: { behavior: 'modal', width: 550, padding: 0 }
 
-      #hidden-send.hidden
-        .panel
-          .panel__header.soft
-            %h4.flush Envoyer un email depuis ma boîte perso
-          .panel__body.soft
-            %p
-              Vous souhaitez envoyer votre demande de recommandation depuis votre propre boîte mail ? Pas de souci, nous vous avons préparé un texte que vous pouvez copier, puis coller dans votre email :
-            .bordered.soft-half
-              %p> Bonjour,
-              %p> Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laisser votre recommandation en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'teacher_email', utm_campaign: 'recommandation'), target: '_blank'}
-              %p> Merci pour votre contribution et à très bientôt !
-              %p.flush--bottom= @structure.name
+  #hidden-send.hidden
+    .panel
+      .panel__header.soft
+        %h4.flush Envoyer un email depuis ma boîte perso
+      .panel__body.soft
+        %p
+          Vous souhaitez envoyer votre demande de recommandation depuis votre propre boîte mail ? Pas de souci, nous vous avons préparé un texte que vous pouvez copier, puis coller dans votre email :
+        .bordered.soft-half
+          %p> Bonjour,
+          %p> Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laisser votre recommandation en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'teacher_email', utm_campaign: 'recommandation'), target: '_blank'}
+          %p> Merci pour votre contribution et à très bientôt !
+          %p.flush--bottom= @structure.name
 
-    %hr.push--ends
-    .soft--sides
-      %h4#facebook-reco
-        %span.v-middle Demandez à vos fans Facebook de vous recommander
+  %hr.push--ends
+  %h4#facebook-reco
+    %span.v-middle Demandez à vos fans Facebook de vous recommander
 
-      %p
-        Copiez puis collez ce texte sur Facebook
-      .text--center
-        = link_to "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From recommendation page')" do
-          %span Demander des recommandations
-      %p.gray-box.soft.push-half--top.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation'), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation'), target: '_blank'} Merci !
+  %p
+    Copiez puis collez ce texte sur Facebook
+  .text--center
+    = link_to "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From recommendation page')" do
+      %span Demander des recommandations
+  %p.gray-box.soft.push-half--top.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation'), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation'), target: '_blank'} Merci !
 
-    %hr.push--ends
-    .soft--sides
-      %h4#website-reco Partagez ces deux liens sur la page d'accueil de votre site Internet
-      .gray-box.soft.one-whole#website-text
-        Pour que les internautes visualisent tous vos avis :
-        = link_to structure_url(@structure, website: '', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'teacher_website', utm_campaign: 'share_profile'), target: '_blank'
-        %br
-        Pour que vos élèves déposent de nouveaux avis :
-        = link_to new_structure_comment_url(@structure, website: '', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'teacher_website', utm_campaign: 'recommandation'), target: '_blank'
+  %hr.push--ends
+  %h4#website-reco Partagez ces deux liens sur la page d'accueil de votre site Internet
+  .gray-box.soft.one-whole#website-text
+    Pour que les internautes visualisent tous vos avis :
+    = link_to structure_url(@structure, website: '', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'teacher_website', utm_campaign: 'share_profile'), target: '_blank'
+    %br
+    Pour que vos élèves déposent de nouveaux avis :
+    = link_to new_structure_comment_url(@structure, website: '', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'teacher_website', utm_campaign: 'recommandation'), target: '_blank'
 
-    %hr.push--ends
-    .soft--sides
-      .gray-box.soft.one-whole
-        %h4.text--center.flush
-          Lien à communiquer à vos élèves pour déposer leurs recommandations :
-          %br
-          #{link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank}
+%hr.push--ends
+  .gray-box.soft.one-whole
+    %h4.text--center.flush
+      Lien à communiquer à vos élèves pour déposer leurs recommandations :
+      %br
+      #{link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank}
 
-      #most-used-method.hidden
-        .panel
-          .panel__header.soft
-            %h4.flush Les 5 avantages de cette méthode la + utilisée.
-          .panel__body.soft
-            %p Envoyez votre demande de recommandation à vos élèves grâce à notre outil automatique, méthode la plus utilisée par nos partenaires et la plus efficace :
+  #most-used-method.hidden
+    .panel
+      .panel__header.soft
+        %h4.flush Les 5 avantages de cette méthode la + utilisée.
+      .panel__body.soft
+        %p Envoyez votre demande de recommandation à vos élèves grâce à notre outil automatique, méthode la plus utilisée par nos partenaires et la plus efficace :
 
-            %ul
-              %li
-                Le message que recevront vos élèves est
-                %strong personnalisé avec votre nom et votre logo :
-                ils se sentent plus impliqués, leurs recommandations sont alors plus précises, détaillées et de grande qualité ;
-              %li
-                Nos partenaires qui ont utilisé cet outil sont ceux qui ont eu
-                %strong les plus forts taux de réponse :
-                en moyenne, plus de 25% des élèves sollicités ont déposé un témoignage, contre 10% suite à la demande d'avis via Facebook ;
-              %li
-                Une fois votre demande envoyée, un nouvel onglet "Demandes envoyées" apparaîtra et vous pourrez alors
-                %strong suivre les élèves ayant déposé leur avis,
-                et éventuellement relancer ceux qui ne l'ont pas encore fait ;
-              %li
-                Dans l'onglet "Mes messages", vous pourrez
-                %strong envoyer un message privé à chaque élève
-                dont l'e-mail a été préalablement utilisé dans cet outil de demande de recommandation ;
-              %li
-                %strong Les élèves n'auront pas besoin de remplir leur e-mail
-                qui sera automatiquement pré-renseigné (ils pourront tout de même le modifier s'ils le souhaitent).
+        %ul
+          %li
+            Le message que recevront vos élèves est
+            %strong personnalisé avec votre nom et votre logo :
+            ils se sentent plus impliqués, leurs recommandations sont alors plus précises, détaillées et de grande qualité ;
+          %li
+            Nos partenaires qui ont utilisé cet outil sont ceux qui ont eu
+            %strong les plus forts taux de réponse :
+            en moyenne, plus de 25% des élèves sollicités ont déposé un témoignage, contre 10% suite à la demande d'avis via Facebook ;
+          %li
+            Une fois votre demande envoyée, un nouvel onglet "Demandes envoyées" apparaîtra et vous pourrez alors
+            %strong suivre les élèves ayant déposé leur avis,
+            et éventuellement relancer ceux qui ne l'ont pas encore fait ;
+          %li
+            Dans l'onglet "Mes messages", vous pourrez
+            %strong envoyer un message privé à chaque élève
+            dont l'e-mail a été préalablement utilisé dans cet outil de demande de recommandation ;
+          %li
+            %strong Les élèves n'auront pas besoin de remplir leur e-mail
+            qui sera automatiquement pré-renseigné (ils pourront tout de même le modifier s'ils le souhaitent).
 
 #recommendation-overview-popup.hidden
-  .panel
-    .panel__body.soft
-      .grid--full
-        .grid__item{ style: 'width: 60px;' }>
-          - if @structure.logo?
-            = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'media-photo block' do
-              = image_tag @structure.logo.url(:thumb), style: 'width: 50px; height: 50px;', width: '50', height: '50'
-        .grid__item.eight-tenths.soft--left>
-          %h4 #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com :
-      %hr
-      %pre#recommendation-overview-content.push--bottom
-      %p= link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green', target: :_blank
-      %p À très bientôt !
-      %p= @structure.name
+  .soft
+    .grid--full
+      - if @structure.logo?
+        .grid__item.soft--right{ style: 'width: 80px;' }>
+          = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'media-photo block' do
+            = image_tag @structure.logo.url(:thumb), style: 'width: 50px; height: 50px;', width: '50', height: '50'
+      .grid__item.eight-tenths>
+        %h4 #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com :
+    %hr
+    %pre#recommendation-overview-content.push--bottom.bg-white
+    %p= link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green', target: :_blank
+    %p À très bientôt !
+    %p= @structure.name
 
 = content_for :scripts do
   :javascript

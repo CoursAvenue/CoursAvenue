@@ -101,7 +101,7 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    input_subject_filter      = new CoursAvenue.Views.InputSubjectFilterView({ className: 'filtered-search__location-input palm-one-whole'});
+    input_subject_filter      = new CoursAvenue.Views.InputSubjectFilterView({ className: 'filtered-search__location-input palm-one-whole' });
     location_filter           = new FiltersModule.LocationFilterView({});
     level_filter              = new FiltersModule.LevelFilterView({});
     course_type_filter        = new FiltersModule.CourseTypeFilterView({});
@@ -231,7 +231,7 @@ FilteredSearch.addInitializer(function(options) {
 
 
     layout.master.show(structures_view);
-    GLOBAL.chosen_initializer();
+    COURSAVENUE.chosen_initializer();
 });
 
 $(document).ready(function() {
@@ -240,7 +240,6 @@ $(document).ready(function() {
         FilteredSearch.start({});
         CoursAvenue.initializeUserNav();
         setTimeout(function() {
-            $('[data-behavior=drop-down]').dropDown();
             if (!$.cookie('have-seen-filtered-search-map-help')) {
                 setTimeout(function() { $('[data-map-helper]').fadeIn(); }, 2000);
                 $('[data-map-helper]').click(function() {

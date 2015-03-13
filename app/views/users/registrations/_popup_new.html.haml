@@ -28,7 +28,7 @@
         $('#user_password').val().length === 0 ||
         $('#user_email').val().length === 0 ||
         $('#user_password').val().length === 0) {
-      GLOBAL.flash('Tous les champs ne sont pas remplis', 'alert');
+      COURSAVENUE.helperMethods.flash('Tous les champs ne sont pas remplis', 'alert');
       return false
     }
     return true;

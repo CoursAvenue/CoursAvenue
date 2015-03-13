@@ -1,12 +1,8 @@
 StructureProfile.module('Views.ParticipationRequests', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
-    Module.RequestFormView = Marionette.LayoutView.extend({
+    Module.RequestFormView = CoursAvenue.Views.EventLayout.extend({
         template: Module.templateDirname() + 'request_form_view',
         message_failed_to_send_template: Module.templateDirname() + 'message_failed_to_send',
-
-        regions: {
-            request_form_content: '[data-type=participation-request-form-content]'
-        },
 
         className: 'panel center-block push--bottom',
 
@@ -14,18 +10,27 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             '$message_sent'                           : '[data-type=message-sent]',
             '$participation_request_message_body'     : '[name="message[body]"]',
             '$participation_request_user_phone_number': '[name="user[phone_number]"]',
-            '$user_participation_requests_path'       : '[data-type=user-participation-requests-path]'
+            '$user_participation_requests_path'       : '[data-type=user-participation-requests-path]',
+            '$first_step_form_wrapper'                : '[data-element=first-step-form-wrapper]',
+            '$second_step_form_wrapper'               : '[data-element=second-step-form-wrapper]'
         },
 
         events: {
-            'click'                                   : 'trackEvent',
-            'submit form'                             : 'submitForm',
-            'click [data-behavior=show-phone-numbers]': 'showPhoneNumbers'
+            'click [data-behavior=show-second-step-form]': 'showSecondStepForm',
+            'click [data-behavior=show-first-step-form]' : 'showFirstStepForm',
+            'click'                                      : 'trackEvent',
+            'submit form'                                : 'submitForm',
+            'click [data-behavior=show-phone-numbers]'   : 'showPhoneNumbers'
         },
 
         initialize: function initialize (options) {
+            this.in_two_steps = options.in_two_steps;
             Backbone.Validation.bind(this);
             _.bindAll(this, 'showPopupMessageDidntSend');
+            this.on('participation_request:total', function(data) {
+                this.$('[data-pr-total]').text(data.total);
+            }.bind(this));
+
         },
 
         showPhoneNumbers: function showPhoneNumbers () {
@@ -36,11 +41,27 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
          * Set attributes on message model for validations
          */
         populateRequest: function populateRequest (event) {
-            this.model.set({
-                structure_id  : this.model.get('structure').get('id'),
-                date          : this.$('[name="participation_request[date]"]').val(),
-                start_hour    : this.$('[name="participation_request[start_hour]"]').val(),
-                start_min     : this.$('[name="participation_request[start_min]"]').val(),
+            // Retrieve all attributes regarding the name of their input
+            var new_attributes = {}
+            this.$('[name^="participation_request["]').each(function (index, input) {
+                $input         = $(input);
+                attribute_name = $input.attr('name').replace('participation_request[', '').replace(']', '');
+                // If it is a nested attributes
+                if (attribute_name.indexOf('[') != -1) {
+                    // Ex. : "participants_attributes[0][price_id]"
+                    var nested_attribute_name             = attribute_name.split('[')[0];
+                    var attribute_index                   = attribute_name.split(/(\[[0-9]*\])/)[1].replace('[', '').replace(']', '');
+                    var attribute_name                    = attribute_name.split(/(\[[0-9]*\])/)[2].replace('[', '').replace(']', '');
+                    new_attributes[nested_attribute_name] = new_attributes[nested_attribute_name] || [];
+                    new_attributes[nested_attribute_name][attribute_index] = new_attributes[nested_attribute_name][attribute_index] || {}
+                    new_attributes[nested_attribute_name][attribute_index][attribute_name] = $input.val();
+
+                } else {
+                    new_attributes[attribute_name] = $input.val();
+                }
+            });
+            _.extend(new_attributes, {
+                structure_id: this.model.get('structure').get('id'),
                 message: {
                     body: this.ui.$participation_request_message_body.val()
                 },
@@ -48,6 +69,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
                     phone_number: this.ui.$participation_request_user_phone_number.val()
                 }
             });
+            this.model.set(new_attributes);
         },
 
         /*
@@ -55,14 +77,16 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
          * We create an instance of a message form view
          */
         showRegistrationForm: function showRegistrationForm (planning_data) {
-            if (this.model.get('structure').get('courses').findWhere({ id: planning_data.course_id })) {
-                this.model.set('course_collection_type', 'courses');
+            if (this.model.get('structure').get('lessons').findWhere({ id: planning_data.course_id })) {
+                this.model.set('course_collection_type', 'lessons');
+            } else if (this.model.get('structure').get('privates').findWhere({ id: planning_data.course_id })) {
+                this.model.set('course_collection_type', 'privates');
             } else {
                 this.model.set('course_collection_type', 'trainings');
             }
             this.model.set('course_id', planning_data.course_id);
             this.model.set('planning_id', planning_data.id);
-            var request_form_view = new Module.RequestFormView( { structure: this.model.get('structure'), model: this.model } ).render();
+            var request_form_view = new Module.RequestFormView( { structure: this.model.get('structure'), model: this.model, in_two_steps: true } ).render();
             $.magnificPopup.open({
                   items: {
                       src: $(request_form_view.$el),
@@ -103,17 +127,17 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
                     });
                 }
             } else {
-                this.errors = this.model.validate();
-                if (this.errors['user.phone_number']) {
-                    this.errors.user = { phone_number: this.errors['user.phone_number'] }
-                }
                 this.showErrors();
             }
             return false;
         },
 
         showErrors: function showErrors () {
-            this.$('[data-errors]').hide();
+            this.errors = this.model.validate();
+            if (this.errors['user.phone_number']) {
+                this.errors.user = { phone_number: this.errors['user.phone_number'] }
+            }
+            this.$('[data-error]').hide();
             _.each(this.errors, function(value, key) {
                 // We replace `.` by `_` because we can't have `.` in data attributes
                 key = key.replace('.', '_');
@@ -171,8 +195,8 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             $.cookie('user_phone_number')
             _.extend(data, {
                 structure: structure_json,
-                today: moment().format(GLOBAL.MOMENT_DATE_FORMAT),
-                user_participation_requests_path: Routes.user_participation_requests_path({ id: '__USER_ID__' }),
+                today: moment().format(COURSAVENUE.constants.MOMENT_DATE_FORMAT),
+                in_two_steps: this.in_two_steps,
                 user: {
                     phone_number: CoursAvenue.currentUser().get('phone_number') || $.cookie('user_phone_number')
                 }
@@ -180,16 +204,51 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             return data;
         },
 
+        // Reset course collection passed to content_form_view in order to rerender the course select
+        resetCourseCollection: function resetCourseCollection () {
+            var courses_array = _.union(this.model.get('structure').get('lessons').models, this.model.get('structure').get('privates').models)
+            this.pr_content_view_courses_collection.reset(courses_array);
+        },
+
+        showFirstStepForm: function showFirstStepForm () {
+            this.ui.$first_step_form_wrapper.slideDown();
+            this.ui.$second_step_form_wrapper.slideUp();
+        },
+
+        showSecondStepForm: function showSecondStepForm () {
+            this.populateRequest();
+            if (this.model.isValid(true)) {
+                this.ui.$first_step_form_wrapper.slideUp();
+                this.ui.$second_step_form_wrapper.slideDown();
+                this.$('[data-error]').hide(); // Hide errors if there was any
+            } else {
+                this.showErrors();
+            }
+        },
+
         onRender: function onRender () {
+            var courses_array = _.union(this.model.get('structure').get('lessons').models, this.model.get('structure').get('privates').models)
+            // We create a new collection from private AND lesson courses
+            this.pr_content_view_courses_collection = new Backbone.Collection(courses_array);
             var options =  {
-              courses_collection  : this.model.get('structure').get('courses'),
+              courses_collection  : this.pr_content_view_courses_collection,
               trainings_collection: this.model.get('structure').get('trainings'),
               model               : this.model
             };
-            if (this.$(this.regions.request_form_content).length > 0) {
-                var pr_content_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView(options);
-                this.getRegion('request_form_content').show(pr_content_view);
+            // Don't re render content_form_view because it's being
+            if (!this.pr_content_view) {
+                this.pr_content_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView(options);
+                this.showWidget(this.pr_content_view);
                 this.ui.$participation_request_message_body.preventFromContact();
+            }
+            if (!this.pr_participants_view) {
+                this.pr_participants_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestParticipantsView();
+                this.showWidget(this.pr_participants_view, {
+                    events: {
+                        'participation_request:course:selected'   : 'resetPricesCollection',
+                        'participation_request:course:deselected' : 'hidePricesCollection'
+                    }
+                });
             }
         }
     });

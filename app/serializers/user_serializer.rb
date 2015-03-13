@@ -13,9 +13,8 @@ class UserSerializer < ActiveModel::Serializer
 
   def last_messages_sent
     data = {}
-    object.mailbox.conversations.each do |conversation|
-      structure = conversation.recipients.detect{|r| r.is_a? Admin}.try(:structure)
-      data[structure.id] = I18n.l(local_time(conversation.created_at), format: :date_short) if structure
+    object.participation_requests.group_by(&:structure_id).each do |structure_id, participation_requests|
+      data[structure_id] = I18n.l(local_time(participation_requests.sort_by(&:created_at).last.created_at), format: :date_short)
     end
     data
   end

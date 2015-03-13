@@ -48,7 +48,10 @@
       .flexbox__item.soft-half--right
         = image_tag participation_request.user.avatar_url, height: 50, width: 50, class: 'rounded--circle'
       .flexbox__item.one-whole
-        %strong= participation_request.user.name
+        %strong
+          = participation_request.user.name
+          - if participation_request.nb_participants > 1
+            + #{participation_request.nb_participants - 1} personnes
         %br
         = user_decorator.age_and_city
         %br
@@ -56,4 +59,4 @@
           = user_decorator.phone_number_and_email(!participation_request.accepted?)
 
   %td.soft--ends.v-top
-    = course_decorator.first_session_detail
+    = participation_request_decorator.details

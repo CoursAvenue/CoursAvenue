@@ -11,7 +11,7 @@ StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, 
         // @override
         // we override the layout's render function to render nothing, since
         // the body is its own element
-        render: function(){
+        render: function render (){
             if (this.isDestroyed){
                 // a previously closed layout means we need to
                 // completely re-initialize the regions

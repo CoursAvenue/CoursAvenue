@@ -10,19 +10,12 @@ module NavigationHelper
 
   def pro_side_menu_link(title, url, options = {})
     current_tab = options.delete(:current)
-    options[:class] ||= 'nowrap'
-    options[:class] << ((current_tab == title) ? ' active' : '')
+    options[:class] ||= 'nowrap rounded--left--double'
+    options[:class] << ((current_tab == title) ? ' active bordered--left bordered--top bordered--bottom relative' : '')
     if options[:icon].present?
-      html_title = "<i class='#{options[:icon]}'></i> #{I18n.t('pro.structures.side_menu.' + title)}".html_safe
+      html_title = "<i class='#{options[:icon]}'></i><div class='very-soft--top'>#{I18n.t('pro.structures.side_menu.' + title)}</div>".html_safe
     end
-    if options.has_key? :completed
-      if options[:completed]
-        html_title << "<i class='fa absolute east fa-check soft--right completion-icon #{(current_tab == title ? ' white' : 'green')}'></i>".html_safe
-      else
-        html_title << "<i class='fa absolute east fa-plus soft--right completion-icon #{(current_tab == title ? ' white' : 'orange')}'></i>".html_safe
-      end
-    end
-    content_tag(:li, link_to(html_title, url, class: 'side-menu-link relative'), options)
+    content_tag(:li, link_to(html_title, url, class: 'side-menu-link block muted-link relative text--center soft-half'), options)
   end
 
   def pro_submenu_link(title, url, options = {})

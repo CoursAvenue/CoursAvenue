@@ -1,7 +1,7 @@
 /*
     Usage:
-    <input  data-behavior='city-autocomplete'
-            data-el='#input-to-complete'/>
+    <input data-behavior='city-autocomplete'
+           data-el='#input-to-complete'/>
 */
 ;(function ( $, window, document, undefined ) {
 
@@ -53,7 +53,7 @@
                     data: {
                         term: value
                     },
-                    success: function(cities) {
+                    success: function success (cities) {
                         this.select_element.empty();
                         var select_el = this.select_element;
                         $.each(cities, function(index, city) {
@@ -82,5 +82,5 @@ $(function() {
     var city_autocomplete_initializer = function() {
         $('[data-behavior=city-autocomplete]').cityAutocomplete();
     };
-    GLOBAL.initialize_callbacks.push(city_autocomplete_initializer);
+    COURSAVENUE.initialize_callbacks.push(city_autocomplete_initializer);
 });

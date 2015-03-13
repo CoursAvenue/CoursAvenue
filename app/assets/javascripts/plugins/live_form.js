@@ -99,5 +99,5 @@ $(function() {
     var input_update_initializer = function() {
         $('[data-behavior=live-form]').liveForm();
     };
-    GLOBAL.initialize_callbacks.push(input_update_initializer);
+    COURSAVENUE.initialize_callbacks.push(input_update_initializer);
 });

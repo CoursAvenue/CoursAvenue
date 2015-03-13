@@ -32,6 +32,7 @@ class Media < ActiveRecord::Base
   scope :images,       -> { where( type: "Media::Image" ) }
   scope :videos,       -> { where( type: "Media::Video" ) }
   scope :videos_first, -> { order('type DESC') }
+  scope :images_first, -> { order('type ASC') }
   scope :cover,        -> { where( cover: true) }
   scope :cover_first,  -> { order('cover DESC NULLS LAST') }
 

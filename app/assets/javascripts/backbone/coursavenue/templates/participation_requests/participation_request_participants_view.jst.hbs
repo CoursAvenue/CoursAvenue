@@ -1,0 +1,58 @@
+{{#if prices}}
+    <div class="bordered--bottom soft-half--bottom soft--sides">
+        <div class="grid f-weight-500 epsilon push-half--bottom">
+            <div class="grid__item five-twelfths">
+                Tarif
+            </div>{{!--
+        --}}<div class="grid__item four-twelfths">
+                Participants
+            </div>{{!--
+        --}}<div class="grid__item three-twelfths">
+                Total
+            </div>
+        </div>
+        {{! There is as much lines as there is prices }}
+        <div data-behavior="show-more-on-demand">
+            {{#each prices}}
+                <div class="grid--full very-soft--bottom {{#ifCond @index '>' 0}}hidden{{/ifCond}}" data-price-row data-el {{#ifCond @index '>' 0}}data-hidden{{/ifCond}}>
+                    <div class="grid__item v-middle five-twelfths">
+                        <select data-element="price-select" name="participation_request[participants_attributes][{{@index}}][price_id]" class="one-whole">
+                            {{#each ../prices}}
+                                <option data-amount="{{#if promo_amount }}{{ promo_amount }}{{ else }}{{ amount }}{{/if}}" value="{{ id }}">{{ libelle }} : {{ readable_amount }}</option>
+                            {{/each}}
+                        </select>
+                    </div>{{!--
+                --}}<div class="grid__item v-middle three-twelfths nowrap soft-half--left">
+                        <select data-element="number-select" name="participation_request[participants_attributes][{{@index}}][number]">
+                            <option value="0">0</option>
+                            <option value="1" {{#ifCond @index '==' 0}}selected{{/ifCond}}>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                        </select>
+                    </div>{{!--
+                --}}<div class="grid__item v-middle three-twelfths text--right">
+                        <span data-element="row-total"></span>
+                    </div>{{!--
+                --}}<div class="grid__item v-middle one-twelfth text--right">
+                        <a class="cursor-pointer" data-clear><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+            {{/each}}
+            <div class="grid--full">
+                <div class="grid__item eight-twelfths">
+                    <a class="cursor-pointer" data-trigger>+ Ajouter un tarif</a>
+                </div>{{!--
+            --}}<div class="grid__item soft-half--left three-twelfths bordered--top epsilon very-soft--top text--right hidden" data-element="grand-total-wrapper">
+                    <strong data-behavior="total"></strong>
+                </div>{{!--
+            --}}<div class="grid__item v-middle one-twelfth text--right">
+                </div>
+            </div>
+            <div data-error="participants" class="{{#unless errors.participants}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.participants}}</div>
+        </div>
+    </div>
+{{/if}}

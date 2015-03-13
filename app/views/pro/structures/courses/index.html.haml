@@ -1,0 +1,31 @@
+= side_menu_currently_at 'plannings'
+
+= render partial: 'pro/structures/courses/tabs', locals: { current: 'plannings' }
+
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Mon planning
+  .flexbox__item.v-middle.text--right
+    = render partial: 'pro/structures/courses/add_activity_button'
+
+%h3{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } } Stages & ateliers
+#training-list.soft--bottom
+  - @trainings.each do |course|
+    = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
+
+%h3{ class: @lessons.any? ? 'bordered--top soft--top' : 'hidden', data: { 'course-container-title' => true } } Cours collectifs
+#lesson-list.soft--bottom
+  - @lessons.each do |course|
+    = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
+
+%h3{ class: @privates.any? ? 'bordered--top soft--top' : 'hidden', data: { 'course-container-title' => true } } Cours particuliers
+#private-list.soft--bottom
+  - @privates.each do |course|
+    = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
+
+.bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.text--center{ class: (@structure.courses.empty? ? '' : 'hidden'), data: { empty: 'courses'} }
+  %p.delta
+    Vous n'avez pas encore d'activité à votre planning.
+  = render partial: 'pro/structures/courses/add_activity_button'
+
+= render 'course_bottom_scripts'

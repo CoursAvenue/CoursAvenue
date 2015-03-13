@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "1e31cfc96e48b4148243c115c0eb593e8cf62eff2e36d6e6ad003039c8922f25",
-    "current": "1e31cfc96e48b4148243c115c0eb593e8cf62eff2e36d6e6ad003039c8922f25"
+    "previous": "7efaab35485ad59318773e51e8cbcb55b8bd5c75c92985bf939fc51b7f64c042",
+    "current": "7efaab35485ad59318773e51e8cbcb55b8bd5c75c92985bf939fc51b7f64c042"
   },
   "fonts": [
     "app/assets/fonts/GlyphAvenue.ttf",
@@ -90,9 +90,25 @@
       "codepoint": 61827,
       "source": "app/assets/images/icons/svg/credit-card.svg"
     },
+    "cuisine-vins": {
+      "codepoint": 61874,
+      "source": "app/assets/images/icons/svg/cuisine-vins.svg"
+    },
+    "danse": {
+      "codepoint": 61869,
+      "source": "app/assets/images/icons/svg/danse.svg"
+    },
     "dashboard": {
       "codepoint": 61828,
       "source": "app/assets/images/icons/svg/dashboard.svg"
+    },
+    "deco-mode-bricolage": {
+      "codepoint": 61883,
+      "source": "app/assets/images/icons/svg/deco-mode-bricolage.svg"
+    },
+    "dessin-peinture-arts-plastiques": {
+      "codepoint": 61872,
+      "source": "app/assets/images/icons/svg/dessin-peinture-arts-plastiques.svg"
     },
     "dot-circle-o": {
       "codepoint": 61829,
@@ -198,6 +214,10 @@
       "codepoint": 61726,
       "source": "app/assets/images/icons/svg/map-marker.svg"
     },
+    "musique-chant": {
+      "codepoint": 61871,
+      "source": "app/assets/images/icons/svg/musique-chant.svg"
+    },
     "pencil": {
       "codepoint": 61776,
       "source": "app/assets/images/icons/svg/pencil.svg"
@@ -210,6 +230,10 @@
       "codepoint": 61738,
       "source": "app/assets/images/icons/svg/phone-o.svg"
     },
+    "photo-video": {
+      "codepoint": 61879,
+      "source": "app/assets/images/icons/svg/photo-video.svg"
+    },
     "plus": {
       "codepoint": 61760,
       "source": "app/assets/images/icons/svg/plus.svg"
@@ -217,6 +241,10 @@
     "pulse": {
       "codepoint": 61817,
       "source": "app/assets/images/icons/svg/pulse.svg"
+    },
+    "question-circle": {
+      "codepoint": 61884,
+      "source": "app/assets/images/icons/svg/question-circle.svg"
     },
     "quote": {
       "codepoint": 61862,
@@ -262,6 +290,10 @@
       "codepoint": 61773,
       "source": "app/assets/images/icons/svg/signal.svg"
     },
+    "sports-arts-martiaux": {
+      "codepoint": 61870,
+      "source": "app/assets/images/icons/svg/sports-arts-martiaux.svg"
+    },
     "star": {
       "codepoint": 61729,
       "source": "app/assets/images/icons/svg/star.svg"
@@ -269,6 +301,10 @@
     "tag": {
       "codepoint": 61730,
       "source": "app/assets/images/icons/svg/tag.svg"
+    },
+    "theatre-scene": {
+      "codepoint": 61873,
+      "source": "app/assets/images/icons/svg/theatre-scene.svg"
     },
     "thumb-tack": {
       "codepoint": 61769,
@@ -293,6 +329,10 @@
     "user": {
       "codepoint": 61731,
       "source": "app/assets/images/icons/svg/user.svg"
+    },
+    "yoga-bien-etre-sante": {
+      "codepoint": 61875,
+      "source": "app/assets/images/icons/svg/yoga-bien-etre-sante.svg"
     },
     "youtube-play": {
       "codepoint": 61742,

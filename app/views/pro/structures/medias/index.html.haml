@@ -1,28 +1,21 @@
-= side_menu_currently_at 'medias'
+= side_menu_currently_at 'presentation'
 
-.panel
-  .panel__header.soft
-    .grid.text--center{ data: { behavior: 'wizard-helper', content: t('pro.medias.wizard.infos')} }
-      .grid__item.one-half>
-        = link_to 'Ajouter une vidéo', new_pro_structure_video_path(@structure), class: 'btn btn--green push--right btn--large btn--full fancybox.ajax', data: { behavior: 'modal' }
-
-      .grid__item.one-half>
-        = simple_form_for [:pro, @structure, @image], url: pro_structure_images_path(@structure), html: { id: 'image-form' } do |f|
-          = f.error_notification
-          .text--center
-            = f.filepicker_field :url, multiple: true, button_text: 'Ajouter une photo', button_class: 'btn btn--green btn--full btn--large fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
-  .panel__body.soft--bottom
-    - if @medias.any?
-      .premium-box.soft.rounded.text--center.relative
-        = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-top', height: 80, width: 80, style: 'width: 80px; height: 80px;'
-        = render partial: 'pro/structures/premium_select', locals: { title: "afficher plus de photos / vidéos à tous les utilisateurs CoursAvenue ?", subtitle: "Souscrivez au profil Premium et affichez toutes vos photos / vidéos pour monter dans les résultats.", label_text: "Afficher plus de photos / vidéos sur mon profil :", select_collection: ['Actif', 'Non actif'] }
-
-      %p.soft-half--top.soft--sides.flush#first-photo-helper.visibility-hidden
-        %strong Votre première photo / vidéo figure dans les résultats de recherche !
-      - @medias.each_with_index do |media, index|
-        .soft-half.inline-block.one-third>
-          - cache [media, 'pro/structures/medias/index'] do
-            = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, structure: @structure }
+= render partial: 'pro/structures/tabs', locals:{ current: 'medias' }
+.flexbox.push--bottom{ data: { behavior: 'wizard-helper', content: t('pro.medias.wizard.infos')} }
+  .flexbox__item.v-middle
+    %h1.flush Photos & Vidéos
+  .flexbox__item.v-middle.text--right
+    = link_to 'Ajouter une vidéo', new_pro_structure_video_path(@structure), class: 'btn btn--green fancybox.ajax v-middle', data: { behavior: 'modal' }
+    = simple_form_for [:pro, @structure, @image], url: pro_structure_images_path(@structure), html: { id: 'image-form', class: 'inline-block v-middle' } do |f|
+      = f.error_notification
+      = f.filepicker_field :url, multiple: true, button_text: 'Ajouter une photo', button_class: 'btn btn--green fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
+- if @medias.any?
+  %p.soft-half--top.soft--sides.flush#first-photo-helper.visibility-hidden
+    %strong Votre première photo / vidéo figure dans les résultats de recherche !
+  - @medias.each_with_index do |media, index|
+    .inline-block.one-third{ class: (index % 3 == 1 ? 'soft-half--sides' : '')}>
+      - cache [media, 'pro/structures/medias/index'] do
+        = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, structure: @structure }
 
 = content_for :scripts do
   = filepicker_js_include_tag

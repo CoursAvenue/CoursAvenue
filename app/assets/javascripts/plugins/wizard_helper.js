@@ -30,7 +30,7 @@
     }
 
     // Simple template of the wizard appearing on the right
-    var wizard_template = "<div class='grid--full wizard-helper'><div class='grid__item two-twelfths text--center'><i class='fa fa-lightbulb-o blue wizard__icon'></i></div><div class='grid__item ten-twelfths text--muted'>{{{content}}}</div></div>";
+    var wizard_template = "<div class='grid--full wizard-helper'><div class='grid__item two-twelfths text--center'><i data-toggle='popover' data-content=\"{{{ content }}}\" data-html='true' data-placement='left' class='fa fa-lightbulb-o blue wizard__icon'></i></div><div class='grid__item ten-twelfths wizard-helper__content text--muted'>{{{ content }}}</div></div>";
     Plugin.prototype = {
         template: Handlebars.compile(wizard_template),
         init: function() {
@@ -81,5 +81,5 @@ $(function() {
     var wizard_helper_initializer = function() {
         $('[data-behavior=wizard-helper]').wizardHelper();
     };
-    GLOBAL.initialize_callbacks.push(wizard_helper_initializer);
+    COURSAVENUE.initialize_callbacks.push(wizard_helper_initializer);
 });

@@ -21,7 +21,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announce: function announce (e, data) {
             this.trigger("filter:location", data);
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         // Clears all the given filters
         clear: function clear (filters) {

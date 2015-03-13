@@ -1,12 +1,12 @@
 class PriceSerializer < ActiveModel::Serializer
   include PricesHelper
 
-  cached
-  delegate :cache_key, to: :object
+  # cached
+  # delegate :cache_key, to: :object
 
-  attributes :libelle, :amount, :info, :promo_percentage, :promo_amount, :promo_amount_type, :libelle_type, :is_free, :discount, :is_registration
+  attributes :id, :libelle, :amount, :info, :promo_percentage, :promo_amount, :promo_amount_type, :libelle_type, :is_free, :discount, :is_registration
 
-  def libelle_type
+ def libelle_type
     case object.type
     when 'Price::Trial'
       'Spéciale découverte'
@@ -43,20 +43,12 @@ class PriceSerializer < ActiveModel::Serializer
     end
   end
 
-  def amount
-    readable_amount(object.amount) if object.amount
-  end
-
   def is_free
     return (object.amount.nil? or object.amount == 0)
   end
 
   def is_registration
     object.registration?
-  end
-
-  def promo_amount
-    "#{readable_amount(object.promo_amount, false, (object.promo_amount_type || '€'))}" if object.promo_amount
   end
 
   def discount

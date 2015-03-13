@@ -94,11 +94,15 @@ module CoursesHelper
 
   def readable_private_course_location(course)
     string = ""
-    if course.teaches_at_home? and course.home_place
-      string << "Au domicile de l'élève (rayon de #{course.home_place.radius}km autour de #{course.home_place.city.name})"
+    has_two_places = (course.teaches_at_home? and course.home_place and course.place)
+    if has_two_places
+      string << "<strong>2 lieux : </strong>"
     end
-    if course.teaches_at_home? and course.home_place and course.place
-      string << " / "
+    if course.teaches_at_home? and course.home_place
+      string << "À domicile (jusqu'à #{course.home_place.radius}km autour de #{course.home_place.city.name})"
+    end
+    if has_two_places
+      string << " ou au "
     end
     if course.place
       string << "#{course.place.name}, #{course.place.address}"

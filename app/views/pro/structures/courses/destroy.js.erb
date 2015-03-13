@@ -1,11 +1,12 @@
 $('#course-<%= @course.id %>').slideUp();
 setTimeout(function() {
     $('#course-<%= @course.id %>').remove();
-    if ($("#<%= @course.underscore_name %>-list > div").length == 0) {
-        $("[data-empty=<%= @course.underscore_name %>]").slideDown();
-    }
+    <% if @structure.courses.empty? %>
+        $("[data-course-container-title]").slideUp();
+        $("[data-empty=courses]").slideDown();
+    <% end %>
 }, 500);
-GLOBAL.flash("Cours supprimé", 'success');
+COURSAVENUE.helperMethods.flash("Cours supprimé", 'success');
 $.fancybox.close();
 
 <%-# Show big red sign %>

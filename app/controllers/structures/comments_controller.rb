@@ -7,11 +7,20 @@ class Structures::CommentsController < ApplicationController
 
   def index
     @structure    = Structure.friendly.find(params[:structure_id])
-    @comments     = @structure.comments.accepted.page(params[:page] || 1).per(5)
-
+    if params[:certified] == "true"
+      @comments = @structure.comments.accepted.certified.page(params[:page] || 1).per(5)
+    elsif params[:certified] == "false"
+      @comments = @structure.comments.accepted.not_certified.page(params[:page] || 1).per(5)
+    else
+      @comments = @structure.comments.accepted.page(params[:page] || 1).per(5)
+    end
     respond_to do |format|
       format.html { redirect_to new_structure_comment_path(@structure) }
-      format.json { render json: @comments.to_a, root: 'comments', each_serializer: CommentSerializer, meta: { total: @structure.comments.accepted.count }, options: { structure: @structure } }
+      format.json { render json: @comments.to_a,
+                           root: 'comments',
+                           each_serializer: CommentSerializer,
+                           meta: { total: @comments.total_count },
+                           options: { structure: @structure } }
     end
   end
 

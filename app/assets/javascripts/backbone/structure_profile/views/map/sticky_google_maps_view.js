@@ -38,7 +38,7 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
             markerView.on('click'          , function() { this.markerFocus(markerView) }.bind(this));
             markerView.on('hovered'        , function() { this.markerHovered(markerView) }.bind(this));
             markerView.on('unhighlight:all', function() { this.unhighlightEveryMarker(markerView) }.bind(this));
-            this.markerViewChildren[childModel.cid] = markerView;
+            this.markerViewChildren[childModel.get('id')] = markerView;
             markerView.render();
         },
 

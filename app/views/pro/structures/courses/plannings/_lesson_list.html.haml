@@ -1,14 +1,3 @@
-%table.table--striped.table--data{ id: "course-planning-list-#{course.id}"}
-  %thead
-    %tr
-      %th.one-twelfth Jour
-      %th.two-twelfths Horaires
-      %th.three-twelfths Niveau
-      %th.two-twelfths Public
-      %th.two-twelfths Lieu
-      %th
-        %i.fa.fa-info
-      %th.one-twelfth
-  %tbody
-    - course.plannings.ordered_by_day.each do |planning|
-      = render partial: 'pro/structures/courses/plannings/lesson_row', locals: { planning: planning, course: course }
+.table-striped-like{ id: "course-planning-list-#{course.id}"}
+  - course.plannings.ordered_by_day.each do |planning|
+    = render partial: 'pro/structures/courses/plannings/lesson_row', locals: { planning: planning, course: course }

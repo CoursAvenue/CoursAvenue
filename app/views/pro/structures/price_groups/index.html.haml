@@ -1,50 +1,44 @@
-= side_menu_currently_at 'price_groups'
+= side_menu_currently_at 'plannings'
 
-.panel
-  .panel__header.soft--ends.bordered--bottom-on-stick{ style: 'height: 85px;', data: { behavior: 'sticky', offset_top: 45, z: 500, old_width: 'true' } }
-    .flexbox.soft--sides
-      .flexbox__item.soft-half--right>
-        %h4.flush
-          Ajouter une grille
-          %br
-          tarifaire pour les :
-      .flexbox__item.text--center.nowrap>
-        = link_to 'Cours réguliers', new_pro_structure_price_group_path(@structure, course_type: 'regular'), class: 'soft--sides btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false', lock_overlay: true }
-        = link_to 'Stages / Ateliers', new_pro_structure_price_group_path(@structure, course_type: 'training'), class: 'soft--sides push--left btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2,  padding: '0', close_click: 'false', lock_overlay: true }
-  .panel__body.soft--bottom{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
-    - if @structure.premium?
-      #price-group-premium-ribbon.relative.premium-box.text--center.soft--sides.soft-half--ends{ class: (@structure.has_premium_prices ? '' : 'hidden')}
-        = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute', height: 70, width: 70, style: 'width: 70px; height: 70px; z-index: 100'
-        = render partial: 'pro/structures/premium_select', locals: { title: 'afficher vos offres découvertes et promotionnelles sur votre profil ?', label_text: 'Statut de vos offres découvertes et promotionnelles :' }
-        %p.blue-darker.flush--bottom.text--center
-          %i Recrutez encore plus d'élèves en affichant vos cours d'essai gratuits et tarifs spéciaux de vos tarifs ci-dessous.
-
-    #lessons_header.soft.bg-white.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 130, old_width: 'true', z: 300 } }
-      %h3.flush Tarifs pour les cours réguliers
-    .soft--sides
-      %p#regulars-empty-message{ class: (@structure.price_groups.for_regular_courses.empty? ? '': 'hidden') }
-        Vous n'avez pas encore de grille tarifaire pour vos cours réguliers.
-        = link_to new_pro_structure_price_group_path(@structure, course_type: 'regular'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '1100', top_ratio: 0.2,  padding: '0', close_click: 'false' } do
+= render partial: 'pro/structures/courses/tabs', locals: { current: 'prices' }
+%div{ data: { behavior: 'wizard-helper', content: t('price_group.wizard.premium_offers') } }
+  .flexbox
+    .flexbox__item>
+      %h1 Tarifs
+    .flexbox__item.text--right>
+      .push-half--bottom
+        = link_to new_pro_structure_price_group_path(@structure, course_type: 'regular'), class: 'soft--sides btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false', lock_overlay: true } do
           %i.fa.fa-plus
-          Ajouter une grille tarifaire
-
-      #regulars-table{ class: @structure.price_groups.for_regular_courses.empty? ? 'hidden' : ''}
-        - @structure.price_groups.for_regular_courses.each do |price_group|
-          = render partial: 'pro/structures/price_groups/price_group', locals: { price_group: price_group }
-
-    %hr.push--ends
-    .soft.bg-white.bordered--bottom-on-stick.relative{ data: { behavior: 'sticky', offset_top: 130, old_width: 'true', pushed: '#lessons_header', z: 400 } }
-      %h3.flush Tarifs pour les stages / ateliers
-
-    .soft--sides
-      %p#trainings-empty-message{ class: (@structure.price_groups.for_trainings.empty? ? '': 'hidden') }
-        Vous n'avez pas encore de grille tarifaire pour vos stages / ateliers.
-        = link_to new_pro_structure_price_group_path(@structure, course_type: 'training'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '1100', top_ratio: 0.2,  padding: '0', close_click: 'false' } do
+          Ajouter pour les cours réguliers
+      %div
+        = link_to new_pro_structure_price_group_path(@structure, course_type: 'training'), class: 'soft--sides push--left btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2,  padding: '0', close_click: 'false', lock_overlay: true } do
           %i.fa.fa-plus
-          Ajouter une grille tarifaire
+          Ajouter pour les stages / ateliers
 
-      #trainings-table{ class: @structure.price_groups.for_trainings.empty? ? 'hidden' : ''}
-        - @structure.price_groups.for_trainings.each do |price_group|
-          = render partial: 'pro/structures/price_groups/price_group', locals: { price_group: price_group }
+  #lessons_header.soft--ends.bg-white.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 130, old_width: 'true', z: 300 } }
+    %h3.flush Tarifs pour les cours réguliers
+  %p#regulars-empty-message{ class: (@structure.price_groups.for_regular_courses.empty? ? '': 'hidden') }
+    Vous n'avez pas encore de grille tarifaire pour vos cours réguliers.
+    = link_to new_pro_structure_price_group_path(@structure, course_type: 'regular'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '1100', top_ratio: 0.2,  padding: '0', close_click: 'false' } do
+      %i.fa.fa-plus
+      Ajouter une grille tarifaire
+
+  #regulars-table{ class: @structure.price_groups.for_regular_courses.empty? ? 'hidden' : ''}
+    - @structure.price_groups.for_regular_courses.each do |price_group|
+      = render partial: 'pro/structures/price_groups/price_group', locals: { price_group: price_group }
+
+  %hr.push--ends
+  .soft--ends.bg-white.bordered--bottom-on-stick.relative{ data: { behavior: 'sticky', offset_top: 130, old_width: 'true', pushed: '#lessons_header', z: 400 } }
+    %h3.flush Tarifs pour les stages / ateliers
+
+  %p#trainings-empty-message{ class: (@structure.price_groups.for_trainings.empty? ? '': 'hidden') }
+    Vous n'avez pas encore de grille tarifaire pour vos stages / ateliers.
+    = link_to new_pro_structure_price_group_path(@structure, course_type: 'training'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '1100', top_ratio: 0.2,  padding: '0', close_click: 'false' } do
+      %i.fa.fa-plus
+      Ajouter une grille tarifaire
+
+  #trainings-table{ class: @structure.price_groups.for_trainings.empty? ? 'hidden' : ''}
+    - @structure.price_groups.for_trainings.each do |price_group|
+      = render partial: 'pro/structures/price_groups/price_group', locals: { price_group: price_group }
 
 

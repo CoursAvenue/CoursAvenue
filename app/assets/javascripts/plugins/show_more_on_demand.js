@@ -1,6 +1,6 @@
 /*
     Usage:
-    %div{data: { behavior: 'show-more-on-demand' } }
+    %div{ data: { behavior: 'show-more-on-demand' } }
         %div{ data: { el: true, hidden: !item.persisted? } }
             some content
         %div{ data: { el: true, hidden: !item.persisted? } }
@@ -46,7 +46,7 @@
             this.$hidden_items = $(this.$element.find('[data-el][data-hidden]'));
             this.$hidden_items.hide();
             // Show first empty item if none is shown
-            if (this.$items.first().is(':hidden')) {
+            if (this.$items.first().hasClass('hidden')) {
                 this.showMoreItem();
             }
             this.attachEvents();

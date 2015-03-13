@@ -22,7 +22,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var payment_methods = this.ui.$select.val();
             this.trigger("filter:payment_method", { 'funding_type_ids[]': payment_methods });
             this.announceBreadcrumb(payment_methods);
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         announceBreadcrumb: function (payment_methods) {
             var title;

@@ -1,27 +1,31 @@
-= side_menu_currently_at 'places'
+= side_menu_currently_at 'presentation'
 
-.panel
-  .panel__header.soft.text--center
-    = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure, type: 'Place::Public'), class: 'btn btn--green btn--large fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
-    .text--center
+= render partial: 'pro/structures/tabs', locals:{ current: 'places' }
+%div{ data: { behavior: 'wizard-helper', content: t('pro.places.wizard_helper.index') } }
+  .flexbox.push--bottom
+    .flexbox__item.v-middle
+      %h1.flush Lieux
+    .flexbox__item.v-middle.text--right
+      = link_to new_pro_structure_place_path(@structure, type: 'Place::Public'), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
+        %i.fa.fa-plus
+        Ajouter un lieu
       #new-home-place{ class: (@places.homes.empty? ? '' : 'hidden') }
         = link_to 'Ajouter la zone géographique pour mes cours à domicile', new_pro_structure_place_path(@structure, type: 'Place::Home'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
       #update-home-place{ class: (@places.homes.empty? ? 'hidden' : '') }
         = link_to 'Modifier la zone géographique pour mes cours à domicile', edit_pro_structure_place_path(@structure, (@places.homes.first ? @places.homes.first : '__HOME_PLACE_ID__')), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
-  .panel__body{ data: { behavior: 'wizard-helper', content: t('pro.places.wizard_helper.index') } }
-    #map.google-map.push--bottom{ class: (@places.any? ? '' : 'hidden')}
+  #map.google-map.push--bottom{ class: (@places.any? ? '' : 'hidden')}
 
-    %table.table--striped.table--data.flush#place-table{ class: (@places.any? ? '' : 'hidden')}
-      %thead
-        %tr
-          %th.four-twelfths Nom du lieu
-          %th.four-twelfths Adresse
-          %th.one-twelfths.text--center
-            %i.fa.fa-info
-          %th.three-twelfths
-      %tbody
-        - @places.each do |place|
-          = render partial: 'pro/structures/places/place', locals: { place: place, structure: @structure }
+  %table.table--striped.table--data.flush#place-table{ class: (@places.any? ? '' : 'hidden')}
+    %thead
+      %tr
+        %th.four-twelfths Nom du lieu
+        %th.four-twelfths Adresse
+        %th.one-twelfths.text--center
+          %i.fa.fa-info
+        %th.three-twelfths
+    %tbody
+      - @places.each do |place|
+        = render partial: 'pro/structures/places/place', locals: { place: place, structure: @structure }
 
 = content_for :scripts do
   :javascript

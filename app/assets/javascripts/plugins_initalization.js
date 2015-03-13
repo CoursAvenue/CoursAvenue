@@ -2,12 +2,12 @@ $(function() {
     // Setting default settings of Fancybox
     $.fancybox.defaults.tpl.closeBtn = '<a title="Fermer" class="fancybox-item fancybox-close fa fa-times" href="javascript:;"></a>';
     $.fancybox.defaults.afterShow = function () {
-        $.each(GLOBAL.initialize_callbacks, function(i, func) { func(); });
+        $.each(COURSAVENUE.initialize_callbacks, function(i, func) { func(); });
     };
     $.fancybox.defaults.helpers.title = null;
 
     $('input, textarea').placeholder();
-    GLOBAL.initialize_fancy = function($elements) {
+    COURSAVENUE.initialize_fancy = function($elements) {
         // Warning !
         // Do not iterate over each elements beccause it will break thumbs
         var width      = $elements.first().data('width') || 800;
@@ -27,7 +27,7 @@ $(function() {
                             }
                          });
     };
-    GLOBAL.initialize_fancy($('[data-behavior="fancy"]'));
+    COURSAVENUE.initialize_fancy($('[data-behavior="fancy"]'));
     $('body').on('click', '[data-behavior=modal]', function(event) {
         event.preventDefault();
         var $this        = $(this);
@@ -57,10 +57,10 @@ $(function() {
         });
         return false;
     });
-    GLOBAL.datepicker_initializer = function() {
+    COURSAVENUE.datepicker_initializer = function() {
         $('[data-behavior=datepicker]').each(function() {
             var datepicker_options = {
-                format: GLOBAL.DATE_FORMAT,
+                format: COURSAVENUE.constants.DATE_FORMAT,
                 weekStart: 1,
                 language: 'fr',
                 autoclose: true,
@@ -78,9 +78,9 @@ $(function() {
 
         });
     };
-    GLOBAL.initialize_callbacks.push(GLOBAL.datepicker_initializer);
+    COURSAVENUE.initialize_callbacks.push(COURSAVENUE.datepicker_initializer);
 
-    GLOBAL.chosen_initializer = function() {
+    COURSAVENUE.chosen_initializer = function() {
         // -------------------------- Chosen
         $('[data-behavior=chosen]').each(function() {
             $(this).chosen({
@@ -93,7 +93,7 @@ $(function() {
             });
         });
     };
-    GLOBAL.initialize_callbacks.push(GLOBAL.chosen_initializer);
+    COURSAVENUE.initialize_callbacks.push(COURSAVENUE.chosen_initializer);
     $('body').tooltip({
         selector: '[data-behavior=tooltip],[data-toggle=tooltip]'
     });
@@ -103,10 +103,10 @@ $(function() {
     });
 
     // Initialize all callbacks
-    GLOBAL.reinitializePlugins = function() {
-        $.each(GLOBAL.initialize_callbacks, function(i, func) { func(); });
+    COURSAVENUE.reinitializePlugins = function() {
+        $.each(COURSAVENUE.initialize_callbacks, function(i, func) { func(); });
     };
-    GLOBAL.reinitializePlugins();
+    COURSAVENUE.reinitializePlugins();
 
     $('[data-behavior=sticky]').each(function(index, el) {
         $(this).sticky(this.dataset);

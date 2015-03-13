@@ -1,0 +1,103 @@
+var COURSAVENUE = COURSAVENUE || {};
+COURSAVENUE.initialize_callbacks  = [];
+COURSAVENUE.constants = {
+    IMAGE_TYPE_REGEX      : /(\.|\/)(gif|jpe?g|png|bmp)$/i,
+    MAX_IMAGE_SIZE        : 5000000, // 5mo
+    MOMENT_DATE_FORMAT    : 'DD/MM/YYYY',
+    DATE_FORMAT           : 'dd/mm/yyyy',
+    EXCLUDED_SEARCH_WORDS : "cours,atelier,stage,activité,séance,de,d',cours de,cours d',atelier de,atelier d,stage de,stage d',activité,séance",
+    DEBOUNCE_DELAY        : 400,
+    REGEX: {
+        // Catches foo@bar.baz | foo azobaz bar.baz | foo azobase bar.baz | foo azobaze bar.baz
+        email       : /([^@\s]+)(@|\ ?(arobaz|azobaze|azobase)\ ?)(([-a-z0-9]+\.)+[a-z]{2,})/gi,
+        phone_number: /((\+|00)33\s?|0)[0-9]([\s-\. ]*?\d{2}){4}/g,
+        // Catches something .com | something com | something.com
+        links       : [
+          /((http|ftp|https):\/\/)?[\w\-_]{2,}(\(point\)[\w\-_]|\.[\w\-_])+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/gi,
+          /[\w\-_]{2,} \.?(com|fr|org)( |\.)/gi
+        ]
+
+    }
+}
+
+COURSAVENUE.helperMethods = {
+    isImageValid: function isImageValid (file) {
+        return file.type.match(COURSAVENUE.constants.IMAGE_TYPE_REGEX) && file.size < COURSAVENUE.constants.MAX_IMAGE_SIZE
+    },
+
+    /*
+     * @params text Text that will appear in the flash
+     * @params class_name class added to the flash, by default it will be alert
+                          the flash will be an error
+     */
+    flash: function flash (text, class_name) {
+        class_name = class_name || 'alert';
+        var flash = $('<div class="flash ' + class_name + '">').text(text);
+        $(document.body).append(flash)
+        flash.flash();
+    },
+
+    /*
+     * Remove basic accentuation
+     * @params text string
+     */
+    normalizeAccents: function normalizeAccents (string) {
+      string = string.replace(/[éèêë]/g, 'e');
+      string = string.replace(/[àäâ]/g, 'a');
+      string = string.replace(/[îï]/g, 'i');
+      return string;
+    },
+    isMobile: {
+        Android: function Android () {
+            return navigator.userAgent.match(/Android/i);
+        },
+        BlackBerry: function BlackBerry () {
+            return navigator.userAgent.match(/BlackBerry/i);
+        },
+        iOS: function iOS () {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        },
+        Opera: function Opera () {
+            return navigator.userAgent.match(/Opera Mini/i);
+        },
+        Windows: function Windows () {
+            return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+        },
+        any: function any () {
+            return (COURSAVENUE.helperMethods.Android() || COURSAVENUE.helperMethods.BlackBerry() || COURSAVENUE.helperMethods.iOS() || COURSAVENUE.helperMethods.Opera() || COURSAVENUE.helperMethods.Windows());
+        }
+    },
+    // Test links that should be matched
+    // ["toto.com", "http://toto.com", "http://www.coazd.com", "www.my-site.com"].join(' ')
+    // Test links that should NOT be matched
+    // ["U.S.A"]
+    hideContactsInfo: function hideContactsInfo (text) {
+        if (!text) { return ''; }
+        // Emails
+        text = text.replace(COURSAVENUE.constants.REGEX.email, '<a class="cursor-pointer" data-behavior="show-contact-panel">(contact)</a>');
+        // Phone numbers
+        text = text.replace(COURSAVENUE.constants.REGEX.phone_number, '<a class="cursor-pointer" data-behavior="show-contact-panel">(contact)</a>')
+        // Links
+        _.each(COURSAVENUE.constants.REGEX.links, function(link_regex) {
+            text = text.replace(link_regex, '<a class="cursor-pointer" data-behavior="show-contact-panel">(contact)</a>')
+        });
+        return text;
+    },
+
+
+    /*
+     * Transform 14.0 into 14 or 14.5 into 14,50
+     * @params amount String or Int or Float that represent an amount
+     */
+    readableAmount: function readableAmount (amount) {
+        if (_.isUndefined(amount) || _.isNull(amount)) { return '' };
+        string_amount = amount.toString();
+        string_amount =  string_amount.replace('.0', '').replace('.00', '').replace('.5', ',50');
+        if (string_amount == '0') {
+            string_amount = 'Gratuit'
+        } else {
+            string_amount = string_amount + '€'
+        }
+        return string_amount;
+    }
+}

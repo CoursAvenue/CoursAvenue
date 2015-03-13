@@ -30,7 +30,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var discount_types = this.getSelectedValues();
             this.trigger("filter:discount", { 'discount_types[]': discount_types });
             this.setButtonState(discount_types);
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         /*
          * Set the state of the button, wether or not there are filters or not

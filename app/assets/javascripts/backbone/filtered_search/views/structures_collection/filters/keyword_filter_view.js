@@ -39,7 +39,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 this.trigger("filter:search_term", { 'name': name });
                 this.announceBreadcrumb(name);
             }
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         announceBreadcrumb: function announceBreadcrumb (name) {
             if (name.length === 0) {

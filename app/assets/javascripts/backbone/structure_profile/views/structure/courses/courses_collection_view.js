@@ -10,7 +10,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.about       = options.about;
             this.about_genre = options.about_genre;
             this.data_url    = options.data_url;
-            _.bindAll(this, 'iPhonizeCourseTitles');
         },
 
         collectionEvents: {
@@ -20,7 +19,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         collectionReset: function collectionReset () {
             this.trigger('courses:collection:reset', this.serializeData());
             if (this.collection.length == 0) { this.$('[data-empty-courses]').removeClass('hidden') }
-            _.delay(this.iPhonizeCourseTitles, 500);
         },
 
         onChildviewMouseenter: function onChildviewMouseenter (view, data) {
@@ -43,23 +41,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             var $breacrumb = $('[data-type=filter-breadcrumbs]');
             $breacrumb.show();
             $breacrumb.appendTo(this.$('[data-breadcrumb]'));
-        },
-
-        onAfterShow: function onAfterShow () {
-            this.iPhonizeCourseTitles();
-        },
-
-        iPhonizeCourseTitles: function iPhonizeCourseTitles () {
-            var course_view_titles, offset, stop_at;
-            this.$('[data-behavior=read-more]').readMore();
-            course_view_titles = this.$('[data-type="course-view-title"]');
-            offset             = $('#structure-profile-menu').outerHeight();
-            stop_at_wrapper_el   = this.$el.closest('.panel').attr('id');
-            course_view_titles.each(function(index, el) {
-                var data = { offsetTop: offset, oldWidth: true, stopAtWrapperEl: '#' + stop_at_wrapper_el, updateOnScroll: true };
-                if (index > 0) { data.pushed = '#' + course_view_titles[index - 1].id; }
-                $(el).sticky(data);
-            });
         },
 
         /* serializeData

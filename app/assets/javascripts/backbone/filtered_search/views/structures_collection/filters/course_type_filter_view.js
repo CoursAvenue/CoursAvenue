@@ -27,7 +27,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var course_types = _.map(this.$('[name="course_types[]"]:checked'), function(input){ return input.value });
             this.trigger("filter:level", { 'course_types[]': course_types });
             this.setButtonState(course_types);
-        }.debounce(GLOBAL.DEBOUNCE_DELAY),
+        }.debounce(COURSAVENUE.constants.DEBOUNCE_DELAY),
 
         /*
          * Set the state of the button, wether or not there are filters or not

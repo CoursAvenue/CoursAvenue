@@ -20,33 +20,40 @@
     height: 750px; // Fallback
     height: 100vh;
 }
-
+.min-height-800 { min-height: 800px; }
+.min-height-1000 { min-height: 1000px; }
 
 /*------------------------------------*\
     RADIUS
 \*------------------------------------*/
-.rounded--none       { @include border-radius(0!important); }
-.rounded-left--none  { @include border-left-radius(0!important); }
-.rounded-right--none { @include border-right-radius(0!important); }
-.rounded-top--none   { @include border-top-radius(0!important); }
-.rounded             { @include border-radius($brand-round); }
-.rounded--top        { @include border-top-radius($brand-round); }
-.rounded--bottom     { @include border-bottom-radius($brand-round); }
-.rounded--double     { @include border-radius($brand-round * 2); }
-.rounded--thick      { @include border-radius(1em !important); }
-.rounded--circle     { @include border-radius(100% !important); }
+.rounded--none         { @include border-radius(0!important); }
+.rounded--left         { @include border-left-radius($brand-round!important); }
+.rounded--left--double { @include border-left-radius($brand-round * 2!important); }
+.rounded-left--none    { @include border-left-radius(0!important); }
+.rounded-right--none   { @include border-right-radius(0!important); }
+.rounded-top--none     { @include border-top-radius(0!important); }
+.rounded               { @include border-radius($brand-round); }
+.rounded--top          { @include border-top-radius($brand-round); }
+.rounded--bottom       { @include border-bottom-radius($brand-round); }
+.rounded--top--double  { @include border-top-radius($brand-round * 2); }
+.rounded--bottom       { @include border-bottom-radius($brand-round); }
+.rounded--double       { @include border-radius($brand-round * 2); }
+.rounded--thick        { @include border-radius(1em !important); }
+.rounded--circle       { @include border-radius(100% !important); }
 
 /*------------------------------------*\
     BORDERS
 \*------------------------------------*/
-.bordered--right        { border-right  : 1px solid $gray-smooth; }
-.bordered--left         { border-left   : 1px solid $gray-smooth; }
-.bordered--right        { border-right   : 1px solid $gray-smooth; }
-.bordered--bottom       { border-bottom : 1px solid $gray-smooth; }
-.bordered--top          { border-top    : 1px solid $gray-smooth; }
+.bordered--dash         { border-style: dashed !important; }
+.bordered--ends         { border-top: 1px solid $gray-smooth; border-bottom: 1px solid $gray-smooth; }
+.bordered--right        { border-right  : 1px solid $gray-smooth !important; }
+.bordered--left         { border-left   : 1px solid $gray-smooth !important; }
+.bordered--right        { border-right   : 1px solid $gray-smooth !important; }
+.bordered--bottom       { border-bottom : 1px solid $gray-smooth !important; }
+.bordered--top          { border-top    : 1px solid $gray-smooth !important; }
 .bordered               { border        : 1px solid $gray-smooth; }
-.bordered--blue         { border        : 1px solid $blue; }
-.bordered--red          { border        : 1px solid $red; }
+.bordered--blue         { border        : 1px solid $blue !important; }
+.bordered--red          { border        : 1px solid $red !important; }
 .border-none            { border        : none !important; }
 .border-none--sides     { border-left   : none !important; border-right: none !important; }
 .border-none--bottom    { border-bottom : none !important; }
@@ -56,6 +63,8 @@
 .border-none--top       { border-top    : none !important; }
 .bordered--larger       { border-width  : 2px !important; }
 .bordered--thick        { border-width  : 4px !important; }
+.bordered--thicker      { border-width  : 6px !important; }
+.bordered--very-thick   { border-width  : 12px !important; }
 .bordered--orange       { border-color  : $orange !important; }
 .border-color-darker    { border-color  : darken($gray-smooth, 5%) }
 .border-color-gray      { border-color  : $gray !important; }
@@ -124,6 +133,7 @@
 .on-top-of-the-world { z-index    : 100000 !important; }
 .on-top            { z-index    : 1000 !important; }
 .on-under-top      { z-index    : 900 !important; }
+.z-index-under     { z-index    : -1 !important; }
 .absolute          { position   : absolute; }
 .fixed             { position   : fixed; }
 .west              { left       : 0 !important; }
@@ -176,9 +186,13 @@
 /*------------------------------------*\
     SPACING
 \*------------------------------------*/
-.very-soft        { padding: 5px; }
-.very-soft--left  { padding-left: 5px; }
-.very-soft--right { padding-right: 5px; }
+.soft-double--sides { padding-left: $base-spacing-unit * 2; padding-right: $base-spacing-unit * 2; }
+.push-double--top   { margin-top: $base-spacing-unit * 2; }
+.very-soft          { padding: 5px; }
+.very-soft--left    { padding-left: 5px; }
+.very-soft--right   { padding-right: 5px; }
+.very-soft--top     { padding-top: 5px; }
+.very-soft--bottom  { padding-bottom: 5px; }
 .island-top { margin-top: $base-spacing-unit * 3.5; }
 .mega-soft--top    {
     @include transition(padding 200ms linear);
@@ -248,7 +262,8 @@
 }
 .z-index-1 { z-index: 1; }
 .z-index-3 { z-index: 3; }
-.shadowed--bottom         { @include box-shadow(0px 3px 12px $gray-smooth); }
+.shadowed--bottom         { @include box-shadow(0 2px 3px rgba(56,67,67,0.2)); }
+.soft-black-box-shadow    { @include box-shadow(rgba(0,0,0,0.25) 0 1px 3px 0); }
 .black-box-shadow         { @include box-shadow(0px 0px 31px #555555); }
 .white-text-shadow        { @include text-shadow(0 0 2px #FFF, 0 0 12px #FFF, 0 0 22px #FFF, 0 0 42px #FFF, 0 0 92px #FFF); }
 .black-text-shadow        { @include text-shadow(0 0 2px #000, 0 0 12px #000, 0 0 22px #000, 0 0 42px #000, 0 0 92px #000); }
@@ -374,6 +389,7 @@
 .black-curtain {
     @include transition(background 150ms linear);
     background: rgba(0,0,0,.5);
+    &.black-curtain--soft { background: rgba(0,0,0,.2); }
     height    : 100%;
     &.black-curtain__fading-on-hover:hover {
         background: rgba(0,0,0,.1);
@@ -397,17 +413,13 @@
         @include prefix(filter, grayscale(0));
     }
 }
+.overflow-auto     { overflow  : auto; }
 .overflow-hidden   { overflow  : hidden; }
 .overflow-x-hidden { overflow-x: hidden; }
 
 #filepicker_dialog_container {
   z-index: 99999999 !important
 }
-
-
-
-
-
 
 @-webkit-keyframes arrow1 {
     0% {

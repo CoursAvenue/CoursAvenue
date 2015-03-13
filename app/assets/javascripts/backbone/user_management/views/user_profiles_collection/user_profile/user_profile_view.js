@@ -237,7 +237,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         flashError: function flashError (model, response) {
             /* display a flash containing the error message */
-            GLOBAL.flash(response.responseJSON.errors.join("\n"), "alert");
+            COURSAVENUE.helperMethods.flash(response.responseJSON.errors.join("\n"), "alert");
         },
 
         serializeData: function serializeData () {

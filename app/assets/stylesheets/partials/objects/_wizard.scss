@@ -1,5 +1,5 @@
-.wizard-container {
-    width: 1px;
+.wizard-container, .wizard-container-width {
+    width: 50px;
 }
     .wizard-helper {
         display  : none;
@@ -8,6 +8,9 @@
         left     : 0;
         font-size: 15px;
         width    : 275px;
+        @media screen and (max-width: 1600px) {
+            .wizard-helper__content { display: none; }
+        }
         @media screen and (min-width: 1400px) { width: 325px; }
         @media screen and (min-width: 1600px) { width: 350px; }
 
