@@ -13,7 +13,7 @@ IntercomRails.config do |config|
   # This is required for some Intercom rake tasks like importing your users;
   # you can generate one at https://app.intercom.io/apps/api_keys.
   #
-  # config.api_key = "..."
+  config.api_key = ENV['INTERCOM_API_KEY']
 
   # == Enabled Environments
   # Which environments is auto inclusion of the Javascript enabled for
@@ -24,7 +24,7 @@ IntercomRails.config do |config|
   # The method/variable that contains the logged in user in your controllers.
   # If it is `current_user` or `@user`, then you can ignore this
   #
-  config.user.current = Proc.new { current_pro_admin }
+  config.user.current = Proc.new { current_pro_admin || current_user }
 
   # == User model class
   # The class which defines your user model
@@ -42,9 +42,58 @@ IntercomRails.config do |config|
   # You can provide either a method name which will be sent to the current
   # user object, or a Proc which will be passed the current user.
   #
+  structure = Proc.new { |user| user.try(:structure) } # Vendor.find_by(id: user) }
+
   config.user.custom_data = {
-    nom:            Proc.new { |current_pro_admin| current_pro_admin.structure.try(:name) },
-    comments_count: Proc.new { |current_pro_admin| current_pro_admin.structure.try(:comments_count) }
+    'Type'          => Proc.new { |user| user.class.name },
+    :name           => Proc.new { |user| ((s = structure.call(user)) ? s.name : user.name) },
+    '# avis'        => Proc.new { |user| ((s = structure.call(user)) ? s.comments_count : nil) },
+    'Villes'        => Proc.new { |user| ((s = structure.call(user)) ? s.places.map(&:city).map(&:name) : user.try(:city).try(:name)) },
+    'Disciplines 1' => Proc.new { |user|
+        if (s = structure.call(user))
+          s.subjects.at_depth(0).uniq.map(&:name)
+        elsif user.is_a? User
+          user.subjects.at_depth(0).uniq.map(&:name)
+        end
+      },
+    'Disciplines 2' => Proc.new { |user|
+        if (s = structure.call(user))
+          s.subjects.at_depth(2).map(&:parent).uniq.map(&:name)
+        elsif user.is_a? User
+          user.subjects.at_depth(2).map(&:parent).uniq.map(&:name)
+        end
+      },
+    'Disciplines 3' => Proc.new { |user|
+        if (s = structure.call(user))
+          s.subjects.at_depth(2).uniq.map(&:name)
+        elsif user.is_a? User
+          user.subjects.at_depth(2).uniq.map(&:name)
+        end
+      },
+    'Prof tag'       => Proc.new { |user| ((s = structure.call(user)) ? CrmSync.structure_status(s) : nil) },
+    'Opt-in'         => Proc.new { |user| (user.is_a?(User) ? user.active? : nil) },
+    '# reservations' => Proc.new { |user|
+        if user.is_a?(User)
+          user.participation_requests.count
+        end
+      },
+    'Date dernière réservation' => Proc.new { |user|
+        if user.is_a?(User)
+          user.participation_requests.order('date DESC').first.try(:date)
+        end
+      },
+    'Code postal' => Proc.new { |user|
+        if user.is_a?(User)
+          user.zip_code
+        elsif (s = structure.call(user))
+          s.zip_code
+        end
+      },
+    'Age' => Proc.new { |user|
+        if user.is_a?(User)
+          user.age
+        end
+      }
   }
 
   # == User -> Company association
