@@ -24,7 +24,7 @@ gem 'closeio', github: 'nim1989/closeio'
 # Webserver
 # gem 'unicorn'
 # gem 'puma'
-gem 'passenger'
+gem 'passenger',          '~> 5.0.4'
 gem 'algoliasearch-rails', '~>1.11.9'
 gem 'google-api-client'
 
