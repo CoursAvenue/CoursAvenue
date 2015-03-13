@@ -1,3 +1,7 @@
+Master: [![Circle CI](https://circleci.com/gh/CoursAvenue/CoursAvenue/tree/master.svg?style=svg&circle-token=80404fff1a5d1ea3f2feeccdc644fd8e75df36b0)](https://circleci.com/gh/CoursAvenue/CoursAvenue/tree/master)
+
+Staging: [![Circle CI](https://circleci.com/gh/CoursAvenue/CoursAvenue/tree/staging.svg?style=svg&circle-token=80404fff1a5d1ea3f2feeccdc644fd8e75df36b0)](https://circleci.com/gh/CoursAvenue/CoursAvenue/tree/staging)
+
 # CoursAvenue
 
 The old readme is available [here](doc/README.md).
