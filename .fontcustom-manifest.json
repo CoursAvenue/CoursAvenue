@@ -1,13 +1,13 @@
 {
   "checksum": {
-    "previous": "8efba61e8ec542a6b585c2422d0c38a299722992319b430d6ea9102910d7d8e8",
-    "current": "8efba61e8ec542a6b585c2422d0c38a299722992319b430d6ea9102910d7d8e8"
+    "previous": "40280b116d4071072f7fc9f3b345f025451355791d56936ed4129d229636f2d2",
+    "current": "40280b116d4071072f7fc9f3b345f025451355791d56936ed4129d229636f2d2"
   },
   "fonts": [
-    "app/assets/fonts/GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.ttf",
-    "app/assets/fonts/GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.svg",
-    "app/assets/fonts/GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.woff",
-    "app/assets/fonts/GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.eot"
+    "app/assets/fonts/CoursAvenueIconFont.ttf",
+    "app/assets/fonts/CoursAvenueIconFont.svg",
+    "app/assets/fonts/CoursAvenueIconFont.woff",
+    "app/assets/fonts/CoursAvenueIconFont.eot"
   ],
   "glyphs": {
     "audiences": {
@@ -344,13 +344,13 @@
     "font_descent": 64,
     "font_design_size": 16,
     "font_em": 512,
-    "font_name": "GlyphAvenue",
+    "font_name": "CoursAvenueIconFont",
     "force": false,
     "input": {
       "templates": "app/assets/images/icons/svg/",
       "vectors": "app/assets/images/icons/svg/"
     },
-    "no_hash": false,
+    "no_hash": true,
     "output": {
       "css": "app/assets/stylesheets",
       "fonts": "app/assets/fonts",
@@ -364,6 +364,6 @@
     ]
   },
   "templates": [
-    "app/assets/stylesheets/_GlyphAvenue.scss"
+    "app/assets/stylesheets/_CoursAvenueIconFont.scss"
   ]
 }
