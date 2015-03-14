@@ -29,7 +29,7 @@ IntercomRails.config do |config|
   # == User model class
   # The class which defines your user model
   #
-  # config.user.model = Proc.new { Structure }
+  config.user.model = Proc.new { Admin }
 
   # == Exclude users
   # A Proc that given a user returns true if the user should be excluded
