@@ -158,9 +158,14 @@
 .bg-contain { @include background-size(contain); }
 
 .opacity-30 { @include opacity(0.3);  }
+.opacity-50  { @include opacity(0.50); }
 .opacity-75  { @include opacity(0.75); }
 .invisible   { @include opacity(0);    }
 
+.fade-in-on-hover {
+    @include transition(all 150ms linear);
+    &:hover { opacity: 1; }
+}
 
 .absolute--center {
     top        : 50%;

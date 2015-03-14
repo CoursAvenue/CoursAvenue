@@ -8,7 +8,7 @@ class Newsletter::Layout < ActiveHash::Base
     },
     {
       id: 2,
-      blocs: ['text', 'text'],
+      blocs: ['image', 'text', 'image', 'text'],
       name: 'Layout #02',
       partial: 'layout_02'
     },
