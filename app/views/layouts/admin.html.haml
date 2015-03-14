@@ -1,6 +1,6 @@
 = content_for :content do
   - if @structure
-    .darkgray-box.flexbox.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000 } }
+    .darkgray-box.flexbox.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000, old_width: 'true' } }
       .main-container.flexbox
         .flexbox__item.v-middle.soft--left
           = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
@@ -109,7 +109,7 @@
         .flexbox__item.wizard-container-width.visuallyhidden--palm
 
   - else
-    .darkgray-box.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000 } }
+    .darkgray-box.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000, old_width: 'true' } }
       .main-container.flexbox.pro-public-top-menu
         .flexbox__item.v-middle.soft--left
           = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
