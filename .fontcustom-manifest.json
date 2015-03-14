@@ -1,13 +1,13 @@
 {
   "checksum": {
-    "previous": "fe31b13681c386f1fd88fdbcd886a5d8d9892e96da17d9b9fbd2523eac951930",
-    "current": "fe31b13681c386f1fd88fdbcd886a5d8d9892e96da17d9b9fbd2523eac951930"
+    "previous": "8efba61e8ec542a6b585c2422d0c38a299722992319b430d6ea9102910d7d8e8",
+    "current": "8efba61e8ec542a6b585c2422d0c38a299722992319b430d6ea9102910d7d8e8"
   },
   "fonts": [
-    "app/assets/fonts/GlyphAvenue.ttf",
-    "app/assets/fonts/GlyphAvenue.svg",
-    "app/assets/fonts/GlyphAvenue.woff",
-    "app/assets/fonts/GlyphAvenue.eot"
+    "app/assets/fonts/GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.ttf",
+    "app/assets/fonts/GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.svg",
+    "app/assets/fonts/GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.woff",
+    "app/assets/fonts/GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.eot"
   ],
   "glyphs": {
     "audiences": {
@@ -350,7 +350,7 @@
       "templates": "app/assets/images/icons/svg/",
       "vectors": "app/assets/images/icons/svg/"
     },
-    "no_hash": true,
+    "no_hash": false,
     "output": {
       "css": "app/assets/stylesheets",
       "fonts": "app/assets/fonts",
