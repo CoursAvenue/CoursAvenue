@@ -48,7 +48,7 @@ IntercomRails.config do |config|
   config.user.custom_data = {
     'Type'          => Proc.new { |user| user.class.name },
     :name           => Proc.new { |user| ((s = structure.call(user)) ? s.name : user.name) },
-    '# avis'        => Proc.new { |user| ((s = structure.call(user)) ? s.comments_count : user.try(:comments).try(:count) },
+    '# avis'        => Proc.new { |user| ((s = structure.call(user)) ? s.comments_count : user.try(:comments).try(:count)) },
     'Villes'        => Proc.new { |user| ((s = structure.call(user)) ? s.places.map(&:city).map(&:name) : user.try(:city).try(:name)) },
     'Disciplines 1' => Proc.new { |user|
         if (s = structure.call(user))
