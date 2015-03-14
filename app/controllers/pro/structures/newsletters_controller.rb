@@ -168,7 +168,8 @@ class Pro::Structures::NewslettersController < ApplicationController
 
   # Set the layouts as usable JSON.
   def set_layouts
-    @layouts = Newsletter::Layout.all.as_json.map do |layout|
+    @layouts      = Newsletter::Layout.all
+    @layouts_json = Newsletter::Layout.all.as_json.map do |layout|
       layout["attributes"]
     end
   end
