@@ -82,6 +82,7 @@ input, textarea {
     font-size     : 15px;
     padding-top   : 8px;
     padding-bottom: 10px;
+    font-weight   : 500;
     &.boolean {
         padding-top: 0;
     }
@@ -223,4 +224,8 @@ input[type="radio"] {
         margin-left     : -0.225em;
         background-color: $blue-green
     }
+}
+
+.filepicker-dragdrop {
+
 }

@@ -1,15 +1,11 @@
 = side_menu_currently_at 'newsletters'
 
-.panel
-  .panel__header.soft
-    %h4 Newsletter Etape 1/3 : Création
-  = render partial: 'newsletter_edit_tabs', locals: { current: 'editing' }
-  .panel__body.soft
-    #newsletter{ data: { type: 'newsletters-root' } }
+%h1 Newsletter Etape 1/3 : Création
+= render partial: 'newsletter_edit_tabs', locals: { current: 'editing' }
+#newsletter{ data: { type: 'newsletters-root' } }
 
 - content_for :scripts do
   = filepicker_js_include_tag
-  = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
 
   :javascript
       window.coursavenue = window.coursavenue || {};

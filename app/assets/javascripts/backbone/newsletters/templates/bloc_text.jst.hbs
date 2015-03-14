@@ -1,8 +1,11 @@
-<label for="newsletter[blocs_attributes][{{ index }}][content]" class='label--large blue'>Bloc texte {{ position }}</label>
-<p class="flush">Rédiger un bloc de texte de votre newsletter</p>
+<div class="push-half--bottom">
+    <label for="newsletter[blocs_attributes][{{ index }}][content]" class='label--large blue'>Bloc texte {{ position }}</label>
+    <p class="flush">Rédiger un bloc de texte de votre newsletter</p>
+</div>
+
 <textarea id='{{ index }}_content' class='input--large one-whole ckeditor' name='newsletter[blocs_attributes][{{ index }}][content]'></textarea>
 
 <input type='hidden' name='newsletter[blocs_attributes][{{ index }}][position]' value='{{ position }}'>
 <input type='hidden' name='newsletter[blocs_attributes][{{ index }}][type]' value='Newsletter::Bloc::Text'>
 
-<hr />
+<hr class="push--ends">

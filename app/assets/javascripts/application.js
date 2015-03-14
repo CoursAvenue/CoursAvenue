@@ -30,6 +30,8 @@
 //= require libs/jquery.lazyload
 //= require libs/fancybox/jquery.fancybox
 
+//= require libs/redactor/redactor
+//= require libs/redactor/langs/fr
 //= require libs/fingerprint
 //= require libs/countdown
 

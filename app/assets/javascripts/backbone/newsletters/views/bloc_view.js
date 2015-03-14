@@ -6,7 +6,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         tagName: 'div',
 
         events: {
-            'click [data-delete-image]': 'deleteImage',
+            'click [data-delete-image]'    : 'deleteImage',
             'change input[type=filepicker]': 'updateImage'
         },
 
@@ -37,11 +37,16 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // - Replacing a `textarea` by a CKeditor,
         // - Replacing a `remote_image_url` input by a filepicker button.
         onRender: function onRender () {
-            var textAreas = this.$el.find('[name$=\\[content\\]]');
+            var text_areas = this.$el.find('[name$=\\[content\\]]');
             var pickers = this.$el.find('[name$=\\[remote_image_url\\]]');
 
-            textAreas.each(function(index, elem) {
-                CKEDITOR.replace(elem);
+            text_areas.each(function(index, elem) {
+                $(elem).redactor({
+                      buttons: ['formatting', 'bold', 'italic','unorderedlist',
+                                'orderedlist', 'link', 'alignment', 'horizontalrule'],
+                      lang: 'fr',
+                      formatting: ['p', 'blockquote', 'h1', 'h2', 'h3']
+                });
             });
 
             if (!this.model.collection.initialRender) {

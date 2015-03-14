@@ -197,27 +197,27 @@
 .mega-soft--top    {
     @include transition(padding 200ms linear);
     @include media-query(desk-wide) { padding-top: $base-spacing-unit * 3.5; }
-    @include small-height { padding-top: $base-spacing-unit; }
-    padding-top: $base-spacing-unit * 3;
+    @include small-height { padding-top: $base-spacing-unit !important; }
+    padding-top: $base-spacing-unit * 3 !important;
 }
 .mega-soft--bottom {
     @include transition(padding 200ms linear);
     @include media-query(desk-wide) { padding-bottom: $base-spacing-unit * 3.5; }
     @include small-height { padding-bottom: $base-spacing-unit; }
-    padding-bottom: $base-spacing-unit * 3;
+    padding-bottom: $base-spacing-unit * 3 !important;
 }
 .mega-soft--ends {
     @include transition(padding 200ms linear);
     @include media-query(desk-wide) {
-        padding-top   : $base-spacing-unit * 3.5;
-        padding-bottom: $base-spacing-unit * 3.5;
+        padding-top   : $base-spacing-unit * 3.5 !important;
+        padding-bottom: $base-spacing-unit * 3.5 !important;
     }
     @include small-height {
-        padding-top   : $base-spacing-unit;
-        padding-bottom: $base-spacing-unit;
+        padding-top   : $base-spacing-unit !important;
+        padding-bottom: $base-spacing-unit !important;
     }
-    padding-top   : $base-spacing-unit * 3;
-    padding-bottom: $base-spacing-unit * 3;
+    padding-top   : $base-spacing-unit * 3 !important;
+    padding-bottom: $base-spacing-unit * 3 !important;
 }
 .palm-push  { @include media-query(palm) { margin : $base-spacing-unit !important; } }
 .palm-flush { @include media-query(palm) { margin : 0                  !important; } }

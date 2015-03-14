@@ -1,14 +1,12 @@
-<label for="newsletter[blocs_attributes][{{ index }}][remote_image_url]" class='label--large blue'>Bloc image {{ position }}</label>
-<p class="flush">Donnez plus de visuel à votre newsletter en ajoutant des images</p>
-
-<div class='text--center'>
+<!-- <div>
+  <label for="newsletter[blocs_attributes][{{ index }}][remote_image_url]" class='label--large blue'>Bloc image {{ position }}</label>
+  <p class="flush">Donnez plus de visuel à votre newsletter en ajoutant des images</p>
+</div>
+ -->
+<div class="text--center">
   <img class='hidden' data-fpimage='true'>
-
-  <input type='filepicker' class='btn btn--large btn--green' id='{{ index }}_remote_image_url' name='newsletter[blocs_attributes][{{ index }}][remote_image_url]' data-fp-apikey="<%= ENV['FILEPICKER_API_KEY'] %>" data-fp-mimetypes="image/*" data-fp-container="window" data-fp-button-text="Ajouter une image"/>
-
-  <a href='javascript:void(0)' class='btn btn--large btn--red' data-delete-image="true">
-    <i class='fa fa-trash-o'></i>
-  </a>
+  <input type='filepicker-dragdrop' id='{{ index }}_remote_image_url' data-fp-class="filepicker-dragdrop text--center" data-fp-button-class="hidden" data-fp-drag-class="flush--left push-half--bottom one-whole f-weight-500 mega-soft--ends text--center push--bottom" data-fp-drag-text="Glissez votre image ici ou cliquez pour choisir" name='newsletter[blocs_attributes][{{ index }}][remote_image_url]' data-fp-apikey="<%= ENV['FILEPICKER_API_KEY'] %>" data-fp-mimetypes="image/*" data-fp-container="window" data-fp-button-text="Choisir mon image"/>
+  <a href='javascript:void(0)' data-delete-image="true">Supprimer l'image</a>
 </div>
 
 <input type='hidden' name='newsletter[blocs_attributes][{{ index }}][position]' value='{{ position }}'>
