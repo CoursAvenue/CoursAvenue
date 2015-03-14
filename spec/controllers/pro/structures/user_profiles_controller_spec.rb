@@ -64,7 +64,7 @@ describe Pro::Structures::UserProfilesController do
   end
 
   describe 'update' do
-    let(:tags) { user_profile.tags.map { |t| { "id" => t.id, "name" => t.name }}}
+    let(:tags) { user_profile.tags.map { |t| { 'id' => t.id, 'name' => t.name, 'taggings_count' => t.taggings_count }}}
 
     it "does not change the tags if no tags are given" do
       put :update, format: :json, id: user_profile.id, structure_id: structure.id, user_profile: { }

@@ -45,8 +45,8 @@ describe Structure do
     it 'destroys everything' do
       places = structure.places
       structure.destroy
-      expect(structure.destroyed?).to be true
-      places.each{ |p| expect(p.destroyed?).to be true }
+      expect(structure.deleted?).to be true
+      places.each{ |p| expect(p.deleted?).to be true }
     end
   end
 
