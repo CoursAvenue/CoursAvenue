@@ -29,7 +29,7 @@ IntercomRails.config do |config|
   # == User model class
   # The class which defines your user model
   #
-  # config.user.model = Proc.new { Admin }
+  # config.user.model = Proc.new { Structure }
 
   # == Exclude users
   # A Proc that given a user returns true if the user should be excluded
@@ -42,12 +42,13 @@ IntercomRails.config do |config|
   # You can provide either a method name which will be sent to the current
   # user object, or a Proc which will be passed the current user.
   #
-  structure = Proc.new { |user| user.try(:structure) } # Vendor.find_by(id: user) }
+  structure = Proc.new { |user| user.try(:structure) }
+  # structure = Proc.new { |user| user }
 
   config.user.custom_data = {
     'Type'          => Proc.new { |user| user.class.name },
     :name           => Proc.new { |user| ((s = structure.call(user)) ? s.name : user.name) },
-    '# avis'        => Proc.new { |user| ((s = structure.call(user)) ? s.comments_count : user.comments.count) },
+    '# avis'        => Proc.new { |user| ((s = structure.call(user)) ? s.comments_count : user.try(:comments).try(:count) },
     'Villes'        => Proc.new { |user| ((s = structure.call(user)) ? s.places.map(&:city).map(&:name) : user.try(:city).try(:name)) },
     'Disciplines 1' => Proc.new { |user|
         if (s = structure.call(user))
