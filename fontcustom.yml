@@ -4,11 +4,11 @@
 #   `fontcustom help` or visiting <http://fontcustom.com>.
 # --------------------------------------------------------------------------- #
 
-font_name: GlyphAvenue
+font_name: CoursAvenueIconFont
 css_selector: .fa-{{glyph}}
 preprocessor_path: ""
 autowidth: false
-no_hash: false
+no_hash: true
 force: false
 debug: false
 quiet: false
