@@ -92,7 +92,7 @@ class CrmSync
   def self.structure_custom_datas(structure)
     admin = structure.main_contact
     custom_datas = {}
-    custom_datas[:facebook_url] = structure.facebook_url if structure.facebook_url
+    custom_datas[:facebook_url]                     = structure.facebook_url if structure.facebook_url.present?
     custom_datas['1. Profil public']                = Rails.application.routes.url_helpers.structure_url(structure, subdomain: 'www', host: 'coursavenue.com')
     custom_datas['2. Profil privée']                = Rails.application.routes.url_helpers.pro_structure_url(structure, subdomain: 'pro', host: 'coursavenue.com')
     custom_datas["Nbre avis"]                       = structure.comments_count if structure.comments_count
