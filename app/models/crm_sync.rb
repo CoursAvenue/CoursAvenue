@@ -9,7 +9,7 @@ class CrmSync
     else
       existing_lead = self.client.list_leads("email:\"#{structure.main_contact.email.downcase}\"")['data'].first
       if existing_lead
-        existing_contact = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].first[:email] == structure.main_contact.email.downcase }
+        existing_contact = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].any? && contact_data[:emails].first[:email] == structure.main_contact.email.downcase }
         existing_contact_id = existing_contact[:id] if existing_contact
         data = self.data_for_structure(structure, existing_contact_id)
         results = self.client.update_lead(existing_lead['id'], data)
@@ -35,7 +35,7 @@ class CrmSync
     return if structure.contact_email.blank?
     existing_lead = self.client.list_leads("email:\"#{structure.contact_email.downcase}\"")['data'].first
     if existing_lead
-      existing_contact    = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].first[:email] == structure.contact_email.downcase }
+      existing_contact    = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].any? && contact_data[:emails].first[:email] == structure.contact_email.downcase }
       existing_contact_id = existing_contact[:id] if existing_contact
       data                = self.data_for_sleeping_structure(structure, existing_contact_id)
       self.client.update_lead(existing_lead['id'], data)
