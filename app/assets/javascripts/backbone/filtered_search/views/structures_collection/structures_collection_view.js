@@ -51,6 +51,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                            z        : 1200,
                            oldWidth : true });
           this.renderSlideshows();
+          window.prerenderReady = true;
         },
 
         /* forward events with only the necessary data */

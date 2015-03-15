@@ -5,11 +5,6 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
         template: Module.templateDirname() + 'google_maps_view',
         infoBoxView:         Module.InfoBoxView,
 
-        onAfterShow: function onAfterShow (childModel, html) {
-            google.maps.event.addListenerOnce(this.map, 'tilesloaded', function(){
-                window.prerenderReady = true;
-            });
-        },
         /* override addchild to add one marker for each place on the model */
         addChild: function addChild (childModel, html) {
             var places = _.map(childModel.get('places'), function(place) { return new CoursAvenue.Models.Place(place) });
