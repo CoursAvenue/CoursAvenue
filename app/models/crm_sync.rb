@@ -9,7 +9,7 @@ class CrmSync
     else
       existing_lead = self.client.list_leads("email:\"#{structure.main_contact.email.downcase}\"")['data'].first
       if existing_lead
-        existing_contact = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].first[:email] == structure.main_contact.email.downcase }
+        existing_contact = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].any? && contact_data[:emails].first[:email] == structure.main_contact.email.downcase }
         existing_contact_id = existing_contact[:id] if existing_contact
         data = self.data_for_structure(structure, existing_contact_id)
         results = self.client.update_lead(existing_lead['id'], data)
@@ -35,7 +35,7 @@ class CrmSync
     return if structure.contact_email.blank?
     existing_lead = self.client.list_leads("email:\"#{structure.contact_email.downcase}\"")['data'].first
     if existing_lead
-      existing_contact    = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].first[:email] == structure.contact_email.downcase }
+      existing_contact    = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].any? && contact_data[:emails].first[:email] == structure.contact_email.downcase }
       existing_contact_id = existing_contact[:id] if existing_contact
       data                = self.data_for_sleeping_structure(structure, existing_contact_id)
       self.client.update_lead(existing_lead['id'], data)
@@ -92,7 +92,7 @@ class CrmSync
   def self.structure_custom_datas(structure)
     admin = structure.main_contact
     custom_datas = {}
-    custom_datas[:facebook_url] = structure.facebook_url if structure.facebook_url
+    custom_datas[:facebook_url]                     = structure.facebook_url if structure.facebook_url.present?
     custom_datas['1. Profil public']                = Rails.application.routes.url_helpers.structure_url(structure, subdomain: 'www', host: 'coursavenue.com')
     custom_datas['2. Profil privée']                = Rails.application.routes.url_helpers.pro_structure_url(structure, subdomain: 'pro', host: 'coursavenue.com')
     custom_datas["Nbre avis"]                       = structure.comments_count if structure.comments_count

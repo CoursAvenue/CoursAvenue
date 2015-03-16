@@ -29,7 +29,7 @@ IntercomRails.config do |config|
   # == User model class
   # The class which defines your user model
   #
-  # config.user.model = Proc.new { Structure }
+  # config.user.model = Proc.new { Admin }
 
   # == Exclude users
   # A Proc that given a user returns true if the user should be excluded
@@ -46,6 +46,9 @@ IntercomRails.config do |config|
   # structure = Proc.new { |user| user }
 
   config.user.custom_data = {
+    # We have this to ensure we can have an Admin and a User with the same email address and
+    # none of them are overrided by the other.
+    :user_id        => Proc.new { |user| "#{user.class.name}_#{user.id}" },
     'Type'          => Proc.new { |user| user.class.name },
     :name           => Proc.new { |user| ((s = structure.call(user)) ? s.name : user.name) },
     '# avis'        => Proc.new { |user| ((s = structure.call(user)) ? s.comments_count : user.try(:comments).try(:count)) },

@@ -27,6 +27,10 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
             this.state.grandTotal = this.grandTotal;
             this.state.totalPages = this.totalPages;
             this.trigger('comments:updated');
+
+            // Important to trigger reset on collection like Backbone does on collection
+            // It is used on StructureProfile.js where `structure.get('comments') .on('reset',...`
+            this.trigger('reset');
             return response.comments;
         }
     });

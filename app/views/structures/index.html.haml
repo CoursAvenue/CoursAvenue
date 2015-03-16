@@ -1,4 +1,5 @@
-- @is_responsive = true
+- @is_responsive       = true
+- @prerender_not_ready = true
 
 - if @subject
   - title = "#{@subject.name} à #{@city.name}"
@@ -22,6 +23,7 @@
   window.coursavenue.bootstrap = {
       current_pro_admin: #{(current_pro_admin ? true : false)},
       city_id: '#{ @city.slug }',
+      city: #{ @city.to_json },
       selected_subject: #{ @subject ? SubjectSearchSerializer.new(@subject).to_json : '""' },
       subject_slugs_with_more_than_five_results: #{ @subject_slugs_with_more_than_five_results.to_json },
       options: {

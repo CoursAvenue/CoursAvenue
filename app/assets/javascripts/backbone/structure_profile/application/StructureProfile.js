@@ -71,6 +71,20 @@ StructureProfile.addInitializer(function(options) {
     layout.showWidget(guestbook_collection_view);
 
     layout.master.show(structure_view);
+    /* --------------------------
+     *         PRERENDER
+     * -------------------------- */
+    collection_that_has_to_be_loaded = { courses: false, trainings: false, comments: false }
+    var triggerPrerenderIfReady = function triggerPrerenderIfReady (collection_name) {
+        collection_that_has_to_be_loaded[collection_name] = true;
+        var everything_is_loaded = _.every(_.values(collection_that_has_to_be_loaded), function(value) {
+            return value == true;
+        });
+        if (everything_is_loaded) { window.prerenderReady = true; }
+    }
+    structure.get('courses')  .on('reset', function() { triggerPrerenderIfReady('courses'); });
+    structure.get('trainings').on('reset', function() { triggerPrerenderIfReady('trainings'); });
+    structure.get('comments') .on('reset', function() { triggerPrerenderIfReady('comments'); });
 
     if (window.location.hash.length > 0 && window.location.hash != '#_=_' && $(window.location.hash).length > 0) {
         try { // Prevent from bug when hash is corrupted
@@ -86,27 +100,29 @@ $(document).ready(function() {
     /* we only want the current app on the search page */
     if (StructureProfile.detectRoot()) {
         StructureProfile.start({});
-        $(document).on('facebook:initialized', function() {
-            FB.Event.subscribe('edge.create', function(page_url) {
-                if (page_url != 'https://www.facebook.com/CoursAvenue') {
-                    CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: 'facebook' });
-                }
-            });
-        });
-
-        // Create view for current structure only if not a current admin
-        // Create impressions for similar profiles
-        if (!window.coursavenue.bootstrap.current_pro_admin) {
-            $('body').on('click', '[data-action=log-action]', function() {
-                var infos = $(this).text().trim();
-                if ($(this).data('action-info')) {
-                    infos = $(this).data('action-info');
-                }
-                CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: infos });
-                if (CoursAvenue.isProduction()) {
-                    ga('send', 'event', 'Action', infos);
-                }
-            });
-        }
+        // TODO: Track events somewhere else and differently.
+        // $(document).on('facebook:initialized', function() {
+        //     FB.Event.subscribe('edge.create', function(page_url) {
+        //         if (page_url != 'https://www.facebook.com/CoursAvenue') {
+        //             CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: 'facebook' });
+        //         }
+        //     });
+        // });
+        // // Create view for current structure only if not a current admin
+        // // Create impressions for similar profiles
+        // if (!window.coursavenue.bootstrap.current_pro_admin) {
+        //     $('body').on('click', '[data-action=log-action]', function() {
+        //         var infos = $(this).text().trim();
+        //         if ($(this).data('action-info')) {
+        //             infos = $(this).data('action-info');
+        //         }
+        //         CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: infos });
+        //         if (CoursAvenue.isProduction()) {
+        //             window._fbq.push(['track', '6016785958627', {'value':'0.00','currency':'EUR'}]);
+        //             ga('send', 'event', 'Action', infos);
+        //             goog_report_conversion();
+        //         }
+        //     });
+        // }
     }
 });
