@@ -7,7 +7,6 @@ Newsletter.addRegions({
 Newsletter.addInitializer(function(options) {
     var bootstrap = window.coursavenue.bootstrap;
 
-    var layouts_collection = new Newsletter.Models.LayoutsCollection(bootstrap.models.layouts);
     var newsletter = new Newsletter.Models.Newsletter(bootstrap.models.newsletter);
     var bloc_collection = new Newsletter.Models.BlocsCollection(newsletter.get('blocs'))
 
@@ -16,25 +15,17 @@ Newsletter.addInitializer(function(options) {
         collection: bloc_collection
     });
 
-    var layouts_collection_view = new Newsletter.Views.LayoutsCollectionView({
-        collection: layouts_collection
-    });
-
-    var router = new Newsletter.Router.NewsletterRouter();
-
-    var layout = new Newsletter.Views.NewsletterLayout({
-        router: router,
+    var router = new Newsletter.Router.NewsletterRouter({
         model: newsletter
     });
 
-    Newsletter.mainRegion.show(layout);
-
-    layout.showWidget(edition_view, {
-        events: {
-            'layout:selected': 'updateLayout'
-        }
+    var layout = new Newsletter.Views.NewsletterLayout({
+        router: router,
     });
-    // layout.showWidget(layouts_collection_view);
+
+    router.saveLayout(layout);
+
+    Newsletter.mainRegion.show(layout);
 
     Backbone.history.start({
         pushState: true,

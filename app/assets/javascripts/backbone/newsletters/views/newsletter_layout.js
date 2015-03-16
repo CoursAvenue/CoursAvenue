@@ -8,7 +8,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize (options) {
             this.router = options.router;
-            this.model  = options.model;
 
             _.bindAll(this, 'updateNav');
 
