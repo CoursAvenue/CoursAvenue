@@ -16,7 +16,7 @@ Newsletter.module('Router', function(Module, App, Backbone, Marionette, $, _) {
             this.model = options.model;
 
             _.bindAll(this, 'saveLayout', 'setLayout',
-                      'chooseLayout', '_new');
+                      'chooseLayout', 'edit');
         },
 
         // Save the layout in the router.
