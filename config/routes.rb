@@ -508,6 +508,7 @@ CoursAvenue::Application.routes.draw do
     get 'cours/:root_subject_id/:id'                 , to: 'vertical_pages#show'            , as: :vertical_page
     get 'cours/:root_subject_id/:id/:city_id'        , to: 'vertical_pages#show_with_city'  , as: :vertical_page_with_city
     get 'cours-de-:id'                               , to: 'vertical_pages#redirect_to_show'
+    get 'cours-de-:id-a/:city_id--:old_slug'         , to: 'redirect#structures_index'
     get 'guide-des-disciplines'                      , to: 'vertical_pages#index'           , as: :vertical_pages
     ########### Vertical pages ###########
 
@@ -597,14 +598,18 @@ CoursAvenue::Application.routes.draw do
     get ':root_subject_id/:subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
     get ':root_subject_id--:city_id--:old_city_slug'            , to: 'redirect#structures_index'
     # end-redirect
-    get ':root_subject_id/:subject_id--:city_id'           , to: 'structures#index', as: :search_page
-    get ':root_subject_id--:city_id'                       , to: 'structures#index', as: :root_search_page
-    get ':city_id'                                         , to: 'structures#index', as: :root_search_page_without_subject
+    get ':root_subject_id/:subject_id--:city_id'                , to: 'structures#index', as: :search_page
+    get ':root_subject_id--:city_id'                            , to: 'structures#index', as: :root_search_page
+    get ':city_id'                                              , to: 'structures#index', as: :root_search_page_without_subject
     ########### Search pages ###########
 
     # Needed to catch 404 requests in ApplicationController
     # match "*path", to: "application#routing_error", via: :get
   end
+
+  # ---------------------------------------------
+  # -----------------------------------END OF WWW
+  # ---------------------------------------------
 
   get '/', to: 'redirect#www_root'
   ########### Search pages ###########
@@ -612,9 +617,9 @@ CoursAvenue::Application.routes.draw do
   # Redirect cities that have been deleted and have slug like 'tours--57'
   get ':root_subject_id/:subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
   get ':root_subject_id--:city_id--:old_city_slug'            , to: 'redirect#structures_index'
-  get ':root_subject_id/:subject_id--:city_id'           , to: 'redirect#structures_index'
-  get ':root_subject_id--:city_id'                       , to: 'redirect#structures_index'
-  get ':city_id'                                         , to: 'redirect#structures_index'
+  get ':root_subject_id/:subject_id--:city_id'                , to: 'redirect#structures_index'
+  get ':root_subject_id--:city_id'                            , to: 'redirect#structures_index'
+  get ':city_id'                                              , to: 'redirect#structures_index'
   ########### Search pages ###########
 
 

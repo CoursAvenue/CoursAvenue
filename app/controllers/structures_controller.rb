@@ -198,7 +198,9 @@ class StructuresController < ApplicationController
   # We have cases where we need 301 redirections
   # This is due to old wrong links
   def proceed_to_redirection_if_needed
+    # Catch URLs like cergy--2
     if params[:city_id] and params[:city_id].is_number?
+      begin @city = City.find(params[:root_subject_id]); params[:root_subject_id] = nil rescue nil end
       redirect_to structures_path_for_city_and_subject(@city, (params[:subject_id] || params[:root_subject_id])), status: 301
     elsif params[:page] and params[:page].is_negative_or_zero_number?
       redirect_to structures_path_for_city_and_subject(@city, (params[:subject_id] || params[:root_subject_id])), status: 301
