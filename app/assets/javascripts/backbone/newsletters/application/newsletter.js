@@ -1,5 +1,3 @@
-// TODO: Update the names of the inputs to match the names the rails contoller
-// is wating for.
 var Newsletter = new Backbone.Marionette.Application({ slug: 'newsletters' });
 
 Newsletter.addRegions({
@@ -22,7 +20,12 @@ Newsletter.addInitializer(function(options) {
         collection: layouts_collection
     });
 
-    var layout = new Newsletter.Views.NewsletterLayout();
+    var router = new Newsletter.Router.NewsletterRouter();
+
+    var layout = new Newsletter.Views.NewsletterLayout({
+        router: router,
+        model: newsletter
+    });
 
     Newsletter.mainRegion.show(layout);
 
@@ -32,6 +35,11 @@ Newsletter.addInitializer(function(options) {
         }
     });
     // layout.showWidget(layouts_collection_view);
+
+    Backbone.history.start({
+        pushState: true,
+        root: Routes.pro_structure_newsletters_path(bootstrap.structure)
+    })
 });
 
 $(document).ready(function() {
