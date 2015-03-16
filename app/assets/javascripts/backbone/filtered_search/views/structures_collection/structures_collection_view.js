@@ -124,7 +124,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 total       : state.grandTotal,
                 subject     : queryParams.subject_id,
                 // We replace + by ' ' because space is replaced by a "+" in the query parameters on home page.
-                city        : (queryParams.city ? queryParams.city.replace(/\+/g, ' ') : window.coursavenue.bootstrap.city_id),
+                city_slug   : (queryParams.city ? queryParams.city.replace(/\+/g, ' ') : window.coursavenue.bootstrap.city_id),
             });
 
             this.trigger('structures:updated:query', { query: this.collection.getQuery().replace('?', '') }); // Removing the first '?' character

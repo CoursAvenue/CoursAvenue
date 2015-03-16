@@ -5,7 +5,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         initialize: function initialize (options) {
             this.current_summary_data = {
-                subject_name: window.coursavenue.bootstrap.subject_name
+                subject_name: window.coursavenue.bootstrap.subject_name,
+                city        : window.coursavenue.bootstrap.city.name
             };
         },
         // Update current stored data
@@ -21,8 +22,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         serializeData: function serializeData (data) {
             var subject_name;
-            if (this.current_summary_data.city) {
-                this.current_summary_data.city = this.current_summary_data.city.replace(', France', '');
+            if (this.current_summary_data.city_slug) {
+                this.current_summary_data.city_slug = this.current_summary_data.city_slug.replace(', France', '');
             }
             return this.current_summary_data;
         }
