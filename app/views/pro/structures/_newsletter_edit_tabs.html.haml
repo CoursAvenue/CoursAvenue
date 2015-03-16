@@ -1,8 +1,0 @@
-= content_for :top_menu do
-  %ul.nav.flush
-    %li{ class: current == 'design' ? 'active' : '' }
-      = link_to choose_layout_pro_structure_newsletters_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
-        Design
-    %li{ class: current == 'editing' ? 'active' : '' }
-      = link_to new_pro_structure_newsletter_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
-        Remplissage
