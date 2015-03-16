@@ -6,7 +6,7 @@ class Newsletter < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  NEWSLETTER_STATES = %w(draft sent)
+  NEWSLETTER_STATES = %w(edited draft sent)
 
   ######################################################################
   # Macros                                                             #
@@ -32,8 +32,9 @@ class Newsletter < ActiveRecord::Base
 
   after_create :set_defaults
 
-  scope :sent,   -> { where(state: 'sent') }
-  scope :drafts, -> { where(state: 'draft') }
+  scope :sent,       -> { where(state: 'sent') }
+  scope :drafts,     -> { where(state: 'draft') }
+  scope :not_edited, -> { where.not(state: 'edited') }
 
   ######################################################################
   # Methods                                                            #
