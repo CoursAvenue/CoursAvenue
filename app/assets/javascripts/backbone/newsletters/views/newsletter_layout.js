@@ -16,7 +16,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         updateNav: function updateNav (event) {
             var event_sender = $(event.toElement);
-            console.log(event_sender.data('newsletter-nav'));
+            var fragment     = event_sender.data('newsletter-nav');
+
+            this.router.navigate(fragment, { trigger: true });
         },
 
     });
