@@ -765,7 +765,7 @@ class Structure < ActiveRecord::Base
   end
 
   def email
-    main_contact.email
+    (main_contact ? main_contact.email : contact_email)
   end
 
   # Compute the reponse rate of the main_contact

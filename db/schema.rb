@@ -11,12 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150312105727) do
+ActiveRecord::Schema.define(version: 20150313135527) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "pg_stat_statements"
 
   create_table "admins", force: true do |t|
     t.string   "email",                             default: "",    null: false
@@ -78,6 +77,7 @@ ActiveRecord::Schema.define(version: 20150312105727) do
     t.string   "cover_image_content_type"
     t.integer  "cover_image_file_size"
     t.datetime "cover_image_updated_at"
+    t.integer  "category_id"
   end
 
   create_table "blog_articles_subjects", force: true do |t|
@@ -87,12 +87,18 @@ ActiveRecord::Schema.define(version: 20150312105727) do
 
   add_index "blog_articles_subjects", ["article_id", "subject_id"], name: "index_blog_articles_subjects_on_article_id_and_subject_id", using: :btree
 
+  create_table "blog_categories", force: true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "call_reminders", force: true do |t|
     t.string   "name"
     t.string   "phone_number"
     t.string   "website"
     t.string   "status"
-    t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -599,7 +605,6 @@ ActiveRecord::Schema.define(version: 20150312105727) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
-    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_request_participants", force: true do |t|
@@ -756,9 +761,6 @@ ActiveRecord::Schema.define(version: 20150312105727) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
-    t.string   "address"
-    t.float    "latitude"
-    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
@@ -1089,9 +1091,11 @@ ActiveRecord::Schema.define(version: 20150312105727) do
   end
 
   add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
 
   create_table "tags", force: true do |t|
-    t.string "name"
+    t.string  "name"
+    t.integer "taggings_count", default: 0
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree

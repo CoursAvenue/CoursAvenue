@@ -4,6 +4,8 @@
 @import "font-awesome";
 @import "GlyphAvenue";
 
+.cf { clear: both; } // Here to prevent sass fail compilation
+
 // Compass mixins
 @import "compass/css3/filter";
 @import "compass/css3/background-size";
@@ -97,6 +99,7 @@
 @import "libs/add_this_event";
 @import "libs/magnific-popup";
 @import "libs/magnific-popup-effects";
+@import "libs/redactor";
 
 @import "libs/bootstrap/bootstrap.animation-component";
 @import "libs/bootstrap/bootstrap.datepicker";

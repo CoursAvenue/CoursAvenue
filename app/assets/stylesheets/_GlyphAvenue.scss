@@ -4,11 +4,11 @@
 
 @font-face {
   font-family: "GlyphAvenue";
-  src: font-url("GlyphAvenue.eot");
-  src: font-url("GlyphAvenue.eot?#iefix") format("embedded-opentype"),
-       font-url("GlyphAvenue.woff") format("woff"),
-       font-url("GlyphAvenue.ttf") format("truetype"),
-       font-url("GlyphAvenue.svg#GlyphAvenue") format("svg");
+  src: url("GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.eot");
+  src: url("GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.eot?#iefix") format("embedded-opentype"),
+       url("GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.woff") format("woff"),
+       url("GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.ttf") format("truetype"),
+       url("GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.svg#GlyphAvenue") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: "GlyphAvenue";
-    src: font-url("GlyphAvenue.svg#GlyphAvenue") format("svg");
+    src: url("GlyphAvenue_8efba61e8ec542a6b585c2422d0c38a2.svg#GlyphAvenue") format("svg");
   }
 }
 
@@ -24,7 +24,6 @@
 
 [data-icon]:before,
 .fa-audiences:before,
-.fa-audiences-old:before,
 .fa-avatar:before,
 .fa-bar-chart-o:before,
 .fa-bars:before,
@@ -80,7 +79,7 @@
 .fa-phone-o:before,
 .fa-photo-video:before,
 .fa-plus:before,
-.fa-pulse:before,
+.fa-pulse-rate:before,
 .fa-question-circle:before,
 .fa-quote:before,
 .fa-quotes:before,
@@ -120,7 +119,6 @@
 }
 
 .fa-audiences:before { content: "\f194"; }
-.fa-audiences-old:before { content: "\f195"; }
 .fa-avatar:before { content: "\f1a1"; }
 .fa-bar-chart-o:before { content: "\f196"; }
 .fa-bars:before { content: "\f190"; }
@@ -139,11 +137,11 @@
 .fa-comment:before { content: "\f188"; }
 .fa-contact:before { content: "\f182"; }
 .fa-credit-card:before { content: "\f183"; }
-.fa-cuisine-vins:before { content: "\f1b2"; }
+.fa-cuisine-vins:before { content: "\f1ac"; }
 .fa-danse:before { content: "\f1ad"; }
 .fa-dashboard:before { content: "\f184"; }
-.fa-deco-mode-bricolage:before { content: "\f1bb"; }
-.fa-dessin-peinture-arts-plastiques:before { content: "\f1b0"; }
+.fa-deco-mode-bricolage:before { content: "\f1ae"; }
+.fa-dessin-peinture-arts-plastiques:before { content: "\f1af"; }
 .fa-dot-circle-o:before { content: "\f185"; }
 .fa-download:before { content: "\f17a"; }
 .fa-ear:before { content: "\f1a7"; }
@@ -170,13 +168,13 @@
 .fa-list:before { content: "\f159"; }
 .fa-lock:before { content: "\f1a5"; }
 .fa-map-marker:before { content: "\f11e"; }
-.fa-musique-chant:before { content: "\f1af"; }
+.fa-musique-chant:before { content: "\f1b0"; }
 .fa-pencil:before { content: "\f150"; }
 .fa-pencil-o:before { content: "\f152"; }
 .fa-phone-o:before { content: "\f12a"; }
-.fa-photo-video:before { content: "\f1b7"; }
+.fa-photo-video:before { content: "\f1b1"; }
 .fa-plus:before { content: "\f140"; }
-.fa-pulse:before { content: "\f179"; }
+.fa-pulse-rate:before { content: "\f1b2"; }
 .fa-question-circle:before { content: "\f1bc"; }
 .fa-quote:before { content: "\f1a6"; }
 .fa-quotes:before { content: "\f1ab"; }
@@ -189,15 +187,97 @@
 .fa-shopping-cart:before { content: "\f144"; }
 .fa-sign-out:before { content: "\f16c"; }
 .fa-signal:before { content: "\f14d"; }
-.fa-sports-arts-martiaux:before { content: "\f1ae"; }
+.fa-sports-arts-martiaux:before { content: "\f1b4"; }
 .fa-star:before { content: "\f121"; }
 .fa-tag:before { content: "\f122"; }
-.fa-theatre-scene:before { content: "\f1b1"; }
+.fa-theatre-scene:before { content: "\f1b5"; }
 .fa-thumb-tack:before { content: "\f149"; }
 .fa-ticket:before { content: "\f197"; }
 .fa-times:before { content: "\f16d"; }
 .fa-trash-o:before { content: "\f14f"; }
 .fa-twitter:before { content: "\f15f"; }
 .fa-user:before { content: "\f123"; }
-.fa-yoga-bien-etre-sante:before { content: "\f1b3"; }
+.fa-yoga-bien-etre-sante:before { content: "\f1b6"; }
 .fa-youtube-play:before { content: "\f12e"; }
+
+$font-GlyphAvenue-audiences: "\f194";
+$font-GlyphAvenue-avatar: "\f1a1";
+$font-GlyphAvenue-bar-chart-o: "\f196";
+$font-GlyphAvenue-bars: "\f190";
+$font-GlyphAvenue-book: "\f191";
+$font-GlyphAvenue-bullhorn: "\f192";
+$font-GlyphAvenue-calendar: "\f193";
+$font-GlyphAvenue-check: "\f18c";
+$font-GlyphAvenue-chevron-down: "\f18d";
+$font-GlyphAvenue-chevron-left: "\f18e";
+$font-GlyphAvenue-chevron-right: "\f18f";
+$font-GlyphAvenue-chevron-up: "\f189";
+$font-GlyphAvenue-circle-o: "\f18a";
+$font-GlyphAvenue-clock: "\f18b";
+$font-GlyphAvenue-close: "\f186";
+$font-GlyphAvenue-cogs: "\f187";
+$font-GlyphAvenue-comment: "\f188";
+$font-GlyphAvenue-contact: "\f182";
+$font-GlyphAvenue-credit-card: "\f183";
+$font-GlyphAvenue-cuisine-vins: "\f1ac";
+$font-GlyphAvenue-danse: "\f1ad";
+$font-GlyphAvenue-dashboard: "\f184";
+$font-GlyphAvenue-deco-mode-bricolage: "\f1ae";
+$font-GlyphAvenue-dessin-peinture-arts-plastiques: "\f1af";
+$font-GlyphAvenue-dot-circle-o: "\f185";
+$font-GlyphAvenue-download: "\f17a";
+$font-GlyphAvenue-ear: "\f1a7";
+$font-GlyphAvenue-eiffel-tower: "\f19c";
+$font-GlyphAvenue-envelope-o: "\f17b";
+$font-GlyphAvenue-eur: "\f17c";
+$font-GlyphAvenue-eye: "\f17d";
+$font-GlyphAvenue-face-happy: "\f17e";
+$font-GlyphAvenue-face-neutral: "\f17f";
+$font-GlyphAvenue-face-sad: "\f180";
+$font-GlyphAvenue-facebook: "\f181";
+$font-GlyphAvenue-flag: "\f148";
+$font-GlyphAvenue-forbidden: "\f11a";
+$font-GlyphAvenue-gift: "\f131";
+$font-GlyphAvenue-group: "\f11b";
+$font-GlyphAvenue-handshake: "\f16a";
+$font-GlyphAvenue-heart: "\f157";
+$font-GlyphAvenue-heart-o: "\f155";
+$font-GlyphAvenue-house: "\f11d";
+$font-GlyphAvenue-info: "\f153";
+$font-GlyphAvenue-instagram: "\f165";
+$font-GlyphAvenue-levels: "\f163";
+$font-GlyphAvenue-lightbulb-o: "\f15d";
+$font-GlyphAvenue-list: "\f159";
+$font-GlyphAvenue-lock: "\f1a5";
+$font-GlyphAvenue-map-marker: "\f11e";
+$font-GlyphAvenue-musique-chant: "\f1b0";
+$font-GlyphAvenue-pencil: "\f150";
+$font-GlyphAvenue-pencil-o: "\f152";
+$font-GlyphAvenue-phone-o: "\f12a";
+$font-GlyphAvenue-photo-video: "\f1b1";
+$font-GlyphAvenue-plus: "\f140";
+$font-GlyphAvenue-pulse-rate: "\f1b2";
+$font-GlyphAvenue-question-circle: "\f1bc";
+$font-GlyphAvenue-quote: "\f1a6";
+$font-GlyphAvenue-quotes: "\f1ab";
+$font-GlyphAvenue-reload: "\f1a9";
+$font-GlyphAvenue-repeat: "\f125";
+$font-GlyphAvenue-right-to-left: "\f19e";
+$font-GlyphAvenue-rugby-ball: "\f19d";
+$font-GlyphAvenue-search: "\f14e";
+$font-GlyphAvenue-share: "\f15e";
+$font-GlyphAvenue-shopping-cart: "\f144";
+$font-GlyphAvenue-sign-out: "\f16c";
+$font-GlyphAvenue-signal: "\f14d";
+$font-GlyphAvenue-sports-arts-martiaux: "\f1b4";
+$font-GlyphAvenue-star: "\f121";
+$font-GlyphAvenue-tag: "\f122";
+$font-GlyphAvenue-theatre-scene: "\f1b5";
+$font-GlyphAvenue-thumb-tack: "\f149";
+$font-GlyphAvenue-ticket: "\f197";
+$font-GlyphAvenue-times: "\f16d";
+$font-GlyphAvenue-trash-o: "\f14f";
+$font-GlyphAvenue-twitter: "\f15f";
+$font-GlyphAvenue-user: "\f123";
+$font-GlyphAvenue-yoga-bien-etre-sante: "\f1b6";
+$font-GlyphAvenue-youtube-play: "\f12e";

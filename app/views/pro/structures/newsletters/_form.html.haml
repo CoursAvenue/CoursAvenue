@@ -1,22 +1,18 @@
 = side_menu_currently_at 'newsletters'
 
-.panel
-  .panel__header.soft
-    %h4 Newsletter Etape 1/3 : Création
-  = render partial: 'newsletter_edit_tabs', locals: { current: 'editing' }
-  .panel__body.soft
-    #newsletter{ data: { type: 'newsletters-root' } }
+= render partial: 'newsletter_edit_tabs', locals: { current: 'editing' }
+#newsletter{ data: { type: 'newsletters-root' } }
 
 - content_for :scripts do
   = filepicker_js_include_tag
-  = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
 
   :javascript
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
           structure: "#{ @structure.slug }",
+          layout: "#{ @layout_id.nil? ? 0 : @layout_id }",
           models: {
-              layouts:  #{ @layouts.to_json },
+              layouts:  #{ @layouts_json.to_json },
               newsletter: #{ @newsletter.nil? ? {}.to_json : @newsletter.to_json }
           }
       };
