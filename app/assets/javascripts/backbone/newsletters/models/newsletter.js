@@ -18,7 +18,7 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
                 this.set('layout_id', layout_id);
             }
 
-            var layout = layouts.get(this.get('layout_id'))
+            var layout = layouts.at(this.get('layout_id'))
             this.set('layout', layout);
 
             this.setBlocs();
