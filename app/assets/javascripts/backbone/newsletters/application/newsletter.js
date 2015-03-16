@@ -13,7 +13,7 @@ Newsletter.addInitializer(function(options) {
     var newsletter = new Newsletter.Models.Newsletter(bootstrap.models.newsletter);
     var bloc_collection = new Newsletter.Models.BlocsCollection(newsletter.get('blocs'))
 
-    var newsletter_view = new Newsletter.Views.NewsletterView({
+    var edition_view = new Newsletter.Views.EditionView({
         model: newsletter,
         collection: bloc_collection
     });
@@ -26,7 +26,7 @@ Newsletter.addInitializer(function(options) {
 
     Newsletter.mainRegion.show(layout);
 
-    layout.showWidget(newsletter_view, {
+    layout.showWidget(edition_view, {
         events: {
             'layout:selected': 'updateLayout'
         }
