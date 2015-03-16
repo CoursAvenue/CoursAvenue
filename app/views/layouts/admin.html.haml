@@ -1,4 +1,5 @@
 = content_for :content do
+
   - if @structure
     .darkgray-box.flexbox.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000, old_width: 'true' } }
       .main-container.flexbox
@@ -132,10 +133,13 @@
           .border-none--right.side-menu.side-menu-width.relative
             = yield :side_menu
       .flexbox__item.v-top
-        .pro-top-menu.rounded--top--double{ class: (content_for?(:top_menu) ? 'soft--left bg-orange' : 'bordered--top bordered--orange bordered--very-thick') }
-          = yield :top_menu
-        .bg-white.bordered--left.bordered--right.bordered--right.bordered--bottom.soft--ends.soft-double--sides.shadowed--bottom.rounded--top.min-height-800
-          %div{ class: (content_for?(:top_menu) ? 'push--top' : '') }= yield
+        - if content_for?(:backbone_app)
+          = yield :backbone_app
+        - else
+          .pro-top-menu.rounded--top--double{ class: (content_for?(:top_menu) ? 'soft--left bg-orange' : 'bordered--top bordered--orange bordered--very-thick') }
+            = yield :top_menu
+          .bg-white.bordered--left.bordered--right.bordered--right.bordered--bottom.soft--ends.soft-double--sides.shadowed--bottom.rounded--top.min-height-800
+            %div{ class: (content_for?(:top_menu) ? 'push--top' : '') }= yield
       .flexbox__item.v-top.wizard-container.relative.print--hidden
 
 = render :template => 'layouts/application'
