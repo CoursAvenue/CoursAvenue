@@ -34,11 +34,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         // Replace the HTML elements with their rich version:
-        // - Replacing a `textarea` by a CKeditor,
         // - Replacing a `remote_image_url` input by a filepicker button.
-        onRender: function onRender () {
+        onShow: function onShow () {
             var text_areas = this.$el.find('[name$=\\[content\\]]');
-            var pickers = this.$el.find('[name$=\\[remote_image_url\\]]');
+            var pickers    = this.$el.find('[data-type=filepicker-dragdrop]');
 
             text_areas.each(function(index, elem) {
                 $(elem).redactor({
@@ -49,15 +48,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 });
             });
 
-            if (!this.model.collection.initialRender) {
-                pickers.each(function(index, elem) {
-                    filepicker.constructWidget(elem);
-                });
-            }
-
-            if (this.model.collection.initialRender) {
-                this.model.collection.initialRender = false;
-            }
+            pickers.each(function(index, elem) {
+                // We have to add the type to be able to `constructWidget`
+                $(elem).attr('type', $(elem).data('type'));
+                filepicker.constructWidget(elem);
+                // Remove type to prevent from filepicker JS to initialize it anyway
+                $(elem).removeAttr('type');
+            });
         },
 
     })

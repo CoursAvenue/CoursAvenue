@@ -2,7 +2,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
     Module.LayoutView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'layout_view',
         tagName: 'div',
-        className: 'grid',
+        className: 'inline-block palm-one-while push--right',
 
         events: {
             'click [data-layout]': 'selectLayout'

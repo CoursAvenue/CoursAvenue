@@ -13,13 +13,6 @@ class Pro::Structures::NewslettersController < ApplicationController
     @layout_id = params[:layout_id]
   end
 
-  def choose_layout
-    if params[:id]
-      @newsletter = @structure.newsletters.find params[:id]
-      @layout = @newsletter.layout_id
-    end
-  end
-
   def show
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
     @blocs = @newsletter.blocs.order(:position)

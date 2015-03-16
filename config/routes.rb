@@ -265,7 +265,6 @@ CoursAvenue::Application.routes.draw do
           end
 
           collection do
-            get :choose_layout
             get '*path', to: 'structures/newsletters#new'
           end
         end

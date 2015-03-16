@@ -1,20 +1,21 @@
 var Newsletter = new Backbone.Marionette.Application({ slug: 'newsletters' });
 
 Newsletter.addRegions({
-    mainRegion: '#newsletter'
+    mainRegion: '#newsletter',
 });
 
 Newsletter.addInitializer(function(options) {
-    var bootstrap = window.coursavenue.bootstrap;
+    var bootstrap  = window.coursavenue.bootstrap;
 
     var newsletter = new Newsletter.Models.Newsletter(bootstrap.models.newsletter);
 
-    var router = new Newsletter.Router.NewsletterRouter({
+    var router     = new Newsletter.Router.NewsletterRouter({
         model: newsletter
     });
 
-    var layout = new Newsletter.Views.NewsletterLayout({
+    var layout     = new Newsletter.Views.NewsletterLayout({
         router: router,
+        newsletter: newsletter
     });
 
     router.saveLayout(layout);

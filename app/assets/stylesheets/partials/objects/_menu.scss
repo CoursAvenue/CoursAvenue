@@ -77,8 +77,9 @@
 
 .pro-top-menu {
     a {
+        outline: none;
+        color  : rgba(255, 255, 255, 0.8);
         @include transition(all 150ms linear);
-        color: rgba(255, 255, 255, 0.8);
         &:hover {
             color: white;
         }
