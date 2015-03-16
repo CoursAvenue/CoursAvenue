@@ -6,10 +6,20 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         childView: Module.BlocView,
 
         events: {
+            'submit': 'saveModel'
         },
 
         initialize: function initialize () {
             this.collection.initialRender = true;
+
+            _.bindAll(this, 'saveModel');
+        },
+
+        saveModel: function saveModel (event) {
+            event.preventDefault();
+            this.model.save();
+
+            // Go to next step.
         },
 
         // The templateHelpers function allows us to create helper methods that
