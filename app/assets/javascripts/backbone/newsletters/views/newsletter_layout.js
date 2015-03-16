@@ -72,7 +72,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initializeOrShowMailingListPage: function initializeOrShowMailingListPage (page_name) {
-            if (this.getRegion('mailing-list').initialized) { this.getRegion('edit').$el.show(); return; }
+            if (this.getRegion('mailing-list').initialized) { this.getRegion('mailing-list').$el.show(); return; }
             var mailing_list_view = new Newsletter.Views.MailingListView({
                 model: this.options.newsletter
             });
