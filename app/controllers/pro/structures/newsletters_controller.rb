@@ -169,8 +169,13 @@ class Pro::Structures::NewslettersController < ApplicationController
   # Set the layouts as usable JSON.
   def set_layouts
     @layouts      = Newsletter::Layout.all
-    @layouts_json = Newsletter::Layout.all.as_json.map do |layout|
-      layout["attributes"]
+    @layouts_json = Newsletter::Layout.all.as_json.map do |layout_|
+      id = layout_["attributes"]["id"]
+
+      layout_["attributes"].merge({
+        image: view_context.asset_path("pro/newsletters/layouts/layout_#{id}.png"),
+        image2x: view_context.asset_path("pro/newsletters/layouts/layout_#{id}@2x.png")
+      })
     end
   end
 

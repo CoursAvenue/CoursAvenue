@@ -1,16 +1,4 @@
 = side_menu_currently_at 'newsletters'
-= render partial: 'pro/structures/newsletters/newsletter_edit_tabs', locals: { current: 'design' }
 
-.flexbox.push--bottom
-  .flexbox__item.v-middle
-    %h3.flush Choix du modéle
-
-.push--bottom.palm-flush
-  - @layouts.each do |layout|
-    .inline-block.palm-one-whole.push--right>
-      = link_to new_pro_structure_newsletter_path(@structure, layout_id: layout.id) do
-        - # TODO: remove that when we have layouts
-        - layout_id = (layout.id > 1 ? [1,2].sample : layout.id)
-        = image_tag "pro/newsletters/layouts/layout_#{layout_id}.png", data: { src2x: asset_path("pro/newsletters/layouts/layout_#{layout_id}@2x.png") }, class: 'block opacity-50 fade-in-on-hover', width: 150
-        %h4{ class: layout["id"] == @layout_id ? 'active' : '' }
-          = layout["name"]
+- content_for :backbone_app do
+  = render 'form'
