@@ -223,7 +223,6 @@ end
 group :development do
   # Add solr server for development
   gem 'sunspot_solr'              , '~> 2.1.1'
-
   gem 'rails_best_practices', require: false
   gem 'ruby-prof'
   # Speed up slow Rails development mode
@@ -251,6 +250,8 @@ group :development, :test do
   gem 'byebug'
   # Permits to travel in the past
   gem 'delorean'
+  gem 'spring'
+  gem 'spring-commands-rspec'
 end
 
 gem 'dotenv-rails', '~> 2.0.0'

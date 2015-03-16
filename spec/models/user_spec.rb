@@ -41,7 +41,7 @@ describe User do
 
     it 'deletes the old user' do
       new_user.merge(old_user)
-      expect(old_user.destroyed?).to eq true
+      expect(old_user.deleted?).to eq true
     end
 
     it 'merges the comment_notifications' do
