@@ -3,11 +3,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         template: Module.templateDirname() + 'newsletter_layout',
 
         regions: {
-            'choose-layout'  : "[data-page=choose-layout]",
-            edit             : "[data-page=edit]",
-            'user-selection' : "[data-page=user-selection]",
-            metadata         : "[data-page=metadata]",
-            preview          : "[data-page=preview]"
+            'choose-layout': "[data-page=choose-layout]",
+            edit:            "[data-page=edit]",
+            'mailing-list':  "[data-page=mailing-list]",
+            metadata:        "[data-page=metadata]",
+            preview:         "[data-page=preview]"
         },
 
         events: {
@@ -32,7 +32,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             switch(page_name) {
                 case 'choose-layout' : this.initializeOrShowChooseLayoutPage(); break;
                 case 'edit'          : this.initializeOrShowEditPage(); break;
-                case 'mailing-list'  : alert('TODO'); break;
+                case 'mailing-list'  : this.initializeOrShowMailingListPage(); break;
                 case 'metadata'      : alert('TODO'); break;
                 case 'preview'       : alert('TODO'); break;
             }
@@ -71,9 +71,20 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.getRegion('edit').initialized = true;
         },
 
-        onShow: function onShow (event) {
-            // this.initializeDesignPage();
+        initializeOrShowMailingListPage: function initializeOrShowMailingListPage (page_name) {
+            if (this.getRegion('mailing-list').initialized) { this.getRegion('edit').$el.show(); return; }
+            var mailing_list_view = new Newsletter.Views.MailingListView({
+                model: this.options.newsletter
+            });
+
+            this.getRegion('mailing-list').show(mailing_list_view);
+            this.getRegion('mailing-list').$el.show();
+            this.getRegion('mailing-list').initialized = true;
         },
+
+        onShow: function onShow (event) {
+        },
+
         updateNav: function updateNav (event) {
             var event_sender = $(event.toElement);
             var fragment     = event_sender.data('newsletter-nav');
