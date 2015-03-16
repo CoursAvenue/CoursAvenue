@@ -8,12 +8,6 @@ Newsletter.addInitializer(function(options) {
     var bootstrap = window.coursavenue.bootstrap;
 
     var newsletter = new Newsletter.Models.Newsletter(bootstrap.models.newsletter);
-    var bloc_collection = new Newsletter.Models.BlocsCollection(newsletter.get('blocs'))
-
-    var edition_view = new Newsletter.Views.EditionView({
-        model: newsletter,
-        collection: bloc_collection
-    });
 
     var router = new Newsletter.Router.NewsletterRouter({
         model: newsletter
