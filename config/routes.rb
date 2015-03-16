@@ -252,7 +252,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
 
-        resources :newsletters, controller: 'structures/newsletters' do
+        resources :newsletters, only: [:index, :update, :create], controller: 'structures/newsletters' do
           member do
             get :send_newsletter
             get :duplicate
@@ -266,8 +266,10 @@ CoursAvenue::Application.routes.draw do
 
           collection do
             get :choose_layout
+            get '*path', to: 'structures/newsletters#new'
           end
         end
+
         resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments', path: 'avis' do
           member do

@@ -3,7 +3,7 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize () {
             this.setLayout();
-            this.bind('change:layout_id', this.setLayout);
+            // this.bind('change:layout_id', this.setLayout);
         },
 
         url: function url () {
