@@ -14,7 +14,7 @@ describe "301 Redirections" do
     end
   end
 
-  # get 'cours-de-:id-a/:city_id--:old_slug', to: 'redirect#structures_index'
+  # GET 'cours-de-:id-a/:city_id--:old_slug', to: 'redirect#structures_index'
   describe '/cours-de-clarinette-a/cergy--2' do
     it 'returns 301' do
       get "cours-de-#{subject.slug}-a/#{city.slug}--2"
@@ -22,7 +22,7 @@ describe "301 Redirections" do
     end
   end
 
-  # get ':root_subject_id/:subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
+  # GET ':root_subject_id/:subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
   describe '/musique-et-chant/clarinette--cergy--2' do
     it 'returns 301' do
       get "#{subject.slug}/#{subject_2.slug}--#{city.slug}--2"
@@ -30,11 +30,20 @@ describe "301 Redirections" do
     end
   end
 
-  # get ':root_subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
+  # GET ':root_subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
   describe '/musique-et-chant--cergy--2' do
     it 'returns 301' do
       get "#{subject.slug}--#{city.slug}--2"
       expect(response).to be_redirect
+    end
+  end
+
+  # GET '/:city_id' as an integer
+  describe '/124123' do
+    it 'returns 301' do
+      get "#{city.id}"
+      expect(response).to be_redirect
+      expect(response.location).to include city.slug
     end
   end
 end
