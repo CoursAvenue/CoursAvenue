@@ -4,7 +4,6 @@ class Pro::Blog::CategoriesController < Pro::ProController
 
   def new
     @category = ::Blog::Category.new
-    render partial: 'form', layout: false
   end
 
   def create
@@ -16,7 +15,6 @@ class Pro::Blog::CategoriesController < Pro::ProController
 
   def edit
     @category = ::Blog::Category.find params[:id]
-    render partial: 'form', layout: false
   end
 
   def update

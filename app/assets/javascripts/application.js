@@ -31,6 +31,7 @@
 
 //= require libs/fingerprint
 //= require libs/countdown
+//= require libs/redactor/redactor
 
 //= require_tree ./libs/fancybox/helpers/
 
