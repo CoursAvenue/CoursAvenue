@@ -21,7 +21,7 @@ Newsletter.module('Router', function(Module, App, Backbone, Marionette, $, _) {
 
         // In case the newsletter is new, go to mise-en-page`
         defaultRoute: function defaultRoute (layout) {
-            this.navigate('mise-en-page');
+            this.navigate('mise-en-page', { trigger: true });
         },
 
         // Save the layout in the router.
