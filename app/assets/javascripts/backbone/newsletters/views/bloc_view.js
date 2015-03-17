@@ -55,7 +55,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                       buttons: ['formatting', 'bold', 'italic','unorderedlist',
                                 'orderedlist', 'link', 'alignment', 'horizontalrule'],
                       lang: 'fr',
-                      formatting: ['p', 'blockquote', 'h1', 'h2', 'h3']
+                      formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
+                      blurCallback: function blurCallback (event) {
+                          this.$element.trigger('change', event);
+                      }
                 });
             });
 
