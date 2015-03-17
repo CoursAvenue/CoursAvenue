@@ -6,7 +6,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
 
         state: {
             firstPage:   1,
-            perPage:     18,
+            perPage:     <%= Structure::NB_STRUCTURE_PER_PAGE %>,
             totalPages:  0,
             grandTotal:  0,
             radius:      2 // determines the behaviour of the ellipsis
@@ -66,6 +66,13 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
 
         url: function url () {
             return (window.location.pathname || Routes.structures_path());
+        },
+
+        /*
+         * We override this method because we do not want parameters in URLs given to Google.
+         */
+        pageQuery: function pageQuery (page) {
+            return this.url() + '?page=' + page;
         },
 
         parse: function parse (response) {

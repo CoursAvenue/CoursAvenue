@@ -1,4 +1,4 @@
-= simple_form_for @article do |f|
+= simple_form_for [:pro, @article] do |f|
   .text--center.push--bottom{ data: { behavior: 'image-input' } }
     .progress.hidden.push-half--bottom{ data: { progress: true } }
       .bar
@@ -27,7 +27,11 @@
     %input.input-sm.input--large.datepicker-input#published_date{ type: 'text', value: (@article.published_at.nil? ? '' : l(@article.published_at.to_date)), name: 'blog_article[published_at]' }
 
   = f.input :category_id, as: :select, collection: Blog::Category.all, input_html: { class: 'input--large' }, label: 'Catégorie', label_html: { class: 'label--large' }
+  .input
+    %label.control-label.label--large> Nouvelle catégorie
+    %input.input--large{ name: 'blog_article[new_category]', type: 'text' }>
   = f.input :tag_list, input_html: { class: 'input--large one-whole' }, label: false
+  = f.input :page_title, label: false, input_html: { class: 'input--large one-whole' }
   = f.input :title, label: false, input_html: { class: 'input--large one-whole' }
   = f.input :description, label: false, input_html: { class: 'input--large one-whole' }
   = f.association :subjects, as: :select, collection: Subject.all, input_html: { class: 'input--large one-whole', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Disciplines associée' }, multiple: true }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }

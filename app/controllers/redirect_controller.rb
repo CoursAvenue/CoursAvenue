@@ -10,6 +10,10 @@ class RedirectController < ApplicationController
   # GET pro.coursavenue.com/paris, etc.
   # Redirects all links like pro.coursavenue.com/paris to www. subdomain
   def structures_index
+    # The slug of those two subjects were like: ecriture-theatrale--3
+    if ['restauration-d-art', 'ecriture-theatrale'].include?(params[:subject_id]) and params[:city_id] == '3'
+      params[:city_id] = params[:old_city_slug]
+    end
     if params[:subject_id].present?
       redirect_to search_page_url(params[:root_subject_id], params[:subject_id], params[:city_id], subdomain: 'www'), status: 301
     elsif params[:root_subject_id].present?

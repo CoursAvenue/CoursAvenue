@@ -2,7 +2,9 @@
 //*= require libs/jquery.fileupload/jquery.fileupload-ui
 
 @import "font-awesome";
-@import "GlyphAvenue";
+@import "CoursAvenueIconFont";
+
+.cf { clear: both; } // Here to prevent sass fail compilation
 
 // Compass mixins
 @import "compass/css3/filter";

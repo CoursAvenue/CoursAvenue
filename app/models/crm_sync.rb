@@ -3,98 +3,123 @@
 class CrmSync
 
   def self.update(structure)
-    admin          = structure.main_contact
-    return if admin.nil? and structure.contact_email.nil?
-    places_address = [{ street: structure.street, zip: structure.zip_code, location: 'Work', city: structure.city.name }]
-    places_address += structure.places.map{ |place| { street: place.street, zip: place.zip_code, location: 'Work', city: place.city.name }}
-
-    if admin
-      person = Highrise::Person.where(email: admin.email.downcase).first
-    else
-      person = Highrise::Person.where(email: structure.contact_email.downcase).first
-    end
-    return if person.nil?
-    person.set_field_value('Disciplines 1'                  , structure.subjects.at_depth(0).uniq.map(&:name).join('; '))
-    person.set_field_value('Disciplines 3'                  , structure.subjects.at_depth(2).uniq.map(&:name).join('; '))
-    person.set_field_value('Premium ?'                      , ( structure.premium? ? 'Oui' : 'Non' ))
-    # person.set_field_value('Stats : # d’affichages'         , structure.impression_count(1000))
-    # person.set_field_value('Stats : # de vues'              , structure.view_count(1000))
-    # person.set_field_value('Stats : # de demandes d’info'   , admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count) if admin
-    # person.set_field_value("Stats : # d'actions"            , structure.action_count(1000))
-    person.set_field_value('# de discussions'               , admin.mailbox.conversations.count) if admin
-    person.set_field_value("# avis"                         , structure.comments_count)
-    person.set_field_value('# de cours actifs'              , structure.courses.select(&:is_published?).length)
-    person.set_field_value('# de photos/vidéos'             , structure.medias.count)
-    person.set_field_value('Dernière connexion à son profil', I18n.l(admin.current_sign_in_at, format: :date)) if admin and admin.current_sign_in_at.present?
-    person.set_field_value('ID'                             , "https://coursavenue1.highrisehq.com/people/#{person.id}")
-    person.set_field_value('JPO'                            , structure.courses.open_courses.count)
-    person.set_field_value('Pass Decouverte Policy'         , structure.trial_courses_policy)
-    person.set_field_value('Pass Decouverte'                , structure.courses.open_for_trial.count)
-    person.set_field_value('Funnel'                         , CrmSync.funnel_state(structure))
-    web_addresses = [{ url: Rails.application.routes.url_helpers.structure_url(structure, subdomain: 'www', host: 'coursavenue.com'), location: 'Work' },
-                    { url: Rails.application.routes.url_helpers.pro_structure_url(structure, subdomain: 'pro', host: 'coursavenue.com'), location: 'Work' },
-                    { url: structure.website, location: 'Work' }]
-    phone_numbers = structure.phone_numbers.map{ |phone_number| { number: phone_number.number, location: 'Work' } }
-    person.contact_data = {
-      addresses:     places_address.uniq.reject{ |address| person.contact_data.addresses.map(&:street).include? address[:street] },
-      phone_numbers: phone_numbers.uniq.reject{ |phone_number| person.contact_data.phone_numbers.map(&:number).include? phone_number[:number] },
-      web_addresses: web_addresses.uniq.reject{ |web_address| person.contact_data.web_addresses.map(&:url).include? web_address[:url] }
-    }
-    unless person.save
-      puts person.errors.full_messages
-    end
-  end
-
-  def self.create_contact(structure)
-    admin          = structure.main_contact
+    admin = structure.main_contact
     if admin.nil?
-      CrmSync.create_sleeping_contact(structure)
+      results = CrmSync.create_sleeping_contact(structure)
     else
-      person = Highrise::Person.where(email: admin.email.downcase).first
-      return if person
-      person = Highrise::Person.new(name: structure.name,
-                                    contact_data: {
-                                      email_addresses: [ { address: admin.email.downcase } ]
-                                    })
-      if person.save
-        self.update(structure)
+      existing_lead = self.client.list_leads("email:\"#{structure.main_contact.email.downcase.strip}\"")['data'].first
+      if existing_lead
+        existing_contact = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].any? && contact_data[:emails].first[:email] == structure.main_contact.email.strip.downcase }
+        existing_contact_id = existing_contact[:id] if existing_contact
+        data = self.data_for_structure(structure, existing_contact_id)
+        results = self.client.update_lead(existing_lead['id'], data)
       else
-        puts person.errors.full_messages
+        results = self.client.create_lead(self.data_for_structure(structure))
       end
     end
+    # results can be nil...
+    if results and ((results['errors'] and results['errors'].any?) or (results['field-errors'] and results['field-errors'].any?))
+      structure_hash_info = { structure_slug: structure.slug, structure_name: structure.name }
+      Bugsnag.notify(RuntimeError.new("CrmSync error"), results.merge(structure_hash_info))
+    end
+    results
+  end
+
+  private
+
+  def self.client
+    CloseioFactory.client
   end
 
   def self.create_sleeping_contact(structure)
     return if structure.contact_email.blank?
-    email_addresses = [ { address: structure.contact_email.downcase } ]
-    person = Highrise::Person.where(email: structure.contact_email.downcase).first
-    if structure.other_emails
-      structure.other_emails.split(';').each do |email|
-        email_addresses << { address: email.downcase }
-      end
-    end
-    if person.nil?
-      person = Highrise::Person.new(name: structure.name, contact_data: { email_addresses: email_addresses.uniq })
-    end
-    if person.save
-      person.tag!("Dormant")
-      self.update(structure)
+    existing_lead = self.client.list_leads("email:\"#{structure.contact_email.downcase}\"")['data'].first
+    if existing_lead
+      existing_contact    = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].any? && contact_data[:emails].first[:email] == structure.contact_email.downcase }
+      existing_contact_id = existing_contact[:id] if existing_contact
+      data                = self.data_for_sleeping_structure(structure, existing_contact_id)
+      self.client.update_lead(existing_lead['id'], data)
     else
-      puts person.errors.full_messages
+      self.client.create_lead(self.data_for_sleeping_structure(structure))
     end
+
   end
 
-  def self.funnel_state(structure)
-    if structure.is_sleeping?
+  def self.place_addresses_from_structure(structure)
+    places_address = [{ address_1: structure.street, zipcode: structure.zip_code, city: structure.city.name, country: 'FR' }]
+    places_address += structure.places.map{ |place| { address_1: place.street, zipcode: place.zip_code, city: place.city.name, country: 'FR' }}
+    places_address.uniq
+  end
+
+  def self.data_for_sleeping_structure(structure, existing_contact_id=nil)
+    email_addresses = [ { email: structure.contact_email.downcase, type: 'office' } ]
+    if structure.other_emails
+      structure.other_emails.split(';').each do |email|
+        email_addresses << { email: email.downcase.strip, type: 'office' }
+      end
+    end
+    contact = { name: structure.name,
+                phones: structure.phone_numbers.uniq.map{|pn| { phone: pn.international_format, type: 'office' } }.reject{|hash| hash[:phone].length < 10 or hash[:phone].length > 15},
+                emails: email_addresses }
+    contact[:id] = existing_contact_id if existing_contact_id
+    {
+      name: structure.name,
+      addresses: self.place_addresses_from_structure(structure),
+      url: structure.website,
+      status: self.structure_status(structure),
+      custom: self.structure_custom_datas(structure),
+      contacts: [contact]
+    }
+  end
+
+  def self.data_for_structure(structure, existing_contact_id=nil)
+    admin = structure.main_contact
+    contact = { name: structure.name,
+                phones: structure.phone_numbers.uniq.map{|pn| { phone: pn.international_format, type: 'office' } }.reject{|hash| hash[:phone].length < 10 or hash[:phone].length > 15},
+                emails: [{ email: admin.email.downcase.strip, type: 'office' }]
+              }
+    contact[:id] = existing_contact_id if existing_contact_id
+    {
+      name: structure.name,
+      addresses: self.place_addresses_from_structure(structure),
+      url: structure.website,
+      status: self.structure_status(structure),
+      custom: self.structure_custom_datas(structure),
+      contacts: [contact]
+    }
+  end
+
+  def self.structure_custom_datas(structure)
+    admin = structure.main_contact
+    custom_datas = {}
+    custom_datas[:facebook_url]                     = structure.facebook_url if structure.facebook_url.present?
+    custom_datas['1. Profil public']                = Rails.application.routes.url_helpers.structure_url(structure, subdomain: 'www', host: 'coursavenue.com')
+    custom_datas['2. Profil privée']                = Rails.application.routes.url_helpers.pro_structure_url(structure, subdomain: 'pro', host: 'coursavenue.com')
+    custom_datas["Nbre avis"]                       = structure.comments_count if structure.comments_count
+    custom_datas["Nbre de cours actifs"]            = structure.plannings.future.group_by(&:course_id).length
+    custom_datas["Nbre de discussions"]             = structure.mailbox.conversations.count if structure.mailbox
+    custom_datas["Nbre de photos/vidéos"]           = structure.medias.count
+    custom_datas["Dernière connexion à son profil"] = I18n.l(admin.current_sign_in_at, format: :date_short_en) if admin and admin.current_sign_in_at
+    custom_datas["Disciplines 1"]                   = structure.subjects.at_depth(0).uniq.map(&:name).join('; ') if structure.subjects.at_depth(0).any?
+    custom_datas["Disciplines 3"]                   = structure.subjects.at_depth(2).uniq.map(&:name).join('; ') if structure.subjects.at_depth(2).any?
+    custom_datas["JPO"]                             = (structure.courses.open_courses.any? ? 'Oui' : 'Non')
+    custom_datas["Premium ?"]                       = (structure.premium? ? 'Oui' : 'Non')
+    # "Stats : # d'actions" => ,
+    # "Stats : # d’affichages" => ,
+    # "Stats : # de demandes d’info" => ,
+    # "Stats : # de vues" => ,
+    custom_datas
+  end
+
+  def self.structure_status(structure)
+    if structure.main_contact.nil?
       "Dormant"
-    elsif structure.premium?
-      "Premium"
-    elsif structure.comments_count and structure.comments_count > 0
-      "Avis"
-    elsif structure.description.present? and structure.description.length > 50
-      "Complété"
-    else
-      "Actif"
+    elsif structure.plannings.future.empty?
+      'Incomplet'
+    elsif structure.comments_count.nil? or structure.comments_count == 0
+      'Sans avis'
+    elsif structure.comments_count and structure.comments_count > 0 and structure.plannings.future.any?
+      'Star'
     end
   end
 end

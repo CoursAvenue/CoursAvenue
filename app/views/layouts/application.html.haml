@@ -6,8 +6,10 @@
 
     = render 'shared/meta_information'
 
-    - if on_pro_subdomain?
-      = intercom_script_tag
+    = intercom_script_tag
+    - if ! on_pro_subdomain?
+      :css
+        #intercom-container { display: none; }
     - if Rails.env.production?
       -# Must be above Google analytics code
       = render 'layouts/kissmetrics'
@@ -19,7 +21,7 @@
 
       = yield :after_ga
     = yield :head
-    = favicon_link_tag 'favicon.png'
+    = favicon_link_tag
     %link{ href: asset_path('favicon.ico'), rel: 'icon', type: 'image/ico' }
     %link{ href: asset_path('favicon.png'), rel: 'apple-touch-icon' }
     = javascript_include_tag 'modernizr' # MUST BE In the Head and before CSS
@@ -87,3 +89,10 @@
     :javascript
         Bugsnag.releaseStage = '#{Rails.env}';
         Bugsnag.notifyReleaseStages = ["staging", "production"]
+    :javascript
+        window.prerenderReady = false;
+    - if !@prerender_not_ready
+      :javascript
+          $(function() {
+              window.prerenderReady = true;
+          });

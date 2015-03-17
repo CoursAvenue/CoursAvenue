@@ -72,6 +72,7 @@ class UserMailer < ActionMailer::Base
 
   # Inform the user that the comment has been validated by the teacher
   def comment_anniversary(comment)
+    return if comment.user.nil?
     return unless comment.user.email_newsletter_opt_in
     @comment   = comment
     @user      = comment.user

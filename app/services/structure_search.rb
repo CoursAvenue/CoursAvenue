@@ -17,7 +17,7 @@ class StructureSearch
     params[:name] = params[:name].force_encoding("UTF-8") if params[:name].present?
     @search = Sunspot.search(Structure) do
 
-      facet :subject_ids
+      facet :subject_ids, :subject_slugs
       fulltext params[:name]                                                           if params[:name].present?
 
       with :is_open_for_trial,           true                                          if params[:is_open_for_trial].present?
@@ -29,6 +29,8 @@ class StructureSearch
       # --------------- Geolocation
       if params[:bbox_sw].present? && params[:bbox_ne].present? && params[:bbox_sw].length == 2 && params[:bbox_ne].length == 2
         with(:location).in_bounding_box(params[:bbox_sw], params[:bbox_ne])
+      elsif params[:zip_code].present?
+        with(:zip_codes).any_of [params[:zip_code]]
       else
         with(:location).in_radius(params[:lat], params[:lng], (params[:radius].to_i > 0 ? params[:radius].to_i : 10), bbox: (params[:bbox] ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
       end
@@ -94,8 +96,9 @@ class StructureSearch
 
   def self.retrieve_location params
     if params[:lat].blank? and params[:lng].blank? and params[:city_id].present? and (city = City.where(slug: params[:city_id]).first)
-      params[:lat] = city.latitude
-      params[:lng] = city.longitude
+      params[:lat]      = city.latitude
+      params[:lng]      = city.longitude
+      params[:zip_code] = city.zip_code
     elsif (params[:lat].blank? or params[:lng].blank?) and params[:zip_codes].blank?
       params[:lat] = 48.8592
       params[:lng] = 2.3417

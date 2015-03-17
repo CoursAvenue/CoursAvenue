@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150308213542) do
+ActiveRecord::Schema.define(version: 20150317134545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20150308213542) do
     t.integer  "cover_image_file_size"
     t.datetime "cover_image_updated_at"
     t.integer  "category_id"
+    t.string   "page_title"
   end
 
   create_table "blog_articles_subjects", force: true do |t|
@@ -92,6 +93,7 @@ ActiveRecord::Schema.define(version: 20150308213542) do
     t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "page_title"
   end
 
   create_table "call_reminders", force: true do |t|
@@ -126,6 +128,7 @@ ActiveRecord::Schema.define(version: 20150308213542) do
     t.text     "title"
     t.text     "subtitle"
     t.text     "description"
+    t.hstore   "meta_data"
   end
 
   add_index "cities", ["name"], name: "index_cities_on_name", using: :btree
@@ -542,6 +545,54 @@ ActiveRecord::Schema.define(version: 20150308213542) do
   create_table "medias_subjects", id: false, force: true do |t|
     t.integer "subject_id"
     t.integer "media_id"
+  end
+
+  create_table "newsletter_blocs", force: true do |t|
+    t.string   "type"
+    t.integer  "newsletter_id"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "image"
+    t.text     "content"
+  end
+
+  add_index "newsletter_blocs", ["newsletter_id"], name: "index_newsletter_blocs_on_newsletter_id", using: :btree
+
+  create_table "newsletter_mailing_lists", force: true do |t|
+    t.integer  "newsletter_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
+    t.integer  "structure_id"
+    t.hstore   "metadata"
+  end
+
+  add_index "newsletter_mailing_lists", ["newsletter_id"], name: "index_newsletter_mailing_lists_on_newsletter_id", using: :btree
+  add_index "newsletter_mailing_lists", ["structure_id"], name: "index_newsletter_mailing_lists_on_structure_id", using: :btree
+
+  create_table "newsletter_recipients", force: true do |t|
+    t.integer  "user_profile_id"
+    t.integer  "newsletter_id"
+    t.boolean  "opened",          default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "newsletter_recipients", ["newsletter_id"], name: "index_newsletter_recipients_on_newsletter_id", using: :btree
+  add_index "newsletter_recipients", ["user_profile_id"], name: "index_newsletter_recipients_on_user_profile_id", using: :btree
+
+  create_table "newsletters", force: true do |t|
+    t.string   "title"
+    t.string   "state",        default: "draft"
+    t.string   "object"
+    t.string   "sender_name"
+    t.string   "reply_to"
+    t.integer  "structure_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "layout_id"
+    t.datetime "sent_at"
   end
 
   create_table "orders", force: true do |t|
@@ -1042,9 +1093,11 @@ ActiveRecord::Schema.define(version: 20150308213542) do
   end
 
   add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
 
   create_table "tags", force: true do |t|
-    t.string "name"
+    t.string  "name"
+    t.integer "taggings_count", default: 0
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
@@ -1096,8 +1149,11 @@ ActiveRecord::Schema.define(version: 20150308213542) do
     t.string  "phone"
     t.string  "mobile_phone"
     t.text    "address"
+    t.boolean "subscribed",                 default: true
+    t.integer "newsletter_mailing_list_id"
   end
 
+  add_index "user_profiles", ["newsletter_mailing_list_id"], name: "index_user_profiles_on_newsletter_mailing_list_id", using: :btree
   add_index "user_profiles", ["structure_id", "user_id"], name: "index_user_profiles_on_structure_id_and_user_id", using: :btree
 
   create_table "users", force: true do |t|

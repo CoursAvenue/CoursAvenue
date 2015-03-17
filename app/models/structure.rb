@@ -20,6 +20,7 @@ class Structure < ActiveRecord::Base
 
   extend FriendlyId
 
+  NB_STRUCTURE_PER_PAGE = 25
   STRUCTURE_STATUS      = %w(SA SAS SASU EURL SARL)
   TRIAL_COURSES_POLICY  = %w(1_trial 2_trials 3_trials)
   STRUCTURE_TYPES       = ['structures.company',
@@ -158,7 +159,7 @@ class Structure < ActiveRecord::Base
 
   after_save    :update_open_for_trial_courses_if_neesds
   after_save    :geocode_if_needs_to            unless Rails.env.test?
-  after_save    :subscribe_to_crm               if Rails.env.production?
+  after_save    :subscribe_to_crm
   after_touch   :set_premium
   after_touch   :update_meta_datas
   after_touch   :update_cities_text
@@ -761,7 +762,7 @@ class Structure < ActiveRecord::Base
   end
 
   def email
-    main_contact.email
+    (main_contact ? main_contact.email : contact_email)
   end
 
   # Compute the reponse rate of the main_contact
@@ -1170,7 +1171,7 @@ class Structure < ActiveRecord::Base
   end
 
   def subscribe_to_crm
-    CrmSync.update(self) if main_contact and Rails.env.production?
+    CrmSync.update(self)
   end
   handle_asynchronously :subscribe_to_crm
 

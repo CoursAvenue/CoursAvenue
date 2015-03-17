@@ -1,0 +1,10 @@
+fr:
+  activerecord:
+    models:
+      blog_category: Catégorie
+
+  simple_form:
+    placeholders:
+      blog_category:
+        page_title: Titre de la page
+        name: Nom de la catégorie

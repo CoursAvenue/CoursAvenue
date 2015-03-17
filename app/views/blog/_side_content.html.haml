@@ -1,10 +1,15 @@
-- cache 'blog/side_content/V1' do
-  %h2.gamma.soft-half--bottom.push-half--bottom.f-weight-bold
-    Trouver un cours
-    %br
-    près de chez vous
-  %hr
-  %ul.no-bullet-list.push--bottom
+%h2.gamma.soft-half--bottom.push-half--bottom.f-weight-bold
+  Trouver un cours
+  %br
+  à Paris
+%hr
+%ul.no-bullet-list.push--bottom
+  - if @article and @article.subjects.any?
+    - @article.subjects.each do |subject|
+      %li
+        %h3.epsilon.flush.line-height-1-7.f-weight-normal
+          = link_to subject.name, search_page_path(subject.root, subject, 'paris')
+  - else
     %li
       %h3.epsilon.flush.line-height-1-7.f-weight-normal
         = link_to 'Danse', root_search_page_path('danse', 'paris')
@@ -32,15 +37,9 @@
     %li
       %h3.epsilon.flush.line-height-1-7.f-weight-normal
         = link_to 'Déco mode et bricolage', root_search_page_path('deco-mode-bricolage', 'paris')
-    %li
-      %h3.epsilon.flush.line-height-1-7.f-weight-normal
-        = link_to 'Culture sciences et nature', root_search_page_path('culture-sciences-nature', 'paris')
-    %li
-      %h3.epsilon.flush.line-height-1-7.f-weight-normal
-        = link_to 'Langues et soutien scolaire', root_search_page_path('langues-soutien-scolaire', 'paris')
 
-  .gamma.soft-half--bottom.push-half--bottom.f-weight-bold Catégories
-  %hr
+.gamma.soft-half--bottom.push-half--bottom.f-weight-bold Catégories
+%hr
 %ul.no-bullet-list.push--bottom
   - Blog::Category.find_each do |category|
     %li.epsilon.line-height-1-7

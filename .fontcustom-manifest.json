@@ -1,301 +1,337 @@
 {
   "checksum": {
-    "previous": "1e31cfc96e48b4148243c115c0eb593e8cf62eff2e36d6e6ad003039c8922f25",
-    "current": "1e31cfc96e48b4148243c115c0eb593e8cf62eff2e36d6e6ad003039c8922f25"
+    "previous": "40280b116d4071072f7fc9f3b345f025451355791d56936ed4129d229636f2d2",
+    "current": "40280b116d4071072f7fc9f3b345f025451355791d56936ed4129d229636f2d2"
   },
   "fonts": [
-    "app/assets/fonts/GlyphAvenue.ttf",
-    "app/assets/fonts/GlyphAvenue.svg",
-    "app/assets/fonts/GlyphAvenue.woff",
-    "app/assets/fonts/GlyphAvenue.eot"
+    "app/assets/fonts/CoursAvenueIconFont.ttf",
+    "app/assets/fonts/CoursAvenueIconFont.svg",
+    "app/assets/fonts/CoursAvenueIconFont.woff",
+    "app/assets/fonts/CoursAvenueIconFont.eot"
   ],
   "glyphs": {
     "audiences": {
-      "codepoint": 61844,
+      "codepoint": 61696,
       "source": "app/assets/images/icons/svg/audiences.svg"
     },
-    "audiences-old": {
-      "codepoint": 61845,
-      "source": "app/assets/images/icons/svg/audiences-old.svg"
-    },
     "avatar": {
-      "codepoint": 61857,
+      "codepoint": 61697,
       "source": "app/assets/images/icons/svg/avatar.svg"
     },
     "bar-chart-o": {
-      "codepoint": 61846,
+      "codepoint": 61698,
       "source": "app/assets/images/icons/svg/bar-chart-o.svg"
     },
     "bars": {
-      "codepoint": 61840,
+      "codepoint": 61699,
       "source": "app/assets/images/icons/svg/bars.svg"
     },
     "book": {
-      "codepoint": 61841,
+      "codepoint": 61700,
       "source": "app/assets/images/icons/svg/book.svg"
     },
     "bullhorn": {
-      "codepoint": 61842,
+      "codepoint": 61701,
       "source": "app/assets/images/icons/svg/bullhorn.svg"
     },
     "calendar": {
-      "codepoint": 61843,
+      "codepoint": 61702,
       "source": "app/assets/images/icons/svg/calendar.svg"
     },
     "check": {
-      "codepoint": 61836,
+      "codepoint": 61703,
       "source": "app/assets/images/icons/svg/check.svg"
     },
     "chevron-down": {
-      "codepoint": 61837,
+      "codepoint": 61704,
       "source": "app/assets/images/icons/svg/chevron-down.svg"
     },
     "chevron-left": {
-      "codepoint": 61838,
+      "codepoint": 61705,
       "source": "app/assets/images/icons/svg/chevron-left.svg"
     },
     "chevron-right": {
-      "codepoint": 61839,
+      "codepoint": 61706,
       "source": "app/assets/images/icons/svg/chevron-right.svg"
     },
     "chevron-up": {
-      "codepoint": 61833,
+      "codepoint": 61707,
       "source": "app/assets/images/icons/svg/chevron-up.svg"
     },
     "circle-o": {
-      "codepoint": 61834,
+      "codepoint": 61708,
       "source": "app/assets/images/icons/svg/circle-o.svg"
     },
     "clock": {
-      "codepoint": 61835,
+      "codepoint": 61709,
       "source": "app/assets/images/icons/svg/clock.svg"
     },
     "close": {
-      "codepoint": 61830,
+      "codepoint": 61710,
       "source": "app/assets/images/icons/svg/close.svg"
     },
     "cogs": {
-      "codepoint": 61831,
+      "codepoint": 61711,
       "source": "app/assets/images/icons/svg/cogs.svg"
     },
     "comment": {
-      "codepoint": 61832,
+      "codepoint": 61712,
       "source": "app/assets/images/icons/svg/comment.svg"
     },
     "contact": {
-      "codepoint": 61826,
+      "codepoint": 61713,
       "source": "app/assets/images/icons/svg/contact.svg"
     },
     "credit-card": {
-      "codepoint": 61827,
+      "codepoint": 61714,
       "source": "app/assets/images/icons/svg/credit-card.svg"
     },
+    "cuisine-vins": {
+      "codepoint": 61715,
+      "source": "app/assets/images/icons/svg/cuisine-vins.svg"
+    },
+    "danse": {
+      "codepoint": 61716,
+      "source": "app/assets/images/icons/svg/danse.svg"
+    },
     "dashboard": {
-      "codepoint": 61828,
+      "codepoint": 61717,
       "source": "app/assets/images/icons/svg/dashboard.svg"
     },
+    "deco-mode-bricolage": {
+      "codepoint": 61718,
+      "source": "app/assets/images/icons/svg/deco-mode-bricolage.svg"
+    },
+    "dessin-peinture-arts-plastiques": {
+      "codepoint": 61719,
+      "source": "app/assets/images/icons/svg/dessin-peinture-arts-plastiques.svg"
+    },
     "dot-circle-o": {
-      "codepoint": 61829,
+      "codepoint": 61720,
       "source": "app/assets/images/icons/svg/dot-circle-o.svg"
     },
     "download": {
-      "codepoint": 61818,
+      "codepoint": 61721,
       "source": "app/assets/images/icons/svg/download.svg"
     },
     "ear": {
-      "codepoint": 61863,
+      "codepoint": 61722,
       "source": "app/assets/images/icons/svg/ear.svg"
     },
     "eiffel-tower": {
-      "codepoint": 61852,
+      "codepoint": 61723,
       "source": "app/assets/images/icons/svg/eiffel-tower.svg"
     },
     "envelope-o": {
-      "codepoint": 61819,
+      "codepoint": 61724,
       "source": "app/assets/images/icons/svg/envelope-o.svg"
     },
     "eur": {
-      "codepoint": 61820,
+      "codepoint": 61725,
       "source": "app/assets/images/icons/svg/eur.svg"
     },
     "eye": {
-      "codepoint": 61821,
+      "codepoint": 61726,
       "source": "app/assets/images/icons/svg/eye.svg"
     },
     "face-happy": {
-      "codepoint": 61822,
+      "codepoint": 61727,
       "source": "app/assets/images/icons/svg/face-happy.svg"
     },
     "face-neutral": {
-      "codepoint": 61823,
+      "codepoint": 61728,
       "source": "app/assets/images/icons/svg/face-neutral.svg"
     },
     "face-sad": {
-      "codepoint": 61824,
+      "codepoint": 61729,
       "source": "app/assets/images/icons/svg/face-sad.svg"
     },
     "facebook": {
-      "codepoint": 61825,
+      "codepoint": 61730,
       "source": "app/assets/images/icons/svg/facebook.svg"
     },
     "flag": {
-      "codepoint": 61768,
+      "codepoint": 61731,
       "source": "app/assets/images/icons/svg/flag.svg"
     },
     "forbidden": {
-      "codepoint": 61722,
+      "codepoint": 61732,
       "source": "app/assets/images/icons/svg/forbidden.svg"
     },
     "gift": {
-      "codepoint": 61745,
+      "codepoint": 61733,
       "source": "app/assets/images/icons/svg/gift.svg"
     },
     "group": {
-      "codepoint": 61723,
+      "codepoint": 61734,
       "source": "app/assets/images/icons/svg/group.svg"
     },
     "handshake": {
-      "codepoint": 61802,
+      "codepoint": 61735,
       "source": "app/assets/images/icons/svg/handshake.svg"
     },
     "heart": {
-      "codepoint": 61783,
+      "codepoint": 61736,
       "source": "app/assets/images/icons/svg/heart.svg"
     },
     "heart-o": {
-      "codepoint": 61781,
+      "codepoint": 61737,
       "source": "app/assets/images/icons/svg/heart-o.svg"
     },
     "house": {
-      "codepoint": 61725,
+      "codepoint": 61738,
       "source": "app/assets/images/icons/svg/house.svg"
     },
     "info": {
-      "codepoint": 61779,
+      "codepoint": 61739,
       "source": "app/assets/images/icons/svg/info.svg"
     },
     "instagram": {
-      "codepoint": 61797,
+      "codepoint": 61740,
       "source": "app/assets/images/icons/svg/instagram.svg"
     },
     "levels": {
-      "codepoint": 61795,
+      "codepoint": 61741,
       "source": "app/assets/images/icons/svg/levels.svg"
     },
     "lightbulb-o": {
-      "codepoint": 61789,
+      "codepoint": 61742,
       "source": "app/assets/images/icons/svg/lightbulb-o.svg"
     },
     "list": {
-      "codepoint": 61785,
+      "codepoint": 61743,
       "source": "app/assets/images/icons/svg/list.svg"
     },
     "lock": {
-      "codepoint": 61861,
+      "codepoint": 61744,
       "source": "app/assets/images/icons/svg/lock.svg"
     },
     "map-marker": {
-      "codepoint": 61726,
+      "codepoint": 61745,
       "source": "app/assets/images/icons/svg/map-marker.svg"
     },
+    "musique-chant": {
+      "codepoint": 61746,
+      "source": "app/assets/images/icons/svg/musique-chant.svg"
+    },
     "pencil": {
-      "codepoint": 61776,
+      "codepoint": 61747,
       "source": "app/assets/images/icons/svg/pencil.svg"
     },
     "pencil-o": {
-      "codepoint": 61778,
+      "codepoint": 61748,
       "source": "app/assets/images/icons/svg/pencil-o.svg"
     },
     "phone-o": {
-      "codepoint": 61738,
+      "codepoint": 61749,
       "source": "app/assets/images/icons/svg/phone-o.svg"
     },
+    "photo-video": {
+      "codepoint": 61750,
+      "source": "app/assets/images/icons/svg/photo-video.svg"
+    },
     "plus": {
-      "codepoint": 61760,
+      "codepoint": 61751,
       "source": "app/assets/images/icons/svg/plus.svg"
     },
-    "pulse": {
-      "codepoint": 61817,
-      "source": "app/assets/images/icons/svg/pulse.svg"
+    "pulse-rate": {
+      "codepoint": 61752,
+      "source": "app/assets/images/icons/svg/pulse-rate.svg"
+    },
+    "question-circle": {
+      "codepoint": 61753,
+      "source": "app/assets/images/icons/svg/question-circle.svg"
     },
     "quote": {
-      "codepoint": 61862,
+      "codepoint": 61754,
       "source": "app/assets/images/icons/svg/quote.svg"
     },
     "quotes": {
-      "codepoint": 61867,
+      "codepoint": 61755,
       "source": "app/assets/images/icons/svg/quotes.svg"
     },
     "reload": {
-      "codepoint": 61865,
+      "codepoint": 61756,
       "source": "app/assets/images/icons/svg/reload.svg"
     },
     "repeat": {
-      "codepoint": 61733,
+      "codepoint": 61757,
       "source": "app/assets/images/icons/svg/repeat.svg"
     },
     "right-to-left": {
-      "codepoint": 61854,
+      "codepoint": 61758,
       "source": "app/assets/images/icons/svg/right-to-left.svg"
     },
     "rugby-ball": {
-      "codepoint": 61853,
+      "codepoint": 61759,
       "source": "app/assets/images/icons/svg/rugby-ball.svg"
     },
     "search": {
-      "codepoint": 61774,
+      "codepoint": 61760,
       "source": "app/assets/images/icons/svg/search.svg"
     },
     "share": {
-      "codepoint": 61790,
+      "codepoint": 61761,
       "source": "app/assets/images/icons/svg/share.svg"
     },
     "shopping-cart": {
-      "codepoint": 61764,
+      "codepoint": 61762,
       "source": "app/assets/images/icons/svg/shopping-cart.svg"
     },
     "sign-out": {
-      "codepoint": 61804,
+      "codepoint": 61763,
       "source": "app/assets/images/icons/svg/sign-out.svg"
     },
     "signal": {
-      "codepoint": 61773,
+      "codepoint": 61764,
       "source": "app/assets/images/icons/svg/signal.svg"
     },
+    "sports-arts-martiaux": {
+      "codepoint": 61765,
+      "source": "app/assets/images/icons/svg/sports-arts-martiaux.svg"
+    },
     "star": {
-      "codepoint": 61729,
+      "codepoint": 61766,
       "source": "app/assets/images/icons/svg/star.svg"
     },
     "tag": {
-      "codepoint": 61730,
+      "codepoint": 61767,
       "source": "app/assets/images/icons/svg/tag.svg"
+    },
+    "theatre-scene": {
+      "codepoint": 61768,
+      "source": "app/assets/images/icons/svg/theatre-scene.svg"
     },
     "thumb-tack": {
       "codepoint": 61769,
       "source": "app/assets/images/icons/svg/thumb-tack.svg"
     },
     "ticket": {
-      "codepoint": 61847,
+      "codepoint": 61770,
       "source": "app/assets/images/icons/svg/ticket.svg"
     },
     "times": {
-      "codepoint": 61805,
+      "codepoint": 61771,
       "source": "app/assets/images/icons/svg/times.svg"
     },
     "trash-o": {
-      "codepoint": 61775,
+      "codepoint": 61772,
       "source": "app/assets/images/icons/svg/trash-o.svg"
     },
     "twitter": {
-      "codepoint": 61791,
+      "codepoint": 61773,
       "source": "app/assets/images/icons/svg/twitter.svg"
     },
     "user": {
-      "codepoint": 61731,
+      "codepoint": 61774,
       "source": "app/assets/images/icons/svg/user.svg"
     },
+    "yoga-bien-etre-sante": {
+      "codepoint": 61775,
+      "source": "app/assets/images/icons/svg/yoga-bien-etre-sante.svg"
+    },
     "youtube-play": {
-      "codepoint": 61742,
+      "codepoint": 61776,
       "source": "app/assets/images/icons/svg/youtube-play.svg"
     }
   },
@@ -304,7 +340,11 @@
     "config": "fontcustom.yml",
     "css_selector": ".fa-{{glyph}}",
     "debug": false,
-    "font_name": "GlyphAvenue",
+    "font_ascent": 448,
+    "font_descent": 64,
+    "font_design_size": 16,
+    "font_em": 512,
+    "font_name": "CoursAvenueIconFont",
     "force": false,
     "input": {
       "templates": "app/assets/images/icons/svg/",
@@ -324,6 +364,6 @@
     ]
   },
   "templates": [
-    "app/assets/stylesheets/_GlyphAvenue.scss"
+    "app/assets/stylesheets/_CoursAvenueIconFont.scss"
   ]
 }

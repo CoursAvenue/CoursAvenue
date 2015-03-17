@@ -71,9 +71,11 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
         getQuery: function getQuery (options) {
             var self = this;
             var params = _.extend(_.clone(this.queryParams || {}), options);
-
             // some of the queryParams params might be functions, in which case execute them
             return _.reduce(_.pairs(params), function (memo, pair) {
+                // We have to skip the page parameters because unless it will override the new page
+                // if the user want to change the page.
+                if (key == 'page') { return memo; }
                 var key   = pair[0];
                 var value = pair[1];
                 if (_.isFunction(value)) {
@@ -98,7 +100,6 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             if (search.length < 1) { return {} };
 
             var data = search.substring(1).split("&"); // assume no values have & in them
-
             return _.reduce(data, function (memo, datum) {
                 var pair  = datum.split('='); // assume there are no equal signs in the value
                 var key   = decodeURIComponent(pair[0]);

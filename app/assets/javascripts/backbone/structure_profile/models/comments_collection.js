@@ -28,6 +28,9 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
             this.grandTotal = response.meta.total;
             this.totalPages = Math.ceil(response.meta.total / this.state.perPage);
 
+            // Important to trigger reset on collection like Backbone does on collection
+            // It is used on StructureProfile.js where `structure.get('comments') .on('reset',...`
+            this.trigger('reset');
             return response.comments;
         }
     });

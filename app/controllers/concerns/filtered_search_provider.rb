@@ -1,4 +1,5 @@
 module FilteredSearchProvider
+  MAP_DEFAULT_ZOOM = 14
   extend ActiveSupport::Concern
 
   # When one of these keys are in the params, we need to search on Plannings instead of Structure
@@ -53,25 +54,23 @@ module FilteredSearchProvider
     places       = []
     place_search.group(:place_id_str).groups.each do |place_group|
       places << place_group.value
-      # places << place_group.results.first.try(:place_id)
     end
     search.group(:structure_id_str).groups.each do |structure_group|
       structures << Structure.find(structure_group.value)
-      # structures << structure_group.results.first.try(:structure)
     end
-    places = places.uniq
-    total  = search.group(:structure_id_str).total
-
-    [ structures, places, total ]
+    places                  = places.uniq
+    total                   = search.group(:structure_id_str).total
+    subject_slugs_with_more_than_five_results = search.facet(:subject_slugs).rows.select{ |row| row.count > 5 }.map(&:value)
+    [ structures, places, total, subject_slugs_with_more_than_five_results ]
   end
 
   def search_structures
     sanatize_params
-    search           = StructureSearch.search(params)
-    structures       = search.results
-    total            = search.total
-
-    [ structures, total ]
+    search                  = StructureSearch.search(params)
+    structures              = search.results
+    total                   = search.total
+    subject_slugs_with_more_than_five_results = search.facet(:subject_slugs).rows.select{ |row| row.count > 5 }.map(&:value)
+    [ structures, total, subject_slugs_with_more_than_five_results ]
   end
 
   # Retrieve lat & lng of the current search

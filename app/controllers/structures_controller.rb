@@ -38,12 +38,12 @@ class StructuresController < ApplicationController
 
     params[:address_name] ||= 'Paris, France' unless request.xhr?
     params[:page]         ||= 1
-    params[:per_page]      = 18
+    params[:per_page]      = Structure::NB_STRUCTURE_PER_PAGE
 
     if params_has_planning_filters?
-      @structures, @places, @total = search_plannings
+      @structures, @places, @total, @subject_slugs_with_more_than_five_results = search_plannings
     else
-      @structures, @total = search_structures
+      @structures, @total, @subject_slugs_with_more_than_five_results = search_structures
     end
     @latlng = retrieve_location
     @models = jasonify @structures
@@ -198,10 +198,9 @@ class StructuresController < ApplicationController
   # We have cases where we need 301 redirections
   # This is due to old wrong links
   def proceed_to_redirection_if_needed
-    if params[:subject_id] and params[:subject_id].include?('--')
-      @subject = Subject.friendly.find(params[:subject_id].gsub(/--.*/, ''))
-      redirect_to structures_path_for_city_and_subject(@city, @subject), status: 301
-    elsif params[:city_id] and params[:city_id].is_number?
+    # Catch URLs like cergy--2
+    if params[:city_id] and params[:city_id].is_number?
+      begin @city = City.find(params[:root_subject_id]); params[:root_subject_id] = nil rescue nil end if params[:root_subject_id].present?
       redirect_to structures_path_for_city_and_subject(@city, (params[:subject_id] || params[:root_subject_id])), status: 301
     elsif params[:page] and params[:page].is_negative_or_zero_number?
       redirect_to structures_path_for_city_and_subject(@city, (params[:subject_id] || params[:root_subject_id])), status: 301

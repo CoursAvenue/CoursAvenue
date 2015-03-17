@@ -29,7 +29,7 @@
 
     Plugin.prototype = {
 
-        init: function() {
+        init: function init () {
             this.select_element = $(this.$element.data('el'));
             this.current_val    = '';
             this.attachEvents();
@@ -38,11 +38,11 @@
             }
         },
 
-        attachEvents: function() {
+        attachEvents: function attachEvents () {
             var select = this.select_element;
             this.$element.keyup(this.retrieveCity.bind(this));
         },
-        retrieveCity: function() {
+        retrieveCity: function retrieveCity () {
             if (this.element.value.length === 5 && this.current_val !== this.element.value) {
                 if (this.request) { this.request.abort(); }
                 this.current_val = this.element.value;

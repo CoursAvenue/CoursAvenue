@@ -39,4 +39,9 @@ class PhoneNumber < ActiveRecord::Base
     self.number = self.number.gsub(' ', '')
     MOBILE_PREFIXES.any? { |prefix| number.starts_with?(prefix) }
   end
+
+  def international_format
+    new_number = self.number.gsub(' ', '').gsub(/\D/, '').gsub('.', '').gsub('-', '').gsub(/^0/, '')
+    "+33 #{new_number}"
+  end
 end

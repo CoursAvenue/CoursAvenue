@@ -1,14 +1,20 @@
+= content_for :title do
+  = @category.page_title
+
 = content_for :above_content do
   .relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{asset_path('pages/colored_pencils.jpg')}')", data: { behavior: 'parallax' } }
     .black-curtain.north.west.one-whole.absolute
     .flexbox__item.v-middle.text--center.relative
-      %h1.f-size-really-big.flush= link_to "Arts. Sports. Bien-être.", blog_articles_path, class: 'muted-link'
-      %h2.flush= link_to "Le Blog CoursAvenue", blog_articles_path, class: 'muted-link'
+      %h1.f-size-really-big.flush
+        = @category.name
 
-%h3.line-height-2.gamma.soft-half--bottom.push-half--bottom.f-weight-bold
-  = @category.name
-
-%hr
+%ol.nav.breadcrumb.epsilon.flush
+  %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+    = link_to blog_articles_path do
+      %span{ itemprop: 'title' } Le Blog CoursAvenue
+  %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+    %span{ itemprop: 'title' }
+      = @category.name
 
 - @articles.each_with_index do |article, index|
   = render partial: 'blog/articles/article', locals: { article: article }

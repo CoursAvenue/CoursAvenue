@@ -162,4 +162,12 @@ $(function() {
             });
         });
     }
+    $('.blog-article__content img[title]').each(function() {
+        $this = $(this);
+        $this.parent().addClass('relative blog-article__image-with-legend');
+        $this.addClass('shadowed--bottom');
+        var div = $('<div>').text($this.attr('title'))
+                            .addClass('absolute blog-article__legend one-whole soft--sides soft-half--ends bg-black-faded white south west transition-all-500');
+        $this.after(div);
+    });
 });

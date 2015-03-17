@@ -9,6 +9,7 @@ fr:
   simple_form:
     placeholders:
       blog_article:
+        page_title: Titre de la page
         title: Titre
         description: Description
         tag_list: "Liste de tag, ex. : (toto, tata)"

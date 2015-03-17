@@ -36,3 +36,26 @@
               = link_to 'Supprimer', pro_blog_article_path(article), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette article ?' }, class: 'red'
               \/
               = link_to 'Voir', blog_article_url(article, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
+
+    %hr.push--ends
+
+    %h3.soft--sides Catégories
+    %table.table--data.table--striped
+      %thead
+        %tr
+          %th Nom
+          %th Titre de la page
+          %th # articles
+          %th
+      %tbody
+      - Blog::Category.find_each do |category|
+        %tr
+          %td= category.name
+          %td= category.page_title
+          %td= category.articles.count
+          %td.nowrap
+            = link_to 'Modifier', edit_pro_blog_category_path(category), class: 'fancybox.ajax orange', data: { behavior: 'modal', padding: 0 }
+            \/
+            = link_to 'Supprimer', pro_blog_category_path(category), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette article ?' }, class: 'red'
+            \/
+            = link_to 'Voir', category_blog_articles_url(category_id: category.slug, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank

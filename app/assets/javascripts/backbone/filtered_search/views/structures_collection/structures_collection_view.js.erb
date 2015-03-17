@@ -51,6 +51,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                            z        : 1200,
                            oldWidth : true });
           this.renderSlideshows();
+          window.prerenderReady = true;
         },
 
         /* forward events with only the necessary data */
@@ -90,7 +91,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             /* announce the view we found */
             this.trigger('structures:childview:found', { structure_view: childview, location_view: data } );
-            $.scrollTo(childview.el, { duration: 400, offset: -($('header').first().outerHeight() + $filters_wrapper.outerHeight()) });
+            // $.scrollTo(childview.el, { duration: 400, offset: -($('header').first().outerHeight() + $filters_wrapper.outerHeight()) });
 
         },
 
@@ -111,6 +112,9 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 query_strings:       this.buildPageQueriesForRange(state.totalPages),
                 is_last_page:        this.collection.isLastPage(),
                 is_first_page:       this.collection.isFirstPage(),
+                // We don't add query parameters for Google.
+                next_query:          this.collection.url() + '?page=' + (parseInt(state.currentPage + 1), 10),
+                previous_query:      this.collection.url() + '?page=' + (parseInt(state.currentPage - 1), 10),
             });
 
             /* announce the summary of the result set */
@@ -120,13 +124,17 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 total       : state.grandTotal,
                 subject     : queryParams.subject_id,
                 // We replace + by ' ' because space is replaced by a "+" in the query parameters on home page.
-                city        : (queryParams.city ? queryParams.city.replace(/\+/g, ' ') : window.coursavenue.bootstrap.city_id),
+                city_slug   : (queryParams.city ? queryParams.city.replace(/\+/g, ' ') : window.coursavenue.bootstrap.city_id),
             });
 
             this.trigger('structures:updated:query', { query: this.collection.getQuery().replace('?', '') }); // Removing the first '?' character
             /* announce the filters used in the current result set */
+            if (window.coursavenue.bootstrap.city.slug.indexOf('paris-') != -1) {
+                // TODO: generalize that
+                queryParams.zoom = 15; // Because arrondissement are sublocallities
+            }
             this.trigger('map:update:zoom', {
-                zoom: (queryParams.zoom ? queryParams.zoom : 12),
+                zoom: (queryParams.zoom ? queryParams.zoom : <%= FilteredSearchProvider::MAP_DEFAULT_ZOOM %>),
             });
             this.trigger('structures:updated:filter', {
                 address_name         : (queryParams.address_name         ? queryParams.address_name.replace(/\+/g, ' ')       : ''),

@@ -38,7 +38,7 @@ class Pro::PaymentsController < Pro::ProController
     @payer_type = 'paypal'
     @structure         = Structure.find params[:structure_id]
     PaymentNotification::Paypal.create(params: params, structure_id: params[:structure_id])
-    render template: 'confirmations/premium_account', layout: 'admin'
+    render template: 'pro/payments/confirmations/premium_account', layout: 'admin'
   end
 
   private
