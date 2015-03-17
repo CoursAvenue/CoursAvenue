@@ -17,7 +17,6 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
                 });
 
                 markerView.on('click'          , function() { this.markerFocus(markerView) }.bind(this));
-                markerView.on('hovered'        , function() { this.markerHovered(markerView) }.bind(this));
                 markerView.on('unhighlight:all', function() { this.unhighlightEveryMarker(markerView) }.bind(this));
 
                 this.markerViewChildren[place.id] = markerView;
@@ -83,6 +82,7 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
         lockBoundsOnce: function lockBoundsOnce (childModel, html) {
             this.lock('map:bounds');
         },
+
         zoomOut: function zoomOut (childModel, html) {
             // Activate live update if not by default
             if (!this.update_live) {

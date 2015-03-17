@@ -48,11 +48,12 @@ IntercomRails.config do |config|
   config.user.custom_data = {
     # We have this to ensure we can have an Admin and a User with the same email address and
     # none of them are overrided by the other.
-    :user_id        => Proc.new { |user| "#{user.class.name}_#{user.id}" },
-    'Type'          => Proc.new { |user| user.class.name },
-    :name           => Proc.new { |user| ((s = structure.call(user)) ? s.name : user.name) },
-    '# avis'        => Proc.new { |user| ((s = structure.call(user)) ? s.comments_count : user.try(:comments).try(:count)) },
-    'Villes'        => Proc.new { |user| ((s = structure.call(user)) ? s.places.map(&:city).map(&:name) : user.try(:city).try(:name)) },
+    :user_id           => Proc.new { |user| "#{user.class.name}_#{user.id}" },
+    'Type'             => Proc.new { |user| user.class.name },
+    :name              => Proc.new { |user| ((s = structure.call(user)) ? s.name : user.name) },
+    '# avis'           => Proc.new { |user| ((s = structure.call(user)) ? s.comments_count : user.try(:comments).try(:count)) },
+    'Villes'           => Proc.new { |user| ((s = structure.call(user)) ? s.places.map(&:city).map(&:name) : user.try(:city).try(:name)) },
+    "S'est désinscrit" => Proc.new { |user| !user.try(:should_send_email?) },
     'Disciplines 1' => Proc.new { |user|
         if (s = structure.call(user))
           s.subjects.at_depth(0).uniq.map(&:name)
