@@ -47,7 +47,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // Replace the HTML elements with their rich version:
         // - Replacing a `remote_image_url` input by a filepicker button.
         onShow: function onShow () {
-            var text_areas = this.$el.find('[name$=\\[content\\]]');
+            var text_areas = this.$el.find('[data-type=redactor]');
             var pickers    = this.$el.find('[data-type=filepicker-dragdrop]');
 
             text_areas.each(function(index, elem) {
