@@ -71,6 +71,8 @@
 //= require libs/backbone.googlemaps
 //= require libs/backbone.paginator.js
 //= require libs/backbone.poller.js
+//= require libs/Backbone.ModelBinder.js
+//= require libs/Backbone.CollectionBinder.js
 //= require backbone/cours_avenue
 
 // Default magnificpopup style
