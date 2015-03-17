@@ -260,6 +260,16 @@ class AdminMailer < ActionMailer::Base
          subject: "Votre profil vient d'être supprimé"
   end
 
+  ######################################################################
+  # User Profiles                                                      #
+  ######################################################################
+  def import_batch_user_profiles_finished(structure, total_wanted, error_emails)
+    @structure    = structure
+    @total_wanted = total_wanted
+    @error_emails = error_emails
+    mail to: @structure.main_contact.email, subject: 'Votre import est terminé.'
+  end
+
   private
 
   def generate_reply_to(sender_type = 'admin')
@@ -273,4 +283,5 @@ class AdminMailer < ActionMailer::Base
 
     return "CoursAvenue <#{reply_token.token}@#{CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN}"
   end
+
 end

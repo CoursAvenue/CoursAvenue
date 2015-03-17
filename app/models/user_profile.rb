@@ -118,6 +118,25 @@ class UserProfile < ActiveRecord::Base
     user_profile
   end
 
+  #
+  # Create user profiles based on an array of emails
+  # @param emails Array or string
+  #
+  # @return nil
+  def self.batch_create(structure, emails)
+    unless emails.is_a? Array
+      regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
+      emails = emails.scan(regexp).uniq
+    end
+    total        = emails.length
+    error_emails = []
+    emails.each do |email|
+      created = structure.user_profiles.create email: email
+      error_emails << email unless created
+    end
+    AdminMailer.delay.import_batch_user_profiles_finished(structure, total, error_emails)
+  end
+
   private
 
   def affect_email_if_empty

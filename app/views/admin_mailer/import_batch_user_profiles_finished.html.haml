@@ -1,0 +1,20 @@
+- content_for :email_title do
+  Votre import est terminé.
+
+.title
+  Votre import est terminé.
+
+.p
+  Vous pouvez retrouver vos #{pluralize @total_wanted, 'contact'} dans votre profil.
+  - if @error_emails.any?
+    Malheureusement certains emails n'ont pas pu être importé. Veuillez vérifier leur synthaxe :
+    - @error_emails.each do |email|
+      %br
+      = email
+
+.p.action
+  = link_to "Voir mes contacts", pro_structure_user_profiles_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+
+.p N'hésitez pas à nous solliciter si vous avez des questions ! Merci et à très bientôt,
+
+= render 'shared/mailers/footer'

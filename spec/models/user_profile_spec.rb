@@ -2,9 +2,10 @@
 require 'rails_helper'
 
 describe UserProfile do
+  let(:structure)            { FactoryGirl.create(:structure) }
+  let(:structure_with_admin) { FactoryGirl.create(:structure) }
 
   describe '#associate_to_user_or_create' do
-    let(:structure) { FactoryGirl.create(:structure) }
     let(:user)      { FactoryGirl.create(:user) }
 
     it 'associates to existing user if exists' do
@@ -37,7 +38,6 @@ describe UserProfile do
       end
     end
 
-    let(:structure) { FactoryGirl.create(:structure) }
     let(:ids) { structure.user_profiles.to_a.map(&:id) }
 
     it "calls the given method, with the correct args" do
@@ -54,4 +54,14 @@ describe UserProfile do
     end
   end
 
+  describe '#batch_create' do
+    it 'creates 2 user profile' do
+      emails = 'lala@lala.com lala2@lala.com lalaiswrong.com'
+      mocked_message = Mail::Message.new
+      # Prevent from sending email
+      allow(AdminMailer).to receive(:import_batch_user_profiles_finished).and_return(mocked_message)
+      allow(mocked_message).to receive(:deliver).and_return(nil)
+      expect { UserProfile.batch_create(structure, emails) }.to change { structure.user_profiles.count }.by(2)
+    end
+  end
 end

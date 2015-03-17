@@ -77,10 +77,16 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     @user_profile = @structure.user_profiles.find params[:id]
 
     respond_to do |format|
-        if @user_profile.destroy
+      if @user_profile.destroy
+        format.json { render :json => @user_profile }
+      end
+    end
+  end
 
-            format.json { render :json => @user_profile }
-        end
+  def import_batch_emails
+    UserProfile.delay.batch_create(@structure, params[:emails])
+    respond_to do |format|
+      format.html { redirect_to pro_structure_user_profiles_path(@structure), notice: "L'import est en cours, nous vous enverrons un mail dès l'import terminé." }
     end
   end
 

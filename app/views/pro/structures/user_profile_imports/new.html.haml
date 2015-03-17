@@ -2,18 +2,28 @@
 
 = render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'import' }
 
-%h1 Importez votre répertoire personnel (excel)
+%h1 Importez votre répertoire personnel
+
+%h3 Excel / CSV (.csv, .xls, .xlsx)
 
 = simple_form_for [:pro, @structure, @user_profile_import] do |f|
   %p.epsilon
     Téléchargez votre fichier Excel de contacts puis affectez les colonnes aux champs correspondants :
   = f.error_notification
-  %label.btn.btn--full.btn--green{ for: 'user_profile_import_file' }
+  %label.btn.btn--green{ for: 'user_profile_import_file' }
     Choisir mon fichier
     = f.input :file, as: :file, label: false, wrapper_html: { class: 'visuallyhidden' }
-  .text--center
+  .text--center.soft
     = image_tag 'gifs/loading-indicator.gif', height: 10, id: 'loader', class: 'hidden'
 
+-# %hr.push--ends
+-# %h3 Copiez-coller depuis Excel
+
+%hr.push--ends
+%h3 Copiez-coller une liste d'email
+= form_tag import_batch_emails_pro_structure_user_profiles_path(@structure) do
+  %textarea.push-half--bottom.input--large.one-whole{ name: 'emails', placeholder: 'Ex. : maurice@gmail.com, elsa@gmail.com, marie@gmail.com, ...', rows: 5, data: { behavior: 'autoresize' } }
+  %button.btn.btn--green{ type: 'submit', data: { disable_with: 'Import en cours...' } } Importer les e-mails
 
 = content_for :scripts do
   :javascript
