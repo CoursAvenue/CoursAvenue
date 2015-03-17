@@ -62,6 +62,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
          * Edit page initialization
          */
         initializeOrShowEditPage: function initializeOrShowEditPage (page_name) {
+            if (this.newsletter.hasChanged('layout_id')) {
+                this.getRegion('edit').initialized = false;
+                this.getRegion('edit').reset();
+            }
+
             if (this.getRegion('edit').initialized) { this.getRegion('edit').$el.show(); return; }
             var bloc_collection = new Newsletter.Models.BlocsCollection(this.options.newsletter.get('blocs'))
             var edition_view    = new Newsletter.Views.EditionView({
