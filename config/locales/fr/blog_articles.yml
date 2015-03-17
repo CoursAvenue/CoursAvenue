@@ -9,7 +9,8 @@ fr:
   simple_form:
     placeholders:
       blog_article:
-        page_title: Titre de la page (SEO)
-        title: Titre
+        page_title: Titre de la page (title SEO)
+        title: Titre (H1)
+        page_description: Description de la page (SEO)
         description: Description
         tag_list: "Liste de tag, ex. : (toto, tata)"

@@ -7,7 +7,7 @@ class Blog::Article < ActiveRecord::Base
   acts_as_taggable_on :tags
 
   attr_accessible :page_title, :title, :description, :content, :published, :subject_ids, :cover_image, :published_at,
-                  :tag_list, :category_id
+                  :tag_list, :category_id, :page_description
 
   has_and_belongs_to_many :subjects
   belongs_to :category, class_name: 'Blog::Category', foreign_key: :category_id

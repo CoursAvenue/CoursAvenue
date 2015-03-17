@@ -19,7 +19,6 @@ class Pro::Blog::ArticlesController < Pro::ProController
   end
 
   def create
-    create_category_if_does_not_exists
     @article = ::Blog::Article.new params[:blog_article]
     respond_to do |format|
       if @article.save
@@ -31,7 +30,6 @@ class Pro::Blog::ArticlesController < Pro::ProController
   end
 
   def update
-    create_category_if_does_not_exists
     @article = ::Blog::Article.find params[:id]
     respond_to do |format|
       if @article.update_attributes params[:blog_article]
@@ -50,12 +48,4 @@ class Pro::Blog::ArticlesController < Pro::ProController
     end
   end
 
-  private
-
-  def create_category_if_does_not_exists
-    if params[:blog_article][:new_category].present?
-      category = Blog::Category.create(name: params[:blog_article].delete(:new_category))
-    end
-    params[:blog_article][:category_id] = category.id
-  end
 end

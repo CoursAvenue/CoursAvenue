@@ -6,7 +6,7 @@ fr:
   simple_form:
     placeholders:
       blog_category:
-        page_title: Titre de la page (SEO)
-        name: Nom de la catégorie
+        page_title: Titre de la page (Title SEO)
+        name: Nom de la catégorie (H1)
         page_description: Description de la page (SEO)
         description: Description
