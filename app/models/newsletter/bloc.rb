@@ -32,7 +32,6 @@ class Newsletter::Bloc < ActiveRecord::Base
     duplicated_bloc = bloc_owner.blocs.build({
       position: self.position,
       type: self.type,
-      # image: self.image,
       content: self.content
     })
 
