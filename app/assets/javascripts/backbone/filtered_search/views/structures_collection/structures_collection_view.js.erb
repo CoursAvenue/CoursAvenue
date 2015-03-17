@@ -129,6 +129,10 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             this.trigger('structures:updated:query', { query: this.collection.getQuery().replace('?', '') }); // Removing the first '?' character
             /* announce the filters used in the current result set */
+            if (window.coursavenue.bootstrap.city.slug.indexOf('paris-') != -1) {
+                // TODO: generalize that
+                queryParams.zoom = 15; // Because arrondissement are sublocallities
+            }
             this.trigger('map:update:zoom', {
                 zoom: (queryParams.zoom ? queryParams.zoom : <%= FilteredSearchProvider::MAP_DEFAULT_ZOOM %>),
             });

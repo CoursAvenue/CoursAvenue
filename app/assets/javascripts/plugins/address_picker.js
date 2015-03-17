@@ -120,9 +120,9 @@
               case 'street_address'     : return 16;
               case 'route'              : return 16;
               case 'neighborhood'       : return 14;
-              case 'locality'           : return 13;
-              case 'sublocality_level_1': return 14;
-              default                   : return 12;
+              case 'locality'           : return 14;
+              case 'sublocality_level_1': return 15;
+              default                   : return 14;
             }
         },
         getCityFromAddress: function getCityFromAddress (arrAddress) {

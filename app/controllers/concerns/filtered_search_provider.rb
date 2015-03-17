@@ -1,5 +1,5 @@
 module FilteredSearchProvider
-  MAP_DEFAULT_ZOOM = 13
+  MAP_DEFAULT_ZOOM = 14
   extend ActiveSupport::Concern
 
   # When one of these keys are in the params, we need to search on Plannings instead of Structure
