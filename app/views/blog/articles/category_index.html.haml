@@ -1,5 +1,7 @@
 = content_for :title do
   = @category.page_title
+= content_for :meta_description do
+  = @category.page_description
 
 = content_for :above_content do
   .relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{asset_path('pages/colored_pencils.jpg')}')", data: { behavior: 'parallax' } }
@@ -15,6 +17,9 @@
   %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
     %span{ itemprop: 'title' }
       = @category.name
+
+%p.epsilon
+  = @category.description.html_safe
 
 - @articles.each_with_index do |article, index|
   = render partial: 'blog/articles/article', locals: { article: article }

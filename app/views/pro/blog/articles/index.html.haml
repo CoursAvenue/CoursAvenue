@@ -40,6 +40,8 @@
     %hr.push--ends
 
     %h3.soft--sides Catégories
+    .text--center.push--bottom
+      = link_to 'Nouvelle catégorie', new_pro_blog_category_path, class: 'btn btn--large btn--green fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 600 }
     %table.table--data.table--striped
       %thead
         %tr
@@ -54,7 +56,7 @@
           %td= category.page_title
           %td= category.articles.count
           %td.nowrap
-            = link_to 'Modifier', edit_pro_blog_category_path(category), class: 'fancybox.ajax orange', data: { behavior: 'modal', padding: 0 }
+            = link_to 'Modifier', edit_pro_blog_category_path(category), class: 'fancybox.ajax orange', data: { behavior: 'modal', padding: 0, width: 600 }
             \/
             = link_to 'Supprimer', pro_blog_category_path(category), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette article ?' }, class: 'red'
             \/

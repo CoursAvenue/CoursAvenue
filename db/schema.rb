@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150317134545) do
+ActiveRecord::Schema.define(version: 20150317140618) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,8 @@ ActiveRecord::Schema.define(version: 20150317134545) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "page_title"
+    t.text     "description"
+    t.text     "page_description"
   end
 
   create_table "call_reminders", force: true do |t|

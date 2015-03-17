@@ -66,7 +66,7 @@ CoursAvenue::Application.routes.draw do
       resources :sponsorships, only: [:index]
       resources :payment_notifications, only: [:index, :show]
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
-      resources :blog_categories, only: [:edit, :update, :destroy], controller: 'blog/categories'
+      resources :blog_categories, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/categories'
       resources :press_releases, path: 'communiques-de-presse'
       resources :press_articles
       resources :flyers, only: [:index, :update]

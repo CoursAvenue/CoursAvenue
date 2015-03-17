@@ -3,6 +3,8 @@
     %h3.flush Modification de #{@category.name}
   .panel__body.soft
     = simple_form_for [:pro, @category] do |f|
-      = f.input :name, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-      = f.input :page_title, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+      = f.input :name, input_html: { class: 'input--large one-whole' }, label: false
+      = f.input :page_title, input_html: { class: 'input--large one-whole' }, label: false
+      = f.input :page_description, input_html: { class: 'input--large one-whole' }, label: false
+      = f.input :description, input_html: { class: 'input--large one-whole' }, label: false
       = f.submit 'Enregistrer', class: 'btn btn--green btn--full'

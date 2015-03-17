@@ -2,6 +2,18 @@
 class Pro::Blog::CategoriesController < Pro::ProController
   before_action :authenticate_pro_super_admin!
 
+  def new
+    @category = ::Blog::Category.new
+    render partial: 'form', layout: false
+  end
+
+  def create
+    @category = ::Blog::Category.create params[:blog_category]
+    respond_to do |format|
+      format.html { redirect_to pro_blog_articles_path }
+    end
+  end
+
   def edit
     @category = ::Blog::Category.find params[:id]
     render partial: 'form', layout: false
