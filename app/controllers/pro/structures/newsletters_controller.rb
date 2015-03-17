@@ -19,15 +19,17 @@ class Pro::Structures::NewslettersController < ApplicationController
   end
 
   def create
-    @newsletter = @structure.newsletters.new params[:newsletter]
+    @newsletter = @structure.newsletters.new required_params
 
     respond_to do |format|
       if @newsletter.save
         # format.html { redirect_to pro_structure_newsletter_path(@structure, @newsletter),
         format.html { redirect_to mailing_list_pro_structure_newsletter_path(@structure, @newsletter),
                       notice: 'Bien enregistré' }
+        format.json { render json: @newsletter, status: 201 }
       else
         format.html { render action: :edit }
+        format.json { render json: { errors: @newsletter.errors.full_messages }, status: 422 }
       end
     end
   end
@@ -40,11 +42,13 @@ class Pro::Structures::NewslettersController < ApplicationController
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
 
     respond_to do |format|
-      if @newsletter.update_attributes params[:newsletter]
+      if @newsletter.update_attributes required_params
         format.html { redirect_to pro_structure_newsletter_path(@structure, @newsletter),
                       notice: 'Bien enregistré' }
+        format.json { render json: @newsletter, status: 200 }
       else
         format.html { render action: :edit }
+        format.json { render json: { errors: @newsletter.errors.full_messages }, status: 422 }
       end
     end
   end
@@ -176,7 +180,6 @@ class Pro::Structures::NewslettersController < ApplicationController
   #
   # @return the permitted parameters as a Hash.
   def required_params
-    params.require(:newsletter).permit(:title, :layout_id, :blocs_attributes,
-                                       :sender_name, :reply_to, :object)
+    params.require(:newsletter).permit(:title, :layout_id, :sender_name, :reply_to, :object)
   end
 end

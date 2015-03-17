@@ -25,7 +25,6 @@ class Newsletter::Bloc < ActiveRecord::Base
 
   # Duplicate this Newsletter Bloc model.
   #
-  # TODO: Duplicate the image if image.
   # @param bloc_owner: The owner of the new bloc. By default the current newsletter owner.
   #
   # @return The duplicated bloc.

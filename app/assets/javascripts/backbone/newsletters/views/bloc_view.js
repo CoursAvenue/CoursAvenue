@@ -11,8 +11,19 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initialize: function initialize () {
+            this._modelBinder = new Backbone.ModelBinder();
             _.bindAll(this, 'deleteImage', 'updateImage');
         },
+
+        // Custom render function.
+        // We start by calling the Marionette CompositeView's render function on this view.
+        // We then bind the model to the inputs by calling modelBinder.
+        render: function render () {
+            Backbone.Marionette.ItemView.prototype.render.apply(this, arguments);
+
+            this._modelBinder.bind(this.model, this.el);
+        },
+
 
         updateImage: function updateImage () {
             this.model.set('remote_image_url', event.fpfile.url);
@@ -36,7 +47,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // Replace the HTML elements with their rich version:
         // - Replacing a `remote_image_url` input by a filepicker button.
         onShow: function onShow () {
-            var text_areas = this.$el.find('[name$=\\[content\\]]');
+            var text_areas = this.$el.find('[data-type=redactor]');
             var pickers    = this.$el.find('[data-type=filepicker-dragdrop]');
 
             text_areas.each(function(index, elem) {
@@ -44,7 +55,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                       buttons: ['formatting', 'bold', 'italic','unorderedlist',
                                 'orderedlist', 'link', 'alignment', 'horizontalrule'],
                       lang: 'fr',
-                      formatting: ['p', 'blockquote', 'h1', 'h2', 'h3']
+                      formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
+                      blurCallback: function blurCallback (event) {
+                          this.$element.trigger('change', event);
+                      }
                 });
             });
 

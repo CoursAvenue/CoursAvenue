@@ -3,12 +3,11 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize () {
             this.setLayout();
-            // this.bind('change:layout_id', this.setLayout);
+            this.bind('change:layout_id', this.setLayout);
         },
 
-        url: function url () {
-            var structure = window.coursavenue.bootstrap.structure;
-            return Routes.pro_structure_newsletter_path(structure, this.get('id'));
+        urlRoot: function urlRoot () {
+            return Routes.pro_structure_newsletters_path(window.coursavenue.bootstrap.structure);
         },
 
         setLayout: function setLayout (layouts) {
@@ -18,7 +17,7 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
                 this.set('layout_id', layout_id);
             }
 
-            var layout = layouts.at(this.get('layout_id'))
+            var layout = layouts.get(this.get('layout_id'))
             this.set('layout', layout);
 
             this.setBlocs();
