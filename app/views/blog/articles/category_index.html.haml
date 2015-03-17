@@ -10,7 +10,7 @@
       %h1.f-size-really-big.flush
         = @category.name
 
-%ol.nav.breadcrumb.epsilon.flush
+%ol.nav.breadcrumb.epsilon.push-half--bottom
   %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
     = link_to blog_articles_path do
       %span{ itemprop: 'title' } Le Blog CoursAvenue
@@ -18,8 +18,9 @@
     %span{ itemprop: 'title' }
       = @category.name
 
-%p.epsilon
-  = @category.description.html_safe
+- if @category.description.present?
+  %p.epsilon
+    = @category.description.html_safe
 
 - @articles.each_with_index do |article, index|
   = render partial: 'blog/articles/article', locals: { article: article }
