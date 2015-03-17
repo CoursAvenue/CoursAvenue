@@ -7,9 +7,9 @@ class CrmSync
     if admin.nil?
       results = CrmSync.create_sleeping_contact(structure)
     else
-      existing_lead = self.client.list_leads("email:\"#{structure.main_contact.email.downcase}\"")['data'].first
+      existing_lead = self.client.list_leads("email:\"#{structure.main_contact.email.downcase.strip}\"")['data'].first
       if existing_lead
-        existing_contact = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].any? && contact_data[:emails].first[:email] == structure.main_contact.email.downcase }
+        existing_contact = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].any? && contact_data[:emails].first[:email] == structure.main_contact.email.strip.downcase }
         existing_contact_id = existing_contact[:id] if existing_contact
         data = self.data_for_structure(structure, existing_contact_id)
         results = self.client.update_lead(existing_lead['id'], data)
@@ -55,7 +55,7 @@ class CrmSync
     email_addresses = [ { email: structure.contact_email.downcase, type: 'office' } ]
     if structure.other_emails
       structure.other_emails.split(';').each do |email|
-        email_addresses << { email: email.downcase, type: 'office' }
+        email_addresses << { email: email.downcase.strip, type: 'office' }
       end
     end
     contact = { name: structure.name,
@@ -76,7 +76,7 @@ class CrmSync
     admin = structure.main_contact
     contact = { name: structure.name,
                 phones: structure.phone_numbers.uniq.map{|pn| { phone: pn.international_format, type: 'office' } }.reject{|hash| hash[:phone].length < 10 or hash[:phone].length > 15},
-                emails: [{ email: admin.email.downcase, type: 'office' }]
+                emails: [{ email: admin.email.downcase.strip, type: 'office' }]
               }
     contact[:id] = existing_contact_id if existing_contact_id
     {

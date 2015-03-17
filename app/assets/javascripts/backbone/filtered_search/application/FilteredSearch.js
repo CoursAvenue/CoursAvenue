@@ -62,7 +62,8 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     var bounds       = structures.getLatLngBounds();
-    /* TODO does the google map need a reference to the collection?
+    /*
+     * TODO does the google map need a reference to the collection?
      * I don't think so, and I don't remember why this is here
      */
     google_maps_view = new FilteredSearch.Views.Map.GoogleMapsView({
@@ -71,7 +72,11 @@ FilteredSearch.addInitializer(function(options) {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
         },
         infoBoxViewOptions: {
-            infoBoxClearance: new google.maps.Size(0, 0)
+            infoBoxClearance: new google.maps.Size(0, 0),
+            boxStyle: {
+                width: "550px"
+            },
+
         }
     });
 

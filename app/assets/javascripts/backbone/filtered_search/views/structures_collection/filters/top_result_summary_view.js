@@ -2,7 +2,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
     Module.TopResultsSummaryView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'top_results_summary_view',
-
+        tagName: 'h1',
+        className: 'delta flush f-weight-500',
         initialize: function initialize (options) {
             this.current_summary_data = {
                 subject_name: window.coursavenue.bootstrap.subject_name,

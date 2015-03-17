@@ -61,7 +61,7 @@
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 remote: {
                     url: 'https://maps.googleapis.com/maps/api/geocode/json?address=%QUERY&components=country:FR&sensor=false&region=fr',
-                    filter: function (parsedResponse) {
+                    filter: function filter (parsedResponse) {
                         this.latest_results = parsedResponse.results;
                         // query = query + ' France';
                         return _.map(parsedResponse.results, function (result) {
@@ -117,18 +117,28 @@
 
         getZoomFromType: function getZoomFromType (radius_type) {
             switch(radius_type) {
-              case 'street_address': return 16;
-              case 'route'         : return 16;
-              case 'neighborhood'  : return 14;
-              case 'locality'      : return 12;
-              default              : return 12;
+              case 'street_address'     : return 16;
+              case 'route'              : return 16;
+              case 'neighborhood'       : return 14;
+              case 'locality'           : return 14;
+              case 'sublocality_level_1': return 15;
+              default                   : return 14;
             }
         },
         getCityFromAddress: function getCityFromAddress (arrAddress) {
             // iterate through address_component array to keep only locality type
             var city;
             $.each(arrAddress, function (i, address_component) {
-                if (address_component.types[0] == "locality") {// locality type
+                // -------- THIS IS FOR PARIS
+                if (address_component.types[0] == "sublocality_level_1" &&
+                    address_component.long_name.indexOf(' Arrondissement') != -1) {
+                    if (address_component.long_name.split('e ')[0].length == 1) {
+                        city = 'paris-0' + address_component.long_name.split('e ')[0];
+                    } else {
+                        city = 'paris-' + address_component.long_name.split('e ')[0];
+                    }
+                    return false; // break the loop
+                } else if (address_component.types[0] == "locality") {// locality type
                     city = address_component.long_name;
                     return false; // break the loop
                 }

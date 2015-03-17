@@ -2,9 +2,9 @@
 - @prerender_not_ready = true
 
 - if @subject
-  - title = "#{@subject.name} à #{@city.name}"
+  - title = "#{@subject.name} à #{@city.name} (#{@city.department_code})"
 - else
-  - title = "Danse, Théâtre, Musique, Yoga... à #{@city.name || 'Paris'} "
+  - title = "Danse, Théâtre, Musique, Yoga... à #{@city.name || 'Paris'} (#{@city.department_code}) "
 
 = content_for :title do
   = "#{title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com"

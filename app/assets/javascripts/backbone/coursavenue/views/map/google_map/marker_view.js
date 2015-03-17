@@ -38,9 +38,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         mapEvents: {
-            'click'    : 'showInfoBox',
-            'mouseover': 'highlight',
-            'mouseout' :  'unhighlight'
+            'click'    : 'showInfoBox'
         },
 
         markerClicked: function markerClicked (e) {
