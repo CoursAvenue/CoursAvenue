@@ -6,9 +6,8 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
             this.bind('change:layout_id', this.setLayout);
         },
 
-        url: function url () {
-            var structure = window.coursavenue.bootstrap.structure;
-            return Routes.pro_structure_newsletter_path(structure, this.get('id'));
+        urlRoot: function urlRoot () {
+            return Routes.pro_structure_newsletters_path(window.coursavenue.bootstrap.structure);
         },
 
         setLayout: function setLayout (layouts) {
