@@ -1,9 +1,3 @@
-<!-- <div>
-  <label for="newsletter[blocs_attributes][{{ index }}][remote_image_url]" class='label--large blue'>Bloc image {{ position }}</label>
-  <p class="flush">Donnez plus de visuel à votre newsletter en ajoutant des images</p>
-</div>
- -->
-
 <div class="text--center">
   <img class='hidden' data-fpimage='true'>
   <input data-type='filepicker-dragdrop' id='{{ index }}_remote_image_url' data-fp-class="filepicker-dragdrop text--center" data-fp-button-class="hidden" data-fp-drag-class="flush--left push-half--bottom one-whole f-weight-500 mega-soft--ends text--center push--bottom" data-fp-drag-text="Glissez votre image ici ou cliquez pour choisir" name='remote_image_url' data-fp-apikey="<%= ENV['FILEPICKER_API_KEY'] %>" data-fp-mimetypes="image/*" data-fp-container="window" data-fp-button-text="Choisir mon image"/>

@@ -6,8 +6,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         tagName: 'div',
 
         events: {
-            'click [data-delete-image]'    : 'deleteImage',
-            'change input[type=filepicker]': 'updateImage'
+            'click [data-delete-image]':                   'deleteImage',
+            'change input[data-type=filepicker-dragdrop]': 'updateImage'
         },
 
         initialize: function initialize () {
@@ -26,10 +26,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
 
         updateImage: function updateImage () {
-            this.model.set('remote_image_url', event.fpfile.url);
+            debugger
+
             this.$el.find('img').attr('src', event.fpfile.url);
             this.$el.find('img').show();
-            this.$el.find('button').hide();
+            this.$el.find('.filepicker-dragdrop').hide();
         },
 
         // TODO:
@@ -38,10 +39,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // 3. Remove image..
         //
         deleteImage: function deleteImage () {
+            debugger
             this.model.set('image', '');
 
             this.$el.find('img').hide();
-            this.$el.find('button').show()
+            this.$el.find('.filepicker-dragdrop').show()
         },
 
         // Replace the HTML elements with their rich version:
