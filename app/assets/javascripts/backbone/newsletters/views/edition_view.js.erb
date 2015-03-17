@@ -26,12 +26,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         // Error callback when saving the model.
         savingError: function savingError (model, response, options) {
-            debugger
         },
 
         // Success callback when saving the model.
         savingSuccess: function savingSuccess (model, response, options) {
-            this.collection.sync()
+            this.collection.each(function (model) {
+                model.save();
+            });
         },
 
         // The templateHelpers function allows us to create helper methods that
@@ -41,20 +42,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // <http://git.io/xpMt>
         templateHelpers: function templateHelpers () {
             return {
-                // Renders the bloc's template with the bloc's attributes.
-                renderBlocs: function renderedBlocs (bloc) {
-                    var content = '';
-
-                    this.blocs.forEach(function(bloc) {
-                        var path = Module.templateDirname() + 'bloc_' + bloc.get('type');
-
-                        bloc.set('index', bloc.get('position') - 1);
-                        content += JST[path](bloc.attributes);
-                        bloc.unset('index', { silent: true });
-                    });
-
-                    return content;
-                },
                 formAction: Routes.pro_structure_newsletters_path(window.coursavenue.bootstrap.structure),
                 csrfName: $('meta[name="csrf-param"]').attr('content'),
                 csrfToken: $('meta[name="csrf-token"]').attr('content'),

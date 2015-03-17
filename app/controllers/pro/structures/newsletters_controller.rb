@@ -1,7 +1,7 @@
 class Pro::Structures::NewslettersController < ApplicationController
   before_action :authenticate_pro_admin!
   before_action :set_structure
-  before_action :set_layouts, only: [:new, :edit, :choose_layout]
+  before_action :set_layouts, only: [:new, :edit]
 
   layout 'admin'
 
@@ -23,7 +23,6 @@ class Pro::Structures::NewslettersController < ApplicationController
 
     respond_to do |format|
       if @newsletter.save
-        # format.html { redirect_to pro_structure_newsletter_path(@structure, @newsletter),
         format.html { redirect_to mailing_list_pro_structure_newsletter_path(@structure, @newsletter),
                       notice: 'Bien enregistré' }
         format.json { render json: @newsletter, status: 201 }
