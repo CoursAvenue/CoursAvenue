@@ -1,7 +1,7 @@
 Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
     Module.BlocView = Backbone.Marionette.ItemView.extend({
         template: function template (model) {
-            return JST[Module.templateDirname() + 'bloc_' + model.type](model);
+            return JST[Module.templateDirname() + 'bloc_' + model.view_type](model);
         },
         tagName: 'div',
 
