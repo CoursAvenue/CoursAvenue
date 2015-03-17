@@ -11,8 +11,19 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initialize: function initialize () {
+            this._modelBinder = new Backbone.ModelBinder();
             _.bindAll(this, 'deleteImage', 'updateImage');
         },
+
+        // Custom render function.
+        // We start by calling the Marionette CompositeView's render function on this view.
+        // We then bind the model to the inputs by calling modelBinder.
+        render: function render () {
+            Backbone.Marionette.ItemView.prototype.render.apply(this, arguments);
+
+            this._modelBinder.bind(this.model, this.el);
+        },
+
 
         updateImage: function updateImage () {
             this.model.set('remote_image_url', event.fpfile.url);
