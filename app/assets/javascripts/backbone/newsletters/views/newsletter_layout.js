@@ -68,7 +68,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             }
 
             if (this.getRegion('edit').initialized) { this.getRegion('edit').$el.show(); return; }
-            var bloc_collection = new Newsletter.Models.BlocsCollection(this.options.newsletter.get('blocs'))
+
+            var bloc_collection = new Newsletter.Models.BlocsCollection(this.options.newsletter.get('blocs'), {
+                newsletter: this.newsletter
+            });
+
             var edition_view    = new Newsletter.Views.EditionView({
                 model     : this.options.newsletter,
                 collection: bloc_collection
