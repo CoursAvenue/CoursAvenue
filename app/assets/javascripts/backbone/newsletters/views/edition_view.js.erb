@@ -11,14 +11,27 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
-            _.bindAll(this, 'saveModel');
+            _.bindAll(this, 'saveModel', 'savingError', 'savingSuccess');
         },
 
         saveModel: function saveModel (event) {
             event.preventDefault();
-            this.model.save();
+            this.model.save({}, {
+                error:   this.savingError,
+                success: this.savingSuccess
+            });
 
-            // Go to next step.
+            return false
+        },
+
+        // Error callback when saving the model.
+        savingError: function savingError (model, response, options) {
+            debugger
+        },
+
+        // Success callback when saving the model.
+        savingSuccess: function savingSuccess (model, response, options) {
+            this.collection.sync()
         },
 
         // The templateHelpers function allows us to create helper methods that
