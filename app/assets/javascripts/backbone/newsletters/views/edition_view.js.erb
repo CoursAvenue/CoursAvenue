@@ -26,12 +26,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         // Error callback when saving the model.
         savingError: function savingError (model, response, options) {
-            debugger
         },
 
         // Success callback when saving the model.
         savingSuccess: function savingSuccess (model, response, options) {
-            this.collection.sync()
+            this.collection.each(function (model) {
+                model.save();
+            });
         },
 
         // The templateHelpers function allows us to create helper methods that
