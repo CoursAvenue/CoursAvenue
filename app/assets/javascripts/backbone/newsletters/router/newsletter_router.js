@@ -6,7 +6,8 @@ Newsletter.module('Router', function(Module, App, Backbone, Marionette, $, _) {
             ':id/remplissage'    : 'edit',
             'liste-de-diffusion' : 'setMailingList',
             'recapitulatif'      : 'setMetadata',
-            'previsualisation'   : 'showPreview'
+            'previsualisation'   : 'showPreview',
+            '*path'              : 'defaultRoute'
         },
 
         // TODO:
@@ -16,6 +17,11 @@ Newsletter.module('Router', function(Module, App, Backbone, Marionette, $, _) {
             this.model = options.model;
 
             _.bindAll(this, 'saveLayout', 'chooseLayout', 'edit');
+        },
+
+        // In case the newsletter is new, go to mise-en-page`
+        defaultRoute: function defaultRoute (layout) {
+            this.navigate('mise-en-page');
         },
 
         // Save the layout in the router.
