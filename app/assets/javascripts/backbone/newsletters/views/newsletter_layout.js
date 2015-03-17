@@ -15,9 +15,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initialize: function initialize (options) {
-            this.router = options.router;
+            this.router     = options.router;
+            this.newsletter = options.newsletter;
 
-            _.bindAll(this, 'setCurrentTab', 'updateNav');
+            _.bindAll(this, 'setCurrentTab', 'updateNav', 'selectNewsletterLayout');
         },
 
         setCurrentTab: function setCurrentTab (tab) {
@@ -49,6 +50,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var layouts_collection_view = new Newsletter.Views.LayoutsCollectionView({
                 collection: layouts_collection
             });
+
+            this.listenTo(layouts_collection_view, 'layout:selected', this.selectNewsletterLayout);
 
             this.getRegion('choose-layout').show(layouts_collection_view);
             this.getRegion('choose-layout').$el.show();
@@ -90,6 +93,12 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var fragment     = event_sender.data('newsletter-nav');
 
             this.router.navigate(fragment, { trigger: true });
+        },
+
+        // TODO: Create a nextstep function that does this for us.
+        selectNewsletterLayout: function selectNewsletterLayout (data) {
+            this.newsletter.set('layout_id', data.model.get('id'));
+            this.router.navigate('remplissage', { trigger: true });
         },
 
     });
