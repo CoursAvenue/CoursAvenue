@@ -1,0 +1,20 @@
+!!!
+%html{ lang: 'fr' }
+  %head
+    %meta{ 'http-equiv' => "Content-Type", content: "text/html; charset=UTF-8"}/
+    %meta{ name: "viewport", content: "width=device-width" }/
+    %link{ rel:'stylesheet', href: 'pro_email.css' }
+    %title= @newsletter.title
+
+  %body{ bgcolor: "#FFFFFF" }
+    - @newsletter.blocs.order('position ASC').each do |bloc|
+      %table.body-wrap
+        %tr
+          %td
+          %td.container{:bgcolor => "#FFFFFF"}
+            .content
+              %table
+                %tr
+                  %td
+                    %h3= @newsletter.title
+                    = render partial: "pro/newsletters/blocs/#{bloc.type.split('::').last.downcase}", locals: { bloc: bloc }
