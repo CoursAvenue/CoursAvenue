@@ -22,7 +22,11 @@ Newsletter.module('Router', function(Module, App, Backbone, Marionette, $, _) {
 
         // In case the newsletter is new, go to mise-en-page`
         defaultRoute: function defaultRoute () {
-            this.navigate('mise-en-page', { trigger: true });
+            var path = 'mise-en-page';
+            if (!this.model.isNew()) {
+                var path = this.model.get('id') + '/remplissage';
+            }
+            this.navigate(path, { trigger: true });
         },
 
         // Route: /choose_layout
