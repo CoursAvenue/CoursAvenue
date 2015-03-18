@@ -30,6 +30,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             // Start by hiding all regions
             _.each(this.getRegions(), function(region) { region.$el.hide(); });
             this.setCurrentTab(page_name);
+
             switch(page_name) {
                 case 'choose-layout' : this.initializeOrShowChooseLayoutPage(); break;
                 case 'edit'          : this.initializeOrShowEditPage(); break;
@@ -92,9 +93,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.getRegion('mailing-list').show(mailing_list_view);
             this.getRegion('mailing-list').$el.show();
             this.getRegion('mailing-list').initialized = true;
-        },
-
-        onShow: function onShow (event) {
         },
 
         updateNav: function updateNav (event) {

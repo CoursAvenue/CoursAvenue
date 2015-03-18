@@ -19,14 +19,14 @@ Newsletter.module('Router', function(Module, App, Backbone, Marionette, $, _) {
             _.bindAll(this, 'saveLayout', 'chooseLayout', 'edit');
         },
 
-        // In case the newsletter is new, go to mise-en-page`
-        defaultRoute: function defaultRoute (layout) {
-            this.navigate('mise-en-page', { trigger: true });
-        },
-
         // Save the layout in the router.
         saveLayout: function saveLayout (layout) {
             this.layout = layout;
+        },
+
+        // In case the newsletter is new, go to mise-en-page`
+        defaultRoute: function defaultRoute () {
+            this.navigate('mise-en-page', { trigger: true });
         },
 
         // Route: /choose_layout

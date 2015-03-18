@@ -15,6 +15,5 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         selectLayout: function selectLayout () {
             this.trigger('selected', { model: this.model });
         },
-
     });
 });
