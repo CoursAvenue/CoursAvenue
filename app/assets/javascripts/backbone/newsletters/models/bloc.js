@@ -1,7 +1,7 @@
 Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
     Module.Bloc = Backbone.Model.extend({
 
-        url: function url () {
+        urlRoot: function urlRoot () {
             var newsletter = this.get('newsletter');
 
             if (newsletter.isNew()) {
@@ -21,7 +21,7 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
                 this.set('view_type', model.type);
                 this.set('type', backend_types[model.type]);
             }
-            _.bindAll(this, 'url');
+            _.bindAll(this, 'urlRoot');
         },
 
     });
