@@ -10,7 +10,9 @@ class Pro::Structures::NewslettersController < ApplicationController
   end
 
   def new
-    @layout_id = params[:layout_id]
+    if params[:id].present?
+      @newsletter = @structure.newsletters.find params[:id]
+    end
   end
 
   def show

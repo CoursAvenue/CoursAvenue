@@ -270,6 +270,7 @@ CoursAvenue::Application.routes.draw do
             patch :save_and_send
           end
           collection do
+            get ':id/*path'   , to: 'structures/newsletters#new'
             get '*path'   , to: 'structures/newsletters#new'
           end
         end
