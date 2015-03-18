@@ -1,18 +1,14 @@
 Newsletter.module('Router', function(Module, App, Backbone, Marionette, $, _) {
     Module.NewsletterRouter = Backbone.Router.extend({
         routes: {
-            'mise-en-page'       : 'chooseLayout',
-            'remplissage'        : 'edit',
-            ':id/remplissage'    : 'edit',
-            'liste-de-diffusion' : 'setMailingList',
-            'recapitulatif'      : 'setMetadata',
-            'previsualisation'   : 'showPreview',
-            '*path'              : 'defaultRoute'
+            'mise-en-page':           'chooseLayout',
+            ':id/remplissage':        'edit',
+            ':id/liste-de-diffusion': 'setMailingList',
+            ':id/recapitulatif':      'setMetadata',
+            ':id/previsualisation':   'showPreview',
+            '*path':                  'defaultRoute'
         },
 
-        // TODO:
-        // - Before route: Empty layout
-        // - After route : setCurrentTab.
         initialize: function initialize (options) {
             this.model = options.model;
 
