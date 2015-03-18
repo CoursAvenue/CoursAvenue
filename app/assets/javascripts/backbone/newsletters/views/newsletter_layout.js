@@ -18,7 +18,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.router     = options.router;
             this.newsletter = options.newsletter;
 
-            _.bindAll(this, 'setCurrentTab', 'updateNav', 'selectNewsletterLayout');
+            _.bindAll(this, 'setCurrentTab', 'updateNav', 'selectNewsletterLayout', 'nextStep');
         },
 
         setCurrentTab: function setCurrentTab (tab) {
@@ -44,6 +44,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
          * ChooseLayout page initialization
          */
         initializeOrShowChooseLayoutPage: function initializeOrShowChooseLayoutPage (page_name) {
+            this.currentStep = 'mise-en-page';
             if (this.getRegion('choose-layout').initialized) { this.getRegion('choose-layout').$el.show(); return; }
             var bootstrap = window.coursavenue.bootstrap;
 
@@ -63,6 +64,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
          * Edit page initialization
          */
         initializeOrShowEditPage: function initializeOrShowEditPage (page_name) {
+            this.currentStep = ':id/remplissage';
             if (this.newsletter.hasChanged('layout_id')) {
                 this.getRegion('edit').initialized = false;
                 this.getRegion('edit').reset();
@@ -85,6 +87,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initializeOrShowMailingListPage: function initializeOrShowMailingListPage (page_name) {
+            this.currentStep = ':id/liste-de-diffusion';
             if (this.getRegion('mailing-list').initialized) { this.getRegion('mailing-list').$el.show(); return; }
             var mailing_list_view = new Newsletter.Views.MailingListView({
                 model: this.options.newsletter
@@ -102,10 +105,30 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.router.navigate(fragment, { trigger: true });
         },
 
-        // TODO: Create a nextstep function that does this for us.
+        // TODO: Create global error save callback that shows an alert / notice.
         selectNewsletterLayout: function selectNewsletterLayout (data) {
             this.newsletter.set('layout_id', data.model.get('id'));
-            this.router.navigate('remplissage', { trigger: true });
+            this.newsletter.save({}, {
+                success: function(model, response, options) {
+                    this.nextStep();
+                }.bind(this)
+            });
+        },
+
+        // Goes to the next step depending on the current step.
+        nextStep: function nextStep () {
+            // We get the steps from the router routes attributes, and we remove the last element.
+            var steps = _.chain(this.router.routes).keys().initial().value();
+
+            // We get the next step by getting the element at the current index + 1.
+            // If it is the end, we set the first page. (This will probably never happen).
+            var nextStep = steps[steps.indexOf(this.currentStep) + 1]
+            if (!nextStep) { nextStep = 'mise-en-page' }
+
+            // We replace the `:id` param by the actual model id.
+            nextStep = nextStep.replace(':id', this.newsletter.get('id'));
+
+            this.router.navigate(nextStep, { trigger: true });
         },
 
     });
