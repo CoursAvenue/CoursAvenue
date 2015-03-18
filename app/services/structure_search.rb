@@ -100,8 +100,6 @@ class StructureSearch
     elsif (params[:lat].blank? or params[:lng].blank?) and params[:zip_codes].blank?
       params[:lat] = 48.8592
       params[:lng] = 2.3417
-    elsif params[:city_id].present?
-      params[:zip_code] = City.find(params[:city_id]).zip_code
     end
 
     return [params[:lat], params[:lng]]

@@ -48,6 +48,7 @@
             input_subject_filter.render();
             input_subject_filter.on('filter:subject_input', function(data) {
                 _.extend(this.data, data);
+                if (this.$address_input.length == 0) { this.$element.submit(); }
             }.bind(this));
         }
     };
