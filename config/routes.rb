@@ -262,6 +262,7 @@ CoursAvenue::Application.routes.draw do
             get :send_newsletter
             get :duplicate
             get :preview_newsletter
+
             get :mailing_list
             get :metadata
 
