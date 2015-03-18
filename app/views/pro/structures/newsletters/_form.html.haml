@@ -12,6 +12,6 @@
           layout: "#{ @layout_id.nil? ? 1 : @layout_id }",
           models: {
               layouts:  #{ @layouts_json.to_json },
-              newsletter: #{ @newsletter.nil? ? {}.to_json : @newsletter.to_json }
+              newsletter: #{ @newsletter.nil? ? {}.to_json : NewsletterSerializer.new(@newsletter).to_json }
           }
       };

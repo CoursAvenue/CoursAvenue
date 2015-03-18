@@ -256,7 +256,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
 
-        resources :newsletters, only: [:index, :update, :create], controller: 'structures/newsletters' do
+        resources :newsletters, only: [:edit, :new, :index, :update, :create], controller: 'structures/newsletters' do
           resources :blocs, only: [:create, :update, :destroy], controller: 'structures/newsletters/blocs'
           member do
             get :send_newsletter
@@ -268,9 +268,8 @@ CoursAvenue::Application.routes.draw do
             post :mailing_list_create
             patch :save_and_send
           end
-
           collection do
-            get '*path', to: 'structures/newsletters#new'
+            get '*path'   , to: 'structures/newsletters#new'
           end
         end
 

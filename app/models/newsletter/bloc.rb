@@ -19,6 +19,8 @@ class Newsletter::Bloc < ActiveRecord::Base
 
   before_create :set_default_position
 
+  mount_uploader :image, NewsletterImageUploader
+
   ######################################################################
   # Methods                                                            #
   ######################################################################
