@@ -6,7 +6,7 @@ class Newsletter < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  NEWSLETTER_STATES = %w(edited draft sent)
+  NEWSLETTER_STATES = %w(draft sent)
 
   ######################################################################
   # Macros                                                             #
