@@ -31,6 +31,7 @@ class Newsletter < ActiveRecord::Base
   validates :state, presence: true
 
   after_create :set_defaults
+  before_validation :set_title, on: :create
 
   scope :sent,       -> { where(state: 'sent') }
   scope :drafts,     -> { where(state: 'draft') }
@@ -133,5 +134,11 @@ class Newsletter < ActiveRecord::Base
     end
 
     (blank and !exists)
+  end
+
+  def set_title
+    if self.title.nil?
+      self.title = "[Brouillon] Newsletter du #{I18n.l(Time.current, format: :long_human)}"
+    end
   end
 end
