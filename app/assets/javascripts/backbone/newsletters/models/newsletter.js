@@ -24,6 +24,7 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         setBlocs: function setBlocs () {
+            if (this.has('blocs') && (! _.isEmpty(this.get('blocs')))) { return ; }
             var blocs = [];
 
             this.get('layout').get('blocs').forEach(function(blocType, index) {
