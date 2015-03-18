@@ -72,12 +72,22 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             if (this.getRegion('edit').initialized) { this.getRegion('edit').$el.show(); return; }
 
-            var bloc_collection = new Newsletter.Models.BlocsCollection(this.options.newsletter.get('blocs'), {
+            var blocs = this.newsletter.get('blocs');
+
+            // Hack: When first creating the Backbone newsletter model, we create the newsletter
+            // blocs. However, when the model is saved to the database, it sends back the model with
+            // empty blocs. This recreates the blocs if they are empty.
+            if (!blocs || _.isEmpty(blocs)) {
+                this.newsletter.setBlocs();
+                blocs = this.newsletter.get('blocs');
+            }
+
+            var bloc_collection = new Newsletter.Models.BlocsCollection(blocs, {
                 newsletter: this.newsletter
             });
 
             var edition_view    = new Newsletter.Views.EditionView({
-                model     : this.options.newsletter,
+                model     : this.newsletter,
                 collection: bloc_collection
             });
 
@@ -90,7 +100,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.currentStep = ':id/liste-de-diffusion';
             if (this.getRegion('mailing-list').initialized) { this.getRegion('mailing-list').$el.show(); return; }
             var mailing_list_view = new Newsletter.Views.MailingListView({
-                model: this.options.newsletter
+                model: this.newsletter
             });
 
             this.getRegion('mailing-list').show(mailing_list_view);
