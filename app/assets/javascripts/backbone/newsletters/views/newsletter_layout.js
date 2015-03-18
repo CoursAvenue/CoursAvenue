@@ -18,7 +18,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.router     = options.router;
             this.newsletter = options.newsletter;
 
-            _.bindAll(this, 'setCurrentTab', 'updateNav', 'selectNewsletterLayout', 'nextStep');
+            _.bindAll(this, 'setCurrentTab', 'updateNav', 'nextStep',
+                      'selectNewsletterLayout', 'finishEdition');
         },
 
         setCurrentTab: function setCurrentTab (tab) {
@@ -91,6 +92,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 collection: bloc_collection
             });
 
+            this.listenTo(edition_view, 'edited', this.finishEdition);
+
             this.getRegion('edit').show(edition_view);
             this.getRegion('edit').$el.show();
             this.getRegion('edit').initialized = true;
@@ -122,16 +125,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.router.navigate(fragment, { trigger: true });
         },
 
-        // TODO: Create global error save callback that shows an alert / notice.
-        selectNewsletterLayout: function selectNewsletterLayout (data) {
-            this.newsletter.set('layout_id', data.model.get('id'));
-            this.newsletter.save({}, {
-                success: function(model, response, options) {
-                    this.nextStep();
-                }.bind(this)
-            });
-        },
-
         // Goes to the next step depending on the current step.
         nextStep: function nextStep () {
             // We get the steps from the router routes attributes, and we remove the last element.
@@ -146,6 +139,28 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             nextStep = nextStep.replace(':id', this.newsletter.get('id'));
 
             this.router.navigate(nextStep, { trigger: true });
+        },
+
+        // TODO: Create global error save callback that shows an alert / notice.
+        selectNewsletterLayout: function selectNewsletterLayout (data) {
+            this.newsletter.set('layout_id', data.model.get('id'));
+            this.newsletter.save({}, {
+                success: function(model, response, options) {
+                    this.nextStep();
+                }.bind(this)
+            });
+        },
+
+        finishEdition: function finishEdition (data) {
+            if (this.newsletter.hasChanged()) {
+                this.newsletter.save({}, {
+                    success: function(model, response, options) {
+                        this.nextStep();
+                    }.bind(this)
+                });
+            } else {
+                this.nextStep();
+            }
         },
 
     });
