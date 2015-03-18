@@ -15,9 +15,27 @@ class Pro::Structures::Newsletters::BlocsController < ApplicationController
   end
 
   def update
+    @bloc = @newsletter.blocs.find params[:id]
+
+    respond_to do |format|
+      if @bloc.update_attributes permitted_params
+        format.json { render json: @bloc, status: 201 }
+      else
+        format.json { render json: { errors: @bloc.errors.full_messages }, status: 422 }
+      end
+    end
   end
 
   def destroy
+    @bloc = @newsletter.blocs.find params[:id]
+
+    respond_to do |format|
+      if @bloc.destroy
+        format.json { render nothing: true, status: 204 }
+      else
+        format.json { render nothing: true, status: 422 }
+      end
+    end
   end
 
   private
