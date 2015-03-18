@@ -70,7 +70,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                           this.$element.trigger('change', event);
                       },
                       initCallback: function initCallback () {
-                          this.code.set(model.get('content'));
+                          if (model.has('content')) {
+                              this.code.set(model.get('content'));
+                          }
                       },
                 });
             });

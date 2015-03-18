@@ -12,7 +12,7 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initialize: function initialize (model, options) {
-            if (!this.get('view_type')) {
+            if (!this.has('view_type')) {
                 var backend_types = {
                     image: 'Newsletter::Bloc::Image',
                     text:  'Newsletter::Bloc::Text'
