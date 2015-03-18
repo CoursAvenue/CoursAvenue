@@ -26,11 +26,15 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
 
         updateImage: function updateImage () {
-            debugger
+            if (event.fpfile) {
+                this.$el.find('.filepicker-dragdrop').hide();
 
-            this.$el.find('img').attr('src', event.fpfile.url);
-            this.$el.find('img').show();
-            this.$el.find('.filepicker-dragdrop').hide();
+                this.$el.find('img').attr('src', event.fpfile.url);
+                this.$el.find('img').show();
+                this.$el.find('[data-delete-image]').show();
+            } else {
+                this.deleteImage();
+            }
         },
 
         // TODO:
@@ -39,11 +43,14 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // 3. Remove image..
         //
         deleteImage: function deleteImage () {
-            debugger
             this.model.set('image', '');
+            this.model.set('remote_image_url', '');
 
             this.$el.find('img').hide();
-            this.$el.find('.filepicker-dragdrop').show()
+            this.$el.find('img').attr('src', '');
+
+            this.render();
+            this.onShow();
         },
 
         // Replace the HTML elements with their rich version:
