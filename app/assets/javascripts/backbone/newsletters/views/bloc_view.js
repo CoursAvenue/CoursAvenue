@@ -12,7 +12,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
-            _.bindAll(this, 'deleteImage', 'updateImage');
+            _.bindAll(this, 'deleteImage', 'updateImage', 'onShow');
         },
 
         // Custom render function.
@@ -58,6 +58,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         onShow: function onShow () {
             var text_areas = this.$el.find('[data-type=redactor]');
             var pickers    = this.$el.find('[data-type=filepicker-dragdrop]');
+            var model      = this.model;
 
             text_areas.each(function(index, elem) {
                 $(elem).redactor({
@@ -67,7 +68,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                       formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
                       blurCallback: function blurCallback (event) {
                           this.$element.trigger('change', event);
-                      }
+                      },
+                      initCallback: function initCallback () {
+                          this.code.set(model.get('content'));
+                      },
                 });
             });
 
