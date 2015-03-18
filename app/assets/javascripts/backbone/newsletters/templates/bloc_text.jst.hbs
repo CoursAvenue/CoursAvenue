@@ -3,7 +3,9 @@
     <p class="flush">Rédiger un bloc de texte de votre newsletter</p>
 </div>
 
-<textarea data-type='redactor' id='{{ index }}_content' class='input--large one-whole ckeditor' name='content'></textarea>
+<textarea data-type='redactor' id='{{ index }}_content' class='input--large one-whole ckeditor' name='content'>
+  {{ content }}
+</textarea>
 
 <input type='hidden' name='position' value='{{ position }}'>
 <input type='hidden' name='type' value='Newsletter::Bloc::Text'>
