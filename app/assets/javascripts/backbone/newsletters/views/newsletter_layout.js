@@ -109,8 +109,15 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         updateNav: function updateNav (event) {
-            var event_sender = $(event.toElement);
-            var fragment     = event_sender.data('newsletter-nav');
+            var eventSender = $(event.toElement);
+            var fragment     = eventSender.data('newsletter-nav');
+
+            var memberRoutes = ['remplissage', 'liste-de-diffusion', 'recapitulatif', 'previsualisation'];
+
+            if (memberRoutes.indexOf(fragment) != -1) {
+                var id = this.newsletter.get('id') || ':id';
+                fragment = id + '/' + fragment;
+            }
 
             this.router.navigate(fragment, { trigger: true });
         },
