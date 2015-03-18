@@ -256,7 +256,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
 
-        resources :newsletters, only: [:edit, :new, :index, :update, :create], controller: 'structures/newsletters' do
+        resources :newsletters, only: [:index, :new, :create, :edit, :update, :destroy], controller: 'structures/newsletters' do
           resources :blocs, only: [:create, :update, :destroy], controller: 'structures/newsletters/blocs'
           member do
             get :send_newsletter
