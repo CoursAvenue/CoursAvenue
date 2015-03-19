@@ -1,5 +1,14 @@
 = simple_form_for [:admin, @category], as: :blog_category, url: (@category.new_record? ? admin_blog_categories_path : admin_blog_category_path(@category)) do |f|
   = f.input :type, as: :hidden
+
+  .text--center
+    - if @category.image.present?
+      = image_tag @category.image.url(:default), width: 400, data: { placeholder: true }
+    - else
+      %img{ width: 400, data: { placeholder: true } }
+  = f.filepicker_field :remote_image_url, multiple: false, button_text: 'Ajouter une photo', button_class: 'btn btn--green btn--full btn--large fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
+
+
   - if @category.pro_category?
     = f.input :ancestry, as: :select, collection: Blog::Category::ProCategory.all, input_html: { class: 'input--large one-whole' }, label: false, include_blank: '— Catégorie parente'
     = f.input :color, as: :select, collection: Blog::Category::COLORS, input_html: { class: 'input--large one-whole' }, label: false, include_blank: '— Couleur'
@@ -13,7 +22,13 @@
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
 
 = content_for :scripts do
+  = filepicker_js_include_tag
   :javascript
       $(function() {
           $('[name="blog_category[description]"]').redactor();
+
+          $('#blog_category_remote_image_url').change(function(event) {
+              $('img[data-placeholder]').attr('src', event.originalEvent.fpfile.url);
+          });
       });
+
