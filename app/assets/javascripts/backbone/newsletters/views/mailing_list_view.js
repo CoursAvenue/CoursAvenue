@@ -9,10 +9,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initialize: function initialize () {
-            _.bindAll(this, 'selectMailingList');
+            _.bindAll(this, 'selectMailingList', 'showFilters');
         },
 
-        selectMailingList: function selectLayout () {
+        selectMailingList: function selectMailingList () {
             this.trigger('selected', { model: this.model });
         },
     });
