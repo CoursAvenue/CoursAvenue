@@ -172,8 +172,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         selectMailingList: function selectMailingList (data) {
             this.newsletter.set('newsletter_mailing_list_id', data.model.get('id'));
 
-            debugger
-
             if (this.newsletter.hasChanged()) {
                 this.newsletter.save({}, {
                     success: function(model, response, options) {
