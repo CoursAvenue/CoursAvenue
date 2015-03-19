@@ -6,21 +6,17 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         events: {
             // 'click [data-mailing-list]': 'selectMailingList'
-            'change [type=radio]': 'showFilters'
+            'change [type=radio]': 'selectMailingList',
         },
 
         initialize: function initialize () {
-            _.bindAll(this, 'selectMailingList', 'showFilters');
+            _.bindAll(this, 'selectMailingList');
         },
 
         selectMailingList: function selectMailingList () {
             this.trigger('selected', { model: this.model });
-        },
-
-        showFilters: function showFilters () {
             this.$el.find('[data-filters-list]').slideDown();
         },
-
     });
 });
 
