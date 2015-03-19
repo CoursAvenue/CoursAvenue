@@ -271,71 +271,71 @@
       "source": "app/assets/images/icons/svg/search.svg"
     },
     "send": {
-      "codepoint": 61777,
+      "codepoint": 61761,
       "source": "app/assets/images/icons/svg/send.svg"
     },
     "share": {
-      "codepoint": 61761,
+      "codepoint": 61762,
       "source": "app/assets/images/icons/svg/share.svg"
     },
     "shopping-cart": {
-      "codepoint": 61762,
+      "codepoint": 61763,
       "source": "app/assets/images/icons/svg/shopping-cart.svg"
     },
     "sign-out": {
-      "codepoint": 61763,
+      "codepoint": 61764,
       "source": "app/assets/images/icons/svg/sign-out.svg"
     },
     "signal": {
-      "codepoint": 61764,
+      "codepoint": 61765,
       "source": "app/assets/images/icons/svg/signal.svg"
     },
     "sports-arts-martiaux": {
-      "codepoint": 61765,
+      "codepoint": 61766,
       "source": "app/assets/images/icons/svg/sports-arts-martiaux.svg"
     },
     "star": {
-      "codepoint": 61766,
+      "codepoint": 61767,
       "source": "app/assets/images/icons/svg/star.svg"
     },
     "tag": {
-      "codepoint": 61767,
+      "codepoint": 61768,
       "source": "app/assets/images/icons/svg/tag.svg"
     },
     "theatre-scene": {
-      "codepoint": 61768,
+      "codepoint": 61769,
       "source": "app/assets/images/icons/svg/theatre-scene.svg"
     },
     "thumb-tack": {
-      "codepoint": 61769,
+      "codepoint": 61770,
       "source": "app/assets/images/icons/svg/thumb-tack.svg"
     },
     "ticket": {
-      "codepoint": 61770,
+      "codepoint": 61771,
       "source": "app/assets/images/icons/svg/ticket.svg"
     },
     "times": {
-      "codepoint": 61771,
+      "codepoint": 61772,
       "source": "app/assets/images/icons/svg/times.svg"
     },
     "trash-o": {
-      "codepoint": 61772,
+      "codepoint": 61773,
       "source": "app/assets/images/icons/svg/trash-o.svg"
     },
     "twitter": {
-      "codepoint": 61773,
+      "codepoint": 61774,
       "source": "app/assets/images/icons/svg/twitter.svg"
     },
     "user": {
-      "codepoint": 61774,
+      "codepoint": 61775,
       "source": "app/assets/images/icons/svg/user.svg"
     },
     "yoga-bien-etre-sante": {
-      "codepoint": 61775,
+      "codepoint": 61776,
       "source": "app/assets/images/icons/svg/yoga-bien-etre-sante.svg"
     },
     "youtube-play": {
-      "codepoint": 61776,
+      "codepoint": 61777,
       "source": "app/assets/images/icons/svg/youtube-play.svg"
     }
   },
