@@ -1,18 +1,25 @@
-.soft
-  %h1.f-weight-400.text--center Université CoursAvenuePro
-  %h3.f-weight-400.text--center Bienvenue sur la première page dédiée aux besoins des professionnels des cours de loisirs en France.
+.relative.white.bg-position-top.flexbox.home-screen-promotion-wrapper.mega-soft--ends.bg-cover.white{ style: "background-image: url('#{@header_image ? @header_image : 'https://ununsplash.imgix.net/photo-1416339684178-3a239570f315?q=75&fm=jpg&s=c39d9a3bf66d6566b9608a9f1f3765af'}')", data: { behavior: 'parallax' } }
+  .black-curtain.north.west.one-whole.absolute
+  - if content_for? :header_title
+    %h1.text--center.relative.white.f-size-really-big.f-weight-300
+      = yield :header_title
+  - else
+    %h1.text--center.relative.white.f-size-really-big.f-weight-300
+      Université CoursAvenuePro
+    %h3.relative.text--center Bienvenue sur la première page dédiée aux besoins des professionnels des cours de loisirs en France.
+  .main-container
+    .flexbox.push--bottom.relative
+      - @categories.each do |category|
+        .flexbox__item.one-quarter.inline-block.relative.soft-half--sides
+          = link_to category_pro_blog_articles_path(category_id: category.slug), class: "block text--center soft #{category.color}-box white f-weight-600 muted-link", data: { category: category.slug, parent: true} do
+            .delta.push-half--bottom= category.name
+            - if category.subtitle
+              %div= category.subtitle
+      - @categories.each_with_index do |category, index|
+        %ul.flush--bottom.bordered--top.bordered--thick.push-half--sides.push-half--top.nav.soft-half.hidden{ class: [(index == 0 ? '' : 'hidden'), "border-color-#{category.color}"], data: { category: category.slug, children: true } }
+          - category.children.order('position ASC').each do |child_category|
+            %li= link_to child_category.name, category_pro_blog_articles_path(category_id: child_category.slug), class: 'white epsilon f-weight-600 push-half--sides'
 
-  .flexbox.push--bottom
-    - @categories.each do |category|
-      .flexbox__item.one-quarter.inline-block.relative.soft-half--sides
-        = link_to category_pro_blog_articles_path(category_id: category.slug), class: "block text--center soft #{category.color}-box white f-weight-600 muted-link", data: { category: category.slug, parent: true} do
-          .delta.push-half--bottom= category.name
-          - if category.subtitle
-            %div= category.subtitle
-    - @categories.each_with_index do |category, index|
-      %ul.bordered--top.bordered--thick.push-half--sides.push-half--top.text--center.nav.soft-half{ class: [(index == 0 ? '' : 'hidden'), "border-color-#{category.color}"], data: { category: category.slug, children: true } }
-        - category.children.order('position ASC').each do |child_category|
-          %li= link_to child_category.name, category_pro_blog_articles_path(category_id: child_category.slug), class: 'epsilon f-weight-500 push-half--sides'
 = content_for :scripts do
   :javascript
     $(function() {
