@@ -1,0 +1,22 @@
+- image_style = (double ? :pro_index_double : :pro_index)
+.relative.opacity-hidden-on-hover__wrapper.rotate-on-hover__wrapper
+  = link_to pro_blog_article_path(article), class: 'muted-link' do
+    = image_tag article.image.url(image_style), class: 'block push-half--bottom'
+    .blur.overflow-hidden.bg-contain.height-100-percent.north.west.one-whole.absolute.opacity-hidden-on-hover__child{ style: "background-image: url('#{article.image.url(image_style)}')" }
+    .north.west.one-whole.absolute.opacity-hidden-on-hover__child.height-100-percent
+      .blog_article__image-icon.text--center.absolute.absolute--center.rotate-on-hover__child.bg-white-faded{ class: (double ? 'blog_article__image-icon--double' : '')}
+        %i.fa.fa-chevron-right
+    - if article.category
+      = link_to article.category.name, category_pro_blog_articles_path(category_id: article.category.slug), class: "push-half--left white very-soft soft-half--sides f-weight-600 north west absolute #{article.category.color}-box semi-muted-link"
+
+= link_to pro_blog_article_path(article), class: 'muted-link' do
+  %h3.push-half--bottom.f-weight-300= article.title
+
+  .gray-light.epsilon.line-height-1-7.push-half--bottom
+    Par #{article.author.try(:name) || 'Camille'} le
+    %time{ itemprop: 'dateCreated', datetime: l(article.published_at, format: :iso_date) }
+      = l article.published_at, format: :date_with_year
+
+
+  %p.epsilon.gray.line-height-1-7
+    = article.description

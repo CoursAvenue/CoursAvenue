@@ -15,6 +15,7 @@
   Box
 */
 .redactor-box {
+  width: 100%;
   position: relative;
   overflow: visible;
   margin-bottom: 24px;

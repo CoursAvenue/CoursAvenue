@@ -19,6 +19,7 @@
     border          : 2px solid white;
     @include transition(all 200ms linear);
 }
+.yellow-box                    { background-color: $yellow }
 .orange-box                    { background-color: $orange; }
 .orange-box--on-hover:hover    { background-color: $orange; }
 .red-box                       { background-color: $red; }

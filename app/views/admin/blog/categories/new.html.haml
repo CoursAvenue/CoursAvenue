@@ -1,0 +1,9 @@
+= side_menu_currently_at 'blog'
+
+.panel
+  .panel__header.soft
+    %ol.nav.breadcrumb.epsilon.flush
+      %li.delta= link_to 'Articles', pro_blog_articles_path
+      %li.delta Nouvelle catégorie
+  .panel__body.soft
+    = render 'form'

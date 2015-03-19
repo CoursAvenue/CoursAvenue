@@ -1,9 +1,16 @@
 /*------------------------------------*\
+    EFFECTS
+\*------------------------------------*/
+.blur{
+    @include filter(blur(10px));
+}
+/*------------------------------------*\
     WIDTHS & HEIGHTS
 \*------------------------------------*/
 .one-seventh { width: 14.2857%; }
 .width-auto  { width: auto !important; }
 
+.height-100-percent { height: 100%; }
 .height-150 { height: 150px; }
 .height-35vh {
     height: 350px; // Fallback
@@ -72,6 +79,7 @@
 .border-color-orange    { border-color  : $orange !important; }
 .border-color-green     { border-color  : $green !important; }
 .border-color-dark-blue { border-color  : $dark_blue !important; }
+.border-color-yellow    { border-color  : $yellow !important; }
 
 /*------------------------------------*\
     ALIGNMENTS
@@ -155,7 +163,7 @@
 .bg-position-top    { background-position: top; }
 .bg-fixed { background-attachment: fixed; }
 .bg-cover   { @include background-size(cover); }
-.bg-contain { @include background-size(contain); }
+.bg-contain { @include background-size(contain !important); }
 
 .opacity-30 { @include opacity(0.3);  }
 .opacity-50  { @include opacity(0.50); }
@@ -247,12 +255,12 @@
 }
 
 .opacity-hidden-on-hover__wrapper {
-    .opacity-hidden-on-hover__child         { opacity: 0; @include transition(opacity 200ms linear); }
+    .opacity-hidden-on-hover__child         { opacity: 0; @include transition(opacity 300ms ease-in-out); }
     &:hover .opacity-hidden-on-hover__child { opacity: 1; }
 }
 .show-on-hover__wrapper {
     &.show-on-hover__wrapper--black-curtain {
-        @include transition(background 200ms linear);
+        @include transition(background 200ms ease-in-out);
         height    : 100%;
         width     : 100%;
     }
@@ -535,3 +543,19 @@
 .transition-all-300 { transition: all .3s; }
 .transition-all-500 { transition: all .5s; }
 .transition-all-900 { transition: all .9s; }
+
+.rotate-on-hover__wrapper {
+    &:hover .rotate-on-hover__child {
+        -webkit-animation: avia_pop_small 0.5s 1 cubic-bezier(0.175, 0.885, 0.320, 1.275);
+        animation        : avia_pop_small 0.5s 1 cubic-bezier(0.175, 0.885, 0.320, 1.275);
+    }
+}
+
+@-webkit-keyframes avia_pop_small {
+    0%   { -webkit-transform:rotate(-175deg) scale(0.2);  }
+    100% { -webkit-transform:rotate(0deg) scale(1);  }
+}
+@keyframes avia_pop_small {
+    0%   { transform:rotate(-175deg) scale(0.2);  }
+    100% { transform:rotate(0deg) scale(1);   }
+}

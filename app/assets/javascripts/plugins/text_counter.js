@@ -33,7 +33,7 @@
 
     Plugin.prototype = {
 
-        init: function() {
+        init: function init () {
             if (this.$element.data('average-words-nb')) { this.options.average_words_nb = this.$element.data('average-words-nb') };
             if (this.$element.data('good-words-nb'))    { this.options.good_words_nb    = this.$element.data('good-words-nb'); }
             if (this.$element.data('bad-text'))         { this.options.bad_text         = this.$element.data('bad-text'); }
@@ -45,7 +45,7 @@
             this.render();
         },
 
-        addInfoDiv: function() {
+        addInfoDiv: function addInfoDiv () {
             this.info_div          = $('<div>').addClass('textarea-counter-wrapper');
             this.nb_word_span      = $('<p>').addClass('bold textarea-counter flush--bottom');
             this.nb_word_info_span = $('<p>').addClass('textarea-counter-info flush--top flush--bottom');
@@ -56,13 +56,18 @@
             this.text_input.after(this.info_div);
         },
 
-        attachEvents: function() {
+        attachEvents: function attachEvents () {
             this.text_input.keyup(this.render.bind(this));
         },
 
-        render: function() {
+        render: function render () {
             var nb_words = this.nbWord();
-            this.nb_word_span.text(nb_words + ' mots');
+            if (this.$element.data('characters')) {
+                nb_words = this.text_input.val().length;
+                this.nb_word_span.text(nb_words + ' caractères');
+            } else {
+                this.nb_word_span.text(nb_words + ' mots');
+            }
             this.nb_word_span.removeClass('red').removeClass('orange').removeClass('green');
             if (nb_words < this.options.average_words_nb) {
               this.nb_word_span.addClass('red');
@@ -76,7 +81,7 @@
             }
         },
 
-        nbWord: function() {
+        nbWord: function nbWord () {
             var text  = this.text_input.val(),
                 words = text.match(/\S+/g);
             if (words === null ) { words = ''; }

@@ -29,10 +29,8 @@ class StructureSearch
       # --------------- Geolocation
       if params[:bbox_sw].present? && params[:bbox_ne].present? && params[:bbox_sw].length == 2 && params[:bbox_ne].length == 2
         with(:location).in_bounding_box(params[:bbox_sw], params[:bbox_ne])
-      elsif params[:zip_code].present?
-        with(:zip_codes).any_of [params[:zip_code]]
       else
-        with(:location).in_radius(params[:lat], params[:lng], (params[:radius].to_i > 0 ? params[:radius].to_i : 10), bbox: (params[:bbox] ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
+        with(:location).in_radius(params[:lat], params[:lng], (params[:radius].to_i > 0 ? params[:radius].to_i : 3), bbox: (params[:bbox] ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
       end
 
       # --------------- Subjects
@@ -95,15 +93,13 @@ class StructureSearch
   end
 
   def self.retrieve_location params
+    params[:radius] = 1 if params[:radius].blank? and params[:city_id].present? and params[:city_id].include?('paris-')
     if params[:lat].blank? and params[:lng].blank? and params[:city_id].present? and (city = City.where(slug: params[:city_id]).first)
       params[:lat]      = city.latitude
       params[:lng]      = city.longitude
-      params[:zip_code] = city.zip_code
     elsif (params[:lat].blank? or params[:lng].blank?) and params[:zip_codes].blank?
       params[:lat] = 48.8592
       params[:lng] = 2.3417
-    elsif params[:city_id].present?
-      params[:zip_code] = City.find(params[:city_id]).zip_code
     end
 
     return [params[:lat], params[:lng]]
