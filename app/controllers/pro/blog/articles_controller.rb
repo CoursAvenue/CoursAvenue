@@ -21,6 +21,6 @@ class Pro::Blog::ArticlesController < Pro::ProController
   private
 
   def load_categories
-    @categories = Blog::Category::ProCategory.at_depth(0).order('position DESC NULLS LAST').all
+    @categories = ::Blog::Category::ProCategory.at_depth(0).order('position DESC NULLS LAST').all
   end
 end
