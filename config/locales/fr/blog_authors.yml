@@ -1,10 +1,10 @@
 fr:
   activerecord:
     models:
-      blog_category: Catégorie
+      blog_author: Catégorie
 
   simple_form:
     placeholders:
-      blog_category:
+      blog_author:
         name: Nom de l'auteur
         description: Description
