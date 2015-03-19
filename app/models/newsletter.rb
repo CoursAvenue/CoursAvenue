@@ -21,7 +21,7 @@ class Newsletter < ActiveRecord::Base
   has_many :blocs,        class_name: 'Newsletter::Bloc',      dependent: :destroy
 
   has_many :recipients,   class_name: 'Newsletter::Recipient', dependent: :destroy
-  has_one  :mailing_list, class_name: 'Newsletter::MailingList'
+  belongs_to :mailing_list, class_name: 'Newsletter::MailingList'
 
   accepts_nested_attributes_for :blocs
                                 # reject_if: :reject_bloc,

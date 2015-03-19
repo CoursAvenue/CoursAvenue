@@ -3,7 +3,7 @@ class Newsletter::MailingList < ActiveRecord::Base
 
   attr_accessible :name, :filters, :all_profiles
 
-  belongs_to :newsletter
+  has_many :newsletters, foreign_key: :newsletter_mailing_list_id
   belongs_to :structure
 
   has_many :user_profiles

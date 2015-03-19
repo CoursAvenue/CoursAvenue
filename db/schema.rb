@@ -11,11 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150319104024) do
+ActiveRecord::Schema.define(version: 20150319132534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+  enable_extension "pg_stat_statements"
 
   create_table "admins", force: true do |t|
     t.string   "email",                             default: "",    null: false
@@ -125,6 +126,7 @@ ActiveRecord::Schema.define(version: 20150319104024) do
     t.string   "phone_number"
     t.string   "website"
     t.string   "status"
+    t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -584,7 +586,6 @@ ActiveRecord::Schema.define(version: 20150319104024) do
   add_index "newsletter_blocs", ["newsletter_id"], name: "index_newsletter_blocs_on_newsletter_id", using: :btree
 
   create_table "newsletter_mailing_lists", force: true do |t|
-    t.integer  "newsletter_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
@@ -592,7 +593,6 @@ ActiveRecord::Schema.define(version: 20150319104024) do
     t.hstore   "metadata"
   end
 
-  add_index "newsletter_mailing_lists", ["newsletter_id"], name: "index_newsletter_mailing_lists_on_newsletter_id", using: :btree
   add_index "newsletter_mailing_lists", ["structure_id"], name: "index_newsletter_mailing_lists_on_structure_id", using: :btree
 
   create_table "newsletter_recipients", force: true do |t|
@@ -608,7 +608,7 @@ ActiveRecord::Schema.define(version: 20150319104024) do
 
   create_table "newsletters", force: true do |t|
     t.string   "title"
-    t.string   "state",        default: "draft"
+    t.string   "state",                      default: "draft"
     t.string   "object"
     t.string   "sender_name"
     t.string   "reply_to"
@@ -617,7 +617,10 @@ ActiveRecord::Schema.define(version: 20150319104024) do
     t.datetime "updated_at"
     t.integer  "layout_id"
     t.datetime "sent_at"
+    t.integer  "newsletter_mailing_list_id"
   end
+
+  add_index "newsletters", ["newsletter_mailing_list_id"], name: "index_newsletters_on_newsletter_mailing_list_id", using: :btree
 
   create_table "orders", force: true do |t|
     t.string   "order_id"
@@ -631,6 +634,7 @@ ActiveRecord::Schema.define(version: 20150319104024) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
+    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_request_participants", force: true do |t|
@@ -787,6 +791,9 @@ ActiveRecord::Schema.define(version: 20150319104024) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
