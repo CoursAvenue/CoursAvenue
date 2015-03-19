@@ -12,7 +12,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
-            _.bindAll(this, 'deleteImage', 'updateImage');
+            _.bindAll(this, 'deleteImage', 'updateImage', 'onShow');
         },
 
         // Custom render function.
@@ -26,11 +26,15 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
 
         updateImage: function updateImage () {
-            debugger
+            if (event.fpfile) {
+                this.$el.find('.filepicker-dragdrop').hide();
 
-            this.$el.find('img').attr('src', event.fpfile.url);
-            this.$el.find('img').show();
-            this.$el.find('.filepicker-dragdrop').hide();
+                this.$el.find('img').attr('src', event.fpfile.url);
+                this.$el.find('img').show();
+                this.$el.find('[data-delete-image]').show();
+            } else {
+                this.deleteImage();
+            }
         },
 
         // TODO:
@@ -39,11 +43,14 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // 3. Remove image..
         //
         deleteImage: function deleteImage () {
-            debugger
             this.model.set('image', '');
+            this.model.set('remote_image_url', '');
 
             this.$el.find('img').hide();
-            this.$el.find('.filepicker-dragdrop').show()
+            this.$el.find('img').attr('src', '');
+
+            this.render();
+            this.onShow();
         },
 
         // Replace the HTML elements with their rich version:
@@ -51,6 +58,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         onShow: function onShow () {
             var text_areas = this.$el.find('[data-type=redactor]');
             var pickers    = this.$el.find('[data-type=filepicker-dragdrop]');
+            var model      = this.model;
 
             text_areas.each(function(index, elem) {
                 $(elem).redactor({
@@ -60,7 +68,12 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                       formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
                       blurCallback: function blurCallback (event) {
                           this.$element.trigger('change', event);
-                      }
+                      },
+                      initCallback: function initCallback () {
+                          if (model.has('content')) {
+                              this.code.set(model.get('content'));
+                          }
+                      },
                 });
             });
 

@@ -1,32 +1,32 @@
 Newsletter.module('Router', function(Module, App, Backbone, Marionette, $, _) {
     Module.NewsletterRouter = Backbone.Router.extend({
         routes: {
-            'mise-en-page'       : 'chooseLayout',
-            'remplissage'        : 'edit',
-            ':id/remplissage'    : 'edit',
-            'liste-de-diffusion' : 'setMailingList',
-            'recapitulatif'      : 'setMetadata',
-            'previsualisation'   : 'showPreview',
-            '*path'              : 'defaultRoute'
+            'mise-en-page':           'chooseLayout',
+            ':id/remplissage':        'edit',
+            ':id/liste-de-diffusion': 'setMailingList',
+            ':id/recapitulatif':      'setMetadata',
+            ':id/previsualisation':   'showPreview',
+            '*path':                  'defaultRoute'
         },
 
-        // TODO:
-        // - Before route: Empty layout
-        // - After route : setCurrentTab.
         initialize: function initialize (options) {
             this.model = options.model;
 
             _.bindAll(this, 'saveLayout', 'chooseLayout', 'edit');
         },
 
-        // In case the newsletter is new, go to mise-en-page`
-        defaultRoute: function defaultRoute (layout) {
-            this.navigate('mise-en-page', { trigger: true });
-        },
-
         // Save the layout in the router.
         saveLayout: function saveLayout (layout) {
             this.layout = layout;
+        },
+
+        // In case the newsletter is new, go to mise-en-page`
+        defaultRoute: function defaultRoute () {
+            var path = 'mise-en-page';
+            if (!this.model.isNew()) {
+                var path = this.model.get('id') + '/remplissage';
+            }
+            this.navigate(path, { trigger: true });
         },
 
         // Route: /choose_layout

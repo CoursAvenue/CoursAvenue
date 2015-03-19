@@ -21,7 +21,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 success: this.savingSuccess
             });
 
-            return false
+            return false;
         },
 
         // Error callback when saving the model.
@@ -31,8 +31,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // Success callback when saving the model.
         savingSuccess: function savingSuccess (model, response, options) {
             this.collection.each(function (model) {
-                model.save();
+                model.save({}, { async: false });
             });
+
+            this.trigger('edited', { model: this.model, collection: this.collection });
         },
 
         // The templateHelpers function allows us to create helper methods that

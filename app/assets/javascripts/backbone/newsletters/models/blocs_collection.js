@@ -1,6 +1,7 @@
 Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
     Module.BlocsCollection = Backbone.Collection.extend({
         model: Module.Bloc,
+        comparator: 'position',
 
         initialize: function initialize (models, options) {
             this.newsletter = options.newsletter;

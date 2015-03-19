@@ -1,7 +1,9 @@
 <div class="text--center">
-  <img class='hidden' data-fpimage='true'>
+  <img class='hidden' data-fpimage='true' href='{{ image }}'>
   <input data-type='filepicker-dragdrop' id='{{ index }}_remote_image_url' data-fp-class="filepicker-dragdrop text--center" data-fp-button-class="hidden" data-fp-drag-class="flush--left push-half--bottom one-whole f-weight-500 mega-soft--ends text--center push--bottom" data-fp-drag-text="Glissez votre image ici ou cliquez pour choisir" name='remote_image_url' data-fp-apikey="<%= ENV['FILEPICKER_API_KEY'] %>" data-fp-mimetypes="image/*" data-fp-container="window" data-fp-button-text="Choisir mon image"/>
-  <a href='javascript:void(0)' data-delete-image="true">Supprimer l'image</a>
+  <div class='flush--left push-half--bottom one-whole f-weight-500 mega-soft--ends text--center push--bottom'>
+    <a class='hidden one-whole' href='javascript:void(0)' data-delete-image="true">Supprimer l'image</a>
+  </div>
 </div>
 
 <input type='hidden' name='position' value='{{ position }}'>
