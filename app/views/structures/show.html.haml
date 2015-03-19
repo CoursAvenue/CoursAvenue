@@ -57,8 +57,9 @@
             #structure.hidden
           - else
             #structure-region
-            .soft--bottom{ data: { type: "certified-comments-collection" } }
-            .soft-{ data: { type: "guestbook-collection" } }
+            #avis
+              .soft--bottom{ data: { type: "certified-comments-collection" } }
+              .soft-{ data: { type: "guestbook-collection" } }
       .grid__item.four-twelfths>
         %div{ data: { type: 'contact-form' } }
         - unless @is_sleeping

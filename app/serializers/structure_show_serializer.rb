@@ -45,7 +45,7 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def description_short
-    truncate(object.description.gsub(/\r\n\r\n/, ' '), length: 250, separator: ' ') if object.description
+    truncate(object.description.gsub(/\r\n\r\n/, ' '), length: 340, separator: ' ') if object.description
   end
 
   def structure_type
@@ -55,7 +55,7 @@ class StructureShowSerializer < ActiveModel::Serializer
     when 'structures.company'
       "École"
     when 'structures.independant'
-      "Professeur"
+      "Professeur indépendant"
     end
   end
 

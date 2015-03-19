@@ -1,4 +1,4 @@
-<div class="soft--ends {{#unless is_last}}bordered--bottom{{/unless}}">
+<div class="{{#unless is_last}}bordered--bottom{{/unless}}">
     <div class="grid soft--ends">
         <div class="grid__item v-top four-twelfths palm-one-whole">
             <h3 class="bg-gray-light soft-half text--center bordered line-height-1-7 v-middle flush delta">{{ name }}</h3>
@@ -8,7 +8,7 @@
                 {{#if min_price}}
                     <div class="text--center push-half--bottom f-weight-500">
                         {{#if is_open_for_trial}}
-                        <span class="delta v-bottom">Essai gratuit</span>
+                        <strong class="green delta v-bottom">Essai gratuit</strong>
                         {{else}}
                         <span class="f-weight-500 gray-light v-bottom">À p. de </span><span class="gamma v-bottom">{{ min_price }}</span>
                         {{/if}}
@@ -16,7 +16,7 @@
                 {{/if}}
                 <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full">M'inscrire</a>
             </div>
-            <div data-type="plannings-container" class="push-half--bottom"></div>
+            <div data-type="plannings-container"></div>
 
             <div>
               <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">Plus de détail <i class="fa fa-caret-down"></i></a>
