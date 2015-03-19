@@ -13,5 +13,16 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
           return Module.MailingListsEmptyCollectionView;
         },
 
+        templateHelpers: function templateHelpers () {
+            return {
+                showAllProfilesOption: function () {
+                    return this.collection.hasAllProfilesList();
+                }.bind(this),
+
+                hasElements: function () {
+                    return !this.collection.isEmpty();
+                }.bind(this),
+            };
+        },
     });
 });

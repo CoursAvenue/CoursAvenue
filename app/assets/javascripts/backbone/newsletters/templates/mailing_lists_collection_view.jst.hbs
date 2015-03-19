@@ -1,2 +1,12 @@
+{{#if hasElements }}
 <div data-type='mailing-list'>
+
+  <input type='radio' id='mailing_list_all_profiles' name='mailing_list' value='all' class='one--whole' />
+  <label for='mailing_list_all_profiles'>Envoyer à tous les contacts du répertoire</label>
+
 </div>
+
+<button type='submit' class='btn btn--green btn--full' data-disable-with="En cours d'enregistrement">Enregistrer</button>
+{{else}}
+<div data-type='mailing-list'></div>
+{{/if}}
