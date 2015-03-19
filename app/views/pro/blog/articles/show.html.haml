@@ -1,9 +1,6 @@
-= content_for :above_content do
-  .bg-cover.bg-position-top.relative.height-35vh{ style: "background-image: url('#{@article.image.url(:large)}')", data: { behavior: 'parallax' } }
-    .black-curtain.north.west.one-whole.absolute
-    .main-container.height-35vh.flexbox
-      .flexbox__item.v-middle
-        %h1.flush.one-half.relative.white.f-size-really-big.f-weight-300= @article.title
+- @header_image = @article.image.url(:large)
+= content_for :header_title do
+  = @article.title
 
 .main-container.main-container--medium.soft--ends
 
