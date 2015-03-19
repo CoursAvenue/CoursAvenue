@@ -26,9 +26,13 @@
           = link_to @article.category.name, category_pro_blog_articles_path(category_id: @article.category.slug), class: 'semi-muted-link'
 
       - if @article.author
-        .gray-box.soft
-          %h5 À propos de #{@article.author.name}
-          %p.flush.epsilon.gray= @article.author.description.html_safe
+        .gray-box.soft.flexbox
+          .flexbox__item.v-top.one-whole
+            %h5 À propos de #{@article.author.name}
+            %p.flush.epsilon.gray= @article.author.description.html_safe
+          - if @article.author.avatar.present?
+            .flexbox__item.v-top.soft--left
+              = image_tag @article.author.avatar.url(:small), height: 80, width: 80, class: 'rounded--circle'
     .grid__item.one-quarter.v-top>
       = render partial: 'pro/blog/subscribe_to_blog'
 
