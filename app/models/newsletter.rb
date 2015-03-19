@@ -13,7 +13,7 @@ class Newsletter < ActiveRecord::Base
   ######################################################################
 
   attr_accessible :title, :state,
-    :object, :sender_name, :reply_to,
+    :email_object, :sender_name, :reply_to,
     :layout_id,
     :blocs, :blocs_attributes
 
@@ -70,7 +70,7 @@ class Newsletter < ActiveRecord::Base
     duplicated_newsletter = structure.newsletters.create({
       title:       self.title,
       state:       'draft',
-      object:      self.object,
+      email_object:      self.email_object,
       sender_name: self.sender_name,
       reply_to:    self.reply_to,
       layout_id:   self.layout_id
@@ -96,7 +96,7 @@ class Newsletter < ActiveRecord::Base
   private
 
   # Sets the default values for the sender name, the reply_to address and the
-  # object.
+  # email_object.
   #
   # @return self.
   def set_defaults
@@ -108,8 +108,8 @@ class Newsletter < ActiveRecord::Base
       self.reply_to = self.structure.contact_email
     end
 
-    if object.nil?
-      self.object = self.title
+    if email_object.nil?
+      self.email_object = self.title
     end
 
     if layout_id.nil?

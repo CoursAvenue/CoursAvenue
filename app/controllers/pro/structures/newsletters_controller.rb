@@ -182,6 +182,6 @@ class Pro::Structures::NewslettersController < ApplicationController
   #
   # @return the permitted parameters as a Hash.
   def required_params
-    params.require(:newsletter).permit(:title, :layout_id, :sender_name, :reply_to, :object)
+    params.require(:newsletter).permit(:title, :layout_id, :sender_name, :reply_to, :email_object)
   end
 end

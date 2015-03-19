@@ -22,8 +22,8 @@ RSpec.describe Newsletter, type: :model do
       expect(subject.reply_to).to eq(structure.contact_email)
     end
 
-    it 'sets the default object' do
-      expect(subject.object).to eq(subject.title)
+    it 'sets the default email object' do
+      expect(subject.email_object).to eq(subject.title)
     end
   end
 
@@ -67,11 +67,11 @@ RSpec.describe Newsletter, type: :model do
     it 'duplicates all of the attributes of the newsletter except the state' do
       duplicated_newsletter = subject.duplicate!
 
-      expect(duplicated_newsletter.title).to       eq(subject.title)
-      expect(duplicated_newsletter.object).to      eq(subject.object)
-      expect(duplicated_newsletter.sender_name).to eq(subject.sender_name)
-      expect(duplicated_newsletter.reply_to).to    eq(subject.reply_to)
-      expect(duplicated_newsletter.layout_id).to   eq(subject.layout_id)
+      expect(duplicated_newsletter.title).to        eq(subject.title)
+      expect(duplicated_newsletter.email_object).to eq(subject.email_object)
+      expect(duplicated_newsletter.sender_name).to  eq(subject.sender_name)
+      expect(duplicated_newsletter.reply_to).to     eq(subject.reply_to)
+      expect(duplicated_newsletter.layout_id).to    eq(subject.layout_id)
     end
 
     it 'makes the duplicated newsletter a draft' do
