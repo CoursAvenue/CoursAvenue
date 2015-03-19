@@ -7,10 +7,10 @@
   = @article.description
 
 = content_for :meta_image do
-  = @article.cover_image.url(:default)
+  = @article.image.url(:default)
 
 = content_for :above_content do
-  .relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{@article.cover_image.url(:default)}')", data: { behavior: 'parallax' } }
+  .relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{@article.image.url(:default)}')", data: { behavior: 'parallax' } }
     .black-curtain.north.west.one-whole.absolute
       .float--left.soft-half= link_to "← Retour aux articles", blog_articles_path, class: 'muted-link'
     .flexbox__item.v-middle.text--center.relative
@@ -53,7 +53,7 @@
   .grid
     - @article.similar_articles.each do |article|
       .grid__item.one-half.text--center>
-        .relative.bg-cover{style: "background-image: url('#{article.cover_image.url(:default)}'); height: 120px; "}>
+        .relative.bg-cover{style: "background-image: url('#{article.image.url(:default)}'); height: 120px; "}>
           = link_to blog_article_path(article), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: article.title do
             .home-screen-gallery__title.text--center
               %h3.f-weight-normal.flush.delta.soft-half--top.soft-half--sides= article.title

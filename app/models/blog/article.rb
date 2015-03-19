@@ -6,7 +6,7 @@ class Blog::Article < ActiveRecord::Base
 
   acts_as_taggable_on :tags
 
-  attr_accessible :page_title, :title, :description, :content, :published, :subject_ids, :cover_image, :published_at,
+  attr_accessible :page_title, :title, :description, :content, :published, :subject_ids, :published_at,
                   :tag_list, :category_id, :page_description, :type, :remote_image_url, :author_id
 
   ######################################################################
@@ -16,13 +16,6 @@ class Blog::Article < ActiveRecord::Base
   belongs_to :author, class_name: 'Blog::Author'
 
   mount_uploader :image, BlogImageUploader
-
-  has_attached_file :cover_image,
-                    styles: { default: '750x', small: '250x200#', very_small: '150x120#' },
-                    convert_options: { default: '-interlace Plane', small: '-interlace Plane', very_small: '-interlace Plane' },
-                    processors: [:thumbnail, :paperclip_optimizer]
-
-  validates_attachment_content_type :cover_image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
   ######################################################################
   # Callbacks                                                          #
