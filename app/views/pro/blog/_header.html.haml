@@ -5,8 +5,8 @@
   .flexbox.push--bottom
     - @categories.each do |category|
       .flexbox__item.one-quarter.inline-block.relative.soft-half--sides
-        = link_to category_pro_blog_articles_path(category_id: category.slug), class: "block text--center soft #{category.color}-box delta white f-weight-600", data: { category: category.slug, parent: true} do
-          %div= category.name
+        = link_to category_pro_blog_articles_path(category_id: category.slug), class: "block text--center soft #{category.color}-box white f-weight-600 muted-link", data: { category: category.slug, parent: true} do
+          .delta.push-half--bottom= category.name
           - if category.subtitle
             %div= category.subtitle
     - @categories.each_with_index do |category, index|
