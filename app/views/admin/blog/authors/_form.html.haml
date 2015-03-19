@@ -1,4 +1,23 @@
 = simple_form_for [:admin, @author], as: :blog_author, url: (@author.new_record? ? admin_blog_authors_path : admin_blog_author_path(@author)) do |f|
+
+  .text--center
+    - if @author.avatar.present?
+      = avatar_tag @author.avatar.url(:default), width: 400, data: { placeholder: true }
+    - else
+      %img{ width: 400, data: { placeholder: true } }
+  = f.filepicker_field :remote_avatar_url, multiple: false, button_text: 'Ajouter une photo', button_class: 'btn btn--green btn--full btn--large fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
+
   = f.input :name, input_html: { class: 'input--large one-whole' }, label: false
   = f.input :description, input_html: { class: 'input--large one-whole' }, label: false
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+
+
+= content_for :scripts do
+  = filepicker_js_include_tag
+  :javascript
+      $(function() {
+          $('#blog_author_remote_avatar_url').change(function(event) {
+              $('img[data-placeholder]').attr('src', event.originalEvent.fpfile.url);
+          });
+      });
+
