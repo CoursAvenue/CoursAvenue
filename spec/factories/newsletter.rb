@@ -3,7 +3,7 @@ FactoryGirl.define do
     structure
 
     title     { Faker::Name.name }
-    layout_id { (0..4).to_a.sample }
+    layout_id { (1..5).to_a.sample }
 
     trait :sent do
       state 'sent'

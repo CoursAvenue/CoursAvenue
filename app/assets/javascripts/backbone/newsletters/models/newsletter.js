@@ -35,5 +35,11 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
             this.set('blocs', blocs);
         },
 
+        // For some reason, when updating, some attributes are not namespace'd into `newsletter`,
+        // and are therefore not found by Rails strong parameters. This fixes that by manually
+        // generating the JSON sent to the server.
+        toJSON: function () {
+            return { newsletter: _.clone(this.attributes) }
+        },
     });
 });

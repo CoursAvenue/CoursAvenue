@@ -109,7 +109,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
               collection: mailing_list_collection
             });
 
-            // this.listenTo(mailing_list_collection_view, 'mailing_list:selected', this.selectMailingList);
+            this.listenTo(mailing_list_collection_view, 'mailing_list:selected', this.selectMailingList);
 
             this.getRegion('mailing-list').show(mailing_list_collection_view);
             this.getRegion('mailing-list').$el.show();
@@ -157,6 +157,21 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         finishEdition: function finishEdition (data) {
+            if (this.newsletter.hasChanged()) {
+                this.newsletter.save({}, {
+                    success: function(model, response, options) {
+                        this.nextStep();
+                    }.bind(this)
+                });
+            } else {
+                this.nextStep();
+            }
+        },
+
+
+        selectMailingList: function selectMailingList (data) {
+            this.newsletter.set('newsletter_mailing_list_id', data.model.get('id'));
+
             if (this.newsletter.hasChanged()) {
                 this.newsletter.save({}, {
                     success: function(model, response, options) {
