@@ -4,11 +4,11 @@
 
 @font-face {
   font-family: "CoursAvenueIconFont";
-  src: url("CoursAvenueIconFont.eot");
-  src: url("CoursAvenueIconFont.eot?#iefix") format("embedded-opentype"),
-       url("CoursAvenueIconFont.woff") format("woff"),
-       url("CoursAvenueIconFont.ttf") format("truetype"),
-       url("CoursAvenueIconFont.svg#CoursAvenueIconFont") format("svg");
+  src: url("CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.eot");
+  src: url("CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.eot?#iefix") format("embedded-opentype"),
+       url("CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.woff") format("woff"),
+       url("CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.ttf") format("truetype"),
+       url("CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.svg#CoursAvenueIconFont") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: "CoursAvenueIconFont";
-    src: url("CoursAvenueIconFont.svg#CoursAvenueIconFont") format("svg");
+    src: url("CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.svg#CoursAvenueIconFont") format("svg");
   }
 }
 
@@ -88,6 +88,7 @@
 .fa-right-to-left:before,
 .fa-rugby-ball:before,
 .fa-search:before,
+.fa-send:before,
 .fa-share:before,
 .fa-shopping-cart:before,
 .fa-sign-out:before,
@@ -183,6 +184,7 @@
 .fa-right-to-left:before { content: "\f13e"; }
 .fa-rugby-ball:before { content: "\f13f"; }
 .fa-search:before { content: "\f140"; }
+.fa-send:before { content: "\f151"; }
 .fa-share:before { content: "\f141"; }
 .fa-shopping-cart:before { content: "\f142"; }
 .fa-sign-out:before { content: "\f143"; }
@@ -265,6 +267,7 @@ $font-CoursAvenueIconFont-repeat: "\f13d";
 $font-CoursAvenueIconFont-right-to-left: "\f13e";
 $font-CoursAvenueIconFont-rugby-ball: "\f13f";
 $font-CoursAvenueIconFont-search: "\f140";
+$font-CoursAvenueIconFont-send: "\f151";
 $font-CoursAvenueIconFont-share: "\f141";
 $font-CoursAvenueIconFont-shopping-cart: "\f142";
 $font-CoursAvenueIconFont-sign-out: "\f143";

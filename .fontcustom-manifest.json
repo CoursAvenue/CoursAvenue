@@ -1,13 +1,13 @@
 {
   "checksum": {
-    "previous": "40280b116d4071072f7fc9f3b345f025451355791d56936ed4129d229636f2d2",
-    "current": "40280b116d4071072f7fc9f3b345f025451355791d56936ed4129d229636f2d2"
+    "previous": "e9b13d1b9219f84d671489b3691c4aac6093a758aa1ddbf378a6097881d3749d",
+    "current": "e9b13d1b9219f84d671489b3691c4aac6093a758aa1ddbf378a6097881d3749d"
   },
   "fonts": [
-    "app/assets/fonts/CoursAvenueIconFont.ttf",
-    "app/assets/fonts/CoursAvenueIconFont.svg",
-    "app/assets/fonts/CoursAvenueIconFont.woff",
-    "app/assets/fonts/CoursAvenueIconFont.eot"
+    "app/assets/fonts/CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.ttf",
+    "app/assets/fonts/CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.svg",
+    "app/assets/fonts/CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.woff",
+    "app/assets/fonts/CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.eot"
   ],
   "glyphs": {
     "audiences": {
@@ -270,6 +270,10 @@
       "codepoint": 61760,
       "source": "app/assets/images/icons/svg/search.svg"
     },
+    "send": {
+      "codepoint": 61777,
+      "source": "app/assets/images/icons/svg/send.svg"
+    },
     "share": {
       "codepoint": 61761,
       "source": "app/assets/images/icons/svg/share.svg"
@@ -350,7 +354,7 @@
       "templates": "app/assets/images/icons/svg/",
       "vectors": "app/assets/images/icons/svg/"
     },
-    "no_hash": true,
+    "no_hash": false,
     "output": {
       "css": "app/assets/stylesheets",
       "fonts": "app/assets/fonts",
