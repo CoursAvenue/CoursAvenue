@@ -2,7 +2,8 @@
   - page = (params[:page].present? ? params[:page].to_i : 1)
   - @articles.each_with_index do |article, index|
     - if index == 2
-      = render partial: 'pro/blog/subscribe_to_blog', locals: { additional_classes: 'one-quarter' }
+      .one-quarter.inline-block>
+        = render partial: 'pro/blog/subscribe_to_blog'
     - double = (index * page % 5 == 0)
     .inline-block.v-top.soft--sides{ class: (double ? 'one-half' : 'one-quarter') }>
       = render partial: 'pro/blog/articles/article', locals: { article: article, double: double }
