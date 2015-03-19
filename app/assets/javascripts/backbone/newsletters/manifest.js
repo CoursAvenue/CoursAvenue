@@ -13,6 +13,8 @@
 //= require ./models/blocs_collection
 //= require ./models/layout
 //= require ./models/layouts_collection
+//= require ./models/mailing_list
+//= require ./models/mailing_lists_collection
 
 //---------- Views
 //= require ./views/manifest
