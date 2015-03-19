@@ -1,6 +1,8 @@
 %ul.tabs.panel__header
-  %li{ class: current == 'blog' ? 'active' : '' }
-    = link_to "Blog", pro_blog_articles_path
+  %li{ class: current == 'blog_user' ? 'active' : '' }
+    = link_to "Blog élèves", admin_blog_articles_path(type: 'user')
+  %li{ class: current == 'blog_pro' ? 'active' : '' }
+    = link_to "Blog pro", admin_blog_articles_path(type: 'pro')
   %li{ class: current == 'portraits' ? 'active' : '' }
     = link_to "Portraits", list_pro_portraits_path
   %li{ class: current == 'vertical_pages' ? 'active' : '' }

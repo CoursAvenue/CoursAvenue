@@ -1,0 +1,14 @@
+fr:
+  activerecord:
+    models:
+      blog_category: Catégorie
+
+  simple_form:
+    placeholders:
+      blog_category:
+        page_title: Titre de la page (Title SEO)
+        name: Nom de la catégorie (H1)
+        subtitle: Sous titre
+        page_description: Description de la page (SEO)
+        description: Description
+        position: Position

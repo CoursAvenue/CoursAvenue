@@ -1,0 +1,13 @@
+%h1= @category.name
+%h3= @category.subtitle
+.soft
+  - page = (params[:page].present? ? params[:page].to_i : 1)
+  - @articles.each_with_index do |article, index|
+    - if index == 2
+      .inline-block.one-quarter>
+        = render partial: 'pro/blog/subscribe_to_blog'
+    - double = (index * page % 4 == 0)
+    .inline-block.v-top.soft--sides{ class: (double ? 'one-half' : 'one-quarter') }>
+      = render partial: 'pro/blog/articles/article', locals: { article: article, double: double }
+
+.text--center.push-half--ends= paginate @articles, window: 1, outer_window: 3
