@@ -102,11 +102,16 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         initializeOrShowMailingListPage: function initializeOrShowMailingListPage (page_name) {
             this.currentStep = ':id/liste-de-diffusion';
             if (this.getRegion('mailing-list').initialized) { this.getRegion('mailing-list').$el.show(); return; }
-            var mailing_list_view = new Newsletter.Views.MailingListView({
-                model: this.newsletter
+            var bootstrap = window.coursavenue.bootstrap;
+
+            var mailing_list_collection      = new Newsletter.Models.MailingListsCollection(bootstrap.models.mailingLists);
+            var mailing_list_collection_view = new Newsletter.Views.MailingListsCollectionView({
+              collection: mailing_list_collection
             });
 
-            this.getRegion('mailing-list').show(mailing_list_view);
+            // this.listenTo(mailing_list_collection_view, 'mailing_list:selected', this.selectMailingList);
+
+            this.getRegion('mailing-list').show(mailing_list_collection_view);
             this.getRegion('mailing-list').$el.show();
             this.getRegion('mailing-list').initialized = true;
         },
