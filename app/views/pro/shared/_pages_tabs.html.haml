@@ -1,6 +1,6 @@
 = content_for :top_menu do
   %ul.nav.flush
-    %li{ class: current == 'blog' ? 'active' : '' }
+    %li{ class: current == 'blog_user' ? 'active' : '' }
       = link_to "Blog élèves", admin_blog_articles_path(type: 'user'), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends'
     %li{ class: current == 'blog_pro' ? 'active' : '' }
       = link_to "Blog pro", admin_blog_articles_path(type: 'pro'), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends'

@@ -239,11 +239,7 @@
       "source": "app/assets/images/icons/svg/pulse-rate.svg"
     },
     "question-circle": {
-<<<<<<< HEAD
-      "codepoint": 61884,
-=======
       "codepoint": 61753,
->>>>>>> staging
       "source": "app/assets/images/icons/svg/question-circle.svg"
     },
     "quote": {

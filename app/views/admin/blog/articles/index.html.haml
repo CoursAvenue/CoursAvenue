@@ -1,91 +1,101 @@
 = side_menu_currently_at 'pages'
 - params[:type] ||= 'user'
 
-.panel
-  = render partial: 'pro/shared/pages_tabs', locals: { current: (params[:type] == 'pro' ? 'blog_pro' : 'blog_user') }
-  .panel__body
-    .soft.text--center
-      = link_to 'Nouvel article', new_admin_blog_article_path(type: params[:type]), class: 'btn btn--large btn--green'
-    %table.table--data.table--striped
-      %thead
-        %tr
-          %th.one-half Nom
-          %th Description
-          %th.three-twelfths Date de publication
-          %th Catégorie
-          %th Publié
-          %th
-      %tbody
-      - @articles.each do |article|
-        - cache [article, 'pro/blog_articles/index'] do
-          %tr
-            %td= article.title
-            %td
-              %div{ data: { toggle: 'popover', content: article.description, trigger: 'hover', position: 'top' } }
-                .btn Desc
-            %td
-              = l(article.published_at, format: :date_with_year) if article.published_at
-            %td
-              - if article.category
-                = article.category.name
-            %td.text--center
-              - if article.published?
-                %i.fa.fa-check.green
-            %td.nowrap
-              = link_to 'Modifier', edit_admin_blog_article_path(article), class: 'orange'
-              \/
-              = link_to 'Supprimer', admin_blog_article_path(article), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette article ?' }, class: 'red'
-              \/
-              = link_to 'Voir', blog_article_url(article, subdomain: (article.pro_article? ? CoursAvenue::Application::PRO_SUBDOMAIN : CoursAvenue::Application::WWW_SUBDOMAIN)), target: :_blank
+= render partial: 'pro/shared/pages_tabs', locals: { current: (params[:type] == 'pro' ? 'blog_pro' : 'blog_user') }
+.flexbox
+  .flexbox__item
+    %h1 Blog #{(params[:type] == 'pro' ? 'Pro' : 'élève')}
+  .flexbox__item.text--right
+    = link_to new_admin_blog_article_path(type: params[:type]), class: 'btn btn--green' do
+      %i.fa.fa-plus
+      Ajouter un article
+%table.table--data.table--striped
+  %thead
+    %tr
+      %th.one-half Nom
+      %th Description
+      %th.three-twelfths Date de publication
+      %th Catégorie
+      %th Publié
+      %th
+  %tbody
+  - @articles.each do |article|
+    - cache [article, 'pro/blog_articles/index'] do
+      %tr
+        %td= article.title
+        %td
+          %div{ data: { toggle: 'popover', content: article.description, trigger: 'hover', position: 'top' } }
+            .btn Desc
+        %td
+          = l(article.published_at, format: :date_with_year) if article.published_at
+        %td
+          - if article.category
+            = article.category.name
+        %td.text--center
+          - if article.published?
+            %i.fa.fa-check.green
+        %td.nowrap
+          = link_to 'Modifier', edit_admin_blog_article_path(article), class: 'orange'
+          \/
+          = link_to 'Supprimer', admin_blog_article_path(article), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette article ?' }, class: 'red'
+          \/
+          = link_to 'Voir', blog_article_url(article, subdomain: (article.pro_article? ? CoursAvenue::Application::PRO_SUBDOMAIN : CoursAvenue::Application::WWW_SUBDOMAIN)), target: :_blank
 
-    %hr.push--ends
+%hr.push--ends
 
-    %h3.soft--sides Catégories
-    .text--center.push--bottom
-      = link_to 'Nouvelle catégorie', new_admin_blog_category_path(type: params[:type]), class: 'btn btn--large btn--green '
-    %table.table--data.table--striped
-      %thead
-        %tr
-          %th Nom
-          %th Titre de la page
-          %th # articles
-          %th
-      %tbody
-      - @categories.find_each do |category|
-        %tr
-          %td
-            %div{ class: "#{category.color}-box #{category.color.present? ? 'white' : ''}"}
-              - if category.parent
-                = "#{category.parent.name} / "
-              = category.name
-          %td= category.page_title
-          %td= category.articles.count
-          %td.nowrap
-            = link_to 'Modifier', edit_admin_blog_category_path(category), class: 'orange'
-            -# , data: { behavior: 'modal', padding: 0, width: 600 }
-            \/
-            = link_to 'Supprimer', admin_blog_category_path(category), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette catégorie ?' }, class: 'red'
-            \/
-            = link_to 'Voir', category_blog_articles_url(category_id: category.slug, subdomain: (category.pro_category? ? CoursAvenue::Application::PRO_SUBDOMAIN : CoursAvenue::Application::WWW_SUBDOMAIN)), target: :_blank
+.flexbox
+  .flexbox__item
+    %h1 Catégories
+  .flexbox__item.text--right
+    = link_to new_admin_blog_category_path(type: params[:type]), class: 'btn btn--green' do
+      %i.fa.fa-plus
+      Ajouter une catégorie
 
-    %hr.push--ends
+%table.table--data.table--striped
+  %thead
+    %tr
+      %th Nom
+      %th Titre de la page
+      %th # articles
+      %th
+  %tbody
+  - @categories.find_each do |category|
+    %tr
+      %td
+        %div{ class: "very-soft #{category.color}-box #{category.color.present? ? 'white' : ''}"}
+          - if category.parent
+            = "#{category.parent.name} / "
+          = category.name
+      %td= category.page_title
+      %td= category.articles.count
+      %td.nowrap
+        = link_to 'Modifier', edit_admin_blog_category_path(category), class: 'orange'
+        \/
+        = link_to 'Supprimer', admin_blog_category_path(category), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette catégorie ?' }, class: 'red'
+        \/
+        = link_to 'Voir', category_blog_articles_url(category_id: category.slug, subdomain: (category.pro_category? ? CoursAvenue::Application::PRO_SUBDOMAIN : CoursAvenue::Application::WWW_SUBDOMAIN)), target: :_blank
 
-    %h3.soft--sides Auteurs
-    .text--center.push--bottom
-      = link_to 'Nouvel auteur', new_admin_blog_author_path, class: 'btn btn--large btn--green '
-    %table.table--data.table--striped
-      %thead
-        %tr
-          %th Nom
-          %th # articles
-          %th
-      %tbody
-      - Blog::Author.find_each do |author|
-        %tr
-          %td= author.name
-          %td= author.articles.count
-          %td.nowrap
-            = link_to 'Modifier', edit_admin_blog_author_path(author), class: 'orange'
-            -# , data: { behavior: 'modal', padding: 0, width: 600 }
-            \/
-            = link_to 'Supprimer', admin_blog_author_path(author), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet auteur ?' }, class: 'red'
+%hr.push--ends
+
+.flexbox
+  .flexbox__item
+    %h1 Auteurs
+  .flexbox__item.text--right
+    = link_to new_admin_blog_author_path, class: 'btn btn--green' do
+      %i.fa.fa-plus
+      Ajouter un auteur
+%table.table--data.table--striped
+  %thead
+    %tr
+      %th Nom
+      %th # articles
+      %th
+  %tbody
+  - Blog::Author.find_each do |author|
+    %tr
+      %td= author.name
+      %td= author.articles.count
+      %td.nowrap
+        = link_to 'Modifier', edit_admin_blog_author_path(author), class: 'orange'
+        \/
+        = link_to 'Supprimer', admin_blog_author_path(author), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet auteur ?' }, class: 'red'

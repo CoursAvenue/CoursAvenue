@@ -1,9 +1,8 @@
 = side_menu_currently_at 'blog'
 
-.panel
-  .panel__header.soft
-    %ol.nav.breadcrumb.epsilon.flush
-      %li.delta= link_to 'Articles', pro_blog_articles_path
-      %li.delta Nouvel auteur
-  .panel__body.soft
-    = render 'form'
+= render partial: 'pro/shared/pages_tabs', locals: { current: 'blog_pro' }
+
+%ol.nav.breadcrumb.epsilon.flush
+  %li.delta= link_to 'Articles', pro_blog_articles_path
+  %li.delta Nouvel auteur
+= render 'form'

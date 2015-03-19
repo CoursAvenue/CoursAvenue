@@ -7,7 +7,6 @@
           = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
         .flexbox__item.v-middle.text--right.soft--right
           - if @structure.is_sleeping?
-<<<<<<< HEAD
             - if current_pro_admin and current_pro_admin.super_admin?
               = link_to 'Supprimer ce profil', pro_structure_path(@structure), class: 'btn btn--red btn--small', data: { method: :delete, confirm: 'Êtes-vous sûr ?'}
               %span.push-half--sides= '|'
@@ -62,29 +61,6 @@
                 - if @structure.comments.pending.count == 0
                   %li.text--center
                     %a.not-hoverable.f-weight-normal Pas de recommandations en attente
-=======
-            %span.push-half--sides= '|'
-            %span.push-half--right.v-middle.lbl.lbl--red{ data: { toggle: 'popover', content: "Vous venez de prendre le contrôle de votre profil : complétez-le pendant que l'équipe CoursAvenue vérifie votre identité. Vous recevrez un e-mail dès que c'est validé !  Les modifications que vous avez apportées deviendront alors directement visibles sur votre profil public.", trigger: 'hover' } } En attente de validation
-          - if current_pro_admin and current_pro_admin.super_admin?
-            = link_to 'Supprimer ce profil', pro_structure_path(@structure), class: 'btn btn--red btn--small', data: { method: :delete, confirm: 'Êtes-vous sûr ?'}
-      .flexbox__item.v-middle.text--right.soft-half--right
-        - if @structure.mailbox
-          - unread_conversations       = @structure.mailbox.inbox(read: false)
-          - unread_conversations      += @structure.unanswered_information_message
-          - unread_conversations       = unread_conversations.uniq.sort_by(&:created_at).reverse
-          - unread_conversations_count = unread_conversations.count
-          .inline-block.v-middle.drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
-            = link_to pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft-half--ends muted-link f-weight-bold' do
-              %i.fa.fa-envelope-o
-              = pluralize @structure.mailbox.inbox.count, 'message'
-              - if unread_conversations_count > 0
-                %span.push--left.lbl.lbl--orange.lbl--small= unread_conversations_count
-            .drop-down__el
-              %ul.no-bullet-list.flush{ style: 'width: 400px' }
-                - if unread_conversations_count == 0
-                  %li
-                    %a.not-hoverable.f-weight-normal Pas de nouveau message
->>>>>>> staging
                 - else
                   %li.text--center
                     %a.not-hoverable.f-weight-normal= "#{@structure.comments.pending.count} recommandations en attente de validation"
