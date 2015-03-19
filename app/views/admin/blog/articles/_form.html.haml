@@ -35,9 +35,9 @@
           CKEDITOR.replace('blog_article[content]', {
               customConfig: '#{asset_path('ckeditor/config.js')}'
           });
-      });
-      $('#blog_article_remote_image_url').change(function(event) {
-          $('img[data-placeholder]').attr('src', event.originalEvent.fpfile.url);
+          $('#blog_article_remote_image_url').change(function(event) {
+              $('img[data-placeholder]').attr('src', event.originalEvent.fpfile.url);
+          });
       });
       // Prevent the backspace key from navigating back.
       $(document).unbind('keydown').bind('keydown', function (event) {

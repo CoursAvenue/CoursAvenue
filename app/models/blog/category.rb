@@ -8,7 +8,9 @@ class Blog::Category < ActiveRecord::Base
   acts_as_tree cache_depth: true, touch: true
 
   attr_accessible :name, :page_title, :page_description, :description, :type,
-                  :ancestry, :parent, :color, :subtitle, :position
+                  :ancestry, :parent, :color, :subtitle, :position, :image, :remote_image_url
+
+  mount_uploader :image, BlogImageUploader
 
   has_many :articles, class_name: 'Blog::Article'
 

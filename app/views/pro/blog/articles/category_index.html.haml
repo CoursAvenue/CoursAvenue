@@ -1,5 +1,9 @@
-%h1= @category.name
-%h3= @category.subtitle
+- if @category.image.present?
+  - @header_image = @category.image.url(:large)
+= content_for :header_title do
+  = @category.name
+
+%h2= @category.subtitle
 .soft
   - page = (params[:page].present? ? params[:page].to_i : 1)
   - @articles.each_with_index do |article, index|
