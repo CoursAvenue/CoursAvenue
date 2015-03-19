@@ -9,6 +9,11 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- PRO
   # ---------------------------------------------
   constraints subdomain: (Rails.env.staging? ? 'pro.staging' : 'pro') do
+    namespace :admin do
+      resources :blog_articles, controller: 'blog/articles', path: 'blog'
+      resources :blog_categories, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/categories'
+      resources :blog_authors, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/authors', path: 'blog/auteurs'
+    end
     namespace :pro, path: '' do
       root :to => 'home#index'
 
@@ -65,8 +70,13 @@ CoursAvenue::Application.routes.draw do
       resources :participation_requests, only: [:index]
       resources :sponsorships, only: [:index]
       resources :payment_notifications, only: [:index, :show]
-      resources :blog_articles, controller: 'blog/articles', path: 'blog'
-      resources :blog_categories, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/categories'
+      resources :blog_articles, only: [:index, :show], controller: 'blog/articles', path: 'blog' do
+        collection do
+          get 'tag/:tag'                , to: 'blog/articles#tags', as: :tags
+          get 'categories/:category_id' , to: 'blog/articles#category_index', as: :category
+        end
+      end
+
       resources :press_releases, path: 'communiques-de-presse'
       resources :press_articles
       resources :flyers, only: [:index, :update]

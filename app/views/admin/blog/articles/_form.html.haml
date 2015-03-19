@@ -1,32 +1,19 @@
-= simple_form_for [:pro, @article] do |f|
-  .text--center.push--bottom{ data: { behavior: 'image-input' } }
-    .progress.hidden.push-half--bottom{ data: { progress: true } }
-      .bar
-    - if @article.cover_image.present?
-      .push-half--bottom.bordered{ style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;" }<
-        = image_tag @article.cover_image.url(:small), class: 'v-middle inline-block', style: 'max-height: 100%;'
+= simple_form_for [:admin, @article], as: :blog_article, url: (@article.new_record? ? admin_blog_articles_path : admin_blog_article_path(@article)) do |f|
+  .text--center
+    - if @article.image.present?
+      = image_tag @article.image.url(:default), width: 400, data: { placeholder: true }
     - else
-      .push-half--bottom.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;"}
-        %img.v-middle.inline-block{style: 'max-height: 100%;'}
+      %img{ width: 400, data: { placeholder: true } }
+  = f.filepicker_field :remote_image_url, multiple: false, button_text: 'Ajouter une photo', button_class: 'btn btn--green btn--full btn--large fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
 
-    - if @article.cover_image?
-      .inline-block.v-top>
-        = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small push-half--bottom', data: { trigger: true } do
-          %i.fa.fa-picture-o
-          Modifier
-    - else
-      = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: { trigger: true } do
-        %i.fa.fa-picture-o
-        Choisir l'image de l'article
-    .visuallyhidden= f.input :cover_image, label: false, input_html: { id: 'logo-input' }
+  = f.input :published, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'push--bottom' }, label: 'Article publié', label_html: { class: 'label--large' }
 
-  = f.input :published, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush' }, label: 'Article publié', label_html: { class: 'label--large' }
+  .input.input-daterange.input-group
+    %label.label--large.required.control-label{ for: 'published_date' }> Date de publication
+    %input.input-sm.input--large.datepicker-input#published_date{ type: 'text', value: (@article.published_at.nil? ? '' : l(@article.published_at.to_date)), name: 'blog_article[published_at]', data: { behavior: 'datepicker' } }
 
-  .input.input-daterange.input-group{ data: { behavior: 'datepicker' } }
-    %label.label--large.required.control-label{ for: 'published_date' } Date de publication
-    %input.input-sm.input--large.datepicker-input#published_date{ type: 'text', value: (@article.published_at.nil? ? '' : l(@article.published_at.to_date)), name: 'blog_article[published_at]' }
-
-  = f.input :category_id, as: :select, collection: Blog::Category.all, input_html: { class: 'input--large' }, label: 'Catégorie', label_html: { class: 'label--large' }
+  = f.input :author_id, as: :select, collection: Blog::Author.all, input_html: { class: 'input--large' }, label: 'Auteur', label_html: { class: 'label--large' }
+  = f.input :category_id, as: :select, collection: @categories, input_html: { class: 'input--large' }, label: 'Catégorie', label_html: { class: 'label--large' }
   = f.input :tag_list, input_html: { class: 'input--large one-whole' }, label: false
   = f.input :page_title, label: false, input_html: { class: 'input--large one-whole' }
   = f.input :title, label: false, input_html: { class: 'input--large one-whole' }
@@ -41,12 +28,16 @@
 
 = content_for :scripts do
   = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
+  = filepicker_js_include_tag
 
   :javascript
       $(document).ready(function() {
           CKEDITOR.replace('blog_article[content]', {
               customConfig: '#{asset_path('ckeditor/config.js')}'
           });
+      });
+      $('#blog_article_remote_image_url').change(function(event) {
+          $('img[data-placeholder]').attr('src', event.originalEvent.fpfile.url);
       });
       // Prevent the backspace key from navigating back.
       $(document).unbind('keydown').bind('keydown', function (event) {

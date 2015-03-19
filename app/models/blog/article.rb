@@ -7,10 +7,15 @@ class Blog::Article < ActiveRecord::Base
   acts_as_taggable_on :tags
 
   attr_accessible :page_title, :title, :description, :content, :published, :subject_ids, :cover_image, :published_at,
-                  :tag_list, :category_id, :page_description
+                  :tag_list, :category_id, :page_description, :type, :remote_image_url, :author_id
 
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
   has_and_belongs_to_many :subjects
-  belongs_to :category, class_name: 'Blog::Category', foreign_key: :category_id
+  belongs_to :author, class_name: 'Blog::Author'
+
+  mount_uploader :image, BlogImageUploader
 
   has_attached_file :cover_image,
                     styles: { default: '750x', small: '250x200#', very_small: '150x120#' },
@@ -43,6 +48,10 @@ class Blog::Article < ActiveRecord::Base
     articles = Blog::Article.published.tagged_with(self.tags).take(limit)
     articles += Blog::Article.order('RANDOM()').take(limit - articles.length + 1)
     articles.reject { |article| article.id == self.id }.uniq.take(limit)
+  end
+
+  def pro_article?
+    false
   end
 
   private

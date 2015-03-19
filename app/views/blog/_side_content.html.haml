@@ -41,7 +41,7 @@
 .gamma.soft-half--bottom.push-half--bottom.f-weight-bold Catégories
 %hr
 %ul.no-bullet-list.push--bottom
-  - Blog::Category.find_each do |category|
+  - Blog::Category::UserCategory.find_each do |category|
     %li.epsilon.line-height-1-7
       = link_to category_blog_articles_path(category_id: category.slug) do
         = category.name

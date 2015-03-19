@@ -1,0 +1,19 @@
+= simple_form_for [:admin, @category], as: :blog_category, url: (@category.new_record? ? admin_blog_categories_path : admin_blog_category_path(@category)) do |f|
+  = f.input :type, as: :hidden
+  - if @category.pro_category?
+    = f.input :ancestry, as: :select, collection: Blog::Category::ProCategory.all, input_html: { class: 'input--large one-whole' }, label: false, include_blank: '— Catégorie parente'
+    = f.input :color, as: :select, collection: Blog::Category::COLORS, input_html: { class: 'input--large one-whole' }, label: false, include_blank: '— Couleur'
+    = f.input :position, as: :select, collection: (1..20), input_html: { class: 'input--large one-whole' }, label: false, include_blank: '— Position'
+  = f.input :name, input_html: { class: 'input--large one-whole' }, label: false
+  = f.input :subtitle, input_html: { class: 'input--large one-whole' }, label: false
+  = f.input :page_title, input_html: { class: 'input--large one-whole' }, label: false
+  %p.flush.epsilon Environ 155 caractères
+  = f.input :page_description, input_html: { class: 'input--large one-whole', data: { behavior: 'text-counter', characters: true, 'good-words-nb' => 155, 'bad-text' => 'Allez Camille, tu y es presque !', 'average-words-nb' => 'Almost there!', 'good-text' => 'Wouhou!!! Well done!' } }, label: false
+  = f.input :description, input_html: { class: 'input--large one-whole' }, label: false
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          $('[name="blog_category[description]"]').redactor();
+      });

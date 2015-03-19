@@ -1,51 +1,26 @@
 # encoding: utf-8
 class Pro::Blog::ArticlesController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
+
+  before_action :load_categories
+
+  layout 'pro_blog'
 
   def index
-    @articles = ::Blog::Article.all
-  end
-
-  def new
-    @article = ::Blog::Article.new
-  end
-
-  def edit
-    @article = ::Blog::Article.find params[:id]
+    @articles   = ::Blog::Article::ProArticle.published.page(params[:page] || 1).per(5)
   end
 
   def show
-    @article = ::Blog::Article.find params[:id]
+    @article = ::Blog::Article::ProArticle.find params[:id]
   end
 
-  def create
-    @article = ::Blog::Article.new params[:blog_article]
-    respond_to do |format|
-      if @article.save
-        format.html { redirect_to pro_blog_articles_path }
-      else
-        format.html { render action: :new }
-      end
-    end
+  def category_index
+    @category = ::Blog::Category::ProCategory.find params[:category_id]
+    @articles = @category.articles.published.page(params[:page] || 1).per(5)
   end
 
-  def update
-    @article = ::Blog::Article.find params[:id]
-    respond_to do |format|
-      if @article.update_attributes params[:blog_article]
-        format.html { redirect_to pro_blog_articles_path }
-      else
-        format.html { render action: :edit }
-      end
-    end
-  end
+  private
 
-  def destroy
-    @article = ::Blog::Article.find params[:id]
-    @article.destroy
-    respond_to do |format|
-      format.html { redirect_to pro_blog_articles_path, notice: "Supprimé !" }
-    end
+  def load_categories
+    @categories = Blog::Category::ProCategory.at_depth(0).order('position DESC NULLS LAST').all
   end
-
 end

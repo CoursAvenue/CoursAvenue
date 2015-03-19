@@ -1,0 +1,37 @@
+= content_for :above_content do
+  .bg-cover.bg-position-top.relative.height-35vh{ style: "background-image: url('#{@article.image.url(:large)}')", data: { behavior: 'parallax' } }
+    .black-curtain.north.west.one-whole.absolute
+    .main-container.height-35vh.flexbox
+      .flexbox__item.v-middle
+        %h1.flush.one-half.relative.white.f-size-really-big.f-weight-300= @article.title
+
+.main-container.main-container--medium.soft--ends
+
+  .grid
+    .grid__item.three-quarters.v-top>
+      .gray-light.epsilon.line-height-1-7.push-half--bottom
+        Par #{@article.author.try(:name) || 'Camille'} le
+        %time{ itemprop: 'dateCreated', datetime: l(@article.published_at, format: :iso_date) }
+          = l @article.published_at, format: :date_with_year
+      %article{ itemscope: true, itemtype: 'http://schema.org/Article' }
+        %p.epsilon.gray.line-height-1-7
+          = @article.description.html_safe
+        .push--top.blog-article__content{ itemprop: 'text' }
+          = @article.content.html_safe
+      %hr
+      %p
+        %span.soft-half--right= l(@article.published_at, format: :date_with_year).capitalize
+        - if @article.author
+          |
+          %span.soft-half--sides #{@article.author.name}
+        |
+        %span.soft-half--sides
+          = link_to @article.category.name, category_pro_blog_articles_path(category_id: @article.category.slug), class: 'semi-muted-link'
+
+      - if @article.author
+        .gray-box.soft
+          %h5 À propos de #{@article.author.name}
+          %p.flush.epsilon.gray= @article.author.description.html_safe
+    .grid__item.one-quarter.v-top>
+      = render partial: 'pro/blog/subscribe_to_blog'
+

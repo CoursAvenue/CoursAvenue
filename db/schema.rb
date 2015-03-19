@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150318095719) do
+ActiveRecord::Schema.define(version: 20150319093122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 20150318095719) do
     t.string   "page_title"
     t.text     "page_description"
     t.string   "type"
+    t.string   "image"
+    t.integer  "author_id"
   end
 
   create_table "blog_articles_subjects", force: true do |t|
@@ -89,6 +91,13 @@ ActiveRecord::Schema.define(version: 20150318095719) do
   end
 
   add_index "blog_articles_subjects", ["article_id", "subject_id"], name: "index_blog_articles_subjects_on_article_id_and_subject_id", using: :btree
+
+  create_table "blog_authors", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "blog_categories", force: true do |t|
     t.string   "name"
@@ -99,7 +108,15 @@ ActiveRecord::Schema.define(version: 20150318095719) do
     t.text     "description"
     t.text     "page_description"
     t.string   "type"
+    t.string   "ancestry"
+    t.integer  "ancestry_depth",   default: 0
+    t.string   "color"
+    t.string   "subtitle"
+    t.integer  "position"
   end
+
+  add_index "blog_categories", ["ancestry"], name: "index_blog_categories_on_ancestry", using: :btree
+  add_index "blog_categories", ["ancestry_depth"], name: "index_blog_categories_on_ancestry_depth", using: :btree
 
   create_table "call_reminders", force: true do |t|
     t.string   "name"

@@ -3,7 +3,7 @@
 .panel
   .panel__header.soft
     %ol.nav.breadcrumb.epsilon.flush
-      %li.delta.f-weight-500= link_to 'Articles', pro_blog_articles_path
+      %li.delta.f-weight-500= link_to 'Articles', admin_blog_articles_path
       %li.delta Modification de "#{@category.name}"
   .panel__body.soft
     = render 'form'
