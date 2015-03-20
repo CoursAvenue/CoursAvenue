@@ -8,19 +8,19 @@
   <div class='input'>
     <label for="sender_name" class='label--large blue'>Nom de l'éxpéditeur</label>
     <p class="flush">Le nom apparaissant dans la boite e-mail de l'élève</p>
-    <input id="title" class='input--large one-whole' name="sender_name" type="text" placeholder=" {{ structure_id }}" value="{{ sender_name }}"/>
+    <input id="title" class='input--large one-whole' name="sender_name" type="text" placeholder=" {{ structure_id }}" value="{{ sender_name }}" required />
   </div>
 
   <div class='input'>
     <label for="reply_to" class='label--large blue'>E-mail de réponse</label>
     <p class="flush">L'email où l'élève pourra vous répondre</p>
-    <input id="title" class='input--large one-whole' name="reply_to" type="text" placeholder="Prochains stages à venir !" value="{{ reply_to }}"/>
+    <input id="title" class='input--large one-whole' name="reply_to" type="text" placeholder="Prochains stages à venir !" value="{{ reply_to }}" required />
   </div>
 
   <div class='input'>
     <label for="email_object" class='label--large blue'>Object de l'e-mail</label>
     <p class="flush">Ce qui s'affichera dans la boite de r é ception de l'élève</p>
-    <input id="title" class='input--large one-whole' name="email_object" type="text" placeholder="Prochains stages à venir !" value="{{ email_object }}"/>
+    <input id="title" class='input--large one-whole' name="email_object" type="text" placeholder="Prochains stages à venir !" value="{{ email_object }}" required />
   </div>
 
   <button type='submit' class='btn btn--green btn--full' data-disable-with="En cours d'enregistrement">Enregistrer</button>
