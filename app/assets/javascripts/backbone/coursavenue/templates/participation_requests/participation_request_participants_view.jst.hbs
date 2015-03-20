@@ -1,11 +1,11 @@
 {{#if prices}}
     <div class="bordered--bottom soft-half--bottom soft--sides">
         <div class="grid f-weight-500 epsilon push-half--bottom">
-            <div class="grid__item five-twelfths">
+            <div class="grid__item seven-twelfths">
                 Tarif
             </div>{{!--
-        --}}<div class="grid__item four-twelfths">
-                Participants
+        --}}<div class="grid__item two-twelfths" data-behavior="popover" data-content="Participants">
+                Part.
             </div>{{!--
         --}}<div class="grid__item three-twelfths">
                 Total
@@ -15,14 +15,14 @@
         <div data-behavior="show-more-on-demand">
             {{#each prices}}
                 <div class="grid--full very-soft--bottom {{#ifCond @index '>' 0}}hidden{{/ifCond}}" data-price-row data-el {{#ifCond @index '>' 0}}data-hidden{{/ifCond}}>
-                    <div class="grid__item v-middle five-twelfths">
+                    <div class="grid__item v-middle seven-twelfths">
                         <select data-element="price-select" name="participation_request[participants_attributes][{{@index}}][price_id]" class="one-whole">
                             {{#each ../prices}}
-                                <option data-amount="{{#if promo_amount }}{{ promo_amount }}{{ else }}{{ amount }}{{/if}}" value="{{ id }}">{{ libelle }} : {{ readable_amount }}</option>
+                                <option data-amount="{{#if promo_amount }}{{ promo_amount }}{{ else }}{{ amount }}{{/if}}" value="{{ id }}">{{ libelle }} : {{ readable_amount }} {{#if info}}({{ info }}){{/if}}</option>
                             {{/each}}
                         </select>
                     </div>{{!--
-                --}}<div class="grid__item v-middle three-twelfths nowrap soft-half--left">
+                --}}<div class="grid__item v-middle two-twelfths nowrap soft-half--left">
                         <select data-element="number-select" name="participation_request[participants_attributes][{{@index}}][number]">
                             <option value="0">0</option>
                             <option value="1" {{#ifCond @index '==' 0}}selected{{/ifCond}}>1</option>
@@ -34,19 +34,21 @@
                             <option value="7">7</option>
                         </select>
                     </div>{{!--
-                --}}<div class="grid__item v-middle three-twelfths text--right">
+                --}}<div class="grid__item v-middle two-twelfths text--right">
                         <span data-element="row-total"></span>
                     </div>{{!--
                 --}}<div class="grid__item v-middle one-twelfth text--right">
-                        <a class="cursor-pointer" data-clear><i class="fa fa-times"></i></a>
+                        {{#ifCond @index '>' 0}}
+                            <a class="cursor-pointer" data-clear><i class="fa fa-times"></i></a>
+                        {{/ifCond}}
                     </div>
                 </div>
             {{/each}}
             <div class="grid--full">
-                <div class="grid__item eight-twelfths">
+                <div class="grid__item nine-twelfths">
                     <a class="cursor-pointer" data-trigger>+ Ajouter un tarif</a>
                 </div>{{!--
-            --}}<div class="grid__item soft-half--left three-twelfths bordered--top epsilon very-soft--top text--right hidden" data-element="grand-total-wrapper">
+            --}}<div class="grid__item soft-half--left two-twelfths bordered--top epsilon very-soft--top text--right hidden" data-element="grand-total-wrapper">
                     <strong data-behavior="total"></strong>
                 </div>{{!--
             --}}<div class="grid__item v-middle one-twelfth text--right">

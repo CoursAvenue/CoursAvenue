@@ -30,7 +30,6 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             this.on('participation_request:total', function(data) {
                 this.$('[data-pr-total]').text(data.total);
             }.bind(this));
-
         },
 
         showPhoneNumbers: function showPhoneNumbers () {
@@ -192,7 +191,9 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
                     user_participation_requests_path: Routes.user_participation_requests_path({ id: CoursAvenue.currentUser().get('slug') })
                 });
             }
-            $.cookie('user_phone_number')
+            if (this.model.get('course_collection_type')) {
+                data.participation_request.message.body = this.model.options[this.model.get('course_collection_type') + '_prefilled_body'];
+            }
             _.extend(data, {
                 structure: structure_json,
                 today: moment().format(COURSAVENUE.constants.MOMENT_DATE_FORMAT),

@@ -219,12 +219,13 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 this.hideStudentAddressWrapper();
                 var address = '';
                 if (this.getCurrentCoursePlannings().length > 0) {
-                  address = this.getCurrentPlanning().address;
+                  address           = this.getCurrentPlanning().address;
+                  address_with_info = this.getCurrentPlanning().address_with_info;
                 } else if (this.getCurrentCourse()) {
                   address = this.getCurrentCourse().get('course_location');
                 }
                 this.ui.$address_info.show().text(address)
-                                            .attr('data-content', address);
+                                            .attr('data-content', address_with_info);
             }
         },
 

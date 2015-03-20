@@ -2,6 +2,23 @@
 StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.ParticipationRequest = Backbone.Model.extend({
+        options: {
+            lessons_prefilled_body: 'Bonjour,\n\n' +
+                                   "Je souhaiterais m'inscrire pour une première séance : " +
+                                   "pouvez-vous m'envoyer toute information utile (tenue exigée, matériel requis, etc.) ?\n\n" +
+                                   'Merci et à très bientôt !',
+
+            trainings_prefilled_body: 'Bonjour,\n\n' +
+                                   "Je souhaiterais participer à ce stage : " +
+                                   "pouvez-vous m'envoyer toute information utile (tenue exigée, matériel requis, etc.) ?\n\n" +
+                                   'Merci et à très bientôt !',
+
+            privates_prefilled_body: 'Bonjour,\n\n' +
+                                   "Je souhaiterais suivre une première séance : " +
+                                   "pouvez-vous confirmer ma demande et m'envoyer toute information utile ?\n\n" +
+                                   'Merci et à très bientôt !',
+        },
+
         // We override the toJSON function to have all the params grouped into
         // `participation_request` when syncing to server
         toJSON: function toJSON () {
@@ -47,10 +64,7 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
         },
 
         initialize: function initialize () {
-            var prefilled_body = $.cookie('participation_request_body') || 'Bonjour,\n\n' +
-                                 "Je souhaiterais m'inscrire pour une séance d'essai. " +
-                                 "Pouvez-vous me confirmer le jour et le créneau, et m'envoyer toute information utile (tenue exigée, digicode, adresse, etc.) ?\n\n" +
-                                 'Merci et à très bientôt !';
+            var prefilled_body = $.cookie('participation_request_body') || this.options.lessons_prefilled_body;
             this.set('message', { body: prefilled_body } );
         },
 

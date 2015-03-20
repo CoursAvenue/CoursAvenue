@@ -24,7 +24,11 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
 
         resetPricesCollection: function resetPricesCollection (course) {
             this.$el.slideDown();
-            this.prices_collection.reset(course.prices);
+            // Reject registration prices
+            var prices = _.reject(course.prices, function(price) {
+                return price.is_registration;
+            });
+            this.prices_collection.reset(prices);
             this.render();
         },
 
