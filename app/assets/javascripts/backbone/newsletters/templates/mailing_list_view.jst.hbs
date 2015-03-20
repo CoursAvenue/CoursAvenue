@@ -1,5 +1,7 @@
-<input type='radio' id='mailing_list_all_profiles_{{ id }}' name='mailing_list' value='{{ id }}' class='one--whole' />
+<input type='radio' id='mailing_list_all_profiles_{{ id }}' name='mailing_list' value='{{ id }}' class='input--large one--whole' />
 <label for='mailing_list_all_profiles_{{ id }}'>{{ name }}</label>
+<a href='javascript:void(0)' data-toggle-filters='true'>Afficher / cacher les filtres</a>
+
 
 <ul class='hidden' data-filters-list="true">
   {{#each filters}}

@@ -1,9 +1,20 @@
 {{#if hasElements }}
 <div data-type='mailing-list'>
+  <div class='input'>
+    <input type='radio' id='mailing_list_all_profiles' name='mailing_list' value='all' class='input--large one--whole' />
+    <label for='mailing_list_all_profiles'>Envoyer à tous les contacts du répertoire</label>
+  </div>
+</div>
 
-  <input type='radio' id='mailing_list_all_profiles' name='mailing_list' value='all' class='one--whole' />
-  <label for='mailing_list_all_profiles'>Envoyer à tous les contacts du répertoire</label>
+<div class='or'>
+  <span>ou</span>
+</div>
 
+<div class='soft text--center'>
+  <a data-import="true" href="javascript:void(0)" class='btn btn--green btn--large'>
+    <i class='fa fa-plus'></i>
+    Importer mon fichier de contact
+  </a>
 </div>
 
 <button type='submit' class='btn btn--green btn--full' data-disable-with="En cours d'enregistrement">Enregistrer</button>

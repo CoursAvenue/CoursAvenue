@@ -2,22 +2,34 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
     Module.MailingListView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'mailing_list_view',
         tagName: 'div',
-        className: '',
+        className: 'input',
 
         events: {
-            'change [type=radio]': 'selectMailingList',
+            'change [type=radio]':         'selectMailingList',
+            'click [data-toggle-filters]': 'toggleFilters',
         },
 
         initialize: function initialize () {
-            _.bindAll(this, 'selectMailingList');
+            this.shownFilters = true;
+            _.bindAll(this, 'selectMailingList', 'toggleFilters');
         },
 
         selectMailingList: function selectMailingList () {
             this.model.set('selected', true);
-            this.$el.find('[data-filters-list]').slideDown();
 
             this.trigger('selected', { model: this.model });
         },
+
+        toggleFilters: function toggleFilters () {
+            if (this.shownFilters) {
+                this.$el.find('[data-filters-list]').slideDown();
+            } else {
+                this.$el.find('[data-filters-list]').slideUp();
+            }
+
+            this.shownFilters = !this.shownFilters;
+        },
+
     });
 });
 
