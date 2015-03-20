@@ -6,7 +6,23 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         childView: Module.MailingListView,
         childViewEventPrefix: 'mailing_list',
 
-        initialize: function initialize () {
+        events: {
+            'click button[type=submit]': 'saveModel'
+        },
+
+        initialize: function initialize (options) {
+            this.model = options.model;
+            _.bindAll(this, 'saveModel');
+        },
+
+        saveModel: function saveModel () {
+            selected = this.collection.findWhere({ selected: true })
+            if (!selected) {
+                alert('Veuillez choisir une Liste de diffusion');
+                // Please select a mailing list.
+            } else {
+                this.trigger('selected', { model: selected });
+            }
         },
 
         getEmptyView: function getEmptyView () {

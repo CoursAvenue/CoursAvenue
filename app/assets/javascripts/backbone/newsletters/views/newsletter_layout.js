@@ -106,10 +106,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             var mailing_list_collection      = new Newsletter.Models.MailingListsCollection(bootstrap.models.mailingLists);
             var mailing_list_collection_view = new Newsletter.Views.MailingListsCollectionView({
-              collection: mailing_list_collection
+              collection: mailing_list_collection,
+              model: this.newsletter
             });
 
-            this.listenTo(mailing_list_collection_view, 'mailing_list:selected', this.selectMailingList);
+            this.listenTo(mailing_list_collection_view, 'selected', this.selectMailingList);
 
             this.getRegion('mailing-list').show(mailing_list_collection_view);
             this.getRegion('mailing-list').$el.show();
@@ -167,7 +168,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 this.nextStep();
             }
         },
-
 
         selectMailingList: function selectMailingList (data) {
             this.newsletter.set('newsletter_mailing_list_id', data.model.get('id'));
