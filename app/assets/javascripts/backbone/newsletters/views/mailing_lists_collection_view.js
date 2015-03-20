@@ -19,7 +19,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         saveModel: function saveModel () {
             selected = this.collection.findWhere({ selected: true })
             if (!selected) {
-                CCOURSAVENUE.helperMethods.flash('Veuillez choisir une liste de diffusion', 'alert')
+                COURSAVENUE.helperMethods.flash('Veuillez choisir une liste de diffusion', 'alert')
             } else {
                 this.trigger('selected', { model: selected });
             }
