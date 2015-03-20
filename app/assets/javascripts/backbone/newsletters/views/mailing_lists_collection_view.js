@@ -18,8 +18,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         saveModel: function saveModel () {
             selected = this.collection.findWhere({ selected: true })
             if (!selected) {
-                alert('Veuillez choisir une Liste de diffusion');
-                // Please select a mailing list.
+                CCOURSAVENUE.helperMethods.flash('Veuillez choisir une liste de diffusion', 'alert')
             } else {
                 this.trigger('selected', { model: selected });
             }
