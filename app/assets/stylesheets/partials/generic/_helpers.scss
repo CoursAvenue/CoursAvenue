@@ -301,17 +301,7 @@
     transition: opacity 0.5s ease;
 }
 
-.hoverable:hover {
-    background-color: $hover-list-element;
-}
-
-.hl-orange {
-    @include transition(all 150ms ease);
-}
-.hl-orange:hover {
-    color           : white;
-    background-color: $orange;
-}
+.hoverable:hover { background-color: $beige-dark; }
 
 .print--visible {
     @media only screen {

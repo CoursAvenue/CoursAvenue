@@ -4,11 +4,11 @@ StructureProfile.module('Views.Structure.Courses.Plannings', function(Module, Ap
     Module.PlanningView = Marionette.ItemView.extend({
         tagName: 'tr',
         template: Module.templateDirname() + 'planning_view',
-
+        className: 'cursor-pointer',
         events: {
-            'mouseenter'                    : 'announceEnter',
-            'mouseleave'                    : 'announceLeave',
-            'click [data-behavior=register]': 'showRegistrationForm'
+            'mouseenter' : 'announceEnter',
+            'mouseleave' : 'announceLeave',
+            'click'      : 'showRegistrationForm'
         },
 
         initialize: function initialize (options) {

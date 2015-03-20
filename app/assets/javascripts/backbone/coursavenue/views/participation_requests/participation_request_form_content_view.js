@@ -200,7 +200,6 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             // Hide everything in case some stuff was visible
             this.ui.$address_info_wrapper.show();
             this.ui.$choose_place_select.hide();
-            this.hideStudentAddressWrapper();
             this.ui.$address_info.hide();
             // If teaches at home AND has a place, show select box
             if (this.getCurrentCourse().get('teaches_at_home') &&
@@ -209,6 +208,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 this.ui.$choose_place_select.show();
                 teacher_place_option.text('Chez le professeur (' +  this.getCurrentCourse().get('place').address + ')');
                 teacher_place_option.val(this.getCurrentCourse().get('place').id);
+                this.hideStudentAddressWrapper();
             // If teachers at home but DO NOT have a place, show address form
             } else if (this.getCurrentCourse().get('teaches_at_home') || this.getCurrentPlanning().teaches_at_home) {
                 var address = (this.getCurrentPlanning() ? this.getCurrentPlanning().address : this.getCurrentCourse().get('course_location'));
@@ -216,6 +216,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 this.showStudentAddressWrapper();
             // Else, show the address
             } else {
+                this.hideStudentAddressWrapper();
                 var address = '';
                 if (this.getCurrentCoursePlannings().length > 0) {
                   address = this.getCurrentPlanning().address;

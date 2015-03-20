@@ -27,7 +27,8 @@
                 %a.v-middle.muted-link.cursor-pointer{ data: { behavior: 'show-contact-panel' } }
                   .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.trial_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
                     %i.fa.fa-ticket
-                    = t("structures.trial_courses_policy.#{@structure.trial_courses_policy}_nb")
+                    Essai gratuit
+                    -# = t("structures.trial_courses_policy.#{@structure.trial_courses_policy}_nb")
 
               - if @structure.has_promotion?
                 = link_to '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' }, class: 'muted-link inline v-middle' do
