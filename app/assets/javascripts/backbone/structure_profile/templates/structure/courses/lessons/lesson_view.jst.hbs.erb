@@ -1,5 +1,6 @@
 <div class="push--bottom {{#unless is_last}}bordered--bottom{{/unless}}">
     <h3 class="v-middle flush--bottom push-half--right inline-block delta">{{ name }}</h3>
+    {{#if has_promotion}}<span class="v-middle lbl lbl--yellow"><i class="fa fa-star"></i> Promotions</span>{{/if}}
     <div class="float--right push-half--bottom">
         {{#if min_price}}
             <div class="text--center push-half--bottom f-weight-500">

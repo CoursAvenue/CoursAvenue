@@ -16,8 +16,23 @@
       .black-curtain.black-curtain--soft.north.west.one-whole.absolute
   - else
     #header-map.bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under{ style: "height:300px;" }
-  .soft--sides.soft--top
+  .soft--sides.soft-half--top
     = render partial: 'structures/structure_header', locals: { structure: @structure }
+    - cache [@structure, 'structure/show/breadcrumb/v2'] do
+      %ol.nav.breadcrumb.push-half--bottom
+        %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+          = link_to root_search_page_without_subject_path(@city), class: 'white', itemprop: 'url' do
+            %span{ itemprop: 'title' }
+              = "Tous les cours à #{@city.name}"
+        - dominant_root_subject = @structure.dominant_root_subject
+        - if dominant_root_subject
+          %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+            = link_to root_search_page_path(dominant_root_subject, @city), class: 'white', itemprop: 'url' do
+              %span{ itemprop: 'title' }
+                = dominant_root_subject.name
+        %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+          %span{ itemprop: 'title' }
+            = @structure.name
     .grid
       .grid__item.eight-twelfths.soft-half--right{ style: (@structure.medias.any? or @structure.logo.present? ? '' : 'margin-top: 150px;') }>
         - if @structure.medias.any? or @structure.logo.present?
@@ -35,22 +50,6 @@
               = link_to '#avis', data: { behavior: 'scroll-to', offset_top: '-50' }, class: 'white' do
                 Voir les #{@structure.comments_count} avis
 
-        - cache [@structure, 'structure/show/breadcrumb/v2'] do
-          %ol.nav.breadcrumb.flush
-            %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-              = link_to root_search_page_without_subject_path(@city), class: 'white', itemprop: 'url' do
-                %span{ itemprop: 'title' }
-                  = "Tous les cours à #{@city.name}"
-            - dominant_root_subject = @structure.dominant_root_subject
-            - if dominant_root_subject
-              %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-                = link_to root_search_page_path(dominant_root_subject, @city), class: 'white', itemprop: 'url' do
-                  %span{ itemprop: 'title' }
-                    = dominant_root_subject.name
-            %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-              %span{ itemprop: 'title' }
-                = @structure.name
-
         #structure-profile{ class: (@is_sleeping ? '' : 'bg-white bordered'), data: { type: 'structure-profile-root' } }
           - if @is_sleeping
             = render partial: 'structures/sleeping_content', locals: { medias: @medias }
@@ -62,40 +61,6 @@
               .soft-{ data: { type: "guestbook-collection" } }
       .grid__item.four-twelfths>
         %div{ data: { type: 'contact-form' } }
-        - unless @is_sleeping
-          - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
-            .panel.push--bottom
-              .panel__body.soft.epsilon
-                - if @structure.response_rate
-                  .grid--full.soft-half--bottom
-                    .grid__item.v-middle.one-half.gray>
-                      Taux de réponse
-                    .grid__item.v-middle.one-half>
-                      %strong= "#{@structure.response_rate}%"
-                - if @structure.response_time
-                  .grid--full.soft-half--bottom
-                    .grid__item.v-middle.one-half.gray>
-                      Temps de réponse
-                    .grid__item.v-middle.one-half>
-                      %strong= response_time_in_words @structure
-                - if @structure.main_contact and @structure.main_contact.current_sign_in_at
-                  .grid--full
-                    .grid__item.v-middle.one-half.gray>
-                      Dernière activité
-                    .grid__item.v-middle.one-half>
-                      %strong= l(@structure.main_contact.current_sign_in_at, format: :date).capitalize
-
-          .panel.push--bottom
-            .panel__header.soft-half--ends.soft--sides
-              %h5.flush Actualités et offres exclusives
-            .panel__body.soft
-              %a.btn.btn--full{ data: { behavior: 'add-to-favorite', added_text: 'Retirer de mes favoris', not_added_text: 'Favori' } }
-                %i.fa.fa-heart
-                %span
-              - if @structure.followings.count > 9
-                %p.flush.text--center.push-half--top
-                  %strong Suivi par #{@structure.followings.count} élèves
-
         - # This additionnal div is necessary for the husk that will be prepended
         - # to the parent of the sticky div
         %div
@@ -133,6 +98,36 @@
                               %div
                                 %i= truncate(structure.cities_text, length: 40)
                               .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
+        - unless @is_sleeping
+          - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
+            .panel.push--bottom
+              .panel__body.soft.epsilon
+                - if @structure.response_rate
+                  .grid--full.soft-half--bottom
+                    .grid__item.v-middle.one-half.gray>
+                      Taux de réponse
+                    .grid__item.v-middle.one-half>
+                      %strong= "#{@structure.response_rate}%"
+                - if @structure.response_time
+                  .grid--full.soft-half--bottom
+                    .grid__item.v-middle.one-half.gray>
+                      Temps de réponse
+                    .grid__item.v-middle.one-half>
+                      %strong= response_time_in_words @structure
+                - if @structure.main_contact and @structure.main_contact.current_sign_in_at
+                  .grid--full
+                    .grid__item.v-middle.one-half.gray>
+                      Dernière activité
+                    .grid__item.v-middle.one-half>
+                      %strong= l(@structure.main_contact.current_sign_in_at, format: :date).capitalize
+
+          %a.btn.btn--full{ data: { behavior: 'add-to-favorite', added_text: 'Retirer de mes favoris', not_added_text: 'Ajouter en favori' } }
+            %i.fa.fa-heart
+            %span
+          - if @structure.followings.count > 9
+            %p.flush.text--center.push-half--top
+              %strong Suivi par #{@structure.followings.count} élèves
+
 
 
 - if @structure.medias.empty? and @structure.logo.blank?

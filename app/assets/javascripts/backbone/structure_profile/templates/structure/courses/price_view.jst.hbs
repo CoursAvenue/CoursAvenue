@@ -5,7 +5,11 @@
     {{#if is_free}}
       <strong class="green">Gratuit{{#if is_registration}}e{{/if}}</strong>
     {{else}}
-      {{readable_amount}}
+      {{#if promo_amount}}
+        <strong class="green">{{ readable_amount }}</strong>
+      {{else}}
+        {{ readable_amount }}
+      {{/if}}
     {{/if}}
 </td>
 <td>{{{ hide_contacts info }}}</td>
