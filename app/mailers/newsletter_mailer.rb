@@ -9,7 +9,7 @@ class NewsletterMailer < ActionMailer::Base
     @newsletter = newsletter
     @structure = newsletter.structure
 
-    mail subject: @newsletter.object,
+    mail subject: @newsletter.email_object,
       bcc: recipients,
       from: "\"#{@newsletter.sender_name}\" <noreply@coursavenue.com>",
       reply_to: @newsletter.reply_to
