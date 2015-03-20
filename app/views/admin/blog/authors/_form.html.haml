@@ -2,7 +2,7 @@
 
   .text--center
     - if @author.avatar.present?
-      = avatar_tag @author.avatar.url(:default), width: 400, data: { placeholder: true }
+      = avatar_tag @author.avatar.url(:normal), width: 400, data: { placeholder: true }
     - else
       %img{ width: 400, data: { placeholder: true } }
   = f.filepicker_field :remote_avatar_url, multiple: false, button_text: 'Ajouter une photo', button_class: 'btn btn--green btn--full btn--large fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
