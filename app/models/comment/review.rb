@@ -116,12 +116,6 @@ class Comment::Review < Comment
   def accept!
     self.status = :accepted
     self.save
-    case self.commentable.comments_count
-    when 5
-      AdminMailer.delay.congratulate_for_fifth_comment(self)
-    when 15
-      AdminMailer.delay.congratulate_for_fifteenth_comment(self)
-    end
     self.notify_user
   end
 

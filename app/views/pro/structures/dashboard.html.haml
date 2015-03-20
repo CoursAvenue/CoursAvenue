@@ -63,7 +63,7 @@
   .grid__item.one-half{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.recommendations')} }>
     - cache [@structure, "pro/structures/dashboard/comments_completion/#{@structure.comments.accepted.count}"] do
       .soft--right
-        %h4.push-half--bottom Vos recommandations et récompenses
+        %h4.push-half--bottom Vos avis
         %table#progress-comments.push-half--right.flush--bottom
           %tbody
             %tr{style: 'background: #e7e1da;'}
@@ -85,29 +85,17 @@
           %tbody
             %tr
               %td.v-top.text--center.hard{ colspan: 9 }
-                %i.fa.fa-arrow-up
+                %i.fa.fa-chevron-up
                 %br
-                %span.nowrap À partir du 5<sup>e</sup> avis :
+                Avec 5 avis, vous êtes
                 %br
-                - if @structure.comments_count > 4
-                  = link_to widget_pro_structure_path(@structure), class: 'btn btn--blue nowrap text--center' do
-                    Installer mon
-                    %br
-                    livre d'or
-                - else
-                  %a.btn.btn--small.text--center{ href: '#livre-dor-explanation', data: { behavior: 'modal', width: 500, padding: 0 } } OBTENEZ VOTRE LIVRE D'OR
+                2 fois plus visibles
               %td.text--right.v-top.hard{ colspan: 6 }
-                %i.fa.fa-arrow-up
+                %i.fa.fa-chevron-up
                 %br
-                %span.nowrap À partir de 15 avis et +
+                Avec 15 avis, vous êtes
                 %br
-                - if @structure.comments_count > 14
-                  = link_to new_pro_structure_sticker_demand_path(@structure), class: 'btn btn--blue text--center nowrap' do
-                    Recevoir mes
-                    %br
-                    autocollants
-                - else
-                  %a.btn.btn--small.text--center{ href: '#sticker-explanation', data: { behavior: 'modal', width: 500, padding: 0 } } OBTENEZ VOS AUTOCOLLANTS
+                10 fois plus visibles
 
 - cache 'pro/structures/dashboard/hidden-popups' do
   #livre-dor-explanation.hidden

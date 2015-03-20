@@ -154,21 +154,6 @@ class AdminMailer < ActionMailer::Base
     mail to: @comment.commentable.contact_email, subject: "Vous avez reçu un avis de #{@comment.author_name}"
   end
 
-  def congratulate_for_fifth_comment(comment)
-    @comment    = comment
-    @structure  = @comment.structure
-    mail to: @structure.main_contact.email,
-         subject: "Bravo ! Vous avez accès à votre livre d'or"
-  end
-
-  def congratulate_for_fifteenth_comment(comment)
-    @comment    = comment
-    @structure  = @comment.structure
-    mail to: @structure.main_contact.email,
-         subject: "Bravo ! Votre profil comporte déjà 15 avis",
-         from: 'CoursAvenue <hello@coursavenue.com>'
-  end
-
   def recommandation_has_been_recovered(structure, deletion_reason)
     @structure          = structure
     deletion_reason_key = deletion_reason.split('.').last

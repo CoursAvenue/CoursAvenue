@@ -22,8 +22,3 @@
     .grid__item.three-tenths>
       %h5 Disciplines pratiquées :
       = @structure_decorator.subjects_popover
-      %p
-      - if @structure.website.present?
-        = link_to 'Site web', @structure.website, class: 'btn btn--yellow btn--small', target: '_blank', rel: 'nofollow'
-      - if @structure.facebook_url.present?
-        = link_to 'Facebook', @structure.facebook_url, class: 'btn btn--small btn--yellow', target: '_blank', rel: 'nofollow'

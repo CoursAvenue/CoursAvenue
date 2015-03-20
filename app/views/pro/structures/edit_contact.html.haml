@@ -33,13 +33,10 @@
     %h5 Alertes SMS
     .grid
       .grid__item.one-quarter>
-        -# .label--large.hard--top Ne passez pas à côté d'une demande et recevez un SMS à chaque nouvel inscrit (gratuit).
-        .label--large.hard--top Recevez un SMS à chaque nouvel inscrit (gratuit).
+        .label--large.hard--top
       .grid__item.three-quarters>
         .checkbox-at-left
-          = form.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush' }
-        %div
-          .inline-block.v-middle= form.label :principal_mobile, class: 'nowrap label--large'
+          = form.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large nowrap hard--bottom' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, label: 'Recevoir un SMS à chaque nouvel inscrit au '
           = form.input :principal_mobile_id, as: :select, collection: @structure.phone_numbers.select(&:mobile?), label_method: :number, label: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, include_blank: false
 
   %hr.push--ends

@@ -39,5 +39,5 @@
       - else
         - new_price_group = Struct.new(:id, :name)
         = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { id: "course-form-#{course.id}", class: 'inline-block' } do |f|
-          = f.input :price_group_id, as: :select, collection: price_groups + [new_price_group.new('new', 'Nouvelle grille tarifaire' )], label: false, input_html: { class: (course.price_group.present? ? '' : 'select--error'), id: "course-price-group-select-#{course.id}", style: 'max-width: 16em;', data: { type: 'price-group' } }, wrapper_html: {  class: 'flush v-middle inline-block' }, include_blank: 'Sélectionnez la grille tarifaire'
+          = f.input :price_group_id, as: :select, collection: price_groups + [new_price_group.new('new', 'Nouvelle grille tarifaire' )], label: false, input_html: { class: (course.price_group.present? ? '' : 'select--error'), id: "course-price-group-select-#{course.id}", data: { type: 'price-group' } }, wrapper_html: {  class: 'flush v-middle inline-block' }, include_blank: 'Sélectionnez la grille tarifaire'
         = link_to 'Voir la grille', '#', data: { type: 'edit-current-price-group', el: "#course-price-group-select-#{course.id}" }

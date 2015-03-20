@@ -8,17 +8,20 @@
   .flexbox__item.v-middle.text--right
     = render partial: 'pro/structures/courses/add_activity_button'
 
-%h3{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } } Stages & ateliers
+#trainings-header.soft--ends.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 45, z: 500, old_width: 'true' } }
+  %h3{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } } Stages & ateliers
 #training-list.soft--bottom
   - @trainings.each do |course|
     = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
-%h3{ class: @lessons.any? ? 'bordered--top soft--top' : 'hidden', data: { 'course-container-title' => true } } Cours collectifs
+#lessons-header.soft--ends.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 45, z: 500, old_width: 'true', pushed: '#trainings-header' } }
+  %h3{ class: @lessons.any? ? 'bordered--top soft--top' : 'hidden', data: { 'course-container-title' => true } } Cours collectifs
 #lesson-list.soft--bottom
   - @lessons.each do |course|
     = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
-%h3{ class: @privates.any? ? 'bordered--top soft--top' : 'hidden', data: { 'course-container-title' => true } } Cours particuliers
+.soft--ends.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 45, z: 500, old_width: 'true', pushed: '#lessons-header' } }
+  %h3{ class: @privates.any? ? 'bordered--top soft--top' : 'hidden', data: { 'course-container-title' => true } } Cours particuliers
 #private-list.soft--bottom
   - @privates.each do |course|
     = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }

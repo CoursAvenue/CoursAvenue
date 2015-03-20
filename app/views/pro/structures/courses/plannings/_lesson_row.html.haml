@@ -8,6 +8,11 @@
     - if planning.place
       au
       = planning.place.try(:name)
+    —
+    = planning_decorator.join_audiences
+    \-
+    = planning_decorator.join_levels
+
   .flexbox__item.nowrap.text--right
     = link_to edit_pro_structure_course_planning_path(structure, course, planning), title: 'Modifier le créneau', data: { toggle: 'tooltip', behavior: 'modal', width: '800', padding: '0', planning_id: planning.id, action: 'edit', lock_overlay: true }, class: 'fancybox.ajax muted-link orange very-soft--right' do
       %i.fa.fa-pencil.epsilon

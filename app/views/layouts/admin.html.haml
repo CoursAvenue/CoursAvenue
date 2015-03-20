@@ -53,17 +53,17 @@
           .inline-block.v-middle.drop-down__wrapper
             = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft--ends muted-link f-weight-bold' do
               %i.fa.fa-comment.v-middle
-              %span.v-middle= "#{@structure.comments.accepted.count} recommandations"
+              %span.v-middle= "#{@structure.comments.accepted.count} avis"
               - if @structure.comments.pending.count > 0
                 %span.push--left.lbl.lbl--orange.lbl--small= "#{@structure.comments.pending.count}"
             .drop-down__el.drop-down__el--left
               %ul.drop-down__el-inner-box.overflow-auto.no-bullet-list.flush.text--left{ style: 'width: 350px; max-height: 60vh;' }
                 - if @structure.comments.pending.count == 0
                   %li.text--center
-                    %a.not-hoverable.f-weight-normal Pas de recommandations en attente
+                    %a.not-hoverable.f-weight-normal Pas d'avis en attente
                 - else
                   %li.text--center
-                    %a.not-hoverable.f-weight-normal= "#{@structure.comments.pending.count} recommandations en attente de validation"
+                    %a.not-hoverable.f-weight-normal= "#{@structure.comments.pending.count} avis en attente de validation"
                 - @structure.comments.pending.each do |comment|
                   - cache [comment, 'pro/structures/layout/pending_comment'] do
                     %li
@@ -74,7 +74,7 @@
                           %strong= comment.author_name
                           %br
                           = comment.email
-                %li.text--center= link_to 'Voir toutes les recommandations', pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+                %li.text--center= link_to 'Voir toutes les avis', pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
           %span.v-middle.push-half--sides= '|'
           .inline-block.v-middle.drop-down__wrapper
             = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft--ends muted-link f-weight-bold' do
@@ -105,7 +105,7 @@
                     Déconnexion
 
           %span.v-middle.push-half--sides= '|'
-          = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'white v-middle', target: :_blank, title: 'Voir mon profil public', data: { toggle: 'tooltip', placement: 'left' } do
+          = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'white v-middle', target: :_blank, title: 'Voir mon profil public', data: { toggle: 'tooltip', placement: 'right' } do
             .fa.fa-eye.v-middle.epsilon
         .flexbox__item.wizard-container-width.visuallyhidden--palm
 
