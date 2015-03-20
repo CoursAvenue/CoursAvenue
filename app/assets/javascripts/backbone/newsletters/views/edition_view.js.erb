@@ -34,6 +34,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 model.save({}, { async: false });
             });
 
+            COURSAVENUE.helperMethods.flash('Newsletter enregistrée avec succés', 'notice')
             this.trigger('edited', { model: this.model, collection: this.collection });
         },
 
