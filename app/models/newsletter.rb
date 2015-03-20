@@ -19,9 +19,9 @@ class Newsletter < ActiveRecord::Base
     :newsletter_mailing_list_id
 
   belongs_to :structure
-  has_many :blocs,        class_name: 'Newsletter::Bloc',      dependent: :destroy
 
-  has_many :recipients,   class_name: 'Newsletter::Recipient', dependent: :destroy
+  has_many :blocs,          class_name: 'Newsletter::Bloc',      dependent: :destroy
+  has_many :recipients,     class_name: 'Newsletter::Recipient', dependent: :destroy
   belongs_to :mailing_list, class_name: 'Newsletter::MailingList'
 
   accepts_nested_attributes_for :blocs
@@ -36,7 +36,6 @@ class Newsletter < ActiveRecord::Base
 
   scope :sent,       -> { where(state: 'sent') }
   scope :drafts,     -> { where(state: 'draft') }
-  scope :not_edited, -> { where.not(state: 'edited') }
 
   ######################################################################
   # Methods                                                            #
