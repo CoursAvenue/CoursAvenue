@@ -37,7 +37,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 case 'edit'          : this.initializeOrShowEditPage(); break;
                 case 'mailing-list'  : this.initializeOrShowMailingListPage(); break;
                 case 'metadata'      : this.initializeOrShowMetadataPage(); break;
-                case 'preview'       : alert('TODO'); break;
+                case 'preview'       : this.initializeOrShowPreviewPage(); break;
             }
         },
 
@@ -126,11 +126,22 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 model: this.newsletter
             });
 
-            // this.listenTo(metadata_view, 'edited', this.finishEdition);
-
             this.getRegion('metadata').show(metadata_view);
             this.getRegion('metadata').$el.show();
             this.getRegion('metadata').initialized = true;
+        },
+
+        initializeOrShowPreviewPage: function initializeOrShowPreviewPage (page_name) {
+            this.currentStep = ':id/previsualisation';
+            if (this.getRegion('preview').initialized) { this.getRegion('preview').$el.show(); return; }
+
+            var preview_view = new Newsletter.Views.PreviewView({
+                model: this.newsletter
+            });
+
+            this.getRegion('preview').show(preview_view);
+            this.getRegion('preview').$el.show();
+            this.getRegion('preview').initialized = true;
         },
 
         updateNav: function updateNav (event) {
