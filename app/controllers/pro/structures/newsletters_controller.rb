@@ -73,6 +73,9 @@ class Pro::Structures::NewslettersController < ApplicationController
   # 1. Check all of the required informations are given.
   # 2. Generate the newsletter content.
   # 3. Send the newsletter to the associated mailing list.
+  # 4. Redirect to
+  #    - Index on success.
+  #    - Back to current page on error.
   def send_newsletter
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
   end
