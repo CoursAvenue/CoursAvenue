@@ -86,7 +86,12 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   def import_batch_emails
     UserProfile.delay.batch_create(@structure, params[:emails])
     respond_to do |format|
-      format.html { redirect_to pro_structure_user_profiles_path(@structure), notice: "L'import est en cours, nous vous enverrons un mail dès l'import terminé." }
+      if session[:newsletter_id].present?
+        newsletter = @structure.newsletters.find(session[:newsletter_id])
+        format.html { redirect_to mailing_list_pro_structure_newsletter_path(@structure, newsletter), notice: "L'import est en cours, nous vous enverrons un mail dès l'import terminé." }
+      else
+        format.html { redirect_to pro_structure_user_profiles_path(@structure), notice: "L'import est en cours, nous vous enverrons un mail dès l'import terminé." }
+      end
     end
   end
 
