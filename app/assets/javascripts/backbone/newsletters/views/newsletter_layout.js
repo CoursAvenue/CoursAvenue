@@ -36,7 +36,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 case 'choose-layout' : this.initializeOrShowChooseLayoutPage(); break;
                 case 'edit'          : this.initializeOrShowEditPage(); break;
                 case 'mailing-list'  : this.initializeOrShowMailingListPage(); break;
-                case 'metadata'      : alert('TODO'); break;
+                case 'metadata'      : this.initializeOrShowMetadataPage(); break;
                 case 'preview'       : alert('TODO'); break;
             }
         },
@@ -117,7 +117,24 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.getRegion('mailing-list').initialized = true;
         },
 
+        initializeOrShowMetadataPage: function initializeOrShowMetadataPage (page_name) {
+            this.currentStep = ':id/recapitulatif';
+            if (this.getRegion('metadata').initialized) { this.getRegion('metadata').$el.show(); return; }
+
+            var bootstrap = window.coursavenue.bootstrap;
+            var metadata_view = new Newsletter.Views.MetadataView({
+                model: this.newsletter
+            });
+
+            // this.listenTo(metadata_view, 'edited', this.finishEdition);
+
+            this.getRegion('metadata').show(metadata_view);
+            this.getRegion('metadata').$el.show();
+            this.getRegion('metadata').initialized = true;
+        },
+
         updateNav: function updateNav (event) {
+
             var eventSender = $(event.toElement);
             var fragment     = eventSender.data('newsletter-nav');
 

@@ -6,3 +6,4 @@
 //= require ./mailing_list_view
 //= require ./mailing_lists_collection_view
 //= require ./mailing_lists_empty_collection_view
+//= require ./metadata_view
