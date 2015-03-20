@@ -1,6 +1,4 @@
 <div class="push--bottom {{#unless is_last}}bordered--bottom{{/unless}}">
-    <h3 class="v-middle flush--bottom push-half--right inline-block delta">{{ name }}</h3>
-    {{#if has_promotion}}<span class="v-middle lbl lbl--yellow"><i class="fa fa-star"></i> Promotions</span>{{/if}}
     <div class="float--right push-half--bottom">
         {{#if min_price}}
             <div class="text--center push-half--bottom f-weight-500">
@@ -13,6 +11,24 @@
         {{/if}}
         <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full">M'inscrire</a>
     </div>
+    <div class="push-half--bottom">
+        <h3 class="v-middle flush--bottom push-half--right inline-block delta">{{ name }}</h3>
+        {{#if has_promotion}}<span class="v-middle lbl lbl--yellow"><i class="fa fa-star"></i> Promotions</span>{{/if}}
+    </div>
+    <div class="line-height-2"><!--
+     -->{{#each details}}<!--
+     --><div class="inline-block v-middle push-half--bottom soft-half--right">
+            <div class="flexbox push-half--right">
+                <div class="flexbox__item v-middle text--center">
+                    <i class="fa {{this.icon}} v-middle" title="{{this.alt}}"></i>
+                </div>
+                <div class="flexbox__item soft-half--left v-middle">
+                    {{this.text}}
+                </div>
+            </div>
+        </div><!--
+     -->{{/each}}<!--
+  --></div>
     <div class="push--bottom">
         <table class="push-half--bottom table--striped table--data table--data-small">
             <thead class="gray-light">
@@ -29,20 +45,6 @@
         </table>
     </div>
     <div class="push--bottom">
-        <div><!--
-         -->{{#each details}}<!--
-         --><div class="inline-block v-middle push-half--bottom soft-half--right">
-                <div class="flexbox push-half--right">
-                    <div class="flexbox__item v-middle text--center">
-                        <i class="fa {{this.icon}} v-middle" title="{{this.alt}}"></i>
-                    </div>
-                    <div class="flexbox__item soft-half--left v-middle">
-                        {{this.text}}
-                    </div>
-                </div>
-            </div><!--
-         -->{{/each}}<!--
-      --></div>
         <div>
             <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">Plus de détails <i class="fa fa-caret-down"></i></a>
         </div>
@@ -75,12 +77,20 @@
             {{/if}}
         </div>
     </div>
-    <div class="flexbox push--bottom course-{{id}}-know-more hidden" id="course-{{id}}-tarifs">
+    <div class="flexbox push--bottom course-{{id}}-know-more hidden">
         <div class="flexbox__item v-top one-fifth">
             <strong class="gray-light v-middle">Tarifs</strong>
         </div>
         <div class="flexbox__item v-top four-fifths">
             <div data-type="prices-collection-container"></div>
+        </div>
+    </div>
+    <div class="flexbox push--bottom course-{{id}}-know-more hidden">
+        <div class="flexbox__item v-top one-fifth">
+            <strong class="gray-light v-middle">Disciplines</strong>
+        </div>
+        <div class="flexbox__item v-top four-fifths">
+            <div class="course-{{id}}-know-more hidden" data-type="subjects-collection-container"></div>
         </div>
     </div>
 </div>

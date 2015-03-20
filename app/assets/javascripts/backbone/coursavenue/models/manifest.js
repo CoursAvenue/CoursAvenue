@@ -9,3 +9,5 @@
 //= require ./courses_collection
 //= require ./price
 //= require ./prices_collection
+//= require ./subject
+//= require ./subjects_collection

@@ -6,6 +6,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         childView: Module.Plannings.PlanningView,
         childViewContainer: '[data-type=plannings-container]',
         priceCollectionViewContainer: '[data-type=prices-collection-container]',
+        subjectsCollectionViewContainer: '[data-type=subjects-collection-container]',
         emptyView: Module.EmptyView,
 
         modelEvents: {
@@ -22,6 +23,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         },
 
         onRender: function onRender (options) {
+            // Render prices
             var prices_collection_container = this.$(this.priceCollectionViewContainer);
             var prices_collection           = new CoursAvenue.Models.PricesCollection(this.model.get('prices'));
             var prices_collection_view      = new Module.PricesCollectionView({ collection:  prices_collection,
@@ -29,6 +31,13 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
                                                                                 about:       this.model.get('about') });
             prices_collection_view.render();
             prices_collection_container.append(prices_collection_view.el);
+
+            // Render Subjects
+            var subjects_collection_container = this.$(this.subjectsCollectionViewContainer);
+            var subjects_collection           = new CoursAvenue.Models.SubjectsCollection(this.model.get('subjects'));
+            var subjects_collection_view      = new CoursAvenue.Views.SubjectsCollectionView({ collection:  subjects_collection });
+            subjects_collection_view.render();
+            subjects_collection_container.append(subjects_collection_view.el);
         },
 
         /* the Course model used here as the composite part is the actual
