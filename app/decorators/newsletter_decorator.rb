@@ -16,4 +16,8 @@ class NewsletterDecorator < Draper::Decorator
       "Pas encore choisie"
     end
   end
+
+  def badge
+    object.sent? ? 'Envoyé' : 'Brouillon'
+  end
 end
