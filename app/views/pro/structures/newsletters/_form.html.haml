@@ -13,6 +13,6 @@
           models: {
               layouts:  #{ @layouts_json.to_json },
               newsletter: #{ @newsletter.nil? ? {}.to_json : NewsletterSerializer.new(@newsletter).to_json },
-              mailingLists: #{ @mailing_lists.to_json }
+              mailingLists: #{ ActiveModel::ArraySerializer.new(@mailing_lists, each_serializer: NewsletterMailingListSerializer).to_json }
           }
       };

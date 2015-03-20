@@ -1,3 +1,10 @@
-<a data-mailing-list='true' href='javascript:void(0)'>
-  {{ name }}
-</a>
+<input type='radio' id='mailing_list_all_profiles_{{ id }}' name='mailing_list' value='{{ id }}' class='one--whole' />
+<label for='mailing_list_all_profiles_{{ id }}'>{{ name }}</label>
+
+<ul class='hidden' data-filters-list="true">
+  {{#each filters}}
+  <li>
+    {{ predicate }} -> {{ tag }}
+  </li>
+  {{/each}}
+</ul>
