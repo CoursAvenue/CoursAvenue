@@ -274,15 +274,15 @@ CoursAvenue::Application.routes.draw do
             get :duplicate
             get :preview_newsletter
 
-            get :mailing_list
-            get :metadata
+            get 'liste-de-diffusion', to: 'structures/newsletters#new', as: 'mailing_list'
+            get :recapitulatif,       to: 'structures/newsletters#new', as: 'metadata'
 
             post :mailing_list_create
             patch :save_and_send
           end
           collection do
-            get ':id/*path'   , to: 'structures/newsletters#new'
-            get '*path'   , to: 'structures/newsletters#new'
+            get ':id/*path', to: 'structures/newsletters#new'
+            get '*path',     to: 'structures/newsletters#new'
           end
         end
 
