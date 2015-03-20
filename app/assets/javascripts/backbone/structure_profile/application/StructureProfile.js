@@ -74,7 +74,7 @@ StructureProfile.addInitializer(function(options) {
     /* --------------------------
      *         PRERENDER
      * -------------------------- */
-    collection_that_has_to_be_loaded = { courses: false, trainings: false, comments: false }
+    collection_that_has_to_be_loaded = { privates: false, lessons: false, trainings: false, certified_comments: false, guestbook: false }
     var triggerPrerenderIfReady = function triggerPrerenderIfReady (collection_name) {
         collection_that_has_to_be_loaded[collection_name] = true;
         var everything_is_loaded = _.every(_.values(collection_that_has_to_be_loaded), function(value) {
@@ -82,9 +82,11 @@ StructureProfile.addInitializer(function(options) {
         });
         if (everything_is_loaded) { window.prerenderReady = true; }
     }
-    structure.get('courses')  .on('reset', function() { triggerPrerenderIfReady('courses'); });
-    structure.get('trainings').on('reset', function() { triggerPrerenderIfReady('trainings'); });
-    structure.get('comments') .on('reset', function() { triggerPrerenderIfReady('comments'); });
+    structure.get('lessons')           .on('reset', function() { triggerPrerenderIfReady('lessons');            });
+    structure.get('privates')          .on('reset', function() { triggerPrerenderIfReady('privates');           });
+    structure.get('trainings')         .on('reset', function() { triggerPrerenderIfReady('trainings');          });
+    structure.get('certified_comments').on('reset', function() { triggerPrerenderIfReady('certified_comments'); });
+    structure.get('guestbook')         .on('reset', function() { triggerPrerenderIfReady('guestbook');          });
 
     if (window.location.hash.length > 0 && window.location.hash != '#_=_' && $(window.location.hash).length > 0) {
         try { // Prevent from bug when hash is corrupted
