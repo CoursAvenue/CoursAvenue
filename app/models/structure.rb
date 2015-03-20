@@ -1078,12 +1078,22 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # @return
+  # @return Subject at depth 2
   def dominant_child_subject
     if courses.active.any? and (_subjects = courses.active.flat_map{ |c| c.subjects }).any?
       _subjects.group_by(&:name).values.max_by(&:size).first
     else
       subjects.at_depth(2).group_by(&:root).values.max_by(&:size).first
+    end
+  end
+
+  # @return VerticalPage from the dominant child subject
+  def dominant_vertical_page
+    if subjects.at_depth(0).count > 1
+      # dominant_parent_subject.vertical_pages.first
+      dominant_child_subject.vertical_pages.first
+    else
+      dominant_child_subject.vertical_pages.first
     end
   end
 

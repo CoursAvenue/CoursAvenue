@@ -1,21 +1,33 @@
 #structure-header.one-whole.west.push-half--bottom
   .main-container.soft--sides.soft-half--ends.relative{ itemscope: true, itemtype: "http://schema.org/Organization" }
-    - cache [@structure, 'structure/show/breadcrumb/v2'] do
+    - cache [@structure, 'structure/show/breadcrumb/v3'] do
       .main-container
-        %ol.nav.breadcrumb.epsilon.flush
-          %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-            = link_to root_search_page_without_subject_path(@city), itemprop: 'url' do
-              %span{ itemprop: 'title' }
-                = "Tous les cours à #{@city.name}"
-          - dominant_root_subject = @structure.dominant_root_subject
-          - if dominant_root_subject
-            %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-              = link_to root_search_page_path(dominant_root_subject, @city), itemprop: 'url' do
+        .flexbox
+          .flexbox__item.nowrap>
+            %ol.nav.breadcrumb.epsilon.flush
+              %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+                = link_to root_search_page_without_subject_path(@city), itemprop: 'url' do
+                  %span{ itemprop: 'title' }
+                    = "Tous les cours à #{@city.name}"
+              - dominant_root_subject = @structure.dominant_root_subject
+              - if dominant_root_subject
+                %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+                  = link_to root_search_page_path(dominant_root_subject, @city), itemprop: 'url' do
+                    %span{ itemprop: 'title' }
+                      = dominant_root_subject.name
+              %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
                 %span{ itemprop: 'title' }
-                  = dominant_root_subject.name
-          %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-            %span{ itemprop: 'title' }
-              = @structure.name
+                  = @structure.name
+          .flexbox__item.one-whole.text--right>
+            %ol.nav.breadcrumb.epsilon.flush
+              %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+                = link_to vertical_pages_path, itemprop: 'url' do
+                  %span{ itemprop: 'title' }= "Nos guides"
+              %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+                = link_to vertical_page_with_city_path(@structure.dominant_root_subject, @structure.dominant_vertical_page, @structure.dominant_city), itemprop: 'url' do
+                  %span{ itemprop: 'title' }= "#{@structure.dominant_vertical_page.subject_name} à #{@structure.dominant_city.name}"
+
+
     - cache [@structure, 'structure/show/header_labels_2'] do
       .flush
         %h1.inline.v-middle{ itemprop: 'name' }= @structure.name

@@ -1,6 +1,7 @@
 - @is_reponsive = true
-- @title = "#{@vertical_page.name} à #{@city.name}"
+- @title = "#{@vertical_page.subject_name} à #{@city.name}"
 - @total = Planning.count
+
 = content_for :title do
   = "#{@title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com".html_safe
 
@@ -28,10 +29,10 @@
       - next if ancestor.vertical_pages.empty?
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to vertical_page_path(ancestor.root, ancestor.vertical_pages.first), itemprop: 'url' do
-          %span{ itemprop: 'title' }= ancestor.vertical_pages.first.name
+          %span{ itemprop: 'title' }= ancestor.vertical_pages.first.subject_name
     %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
       = link_to vertical_page_path(@subject.root, @vertical_page), itemprop: 'url' do
-        %span{ itemprop: 'title' }= @vertical_page.name
+        %span{ itemprop: 'title' }= @vertical_page.subject_name
     %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
       %span{ itemprop: 'title' }= @city.name
 
@@ -55,23 +56,11 @@
           %h2.delta.line-height-1-7= link_to "Promotions à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
 
       %hr
-      = form_tag '', method: :get, authenticity_token: false, data: { behavior: 'coursavenue-search' }, id: 'vp-city-form' do
-        %h3.line-height-1-7.delta #{@vertical_page.name} : vous recherchez un cours dans une autre ville ?
-        .flexbox.push-half--bottom
-          .flexbox__item.soft-half--right
-            .input-with-icon.v-middle
-              %input.one-whole.input--large#address-picker.soft-half--left{ size: 25, placeholder:'Ville / CP / Adresse', type:'text', autocomplete: 'off', name:'address_name', data: { behavior:'address-picker', lng: '#vp-address-lng', lat: '#vp-address-lat', city: '#vp-address-city', address_name: '#vp-address-name', radius: '#vp-address-radius', zoom: '#vp-address-zoom' } }
-              %i.fa.fa-map-marker.delta
-            %input#vp-address-lat{ type: 'hidden', value: @city.latitude, name: 'lat' }
-            %input#vp-address-lng{ type: 'hidden', value: @city.longitude, name: 'lng' }
-            %input#vp-address-city{ type: 'hidden', value: @city.name, name: 'city' }
-            %input#vp-address-name{ type: 'hidden', value: @city.name, name: 'address_name' }
-            %input#vp-address-radius{ type: 'hidden', name: 'radius' }
-            %input#vp-address-zoom{ type: 'hidden', name: 'zoom' }
+      %h4.flush
+        #{StructureSearch.search(radius: 3, lat: @city.latitude, lng: @city.longitude, subject_id: @vertical_page.subject.slug, per_page: 8).total}
+        établissements à #{@city.name} pour prendre des cours de #{@vertical_page.subject_name}
+      .text--right= link_to ">> Voir tous les cours de #{@vertical_page.subject_name} à #{@city.name}", search_page_path(@subject.root, @subject, @city)
 
-          %button.flexbox__item.v-middle.nowrap.btn.btn--blue.btn--full.input--large{ type: 'submit', id: 'submit_search_form' }
-            %i.fa.fa-search
-            Trouver
       %hr.push-half--ends
 
       .blog-article__content.push--top
@@ -92,18 +81,14 @@
             %p= @subject.tips
       - if @vertical_page.medias.any?
         = render partial: 'structures/map_and_gallery', locals: { medias: @vertical_page.medias, without_map: true }
-      %h3= "#{@vertical_page.name} : les lieux les plus recherchés"
-      .grid
-        - @cities.in_groups_of(4, false).each do |cities_group|
-          .grid__item.one-half>
-            %ul.block-list
-              - cities_group.each do |city|
-                - if @subject.is_root?
-                  %li.hard.epsilon= link_to city.name, root_vertical_page_with_city_path(@vertical_page, city), class: 'block soft-half'
-                - else
-                  %li.hard.epsilon= link_to city.name, vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'block soft-half'
+      - if @subject.depth == 2
+        %h3= "D'autres disciplines qui pourraient vous plaire :"
+        - @subject.siblings.each do |sibling|
+          - sibling.vertical_pages.each do |vertical_page|
+            .inline-block.one-half>
+              = link_to vertical_page.subject_name, vertical_page_with_city_path(@subject.root, vertical_page, @city), class: 'epsilon line-height-1-7'
     .grid__item.four-tenths.palm-one-whole>
-      %h3 #{@vertical_page.name} : sélection à #{@city.name}
+      %h3 #{@vertical_page.subject_name} : sélection à #{@city.name}
       .panel
         %ul.nav.tabs.panel__header
           %li.active
@@ -123,7 +108,7 @@
             - other_structures.each_with_index do |structure, index|
               - cache [structure, 'vertical_pages/show'] do
                 = render partial: 'vertical_pages/structure', locals: { structure: structure }
-          .text--right= link_to "#{@vertical_page.name} : voir tous les cours à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'epsilon'
+          .text--right= link_to "#{@vertical_page.subject_name} : voir tous les cours à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'epsilon'
 
 
 - if @subject.depth == 0
