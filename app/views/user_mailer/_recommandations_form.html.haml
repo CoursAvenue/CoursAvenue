@@ -40,19 +40,19 @@
                   .p.hard--bottom.soft--top Nom du cours suivi
                 %td.soft-half--ends.soft-half--right.v-top{ colspan: 3 }
                   = f.input :course_name, label: false, wrapper_html: { class: 'flush' }, input_html: { name: 'comment_course_name', placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir', class: 'input--large one-whole flush' }
-                  .f-size-13.f-style-italic{ style: 'padding-top: 3px;' } Ex. : Stage de danse jazz new style pour ado du jeudi soir
+                  .f-size-12.f-style-italic{ style: 'padding-top: 3px;' } Ex. : Stage de danse jazz new style pour ado du jeudi soir
             %tr
               %td.v-top.text--right.soft-half--right{ width: '26%'}
                 .p.hard--bottom.soft--top Titre de votre avis
               %td.soft-half--ends.soft-half--right.v-top{ colspan: 3 }
                 = f.input :title, label: false, wrapper_html: { class: 'flush' }, input_html: { name: 'comment_title', placeholder: "Ex. : Un professeur toujours à l'écoute", class: 'input--large one-whole flush' }
-                .f-size-13.f-style-italic{ style: 'padding-top: 3px;' } Ex. : Un professeur toujours à l'écoute
+                .f-size-12.f-style-italic{ style: 'padding-top: 3px;' } Ex. : Un professeur toujours à l'écoute
             %tr
               %td.v-top.text--right.soft-half--right{ width: '26%'}
                 .p.hard--bottom.soft--top Votre avis
               %td.soft-half--ends.soft-half--right.v-top{ colspan: 3 }
                 = f.input :content, label: false, input_html: { name: 'comment_content', style: 'height: 150px;', class: 'input--large one-whole flush' }, wrapper_html: { class: 'flush' }, required: true
-                .f-size-13.f-style-italic{ style: 'padding-top: 3px;' } 20 mots minimum
+                .f-size-12.f-style-italic{ style: 'padding-top: 3px;' } 20 mots minimum
 
             - unless @participation_request.present?
               %tr
@@ -60,7 +60,7 @@
                   .p.hard--bottom.soft-half--top Votre nom
                 %td.v-top.soft-half--right{ colspan: 3 }
                   = f.input :author_name, label: false, required: true, input_html: { name: 'comment_author_name', placeholder: 'Ex. : Stéphanie P.', class: 'input--large one-whole flush' }, wrapper_html: { class: 'flush' }
-                  .f-size-13.f-style-italic{ style: 'padding-top: 3px;' } Ex. : Stéphanie P.
+                  .f-size-12.f-style-italic{ style: 'padding-top: 3px;' } Ex. : Stéphanie P.
             %tr
               %td.soft--top.text--right{ colspan: 4 }
                 %button{ type: 'submit', class: 'btn btn--green btn--full' } Publier mon avis

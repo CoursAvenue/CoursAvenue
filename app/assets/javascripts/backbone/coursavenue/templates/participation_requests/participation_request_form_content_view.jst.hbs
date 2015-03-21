@@ -1,35 +1,30 @@
 <div class="bordered--bottom f-weight-500">
-    <div class="grid--full">
-        <div class="grid__item v-middle three-twelfths soft--sides soft-half--ends bordered--right">
-            <label class="label--large nowrap" for="participation_request_courses_select">Cours</label>
-        </div>{{!--
-    --}}<div class="grid__item v-middle nine-twelfths soft--sides">
-            <select name="participation_request[course_id]" class="one-whole" id="participation_request_courses_select">
-                <option value="">Quel cours vous intéresse ?</option>
-                {{#if courses_open_for_trial}}
-                    <optgroup label="Cours avec essai gratuit ({{trial_courses_policy}})">
-                        {{#each courses_open_for_trial}}
-                            <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
-                        {{/each}}
-                    </optgroup>
-                {{/if}}
-                {{#if courses_without_open_for_trials}}
-                    <optgroup label="Cours réguliers sans essai gratuit">
-                        {{#each courses_without_open_for_trials}}
-                            <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
-                        {{/each}}
-                    </optgroup>
-                {{/if}}
-                {{#if trainings_without_open_for_trials}}
-                    <optgroup label="Stages & Ateliers">
-                      {{#each trainings_without_open_for_trials}}
-                          <option data-collection-type="trainings" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
-                      {{/each}}
-                    </optgroup>
-                {{/if}}
-            </select>
-            <div data-error="course_id" class="{{#unless errors.course_id}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.course_id}}</div>
-        </div>
+    <div class="soft--sides soft-half--ends">
+        <select name="participation_request[course_id]" class="one-whole  input--large" id="participation_request_courses_select">
+            <option value="">Quel cours vous intéresse ?</option>
+            {{#if courses_open_for_trial}}
+                <optgroup label="Cours avec essai gratuit ({{trial_courses_policy}})">
+                    {{#each courses_open_for_trial}}
+                        <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
+                    {{/each}}
+                </optgroup>
+            {{/if}}
+            {{#if courses_without_open_for_trials}}
+                <optgroup label="Cours réguliers sans essai gratuit">
+                    {{#each courses_without_open_for_trials}}
+                        <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
+                    {{/each}}
+                </optgroup>
+            {{/if}}
+            {{#if trainings_without_open_for_trials}}
+                <optgroup label="Stages & Ateliers">
+                  {{#each trainings_without_open_for_trials}}
+                      <option data-collection-type="trainings" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
+                  {{/each}}
+                </optgroup>
+            {{/if}}
+        </select>
+        <div data-error="course_id" class="{{#unless errors.course_id}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.course_id}}</div>
     </div>
     <div class="grid--full bordered--top" data-element="planning-select-wrapper" style="display: none">
         <div class="grid__item v-middle three-twelfths soft--sides soft-half--ends bordered--right">

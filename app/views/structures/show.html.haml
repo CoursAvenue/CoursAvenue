@@ -9,124 +9,123 @@
   .blue-box.islet.text--center.push--ends
     = render 'users/waiting_for_activation_text'
 
-%div
-  - if @structure.medias.any? or @structure.logo.present?
-    - image = (@structure.medias.any? ? @structure.medias.cover_first.images_first.first.image : @structure.logo)
-    #photos-videos.bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under{ style: "height:300px; background-image: url('#{image.url(:wide_and_blurry)}')", data: { behavior: 'parallax' } }
-      .black-curtain.black-curtain--soft.north.west.one-whole.absolute
-  - else
-    #header-map.bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under{ style: "height:300px;" }
-  .soft--sides.soft-half--top
-    = render partial: 'structures/structure_header', locals: { structure: @structure }
-    - cache [@structure, 'structure/show/breadcrumb/v2'] do
-      %ol.nav.breadcrumb.push-half--bottom
-        %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-          = link_to root_search_page_without_subject_path(@city), class: 'white', itemprop: 'url' do
-            %span{ itemprop: 'title' }
-              = "Tous les cours à #{@city.name}"
-        - dominant_root_subject = @structure.dominant_root_subject
-        - if dominant_root_subject
-          %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-            = link_to root_search_page_path(dominant_root_subject, @city), class: 'white', itemprop: 'url' do
-              %span{ itemprop: 'title' }
-                = dominant_root_subject.name
-        %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+- if @structure.medias.any? or @structure.logo.present?
+  - image = (@structure.medias.any? ? @structure.medias.cover_first.images_first.first.image : @structure.logo)
+  #photos-videos.bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under{ style: "height:300px; background-image: url('#{image.url(:wide_and_blurry)}')", data: { behavior: 'parallax' } }
+    .black-curtain.black-curtain--soft.north.west.one-whole.absolute
+- else
+  #header-map.bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under{ style: "height:300px;" }
+.soft--sides.soft-half--top.soft--bottom
+  = render partial: 'structures/structure_header', locals: { structure: @structure }
+  - cache [@structure, 'structure/show/breadcrumb/v2'] do
+    %ol.nav.breadcrumb.push-half--bottom
+      %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = link_to root_search_page_without_subject_path(@city), class: 'white', itemprop: 'url' do
           %span{ itemprop: 'title' }
-            = @structure.name
-    .grid
-      .grid__item.eight-twelfths.soft-half--right{ style: (@structure.medias.any? or @structure.logo.present? ? '' : 'margin-top: 150px;') }>
-        - if @structure.medias.any? or @structure.logo.present?
-          = render partial: 'structures/map_and_gallery', locals: { medias: @medias, structure: @structure }
+            = "Tous les cours à #{@city.name}"
+      - dominant_root_subject = @structure.dominant_root_subject
+      - if dominant_root_subject
+        %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+          = link_to root_search_page_path(dominant_root_subject, @city), class: 'white', itemprop: 'url' do
+            %span{ itemprop: 'title' }
+              = dominant_root_subject.name
+      %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        %span{ itemprop: 'title' }
+          = @structure.name
+  .grid
+    .grid__item.eight-twelfths.soft-half--right{ style: (@structure.medias.any? or @structure.logo.present? ? '' : 'margin-top: 150px;') }>
+      - if @structure.medias.any? or @structure.logo.present?
+        = render partial: 'structures/map_and_gallery', locals: { medias: @medias, structure: @structure }
 
-        - comment = (@structure.highlighted_comment || @structure.comments.last)
-        - if comment
-          %div.epsilon.soft--bottom.f-weight-bold
-            %i.fa.fa-quotes.v-super.white
-            .inline-block.v-middle.white.inline-block.very-soft.hard--ends
-              = truncate(comment.title, length: 60)
-            .inline-block.v-middle.milli.white.f-style-italic
-              \— #{comment.author_name}, #{truncate(comment.course_name, length: 15)} —
-            .inline-block.v-middle.milli.f-style-italic
-              = link_to '#avis', data: { behavior: 'scroll-to', offset_top: '-50' }, class: 'white' do
-                Voir les #{@structure.comments_count} avis
+      - comment = (@structure.highlighted_comment || @structure.comments.last)
+      - if comment
+        %div.epsilon.soft--bottom.f-weight-bold
+          %i.fa.fa-quotes.v-super.white
+          .inline-block.v-middle.white.inline-block.very-soft.hard--ends
+            = truncate(comment.title, length: 60)
+          .inline-block.v-middle.milli.white.f-style-italic
+            \— #{comment.author_name}, #{truncate(comment.course_name, length: 15)} —
+          .inline-block.v-middle.milli.f-style-italic
+            = link_to '#avis', data: { behavior: 'scroll-to', offset_top: '-50' }, class: 'white' do
+              Voir les #{@structure.comments_count} avis
 
-        #structure-profile{ class: (@is_sleeping ? '' : 'bg-white bordered'), data: { type: 'structure-profile-root' } }
-          - if @is_sleeping
-            = render partial: 'structures/sleeping_content', locals: { medias: @medias }
-            #structure.hidden
-          - else
-            #structure-region
-            #avis
-              .soft--bottom{ data: { type: "certified-comments-collection" } }
-              .soft-{ data: { type: "guestbook-collection" } }
-      .grid__item.four-twelfths>
-        %div{ data: { type: 'contact-form' } }
-        - # This additionnal div is necessary for the husk that will be prepended
-        - # to the parent of the sticky div
-        %div
-          %div{ data: { type: (@is_sleeping ? '' : 'sticky-map-container') }}>
-            - unless @is_sleeping
-              .push--bottom{ data: { type: (@is_sleeping ? '' : 'sticky-map') }}>
-              %a.push--bottom.contact-button.btn--full.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
-                Contacter
-                = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
+      #structure-profile{ class: (@is_sleeping ? '' : 'bg-white bordered'), data: { type: 'structure-profile-root' } }
+        - if @is_sleeping
+          = render partial: 'structures/sleeping_content', locals: { medias: @medias }
+          #structure.hidden
+        - else
+          #structure-region
+          #avis
+            .soft--bottom{ data: { type: "certified-comments-collection" } }
+            .soft-{ data: { type: "guestbook-collection" } }
+    .grid__item.four-twelfths>
+      %div{ data: { type: 'contact-form' } }
+      - # This additionnal div is necessary for the husk that will be prepended
+      - # to the parent of the sticky div
+      %div
+        %div{ data: { type: (@is_sleeping ? '' : 'sticky-map-container') }}>
+          - unless @is_sleeping
+            .push--bottom{ data: { type: (@is_sleeping ? '' : 'sticky-map') }}>
+            %a.push--bottom.contact-button.btn--full.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
+              Contacter
+              = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
 
-            - if @similar_profiles
-              .panel.push--bottom
-                .panel__header.soft-half--ends.soft--sides
-                  %h5.flush Profils similaires
-                .panel__body.soft-half--ends{ style: (@is_sleeping ? '' : 'height: 300px; overflow-y: scroll;') }
-                  - @similar_profiles.each_with_index do |structure, index|
-                    - unless index == 0
-                      %hr.push-half--ends
-                    - cache ['similar_profiles', structure] do
-                      %div{ style: 'height: 70px;' }
-                        = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
-                          .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
-                            .grid__item.v-top.one-fifth>
-                              .media-photo{ itemprop: 'image', content: structure.logo.url }
-                                = image_tag structure.logo.url(:thumb)
-                            .grid__item.v-top.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
-                              .nowrap
-                                - if header_promotion_title_for_structure(structure).present?
-                                  %h6.inline-block.push-half--bottom= truncate(structure.name, length: 18)
-                                  .lbl.lbl--small.lbl--yellow
-                                    %i.fa.fa-star
-                                    = header_promotion_title_for_structure(structure)
-                                - else
-                                  %h6.inline-block.push-half--bottom= truncate(structure.name, length: 30)
-                              %div
-                                %i= truncate(structure.cities_text, length: 40)
-                              .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
-        - unless @is_sleeping
-          - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
+          - if @similar_profiles
             .panel.push--bottom
-              .panel__body.soft.epsilon
-                - if @structure.response_rate
-                  .grid--full.soft-half--bottom
-                    .grid__item.v-middle.one-half.gray>
-                      Taux de réponse
-                    .grid__item.v-middle.one-half>
-                      %strong= "#{@structure.response_rate}%"
-                - if @structure.response_time
-                  .grid--full.soft-half--bottom
-                    .grid__item.v-middle.one-half.gray>
-                      Temps de réponse
-                    .grid__item.v-middle.one-half>
-                      %strong= response_time_in_words @structure
-                - if @structure.main_contact and @structure.main_contact.current_sign_in_at
-                  .grid--full
-                    .grid__item.v-middle.one-half.gray>
-                      Dernière activité
-                    .grid__item.v-middle.one-half>
-                      %strong= l(@structure.main_contact.current_sign_in_at, format: :date).capitalize
+              .panel__header.soft-half--ends.soft--sides
+                %h5.flush Profils similaires
+              .panel__body.soft-half--ends{ style: (@is_sleeping ? '' : 'height: 300px; overflow-y: scroll;') }
+                - @similar_profiles.each_with_index do |structure, index|
+                  - unless index == 0
+                    %hr.push-half--ends
+                  - cache ['similar_profiles', structure] do
+                    %div{ style: 'height: 70px;' }
+                      = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
+                        .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
+                          .grid__item.v-top.one-fifth>
+                            .media-photo{ itemprop: 'image', content: structure.logo.url }
+                              = image_tag structure.logo.url(:thumb)
+                          .grid__item.v-top.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
+                            .nowrap
+                              - if header_promotion_title_for_structure(structure).present?
+                                %h6.inline-block.push-half--bottom= truncate(structure.name, length: 18)
+                                .lbl.lbl--small.lbl--yellow
+                                  %i.fa.fa-star
+                                  = header_promotion_title_for_structure(structure)
+                              - else
+                                %h6.inline-block.push-half--bottom= truncate(structure.name, length: 30)
+                            %div
+                              %i= truncate(structure.cities_text, length: 40)
+                            .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
+      - unless @is_sleeping
+        - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
+          .panel.push--bottom
+            .panel__body.soft.epsilon
+              - if @structure.response_rate
+                .grid--full.soft-half--bottom
+                  .grid__item.v-middle.one-half.gray>
+                    Taux de réponse
+                  .grid__item.v-middle.one-half>
+                    %strong= "#{@structure.response_rate}%"
+              - if @structure.response_time
+                .grid--full.soft-half--bottom
+                  .grid__item.v-middle.one-half.gray>
+                    Temps de réponse
+                  .grid__item.v-middle.one-half>
+                    %strong= response_time_in_words @structure
+              - if @structure.main_contact and @structure.main_contact.current_sign_in_at
+                .grid--full
+                  .grid__item.v-middle.one-half.gray>
+                    Dernière activité
+                  .grid__item.v-middle.one-half>
+                    %strong= l(@structure.main_contact.current_sign_in_at, format: :date).capitalize
 
-          %a.btn.btn--full{ data: { behavior: 'add-to-favorite', added_text: 'Retirer de mes favoris', not_added_text: 'Ajouter en favori' } }
-            %i.fa.fa-heart
-            %span
-          - if @structure.followings.count > 9
-            %p.flush.text--center.push-half--top
-              %strong Suivi par #{@structure.followings.count} élèves
+        %a.btn.btn--full{ data: { behavior: 'add-to-favorite', added_text: 'Retirer de mes favoris', not_added_text: 'Ajouter en favori' } }
+          %i.fa.fa-heart
+          %span
+        - if @structure.followings.count > 9
+          %p.flush.text--center.push-half--top
+            %strong Suivi par #{@structure.followings.count} élèves
 
 
 

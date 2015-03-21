@@ -22,7 +22,7 @@
     %h5.flush--bottom.push-half--top Message :
     %p.flush.blue
       %i Personnalisez le texte ci-dessous puis envoyez votre invitation.
-    %textarea.milli.one-whole{ class: 'f-size-13', style: 'height: 125px', name: 'text', rows: 8 }
+    %textarea.milli.one-whole{ class: 'f-size-12', style: 'height: 125px', name: 'text', rows: 8 }
       Salut !&#x000A;Le week-end du 5-6 avril prochain, #{@structure.name} ouvre ses portes à travers des ateliers gratuits. Je me suis inscrit à l'atelier "#{@participation.course.name}" du #{planning_date_for(@participation.planning)} #{planning_time_for(@participation.planning, false)} et je te transmets cette invitation pour que tu puisses t'inscrire aussi. Ça se passera à l'adresse suivante : #{@participation.planning.place.address}.
     %p.gray-light.flush
       = link_to 'Lien que recevront mes proches', jpo_structure_url(@structure), target: :_blank

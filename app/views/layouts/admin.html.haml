@@ -18,7 +18,7 @@
             - unread_conversations       = unread_conversations.uniq.sort_by(&:created_at).reverse
             - unread_conversations_count = unread_conversations.count
             .inline-block.v-middle.drop-down__wrapper
-              = link_to pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft--ends muted-link f-weight-bold' do
+              = link_to pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft-half--ends muted-link f-weight-bold' do
                 %i.fa.fa-envelope-o
                 = pluralize @structure.mailbox.inbox.count, 'message'
                 - if unread_conversations_count > 0
@@ -51,7 +51,7 @@
                   %li.text--center= link_to 'Voir tous les messages', pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
           %span.v-middle.push-half--sides= '|'
           .inline-block.v-middle.drop-down__wrapper
-            = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft--ends muted-link f-weight-bold' do
+            = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft-half--ends muted-link f-weight-bold' do
               %i.fa.fa-comment.v-middle
               %span.v-middle= "#{@structure.comments.accepted.count} avis"
               - if @structure.comments.pending.count > 0
@@ -77,7 +77,7 @@
                 %li.text--center= link_to 'Voir toutes les avis', pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
           %span.v-middle.push-half--sides= '|'
           .inline-block.v-middle.drop-down__wrapper
-            = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft--ends muted-link f-weight-bold' do
+            = link_to edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft-half--ends muted-link f-weight-bold' do
               = truncate(@structure.name, length: 80)
               .fa.fa-caret-down.very-soft--left
             .drop-down__el.drop-down__el--left
@@ -126,21 +126,23 @@
                     %i.fa.fa-sign-out
                     Déconnexion
 
-  .main-container.soft--sides
-    .flexbox.push-double--top
-      - if content_for? :side_menu
-        %nav.flexbox__item.v-top.v-top.border-none--right.print--hidden.soft--top.side-menu-width.relative
-          .border-none--right.side-menu.side-menu-width.relative
-            = yield :side_menu
-      .flexbox__item.v-top
-        - if content_for?(:backbone_app)
-          = yield :backbone_app
-        - else
-          .pro-top-menu.rounded--top--double{ class: (content_for?(:top_menu) ? 'soft--left bg-orange' : 'bordered--top bordered--orange bordered--very-thick') }
-            = yield :top_menu
-          .bg-white.bordered--left.bordered--right.bordered--right.bordered--bottom.soft--ends.soft-double--sides.shadowed--bottom.rounded--top.min-height-800
-            %div{ class: (content_for?(:top_menu) ? 'push--top' : '') }= yield
-      .flexbox__item.v-top.wizard-container.relative.print--hidden
+  -# Here to prevent scroll from wizard helper
+  .overflow-x-hidden
+    .main-container.soft--sides
+      .flexbox.push-double--top
+        - if content_for? :side_menu
+          %nav.flexbox__item.v-top.v-top.border-none--right.print--hidden.soft--top.side-menu-width.relative
+            .border-none--right.side-menu.side-menu-width.relative
+              = yield :side_menu
+        .flexbox__item.v-top
+          - if content_for?(:backbone_app)
+            = yield :backbone_app
+          - else
+            .pro-top-menu.rounded--top--double{ class: (content_for?(:top_menu) ? 'soft--left bg-orange' : 'bordered--top bordered--orange bordered--very-thick') }
+              = yield :top_menu
+            .bg-white.bordered--left.bordered--right.bordered--right.bordered--bottom.soft--ends.soft-double--sides.shadowed--bottom.rounded--top.min-height-800
+              %div{ class: (content_for?(:top_menu) ? 'push--top' : '') }= yield
+        .flexbox__item.v-top.wizard-container.relative.print--hidden
 
 = render :template => 'layouts/application'
 = render 'shared/live_chat'

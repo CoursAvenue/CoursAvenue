@@ -35,7 +35,7 @@
               - else
                 %td= "#{price.number} cours"
               %td.text--center= readable_amount(price.amount) if price.amount
-              %td.text--center{ class: (@structure.premium? ? 'premium-bordered-box' : '') }
+              %td.text--center
                 - if price.promo_amount
                   - if @structure.premium?
                     %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que pour les profils Premium : cliquez pour en savoir plus." } }
@@ -50,7 +50,7 @@
             %tr
               %td= t(price.libelle)
               %td.text--center= readable_amount(price.amount) if price.amount
-              %td.text--center{ class: (@structure.premium? ? 'premium-bordered-box' : '') }
+              %td.text--center
                 - if price.promo_amount
                   - if @structure.premium?
                     %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que pour les profils Premium : cliquez pour en savoir plus." } }
@@ -85,7 +85,7 @@
               %td= @trial.info
 
           - price_group.premium_offers.each do |price|
-            %tr{ class: (@structure.premium? ? 'premium-bordered-box' : '') }
+            %tr
               %td
                 - if @structure.premium?
                   %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que pour les profils Premium : cliquez pour en savoir plus." } }
@@ -96,7 +96,7 @@
 
 
           - price_group.discounts.each do |price|
-            %tr{ class: (@structure.premium? ? 'premium-bordered-box' : '') }
+            %tr
               %td
                 - if @structure.premium?
                   %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que pour les profils Premium : cliquez pour en savoir plus." } }

@@ -13,7 +13,7 @@
             \—
           = @structure.city.name
         - @structure.subjects.group_by(&:root).each do |root_subject, subjects|
-          %h3.flush.very-soft--bottom.f-weight-normal.f-size-13.text-ellipsis
+          %h3.flush.very-soft--bottom.f-weight-normal.f-size-12.text-ellipsis
             %i.fa{ class: "fa-#{root_subject.slug}" }
             %strong= root_subject.name
             = subjects.map(&:name).join(', ')

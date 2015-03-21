@@ -47,10 +47,10 @@ input, textarea {
     &, &.radio_buttons + label {
         padding-top   : 9px;
         padding-bottom: 9px;
-        font-size     : 15px;
+        font-size     : 14px;
     }
     .chosen-choices {
-        font-size     : 15px !important;
+        font-size     : 14px !important;
         padding-top   : 5px !important;
         padding-bottom: 5px !important;
         input {
@@ -59,7 +59,7 @@ input, textarea {
     }
     .chosen-drop {
         margin-top: -9px;
-        font-size : 15px;
+        font-size : 14px;
     }
     &.boolean {
         margin-top: 1px;
@@ -76,10 +76,10 @@ input, textarea {
 }
 .input--small {
     padding: 2px 5px;
-    font-size: 14px;
+    font-size: 13px;
 }
 .label--large {
-    font-size     : 15px;
+    font-size     : 14px;
     padding-top   : 8px;
     padding-bottom: 10px;
     font-weight   : 500;
