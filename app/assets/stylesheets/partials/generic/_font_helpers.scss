@@ -51,8 +51,8 @@
 
 .inherit-font-size { font-size  : inherit; }
 .f-size-really-big {
-    font-size: 55px;
-    @include media-query(desk-wide) { font-size: 65px; }
+    font-size: 50px;
+    @include media-query(desk-wide) { font-size: 60px; }
     @include media-query(palm) { font-size: 30px; }
 }
 .f-size-big {
