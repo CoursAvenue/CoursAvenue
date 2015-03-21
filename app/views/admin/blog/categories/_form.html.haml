@@ -17,7 +17,7 @@
   = f.input :subtitle, input_html: { class: 'input--large one-whole' }, label: false
   = f.input :page_title, input_html: { class: 'input--large one-whole' }, label: false
   %p.flush.epsilon Environ 155 caractères
-  = f.input :page_description, input_html: { class: 'input--large one-whole', data: { behavior: 'text-counter', characters: true, 'good-words-nb' => 155, 'bad-text' => 'Allez Camille, tu y es presque !', 'average-words-nb' => 'Almost there!', 'good-text' => 'Wouhou!!! Well done!' } }, label: false
+  = f.input :page_description, input_html: { class: 'input--large one-whole', data: { behavior: 'text-counter', characters: true, 'good-words-nb' => 155, 'bad-text' => 'Allez Camille, tu y es presque !', 'average-words-text' => 'Almost there!', 'good-text' => 'Wouhou!!! Well done!' } }, label: false
   = f.input :description, input_html: { class: 'input--large one-whole' }, label: false
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
 

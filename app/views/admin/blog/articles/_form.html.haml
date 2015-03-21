@@ -1,4 +1,5 @@
 = simple_form_for [:admin, @article], as: :blog_article, url: (@article.new_record? ? admin_blog_articles_path : admin_blog_article_path(@article)) do |f|
+  = f.input :type, as: :hidden
   .text--center
     - if @article.image.present?
       = image_tag @article.image.url(:default), width: 400, data: { placeholder: true }
@@ -18,7 +19,7 @@
   = f.input :page_title, label: false, input_html: { class: 'input--large one-whole' }
   = f.input :title, label: false, input_html: { class: 'input--large one-whole' }
   %p.flush.epsilon Environ 155 caractères
-  = f.input :page_description, input_html: { class: 'input--large one-whole', data: { behavior: 'text-counter', characters: true, 'good-words-nb' => 155, 'bad-text' => 'Allez Camille, tu y es presque !', 'good-text' => 'Wouhou!!! Well done!', 'average-words-nb' => 'Almost there!' } }, label: false
+  = f.input :page_description, input_html: { class: 'input--large one-whole', data: { behavior: 'text-counter', characters: true, 'good-words-nb' => 155, 'bad-text' => 'Allez Camille, tu y es presque !', 'good-text' => 'Wouhou!!! Well done!', 'average-words-text' => 'Almost there!' } }, label: false
   = f.input :description, label: false, input_html: { class: 'input--large one-whole' }
   = f.association :subjects, as: :select, collection: Subject.all, input_html: { class: 'input--large one-whole', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Disciplines associée' }, multiple: true }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
 
