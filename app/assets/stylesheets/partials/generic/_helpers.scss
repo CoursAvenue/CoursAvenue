@@ -1,9 +1,10 @@
 /*------------------------------------*\
     EFFECTS
 \*------------------------------------*/
-.blur{
-    @include filter(blur(10px));
+.blur-image-on-hover {
+    &:hover img { @include filter(blur(5px)); }
 }
+.blur { @include filter(blur(10px)); }
 /*------------------------------------*\
     WIDTHS & HEIGHTS
 \*------------------------------------*/
@@ -530,9 +531,9 @@
 /*------------------------------------*\
     TRANSITIONS
 \*------------------------------------*/
-.transition-all-300 { transition: all .3s; }
-.transition-all-500 { transition: all .5s; }
-.transition-all-900 { transition: all .9s; }
+.transition-all-300 { @include transition(all .3s ease-in-out); }
+.transition-all-500 { @include transition(all .5s ease-in-out); }
+.transition-all-900 { @include transition(all .9s ease-in-out); }
 
 .rotate-on-hover__wrapper {
     &:hover .rotate-on-hover__child {

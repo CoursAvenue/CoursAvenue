@@ -1,3 +1,28 @@
 .breadcrumb > li + li:before {
     margin-left: 0.4em;
 }
+
+.breadcrumb > li + li:before {
+    @extend .fa;
+    @extend .fa-chevron-right;
+    font-size   : 0.8em;
+    margin-left : 1em;
+    margin-right: 1em;
+    color        : #888888;
+}
+
+.blog__breadcrumb {
+    display : inline-block;
+    position: relative;
+}
+@include media-query(lap-and-up) {
+    .blog__breadcrumb:after  { right: -110px }
+    .blog__breadcrumb:before { left: -110px }
+    .blog__breadcrumb:before, .blog__breadcrumb:after {
+        border-bottom: 1px solid #cccccc;
+        content      : "";
+        position     : absolute;
+        top          : 50%;
+        width        : 100px;
+    }
+}

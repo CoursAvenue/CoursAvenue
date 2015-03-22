@@ -36,13 +36,6 @@ class Blog::Article < ActiveRecord::Base
     end
   end
 
-  # Return similar articles
-  def similar_articles(limit = 2)
-    articles = Blog::Article.published.tagged_with(self.tags).take(limit)
-    articles += Blog::Article.order('RANDOM()').take(limit - articles.length + 1)
-    articles.reject { |article| article.id == self.id }.uniq.take(limit)
-  end
-
   def pro_article?
     false
   end

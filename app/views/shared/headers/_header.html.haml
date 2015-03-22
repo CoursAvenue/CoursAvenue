@@ -1,7 +1,8 @@
+- stick    = false unless stick.present?
 - expanded = false unless expanded.present?
 - medium   = false if medium.nil?
-%header.header.print--hidden
-  .very-soft.soft-half--sides.flexbox{class: [medium ? 'main-container--medium' : '', expanded ? '' : 'main-container']}
+%header.header.print--hidden{ data: { behavior: (stick ? 'sticky' : '') } }
+  .very-soft.soft-half--sides.flexbox{ class: [medium ? 'main-container--medium' : '', expanded ? '' : 'main-container'] }
     .flexbox__item.palm-one-whole.v-middle.relative.nowrap>
       = link_to '', root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'v-middle coursavenue-header-logo mixpanel-tracker', title: 'CoursAvenue | Tous les cours autour de vous', data: { info: 'header' }
       - unless layout_locals[:hide_top_menu_search]
