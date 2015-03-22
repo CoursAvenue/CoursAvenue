@@ -1,8 +1,7 @@
 - image_style = (double ? :pro_index_double : :pro_index)
 .relative.opacity-hidden-on-hover__wrapper.rotate-on-hover__wrapper
-  = link_to pro_blog_article_path(article), class: 'muted-link' do
-    = image_tag article.image.url(image_style), class: 'block push-half--bottom'
-    .blur.overflow-hidden.bg-contain.height-100-percent.north.west.one-whole.absolute.opacity-hidden-on-hover__child{ style: "background-image: url('#{article.image.url(image_style)}')" }
+  = link_to pro_blog_article_path(article), class: 'muted-link block blur-image-on-hover overflow-hidden push-half--bottom' do
+    = image_tag article.image.url(image_style), class: 'block transition-all-300'
     .north.west.one-whole.absolute.opacity-hidden-on-hover__child.height-100-percent
       .blog_article__image-icon.text--center.absolute.absolute--center.rotate-on-hover__child.bg-white-faded{ class: (double ? 'blog_article__image-icon--double' : '')}
         %i.fa.fa-chevron-right

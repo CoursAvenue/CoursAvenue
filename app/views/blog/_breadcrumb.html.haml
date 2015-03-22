@@ -1,0 +1,7 @@
+.text--center
+  %ol.nav.breadcrumb.blog__breadcrumb.text--center.soft-half--ends.epsilon.flush--bottom
+    %li.f-style-italic.f-weight-600{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+      = link_to "Blog", blog_articles_path
+    - if category
+      %li.f-style-italic.f-weight-600{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = link_to category.name, category_blog_articles_path(category_id: category.slug)

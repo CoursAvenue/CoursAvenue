@@ -2,6 +2,12 @@
     $Medias
 \*------------------------------------*/
 
+.hoverable-media {
+    @include transition(all 200ms linear);
+    &:hover {
+        @include filter(brightness(120%));
+    }
+}
 .media-photo {
     position: relative;
     @include border-radius(2px);
