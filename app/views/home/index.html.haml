@@ -8,10 +8,37 @@
 = render 'home_screen'
 
 .home-screen-promotion-wrapper#vivez-passionnement
-  .main-container.mega-soft--ends.hard--sides.hard--bottom
+  .main-container.mega-soft--ends.hard--sides
     = render 'subject_guides'
 
 .main-container.main-container--medium.mega-soft--ends
   %h2.text--center.push--top.push-half--bottom.f-size-big.f-weight-400 Laissez-vous guider
   %h5.text--center.delta.push--bottom.soft--bottom.f-weight-400 Des milliers d'avis d'élèves pour trouver le meilleur cours
   = render 'home/bottom_comments'
+
+.home-screen-promotion-wrapper
+  .main-container.main-container--medium.mega-soft--ends
+    %h2.text--center.push--top.push-half--bottom.f-size-big.f-weight-400.ff-droid.f-style-italic Découvrez notre blog
+    %h5.text--center.delta.push--bottom.soft--bottom.f-weight-400 Insolite. Créatif. Énergique. Zen. Tendance.
+    = render partial: 'blog/articles/article', locals: { article: Blog::Article::UserArticle.order('published_at DESC').first, horizontal: true, index: 0, homepage: true }
+    %hr.push--ends
+    .text--center
+      = link_to blog_articles_path, class: 'delta' do
+        %i.fa.fa-chevron-right
+        Découvrir les autres articles
+
+
+= content_for :scripts do
+  :javascript
+    WebFontConfig = {
+      google: { families: [ 'Droid+Serif:400,400italic:latin' ] }
+    };
+    (function() {
+      var wf = document.createElement('script');
+      wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+        '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+      wf.type = 'text/javascript';
+      wf.async = 'true';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(wf, s);
+    })();
