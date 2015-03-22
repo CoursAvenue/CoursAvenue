@@ -4,7 +4,7 @@
   = @article.page_title
 
 = content_for :meta_description do
-  = @article.description
+  = @article.page_description || @article.description
 
 = content_for :meta_image do
   = @article.image.url(:default)

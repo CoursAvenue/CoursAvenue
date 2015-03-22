@@ -8,6 +8,7 @@ class Blog::ArticlesController < ApplicationController
   end
 
   def tags
+    @tag = params[:tag]
     @articles = Blog::Article::UserArticle.published.tagged_with(params[:tag]).page(params[:page] || 1).per(5)
   end
 
