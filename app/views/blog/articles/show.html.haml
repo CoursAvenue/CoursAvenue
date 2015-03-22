@@ -14,7 +14,7 @@
     = render partial: 'blog/breadcrumb', locals: { category: @article.category }
   .relative.height-three-quarters.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{@article.image.url(:default)}')" }
     .black-curtain.north.west.one-whole.absolute
-  .text--center.soft--ends
+  .text--center.soft.main-container
     %h1.ff-droid.f-style-italic.f-weight-400.f-size-really-big.flush.line-height-1-7= @article.title
     .blog-article__published-date.gray.grid__item.one-half>
       %i
