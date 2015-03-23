@@ -13,6 +13,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         saveModel: function saveModel (event) {
+            event.preventDefault();
+            this.model.save({}, {
+                error:   this.savingError,
+                success: this.savingSuccess
+            });
+
+            return false;
         },
 
         savingError: function savingError (model, response, options) {

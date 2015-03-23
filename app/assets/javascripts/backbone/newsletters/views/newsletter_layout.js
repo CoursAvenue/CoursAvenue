@@ -127,6 +127,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 model: this.newsletter
             });
 
+            this.listenTo(metadata_view, 'edited', this.finishEdition);
+
             this.getRegion('metadata').show(metadata_view);
             this.getRegion('metadata').$el.show();
             this.getRegion('metadata').initialized = true;
