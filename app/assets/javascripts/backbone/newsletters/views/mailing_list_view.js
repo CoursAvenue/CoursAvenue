@@ -12,6 +12,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         initialize: function initialize () {
             this.shownFilters = true;
             _.bindAll(this, 'selectMailingList', 'toggleFilters');
+
+            Handlebars.registerHelper('isSelected', function(inputValue, predicate) {
+                return inputValue == predicate ? 'selected' : '';
+            });
         },
 
         selectMailingList: function selectMailingList () {

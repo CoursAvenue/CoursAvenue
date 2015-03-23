@@ -14,6 +14,7 @@ class Pro::Structures::NewslettersController < ApplicationController
       @newsletter = @structure.newsletters.find params[:id]
     end
     @mailing_lists = @structure.mailing_lists
+    @tags          = @structure.user_profiles.includes(:tags).flat_map(&:tags).map(&:name).uniq
   end
 
   def show
