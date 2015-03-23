@@ -1,18 +1,19 @@
 - index      = 1 if index.nil?
 - horizontal = false if horizontal.nil?
+- homepage   = false if homepage.nil?
 - article_decorator = BlogArticleDecorator.decorate article
 - if horizontal
   %article.grid.text--center{ itemscope: true, itemtype: 'http://schema.org/Article' }
     - unless index == 0
       %hr.push--ends
-    .grid__item.palm-one-whole.v-middle.four-tenths>
+    .grid__item.palm-one-whole.v-middle.four-tenths.palm-push--bottom>
       = link_to blog_article_path(article), class: 'block muted-link text--center overflow-hidden' do
         = image_tag article.image.url(:user_index_horizontal), class: 'hoverable-media one-whole block', data: { src_2x: article.image.url(:user_index_horizontal_2x) }
     .grid__item.palm-one-whole.v-middle.six-tenths>
       - if article.category
         = link_to category_blog_articles_path(category_id: article.category.slug), class: 'orange inline-block f-weight-500 delta bordered--bottom soft-half--bottom push-half--bottom f-style-italic soft-half--sides link-colored-on-hover' do
           = article.category.name
-      %h2.line-height-1-7.alpha.text--center.f-weight-400.ff-droid.f-style-italic.bug-alpha{ itemprop: 'name' }
+      %h2.line-height-1-7.text--center.f-weight-400.ff-droid.f-style-italic{ itemprop: 'name', class: (homepage ? 'beta' : 'alpha') }
         = link_to blog_article_path(article), class: 'link-colored-on-hover' do
           = article.title
 
@@ -35,7 +36,7 @@
     - if article.category
       = link_to category_blog_articles_path(category_id: article.category.slug), class: 'orange inline-block f-weight-500 delta bordered--bottom soft-half--bottom push-half--bottom f-style-italic soft-half--sides link-colored-on-hover' do
         = article.category.name
-    %h2.line-height-1-7.alpha.text--center.f-weight-400.ff-droid.f-style-italic.bug-alpha{ itemprop: 'name' }
+    %h2.line-height-1-7.text--center.f-weight-400.ff-droid.f-style-italic{ itemprop: 'name', class: (homepage ? 'beta' : 'alpha') }
       = link_to blog_article_path(article), class: 'link-colored-on-hover' do
         = article.title
 

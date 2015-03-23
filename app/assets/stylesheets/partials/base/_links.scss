@@ -37,6 +37,7 @@ a.selected, a.active {
 .semi-muted-link {
     color: inherit;
 }
+
 .link-colored-on-hover {
     color: inherit;
     @include transition(all 0.3s ease-in-out);

@@ -16,6 +16,7 @@ CoursAvenue::Application.configure do
   # Disable Rails's static asset server (Apache or nginx will already do this)
   config.serve_static_assets  = true
   config.assets.compress = true
+  config.assets.version = '1.2'
   config.static_cache_control = "public, max-age=31536000"
 
   # By doing so, you are legally required to acknowledge
