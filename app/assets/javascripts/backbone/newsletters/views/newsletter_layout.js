@@ -199,7 +199,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         selectMailingList: function selectMailingList (data) {
-            this.newsletter.set('newsletter_mailing_list_id', data.model.get('id'));
+            if (data.model) {
+                this.newsletter.set('newsletter_mailing_list_id', data.model.get('id'));
+            }
 
             if (this.newsletter.hasChanged()) {
                 this.newsletter.save();
