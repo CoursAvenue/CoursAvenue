@@ -202,12 +202,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.newsletter.set('newsletter_mailing_list_id', data.model.get('id'));
 
             if (this.newsletter.hasChanged()) {
-                this.newsletter.save({}, {
-                    success: this.savingSuccessCallback,
-                    error:   this.savingErrorCallback,
-                });
-            } else {
-                this.nextStep();
+                this.newsletter.save();
             }
         },
 
