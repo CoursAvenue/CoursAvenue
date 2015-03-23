@@ -6,7 +6,7 @@
     .push--bottom
       - pr_counts = {}
       - max_value = 0
-      - ParticipationRequest.all.group_by{ |pr| (pr.place || pr.structure.places.first).city.region_name }.each do |region_name, prs|
+      - ParticipationRequest.all.group_by{ |pr| (pr.place ? pr.place.city.region_name : '') }.each do |region_name, prs|
         - pr_counts[region_name] = prs.length
         - max_value = prs.length if prs.length > max_value
       - pr_counts.each do |key, value|
