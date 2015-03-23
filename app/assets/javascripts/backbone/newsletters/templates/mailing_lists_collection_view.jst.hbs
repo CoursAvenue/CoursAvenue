@@ -1,9 +1,11 @@
 {{#if hasElements }}
 <div data-type='mailing-list'>
-  <div class='input'>
-    <input type='radio' id='mailing_list_all_profiles' name='mailing_list' value='all' class='input--large one--whole' />
-    <label for='mailing_list_all_profiles'>Envoyer à tous les contacts du répertoire</label>
-  </div>
+  {{#if showAllProfilesOption}}
+    <div class='input'>
+      <input type='radio' id='mailing_list_all_profiles' name='mailing_list' value='all' class='input--large one--whole' data-all-contacts='true'/>
+      <label for='mailing_list_all_profiles'>Envoyer à tous les contacts du répertoire</label>
+    </div>
+  {{/if}}
 </div>
 
 <div class='or'>

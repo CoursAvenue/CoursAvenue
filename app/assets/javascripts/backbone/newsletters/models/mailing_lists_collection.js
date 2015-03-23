@@ -17,7 +17,7 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         hasAllProfilesList: function hasAllProfilesList() {
-            return this.some(function(model) {
+            return !this.some(function(model) {
                 return model.has('all_profiles') && model.get('all_profiles') == true;
             });
         },
