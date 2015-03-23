@@ -8,4 +8,4 @@
               - if bloc.image?
                 = image_tag bloc.image.url, alt: @newsletter.title
               - else
-                = bloc.content.html_safe
+                = bloc.content.html_safe if bloc.content.present?

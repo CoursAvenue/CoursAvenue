@@ -9,13 +9,21 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         templateHelpers: function templateHelpers () {
+            var structure = window.coursavenue.bootstrap.structure;
+            var newsletter = this.model.get('id');
+
             return {
                 preview_url: function () {
-                    var structure = window.coursavenue.bootstrap.structure;
-                    var newsletter = this.model.get('id');
-
                     return Routes.preview_newsletter_pro_structure_newsletter_path(structure, newsletter);
                 }.bind(this),
+
+                send_url: function () {
+                    return Routes.send_newsletter_pro_structure_newsletter_path(structure, newsletter);
+                },
+
+                save_url: function () {
+                    return Routes.pro_structure_newsletters_path(structure);
+                },
             };
         },
 

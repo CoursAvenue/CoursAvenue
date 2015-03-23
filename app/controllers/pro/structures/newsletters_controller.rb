@@ -14,6 +14,7 @@ class Pro::Structures::NewslettersController < ApplicationController
       @newsletter = @structure.newsletters.find params[:id]
     end
     @mailing_lists = @structure.mailing_lists
+    @tags          = @structure.user_profiles.includes(:tags).flat_map(&:tags).map(&:name).uniq
   end
 
   def show
@@ -73,6 +74,9 @@ class Pro::Structures::NewslettersController < ApplicationController
   # 1. Check all of the required informations are given.
   # 2. Generate the newsletter content.
   # 3. Send the newsletter to the associated mailing list.
+  # 4. Redirect to
+  #    - Index on success.
+  #    - Back to current page on error.
   def send_newsletter
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
   end

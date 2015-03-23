@@ -1,3 +1,5 @@
+# Service for sending Pro Newsletters.
+# Uses mandrill instead of the regular mailers.
 class NewsletterSender
   # Send the newsletter to the associated mailing list.
   # @param newsletter The newsletter to send.

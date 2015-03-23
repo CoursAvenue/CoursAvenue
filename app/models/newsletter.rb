@@ -20,9 +20,10 @@ class Newsletter < ActiveRecord::Base
 
   belongs_to :structure
 
-  has_many :blocs,          class_name: 'Newsletter::Bloc',      dependent: :destroy
-  has_many :recipients,     class_name: 'Newsletter::Recipient', dependent: :destroy
-  belongs_to :mailing_list, class_name: 'Newsletter::MailingList'
+  has_one :metric,          class_name: 'Newsletter::Metric'
+  has_many :blocs,          class_name: 'Newsletter::Bloc',        dependent: :destroy
+  has_many :recipients,     class_name: 'Newsletter::Recipient',   dependent: :destroy
+  belongs_to :mailing_list, class_name: 'Newsletter::MailingList', foreign_key: :newsletter_mailing_list_id
 
   accepts_nested_attributes_for :blocs
                                 # reject_if: :reject_bloc,

@@ -12,7 +12,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
-            _.bindAll(this, 'deleteImage', 'updateImage', 'onShow');
+
+            _.bindAll(this, 'onRender', 'deleteImage', 'updateImage', 'onShow');
         },
 
         // Custom render function.
@@ -24,6 +25,12 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this._modelBinder.bind(this.model, this.el);
         },
 
+        onRender: function onRender () {
+            if (this.model.has('image')) {
+                this.$el.find('img').show();
+                this.$el.find('[data-delete-image]').show();
+            }
+        },
 
         updateImage: function updateImage () {
             if (event.fpfile) {
@@ -41,13 +48,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // 2. Empty input.
         // 1. Ask for confirmation.
         // 3. Remove image..
-        //
         deleteImage: function deleteImage () {
-            this.model.set('image', '');
+            this.model.unset('image');
             this.model.set('remote_image_url', '');
 
             this.$el.find('img').hide();
             this.$el.find('img').attr('src', '');
+            this.$el.find('[data-delete-image]').hide();
 
             this.render();
             this.onShow();

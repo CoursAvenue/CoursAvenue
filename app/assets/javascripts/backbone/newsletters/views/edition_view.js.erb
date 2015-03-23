@@ -6,12 +6,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         childView: Module.BlocView,
 
         events: {
-            'submit': 'saveModel'
+            'submit':                'saveModel',
+            'click [data-previous]': 'previousStep'
         },
 
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
-            _.bindAll(this, 'saveModel', 'savingError', 'savingSuccess');
+            _.bindAll(this, 'saveModel', 'savingError', 'savingSuccess', 'previousStep');
         },
 
         saveModel: function saveModel (event) {
@@ -26,6 +27,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         // Error callback when saving the model.
         savingError: function savingError (model, response, options) {
+            COURSAVENUE.helperMethods.flash('Erreur lors de la sauvegarde de la newsletter, veuillez rééssayer.', 'error');
         },
 
         // Success callback when saving the model.
@@ -34,6 +36,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 model.save({}, { async: false });
             });
 
+            COURSAVENUE.helperMethods.flash('Newsletter enregistrée avec succés', 'notice')
             this.trigger('edited', { model: this.model, collection: this.collection });
         },
 
@@ -78,5 +81,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             // Update the bloc collection.
             this.collection.add(this.model.get('blocs'));
         },
+
+        previousStep: function previousStep () {
+            this.trigger('previous');
+        },
+
     });
 });

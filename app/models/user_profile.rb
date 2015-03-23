@@ -118,12 +118,13 @@ class UserProfile < ActiveRecord::Base
     user_profile
   end
 
-  #
   # Create user profiles based on an array of emails
+  # @param structure The strucure to associate the profiles to.
   # @param emails Array or string
+  # @param mailing_list_tag The mailing list tag to tag the users with (optional)
   #
   # @return nil
-  def self.batch_create(structure, emails)
+  def self.batch_create(structure, emails, mailing_list_tag = nil)
     unless emails.is_a? Array
       regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
       emails = emails.scan(regexp).uniq
@@ -132,6 +133,12 @@ class UserProfile < ActiveRecord::Base
     error_emails = []
     emails.each do |email|
       created = structure.user_profiles.create email: email
+
+      if created and mailing_list_tag.present?
+        created.tag_list.add(mailing_list_tag)
+        created.save
+      end
+
       error_emails << email unless created
     end
     AdminMailer.delay.import_batch_user_profiles_finished(structure, total, error_emails)

@@ -269,6 +269,7 @@ CoursAvenue::Application.routes.draw do
 
         resources :newsletters, only: [:index, :new, :create, :edit, :update, :destroy], controller: 'structures/newsletters' do
           resources :blocs, only: [:create, :update, :destroy], controller: 'structures/newsletters/blocs'
+          resources :mailing_lists, only: [:create], controller: 'structures/newsletters/mailing_lists'
           member do
             get :send_newsletter
             get :duplicate

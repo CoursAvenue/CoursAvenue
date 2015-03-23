@@ -4,7 +4,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         tagName: 'div',
 
         events: {
-            'submit': 'saveModel',
+            'submit':                'saveModel',
+            'click [data-previous]': 'previousStep',
         },
 
         initialize: function initialize () {
@@ -13,6 +14,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         saveModel: function saveModel (event) {
+            event.preventDefault();
+            this.model.save({}, {
+                error:   this.savingError,
+                success: this.savingSuccess
+            });
+
+            return false;
         },
 
         savingError: function savingError (model, response, options) {
@@ -31,5 +39,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this._modelBinder.bind(this.model, this.$('form'));
         },
 
+        previousStep: function previousStep () {
+            this.trigger('previous');
+        },
     });
 });

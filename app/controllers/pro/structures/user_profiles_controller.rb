@@ -84,7 +84,7 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   end
 
   def import_batch_emails
-    UserProfile.delay.batch_create(@structure, params[:emails])
+    UserProfile.delay.batch_create(@structure, params[:emails], mailing_list_tag)
     respond_to do |format|
       if session[:newsletter_id].present?
         newsletter = @structure.newsletters.find(session[:newsletter_id])
@@ -112,5 +112,18 @@ class Pro::Structures::UserProfilesController < Pro::ProController
       tags = params[:user_profile].delete(:tags)
       add_tags(tags)
     end
+  end
+
+  # The mailing list tag used when batch_creating user_profiles.
+  #
+  # @return a String or nil
+  def mailing_list_tag
+    return nil if session[:newsletter_id].nil?
+
+    tag_name     = "import du #{I18n.l(Time.current, format: :long_human)}"
+    mailing_list = @structure.mailing_lists.create(name:   tag_name,
+                                                  filters: [ { predicate: 'is', tag: tag_name } ])
+
+    tag_name
   end
 end

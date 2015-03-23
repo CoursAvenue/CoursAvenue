@@ -18,8 +18,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.router     = options.router;
             this.newsletter = options.newsletter;
 
-            _.bindAll(this, 'setCurrentTab', 'updateNav', 'nextStep',
-                      'selectNewsletterLayout', 'finishEdition');
+            _.bindAll(this, 'setCurrentTab', 'updateNav', 'nextStep', 'previousStep',
+                      'selectNewsletterLayout', 'finishEdition',
+                      'savingSuccessCallback', 'savingErrorCallback');
         },
 
         setCurrentTab: function setCurrentTab (tab) {
@@ -92,7 +93,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 collection: bloc_collection
             });
 
-            this.listenTo(edition_view, 'edited', this.finishEdition);
+            this.listenTo(edition_view, 'edited',   this.finishEdition);
+            this.listenTo(edition_view, 'previous', this.previousStep);
 
             this.getRegion('edit').show(edition_view);
             this.getRegion('edit').$el.show();
@@ -111,6 +113,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             });
 
             this.listenTo(mailing_list_collection_view, 'selected', this.selectMailingList);
+            this.listenTo(mailing_list_collection_view, 'previous', this.previousStep);
 
             this.getRegion('mailing-list').show(mailing_list_collection_view);
             this.getRegion('mailing-list').$el.show();
@@ -126,6 +129,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 model: this.newsletter
             });
 
+            this.listenTo(metadata_view, 'edited',   this.finishEdition);
+            this.listenTo(metadata_view, 'previous', this.previousStep);
+
             this.getRegion('metadata').show(metadata_view);
             this.getRegion('metadata').$el.show();
             this.getRegion('metadata').initialized = true;
@@ -138,6 +144,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var preview_view = new Newsletter.Views.PreviewView({
                 model: this.newsletter
             });
+
+            this.listenTo(preview_view, 'previous', this.previousStep);
 
             this.getRegion('preview').show(preview_view);
             this.getRegion('preview').$el.show();
@@ -175,22 +183,30 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.router.navigate(nextStep, { trigger: true });
         },
 
+        previousStep: function previousStep () {
+            var steps = _.chain(this.router.routes).keys().initial().value();
+
+            var previousStep = steps[steps.indexOf(this.currentStep) - 1]
+            if (!previousStep) { previousStep = 'mise-en-page' }
+            previousStep = previousStep.replace(':id', this.newsletter.get('id'));
+
+            this.router.navigate(previousStep, { trigger: true });
+        },
+
         // TODO: Create global error save callback that shows an alert / notice.
         selectNewsletterLayout: function selectNewsletterLayout (data) {
             this.newsletter.set('layout_id', data.model.get('id'));
             this.newsletter.save({}, {
-                success: function(model, response, options) {
-                    this.nextStep();
-                }.bind(this)
+                success: this.savingSuccessCallback,
+                error:   this.savingErrorCallback,
             });
         },
 
         finishEdition: function finishEdition (data) {
             if (this.newsletter.hasChanged()) {
                 this.newsletter.save({}, {
-                    success: function(model, response, options) {
-                        this.nextStep();
-                    }.bind(this)
+                    success: this.savingSuccessCallback,
+                    error:   this.savingErrorCallback,
                 });
             } else {
                 this.nextStep();
@@ -198,17 +214,22 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         selectMailingList: function selectMailingList (data) {
-            this.newsletter.set('newsletter_mailing_list_id', data.model.get('id'));
+            if (data.model) {
+                this.newsletter.set('newsletter_mailing_list_id', data.model.get('id'));
+            }
 
             if (this.newsletter.hasChanged()) {
-                this.newsletter.save({}, {
-                    success: function(model, response, options) {
-                        this.nextStep();
-                    }.bind(this)
-                });
-            } else {
-                this.nextStep();
+                this.newsletter.save();
             }
+            this.nextStep()
+        },
+
+        savingSuccessCallback: function savingSuccessCallback (model, response, options) {
+            this.nextStep();
+        },
+
+        savingErrorCallback: function savingSuccessCallback (model, response, options) {
+            COURSAVENUE.helperMethods.flash('Erreur lors de la sauvegarde de la newsletter, veuillez rééssayer.', 'error');
         },
 
     });
