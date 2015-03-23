@@ -41,7 +41,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // 2. Empty input.
         // 1. Ask for confirmation.
         // 3. Remove image..
-        //
         deleteImage: function deleteImage () {
             this.model.set('image', '');
             this.model.set('remote_image_url', '');
