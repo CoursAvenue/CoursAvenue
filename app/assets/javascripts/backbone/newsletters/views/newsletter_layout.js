@@ -19,7 +19,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.newsletter = options.newsletter;
 
             _.bindAll(this, 'setCurrentTab', 'updateNav', 'nextStep',
-                      'selectNewsletterLayout', 'finishEdition');
+                      'selectNewsletterLayout', 'finishEdition',
+                      'savingSuccessCallback', 'savingErrorCallback');
         },
 
         setCurrentTab: function setCurrentTab (tab) {
@@ -179,18 +180,16 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         selectNewsletterLayout: function selectNewsletterLayout (data) {
             this.newsletter.set('layout_id', data.model.get('id'));
             this.newsletter.save({}, {
-                success: function(model, response, options) {
-                    this.nextStep();
-                }.bind(this)
+                success: this.savingSuccessCallback,
+                error:   this.savingErrorCallback,
             });
         },
 
         finishEdition: function finishEdition (data) {
             if (this.newsletter.hasChanged()) {
                 this.newsletter.save({}, {
-                    success: function(model, response, options) {
-                        this.nextStep();
-                    }.bind(this)
+                    success: this.savingSuccessCallback,
+                    error:   this.savingErrorCallback,
                 });
             } else {
                 this.nextStep();
@@ -202,13 +201,20 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             if (this.newsletter.hasChanged()) {
                 this.newsletter.save({}, {
-                    success: function(model, response, options) {
-                        this.nextStep();
-                    }.bind(this)
+                    success: this.savingSuccessCallback,
+                    error:   this.savingErrorCallback,
                 });
             } else {
                 this.nextStep();
             }
+        },
+
+        savingSuccessCallback: function savingSuccessCallback (model, response, options) {
+            this.nextStep();
+        },
+
+        savingErrorCallback: function savingSuccessCallback (model, response, options) {
+            COURSAVENUE.helperMethods.flash('Erreur lors de la sauvegarde de la newsletter, veuillez rééssayer.', 'error');
         },
 
     });
