@@ -196,7 +196,7 @@ class ParticipationRequest < ActiveRecord::Base
       planning.place
     elsif course and course.place
       course.place
-    else
+    elsif structure
       structure.places.first
     end
   end

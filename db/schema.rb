@@ -117,6 +117,14 @@ ActiveRecord::Schema.define(version: 20150323172030) do
   add_index "blog_categories", ["ancestry"], name: "index_blog_categories_on_ancestry", using: :btree
   add_index "blog_categories", ["ancestry_depth"], name: "index_blog_categories_on_ancestry_depth", using: :btree
 
+  create_table "blog_subscribers", force: true do |t|
+    t.string   "email"
+    t.integer  "user_id"
+    t.string   "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "call_reminders", force: true do |t|
     t.string   "name"
     t.string   "phone_number"
@@ -644,15 +652,6 @@ ActiveRecord::Schema.define(version: 20150323172030) do
     t.boolean  "on_dropbox",           default: false
   end
 
-  create_table "participation_request_participants", force: true do |t|
-    t.integer  "number"
-    t.datetime "deleted_at"
-    t.integer  "participation_request_id"
-    t.integer  "price_id"
-  end
-
-  add_index "participation_request_participants", ["participation_request_id", "price_id"], name: "participation_requests_participants_index", using: :btree
-
   create_table "participation_requests", force: true do |t|
     t.integer  "mailboxer_conversation_id"
     t.integer  "planning_id"
@@ -673,9 +672,6 @@ ActiveRecord::Schema.define(version: 20150323172030) do
     t.integer  "old_course_id"
     t.boolean  "structure_responded",       default: false
     t.datetime "deleted_at"
-    t.string   "street"
-    t.string   "zip_code"
-    t.integer  "city_id"
   end
 
   create_table "participations", force: true do |t|
@@ -1187,11 +1183,8 @@ ActiveRecord::Schema.define(version: 20150323172030) do
     t.string  "phone"
     t.string  "mobile_phone"
     t.text    "address"
-    t.boolean "subscribed",                 default: true
-    t.integer "newsletter_mailing_list_id"
   end
 
-  add_index "user_profiles", ["newsletter_mailing_list_id"], name: "index_user_profiles_on_newsletter_mailing_list_id", using: :btree
   add_index "user_profiles", ["structure_id", "user_id"], name: "index_user_profiles_on_structure_id_and_user_id", using: :btree
 
   create_table "users", force: true do |t|
@@ -1256,7 +1249,7 @@ ActiveRecord::Schema.define(version: 20150323172030) do
   add_index "users", ["slug"], name: "index_users_on_slug", unique: true, using: :btree
 
   create_table "vertical_pages", force: true do |t|
-    t.string   "name"
+    t.string   "subject_name"
     t.text     "caption"
     t.text     "title"
     t.text     "content"
@@ -1272,6 +1265,9 @@ ActiveRecord::Schema.define(version: 20150323172030) do
     t.boolean  "checked",            default: false
     t.text     "comments"
     t.text     "sidebar_title"
+    t.string   "cl_image"
+    t.string   "page_title"
+    t.text     "page_description"
   end
 
   create_table "visitors", force: true do |t|

@@ -1,0 +1,12 @@
+- content_for :email_title do
+  Vous êtes inscrit à la newsletter CoursAvenue
+
+.p Bonjour,
+
+.p
+  Bienvenue dans notre communauté de passionés ! Maintenant que vous êtes inscrit à notre newsletter, vous recevrez nos dernières offres promo et vous serait au courant de nos derniers articles.
+
+.p.action
+  = link_to "Accéder au blog", blog_articles_path, class: 'btn btn--green'
+
+= render 'shared/mailers/footer'

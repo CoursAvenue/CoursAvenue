@@ -101,7 +101,7 @@
 .black              { color: $text-black; }
 .yellow             { color: $yellow; }
 .yellow--dark       { color: darken($yellow, 8%); }
-.red                { color: $red !important; }
+.red                { color: $red_light !important; }
 .green              { color: $green-success !important; }
 .dark-blue          { color: $dark_blue; }
 .green              { color: $green; }
@@ -233,10 +233,11 @@
     padding-top   : $base-spacing-unit * 3 !important;
     padding-bottom: $base-spacing-unit * 3 !important;
 }
-.palm-push  { @include media-query(palm) { margin : $base-spacing-unit !important; } }
-.palm-flush { @include media-query(palm) { margin : 0                  !important; } }
-.palm-hard  { @include media-query(palm) { padding: 0                  !important; } }
-.palm-block { @include media-query(palm) { display: block              !important; } }
+.palm-push--bottom  { @include media-query(palm) { margin-bottom : $base-spacing-unit !important; } }
+.palm-push          { @include media-query(palm) { margin : $base-spacing-unit !important; } }
+.palm-flush         { @include media-query(palm) { margin : 0                  !important; } }
+.palm-hard          { @include media-query(palm) { padding: 0                  !important; } }
+.palm-block         { @include media-query(palm) { display: block              !important; } }
 .palm-center-block {
     @include media-query(palm) {
         margin-left: auto !important;
