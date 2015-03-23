@@ -10,11 +10,12 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             'click button[type=submit]':  'saveModel',
             'click [data-import]':        'importList',
             'change [data-all-contacts]': 'selectAllContacts',
+            'click [data-previous]':      'previousStep',
         },
 
         initialize: function initialize (options) {
             this.model = options.model;
-            _.bindAll(this, 'saveModel', 'importList', 'selectAllContacts');
+            _.bindAll(this, 'saveModel', 'importList', 'selectAllContacts', 'previousStep');
         },
 
         getEmptyView: function getEmptyView () {
@@ -59,6 +60,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     this.all_profiles_selected = true
                 }.bind(this)
             });
+        },
+
+        previousStep: function previousStep () {
+            this.trigger('previous');
         },
     });
 });

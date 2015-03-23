@@ -6,12 +6,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         childView: Module.BlocView,
 
         events: {
-            'submit': 'saveModel'
+            'submit':                'saveModel',
+            'click [data-previous]': 'previousStep'
         },
 
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
-            _.bindAll(this, 'saveModel', 'savingError', 'savingSuccess');
+            _.bindAll(this, 'saveModel', 'savingError', 'savingSuccess', 'previousStep');
         },
 
         saveModel: function saveModel (event) {
@@ -80,5 +81,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             // Update the bloc collection.
             this.collection.add(this.model.get('blocs'));
         },
+
+        previousStep: function previousStep () {
+            this.trigger('previous');
+        },
+
     });
 });

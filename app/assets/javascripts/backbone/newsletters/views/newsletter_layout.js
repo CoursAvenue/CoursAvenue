@@ -18,7 +18,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.router     = options.router;
             this.newsletter = options.newsletter;
 
-            _.bindAll(this, 'setCurrentTab', 'updateNav', 'nextStep',
+            _.bindAll(this, 'setCurrentTab', 'updateNav', 'nextStep', 'previousStep',
                       'selectNewsletterLayout', 'finishEdition',
                       'savingSuccessCallback', 'savingErrorCallback');
         },
@@ -93,7 +93,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 collection: bloc_collection
             });
 
-            this.listenTo(edition_view, 'edited', this.finishEdition);
+            this.listenTo(edition_view, 'edited',   this.finishEdition);
+            this.listenTo(edition_view, 'previous', this.previousStep);
 
             this.getRegion('edit').show(edition_view);
             this.getRegion('edit').$el.show();
@@ -112,6 +113,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             });
 
             this.listenTo(mailing_list_collection_view, 'selected', this.selectMailingList);
+            this.listenTo(mailing_list_collection_view, 'previous', this.previousStep);
 
             this.getRegion('mailing-list').show(mailing_list_collection_view);
             this.getRegion('mailing-list').$el.show();
@@ -127,7 +129,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 model: this.newsletter
             });
 
-            this.listenTo(metadata_view, 'edited', this.finishEdition);
+            this.listenTo(metadata_view, 'edited',   this.finishEdition);
+            this.listenTo(metadata_view, 'previous', this.previousStep);
 
             this.getRegion('metadata').show(metadata_view);
             this.getRegion('metadata').$el.show();
@@ -141,6 +144,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var preview_view = new Newsletter.Views.PreviewView({
                 model: this.newsletter
             });
+
+            this.listenTo(preview_view, 'previous', this.previousStep);
 
             this.getRegion('preview').show(preview_view);
             this.getRegion('preview').$el.show();
@@ -176,6 +181,16 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             nextStep = nextStep.replace(':id', this.newsletter.get('id'));
 
             this.router.navigate(nextStep, { trigger: true });
+        },
+
+        previousStep: function previousStep () {
+            var steps = _.chain(this.router.routes).keys().initial().value();
+
+            var previousStep = steps[steps.indexOf(this.currentStep) - 1]
+            if (!previousStep) { previousStep = 'mise-en-page' }
+            previousStep = previousStep.replace(':id', this.newsletter.get('id'));
+
+            this.router.navigate(previousStep, { trigger: true });
         },
 
         // TODO: Create global error save callback that shows an alert / notice.

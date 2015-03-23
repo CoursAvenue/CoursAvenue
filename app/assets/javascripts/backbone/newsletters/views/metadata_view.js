@@ -4,7 +4,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         tagName: 'div',
 
         events: {
-            'submit': 'saveModel',
+            'submit':                'saveModel',
+            'click [data-previous]': 'previousStep',
         },
 
         initialize: function initialize () {
@@ -38,5 +39,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this._modelBinder.bind(this.model, this.$('form'));
         },
 
+        previousStep: function previousStep () {
+            this.trigger('previous');
+        },
     });
 });
