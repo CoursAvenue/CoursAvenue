@@ -206,6 +206,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             if (this.newsletter.hasChanged()) {
                 this.newsletter.save();
             }
+            this.nextStep()
         },
 
         savingSuccessCallback: function savingSuccessCallback (model, response, options) {
