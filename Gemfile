@@ -293,3 +293,6 @@ gem 'wkhtmltopdf-binary', '~> 0.9.9.3', require: false
 
 # Contact importing
 gem 'omnicontacts', '~> 0.3.5'
+
+# Email sending for teachers
+gem 'mandrill-api'

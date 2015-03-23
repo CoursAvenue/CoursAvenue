@@ -468,6 +468,9 @@ GEM
       carrierwave (>= 0.5.8)
       foreigner (>= 0.9.1)
       rails (>= 3.2.0)
+    mandrill-api (1.0.53)
+      excon (>= 0.16.0, < 1.0)
+      json (>= 1.7.7, < 2.0)
     memcachier (0.0.2)
     meta_request (0.3.4)
       callsite (~> 0.0, >= 0.0.11)
@@ -858,6 +861,7 @@ DEPENDENCIES
   kaminari (~> 0.16.3)
   lograge (~> 0.3.1)
   mailboxer (~> 0.12.5)
+  mandrill-api
   memcachier (~> 0.0.2)
   meta_request (~> 0.3.0)
   mixpanel-ruby (~> 2.0.1)
