@@ -8,7 +8,7 @@
     background: none;
 }
 a, .btn-as-link {
-    color          : $brand-color;
+    color          : $orange;
     text-decoration: none;
 }
 a:hover, .btn-as-link:hover {
@@ -32,10 +32,18 @@ a.selected, a.active {
 .muted-link {
     font-weight: inherit;
     color      : inherit;
-    &:hover {
-        text-decoration: none;
-    }
+    &:hover { text-decoration: none; }
 }
 .semi-muted-link {
     color: inherit;
+}
+
+.link-colored-on-hover {
+    color: inherit;
+    @include transition(all 0.3s ease-in-out);
+    &:hover {
+        text-decoration: none;
+        color          : $orange;
+        border-color   : $orange;
+    }
 }

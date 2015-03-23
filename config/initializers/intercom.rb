@@ -7,7 +7,7 @@ IntercomRails.config do |config|
   # This is required to enable secure mode, you can find it on your Intercom
   # "security" configuration page.
   #
-  # config.api_secret = "..."
+  config.api_secret = ENV['INTERCOM_API_SECRET']
 
   # == Intercom API Key
   # This is required for some Intercom rake tasks like importing your users;
@@ -24,12 +24,12 @@ IntercomRails.config do |config|
   # The method/variable that contains the logged in user in your controllers.
   # If it is `current_user` or `@user`, then you can ignore this
   #
-  config.user.current = Proc.new { current_pro_admin || current_user }
+  config.user.current = Proc.new { current_pro_admin }
 
   # == User model class
   # The class which defines your user model
   #
-  # config.user.model = Proc.new { Admin }
+  config.user.model = Proc.new { Admin }
 
   # == Exclude users
   # A Proc that given a user returns true if the user should be excluded
@@ -52,7 +52,7 @@ IntercomRails.config do |config|
     'Type'             => Proc.new { |user| user.class.name },
     :name              => Proc.new { |user| ((s = structure.call(user)) ? s.name : user.name) },
     '# avis'           => Proc.new { |user| ((s = structure.call(user)) ? s.comments_count : user.try(:comments).try(:count)) },
-    'Villes'           => Proc.new { |user| ((s = structure.call(user)) ? s.places.map(&:city).map(&:name) : user.try(:city).try(:name)) },
+    'Villes'           => Proc.new { |user| ((s = structure.call(user)) ? s.places.map(&:city).map(&:name) : nil) },
     "S'est désinscrit" => Proc.new { |user| !user.try(:should_send_email?) },
     'Disciplines 1' => Proc.new { |user|
         if (s = structure.call(user))
@@ -76,27 +76,9 @@ IntercomRails.config do |config|
         end
       },
     'Prof tag'       => Proc.new { |user| ((s = structure.call(user)) ? CrmSync.structure_status(s) : nil) },
-    'Opt-in'         => Proc.new { |user| (user.is_a?(User) ? user.active? : nil) },
-    '# reservations' => Proc.new { |user|
-        if user.is_a?(User)
-          user.participation_requests.count
-        end
-      },
-    'Date dernière réservation' => Proc.new { |user|
-        if user.is_a?(User)
-          user.participation_requests.order('date DESC').first.try(:date)
-        end
-      },
     'Code postal' => Proc.new { |user|
-        if user.is_a?(User)
-          user.zip_code
-        elsif (s = structure.call(user))
+        if (s = structure.call(user))
           s.zip_code
-        end
-      },
-    'Age' => Proc.new { |user|
-        if user.is_a?(User)
-          user.age
         end
       }
   }

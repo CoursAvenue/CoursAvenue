@@ -4,62 +4,62 @@
   = @article.page_title
 
 = content_for :meta_description do
-  = @article.description
+  = @article.page_description || @article.description
 
 = content_for :meta_image do
   = @article.image.url(:default)
 
 = content_for :above_content do
-  .relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{@article.image.url(:default)}')", data: { behavior: 'parallax' } }
+  - if @article.category
+    = render partial: 'blog/breadcrumb', locals: { category: @article.category }
+  .relative.height-three-quarters.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{@article.image.url(:default)}')" }
     .black-curtain.north.west.one-whole.absolute
-      .float--left.soft-half= link_to "← Retour aux articles", blog_articles_path, class: 'muted-link'
-    .flexbox__item.v-middle.text--center.relative
-      %h1.f-size-really-big.flush= @article.title
+  .text--center.soft.main-container
+    %h1.ff-droid.f-style-italic.f-weight-400.f-size-really-big.flush.line-height-1-7= @article.title
+    .blog-article__published-date.gray.grid__item.one-half>
+      %i
+        Publié le
+        %time{ itemprop: 'dateCreated', datetime: l(@article.published_at, format: :iso_date) }
+          = l @article.published_at, format: :date_with_year
 
 
-.push-half--bottom.grid
-  .grid__item.one-half>
+.blog-article__show-wrapper
+  .text--right>
     %strong.v-middle Partager :
     .inline-block.v-middle.push-half--right{ class: "fb-share-button", data: { href:  blog_article_url(@article), type: 'button_count' } }
     %a.inline-block.v-middle{ href: blog_article_url(@article), class: 'twitter-share-button', data: { lang: "fr", via: 'CoursAvenue', url: blog_article_url(@article) } } Tweeter
+  - cache [@article, 'blog/articles/index/v2'] do
+    %article{ itemscope: true, itemtype: 'http://schema.org/Article' }
+      .blog-article__content.push--top{ itemprop: 'text' }
+        = @article.content.html_safe
+      .visuallyhidden= link_to "Lien vers l'article", blog_article_url(@article), itemprop: 'url'
 
-  .blog-article__published-date.gray.grid__item.one-half.text--right>
-    %i
-      Publié le
-      %time{ itemprop: 'dateCreated', datetime: l(@article.published_at, format: :iso_date) }
-        = l @article.published_at, format: :date_with_year
-
-
-- cache [@article, 'blog/articles/index/v2'] do
-  %article{ itemscope: true, itemtype: 'http://schema.org/Article' }
+    %hr.push--ends
     - if @article.tags.any?
-      %div
+      .push--bottom.text--center
         - @article.tags.each do |tag|
           .lbl
             = link_to tag.name, tags_blog_articles_path(tag: tag.name), class: 'muted-link'
+    .text--center.push--bottom
+      = link_to @article_decorator.share_url(:facebook), class: 'v-middle push-half--right', target: :_blank do
+        %i.fa.fa-3x.fa-facebook
+      = link_to @article_decorator.share_url(:twitter), class: 'v-middle', target: :_blank do
+        %i.fa.fa-3x.fa-twitter
 
-    .push--top.blog-article__content{ itemprop: 'text' }
-      = @article.content.html_safe
-    .visuallyhidden= link_to "Lien vers l'article", blog_article_url(@article), itemprop: 'url'
+    %h4.beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Découvrez nos guides de disciplines
+    %ul.nav.text--center
+      - @article.subjects.each do |subject|
+        - subject.vertical_pages.each do |vertical_page|
+          %li.epsilon.soft--right.line-height-1-7= link_to vertical_page.name, vertical_page_path(subject.root, vertical_page)
+    %h4.beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Vous aimerez aussi
+    .grid.push--bottom
+      - @article.similar_articles.each do |article|
+        .grid__item.one-third.palm-one-whole.push--bottom>
+          = link_to blog_article_path(article), class: 'block link-colored-on-hover', title: article.title do
+            = image_tag article.image.url(:similar_article), class: 'block one-whole hoverable-media'
+            %h3.f-weight-normal.flush.delta.soft-half--top.line-height-1-7= article.title
 
-  %div
-    .f-weight-600.epsilon.push-half--right.inline-block.v-middle Partager sur :
-    = link_to @article_decorator.share_url(:facebook), class: 'v-middle btn btn--facebook push-half--right', target: :_blank do
-      %span Facebook
-    = link_to @article_decorator.share_url(:twitter), class: 'v-middle btn btn--twitter', target: :_blank do
-      %span Twitter
-  %hr.push--ends
-  %h4 Articles similaires
-  .grid
-    - @article.similar_articles.each do |article|
-      .grid__item.one-half.text--center>
-        .relative.bg-cover{style: "background-image: url('#{article.image.url(:default)}'); height: 120px; "}>
-          = link_to blog_article_path(article), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: article.title do
-            .home-screen-gallery__title.text--center
-              %h3.f-weight-normal.flush.delta.soft-half--top.soft-half--sides= article.title
-              .show-on-hover__child.milli
-                Lire l'article
-
+  %h4.beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Commentaires
   #disqus_thread
   :javascript
     var disqus_shortname = 'coursavenue';

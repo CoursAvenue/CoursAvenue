@@ -1,14 +1,15 @@
+= content_for :right_after_head do
+  %link{ href: '//fonts.googleapis.com/css?family=Droid+Serif:400,400italic', rel: 'stylesheet', type: 'text/css'}
+
 = content_for :header do
-  = render partial: 'shared/headers/header', locals: { medium: true }
+  = render partial: 'shared/headers/header', locals: { medium: true, stick: true }
 
 = content_for :content do
   = yield :above_content
-  .main-container.main-container--medium
-    .flexbox
-      .flexbox__item.v-top.eight-twelfths.soft.palm-one-whole>
-        = yield
-      .flexbox__item.v-top.four-twelfths.soft.visuallyhidden--palm>
-        = render 'blog/side_content'
+  .main-container.main-container--medium.soft
+    .visuallyhidden--palm.four-twelfths.soft--left.float--right{ class: (action_name == 'show' ? 'hidden' : '') }>
+      = render 'blog/side_content'
+    = yield
 
   = render 'shared/footer'
 

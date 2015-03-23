@@ -26,20 +26,36 @@
     max-height: 550px;
     margin    : auto;
 }
+.blog-article__show-wrapper {
+    max-width: 750px;
+    margin   : auto;
+}
 .blog-article__content {
     img {
         width  : 100% !important;
         height : auto !important;
         display: block;
     }
+    strong { font-weight: 600; }
     p, ul, div {
         color      : #1E1E1E;
         &.white {
             color: white;
         }
-        font-size  : 16px;
+        font-size  : 17px;
         line-height: 28px;
-        text-align : justify;
+        @include media-query(palm) { font-size: 15px;}
+    }
+    h2 {
+        @extend .ff-droid;
+        @extend .f-style-italic;
+        @extend .f-weight-400;
+        @extend .bordered--bottom;
+        padding-bottom: 10px;
+        @media screen and (min-width: 950px)  {
+            margin-left : -75px;
+            margin-right: -75px;
+        }
     }
     blockquote {
         p {

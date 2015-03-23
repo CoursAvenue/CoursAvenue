@@ -25,6 +25,26 @@ class BlogImageUploader < CarrierWave::Uploader::Base
     cloudinary_transformation transformation: [{ width: 300, crop: :scale }]
   end
 
+  version :user_index_vertical do
+    cloudinary_transformation transformation: [{ width: 450, crop: :scale }]
+  end
+
+  version :user_index_vertical_2x do
+    cloudinary_transformation transformation: [{ width: 900, crop: :scale }]
+  end
+
+  version :user_index_horizontal_2x do
+    cloudinary_transformation transformation: [{ width: 700, height: 500, crop: :fill }]
+  end
+
+  version :user_index_horizontal do
+    cloudinary_transformation transformation: [{ width: 350, height: 250, crop: :fill }]
+  end
+
+  version :similar_article do
+    cloudinary_transformation transformation: [{ width: 250, height: 200, crop: :fill }]
+  end
+
   version :small do
     cloudinary_transformation transformation: [{ width: 250, height: 200, crop: :limit }]
   end
