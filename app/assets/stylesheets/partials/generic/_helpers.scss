@@ -92,7 +92,7 @@
 .black              { color: $text-black; }
 .yellow             { color: $yellow; }
 .yellow--dark       { color: darken($yellow, 8%); }
-.red                { color: $red !important; }
+.red                { color: $red_light !important; }
 .green              { color: $green-success !important; }
 .dark-blue          { color: $dark_blue; }
 .green              { color: $green; }
