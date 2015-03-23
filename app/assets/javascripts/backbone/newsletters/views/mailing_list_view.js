@@ -16,6 +16,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             Handlebars.registerHelper('isSelected', function(inputValue, predicate) {
                 return inputValue == predicate ? 'selected' : '';
             });
+
+            if (this.model.has('selected') && this.model.get('selected') == true) {
+                this.trigger('selected', { model: this.model });
+            }
         },
 
         selectMailingList: function selectMailingList () {
