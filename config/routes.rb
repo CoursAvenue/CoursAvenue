@@ -70,6 +70,7 @@ CoursAvenue::Application.routes.draw do
       resources :participation_requests, only: [:index]
       resources :sponsorships, only: [:index]
       resources :payment_notifications, only: [:index, :show]
+      resources :blog_subscribers, only: [:create], controller: 'blog/subscribers'
       resources :blog_articles, only: [:index, :show], controller: 'blog/articles', path: 'blog' do
         collection do
           get 'tag/:tag'                , to: 'blog/articles#tags', as: :tags
@@ -382,6 +383,7 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: (Rails.env.staging? ? 'staging' : 'www') do
     resources :press_releases, path: 'communiques-de-presse', only: [:show]
 
+    resources :blog_subscribers, only: [:create], controller: 'blog/subscribers'
     resources :blog_articles, controller: 'blog/articles', path: 'blog' do
       collection do
         get 'tag/:tag'                , to: 'blog/articles#tags', as: :tags

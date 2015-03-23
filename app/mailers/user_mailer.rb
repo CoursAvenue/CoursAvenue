@@ -163,6 +163,16 @@ class UserMailer < ActionMailer::Base
     mail to: sponsored_email, subject: "#{@user.name} vous invite au Pass Découverte"
   end
 
+  ######################################################################
+  # Blog                                                               #
+  ######################################################################
+
+  # When user subscribe to newsletter blog
+  def subscribed_to_blog(user)
+    @user = user
+    mail to: @user.email, subject: "Vous êtes inscrit à notre newsletter"
+  end
+
   private
 
   def get_comment_notification_template(comment_notification)
