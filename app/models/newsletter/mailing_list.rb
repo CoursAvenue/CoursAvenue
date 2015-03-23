@@ -36,7 +36,11 @@ class Newsletter::MailingList < ActiveRecord::Base
   # If the name is not defined, set a default on using the define filters.
   def set_name
     if self.name.nil? or self.name.empty?
-      self.name = "Liste de diffusion du #{I18n.l(Time.current, format: :long_human)}"
+      if self.all_profiles.present? and self.all_profiles
+        self.name = 'Tous les contacts du répertoire'
+      else
+        self.name = "Liste de diffusion du #{I18n.l(Time.current, format: :long_human)}"
+      end
       save
     end
   end
