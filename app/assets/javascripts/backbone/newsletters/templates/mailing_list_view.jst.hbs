@@ -14,10 +14,9 @@
       <option value='containsnot' {{isSelected 'containsnot' predicate }}>ne contient pas</option>
     </select>
 
-    <!-- TODO: Show the list of tags -->
     <select name='{{@index}}_tag'>
+      {{#each ../allTags}}
         <option value='{{ this }}' {{ isSelected this tag }}>{{ this }}</option>
-      {{#each allTags}}
       {{/each}}
     </select>
     {{/each}}
