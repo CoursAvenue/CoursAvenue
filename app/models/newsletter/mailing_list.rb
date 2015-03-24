@@ -18,17 +18,23 @@ class Newsletter::MailingList < ActiveRecord::Base
 
   # Create the recipients to send the Newsletter to.
   #
+  # @param newsletter The newsletter to create the recipients to.
+  #
   # @return an Array of Newsletter::Recipient.
-  def create_recipients
+  def create_recipients(newsletter)
     if self.all_profiles?
       profiles = structure.user_profiles.where(subscribed: true)
     else
       profiles = filter_profiles
     end
 
-    profiles.uniq.each do |profile|
+    profiles = profiles.to_a.uniq { |profile| profile.email }
+
+    recipients = profiles.map do |profile|
       newsletter.recipients.create(user_profile: profile)
     end
+
+    recipients
   end
 
   # The current recipient count.
