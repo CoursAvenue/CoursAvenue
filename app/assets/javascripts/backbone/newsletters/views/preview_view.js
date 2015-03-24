@@ -21,6 +21,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     return Routes.send_newsletter_pro_structure_newsletter_path(structure, newsletter);
                 },
 
+                confirmation_url: function () {
+                    return Routes.confirm_pro_structure_newsletter_path(structure, newsletter);
+                },
+
                 save_url: function () {
                     return Routes.pro_structure_newsletters_path(structure);
                 },

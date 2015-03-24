@@ -280,6 +280,8 @@ CoursAvenue::Application.routes.draw do
             get :recapitulatif,       to: 'structures/newsletters#new', as: 'metadata'
 
             post :mailing_list_create
+
+            get :confirm
             patch :save_and_send
           end
           collection do

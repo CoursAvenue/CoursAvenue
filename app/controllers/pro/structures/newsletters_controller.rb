@@ -147,6 +147,12 @@ class Pro::Structures::NewslettersController < ApplicationController
     @newsletter = @structure.newsletters.find params[:id]
   end
 
+  def confirm
+    @newsletter = @structure.newsletters.find params[:id]
+
+    render layout: false
+  end
+
   # Step 3.
   def save_and_send
     @newsletter = @structure.newsletters.find params[:id]
