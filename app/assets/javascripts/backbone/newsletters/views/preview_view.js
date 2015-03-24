@@ -2,7 +2,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
     Module.PreviewView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'preview_view',
         tagName: 'div',
-        className: 'panel',
 
         initialize: function initialize () {
             _.bindAll(this, 'onShow');
