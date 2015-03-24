@@ -189,7 +189,7 @@ class ::Admin < ActiveRecord::Base
                                  name:                      self.structure.name,
                                  signed_up_at:              Time.now.to_i,
                                  user_id:                   "Admin_#{self.id}")
-    user.custom_attributes['Villes']                = s.places.map(&:city).map(&:name).join(', ')
+    user.custom_attributes['Villes']                = structure.places.map(&:city).map(&:name).join(', ')
     user.custom_attributes['A confirmé son compte'] = false
     user.custom_attributes['Disciplines_1']         =  structure.subjects.at_depth(0).uniq.map(&:name).join(', ')
     user.custom_attributes['Disciplines_2']         =  structure.subjects.at_depth(2).map(&:parent).uniq.map(&:name).join(', ')
