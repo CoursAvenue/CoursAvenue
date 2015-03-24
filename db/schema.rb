@@ -1189,7 +1189,7 @@ ActiveRecord::Schema.define(version: 20150323140622) do
   add_index "users", ["slug"], name: "index_users_on_slug", unique: true, using: :btree
 
   create_table "vertical_pages", force: true do |t|
-    t.string   "subject_name"
+    t.string   "name"
     t.text     "caption"
     t.text     "title"
     t.text     "content"
@@ -1205,9 +1205,6 @@ ActiveRecord::Schema.define(version: 20150323140622) do
     t.boolean  "checked",            default: false
     t.text     "comments"
     t.text     "sidebar_title"
-    t.string   "cl_image"
-    t.string   "page_title"
-    t.text     "page_description"
   end
 
   create_table "visitors", force: true do |t|
