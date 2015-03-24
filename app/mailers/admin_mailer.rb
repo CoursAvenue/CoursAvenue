@@ -260,6 +260,15 @@ class AdminMailer < ActionMailer::Base
          subject: "Votre profil vient d'être supprimé"
   end
 
+  ######################################################################
+  # Blog                                                               #
+  ######################################################################
+
+  # When a user subscribe to newsletter blog
+  def subscribed_to_blog(user_email)
+    mail to: user_email, subject: "Bienvenue sur la newsletter CoursAvenuePro"
+  end
+
   private
 
   def generate_reply_to(sender_type = 'admin')

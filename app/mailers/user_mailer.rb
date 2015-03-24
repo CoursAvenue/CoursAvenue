@@ -170,7 +170,7 @@ class UserMailer < ActionMailer::Base
   # When user subscribe to newsletter blog
   def subscribed_to_blog(user)
     @user = user
-    mail to: @user.email, subject: "Vous êtes inscrit à notre newsletter"
+    mail to: @user.email, subject: "Bienvenue sur la newsletter CoursAvenue"
   end
 
   private

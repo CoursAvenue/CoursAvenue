@@ -3,7 +3,6 @@
 # /!\ RESTART SERVER IF YOU WANT TO SEE YOUR CHANGES /!\
 # /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
 class BlogImageUploader < CarrierWave::Uploader::Base
-  include CarrierWave::ImageOptimizer
   include Cloudinary::CarrierWave
 
   process convert: "jpg"
