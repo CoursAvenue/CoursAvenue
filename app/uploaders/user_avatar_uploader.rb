@@ -1,5 +1,4 @@
 class UserAvatarUploader < CarrierWave::Uploader::Base
-  include CarrierWave::ImageOptimizer
   include Cloudinary::CarrierWave
 
   cloudinary_transformation transformation: [{ width: 800, height: 800, crop: :limit }]

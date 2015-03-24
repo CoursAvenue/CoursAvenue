@@ -147,6 +147,7 @@ $(function() {
                 var $this = $(this);
                 var scrollAmount = ($(window).scrollTop() - $this.offset().top) / 5;
                 scrollAmount     = Math.round(scrollAmount);
+                console.log(scrollAmount);
                 $this.css('backgroundPosition', '50% ' + scrollAmount + 'px');
             });
         });

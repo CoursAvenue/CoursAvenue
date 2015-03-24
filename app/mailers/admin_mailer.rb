@@ -254,6 +254,14 @@ class AdminMailer < ActionMailer::Base
     @error_emails = error_emails
     mail to: @structure.main_contact.email, subject: 'Votre import est terminé.'
   end
+  ######################################################################
+  # Blog                                                               #
+  ######################################################################
+
+  # When a user subscribe to newsletter blog
+  def subscribed_to_blog(user_email)
+    mail to: user_email, subject: "Bienvenue sur la newsletter CoursAvenuePro"
+  end
 
   private
 

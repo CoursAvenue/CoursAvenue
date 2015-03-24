@@ -25,8 +25,10 @@ class Blog::Article < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :published, -> { where( published: true ) }
-  default_scope -> { order('published_at DESC') }
+  scope :published              , -> { where( published: true ) }
+  scope :ordered_by_views       , -> { order('page_views DESC') }
+  scope :ordered_by_publish_date, -> { order('published_at DESC') }
+
 
   def published_at
     if read_attribute(:published_at).nil?
@@ -38,6 +40,10 @@ class Blog::Article < ActiveRecord::Base
 
   def pro_article?
     false
+  end
+
+  def increment_page_views!
+    self.update_column :page_views, self.page_views + 1
   end
 
   private

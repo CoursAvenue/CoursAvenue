@@ -74,6 +74,8 @@
 .bordered--thicker      { border-width  : 6px !important; }
 .bordered--very-thick   { border-width  : 12px !important; }
 .bordered--orange       { border-color  : $orange !important; }
+.bordered--gray         { border-color  : $gray !important; }
+.bordered--black        { border-color  : $black !important; }
 .border-color-darker    { border-color  : darken($gray-smooth, 5%) }
 .border-color-gray      { border-color  : $gray !important; }
 .border-color-white     { border-color  : white !important; }
