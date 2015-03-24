@@ -31,7 +31,8 @@ class Newsletter::MailingList < ActiveRecord::Base
     profiles = profiles.to_a.uniq { |profile| profile.email }
 
     recipients = profiles.map do |profile|
-      newsletter.recipients.create(user_profile: profile)
+      newsletter.recipients.where(user_profile: profile).first ||
+        newsletter.recipients.create(user_profile: profile)
     end
 
     recipients
