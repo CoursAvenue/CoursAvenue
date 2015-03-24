@@ -12,6 +12,7 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
   end
 
   cloudinary_transformation transformation: [{  width: 600, height: 600, crop: :pad }]
+  process :optimize
   process convert: "jpg"
 
   # Create different versions of your uploaded files:

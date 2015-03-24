@@ -190,6 +190,10 @@ gem 'rack-utf8_sanitizer'       , '~> 1.3.0'
 # Use ckeditor for post body
 # gem 'ckeditor'                  , '~> 4.1.1'#, git: 'git://github.com/nim1989/ckeditor.git'
 
+# Run `image_optim -r app/assets/images` to compress all assets locally
+gem 'image_optim'               , '~> 0.20.2'
+gem 'image_optim_pack'          , '~> 0.2.1.20150310'
+
 group :production, :staging do
   gem 'execjs'                    , '~> 2.4.0'
   gem 'rails_12factor'            , '~> 0.0.3'
@@ -219,9 +223,6 @@ group :test do
 end
 
 group :development do
-  # Run `image_optim -r app/assets/images` to compress all assets locally
-  gem 'image_optim'               , '~> 0.20.2'
-  gem 'image_optim_pack'          , '~> 0.2.1.20150310'
 
   # Add solr server for development
   gem 'sunspot_solr'              , '~> 2.1.1'

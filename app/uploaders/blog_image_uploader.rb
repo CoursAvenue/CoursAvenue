@@ -6,6 +6,7 @@ class BlogImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::ImageOptimizer
   include Cloudinary::CarrierWave
 
+  process :optimize
   process convert: "jpg"
   process resize_to_fit: [1600]
 
