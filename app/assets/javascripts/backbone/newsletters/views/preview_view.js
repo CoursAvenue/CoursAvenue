@@ -30,7 +30,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             $.ajax(preview_url, {
                 success: function success (data, status, reqest) {
-                    this.$el.find('[data-preview]').contents().find('html').html(data);
+                    var frame = this.$el.find('[data-preview]')
+
+                    frame.contents().find('html').html(data);
+                    frame.contents().find('img').css('max-width', '100%')
                 }.bind(this),
             });
         },
