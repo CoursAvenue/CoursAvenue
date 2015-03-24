@@ -15,7 +15,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             return {
                 preview_url: function () {
                     return Routes.preview_newsletter_pro_structure_newsletter_path(structure, newsletter);
-                }.bind(this),
+                },
 
                 send_url: function () {
                     return Routes.send_newsletter_pro_structure_newsletter_path(structure, newsletter);
@@ -29,7 +29,12 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         // TODO: Find a better way to do this.
         onShow: function onShow () {
-            this.$el.find('[data-behavior]').click()
+            var cookieKey = this.model.id + '_hidePreview';
+
+            if (!$.cookie(cookieKey)) {
+                this.$el.find('[data-preview]').click()
+                $.cookie(cookieKey, true);
+            }
         },
     });
 });
