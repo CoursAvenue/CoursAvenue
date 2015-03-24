@@ -46,10 +46,12 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // More information:
         // <http://git.io/xpMt>
         templateHelpers: function templateHelpers () {
+            var structure = window.coursavenue.bootstrap.structure;
             return {
-                formAction: Routes.pro_structure_newsletters_path(window.coursavenue.bootstrap.structure),
+                formAction: Routes.pro_structure_newsletters_path(structure),
                 csrfName: $('meta[name="csrf-param"]').attr('content'),
                 csrfToken: $('meta[name="csrf-token"]').attr('content'),
+                previewUrl: Routes.preview_newsletter_pro_structure_newsletter_path(structure, this.model.get('id')),
             };
         },
 

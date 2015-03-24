@@ -1,3 +1,12 @@
+<div class='flexbox'>
+  <div class='flexbox__item v-middle text--right'>
+    <a class='btn btn--green fancybox.ajax' href='{{ previewUrl }}' data-behavior='modal' data-width='700' data-padding='0'>
+      <i class='fa fa-eye'></i>
+      Previsualiser
+    </a>
+  </div>
+</div>
+
 <form method='POST' action='{{ formAction }}'>
   <input type="hidden" name="{{ csrfName }}" value="{{ csrfToken }}">
 
