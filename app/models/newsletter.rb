@@ -6,7 +6,8 @@ class Newsletter < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  NEWSLETTER_STATES = %w(draft sent)
+  NEWSLETTER_STATES     = %w(draft sent)
+  NEWSLETTER_FROM_EMAIL = 'noreply@coursavenue.com'
 
   ######################################################################
   # Macros                                                             #
@@ -92,6 +93,32 @@ class Newsletter < ActiveRecord::Base
     self.sent_at = Time.now
 
     save
+  end
+
+  # Convert the current newsletter to a Mandrill message hash.
+  #
+  # @return a Hash.
+  def to_mandrill_message
+    mail       = NewsletterMailer.send_newsletter(self, nil)
+    body       = MailerPreviewer.preview(mail)
+    recipients = mailing_list.create_recipients(self)
+
+    message = {
+      html:       body,
+      subject:    email_object,
+      from_email: NEWSLETTER_FROM_EMAIL,
+      from_name: sender_name,
+      to: recipients.map(&:to_mandrill_recipient),
+      headers: {
+        "Reply-To": reply_to
+      },
+      track_opens: true,
+      track_clicks: true,
+      auto_text: true,
+      preserve_recipients: false
+    }
+
+    message
   end
 
   private

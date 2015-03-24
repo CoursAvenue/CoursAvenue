@@ -94,4 +94,16 @@ RSpec.describe Newsletter, type: :model do
       expect(subject.sent_at).to_not be_nil
     end
   end
+
+  describe '#to_mandrill_message' do
+    it 'sets the right values' do
+      mandrill_message = subject.to_mandrill_message
+      body = MailerPreviewer.preview(NewsletterMailer.send_newsletter(subject, nil))
+
+      expect(mandrill_message[:html]).to       eq(body)
+      expect(mandrill_message[:subject]).to    eq(subject.email_object)
+      expect(mandrill_message[:from_email]).to eq(Newsletter::NEWSLETTER_FROM_EMAIL)
+      expect(mandrill_message[:from_name]).to  eq(subject.sender_name)
+    end
+  end
 end
