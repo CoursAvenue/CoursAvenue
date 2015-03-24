@@ -31,6 +31,17 @@ class Newsletter::MailingList < ActiveRecord::Base
     end
   end
 
+  # The current recipient count.
+  #
+  # @return an Integer.
+  def recipient_count
+    if self.all_profiles?
+      structure.user_profiles.where(subscribed: true).count
+    else
+      filter_profiles.count
+    end
+  end
+
   private
 
   # If the name is not defined, set a default on using the define filters.

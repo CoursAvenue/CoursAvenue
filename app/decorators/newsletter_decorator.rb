@@ -20,4 +20,8 @@ class NewsletterDecorator < Draper::Decorator
   def badge
     object.sent? ? 'Envoyé' : 'Brouillon'
   end
+
+  def recipient_count
+    object.mailing_list.recipient_count
+  end
 end
