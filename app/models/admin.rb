@@ -148,6 +148,12 @@ class ::Admin < ActiveRecord::Base
     user.accounts.map { |page| [page.name, page.link] }
   end
 
+  # Override Devise::Confirmable#after_confirmation
+  # Send event to intercom
+  def after_confirmation
+    Intercom::Event.create(event_name: "Confirmed account", created_at: Time.now.to_i, email: self.email)
+  end
+
   private
 
   def subscribe_to_crm
