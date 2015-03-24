@@ -148,7 +148,7 @@ class Pro::Structures::NewslettersController < ApplicationController
   end
 
   def confirm
-    @newsletter = @structure.newsletters.find params[:id]
+    @newsletter = @structure.newsletters.find(params[:id]).decorate
 
     render layout: false
   end
