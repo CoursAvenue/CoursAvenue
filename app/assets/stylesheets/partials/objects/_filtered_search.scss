@@ -7,7 +7,7 @@ $list_wrapper_width: 750px;
 }
 
 .filtered-search-wrapper {
-    margin-top: 50px;
+    margin-top: $siteHeaderHeight;
     @include media-query(palm) {
         margin-top: 115px;
     }
@@ -49,7 +49,7 @@ $list_wrapper_width: 750px;
         }
 
 .filtered-search__list-filters {
-    top  : 50px;
+    top  : $siteHeaderHeight;
     width: $list_wrapper_width;
     @include media-query(lap) {
         width: $list_wrapper_width - 300px;
@@ -59,7 +59,7 @@ $list_wrapper_width: 750px;
     width         : $list_wrapper_width;
     @include media-query(palm) { width: 100%; }
     @include media-query(lap)  { width: $list_wrapper_width - 300px; }
-    top           : 50px;
+    top           : $siteHeaderHeight;
     bottom        : 0;
     padding-bottom: 2em;
     webkit-overflow-scrolling: touch;
