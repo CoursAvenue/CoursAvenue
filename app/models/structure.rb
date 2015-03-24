@@ -1234,7 +1234,7 @@ class Structure < ActiveRecord::Base
   end
 
   def reject_places attributes
-    persisted? || attributes[:zip_code].blank?
+    attributes[:zip_code].blank?
   end
 
   def reject_phone_number attributes
