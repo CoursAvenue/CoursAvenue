@@ -6,12 +6,19 @@
 .p
   Félicitations !
   %strong= @comment.author_name
-  vient de déposer un avis sur votre profil public CoursAvenue.
+  = "(#{@comment.user.email})"
+  vient de déposer son avis sur votre Livre d'Or CoursAvenue, visible également sur votre profil public :
+
+.title
+  = @comment.title
+.p
+  = @comment.content
 
 .p.action
-  = link_to "Voir l'avis de #{@comment.author_name}", pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Répondre à l'élève", pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
 
 = render 'shared/mailers/footer'
+
 
 - if @comment.associated_message
   = content_for :under_content_gray do
@@ -28,6 +35,3 @@
           = @message.subject
     .p
       = @message.body
-
-    .p.action
-      = link_to "Répondre au message", pro_structure_conversation_url(@structure, @message.conversation, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
