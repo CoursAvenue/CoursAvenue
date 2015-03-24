@@ -78,7 +78,6 @@ gem 'daemons'                   , '~> 1.2.1'
 gem 'hirefire-resource'         , '~> 0.3.5'
 
 gem 'carrierwave'               , '~> 0.10.0'
-gem 'carrierwave-imageoptimizer', '~> 1.2.1'
 gem 'cloudinary'                , '~> 1.0.82'
 
 # Handle paperclip in background

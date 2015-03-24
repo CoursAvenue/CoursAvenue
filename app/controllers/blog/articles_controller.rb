@@ -14,6 +14,7 @@ class Blog::ArticlesController < ApplicationController
 
   def show
     @article           = Blog::Article::UserArticle.find params[:id]
+    @article.increment_page_views!
     @article_decorator = BlogArticleDecorator.new(@article)
     unless current_pro_admin and current_pro_admin.super_admin?
       redirect_to blog_articles_path if ! @article.published?

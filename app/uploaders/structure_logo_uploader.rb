@@ -3,7 +3,6 @@
 # /!\ RESTART SERVER IF YOU WANT TO SEE YOUR CHANGES /!\
 # /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
 class StructureLogoUploader < CarrierWave::Uploader::Base
-  include CarrierWave::ImageOptimizer
   include Cloudinary::CarrierWave
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -12,7 +11,6 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
   end
 
   cloudinary_transformation transformation: [{  width: 600, height: 600, crop: :pad }]
-  process :optimize
   process convert: "jpg"
 
   # Create different versions of your uploaded files:

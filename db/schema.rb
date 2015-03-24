@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150323140622) do
+ActiveRecord::Schema.define(version: 20150324121645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20150323140622) do
     t.string   "type"
     t.string   "image"
     t.integer  "author_id"
+    t.integer  "page_views",               default: 0
   end
 
   create_table "blog_articles_subjects", force: true do |t|
