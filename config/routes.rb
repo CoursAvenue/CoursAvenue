@@ -168,6 +168,7 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
+      get 'nouveau-dormant', to: 'structures#new_sleeping', as: :add_sleeping_structure
       resources :structures, path: 'etablissements' do
         member do
           get   :edit_order_recipient

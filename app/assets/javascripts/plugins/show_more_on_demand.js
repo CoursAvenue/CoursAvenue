@@ -1,6 +1,6 @@
 /*
     Usage:
-    %div{data: { behavior: 'show-more-on-demand' } }
+    %div{ data: { behavior: 'show-more-on-demand' } }
         %div{ data: { el: true, hidden: !item.persisted? } }
             some content
         %div{ data: { el: true, hidden: !item.persisted? } }
