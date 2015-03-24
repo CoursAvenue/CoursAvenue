@@ -13,14 +13,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var newsletter = this.model.get('id');
 
             return {
-                preview_url: function () {
-                    return Routes.preview_newsletter_pro_structure_newsletter_path(structure, newsletter);
-                },
-
-                send_url: function () {
-                    return Routes.send_newsletter_pro_structure_newsletter_path(structure, newsletter);
-                },
-
                 confirmation_url: function () {
                     return Routes.confirm_pro_structure_newsletter_path(structure, newsletter);
                 },
@@ -31,14 +23,16 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             };
         },
 
-        // TODO: Find a better way to do this.
         onShow: function onShow () {
-            var cookieKey = this.model.id + '_hidePreview';
+            var structure  = window.coursavenue.bootstrap.structure;
+            var newsletter = this.model.get('id');
+            var preview_url = Routes.preview_newsletter_pro_structure_newsletter_path(structure, newsletter);
 
-            if (!$.cookie(cookieKey)) {
-                this.$el.find('[data-preview]').click()
-                $.cookie(cookieKey, true);
-            }
+            $.ajax(preview_url, {
+                success: function success (data, status, reqest) {
+                    this.$el.find('[data-preview]').contents().find('html').html(data);
+                }.bind(this),
+            });
         },
     });
 });
