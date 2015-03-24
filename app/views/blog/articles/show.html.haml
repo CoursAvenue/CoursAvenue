@@ -38,7 +38,7 @@
     - if @article.tags.any?
       .push--bottom.text--center
         - @article.tags.each do |tag|
-          .lbl
+          .lbl.push-half--bottom
             = link_to tag.name, tags_blog_articles_path(tag: tag.name), class: 'muted-link'
     .text--center.push--bottom
       = link_to @article_decorator.share_url(:facebook), class: 'v-middle push-half--right', target: :_blank do
