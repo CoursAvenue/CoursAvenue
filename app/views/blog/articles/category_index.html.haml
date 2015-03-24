@@ -4,7 +4,6 @@
   = @category.page_description
 
 = content_for :above_content do
-  = render partial: 'blog/breadcrumb', locals: { category: @category }
   .relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{asset_path(@category.image.url(:large))}')", data: { behavior: 'parallax' } }
     .black-curtain.north.west.one-whole.absolute
     .flexbox__item.v-middle.text--center.relative

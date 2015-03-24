@@ -1,6 +1,6 @@
 .text--center
   .bordered--bottom.bordered--larger.bordered--gray.soft-half--bottom.push--bottom.gamma.ff-droid.f-style-italic.f-weight-bold Top articles
-  - Blog::Article::UserArticle.ordered_by_views.limit(5).each_with_index do |article, index|
+  - Blog::Article::UserArticle.ordered_by_views.take(5).each_with_index do |article, index|
     - if index > 0
       %hr.push-half--ends
     = link_to blog_article_path(article), class: 'ff-droid f-style-italic delta block link-colored-on-hover line-height-1-7 push-half--ends soft-half--bottom' do

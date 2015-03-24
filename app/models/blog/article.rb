@@ -25,10 +25,10 @@ class Blog::Article < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :published       , -> { where( published: true ) }
-  scope :ordered_by_views, -> { order('page_views DESC') }
+  scope :published              , -> { where( published: true ) }
+  scope :ordered_by_views       , -> { order('page_views DESC') }
+  scope :ordered_by_publish_date, -> { order('published_at DESC') }
 
-  default_scope -> { order('published_at DESC') }
 
   def published_at
     if read_attribute(:published_at).nil?

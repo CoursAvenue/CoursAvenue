@@ -4,12 +4,12 @@ class Blog::ArticlesController < ApplicationController
   layout 'blog'
 
   def index
-    @articles   = Blog::Article::UserArticle.published.page(params[:page] || 1).per(8)
+    @articles   = Blog::Article::UserArticle.ordered_by_publish_date.published.page(params[:page] || 1).per(8)
   end
 
   def tags
     @tag = params[:tag]
-    @articles = Blog::Article::UserArticle.published.tagged_with(params[:tag]).page(params[:page] || 1).per(5)
+    @articles = Blog::Article::UserArticle.ordered_by_publish_date.published.tagged_with(params[:tag]).page(params[:page] || 1).per(5)
   end
 
   def show

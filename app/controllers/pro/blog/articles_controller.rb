@@ -6,7 +6,7 @@ class Pro::Blog::ArticlesController < Pro::ProController
   layout 'pro_blog'
 
   def index
-    @articles   = ::Blog::Article::ProArticle.published.page(params[:page] || 1).per(5)
+    @articles   = ::Blog::Article::ProArticle.ordered_by_publish_date.published.page(params[:page] || 1).per(5)
   end
 
   def show
@@ -15,7 +15,7 @@ class Pro::Blog::ArticlesController < Pro::ProController
 
   def category_index
     @category = ::Blog::Category::ProCategory.find params[:category_id]
-    @articles = @category.articles.published.page(params[:page] || 1).per(5)
+    @articles = @category.articles.ordered_by_publish_date.published.page(params[:page] || 1).per(5)
   end
 
   private
