@@ -5,10 +5,9 @@
   = render partial: 'shared/headers/header', locals: { medium: true, stick: true }
 
 = content_for :content do
+  = render 'blog/top_categories'
   = yield :above_content
   .main-container.main-container--medium.soft
-    .visuallyhidden--palm.four-twelfths.soft--left.float--right{ class: (action_name == 'show' ? 'hidden' : '') }>
-      = render 'blog/side_content'
     = yield
 
   = render 'shared/footer'
