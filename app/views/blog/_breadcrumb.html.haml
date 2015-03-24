@@ -1,6 +1,6 @@
 - category = nil if category.nil?
 - tag      = nil if tag.nil?
-.text--center
+.text--center.bordered--top
   %ol.nav.breadcrumb.blog__breadcrumb.text--center.soft-half--ends.epsilon.flush--bottom
     %li.f-style-italic.f-weight-600{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
       = link_to "Blog", blog_articles_path
