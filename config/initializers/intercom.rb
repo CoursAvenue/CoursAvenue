@@ -1,5 +1,7 @@
-Intercom.app_id      = ENV["INTERCOM_APP_ID"]
-Intercom.app_api_key = ENV['INTERCOM_API_KEY']
+unless Rails.test?
+  Intercom.app_id      = ENV["INTERCOM_APP_ID"]
+  Intercom.app_api_key = ENV['INTERCOM_API_KEY']
+end
 
 IntercomRails.config do |config|
   # == Intercom app_id

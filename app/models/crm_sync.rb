@@ -1,5 +1,5 @@
 # encoding: utf-8
-# Updates to Highrise
+# Updates to current CRM (CloseIO)
 class CrmSync
 
   def self.update(structure)
