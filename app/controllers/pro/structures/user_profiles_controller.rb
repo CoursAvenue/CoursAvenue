@@ -120,7 +120,7 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   def mailing_list_tag
     return nil if session[:newsletter_id].nil?
 
-    tag_name     = "import du #{I18n.l(Time.current, format: :long_human)}"
+    tag_name     = "import du #{I18n.l(local_time(Time.current), format: :long_human)}"
     mailing_list = @structure.mailing_lists.create(name:   tag_name,
                                                   filters: [ { predicate: 'is', tag: tag_name } ])
 

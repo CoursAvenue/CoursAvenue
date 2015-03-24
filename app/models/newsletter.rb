@@ -139,7 +139,7 @@ class Newsletter < ActiveRecord::Base
 
   def set_title
     if self.title.nil?
-      self.title = "[Brouillon] Newsletter du #{I18n.l(Time.current, format: :long_human)}"
+      self.title = "[Brouillon] Newsletter du #{I18n.l(local_time(Time.current), format: :long_human)}"
     end
   end
 end

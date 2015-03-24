@@ -50,7 +50,7 @@ class Newsletter::MailingList < ActiveRecord::Base
       if self.all_profiles.present? and self.all_profiles
         self.name = 'Tous les contacts du répertoire'
       else
-        self.name = "Liste de diffusion du #{I18n.l(Time.current, format: :long_human)}"
+        self.name = "Liste de diffusion du #{I18n.l(local_time(Time.current), format: :long_human)}"
       end
       save
     end
