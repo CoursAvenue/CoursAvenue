@@ -47,7 +47,7 @@ class ::Admin < ActiveRecord::Base
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
-  after_create :create_in_intercom
+  after_create :create_in_intercom if Rails.env.production?
   after_create :check_if_was_invited
   after_create :set_email_opt_ins
   after_create :subscribe_to_crm
