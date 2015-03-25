@@ -56,11 +56,12 @@ IntercomRails.config do |config|
     :user_id           => Proc.new { |user| "Admin_#{user.id}" },
     :name              => Proc.new { |user| ((s = structure.call(user)) ? s.name : user.name) },
     'nb avis'           => Proc.new { |user| ((s = structure.call(user)) ? s.comments_count : user.try(:comments).try(:count)) },
-    'Villes'           => Proc.new { |user| ((s = structure.call(user)) ? s.places.map(&:city).map(&:name).join(', ') : nil) },
+    'Villes'           => Proc.new { |user| ((s = structure.call(user)) ? s.places.map(&:city).map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
     'A confirmé son compte' => Proc.new { |user| user.confirmed? },
-    'Disciplines_1'    => Proc.new { |user| ((s = structure.call(user)) ? s.subjects.at_depth(0).uniq.map(&:name).join(', ') : nil) },
-    'Disciplines_2'    => Proc.new { |user| ((s = structure.call(user)) ? s.subjects.at_depth(2).map(&:parent).uniq.map(&:name).join(', ') : nil) },
-    'Disciplines_3'    => Proc.new { |user| ((s = structure.call(user)) ? s.subjects.at_depth(2).uniq.map(&:name).join(', ') : nil) },
+    # Truncate string at 250 chars because we can't pass more than 255 chars
+    'Disciplines_1'    => Proc.new { |user| ((s = structure.call(user)) ? s.subjects.at_depth(0).uniq.map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
+    'Disciplines_2'    => Proc.new { |user| ((s = structure.call(user)) ? s.subjects.at_depth(2).map(&:parent).uniq.map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
+    'Disciplines_3'    => Proc.new { |user| ((s = structure.call(user)) ? s.subjects.at_depth(2).uniq.map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
     'Prof tag'         => Proc.new { |user| ((s = structure.call(user)) ? CrmSync.structure_status_for_intercom(s) : nil) },
     'Code postal'      => Proc.new { |user| ((s = structure.call(user)) ?  s.zip_code : nil) }
   }
