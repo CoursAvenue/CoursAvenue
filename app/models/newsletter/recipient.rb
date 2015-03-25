@@ -38,4 +38,19 @@ class Newsletter::Recipient < ActiveRecord::Base
       ]
     }
   end
+
+  # Update the message status using the mandrill id.
+  #
+  # @return nothing.
+  def update_message_status
+    client = MandrillFactory.client
+    infos  = client.messages.info(self.mandrill_message_id)
+
+    self.opened                  = infos[:opens] > 0
+    self.opens                   = infos[:opens]
+    self.clicks                  = infos[:clicks]
+    self.mandrill_message_status = infos[:state]
+
+    save
+  end
 end
