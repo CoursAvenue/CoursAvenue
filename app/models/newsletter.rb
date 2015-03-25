@@ -115,7 +115,8 @@ class Newsletter < ActiveRecord::Base
       track_opens: true,
       track_clicks: true,
       auto_text: true,
-      preserve_recipients: false
+      preserve_recipients: false,
+      recipient_metadata: recipients.map(&:mandrill_recipient_metadata)
     }
 
     message

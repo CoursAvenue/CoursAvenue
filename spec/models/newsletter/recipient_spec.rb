@@ -29,6 +29,19 @@ RSpec.describe Newsletter::Recipient, type: :model do
       expect(mandrill_recipient[:name]).to  eq(profile.name)
       expect(mandrill_recipient[:type]).to  eq('bcc')
     end
+  end
 
+  describe '#mandrill_recipient_metadata' do
+    subject          { FactoryGirl.create(:newsletter_recipient) }
+    let(:profile)    { subject.user_profile }
+    let(:newsletter) { subject.newsletter }
+
+    it 'creates a new object with the metadata' do
+      recipient_metadata = subject.mandrill_recipient_metadata
+
+      expect(recipient_metadata[:rcpt]).to                     eq(subject.email)
+      expect(recipient_metadata[:values][0][:user_profile]).to eq(profile.id)
+      expect(recipient_metadata[:values][0][:newsletter]).to   eq(newsletter.id)
+    end
   end
 end

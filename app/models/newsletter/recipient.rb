@@ -23,4 +23,19 @@ class Newsletter::Recipient < ActiveRecord::Base
       type: type
     }
   end
+
+  # Create a some recipient metadata to send with a Mandrill email.
+  #
+  # @return a Hash.
+  def mandrill_recipient_metadata
+    {
+      rcpt:   self.email,
+      values: [
+        {
+          user_profile: user_profile.id,
+          newsletter:   newsletter.id
+        }
+      ]
+    }
+  end
 end
