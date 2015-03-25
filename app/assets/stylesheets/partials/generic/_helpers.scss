@@ -18,6 +18,11 @@
     height: 35vh;
     @include media-query(palm) { height: 15vh; }
 }
+.height-70-vh {
+    height: 700px; // Fallback
+    height: 70vh;
+    @include media-query(palm) { height: 40vh; }
+}
 .height-three-quarters {
     height: 750px; // Fallback
     height: 75vh;

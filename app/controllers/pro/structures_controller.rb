@@ -1,11 +1,13 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
+  before_action :authenticate_pro_super_admin!, only: [:new_sleeping]
+
   before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best,
                                                    :payment_confirmation_be2_bill,
                                                    :dont_want_to_take_control_of_my_sleeping_account,
                                                    :someone_already_took_control]
 
-  load_and_authorize_resource :structure, except: [:new, :create,
+  load_and_authorize_resource :structure, except: [:new, :new_sleeping, :create,
                                                    :widget_ext, :best, :payment_confirmation_be2_bill,
                                                    :dont_want_to_take_control_of_my_sleeping_account,
                                                    :someone_already_took_control], find_by: :slug
@@ -254,6 +256,12 @@ France
     @structures = Structure.where.not(comments_count: nil).order('comments_count DESC').limit(3)
   end
 
+  def new_sleeping
+    @structure  = Structure.new
+    5.times { @structure.places        << @structure.places.publics.build }
+    5.times { @structure.phone_numbers << @structure.phone_numbers.build }
+  end
+
   def update
     @structure = Structure.friendly.find params[:id]
     @admin     = @structure.main_contact
@@ -304,14 +312,20 @@ France
     s_name      = params[:structure][:name]
     s_zip_code  = params[:structure][:zip_code]
 
+    # Based on name and zipcode, check if structure already exsists
     @structure  = Structure.where( Structure.arel_table[:name].eq(s_name).and(
                                    Structure.arel_table[:zip_code].eq(s_zip_code)) ).first_or_initialize params[:structure]
 
     respond_to do |format|
-      if @structure.persisted? # If structure already existed
+      # If structure already existed
+      if @structure.persisted?
         format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
       elsif @structure.new_record? && @structure.save
-        format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
+        if current_pro_admin and current_pro_admin.super_admin?
+          format.html { redirect_to edit_pro_structure_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) }
+        else
+          format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
+        end
       else
         # Used for showing side structure list on new action
         @structures = Structure.where.not(comments_count: nil).order('comments_count DESC').limit(3)
@@ -410,7 +424,7 @@ France
   end
 
   def get_layout
-    if action_name == 'new'
+    if action_name == 'new' or action_name == 'new_sleeping'
       'home'
     elsif action_name == 'create' || action_name == 'someone_already_took_control'
       'admin_pages'

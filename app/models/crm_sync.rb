@@ -1,5 +1,5 @@
 # encoding: utf-8
-# Updates to Highrise
+# Updates to current CRM (CloseIO)
 class CrmSync
 
   def self.update(structure)
@@ -114,6 +114,24 @@ class CrmSync
   def self.structure_status(structure)
     if structure.main_contact.nil?
       "Dormant"
+    elsif structure.main_contact && !structure.main_contact.confirmed?
+      'Non actif'
+    elsif structure.plannings.future.empty?
+      'Incomplet'
+    elsif structure.comments_count.nil? or structure.comments_count == 0
+      'Sans avis'
+    elsif structure.comments_count and structure.comments_count > 0 and structure.plannings.future.any?
+      'Star'
+    end
+  end
+
+  def self.structure_status_for_intercom(structure)
+    if structure.main_contact.nil?
+      "Dormant"
+    elsif structure.main_contact && !structure.main_contact.confirmed?
+      'Non actif'
+    elsif structure.description.nil? or structure.description.length < 2
+      'Sans description'
     elsif structure.plannings.future.empty?
       'Incomplet'
     elsif structure.comments_count.nil? or structure.comments_count == 0

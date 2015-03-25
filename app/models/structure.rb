@@ -121,13 +121,17 @@ class Structure < ActiveRecord::Base
 
   # To store hashes into hstore
   store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
-                             :plannings_count, :has_promotion, :has_free_trial_course, :has_promotion, :course_names, :open_course_names, :open_course_subjects,
-                             :highlighted_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
-                             :level_ids, :audience_ids, :busy,
-                             :open_courses_open_places, :open_course_nb, :jpo_email_status, :open_course_plannings_nb,
-                             :response_rate, :response_time, :gives_non_professional_courses, :gives_professional_courses,
-                             :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score, :search_score_updated_at,
-                             :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient
+                             :plannings_count, :has_promotion, :has_free_trial_course, :has_promotion,
+                             :course_names, :open_course_names, :open_course_subjects,
+                             :highlighted_comment_title, :min_price_libelle, :min_price_amount,
+                             :max_price_libelle, :max_price_amount, :level_ids, :audience_ids, :busy,
+                             :open_courses_open_places, :open_course_nb, :jpo_email_status,
+                             :open_course_plannings_nb, :response_rate, :response_time,
+                             :gives_non_professional_courses, :gives_professional_courses,
+                             :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score,
+                             :search_score_updated_at, :is_sleeping, :sleeping_email_opt_in,
+                             :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient,
+                             :status
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
@@ -160,6 +164,8 @@ class Structure < ActiveRecord::Base
   after_save    :update_open_for_trial_courses_if_neesds
   after_save    :geocode_if_needs_to            unless Rails.env.test?
   after_save    :subscribe_to_crm
+  after_save    :update_intercom_status
+
   after_touch   :set_premium
   after_touch   :update_meta_datas
   after_touch   :update_cities_text
@@ -1137,6 +1143,26 @@ class Structure < ActiveRecord::Base
 
   private
 
+  def update_intercom_status
+    new_status = CrmSync.structure_status_for_intercom(self)
+    if self.status != new_status
+      if self.main_contact
+        begin
+          Intercom::Event.create(
+          event_name: "changed-status", created_at: Time.now.to_i,
+          email: self.main_contact.email,
+          metadata: { old_status: self.status, new_status: new_status }
+        )
+        rescue Exception => exception
+          Bugsnag.notify(exception)
+        end
+      end
+      self.status = new_status
+      self.save
+    end
+  end
+  handle_asynchronously :update_intercom_status
+
   def update_cities_text
     update_column :cities_text, places.map(&:city).map(&:name).uniq.join(', ')
   end
@@ -1234,7 +1260,7 @@ class Structure < ActiveRecord::Base
   end
 
   def reject_places attributes
-    persisted? and attributes[:zip_code].blank?
+    attributes[:zip_code].blank?
   end
 
   def reject_phone_number attributes

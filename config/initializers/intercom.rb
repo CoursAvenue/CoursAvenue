@@ -1,3 +1,8 @@
+unless Rails.env.test?
+  Intercom.app_id      = ENV["INTERCOM_APP_ID"]
+  Intercom.app_api_key = ENV['INTERCOM_API_KEY']
+end
+
 IntercomRails.config do |config|
   # == Intercom app_id
   #
@@ -48,39 +53,16 @@ IntercomRails.config do |config|
   config.user.custom_data = {
     # We have this to ensure we can have an Admin and a User with the same email address and
     # none of them are overrided by the other.
-    :user_id           => Proc.new { |user| "#{user.class.name}_#{user.id}" },
-    'Type'             => Proc.new { |user| user.class.name },
+    :user_id           => Proc.new { |user| "Admin_#{user.id}" },
     :name              => Proc.new { |user| ((s = structure.call(user)) ? s.name : user.name) },
-    '# avis'           => Proc.new { |user| ((s = structure.call(user)) ? s.comments_count : user.try(:comments).try(:count)) },
-    'Villes'           => Proc.new { |user| ((s = structure.call(user)) ? s.places.map(&:city).map(&:name) : nil) },
-    "S'est désinscrit" => Proc.new { |user| !user.try(:should_send_email?) },
-    'Disciplines 1' => Proc.new { |user|
-        if (s = structure.call(user))
-          s.subjects.at_depth(0).uniq.map(&:name)
-        elsif user.is_a? User
-          user.subjects.at_depth(0).uniq.map(&:name)
-        end
-      },
-    'Disciplines 2' => Proc.new { |user|
-        if (s = structure.call(user))
-          s.subjects.at_depth(2).map(&:parent).uniq.map(&:name)
-        elsif user.is_a? User
-          user.subjects.at_depth(2).map(&:parent).uniq.map(&:name)
-        end
-      },
-    'Disciplines 3' => Proc.new { |user|
-        if (s = structure.call(user))
-          s.subjects.at_depth(2).uniq.map(&:name)
-        elsif user.is_a? User
-          user.subjects.at_depth(2).uniq.map(&:name)
-        end
-      },
-    'Prof tag'       => Proc.new { |user| ((s = structure.call(user)) ? CrmSync.structure_status(s) : nil) },
-    'Code postal' => Proc.new { |user|
-        if (s = structure.call(user))
-          s.zip_code
-        end
-      }
+    'nb avis'           => Proc.new { |user| ((s = structure.call(user)) ? s.comments_count : user.try(:comments).try(:count)) },
+    'Villes'           => Proc.new { |user| ((s = structure.call(user)) ? s.places.map(&:city).map(&:name).join(', ') : nil) },
+    'A confirmé son compte' => Proc.new { |user| user.confirmed? },
+    'Disciplines_1'    => Proc.new { |user| ((s = structure.call(user)) ? s.subjects.at_depth(0).uniq.map(&:name).join(', ') : nil) },
+    'Disciplines_2'    => Proc.new { |user| ((s = structure.call(user)) ? s.subjects.at_depth(2).map(&:parent).uniq.map(&:name).join(', ') : nil) },
+    'Disciplines_3'    => Proc.new { |user| ((s = structure.call(user)) ? s.subjects.at_depth(2).uniq.map(&:name).join(', ') : nil) },
+    'Prof tag'         => Proc.new { |user| ((s = structure.call(user)) ? CrmSync.structure_status_for_intercom(s) : nil) },
+    'Code postal'      => Proc.new { |user| ((s = structure.call(user)) ?  s.zip_code : nil) }
   }
 
   # == User -> Company association
