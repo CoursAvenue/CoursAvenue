@@ -19,8 +19,7 @@ gem 'lograge'             , '~> 0.3.1'
 
 gem 'intercom'            , '~> 2.4.4'
 gem 'intercom-rails'      , '~> 0.2.27'
-# gem 'closeio'              , '~> 2.0.4'
-gem 'closeio', github: 'nim1989/closeio'
+gem 'closeio'             , '~> 2.0.6'
 
 # Webserver
 # gem 'unicorn'
