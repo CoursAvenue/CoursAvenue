@@ -87,10 +87,22 @@ class Newsletter < ActiveRecord::Base
 
   # Set the newsletter as sent.
   #
+  # @param sending_informations - An array of struct with the sent email details.
+  #
   # @return self
-  def send!
+  def send!(sending_informations)
     self.state = 'sent'
     self.sent_at = Time.now
+
+    self.metric = Newsletter::Metric.create(newsletter: self)
+
+    sending_informations.each do |message_information|
+      recipient = self.recipients.where(email: message_information[:email]).first
+      if recipient
+        recipient.mandrill_message_id = message_information[:_id]
+        recipient.save
+      end
+    end
 
     save
   end

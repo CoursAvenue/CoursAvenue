@@ -93,6 +93,15 @@ RSpec.describe Newsletter, type: :model do
 
       expect(subject.sent_at).to_not be_nil
     end
+
+    it 'creates the newsletter metric model' do
+      expect(subject.metric).to be_nil
+
+      subject.send!([])
+      subject.reload
+
+      expect(subject.metric).to_not be_nil
+    end
   end
 
   describe '#to_mandrill_message' do

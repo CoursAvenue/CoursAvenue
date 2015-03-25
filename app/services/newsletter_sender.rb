@@ -13,10 +13,13 @@ class NewsletterSender
     async   = false
     ip_pool = 'Main Pool'
 
-    result = client.messages.send message, async, ip_pool
-    newsletter.send!
+    sending_informations = client.messages.send message, async, ip_pool
 
-    result
+    if sending_informations
+      newsletter.send!(sending_informations)
+    end
+
+    sending_informations
   end
 
   # Send the newsletter to the passed recipients.
