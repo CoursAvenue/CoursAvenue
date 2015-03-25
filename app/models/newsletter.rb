@@ -70,14 +70,6 @@ class Newsletter < ActiveRecord::Base
     state == 'sending'
   end
 
-  # Set the newsletter as currently being sent.
-  #
-  # @return nothing.
-  def set_sending!
-    state = 'sending'
-    save
-  end
-
   # Duplicate this Newsletter model.
   #
   # @return the duplicated newsletter.

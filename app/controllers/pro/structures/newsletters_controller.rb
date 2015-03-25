@@ -80,7 +80,9 @@ class Pro::Structures::NewslettersController < ApplicationController
   def send_newsletter
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
     if @newsletter.ready?
-      @newsletter.set_sending!
+
+      @newsletter.state = 'sending'
+      @newsletter.save!
 
       NewsletterSender.delay.send_newsletter(@newsletter)
       redirect_to pro_structure_newsletters_path(@structure),
