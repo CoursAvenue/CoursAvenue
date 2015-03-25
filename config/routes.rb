@@ -74,6 +74,8 @@ CoursAvenue::Application.routes.draw do
       resources :blog_articles, only: [:index, :show], controller: 'blog/articles', path: 'blog' do
         collection do
           get 'tag/:tag'                , to: 'blog/articles#tags', as: :tags
+          get 'categories/pour-vous-et-vos-boud-choux', to: 'redirect#blog'
+          get 'categories/le-tour-du-monde-en-80-cours', to: 'redirect#blog'
           get 'categories/:category_id' , to: 'blog/articles#category_index', as: :category
         end
       end
