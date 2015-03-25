@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150324121645) do
+ActiveRecord::Schema.define(version: 20150325092328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -607,6 +607,7 @@ ActiveRecord::Schema.define(version: 20150324121645) do
     t.integer  "newsletter_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "nb_bounced"
   end
 
   add_index "newsletter_metrics", ["newsletter_id"], name: "index_newsletter_metrics_on_newsletter_id", using: :btree
