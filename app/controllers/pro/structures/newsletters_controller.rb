@@ -82,7 +82,7 @@ class Pro::Structures::NewslettersController < ApplicationController
     if @newsletter.ready?
       @newsletter.set_sending!
 
-      NewsletterSender.delay.send_newsletter(newsletter)
+      NewsletterSender.delay.send_newsletter(@newsletter)
       redirect_to pro_structure_newsletters_path(@structure),
         notice: "Votre newsletter est en cours d'envoi, nous vous enverrons un mail dés l'envoi complet."
     else

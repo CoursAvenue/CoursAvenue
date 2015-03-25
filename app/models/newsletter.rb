@@ -151,8 +151,8 @@ class Newsletter < ActiveRecord::Base
   #
   # @return a Boolean
   def ready?
-    return false if @newsletter.mailing_list.nil?
-    return false if @newsletter.mailing_list.recipient_count == 0
+    return false if self.mailing_list.nil?
+    return false if self.mailing_list.recipient_count == 0
 
     true
   end
