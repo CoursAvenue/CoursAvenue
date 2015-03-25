@@ -7,7 +7,7 @@ class Newsletter < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  NEWSLETTER_STATES     = %w(draft sent)
+  NEWSLETTER_STATES     = %w(draft sending sent)
   NEWSLETTER_FROM_EMAIL = 'noreply@coursavenue.com'
 
   ######################################################################
@@ -66,17 +66,29 @@ class Newsletter < ActiveRecord::Base
     state == 'draft'
   end
 
+  def sending?
+    state == 'sending'
+  end
+
+  # Set the newsletter as currently being sent.
+  #
+  # @return nothing.
+  def set_sending!
+    state = 'sending'
+    save
+  end
+
   # Duplicate this Newsletter model.
   #
   # @return the duplicated newsletter.
   def duplicate!
     duplicated_newsletter = structure.newsletters.create({
-      title:       self.title,
-      state:       'draft',
-      email_object:      self.email_object,
-      sender_name: self.sender_name,
-      reply_to:    self.reply_to,
-      layout_id:   self.layout_id
+      title:        self.title,
+      state:        'draft',
+      email_object: self.email_object,
+      sender_name:  self.sender_name,
+      reply_to:     self.reply_to,
+      layout_id:    self.layout_id
     })
 
     self.blocs.each do |bloc|

@@ -2,8 +2,10 @@ class NewsletterDecorator < Draper::Decorator
   delegate_all
 
   def status
-    if object.sent?
+    if object.state == 'sent'
       "envoyée le #{I18n.l(object.sent_at, format: :long_human)}"
+    elsif object.state == 'sending'
+      "En cours d'envoi"
     else
       "brouillon enregistré le #{I18n.l(object.updated_at, format: :long_human)}"
     end
@@ -18,7 +20,13 @@ class NewsletterDecorator < Draper::Decorator
   end
 
   def badge
-    object.sent? ? 'Envoyé' : 'Brouillon'
+    if object.state == 'sent'
+      'Envoyé'
+    elsif object.state == 'sending'
+      "En cours d'envoi"
+    else
+      'Brouillon'
+    end
   end
 
   def recipient_count
