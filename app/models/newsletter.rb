@@ -147,6 +147,16 @@ class Newsletter < ActiveRecord::Base
     message
   end
 
+  # Check if a newsletter is ready to be sent.
+  #
+  # @return a Boolean
+  def ready?
+    return false if @newsletter.mailing_list.nil?
+    return false if @newsletter.mailing_list.recipient_count == 0
+
+    true
+  end
+
   private
 
   # Sets the default values for the sender name, the reply_to address and the
