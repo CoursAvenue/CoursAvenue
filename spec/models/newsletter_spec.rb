@@ -83,13 +83,13 @@ RSpec.describe Newsletter, type: :model do
 
   describe 'send!' do
     it 'updates the state' do
-      subject.send!
+      subject.send!([])
 
       expect(subject.state).to eq('sent')
     end
 
     it 'updates the send_at date' do
-      subject.send!
+      subject.send!([])
 
       expect(subject.sent_at).to_not be_nil
     end
