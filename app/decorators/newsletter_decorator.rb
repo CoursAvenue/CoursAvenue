@@ -3,11 +3,11 @@ class NewsletterDecorator < Draper::Decorator
 
   def status
     if object.state == 'sent'
-      "envoyée le #{I18n.l(object.sent_at, format: :long_human)}"
+      "envoyée le #{I18n.l(local_time(object.sent_at), format: :long_human)}"
     elsif object.state == 'sending'
       "En cours d'envoi"
     else
-      "brouillon enregistré le #{I18n.l(object.updated_at, format: :long_human)}"
+      "brouillon enregistré le #{I18n.l(local_time(object.updated_at), format: :long_human)}"
     end
   end
 
