@@ -24,6 +24,16 @@ class ApplicationController < ActionController::Base
     rescue_from AbstractController::ActionNotFound,   with: :render_not_found
   end
 
+  def authenticate_user!(opts={})
+    if current_pro_admin and current_pro_admin.super_admin
+      opts[:scope] = :pro_admin
+      warden.authenticate!(opts) if !devise_controller? || opts.delete(:force)
+    else
+      opts[:scope] = :user
+      warden.authenticate!(opts) if !devise_controller? || opts.delete(:force)
+    end
+  end
+
   def current_ability
     if current_pro_admin
       @current_ability ||= AdminAbility.new(current_pro_admin)
