@@ -138,8 +138,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initializeOrShowPreviewPage: function initializeOrShowPreviewPage (page_name) {
+            this.getRegion('preview').reset();
             this.currentStep = ':id/previsualisation';
-            if (this.getRegion('preview').initialized) { this.getRegion('preview').$el.show(); return; }
 
             var preview_view = new Newsletter.Views.PreviewView({
                 model: this.newsletter
