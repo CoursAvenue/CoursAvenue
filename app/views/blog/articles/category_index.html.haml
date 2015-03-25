@@ -10,7 +10,7 @@
     - if @category.description.present?
       .blog-article__show-wrapper.gamma.text--center.ff-droid.f-style-italic.line-height-1-7
         = @category.description.html_safe
-  .relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{asset_path(@category.image.url(:large))}')", data: { behavior: 'parallax' } }
+  .relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{@category.image.url(:large)}')", data: { behavior: 'parallax' } }
 
 - @articles.each_with_index do |article, index|
   = render partial: 'blog/articles/article', locals: { article: article, horizontal: (index > 1), index: index }
