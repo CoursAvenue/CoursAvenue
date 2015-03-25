@@ -1,7 +1,7 @@
 module FakeMandrill
   class Client
-    def initialize(options = nil)
-      Rails.logger.debug "[FakeMandrill][initialize] Initialized with options #{options}."
+    def initialize
+      Rails.logger.debug "[FakeMandrill][initialize] Initialized."
     end
 
     def messages
