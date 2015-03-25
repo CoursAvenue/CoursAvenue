@@ -1,5 +1,6 @@
 # encoding: utf-8
 class Pro::Structures::UserProfilesController < Pro::ProController
+  include ApplicationHelper
   before_action :authenticate_pro_admin!
   before_action :load_structure
 
