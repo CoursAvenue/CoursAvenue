@@ -133,7 +133,10 @@ class Newsletter < ActiveRecord::Base
       track_clicks: true,
       auto_text: true,
       preserve_recipients: false,
-      recipient_metadata: recipients.map(&:mandrill_recipient_metadata)
+      recipient_metadata: recipients.map(&:mandrill_recipient_metadata),
+      metadata: [
+        { newsletter: self.id }
+      ]
     }
 
     message

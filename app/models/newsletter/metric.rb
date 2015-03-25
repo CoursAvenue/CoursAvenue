@@ -1,5 +1,6 @@
 class Newsletter::Metric < ActiveRecord::Base
   belongs_to :newsletter
+  attr_accessible :newsletter
 
   MANDRILL_SENT_STATE     = 'sent'
   MANDRILL_BOUNCED_STATE  = 'bounced'
