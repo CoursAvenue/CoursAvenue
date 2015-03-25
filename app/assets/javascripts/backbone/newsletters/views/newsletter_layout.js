@@ -67,7 +67,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
          */
         initializeOrShowEditPage: function initializeOrShowEditPage (page_name) {
             this.currentStep = ':id/remplissage';
-            if (this.newsletter.hasChanged('layout_id')) {
+            if (this.newsletter.hasChanged('layout_id') || this.newsletter.layout_changed) {
+                this.newsletter.layout_changed = false;
                 this.getRegion('edit').initialized = false;
                 this.getRegion('edit').reset();
             }
@@ -196,6 +197,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // TODO: Create global error save callback that shows an alert / notice.
         selectNewsletterLayout: function selectNewsletterLayout (data) {
             this.newsletter.set('layout_id', data.model.get('id'));
+            this.newsletter.layout_changed = true;
             this.newsletter.save({}, {
                 success: this.savingSuccessCallback,
                 error:   this.savingErrorCallback,
