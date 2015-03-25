@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150325095336) do
+ActiveRecord::Schema.define(version: 20150325102853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -601,13 +601,13 @@ ActiveRecord::Schema.define(version: 20150325095336) do
   add_index "newsletter_mailing_lists", ["structure_id"], name: "index_newsletter_mailing_lists_on_structure_id", using: :btree
 
   create_table "newsletter_metrics", force: true do |t|
-    t.integer  "nb_email_sent"
-    t.integer  "nb_opening"
-    t.integer  "nb_click"
+    t.integer  "nb_email_sent", default: 0
+    t.integer  "nb_opening",    default: 0
+    t.integer  "nb_click",      default: 0
     t.integer  "newsletter_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "nb_bounced"
+    t.integer  "nb_bounced",    default: 0
   end
 
   add_index "newsletter_metrics", ["newsletter_id"], name: "index_newsletter_metrics_on_newsletter_id", using: :btree
@@ -620,6 +620,8 @@ ActiveRecord::Schema.define(version: 20150325095336) do
     t.datetime "updated_at"
     t.string   "mandrill_message_id"
     t.string   "mandrill_message_status"
+    t.integer  "clicks"
+    t.integer  "opens"
   end
 
   add_index "newsletter_recipients", ["newsletter_id"], name: "index_newsletter_recipients_on_newsletter_id", using: :btree
