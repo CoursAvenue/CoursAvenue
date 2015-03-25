@@ -1,5 +1,6 @@
 class Newsletter::MailingList < ActiveRecord::Base
   include Concerns::HstoreHelper
+  include ApplicationHelper
 
   attr_accessible :name, :filters, :all_profiles
 

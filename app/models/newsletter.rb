@@ -1,6 +1,7 @@
 # TODO: slugs.
 class Newsletter < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
+  include ApplicationHelper
 
   ######################################################################
   # Constants                                                          #
