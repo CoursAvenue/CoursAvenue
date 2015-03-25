@@ -8,10 +8,15 @@ class NewsletterSender
   def self.send_newsletter(newsletter)
     return false if newsletter.mailing_list.nil? or newsletter.sent?
 
+    client  = MandrillFactory.client
+    message = newsletter.to_mandrill_message
+    async   = false
+    ip_pool = 'Main Pool'
+
+    result = client.messages.send message, async, ip_pool
     newsletter.send!
-    recipients = newsletter.mailing_list.create_recipients.map(&:email)
-    NewsletterMailer.delay.send_newsletter(newsletter, recipients)
-    true
+
+    result
   end
 
   # Send the newsletter to the passed recipients.
