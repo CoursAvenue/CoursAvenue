@@ -1149,9 +1149,8 @@ class Structure < ActiveRecord::Base
       if self.main_contact
         begin
           Intercom::Event.create(
-          event_name: "changed-status", created_at: Time.now.to_i,
-          email: self.main_contact.email,
-          metadata: { old_status: self.status, new_status: new_status }
+          event_name: "#{self.status} -> #{new_status}", created_at: Time.now.to_i,
+          email: self.main_contact.email
         )
         rescue Exception => exception
           Bugsnag.notify(exception)
