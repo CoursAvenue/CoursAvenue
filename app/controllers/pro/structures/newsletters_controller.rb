@@ -79,6 +79,16 @@ class Pro::Structures::NewslettersController < ApplicationController
   #    - Back to current page on error.
   def send_newsletter
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
+    if @newsletter.ready?
+      @newsletter.set_sending!
+
+      NewsletterSender.delay.send_newsletter(newsletter)
+      redirect_to pro_structure_newsletters_path(@structure),
+        notice: "Votre newsletter est en cours d'envoi, nous vous enverrons un mail dés l'envoi complet."
+    else
+      redirect_to pro_structure_newsletter_path(@structure, @newsletter),
+        error: "Erreur lors de l'envoi de la newsletter, veuillez rééssayer."
+    end
   end
 
   # Duplicate the newsletter and all associated models.
