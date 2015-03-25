@@ -25,6 +25,15 @@ class CrmSync
     results
   end
 
+  def self.merge_base_on_name(structure)
+    if (leads = self.client.list_leads("name:\"#{structure.name}\"")['data']).length > 1
+      source = leads.shift
+      leads.each do |lead|
+        self.client.merge_leads(source['id'], lead['id'])
+      end
+    end
+  end
+
   private
 
   def self.client
