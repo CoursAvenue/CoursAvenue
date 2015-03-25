@@ -151,7 +151,9 @@ class ::Admin < ActiveRecord::Base
   # Override Devise::Confirmable#after_confirmation
   # Send event to intercom
   def after_confirmation
-    Intercom::Event.create(event_name: "Confirmed account", created_at: Time.now.to_i, email: self.email)
+    if Rails.env.production?
+      Intercom::Event.create(event_name: "Confirmed account", created_at: Time.now.to_i, email: self.email)
+    end
   end
 
   private
