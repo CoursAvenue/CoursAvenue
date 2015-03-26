@@ -6,12 +6,19 @@ class Newsletter::Metric < ActiveRecord::Base
   MANDRILL_BOUNCED_STATE  = 'bounced'
   MANDRILL_REJECTED_STATE = 'rejected'
 
+  # Updates the metric in a delay job unless an update is already delayed.
+  #
+  # @return nothing
+  def delayed_update
+    self.delay.update_metrics!
+  end
+
   private
 
   # Update the metrics by calling the Mandrill api.
   #
   # @return nothing
-  def update_metrics
+  def update_metrics!
     recipients = newsletter.recipients
     recipients.each(&:update_message_status)
 
