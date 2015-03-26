@@ -145,6 +145,7 @@ GEM
     cityhash (0.8.1)
     climate_control (0.0.3)
       activesupport (>= 3.0)
+    cliver (0.3.2)
     closeio (2.0.6)
       faraday
       faraday_middleware
@@ -555,6 +556,11 @@ GEM
       rake (>= 0.8.1)
     paypal-recurring (1.1.0)
     pg (0.18.1)
+    poltergeist (1.6.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      multi_json (~> 1.0)
+      websocket-driver (>= 0.2.0)
     powerpack (0.0.9)
     pr_geohash (1.0.0)
     prerender_rails (1.1.2)
@@ -756,6 +762,8 @@ GEM
       rails (>= 3)
       sunspot (= 2.1.1)
     sunspot_solr (2.1.1)
+    sunspot_test (0.4.0)
+      sunspot_rails (>= 1.2.1)
     temple (0.6.10)
     terminal-table (1.4.5)
     therubyracer (0.12.1)
@@ -779,6 +787,9 @@ GEM
     uuidtools (2.1.5)
     warden (1.2.3)
       rack (>= 1.0)
+    websocket-driver (0.5.1)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.1)
     wicked_pdf (0.11.0)
       rails
     wkhtmltopdf-binary (0.9.9.3)
@@ -883,6 +894,7 @@ DEPENDENCIES
   passenger (~> 5.0.4)
   paypal-recurring (~> 1.1.0)
   pg (~> 0.18.1)
+  poltergeist
   prerender_rails (~> 1.1.2)
   progress_bar (~> 1.0.3)
   protected_attributes (~> 1.0.8)
@@ -921,6 +933,7 @@ DEPENDENCIES
   sunspot-rails-tester (~> 1.0.0)
   sunspot_rails (~> 2.1.1)
   sunspot_solr (~> 2.1.1)
+  sunspot_test
   truncate_html (~> 0.9.3)
   uglifier (>= 2.7.1)
   wicked_pdf (~> 0.11.0)

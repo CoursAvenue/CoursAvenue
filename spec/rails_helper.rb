@@ -6,6 +6,8 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'shoulda/matchers'
 require 'capybara/rails'
+require 'capybara/poltergeist'
+require 'sunspot_test/rspec'
 
 # The following line is provided for convenience purposes. It has the downside
 # of increasing the boot-up time by auto-requiring all files in the support
@@ -35,4 +37,18 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.include Delorean
+
+  Capybara.configure do |config|
+    config.default_driver    = :poltergeist
+    config.javascript_driver = :poltergeist
+    config.run_server        = true
+    config.server_port       = 7787
+    config.default_wait_time = 10
+    config.app_host          = "http://lvh.me:#{config.server_port}"
+  end
+
+  Capybara.register_driver :poltergeist do |app|
+    Capybara::Poltergeist::Driver.new(app,
+      phantomjs_options: ['--load-images=no', '--ignore-ssl-errors=yes'])
+  end
 end

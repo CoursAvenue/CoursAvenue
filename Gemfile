@@ -215,6 +215,9 @@ group :test do
   gem 'mongoid-rspec',        '~> 2.0.0.rc1'
   gem 'shoulda-matchers',     '~> 2.8.0', require: false
   gem 'cucumber-rails',       '~> 1.4.2'
+  gem 'cucumber-rails',       '~> 1.4.2', require: false
+  gem 'poltergeist'
+  gem "sunspot_test"
 end
 
 group :development do
