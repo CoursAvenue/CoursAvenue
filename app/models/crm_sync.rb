@@ -34,6 +34,13 @@ class CrmSync
     end
   end
 
+  def self.destroy(email)
+    leads = self.client.list_leads("email:\"#{email}\"")['data']
+    leads.each do |lead|
+      self.client.delete_lead(lead['id'])
+    end
+  end
+
   private
 
   def self.client

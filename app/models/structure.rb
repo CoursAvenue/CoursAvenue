@@ -162,13 +162,15 @@ class Structure < ActiveRecord::Base
   before_save   :encode_uris
 
   after_save    :update_open_for_trial_courses_if_neesds
-  after_save    :geocode_if_needs_to            unless Rails.env.test?
+  after_save    :geocode_if_needs_to    unless Rails.env.test?
   after_save    :subscribe_to_crm
-  after_save    :update_intercom_status
+  after_save    :update_intercom_status if Rails.env.production?
 
   after_touch   :set_premium
   after_touch   :update_meta_datas
   after_touch   :update_cities_text
+
+  before_destroy :unsubscribe_to_crm
 
   ######################################################################
   # Scopes                                                             #
@@ -1156,8 +1158,7 @@ class Structure < ActiveRecord::Base
           Bugsnag.notify(exception)
         end
       end
-      self.status = new_status
-      self.save
+      self.update_columns meta_data: self.meta_data.merge('status' => new_status)
     end
   end
   handle_asynchronously :update_intercom_status
@@ -1196,9 +1197,12 @@ class Structure < ActiveRecord::Base
   end
 
   def subscribe_to_crm
-    CrmSync.update(self)
+    CrmSync.delay.update(self)
   end
-  handle_asynchronously :subscribe_to_crm
+
+  def unsubscribe_to_crm
+    CrmSync.delay.destroy(self.email)
+  end
 
   def encode_uris
     self.website      = URI.encode(URI.decode(website))      if website.present? and website_changed?
