@@ -49,7 +49,7 @@
             = link_to '#avis', data: { behavior: 'scroll-to', offset_top: '-50' }, class: 'white' do
               Voir les #{@structure.comments_count} avis
 
-      #structure-profile{ class: (@is_sleeping ? '' : 'bg-white bordered'), data: { type: 'structure-profile-root' } }
+      #structure-profile.push--bottom{ class: (@is_sleeping ? '' : 'bg-white bordered'), data: { type: 'structure-profile-root' } }
         - if @is_sleeping
           = render partial: 'structures/sleeping_content', locals: { medias: @medias }
           #structure.hidden
@@ -58,17 +58,21 @@
           #avis
             .soft--bottom{ data: { type: "certified-comments-collection" } }
             .soft-{ data: { type: "guestbook-collection" } }
+      .beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--bottom Article de blog associés
+      .grid
+        - BlogArticleSearch.search(per_page: 3, type: 'user', subject_slugs: @structure_decorator.all_subjects_slugs).results.each do |article|
+          .grid__item.one-third.palm-one-whole.push--bottom>
+            = link_to blog_article_path(article), class: 'block link-colored-on-hover', title: article.title do
+              = image_tag article.image.url(:similar_article), class: 'block one-whole hoverable-media'
+              %h4.text--center.ff-droid.f-style-italic.f-weight-normal.flush.delta.soft-half--top.line-height-1-3= article.title
     .grid__item.four-twelfths>
       %div{ data: { type: 'contact-form' } }
       - # This additionnal div is necessary for the husk that will be prepended
       - # to the parent of the sticky div
       %div
-        %div{ data: { type: (@is_sleeping ? '' : 'sticky-map-container') }}>
+        .on-top{ data: { type: (@is_sleeping ? '' : 'sticky-map-container') }}>
           - unless @is_sleeping
             .push--bottom{ data: { type: (@is_sleeping ? '' : 'sticky-map') }}>
-            %a.push--bottom.contact-button.btn--full.btn.btn--green{ data: { behavior: 'show-contact-panel' } }
-              Contacter
-              = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
 
           - if @similar_profiles
             .panel.push--bottom
@@ -126,8 +130,6 @@
         - if @structure.followings.count > 9
           %p.flush.text--center.push-half--top
             %strong Suivi par #{@structure.followings.count} élèves
-
-
 
 - if @structure.medias.empty? and @structure.logo.blank?
   - @structure_locations = Gmaps4rails.build_markers([@structure]) do |structure, marker|
