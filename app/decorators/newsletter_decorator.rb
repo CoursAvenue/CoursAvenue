@@ -32,4 +32,15 @@ class NewsletterDecorator < Draper::Decorator
   def recipient_count
     object.mailing_list.recipient_count
   end
+
+  def recipients(limit = 50, offset = 0)
+    object.recipients.includes(:user_profile).limit(limit).offset(offset).map do |recipient|
+      {
+        email:  recipient.email,
+        name:   recipient.user_profile.user.name,
+        clicks: recipient.clicks,
+        opens:  recipient.opens
+      }
+    end
+  end
 end

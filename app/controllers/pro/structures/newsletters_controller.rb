@@ -81,7 +81,7 @@ class Pro::Structures::NewslettersController < ApplicationController
 
       NewsletterSender.delay.send_newsletter(@newsletter)
       redirect_to pro_structure_newsletters_path(@structure),
-        notice: "Votre newsletter est en cours d'envoi, nous vous enverrons un mail dés l'envoi complet."
+        notice: "Votre newsletter est en cours d'envoi."
     else
       redirect_to pro_structure_newsletter_path(@structure, @newsletter),
         error: "Erreur lors de l'envoi de la newsletter, veuillez rééssayer."
@@ -118,11 +118,9 @@ class Pro::Structures::NewslettersController < ApplicationController
   # Metrics modal.
   def metrics
     @newsletter = @structure.newsletters.includes(:metric).find(params[:id]).decorate
-    @metric = @newsletter.metric
+    @metric = @newsletter.metric.decorate
 
     @metric.delayed_update if @metric.present?
-
-    render layout: false
   end
 
   private
