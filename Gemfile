@@ -210,7 +210,7 @@ group :test do
   gem 'rspec-core',           '~> 3.1.7'
   gem 'simplecov',            '~> 0.9.1'
   gem 'database_cleaner',     '~> 1.2.0'
-  gem 'capybara',             '~> 2.2.1'
+  gem 'capybara',             '~> 2.4.4'
   gem 'rspec-instafail',      '~> 0.2.5'
   gem 'mongoid-rspec',        '~> 2.0.0.rc1'
   gem 'shoulda-matchers',     '~> 2.8.0', require: false
