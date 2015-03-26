@@ -1,22 +1,22 @@
 = side_menu_currently_at 'communicate'
-.panel
-  = render partial: 'pro/structures/communication_tabs', locals: {current: 'sticker-index'}
-  .panel__body.soft
-    %h3 Suivi de l'envoi de mes autocollants
-    %table.table--striped
-      %thead
-        %tr
-          %th Nombre d'autocollants ronds
-          %th Nombre d'autocollants rectangulaires
-          %th Statut
-      %tbody
-        - @structure.sticker_demands.each do |sticker_demand|
-          %tr
-            %td= sticker_demand.round_number
-            %td= sticker_demand.square_number
-            %td
-              - if sticker_demand.sent?
-                Envoyé le
-                = l(sticker_demand.sent_at, format: :date)
-              - else
-                En cours de traitement
+
+= render partial: 'pro/structures/communication_tabs', locals: {current: 'sticker-index'}
+
+%h1 Suivi de l'envoi de mes autocollants
+%table.table--striped
+  %thead
+    %tr
+      %th Nombre d'autocollants ronds
+      %th Nombre d'autocollants rectangulaires
+      %th Statut
+  %tbody
+    - @structure.sticker_demands.each do |sticker_demand|
+      %tr
+        %td= sticker_demand.round_number
+        %td= sticker_demand.square_number
+        %td
+          - if sticker_demand.sent?
+            Envoyé le
+            = l(sticker_demand.sent_at, format: :date)
+          - else
+            En cours de traitement

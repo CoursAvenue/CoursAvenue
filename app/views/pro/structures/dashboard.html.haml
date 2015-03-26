@@ -70,9 +70,9 @@
               - @structure.comments.accepted.limit(15).order('created_at ASC').each do |comment|
                 %td.text--center.hard{style: "width: 6.6%;"}
                   .hidden.bg-green{ data: { toggle: 'popover', html: 'true', placement: 'bottom', content: "<div style='font-size: 12px;'>#{comment.author_name} le #{I18n.l(comment.created_at, format: :date)}<br><br>#{comment.content.html_safe}<div>", trigger: 'hover' } }
-                    %a{href: 'javascript:void(0)'}
+                    %a{ href: 'javascript:void(0)' }
                       %i.fa.fa-comment.white
-              - if @structure.comments.accepted.count < 15
+              - if @structure.comments.count < 15
                 - (15 -@structure.comments.accepted.count).times do |index|
                   %td.text--center.hard{style: "width: 6.6%;"}
                     &nbsp;
@@ -85,17 +85,41 @@
           %tbody
             %tr
               %td.v-top.text--center.hard{ colspan: 9 }
-                %i.fa.fa-chevron-up
+                %i.fa.fa-arrow-up
                 %br
-                Avec 5 avis, vous êtes
+                %span.nowrap À partir du 5<sup>e</sup> avis :
                 %br
-                2 fois plus visibles
+                - if @structure.comments_count > 4
+                  = link_to widget_pro_structure_path(@structure), class: 'btn btn--blue nowrap text--center' do
+                    Installer mon
+                    %br
+                    livre d'or
+                - else
+                  %a.btn.btn--small.text--center{ href: '#livre-dor-explanation', data: { behavior: 'modal', width: 500, padding: 0 } } OBTENEZ VOTRE LIVRE D'OR
               %td.text--right.v-top.hard{ colspan: 6 }
-                %i.fa.fa-chevron-up
+                %i.fa.fa-arrow-up
                 %br
-                Avec 15 avis, vous êtes
+                %span.nowrap À partir de 15 avis et +
                 %br
-                10 fois plus visibles
+                - if @structure.comments_count > 14
+                  = link_to new_pro_structure_sticker_demand_path(@structure), class: 'btn btn--blue text--center nowrap' do
+                    Recevoir mes
+                    %br
+                    autocollants
+                - else
+                  %a.btn.btn--small.text--center{ href: '#sticker-explanation', data: { behavior: 'modal', width: 500, padding: 0 } } OBTENEZ VOS AUTOCOLLANTS
+              -# %td.v-top.text--center.hard{ colspan: 9 }
+              -#   %i.fa.fa-chevron-up
+              -#   %br
+              -#   Avec 5 avis, vous êtes
+              -#   %br
+              -#   2 fois plus visibles
+              -# %td.text--right.v-top.hard{ colspan: 6 }
+              -#   %i.fa.fa-chevron-up
+              -#   %br
+              -#   Avec 15 avis, vous êtes
+              -#   %br
+              -#   10 fois plus visibles
 
 - cache 'pro/structures/dashboard/hidden-popups' do
   #livre-dor-explanation.hidden

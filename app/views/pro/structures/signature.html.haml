@@ -1,28 +1,27 @@
 = side_menu_currently_at 'communicate'
 
 
-.panel
-  = render partial: 'pro/structures/communication_tabs', locals: {current: 'signature'}
-  .panel__body.soft
-    %h3.push-half--bottom
-      Développez le bouche à oreille grâce à la signature de vos emails
+= render partial: 'pro/structures/communication_tabs', locals: {current: 'signature'}
 
-    %h5 Modèle 1 : c'est ce qu'utilise un de nos professeurs de Qi Qong
-    %p.alert--info
-      \--
-      %br
-      Votre avis m'intéresse, d'avance merci ! Je me permets de demander à celles et ceux qui ont déjà suivi un de mes cours de prendre juste 1 minute pour me laisser un avis : #{link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}
-      %br
-      Cela me permettra d'avoir un retour mais aussi et surtout, pour que d'autres personnes puissent se faire une idée et éventuellement participer et partager des moments profitables à tous.
+%h1
+  Développez le bouche à oreille grâce à la signature de vos emails
 
-    %h5 Modèle 2 : plus générique
-    %p.alert--info.one-whole
-      \--
-      %br
-      Déjà #{@structure.comments_count} élèves nous ont recommandé sur CoursAvenue.com ! Votre avis nous intéresse :
-      %br
-      %b Déposer mon avis :
-      #{link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}
-      %br
-      %b Voir tous les avis :
-      #{link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}
+%h3 Modèle 1 : c'est ce qu'utilise un de nos professeurs de Qi Qong
+%p.alert--info.epsilon
+  \--
+  %br
+  Votre avis m'intéresse, d'avance merci ! Je me permets de demander à celles et ceux qui ont déjà suivi un de mes cours de prendre juste 1 minute pour me laisser un avis : #{link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}
+  %br
+  Cela me permettra d'avoir un retour mais aussi et surtout, pour que d'autres personnes puissent se faire une idée et éventuellement participer et partager des moments profitables à tous.
+
+%h3 Modèle 2 : plus générique
+%p.alert--info.one-whole.epsilon
+  \--
+  %br
+  Déjà #{@structure.comments_count} élèves nous ont recommandé sur CoursAvenue.com ! Votre avis nous intéresse :
+  %br
+  %b Déposer mon avis :
+  #{link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}
+  %br
+  %b Voir tous les avis :
+  #{link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}

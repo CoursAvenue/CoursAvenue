@@ -1,35 +1,34 @@
 = side_menu_currently_at 'communicate'
 
-.panel
-  = render partial: 'pro/structures/communication_tabs', locals: { current: 'logo' }
-  .panel__body.soft--ends
-    .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.communicate_logo') } }
-      %h4.push-half--bottom
-        Téléchargez nos logos
-      .grid
-        .grid__item.one-half.v-middle>
-          = link_to asset_path('logos/coursavenue_1_ligne_com.png'), download: 'Logo_CoursAvenue_com', class: 'block' do
-            = image_tag 'logos/coursavenue_1_ligne_com.png', class: 'one-whole'
-        .grid__item.one-half.v-middle>
-          = link_to asset_path('logos/coursavenue_2_lignes_com.png'), download: 'Logo_CoursAvenue_com_2_ligne', class: 'block' do
-            = image_tag 'logos/coursavenue_2_lignes_com.png', class: 'one-whole'
-      .grid
-        .grid__item.one-half.v-middle.text--center>
-          = link_to 'Télécharger', asset_path('logos/coursavenue_1_ligne_com.png'), class: 'btn btn--green btn--small', download: 'Logo_CoursAvenue_com'
-        .grid__item.one-half.v-middle.text--center>
-          = link_to 'Télécharger', asset_path('logos/coursavenue_2_lignes_com.png'), class: 'btn btn--green btn--small', download: 'Logo_CoursAvenue_com_2_ligne'
+= render partial: 'pro/structures/communication_tabs', locals: { current: 'logo' }
 
-      %hr.push--ends
-      .grid
-        .grid__item.one-half.v-middle>
-          = link_to asset_path('logos/coursavenue_1_ligne.png'), download: 'Logo_CoursAvenue', class: 'block' do
-            = image_tag 'logos/coursavenue_1_ligne.png', class: 'one-whole'
-        .grid__item.one-half.v-middle>
-          = link_to asset_path('logos/coursavenue_2_lignes.png'), download: 'Logo_CoursAvenue_2_ligne', class: 'block' do
-            = image_tag 'logos/coursavenue_2_lignes.png', class: 'one-whole'
-      .grid
-        .grid__item.one-half.v-middle.text--center>
-          = link_to 'Télécharger', asset_path('logos/coursavenue_1_ligne.png'), class: 'btn btn--green btn--small', download: 'Logo_CoursAvenue'
-        .grid__item.one-half.v-middle.text--center>
-          = link_to 'Télécharger', asset_path('logos/coursavenue_2_lignes.png'), class: 'btn btn--green btn--small', download: 'Logo_CoursAvenue_2_ligne'
+%div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.communicate_logo') } }
+  %h1.push-half--bottom
+    Téléchargez nos logos
+  .grid
+    .grid__item.one-half.v-middle>
+      = link_to asset_path('logos/coursavenue_1_ligne_com.png'), download: 'Logo_CoursAvenue_com', class: 'block' do
+        = image_tag 'logos/coursavenue_1_ligne_com.png', class: 'one-whole'
+    .grid__item.one-half.v-middle>
+      = link_to asset_path('logos/coursavenue_2_lignes_com.png'), download: 'Logo_CoursAvenue_com_2_ligne', class: 'block' do
+        = image_tag 'logos/coursavenue_2_lignes_com.png', class: 'one-whole'
+  .grid
+    .grid__item.one-half.v-middle.text--center>
+      = link_to 'Télécharger', asset_path('logos/coursavenue_1_ligne_com.png'), class: 'btn btn--green btn--small', download: 'Logo_CoursAvenue_com'
+    .grid__item.one-half.v-middle.text--center>
+      = link_to 'Télécharger', asset_path('logos/coursavenue_2_lignes_com.png'), class: 'btn btn--green btn--small', download: 'Logo_CoursAvenue_com_2_ligne'
+
+  %hr.push--ends
+  .grid
+    .grid__item.one-half.v-middle>
+      = link_to asset_path('logos/coursavenue_1_ligne.png'), download: 'Logo_CoursAvenue', class: 'block' do
+        = image_tag 'logos/coursavenue_1_ligne.png', class: 'one-whole'
+    .grid__item.one-half.v-middle>
+      = link_to asset_path('logos/coursavenue_2_lignes.png'), download: 'Logo_CoursAvenue_2_ligne', class: 'block' do
+        = image_tag 'logos/coursavenue_2_lignes.png', class: 'one-whole'
+  .grid
+    .grid__item.one-half.v-middle.text--center>
+      = link_to 'Télécharger', asset_path('logos/coursavenue_1_ligne.png'), class: 'btn btn--green btn--small', download: 'Logo_CoursAvenue'
+    .grid__item.one-half.v-middle.text--center>
+      = link_to 'Télécharger', asset_path('logos/coursavenue_2_lignes.png'), class: 'btn btn--green btn--small', download: 'Logo_CoursAvenue_2_ligne'
 

@@ -1,51 +1,51 @@
 = side_menu_currently_at 'communicate'
-.panel
-  = render partial: 'pro/structures/communication_tabs', locals: {current: 'sticker'}
-  .panel__body.soft
-    %h3.push-half--bottom
-      Affichez votre réputation grâce à nos autocollants gratuits
-    .alert.alert--info.push--bottom
+
+= render partial: 'pro/structures/communication_tabs', locals: {current: 'sticker'}
+
+%h3
+  Affichez votre réputation grâce à nos autocollants gratuits
+.alert.alert--info.push--bottom
+  %p
+    Félicitations, vous avez déjà plus de 15 recommandations d’élèves ! Cela signifie que vos élèves vous apprécient et que vos cours sont réputés. Pour vous, c’est un point fort à mettre en avant car cela vous différencie : communiquez sur votre réputation dès aujourd’hui, c’est le moyen le plus efficace et le plus économique pour attirer de nouveaux élèves.
+  %p.flush
+    Affichez votre réputation grâce à nos autocollants à coller partout : sur vos panneaux d’affichage (en plus de vos feuilles de plannings) ou dans vos salles de cours, à l’extérieur sur votre vitrine, sur vos flyers… plus il y en a, mieux c’est.
+
+%h3 Choisissez vos autocollants et commandez-les, c’est gratuit !
+
+= simple_form_for [:pro, @structure, @sticker_demand] do |f|
+  = f.error_notification
+  - if @sticker_demand.errors.any?
+    %br
+    .alert.alert-error
+      = @sticker_demand.errors[:base].to_sentence
+  .grid--full
+    .grid__item.one-half.bordered--right>
+      .flexbox{style: 'height: 300px'}
+        .flexbox__item.v-middle
+          = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/stickers/round.png', height: 280, class: 'center-block'
       %p
-        Félicitations, vous avez déjà plus de 15 recommandations d’élèves ! Cela signifie que vos élèves vous apprécient et que vos cours sont réputés. Pour vous, c’est un point fort à mettre en avant car cela vous différencie : communiquez sur votre réputation dès aujourd’hui, c’est le moyen le plus efficace et le plus économique pour attirer de nouveaux élèves.
-      %p.flush
-        Affichez votre réputation grâce à nos autocollants à coller partout : sur vos panneaux d’affichage (en plus de vos feuilles de plannings) ou dans vos salles de cours, à l’extérieur sur votre vitrine, sur vos flyers… plus il y en a, mieux c’est.
-
-    %h3 Choisissez vos autocollants et commandez-les, c’est gratuit !
-
-    = simple_form_for [:pro, @structure, @sticker_demand] do |f|
-      = f.error_notification
-      - if @sticker_demand.errors.any?
+        %strong Format rond (14cm de diamètre)
         %br
-        .alert.alert-error
-          = @sticker_demand.errors[:base].to_sentence
-      .grid--full
-        .grid__item.one-half.bordered--right>
-          .flexbox{style: 'height: 300px'}
-            .flexbox__item.v-middle
-              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/stickers/round.png', height: 280, class: 'center-block'
-          %p
-            %strong Format rond (14cm de diamètre)
-            %br
-            %i Plus grand que le rectangulaire, il a le format idéal pour être bien visible sur les vitrines qui donnent sur l’extérieur, les panneaux d’affichage à l’accueil, dans une salle de cours ou sur une porte.
-            %br
-            %br
-          %div
-            %strong.label--large.v-middle.soft-half--right Nombre souhaité :
-            = f.input :round_number, as: :select, collection: (0..10), label: false, include_blank: false, wrapper_html: { class: 'input--large inline-block v-middle'}
-        .grid__item.one-half.soft-half--left>
-          .flexbox{style: 'height: 300px'}
-            .flexbox__item.v-middle
-              = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/stickers/square.png', height: 180, class: 'center-block'
-          %p
-            %strong Format rectangulaire (8,5 x 5,5cm)
-            %br
-            %i Plus petit que le format rond, il est moins visible mais a l’avantage de pouvoir être collé plus facilement, comme par exemple sur vos feuilles de planning affichées dans des lieux publics.
-          %div
-            %strong.label--large.v-middle.soft-half--right Nombre souhaité :
-            = f.input :square_number, as: :select, collection: ((0..20).to_a + 30.step(100,10).to_a), label: false, include_blank: false, wrapper_html: { class: 'input--large inline-block v-middle'}
-      = f.label :address, class: 'text--left bold label--large'
-      %p.blue.flush
-        %i Nous vous enverrons le courrier contenant vos autocollants à cette adresse.
-      = f.input :address, input_html: { value: @structure.address, class: 'one-whole input--large' }, wrapper_html: { class: 'flush one-whole' }, label: false
-      .push-half--top
-        = f.submit 'Demander mes autocollants', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
+        %i Plus grand que le rectangulaire, il a le format idéal pour être bien visible sur les vitrines qui donnent sur l’extérieur, les panneaux d’affichage à l’accueil, dans une salle de cours ou sur une porte.
+        %br
+        %br
+      %div
+        %strong.label--large.v-middle.soft-half--right Nombre souhaité :
+        = f.input :round_number, as: :select, collection: (0..10), label: false, include_blank: false, wrapper_html: { class: 'input--large inline-block v-middle'}
+    .grid__item.one-half.soft-half--left>
+      .flexbox{style: 'height: 300px'}
+        .flexbox__item.v-middle
+          = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/stickers/square.png', height: 180, class: 'center-block'
+      %p
+        %strong Format rectangulaire (8,5 x 5,5cm)
+        %br
+        %i Plus petit que le format rond, il est moins visible mais a l’avantage de pouvoir être collé plus facilement, comme par exemple sur vos feuilles de planning affichées dans des lieux publics.
+      %div
+        %strong.label--large.v-middle.soft-half--right Nombre souhaité :
+        = f.input :square_number, as: :select, collection: ((0..20).to_a + 30.step(100,10).to_a), label: false, include_blank: false, wrapper_html: { class: 'input--large inline-block v-middle'}
+  = f.label :address, class: 'text--left bold label--large'
+  %p.blue.flush
+    %i Nous vous enverrons le courrier contenant vos autocollants à cette adresse.
+  = f.input :address, input_html: { value: @structure.address, class: 'one-whole input--large' }, wrapper_html: { class: 'flush one-whole' }, label: false
+  .push-half--top
+    = f.submit 'Demander mes autocollants', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }

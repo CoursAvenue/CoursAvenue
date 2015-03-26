@@ -1,48 +1,46 @@
 = side_menu_currently_at 'communicate'
 = render '/pro/structures/widget_inline_css'
 
-.panel
-  = render partial: 'pro/structures/communication_tabs', locals: {current: 'widget'}
-  .panel__body.soft--ends
-    .soft--sides
-      %h3.push-half--bottom Vos recommandations visibles sur votre site internet
-      %p.alert--info
-        Affichez votre livre d'or interactif sur votre propre site Internet ou blog en quelques minutes seulement. C'est très simple : suivez les 2 étapes ci-dessous pour installer ce qu'on appelle un "widget".
-        Voici quelques exemple de partenaires qui l'ont installé en 2min !
-        = link_to "exemples de livres d'Or.", pro_pages_widget_path, target: '_blank'
+= render partial: 'pro/structures/communication_tabs', locals: {current: 'widget'}
 
-      %h4 Étape 1 : Configurez votre livre d'or
+%h1 Vos recommandations visibles sur votre site internet
+%p.delta.line-height-1-3
+  Affichez votre livre d'or interactif sur votre propre site Internet ou blog en quelques minutes seulement. C'est très simple : suivez les 2 étapes ci-dessous pour installer ce qu'on appelle un "widget".
+  Voici quelques exemple de partenaires qui l'ont installé en 2min !
+  = link_to "Voir des exemples de livres d'Or.", pro_pages_widget_path, target: '_blank'
 
-      .grid.push--bottom
-        .grid__item.four-tenths>
-          .soft--right
-            %h4
-              %i.fa.fa-cogs
-              Configuration
-            .islet
-              .push--bottom
-                %label.v-middle.label--large.v-middle.inline-block{for: 'show-comments'} Afficher les derniers avis
-                %input.v-middle.input--large#show-comments{ type: 'checkbox', checked: true }
-              %div
-                %label.v-middle.label--large.inline{for: 'nb-comments'} Nombre d'avis à afficher
-                %input.v-middle.input--large.inline#nb-comments{style: 'width: 4em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 3}
+%h3 Étape 1 : Configurez votre livre d'or
 
-        .grid__item.six-tenths.bordered--left>
-          %h4
-            %i.fa.fa-eye-o
-            Aperçu
-          .center-block{style: 'width: 400px'}
-            #coursavenue-widget
+.grid.push--bottom
+  .grid__item.four-tenths>
+    .soft--right
+      %h4
+        %i.fa.fa-cogs
+        Configuration
+      .islet
+        .push--bottom
+          %label.v-middle.label--large.v-middle.inline-block{for: 'show-comments'} Afficher les derniers avis
+          %input.v-middle.input--large#show-comments{ type: 'checkbox', checked: true }
+        %div
+          %label.v-middle.label--large.inline{for: 'nb-comments'} Nombre d'avis à afficher
+          %input.v-middle.input--large.inline#nb-comments{style: 'width: 4em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 3}
 
-    %hr.push-half--ends
-    .soft--sides
-      %h4.push--top Étape 2 : Installez le livre d'or sur votre site
+  .grid__item.six-tenths.bordered--left>
+    %h4
+      %i.fa.fa-eye-o
+      Aperçu
+    .center-block{style: 'width: 400px'}
+      #coursavenue-widget
 
-      = render 'pro/structures/widget_installation_guides'
+%hr.push--ends
+.soft--sides
+  %h3 Étape 2 : Installez le livre d'or sur votre site
 
-      %div{style: 'margin-bottom: 300px;'}
-      #coursavenue-link-to-remove-wrapper.hidden>
-        = link_to "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", style: 'border: 0 !important; clip: rect(0 0 0 0) !important; height: 1px !important; margin: -1px !important; overflow: hidden !important; padding: 0 !important; position: absolute !important; width: 1px !important;'
+  = render 'pro/structures/widget_installation_guides'
+
+  %div{style: 'margin-bottom: 300px;'}
+  #coursavenue-link-to-remove-wrapper.hidden>
+    = link_to "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", style: 'border: 0 !important; clip: rect(0 0 0 0) !important; height: 1px !important; margin: -1px !important; overflow: hidden !important; padding: 0 !important; position: absolute !important; width: 1px !important;'
 
 - content_for :scripts do
   :javascript
