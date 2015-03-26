@@ -17,9 +17,14 @@
         %strong= newsletter.status
 
       .flexbox__item.v-middle.text--right
-        = succeed ' ' do
-          = link_to preview_newsletter_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 } do
-            %i.fa.fa-eye
+        - if newsletter.sent?
+          = succeed ' ' do
+            = link_to metrics_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 } do
+              %i.fa.fa-calculator
+        - else
+          = succeed ' ' do
+            = link_to preview_newsletter_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 } do
+              %i.fa.fa-eye
         = succeed ' ' do
           = link_to edit_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger' do
             %i.fa.fa-pencil

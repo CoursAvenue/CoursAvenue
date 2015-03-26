@@ -272,10 +272,11 @@ CoursAvenue::Application.routes.draw do
           resources :blocs, only: [:create, :update, :destroy], controller: 'structures/newsletters/blocs'
           resources :mailing_lists, only: [:create], controller: 'structures/newsletters/mailing_lists'
           member do
-            get :send_newsletter
             get :duplicate
             get :preview_newsletter
             get :confirm
+            get :send_newsletter
+            get :metrics
 
             get 'liste-de-diffusion', to: 'structures/newsletters#new', as: 'mailing_list'
             get :recapitulatif,       to: 'structures/newsletters#new', as: 'metadata'

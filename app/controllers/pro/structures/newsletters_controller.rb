@@ -108,8 +108,19 @@ class Pro::Structures::NewslettersController < ApplicationController
     render layout: false
   end
 
+  # Confirmation modal.
   def confirm
     @newsletter = @structure.newsletters.find(params[:id]).decorate
+
+    render layout: false
+  end
+
+  # Metrics modal.
+  def metrics
+    @newsletter = @structure.newsletters.includes(:metric).find(params[:id]).decorate
+    @metric = @newsletter.metric
+
+    @metric.delayed_update if @metric.present?
 
     render layout: false
   end
