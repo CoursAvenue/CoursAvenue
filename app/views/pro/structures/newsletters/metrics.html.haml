@@ -1,23 +1,14 @@
-.soft
-  .flexbox
-    .flexbox__item.v-middle
-      .text--center
-        %h1 Statistiques d'envoi
+= side_menu_currently_at 'newsletters'
 
-  .f-weight-500.mega-soft--ends.text--center
-    - if @newsletter.sent? and @metric.present?
-      %h4= "Liste de diffusion : #{@newsletter.mailing_list}"
-      .grid.text--center
-        .grid__item.one-third.bordered--right>
-          .soft-half.text--center
-            %h3.flush= "#{@metric.nb_email_sent} envois"
-        .grid__item.one-third.bordered--right>
-          .soft-half.text--center
-            %h3.flush= "#{@metric.nb_opening} ouvertures"
-        .grid__item.one-third>
-          .soft-half.text--center
-            %h3.flush= "#{@metric.nb_click} clicks"
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    = link_to new_pro_structure_newsletter_path(@structure), class: 'btn' do
+      %i.fa.fa-chevron-left.v-middle
+      Retour
 
-    - else
-      %p.delta
-        Les statistiques d'envoi de newsletter sont en cours de création. Veuillez rééssayer dans quelques minutes.
+- if @newsletter.sent? and @metric.present?
+  = render 'metrics_detail'
+
+- else
+  %p.delta
+    Les statistiques d'envoi de newsletter sont en cours de création. Veuillez rééssayer dans quelques minutes.

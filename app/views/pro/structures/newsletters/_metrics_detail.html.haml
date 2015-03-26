@@ -1,0 +1,74 @@
+.push--ends
+  %h3 Statistiques d'envoi : #{@newsletter.title}
+
+.grid.push--ends
+  .grid__item.one-half>
+    %h4= link_to "#{@metric.nb_email_sent} Abonnés", "#details"
+    %p.delta
+      %strong Liste de diffusion :
+      #{@newsletter.mailing_list}
+    %p.delta
+      %strong Objet :
+      #{@newsletter.email_object}
+  .grid__item.one-half>
+    %p.delta.push--down
+      %strong Envoyé :
+      #{@newsletter.sent_at}
+    %p.delta
+      = link_to 'Voir la newsletter', '#preview'
+
+.grid.push--ends
+  .grid__item.one-half>
+    .grid
+      .grid__item.two-thirds>
+        %p.epsilon.push-half--bottom
+          Pourcentage d'ouvertures
+      .grid__item.one-third>
+        %strong.float--right.blue= "#{@metric.opened_percentage}%"
+    .progress
+      .bar.bar-success{style: "width: #{@metric.opened_percentage}%;"}
+  .grid__item.one-half
+    .grid
+      .grid__item.two-thirds>
+        %p.epsilon.push-half--bottom
+          Pourcentage de clicks
+      .grid__item.one-third>
+        %strong.float--right.blue= "#{@metric.click_percentage}%"
+    .progress
+      .bar.bar-success{style: "width: #{@metric.click_percentage}%;"}
+
+.grid--full.text--center.bordered.push--ends
+  .grid__item.one-third.bordered--right>
+    .soft-half.text--center
+      %h3.flush= "#{@metric.nb_email_sent}"
+      envois
+  .grid__item.one-third.bordered--right>
+    .soft-half.text--center
+      %h3.flush= "#{@metric.nb_opening}"
+      ouvertures
+  .grid__item.one-third>
+    .soft-half.text--center
+      %h3.flush= "#{@metric.nb_click}"
+      clicks
+
+.grid.text--center
+  .grid__item
+    %iframe{ src: preview_newsletter_pro_structure_newsletter_path(@structure, @newsletter), width: '100%', height: 500, id: 'preview' }
+
+.push--ends#details
+  %h3 Détails des envois
+
+%table.table--data.table--striped#dataTable
+  %thead
+    %tr
+      %th Addresse Email
+      %th Nom
+      %th Ouvertures
+      %th Clicks
+  %tbody
+    - @newsletter.recipients.each do |recipient|
+      %tr
+        %td= recipient[:email]
+        %td= recipient[:name]
+        %td= recipient[:opens]
+        %td= recipient[:clicks]
