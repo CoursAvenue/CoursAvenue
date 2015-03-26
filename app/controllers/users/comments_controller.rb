@@ -18,12 +18,7 @@ class Users::CommentsController < ApplicationController
     @user    = User.find params[:user_id]
     @comment = Comment::Review.find(params[:id])
     respond_to do |format|
-      if @comment.pending?
-        @comment.update_attributes params[:comment]
-        format.html { redirect_to user_comments_path(current_user), notice: 'Votre commentaire a bien été mis à jour.' }
-      else
-        format.html { redirect_to user_comments_path(current_user), notice: 'Vous ne pouvez pas modifier votre commentaire.' }
-      end
+      format.html { redirect_to user_comments_path(current_user), notice: 'Vous ne pouvez pas modifier votre commentaire.' }
     end
   end
 end

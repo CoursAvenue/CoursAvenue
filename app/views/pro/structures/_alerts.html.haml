@@ -1,5 +1,5 @@
 - global_index = 0
-- if @structure.unanswered_information_message.any? or @structure.comments.pending.any?
+- if @structure.unanswered_information_message.any?
   %h1
     %i.fa.fa-warning
     Alertes
@@ -40,23 +40,4 @@
                 },
                 countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
           });
-
-    - @structure.comments.pending.each_with_index do |comment, index|
-      - if global_index > 0
-        %hr.flush
-      - global_index +=1
-      .soft
-        %h4 Avis en attente de validation
-        %p
-          Félicitations ! L'élève
-          %strong= "#{comment.author_name} (#{comment.email})"
-          a déposé son avis sur votre profil CoursAvenue. S'il s'agit bien d'un de vos élèves, validez-le pour qu'il apparaisse sur votre profil public :
-        = succeed ' ' do
-          = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
-            %i.fa.fa-check
-            Valider
-        = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--red', method: :patch do
-          %i.fa.fa-times
-          Rejeter
-
 %hr.push--ends

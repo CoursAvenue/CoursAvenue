@@ -8,7 +8,6 @@ class Comment::Review < Comment
                   :associated_message_id, :certified
 
   # A comment has a status which can be one of the following:
-  #   - pending
   #   - accepted
   #   - waiting_for_deletion
   ######################################################################
@@ -33,7 +32,7 @@ class Comment::Review < Comment
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
-  before_create    :set_pending_status
+  before_create    :set_status
   before_create    :remove_quotes_from_title
 
   before_save      :strip_names
@@ -55,7 +54,6 @@ class Comment::Review < Comment
   # Scopes                                                             #
   ######################################################################
   scope :ordered                  , -> { order('created_at DESC') }
-  scope :pending                  , -> { where(status: 'pending') }
   scope :accepted                 , -> { where(status: 'accepted') }
   scope :waiting_for_deletion     , -> { where(status: 'waiting_for_deletion') }
   scope :certified                , -> { where(certified: true) }
@@ -139,10 +137,6 @@ class Comment::Review < Comment
     self.status == 'accepted'
   end
 
-  def pending?
-    self.status == 'pending'
-  end
-
   def declined?
     self.status == 'declined'
   end
@@ -170,20 +164,12 @@ class Comment::Review < Comment
 
   protected
 
-  def set_pending_status
-    if self.structure and self.email
-      _structure_id = self.structure.id
-      _email        = self.email
-      user          = User.where( email: _email ).first
-      _user_id      = user.id if user
-      # ACCEPT Comment ONLY IF:
-      # The user has been previously invited by the teacher
-      user_comment_notification_count = CommentNotification.where( CommentNotification.arel_table[:structure_id].eq(_structure_id).and(CommentNotification.arel_table[:user_id].eq(_user_id))).count
-      if _user_id and user_comment_notification_count > 0
-        self.status = 'accepted'
-      end
-    end
-    self.status ||= 'pending'
+  # Set status to accepted by default
+  #
+  # @return nil
+  def set_status
+    self.status = 'accepted'
+    nil
   end
 
   def notify_user

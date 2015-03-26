@@ -25,27 +25,6 @@
       = render partial: '/comments/comment', collection: @waiting_for_deletion_comments
     %hr.push--ends
 
-  - if @pending_comments.any?
-    %h3.flush Avis en attente de validation
-    %p.blue.push-half--bottom.f-weight-bold
-      %i Validez les avis si ce sont bien vos élèves. Une fois validé, l'avis sera visible sur votre profil public.
-    - @pending_comments.each do |comment|
-      - cache [comment, 'pro/structure/comments/index/pending'] do
-        .grid.push-half--bottom
-          .grid__item.three-quarters.v-middle>
-            %p.flush.epsilon
-              %b= comment.author_name
-              = "(#{comment.email})"
-          .grid__item.one-quarter.v-middle.text--right.nowrap>
-            = succeed ' ' do
-              = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--green', method: :patch do
-                %i.fa.fa-check
-                Valider
-            = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--small btn--red', method: :patch do
-              %i.fa.fa-times
-              Rejeter
-    %hr.push--ends
-
   - if @structure.comments.empty?
     .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.text--center
       %p.delta.line-height-1-7

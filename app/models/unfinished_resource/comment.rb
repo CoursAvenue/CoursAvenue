@@ -88,7 +88,7 @@ class UnfinishedResource::Comment < UnfinishedResource
       title: self.title,
       user_id: nil,
       course_name: self.course_name,
-      status: "pending"
+      status: "accepted"
     }
   end
 end

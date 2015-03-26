@@ -1,7 +1,7 @@
 .grid--full.push-half--bottom.message
   .grid__item.two-twelfths.v-top.v-top>
     = image_tag message.sender.avatar_url(:thumb), class: 'message__avatar rounded--circle block center-block bordered' if message.sender
-    %p.text--center.milli
+    %p.text--center
       - if message.sender.is_a? Admin
         %strong= link_to message.sender.name, structure_url(message.sender.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'semi-muted-link'
       - else

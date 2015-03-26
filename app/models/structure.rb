@@ -591,10 +591,6 @@ class Structure < ActiveRecord::Base
     !crop_x.blank? && !crop_y.blank? && !crop_width.blank?
   end
 
-  def has_pending_comments?
-    comments.pending.count > 0
-  end
-
   # Tell if the profile is complete
   #
   # @return Boolean

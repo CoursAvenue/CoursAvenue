@@ -8,12 +8,6 @@
       %ul.comment-list
         = render partial: '/comments/comment', collection: @waiting_for_deletion_comments, locals: {with_link: true}
 
-  - if @waiting_for_validation_comments.any?
-    .panel__body.soft
-      %h2.f-weight-300 Avis en attente de validation
-      %ul.comment-list
-        = render partial: '/comments/comment', collection: @waiting_for_validation_comments, locals: {with_link: true}
-
   .panel__body.soft
     %h2.f-weight-300 Derniers avis
     %ul.comment-list

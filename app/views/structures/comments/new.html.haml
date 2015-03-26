@@ -99,8 +99,8 @@
       .bordered--left.soft--left
         #comment_tricks.hidden
           %h2.push--bottom.f-weight-300 Astuces pour un avis utile
-          %p.flush Rédigez votre avis en répondant aux questions suivantes :
-          %ul
+          %p.epsilon.push-half--bottoms Rédigez votre avis en répondant aux questions suivantes :
+          %ul.epsilon
             %li Depuis quand suivez-vous ce cours ? / Quand avez-vous suivi ce stage ?
             %li Quelle est la principale qualité du professeur ?
             %li Qu’est-ce qui rend ce cours différent des autres ?
@@ -110,11 +110,11 @@
             %li Racontez une anecdote sympa à partager aux futurs élèves !
         - if @comments.any?
           %h2.push--bottom.f-weight-300 Derniers avis
-          %ul.comment-list.milli
+          %ul.comment-list
             = render partial: 'comments/comment', collection: @comments, locals: { small_avatar: true }
         - else
           %h4 Derniers avis sur CoursAvenue
-          %ul.comment-list.milli
+          %ul.comment-list
             = render partial: 'comments/comment', collection: Comment::Review.accepted.order('created_at DESC').limit(4), locals: {small_avatar: true}
 
 = content_for :scripts do

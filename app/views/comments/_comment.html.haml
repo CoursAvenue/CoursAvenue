@@ -34,9 +34,7 @@
               %span.v-middle= "— #{comment.course_name.capitalize}"
 
             - if can?(:destroy, comment)
-              - if comment.pending?
-                %span.lbl--small.lbl.lbl--orange.nowrap Avis en cours de validation
-              - elsif comment.declined?
+              - if comment.declined?
                 %span.lbl.lbl--red.nowrap Avis rejeté
           %span.rating{title: 'Excellent !', itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
             %meta{itemprop: 'ratingValue', content: 5}
@@ -61,10 +59,6 @@
             = link_to new_user_message_path(current_user, message: { recipients: [comment.commentable.id] }), class: 'btn btn--small btn--blue' do
               %i.fa.fa-envelope
               Envoyer un message
-            - if comment.pending?
-              = link_to edit_user_comment_path(current_user, comment), class: 'btn btn--small btn--orange' do
-                %i.fa.fa-pencil
-                Modifier mon avis
             = link_to structure_url(comment.commentable), target: :_blank, class: 'btn btn--small' do
               %i.fa.fa-eye
               Voir tous les avis du profil
@@ -87,7 +81,9 @@
 
             - if comment.accepted? and (current_pro_admin or current_user) and comment.owner?(current_pro_admin || current_user)
               .drop-down__wrapper.very-soft--bottom
-                = link_to 'Partager', share_comment_url(comment, :facebook), target: '_blank', class: 'btn btn--small btn--full', onclick: "ga('send', 'event', 'Share comment on Facebook', 'click')"
+                = link_to share_comment_url(comment, :facebook), target: '_blank', class: 'btn btn--small btn--full relative', onclick: "ga('send', 'event', 'Share comment on Facebook', 'click')" do
+                  Partager
+                  %i.fa.fa-chevron-down.soft-half--right.absolute.east
                 .drop-down__el
                   %ul.drop-down__el-inner-box.text--left
                     %li.nowrap
@@ -107,33 +103,42 @@
               = link_to 'Accroche de profil', highlight_pro_structure_comment_path(structure, comment), class: 'btn btn--small btn--full', method: 'patch', data: { behavior: 'tooltip', title: 'Utiliser le titre de cet avis comme accroche de profil' }
 
           - if comment.persisted? and !comment.waiting_for_deletion?
-            .drop-down__wrapper.text--center
-              %a.red{ href: 'javascript:void(0)', data: { behavior: 'tooltip', html: 'true', title: "Signaler&nbsp;un&nbsp;incident&nbsp;à l'équipe&nbsp;CoursAvenue" } }
-                Signaler
-                %i.fa.fa-chevron-down.soft-half--left
+            - if comment.certified?
+              .drop-down__wrapper.text--center
+                %a{ href: 'javascript:void(0)', data: { behavior: 'tooltip', html: 'true', title: "Signaler&nbsp;un&nbsp;incident&nbsp;à l'équipe&nbsp;CoursAvenue" } }
+                  %i.fa.fa-flag
+                  Signaler
+                  %i.fa.fa-chevron-down.soft-half--left
+                .drop-down__el
+                  %ul.drop-down__el-inner-box.text--left
+                    - t('comments.deletion_reasons').each do |i18n_key, traducted_string|
+                      %li.nowrap
+                        = link_to ask_for_deletion_pro_structure_comment_path(structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
+                          = traducted_string
+            - else
+              = link_to pro_comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet avis ?' }, class: 'red text--center block' do
+                %i.fa.fa-trash-o
+                Supprimer
+
+          - if current_pro_admin.super_admin?
+            .drop-down__wrapper.push-half--top{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
+              %a.relative.btn--full.btn.btn--small{ href: 'javascript:void(0)' }
+                %i.fa.fa-cogs
+                Admin
+                %i.fa.fa-chevron-down.soft-half--right.absolute.east
               .drop-down__el
                 %ul.drop-down__el-inner-box.text--left
-                  - t('comments.deletion_reasons').each do |i18n_key, traducted_string|
+                  - if comment.persisted? and can?(:destroy, comment)
+                    - if comment.waiting_for_deletion?
+                      %li.nowrap
+                        = link_to recover_pro_comment_path(comment), method: :patch do
+                          %i.fa.fa-check
+                          Rétablir
                     %li.nowrap
-                      = link_to ask_for_deletion_pro_structure_comment_path(structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
-                        = traducted_string
-          - if current_pro_admin.super_admin?
-            .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-              %a.btn.btn--small{href: 'javascript:void(0)'}
-                %i.fa.fa-cogs
-                %i.fa.fa-chevron-down.soft-half--left
-              %ul.drop-down__el.text--left
-                - if comment.persisted? and can?(:destroy, comment)
-                  - if comment.waiting_for_deletion?
+                      = link_to edit_pro_comment_path(comment) do
+                        %i.fa.fa-pencil
+                        Modifier
                     %li.nowrap
-                      = link_to recover_pro_comment_path(comment), method: :patch do
-                        %i.fa.fa-check
-                        Rétablir
-                  %li.nowrap
-                    = link_to edit_pro_comment_path(comment) do
-                      %i.fa.fa-pencil
-                      Modifier
-                  %li.nowrap
-                    = link_to pro_comment_path(comment), method: :delete do
-                      %i.fa.fa-trash-o
-                      Supprimer
+                      = link_to pro_comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet avis ?' } do
+                        %i.fa.fa-trash-o
+                        Supprimer

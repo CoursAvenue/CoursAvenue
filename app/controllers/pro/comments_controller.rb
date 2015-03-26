@@ -9,7 +9,6 @@ class Pro::CommentsController < InheritedResources::Base
   def index
     @comments                        = Comment::Review.accepted.order('created_at DESC').limit(40)
     @waiting_for_deletion_comments   = Comment::Review.waiting_for_deletion.order('created_at DESC')
-    @waiting_for_validation_comments = Comment::Review.pending.order('created_at DESC')
     respond_to do |format|
       format.html
       format.json { render json: @comments }
