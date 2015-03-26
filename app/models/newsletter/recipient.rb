@@ -52,5 +52,7 @@ class Newsletter::Recipient < ActiveRecord::Base
     self.mandrill_message_status = infos[:state]
 
     save
+  rescue Mandrill::UnknownMessageError
+    # Do nothing if the messages information are not set.
   end
 end
