@@ -9,8 +9,8 @@
   .blue-box.islet.text--center.push--ends
     = render 'users/waiting_for_activation_text'
 
-- if @structure.medias.any? or @structure.logo.present?
-  - image = (@structure.medias.any? ? @structure.medias.cover_first.images_first.first.image : @structure.logo)
+- if @structure.medias.any?
+  - image = @structure.medias.cover_first.images_first.first.image
   #photos-videos.bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under{ style: "height:300px; background-image: url('#{image.url(:wide_and_blurry)}')", data: { behavior: 'parallax' } }
     .black-curtain.black-curtain--soft.north.west.one-whole.absolute
 - else
@@ -33,8 +33,8 @@
         %span{ itemprop: 'title' }
           = @structure.name
   .grid
-    .grid__item.eight-twelfths.soft-half--right{ style: (@structure.medias.any? or @structure.logo.present? ? '' : 'margin-top: 150px;') }>
-      - if @structure.medias.any? or @structure.logo.present?
+    .grid__item.eight-twelfths.soft-half--right>
+      - if @structure.medias.any?
         = render partial: 'structures/map_and_gallery', locals: { medias: @medias, structure: @structure }
 
       - comment = (@structure.highlighted_comment || @structure.comments.last)

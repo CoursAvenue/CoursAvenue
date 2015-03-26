@@ -10,7 +10,8 @@
   .flexbox__item.v-middle
     %h1.flush Photos & Vidéos
   .flexbox__item.v-middle.text--right
-    = render 'pro/structures/medias/button_dropdown'
+    - if @medias.any?
+      = render 'pro/structures/medias/button_dropdown'
 - if @medias.any?
   %p.soft-half--top.soft--sides.flush#first-photo-helper.visibility-hidden
     %strong Votre première photo / vidéo figure dans les résultats de recherche !

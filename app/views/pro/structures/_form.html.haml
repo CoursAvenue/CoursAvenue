@@ -25,8 +25,12 @@
                 %a.btn.btn--small.btn--red#delete-logo{ href: 'javascript:void(0)', data: { delete: true } }
                   %i.fa.fa-trash-o.soft--sides-half--right
                   Supprimer
+              %p.hidden.blue.f-weight-bold{ data: { crop_info: true } }
+                %i Vous devez enregistrez avant de pouvoir recadrer votre logo
               = structure_form.filepicker_field :logo_filepicker_url, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true, class: "filepicker-dragdrop text--center", drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft--ends text--center push--bottom", drag_text: "Glissez votre image ici ou cliquez pour changer de logo"
             - elsif @structure.valid?
+              %p.hidden.blue.f-weight-bold{ data: { crop_info: true } }
+                %i Vous devez enregistrez avant de pouvoir recadrer votre logo
               = structure_form.filepicker_field :logo_filepicker_url, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true, class: "filepicker-dragdrop text--center", drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft--ends text--center push--bottom", drag_text: "Glissez votre image ici ou cliquez pour choisir"
 
   %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.name') } }
@@ -123,8 +127,9 @@
             });
         }
         $('#structure_logo_filepicker_url').change(function(event) {
-            $('[data-crop]').hide();
-            $('[data-delete]').hide();
+            $('[data-crop]').fadeOut();
+            $('[data-delete]').fadeOut();
+            $('[data-crop-info]').fadeIn();
             $('#logo-placeholder').attr('src', this.value)
         });
     });

@@ -25,13 +25,13 @@
           %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposés (#{conversation_comment_count})
           %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
           - if conversation_request_count > 0
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::REQUEST.id), value: Mailboxer::Label::REQUEST.id } Pass Découverte (#{conversation_request_count})
+            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::REQUEST.id), value: Mailboxer::Label::REQUEST.id } Inscriptions (#{conversation_request_count})
       .grid__item.two-thirds.text--center>
         = paginate @conversations, window: 1, outer_window: 3
     - @conversations.each do |conversation|
       = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }
   - else
-    = render partial: 'pro/structures/improve_your_stats'
+    = render partial: 'pro/structures/improve_your_stats', locals: { message: "Vous n'avez pas de message. Quelques conseils pour améliorer vos statistiques : "}
 
 .text--center.push--top= paginate @conversations, window: 1, outer_window: 3
 

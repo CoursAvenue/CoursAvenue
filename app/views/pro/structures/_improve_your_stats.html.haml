@@ -1,6 +1,9 @@
 .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.delta.text--center
   %p
-    Vous n'avez pas encore d'inscrit. Quelques conseils pour améliorer vos statistiques :
+    - if message
+      = message
+    - else
+      Vous n'avez pas encore d'inscrit. Quelques conseils pour améliorer vos statistiques :
   %ul.line-height-1-7.inline-block.text--left
     %li
       = link_to "Mettez à jour votre planning d'activités", pro_structure_courses_path(@structure)
