@@ -3,7 +3,7 @@ class Blog::Category < ActiveRecord::Base
 
   COLORS = %w(dark-blue orange yellow red green)
 
-  friendly_id :name, use: [:slugged, :finders]
+  friendly_id :name, use: [:slugged, :finders, :history]
 
   acts_as_tree cache_depth: true, touch: true
 

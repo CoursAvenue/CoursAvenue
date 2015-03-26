@@ -1,6 +1,6 @@
 # Process d'embauche
 
-Valeurs : 
+Valeurs :
 
 - Nous voulons utiliser des technos adaptés -> Veille techno
 - Soucieux de la qualité -> Écrire des tests
@@ -12,7 +12,7 @@ Valeurs :
 
 ## Veille
 
-- Quelle est la dernière techno que tu as vu et que voudrais / as essayer ? 
+- Quelle est la dernière techno que tu as vu et que voudrais / as essayer ?
 - Qu'est ce que tu utilises pour être informé ?
 - Quel site / blog ?
 - Est-ce que tu vas à des meetups ? Es-tu inscris sur des mailings-list ?
@@ -21,7 +21,7 @@ Valeurs :
 
 - Go
 - Grunt / Gulp
-- Twitter 
+- Twitter
 - Podcast
 - HackerNews
 - Eco système startup / novueaux produits / nouvelles apps
@@ -33,7 +33,7 @@ Ecris-tu des tests ?
 - Quel type : Unit, Intégration
 - Quelle librairie utilises-tu ?
 
-## Savoir partagé 
+## Savoir partagé
 
 - Des codes reviews (via pullrequest)
 - Pair programming
@@ -78,7 +78,7 @@ Ecris-tu des tests ?
 ### Back-end
 
 #### Ruby
-  
+
 - Lambda / Block?
 
 #### Framework web / Rails
@@ -113,3 +113,5 @@ Si tu veux me montrer tes talents de designer je serai ravi et si tu penses à d
 
 
 ## For back-end position
+
+Can you answer this [simple quizz](https://gist.github.com/r00k/48dc0d06feb617cbc21f)?

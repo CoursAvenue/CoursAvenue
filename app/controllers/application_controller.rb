@@ -2,7 +2,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   caches_page :robots
-  skip_after_filter :intercom_rails_auto_include
 
   layout 'users'
 
@@ -22,6 +21,16 @@ class ApplicationController < ActionController::Base
     rescue_from ActionController::RoutingError,       with: :render_not_found
     rescue_from ActionController::UnknownController,  with: :render_not_found
     rescue_from AbstractController::ActionNotFound,   with: :render_not_found
+  end
+
+  def authenticate_user!(opts={})
+    if current_pro_admin and current_pro_admin.super_admin
+      opts[:scope] = :pro_admin
+      warden.authenticate!(opts) if !devise_controller? || opts.delete(:force)
+    else
+      opts[:scope] = :user
+      warden.authenticate!(opts) if !devise_controller? || opts.delete(:force)
+    end
   end
 
   def current_ability

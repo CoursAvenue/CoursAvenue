@@ -47,6 +47,7 @@ class ::Admin < ActiveRecord::Base
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
+  after_create :create_in_intercom if Rails.env.production?
   after_create :check_if_was_invited
   after_create :set_email_opt_ins
   after_create :subscribe_to_crm
@@ -147,6 +148,14 @@ class ::Admin < ActiveRecord::Base
     user.accounts.map { |page| [page.name, page.link] }
   end
 
+  # Override Devise::Confirmable#after_confirmation
+  # Send event to intercom
+  def after_confirmation
+    if Rails.env.production?
+      Intercom::Event.create(event_name: "Confirmed account", created_at: Time.now.to_i, email: self.email)
+    end
+  end
+
   private
 
   def subscribe_to_crm
@@ -175,5 +184,20 @@ class ::Admin < ActiveRecord::Base
   def downcase_email
     self.email = self.email.downcase if self.email
     nil
+  end
+
+  def create_in_intercom
+    user = Intercom::User.create(email:                     self.email,
+                                 name:                      self.structure.name,
+                                 signed_up_at:              Time.now.to_i,
+                                 user_id:                   "Admin_#{self.id}")
+    user.custom_attributes['Villes']                = structure.places.map(&:city).map(&:name).join(', ')
+    user.custom_attributes['A confirmé son compte'] = false
+    user.custom_attributes['Disciplines_1']         =  structure.subjects.at_depth(0).uniq.map(&:name).join(', ')
+    user.custom_attributes['Disciplines_2']         =  structure.subjects.at_depth(2).map(&:parent).uniq.map(&:name).join(', ')
+    user.custom_attributes['Disciplines_3']         =  structure.subjects.at_depth(2).uniq.map(&:name).join(', ')
+    user.custom_attributes['Prof tag']              =  CrmSync.structure_status_for_intercom(structure)
+    user.custom_attributes['Code postal']           =   structure.zip_code
+    user.save
   end
 end

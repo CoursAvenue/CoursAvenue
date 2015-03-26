@@ -1,5 +1,5 @@
 # encoding: utf-8
-# Updates to Highrise
+# Updates to current CRM (CloseIO)
 class CrmSync
 
   def self.update(structure)
@@ -9,10 +9,10 @@ class CrmSync
     else
       existing_lead = self.client.list_leads("email:\"#{structure.main_contact.email.downcase.strip}\"")['data'].first
       if existing_lead
-        existing_contact = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].any? && contact_data[:emails].first[:email] == structure.main_contact.email.strip.downcase }
+        existing_contact    = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].any? && contact_data[:emails].first[:email] == structure.main_contact.email.strip.downcase }
         existing_contact_id = existing_contact[:id] if existing_contact
-        data = self.data_for_structure(structure, existing_contact_id)
-        results = self.client.update_lead(existing_lead['id'], data)
+        data                = self.data_for_structure(structure, existing_contact_id)
+        results             = self.client.update_lead(existing_lead['id'], data)
       else
         results = self.client.create_lead(self.data_for_structure(structure))
       end
@@ -23,6 +23,22 @@ class CrmSync
       Bugsnag.notify(RuntimeError.new("CrmSync error"), results.merge(structure_hash_info))
     end
     results
+  end
+
+  def self.merge_base_on_name(structure)
+    if (leads = self.client.list_leads("name:\"#{structure.name}\"")['data']).length > 1
+      source = leads.shift
+      leads.each do |lead|
+        self.client.merge_leads(source['id'], lead['id'])
+      end
+    end
+  end
+
+  def self.destroy(email)
+    leads = self.client.list_leads("email:\"#{email}\"")['data']
+    leads.each do |lead|
+      self.client.delete_lead(lead['id'])
+    end
   end
 
   private
@@ -63,29 +79,29 @@ class CrmSync
                 emails: email_addresses }
     contact[:id] = existing_contact_id if existing_contact_id
     {
-      name: structure.name,
+      name:      structure.name,
       addresses: self.place_addresses_from_structure(structure),
-      url: structure.website,
-      status: self.structure_status(structure),
-      custom: self.structure_custom_datas(structure),
-      contacts: [contact]
+      url:       structure.website,
+      status:    self.structure_status(structure),
+      custom:    self.structure_custom_datas(structure),
+      contacts:  [contact]
     }
   end
 
   def self.data_for_structure(structure, existing_contact_id=nil)
     admin = structure.main_contact
-    contact = { name: structure.name,
+    contact = { name:   structure.name,
                 phones: structure.phone_numbers.uniq.map{|pn| { phone: pn.international_format, type: 'office' } }.reject{|hash| hash[:phone].length < 10 or hash[:phone].length > 15},
                 emails: [{ email: admin.email.downcase.strip, type: 'office' }]
               }
     contact[:id] = existing_contact_id if existing_contact_id
     {
-      name: structure.name,
+      name:      structure.name,
       addresses: self.place_addresses_from_structure(structure),
-      url: structure.website,
-      status: self.structure_status(structure),
-      custom: self.structure_custom_datas(structure),
-      contacts: [contact]
+      url:       structure.website,
+      status:    self.structure_status(structure),
+      custom:    self.structure_custom_datas(structure),
+      contacts:  [contact]
     }
   end
 
@@ -104,16 +120,30 @@ class CrmSync
     custom_datas["Disciplines 3"]                   = structure.subjects.at_depth(2).uniq.map(&:name).join('; ') if structure.subjects.at_depth(2).any?
     custom_datas["JPO"]                             = (structure.courses.open_courses.any? ? 'Oui' : 'Non')
     custom_datas["Premium ?"]                       = (structure.premium? ? 'Oui' : 'Non')
-    # "Stats : # d'actions" => ,
-    # "Stats : # d’affichages" => ,
-    # "Stats : # de demandes d’info" => ,
-    # "Stats : # de vues" => ,
     custom_datas
   end
 
   def self.structure_status(structure)
     if structure.main_contact.nil?
       "Dormant"
+    elsif structure.main_contact && !structure.main_contact.confirmed?
+      'Non actif'
+    elsif structure.plannings.future.empty?
+      'Incomplet'
+    elsif structure.comments_count.nil? or structure.comments_count == 0
+      'Sans avis'
+    elsif structure.comments_count and structure.comments_count > 0 and structure.plannings.future.any?
+      'Star'
+    end
+  end
+
+  def self.structure_status_for_intercom(structure)
+    if structure.main_contact.nil?
+      "Dormant"
+    elsif structure.main_contact && !structure.main_contact.confirmed?
+      'Non actif'
+    elsif structure.description.nil? or structure.description.length < 2
+      'Sans description'
     elsif structure.plannings.future.empty?
       'Incomplet'
     elsif structure.comments_count.nil? or structure.comments_count == 0

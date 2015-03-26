@@ -92,16 +92,16 @@ namespace :scheduler do
     # = The mail is sent when the last course perishes
     #     Dès qu'aucun cours / stage n'est affiché (dès que le dernier cours se périme)
     # $ rake scheduler:admins:check_if_courses_are_perished
-    desc 'Send email to admins who have user requests not answered'
+    desc 'Send email to admins who have courses that have perished'
     task :check_if_courses_are_perished => :environment do |t, args|
       Structure.find_each do |structure|
         # Next if there is a published course
-        next if structure.courses.without_open_courses.detect(&:is_published?)
+        next if structure.plannings.future.any?
         # # Next if there is courses in the future
         # next if structure.courses.where(Course.arel_table[:end_date].gteq(Date.today)).any?
         if structure.plannings.where(Planning.arel_table[:end_date].lt(Date.today).and(
                                   Planning.arel_table[:end_date].gteq(Date.yesterday)) ).any?
-          AdminMailer.delay.no_more_active_courses(structure)
+          structure.send(:update_intercom_status)
         end
       end
     end

@@ -11,10 +11,10 @@
 
 = content_for :above_content do
   = render partial: 'blog/breadcrumb', locals: { category: @article.category, article: @article }
-  .relative.height-three-quarters.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{@article.image.url(:default)}')" }
+  .relative.height-70-vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{@article.image.url(:default)}')" }
     .black-curtain.north.west.one-whole.absolute
   .text--center.soft.main-container
-    %h1.ff-droid.f-style-italic.f-weight-400.f-size-really-big.flush.line-height-1-7= @article.title
+    %h1.ff-droid.f-style-italic.f-weight-400.f-size-really-big.flush.line-height-1-3= @article.title
     .blog-article__published-date.gray.grid__item.one-half>
       %i
         Publié le
@@ -56,7 +56,7 @@
         .grid__item.one-third.palm-one-whole.push--bottom>
           = link_to blog_article_path(article), class: 'block link-colored-on-hover', title: article.title do
             = image_tag article.image.url(:similar_article), class: 'block one-whole hoverable-media'
-            %h3.f-weight-normal.flush.delta.soft-half--top.line-height-1-7= article.title
+            %h4.text--center.ff-droid.f-style-italic.f-weight-normal.flush.delta.soft-half--top.line-height-1-3= article.title
 
   %h4.beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Commentaires
   #disqus_thread
