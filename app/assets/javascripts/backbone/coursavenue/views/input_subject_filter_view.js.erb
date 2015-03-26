@@ -19,7 +19,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.$city_input        = $('[name=city]');
             var that                = this;
             var optionalSearchWords = GLOBAL.EXCLUDED_SEARCH_WORDS
-            var client              = new AlgoliaSearch('<%= ENV['ALGOLIA_APPLICATION_ID'] %>', '<%= ENV['ALGOLIA_SEARCH_API_KEY'] %>');
+            var client              = algoliasearch('<%= ENV['ALGOLIA_APPLICATION_ID'] %>', '<%= ENV['ALGOLIA_SEARCH_API_KEY'] %>');
             this.ui.$subjects_input.typeahead({
                 highlight : true,
                 minLength: 1,
