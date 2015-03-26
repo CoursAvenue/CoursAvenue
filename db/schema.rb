@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150323172030) do
+ActiveRecord::Schema.define(version: 20150325102853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20150323172030) do
     t.string   "type"
     t.string   "image"
     t.integer  "author_id"
-    t.integer  "page_views",               default: 0
+    t.integer  "page_views",       default: 0
   end
 
   create_table "blog_articles_subjects", force: true do |t|
@@ -601,12 +601,13 @@ ActiveRecord::Schema.define(version: 20150323172030) do
   add_index "newsletter_mailing_lists", ["structure_id"], name: "index_newsletter_mailing_lists_on_structure_id", using: :btree
 
   create_table "newsletter_metrics", force: true do |t|
-    t.integer  "nb_email_sent"
-    t.integer  "nb_opening"
-    t.integer  "nb_click"
+    t.integer  "nb_email_sent", default: 0
+    t.integer  "nb_opening",    default: 0
+    t.integer  "nb_click",      default: 0
     t.integer  "newsletter_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "nb_bounced",    default: 0
   end
 
   add_index "newsletter_metrics", ["newsletter_id"], name: "index_newsletter_metrics_on_newsletter_id", using: :btree
@@ -614,9 +615,13 @@ ActiveRecord::Schema.define(version: 20150323172030) do
   create_table "newsletter_recipients", force: true do |t|
     t.integer  "user_profile_id"
     t.integer  "newsletter_id"
-    t.boolean  "opened",          default: false
+    t.boolean  "opened",                  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "mandrill_message_id"
+    t.string   "mandrill_message_status"
+    t.integer  "clicks"
+    t.integer  "opens"
   end
 
   add_index "newsletter_recipients", ["newsletter_id"], name: "index_newsletter_recipients_on_newsletter_id", using: :btree
@@ -653,6 +658,15 @@ ActiveRecord::Schema.define(version: 20150323172030) do
     t.boolean  "on_dropbox",           default: false
   end
 
+  create_table "participation_request_participants", force: true do |t|
+    t.integer  "number"
+    t.datetime "deleted_at"
+    t.integer  "participation_request_id"
+    t.integer  "price_id"
+  end
+
+  add_index "participation_request_participants", ["participation_request_id", "price_id"], name: "participation_requests_participants_index", using: :btree
+
   create_table "participation_requests", force: true do |t|
     t.integer  "mailboxer_conversation_id"
     t.integer  "planning_id"
@@ -673,6 +687,9 @@ ActiveRecord::Schema.define(version: 20150323172030) do
     t.integer  "old_course_id"
     t.boolean  "structure_responded",       default: false
     t.datetime "deleted_at"
+    t.string   "street"
+    t.string   "zip_code"
+    t.integer  "city_id"
   end
 
   create_table "participations", force: true do |t|
@@ -1184,8 +1201,11 @@ ActiveRecord::Schema.define(version: 20150323172030) do
     t.string  "phone"
     t.string  "mobile_phone"
     t.text    "address"
+    t.boolean "subscribed",                 default: true
+    t.integer "newsletter_mailing_list_id"
   end
 
+  add_index "user_profiles", ["newsletter_mailing_list_id"], name: "index_user_profiles_on_newsletter_mailing_list_id", using: :btree
   add_index "user_profiles", ["structure_id", "user_id"], name: "index_user_profiles_on_structure_id_and_user_id", using: :btree
 
   create_table "users", force: true do |t|

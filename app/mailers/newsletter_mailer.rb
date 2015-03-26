@@ -7,7 +7,8 @@ class NewsletterMailer < ActionMailer::Base
   # Send the newsletter, also used to preview the newsletter.
   def send_newsletter(newsletter, recipients)
     @newsletter = newsletter
-    @structure = newsletter.structure
+    @structure  = newsletter.structure
+    @blocs      = @newsletter.blocs.order('position ASC')
 
     mail subject: @newsletter.email_object,
       bcc: recipients,

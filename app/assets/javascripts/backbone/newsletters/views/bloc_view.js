@@ -7,13 +7,18 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         events: {
             'click [data-delete-image]':                   'deleteImage',
-            'change input[data-type=filepicker-dragdrop]': 'updateImage'
+            'change input[data-type=filepicker-dragdrop]': 'updateImage',
+            'change input':                                'silentSave',
+            'change textarea':                             'silentSave'
         },
 
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
 
-            _.bindAll(this, 'onRender', 'deleteImage', 'updateImage', 'onShow');
+            var position_label = this.model.collection.where({type: this.model.get('type')}).indexOf(this.model) + 1
+            this.model.set('position_label', position_label);
+
+            _.bindAll(this, 'onRender', 'deleteImage', 'updateImage', 'onShow', 'silentSave');
         },
 
         // Custom render function.
@@ -92,6 +97,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 $(elem).removeAttr('type');
             });
         },
+
+        silentSave: function silentSave () {
+            this.model.save();
+        }.debounce(500),
 
     })
 });

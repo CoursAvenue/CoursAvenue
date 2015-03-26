@@ -2,7 +2,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
     Module.PreviewView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'preview_view',
         tagName: 'div',
-        className: 'panel',
 
         initialize: function initialize () {
             _.bindAll(this, 'onShow');
@@ -13,12 +12,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var newsletter = this.model.get('id');
 
             return {
-                preview_url: function () {
-                    return Routes.preview_newsletter_pro_structure_newsletter_path(structure, newsletter);
-                }.bind(this),
-
-                send_url: function () {
-                    return Routes.send_newsletter_pro_structure_newsletter_path(structure, newsletter);
+                confirmation_url: function () {
+                    return Routes.confirm_pro_structure_newsletter_path(structure, newsletter);
                 },
 
                 save_url: function () {
@@ -27,9 +22,19 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             };
         },
 
-        // TODO: Find a better way to do this.
         onShow: function onShow () {
-            this.$el.find('[data-behavior]').click()
+            var structure  = window.coursavenue.bootstrap.structure;
+            var newsletter = this.model.get('id');
+            var preview_url = Routes.preview_newsletter_pro_structure_newsletter_path(structure, newsletter);
+
+            $.ajax(preview_url, {
+                success: function success (data, status, reqest) {
+                    var frame = this.$el.find('[data-preview]')
+
+                    frame.contents().find('html').html(data);
+                    frame.contents().find('img').css('max-width', '100%')
+                }.bind(this),
+            });
         },
     });
 });

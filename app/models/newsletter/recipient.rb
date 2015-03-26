@@ -23,4 +23,36 @@ class Newsletter::Recipient < ActiveRecord::Base
       type: type
     }
   end
+
+  # Create a some recipient metadata to send with a Mandrill email.
+  #
+  # @return a Hash.
+  def mandrill_recipient_metadata
+    {
+      rcpt:   self.email,
+      values: [
+        {
+          user_profile: user_profile.id,
+          newsletter:   newsletter.id
+        }
+      ]
+    }
+  end
+
+  # Update the message status using the mandrill id.
+  #
+  # @return nothing.
+  def update_message_status
+    client = MandrillFactory.client
+    infos  = client.messages.info(self.mandrill_message_id)
+
+    self.opened                  = infos[:opens] > 0
+    self.opens                   = infos[:opens]
+    self.clicks                  = infos[:clicks]
+    self.mandrill_message_status = infos[:state]
+
+    save
+  rescue Mandrill::UnknownMessageError
+    # Do nothing if the messages information are not set.
+  end
 end

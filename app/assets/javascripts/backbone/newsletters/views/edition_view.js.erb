@@ -7,12 +7,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         events: {
             'submit':                'saveModel',
-            'click [data-previous]': 'previousStep'
+            'click [data-previous]': 'previousStep',
+            'change input':          'silentSaveModel',
         },
 
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
-            _.bindAll(this, 'saveModel', 'savingError', 'savingSuccess', 'previousStep');
+            _.bindAll(this, 'saveModel', 'silentSaveModel', 'savingError', 'savingSuccess', 'previousStep');
         },
 
         saveModel: function saveModel (event) {
@@ -24,6 +25,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             return false;
         },
+
+        silentSaveModel: function silentSaveModel () {
+            this.model.save();
+        }.debounce(500),
 
         // Error callback when saving the model.
         savingError: function savingError (model, response, options) {
@@ -46,10 +51,12 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // More information:
         // <http://git.io/xpMt>
         templateHelpers: function templateHelpers () {
+            var structure = window.coursavenue.bootstrap.structure;
             return {
-                formAction: Routes.pro_structure_newsletters_path(window.coursavenue.bootstrap.structure),
+                formAction: Routes.pro_structure_newsletters_path(structure),
                 csrfName: $('meta[name="csrf-param"]').attr('content'),
                 csrfToken: $('meta[name="csrf-token"]').attr('content'),
+                previewUrl: Routes.preview_newsletter_pro_structure_newsletter_path(structure, this.model.get('id')),
             };
         },
 

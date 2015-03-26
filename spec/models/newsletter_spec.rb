@@ -82,16 +82,40 @@ RSpec.describe Newsletter, type: :model do
   end
 
   describe 'send!' do
-    it 'updates the state' do
-      subject.send!
+    # Removing the two following test because it throws an unrelated error from mongoid.
+    # Moving the assertions to the next step seems to work.
 
+    # it 'updates the state' do
+    #   subject.send!([])
+    #
+    # end
+    #
+    # it 'updates the send_at date' do
+    #   subject.send!([])
+    #
+    # end
+
+    it 'creates the newsletter metric model, updates the state and the sent_at date' do
+      expect(subject.metric).to be_nil
+
+      subject.send!([])
+      subject.reload
+
+      expect(subject.metric).to_not be_nil
       expect(subject.state).to eq('sent')
-    end
-
-    it 'updates the send_at date' do
-      subject.send!
-
       expect(subject.sent_at).to_not be_nil
+    end
+  end
+
+  describe '#to_mandrill_message' do
+    it 'sets the right values' do
+      mandrill_message = subject.to_mandrill_message
+      body = MailerPreviewer.preview(NewsletterMailer.send_newsletter(subject, nil))
+
+      expect(mandrill_message[:html]).to       eq(body)
+      expect(mandrill_message[:subject]).to    eq(subject.email_object)
+      expect(mandrill_message[:from_email]).to eq(Newsletter::NEWSLETTER_FROM_EMAIL)
+      expect(mandrill_message[:from_name]).to  eq(subject.sender_name)
     end
   end
 end

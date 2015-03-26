@@ -1,5 +1,5 @@
 <input type='radio' id='mailing_list_all_profiles_{{ id }}' name='mailing_list' value='{{ id }}' class='input--large one--whole' />
-<label for='mailing_list_all_profiles_{{ id }}'>{{ name }}</label>
+<label for='mailing_list_all_profiles_{{ id }}'>{{ name }} ({{ recipient_count }})</label>
 
 {{#unless all_profiles}}
   <a href='javascript:void(0)' data-toggle-filters='true'>Afficher / cacher les filtres</a>
@@ -14,10 +14,9 @@
       <option value='containsnot' {{isSelected 'containsnot' predicate }}>ne contient pas</option>
     </select>
 
-    <!-- TODO: Show the list of tags -->
     <select name='{{@index}}_tag'>
+      {{#each ../allTags}}
         <option value='{{ this }}' {{ isSelected this tag }}>{{ this }}</option>
-      {{#each allTags}}
       {{/each}}
     </select>
     {{/each}}

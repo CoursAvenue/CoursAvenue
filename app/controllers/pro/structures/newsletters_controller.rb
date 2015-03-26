@@ -17,11 +17,6 @@ class Pro::Structures::NewslettersController < ApplicationController
     @tags          = @structure.user_profiles.includes(:tags).flat_map(&:tags).map(&:name).uniq
   end
 
-  def show
-    @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
-    @blocs = @newsletter.blocs.order(:position)
-  end
-
   def create
     @newsletter = @structure.newsletters.new required_params
 
@@ -79,6 +74,18 @@ class Pro::Structures::NewslettersController < ApplicationController
   #    - Back to current page on error.
   def send_newsletter
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
+    if @newsletter.ready?
+
+      @newsletter.state = 'sending'
+      @newsletter.save!
+
+      NewsletterSender.delay.send_newsletter(@newsletter)
+      redirect_to pro_structure_newsletters_path(@structure),
+        notice: "Votre newsletter est en cours d'envoi, nous vous enverrons un mail dés l'envoi complet."
+    else
+      redirect_to pro_structure_newsletter_path(@structure, @newsletter),
+        error: "Erreur lors de l'envoi de la newsletter, veuillez rééssayer."
+    end
   end
 
   # Duplicate the newsletter and all associated models.
@@ -93,7 +100,7 @@ class Pro::Structures::NewslettersController < ApplicationController
   #
   # @return a String.
   def preview_newsletter
-    @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
+    @newsletter = @structure.newsletters.find params[:id]
 
     mail = NewsletterMailer.send_newsletter(@newsletter, nil)
     @body = MailerPreviewer.preview(mail)
@@ -101,65 +108,21 @@ class Pro::Structures::NewslettersController < ApplicationController
     render layout: false
   end
 
-  # Step 2.
-  def mailing_list
-    @newsletter    = @structure.newsletters.find params[:id]
-    @user_profiles = @structure.user_profiles
-    @tags          = @structure.user_profiles.includes(:tags).flat_map(&:tags).uniq.map(&:name)
-    @mailing_lists = @structure.mailing_lists
-    @mailing_list  = @structure.mailing_lists.new
+  # Confirmation modal.
+  def confirm
+    @newsletter = @structure.newsletters.find(params[:id]).decorate
+
+    render layout: false
   end
 
-  # Step 2.
-  # TODO: Use show more of.
-  #
-  def mailing_list_create
-    @newsletter   = @structure.newsletters.find params[:id]
-    @mailing_list = @structure.mailing_lists.new
+  # Metrics modal.
+  def metrics
+    @newsletter = @structure.newsletters.includes(:metric).find(params[:id]).decorate
+    @metric = @newsletter.metric
 
-    if params[:newsletter_mailing_list][:type] == 'all'
-      @mailing_list.name = 'Tout les contacts'
-      @mailing_list.all_profiles = true
-    else
-      @mailing_list.name = params[:newsletter_mailing_list][:name]
-      @mailing_list.filters = params[:newsletter_mailing_list][:filters].map do |k, v|
-        { predicate: v["predicate"], tag: v["tag"] }
-      end
-    end
+    @metric.delayed_update if @metric.present?
 
-
-    respond_to do |format|
-      if @mailing_list.save
-        @newsletter.mailing_list = @mailing_list
-        @newsletter.save
-
-        format.html { redirect_to metadata_pro_structure_newsletter_path(@structure, @newsletter),
-                      notice: 'La liste de diffusion a été créé avec succés' }
-      else
-        format.html { redirect_to mailing_list_pro_structure_newsletter_path(@structure, @newsletter),
-                      error: 'Erreur lors de la création de la liste de diffusion, veuillez rééssayer' }
-      end
-    end
-  end
-
-  # Step 3.
-  def metadata
-    @newsletter = @structure.newsletters.find params[:id]
-  end
-
-  # Step 3.
-  def save_and_send
-    @newsletter = @structure.newsletters.find params[:id]
-
-    respond_to do |format|
-      if @newsletter.update_attributes(required_params) and NewsletterSender.send_newsletter(@newsletter)
-        format.html { redirect_to pro_structure_newsletters_path(@structure),
-                      notice: "Votre newsletter est en cours d'envoi" }
-      else
-        format.html { redirect_to metadata_pro_structure_newsletter_path(@structure, @newsletter),
-                      error: "Erreur lors de la mise a jour des informations ou l'envoi de la newsletter, veillez rééssayer." }
-      end
-    end
+    render layout: false
   end
 
   private

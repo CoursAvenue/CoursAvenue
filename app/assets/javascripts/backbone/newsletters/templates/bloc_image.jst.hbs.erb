@@ -1,8 +1,13 @@
+<div class="push-half--bottom">
+    <label for="content" class='label--large blue'>Bloc image {{ position_label }}</label>
+    <p class="flush">Donnez plus de visuel à votre newsletter en ajoutant des images</p>
+</div>
+
 <div class="text--center">
   <img class='hidden' data-fpimage='true' src='{{ image }}'>
-  <input data-type='filepicker-dragdrop' id='{{ index }}_remote_image_url' data-fp-class="filepicker-dragdrop text--center {{#if image }} hidden {{/if}}" data-fp-button-class="hidden" data-fp-drag-class="flush--left push-half--bottom one-whole f-weight-500 mega-soft--ends text--center push--bottom" data-fp-drag-text="Glissez votre image ici ou cliquez pour choisir" name='remote_image_url' data-fp-apikey="<%= ENV['FILEPICKER_API_KEY'] %>" data-fp-mimetypes="image/*" data-fp-container="window" data-fp-button-text="Choisir mon image"/>
-  <div class='flush--left push-half--bottom one-whole f-weight-500 mega-soft--ends text--center push--bottom'>
-    <a class='hidden one-whole' href='javascript:void(0)' data-delete-image="true">Supprimer l'image</a>
+  <input data-type='filepicker-dragdrop' id='{{ index }}_remote_image_url' data-fp-class="filepicker-dragdrop text--center {{#if image }} hidden {{/if}}" data-fp-button-class="hidden" data-fp-drag-class="flush--left push-half--bottom one-whole f-weight-500 soft--ends text--center push--bottom" data-fp-drag-text="Glissez votre image ici ou cliquez pour choisir" name='remote_image_url' data-fp-apikey="<%= ENV['FILEPICKER_API_KEY'] %>" data-fp-mimetypes="image/*" data-fp-container="window" data-fp-button-text="Choisir mon image"/>
+  <div class='flush--left push-half--bottom one-whole f-weight-500 mega-soft--ends text--center push--bottom hidden' data-delete-image="true">
+    <a class='one-whole' href='javascript:void(0)'>Supprimer l'image</a>
   </div>
 </div>
 

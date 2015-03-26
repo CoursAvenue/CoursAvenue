@@ -13,4 +13,4 @@
           %h2= @newsletter.title
 
 - content_for :under_content_no_box_2 do
-  = render partial: "newsletter_mailer/newsletter_layouts/#{@newsletter.layout.partial}", locals: { blocs: @newsletter.blocs }
+  = render partial: "newsletter_mailer/newsletter_layouts/#{@newsletter.layout.partial}", locals: { blocs: @blocs }

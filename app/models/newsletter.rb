@@ -1,12 +1,14 @@
 # TODO: slugs.
 class Newsletter < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
+  include ApplicationHelper
 
   ######################################################################
   # Constants                                                          #
   ######################################################################
 
-  NEWSLETTER_STATES = %w(draft sent)
+  NEWSLETTER_STATES     = %w(draft sending sent)
+  NEWSLETTER_FROM_EMAIL = 'noreply@coursavenue.com'
 
   ######################################################################
   # Macros                                                             #
@@ -64,17 +66,21 @@ class Newsletter < ActiveRecord::Base
     state == 'draft'
   end
 
+  def sending?
+    state == 'sending'
+  end
+
   # Duplicate this Newsletter model.
   #
   # @return the duplicated newsletter.
   def duplicate!
     duplicated_newsletter = structure.newsletters.create({
-      title:       self.title,
-      state:       'draft',
-      email_object:      self.email_object,
-      sender_name: self.sender_name,
-      reply_to:    self.reply_to,
-      layout_id:   self.layout_id
+      title:        self.title,
+      state:        'draft',
+      email_object: self.email_object,
+      sender_name:  self.sender_name,
+      reply_to:     self.reply_to,
+      layout_id:    self.layout_id
     })
 
     self.blocs.each do |bloc|
@@ -86,12 +92,64 @@ class Newsletter < ActiveRecord::Base
 
   # Set the newsletter as sent.
   #
+  # @param sending_informations - An array of struct with the sent email details.
+  #
   # @return self
-  def send!
+  def send!(sending_informations)
     self.state = 'sent'
     self.sent_at = Time.now
 
+    self.metric = Newsletter::Metric.create(newsletter: self)
+
+    sending_informations.each do |message_information|
+      recipient = self.recipients.select { |recipient| recipient.email == message_information[:email] }.first
+      if recipient
+        recipient.mandrill_message_id = message_information[:_id]
+        recipient.save
+      end
+    end
+
     save
+  end
+
+  # Convert the current newsletter to a Mandrill message hash.
+  #
+  # @return a Hash.
+  def to_mandrill_message
+    mail       = NewsletterMailer.send_newsletter(self, nil)
+    body       = MailerPreviewer.preview(mail)
+    recipients = mailing_list.create_recipients(self)
+
+    message = {
+      html:       body,
+      subject:    email_object,
+      from_email: NEWSLETTER_FROM_EMAIL,
+      from_name: sender_name,
+      to: recipients.map(&:to_mandrill_recipient),
+      headers: {
+        "Reply-To": reply_to
+      },
+      track_opens: true,
+      track_clicks: true,
+      auto_text: true,
+      preserve_recipients: false,
+      recipient_metadata: recipients.map(&:mandrill_recipient_metadata),
+      metadata: [
+        { newsletter: self.id }
+      ]
+    }
+
+    message
+  end
+
+  # Check if a newsletter is ready to be sent.
+  #
+  # @return a Boolean
+  def ready?
+    return false if self.mailing_list.nil?
+    return false if self.mailing_list.recipient_count == 0
+
+    true
   end
 
   private
@@ -139,7 +197,7 @@ class Newsletter < ActiveRecord::Base
 
   def set_title
     if self.title.nil?
-      self.title = "[Brouillon] Newsletter du #{I18n.l(Time.current, format: :long_human)}"
+      self.title = "[Brouillon] Newsletter du #{I18n.l(local_time(Time.current), format: :long_human)}"
     end
   end
 end
