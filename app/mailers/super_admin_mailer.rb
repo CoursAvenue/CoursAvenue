@@ -69,7 +69,8 @@ class SuperAdminMailer < ActionMailer::Base
   def someone_tried_to_take_control_of_existing_structure(structure, email)
     @structure = structure
     @email     = email
-    mail subject: "#{@email} a essayé de prendre le contrôle de #{@structure.name} en vain"
+    mail subject: "#{@email} a essayé de prendre le contrôle de #{@structure.name} en vain",
+         to: 'kryqhl33@incoming.intercom.io'
   end
 
   def has_destroyed(structure)
