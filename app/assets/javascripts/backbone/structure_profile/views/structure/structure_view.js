@@ -32,7 +32,16 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
         initializeContactLink: function initializeContactLink () {
             $('body').on('click', '[data-behavior=show-contact-panel]', function() {
-                this.trigger('planning:register', {});
+                var message           = new StructureProfile.Models.Message({ structure: this.model });
+                var message_form_view = new StructureProfile.Views.Messages.MessageFormView( { model: message } );
+                message_form_view.render();
+                $.magnificPopup.open({
+                      items: {
+                          src: $(message_form_view.$el),
+                          type: 'inline'
+                      }
+                });
+                message_form_view.$el.css('max-width', '400px');
             }.bind(this));
         },
 

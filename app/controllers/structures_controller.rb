@@ -70,9 +70,9 @@ class StructuresController < ApplicationController
 
   # GET /etablissements/:id
   def show
-    @structure_decorator                  = @structure.decorate
-    @place_ids                            = @structure.places.map(&:id)
-    @city                                 = @structure.city
+    @structure_decorator = @structure.decorate
+    @place_ids           = @structure.places.map(&:id)
+    @city                = @structure.city
 
     # Stopping stat. We have to find something else.
     # if !current_pro_admin

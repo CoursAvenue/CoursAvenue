@@ -49,7 +49,7 @@ StructureProfile.addInitializer(function(options) {
             }
         });
     } else {
-        message      = new StructureProfile.Models.Message({ structure: structure });
+        message           = new StructureProfile.Models.Message({ structure: structure });
         message_form_view = new StructureProfile.Views.Messages.MessageFormView( {
           model: message
         } );

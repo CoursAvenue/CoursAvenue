@@ -1,5 +1,11 @@
 class StructureDecorator < Draper::Decorator
 
+  def all_subjects_slugs
+    root_subject_slugs     = object.parent_subjects_string.split(';').map{|string| string.split(':')}.map(&:last)
+    children_subject_slugs = object.subjects_string.split(';').map{|string| string.split(':')}.map(&:last)
+    root_subject_slugs + children_subject_slugs
+  end
+
   def places_popover
     output = ''
     # Use find_by_id to prevent from exception when place is not find.

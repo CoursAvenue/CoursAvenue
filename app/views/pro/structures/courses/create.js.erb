@@ -2,6 +2,7 @@
     $("#<%= @course.underscore_name %>-list").prev('[data-course-container-title]').slideDown();
     $("#<%= @course.underscore_name %>-list").prepend('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
     $("[data-empty=courses]").hide();
+    $('[data-add-course]').fadeIn();
     COURSAVENUE.helperMethods.flash("Cours enregistré", 'success');
     <% if params[:add_planning] and params[:add_planning] == 'true' %>
         $.fancybox('<%= escape_javascript(render partial: "pro/structures/courses/plannings/form") %>', { width: 800, minWidth: 800, maxWidth: 800, padding: 0 });

@@ -30,7 +30,8 @@
         = paginate @conversations, window: 1, outer_window: 3
     - @conversations.each do |conversation|
       = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }
-
+  - else
+    = render partial: 'pro/structures/improve_your_stats'
 
 .text--center.push--top= paginate @conversations, window: 1, outer_window: 3
 

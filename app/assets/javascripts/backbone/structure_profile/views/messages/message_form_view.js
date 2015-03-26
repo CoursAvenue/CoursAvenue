@@ -1,7 +1,7 @@
 
 StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
-    Module.MessageFormView = Marionette.CompositeView.extend({
+    Module.MessageFormView = Marionette.ItemView.extend({
         template: Module.templateDirname() + 'message_form_view',
         message_failed_to_send_template: Module.templateDirname() + 'message_failed_to_send',
         className: 'panel center-block push--bottom',
@@ -13,7 +13,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
         },
 
         ui: {
-          '$user_conversations_path': '[data-type=user-conversations-path]'
+            '$user_conversations_path': '[data-type=user-conversations-path]'
         },
 
         onRender: function onRender () {

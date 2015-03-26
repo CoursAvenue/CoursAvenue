@@ -42,7 +42,11 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             }
             _.each(['06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23'], function(value) {
                 var option = $('<option>').attr('value', parseInt(value)).text(value);
-                if (this.model.get('start_hour') == parseInt(value, 10)) { option.prop('selected', true); }
+                if (this.model.get('start_hour')) {
+                    if (this.model.get('start_hour') == parseInt(value, 10)) { option.prop('selected', true); }
+                } else if (parseInt(value, 10) == 10) {
+                    option.prop('selected', true);
+                }
                 this.ui.$start_hour_select_input.append(option);
             }, this);
         },
@@ -213,6 +217,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             } else if (this.getCurrentCourse().get('teaches_at_home') || this.getCurrentPlanning().teaches_at_home) {
                 var address = (this.getCurrentPlanning() ? this.getCurrentPlanning().address : this.getCurrentCourse().get('course_location'));
                 this.ui.$address_info.show().text('À votre domicile').attr('data-content', address);
+                this.ui.$address_info.parent().addClass('text-ellipsis');
                 this.showStudentAddressWrapper();
             // Else, show the address
             } else {
@@ -224,6 +229,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 } else if (this.getCurrentCourse()) {
                   address = this.getCurrentCourse().get('course_location');
                 }
+                this.ui.$address_info.parent().addClass('text-ellipsis');
                 this.ui.$address_info.show().text(address)
                                             .attr('data-content', address_with_info);
             }
@@ -235,7 +241,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
         updateDatePicker: function updateDatePicker () {
             this.model.set('planning_id', parseInt(this.ui.$planning_select_input.val()));
             if (!this.getCurrentPlanning()) {
-                this.ui.$datepicker_input.datepicker('update', new Date());
+                this.ui.$datepicker_input.datepicker('update', moment().add(7, 'days').toDate());
                 this.ui.$datepicker_input.datepicker('setDaysOfWeekDisabled', []);
                 return;
             }

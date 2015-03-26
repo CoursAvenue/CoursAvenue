@@ -1,0 +1,10 @@
+.drop-down__wrapper.inline-block.v-middle
+  .btn.btn--green
+    %i.fa.fa-plus
+    Ajouter une photo / vidéo
+  .drop-down__el
+    %ul.drop-down__el-inner-box.text--left
+      %li.nowrap
+        = link_to 'Ajouter une vidéo', new_pro_structure_video_path(@structure), class: 'fancybox.ajax v-middle', data: { behavior: 'modal' }
+      %li.nowrap
+        %a.cursor-pointer{ onclick: "$('#image-form button').click()" } Ajouter une photo

@@ -29,18 +29,8 @@
         %tbody
           - @past_participation_requests.each do |participation_request|
             = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request, show_warning: false }
-- elsif false#@structure.courses.any?
-  .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.delta.text--center
-    %p
-      Vous n'avez pas encore d'inscrit. Quelques conseils pour améliorer vos statistiques :
-    %ul.line-height-1-7.inline-block.text--left
-      %li
-        = link_to "Mettez à jour votre planning d'activités", pro_structure_courses_path(@structure)
-      -# %li Affichez votre [planning sur votre site Internet]
-      %li
-        = link_to "Demandez des recommandations à vos élèves", pro_structure_comments_path(@structure)
-      %li
-        = link_to "Affichez votre livre d'Or sur votre site Internet", widget_pro_structure_path(@structure)
+- elsif @structure.courses.without_open_courses.any?
+  = render partial: 'pro/structures/improve_your_stats'
 - else
   .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.delta.text--center
     %p

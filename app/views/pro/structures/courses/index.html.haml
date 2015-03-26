@@ -5,28 +5,28 @@
 .flexbox
   .flexbox__item.v-middle
     %h1.flush Mon planning
-  .flexbox__item.v-middle.text--right
+  .flexbox__item.v-middle.text--right{ class: (@structure.courses.without_open_courses.any? ? '' : 'hidden'), data: { add_course: true } }
     = render partial: 'pro/structures/courses/add_activity_button'
 
 #trainings-header.bg-white.soft--top.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 35, z: 500, old_width: 'true' } }
   %h3{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } } Stages & ateliers
-#training-list.soft--bottom
+#training-list
   - @trainings.each do |course|
     = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
 #lessons-header.bg-white.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 35, z: 500, old_width: 'true', pushed: '#trainings-header' } }
   %h3{ class: @lessons.any? ? 'bordered--top soft--top' : 'hidden', data: { 'course-container-title' => true } } Cours collectifs
-#lesson-list.soft--bottom
+#lesson-list
   - @lessons.each do |course|
     = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
 .bg-white.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 35, z: 500, old_width: 'true', pushed: '#lessons-header' } }
   %h3{ class: @privates.any? ? 'bordered--top soft--top' : 'hidden', data: { 'course-container-title' => true } } Cours particuliers
-#private-list.soft--bottom
+#private-list
   - @privates.each do |course|
     = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
-.bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.text--center{ class: (@structure.courses.empty? ? '' : 'hidden'), data: { empty: 'courses'} }
+.bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.text--center{ class: (@structure.courses.without_open_courses.empty? ? '' : 'hidden'), data: { empty: 'courses'} }
   %p.delta
     Vous n'avez pas encore d'activité à votre planning.
   = render partial: 'pro/structures/courses/add_activity_button'

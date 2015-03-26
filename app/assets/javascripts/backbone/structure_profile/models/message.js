@@ -20,7 +20,7 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
                 this.set(JSON.parse($.cookie('last_sent_message')));
             } else {
                 var prefilled_body = $.cookie('participation_request_body') || 'Bonjour,\n\n' +
-                                     "Je serais intéressé par vos cours. Pouvez-vous me détailler votre planning et m'envoyer toute information utile (prix d'une séance d'essai, tenue exigée, etc.) ?" +
+                                     "Je serais intéressé par vos cours. Pouvez-vous me détailler votre planning et m'envoyer toute information utile (prix d'une séance d'essai, tenue exigée, etc.) ?\n\n" +
                                      'Merci et à très bientôt !';
                 this.set('body', prefilled_body);
 
