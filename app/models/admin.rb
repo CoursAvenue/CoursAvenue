@@ -151,6 +151,12 @@ class ::Admin < ActiveRecord::Base
   # Override Devise::Confirmable#after_confirmation
   # Send event to intercom
   def after_confirmation
+    notify_intercom_event
+  end
+
+  private
+
+  def notify_intercom_event
     if Rails.env.production?
       begin
         Intercom::Event.create(event_name: "Confirmed account",
@@ -162,8 +168,7 @@ class ::Admin < ActiveRecord::Base
       end
     end
   end
-
-  private
+  handle_asynchronously :notify_intercom_event
 
   def subscribe_to_crm
     CrmSync.delay.update(self.structure) if self.structure
