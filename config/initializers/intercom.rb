@@ -51,6 +51,7 @@ IntercomRails.config do |config|
     # We have this to ensure we can have an Admin and a User with the same email address and
     # none of them are overrided by the other.
     :user_id                => Proc.new { |user| "Admin_#{user.id}" },
+    :slug                   => Proc.new { |user| ((s = user.structure) ? s.slug : nil) },
     :name                   => Proc.new { |user| ((s = user.structure) ? s.name : user.name) },
     'nb avis'               => Proc.new { |user| ((s = user.structure) ? s.comments_count : user.try(:comments).try(:count)) },
     'Villes'                => Proc.new { |user| ((s = user.structure) ? s.places.map(&:city).map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
