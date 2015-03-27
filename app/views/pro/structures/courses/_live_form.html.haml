@@ -1,6 +1,6 @@
 - price_groups = structure.price_groups.where(course_type: (course.is_training? ? 'training' : 'regular')) if price_groups.nil?
 
-.push-half--bottom{ id: "course-#{course.id}", data: { 'course-id' => course.id } }
+.push--bottom{ id: "course-#{course.id}", data: { 'course-id' => course.id } }
   .panel
     .visuallyhidden= link_to 'Définir les tarifs', new_pro_structure_price_group_path(@structure, course_type: (course.is_training? ? 'training' : 'regular'), name: course.name, course_id: course.id), class: 'fancybox.ajax', data: { type: 'course-price-group-creation', behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' }
     .soft-half
@@ -33,11 +33,24 @@
             .fa.fa-plus
             = (course.is_training? ? 'Ajouter une date' : 'Ajouter un créneau')
     .bg-gray-light.soft-half.bordered--top
-      %span Tarifs appliqués :
-      - if price_groups.empty?
-        = link_to 'Définir les tarifs', new_pro_structure_price_group_path(@structure, course_type: (course.is_training? ? 'training' : 'regular'), name: course.name, course_id: course.id), class: 'btn btn--small btn--red fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false', lock_overlay: true }
-      - else
-        - new_price_group = Struct.new(:id, :name)
-        = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { id: "course-form-#{course.id}", class: 'inline-block' } do |f|
-          = f.input :price_group_id, as: :select, collection: price_groups + [new_price_group.new('new', 'Nouvelle grille tarifaire' )], label: false, input_html: { class: (course.price_group.present? ? '' : 'select--error'), id: "course-price-group-select-#{course.id}", data: { type: 'price-group' } }, wrapper_html: {  class: 'flush v-middle inline-block' }, include_blank: 'Sélectionnez la grille tarifaire'
-        = link_to 'Voir la grille', '#', data: { type: 'edit-current-price-group', el: "#course-price-group-select-#{course.id}" }
+      .inline-block.push--right
+        - if course.is_lesson? or course.is_private?
+          Cours d'essai :
+          = course.decorate.trial_price
+        - else
+          = "Tarif".pluralize(course.prices.length)
+          \ :
+          = course.decorate.training_prices
+        = link_to edit_pro_structure_course_path(structure, course), class: 'v-middle fancybox.ajax push-half--left', data: { behavior: 'modal', width: '750', padding: '0', course_id: course.id, action: 'edit', lock_overlay: true } do
+          %i.fa.fa-pencil
+          Modifier
+      - unless course.is_training?
+        .inline-block
+          %span Grille tarifaire :
+          - if price_groups.empty?
+            = link_to 'Définir les tarifs', new_pro_structure_price_group_path(@structure, course_type: (course.is_training? ? 'training' : 'regular'), name: course.name, course_id: course.id), class: 'btn btn--small fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false', lock_overlay: true }
+          - else
+            - new_price_group = Struct.new(:id, :name)
+            = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { id: "course-form-#{course.id}", class: 'inline-block' } do |f|
+              = f.input :price_group_id, as: :select, collection: price_groups + [new_price_group.new('new', 'Nouvelle grille tarifaire' )], label: false, input_html: { class: (course.price_group.present? ? '' : 'select--error'), id: "course-price-group-select-#{course.id}", data: { type: 'price-group' } }, wrapper_html: {  class: 'flush v-middle inline-block' }, include_blank: 'Sélectionnez la grille tarifaire'
+            = link_to 'Voir la grille', '#', data: { type: 'edit-current-price-group', el: "#course-price-group-select-#{course.id}" }

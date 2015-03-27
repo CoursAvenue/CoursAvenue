@@ -115,7 +115,7 @@ textarea:focus, input:focus, select:focus {
         @include border-right-radius($brand-round);
     }
     input {
-        @include border-left-radius(0);
+        @include border-right-radius(0);
     }
     .input-prefix + input {
         @include border-left-radius(0);

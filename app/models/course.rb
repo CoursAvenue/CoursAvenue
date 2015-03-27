@@ -26,15 +26,16 @@ class Course < ActiveRecord::Base
   has_many :teachers            , -> { uniq }, through: :plannings
   has_many :places              , -> { uniq }, through: :plannings
   belongs_to :price_group
-  has_many :prices              , through: :price_group
+  has_many :price_group_prices  , through: :price_group, source: :prices
   has_many :reservation_loggers , dependent: :destroy
 
   has_and_belongs_to_many :subjects, -> { uniq }
 
   before_save :sanatize_description
+  before_save :update_open_for_trial
+
   after_save  :update_plannings_dates_if_needs_to
   after_save  :reindex_plannings unless Rails.env.test?
-  before_save :update_open_for_trial
   after_save  :set_has_promotion
   after_touch :set_has_promotion
 
@@ -58,6 +59,7 @@ class Course < ActiveRecord::Base
   ######################################################################
   validates :type, :name  , presence: true
   validates :subjects     , presence: true
+  validates :prices       , presence: true
   validates :name, length: { maximum: 255 }
 
   attr_accessible :name, :type, :description,
@@ -69,7 +71,7 @@ class Course < ActiveRecord::Base
                   :start_date, :end_date,
                   :subject_ids, :level_ids, :audience_ids, :place_id,
                   :price_group_id, :on_appointment,
-                  :is_open_for_trial, :has_promotion
+                  :is_open_for_trial, :has_promotion, :prices_attributes
 
   # ------------------------------------------------------------------------------------ Search attributes
   # :nocov:
@@ -394,11 +396,12 @@ class Course < ActiveRecord::Base
   def set_has_promotion
     if self.prices.empty?
       self.update_column :has_promotion, false
-    else
+    elsif self.prices.order('promo_amount ASC NULLS LAST').first
       self.update_column :has_promotion, !(self.prices.order('promo_amount ASC NULLS LAST').first.promo_amount).nil?
     end
     nil
   end
+  handle_asynchronously :set_has_promotion
 
   # Attributes used to create the slug for Friendly ID
   #
@@ -434,6 +437,7 @@ class Course < ActiveRecord::Base
     end
     nil
   end
+  handle_asynchronously :update_plannings_dates_if_needs_to
 
   def reindex_plannings
     self.plannings.map{ |p| p.delay.index }
@@ -450,5 +454,21 @@ class Course < ActiveRecord::Base
       end
     end
     nil
+  end
+  handle_asynchronously :update_open_for_trial
+
+  # Method for accepts_nested_attributes_for :prices
+  # Tells if the price is valid regarding attributes passed
+  # Check if the price is valid by checking its valid? method
+  # @param  attributes Automatically passed by Rails
+  #
+  # @return Boolean
+  def reject_price attributes
+    exists = attributes[:id].present?
+    price_has_to_be_rejected  = attributes[:amount].blank? || attributes[:delete_price].present?
+    # Destroy if price exists and amount is nil
+    attributes.merge!({:_destroy => 1}) if exists and price_has_to_be_rejected
+    # Reject if price does't not exist yet and amount is nil
+    return (!exists and price_has_to_be_rejected)
   end
 end

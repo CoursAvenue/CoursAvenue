@@ -90,6 +90,7 @@
             @include box-shadow(none);
         }
         > select, > input, > select, > textarea, > div, > label, .input-container {
+            &.hidden { display: none; }
             display       : inline-block;
             vertical-align: top;
         }

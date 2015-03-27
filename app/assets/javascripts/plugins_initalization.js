@@ -50,7 +50,7 @@ $(function() {
                 autoResize  : true,
                 helpers : {
                     overlay: {
-                        locked: true,
+                        locked: false,
                         closeClick: close_click
                     }
                 }

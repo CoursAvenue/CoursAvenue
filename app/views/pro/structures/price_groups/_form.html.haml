@@ -34,8 +34,6 @@
             .epsilon
               %strong découverte :
           .grid__item.v-middle.three-quarters>
-            - if ! @price_group.for_training?
-              %a.btn.btn--blue.btn--small{ data: { behavior: 'show-price-group-form', el: '#trial-course-form',  show_premium: 'true' } } Cours d'essai
             %a.btn.btn--blue.btn--small{ data: { behavior: 'show-price-group-form', el: '#premium-prices-form',  show_premium: 'true' } } Offre spéciale
             %a.btn.btn--blue.btn--small{ data: { behavior: 'show-price-group-form', el: '#discounts-form',  show_premium: 'true' } } Tarif réduit
 
@@ -189,31 +187,8 @@
               %a{ href: 'javascript:void(0)', data: { trigger: true } }
                 %i.fa.fa-plus
                 Ajouter une ligne
-      #premium-box{ class: [@trial, @discounts, @premium_offers].compact.flatten.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden' }
+      #premium-box{ class: [@discounts, @premium_offers].compact.flatten.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden' }
         .bordered--top.soft--top.soft--sides
-          - if @trial and !@price_group.for_training?
-            #trial-course-form{ class: (@trial.persisted? or @trial.errors.any? ? '' : 'hidden' )}
-              = f.simple_fields_for :prices, @trial, child_index: 1000 do |trial_form|
-                = trial_form.input :delete_price, as: :hidden, input_html: { id: 'delete-trial-price' }
-                .grid.soft-half--bottom
-                  .grid__item.two-twelfths.v-middle>
-                    %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', onclick: "$('#delete-trial-price').val('1'); $('#trial-course-form').slideUp();"}
-                      %i.fa.fa-times
-                    %span.v-middle Cours d'essai
-                  .grid__item.two-twelfths.v-middle>
-                    %select#trial_select{ data: { behavior: 'disable-toggle-input', el: '#trial_amount' } }
-                      %option{ value: 'hide', selected: @trial.free? } Gratuit
-                      %option{ value: 'show', selected: (!@trial.free? and @trial.amount.present?) } Payant
-                  .grid__item.v-middle.text--right{ style: 'width: 12%;'}>
-                    #trial_amount
-                      .input-addon
-                        = trial_form.input :amount, label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush two-thirds inline-block v-middle' }, as: :string
-                        .input-suffix
-                          %i.fa.fa-eur
-                  .grid__item.v-middle.text--right{ style: 'width: 12%;'}>
-                  .grid__item.four-twelfths.v-middle.text--right>
-                    = trial_form.input :info, as: :string, placeholder: 'Ex. : Valable en septembre', label: false, input_html: { class: 'one-whole'}, wrapper_html: { class: 'flush--ends' }
-                    = trial_form.input :type, as: :hidden
           #premium-prices-form{ class: @premium_offers.select{ |price| price.persisted? or price.errors.any? }.any? ? '' : 'hidden', data: { behavior: 'form-group' } }
             .discounts{ data: { behavior: 'show-more-on-demand' } }
               - @premium_offers.each_with_index do |item, i|
@@ -287,11 +262,11 @@
         if (!$(this.dataset.el).is(':visible') && this.dataset.showPremium == 'true') {
             $('#premium-box').slideDown();
         }
-
         if ($(this.dataset.el).is(':visible')) {
             $(this.dataset.el).find('[data-trigger]').click();
         } else {
             $(this.dataset.el).slideDown();
+            $(this.dataset.el).find('[data-trigger]').click();
         }
     });
     $('[data-behavior="show-more-on-demand"]').each(function(index, el) {
@@ -343,8 +318,3 @@
     });
     $('[data-behavior=disable-toggle-input]').change();
     $('[data-behavior=show-more-on-demand]').showMoreOnDemand();
-    $('#price-group-form').submit(function() {
-        if (!$('#trial-course-form').is(':visible')) {
-            $('#delete-trial-price').val('1');
-        }
-    });

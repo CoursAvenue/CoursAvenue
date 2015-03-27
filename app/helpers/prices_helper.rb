@@ -36,4 +36,5 @@ module PricesHelper
       "#{('%.2f' % amount).gsub('.', ',').gsub(',00', '')}#{amount_type}"
     end
   end
+
 end

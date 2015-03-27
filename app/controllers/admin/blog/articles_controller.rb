@@ -4,7 +4,7 @@ class Admin::Blog::ArticlesController < Pro::ProController
 
   def index
     get_categories
-    @articles   = blog_article_class.all
+    @articles   = blog_article_class.order('published_at DESC').all
   end
 
   def new

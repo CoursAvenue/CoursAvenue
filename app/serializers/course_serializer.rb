@@ -12,13 +12,14 @@ class CourseSerializer < ActiveModel::Serializer
              :is_open_for_trial, :has_promotion, :trial_courses_policy_popover, :min_price,
              :teaches_at_home
 
-  has_one  :place,          serializer: PlaceSerializer
-  has_many :plannings,      serializer: PlanningSerializer
-  has_many :prices,         serializer: PriceSerializer
-  has_many :registrations,  serializer: PriceSerializer
+  has_one  :place,               serializer: PlaceSerializer
+  has_many :plannings,           serializer: PlanningSerializer
+  has_many :price_group_prices,  serializer: PriceSerializer
+  has_many :prices,              serializer: PriceSerializer
+  has_many :registrations,       serializer: PriceSerializer
 
   def min_price
-    readable_amount(object.min_price) if object.min_price
+    PriceSerializer.new(object.prices.order('amount ASC').first) if object.prices.any?
   end
 
   def plannings
@@ -109,14 +110,6 @@ class CourseSerializer < ActiveModel::Serializer
                     icon: 'delta fa fa-levels' }
     end
     _details
-  end
-
-  def prices
-    if object.price_group
-      object.price_group.prices.order('amount ASC')
-    else
-      []
-    end
   end
 
   def registrations

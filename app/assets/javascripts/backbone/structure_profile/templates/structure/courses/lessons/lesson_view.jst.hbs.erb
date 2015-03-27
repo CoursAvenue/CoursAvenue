@@ -2,10 +2,10 @@
     <div class="float--right push-half--bottom">
         {{#if min_price}}
             <div class="text--center push-half--bottom f-weight-500">
-                {{#if is_open_for_trial}}
+                {{#if min_price.is_free}}
                 <strong class="green delta v-bottom">Essai gratuit</strong>
                 {{else}}
-                <span class="f-weight-500 gray-light v-bottom">À p. de </span><span class="gamma v-bottom">{{ min_price }}</span>
+                <span class="f-weight-500 gray-light v-bottom">À p. de </span><span class="gamma v-bottom">{{ min_price.readable_amount }}</span>
                 {{/if}}
             </div>
         {{/if}}

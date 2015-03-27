@@ -139,6 +139,8 @@
 .inline              { display    : inline; }
 .inline-block        { display    : inline-block; }
 .hidden.inline-block { display    : none; }
+// DO NOT ADD !important
+// If you do this, we won't be able to show a div with `.show()` in JS afterwards
 .hidden              { display    : none; }
 .visibility-hidden   { visibility : hidden; }
 

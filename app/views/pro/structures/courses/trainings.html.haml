@@ -15,9 +15,8 @@
         = link_to new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false' } do
           %i.fa.fa-plus
           Ajouter un stage / atelier
-      - price_groups = @structure.price_groups.for_trainings
       #training-list.block-list
         - @courses.trainings.each_with_index do |course, index|
-          = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure, price_groups: price_groups }
+          = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
 = render 'course_bottom_scripts'

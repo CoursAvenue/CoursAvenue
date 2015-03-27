@@ -7,6 +7,7 @@ class Price < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   belongs_to :price_group, touch: true
+  belongs_to :course, touch: true
   has_one  :structure, through: :price_group
   has_many :courses, through: :price_group
 
@@ -17,7 +18,8 @@ class Price < ActiveRecord::Base
 
   attr_accessor :delete_price
   attr_accessible :libelle, :amount, :promo_amount, :nb_courses, :info, :course,
-                  :number, :type, :duration, :promo_percentage, :price_group, :price_group_id
+                  :number, :type, :duration, :promo_percentage, :price_group, :price_group_id,
+                  :course_id
 
   # All types
 

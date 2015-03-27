@@ -25,7 +25,11 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         onRender: function onRender (options) {
             // Render prices
             var prices_collection_container = this.$(this.priceCollectionViewContainer);
-            var prices_collection           = new CoursAvenue.Models.PricesCollection(this.model.get('prices'));
+            if (this.model.get('db_type') == 'Course::Training') {
+                var prices_collection = new CoursAvenue.Models.PricesCollection(this.model.get('prices'));
+            } else {
+                var prices_collection = new CoursAvenue.Models.PricesCollection(this.model.get('price_group_prices'));
+            }
             var prices_collection_view      = new Module.PricesCollectionView({ collection:  prices_collection,
                                                                                 about_genre: this.model.get('about_genre'),
                                                                                 about:       this.model.get('about') });
@@ -74,7 +78,12 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
                 course: this.model.toJSON(),
                 is_last: (index == (this.collection.length - 1))
             };
-        }
+        },
+        serializeData: function serializeData () {
+            var attributes       = this.model.toJSON()
+            attributes.min_price = new CoursAvenue.Models.Price(attributes.min_price).toJSON()
+            return attributes;
+        },
 
     });
 

@@ -4,9 +4,10 @@ class PriceSerializer < ActiveModel::Serializer
   # cached
   # delegate :cache_key, to: :object
 
-  attributes :id, :libelle, :amount, :info, :promo_percentage, :promo_amount, :promo_amount_type, :libelle_type, :is_free, :discount, :is_registration
+  attributes :id, :libelle, :amount, :info, :promo_percentage, :promo_amount, :promo_amount_type,
+             :libelle_type, :is_free, :discount, :is_registration
 
- def libelle_type
+  def libelle_type
     case object.type
     when 'Price::Trial'
       'Spéciale découverte'

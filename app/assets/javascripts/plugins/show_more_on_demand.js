@@ -63,7 +63,9 @@
 
         clearAndHide: function clearAndHide (event) {
             var $wrapping_el = $(event.currentTarget).closest('[data-el]');
-            $wrapping_el.find('input, textarea').val('');
+            // DO NOT DELETE the input that contains the ID of the current object
+            // (we won't be able to delete in the DB afterwards)
+            $wrapping_el.find('input:not([name$="id]"]), textarea').val('');
             // Don't set select value to '' if there is no blank options
             $wrapping_el.find('select').each(function() {
                 if ($(this).find('option[value=""]').length == 1) {

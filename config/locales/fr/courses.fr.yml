@@ -18,6 +18,7 @@ fr:
         price_details: "Autres tarifs / Informations"
         place: Lieu
         info: Infos pratiques
+        trial_price: "Prix séance d'essai"
         image: "Image du cours"
         cant_be_joined_during_year: Pas d'inscription en cours d'année
         no_class_during_holidays: Pas de cours pendant les vacances scolaires

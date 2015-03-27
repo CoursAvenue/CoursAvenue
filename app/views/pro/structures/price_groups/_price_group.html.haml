@@ -1,10 +1,9 @@
 .push--bottom{ id: "price-group-#{price_group.id}" }
   .panel
     .panel__body.soft-half
-      .grid
-        .grid__item.two-thirds>
-          %h5.flush--bottom= price_group.name
-        .grid__item.one-third.text--right>
+      .push-half--bottom
+        %h4.inline-block.line-height-normal.v-middle.flush--bottom.push-half--right= price_group.name
+        .inline-block.line-height-normal.v-middle.nowrap
           = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false', lock_overlay: true } do
             %i.fa.fa-pencil
             Modifier
@@ -105,3 +104,9 @@
               %td.text--center= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
               %td= price.info
 
+    .bg-gray-light.soft-half.bordered--top
+      - if price_group.courses.any?
+        Cours attachés à cette grille tarifaire :
+        %strong= price_group.courses.map(&:name).join(', ')
+      - else
+        Cette grille tarifaire n'est attachée à aucun cours.

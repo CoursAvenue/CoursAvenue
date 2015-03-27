@@ -8,7 +8,7 @@ class PriceGroup < ActiveRecord::Base
   has_many :courses
   has_many :prices
 
-  belongs_to :structure, touch: true
+  belongs_to :structure
 
   attr_accessible :structure, :name, :course_type, :details,
                   :prices_attributes, :premium_visible
