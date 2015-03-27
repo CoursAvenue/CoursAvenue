@@ -28,14 +28,22 @@
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
 
 = content_for :scripts do
-  = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
   = filepicker_js_include_tag
 
   :javascript
       $(document).ready(function() {
-          CKEDITOR.replace('blog_article[content]', {
-              customConfig: '#{asset_path('ckeditor/config.js')}'
+          $('#blog_article_content').redactor({
+              buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
+                'link', 'alignment', 'horizontalrule', 'image'],
+              formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
+              // lang: 'fr',
+              plugins: ['imagemanager'],
+              imageUpload: Routes.image_upload_admin_blog_articles_path({
+                  'authenticity_token': $('meta[name=csrf-token]').attr('content')
+              }),
+              imageManagerJson: Routes.images_admin_blog_articles_path(),
           });
+
           $('#blog_article_remote_image_url').change(function(event) {
               $('img[data-placeholder]').attr('src', event.originalEvent.fpfile.url);
           });
