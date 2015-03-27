@@ -11,12 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150327103153) do
+ActiveRecord::Schema.define(version: 20150327122446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "pg_stat_statements"
+
+  create_table "admin_images", force: true do |t|
+    t.string   "image"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "admins", force: true do |t|
     t.string   "email",                             default: "",    null: false
@@ -117,12 +123,6 @@ ActiveRecord::Schema.define(version: 20150327103153) do
 
   add_index "blog_categories", ["ancestry"], name: "index_blog_categories_on_ancestry", using: :btree
   add_index "blog_categories", ["ancestry_depth"], name: "index_blog_categories_on_ancestry_depth", using: :btree
-
-  create_table "blog_images", force: true do |t|
-    t.string   "image"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "blog_subscribers", force: true do |t|
     t.string   "email"
