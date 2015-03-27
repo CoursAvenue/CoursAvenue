@@ -152,7 +152,14 @@ class ::Admin < ActiveRecord::Base
   # Send event to intercom
   def after_confirmation
     if Rails.env.production?
-      Intercom::Event.create(event_name: "Confirmed account", created_at: Time.now.to_i, email: self.email)
+      begin
+        Intercom::Event.create(event_name: "Confirmed account",
+                               created_at: Time.now.to_i,
+                               email: self.email,
+                               user_id: "Admin_#{user.id}")
+      rescue
+        Bugsnag.notify(RuntimeError.new("Can't sync with Intercom after confirmation"), {email: self.email})
+      end
     end
   end
 
