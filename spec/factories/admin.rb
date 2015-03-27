@@ -20,7 +20,11 @@ FactoryGirl.define do
       uid              { Faker::Number.number(6) }
       oauth_token      { Faker::Internet.password }
       oauth_expires_at { 10.years.from_now }
-      provider 'facebook'
+      provider         'facebook'
+    end
+
+    factory :super_admin do
+      super_admin true
     end
   end
 end
