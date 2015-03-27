@@ -36,16 +36,19 @@
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
 
 = content_for :scripts do
-  = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
-
-  :css
-    #cke_1_contents { height: auto!important; }
   :javascript
-      $(document).ready(function() {
-          CKEDITOR.replace('emailing[body]', {
-              customConfig: '#{asset_path('ckeditor/config.js')}'
-          });
+      $('[name=emailing\\[body\\]]').redactor({
+          buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
+            'link', 'alignment', 'horizontalrule', 'image'],
+          formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
+          // lang: 'fr',
+          plugins: ['imagemanager'],
+          imageUpload: Routes.admin_images_path({
+              'authenticity_token': $('meta[name=csrf-token]').attr('content')
+          }),
+          imageManagerJson: Routes.admin_images_path(),
       });
+
       // Prevent the backspace key from navigating back.
       $(document).unbind('keydown').bind('keydown', function (event) {
           var doPrevent = false;

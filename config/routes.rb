@@ -13,6 +13,7 @@ CoursAvenue::Application.routes.draw do
       resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :blog_categories, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/categories'
       resources :blog_authors, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/authors', path: 'blog/auteurs'
+      resources :images, only: [:index, :create]
     end
     namespace :pro, path: '' do
       root :to => 'home#index'
