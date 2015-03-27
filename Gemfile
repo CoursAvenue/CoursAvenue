@@ -219,6 +219,9 @@ group :test do
   gem 'capybara',             '~> 2.2.1'
   gem 'rspec-instafail',      '~> 0.2.5'
   gem 'mongoid-rspec',        '~> 2.0.0.rc1'
+
+  gem 'spring'
+  gem 'spring-commands-rspec'
 end
 
 group :development do
