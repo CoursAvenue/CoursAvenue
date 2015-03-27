@@ -42,6 +42,7 @@
 //= require libs/bootstrap/bootstrap.transition
 //= require libs/bootstrap/bootstrap.collapse
 //= require libs/bootstrap/bootstrap.tooltip
+//= require libs/bootstrap/bootstrap.tooltip.overrides
 //= require libs/bootstrap/bootstrap.popover
 //= require libs/bootstrap/bootstrap.tab
 //= require libs/bootstrap/bootstrap.datepicker
