@@ -51,22 +51,6 @@ class Admin::Blog::ArticlesController < Pro::ProController
     end
   end
 
-  def image_upload
-    image = ::Blog::Image.new
-    image.image = params[:file]
-    image.save
-
-    render json: { filelink: image.url }
-  end
-
-  def images
-    images = ::Blog::Image.all.map do |image|
-      { thumb: image.small, image: image.url }
-    end
-
-    render json: images
-  end
-
   private
 
   def blog_article_class

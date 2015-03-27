@@ -10,14 +10,10 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   constraints subdomain: (Rails.env.staging? ? 'pro.staging' : 'pro') do
     namespace :admin do
-      resources :blog_articles, controller: 'blog/articles', path: 'blog' do
-        collection do
-          get  :images
-          post :image_upload
-        end
-      end
+      resources :blog_articles, controller: 'blog/articles', path: 'blog'
       resources :blog_categories, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/categories'
       resources :blog_authors, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/authors', path: 'blog/auteurs'
+      resources :images, only: [:index, :create]
     end
     namespace :pro, path: '' do
       root :to => 'home#index'

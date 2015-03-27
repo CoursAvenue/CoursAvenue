@@ -38,10 +38,10 @@
               formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
               // lang: 'fr',
               plugins: ['imagemanager'],
-              imageUpload: Routes.image_upload_admin_blog_articles_path({
+              imageUpload: Routes.admin_images_path({
                   'authenticity_token': $('meta[name=csrf-token]').attr('content')
               }),
-              imageManagerJson: Routes.images_admin_blog_articles_path(),
+              imageManagerJson: Routes.admin_images_path(),
           });
 
           $('#blog_article_remote_image_url').change(function(event) {
