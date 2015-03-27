@@ -99,7 +99,7 @@ gem 'gmaps4rails'               , '~> 2.1.2'
 # Helper methods for geolocations
 gem 'geocoder'                  , '~> 1.2.7'
 # To have model serializers apart from models
-gem 'active_model_serializers'  , '~>0.8.1'
+gem 'active_model_serializers'  , '0.8.3'
 
 # Generate slugs for records
 gem 'friendly_id'               , '~>5.1.0'
@@ -187,7 +187,7 @@ gem 'axlsx'                     , '~> 2.0.1'
 gem 'rack-utf8_sanitizer'       , '~> 1.3.0'
 
 # Use ckeditor for post body
-# gem 'ckeditor'                  , '~> 4.1.1'#, git: 'git://github.com/nim1989/ckeditor.git'
+gem 'ckeditor'                  , '~> 4.1.1'#, git: 'git://github.com/nim1989/ckeditor.git'
 
 # Run `image_optim -r app/assets/images` to compress all assets locally
 gem 'image_optim'               , '~> 0.20.2'
@@ -210,15 +210,13 @@ end
 group :test do
   gem 'sunspot-rails-tester', '~> 1.0.0'
   gem 'rspec',                '~> 3.1.0'
-  gem 'factory_girl_rails',   '~> 4.5.0'
   gem 'rspec-core',           '~> 3.1.7'
-  gem 'rspec-rails',          '~> 3.1.0'
-  gem 'faker',                '~> 1.4.3'
   gem 'simplecov',            '~> 0.9.1'
   gem 'database_cleaner',     '~> 1.2.0'
   gem 'capybara',             '~> 2.2.1'
   gem 'rspec-instafail',      '~> 0.2.5'
   gem 'mongoid-rspec',        '~> 2.0.0.rc1'
+  gem 'shoulda-matchers',   '~> 2.8.0', require: false
 end
 
 group :development do
@@ -232,7 +230,7 @@ group :development do
   # Guard::Pow automatically manage Pow applications restart
   gem 'guard-pow', require: false
   # Removes useless logging in dev.
-  gem 'fontcustom'
+  gem 'fontcustom'              , '~> 1.3.8'
   gem 'brakeman'                , '~> 2.3.1'
   gem 'rubocop'                 , '~> 0.18.1', require: false
 
@@ -252,6 +250,11 @@ group :development, :test do
   gem 'byebug'
   # Permits to travel in the past
   gem 'delorean'
+  gem 'spring'
+  gem 'spring-commands-rspec'
+  gem 'faker',              '~> 1.4.3'
+  gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'rspec-rails',          '~> 3.1.0'
 end
 
 gem 'dotenv-rails', '~> 2.0.0'
@@ -292,3 +295,6 @@ gem 'wkhtmltopdf-binary', '~> 0.9.9.3', require: false
 
 # Contact importing
 gem 'omnicontacts', '~> 0.3.5'
+
+# Email sending for teachers
+gem 'mandrill-api'
