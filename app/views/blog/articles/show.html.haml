@@ -49,7 +49,7 @@
     %ul.nav.text--center
       - @article.subjects.each do |subject|
         - subject.vertical_pages.each do |vertical_page|
-          %li.epsilon.soft--right.line-height-1-7= link_to vertical_page.name, vertical_page_path(subject.root, vertical_page)
+          %li.epsilon.soft--right.line-height-1-7= link_to vertical_page.subject_name, vertical_page_path(subject.root, vertical_page)
     %h4.beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Vous aimerez aussi
     .grid.push--bottom
       - @article.similar_articles.each do |article|

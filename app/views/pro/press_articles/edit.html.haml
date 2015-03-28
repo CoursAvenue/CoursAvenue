@@ -1,6 +1,6 @@
 = side_menu_currently_at 'pages'
 
-.panel
-  = render partial: 'pro/shared/pages_tabs', locals: { current: 'press' }
-  .panel__body.soft
-    = render 'form'
+= render partial: 'pro/shared/pages_tabs', locals: { current: 'press' }
+%h1= @press_article.title
+
+= render 'form'

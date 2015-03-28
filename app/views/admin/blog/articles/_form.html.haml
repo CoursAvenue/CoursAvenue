@@ -5,7 +5,7 @@
       = image_tag @article.image.url(:default), width: 400, data: { placeholder: true }
     - else
       %img{ width: 400, data: { placeholder: true } }
-  = f.filepicker_field :remote_image_url, multiple: false, button_text: 'Ajouter une photo', button_class: 'btn btn--green btn--full btn--large fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
+  = f.filepicker_field :remote_image_url, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true, class: "filepicker-dragdrop text--center", drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft--ends text--center push--bottom", drag_text: "Glissez votre image ici ou cliquez pour changer de logo"
 
   = f.input :published, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'push--bottom' }, label: 'Article publié', label_html: { class: 'label--large' }
 

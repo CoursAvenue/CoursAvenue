@@ -21,10 +21,10 @@
       %th
       %th
   %tbody
-    - @vertical_pages.order('checked DESC, name DESC').each do |vertical_page|
+    - @vertical_pages.order('checked DESC, subject_name DESC').each do |vertical_page|
       - cache [vertical_page, 'pro/vertical_page/index'] do
         %tr
-          %td= vertical_page.name
+          %td= vertical_page.subject_name
           %td= vertical_page.subject.try(:name)
           %td
             - if vertical_page.image.present?

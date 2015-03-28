@@ -1,7 +1,5 @@
 = side_menu_currently_at 'pages'
+= render partial: 'pro/shared/pages_tabs', locals: { current: 'faqs' }
 
-.panel
-  .panel__header.soft
-    %h3.flush FAQ
-  .panel__body.soft
-    = render 'form'
+%h1 FAQ
+= render 'form'
