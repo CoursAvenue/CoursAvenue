@@ -81,25 +81,44 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         * a view. The view's model should have a location, and if the location
         * matches this marker's location it will get excited. */
         exciteMarkers: function exciteMarkers (data) {
-            var key = data.place_id || data.id;
-            if (key === null) { return; }
-            _.each(this.markerViewChildren, function (child) {
-                if (child.model.get("id") === key) {
-                    child.highlight({ show_info_box: false });
-                    child.excite();
-                }
-            });
+            // If there are multiple ids
+            if (data.place_ids) {
+                _.each(this.markerViewChildren, function (child) {
+                    if (data.place_ids.indexOf(child.model.get("id")) == -1) {
+                        child.highlight({ show_info_box: false });
+                        child.excite();
+                    }
+                });
+            } else {
+                var key = data.place_id || data.id;
+                if (key === null) { return; }
+                _.each(this.markerViewChildren, function (child) {
+                    if (child.model.get("id") === key) {
+                        child.highlight({ show_info_box: false });
+                        child.excite();
+                    }
+                });
+            }
         },
 
         unexciteMarkers: function exciteMarkers (data) {
-            var key = data.place_id || data.id;
-            if (key === null) { return; }
-            _.each(this.markerViewChildren, function (child) {
-                if (child.model.get("id") === key) {
-                    child.unhighlight();
-                    child.calm();
-                }
-            });
+            if (data.place_ids) {
+                _.each(this.markerViewChildren, function (child) {
+                    if (data.place_ids.indexOf(child.model.get("id")) == -1) {
+                        child.unhighlight({ show_info_box: false });
+                        child.calm();
+                    }
+                });
+            } else {
+                var key = data.place_id || data.id;
+                if (key === null) { return; }
+                _.each(this.markerViewChildren, function (child) {
+                    if (child.model.get("id") === key) {
+                        child.unhighlight();
+                        child.calm();
+                    }
+                });
+            }
         }
     });
 

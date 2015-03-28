@@ -3,7 +3,8 @@ class CourseSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::NumberHelper
 
-  cache
+  cached
+  delegate :cache_key, to: :object
 
   attributes :id, :name, :description, :description_short, :db_type, :type, :subjects,
              :is_individual, :is_lesson, :frequency, :on_appointment,
@@ -12,11 +13,16 @@ class CourseSerializer < ActiveModel::Serializer
              :is_open_for_trial, :has_promotion, :trial_courses_policy_popover, :min_price,
              :teaches_at_home
 
+  has_one  :home_place,          serializer: PlaceSerializer
   has_one  :place,               serializer: PlaceSerializer
   has_many :plannings,           serializer: PlanningSerializer
   has_many :price_group_prices,  serializer: PriceSerializer
   has_many :prices,              serializer: PriceSerializer
   has_many :registrations,       serializer: PriceSerializer
+
+  def home_place
+    object.home_place if object.is_private?
+  end
 
   def min_price
     PriceSerializer.new(object.prices.order('amount ASC').first) if object.prices.any?

@@ -13,7 +13,9 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             'change': 'updatePlannings'
         },
         events: {
-          'click [data-behavior=register-to-course]': 'registerToCourse'
+            'click [data-behavior=register-to-course]': 'registerToCourse',
+            'mouseenter [data-behavior=excite-markers]': 'courseHovered',
+            'mouseleave [data-behavior=excite-markers]': 'courseHoveredOut'
         },
 
         initialize: function initialize (options) {
@@ -63,6 +65,20 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
 
         onChildviewMouseleave: function onChildviewMouseleave (view, data) {
             this.trigger("mouseleave", data);
+        },
+
+        courseHovered: function courseHovered (options) {
+            var place_ids = _.map(this.model.get('plannings'), function(planning) {
+                return planning.place_id;
+            });
+            this.trigger("mouseenter", { place_ids: _.uniq(place_ids) });
+        },
+
+        courseHoveredOut: function courseHoveredOut (options) {
+            var place_ids = _.map(this.model.get('plannings'), function(planning) {
+                return planning.place_id;
+            });
+            this.trigger("mouseleave", { place_ids: _.uniq(place_ids) });
         },
 
         onChildviewRegister: function onChildviewRegister (view, data) {

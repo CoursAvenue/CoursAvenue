@@ -98,7 +98,7 @@
 
             if (this.options.stopAtWrapperHeight && this.scroll_top > this.options.stopAtWrapperHeight ) {
                 this.unFixIt();
-            } else if (this.options.stopAtHeight && (this.scroll_top + this.$element.height() > this.options.stopAtHeight)) {
+            } else if (this.options.stopAtHeight && (this.scroll_top + this.$element.height() + this.options.offsetTop > this.options.stopAtHeight)) {
                 this.$element.css('top', -(this.scroll_top + this.$element.height() - this.options.stopAtHeight));
             } else if (this.options.pushed) {
                 this.fixAndPush();

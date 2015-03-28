@@ -6,6 +6,16 @@ StructureProfile.module('Views.Structure.Courses.Privates', function(Module, App
         childViewContainer: '[data-type=plannings-container]',
         emptyView: Module.EmptyView,
 
+        courseHovered: function courseHovered (options) {
+            var place_ids = [this.model.get('place').id, this.model.get('home_place').id]
+            this.trigger("mouseenter", { place_ids: _.uniq(place_ids) });
+        },
+
+        courseHoveredOut: function courseHoveredOut (options) {
+            var place_ids = [this.model.get('place').id, this.model.get('home_place').id]
+            this.trigger("mouseleave", { place_ids: _.uniq(place_ids) });
+        },
+
         childViewOptions: function childViewOptions (model, index) {
             return {
                 course              : this.model.toJSON(),
