@@ -3,7 +3,6 @@
 # /!\ RESTART SERVER IF YOU WANT TO SEE YOUR CHANGES /!\
 # /!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\/!\
 class VerticalPageImageUploader < CarrierWave::Uploader::Base
-  include CarrierWave::ImageOptimizer
   include Cloudinary::CarrierWave
 
   process convert: "jpg"
