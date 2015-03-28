@@ -32,7 +32,7 @@ class CourseDecorator < Draper::Decorator
   def trial_price
     return nil if object.prices.trials.empty?
     trial = object.prices.trials.first
-    "<strong>#{readable_amount(trial.amount)}</strong>".html_safe
+    "<strong class='push-half--right'>#{readable_amount(trial.amount)}</strong>".html_safe
   end
 
   def training_prices
@@ -41,10 +41,11 @@ class CourseDecorator < Draper::Decorator
       popover = ''
       popover = "<i class=\"v-middle fa fa-info cursor-help\" data-behavior=\"popover\" data-content=\"#{price.info}\"></i>" if price.info.present?
       if price.promo_amount?
-        "<span class='v-middle push-half--left line-through'>#{readable_amount(price.amount)}</span> #{readable_amount(price.promo_amount)}" + popover
+        content = "<span class='v-middle line-through'>#{readable_amount(price.amount)}</span> #{readable_amount(price.promo_amount)}" + popover
       else
-        "<span class='v-middle push-half--left '>#{readable_amount(price.amount)}" + "</span>" + popover
+        content = "<span class='v-middle'>#{readable_amount(price.amount)}" + "</span>" + popover
       end
+      "<div class=\"inline-block v-middle push-half--right\">#{content}</div>"
     end.join(' ')
     "<strong>#{prices_content}</strong>".html_safe
   end
