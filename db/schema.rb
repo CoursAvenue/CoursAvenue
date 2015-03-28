@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150326173918) do
+ActiveRecord::Schema.define(version: 20150327122446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -661,7 +661,6 @@ ActiveRecord::Schema.define(version: 20150326173918) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
-    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_request_participants", force: true do |t|
@@ -670,6 +669,8 @@ ActiveRecord::Schema.define(version: 20150326173918) do
     t.integer  "participation_request_id"
     t.integer  "price_id"
   end
+
+  add_index "participation_request_participants", ["participation_request_id", "price_id"], name: "participation_requests_participants_index", using: :btree
 
   create_table "participation_requests", force: true do |t|
     t.integer  "mailboxer_conversation_id"
@@ -691,6 +692,9 @@ ActiveRecord::Schema.define(version: 20150326173918) do
     t.integer  "old_course_id"
     t.boolean  "structure_responded",       default: false
     t.datetime "deleted_at"
+    t.string   "street"
+    t.string   "zip_code"
+    t.integer  "city_id"
   end
 
   create_table "participations", force: true do |t|
@@ -813,9 +817,6 @@ ActiveRecord::Schema.define(version: 20150326173918) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
-    t.string   "address"
-    t.float    "latitude"
-    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
@@ -1202,8 +1203,11 @@ ActiveRecord::Schema.define(version: 20150326173918) do
     t.string  "phone"
     t.string  "mobile_phone"
     t.text    "address"
+    t.boolean "subscribed",                 default: true
+    t.integer "newsletter_mailing_list_id"
   end
 
+  add_index "user_profiles", ["newsletter_mailing_list_id"], name: "index_user_profiles_on_newsletter_mailing_list_id", using: :btree
   add_index "user_profiles", ["structure_id", "user_id"], name: "index_user_profiles_on_structure_id_and_user_id", using: :btree
 
   create_table "users", force: true do |t|
