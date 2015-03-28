@@ -6,8 +6,8 @@
       .grid__item.four-fifths.relative.v-middle.soft-half--left.palm-one-whole>
         .text-ellipsis.delta.f-weight-bold.line-height-1-5.flush.v-top= structure.name
         .text-ellipsis{ style: "padding-right: 60px;" }
-          %strong.f-weight-normal= @vertical_page.name
-          = structure.subjects_name_as_string(:subjects_string).reject{ |subject_name| subject_name == @vertical_page.name }.join(', ').strip
+          %strong.f-weight-normal= @vertical_page.subject_name
+          = structure.subjects_name_as_string(:subjects_string).reject{ |subject_name| subject_name == @vertical_page.subject_name }.join(', ').strip
         %div.text-ellipsis
           .f-weight-bold
             %i.fa.fa-comment

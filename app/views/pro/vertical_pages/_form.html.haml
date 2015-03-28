@@ -1,12 +1,22 @@
 = simple_form_for [:pro, @vertical_page] do |f|
-  = f.input :image, input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
-  = f.input :name, label: 'Nom de discipline', placeholder: 'Ex. : Fox trot', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
-  = f.input :caption, label: 'Description du header', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
-  = f.input :title, label: 'Titre', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
-  = f.input :content, label: false, input_html: { class: 'one-whole input--large' }
-  = f.input :sidebar_title, label: 'Trouvez...près de chez vous', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
-  = f.input :keywords, input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
-  = f.input :subject_id, as: :select, collection: Subject.order('ancestry_depth ASC').all, input_html: { data: { behavior: 'chosen' } }, label_method: lambda{|subj| "#{subj.depth + 1} - #{subj.name}" }
+  .text--center
+    - if @vertical_page.cl_image.present?
+      = image_tag @vertical_page.cl_image.url(:default), width: 400, data: { placeholder: true }
+    - else
+      %img{ width: 400, data: { placeholder: true } }
+  = f.filepicker_field :remote_cl_image_url, multiple: false, button_text: 'Ajouter une photo', button_class: 'btn btn--green btn--full btn--large fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
+
+  = f.input :subject_name, label: false, input_html: { class: 'input--large one-whole'}
+  = f.input :page_title, label: false, input_html: { class: 'input--large one-whole'}
+  %p.flush.epsilon Environ 155 caractères
+  = f.input :page_description, input_html: { class: 'input--large one-whole one-whole', data: { behavior: 'text-counter', characters: true, 'good-words-nb' => 155, 'bad-text' => 'Allez Camille, tu y es presque !', 'good-text' => 'Wouhou!!! Well done!', 'average-words-text' => 'Almost there!' } }, label: false
+
+  = f.input :caption, input_html: { class: 'input--large one-whole'}, label: false
+  = f.input :title, label: false, input_html: { class: 'input--large one-whole'}
+  = f.input :content, label: false, input_html: { class: 'one-whole input--large one-whole' }
+  = f.input :sidebar_title, label: false, input_html: { class: 'input--large one-whole'}
+  = f.input :keywords, label: false, input_html: { class: 'input--large one-whole'}
+  = f.input :subject_id, as: :select, collection: Subject.order('ancestry_depth ASC').all, input_html: { class: 'one-whole', data: { behavior: 'chosen' } }, label_method: lambda{|subj| "#{subj.depth + 1} - #{subj.name}" }, label: false
 
 
   - 5.times { @vertical_page.medias.build }
@@ -15,8 +25,8 @@
       = f.simple_fields_for :medias, media, child_index: i do |media_form|
         %div{ class: (!media_form.object.persisted? ? 'hidden' : ''), data: { el: true, hidden: !media_form.object.persisted? } }<>
           = media_form.input :type, as: :hidden, value: 'Media::Video'
-          = media_form.input :url, as: :string, input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
-          = media_form.input :caption, input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
+          = media_form.input :url, as: :string, input_html: { class: 'input--large one-whole' }, label: false
+          = media_form.input :caption, input_html: { class: 'input--large one-whole' }, label: false
           %hr
     .input
       .control-label>
@@ -28,6 +38,7 @@
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
 
 = content_for :scripts do
+<<<<<<< HEAD
   :javascript
       $(document).ready(function() {
           $('[name=vertical_page\\[content\\]]').redactor({
@@ -39,6 +50,9 @@
               imageUpload: Routes.admin_images_path({
                   'authenticity_token': $('meta[name=csrf-token]').attr('content')
               }),
-              imageManagerJson: Routes.admin_images_path(),
+              imageManagerJson: Routes.admin_images_path()
+          });
+          $('#vertical_page_remote_image_url').change(function(event) {
+              $('img[data-placeholder]').attr('src', event.originalEvent.fpfile.url);
           });
       });

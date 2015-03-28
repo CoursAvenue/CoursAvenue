@@ -20,7 +20,7 @@
 
 .bg-fixed.bg-cover{ style: "background-image: url('#{bg}')" }
   .main-container.main-container--medium.soft--ends
-    %h1.white.soft-black-text-shadow= @vertical_page.name
+    %h1.white.soft-black-text-shadow= @vertical_page.subject_name
     - if @vertical_page.caption
       %h4.center-block.white.soft-black-text-shadow
         = @vertical_page.caption
@@ -34,11 +34,11 @@
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to vertical_page_path(ancestor.root, ancestor.vertical_pages.first), itemprop: 'url' do
           %span{ itemprop: 'title' }
-            = ancestor.vertical_pages.first.name
+            = ancestor.vertical_pages.first.subject_name
     - if @ancestors.any?
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         %span{ itemprop: 'title' }
-          = @vertical_page.name
+          = @vertical_page.subject_name
 
   .grid
     .grid__item.six-tenths.palm-one-whole>
@@ -92,7 +92,7 @@
                   %li.hard.epsilon= link_to city.name, vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'block soft-half'
 
     .grid__item.four-tenths.palm-one-whole>
-      %h3 #{@vertical_page.name} : sélection
+      %h3 #{@vertical_page.subject_name} : sélection
       .panel
         %ul.nav.tabs.panel__header
           %li.active
@@ -110,7 +110,7 @@
           .tab-pane#side-panel-1.active
             - other_structures.each_with_index do |structure, index|
               = render partial: 'vertical_pages/structure', locals: { structure: structure }
-          .text--right= link_to "Voir tous les cours de #{@vertical_page.name.downcase}", search_page_path(@subject.root, @subject, 'paris'), class: 'epsilon'
+          .text--right= link_to "Voir tous les cours de #{@vertical_page.subject_name.downcase}", search_page_path(@subject.root, @subject, 'paris'), class: 'epsilon'
 
 - if @subject.depth == 0
   .home-screen-promotion-wrapper

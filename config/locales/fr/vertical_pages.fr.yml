@@ -1,0 +1,20 @@
+fr:
+  activerecord:
+    models:
+      vertical_page: Page vertical
+
+  simple_form:
+    placeholders:
+      vertical_page:
+        subject_name: Nom de la discipline
+        title: Titre de la page (H1)
+        page_title: Titre de la page (Title SEO)
+        meta_description: Description sur Google (SEO)
+        keywords: Mots clés
+        sidebar_title: Trouvez...près de chez vous
+        medias:
+          url: URL
+          caption: Légende
+        # caption:
+        # content:
+        # subject_id:

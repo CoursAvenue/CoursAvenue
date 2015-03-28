@@ -1,3 +1,29 @@
+.flexbox
+  .flexbox__item
+    %ol.nav.breadcrumb.epsilon.flush
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = link_to root_search_page_without_subject_path(@city), itemprop: 'url' do
+          %span{ itemprop: 'title' }
+            = "Tous les cours à #{@city.name}"
+      - dominant_root_subject = @structure.dominant_root_subject
+      - if dominant_root_subject
+        %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+          = link_to root_search_page_path(dominant_root_subject, @city), itemprop: 'url' do
+            %span{ itemprop: 'title' }
+              = dominant_root_subject.name
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        %span{ itemprop: 'title' }
+          = @structure.name
+  .flexbox__item.one-whole.text--right>
+    %ol.nav.breadcrumb.epsilon.flush
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = link_to vertical_pages_path, itemprop: 'url' do
+          %span{ itemprop: 'title' }= "Nos guides"
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = link_to vertical_page_with_city_path(@structure.dominant_root_subject, @structure.dominant_vertical_page, @structure.dominant_city), itemprop: 'url' do
+          %span{ itemprop: 'title' }= "#{@structure.dominant_vertical_page.subject_name} à #{@structure.dominant_city.name}"
+
+
 #structure-profile-menu.one-whole.west.fixed.on-top-of-the-world{ style: 'top: -100px;' }
   - cache [@structure, 'structure/show/sticker_header'] do
     .bg-site-background.soft-half--ends.bordered--bottom
