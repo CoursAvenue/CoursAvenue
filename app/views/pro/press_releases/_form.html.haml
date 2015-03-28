@@ -15,12 +15,18 @@
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
 
 = content_for :scripts do
-  = javascript_include_tag '//cdn.ckeditor.com/4.4.4/standard/ckeditor.js'
-
   :javascript
       $(document).ready(function() {
-          CKEDITOR.replace('press_release[content]', {
-              customConfig: '#{asset_path('ckeditor/config.js')}'
+          $('[name=press_release\\[content\\]]').redactor({
+              buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
+                'link', 'alignment', 'horizontalrule', 'image'],
+              formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
+              // lang: 'fr',
+              plugins: ['imagemanager'],
+              imageUpload: Routes.admin_images_path({
+                  'authenticity_token': $('meta[name=csrf-token]').attr('content')
+              }),
+              imageManagerJson: Routes.admin_images_path(),
           });
       });
       // Prevent the backspace key from navigating back.

@@ -18,6 +18,12 @@ ActiveRecord::Schema.define(version: 20150326173918) do
   enable_extension "hstore"
   enable_extension "pg_stat_statements"
 
+  create_table "admin_images", force: true do |t|
+    t.string   "image"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "admins", force: true do |t|
     t.string   "email",                             default: "",    null: false
     t.string   "encrypted_password",                default: ""
@@ -655,6 +661,14 @@ ActiveRecord::Schema.define(version: 20150326173918) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
+    t.boolean  "on_dropbox",           default: false
+  end
+
+  create_table "participation_request_participants", force: true do |t|
+    t.integer  "number"
+    t.datetime "deleted_at"
+    t.integer  "participation_request_id"
+    t.integer  "price_id"
   end
 
   create_table "participation_request_participants", force: true do |t|
@@ -811,6 +825,9 @@ ActiveRecord::Schema.define(version: 20150326173918) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
