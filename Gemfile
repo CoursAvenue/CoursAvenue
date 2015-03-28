@@ -186,9 +186,6 @@ gem 'axlsx'                     , '~> 2.0.1'
 # https://github.com/whitequark/rack-utf8_sanitizer
 gem 'rack-utf8_sanitizer'       , '~> 1.3.0'
 
-# Use ckeditor for post body
-gem 'ckeditor'                  , '~> 4.1.1'#, git: 'git://github.com/nim1989/ckeditor.git'
-
 # Run `image_optim -r app/assets/images` to compress all assets locally
 gem 'image_optim'               , '~> 0.20.2'
 gem 'image_optim_pack'          , '~> 0.2.1.20150310'
