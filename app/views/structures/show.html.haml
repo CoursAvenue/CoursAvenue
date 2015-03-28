@@ -17,21 +17,6 @@
   #header-map.bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under{ style: "height:300px;" }
 .soft--sides.soft-half--top.soft--bottom
   = render partial: 'structures/structure_header', locals: { structure: @structure }
-  - cache [@structure, 'structure/show/breadcrumb/v2'] do
-    %ol.nav.breadcrumb.push-half--bottom
-      %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to root_search_page_without_subject_path(@city), class: 'white', itemprop: 'url' do
-          %span{ itemprop: 'title' }
-            = "Tous les cours à #{@city.name}"
-      - dominant_root_subject = @structure.dominant_root_subject
-      - if dominant_root_subject
-        %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-          = link_to root_search_page_path(dominant_root_subject, @city), class: 'white', itemprop: 'url' do
-            %span{ itemprop: 'title' }
-              = dominant_root_subject.name
-      %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        %span{ itemprop: 'title' }
-          = @structure.name
   .grid
     .grid__item.eight-twelfths.soft-half--right>
       - if @structure.medias.any?
