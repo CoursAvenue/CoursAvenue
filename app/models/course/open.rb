@@ -15,7 +15,7 @@ class Course::Open < Course
   # Relations                                                          #
   ######################################################################
   has_many :participations, through: :plannings
-  has_many :prices
+  has_many :prices, foreign_key: 'course_id'
 
   def is_open?
     true
