@@ -11,8 +11,7 @@
       %h2.palm-epsilon.flush= link_to "Le Blog CoursAvenue", blog_articles_path, class: 'muted-link'
 
 - @articles.each_with_index do |article, index|
-  - cache [article, 'blog/articles/index'] do
-    = render partial: 'blog/articles/article', locals: { article: article, horizontal: (index > 1), index: index }
+  = render partial: 'blog/articles/article', locals: { article: article, horizontal: (index > 1), index: index }
 
 %hr.push--ends
 .text--center.push--ends= paginate @articles, window: 1, outer_window: 3
