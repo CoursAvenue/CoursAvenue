@@ -327,8 +327,6 @@ France
           format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
         end
       else
-        # Used for showing side structure list on new action
-        @structures = Structure.where.not(comments_count: nil).order('comments_count DESC').limit(3)
         format.html { render 'pro/structures/new' }
       end
     end

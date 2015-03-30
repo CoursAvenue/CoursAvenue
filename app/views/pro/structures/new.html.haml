@@ -55,6 +55,11 @@
         .grid__item.v-middle.two-thirds>
           = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole' }
 
+      - if @structure.places.empty?
+        - @structure.places << @structure.places.publics.build
+        - @structure.places.first.errors.add :street, :blank
+        - @structure.places.first.errors.add :city, :blank
+        - @structure.places.first.errors.add :name, :blank
       = f.simple_fields_for :places do |place_form|
         = place_form.input :type, as: :hidden
         .grid.push--bottom
