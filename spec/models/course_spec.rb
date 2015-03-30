@@ -6,38 +6,6 @@ describe Course do
 
   it { should be_valid }
 
-  describe '#best_price' do
-    let (:price_1)     { FactoryGirl.create(:price, amount: 15) }
-    let (:price_2)     { FactoryGirl.create(:subscription, amount: 200) }
-    let (:price_group) { FactoryGirl.build(:price_group) }
-
-    before do
-      price_group.prices    = [price_1, price_2]
-      price_group.structure = subject.structure
-      price_group.save
-
-      subject.price_group = price_group
-      subject.save
-    end
-
-    context 'without promotion' do
-      it 'returns the price with lowest amount' do
-        expect(subject.best_price).to eq(price_1)
-      end
-    end
-    context 'with promotion' do
-
-      before do
-        price_2.promo_amount = 10
-        price_2.save
-      end
-
-      it 'returns the price with the lowest amount accounting for the promotion' do
-        expect(course.best_price).to eq(price_2)
-      end
-    end
-  end
-
   describe '#has_promotion?' do
     it { expect(subject.has_promotion?).to eq false }
 
@@ -63,54 +31,6 @@ describe Course do
     end
   end
 
-  describe '#min_price' do
-    context 'without any price group' do
-      it 'returns nil' do
-        expect(subject.min_price).to be_nil
-      end
-    end
-
-    context 'with a price group' do
-      let(:price)       { FactoryGirl.create(:subscription, amount: 200) }
-      let(:price_group) { FactoryGirl.build(:price_group) }
-
-      before do
-        price_group.prices = [price]
-        price_group.structure = subject.structure
-        price_group.save
-
-        subject.price_group = price_group
-        subject.save
-      end
-
-      it 'returns the lowest price' do
-        expect(subject.min_price).to eq price.amount
-      end
-    end
-
-    context 'with a promotion' do
-      let(:price)       { FactoryGirl.create(:subscription, amount: 200) }
-      let(:price_group) { FactoryGirl.build(:price_group) }
-
-      before do
-        price.promo_amount = 10
-        price.save
-
-        price_group.prices = [price]
-        price_group.structure = subject.structure
-        price_group.save
-
-        subject.price_group = price_group
-        subject.save
-      end
-
-      it 'returns the promotion price' do
-        expect(subject.min_price).to eq price.promo_amount
-      end
-    end
-
-  end
-
   describe '#max_price' do
     context 'without any price group' do
       it 'returns nil' do
@@ -134,7 +54,6 @@ describe Course do
       it 'returns the highest amount' do
         expect(subject.max_price).to eq price.amount
       end
-
     end
 
   end

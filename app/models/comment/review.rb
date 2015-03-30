@@ -41,8 +41,8 @@ class Comment::Review < Comment
 
   after_save       :update_comments_count
 
-  after_create     :send_email
   after_create     :create_user, if: -> { self.user.nil? }
+  after_create     :send_email
   after_create     :affect_structure_to_user
   after_create     :create_passions_for_associated_user
   after_create     :complete_comment_notification
@@ -117,11 +117,6 @@ class Comment::Review < Comment
     self.notify_user
   end
 
-  def decline!
-    self.status = :declined
-    self.save
-  end
-
   def ask_for_deletion!(deletion_reason=nil)
     self.status          = :waiting_for_deletion
     self.deletion_reason = deletion_reason if deletion_reason
@@ -135,10 +130,6 @@ class Comment::Review < Comment
 
   def accepted?
     self.status == 'accepted'
-  end
-
-  def declined?
-    self.status == 'declined'
   end
 
   def structure

@@ -32,10 +32,6 @@
             %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: comment.title}= "#{comment.title}"
             - if comment.course_name
               %span.v-middle= "— #{comment.course_name.capitalize}"
-
-            - if can?(:destroy, comment)
-              - if comment.declined?
-                %span.lbl.lbl--red.nowrap Avis rejeté
           %span.rating{title: 'Excellent !', itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
             %meta{itemprop: 'ratingValue', content: 5}
             %meta{itemprop: 'worstRating', content: 1}

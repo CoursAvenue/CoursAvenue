@@ -183,7 +183,6 @@ class Course < ActiveRecord::Base
       plannings.map(&:end_date).uniq.compact
     end
 
-    integer :min_price
     integer :max_price
 
     boolean :has_free_trial_lesson do
@@ -246,10 +245,6 @@ class Course < ActiveRecord::Base
   end
   # :nocov:
 
-  def min_price
-    best_price.try(:promo_amount) || best_price.try(:amount)
-  end
-
   def max_price
     prices.where( Price.arel_table[:amount].gteq(0) ).order('amount DESC').first.try(:amount)
   end
@@ -274,11 +269,6 @@ class Course < ActiveRecord::Base
     self.plannings.order('promotion ASC').first.promotion
   end
 
-  def promotion_price
-    new_price = best_price.amount + (best_price.amount * (promotion / 100))
-    ('%.2f' % new_price).gsub('.', ',').gsub(',00', '')
-  end
-
   def is_lesson?
     false
   end
@@ -293,25 +283,6 @@ class Course < ActiveRecord::Base
 
   def is_open?
     false
-  end
-
-  # Returns an array with one or two values
-  def price_range
-    if best_price == most_expansive_price
-      [best_price]
-    else
-      [best_price, most_expansive_price]
-    end
-  end
-
-  def best_price
-    self.prices.where( Price.arel_table[:type].not_eq('Price::Registration').and(
-                       Price.arel_table[:amount].gt(0)) ).order('COALESCE(promo_amount, amount) ASC').first
-  end
-
-  def most_expansive_price
-    self.prices.where( Price.arel_table[:type].not_eq('Price::Registration').and(
-                       Price.arel_table[:amount].gt(0)) ).order('amount DESC').first
   end
 
   def approximate_price_per_course

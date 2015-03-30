@@ -294,8 +294,6 @@ CoursAvenue::Application.routes.draw do
         resources :comments, only: [:index], controller: 'structures/comments', path: 'avis' do
           member do
             patch :highlight
-            patch :accept
-            patch :decline
             patch :ask_for_deletion
           end
           resources :comment_replies, controller: 'structures/comments/comment_replies' do

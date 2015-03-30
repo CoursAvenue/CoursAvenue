@@ -2,16 +2,6 @@
 module CoursesHelper
   include ActionView::Helpers::NumberHelper
 
-  def plain_price_range(course)
-    amounts = [ course.min_price, course.max_price ].uniq
-
-    if amounts.length > 1
-      "#{number_to_currency(amounts.min)} à #{number_to_currency(amounts.max)}"
-    else
-      "#{number_to_currency(amounts.min)}"
-    end
-  end
-
   # Returns
   #   Case lesson:              Mardi, Jeudi, Vendredi.
   #   Case training: Lundi 23 novembre, Mardi 24 novembre, ...

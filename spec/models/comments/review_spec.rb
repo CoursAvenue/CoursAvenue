@@ -165,16 +165,6 @@ describe Comment::Review do
     end
   end
 
-  describe '#decline!' do
-    subject { FactoryGirl.create(:comment_review) }
-
-    it 'accepts the comment' do
-      subject.decline!
-
-      expect(subject.status).to eq(:declined)
-    end
-  end
-
   describe '#ask_for_deletion!' do
     subject { FactoryGirl.create(:comment_review) }
 
@@ -199,12 +189,6 @@ describe Comment::Review do
     subject { FactoryGirl.create(:comment_review, status: 'accepted') }
 
     it { expect(subject.accepted?).to be_truthy }
-  end
-
-  describe '#pending?' do
-    subject { FactoryGirl.create(:comment_review, status: 'pending') }
-
-    it { expect(subject.pending?).to be_truthy }
   end
 
   describe '#declined?' do
