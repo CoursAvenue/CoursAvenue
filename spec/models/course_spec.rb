@@ -31,33 +31,6 @@ describe Course do
     end
   end
 
-  describe '#max_price' do
-    context 'without any price group' do
-      it 'returns nil' do
-        expect(subject.max_price).to be_nil
-      end
-    end
-
-    context 'with a price group' do
-      let(:price)       { FactoryGirl.create(:subscription, amount: 200) }
-      let(:price_group) { FactoryGirl.build(:price_group) }
-
-      before do
-        price_group.prices = [price]
-        price_group.structure = subject.structure
-        price_group.save
-
-        subject.price_group = price_group
-        subject.save
-      end
-
-      it 'returns the highest amount' do
-        expect(subject.max_price).to eq price.amount
-      end
-    end
-
-  end
-
   describe '#activate' do
     before(:each) do
       subject.active = false

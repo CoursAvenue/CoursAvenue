@@ -183,8 +183,6 @@ class Course < ActiveRecord::Base
       plannings.map(&:end_date).uniq.compact
     end
 
-    integer :max_price
-
     boolean :has_free_trial_lesson do
       self.has_free_trial_lesson?
     end
@@ -244,10 +242,6 @@ class Course < ActiveRecord::Base
     return (price_group.book_tickets.any? or prices.where(libelle: 'prices.individual_course').any?)
   end
   # :nocov:
-
-  def max_price
-    prices.where( Price.arel_table[:amount].gteq(0) ).order('amount DESC').first.try(:amount)
-  end
 
   def promotion_planning
     self.plannings.where.not( promotion: nil ).order('promotion ASC').first
@@ -365,10 +359,10 @@ class Course < ActiveRecord::Base
   #
   # @return nil
   def set_has_promotion
-    if self.prices.empty?
+    if (self.prices + self.price_group_prices).empty?
       self.update_column :has_promotion, false
-    elsif self.prices.order('promo_amount ASC NULLS LAST').first
-      self.update_column :has_promotion, !(self.prices.order('promo_amount ASC NULLS LAST').first.promo_amount).nil?
+    elsif (self.prices + self.price_group_prices).detect(&:promo_amount)
+      self.update_column :has_promotion, true
     end
     nil
   end
