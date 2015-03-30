@@ -7,6 +7,7 @@ FactoryGirl.define do
     user
     rating      4
     title       { Faker::Lorem.sentence(4) }
+    status      'accepted'
 
 
     after(:build) do |comment|
@@ -26,8 +27,5 @@ FactoryGirl.define do
       status 'accepted'
     end
 
-    factory :pending_comment do
-      status 'pending'
-    end
   end
 end

@@ -159,7 +159,7 @@ class Comment::Review < Comment
   #
   # @return nil
   def set_status
-    self.status = 'accepted'
+    self.status ||= 'accepted'
     nil
   end
 
