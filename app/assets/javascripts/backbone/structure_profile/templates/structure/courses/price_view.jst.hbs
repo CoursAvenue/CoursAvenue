@@ -5,11 +5,11 @@
     {{#if is_free}}
       <strong class="green">Gratuit{{#if is_registration}}e{{/if}}</strong>
     {{else}}
-      {{#if has_promotion}}
-        <span class="line-through">{{{ readable_amount }}}</span>
-        <strong class="green">{{{ readable_promo_amount }}}</strong>
+      {{#if readable_promo_amount}}
+          {{#if readable_amount}}<span class="line-through">{{{ readable_amount }}}</span>{{/if}}
+          <strong class="green">{{{ readable_promo_amount }}}</strong>
       {{else}}
-        {{{ readable_amount }}}
+          {{{ readable_amount }}}
       {{/if}}
     {{/if}}
 </td>
