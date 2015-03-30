@@ -172,8 +172,7 @@ $(function() {
     });
     // Responsive menu
     var showSideMenu = function showSideMenu () {
-        $(this).toggleClass('open');
-        $('#pro-side-menu').toggleClass('open');
+        $('body').toggleClass('side-menu-opened');
     }
     $('[data-behavior=toggle-responsive-menu]').on('touchstart', showSideMenu);
     $('[data-behavior=toggle-responsive-menu]').click(showSideMenu);
