@@ -1,13 +1,13 @@
 = side_menu_currently_at 'account'
-.panel
-  .panel__body
-    - if current_pro_admin.super_admin? and !@admin.confirmed?
-      .soft
-        .blue-box.soft.text--center
-          %h4.push-half--bottom Cet admin n'est pas actif
-          = link_to 'Activer', confirm_pro_admin_path(@admin), class: 'btn btn--large', method: :patch
 
-    = render partial: 'form'
+%h1 Mon compte
+- if current_pro_admin.super_admin? and !@admin.confirmed?
+  .soft
+    .blue-box.soft.text--center
+      %h4.push-half--bottom Cet admin n'est pas actif
+      = link_to 'Activer', confirm_pro_admin_path(@admin), class: 'btn btn--large', method: :patch
 
-    .soft
-      = link_to 'Supprimer mon compte', ask_for_deletion_pro_structure_path(@structure), class: 'red fancybox.ajax', data: { behavior: 'modal', padding: '0', width: 800 }
+= render partial: 'form'
+
+.soft
+  = link_to 'Supprimer mon compte', ask_for_deletion_pro_structure_path(@structure), class: 'red fancybox.ajax', data: { behavior: 'modal', padding: '0', width: 800 }

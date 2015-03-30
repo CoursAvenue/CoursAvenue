@@ -1,32 +1,31 @@
 = side_menu_currently_at 'share'
 
-.panel
-  = render partial: 'pro/structures/invited_teachers/tabs', locals: { current: 'new' }
-  .panel__body.soft
-    %h3 Invitez professeurs, associations et écoles sur CoursAvenue
-    .gray-box.soft.relative
-      = form_tag(bulk_create_pro_structure_invited_teachers_path(@structure), method: :post) do
-        .grid.push-half--bottom
-          .grid__item.two-twelfths.text--right>
-            %h4 À
-          .grid__item.ten-twelfths>
-            %textarea.input--large.one-whole{ name: 'emails', rows: 4, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: { behavior: 'autoresize' } }
-            %p.flush
-              %span.italic.blue{data: {behavior: 'tooltip', title: "Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi \"Informatique et Liberté\" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant." } }
-                %i.fa.fa-question-circle
-                Entrez les emails (gardés confidentiels) des professeurs que vous souhaitez inviter.
-        .grid
-          .grid__item.two-twelfths.text--right>
-            %h4 Message
-          .grid__item.ten-twelfths>
-            %textarea.input--large.one-whole{ name: 'text', rows: 8, data: {behavior: 'autoresize' } }
-              - if @structure.comments_count and @structure.comments_count > 0
-                Bonjour,&#x000A;&#x000A;J'ai publié gratuitement mon profil sur CoursAvenue, le 1er moteur de recherche de cours basé sur la géolocalisation et les recommandations des élèves. Je viens de recevoir les 1ers avis de mes élèves, je vous invite à créer votre profil : c'est gratuit, simple et rapide.
-              - else
-                Bonjour,&#x000A;&#x000A;J'ai publié gratuitement mon profil sur CoursAvenue, le 1er moteur de recherche de cours basé sur la géolocalisation et les recommandations des élèves. Je vous invite à créer votre profil : c'est gratuit, simple et rapide.
-            %p.gray-light.flush
-              À très bientôt,
-              %br
-              = @structure.name
-            .push-half--top.grid
-              .text--right.push-half--top= submit_tag 'Envoyer les invitations', class: 'btn btn--green', data: { disable_with: 'Envoi en cours' }
+= render partial: 'pro/structures/invited_teachers/tabs', locals: { current: 'new' }
+
+%h1 Invitez professeurs, associations et écoles sur CoursAvenue
+.gray-box.soft.relative
+  = form_tag(bulk_create_pro_structure_invited_teachers_path(@structure), method: :post) do
+    .grid.push-half--bottom
+      .grid__item.two-twelfths.text--right>
+        %h4 À
+      .grid__item.ten-twelfths>
+        %textarea.input--large.one-whole{ name: 'emails', rows: 4, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: { behavior: 'autoresize' } }
+        %p.flush
+          %span.italic.blue{data: {behavior: 'tooltip', title: "Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi \"Informatique et Liberté\" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant." } }
+            %i.fa.fa-question-circle
+            Entrez les emails (gardés confidentiels) des professeurs que vous souhaitez inviter.
+    .grid
+      .grid__item.two-twelfths.text--right>
+        %h4 Message
+      .grid__item.ten-twelfths>
+        %textarea.input--large.one-whole{ name: 'text', rows: 8, data: {behavior: 'autoresize' } }
+          - if @structure.comments_count and @structure.comments_count > 0
+            Bonjour,&#x000A;&#x000A;J'ai publié gratuitement mon profil sur CoursAvenue, le 1er moteur de recherche de cours basé sur la géolocalisation et les recommandations des élèves. Je viens de recevoir les 1ers avis de mes élèves, je vous invite à créer votre profil : c'est gratuit, simple et rapide.
+          - else
+            Bonjour,&#x000A;&#x000A;J'ai publié gratuitement mon profil sur CoursAvenue, le 1er moteur de recherche de cours basé sur la géolocalisation et les recommandations des élèves. Je vous invite à créer votre profil : c'est gratuit, simple et rapide.
+        %p.gray-light.flush
+          À très bientôt,
+          %br
+          = @structure.name
+        .push-half--top.grid
+          .text--right.push-half--top= submit_tag 'Envoyer les invitations', class: 'btn btn--green', data: { disable_with: 'Envoi en cours' }
