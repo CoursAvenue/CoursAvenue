@@ -17,7 +17,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             return COURSAVENUE.helperMethods.readableAmount(this.get('promo_amount'), this.get('promo_amount_type'));
         },
         readable_amount: function readable_amount () {
-            return COURSAVENUE.helperMethods.readableAmount(this.get('amount'));
+            return COURSAVENUE.helperMethods.readableAmount(this.get('amount'), '€');
         }
     });
 });
