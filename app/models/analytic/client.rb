@@ -1,5 +1,9 @@
 require 'google/api_client'
 
+# Docs:
+# * <https://github.com/tpitale/legato/wiki/OAuth2-and-Google>
+# * <https://github.com/tpitale/legato/wiki/Quick-Start>
+# * <https://gist.github.com/joost/5344705>
 class Analytic::Client
   APPLICATON_NAME    = 'CoursAvenue'
   APPLICATON_VERSION = '1'
@@ -11,7 +15,7 @@ class Analytic::Client
 
   def initialize
     @google_client = ::Google::APIClient.new(application_name:    APPLICATON_NAME,
-                                            application_version: APPLICATON_VERSION)
+                                             application_version: APPLICATON_VERSION)
 
     @key_path = ::Rails.root.join('config','analytics_key_file.p12').to_s
     @key = ::Google::APIClient::PKCS12.load_key(@key_path, ENV['GOOGLE_ANALYTICS_SERVICE_SECRET_KEY'])
