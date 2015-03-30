@@ -455,7 +455,6 @@ class Course < ActiveRecord::Base
     end
     nil
   end
-  handle_asynchronously :update_open_for_trial
 
   # Method for accepts_nested_attributes_for :prices
   # Tells if the price is valid regarding attributes passed
