@@ -4,19 +4,20 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
     Models.Price = Backbone.Model.extend({
         toJSON: function toJSON () {
             return _.extend(this.attributes, {
-                readable_amount: this.readable_amount()
+                has_promotion        : this.has_promotion(),
+                readable_amount      : this.readable_amount(),
+                readable_promo_amount: this.readable_promo_amount()
             });
         },
+        has_promotion: function readable_amount () {
+            return (this.get('promo_amount') && this.get('amount'));
+        },
+
+        readable_promo_amount: function readable_promo_amount () {
+            return COURSAVENUE.helperMethods.readableAmount(this.get('promo_amount'), this.get('promo_amount_type'));
+        },
         readable_amount: function readable_amount () {
-            if (this.get('promo_amount') && this.get('amount')) {
-                var string = COURSAVENUE.helperMethods.readableAmount(this.get('promo_amount'), this.get('promo_amount_type'));
-                string += ' au lieu de ' + COURSAVENUE.helperMethods.readableAmount(this.get('amount'));
-                return string;
-            } else if (this.get('promo_amount')) {
-                return COURSAVENUE.helperMethods.readableAmount(this.get('promo_amount'), this.get('promo_amount_type'));
-            } else {
-                return COURSAVENUE.helperMethods.readableAmount(this.get('amount'), this.get('promo_amount_type'));
-            }
+            return COURSAVENUE.helperMethods.readableAmount(this.get('amount'));
         }
     });
 });

@@ -12,7 +12,13 @@
                         {{#if min_price.is_free}}
                         <strong class="green delta v-bottom">Essai gratuit</strong>
                         {{else}}
-                        <span class="f-weight-500 gray-light v-bottom">À p. de </span><span class="gamma v-bottom">{{ min_price.readable_amount }}</span>
+                            <span class="f-weight-500 gray-light v-bottom">À p. de </span>
+                            {{#if min_price.has_promotion}}
+                                <span class="line-through epsilon">{{{ min_price.readable_amount }}}</span>
+                                <span class="green gamma">{{{ min_price.readable_promo_amount }}}</span>
+                            {{else}}
+                                <span class="gamma v-bottom">{{{ min_price.readable_amount }}}</span>
+                            {{/if}}
                         {{/if}}
                     </div>
                 {{/if}}
