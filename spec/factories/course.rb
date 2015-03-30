@@ -6,6 +6,7 @@ FactoryGirl.define do
 
     after(:build) do |course|
       course.subjects << course.structure.subjects.at_depth(2)
+      course.prices.build type: 'Price::Trial', amount: 0
     end
 
     active                      true
