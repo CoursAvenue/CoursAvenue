@@ -170,4 +170,11 @@ $(function() {
                             .addClass('absolute blog-article__legend one-whole soft--sides soft-half--ends bg-black-faded white south west transition-all-500');
         $this.after(div);
     });
+    // Responsive menu
+    var showSideMenu = function showSideMenu () {
+        $(this).toggleClass('open');
+        $('#pro-side-menu').toggleClass('open');
+    }
+    $('[data-behavior=toggle-responsive-menu]').on('touchstart', showSideMenu);
+    $('[data-behavior=toggle-responsive-menu]').click(showSideMenu);
 });

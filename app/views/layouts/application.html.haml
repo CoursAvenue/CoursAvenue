@@ -18,7 +18,7 @@
       = yield :after_ga
     = yield :head
     = favicon_link_tag
-    %link{ href: asset_path('favicon.ico'), rel: 'icon', type: 'image/ico' }
+    %link{ href: asset_path('favicon.ico'), rel: 'shortcut icon', type: 'image/ico' }
     %link{ href: asset_path('favicon.png'), rel: 'apple-touch-icon' }
     = javascript_include_tag 'modernizr' # MUST BE In the Head and before CSS
     = stylesheet_link_tag 'application', media: 'all'

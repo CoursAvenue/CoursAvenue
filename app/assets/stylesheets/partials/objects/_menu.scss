@@ -45,6 +45,35 @@
 .side-menu-width {
     width: 120px;
 }
+.side-menu-trigger {
+    // http://matthewlein.com/ceaser/
+    // easeOutExpo
+    @include transition(left 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+    &.open { left: 120px !important; }
+}
+.side-menu-wrapper {
+    @extend .side-menu-width;
+    @include media-query(palm) {
+        position    : absolute;
+        border-right: 1px solid darken($pro-header-color, 10%) !important;
+        top         : 0;
+        height      : 100%;
+        left        : -130px;
+        background  : $pro-header-color;
+        z-index     : 1;
+        @include transition(left 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+        .side-menu-link { color: white !important; }
+        li.active, li.active:hover {
+            .side-menu-link { color: #555555 !important; }
+        }
+        ul {
+            margin-left: 5px !important;
+        }
+        &.open {
+            left: 0;
+        }
+    }
+}
 .side-menu {
     right         : -1px;
     overflow      : hidden;

@@ -3,9 +3,12 @@
   - if @structure
     .darkgray-box.flexbox.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000, old_width: 'true' } }
       .main-container.flexbox
-        .flexbox__item.v-middle.soft--left
+        .flexbox__item.v-middle.soft--left.palm-text--center.relative
+          .visuallyhidden--lap-and-up
+            %a.cursor-pointer.west.absolute.white.side-menu-trigger{ data: { behavior: 'toggle-responsive-menu' } }
+              %i.fa.fa-menu.fa-2x
           = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
-        .flexbox__item.v-middle.text--right.soft--right
+        .flexbox__item.visuallyhidden--palm.v-middle.text--right.soft--right
           - if @structure.is_sleeping?
             - if current_pro_admin and current_pro_admin.super_admin?
               = link_to 'Supprimer ce profil', pro_structure_path(@structure), class: 'btn btn--red btn--small', data: { method: :delete, confirm: 'Êtes-vous sûr ?'}
@@ -110,7 +113,7 @@
     .main-container.soft--sides
       .flexbox.push-double--top
         - if content_for? :side_menu
-          %nav.flexbox__item.v-top.v-top.border-none--right.print--hidden.soft--top.side-menu-width.relative
+          %nav.flexbox__item.v-top.v-top.border-none--right.print--hidden.soft--top.relative.side-menu-wrapper#pro-side-menu
             .border-none--right.side-menu.side-menu-width.relative
               = yield :side_menu
         .flexbox__item.v-top
@@ -121,6 +124,6 @@
               = yield :top_menu
             .bg-white.bordered--left.bordered--right.bordered--right.bordered--bottom.soft--ends.soft-double--sides.shadowed--bottom.rounded--top.min-height-800
               %div{ class: (content_for?(:top_menu) ? 'push--top' : '') }= yield
-        .flexbox__item.v-top.wizard-container.relative.print--hidden
+        .flexbox__item.v-top.wizard-container.relative.print--hidden.visuallyhidden--palm
 
 = render :template => 'layouts/application'

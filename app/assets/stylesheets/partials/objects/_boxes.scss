@@ -88,8 +88,8 @@
 .darkgray-box {
     // border-top      : 1px solid #1D1D1D;
     border-bottom   : 1px solid #1D1D1D;
-    background-color: #575A5D;
-    @include background-image(linear-gradient(#575A5D, #4C4F50));
+    background-color: $pro-header-color;
+    @include background-image(linear-gradient($pro-header-color, #4C4F50));
 }
     .gray-box__footer {
         background: $pane-background-color;
