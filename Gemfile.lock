@@ -754,9 +754,6 @@ GEM
     sunspot (2.1.1)
       pr_geohash (~> 1.0)
       rsolr (~> 1.0.7)
-    sunspot-rails-tester (1.0.0)
-      sunspot_rails (>= 1.2)
-      sunspot_solr (>= 1.2)
     sunspot_rails (2.1.1)
       nokogiri
       rails (>= 3)
@@ -930,7 +927,6 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   sunspot (~> 2.1.1)
-  sunspot-rails-tester (~> 1.0.0)
   sunspot_rails (~> 2.1.1)
   sunspot_solr (~> 2.1.1)
   sunspot_test

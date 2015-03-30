@@ -205,7 +205,7 @@ group :production, :staging do
 end
 
 group :test do
-  gem 'sunspot-rails-tester', '~> 1.0.0'
+  # gem 'sunspot-rails-tester', '~> 1.0.0'
   gem 'rspec',                '~> 3.1.0'
   gem 'rspec-core',           '~> 3.1.7'
   gem 'simplecov',            '~> 0.9.1'
