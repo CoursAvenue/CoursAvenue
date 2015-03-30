@@ -8,7 +8,7 @@
 %li.push--bottom.hard--left{ class: class_name, id: "recommandation-#{comment.id}" }
   %article{ itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review' }
     .grid--full
-      .grid__item.two-twelfths.text--center>
+      .grid__item.palm-one-whole.two-twelfths.text--center>
         - if show_structure_logo
           = image_tag structure.logo.url(:thumb), height: (small_avatar ? 30 : 60), width: (small_avatar ? 30 : 60)
         - else
@@ -23,7 +23,7 @@
             .break-word (#{comment.email})
             = icon_rating(comment, 'fa-2x')
 
-      .grid__item.seven-twelfths>
+      .grid__item.palm-one-whole.seven-twelfths.push-half--bottom>
         - # User can share if:
         - #   - comment is accepted
         - #   - user is owner
@@ -59,7 +59,7 @@
               %i.fa.fa-eye
               Voir tous les avis du profil
 
-      .grid__item.three-twelfths.soft--left>
+      .grid__item.palm-one-whole.three-twelfths.soft--left.palm-hard>
         - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
           - if comment.user
             .very-soft--bottom

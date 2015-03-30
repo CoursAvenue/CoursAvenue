@@ -1,12 +1,12 @@
 - cache [@structure, 'structure_partial'] do
   .grid
-    .grid__item.two-tenths>
+    .grid__item.palm-one-whole.two-tenths>
       - if @structure.logo.present?
         = image_tag @structure.logo.url(:thumb)
       - else
         %p.text--center
           = link_to '', edit_pro_structure_path(@structure), style: 'width: 100px; height: 100px; background-color: #555555; padding-top: 28px; color: white; display: block;', class: 'fa fa-picture-o fa-3x rounded'
-    .grid__item.five-tenths.bordered--right.soft-half--right>
+    .grid__item.palm-one-whole.five-tenths.bordered--right.soft-half--right>
       %h5= @structure.name
       - if @structure.description.present?
         #structure-description-short= simple_format truncate(@structure.description, length: 300, separator: ' ')
@@ -19,6 +19,6 @@
           %br
           = link_to 'Ajouter ma description', edit_pro_structure_path(@structure)
 
-    .grid__item.three-tenths>
+    .grid__item.palm-one-whole.three-tenths>
       %h5 Disciplines pratiquées :
       = @structure_decorator.subjects_popover

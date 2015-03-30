@@ -15,7 +15,7 @@
 = render 'alerts'
 %h1 Tableau de bord
 .grid
-  .grid__item.one-half.bordered--right{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.profile_completion')} }>
+  .grid__item.palm-one-whole.one-half.bordered--right{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.profile_completion')} }>
     - cache "pro/structures/dashboard/completion/#{@profile_percentage}" do
       %h4.push-half--bottom Votre profil est complété à #{@profile_percentage}%
       .text--center.progress.push-half--bottom{style: "width: 280px;"}
@@ -60,7 +60,7 @@
             = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
               %i.fa.fa-square-o
               Renseigner mes cours et mon planning
-  .grid__item.one-half{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.recommendations')} }>
+  .grid__item.palm-one-whole.one-half{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.recommendations')} }>
     - cache [@structure, "pro/structures/dashboard/comments_completion/#{@structure.comments.accepted.count}"] do
       .soft--right
         %h4.push-half--bottom Vos avis
@@ -156,7 +156,7 @@
 
 %hr.push--ends
 .grid
-  .grid__item.one-third>
+  .grid__item.palm-one-whole.one-third>
     .islet.text--center
       %h4.flush
         %i.fa.fa-comment
@@ -166,7 +166,7 @@
         %br
         = link_to "Obtenir plus de recommandations", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
 
-  .grid__item.one-third>
+  .grid__item.palm-one-whole.one-third>
     .islet.text--center
       %h4.flush
         %i.fa.fa-list
@@ -175,7 +175,7 @@
         %span.beta{class: (@structure.courses.without_open_courses.count > 0 ? 'green' : 'red')}= @structure.courses.without_open_courses.count
         %br
         = link_to 'Ajouter des cours / stages', pro_structure_courses_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des cours')", class: 'btn btn--blue btn--small'
-  .grid__item.one-third>
+  .grid__item.palm-one-whole.one-third>
     .islet.text--center
       %h4.flush
         %i.fa.fa-youtube-play
@@ -185,14 +185,14 @@
         %br
         = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')", class: 'btn btn--blue btn--small'
 
-  %hr.push--ends
-  %h4
-    %i.fa.fa-map-marker
-    Mes lieux d'enseignement
+%hr.push--ends
+%h4
+  %i.fa.fa-map-marker
+  Mes lieux d'enseignement
 
-  #map.google-map
-  .text--center
-    = link_to "Ajouter un lieu", pro_structure_places_path(@structure), class: 'btn btn--blue push-half--ends'
+#map.google-map
+.text--center
+  = link_to "Ajouter un lieu", pro_structure_places_path(@structure), class: 'btn btn--blue push-half--ends'
 
 - if @comments.length > 0
   %hr.push--ends
@@ -281,7 +281,7 @@
     %i.fa.fa-youtube-play
     Mes photos & vidéos
   - @medias.each_with_index do |media, index|
-    .soft-half.inline-block.one-third.v-top>
+    .soft-half.inline-block.one-third.palm-one-whole.v-top>
       - cache [media, 'pro/structure/dashboard/medias'] do
         = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, show: true }
 

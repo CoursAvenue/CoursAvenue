@@ -15,6 +15,9 @@
 .message__appendix {
     position: relative;
     &:before, &:after {
+        @include media-query(palm) {
+            display: none;
+        }
         left      : -9px;
         top       : 11px;
         position  : absolute;
