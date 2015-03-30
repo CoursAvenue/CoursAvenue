@@ -5,7 +5,7 @@ class Comment::Review < Comment
   friendly_id :unique_token, use: [:slugged, :finders]
 
   attr_accessible :author_name, :email, :rating, :title, :course_name, :deletion_reason, :subjects, :subject_ids,
-                  :associated_message_id, :certified
+                  :associated_message_id, :certified, :status
 
   # A comment has a status which can be one of the following:
   #   - accepted

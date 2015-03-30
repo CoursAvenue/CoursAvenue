@@ -191,12 +191,6 @@ describe Comment::Review do
     it { expect(subject.accepted?).to be_truthy }
   end
 
-  describe '#declined?' do
-    subject { FactoryGirl.create(:comment_review, status: 'declined') }
-
-    it { expect(subject.declined?).to be_truthy }
-  end
-
   describe '#highlighted?' do
     subject         { FactoryGirl.create(:comment_review) }
     let(:structure) { subject.commentable }
