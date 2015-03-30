@@ -121,6 +121,6 @@ class Media < ActiveRecord::Base
 
   # Reindex structure because we keep track of its media count
   def index_structure
-    self.mediable.delay.index if self.mediable
+    self.mediable.delay.index if self.mediable and self.mediable.is_a? Structure
   end
 end

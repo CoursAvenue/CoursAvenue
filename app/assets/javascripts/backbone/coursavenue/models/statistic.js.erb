@@ -9,6 +9,16 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
          * Save Statistic to server with POST request
          */
         logStat: function logStat (structure_id, action_type, params) {
+            //Temporary, to gather data for testing.
+            var metricTypes = ['impression', 'view', 'action']
+            var metricIndex = metricTypes.indexOf(action_type) + 1;
+
+            if (metricIndex < 0 || metricIndex > metricTypes.length + 1) {
+                ga('set', 'dimension1', structure_id);
+                ga('set', 'metric' + metricIndex, 1);
+                ga('send', 'event', 'category', 'action');
+            }
+
             return; // STOPPING METRICS TODO: do something about it.
             params = params || {};
             if (<%= Metric::ACTION_TYPES %>.indexOf(action_type) === -1) {
