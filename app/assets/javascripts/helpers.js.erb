@@ -64,7 +64,7 @@ COURSAVENUE.helperMethods = {
             return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
         },
         any: function any () {
-            return (COURSAVENUE.helperMethods.Android() || COURSAVENUE.helperMethods.BlackBerry() || COURSAVENUE.helperMethods.iOS() || COURSAVENUE.helperMethods.Opera() || COURSAVENUE.helperMethods.Windows());
+            return (COURSAVENUE.helperMethods.isMobile.Android() || COURSAVENUE.helperMethods.isMobile.BlackBerry() || COURSAVENUE.helperMethods.isMobile.iOS() || COURSAVENUE.helperMethods.isMobile.Opera() || COURSAVENUE.helperMethods.isMobile.Windows());
         }
     },
     // Test links that should be matched
