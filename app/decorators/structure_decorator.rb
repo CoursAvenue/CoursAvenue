@@ -1,5 +1,9 @@
 class StructureDecorator < Draper::Decorator
 
+  def structure_type
+    I18n.t(object.structure_type) if object.structure_type.present? and object.structure_type != 'object.structure_type'
+  end
+
   def all_subjects_slugs
     root_subject_slugs     = object.parent_subjects_string.split(';').map{|string| string.split(':')}.map(&:last)
     children_subject_slugs = object.subjects_string.split(';').map{|string| string.split(':')}.map(&:last)
