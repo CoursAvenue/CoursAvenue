@@ -49,34 +49,30 @@
             <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">Plus de détails <i class="fa fa-caret-down"></i></a>
         </div>
     </div>
-    <div class="flexbox push--bottom course-{{id}}-know-more hidden">
-        <div class="flexbox__item v-top one-fifth">
-            <strong class="gray-light">Description</strong>
-        </div>
-        <div class="flexbox__item v-top four-fifths">
-            {{#if description}}
+    {{#unlessBlank description}}
+        <div class="flexbox push--bottom course-{{id}}-know-more hidden">
+            <div class="flexbox__item v-top one-fifth">
+                <strong class="gray-light">Description</strong>
+            </div>
+            <div class="flexbox__item v-top four-fifths">
                 {{#ifCond description '!=' description_short}}
-                <div id="course-{{id}}-description-short" class="gray last-p-push-half--bottom">
+                <div id="course-{{id}}-description-short" class="gray last-p-flush">
                     {{{ simple_format_hide_contacts description_short }}}
                 </div>
                 <a href="#" data-behavior="show-long-version" data-short-version="#course-{{id}}-description-short" data-long-version="#course-{{id}}-description-long">
                 + Plus
                 </a>
-                <div id="course-{{id}}-description-long" class="gray hidden" itemprop="description">
+                <div id="course-{{id}}-description-long" class="gray last-p-flush hidden" itemprop="description">
                     {{{ simple_format_hide_contacts description }}}
                 </div>
                 {{else}}
-                <div class="gray" itemprop="description">
+                <div class="gray last-p-flush" itemprop="description">
                     {{{ simple_format_hide_contacts description }}}
                 </div>
                 {{/ifCond}}
-            {{else}}
-                <div class="gray" itemprop="description">
-                    Pas de description
-                </div>
-            {{/if}}
+            </div>
         </div>
-    </div>
+    {{/unlessBlank}}
     <div class="flexbox push--bottom course-{{id}}-know-more hidden">
         <div class="flexbox__item v-top one-fifth">
             <strong class="gray-light v-middle">Tarifs</strong>

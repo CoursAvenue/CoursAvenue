@@ -89,14 +89,14 @@ COURSAVENUE.helperMethods = {
      * Transform 14.0 into 14 or 14.5 into 14,50
      * @params amount String or Int or Float that represent an amount
      */
-    readableAmount: function readableAmount (amount) {
+    readableAmount: function readableAmount (amount, amount_type) {
         if (_.isUndefined(amount) || _.isNull(amount)) { return '' };
         string_amount = amount.toString();
         string_amount =  string_amount.replace('.0', '').replace('.00', '').replace('.5', ',50');
         if (string_amount == '0') {
             string_amount = 'Gratuit'
         } else {
-            string_amount = string_amount + '€'
+            string_amount = string_amount + (amount_type || '€')
         }
         return string_amount;
     }

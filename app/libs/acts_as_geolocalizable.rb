@@ -14,7 +14,7 @@ module ActsAsGeolocalizable
     end
 
     def geocoder_address
-      [street, zip_code, city.try(:name), 'France'].compact.join(', ')
+      [street, zip_code, 'France'].compact.join(', ')
     end
   end
 end

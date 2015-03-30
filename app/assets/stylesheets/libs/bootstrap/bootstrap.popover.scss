@@ -117,3 +117,7 @@
   border-left-color: #ffffff;
   bottom: -10px;
 }
+
+.popover.bottom.left > .arrow {
+  display: none;
+}

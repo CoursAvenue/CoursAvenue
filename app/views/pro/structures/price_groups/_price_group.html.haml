@@ -36,8 +36,6 @@
               %td.text--center= readable_amount(price.amount) if price.amount
               %td.text--center
                 - if price.promo_amount
-                  - if @structure.premium?
-                    %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que pour les profils Premium : cliquez pour en savoir plus." } }
                   = readable_amount(price.promo_amount) if price.promo_amount
                 - else
                   = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' } do
@@ -51,8 +49,6 @@
               %td.text--center= readable_amount(price.amount) if price.amount
               %td.text--center
                 - if price.promo_amount
-                  - if @structure.premium?
-                    %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que pour les profils Premium : cliquez pour en savoir plus." } }
                   = readable_amount(price.promo_amount) if price.promo_amount
                 - else
                   = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' } do
@@ -85,10 +81,7 @@
 
           - price_group.premium_offers.each do |price|
             %tr
-              %td
-                - if @structure.premium?
-                  %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que pour les profils Premium : cliquez pour en savoir plus." } }
-                = t(price.libelle)
+              %td= t(price.libelle)
               %td
               %td.text--center= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
               %td= price.info
@@ -96,10 +89,7 @@
 
           - price_group.discounts.each do |price|
             %tr
-              %td
-                - if @structure.premium?
-                  %i.fa.fa-star.yellow{ data: { behavior: 'tooltip', title: "Ne s'affiche que pour les profils Premium : cliquez pour en savoir plus." } }
-                = t(price.libelle)
+              %td= t(price.libelle)
               %td
               %td.text--center= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
               %td= price.info

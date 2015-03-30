@@ -4,7 +4,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         template: Module.templateDirname() + 'request_form_view',
         message_failed_to_send_template: Module.templateDirname() + 'message_failed_to_send',
 
-        className: 'panel center-block push--bottom',
+        className: 'panel center-block',
 
         ui: {
             '$message_sent'                           : '[data-type=message-sent]',

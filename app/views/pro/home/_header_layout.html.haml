@@ -5,7 +5,8 @@
 .main-container.relative.hard
   .absolute.north.east.on-top-of-the-world.f-weight-bold.visuallyhidden--palm
     .bg-black-faded.rounded.rounded-top--none.inline-block.push--right
-      %a.inline-block.soft--left.soft-half--ends.muted-link.push--right.white-faded{ href: 'mailto:contact@coursavenue.com' } contact@coursavenue.com
+      = link_to pages_contact_url, class: 'inline-block soft--left soft-half--ends muted-link push--right white-faded', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN do
+        = image_tag 'pro/email_image.png', height: 11, width: 163
       %a.inline-block.soft--right.soft-half--ends.muted-link.white-faded{ href: 'tel:09 82 24 27 74' }
         %i.fa.fa-phone
         09 82 24 27 74
@@ -18,7 +19,7 @@
       = link_to 'Connexion', new_pro_admin_session_path, class: 'white muted-link fancybox.ajax', data: { behavior: 'modal', width: '320', padding: 0 }
 
 .one-whole.relative.overflow-hidden{ class: (full ? 'full-screen-item' : '')}
-  %div.home-page-fullscreen-video.bg-cover.bg-position-top.header--pro__background{ class: (bg_center ? 'bg-position-center' : ''), data: { behavior: 'parallax' } }
+  %div.home-page-fullscreen-video.bg-cover.bg-position-top.header--pro__background{ class: (bg_center ? 'bg-position-center' : '') }
     .black-curtain.north.west.one-whole.absolute
   .push--top.soft--ends.hard--bottom.palm-hard
     .text--right.soft-half--ends.transition-all-linear#sticky-header
@@ -30,8 +31,6 @@
       %a.block.not-outlined.white{ href: '#en-savoir-plus', data: { behavior: 'scroll-to', duration: 900, offset_top: '-50'} }
         %i.fa.fa-chevron-down.fa-3x.smooth-black-text-shadow.animated-arrow-1.block
         %i.fa.fa-chevron-down.fa-3x.smooth-black-text-shadow.animated-arrow-2.block
-
-
 
 - content_for :scripts do
   :javascript

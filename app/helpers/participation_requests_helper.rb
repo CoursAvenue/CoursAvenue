@@ -19,7 +19,7 @@ module ParticipationRequestsHelper
     # Date format
     #  <span class="_end">11-05-2012 11:38:46</span>
     link = <<-eos
-    <a href="#{user_participation_requests_path(current_user)}" title="Ajouter à mon calendrier" class="addthisevent v-middle">
+    <a href="#{user_participation_requests_path(@user)}" title="Ajouter à mon calendrier" class="addthisevent v-middle">
         <div class="date">
           <span class="mon">#{t('date.abbr_month_names')[participation_request.date.month].upcase.gsub('.', '')}</span>
           <span class="day">#{participation_request.date.day}</span>
@@ -56,7 +56,7 @@ module ParticipationRequestsHelper
     # Date format
     #  <span class="_end">11-05-2012 11:38:46</span>
     link = <<-eos
-    <a href="#{user_participation_requests_path(current_user)}" title="Ajouter à mon calendrier" class="addthisevent v-middle calendar--small">
+    <a href="#{user_participation_requests_path(@user)}" title="Ajouter à mon calendrier" class="addthisevent v-middle calendar--small">
         <div class="date">
           <span class="mon">#{t('date.abbr_month_names')[participation_request.date.month].upcase.gsub('.', '')}</span>
           <span class="day">#{participation_request.date.day}</span>
@@ -84,7 +84,7 @@ module ParticipationRequestsHelper
     # Date format
     #  <span class="_end">11-05-2012 11:38:46</span>
     link = <<-eos
-    <a href="#{user_participation_requests_path(current_user)}" title="Ajouter à mon calendrier" class="addthisevent v-middle calendar--plain">
+    <a href="#{user_participation_requests_path(@user)}" title="Ajouter à mon calendrier" class="addthisevent v-middle calendar--plain">
         #{link_text}
         <span class="_start">#{l(participation_request.date)} #{l(participation_request.start_time, format: :default_only_time)}</span>
         <span class="_end">#{l(participation_request.date)} #{l(participation_request.end_time, format: :default_only_time)}</span>

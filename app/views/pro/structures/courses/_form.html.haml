@@ -39,9 +39,6 @@
                 %i.fa.fa-plus
                 Ajouter des disciplines à mon profil
 
-
-
-
         - if @course.is_lesson? or @course.is_private?
           - @course.prices.build(type: 'Price::Trial', amount: 0) if @course.prices.empty?
         - else

@@ -227,9 +227,10 @@
               %td
                 - if course.plannings.count > 1
                   = "#{course.plannings.count} créneaux"
-                - else
+                - elsif course.plannings.any?
                   1 créneau
-                = "(#{course.plannings.ordered_by_day.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
+                - unless course.plannings.empty?
+                  = "(#{course.plannings.ordered_by_day.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
 
   - if @courses.trainings.any?
     %h5 Stages
@@ -246,9 +247,10 @@
               %td
                 - if course.plannings.count > 1
                   = "#{course.plannings.count} créneaux"
-                - else
+                - elsif course.plannings.any?
                   1 créneau
-                = "(#{course.plannings.ordered_by_day.map{ |planning| l(planning.start_date) }.join(', ')})"
+                - unless course.plannings.empty?
+                  = "(#{course.plannings.ordered_by_day.map{ |planning| l(planning.start_date) }.join(', ')})"
 
   - if @courses.privates.any?
     %h5 Cours particuliers

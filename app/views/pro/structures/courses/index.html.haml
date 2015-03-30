@@ -8,46 +8,6 @@
   .flexbox__item.v-middle.text--right{ class: (@structure.courses.without_open_courses.any? ? '' : 'hidden'), data: { add_course: true } }
     = render partial: 'pro/structures/courses/add_activity_button'
 
-- if @structure.courses.without_open_courses.any?
-  %h4 Définissez le nombre de cours d'essai par personne
-
-  = simple_form_for [:pro, @structure], remote: true, data: { behavior: 'live-form' } do |f|
-    .grid.epsilon.push-half--bottom
-      .grid__item.text--right.two-tenths>
-      .grid__item.four-tenths>
-        %strong Nombre de cours d'essai par personne
-      .grid__item.four-tenths>
-        %strong % de conversion en élèves réguliers (statistiques)
-    .grid.epsilon.push-half--bottom
-      .grid__item.text--right.two-tenths>
-        %input.inline-block.v-middle#trial_courses_policy_0_trial{ type: 'radio', value: '', name: 'structure[trial_courses_policy]', checked: @structure.trial_courses_policy.blank? }
-      .grid__item.four-tenths>
-        %label.inline-block.v-middle{ for: 'trial_courses_policy_0_trial' } Je n'offre pas de cours d'essai
-    .grid.epsilon.push-half--bottom
-      .grid__item.text--right.two-tenths>
-        %input.inline-block.v-middle#trial_courses_policy_1_trial{ type: 'radio', value: '1_trial', name: 'structure[trial_courses_policy]', checked: @structure.trial_courses_policy == '1_trial'}
-      .grid__item.four-tenths>
-        %label.inline-block.v-middle{ for: 'trial_courses_policy_1_trial' }= t('structures.trial_courses_policy.1_trial')
-      .grid__item.four-tenths>
-        %p.flush
-          %label.inline-block.v-middle{ for: 'trial_courses_policy_1_trial' }= t('structures.trial_courses_policy.1_trial_advantage_html')
-    .grid.epsilon.push-half--bottom
-      .grid__item.text--right.two-tenths>
-        %input.inline-block.v-middle#trial_courses_policy_2_trials{ type: 'radio', value: '2_trials', name: 'structure[trial_courses_policy]', checked: @structure.trial_courses_policy == '2_trials'}
-      .grid__item.four-tenths>
-        %label.inline-block.v-middle{ for: 'trial_courses_policy_2_trials' }= t('structures.trial_courses_policy.2_trials')
-      .grid__item.four-tenths>
-        %p.flush
-          %label.inline-block.v-middle{ for: 'trial_courses_policy_2_trials' }= t('structures.trial_courses_policy.2_trials_advantage_html')
-    .grid.epsilon.push-half--bottom
-      .grid__item.text--right.two-tenths>
-        %input.inline-block.v-middle#trial_courses_policy_3_trials{ type: 'radio', value: '3_trials', name: 'structure[trial_courses_policy]', checked: @structure.trial_courses_policy == '3_trials'}
-      .grid__item.four-tenths>
-        %label.inline-block.v-middle{ for: 'trial_courses_policy_3_trials' }= t('structures.trial_courses_policy.3_trials')
-      .grid__item.four-tenths>
-        %p.flush
-          %label.inline-block.v-middle{ for: 'trial_courses_policy_3_trials' }= t('structures.trial_courses_policy.3_trials_advantage_html')
-
 #trainings-header.bg-white.soft--top.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 35, z: 500, old_width: 'true' } }
   %h3{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } } Stages & ateliers
 #training-list

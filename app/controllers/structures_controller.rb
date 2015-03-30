@@ -78,9 +78,7 @@ class StructuresController < ApplicationController
     # if !current_pro_admin
     #   Metric.delay(queue: 'metric').view(@structure.id, current_user, cookies[:fingerprint], request.ip)
     # end
-    if @structure.is_sleeping?
-      @similar_profiles = @structure.similar_profiles(21)
-    end
+    @similar_profiles = @structure.similar_profiles(18)
     @medias = @structure.medias.cover_first.videos_first
     @model = StructureShowSerializer.new(@structure, {
       structure:          @structure,

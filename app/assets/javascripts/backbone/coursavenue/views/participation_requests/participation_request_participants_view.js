@@ -27,7 +27,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             // Reject registration prices
             var prices = _.union(course.prices, course.price_group_prices);
             var prices = _.reject(prices, function(price) {
-                return _.isNull(price) || price.is_registration;
+                return _.isNull(price) || price.is_registration || price.promo_amount_type == '%';
             });
             this.prices_collection.reset(prices);
             this.render();

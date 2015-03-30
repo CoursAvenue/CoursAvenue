@@ -550,9 +550,13 @@
 /*------------------------------------*\
     TRANSITIONS
 \*------------------------------------*/
-.transition-all-300 { @include transition(all .3s ease-in-out); }
-.transition-all-500 { @include transition(all .5s ease-in-out); }
-.transition-all-900 { @include transition(all .9s ease-in-out); }
+// http://matthewlein.com/ceaser/
+// easeOutExpo
+// @include transition(left 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+
+.transition-all-300 { @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
+.transition-all-500 { @include transition(all 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
+.transition-all-900 { @include transition(all 900ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
 
 .rotate-on-hover__wrapper {
     &:hover .rotate-on-hover__child {

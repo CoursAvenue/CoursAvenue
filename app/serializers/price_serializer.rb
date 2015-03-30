@@ -1,8 +1,8 @@
 class PriceSerializer < ActiveModel::Serializer
   include PricesHelper
 
-  # cached
-  # delegate :cache_key, to: :object
+  cached
+  delegate :cache_key, to: :object
 
   attributes :id, :libelle, :amount, :info, :promo_percentage, :promo_amount, :promo_amount_type,
              :libelle_type, :is_free, :discount, :is_registration
@@ -45,7 +45,7 @@ class PriceSerializer < ActiveModel::Serializer
   end
 
   def is_free
-    return (object.amount.nil? or object.amount == 0)
+    return object.free?
   end
 
   def is_registration

@@ -6,51 +6,6 @@ include ConversationsHelper
 namespace :scheduler do
   namespace :admins do
 
-    # Structure without logo neither description
-    # $ rake scheduler:admins:send_reminder
-    # Email sent on monday
-    desc 'Send email to admins for inactivity'
-    task :send_reminder => :environment do |t, args|
-      if (Date.today.cweek % 2 == 1) and Time.now.monday?
-        Structure.all.map do |structure|
-          StructureReminder.status(structure)
-        end
-      end
-    end
-
-    # Email sent on thursday
-    # $ rake scheduler:admins:remind_for_pending_comments
-    desc 'Send email to admins that have pending comments'
-    task :remind_for_pending_comments => :environment do |t, args|
-      if Time.now.wednesday?
-        Comment::Review.pending.map(&:structure).uniq.map do |structure|
-          StructureReminder.pending_comments(structure)
-        end
-      end
-    end
-
-    # Email sent on thursday
-    # $ rake scheduler:admins:remind_for_widget
-    desc 'Send email to admins that have access to the widget'
-    task :remind_for_widget => :environment do |t, args|
-      if Time.now.friday?
-        Structure.where(Structure.arel_table[:comments_count].gteq(5)).map do |structure|
-          StructureReminder.widget(structure)
-        end
-      end
-    end
-
-    # Email sent on thursday
-    # $ rake scheduler:admins:remind_for_planning_outdated
-    desc 'Send email to admins that have access to the widget'
-    task :remind_for_planning_outdated => :environment do |t, args|
-      if Time.now.thursday?
-        Structure.all.map do |structure|
-          StructureReminder.outdated_planning(structure)
-        end
-      end
-    end
-
     ######################################################################
     # For user requests                                                  #
     ######################################################################

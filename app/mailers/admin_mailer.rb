@@ -166,17 +166,6 @@ class AdminMailer < ActionMailer::Base
     mail to: @structure.main_contact.email, subject: "Votre suppression d'avis a bien été prise en compte"
   end
 
-  def remind_for_pending_comments(structure)
-    @structure  = structure
-    return if @structure.main_contact.nil?
-    mail to: @structure.main_contact.email,
-         subject: "Vous avez #{@structure.comments.pending.count} avis en attente de validation"
-  end
-
-  def remind_for_widget(structure)
-    @structure  = structure
-    mail to: @structure.main_contact.email, subject: "Vous avez accès à votre livre d'or"
-  end
   ######################################################################
   # The End                                                            #
   ######################################################################
@@ -189,29 +178,15 @@ class AdminMailer < ActionMailer::Base
   #   mail to: structure.main_contact.email, subject: "J-5 avant vos Portes Ouvertes : annoncez la dernière ligne droite !"
   # end
 
-  def incomplete_profile(structure)
-    return if structure.is_sleeping?
-    @structure  = structure
-    mail to: structure.main_contact.email,
-         subject: 'Votre profil 7 fois plus visible'
-  end
-
-  def planning_outdated(structure)
-    return if structure.is_sleeping?
-    @structure        = structure
-    @similar_profiles = @structure.similar_profiles(2, { has_admin: true })
-    mail to: structure.main_contact.email,
-         subject: "Votre profil n'affiche pas de cours"
-  end
   ######################################################################
   # The End                                                            #
   ######################################################################
 
   def no_more_active_courses(structure)
-    @structure        = structure
-    @similar_profiles = @structure.similar_profiles(2, { has_admin: true })
-    mail to: structure.main_contact.email,
-         subject: "Votre profil n'affiche plus de cours"
+    # @structure        = structure
+    # @similar_profiles = @structure.similar_profiles(2, { has_admin: true })
+    # mail to: structure.main_contact.email,
+    #      subject: "Votre profil n'affiche plus de cours"
   end
 
   def take_control_of_your_account(structure, email=nil)

@@ -9,6 +9,7 @@
     border-color    : transparentize($black, 0.25);
     .search-input-wrapper{
         border: 1px solid #DDD;
+        &:first-child{ border-right: 2px solid #DDD; }
     }
     .search-input-wrapper {
         border-right: none;

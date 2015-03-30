@@ -422,18 +422,6 @@ class Structure < ActiveRecord::Base
   # Also cache by slug, since we often access a structure by its slug with FriendlyId.
   cache_index :slug, unique: true
 
-  # Update the email status of the structure
-  def update_email_status
-    email_status = nil
-    if !self.profile_completed? or self.comments.empty? or self.courses.without_open_courses.empty? or self.medias.empty?
-      email_status = 'incomplete_profile'
-    else
-      email_status = nil
-    end
-    update_column :email_status, email_status
-    return email_status
-  end
-
   # :nocov:
   def places_around(latitude, longitude, radius=3.5)
     places.reject do |place|

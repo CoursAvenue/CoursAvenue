@@ -28,12 +28,11 @@
             %i.fa.fa-plus
             Ajouter un numéro de téléphone
 
-  %hr.push--ends
-  .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts.sms') } }
-    %h5 Alertes SMS
+  %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts.sms') } }
     .grid
       .grid__item.one-quarter>
-        .label--large.hard--top
+        .label--large.text--right
+          Alertes SMS
       .grid__item.three-quarters>
         .checkbox-at-left
           = form.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large nowrap hard--bottom' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, label: 'Recevoir un SMS à chaque nouvel inscrit au '

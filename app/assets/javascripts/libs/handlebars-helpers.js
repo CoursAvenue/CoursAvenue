@@ -189,3 +189,12 @@ Handlebars.registerHelper('if_string_length_is_more_than', function(string, leng
     return string.length > length ? options.fn(this) : options.inverse(this)
 });
 
+// usage: {{#ifBlank description}}/*...*/{{/ifBlank}}
+Handlebars.registerHelper('ifBlank', function (content, options) {
+    return (_.isUndefined(content) || content.trim().length == 0) ? options.fn(this) : options.inverse(this);
+});
+
+// usage: {{#unlessBlank description}}/*...*/{{/unlessBlank}}
+Handlebars.registerHelper('unlessBlank', function (content, options) {
+    return (_.isUndefined(content) || content.trim().length == 0) ? options.inverse(this) : options.fn(this);
+});

@@ -225,7 +225,7 @@ class UsersController < InheritedResources::Base
       end
     else
       User::Wizard.all.each do |wizard|
-        unless wizard.completed?.call(current_user)
+        unless wizard.completed?.call(@user)
           session[:current_wizard_id] = wizard.id
           return wizard
         end

@@ -13,6 +13,7 @@
   $('#start-date').change(function() {
       if ($('#start-date').val().length > 0) {
           $('#end-date').attr('placeholder', $('#start-date').val());
+          $('#end-date').datepicker('setStartDate', $('#start-date').datepicker('getDate'));
       }
   });
   $('#start-date').change();

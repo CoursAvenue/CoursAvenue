@@ -1,5 +1,5 @@
 - structure_decorator = @structure.decorate
-.bg-white.bordered
+.bg-white.bordered.push--bottom
   .soft
     .grid
       - if @structure.logo.present?
@@ -15,7 +15,7 @@
         - @structure.subjects.group_by(&:root).each do |root_subject, subjects|
           %h3.flush.very-soft--bottom.f-weight-normal.f-size-12.text-ellipsis
             %i.fa{ class: "fa-#{root_subject.slug}" }
-            %strong= root_subject.name
+            %strong= "#{root_subject.name} : "
             = subjects.map(&:name).join(', ')
 
   .soft.bordered--top
@@ -40,3 +40,6 @@
       .inline-block.one-half.very-soft.relative>
         - cache ['sleeping_content', structure] do
           = render partial: "structures/similar_profile", locals: { structure: structure }
+  #structure-region.hidden
+  #avis
+    .soft--bottom{ data: { type: "guestbook-collection" } }

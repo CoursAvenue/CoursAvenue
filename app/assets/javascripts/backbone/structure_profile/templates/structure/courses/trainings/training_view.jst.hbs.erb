@@ -1,7 +1,9 @@
 <div class="{{#unless is_last}}bordered--bottom{{/unless}}">
     <div class="grid soft-half--ends">
         <div class="grid__item v-top four-twelfths palm-one-whole">
-            <h3 data-behavior="excite-markers" class="bg-gray-light soft-half text--center bordered line-height-1-7 v-middle flush delta">{{ name }}</h3>
+            <h3 data-behavior="excite-markers" class="bg-gray-light text--center bordered line-height-1-7 v-middle flush delta">
+                <a data-behavior="register-to-course" class="block muted-link cursor-pointer hoverable soft-half transition-all-300">{{ name }}</a>
+            </h3>
         </div><!--
      --><div class="grid__item v-top eight-twelfths palm-one-whole">
             <div class="float--right">
@@ -31,7 +33,7 @@
         </div>
     </div>
     <div class="course-{{id}}-know-more hidden">
-        {{#if description}}
+        {{#unlessBlank description}}
           <div class="grid soft-half--ends">
               <div class="grid__item v-top four-twelfths palm-one-whole">
                   <strong class="gray-light">Description</strong>
@@ -39,23 +41,23 @@
            --><div class="grid__item v-top eight-twelfths palm-one-whole">
 
                     {{#ifCond description '!=' description_short}}
-                    <div id="course-{{id}}-description-short" class="gray last-p-push-half--bottom">
+                    <div id="course-{{id}}-description-short" class="gray last-p-flush">
                         {{{ simple_format_hide_contacts description_short }}}
                     </div>
                     <a href="#" data-behavior="show-long-version" data-short-version="#course-{{id}}-description-short" data-long-version="#course-{{id}}-description-long">
                     + Plus
                     </a>
-                    <div id="course-{{id}}-description-long" class="gray hidden" itemprop="description">
+                    <div id="course-{{id}}-description-long" class="gray last-p-flush hidden" itemprop="description">
                         {{{ simple_format_hide_contacts description }}}
                     </div>
                     {{else}}
-                    <div class="gray" itemprop="description">
+                    <div class="gray last-p-flush" itemprop="description">
                         {{{ simple_format_hide_contacts description }}}
                     </div>
                     {{/ifCond}}
                 </div>
             </div>
-        {{/if}}
+        {{/unlessBlank}}
         <div class="grid soft-half--ends">
             <div class="grid__item v-top four-twelfths palm-one-whole">
                 <strong class="gray-light">Tarifs</strong>

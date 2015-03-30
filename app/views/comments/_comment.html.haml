@@ -66,18 +66,8 @@
       .grid__item.three-twelfths.soft--left>
         - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
           - if comment.user
-            - if comment.associated_message_id
-              - message = Mailboxer::Message.find comment.associated_message_id
-              .very-soft--bottom
-                -# = link_to 'Répondre', pro_structure_conversation_path(structure, message.conversation, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(structure).id] }), class: 'btn btn--small btn--green btn--full fancybox.ajax', data: {  toggle: 'tooltip', behavior: 'modal', width: '780', padding: 0 }, title: "Répondre par un message privé à #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')"
-                = link_to 'Répondre', new_pro_structure_comment_comment_reply_path(structure, comment), class: "#{(comment.reply.nil? ? '' : 'hidden')} btn btn--small btn--full btn--green fancybox.ajax", data: { toggle: 'tooltip', title: 'Répondre par un commentaire qui sera affiché sur mon profil public', behavior: 'modal', width: '700', padding: 0 }, id: "comment-reply-button-#{comment.id}"
-
-
-            - else
-              .very-soft--bottom
-                = link_to new_pro_structure_message_path(structure, return_to: request.fullpath, message: { subject: "Merci beaucoup pour ta recommandation", recipients: [comment.user.user_profile_for(structure).id] }), class: 'btn btn--small btn--green btn--full fancybox.ajax', data: {  toggle: 'tooltip', behavior: 'modal', width: '780' }, title: "Répondre par un message privé à #{comment.author_name}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
-                  %i.fa.fa-envelope-o.v-middle
-                  %span.v-middle Message privé
+            .very-soft--bottom
+              = link_to 'Répondre', new_pro_structure_comment_comment_reply_path(structure, comment), class: "#{(comment.reply.nil? ? '' : 'hidden')} btn btn--small btn--full btn--green fancybox.ajax", data: { toggle: 'tooltip', title: 'Répondre par un commentaire qui sera affiché sur mon profil public', behavior: 'modal', width: '700', padding: 0 }, id: "comment-reply-button-#{comment.id}"
 
             - if comment.accepted? and (current_pro_admin or current_user) and comment.owner?(current_pro_admin || current_user)
               .drop-down__wrapper.very-soft--bottom

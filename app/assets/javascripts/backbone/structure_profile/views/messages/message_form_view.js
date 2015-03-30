@@ -4,7 +4,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
     Module.MessageFormView = Marionette.ItemView.extend({
         template: Module.templateDirname() + 'message_form_view',
         message_failed_to_send_template: Module.templateDirname() + 'message_failed_to_send',
-        className: 'panel center-block push--bottom',
+        className: 'panel center-block',
 
         initialize: function initialize (options) {
             this.model = options.model; // Message

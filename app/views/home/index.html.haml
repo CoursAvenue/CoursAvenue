@@ -18,7 +18,7 @@
 
 .home-screen-promotion-wrapper
   .main-container.main-container--medium.mega-soft--ends
-    %h2.text--center.push--top.push-half--bottom.f-size-big.f-weight-400.ff-droid.f-style-italic Découvrez notre blog
+    %h2.text--center.push--top.push-half--bottom.f-size-big.f-weight-400 Découvrez notre blog
     %h5.text--center.delta.push--bottom.soft--bottom.f-weight-400 Insolite. Créatif. Énergique. Zen. Tendance.
     = render partial: 'blog/articles/article', locals: { article: Blog::Article::UserArticle.order('published_at DESC').first, horizontal: true, index: 0, homepage: true }
     %hr.push--ends

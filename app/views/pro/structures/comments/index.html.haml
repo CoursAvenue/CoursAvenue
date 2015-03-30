@@ -39,7 +39,7 @@
           %i.fa.fa-plus
           Demander des recommandations
   - elsif @comments.any?
-    %h3 Vous avez #{@comments.count} avis
+    %h3 Vous avez #{@structure.comments_count} avis
     .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
     %ul.comment-list
       - @comments.each do |review|

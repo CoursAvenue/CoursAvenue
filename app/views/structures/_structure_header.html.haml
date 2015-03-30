@@ -1,30 +1,3 @@
-.flexbox
-  .flexbox__item.v-top.nowrap
-    - cache [@structure, 'structure/show/breadcrumb/v2'] do
-      %ol.nav.breadcrumb.push-half--bottom
-        %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-          = link_to root_search_page_without_subject_path(@city), class: 'white', itemprop: 'url' do
-            %span{ itemprop: 'title' }
-              = "Tous les cours à #{@city.name}"
-        - dominant_root_subject = @structure.dominant_root_subject
-        - if dominant_root_subject
-          %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-            = link_to root_search_page_path(dominant_root_subject, @city), class: 'white', itemprop: 'url' do
-              %span{ itemprop: 'title' }
-                = dominant_root_subject.name
-        %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-          %span{ itemprop: 'title' }
-            = @structure.name
-  .flexbox__item.v-top.one-whole.text--right>
-    %ol.nav.breadcrumb.push-half--bottom
-      %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to vertical_pages_path, itemprop: 'url', class: "white" do
-          %span{ itemprop: 'title' }= "Nos guides"
-      %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to vertical_page_with_city_path(@structure.dominant_root_subject, @structure.dominant_vertical_page, @structure.dominant_city), itemprop: 'url', class: "white" do
-          %span{ itemprop: 'title' }= "#{@structure.dominant_vertical_page.subject_name} à #{@structure.dominant_city.name}"
-
-
 #structure-profile-menu.one-whole.west.fixed.on-top-of-the-world{ style: 'top: -100px;' }
   - cache [@structure, 'structure/show/sticker_header'] do
     .bg-site-background.soft-half--ends.bordered--bottom
@@ -42,11 +15,11 @@
                     %li.soft-half--sides
                       %a.muted-link.orange{ href: '#presentation', data: { behavior: 'scroll-to', offset_top: '-55' } } Présentation
                     %li.soft-half--sides
+                      %a.muted-link.orange{ href: '#stages-ateliers ', data: { behavior: 'scroll-to', offset_top: '-55' } } Stages & ateliers
+                    %li.soft-half--sides
                       %a.muted-link.orange{ href: '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours réguliers
                     %li.soft-half--sides
                       %a.muted-link.orange{ href: '#cours-particuliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours particuliers
-                    %li.soft-half--sides
-                      %a.muted-link.orange{ href: '#stages-ateliers ', data: { behavior: 'scroll-to', offset_top: '-55' } } Stages & ateliers
                     %li.soft-half--sides
                       %a.muted-link.orange{ href: '#avis', data: { behavior: 'scroll-to' } } Avis
 
