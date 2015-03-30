@@ -1,13 +1,13 @@
 {
   "checksum": {
-    "previous": "e9b13d1b9219f84d671489b3691c4aac6093a758aa1ddbf378a6097881d3749d",
-    "current": "e9b13d1b9219f84d671489b3691c4aac6093a758aa1ddbf378a6097881d3749d"
+    "previous": "e89c2e3250ad1039e1c85337fc1c85f860afe857fae1441e7bce6def7aab0b70",
+    "current": "e89c2e3250ad1039e1c85337fc1c85f860afe857fae1441e7bce6def7aab0b70"
   },
   "fonts": [
-    "app/assets/fonts/CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.ttf",
-    "app/assets/fonts/CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.svg",
-    "app/assets/fonts/CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.woff",
-    "app/assets/fonts/CoursAvenueIconFont_e9b13d1b9219f84d671489b3691c4aac.eot"
+    "app/assets/fonts/CoursAvenueIconFont_e89c2e3250ad1039e1c85337fc1c85f8.ttf",
+    "app/assets/fonts/CoursAvenueIconFont_e89c2e3250ad1039e1c85337fc1c85f8.svg",
+    "app/assets/fonts/CoursAvenueIconFont_e89c2e3250ad1039e1c85337fc1c85f8.woff",
+    "app/assets/fonts/CoursAvenueIconFont_e89c2e3250ad1039e1c85337fc1c85f8.eot"
   ],
   "glyphs": {
     "audiences": {
@@ -209,6 +209,10 @@
     "map-marker": {
       "codepoint": 61745,
       "source": "app/assets/images/icons/svg/map-marker.svg"
+    },
+    "menu": {
+      "codepoint": 61778,
+      "source": "app/assets/images/icons/svg/menu.svg"
     },
     "musique-chant": {
       "codepoint": 61746,
