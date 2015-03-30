@@ -62,7 +62,7 @@ class CrmSync
   end
 
   def self.place_addresses_from_structure(structure)
-    places_address = [{ address_1: structure.street, zipcode: structure.zip_code, city: structure.city.name, country: 'FR' }]
+    places_address = [{ address_1: structure.street, zipcode: structure.zip_code, city: structure.city.try(:name), country: 'FR' }]
     places_address += structure.places.map{ |place| { address_1: place.street, zipcode: place.zip_code, city: place.city.name, country: 'FR' }}
     places_address.uniq
   end
