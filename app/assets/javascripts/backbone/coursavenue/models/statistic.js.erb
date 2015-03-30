@@ -13,7 +13,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             var metricTypes = ['impression', 'view', 'action']
             var metricIndex = metricTypes.indexOf(action_type) + 1;
 
-            if (metric < 0 || metric > metricTypes.length + 1) {
+            if (metricIndex < 0 || metricIndex > metricTypes.length + 1) {
                 ga('set', 'dimension1', structure_id);
                 ga('set', 'metric' + metricIndex, 1);
                 ga('send', 'event', 'category', 'action');
