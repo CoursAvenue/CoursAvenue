@@ -41,6 +41,30 @@ class Analytic::Client
     end
   end
 
+  # Retrieve the Metrics of type action
+  #
+  # @return The metrics.
+  def actions(structure_id, start_date = 10.years.ago, end_date = 1.day.ago)
+    Analytic::Action.results(profile, start_date: start_date, end_date: end_date).
+      for_structure(structure_id)
+  end
+
+  # Retrieve the Metrics of type view
+  #
+  # @return The metrics.
+  def views(structure_id, start_date = 10.years.ago, end_date = 1.day.ago)
+    Analytic::View.results(profile, start_date: start_date, end_date: end_date).
+      for_structure(structure_id)
+  end
+
+  # Retrieve the Metrics of type impression
+  #
+  # @return The metrics.
+  def impressions(structure_id, start_date = 10.years.ago, end_date = 1.day.ago)
+    Analytic::Impression.results(profile, start_date: start_date, end_date: end_date).
+      for_structure(structure_id)
+  end
+
   private
 
   # Refresh the API token.
@@ -57,5 +81,13 @@ class Analytic::Client
     })
 
     @token = ::OAuth2::AccessToken.new(oauth_client, @google_client.authorization.access_token, expires_in: EXPIRES_IN)
+  end
+
+  # Get the profile to run the query on. By default we get the first one, which should be
+  # 'CoursAvenue'.
+  #
+  # @return a Legato::Profile
+  def profile(name = 'CoursAvenue')
+    @profile ||= user.profiles.first
   end
 end
