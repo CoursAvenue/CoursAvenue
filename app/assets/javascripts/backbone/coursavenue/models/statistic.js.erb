@@ -6,33 +6,17 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
          * action_type  - Type of action, must be included in Statistic::ACTION_TYPES
          * params       - optional hash of params
          *
-         * Save Statistic to server with POST request
+         * Save Statistic to Google Analytics
          */
         logStat: function logStat (structure_id, action_type, params) {
-            //Temporary, to gather data for testing.
-            var metricTypes = ['impression', 'view', 'action']
+            var metricTypes = <%= Analytic::METRICS %>;
             var metricIndex = metricTypes.indexOf(action_type) + 1;
 
-            if (metricIndex < 0 || metricIndex > metricTypes.length + 1) {
+            if (metric < 0 || metric > metricTypes.length + 1) {
                 ga('set', 'dimension1', structure_id);
                 ga('set', 'metric' + metricIndex, 1);
                 ga('send', 'event', 'category', 'action');
             }
-
-            return; // STOPPING METRICS TODO: do something about it.
-            params = params || {};
-            if (<%= Metric::ACTION_TYPES %>.indexOf(action_type) === -1) {
-                throw new TypeError("Action type does not exist");
-            }
-            $.ajax({
-                type: "POST",
-                dataType: 'js',
-                url: Routes.structure_statistics_path(structure_id),
-                data: _.extend({
-                    action_type: action_type,
-                    fingerprint: $.cookie('fingerprint'),
-                }, params)
-            });
         },
     });
 });
