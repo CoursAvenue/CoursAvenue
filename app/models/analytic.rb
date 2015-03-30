@@ -1,5 +1,5 @@
 class Analytic
   def self.client
-    Analytic::Client.new.user
+    Analytic::Client.new
   end
 end
