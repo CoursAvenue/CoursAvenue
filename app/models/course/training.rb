@@ -40,6 +40,7 @@ class Course::Training < Course
   end
 
   def migrate_prices
+    return if self.price_group.nil?
     self.price_group.prices.update_all(course_id: self.id, price_group_id: nil)
 
     # Deals with prices that are Premium Offers and Discounts
