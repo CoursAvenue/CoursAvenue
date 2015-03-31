@@ -53,7 +53,7 @@
               %i.fa.fa-square-o
               Mettre en ligne les photos et vidéos de mes cours
         %li
-          - if @structure.courses.any? and @structure.courses.plannings.future.any?
+          - if @structure.plannings.future.any?
             = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
               %i.fa.fa-square-o
               Renseigner mes cours et mon planning
