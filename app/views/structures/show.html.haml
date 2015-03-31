@@ -27,13 +27,13 @@
 
       - comment = (@structure.highlighted_comment || @structure.comments.last)
       - if comment
-        %div.epsilon.soft-half--bottom.f-weight-bold
+        %div.epsilon.soft-half--bottom
           %i.fa.fa-quotes.v-super.white
-          .inline-block.v-middle.white.inline-block.very-soft.hard--ends
+          .inline-block.v-middle.white.inline-block.very-soft.hard--ends.f-weight-bold
             = truncate(comment.title, length: 60)
           .inline-block.v-middle.white.f-style-italic
             \— #{comment.author_name}, #{truncate(comment.course_name, length: 15)} —
-          .inline-block.v-middle.f-style-italic
+          .inline-block.v-middle.f-weight-bold
             = link_to '#avis', data: { behavior: 'scroll-to', offset_top: '-50' }, class: 'white' do
               Voir les #{@structure.comments_count} avis
 

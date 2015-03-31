@@ -25,6 +25,11 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         },
 
         announcePaginatorUpdated: function announcePaginatorUpdated () {
+            if (this.collection.state.totalPages < 2) {
+                this.pagination_bottom.$el.hide();
+            } else {
+                this.pagination_bottom.$el.show();
+            }
             this.ui.$comments_count.text(this.collection.state.grandTotal);
             var data = {
                 current_page:        this.collection.state.currentPage,

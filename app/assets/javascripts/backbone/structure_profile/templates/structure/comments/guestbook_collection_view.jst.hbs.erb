@@ -1,11 +1,13 @@
 <div class="bordered--top soft--bottom">
     <div class="grid--full">
         <div class="grid__item one-half palm-one-whole v-middle soft line-height-1-7">
-            <strong class="v-middle gamma">Livre d'Or</strong>
-            {{#if has_comments}}
-              <span class="v-middle gamma">— <span data-type="comments-count"></span> avis</span>
-            {{/if}}
-            <i class="v-middle epsilon fa fa-question-circle" data-toggle="popover" data-content="<div class='f-size-normal'>Témoignages recueillis par {{ about }} auprès de sa communauté d'élèves</div>" data-html="true"></i>
+            <div>
+                <strong class="v-middle gamma">Livre d'Or </strong>
+                <i class="v-middle epsilon fa fa-question-circle" data-toggle="popover" data-content="<div class='f-size-normal'>Témoignages recueillis par {{ about }} auprès de sa communauté d'élèves</div>" data-html="true"></i>
+            </div>
+            <div class="delta gray-light">
+              <span data-type="comments-count"></span> avis
+            </div>
         </div><!--
      --><div class="grid__item one-half palm-one-whole v-middle one-half text--right soft--right">
             <a href="{{ new_comments_path }}" target="_blank" rel="nofollow" class="epsilon">Déposer mon avis</a>
