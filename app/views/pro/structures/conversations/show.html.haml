@@ -1,7 +1,7 @@
 = side_menu_currently_at 'messages'
 - recipients = @conversation.recipients.reject{|recipient| recipient == @admin }
 = content_for :top_menu do
-  %ol.nav.flush.breadcrumb.soft-half--ends.soft--left{ itemprop: 'breadcrumb' }
+  %ol.nav.flush.breadcrumb.soft--left{ itemprop: 'breadcrumb' }
     %li.active-without-caret= link_to 'Boîte de réception', pro_structure_conversations_path(@structure), class: 'semi-muted-link epsilon f-weight-600 soft-half--ends'
     %li.white.muted-link.epsilon.f-weight-500.soft-half--ends Conversation avec #{truncate(recipients.map{|recipient| recipient.name || recipient.email}.join(', '), length: 50) }
 
