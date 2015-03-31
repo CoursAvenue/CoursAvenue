@@ -3,8 +3,8 @@
 = content_for :header_title do
   = @category.name
 
-%h2= @category.subtitle
 .soft
+  %h2.text--center= @category.subtitle
   - page = (params[:page].present? ? params[:page].to_i : 1)
   - @articles.each_with_index do |article, index|
     - if index == 2

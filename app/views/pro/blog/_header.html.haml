@@ -17,4 +17,5 @@
               %div= category.subtitle
           %ul.no-bullet-list.opacity-hidden-on-hover__child.flush--bottom.bordered--top.bordered--thick.push-half--top.soft-half.hard--left{ class: "border-color-#{category.color}", data: { category: category.slug, children: true } }
             - category.children.order('position ASC').each do |child_category|
-              %li.line-height-1-7= link_to child_category.name, category_pro_blog_articles_path(category_id: child_category.slug), class: 'white epsilon f-weight-600 push-half--sides nowrap'
+              - if child_category.articles.any?
+                %li.line-height-1-7= link_to child_category.name, category_pro_blog_articles_path(category_id: child_category.slug), class: 'white epsilon f-weight-600 push-half--sides nowrap'
