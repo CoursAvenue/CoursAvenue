@@ -94,14 +94,6 @@ class Planning < ActiveRecord::Base
       self.course.structure.compute_search_score
     end
 
-    integer :view_count do
-      self.course.structure.view_count
-    end
-
-    integer :action_count do
-      self.course.structure.action_count
-    end
-
     boolean :visible
 
     boolean :is_open_for_trial do
