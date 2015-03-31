@@ -305,9 +305,6 @@ class Structure < ActiveRecord::Base
       end
     end
 
-    integer :view_count
-    integer :action_count
-
     text :name, boost: 5
 
     text :course_names do
@@ -343,7 +340,7 @@ class Structure < ActiveRecord::Base
     # Here we store event the subject at depth 2 for pro admin dashboard purpose.
     integer :subject_ids, multiple: true do
       subject_ids = []
-      self.subjects.uniq.each do |subject|
+      self.used_subjects.uniq.each do |subject|
         subject_ids << subject.id
         subject_ids << subject.parent.id if subject.parent
         subject_ids << subject.root.id if subject.root
@@ -353,7 +350,7 @@ class Structure < ActiveRecord::Base
 
     string :subject_slugs, multiple: true do
       subject_slugs = []
-      self.subjects.uniq.each do |subject|
+      self.used_subjects.uniq.each do |subject|
         subject_slugs << subject.slug
         subject_slugs << subject.parent.slug if subject.parent
         subject_slugs << subject.root.slug if subject.root
@@ -901,33 +898,6 @@ class Structure < ActiveRecord::Base
     Metric.where(structure_id: id)
   end
 
-  #
-  # Number of view counts
-  # @param days_ago=15 Integer number of days ago
-  #
-  # @return Integer, the number of view counts the last 15 days
-  def view_count(days_ago=15)
-    return Metric.view_count(self, Date.today - days_ago.days) || 0
-  end
-
-  #
-  # Number of action counts
-  # @param days_ago=15 Integer number of days ago
-  #
-  # @return Integer, the number of view counts the last 15 days
-  def action_count(days_ago=15)
-    return Metric.action_count(self, Date.today - days_ago.days) || 0
-  end
-
-  #
-  # Number of impression counts
-  # @param days_ago=15 Integer number of days ago
-  #
-  # @return Integer, the number of impression counts the last 15 days
-  def impression_count(days_ago=15)
-    return Metric.impression_count(self, Date.today - days_ago.days) || 0
-  end
-
   SEARCH_SCORE_COEF = {
     :medias         => 3,
     :plannings      => 5,
@@ -1139,6 +1109,13 @@ class Structure < ActiveRecord::Base
     return Rails.cache.fetch ['Structure#is_open_for_trial?', self] do
       courses.open_for_trial.any?
     end
+  end
+
+  # Subjects actually associated to courses
+  # OR structure subjects if there is no courses
+  def used_subjects
+    ss = self.courses.flat_map(&:subjects)
+    (ss.any? ? ss : subjects)
   end
 
   private
