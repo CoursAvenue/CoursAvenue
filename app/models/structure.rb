@@ -883,9 +883,9 @@ class Structure < ActiveRecord::Base
   def unanswered_information_message
     return [] if mailbox.nil?
     mailbox.conversations.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])).select do |conversation|
-      conversation_waiting_for_reply = Rails.cache.fetch [conversation, "structure/unanswered_information_message/conversation_waiting_for_reply"] do
+      conversation_waiting_for_reply =# Rails.cache.fetch [conversation, "structure/unanswered_information_message/conversation_waiting_for_reply"] do
         conversation_waiting_for_reply?(conversation)
-      end
+      #end
       conversation_waiting_for_reply
     end
   end
@@ -1043,8 +1043,8 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # @return Subject at depth 2
-  def dominant_child_subject
+  # @return Subject at depth 1
+  def dominant_parent_subject
     if courses.active.any? and (_subjects = courses.active.flat_map{ |c| c.subjects }).any?
       _subjects.group_by(&:name).values.max_by(&:size).first
     else
@@ -1052,15 +1052,31 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # @return VerticalPage from the dominant child subject
+  # @return Subject at depth 2
   def dominant_vertical_page
-    if subjects.at_depth(0).count > 1
-      # dominant_parent_subject.vertical_pages.first
-      dominant_child_subject.vertical_pages.first
+    _vertical_pages = {}
+    if plannings.any?
+      plannings.each do |planning|
+        planning.subjects.uniq.flat_map(&:vertical_pages).each do |vertical_page|
+          _vertical_pages[vertical_page] ||= 0
+          _vertical_pages[vertical_page] += 1
+        end
+      end
+      _vertical_pages.max_by(&:last).first
     else
-      dominant_child_subject.vertical_pages.first
+      subjects.at_depth(2).flat_map(&:vertical_pages).group_by{ |vp| vp.subject.root }.values.max_by(&:size).first
     end
   end
+
+  # @return VerticalPage from the dominant child subject
+  # def dominant_vertical_page
+  #   if subjects.at_depth(0).count > 1
+  #     # dominant_parent_subject.vertical_pages.first
+  #     dominant_child_subject.vertical_pages.first
+  #   else
+  #     dominant_child_subject.vertical_pages.first
+  #   end
+  # end
 
   # Return the most used city
   #
