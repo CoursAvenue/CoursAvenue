@@ -23,11 +23,10 @@ class StructureSerializer < ActiveModel::Serializer
 
   def places
     if @options and @options[:place_ids].present?
-        place_ids = @options[:place_ids]
-        object.places.where( Place.arel_table[:id].eq_any(place_ids) )
-    if @options and @options[:query] and @options[:query][:lat] and @options[:query][:lng]
-        object.places_around @options[:query][:lat].to_f, @options[:query][:lng].to_f, (@options[:query][:radius] || 5)
-      end
+      place_ids = @options[:place_ids]
+      object.places.where( Place.arel_table[:id].eq_any(place_ids) )
+    elsif @options and @options[:query] and @options[:query][:lat] and @options[:query][:lng]
+      object.places_around @options[:query][:lat].to_f, @options[:query][:lng].to_f, (@options[:query][:radius] || 5)
     else
       object.places
     end
