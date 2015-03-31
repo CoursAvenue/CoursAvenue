@@ -9,7 +9,7 @@
       = link_to new_pro_structure_place_path(@structure, type: 'Place::Public'), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
         %i.fa.fa-plus
         Ajouter un lieu
-      #new-home-place{ class: (@places.homes.empty? ? '' : 'hidden') }
+      #new-home-place.line-height-2{ class: (@places.homes.empty? ? '' : 'hidden') }
         = link_to 'Ajouter la zone géographique pour mes cours à domicile', new_pro_structure_place_path(@structure, type: 'Place::Home'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
       #update-home-place{ class: (@places.homes.empty? ? 'hidden' : '') }
         = link_to 'Modifier la zone géographique pour mes cours à domicile', edit_pro_structure_place_path(@structure, (@places.homes.first ? @places.homes.first : '__HOME_PLACE_ID__')), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
