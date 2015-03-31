@@ -3,6 +3,6 @@ class Analytic::Hit
 
   filter :for_structure, &lambda { |structure| matches(:dimension1, structure) }
 
-  dimensions :dimension1
+  dimensions :dimension1, :date
   metrics :hits, :metric1, :metric2, :metric3
 end
