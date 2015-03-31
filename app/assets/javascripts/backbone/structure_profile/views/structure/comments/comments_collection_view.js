@@ -55,8 +55,7 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             return {
                 new_comments_path: Routes.new_structure_comment_path(this.collection.structure.get('slug')),
                 about            : this.about,
-                has_comments     : this.collection.structure.get('has_comments'),
-                total            : this.collection.structure.get('has_comments')
+                has_comments     : this.collection.structure.get('has_comments')
             }
         }
     });
