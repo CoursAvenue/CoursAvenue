@@ -1,43 +1,28 @@
-= side_menu_currently_at 'pro_trial_courses'
-.panel
-  = render partial: 'pro/shared/discovery_passes_tabs', locals: { current: "participation_requests_#{params[:state]}" }
-  .panel__body.soft
-    %h3 Répartition par région
-    .push--bottom
-      - pr_counts = {}
-      - max_value = 0
-      - ParticipationRequest.all.group_by{ |pr| (pr.place ? pr.place.city.region_name : '') }.each do |region_name, prs|
-        - pr_counts[region_name] = prs.length
-        - max_value = prs.length if prs.length > max_value
-      - pr_counts.each do |key, value|
-        .grid.push-half--bottom
-          .grid__item.one-quarter.text--right>= key
-          .grid__item.three-quarters>
-            .progress
-              .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value
+= side_menu_currently_at 'activity'
 
-    .text--center.push-half--ends= paginate @participation_requests, window: 1, outer_window: 3
-    %table.table--striped.table--data
-      %thead
-        %tr
-          %th Date 1ere demande d'inscription
-          %th Nombre d'heures entre la 1ère demande d'inscription et la confirmation
-          %th Nom de l'élève
-          %th Nom du prof
-          %th Contacté
-          %th Commentaires
-      %tbody
-        - @participation_requests.each do |participation_request|
-          %tr
-            %td= l(local_time(participation_request.created_at))
-            %td TODO
-            %td= link_to participation_request.user.name, user_url(participation_request.user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
-            %td= link_to participation_request.structure.name, pro_structure_path(participation_request.structure)
-            %td
-              TODO
-              -# Permettre de cocher / décocher la case et que ça enregistre tout seul.
-            %td
-              TODO
-              -# Champ texte qui s'enregistre tout seul quand on écrit
+= render partial: 'pro/shared/activity_tabs', locals: { current: 'participation_requests' }
 
-    .text--center.push-half--ends= paginate @participation_requests, window: 1, outer_window: 3
+.grid.push--bottom
+  .grid__item.one-third>
+    = link_to 'Inscrpts en attente', pro_participation_requests_path(state: 'pending'), class: ['btn btn--full', (params[:state] == 'pending' ? 'btn--blue' : '')]
+  .grid__item.one-third>
+    = link_to 'Inscrpts annulées', pro_participation_requests_path(state: 'canceled'), class: ['btn btn--full', (params[:state] == 'canceled' ? 'btn--blue' : '')]
+  .grid__item.one-third>
+    = link_to 'Inscrpts validées', pro_participation_requests_path(state: 'accepted'), class: ['btn btn--full', (params[:state] == 'accepted' ? 'btn--blue' : '')]
+
+%h1 Inscriptions
+
+%table.table--striped.table--data
+  %thead
+    %tr
+      %th Date 1ere demande d'inscription
+      %th Nom de l'élève
+      %th Nom du prof
+  %tbody
+    - @participation_requests.each do |participation_request|
+      %tr
+        %td= l(local_time(participation_request.created_at))
+        %td= link_to participation_request.user.name, user_url(participation_request.user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+        %td= link_to participation_request.structure.name, pro_structure_path(participation_request.structure)
+
+.text--center.push-half--ends= paginate @participation_requests, window: 1, outer_window: 3

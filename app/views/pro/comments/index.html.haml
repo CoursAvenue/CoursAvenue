@@ -1,16 +1,14 @@
 = side_menu_currently_at 'activity'
 
-.panel
-  = render partial: 'pro/shared/activity_tabs', locals: { current: 'comments' }
-  - if @waiting_for_deletion_comments.any?
-    .panel__body.soft
-      %h2.f-weight-300 Avis en attente de suppression
-      %ul.comment-list
-        = render partial: '/comments/comment', collection: @waiting_for_deletion_comments, locals: {with_link: true}
+= render partial: 'pro/shared/activity_tabs', locals: { current: 'comments' }
 
-  .panel__body.soft
-    %h2.f-weight-300 Derniers avis
-    %ul.comment-list
-      - @comments.each do |review|
-        - cache [review, 'pro/comments/index'] do
-          = render partial: '/comments/comment', locals: { with_link: true, comment: review }
+- if @waiting_for_deletion_comments.any?
+  %h1 Avis en attente de suppression
+  %ul.comment-list
+    = render partial: '/comments/comment', collection: @waiting_for_deletion_comments, locals: {with_link: true}
+
+%h1 Derniers avis
+%ul.comment-list
+  - @comments.each do |review|
+    - cache [review, 'pro/comments/index'] do
+      = render partial: '/comments/comment', locals: { with_link: true, comment: review }
