@@ -13,5 +13,5 @@
           - if media.video?
             %i.fa.fa-youtube-play.fa-3x.white.soft--top.push-half--top.smooth-black-text-shadow
 
-  - medias[0..-3].each do |media|
+  - medias[3..-1].each do |media|
     %a.muted-link.text--center.block.bg-cover{ href: media.url, rel: 'slideshow', data: { behavior: "fancy" } }

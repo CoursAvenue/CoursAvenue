@@ -37,7 +37,7 @@
               %i.fa.fa-square-o
               Compléter mes informations générales et ajouter un logo
         %li
-          - if @structure.comments.any?
+          - if @structure.comments.any? or @structure.comment_notifications.any?
             %i.fa.fa-check-square-o
             %span.line-through--gray Demander des recommandations à mes élèves
           - else
@@ -53,13 +53,13 @@
               %i.fa.fa-square-o
               Mettre en ligne les photos et vidéos de mes cours
         %li
-          - unless @structure.courses.without_open_courses.detect(&:is_published?).nil?
-            %i.fa.fa-check-square-o
-            %span.line-through--gray Renseigner mes cours et mon planning
-          - else
+          - if @structure.courses.any? and @structure.courses.plannings.future.any?
             = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
               %i.fa.fa-square-o
               Renseigner mes cours et mon planning
+          - else
+            %i.fa.fa-check-square-o
+            %span.line-through--gray Renseigner mes cours et mon planning
   .grid__item.palm-one-whole.one-half{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.recommendations')} }>
     - cache [@structure, "pro/structures/dashboard/comments_completion/#{@structure.comments.accepted.count}"] do
       .soft--right
