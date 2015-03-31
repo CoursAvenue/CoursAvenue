@@ -1,10 +1,10 @@
 .soft
   .comment__content
     %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: @comment.title}= @comment.title
-    .read-more{itemprop: 'reviewBody', data: {behavior: 'read-more'}}<
+    .read-more.push--bottom{ itemprop: 'reviewBody', data: { behavior: 'read-more' } }<
       = simple_format @comment.content
 
-  - unless action_name == 'edit'
+  - if action_name != 'edit' and @conversation
     .push--ends= render partial: 'messages/message', collection: @conversation.messages.order('created_at DESC').reject(&:new_record?)
 
   %hr.push-half--ends.message__appendix--top.message__appendix--top--white

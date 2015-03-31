@@ -9,20 +9,24 @@ class Pro::Structures::Comments::CommentRepliesController < Pro::ProController
 
   def new
     @comment_reply = Comment::Reply.new commentable: @comment
-    @conversation  = @comment.associated_message.conversation
+    @conversation  = @comment.associated_message.conversation if @comment.associated_message
     respond_to do |format|
       format.html { render partial: 'form' }
     end
   end
 
   def create
-    @comment_reply = Comment::Reply.new params[:comment_reply]
     if params[:comment_reply][:show_to_everyone] == '1'
+      @comment_reply = Comment::Reply.new params[:comment_reply]
       @comment_reply.commentable = @comment
       @comment_reply.save
     end
-    @conversation = @comment.associated_message.conversation
-    @structure.main_contact.reply_to_conversation(@conversation, params[:comment_reply][:content]) if params[:comment_reply][:content].present?
+    if @comment.associated_message
+      @conversation = @comment.associated_message.conversation
+      @structure.main_contact.reply_to_conversation(@conversation, params[:comment_reply][:content]) if params[:comment_reply][:content].present?
+    else
+      @structure.main_contact.send_message_with_label(@comment.user, params[:comment_reply][:content], 'Réponse à votre avis', Mailboxer::Label::COMMENT.id)
+    end
     respond_to do |format|
       format.html { redirect_to pro_structure_comments_path(@structure) }
       format.js
