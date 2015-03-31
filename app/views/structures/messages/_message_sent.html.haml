@@ -1,4 +1,3 @@
-- user = @conversation.user
 .panel.center-block{ style: 'width: 500px;'}
   .panel__header.soft.text--center
     %div.push-half--bottom
@@ -9,7 +8,7 @@
       a bien été envoyée
     %h5.flush
       Retrouvez tous vos message
-      = link_to "votre espace perso.", user_conversations_path(user)
+      = link_to "votre espace perso.", user_conversations_path(@user)
   .panel__body.soft
     %h5 Ne vous arrêtez pas là et contactez d'autres profils !
     %p.epsilon
