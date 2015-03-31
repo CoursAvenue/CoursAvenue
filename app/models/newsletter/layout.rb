@@ -23,12 +23,6 @@ class Newsletter::Layout < ActiveHash::Base
       blocs: ['image', 'text', 'text'],
       name: 'Layout #04',
       partial: 'layout_04'
-    },
-    {
-      id: 5,
-      blocs: ['image', 'text', 'image', 'text'],
-      name: 'Layout #05',
-      partial: 'layout_05'
-    },
+    }
   ]
 end
