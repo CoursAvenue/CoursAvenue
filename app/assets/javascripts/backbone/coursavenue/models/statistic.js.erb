@@ -15,7 +15,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             if (metric < 0 || metric > metricTypes.length + 1) {
                 ga('set', 'dimension1', structure_id);
                 ga('set', 'metric' + metricIndex, 1);
-                ga('send', 'event', 'category', 'action');
+                ga('send', 'event', 'Statistiques Profs', 'Enregistrement');
             }
         },
     });
