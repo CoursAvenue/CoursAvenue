@@ -166,7 +166,7 @@ class Pro::StructuresController < Pro::ProController
     @profile_percentage -= 20 if !@structure.profile_completed?
     @profile_percentage -= 20 if @structure.medias.empty?
     @profile_percentage -= 20 if @comments.empty?
-    @profile_percentage -= 20 if @structure.courses.without_open_courses.detect(&:is_published?).nil?
+    @profile_percentage -= 20 if @structure.plannings.future.any?
 
     @json_locations = Gmaps4rails.build_markers(@places) do |place, marker|
       marker.lat place.latitude
