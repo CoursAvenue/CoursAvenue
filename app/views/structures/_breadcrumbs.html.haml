@@ -15,12 +15,3 @@
         %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
           %span{ itemprop: 'title' }
             = @structure.name
-  .flexbox__item.v-top.one-whole.text--right>
-    %ol.nav.breadcrumb.push-half--bottom
-      %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to vertical_pages_path, itemprop: 'url', class: "white" do
-          %span{ itemprop: 'title' }= "Nos guides"
-      %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to vertical_page_with_city_path(@structure.dominant_root_subject, @structure.dominant_vertical_page, @structure.dominant_city), itemprop: 'url', class: "white" do
-          %span{ itemprop: 'title' }= "#{@structure.dominant_vertical_page.subject_name} à #{@structure.dominant_city.name}"
-
