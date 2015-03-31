@@ -41,28 +41,52 @@ class Analytic::Client
     end
   end
 
+  # Retrieve all the metrics for the supplied structure.
+  #
+  # @param structure_id The structure id
+  # @param start_date   The start date, by default 15 days ago.
+  # @param end_date     The end date, by defautl yesterday.
+  #
+  # @return
+  def hits(structure_id, start_date = 15.days.ago, end_date = 1.day.ago)
+    Analytic::Hit.results(profile, start_date: start_date, end_date: end_date).
+      for_structure(structure_id).first
+  end
+
   # Retrieve the Metrics of type action
   #
+  # @param structure_id The structure id
+  # @param start_date   The start date, by default 15 days ago.
+  # @param end_date     The end date, by defautl yesterday.
+  #
   # @return The metrics.
-  def actions(structure_id, start_date = 10.years.ago, end_date = 1.day.ago)
+  def actions(structure_id, start_date = 15.days.ago, end_date = 1.day.ago)
     Analytic::Action.results(profile, start_date: start_date, end_date: end_date).
-      for_structure(structure_id)
+      for_structure(structure_id).first
   end
 
   # Retrieve the Metrics of type view
   #
+  # @param structure_id The structure id
+  # @param start_date   The start date, by default 15 days ago.
+  # @param end_date     The end date, by defautl yesterday.
+  #
   # @return The metrics.
-  def views(structure_id, start_date = 10.years.ago, end_date = 1.day.ago)
+  def views(structure_id, start_date = 15.days.ago, end_date = 1.day.ago)
     Analytic::View.results(profile, start_date: start_date, end_date: end_date).
-      for_structure(structure_id)
+      for_structure(structure_id).first
   end
 
   # Retrieve the Metrics of type impression
   #
+  # @param structure_id The structure id
+  # @param start_date   The start date, by default 15 days ago.
+  # @param end_date     The end date, by defautl yesterday.
+  #
   # @return The metrics.
-  def impressions(structure_id, start_date = 10.years.ago, end_date = 1.day.ago)
+  def impressions(structure_id, start_date = 15.days.ago, end_date = 1.day.ago)
     Analytic::Impression.results(profile, start_date: start_date, end_date: end_date).
-      for_structure(structure_id)
+      for_structure(structure_id).first
   end
 
   private
