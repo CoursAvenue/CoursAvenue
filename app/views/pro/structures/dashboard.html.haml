@@ -54,12 +54,12 @@
               Mettre en ligne les photos et vidéos de mes cours
         %li
           - if @structure.plannings.future.any?
+            %i.fa.fa-check-square-o
+            %span.line-through--gray Renseigner mes cours et mon planning
+          - else
             = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
               %i.fa.fa-square-o
               Renseigner mes cours et mon planning
-          - else
-            %i.fa.fa-check-square-o
-            %span.line-through--gray Renseigner mes cours et mon planning
   .grid__item.palm-one-whole.one-half{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.recommendations')} }>
     - cache [@structure, "pro/structures/dashboard/comments_completion/#{@structure.comments.accepted.count}"] do
       .soft--right
