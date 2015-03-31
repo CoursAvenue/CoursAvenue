@@ -50,7 +50,7 @@ class Analytic::Client
   # @return an OpenStruct with the data.
   def hits(structure_id, start_date = 15.days.ago, end_date = 1.day.ago)
     Analytic::Hit.results(profile, start_date: start_date, end_date: end_date).
-      for_structure(structure_id).first
+      for_structure(structure_id).to_a
   end
 
   # Retrieve the Metrics of type action
@@ -62,7 +62,7 @@ class Analytic::Client
   # @return an OpenStruct with the data.
   def actions(structure_id, start_date = 15.days.ago, end_date = 1.day.ago)
     Analytic::Action.results(profile, start_date: start_date, end_date: end_date).
-      for_structure(structure_id).first
+      for_structure(structure_id).to_a
   end
 
   # Retrieve the Metrics of type view
@@ -74,7 +74,7 @@ class Analytic::Client
   # @return an OpenStruct with the data.
   def views(structure_id, start_date = 15.days.ago, end_date = 1.day.ago)
     Analytic::View.results(profile, start_date: start_date, end_date: end_date).
-      for_structure(structure_id).first
+      for_structure(structure_id).to_a
   end
 
   # Retrieve the Metrics of type impression
@@ -86,7 +86,7 @@ class Analytic::Client
   # @return an OpenStruct with the data.
   def impressions(structure_id, start_date = 15.days.ago, end_date = 1.day.ago)
     Analytic::Impression.results(profile, start_date: start_date, end_date: end_date).
-      for_structure(structure_id).first
+      for_structure(structure_id).to_a
   end
 
   private
