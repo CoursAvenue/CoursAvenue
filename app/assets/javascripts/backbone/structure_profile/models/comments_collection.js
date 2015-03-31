@@ -22,8 +22,8 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
         },
 
         parse: function parse (response) {
-            this.grandTotal = response.meta.total;
-            this.totalPages = Math.ceil(response.meta.total / this.state.perPage);
+            this.grandTotal       = response.meta.total;
+            this.totalPages       = Math.ceil(response.meta.total / this.state.perPage);
             this.state.grandTotal = this.grandTotal;
             this.state.totalPages = this.totalPages;
             this.trigger('comments:updated');

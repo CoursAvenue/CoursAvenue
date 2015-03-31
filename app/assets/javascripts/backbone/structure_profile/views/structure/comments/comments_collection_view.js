@@ -6,6 +6,9 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         template: Module.templateDirname() + 'comments_collection_view',
         childViewContainer: '[data-type=container]',
 
+        ui: {
+            '$comments_count': '[data-type=comments-count]'
+        },
 
         initialize: function initialize (options) {
             _.bindAll(this, 'announcePaginatorUpdated');
@@ -22,6 +25,7 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
         },
 
         announcePaginatorUpdated: function announcePaginatorUpdated () {
+            this.ui.$comments_count.text(this.collection.state.grandTotal);
             var data = {
                 current_page:        this.collection.state.currentPage,
                 queryOptions:       '',
@@ -51,7 +55,8 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             return {
                 new_comments_path: Routes.new_structure_comment_path(this.collection.structure.get('slug')),
                 about            : this.about,
-                has_comments     : this.collection.structure.get('has_comments')
+                has_comments     : this.collection.structure.get('has_comments'),
+                total            : this.collection.structure.get('has_comments')
             }
         }
     });

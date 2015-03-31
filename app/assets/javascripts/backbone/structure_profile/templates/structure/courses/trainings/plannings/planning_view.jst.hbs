@@ -12,7 +12,7 @@
     <div class="gray-light f-weight-500">{{ levels }} - {{ audiences }}</div>
     <div style="min-width: 80px;" itemprop="location" itemscope itemtype="http://data-vocabulary.org/Organization">
         {{#if address_name }}
-            <div itemprop="name" class="inline-block gray milli f-weight-500" data-toggle="popover" data-html="true" data-trigger="hover" data-content="{{ hide_contacts_and_escape address_with_info }}"><i class="fa fa-map-marker"></i> {{ address_name }}</div>{{!--
+            <div itemprop="name" class="inline-block gray f-weight-500" data-toggle="popover" data-html="true" data-trigger="hover" data-content="{{ hide_contacts_and_escape address_with_info }}"><i class="fa fa-map-marker"></i> {{ address_name }}</div>{{!--
          --}}<span itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">{{!--
              --}}<meta itemprop="street-address" content="{{address}}">
              </span>{{!--
