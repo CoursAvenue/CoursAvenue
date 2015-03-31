@@ -14,10 +14,10 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             _.bindAll(this, 'announcePaginatorUpdated');
             this.about = options.about;
             this.pagination_bottom = new CoursAvenue.Views.PaginationToolView({});
-            this.pagination_bottom.on('pagination:next', this.nextPage.bind(this));
-            this.pagination_bottom.on('pagination:prev', this.prevPage.bind(this));
-            this.pagination_bottom.on('pagination:page', this.goToPage.bind(this));
-            this.collection.on('comments:updated', this.announcePaginatorUpdated)
+            this.pagination_bottom.on('pagination:next', function() { this.scrollToTop(); this.nextPage(); }.bind(this));
+            this.pagination_bottom.on('pagination:prev', function() { this.scrollToTop(); this.prevPage(); }.bind(this));
+            this.pagination_bottom.on('pagination:page', function(event) { this.scrollToTop(); this.goToPage(event); }.bind(this));
+            this.collection.on('comments:updated', this.announcePaginatorUpdated);
         },
 
         onRender: function onRender () {
@@ -62,6 +62,12 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
                 about            : this.about,
                 has_comments     : this.collection.structure.get('has_comments')
             }
+        },
+        serializeData: function serializeData () {
+
+        },
+        scrollToTop: function scrollToTop () {
+            $.scrollTo(this.$el, { duration: 400, offset: -80 });
         }
     });
 });
