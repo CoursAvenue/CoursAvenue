@@ -1,6 +1,4 @@
-= javascript_include_tag 'libs/jquery.Jcrop.js'
-
-%div{class: @is_xhr ? '' : 'panel'}
+%div{ class: @is_xhr ? '' : 'panel' }
   - unless @is_xhr
     = side_menu_currently_at 'presentation'
     = render partial: 'pro/structures/tabs', locals: { current: 'établissement'}
