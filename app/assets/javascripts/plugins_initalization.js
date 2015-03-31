@@ -174,6 +174,9 @@ $(function() {
     var showSideMenu = function showSideMenu () {
         $('body').toggleClass('side-menu-opened');
     }
-    $('[data-behavior=toggle-responsive-menu]').on('touchstart', showSideMenu);
-    $('[data-behavior=toggle-responsive-menu]').click(showSideMenu);
+    if (COURSAVENUE.helperMethods.isTouchDevice()) {
+        $('[data-behavior=toggle-responsive-menu]').on('touchstart', showSideMenu);
+    } else {
+        $('[data-behavior=toggle-responsive-menu]').click(showSideMenu);
+    }
 });

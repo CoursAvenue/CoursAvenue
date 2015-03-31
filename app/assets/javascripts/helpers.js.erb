@@ -47,6 +47,11 @@ COURSAVENUE.helperMethods = {
       string = string.replace(/[îï]/g, 'i');
       return string;
     },
+
+    isTouchDevice: function isTouchDevice () {
+      return ('ontouchstart' in window || navigator.msMaxTouchPoints);
+    },
+
     isMobile: {
         Android: function Android () {
             return navigator.userAgent.match(/Android/i);
