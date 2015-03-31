@@ -4,5 +4,5 @@ class Analytic::View
   filter :for_structure, &lambda { |structure| matches(:dimension1, structure) }
 
   dimensions :dimension1
-  metrics :metric2
+  metrics :hits, :metric2
 end
