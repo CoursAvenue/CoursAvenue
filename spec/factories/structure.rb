@@ -2,7 +2,6 @@
 FactoryGirl.define do
 
   factory :structure do
-    city
     name           { Faker::Name.name + ' institute' }
 
     street         'Paris'
@@ -15,6 +14,9 @@ FactoryGirl.define do
     after(:build) do |structure|
       structure.subjects << FactoryGirl.build(:subject)
       structure.subjects << FactoryGirl.build(:subject_children)
+
+      structure.places   << FactoryGirl.build(:place, structure: structure)
+      structure.save
     end
 
     factory :structure_with_admin do
