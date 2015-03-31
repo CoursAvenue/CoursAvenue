@@ -14,9 +14,14 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             var metricIndex = metricTypes.indexOf(action_type) + 1;
 
             if (metricIndex > 0 && metricIndex < metricTypes.length + 1) {
-                ga('set', 'dimension1', structure_id);
-                ga('set', 'metric' + metricIndex, 1);
-                ga('send', 'event', 'Statistiques Profs', 'Enregistrement')
+                // ga('set', 'dimension1', structure_id);
+                // ga('set', 'metric' + metricIndex, 1);
+
+                var options = { 'dimension1': structure_id }
+                var metricKey = 'metric' + metricIndex;
+
+                options[metricKey] = 1
+                ga('send', 'event', 'Statistiques Profs', 'Enregistrement', options)
             }
 
             return; // STOPPING METRICS TODO: do something about it.
