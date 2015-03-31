@@ -35,7 +35,7 @@
               - subjects = @structure.subjects.roots.map(&:little_children).flatten
             .input-container>
               = f.association :subjects , as: :select, collection: subjects, input_html: { class: 'input--large hard', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true }, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush' }, label: false
-              = link_to add_subjects_pro_structure_path(@structure, return_to_action: return_to_action, anchor: 'informations'), class: 'fancybox.ajax', data: { behavior: 'modal', width: 650, lock_overlay: true }, class: 'line-height-2' do
+              = link_to add_subjects_pro_structure_path(@structure, return_to_action: return_to_action, anchor: 'informations'), class: 'line-height-2 fancybox.ajax', data: { behavior: 'modal', width: 650, lock_overlay: true } do
                 %i.fa.fa-plus
                 Ajouter des disciplines à mon profil
 
