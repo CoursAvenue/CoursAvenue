@@ -523,7 +523,6 @@ class Structure < ActiveRecord::Base
   def activate!
     self.active = true
     save
-    places.each { |place| place.index }
   end
 
   def disable!
