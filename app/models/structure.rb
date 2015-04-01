@@ -1140,7 +1140,7 @@ class Structure < ActiveRecord::Base
     vertical_pages_breadcrumb = pages.compact.uniq.map{ |page| "#{page.slug};#{page.subject_name}" }.join('|')
     save
   end
-  # handle_asynchronously :update_vertical_pages_breadcrumb
+  handle_asynchronously :update_vertical_pages_breadcrumb
 
   def update_intercom_status
     new_status = CrmSync.structure_status_for_intercom(self)
