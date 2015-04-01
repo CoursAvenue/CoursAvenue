@@ -1065,7 +1065,7 @@ class Structure < ActiveRecord::Base
       end
       _vertical_pages.max_by(&:last).first if _vertical_pages.any?
     else
-      subjects.at_depth(2).flat_map(&:vertical_pages).group_by{ |vp| vp.subject.root }.values.max_by(&:size).first
+      subjects.at_depth(2).flat_map(&:vertical_pages).group_by{ |vp| vp.subject.root }.values.max_by(&:size).try(:first)
     end
   end
 
