@@ -18,7 +18,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.router     = options.router;
             this.newsletter = options.newsletter;
 
-            _.bindAll(this, 'setCurrentTab', 'updateNav', 'nextStep', 'previousStep',
+            _.bindAll(this, 'setCurrentTab', 'updateNav',
+                      'nextStep', 'previousStep', 'scrollUp',
                       'selectNewsletterLayout', 'finishEdition',
                       'savingSuccessCallback', 'savingErrorCallback');
         },
@@ -182,6 +183,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             nextStep = nextStep.replace(':id', this.newsletter.get('id'));
 
             this.router.navigate(nextStep, { trigger: true });
+            this.scrollUp();
         },
 
         previousStep: function previousStep () {
@@ -192,6 +194,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             previousStep = previousStep.replace(':id', this.newsletter.get('id'));
 
             this.router.navigate(previousStep, { trigger: true });
+            this.scrollUp();
+        },
+
+        scrollUp: function scrollUp () {
+            $.scrollTo(0, { easing: 'easeOutCubic', duration: 350 });
         },
 
         // TODO: Create global error save callback that shows an alert / notice.
