@@ -80,7 +80,7 @@ class PlanningSerializer < ActiveModel::Serializer
   end
 
   def time_slot
-    readable_time_slot(object.start_time, object.end_time)
+    object.decorate.time_slot
   end
 
   def levels
