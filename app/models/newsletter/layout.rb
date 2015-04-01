@@ -3,25 +3,25 @@ class Newsletter::Layout < ActiveHash::Base
     {
       id: 1,
       blocs: ['image', 'text'],
-      name: 'Layout #01',
+      name: 'Modèle 1',
       partial: 'layout_01'
     },
     {
       id: 2,
       blocs: ['image', 'text', 'image', 'text'],
-      name: 'Layout #02',
+      name: 'Modèle 2',
       partial: 'layout_02'
     },
     {
       id: 3,
       blocs: ['image', 'image'],
-      name: 'Layout #03',
+      name: 'Modèle 3',
       partial: 'layout_03'
     },
     {
       id: 4,
       blocs: ['image', 'text', 'text'],
-      name: 'Layout #04',
+      name: 'Modèle 4',
       partial: 'layout_04'
     }
   ]
