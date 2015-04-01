@@ -93,7 +93,7 @@ class Pro::Structures::NewslettersController < ApplicationController
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
     duplicated_newsletter = @newsletter.duplicate!
 
-    redirect_to pro_structure_newsletter_path(@structure, duplicated_newsletter), notice: 'Newsletter dupliquée avec succés.'
+    redirect_to pro_structure_newsletters_path(@structure), notice: 'Newsletter dupliquée avec succés.'
   end
 
   # Generate the newsletter as a String

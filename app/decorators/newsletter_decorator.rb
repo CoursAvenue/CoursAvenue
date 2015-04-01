@@ -21,7 +21,7 @@ class NewsletterDecorator < Draper::Decorator
 
   def badge
     if object.state == 'sent'
-      'Envoyé'
+      'Envoyée'
     elsif object.state == 'sending'
       "En cours d'envoi"
     else

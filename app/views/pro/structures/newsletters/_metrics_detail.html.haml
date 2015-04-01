@@ -15,7 +15,7 @@
       %strong Envoyé :
       #{I18n.l(local_time(@newsletter.sent_at), format: :long_human)}
     %p.delta
-      = link_to 'Voir la newsletter', '#preview'
+      = link_to 'Voir la newsletter', '#preview', data: { preview: true }
 
 .grid.push--ends
   .grid__item.one-half>
