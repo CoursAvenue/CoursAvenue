@@ -113,5 +113,8 @@ class Analytic::Client
   # @return a Legato::Profile
   def profile(name = 'CoursAvenue')
     @profile ||= user.profiles.first
+    # @profile ||= user.profiles.find do |profile|
+    #   profile.name == name
+    # end
   end
 end
