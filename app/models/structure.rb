@@ -134,7 +134,7 @@ class Structure < ActiveRecord::Base
                              :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score,
                              :search_score_updated_at, :is_sleeping, :sleeping_email_opt_in,
                              :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient,
-                             :status
+                             :status, :vertical_pages_breadcrumb
 
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
@@ -173,6 +173,7 @@ class Structure < ActiveRecord::Base
   after_touch   :set_premium
   after_touch   :update_meta_datas
   after_touch   :update_cities_text
+  after_touch   :update_vertical_pages_breadcrumb
 
   before_destroy :unsubscribe_to_crm
 
@@ -1055,7 +1056,7 @@ class Structure < ActiveRecord::Base
   # @return Subject at depth 2
   def dominant_vertical_page
     _vertical_pages = {}
-    if plannings.any?
+    if plannings.any? and plannings.detect{ |p| p.subjects } # Ensure that there is a subject
       plannings.each do |planning|
         planning.subjects.uniq.flat_map(&:vertical_pages).each do |vertical_page|
           _vertical_pages[vertical_page] ||= 0
@@ -1068,15 +1069,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # @return VerticalPage from the dominant child subject
-  # def dominant_vertical_page
-  #   if subjects.at_depth(0).count > 1
-  #     # dominant_parent_subject.vertical_pages.first
-  #     dominant_child_subject.vertical_pages.first
-  #   else
-  #     dominant_child_subject.vertical_pages.first
-  #   end
-  # end
 
   # Return the most used city
   #
@@ -1134,6 +1126,20 @@ class Structure < ActiveRecord::Base
   end
 
   private
+
+  # Will save slugs of vertical pages as breadcrumb separated by semi colons
+  # danse;danses-du-monde;etc.
+  # First slug will always be root
+  def update_vertical_pages_breadcrumb
+    pages = []
+    dominant_vertical_page_subject = dominant_vertical_page.subject
+    pages << dominant_vertical_page_subject.root.vertical_pages.first
+    pages << dominant_vertical_page_subject.parent.vertical_pages.first
+    pages << dominant_vertical_page_subject
+    vertical_pages_breadcrumb = pages.compact.map(&:slug).join(';')
+    save
+  end
+  handle_asynchronously :update_vertical_pages_breadcrumb
 
   def update_intercom_status
     new_status = CrmSync.structure_status_for_intercom(self)

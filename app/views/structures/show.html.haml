@@ -45,7 +45,7 @@
           #avis
             %div{ data: { type: "certified-comments-collection" } }
             %div{ data: { type: "guestbook-collection" } }
-      .beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--bottom Article de blog associés
+      .beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--bottom Articles de blog associés
       .grid
         - BlogArticleSearch.search(per_page: 3, type: 'user', subject_slugs: @structure_decorator.all_subjects_slugs).results.each do |article|
           .grid__item.one-third.palm-one-whole.push--bottom>

@@ -14,12 +14,15 @@
                       %a.muted-link.orange{ href: '#photos-videos', data: { behavior: 'scroll-to', offset_top: '-55' } } Photos
                     %li.soft-half--sides
                       %a.muted-link.orange{ href: '#presentation', data: { behavior: 'scroll-to', offset_top: '-55' } } Présentation
-                    %li.soft-half--sides
-                      %a.muted-link.orange{ href: '#stages-ateliers ', data: { behavior: 'scroll-to', offset_top: '-55' } } Stages & ateliers
-                    %li.soft-half--sides
-                      %a.muted-link.orange{ href: '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours réguliers
-                    %li.soft-half--sides
-                      %a.muted-link.orange{ href: '#cours-particuliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours particuliers
+                    - if @structure.plannings.trainings_future.any?
+                      %li.soft-half--sides
+                        %a.muted-link.orange{ href: '#stages-ateliers ', data: { behavior: 'scroll-to', offset_top: '-55' } } Stages & ateliers
+                    - if @structure.courses.lessons.any?
+                      %li.soft-half--sides
+                        %a.muted-link.orange{ href: '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours réguliers
+                    - if @structure.courses.privates.any?
+                      %li.soft-half--sides
+                        %a.muted-link.orange{ href: '#cours-particuliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours particuliers
                     %li.soft-half--sides
                       %a.muted-link.orange{ href: '#avis', data: { behavior: 'scroll-to' } } Avis
 
@@ -28,7 +31,7 @@
                   .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.trial_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
                     %i.fa.fa-ticket
                     Essai gratuit
-                    -# = t("structures.trial_courses_policy.#{@structure.trial_courses_policy}_nb")
+                    = t("structures.trial_courses_policy.#{@structure.trial_courses_policy}_nb")
 
               - if @structure.has_promotion?
                 = link_to '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' }, class: 'muted-link inline v-middle' do

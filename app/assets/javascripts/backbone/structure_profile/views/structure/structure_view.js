@@ -114,6 +114,10 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             } else {
                 return Module[_.capitalize(resources)][_.capitalize(resources) + 'CollectionView'];
             }
+        },
+        serializeData: function serializeData () {
+            var attributes = this.model.toJSON()
+            return _.extend(attributes, { have_upcoming_plannings: coursavenue.bootstrap.meta.have_upcoming_plannings });
         }
 
     });

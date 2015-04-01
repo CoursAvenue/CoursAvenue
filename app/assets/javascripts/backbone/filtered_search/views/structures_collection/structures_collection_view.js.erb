@@ -47,7 +47,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         onAfterShow: function onAfterShow () {
           this.announcePaginatorUpdated(true);
           var $sticky = $('[data-behavior=sticky]');
-          $sticky.sticky({ offsetTop: 50,
+          $sticky.sticky({ offsetTop: 40,
                            z        : 1200,
                            oldWidth : true });
           this.renderSlideshows();
@@ -91,7 +91,6 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             /* announce the view we found */
             this.trigger('structures:childview:found', { structure_view: childview, location_view: data } );
-            // $.scrollTo(childview.el, { duration: 400, offset: -($('header').first().outerHeight() + $filters_wrapper.outerHeight()) });
 
         },
 
