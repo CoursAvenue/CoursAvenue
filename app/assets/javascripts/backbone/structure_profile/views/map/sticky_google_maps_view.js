@@ -88,7 +88,7 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
             // If there are multiple ids
             if (data.place_ids) {
                 _.each(this.markerViewChildren, function (child) {
-                    if (data.place_ids.indexOf(child.model.get("id")) == -1) {
+                    if (data.place_ids.indexOf(child.model.get("id")) != -1) {
                         child.highlight({ show_info_box: false });
                         child.excite();
                     }
@@ -108,7 +108,7 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         unexciteMarkers: function exciteMarkers (data) {
             if (data.place_ids) {
                 _.each(this.markerViewChildren, function (child) {
-                    if (data.place_ids.indexOf(child.model.get("id")) == -1) {
+                    if (data.place_ids.indexOf(child.model.get("id")) != -1) {
                         child.unhighlight({ show_info_box: false });
                         child.calm();
                     }

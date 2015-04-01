@@ -413,10 +413,10 @@ class Course < ActiveRecord::Base
   #
   # @return nil
   def update_open_for_trial
-    if self.price_group_id_changed? and self.price_group
-      if self.price_group.has_free_trial? and is_open_for_trial == false
-        self.is_open_for_trial = true
-      end
+    if self.prices.detect(&:free?) and is_open_for_trial == false
+      self.is_open_for_trial = true
+    else
+      self.is_open_for_trial = false
     end
     nil
   end

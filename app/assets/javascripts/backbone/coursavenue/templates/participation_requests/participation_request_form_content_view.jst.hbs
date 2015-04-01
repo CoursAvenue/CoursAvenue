@@ -28,9 +28,9 @@
     </div>
     <div class="grid--full bordered--top" data-element="planning-select-wrapper" style="display: none">
         <div class="grid__item v-middle three-twelfths soft--sides soft-half--ends bordered--right">
-            <label class="label--large nowrap" for="participation_request_plannings_select">Date</label>
+            <label class=" nowrap" for="participation_request_plannings_select">Date</label>
         </div>{{!--
-    --}}<div class="grid__item v-middle nine-twelfths soft--sides">
+    --}}<div class="grid__item v-middle nine-twelfths soft-half--sides">
             <select name="participation_request[planning_id]" class="one-whole" id="participation_request_plannings_select">
                 <option>Quelle séance souhaitez-vous ?</option>
             </select>
@@ -39,9 +39,9 @@
     <div data-error="planning_id" class="{{#unless errors.planning_id}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.planning_id}}</div>
     <div class="grid--full  bordered--top" data-element="datepicker-wrapper" style="display: none">
         <div class="grid__item v-middle three-twelfths soft--sides soft-half--ends bordered--right">
-            <label class="label--large nowrap" for="request-date">Jour</label>
+            <label class=" nowrap" for="request-date">Jour</label>
         </div>{{!--
-     --}}<div class="grid__item v-middle nine-twelfths soft--sides">
+     --}}<div class="grid__item v-middle nine-twelfths soft-half--sides">
               <input type="text" data-behavior="datepicker" name="participation_request[date]" id="request-date" class="datepicker-input input--medium v-middle">
               <div class="inline-block v-middle">
                   <div data-element="time-wrapper">
@@ -59,9 +59,9 @@
     </div>
     <div class="grid--full bordered--top" data-element="address-info-wrapper" style="display: none">
         <div class="grid__item v-middle three-twelfths soft--sides soft-half--ends bordered--right">
-            <label class="label--large nowrap">Lieu</label>
+            <label class="nowrap">Lieu</label>
         </div>{{!--
-    --}}<div class="grid__item v-middle nine-twelfths soft--sides">
+    --}}<div class="grid__item v-middle nine-twelfths soft-half--sides">
             <span class="epsilon hidden" data-element="address-info" data-toggle="popover" data-placement="top" data-html="true"></span>
             {{! We don't need name because if there is no street filled, it means that it uses de
                default place attached to the course}}

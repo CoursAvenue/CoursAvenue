@@ -66,6 +66,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
 
         serializeData: function serializeData () {
             return {
+                has_more_than_one_price: (this.prices_collection.length > 1),
                 prices: this.prices_collection.toJSON()
             };
         }
