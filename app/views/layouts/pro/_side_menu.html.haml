@@ -50,6 +50,11 @@
                               current: current_tab,
                               icon: 'fa fa-2x fa-paper-plane-o'
 
+        = pro_side_menu_link 'statistics',
+                              pro_structure_statistics_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                              current: current_tab,
+                              icon: 'fa fa-2x fa-bar-chart'
+
 
       = pro_side_menu_link 'crm',
                             pro_structure_user_profiles_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) ,
