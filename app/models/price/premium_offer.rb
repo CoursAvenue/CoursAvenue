@@ -2,7 +2,7 @@ class Price::PremiumOffer < Price
   # Price libelle
   #   prices.premium_offer.discount: Réduction
   #   prices.premium_offer.discover: Tarif découverte
-  #   prices.premium_offer.other: Autre offer
+  #   prices.premium_offer.other: Autre offre
 
   attr_accessible :promo_amount, :info, :promo_amount_type # '%' or '€'
 
@@ -16,6 +16,10 @@ class Price::PremiumOffer < Price
   # If users removes promo_amount, then reject price
   def has_to_be_rejected?
     self.promo_amount.blank? and self.info.blank?
+  end
+
+  def free?
+    self.promo_amount == 0
   end
 
   private
