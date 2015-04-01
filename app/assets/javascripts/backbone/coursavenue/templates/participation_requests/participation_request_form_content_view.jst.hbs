@@ -2,8 +2,15 @@
     <div class="soft--sides soft-half--ends">
         <select name="participation_request[course_id]" class="one-whole  input--large" id="participation_request_courses_select">
             <option value="">Quel cours vous intéresse ?</option>
+            {{#if trainings_without_open_for_trials}}
+                <optgroup label="Stages & Ateliers">
+                  {{#each trainings_without_open_for_trials}}
+                      <option data-collection-type="trainings" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
+                  {{/each}}
+                </optgroup>
+            {{/if}}
             {{#if courses_open_for_trial}}
-                <optgroup label="Cours avec essai gratuit ({{trial_courses_policy}})">
+                <optgroup label="Cours réguliers avec {{trial_courses_policy}}">
                     {{#each courses_open_for_trial}}
                         <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
                     {{/each}}
@@ -14,13 +21,6 @@
                     {{#each courses_without_open_for_trials}}
                         <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
                     {{/each}}
-                </optgroup>
-            {{/if}}
-            {{#if trainings_without_open_for_trials}}
-                <optgroup label="Stages & Ateliers">
-                  {{#each trainings_without_open_for_trials}}
-                      <option data-collection-type="trainings" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
-                  {{/each}}
                 </optgroup>
             {{/if}}
         </select>
