@@ -18,7 +18,6 @@ class Blog::ArticlesController < ApplicationController
     redirect_to(blog_articles_path, status: 301) if @article.nil?
     @article.increment_page_views! if @article
     @article_decorator = BlogArticleDecorator.new(@article) if @article
-    azd?
     unless current_pro_admin and current_pro_admin.super_admin?
       redirect_to blog_articles_path if ! @article.published?
     end
