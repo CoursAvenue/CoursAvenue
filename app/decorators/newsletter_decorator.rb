@@ -15,7 +15,7 @@ class NewsletterDecorator < Draper::Decorator
     if object.mailing_list.present?
       object.mailing_list.name
     else
-      "Pas encore choisie"
+      "pas encore choisie"
     end
   end
 
