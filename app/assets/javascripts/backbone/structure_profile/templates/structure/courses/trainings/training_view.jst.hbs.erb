@@ -25,16 +25,14 @@
                 <div>
                     <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full">M'inscrire</a>
                 </div>
-                {{#if has_promotion}}
-                  <div class="text--center push-half--top">
-                    <span class="v-middle lbl lbl--yellow"><i class="fa fa-star"></i> Promotions</span>
-                  </div>
-                {{/if}}
             </div>
             <div data-type="plannings-container"></div>
 
             <div class="very-soft--left">
               <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">Plus de détails <i class="fa fa-caret-down"></i></a>
+              {{#if has_promotion}}
+                <span class="push-half--left v-middle lbl lbl--yellow"><i class="fa fa-star"></i> Promotions</span>
+              {{/if}}
             </div>
         </div>
     </div>
