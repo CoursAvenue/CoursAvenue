@@ -102,29 +102,15 @@ $(document).ready(function() {
     /* we only want the current app on the search page */
     if (StructureProfile.detectRoot()) {
         StructureProfile.start({});
-        // TODO: Track events somewhere else and differently.
-        // $(document).on('facebook:initialized', function() {
-        //     FB.Event.subscribe('edge.create', function(page_url) {
-        //         if (page_url != 'https://www.facebook.com/CoursAvenue') {
-        //             CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: 'facebook' });
-        //         }
-        //     });
-        // });
-        // // Create view for current structure only if not a current admin
-        // // Create impressions for similar profiles
-        // if (!window.coursavenue.bootstrap.current_pro_admin) {
-        //     $('body').on('click', '[data-action=log-action]', function() {
-        //         var infos = $(this).text().trim();
-        //         if ($(this).data('action-info')) {
-        //             infos = $(this).data('action-info');
-        //         }
-        //         CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: infos });
-        //         if (CoursAvenue.isProduction()) {
-        //             window._fbq.push(['track', '6016785958627', {'value':'0.00','currency':'EUR'}]);
-        //             ga('send', 'event', 'Action', infos);
-        //             goog_report_conversion();
-        //         }
-        //     });
-        // }
+        if (!window.coursavenue.bootstrap.current_pro_admin) {
+            $('body').on('click', '[data-action=log-action]', function() {
+                var infos = $(this).text().trim();
+                if ($(this).data('action-info')) {
+                    infos = $(this).data('action-info');
+                }
+                CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: infos });
+            });
+        }
+
     }
 });
