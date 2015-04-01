@@ -33,7 +33,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         onRender: function onRender () {
             if (this.model.has('image')) {
                 this.$el.find('img').show();
-                this.$el.find('[data-delete-image]').show();
+                this.$el.find('[data-delete-image-wrapper]').show();
             }
         },
 
@@ -43,7 +43,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
                 this.$el.find('img').attr('src', event.fpfile.url);
                 this.$el.find('img').show();
-                this.$el.find('[data-delete-image]').show();
+                this.$el.find('[data-delete-image-wrapper]').show();
             } else {
                 this.deleteImage();
             }
@@ -59,7 +59,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             this.$el.find('img').hide();
             this.$el.find('img').attr('src', '');
-            this.$el.find('[data-delete-image]').hide();
+            this.$el.find('[data-delete-image-wrapper]').hide();
 
             this.render();
             this.onShow();
