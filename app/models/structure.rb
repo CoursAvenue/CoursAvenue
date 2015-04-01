@@ -1056,14 +1056,14 @@ class Structure < ActiveRecord::Base
   # @return Subject at depth 2
   def dominant_vertical_page
     _vertical_pages = {}
-    if plannings.any? and plannings.detect{ |p| p.subjects } # Ensure that there is a subject
+    if plannings.any? and plannings.detect{|p| p.subjects.at_depth(2).any? }
       plannings.each do |planning|
-        planning.subjects.uniq.flat_map(&:vertical_pages).each do |vertical_page|
+        planning.subjects.at_depth(2).uniq.flat_map(&:vertical_pages).each do |vertical_page|
           _vertical_pages[vertical_page] ||= 0
           _vertical_pages[vertical_page] += 1
         end
       end
-      _vertical_pages.max_by(&:last).first
+      _vertical_pages.max_by(&:last).first if _vertical_pages.any?
     else
       subjects.at_depth(2).flat_map(&:vertical_pages).group_by{ |vp| vp.subject.root }.values.max_by(&:size).first
     end
@@ -1128,18 +1128,19 @@ class Structure < ActiveRecord::Base
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons
-  # danse;danses-du-monde;etc.
+  # danse;Danse|danses-du-monde;Danse du monde|etc;Etc..
   # First slug will always be root
   def update_vertical_pages_breadcrumb
+    return if dominant_vertical_page.nil?
     pages = []
     dominant_vertical_page_subject = dominant_vertical_page.subject
     pages << dominant_vertical_page_subject.root.vertical_pages.first
-    pages << dominant_vertical_page_subject.parent.vertical_pages.first
-    pages << dominant_vertical_page_subject
-    vertical_pages_breadcrumb = pages.compact.map(&:slug).join(';')
+    pages << dominant_vertical_page_subject.parent.vertical_pages.first if dominant_vertical_page_subject.depth > 0
+    pages << dominant_vertical_page
+    vertical_pages_breadcrumb = pages.compact.uniq.map{ |page| "#{page.slug};#{page.subject_name}" }.join('|')
     save
   end
-  handle_asynchronously :update_vertical_pages_breadcrumb
+  # handle_asynchronously :update_vertical_pages_breadcrumb
 
   def update_intercom_status
     new_status = CrmSync.structure_status_for_intercom(self)

@@ -42,7 +42,7 @@
 
   .grid
     .grid__item.six-tenths.palm-one-whole>
-      = render partial: 'vertical_pages/cities'
+      -# = render partial: 'vertical_pages/cities'
       - bg_thumb   = @vertical_page.image.url(:thumb)
       - if @subject.root.vertical_pages.any?
         - bg_thumb_2 = @subject.root.vertical_pages.first.image.url(:thumb)

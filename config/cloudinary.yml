@@ -21,8 +21,8 @@ staging:
   static_image_support: true
 
 production:
-  cloud_name: ENV['CLOUDINARY_CLOUD_NAME']
-  api_key: ENV['CLOUDINARY_API_KEY']
-  api_secret: ENV['CLOUDINARY_SECRET']
+  cloud_name: ENV['CLOUDINARY_PRODUCTION_CLOUD_NAME']
+  api_key: ENV['CLOUDINARY_PRODUCTION_API_KEY']
+  api_secret: ENV['CLOUDINARY_PRODUCTION_SECRET']
   enhance_image_tag: true
   static_image_support: true
