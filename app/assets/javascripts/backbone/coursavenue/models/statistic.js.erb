@@ -12,7 +12,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             var metricTypes = <%= Analytic::METRICS %>;
             var metricIndex = metricTypes.indexOf(action_type) + 1;
 
-            if (metricIndex > 0 && metricIndex <= metricTypes.length + 1) {
+            if (metricIndex > 0 && metricIndex <= metricTypes.length + 1 && CoursAvenue.env == 'production') {
                 var options = { 'dimension1': structure_id };
                 var metricKey = 'metric' + metricIndex;
 
