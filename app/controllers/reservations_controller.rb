@@ -1,8 +1,12 @@
 # encoding: utf-8
 class ReservationsController < ApplicationController
   def new
-    @course = Course.friendly.find params[:course_id]
-    redirect_to structure_course_path @course.structure, @course, status: 301
+    @course = Course.where(id: params[:course_id]).first
+    if @course
+      redirect_to structure_course_path @course.structure, @course, status: 301
+    else
+      redirect_to root_path status: 301
+    end
   end
 
   def create
