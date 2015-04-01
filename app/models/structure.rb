@@ -58,6 +58,7 @@ class Structure < ActiveRecord::Base
   has_many :followers, through: :followings, source: :user
 
   has_many :price_groups              , dependent: :destroy
+  has_many :course_prices             , through: :courses
   has_many :prices                    , through: :price_groups
   has_many :orders, class_name: 'Order::Premium'
   has_many :participation_requests
@@ -365,7 +366,7 @@ class Structure < ActiveRecord::Base
     integer :funding_type_ids, multiple: true
 
     boolean :is_open_for_trial do
-      self.courses.open_for_trial.any?
+      self.is_open_for_trial?
     end
 
     boolean :premium
@@ -1100,14 +1101,8 @@ class Structure < ActiveRecord::Base
     sleeping_structure
   end
 
-  def has_trial_courses?
-    courses.open_for_trial.any?
-  end
-
   def is_open_for_trial?
-    return Rails.cache.fetch ['Structure#is_open_for_trial?', self] do
-      courses.open_for_trial.any?
-    end
+    self.courses.open_for_trial.any?
   end
 
   # Subjects actually associated to courses
