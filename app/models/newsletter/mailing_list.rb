@@ -29,7 +29,7 @@ class Newsletter::MailingList < ActiveRecord::Base
       profiles = filter_profiles
     end
 
-    profiles = profiles.to_a.uniq { |profile| profile.email }
+    profiles = profiles.to_a.uniq { |profile| profile.email }.select { |profile| profile.email.present? }
 
     recipients = profiles.map do |profile|
       newsletter.recipients.create(user_profile: profile)
