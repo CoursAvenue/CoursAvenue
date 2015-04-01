@@ -15,14 +15,14 @@
 %table.table--striped.table--data
   %thead
     %tr
-      %th Date 1ere demande d'inscription
-      %th Nom de l'élève
-      %th Nom du prof
+      %th.three-twelfths Date 1ere demande d'inscription
+      %th.three-twelfths Nom de l'élève
+      %th.six-twelfths Nom du prof
   %tbody
     - @participation_requests.each do |participation_request|
       %tr
         %td= l(local_time(participation_request.created_at))
-        %td= link_to participation_request.user.name, user_url(participation_request.user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
-        %td= link_to participation_request.structure.name, pro_structure_path(participation_request.structure)
+        %td= link_to participation_request.user.name, user_participation_request_url(participation_request.user, participation_request, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
+        %td= link_to participation_request.structure.name, pro_structure_participation_request_path(participation_request.structure, participation_request), target: :_blank
 
 .text--center.push-half--ends= paginate @participation_requests, window: 1, outer_window: 3

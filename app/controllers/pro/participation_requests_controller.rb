@@ -4,11 +4,7 @@ class Pro::ParticipationRequestsController < Pro::ProController
 
   def index
     params[:state] ||= 'pending'
-    if params[:state] == 'canceled'
-      @participation_requests = ParticipationRequest.where(state: params[:state])
-    else
-      @participation_requests = ParticipationRequest.where(state: params[:state])
-    end
+    @participation_requests = ParticipationRequest.order('created_at DESC').where(state: params[:state])
     @participation_requests = Kaminari.paginate_array(@participation_requests).page(params[:page] || 1).per(20)
   end
 end
