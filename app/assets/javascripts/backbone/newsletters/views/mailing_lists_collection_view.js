@@ -10,6 +10,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             'click button[type=submit]':  'saveModel',
             'click [data-import]':        'importList',
             'change [data-all-contacts]': 'selectAllContacts',
+            'click [data-next]':          'saveModel',
             'click [data-previous]':      'previousStep',
         },
 
@@ -23,6 +24,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         templateHelpers: function templateHelpers () {
+            var structure = window.coursavenue.bootstrap.structure;
+
             return {
                 showAllProfilesOption: function () {
                     return this.collection.hasAllProfilesList();
@@ -31,6 +34,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 hasElements: function () {
                     return !this.collection.isEmpty();
                 }.bind(this),
+
+                previewUrl: Routes.preview_newsletter_pro_structure_newsletter_path(structure, this.model.get('id')),
             };
         },
 

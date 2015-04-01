@@ -4,6 +4,19 @@
   </div>
 </div>
 
+<div class='text--right'>
+  <a class='btn fancybox.ajax' href='{{ previewUrl }}' data-behavior='modal' data-width='700' data-padding='0'>
+    <i class='fa fa-eye'></i>
+    Previsualiser
+  </a>
+  <a href='javascript:void(0)' data-next='true' class='btn btn--green'>Étape suivante</a>
+</div>
+<div class='flexbox push-half--ends'>
+  <div class='flexbox__item v-middle text--right'>
+    <a href='javascript:void(0)' data-previous='true' class=''>Étape précédente</a>
+  </div>
+</div>
+
 <form>
   <div class='input'>
     <label for="sender_name" class='label--large blue'>Nom de l'éxpéditeur</label>
@@ -21,10 +34,5 @@
     <label for="email_object" class='label--large blue'>Objet de l'e-mail</label>
     <p class="flush">Ce qui s'affichera dans la boite de réception de l'élève</p>
     <input id="title" class='input--large one-whole' name="email_object" type="text" placeholder="Prochains stages à venir !" value="{{ email_object }}" required />
-  </div>
-
-  <div class='text--center'>
-    <a data-previous='true' class='btn btn--green  two-fifths soft-half--ends'>Étape précédante</a>
-    <button type='submit' class='btn btn--green two-fifths soft-half--ends' data-disable-with="En cours d'enregistrement">Étape suivante</button>
   </div>
 </form>
