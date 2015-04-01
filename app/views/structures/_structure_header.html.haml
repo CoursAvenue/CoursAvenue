@@ -25,17 +25,6 @@
                         %a.muted-link.orange{ href: '#cours-particuliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours particuliers
                     %li.soft-half--sides
                       %a.muted-link.orange{ href: '#avis', data: { behavior: 'scroll-to' } } Avis
-
-              - if @structure.is_open_for_trial?
-                %a.v-middle.muted-link.cursor-pointer{ data: { behavior: 'show-contact-panel' } }
-                  .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.trial_courses_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-                    %i.fa.fa-ticket
-                    Essai gratuit
-              - if @structure.has_promotion?
-                = link_to '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' }, class: 'muted-link inline v-middle' do
-                  .lbl.lbl--yellow.nowrap.v-middle.push-half--left{ data: { toggle: 'popover', content: @structure_decorator.promotion_popover, trigger: 'hover', html: 'true', placement: 'bottom' } }
-                    %i.fa-star
-                    Promotions
           .flexbox__item.v-middle.nowrap.text--right>
             %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel' } }
               Contacter
