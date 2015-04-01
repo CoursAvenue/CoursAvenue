@@ -7,7 +7,7 @@ StructureProfile.module('Views.Structure.Courses.Lessons', function(Module, App,
 
         collectionReset: function collectionReset () {
             this.trigger('lessons:collection:reset', this.serializeData());
-            if (this.collection.length == 0) { this.$('[data-empty-courses]').removeClass('hidden') }
+            if (this.collection.length == 0) { this.$el.closest('[data-wrapper]').hide(); }
         }
     });
 });
