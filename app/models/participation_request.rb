@@ -9,7 +9,8 @@ class ParticipationRequest < ActiveRecord::Base
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
                   :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
                   :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
-                  :old_course_id, :structure_responded, :street, :zip_code, :city_id, :participants_attributes
+                  :old_course_id, :structure_responded, :street, :zip_code, :city_id,
+                  :participants_attributes, :structure_id
 
   ######################################################################
   # Relations                                                          #
@@ -61,12 +62,12 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return ParticipationRequest
   def self.create_and_send_message(request_attributes, message_body, user, structure)
-    message_body                    = StringHelper.replace_contact_infos(message_body)
-    request_attributes              = self.set_start_time(request_attributes)
-    participants_attributes = { participants_attributes: request_attributes['participants_attributes'] }
+    message_body            = StringHelper.replace_contact_infos(message_body)
+    request_attributes      = self.set_start_time(request_attributes)
+    participants_attributes = { participants_attributes: (request_attributes['participants_attributes'] || [{ number: 1}]) }
     request_attributes      = request_attributes.slice(*ParticipationRequest.attribute_names)
     request_attributes      = request_attributes.merge(participants_attributes)
-    participation_request           = ParticipationRequest.new request_attributes
+    participation_request   = ParticipationRequest.new request_attributes
 
     participation_request.user      = user
     participation_request.structure = structure
