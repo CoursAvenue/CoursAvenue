@@ -30,6 +30,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             this.on('participation_request:total', function(data) {
                 this.$('[data-pr-total]').text(data.total);
             }.bind(this));
+            CoursAvenue.statistic.logStat(this.model.get('attributes').id, 'action', {});
         },
 
         showPhoneNumbers: function showPhoneNumbers () {
