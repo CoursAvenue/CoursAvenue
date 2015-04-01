@@ -5,6 +5,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         events: {
             'submit':                'saveModel',
+            'click [data-next]':     'saveModel',
             'click [data-previous]': 'previousStep',
         },
 
