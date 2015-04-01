@@ -136,8 +136,6 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
-
-      resources :reservations, only: [:index]
       resources :invited_users, only: [:index]
       resources :sticker_demands, only: [:index]
       resources :open_courses, only: [:index], controller: 'open_courses' do
@@ -497,8 +495,6 @@ CoursAvenue::Application.routes.draw do
       resources :participations, only: [:new, :create], controller: 'plannings/participations'
     end
     resources :locations, only: [:index]
-
-    resources :reservations, only: [:create]
 
     resources :open_courses, path: 'portes-ouvertes-cours-loisirs', only: [:index], controller: 'open_courses'
 
