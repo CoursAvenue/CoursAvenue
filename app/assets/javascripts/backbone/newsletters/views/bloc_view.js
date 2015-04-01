@@ -7,6 +7,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         events: {
             'click [data-delete-image]':                   'deleteImage',
+            'click [data-edit-image]':                     'editImage',
             'change input[data-type=filepicker-dragdrop]': 'updateImage',
             'change input':                                'silentSave',
             'change textarea':                             'silentSave'
@@ -18,7 +19,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var position_label = this.model.collection.where({type: this.model.get('type')}).indexOf(this.model) + 1
             this.model.set('position_label', position_label);
 
-            _.bindAll(this, 'onRender', 'deleteImage', 'updateImage', 'onShow', 'silentSave');
+            _.bindAll(this, 'onRender', 'editImage', 'deleteImage', 'updateImage', 'onShow', 'silentSave');
         },
 
         // Custom render function.
@@ -47,6 +48,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             } else {
                 this.deleteImage();
             }
+        },
+
+        editImage: function editImage () {
+            this.$el.find('.filepicker-btn').click()
         },
 
         // TODO:
