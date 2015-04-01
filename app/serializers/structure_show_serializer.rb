@@ -128,6 +128,6 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def trial_courses_policy
-    I18n.t("structures.trial_courses_policy.#{object.trial_courses_policy}_nb")
+    I18n.t("structures.trial_courses_policy.#{object.trial_courses_policy || 1}_nb")
   end
 end

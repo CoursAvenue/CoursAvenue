@@ -53,12 +53,8 @@
         },
 
         attachEvents: function attachEvents () {
-            this.$trigger.click(function() {
-                this.showMoreItem();
-            }.bind(this));
-            this.$clearers.click(function(event) {
-                this.clearAndHide(event);
-            }.bind(this));
+            this.$trigger.click(this.showMoreItem.bind(this));
+            this.$clearers.click(this.clearAndHide.bind(this));
         },
 
         clearAndHide: function clearAndHide (event) {
@@ -69,20 +65,19 @@
             // Don't set select value to '' if there is no blank options
             $wrapping_el.find('select').each(function() {
                 if ($(this).find('option[value=""]').length == 1) {
-                    $(this).val('');
+                    $(this).val('').trigger("chosen:updated");
                     $(this).removeAttr('value');
                 } else {
                     $(this).val($(this).find('option').first().val());
                 }
-                $(this).val('').trigger("chosen:updated");
             });
             this.$hidden_items = $(this.$element.find('[data-el][data-hidden]'));
             if (this.$hidden_items.length < (this.$items.length - 1) ) {
                 $wrapping_el.slideUp();
-                // $wrapping_el.hide();
                 $wrapping_el.attr('data-hidden', true);
             }
-            // this.$trigger.show();
+            // Updating $hidden_items
+            this.$hidden_items = $(this.$element.find('[data-el][data-hidden]'));
             this.$trigger.slideDown();
         },
         showMoreItem: function showMoreItem () {

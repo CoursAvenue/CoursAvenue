@@ -1132,8 +1132,9 @@ class Structure < ActiveRecord::Base
     pages << dominant_vertical_page_subject.root.vertical_pages.first
     pages << dominant_vertical_page_subject.parent.vertical_pages.first if dominant_vertical_page_subject.depth > 0
     pages << dominant_vertical_page
-    vertical_pages_breadcrumb = pages.compact.uniq.map{ |page| "#{page.slug};#{page.subject_name}" }.join('|')
+    self.vertical_pages_breadcrumb = pages.compact.uniq.map{ |page| "#{page.slug};#{page.subject_name}" }.join('|')
     save
+    nil
   end
   handle_asynchronously :update_vertical_pages_breadcrumb
 

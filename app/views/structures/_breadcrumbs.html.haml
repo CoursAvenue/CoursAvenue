@@ -1,11 +1,12 @@
 - if @structure.vertical_pages_breadcrumb.present?
-  - cache [@structure, 'structure/show/breadcrumb/vertical_pages/V1'] do
+  - cache [@structure, 'structure/show/breadcrumb/vertical_pages/V1', @structure.vertical_pages_breadcrumb] do
     %ol.nav.breadcrumb.push-half--bottom
       %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to vertical_pages_path, itemprop: 'url', class: "white" do
           %span{ itemprop: 'title' }= "Nos guides"
-      - root_page_slug = @structure.vertical_pages_breadcrumb.split('|').first.first
-      - @structure.vertical_pages_breadcrumb.split('|').each_with_index do |vertical_page_slug, vertical_page_name, index|
+      - root_page_slug = @structure.vertical_pages_breadcrumb.split('|').first.split(';').first
+      - @structure.vertical_pages_breadcrumb.split('|').each_with_index do |couple, index|
+        - vertical_page_slug, vertical_page_name = couple.split(';')
         %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
           - if index == 0
             = link_to root_vertical_page_path(vertical_page_slug), itemprop: 'url', class: "white" do

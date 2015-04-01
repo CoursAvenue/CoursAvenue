@@ -30,8 +30,7 @@
                     </div>{{!--
                 --}}<div class="grid__item v-middle two-twelfths nowrap soft-half--left">
                         <select data-element="number-select" name="participation_request[participants_attributes][{{@index}}][number]">
-                            <option value="0">0</option>
-                            <option value="1" {{#ifCond @index '==' 0}}selected{{/ifCond}}>1</option>
+                            <option data-default value="1" {{#ifCond @index '==' 0}}selected{{/ifCond}}>1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>

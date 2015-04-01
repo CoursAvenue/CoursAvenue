@@ -7,12 +7,16 @@ StructureProfile.module('Views.Structure.Courses.Privates', function(Module, App
         emptyView: Module.EmptyView,
 
         courseHovered: function courseHovered (options) {
-            var place_ids = [this.model.get('place').id, this.model.get('home_place').id]
+            var place_ids = [];
+            if (this.model.get('home_place')) { place_ids.push(this.model.get('home_place').id); }
+            if (this.model.get('place')) { place_ids.push(this.model.get('place').id); }
             this.trigger("mouseenter", { place_ids: _.uniq(place_ids) });
         },
 
         courseHoveredOut: function courseHoveredOut (options) {
-            var place_ids = [this.model.get('place').id, this.model.get('home_place').id]
+            var place_ids = [];
+            if (this.model.get('home_place')) { place_ids.push(this.model.get('home_place').id); }
+            if (this.model.get('place')) { place_ids.push(this.model.get('place').id); }
             this.trigger("mouseleave", { place_ids: _.uniq(place_ids) });
         },
 
