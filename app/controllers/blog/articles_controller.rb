@@ -13,7 +13,7 @@ class Blog::ArticlesController < ApplicationController
   end
 
   def show
-    @article = Blog::Article::UserArticle.where(id: params[:id]).first
+    @article = Blog::Article::UserArticle.where(slug: params[:id]).first
     redirect_to(blog_articles_path, status: 301) if @article.nil?
     @article.increment_page_views! if @article
     @article_decorator = BlogArticleDecorator.new(@article) if @article
