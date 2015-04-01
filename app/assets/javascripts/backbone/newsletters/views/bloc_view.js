@@ -79,8 +79,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             text_areas.each(function(index, elem) {
                 $(elem).redactor({
-                      buttons: ['formatting', 'bold', 'italic','unorderedlist',
-                                'orderedlist', 'link', 'alignment', 'horizontalrule'],
+                      buttons: ['formatting', 'bold', 'italic','unorderedlist', 'orderedlist',
+                                'link', 'alignment', 'horizontalrule', 'underline'],
                       lang: 'fr',
                       formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
                       blurCallback: function blurCallback (event) {
