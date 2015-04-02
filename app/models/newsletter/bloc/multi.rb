@@ -1,2 +1,2 @@
-class Newsletter::Bloc::Multi
+class Newsletter::Bloc::Multi < Newsletter::Bloc
 end
