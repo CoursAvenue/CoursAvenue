@@ -66,9 +66,6 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
                 has_comments     : this.collection.structure.get('has_comments')
             }
         },
-        serializeData: function serializeData () {
-
-        },
         scrollToTop: function scrollToTop () {
             $.scrollTo(this.$el, { duration: 400, offset: -80 });
         }
