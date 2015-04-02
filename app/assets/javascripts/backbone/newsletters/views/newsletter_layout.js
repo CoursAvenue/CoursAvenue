@@ -166,7 +166,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 fragment = id + '/' + fragment;
             }
 
-            if (!disabled) {
+            if (disabled) {
+                COURSAVENUE.helperMethods.flash('Veuillez compléter l’étape actuelle.', 'error');
+            } else {
                 this.router.navigate(fragment, { trigger: true });
             }
         },
