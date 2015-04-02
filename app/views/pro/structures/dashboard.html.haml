@@ -1,5 +1,7 @@
 = side_menu_currently_at 'general'
 
+= render partial: 'pro/structures/general_tabs', locals: { current: 'general' }
+
 - if @wizard
   #wizard.hidden
     .blue-box.relative.soft.rounded--none.push--bottom
