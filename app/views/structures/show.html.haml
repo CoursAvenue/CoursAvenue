@@ -57,8 +57,8 @@
       - # This additionnal div is necessary for the husk that will be prepended
       - # to the parent of the sticky div
       %div
-        .on-top{ data: { type: 'sticky-map-container' } }>
-          .push--bottom.soft--top{ class: (@is_sleeping ? '' : 'bg-site-background'), data: { type: 'sticky-map', stick: (@is_sleeping ? 'false' : 'true') } }>
+        .on-top.bg-site-background-on-stick.transition-all-300{ data: { type: 'sticky-map-container' } }>
+          .push--bottom.soft--top{ data: { type: 'sticky-map', stick: (@is_sleeping ? 'false' : 'true') } }>
       - unless @is_sleeping
         - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
           .panel.push--bottom
