@@ -1,8 +1,6 @@
-Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
-    Module.BlocView = Backbone.Marionette.ItemView.extend({
-        template: function template (model) {
-            return JST[Module.templateDirname() + 'bloc_' + model.view_type](model);
-        },
+Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, _) {
+    Module.Image = Backbone.Marionette.ItemView.extend({
+        template: Module.templateDirname() + 'image',
         tagName: 'div',
 
         events: {
@@ -10,7 +8,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             'click [data-edit-image]':                     'editImage',
             'change input[data-type=filepicker-dragdrop]': 'updateImage',
             'change input':                                'silentSave',
-            'change textarea':                             'silentSave'
         },
 
         initialize: function initialize () {
@@ -73,26 +70,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // Replace the HTML elements with their rich version:
         // - Replacing a `remote_image_url` input by a filepicker button.
         onShow: function onShow () {
-            var text_areas = this.$el.find('[data-type=redactor]');
             var pickers    = this.$el.find('[data-type=filepicker-dragdrop]');
             var model      = this.model;
-
-            text_areas.each(function(index, elem) {
-                $(elem).redactor({
-                      buttons: ['formatting', 'bold', 'italic','unorderedlist', 'orderedlist',
-                                'link', 'alignment', 'horizontalrule', 'underline'],
-                      lang: 'fr',
-                      formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
-                      blurCallback: function blurCallback (event) {
-                          this.$element.trigger('change', event);
-                      },
-                      initCallback: function initCallback () {
-                          if (model.has('content')) {
-                              this.code.set(model.get('content'));
-                          }
-                      },
-                });
-            });
 
             pickers.each(function(index, elem) {
                 // We have to add the type to be able to `constructWidget`
