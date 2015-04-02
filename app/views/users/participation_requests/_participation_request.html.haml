@@ -20,7 +20,7 @@
       %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
         = course.name
     %div
-      = course_decorator.first_session_detail(true)
+      = participation_request_decorator.details
   %td.v-top
     - if place
       %div
