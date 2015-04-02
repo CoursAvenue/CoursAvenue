@@ -23,7 +23,7 @@ class Newsletter::Layout < ActiveHash::Base
     },
     {
       id: 4,
-      blocs: ['image', 'text', 'text'],
+      blocs: ['multi', 'multi'],
       name: 'Modèle 4',
       partial: 'layout_04',
       disposition: :vertical

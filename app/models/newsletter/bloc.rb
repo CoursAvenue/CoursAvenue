@@ -4,7 +4,7 @@ class Newsletter::Bloc < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  BLOC_TYPES = ['Newsletter::Bloc::Text', 'Newsletter::Bloc::Image']
+  BLOC_TYPES = ['Newsletter::Bloc::Text', 'Newsletter::Bloc::Image', 'Newsletter::Bloc::Multi']
 
   ######################################################################
   # Macros                                                             #
