@@ -1,4 +1,4 @@
-# Legator model for the actions metric.
+# Legato model for the actions metric.
 # The `dimension1` and `metric3` are defined in Google Analytics' dashboard.
 # `dimension1` is The structure id and `metric3` is the actions count.
 #
