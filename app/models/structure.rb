@@ -162,6 +162,7 @@ class Structure < ActiveRecord::Base
   after_create  :set_default_place_attributes
   after_create  :geocode  unless Rails.env.test?
 
+  before_save   :reset_crop_if_changed_logo
   before_save   :strip_name
   before_save   :sanatize_description
   before_save   :encode_uris
@@ -536,41 +537,12 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  def logo_geometry(style = :original)
-    @geometry ||= {}
-    begin
-      if Rails.env.production?
-        @geometry[style] ||= Paperclip::Geometry.from_file(logo.url(style))
-      else
-        @geometry[style] ||= Paperclip::Geometry.from_file(logo.path(style))
-      end
-    rescue
-      geometry = Struct.new(:width, :height)
-      if style == :original
-        @geometry[style] = geometry.new(600, 600)
-      elsif style == :large
-        @geometry[style] = geometry.new(450, 450)
-      else
-        @geometry[style] = geometry.new(200, 200)
-      end
-    end
-  end
-
   def ratio_from_original_from_large
     600.0 / 450.0
   end
 
   def crop_width
-    logo_min_width = [logo_geometry.width, logo_geometry.height].min
-    # if the crop is larger than the picture, return the nil
-    if (read_attribute(:crop_width) + crop_x) > logo_min_width or
-       (read_attribute(:crop_width) + crop_y) > logo_min_width
-      nil
-    elsif read_attribute(:crop_width) == 0
-      logo_min_width
-    else
-      read_attribute(:crop_width)
-    end
+    read_attribute(:crop_width) || 600
   end
 
   def has_cropping_attributes?
@@ -1295,5 +1267,11 @@ class Structure < ActiveRecord::Base
   def dominant_city_from_planning
     plannings.map(&:place).compact.flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first ||
       courses.flat_map(&:places).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first
+  end
+
+  def reset_crop_if_changed_logo
+    if self.remote_logo_url
+      self.crop_x, self.crop_y, self.crop_width = nil, nil, nil
+    end
   end
 end
