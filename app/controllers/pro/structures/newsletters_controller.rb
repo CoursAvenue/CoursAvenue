@@ -137,7 +137,7 @@ class Pro::Structures::NewslettersController < ApplicationController
       id = layout_["attributes"]["id"]
 
       layout_["attributes"].merge({
-        image: view_context.asset_path("pro/newsletters/layouts/layout_#{id}.png"),
+        image:   view_context.asset_path("pro/newsletters/layouts/layout_#{id}.png"),
         image2x: view_context.asset_path("pro/newsletters/layouts/layout_#{id}@2x.png")
       })
     end

@@ -16,7 +16,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
 
-            var position_label = this.model.collection.where({type: this.model.get('type')}).indexOf(this.model) + 1
+            var position_label = this.model.collection.where({ type: this.model.get('type') }).indexOf(this.model) + 1
             this.model.set('position_label', position_label);
 
             _.bindAll(this, 'onRender', 'editImage', 'deleteImage', 'updateImage', 'onShow', 'silentSave');
