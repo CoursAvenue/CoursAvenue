@@ -30,11 +30,11 @@ COURSAVENUE.helperMethods = {
      * @params class_name class added to the flash, by default it will be alert
                           the flash will be an error
      */
-    flash: function flash (text, class_name) {
+    flash: function flash (text, class_name, options) {
         class_name = class_name || 'alert';
         var flash = $('<div class="flash ' + class_name + '">').text(text);
         $(document.body).append(flash)
-        flash.flash();
+        flash.flash(options);
     },
 
     /*

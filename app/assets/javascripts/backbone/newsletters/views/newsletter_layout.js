@@ -167,7 +167,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             }
 
             if (disabled) {
-                COURSAVENUE.helperMethods.flash('Veuillez compléter l’étape actuelle.', 'error');
+                COURSAVENUE.helperMethods.flash('Veuillez compléter l’étape actuelle.', 'error', { delay: 5000 });
             } else {
                 this.router.navigate(fragment, { trigger: true });
             }
