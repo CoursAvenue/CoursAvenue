@@ -296,4 +296,4 @@ gem 'omnicontacts', '~> 0.3.5'
 # Email sending for teachers
 gem 'mandrill-api'
 
-gem 'legato'
+gem 'legato', '~> 0.4.0'
