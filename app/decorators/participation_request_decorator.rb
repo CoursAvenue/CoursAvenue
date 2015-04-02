@@ -1,5 +1,5 @@
 class ParticipationRequestDecorator < Draper::Decorator
-  include LevelsHelper, PlanningsHelper
+  include LevelsHelper, PlanningsHelper, PricesHelper
 
   delegate_all
 
@@ -123,7 +123,7 @@ class ParticipationRequestDecorator < Draper::Decorator
     # XX participants, XX€ (XX x 1 cours à 29€, XX x carnets de 10 tickets à 490€)
     if object.participants.any?
       _details = h.pluralize(object.participants.map(&:number).reduce(&:+), 'participant') + ', '
-      _details << "#{h.readable_amount object.participants.map(&:total_price).reduce(&:+)}"
+      _details << "#{readable_amount object.participants.map(&:total_price).reduce(&:+)}"
       price_details = object.participants.map.each_with_index do |participant, index|
         "#{participant.number} x #{participant.price.decorate.details.downcase}" if participant.price
       end.join(', ')
