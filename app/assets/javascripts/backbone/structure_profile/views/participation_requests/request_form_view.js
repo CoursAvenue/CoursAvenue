@@ -46,6 +46,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             // Retrieve all attributes regarding the name of their input
             var new_attributes = {}
             this.$('[name^="participation_request["]').each(function (index, input) {
+                if (!$(input).is(':visible')) { return; }
                 $input         = $(input);
                 attribute_name = $input.attr('name').replace('participation_request[', '').replace(']', '');
                 // If it is a nested attributes
