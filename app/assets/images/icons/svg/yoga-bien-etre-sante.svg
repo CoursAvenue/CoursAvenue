@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="49.722px" height="49.723px" viewBox="0 0 49.722 49.723" enable-background="new 0 0 49.722 49.723" xml:space="preserve">
-<g id="Your_Icon">
-	<g>
-		<path d="M24.861,0C11.153,0,0,11.152,0,24.86c0,13.71,11.153,24.862,24.861,24.862c13.708,0,24.861-11.152,24.861-24.861
-			S38.57,0,24.861,0z M21.983,36.706c0-2.263,1.833-4.096,4.096-4.096c2.262,0,4.096,1.833,4.096,4.096s-1.834,4.097-4.096,4.097
-			C23.816,40.803,21.983,38.969,21.983,36.706z M1.9,24.861c0-12.66,10.3-22.962,22.961-22.962c0.216,0,0.429,0.012,0.644,0.017
-			c3.842,1.05,11.311,3.832,11.311,11.211c0,16.826-22.693,7.749-22.693,23.689c0,5.083,3.058,8.927,6.687,10.641
-			C10.076,45.536,1.9,36.14,1.9,24.861z"/>
-		<circle cx="26.08" cy="13.403" r="4.096"/>
-	</g>
-</g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+    <title>yoga-bien-etre-sante</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="yoga-bien-etre-sante" sketch:type="MSLayerGroup" fill="#000000">
+            <g id="Your_Icon" sketch:type="MSShapeGroup">
+                <g id="Group">
+                    <path d="M24.861,0 C11.153,0 0,11.152 0,24.86 C0,38.57 11.153,49.722 24.861,49.722 C38.569,49.722 49.722,38.57 49.722,24.861 C49.722,11.152 38.57,0 24.861,0 L24.861,0 Z M21.983,36.706 C21.983,34.443 23.816,32.61 26.079,32.61 C28.341,32.61 30.175,34.443 30.175,36.706 C30.175,38.969 28.341,40.803 26.079,40.803 C23.816,40.803 21.983,38.969 21.983,36.706 L21.983,36.706 Z M1.9,24.861 C1.9,12.201 12.2,1.899 24.861,1.899 C25.077,1.899 25.29,1.911 25.505,1.916 C29.347,2.966 36.816,5.748 36.816,13.127 C36.816,29.953 14.123,20.876 14.123,36.816 C14.123,41.899 17.181,45.743 20.81,47.457 C10.076,45.536 1.9,36.14 1.9,24.861 Z M26.08,17.499 C28.3421583,17.499 30.176,15.6651583 30.176,13.403 C30.176,11.1408417 28.3421583,9.307 26.08,9.307 C23.8178417,9.307 21.984,11.1408417 21.984,13.403 C21.984,15.6651583 23.8178417,17.499 26.08,17.499 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
 </svg>

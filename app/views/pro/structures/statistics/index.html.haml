@@ -1,134 +1,102 @@
-= side_menu_currently_at 'statistics'
-.panel
-  .panel__header.soft
-    %h3.flush.text--center Statistiques de votre profil des 15 derniers jours
-  .panel__body.soft--ends.relative
-    .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
-      %p.delta.text--center.line-height-2
-        Vos statistiques sont momentanément indisponibles. Nous travaillons actuellement sur leur amélioration et les données seront de nouveau visibles dans les prochains jours.
+= side_menu_currently_at 'general'
 
--#       - if @structure.premium?
--#         .relative.soft.premium-box.text--center.push--bottom
--#           = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
--#           = render partial: 'pro/structures/premium_select', locals: { title: 'suivre toutes les statistiques de votre profil CoursAvenue ?', label_text: "Statistiques du nombre de consultations et d'actions :", select_collection: ['Visibles', 'Non visibles'] }
+- if current_pro_admin and current_pro_admin.super_admin?
+  = render partial: 'pro/structures/general_tabs', locals: { current: 'statistics' }
 
--#       .grid.push--bottom
--#         .grid__item.one-third.text--center.v-middle>
--#           .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
--#             .v-middle.lbl.lbl--red.v-middle.lbl--small &nbsp;
--#             %h5.flush.v-middle.inline-block
--#               Affichages :
--#               = @impressions_total_count
--#         .grid__item.one-third.text--center.v-middle>
--#           .inline-block.cursor-pointer.nowrap{ data: { behavior: 'toggle-serie' } }
--#             .v-middle.lbl.lbl--blue.v-middle.lbl--small &nbsp;
--#             %h5.flush.v-middle.inline-block
--#               Consultations :
--#               = @views_total_count
--#         .grid__item.one-third.text--center.v-middle>
--#           .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
--#             .v-middle.lbl.lbl--green.v-middle.lbl--small &nbsp;
--#             %h5.flush.v-middle.inline-block
--#               Actions :
--#               = @actions_total_count
+%h1 Statistiques
 
--#       #statistics
+%div{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
+  %p.delta.line-height-1-5
+    Vos statistiques sont momentanément indisponibles. Nous travaillons actuellement sur leur amélioration et les données seront de nouveau visibles dans les prochains jours.
 
--#     - if @structure.premium?
--#       %hr.push--sides
+.grid.push--bottom
+  .grid__item.one-third.text--center.v-middle>
+    .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
+      .v-middle.lbl.lbl--red.v-middle.lbl--small &nbsp;
+      %h5.flush.v-middle.inline-block
+        Affichages :
+        = @impressions_total_count
+  .grid__item.one-third.text--center.v-middle>
+    .inline-block.cursor-pointer.nowrap{ data: { behavior: 'toggle-serie' } }
+      .v-middle.lbl.lbl--blue.v-middle.lbl--small &nbsp;
+      %h5.flush.v-middle.inline-block
+        Consultations :
+        = @views_total_count
+  .grid__item.one-third.text--center.v-middle>
+    .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
+      .v-middle.lbl.lbl--green.v-middle.lbl--small &nbsp;
+      %h5.flush.v-middle.inline-block
+        Actions :
+        = @actions_total_count
 
--#       .soft--sides{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.advices') } }
--#         %h4 Conseils personnalisés
--#         %p.epsilon Bénéficiez de conseils en marketing et en communication que vous pouvez également appliquer sur tous vos supports de communication (site Internet, newsletters, affiches, etc.)
--#         .text--center
--#           = link_to 'Contacter un conseiller CoursAvenue pour des conseils personnalisés', pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--yellow'
+#statistics
 
--# :javascript
--#   window.coursavenue = {};
--#   window.coursavenue.series = [ { data: #{@impressions.sort.map{|date, count| count}},
--#                                   name: 'Affichages',
--#                                   stack: 'Affichages'
--#                                  },
--#                                 { data: #{@views.sort.map{|date, count| count}},
--#                                   name: 'Vues',
--#                                   stack: 'Vues'
--#                                 },
--#                                 { data: #{@phone_actions.sort.map{|date, count| count}},
--#                                   name: 'Téléphone',
--#                                   stack: 'Actions'
--#                                 },
--#                                 { data: #{@facebook_actions.sort.map{|date, count| count}},
--#                                   name: 'Facebook like',
--#                                   stack: 'Actions'
--#                                 },
--#                                 { data: #{@website_actions.sort.map{|date, count| count}},
--#                                   name: 'Site internet',
--#                                   stack: 'Actions'
--#                                 },
--#                                 { data: #{@message_actions.sort.map{|date, count| count}},
--#                                   name: 'Message',
--#                                   stack: 'Actions'
--#                                 },
--#                                 { data: #{@follow_actions.sort.map{|date, count| count}},
--#                                   name: 'Favori',
--#                                   stack: 'Actions'
--#                                 },
--#                                 { data: #{@request_actions.sort.map{|date, count| count}},
--#                                   name: 'Inscription',
--#                                   stack: 'Actions'
--#                                 }
--#                               ]
+:javascript
+  window.coursavenue = {};
+  window.coursavenue.series = [ { data: #{ @impressions },
+                                  name: 'Affichages',
+                                  stack: 'Affichages'
+                                 },
+                                { data: #{ @views },
+                                  name: 'Vues',
+                                  stack: 'Vues'
+                                },
+                                { data: #{ @actions },
+                                  name: 'Actions',
+                                  stack: 'Actions'
+                                }
+                              ]
 
--# = content_for :scripts do
--#   = javascript_include_tag 'libs/highcharts/highcharts'
--#   = javascript_include_tag 'libs/highcharts/modules/exporting'
--#   :javascript
--#     $(function() {
--#         var statistic_chart = new Highcharts.Chart({
--#             chart: { renderTo: 'statistics', type: 'column' },
--#             title: { text: null },
--#             legend: { enabled: false },
--#             xAxis: {
--#                 categories: #{@empty_hash_of_days.map{|date| l(Date.parse(date.to_s), format: :short)}},
--#                 showEmpty: true
--#             },
--#             yAxis: {
--#                 title: { text: ''},
--#                 showEmpty: true,
--#                 minTickInterval: 1
--#             },
--#             colors: ['#e2493c', '#3ab8ae', '#47b442', '#62bc62', '#A0D468', '#B9DF90', '#71BB21'],
--#             plotOptions: {
--#                 series: {
--#                     pointPadding: 0,
--#                     groupPadding: 0.1,
--#                     borderWidth: 0,
--#                     shadow: false
--#                 },
--#                 column: {
--#                     stacking: 'normal'
--#                 }
--#             },
--#             series: window.coursavenue.series
--#         });
--#         $("[data-behavior='toggle-serie']").each(function(index) {
--#             var serie = statistic_chart.series[index];
--#             $(this).click(function() {
--#                 if (serie.visible) {
--#                     $(this).addClass('muted');
--#                     serie.hide();
--#                     if (index == 2) {
--#                         statistic_chart.series[3].hide();
--#                         statistic_chart.series[4].hide();
--#                     }
--#                 } else {
--#                     $(this).removeClass('muted');
--#                     serie.show();
--#                     if (index == 2) {
--#                         statistic_chart.series[3].show();
--#                         statistic_chart.series[4].show();
--#                     }
--#                 }
--#             });
--#         });
--#     });
+= content_for :scripts do
+  = javascript_include_tag 'libs/highcharts/highcharts'
+  = javascript_include_tag 'libs/highcharts/modules/exporting'
+  :javascript
+    $(function() {
+        var statistic_chart = new Highcharts.Chart({
+            chart: { renderTo: 'statistics', type: 'column' },
+            title: { text: null },
+            legend: { enabled: false },
+            xAxis: {
+                categories: #{@empty_hash_of_days.map{|date| l(Date.parse(date.to_s), format: :short)}},
+                showEmpty: true
+            },
+            yAxis: {
+                title: { text: ''},
+                showEmpty: true,
+                minTickInterval: 1
+            },
+            colors: ['#e2493c', '#3ab8ae', '#47b442', '#62bc62', '#A0D468', '#B9DF90', '#71BB21'],
+            plotOptions: {
+                series: {
+                    pointPadding: 0,
+                    groupPadding: 0.1,
+                    borderWidth: 0,
+                    shadow: false
+                },
+                column: {
+                    stacking: 'normal'
+                }
+            },
+            series: window.coursavenue.series
+        });
+        $("[data-behavior='toggle-serie']").each(function(index) {
+            var serie = statistic_chart.series[index];
+            $(this).click(function() {
+                if (serie.visible) {
+                    $(this).addClass('muted');
+                    serie.hide();
+                    if (index == 2) {
+                        statistic_chart.series[3].hide();
+                        statistic_chart.series[4].hide();
+                    }
+                } else {
+                    $(this).removeClass('muted');
+                    serie.show();
+                    if (index == 2) {
+                        statistic_chart.series[3].show();
+                        statistic_chart.series[4].show();
+                    }
+                }
+            });
+        });
+    });

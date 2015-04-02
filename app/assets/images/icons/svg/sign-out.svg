@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-<g>
-	<polygon points="97.793,97.667 32.966,97.667 32.966,72.88 38,72.88 38,92.633 92.759,92.633 92.759,7.367 38,7.367 38,27.12 
-		32.966,27.12 32.966,2.333 97.793,2.333 	"/>
-</g>
-<g>
-	<rect x="4.366" y="47.483" width="53.387" height="5.034"/>
-</g>
-<g>
-	<polygon points="18.271,67.212 1.06,50 18.271,32.788 20.969,36.095 7.062,50 20.969,63.903 	"/>
-</g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="97px" height="96px" viewBox="0 0 97 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+    <title>sign-out</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="sign-out" sketch:type="MSLayerGroup" fill="#000000">
+            <path d="M8.57936203,45.483 L56.753,45.483 L56.753,50.517 L8.57972416,50.517 L19.969,61.903 L17.271,65.212 L0.06,48 L17.271,30.788 L19.969,34.095 L8.57936203,45.483 Z M96.793,95.667 L31.966,95.667 L31.966,70.88 L37,70.88 L37,90.633 L91.759,90.633 L91.759,5.367 L37,5.367 L37,25.12 L31.966,25.12 L31.966,0.333 L96.793,0.333 L96.793,95.667 Z" id="Shape" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
 </svg>
