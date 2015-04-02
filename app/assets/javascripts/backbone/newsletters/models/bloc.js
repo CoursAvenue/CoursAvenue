@@ -15,7 +15,8 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
             if (!this.has('view_type')) {
                 var backend_types = {
                     image: 'Newsletter::Bloc::Image',
-                    text:  'Newsletter::Bloc::Text'
+                    text:  'Newsletter::Bloc::Text',
+                    multi: 'Newsletter::Blocs::Multi'
                 };
 
                 this.set('view_type', model.type);
