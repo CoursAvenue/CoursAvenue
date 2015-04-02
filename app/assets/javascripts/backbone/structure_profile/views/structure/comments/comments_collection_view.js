@@ -30,7 +30,10 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             } else {
                 this.pagination_bottom.$el.show();
             }
-            this.ui.$comments_count.text(this.collection.state.grandTotal);
+            // Prevent from bug when UIElements are not bound yet.
+            if (this.ui.$comments_count.text) {
+                this.ui.$comments_count.text(this.collection.state.grandTotal);
+            }
             var data = {
                 current_page:        this.collection.state.currentPage,
                 queryOptions:       '',
