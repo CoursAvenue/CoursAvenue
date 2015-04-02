@@ -77,9 +77,9 @@
         .control-label {
             width: $label-width;
         }
-        .control-label, input, textarea, .input-container {
+        .control-label, input, textarea, .input-container, .input.text {
             @include multiple-media-query(palm, lap) {
-                width     : 100%;
+                width     : 100% !important;
                 text-align: left;
             }
         }

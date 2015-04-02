@@ -1,12 +1,12 @@
 .grid
-  .grid__item.one-fifth>
+  .grid__item.one-fifth.palm-one-whole>
     - if teacher.image?
       = image_tag teacher.image.url(:normal), class: 'block'
     - else
       = link_to edit_pro_structure_teacher_path(@structure, teacher), title: 'Modifier ce professeur', class: 'fancybox.ajax btn btn--small btn--blue', data: {behavior: 'modal', width: 700} do
         %i.fa.fa-picture-o
         Ajouter une photo
-  .grid__item.four-fifths>
+  .grid__item.four-fifths.palm-one-whole>
     .float--right
       = link_to edit_pro_structure_teacher_path(@structure, teacher), title: 'Modifier ce professeur', class: 'fancybox.ajax btn btn--small btn--orange', data: {behavior: 'modal', width: 700} do
         %i.fa.fa-pencil

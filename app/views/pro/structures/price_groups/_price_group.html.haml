@@ -12,7 +12,7 @@
             %i.fa.fa-trash-o
             Supprimer
 
-      %table.table--striped.table--data
+      %table.table--striped.table--data.table-responsive
         %thead
           %tr
             %th.three-twelfths Formule
@@ -22,7 +22,7 @@
         %tbody
           - if price_group.prices.empty?
             %tr
-              %td.text--left{ colspan: 4 }
+              %td.text--left{ colspan: 4, data: { th: 'Formule' } }
                 Aucun tarif n'est renseigné.
                 = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'fancybox.ajax ', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false', lock_overlay: true } do
                   %i.fa.fa-plus
@@ -30,69 +30,78 @@
           - price_group.book_tickets.each do |price|
             %tr
               - if price_group.for_training?
-                %td 1 stage / atelier
+                %td{ data: { th: 'Formule' } }
+                  %div 1 stage / atelier
               - else
-                %td= "#{price.number} cours"
-              %td.text--center= readable_amount(price.amount) if price.amount
-              %td.text--center
-                - if price.promo_amount
-                  = readable_amount(price.promo_amount) if price.promo_amount
-                - else
-                  = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' } do
-                    %i.fa.fa-plus
-                    Ajouter
-              %td= price.info
+                %td{ data: { th: 'Formule' } }
+                  %div= "#{price.number} cours"
+              %td.text--center{ data: { th: 'Tarif normal' } }
+                %div= readable_amount(price.amount) if price.amount
+              %td.text--center{ data: { th: 'Tarif promotionnel' } }
+                %div
+                  - if price.promo_amount
+                    = readable_amount(price.promo_amount) if price.promo_amount
+                  - else
+                    = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' } do
+                      %i.fa.fa-plus
+                      Ajouter
+              %td{ data: { th: 'Infos' } }
+                %div= price.info
 
           - price_group.subscriptions.each do |price|
             %tr
-              %td= t(price.libelle)
-              %td.text--center= readable_amount(price.amount) if price.amount
-              %td.text--center
-                - if price.promo_amount
-                  = readable_amount(price.promo_amount) if price.promo_amount
-                - else
-                  = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' } do
-                    %i.fa.fa-plus
-                    Ajouter
-
-              %td= price.info
+              %td{ data: { th: 'Formule' } }
+                %div= t(price.libelle)
+              %td.text--center{ data: { th: 'Tarif normal' } }
+                %div= readable_amount(price.amount) if price.amount
+              %td.text--center{ data: { th: 'Tarif promotionnel' } }
+                %div
+                  - if price.promo_amount
+                    = readable_amount(price.promo_amount) if price.promo_amount
+                  - else
+                    = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' } do
+                      %i.fa.fa-plus
+                      Ajouter
+              %td{ data: { th: 'Infos' } }
+                %div= price.info
           - price_group.registrations.each do |price|
             %tr
-              %td Adhésion annuelle
-              %td.text--center
-                - if price.free?
-                  Gratuite
-                - else
-                  = readable_amount(price.amount)
-              %td
-              %td= price.info
-
-          - @trial = price_group.trial
-          - if @trial
-            %tr
-              %td Cours d'essai
-              %td.text--center
-                - if @trial.free?
-                  Gratuit
-                - else
-                  = readable_amount @trial.amount
-              %td
-              %td= @trial.info
+              %td{ data: { th: 'Formule' } }
+                %div Adhésion annuelle
+              %td.text--center{ data: { th: 'Tarif normal' } }
+                %div
+                  - if price.free?
+                    Gratuite
+                  - else
+                    = readable_amount(price.amount)
+              %td{ data: { th: 'Tarif promotionnel' } }
+                %div
+              %td{ data: { th: 'Infos' } }
+                %div
+                  = price.info
 
           - price_group.premium_offers.each do |price|
             %tr
-              %td= t(price.libelle)
-              %td
-              %td.text--center= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
-              %td= price.info
+              %td{ data: { th: 'Formule' } }
+                %div= t(price.libelle)
+              %td{ data: { th: 'Tarif normal' } }
+                %div
+              %td.text--center{ data: { th: 'Tarif promotionnel' } }
+                %div= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
+              %td{ data: { th: 'Infos' } }
+                %div= price.info
 
 
           - price_group.discounts.each do |price|
             %tr
-              %td= t(price.libelle)
-              %td
-              %td.text--center= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
-              %td= price.info
+              %td{ data: { th: 'Formule' } }
+                %div= t(price.libelle)
+              %td{ data: { th: 'Tarif normal' } }
+                %div
+              %td.text--center{ data: { th: 'Tarif promotionnel' } }
+                %div= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
+              %td{ data: { th: 'Tarif normal' } }
+                %div= price.info
 
     .bg-gray-light.soft-half.bordered--top
       - if price_group.courses.any?

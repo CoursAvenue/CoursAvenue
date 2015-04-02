@@ -13,3 +13,14 @@
 .fancybox-close {
     @include text-shadow(none !important);
 }
+
+@include media-query(palm) {
+    .fancybox-wrap {
+        padding-left : 10px;
+        padding-right: 10px;
+        left         : 0 !important;
+    }
+    .fancybox-wrap, .fancybox-inner {
+        width: 100% !important;
+    }
+}

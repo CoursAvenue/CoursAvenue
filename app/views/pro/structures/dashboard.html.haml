@@ -63,7 +63,7 @@
             = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
               %i.fa.fa-square-o
               Renseigner mes cours et mon planning
-  .grid__item.palm-one-whole.one-half{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.recommendations')} }>
+  .grid__item.visuallyhidden--palm.one-half{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.recommendations')} }>
     - cache [@structure, "pro/structures/dashboard/comments_completion/#{@structure.comments.accepted.count}"] do
       .soft--right
         %h4.push-half--bottom Vos avis

@@ -55,10 +55,10 @@
 
       .soft--sides.push--top
         .grid--full.push--top
-          .grid__item.three-twelfths.soft-half--right>
+          .grid__item.three-twelfths.soft-half--right.palm-one-whole.palm-hard>
             - if params[:return_to_action].present?
               %a.btn.btn--full.btn--gray{ onclick: "#{params[:return_to_action]}"} Annuler
             - else
               %a.btn.btn--full.btn--gray{ onclick: '$.fancybox.close();' } Annuler
-          .grid__item.nine-twelfths>
+          .grid__item.nine-twelfths.palm-one-whole.palm-hard>
             = f.submit (@place.is_home? ? 'Enregistrer' : 'Suivant'), class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
