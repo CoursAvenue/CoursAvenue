@@ -37,21 +37,25 @@ Newsletter.module('Router', function(Module, App, Backbone, Marionette, $, _) {
         // Route: /edit
         edit: function edit () {
             this.layout.showOrCreatePage('edit');
+            this.layout.enableNavItemsBefore('edit');
         },
 
         // Route: /mailing_list
         setMailingList: function setMailingList () {
             this.layout.showOrCreatePage('mailing-list');
+            this.layout.enableNavItemsBefore('mailing-list');
         },
 
         // Route: /metadata
         setMetadata: function setMetadata () {
             this.layout.showOrCreatePage('metadata');
+            this.layout.enableNavItemsBefore('metadata');
         },
 
         // Route: /preview
         showPreview: function showPreview () {
             this.layout.showOrCreatePage('preview');
+            this.layout.enableNavItemsBefore('preview');
         },
     });
 });

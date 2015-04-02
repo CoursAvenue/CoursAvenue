@@ -210,7 +210,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             $.scrollTo(0, { easing: 'easeOutCubic', duration: 350 });
         },
 
-        // TODO: Create global error save callback that shows an alert / notice.
         selectNewsletterLayout: function selectNewsletterLayout (data) {
             this.newsletter.set('layout_id', data.model.get('id'));
             this.newsletter.layout_changed = true;
@@ -251,8 +250,22 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         enableNavItem: function enableNavItem (navItem) {
-            navItem.data('newsletter-disabled', false);
-            navItem.removeClass('cursor-disabled')
+            if (navItem.data('newsletter-disabled')) {
+                navItem.data('newsletter-disabled', false);
+                navItem.removeClass('cursor-disabled')
+            }
+        },
+
+        enableNavItemsBefore: function enableNavItemsBefore (currentNavItem) {
+            var items   = this.$el.find('[data-newsletter-page]');
+            var current = this.$el.find('[data-newsletter-page=' + currentNavItem + ']');
+            var limit   = items.index(current);
+
+
+            items.slice(0, limit + 1).each(function(_, elem) {
+                debugger
+                this.enableNavItem($(elem));
+            }.bind(this));
         },
     });
 });
