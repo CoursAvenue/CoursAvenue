@@ -1,6 +1,6 @@
 # encoding: utf-8
 class PrerenderRenewer
-
+  require 'net/http'
   SLEEP_LENGTH = 3
 
   # Renew cache of url given on Prerender
@@ -19,9 +19,10 @@ class PrerenderRenewer
 
   # Make a post request to Prerender service url to cache it
   def self.renew_url(url)
-    puts ENV['PRERENDER_SERVICE_URL'] + url
-    uri = URI(ENV['PRERENDER_SERVICE_URL'] + url)
-    res = Net::HTTP.post_form(uri, '_escaped_fragment_' => '')
+    Net::HTTP.post_form(URI.parse('http://api.prerender.io/recache'), { url: url, prerenderToken: ENV['PRERENDER_TOKEN']})
+    # puts ENV['PRERENDER_SERVICE_URL'] + url
+    # uri = URI(ENV['PRERENDER_SERVICE_URL'] + url)
+    # res = Net::HTTP.post_form(uri, '_escaped_fragment_' => '')
     # s3 = AWS::S3.new
     # file = s3.buckets["coursavenue-prerender"].objects[file_or_url]
     # file.delete
