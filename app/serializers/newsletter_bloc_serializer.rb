@@ -6,6 +6,6 @@ class NewsletterBlocSerializer < ActiveModel::Serializer
   end
 
   def view_type
-    object.type == 'Newsletter::Bloc::Text' ? 'text' : 'image'
+    object.type.split('::').last.downcase
   end
 end
