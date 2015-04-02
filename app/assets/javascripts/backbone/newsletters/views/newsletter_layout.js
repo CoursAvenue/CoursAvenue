@@ -263,7 +263,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
 
             items.slice(0, limit + 1).each(function(_, elem) {
-                debugger
                 this.enableNavItem($(elem));
             }.bind(this));
         },
