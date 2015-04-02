@@ -18,7 +18,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.router     = options.router;
             this.newsletter = options.newsletter;
 
-            _.bindAll(this, 'setCurrentTab', 'updateNav',
+            _.bindAll(this, 'setCurrentTab', 'updateNav', 'enableNavItem',
                       'nextStep', 'previousStep', 'scrollUp',
                       'selectNewsletterLayout', 'finishEdition',
                       'savingSuccessCallback', 'savingErrorCallback');
@@ -155,9 +155,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         updateNav: function updateNav (event) {
-
             var eventSender = $(event.toElement);
-            var fragment     = eventSender.data('newsletter-nav');
+            var fragment    = eventSender.data('newsletter-nav');
+            var disabled    = eventSender.data('newsletter-disabled');
 
             var memberRoutes = ['remplissage', 'liste-de-diffusion', 'recapitulatif', 'previsualisation'];
 
@@ -166,7 +166,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 fragment = id + '/' + fragment;
             }
 
-            this.router.navigate(fragment, { trigger: true });
+            if (!disabled) {
+                this.router.navigate(fragment, { trigger: true });
+            }
         },
 
         // Goes to the next step depending on the current step.
@@ -178,6 +180,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             // If it is the end, we set the first page. (This will probably never happen).
             var nextStep = steps[steps.indexOf(this.currentStep) + 1]
             if (!nextStep) { nextStep = 'mise-en-page' }
+
+            var navName = nextStep.replace(':id/', '');
+            var navItem = this.$el.find('[data-newsletter-nav=' + navName + ']');
+
+            this.enableNavItem(navItem);
 
             // We replace the `:id` param by the actual model id.
             nextStep = nextStep.replace(':id', this.newsletter.get('id'));
@@ -241,5 +248,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             COURSAVENUE.helperMethods.flash('Erreur lors de la sauvegarde de la newsletter, veuillez rééssayer.', 'error');
         },
 
+        enableNavItem: function enableNavItem (navItem) {
+            navItem.data('newsletter-disabled', false);
+            navItem.removeClass('cursor-disabled')
+        },
     });
 });
