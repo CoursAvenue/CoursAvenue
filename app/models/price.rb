@@ -157,6 +157,14 @@ class Price < ActiveRecord::Base
     ['Price::PremiumOffer', 'Price::Trial', 'Price::Discount'].include? self.type
   end
 
+  def final_amount
+    if promo_amount.nil?
+      amount
+    elsif promo_amount
+      promo_amount
+    end
+  end
+
   private
 
   def update_nb_courses

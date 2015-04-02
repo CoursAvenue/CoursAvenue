@@ -11,7 +11,7 @@ class PriceDecorator < Draper::Decorator
   def details
     return "Essai gratuit" if object.trial? and object.free?
     detail_html = ''
-    detail_html << "#{object.localized_libelle} : #{readable_amount(object.amount)}"
+    detail_html << "#{object.localized_libelle} à #{readable_amount(object.amount)}"
     detail_html.html_safe
   end
 

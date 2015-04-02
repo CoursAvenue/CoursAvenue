@@ -9,8 +9,8 @@
         %tr
           %th.three-twelfths Statut
           %th.three-twelfths Cours et date
-          %th.four-twelfths Participant
-          %th.two-twelfths Détails
+          %th.three-twelfths Participant
+          %th.three-twelfths Détails
       %tbody
         - @upcoming_participation_requests.each do |participation_request|
           = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request }

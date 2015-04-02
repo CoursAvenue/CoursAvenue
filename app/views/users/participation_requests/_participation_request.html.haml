@@ -38,7 +38,7 @@
     %td.v-middle{ style: 'max-width: 250px;' }
       .grid--full
         .grid__item.one-fifth.v-middle.text--right>
-          = image_tag structure.logo.url(:small_thumb), height: 50, width: 50, class: 'rounded--circle', data: { src2x: structure.logo.url(:thumb) }
+          = image_tag structure.logo.url(:small_thumb), class: 'one-whole rounded--circle', data: { src2x: structure.logo.url(:thumb) }
         .grid__item.four-fifths.v-middle.soft-half--left>
           = link_to structure.name, structure_path(structure), target: :_blank, class: 'f-weight-bold'
           - if participation_request.accepted?
