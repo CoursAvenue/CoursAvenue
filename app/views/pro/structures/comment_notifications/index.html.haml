@@ -4,7 +4,7 @@
 
 .text--center.push-half--bottom= paginate @comment_notifications, window: 1, outer_window: 3
 
-%table.table--striped.table--data#comment-notification-table
+%table.table--striped.table--data#comment-notification-table.table-responsive
   %thead
     %tr
       %th Email
@@ -14,12 +14,14 @@
   %tbody
     - @comment_notifications.each do |comment_notification|
       %tr
-        %td= comment_notification.user.email
-        %td.text--center{data: {value: comment_notification.complete? ? '0' : '1'}}
-          - if comment_notification.complete?
-            %i.fa.fa-check
+        %td{ data: { th: 'Email' } }
+          %div= comment_notification.user.email
+        %td.text--center{ data: { value: comment_notification.complete? ? '0' : '1', th: 'À laissé une recommandation' } }
+          %div
+            - if comment_notification.complete?
+              %i.fa.fa-check
         - if current_pro_admin.super_admin?
           %td
-            = link_to 'Supprimer', pro_structure_comment_notification_path(@structure, comment_notification), method: :delete, class: 'red'
+            %div= link_to 'Supprimer', pro_structure_comment_notification_path(@structure, comment_notification), method: :delete, class: 'red'
 
 .text--center.push-half--ends= paginate @comment_notifications, window: 1, outer_window: 3

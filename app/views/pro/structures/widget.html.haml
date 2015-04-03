@@ -12,7 +12,7 @@
 %h3 Étape 1 : Configurez votre livre d'or
 
 .grid.push--bottom
-  .grid__item.four-tenths>
+  .grid__item.four-tenths.palm-one-whole>
     .soft--right
       %h4
         %i.fa.fa-cogs
@@ -25,7 +25,7 @@
           %label.v-middle.label--large.inline{for: 'nb-comments'} Nombre d'avis à afficher
           %input.v-middle.input--large.inline#nb-comments{style: 'width: 4em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 3}
 
-  .grid__item.six-tenths.bordered--left>
+  .grid__item.six-tenths.bordered--left.palm-one-whole>
     %h4
       %i.fa.fa-eye-o
       Aperçu
@@ -38,7 +38,7 @@
 
   = render 'pro/structures/widget_installation_guides'
 
-  %div{style: 'margin-bottom: 300px;'}
+  %div{ style: 'margin-bottom: 300px;' }
   #coursavenue-link-to-remove-wrapper.hidden>
     = link_to "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", style: 'border: 0 !important; clip: rect(0 0 0 0) !important; height: 1px !important; margin: -1px !important; overflow: hidden !important; padding: 0 !important; position: absolute !important; width: 1px !important;'
 

@@ -3,7 +3,7 @@
 = render partial: 'pro/structures/communication_tabs', locals: {current: 'sticker-index'}
 
 %h1 Suivi de l'envoi de mes autocollants
-%table.table--striped
+%table.table--striped.table-responsive
   %thead
     %tr
       %th Nombre d'autocollants ronds
@@ -12,11 +12,14 @@
   %tbody
     - @structure.sticker_demands.each do |sticker_demand|
       %tr
-        %td= sticker_demand.round_number
-        %td= sticker_demand.square_number
-        %td
-          - if sticker_demand.sent?
-            Envoyé le
-            = l(sticker_demand.sent_at, format: :date)
-          - else
-            En cours de traitement
+        %td{ data: { th: "Nombre d'autocollants ronds" } }
+          %div= sticker_demand.round_number
+        %td{ data: { th: "Nombre d'autocollants rectangulaires" } }
+          %div= sticker_demand.square_number
+        %td{ data: { th: "Statut" } }
+          %div
+            - if sticker_demand.sent?
+              Envoyé le
+              = l(sticker_demand.sent_at, format: :date)
+            - else
+              En cours de traitement

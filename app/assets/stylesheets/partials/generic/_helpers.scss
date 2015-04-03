@@ -257,6 +257,7 @@
 .palm-flush         { @include media-query(palm) { margin : 0                  !important; } }
 .palm-hard          { @include media-query(palm) { padding: 0                  !important; } }
 .palm-block         { @include media-query(palm) { display: block              !important; } }
+.palm-float-none    { @include media-query(palm) { float  : none              !important; } }
 .palm-center-block {
     @include media-query(palm) {
         margin-left: auto !important;

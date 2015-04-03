@@ -1,7 +1,7 @@
 .push--bottom{ id: "price-group-#{price_group.id}" }
   .panel
-    .panel__body.soft-half
-      .push-half--bottom
+    .panel__body
+      .push-half--bottom.soft-half
         %h4.inline-block.line-height-normal.v-middle.flush--bottom.push-half--right= price_group.name
         .inline-block.line-height-normal.v-middle.nowrap
           = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false', lock_overlay: true } do
@@ -37,7 +37,7 @@
                   %div= "#{price.number} cours"
               %td.text--center{ data: { th: 'Tarif normal' } }
                 %div= readable_amount(price.amount) if price.amount
-              %td.text--center{ data: { th: 'Tarif promotionnel' } }
+              %td.text--center{ data: { th: 'Tarif promo' } }
                 %div
                   - if price.promo_amount
                     = readable_amount(price.promo_amount) if price.promo_amount
@@ -54,7 +54,7 @@
                 %div= t(price.libelle)
               %td.text--center{ data: { th: 'Tarif normal' } }
                 %div= readable_amount(price.amount) if price.amount
-              %td.text--center{ data: { th: 'Tarif promotionnel' } }
+              %td.text--center{ data: { th: 'Tarif promo' } }
                 %div
                   - if price.promo_amount
                     = readable_amount(price.promo_amount) if price.promo_amount
@@ -74,7 +74,7 @@
                     Gratuite
                   - else
                     = readable_amount(price.amount)
-              %td{ data: { th: 'Tarif promotionnel' } }
+              %td{ data: { th: 'Tarif promo' } }
                 %div
               %td{ data: { th: 'Infos' } }
                 %div
@@ -86,7 +86,7 @@
                 %div= t(price.libelle)
               %td{ data: { th: 'Tarif normal' } }
                 %div
-              %td.text--center{ data: { th: 'Tarif promotionnel' } }
+              %td.text--center{ data: { th: 'Tarif promo' } }
                 %div= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
               %td{ data: { th: 'Infos' } }
                 %div= price.info
@@ -98,7 +98,7 @@
                 %div= t(price.libelle)
               %td{ data: { th: 'Tarif normal' } }
                 %div
-              %td.text--center{ data: { th: 'Tarif promotionnel' } }
+              %td.text--center{ data: { th: 'Tarif promo' } }
                 %div= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
               %td{ data: { th: 'Tarif normal' } }
                 %div= price.info
