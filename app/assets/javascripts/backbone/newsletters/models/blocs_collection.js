@@ -5,9 +5,9 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize (models, options) {
             this.newsletter = options.newsletter;
+            this.multiBloc  = options.multiBloc || false;
 
             _.bindAll(this, 'setNewsletter');
-
             _.defer(this.setNewsletter);
         },
 

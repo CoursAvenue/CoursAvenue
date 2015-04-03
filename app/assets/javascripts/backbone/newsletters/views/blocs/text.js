@@ -11,8 +11,11 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
 
-            var position_label = this.model.collection.where({ type: this.model.get('type') }).indexOf(this.model) + 1
-            this.model.set('position_label', position_label);
+            var positionLabel = this.model.collection.where({ type: this.model.get('type') }).indexOf(this.model) + 1
+            if (this.model.collection.multiBloc) {
+                positionLabel = this.model.collection.multiBloc.get('position') + '-' + positionLabel;
+            }
+            this.model.set('position_label', positionLabel);
 
             _.bindAll(this, 'onShow', 'silentSave');
         },
