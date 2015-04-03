@@ -6,12 +6,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         events: {
             'change [type=radio]':         'selectMailingList',
-            'click [data-toggle-filters]': 'toggleFilters',
         },
 
         initialize: function initialize () {
-            this.shownFilters = true;
-            _.bindAll(this, 'selectMailingList', 'toggleFilters');
+            _.bindAll(this, 'selectMailingList');
 
             Handlebars.registerHelper('isSelected', function(inputValue, predicate) {
                 return inputValue == predicate ? 'selected' : '';
@@ -29,17 +27,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             this.trigger('selected', { model: this.model });
         },
-
-        toggleFilters: function toggleFilters () {
-            if (this.shownFilters) {
-                this.$el.find('[data-filters-list]').slideDown();
-            } else {
-                this.$el.find('[data-filters-list]').slideUp();
-            }
-
-            this.shownFilters = !this.shownFilters;
-        },
-
     });
 });
 
