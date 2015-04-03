@@ -12,7 +12,7 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
 
         initialize: function initialize () {
             var layout        = this.model.collection.newsletter.get('layout')
-            var subBlocsTypes = layout.get('sub_blocs')[this.model.get('index')];
+            var subBlocsTypes = layout.get('sub_blocs')[this.model.get('position') - 1];
             var subBlocs      = []
 
             subBlocs = subBlocsTypes.map(function(blocType, index) {
