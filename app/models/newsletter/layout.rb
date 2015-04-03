@@ -6,7 +6,8 @@ class Newsletter::Layout < ActiveHash::Base
       name: 'Modèle 1',
       partial: 'layout_01',
       disposition: :horizontal,
-      sub_blocs: []
+      sub_blocs: [],
+      proportions: []
     },
     {
       id: 2,
@@ -14,15 +15,17 @@ class Newsletter::Layout < ActiveHash::Base
       name: 'Modèle 2',
       partial: 'layout_02',
       disposition: :horizontal,
-      sub_blocs: []
+      sub_blocs: [],
+      proportions: []
     },
     {
       id: 3,
-      blocs: ['image', 'image'],
+      blocs: ['multi', 'multi'],
       name: 'Modèle 3',
       partial: 'layout_03',
       disposition: :horizontal,
-      sub_blocs: []
+      sub_blocs: [['image', 'text'], ['text', 'image']],
+      proportions: [['one-quarter', 'three-quarters'], ['three-quarters', 'one-quarter']]
     },
     {
       id: 4,
@@ -30,7 +33,8 @@ class Newsletter::Layout < ActiveHash::Base
       name: 'Modèle 4',
       partial: 'layout_04',
       disposition: :vertical,
-      sub_blocs: [['image', 'text'], ['image', 'text']]
+      sub_blocs: [['image', 'text'], ['image', 'text']],
+      proportions: []
     }
   ]
 end
