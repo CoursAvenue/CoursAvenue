@@ -2,6 +2,7 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
     Module.Text = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'text',
         tagName: 'div',
+        className: 'push-half--bottom',
 
         events: {
             'change input':    'silentSave',

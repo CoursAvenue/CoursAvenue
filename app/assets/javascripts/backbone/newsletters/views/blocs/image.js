@@ -2,6 +2,7 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
     Module.Image = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'image',
         tagName: 'div',
+        className: 'push-half--bottom',
 
         events: {
             'click [data-delete-image]':                   'deleteImage',
