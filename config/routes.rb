@@ -270,7 +270,11 @@ CoursAvenue::Application.routes.draw do
         end
 
         resources :newsletters, only: [:index, :new, :create, :edit, :update, :destroy], controller: 'structures/newsletters' do
-          resources :blocs, only: [:create, :update, :destroy], controller: 'structures/newsletters/blocs'
+          resources :blocs, only: [:create, :update, :destroy], controller: 'structures/newsletters/blocs' do
+            member do
+              post :sub_bloc_create
+            end
+          end
           resources :mailing_lists, only: [:create], controller: 'structures/newsletters/mailing_lists'
           member do
             get :duplicate
