@@ -95,10 +95,11 @@
     .darkgray-box.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000, old_width: 'true' } }
       .main-container.flexbox.pro-public-top-menu
         .flexbox__item.v-middle.soft--left
-          .visuallyhidden--lap-and-up
+          .visuallyhidden--lap-and-up.text--center
             %a.cursor-pointer.west.absolute.white{ data: { behavior: 'toggle-responsive-menu' } }
               %i.fa.fa-menu.fa-2x
-          = link_to '', root_path, class: 'v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
+            .coursavenue-header-logo.coursavenue-header-logo--pro.coursavenue-header-logo--white
+          = link_to '', root_path, class: 'visuallyhidden--palm v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
         .flexbox__item.text--right.visuallyhidden--palm
           .inline-block.v-middle.drop-down__wrapper
             %h5.flush--bottom.white.inline-block.v-middle.nowrap.soft--right
