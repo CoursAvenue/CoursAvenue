@@ -13,16 +13,21 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize (model, options) {
             if (!this.has('view_type')) {
-                var backend_types = {
-                    image: 'Newsletter::Bloc::Image',
-                    text:  'Newsletter::Bloc::Text',
-                    multi: 'Newsletter::Blocs::Multi'
-                };
-
-                this.set('view_type', model.type);
-                this.set('type', backend_types[model.type]);
+                this.setViewTypes(model);
             }
-            _.bindAll(this, 'urlRoot');
+
+            _.bindAll(this, 'urlRoot', 'setViewTypes');
+        },
+
+        setViewTypes: function setViewTypes (model) {
+            var backend_types = {
+                image: 'Newsletter::Bloc::Image',
+                text:  'Newsletter::Bloc::Text',
+                multi: 'Newsletter::Blocs::Multi'
+            };
+
+            this.set('view_type', model.type);
+            this.set('type', backend_types[model.type]);
         },
 
     });
