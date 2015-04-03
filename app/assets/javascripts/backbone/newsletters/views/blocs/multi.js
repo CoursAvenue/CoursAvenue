@@ -14,11 +14,13 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
             var newsletter    = this.model.collection.newsletter;
             var layout        = newsletter.get('layout')
             var subBlocsTypes = layout.get('sub_blocs')[this.model.get('position') - 1];
-            var subBlocs      = []
+            var subBlocs      = this.model.get('sub_blocs');
 
-            subBlocs = subBlocsTypes.map(function(blocType, index) {
-                return { type: blocType, index: index, position: index + 1 };
-            });
+            if (_.isEmpty(subBlocs)) {
+                subBlocs = subBlocsTypes.map(function(blocType, index) {
+                    return { type: blocType, index: index, position: index + 1 };
+                });
+            }
 
             this.collection = new Newsletter.Models.BlocsCollection(subBlocs, {
                 multiBloc:  this.model,
