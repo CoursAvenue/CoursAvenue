@@ -1170,7 +1170,7 @@ class Structure < ActiveRecord::Base
   end
 
   def unsubscribe_to_crm
-    CrmSync.delay.destroy(self.email)
+    CrmSync.delay.destroy(self.email) unless self.is_sleeping
   end
 
   def encode_uris
