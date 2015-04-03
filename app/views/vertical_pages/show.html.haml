@@ -6,7 +6,7 @@
 
 - @total = Planning.count
 = content_for :title do
-  = "#{title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com".html_safe
+  = @vertical_page_decorator.page_title
 
 = content_for :meta_description do
   #{title} : #{@total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com. Consultez #{number_with_delimiter @total_comments} avis d'élèves, #{number_with_delimiter @total_medias} photos. Inscrivez-vous gratuitement sur CoursAvenue.com
