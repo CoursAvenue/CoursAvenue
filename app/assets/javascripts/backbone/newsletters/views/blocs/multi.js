@@ -20,6 +20,15 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
         },
 
         getChildView: function getChildView (item) {
+            var viewType = item.get('view_type')
+
+            if (viewType == 'multi') {
+                throw "A multi bloc can't have a multi bloc parent.";
+            } else if (viewType == 'image') {
+                return Module.Image;
+            } else {
+                return Module.Text;
+            }
         },
     });
 });
