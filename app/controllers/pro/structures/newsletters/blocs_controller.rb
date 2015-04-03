@@ -39,10 +39,23 @@ class Pro::Structures::Newsletters::BlocsController < ApplicationController
   end
 
   def sub_bloc_create
-    @multi_bloc = @newsletter.blocs.find params[:id]
+    @multi_bloc = @newsletter.blocs.find params[:bloc_id]
     @sub_bloc   = @multi_bloc.sub_blocs.new permitted_params
 
     @multi_bloc.sub_blocs << @sub_bloc
+
+    respond_to do |format|
+      if @sub_bloc.save
+        format.json { render json: @sub_bloc, status: 201 }
+      else
+        format.json { render json: { errors: @bloc.errors.full_messages }, status: 201 }
+      end
+    end
+  end
+
+  def sub_bloc_update
+    @multi_bloc = @newsletter.blocs.find params[:bloc_id]
+    @sub_bloc   = @multi_bloc.sub_blocs.find params[:id]
 
     respond_to do |format|
       if @sub_bloc.save

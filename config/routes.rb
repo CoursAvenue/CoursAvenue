@@ -271,8 +271,13 @@ CoursAvenue::Application.routes.draw do
 
         resources :newsletters, only: [:index, :new, :create, :edit, :update, :destroy], controller: 'structures/newsletters' do
           resources :blocs, only: [:create, :update, :destroy], controller: 'structures/newsletters/blocs' do
-            member do
-              post :sub_bloc_create
+            resources :sub_blocs, only: [], controller: 'structures/newsletters/blocs' do
+              member do
+                put :update, to: 'structures/newsletters/blocs#sub_bloc_update'
+              end
+              collection do
+                post :create, to: 'structures/newsletters/blocs#sub_bloc_create'
+              end
             end
           end
           resources :mailing_lists, only: [:create], controller: 'structures/newsletters/mailing_lists'
