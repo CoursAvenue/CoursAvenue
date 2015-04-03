@@ -1,7 +1,7 @@
 = side_menu_currently_at 'pro_dashboard'
 
 = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'teacher_stars' }
-%table.table--striped.table--data#dataTable
+%table.table--striped.table--data.table-responsive#dataTable
   %thead
     %tr
       %th.four-tenths
@@ -15,17 +15,17 @@
   %tbody
     - @structures.each do |structure|
       %tr
-        %td
+        %td{ data: { th: 'Établissement' } }
           = link_to dashboard_pro_structure_path(structure) do
             - if structure.logo?
               = image_tag structure.logo.url(:thumb), height: 15
             = structure.name
-        %td
+        %td{ data: { th: 'Disciplines' } }
           = join_parent_subjects_text structure
-        %td
+        %td{ data: { th: 'Avis' } }
           = structure.comments_count
 
-        %td
+        %td{ data: { th: "Livre d'or" } }
           - if structure.widget_url.present?
             = link_to structure.widget_url, target: '_blank' do
               %i.fa.fa-check

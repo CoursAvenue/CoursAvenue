@@ -4,17 +4,17 @@
 .text--center.push--bottom
   = link_to 'Ajouter un profil dormant', pro_add_sleeping_structure_path, class: 'btn btn--small soft--sides btn--green'
 .grid
-  .grid__item.one-quarter.bordered--right>
+  .grid__item.palm-one-whole.one-quarter.bordered--right>
     .soft-half.text--center
       %h3.flush= "#{number_with_delimiter Admin.normal.count} profs"
       %h6.flush dont #{number_with_delimiter Admin.where( Admin.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
       %div et #{number_with_delimiter Admin.where( Admin.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
-  .grid__item.one-quarter.bordered--right>
+  .grid__item.palm-one-whole.one-quarter.bordered--right>
     .soft-half.text--center
       %h3.flush= "#{number_with_delimiter Comment::Review.count} avis"
       %h6.flush dont #{number_with_delimiter Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
       %div et #{number_with_delimiter Comment::Review.where( Comment::Review.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
-  .grid__item.one-quarter.bordered--right>
+  .grid__item.palm-one-whole.one-quarter.bordered--right>
     .soft-half.text--center
       %h3.flush= "#{number_with_delimiter Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])).count} mess"
       %h6.flush
@@ -25,7 +25,7 @@
         et
         = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id]).and(Mailboxer::Conversation.arel_table[:created_at].gt(7.days.ago)) ).count
         les 7 derniers jours
-  .grid__item.one-quarter>
+  .grid__item.palm-one-whole.one-quarter>
     .soft-half.text--center
       %h3.flush= "#{number_with_delimiter User.active.count} élèves"
       %h6.flush dont #{number_with_delimiter User.active.where( User.arel_table[:sign_up_at].gt(Date.today) ).count} aujourd'hui
@@ -42,13 +42,13 @@
 %h3.text--center Cours d'essai
 - cache ["pro/structures/trial_courses/#{Course.open_for_trial.count}"] do
   .grid
-    .grid__item.one-third.text--center>
+    .grid__item.palm-one-whole.one-third.text--center>
       %h3.flush= Course.open_for_trial.group_by(&:structure_id).count
       %h6 profs
-    .grid__item.one-third.text--center>
+    .grid__item.palm-one-whole.one-third.text--center>
       %h3.flush= Course.open_for_trial.count
       %h6 cours
-    .grid__item.one-third.text--center>
+    .grid__item.palm-one-whole.one-third.text--center>
       %h3.flush= Course.open_for_trial.flat_map(&:plannings).count
       %h6 créneaux
 %h5.text--center Répartition / disciplines
@@ -63,20 +63,20 @@
 #admins-cumul
 - subjects_count.each do |key, value|
   .grid.push-half--bottom
-    .grid__item.one-quarter.text--right>= key
-    .grid__item.three-quarters>
+    .grid__item.palm-one-whole.one-quarter.text--right.palm-text--left>= key
+    .grid__item.palm-one-whole.three-quarters>
       .progress
         .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value
 %h5.text--center # de cours d'essai offert
 .grid
-  .grid__item.one-third.text--center>
+  .grid__item.palm-one-whole.one-third.text--center>
     - trial_courses_policy = Course.open_for_trial.map(&:structure).uniq.group_by(&:trial_courses_policy)
     %h3.flush= trial_courses_policy['1_trial'].try(:count)
     %h6 1 cours
-  .grid__item.one-third.text--center>
+  .grid__item.palm-one-whole.one-third.text--center>
     %h3.flush= trial_courses_policy['2_trials'].try(:count)
     %h6 2 cours
-  .grid__item.one-third.text--center>
+  .grid__item.palm-one-whole.one-third.text--center>
     %h3.flush= trial_courses_policy['3_trials'].try(:count)
     %h6 3 cours
 
