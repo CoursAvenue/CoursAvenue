@@ -3,6 +3,12 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
         template: Module.templateDirname() + 'multi',
         tagName: 'div',
         childViewContainer: '[data-type=sub-blocs]',
+        className: function className () {
+            if (this.model.collection.newsletter.get('layout').get('disposition') == 'vertical') {
+                return 'one-half inline-block soft-half--sides';
+            }
+            return ''
+        },
 
         initialize: function initialize () {
             var layout        = this.model.collection.newsletter.get('layout')
