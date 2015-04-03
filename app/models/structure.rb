@@ -1081,6 +1081,10 @@ class Structure < ActiveRecord::Base
     sleeping_structure
   end
 
+  def is_sleeping
+    self.main_contact.nil? or self.meta_data['is_sleeping'] == 'true'
+  end
+
   def is_open_for_trial?
     self.courses.open_for_trial.any?
   end
