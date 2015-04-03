@@ -2,6 +2,9 @@ fr:
   activerecord:
     models:
       vertical_page: Page vertical
+    attributes:
+      vertical_page:
+        show_trainings_in_title: Montrer "Stage de XXX" dans le title
 
   simple_form:
     placeholders:
@@ -9,7 +12,7 @@ fr:
         subject_name: Nom de la discipline
         title: Titre de la page (H1)
         page_title: Titre de la page (Title SEO)
-        meta_description: Description sur Google (SEO)
+        page_description: Description sur Google (SEO)
         keywords: Mots clés
         sidebar_title: Trouvez...près de chez vous
         medias:

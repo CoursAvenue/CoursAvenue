@@ -12,6 +12,7 @@ class VerticalPagesController < ApplicationController
     @vertical_page = VerticalPage.find(params[:id])
     @subject       = @vertical_page.subject
     @ancestors     = @subject.ancestors
+    @vertical_page_decorator = @vertical_page.decorate
     render action: :show
   end
 
@@ -22,8 +23,9 @@ class VerticalPagesController < ApplicationController
     if @vertical_page.slug != params[:id]
       redirect_to vertical_page_path(@vertical_page.subject.root, @vertical_page), status: 301
     end
-    @subject       = @vertical_page.subject
-    @ancestors     = @subject.ancestors
+    @vertical_page_decorator = @vertical_page.decorate
+    @subject                 = @vertical_page.subject
+    @ancestors               = @subject.ancestors
   end
 
   def show_with_city
@@ -34,8 +36,9 @@ class VerticalPagesController < ApplicationController
     if @vertical_page.slug != params[:id]
       redirect_to vertical_page_path(@vertical_page.subject.root, @vertical_page), status: 301
     end
-    @subject       = @vertical_page.subject
-    @ancestors     = @subject.ancestors
+    @vertical_page_decorator = @vertical_page.decorate
+    @subject                 = @vertical_page.subject
+    @ancestors               = @subject.ancestors
   end
 
   def index

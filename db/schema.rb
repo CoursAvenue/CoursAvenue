@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150330203438) do
+ActiveRecord::Schema.define(version: 20150403155932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -645,7 +645,6 @@ ActiveRecord::Schema.define(version: 20150330203438) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
-    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_request_participants", force: true do |t|
@@ -802,9 +801,6 @@ ActiveRecord::Schema.define(version: 20150330203438) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
-    t.string   "address"
-    t.float    "latitude"
-    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
@@ -1273,12 +1269,13 @@ ActiveRecord::Schema.define(version: 20150330203438) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
-    t.boolean  "checked",            default: false
+    t.boolean  "checked",                 default: false
     t.text     "comments"
     t.text     "sidebar_title"
     t.string   "cl_image"
     t.string   "page_title"
     t.text     "page_description"
+    t.boolean  "show_trainings_in_title", default: false
   end
 
   create_table "visitors", force: true do |t|

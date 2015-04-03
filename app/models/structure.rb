@@ -135,12 +135,12 @@ class Structure < ActiveRecord::Base
                              :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score,
                              :search_score_updated_at, :is_sleeping, :sleeping_email_opt_in,
                              :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient,
-                             :status, :vertical_pages_breadcrumb
-
+                             :status, :vertical_pages_breadcrumb, :is_parisian
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
                                           :has_free_trial_course, :has_promotion, :gives_non_professional_courses,
-                                          :gives_professional_courses, :is_sleeping, :sleeping_email_opt_in, :promo_code_sent
+                                          :gives_professional_courses, :is_sleeping, :sleeping_email_opt_in,
+                                          :promo_code_sent, :is_parisian
 
   mount_uploader :logo, StructureLogoUploader
 
@@ -617,6 +617,7 @@ class Structure < ActiveRecord::Base
     # Store level and audiences ids as coma separated string values: "1,3,5"
     self.level_ids                = (plannings.collect(&:level_ids) + courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
     self.audience_ids             = (plannings.collect(&:audience_ids) + courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
+    self.is_parisian              = self.parisian?
     set_min_and_max_price
     compute_response_rate
     save(validate: false)

@@ -3,10 +3,10 @@
 - @total = Planning.count
 
 = content_for :title do
-  = "#{@title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com".html_safe
+  = @vertical_page_decorator.page_title
 
 = content_for :meta_description do
-  #{@title} : #{@total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com. Consultez #{number_with_delimiter @total_comments} avis d'élèves, #{number_with_delimiter @total_medias} photos. Inscrivez-vous gratuitement sur CoursAvenue.com
+  #{@title} : Cours d'Essai GRATUITS & Promotions - CoursAvenue.com. Consultez #{number_with_delimiter @total_comments} avis d'élèves, #{number_with_delimiter @total_medias} photos. Inscrivez-vous gratuitement sur CoursAvenue.com
 
 - slug = @subject.root.slug
 - if @vertical_page.image.present?
@@ -16,7 +16,7 @@
 
 .bg-fixed.bg-cover{ style: "background-image: url('#{bg}')" }
   .main-container.main-container--medium.soft--ends
-    %h1.white.soft-black-text-shadow= @title
+    %h1.white.soft-black-text-shadow= @vertical_page_decorator.page_h1(@city)
     - if @vertical_page.caption
       %h4.center-block.white.soft-black-text-shadow
         = @vertical_page.caption
@@ -32,7 +32,7 @@
           %span{ itemprop: 'title' }= ancestor.vertical_pages.first.subject_name
     %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
       = link_to vertical_page_path(@subject.root, @vertical_page), itemprop: 'url' do
-        %span{ itemprop: 'title' }= @vertical_page.subject_name
+        %span{ itemprop: 'title' }= @vertical_page_decorator.page_h1
     %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
       %span{ itemprop: 'title' }= @city.name
 
@@ -68,8 +68,6 @@
           %h3= @vertical_page.title
           = @vertical_page.content.html_safe
         - else
-          - if [@subject.good_to_know, @subject.needed_meterial, @subject.tips].reject(&:blank?).any?
-            %hr.push--top
           - if @subject.good_to_know.present?
             %h4 Bon à savoir / Qu'est-ce que c'est ?
             %p= @subject.good_to_know
@@ -86,7 +84,7 @@
         - @subject.siblings.each do |sibling|
           - sibling.vertical_pages.each do |vertical_page|
             .inline-block.one-half>
-              = link_to vertical_page.subject_name, vertical_page_with_city_path(@subject.root, vertical_page, @city), class: 'epsilon line-height-1-7'
+              = link_to vertical_page.decorate.link_text(@city), vertical_page_with_city_path(@subject.root, vertical_page, @city), class: 'epsilon line-height-1-7'
     .grid__item.four-tenths.palm-one-whole>
       %h3 #{@vertical_page.subject_name} : sélection à #{@city.name}
       .panel
@@ -135,7 +133,7 @@
                 .flexbox__item.soft--left.v-top.text--center.visuallyhidden--palm>
                   = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
                     = image_tag (review.user || User.active.with_avatar.sample).avatar_url(:thumb), class: 'block rounded--circle', width: 60, height: 60
-                  .milli.soft-half--top
+                  .soft-half--top
                     = review.author_name
                 .flexbox__item.soft--sides.v-top.palm-one-whole>
                   .message__body.soft-half.message__appendix.gray-box
@@ -148,11 +146,11 @@
                         À propos de
                         = link_to review.structure.name, structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
 
-- if @vertical_page.keywords
-  - cache [@vertical_page, 'vertical_page/show/keywords'] do
-    .main-container.main-container--medium.soft--ends.text--center
-      - @vertical_page.keywords.split(',').each do |keyword|
-        %span.push-half--right= link_to "#{keyword} à #{@city.name}", structures_path_for_city_and_subject(@city, @subject)
+-# - if @vertical_page.keywords
+-#   - cache [@vertical_page, 'vertical_page/show/keywords'] do
+-#     .main-container.main-container--medium.soft--ends.text--center
+-#       - @vertical_page.keywords.split(',').each do |keyword|
+-#         %span.push-half--right= link_to "#{keyword} à #{@city.name}", structures_path_for_city_and_subject(@city, @subject)
 
 = content_for :scripts do
   :javascript

@@ -1,5 +1,6 @@
 - if @structure.vertical_pages_breadcrumb.present?
   - cache [@structure, 'structure/show/breadcrumb/vertical_pages/V1', @structure.vertical_pages_breadcrumb] do
+    - paris = City.find('paris') if @structure.is_parisian?
     %ol.nav.breadcrumb.push-half--bottom
       %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to vertical_pages_path, itemprop: 'url', class: "white" do
@@ -12,8 +13,12 @@
             = link_to root_vertical_page_path(vertical_page_slug), itemprop: 'url', class: "white" do
               %span{ itemprop: 'title' }= "#{vertical_page_name}"
           - else
-            = link_to vertical_page_path(root_page_slug, vertical_page_slug), itemprop: 'url', class: "white" do
-              %span{ itemprop: 'title' }= "#{vertical_page_name}"
+            - if @structure.is_parisian?
+              = link_to vertical_page_with_city_path(root_page_slug, vertical_page_slug, paris), itemprop: 'url', class: "white" do
+                %span{ itemprop: 'title' }= VerticalPage.find(vertical_page_slug).decorate.page_h1(paris)
+            - else
+              = link_to vertical_page_path(root_page_slug, vertical_page_slug), itemprop: 'url', class: "white" do
+                %span{ itemprop: 'title' }= "#{vertical_page_name}"
       %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         %span{ itemprop: 'title' }
           = @structure.name
