@@ -48,7 +48,7 @@ class Pro::Structures::Newsletters::BlocsController < ApplicationController
       if @sub_bloc.save
         format.json { render json: @sub_bloc, status: 201 }
       else
-        format.json { render json: { errors: @bloc.errors.full_messages }, status: 201 }
+        format.json { render json: { errors: @sub_bloc.errors.full_messages }, status: 201 }
       end
     end
   end
@@ -61,7 +61,7 @@ class Pro::Structures::Newsletters::BlocsController < ApplicationController
       if @sub_bloc.save
         format.json { render json: @sub_bloc, status: 201 }
       else
-        format.json { render json: { errors: @bloc.errors.full_messages }, status: 201 }
+        format.json { render json: { errors: @sub_bloc.errors.full_messages }, status: 201 }
       end
     end
   end
