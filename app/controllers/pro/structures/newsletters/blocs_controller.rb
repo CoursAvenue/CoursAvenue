@@ -58,7 +58,7 @@ class Pro::Structures::Newsletters::BlocsController < ApplicationController
     @sub_bloc   = @multi_bloc.sub_blocs.find params[:id]
 
     respond_to do |format|
-      if @sub_bloc.save
+      if @sub_bloc.update_attributes permitted_params
         format.json { render json: @sub_bloc, status: 201 }
       else
         format.json { render json: { errors: @sub_bloc.errors.full_messages }, status: 201 }
