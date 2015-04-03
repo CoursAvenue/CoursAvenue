@@ -161,6 +161,7 @@ class Structure < ActiveRecord::Base
 
   after_create  :set_default_place_attributes
   after_create  :geocode  unless Rails.env.test?
+  after_create  :subscribe_to_crm
 
   before_save   :reset_crop_if_changed_logo
   before_save   :strip_name
@@ -169,7 +170,7 @@ class Structure < ActiveRecord::Base
 
   after_save    :update_open_for_trial_courses_if_neesds
   after_save    :geocode_if_needs_to    unless Rails.env.test?
-  after_save    :subscribe_to_crm
+  after_save    :subscribe_to_crm_with_delay
   after_save    :update_intercom_status if Rails.env.production?
 
   after_touch   :set_premium
@@ -1167,6 +1168,10 @@ class Structure < ActiveRecord::Base
 
   def subscribe_to_crm
     CrmSync.delay.update(self)
+  end
+
+  def subscribe_to_crm_with_delay
+    CrmSync.delay(run_at: 5.minutes.from_now).update(self)
   end
 
   def unsubscribe_to_crm

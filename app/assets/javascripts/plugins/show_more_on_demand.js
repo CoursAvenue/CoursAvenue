@@ -46,7 +46,7 @@
             this.$hidden_items = $(this.$element.find('[data-el][data-hidden]'));
             this.$hidden_items.hide();
             // Show first empty item if none is shown
-            if (this.$items.first().hasClass('hidden')) {
+            if (this.$items.first().hasClass('hidden') || !_.isUndefined(this.$items.first().data('hidden'))) {
                 this.showMoreItem();
             }
             this.attachEvents();
