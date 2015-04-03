@@ -79,16 +79,11 @@
             %p= @subject.tips
 
       - if @subject.depth == 2
-        %h3= "D'autres disciplines qui pourraient vous plaire :"
-        .push--bottom
-          - @subject.siblings.each do |sibling|
-            - sibling.vertical_pages.each do |vertical_page|
-              .inline-block.one-half>
-                = link_to vertical_page.decorate.link_text, vertical_page_path(@subject.root, vertical_page), class: 'epsilon line-height-1-7'
+        = render partial: 'vertical_pages/siblings'
       %h3= "Les lieux les plus recherchés"
       .push--bottom
         - @cities.each do |city|
-          - next if StructureSearch.search(lat: city.latitude, lng: city.longitude).results.length < 10
+          - next if StructureSearch.search(lat: city.latitude, lng: city.longitude).total < 10
           .inline-block.one-half>
             - if @subject.is_root?
               = link_to city.name, root_vertical_page_with_city_path(@vertical_page, city), class: 'epsilon line-height-1-7'
@@ -132,7 +127,7 @@
 
 %div{ class: (@subject.depth == 0 || @subject.depth == 2 ? 'home-screen-promotion-wrapper' : '') }
   .main-container.main-container--medium.soft--ends
-    %h2.soft--bottom.f-weight-300 #{@subject.name} : sélection d'avis
+    %h2.soft--bottom.f-weight-300 #{@vertical_page.title} : sélection d'avis
     - @vertical_page.reviews.in_groups_of(2, false).each do |review_group|
       .grid.push--bottom
         - review_group.each do |review|
