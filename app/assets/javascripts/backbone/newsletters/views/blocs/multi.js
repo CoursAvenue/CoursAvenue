@@ -11,18 +11,22 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
         },
 
         initialize: function initialize () {
-            var layout        = this.model.collection.newsletter.get('layout')
+            var newsletter    = this.model.collection.newsletter;
+            var layout        = newsletter.get('layout')
             var subBlocsTypes = layout.get('sub_blocs')[this.model.get('position') - 1];
             var subBlocs      = []
 
             subBlocs = subBlocsTypes.map(function(blocType, index) {
-                return { type: blocType, index: index, position: index + 1, isSubBloc: true };
+                return { type: blocType, index: index, position: index + 1 };
             });
 
             this.collection = new Newsletter.Models.BlocsCollection(subBlocs, {
                 multiBloc:  this.model,
-                newsletter: this.model.collection.newsletter,
+                newsletter: newsletter,
             });
+
+            this.model.set('newsletter', newsletter);
+            this.model.save();
         },
 
         getChildView: function getChildView (item) {
