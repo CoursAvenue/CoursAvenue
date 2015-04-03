@@ -23,7 +23,7 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
             var backend_types = {
                 image: 'Newsletter::Bloc::Image',
                 text:  'Newsletter::Bloc::Text',
-                multi: 'Newsletter::Blocs::Multi'
+                multi: 'Newsletter::Bloc::Multi'
             };
 
             this.set('view_type', model.type);
