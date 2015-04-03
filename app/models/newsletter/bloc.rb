@@ -17,10 +17,11 @@ class Newsletter::Bloc < ActiveRecord::Base
     class_name: 'Newsletter::Bloc',
     join_table: 'newsletter_bloc_ownerships',
     foreign_key: :bloc_id,
-    association_foreign_key: :sub_bloc_id
+    association_foreign_key: :sub_bloc_id,
+    dependent: :destroy
 
   validates :type, presence: true
-  validates :position, uniqueness: { scope: :newsletter_id }
+  # validates :position, uniqueness: { scope: :newsletter_id }
 
   before_create :set_default_position
 
