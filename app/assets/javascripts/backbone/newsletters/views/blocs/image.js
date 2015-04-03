@@ -2,7 +2,23 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
     Module.Image = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'image',
         tagName: 'div',
-        className: 'push-half--bottom',
+        className: function className () {
+            var classes     = '';
+            var layout      = this.model.collection.newsletter.get('layout');
+            var disposition = layout.get('disposition');
+            var subBlocs    = layout.get('sub_blocs')[this.model.get('position') - 1];
+            var proportions = layout.get('proportions')[this.model.get('position') - 1]
+
+
+            if (this.model.collection.multiBloc && disposition == 'horizontal') {
+                var classIndex = subBlocs.indexOf(this.model.get('view_type'));
+                classes = 'inline-block soft-half--sides v-top ' + proportions[classIndex];
+            } else {
+                classes = 'push-half--bottom'
+            }
+
+            return classes;
+        },
 
         events: {
             'click [data-delete-image]':                   'deleteImage',
@@ -55,10 +71,6 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
             this.$el.find('.filepicker-btn').click()
         },
 
-        // TODO:
-        // 2. Empty input.
-        // 1. Ask for confirmation.
-        // 3. Remove image..
         deleteImage: function deleteImage () {
             this.model.unset('image');
             this.model.set('remote_image_url', '');

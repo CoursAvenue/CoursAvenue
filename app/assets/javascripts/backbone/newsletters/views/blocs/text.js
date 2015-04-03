@@ -2,7 +2,23 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
     Module.Text = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'text',
         tagName: 'div',
-        className: 'push-half--bottom',
+        className: function className () {
+            var classes     = '';
+            var layout      = this.model.collection.newsletter.get('layout');
+            var disposition = layout.get('disposition');
+            var subBlocs    = layout.get('sub_blocs')[this.model.get('position') - 1];
+            var proportions = layout.get('proportions')[this.model.get('position') - 1]
+
+
+            if (this.model.collection.multiBloc && disposition == 'horizontal') {
+                var classIndex = subBlocs.indexOf(this.model.get('view_type'));
+                classes += 'inline-block soft-half--sides v-top ' + proportions[classIndex];
+            } else {
+                classes += 'push-half--bottom'
+            }
+
+            return classes;
+        },
 
         events: {
             'change input':    'silentSave',
