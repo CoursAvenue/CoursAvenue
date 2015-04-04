@@ -54,12 +54,22 @@
           = link_to search_page_path(@subject.root, @subject, 'paris'), class: 'block muted-link' do
             .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb}')" }
               = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'
-          %h2.delta.line-height-1-7= link_to "Essai gratuits", search_page_path(@subject.root, @subject, 'paris'), class: 'semi-muted-link'
+          %h3.delta.line-height-1-7= link_to "Essai gratuits", search_page_path(@subject.root, @subject, 'paris'), class: 'semi-muted-link'
         .grid__item.one-half>
           = link_to search_page_path(@subject.root, @subject, 'paris'), class: 'block muted-link' do
             .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb_2}')" }
               = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'
-          %h2.delta.line-height-1-7= link_to "Promotions", search_page_path(@subject.root, @subject, 'paris'), class: 'semi-muted-link'
+          %h3.delta.line-height-1-7= link_to "Promotions", search_page_path(@subject.root, @subject, 'paris'), class: 'semi-muted-link'
+      %hr
+      %h2.flush.delta
+        #{StructureSearch.search(lat: 48.8592, lng: 2.3417, subject_id: @subject.slug, per_page: 8).total}
+        établissements pour prendre des cours de #{@vertical_page.subject_name}
+      .text--right= link_to ">> Voir tous les cours de #{@vertical_page.subject_name}", search_page_path(@subject.root, @subject, 'paris')
+      - if (total = PlanningSearch.search({ course_types: 'training', lat: 48.8592, lng: 2.3417, subject_id: @subject.slug }, group: :structure_id_str)).total > 10
+        %h2.flush.delta
+          Découvrez nos #{total} stages de #{@vertical_page.subject_name}
+        .text--right= link_to ">> Voir tous les stages de #{@vertical_page.subject_name}", search_page_path(@subject.root, @subject, 'paris', course_types: ['training'])
+
       %hr.push--ends
       .blog-article__content.push--top
         - if @vertical_page.content.present?

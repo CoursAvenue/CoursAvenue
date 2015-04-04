@@ -34,7 +34,7 @@
       = link_to vertical_page_path(@subject.root, @vertical_page), itemprop: 'url' do
         %span{ itemprop: 'title' }= @vertical_page_decorator.page_h1
     %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-      %span{ itemprop: 'title' }= @city.name
+      %span{ itemprop: 'title' }= "#{@vertical_page.subject_name} à #{@city.name}"
 
   .grid
     .grid__item.six-tenths.soft--right.palm-one-whole>
@@ -48,18 +48,22 @@
           = link_to search_page_path(@subject.root, @subject, @city), class: 'block muted-link' do
             .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb}')" }
               = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'
-          %h2.delta.line-height-1-7= link_to "Essai gratuits à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
+          %h3.delta.line-height-1-7= link_to "Essai gratuits à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
         .grid__item.one-half>
           = link_to search_page_path(@subject.root, @subject, @city), class: 'block muted-link' do
             .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb_2}')" }
               = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'
-          %h2.delta.line-height-1-7= link_to "Promotions à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
+          %h3.delta.line-height-1-7= link_to "Promotions à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
 
       %hr
-      %h4.flush
-        #{StructureSearch.search(radius: 3, lat: @city.latitude, lng: @city.longitude, subject_id: @vertical_page.subject.slug, per_page: 8).total}
+      %h2.flush.delta
+        #{StructureSearch.search(radius: 3, lat: @city.latitude, lng: @city.longitude, subject_id: @subject.slug, per_page: 8).total}
         établissements à #{@city.name} pour prendre des cours de #{@vertical_page.subject_name}
       .text--right= link_to ">> Voir tous les cours de #{@vertical_page.subject_name} à #{@city.name}", search_page_path(@subject.root, @subject, @city)
+      - if (total = PlanningSearch.search({ course_type: 'training', lat: @city.latitude, lng: @city.longitude, subject_id: @subject.slug }, group: :structure_id_str)).total > 10
+        %h2.flush.delta
+          Découvrez nos #{total} stages de #{@vertical_page.subject_name} à #{@city.name}
+        .text--right= link_to ">> Voir tous les stages de #{@vertical_page.subject_name}", search_page_path(@subject.root, @subject, @city, course_types: ['training'])
 
       %hr.push-half--ends
 
