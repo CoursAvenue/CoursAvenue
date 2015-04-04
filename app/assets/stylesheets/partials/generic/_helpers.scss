@@ -132,6 +132,7 @@
 .bg-site-background { background-color: $site-background-color; }
 .bg-site-background-on-stick.sticky {  background-color: $site-background-color; }
 .bg-black-faded     { background-color: black; background-color: rgba(0, 0, 0, 0.65) }
+.bg-yellow          { background-color: #ffeb3b }
 
 /*------------------------------------*\
     DISPLAY
@@ -559,6 +560,9 @@
 .transition-all-300 { @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
 .transition-all-500 { @include transition(all 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
 .transition-all-900 { @include transition(all 900ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
+.animate-to-left {
+    left: -1000px !important;
+}
 
 .rotate-on-hover__wrapper {
     &:hover .rotate-on-hover__child {

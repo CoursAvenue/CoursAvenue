@@ -29,9 +29,12 @@
 
     Plugin.prototype = {
 
-        init: function() {
-            this.element_to_close = $(this.$element.data('el'));
-            this.element_to_close.slideUp();
+        init: function init () {
+            this.$element_to_close = $(this.$element.data('el'));
+            switch (this.$element.data('effect')) {
+                case 'left': this.$element_to_close.addClass('animate-to-left'); break;
+                default: this.$element_to_close.slideUp();
+            }
         }
     };
 
