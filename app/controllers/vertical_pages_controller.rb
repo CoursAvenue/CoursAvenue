@@ -25,6 +25,9 @@ class VerticalPagesController < ApplicationController
     end
     @vertical_page_decorator = @vertical_page.decorate
     @subject                 = @vertical_page.subject
+    if @subject.root?
+      redirect_to root_vertical_page_path(@vertical_page), status: 301
+    end
     @ancestors               = @subject.ancestors
   end
 
