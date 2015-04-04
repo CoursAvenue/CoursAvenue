@@ -75,3 +75,20 @@ SitemapGenerator::Sitemap.create do
   # end
 
 end
+
+# Renew vertical pages cache
+# include Rails.application.routes.url_helpers
+# VerticalPage.find_each do |vertical_page|
+#   next if vertical_page.subject.nil?
+#   if vertical_page.subject and vertical_page.subject.is_root?
+#     PrerenderRenewer.delay.renew_url(root_vertical_page_url(vertical_page, subdomain: 'www', protocol: 'https', host: 'coursavenue.com'))
+#     %w(paris marseille lyon toulouse nice nantes bordeaux lille).each do |city_slug|
+#       PrerenderRenewer.delay.renew_url(root_vertical_page_with_city_url(vertical_page, city_slug, subdomain: 'www', protocol: 'https', host: 'coursavenue.com'))
+#     end
+#   else
+#     PrerenderRenewer.delay.renew_url(vertical_page_url(vertical_page.subject.root, vertical_page, subdomain: 'www', protocol: 'https', host: 'coursavenue.com'))
+#     %w(paris marseille lyon toulouse nice nantes bordeaux lille).each do |city_slug|
+#       PrerenderRenewer.delay.renew_url(vertical_page_with_city_url(vertical_page.subject.root, vertical_page, city_slug, subdomain: 'www', protocol: 'https', host: 'coursavenue.com'))
+#     end
+#   end
+# end

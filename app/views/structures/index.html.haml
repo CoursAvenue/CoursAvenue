@@ -2,7 +2,7 @@
 - @prerender_not_ready = true
 
 - if @subject
-  - title = "#{@subject.name} à #{@city.name} (#{@city.department_code})"
+  - title = "#{@subject.name.gsub('&', 'et')} à #{@city.name} (#{@city.department_code})"
 - else
   - title = "Danse, Théâtre, Musique, Yoga... à #{@city.name || 'Paris'} (#{@city.department_code}) "
 
