@@ -6,6 +6,10 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
   end
 
   def bulk_import
+    UserProfile.delay.batch_create(@structure, params[:emails], newsletter_id: @newsletter.id)
+    respond_to do |format|
+      format.json { render json: { message: "L'import est en cours, nous vous enverrons un mail dès l'import terminé." } }
+    end
   end
 
   private
