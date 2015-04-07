@@ -1,13 +1,29 @@
-<div class='panel'>
-  <div class='panel__body soft'>
-    <div class='soft text--center'>
-      <h3>Avant d'envoyer une newsletter, importez vos contacts dans votre répertoire.</h3>
-      <p>Attention : le ficher d'import doit étre un fichier Excel (format .xls, .xlsx ou .csv) et ne doit contenir qu'une colonne contenant toutes vos adresses emails.</p>
+<h1>2 méthodes pour Importer vos contacts personnels</h1>
 
-      <a data-import="true" href="javascript:void(0)" class='btn btn--green btn--large'>
-        <i class='fa fa-plus'></i>
-        Importer mon fichier de contact
-      </a>
+<h3>Méthode 1 : importez vos contacts réunis dans un fichier excel ou csv</h3>
+
+<form action='{{ fileImportUrl }}'>
+  <p class='epsilon'>
+    Téléchargez votre fichier Excel de contacts puis affectez les colonnes aux champs correspondants :
+  </p>
+
+  <label class='btn btn--green' for='user_profile_import_file' for='user_profile_import_file'>
+    Choisir mon fichier
+    <div class='visuallyhidden'>
+      <input type='file' id='user_profile_import_file'/>
     </div>
+  </label>
+
+  <div class='text--center'>
+    <img src="gifs/loading-indicator.gif" height='10' id='loader' class='hidden soft'>
   </div>
-</div>
+</form>
+
+<hr class='push--ends' />
+
+<h3>Méthode 2 : copiez puis collez dans cet espace tous vos e-mails de contacts</h3>
+<form action='{{ emailImportUrl }}'>
+  <textarea class='push-half--bottom input--large one-whole' name='emails' placeholder='Ex. : maurice@gmail.com, elsa@gmail.com, marie@gmail.com, ...' rows='5' data-behavior='autoresize'>
+  </textarea>
+  <button class='btn btn--green' type='submit' data-disable-with='Import en cours...'>Importer les e-mails</button>
+</form>

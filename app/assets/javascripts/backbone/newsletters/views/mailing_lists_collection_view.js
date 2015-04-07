@@ -16,11 +16,17 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize (options) {
             this.model = options.model;
-            _.bindAll(this, 'saveModel', 'importList', 'selectAllContacts', 'previousStep');
+            _.bindAll(this, 'saveModel', 'importList', 'selectAllContacts', 'previousStep', 'emptyViewOptions');
         },
 
         getEmptyView: function getEmptyView () {
             return Module.MailingListsEmptyCollectionView;
+        },
+
+        emptyViewOptions: function emptyViewOptions () {
+            return {
+                model: this.model,
+            }
         },
 
         templateHelpers: function templateHelpers () {
