@@ -3,8 +3,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         template: Module.templateDirname() + 'mailing_lists_empty_collection_view',
 
         events: {
-            'submit [data-import-emails]': 'importFromEmails',
-            'change [data-import-file]':   'importFromFile',
+            'change [data-import-file]':  'importFromFile',
+            'click [data-import-emails]': 'importFromEmails',
         },
 
         initialize: function initialize (options) {
@@ -46,6 +46,35 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         chooseFileHeaders: function chooseFileHeaders () {
             debugger
+        },
+
+        importFromEmails: function importContacts () {
+            event.preventDefault();
+
+            var emails     = $('[name=emails]').val();
+            var structure  = window.coursavenue.bootstrap.structure;
+            var newsletter = this.model.get('id');
+
+            if (_.isEmpty(emails)) {
+                COURSAVENUE.helperMethods.flash("Veuillez renseigner des adresses emails à importer.", 'error');
+                return ;
+            }
+
+            var data = { emails: emails };
+
+            var url = Routes.bulk_import_pro_structure_newsletter_mailing_lists_path(structure, newsletter)
+
+            $.ajax(url, {
+                data: data,
+                type: 'POST',
+                success: function (data) {
+                    COURSAVENUE.helperMethods.flash(data.message, 'notice');
+                },
+                error: function (data) {
+                    var message = data.message || "Une erreur est seurvenue lors de l'import des emails, veuillez rééssayer.";
+                    COURSAVENUE.helperMethods.flash(message, 'error');
+                }
+            });
         },
 
     });
