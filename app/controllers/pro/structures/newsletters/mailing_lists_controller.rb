@@ -13,10 +13,18 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
 
     @user_profile_import.structure = @structure
 
+    saved = @user_profile_import.save
+
+    popup_content = render_to_string(
+      partial: 'pro/structures/newsletters/mailing_lists/choose_file_headers',
+      locals:  { structure: @structure, user_profile_import: @user_profile_import },
+      layout:  false,
+      formats: [:html]
+    )
+
     respond_to do |format|
-      if @user_profile_import.save
-        format.json { render json: { popup_to_show: render_to_string(partial: 'pro/structures/newsletters/mailing_lists/choose_file_headers', layout: false, formats: [:html], locals: { structure: @structure, user_profile_import: @user_profile_import }) }, status: 201
-        }
+      if saved
+        format.json { render json: { popup_to_show: popup_content }, status: 201 }
       else
         format.json { render json: { message: 'ko' }, status: 422 }
       end
