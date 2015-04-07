@@ -283,6 +283,8 @@ CoursAvenue::Application.routes.draw do
           resources :mailing_lists, only: [], controller: 'structures/newsletters/mailing_lists' do
             collection do
               post :file_import
+              patch :update_headers
+
               post :bulk_import
             end
           end

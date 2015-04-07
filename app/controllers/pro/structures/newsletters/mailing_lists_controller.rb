@@ -24,9 +24,29 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
 
     respond_to do |format|
       if saved
-        format.json { render json: { popup_to_show: popup_content }, status: 201 }
+        format.json { render json: { popup_to_show: popup_content, user_profile_import: @user_profile_import },
+                           status: 201 }
       else
         format.json { render json: { message: 'ko' }, status: 422 }
+      end
+    end
+  end
+
+  def update_headers
+    @user_profile_import = @structure.user_profile_imports.find(params[:user_profile_import])
+
+    if params[:table_indexes].present?
+      params.delete(:table_indexes).reject(&:blank?).each do |table_index|
+        attribute_name, index = table_index.split(':')
+        @user_profile_import.send("#{attribute_name}_index=", index.to_i)
+      end
+    end
+
+    respond_to do |format|
+      if @user_profile_import.import
+        format.json { render json: { message: "Import du carnet d'addresse terminé" }, status: 201 }
+      else
+        format.json { render json: { message: "Erreur lors de l'association des colonnes, veuillez rééssayer." }, status: 400 }
       end
     end
   end
@@ -36,7 +56,7 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
 
     respond_to do |format|
       if params[:email].present?
-        format.json { render json: { message: "L'import est en cours, nous vous enverrons un mail dès l'import terminé." } }
+        format.json { render json: { message: "L'import est en cours, nous vous enverrons un mail dès l'import terminé." }, status: 201 }
       else
         format.json { render json: { message: "Veuillez renseigner des adresses emails à importer." }, status: 400 }
       end
