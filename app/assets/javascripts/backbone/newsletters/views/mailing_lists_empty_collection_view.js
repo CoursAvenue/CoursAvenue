@@ -63,6 +63,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 type: 'POST',
                 success: function (data) {
                     COURSAVENUE.helperMethods.flash(data.message, 'notice');
+                    this.trigger('selected', { model: this.model });
                 },
                 error: function (data) {
                     var message = data.message || "Erreur lors de l'association des colonnes, veuillez rééssayer.";
