@@ -54,7 +54,7 @@ class CrmSync
   end
 
   def self.create_sleeping_contact(structure)
-    return if structure.contact_email.blank?
+    return nil if structure.contact_email.blank?
     if structure.close_io_lead_id.present?
       existing_lead = self.client.find_lead structure.close_io_lead_id
     else
@@ -70,7 +70,7 @@ class CrmSync
       results = self.client.create_lead(self.data_for_sleeping_structure(structure))
       structure.update_column :meta_data, structure[:meta_data].merge('close_io_lead_id' => results[:id])
     end
-
+    results
   end
 
   def self.place_addresses_from_structure(structure)

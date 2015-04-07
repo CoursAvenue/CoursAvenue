@@ -24,6 +24,7 @@ module FakeCloseio
         'errors' => []
       }
     end
+
   end
 end
 
