@@ -3,22 +3,50 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         template: Module.templateDirname() + 'mailing_lists_empty_collection_view',
 
         events: {
-            'click [data-import]': 'importList',
+            'submit [data-import-emails]': 'importFromEmails',
+            'change [data-import-file]':   'importFromFile',
         },
 
-        initialize: function initialize () {
-            _.bindAll(this, 'importList');
+        initialize: function initialize (options) {
+            this.model = options.model;
+            _.bindAll(this, 'importFromEmails', 'importFromFile');
         },
 
-        // When the user wants to import its mailing list.
-        importList: function importList () {
-            this.model.save();
-            var path = Routes.new_pro_structure_user_profile_import_url(
-                window.coursavenue.bootstrap.structure, {
-                    return_to: this.model.get('id')
-                });
-
-                window.location = path;
+        importFromEmails: function importContacts () {
+            event.preventDefault();
+            debugger
+            alert('not yet implemented');
         },
+
+        importFromFile: function importFromFile () {
+            event.preventDefault();
+
+            var structure  = window.coursavenue.bootstrap.structure;
+            var newsletter = this.model.get('id');
+
+            var file = event.srcElement.files[0];
+            var data = new FormData();
+
+            data.append('file', file);
+            $.ajax({
+                url:  Routes.file_import_pro_structure_newsletter_mailing_lists_path(structure, newsletter),
+                data: data,
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    debugger
+                },
+                error: function (data) {
+                    COURSAVENUE.helperMethods.flash("Erreur lors de l'import du fichier, veuillez rééssayer.", 'error');
+                }
+            });
+        },
+
+        chooseFileHeaders: function chooseFileHeaders () {
+            debugger
+        },
+
     });
 });

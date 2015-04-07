@@ -2,7 +2,7 @@
 
 <h3>Méthode 1 : importez vos contacts réunis dans un fichier excel ou csv</h3>
 
-<form action='{{ fileImportUrl }}'>
+<form>
   <p class='epsilon'>
     Téléchargez votre fichier Excel de contacts puis affectez les colonnes aux champs correspondants :
   </p>
@@ -10,7 +10,7 @@
   <label class='btn btn--green' for='user_profile_import_file' for='user_profile_import_file'>
     Choisir mon fichier
     <div class='visuallyhidden'>
-      <input type='file' id='user_profile_import_file'/>
+      <input type='file' id='user_profile_import_file' data-import-file='true'/>
     </div>
   </label>
 
@@ -22,8 +22,8 @@
 <hr class='push--ends' />
 
 <h3>Méthode 2 : copiez puis collez dans cet espace tous vos e-mails de contacts</h3>
-<form action='{{ emailImportUrl }}'>
+<form>
   <textarea class='push-half--bottom input--large one-whole' name='emails' placeholder='Ex. : maurice@gmail.com, elsa@gmail.com, marie@gmail.com, ...' rows='5' data-behavior='autoresize'>
   </textarea>
-  <button class='btn btn--green' type='submit' data-disable-with='Import en cours...'>Importer les e-mails</button>
+  <button class='btn btn--green' type='submit' data-disable-with='Import en cours...' data-import-emails='true'>Importer les e-mails</button>
 </form>
