@@ -49,7 +49,26 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         chooseFileHeaders: function chooseFileHeaders () {
-            debugger
+            event.preventDefault();
+
+            var structure  = window.coursavenue.bootstrap.structure;
+            var newsletter = this.model.get('id');
+
+            var form = $('form[data-header]');
+            var data = form.serialize();
+            var url  = Routes.update_headers_pro_structure_newsletter_mailing_lists_path(structure, newsletter, { user_profile_import: this.user_profile_import });
+
+            $.ajax(url, {
+                data: data,
+                type: 'POST',
+                success: function (data) {
+                    COURSAVENUE.helperMethods.flash(data.message, 'notice');
+                },
+                error: function (data) {
+                    var message = data.message || "Erreur lors de l'association des colonnes, veuillez rééssayer.";
+                    COURSAVENUE.helperMethods.flash(message, 'error');
+                }
+            });
         },
 
         importFromEmails: function importContacts () {
