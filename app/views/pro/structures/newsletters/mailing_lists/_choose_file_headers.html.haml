@@ -1,8 +1,8 @@
-.panel.center-block.soft{ style: 'width: 500px;'}
+.push--top.panel.center-block.soft
   .panel__header.text--center
     %h4 Associez les colonnes du fichier aux champs correspondants
 
-  = simple_form_for [:import, :pro, structure, user_profile_import] do |f|
+  = simple_form_for [:import, :pro, structure, user_profile_import], data: { header: true } do |f|
     %table.table--data.table--striped
       %thead
         %tr
@@ -19,4 +19,5 @@
                   %option{selected: (user_profile_import.send("#{attribute_name}_index") == index) ,value: "#{attribute_name}:#{index}"}= UserProfile.human_attribute_name(attribute_name)
 
     .soft--sides
-      = f.submit 'Valider', class: 'btn btn--green btn--full', data: { disable_with: "En cours de validation" }
+      %button.btn.btn--green.btn--full{ type: 'button', data: { popup: true } }
+        Valider

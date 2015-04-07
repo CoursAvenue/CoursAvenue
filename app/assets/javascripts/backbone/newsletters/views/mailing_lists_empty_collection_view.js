@@ -5,11 +5,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         events: {
             'change [data-import-file]':  'importFromFile',
             'click [data-import-emails]': 'importFromEmails',
+            'submit':                     'chooseFileHeaders',
+            'click [data-popup]':         'chooseFileHeaders',
         },
 
         initialize: function initialize (options) {
             this.model = options.model;
-            _.bindAll(this, 'importFromEmails', 'importFromFile');
+            _.bindAll(this, 'importFromFile', 'chooseFileHeaders', 'importFromEmails');
         },
 
         importFromFile: function importFromFile () {
@@ -35,13 +37,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    $.magnificPopup.open({
-                          items: {
-                              src: $(data.popup_to_show),
-                              type: 'inline'
-                          }
-                    });
-                },
+                    var element = $('[data-file-headers]');
+                    element.html(data.popup_to_show)
+                    element.slideDown();
+                    this.user_profile_import = data.user_profile_import.id;
+                }.bind(this),
                 error: function (data) {
                     COURSAVENUE.helperMethods.flash("Erreur lors de l'import du fichier, veuillez rééssayer.", 'error');
                 }
@@ -80,6 +80,5 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 }
             });
         },
-
     });
 });
