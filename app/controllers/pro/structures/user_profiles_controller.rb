@@ -87,12 +87,7 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   def import_batch_emails
     UserProfile.delay.batch_create(@structure, params[:emails], mailing_list_tag)
     respond_to do |format|
-      if session[:newsletter_id].present?
-        newsletter = @structure.newsletters.find(session[:newsletter_id])
-        format.html { redirect_to mailing_list_pro_structure_newsletter_path(@structure, newsletter), notice: "L'import est en cours, nous vous enverrons un mail dès l'import terminé." }
-      else
-        format.html { redirect_to pro_structure_user_profiles_path(@structure), notice: "L'import est en cours, nous vous enverrons un mail dès l'import terminé." }
-      end
+      format.html { redirect_to pro_structure_user_profiles_path(@structure), notice: "L'import est en cours, nous vous enverrons un mail dès l'import terminé." }
     end
   end
 
@@ -113,18 +108,5 @@ class Pro::Structures::UserProfilesController < Pro::ProController
       tags = params[:user_profile].delete(:tags)
       add_tags(tags)
     end
-  end
-
-  # The mailing list tag used when batch_creating user_profiles.
-  #
-  # @return a String or nil
-  def mailing_list_tag
-    return nil if session[:newsletter_id].nil?
-
-    tag_name     = "import du #{I18n.l(local_time(Time.current), format: :long_human)}"
-    mailing_list = @structure.mailing_lists.create(name:   tag_name,
-                                                  filters: [ { predicate: 'is', tag: tag_name } ])
-
-    tag_name
   end
 end

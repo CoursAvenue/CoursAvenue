@@ -7,7 +7,6 @@ class Pro::Structures::UserProfileImportsController < ApplicationController
 
   def new
     @user_profile_import = @structure.user_profile_imports.build
-    session[:newsletter_id] = params[:newsletter_id] if params[:newsletter_id].present?
   end
 
   def choose_headers
@@ -47,12 +46,7 @@ class Pro::Structures::UserProfileImportsController < ApplicationController
     end
     @user_profile_import
     if @user_profile_import.import
-      if session[:newsletter_id].present?
-        newsletter = @structure.newsletters.find(session[:newsletter_id])
-        redirect_to mailing_list_pro_structure_newsletter_path(@structure, newsletter), notice: "Import du carnet d'adresse terminé"
-      else
-        redirect_to pro_structure_user_profiles_path(@structure), notice: "Import du carnet d'adresse terminé"
-      end
+      redirect_to pro_structure_user_profiles_path(@structure), notice: "Import du carnet d'adresse terminé"
     else
       render :choose_headers
     end
