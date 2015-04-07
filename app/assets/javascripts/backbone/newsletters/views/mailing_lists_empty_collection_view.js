@@ -12,12 +12,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             _.bindAll(this, 'importFromEmails', 'importFromFile');
         },
 
-        importFromEmails: function importContacts () {
-            event.preventDefault();
-            debugger
-            alert('not yet implemented');
-        },
-
         importFromFile: function importFromFile () {
             event.preventDefault();
 
@@ -27,16 +21,26 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var file = event.srcElement.files[0];
             var data = new FormData();
 
+            if (!file) {
+                COURSAVENUE.helperMethods.flash("Veuillez séléctionner un fichier.", 'error');
+                return ;
+            }
+
             data.append('file', file);
-            $.ajax({
-                url:  Routes.file_import_pro_structure_newsletter_mailing_lists_path(structure, newsletter),
+            var url = Routes.file_import_pro_structure_newsletter_mailing_lists_path(structure, newsletter);
+            $.ajax(url, {
                 data: data,
                 type: 'POST',
                 cache: false,
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    debugger
+                    $.magnificPopup.open({
+                          items: {
+                              src: $(data.popup_to_show),
+                              type: 'inline'
+                          }
+                    });
                 },
                 error: function (data) {
                     COURSAVENUE.helperMethods.flash("Erreur lors de l'import du fichier, veuillez rééssayer.", 'error');
