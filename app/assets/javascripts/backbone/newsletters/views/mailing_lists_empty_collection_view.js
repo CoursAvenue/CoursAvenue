@@ -62,9 +62,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 data: data,
                 type: 'POST',
                 success: function (data) {
+                    var mailingList = new Newsletter.Models.MailingList(data.mailing_list);
                     COURSAVENUE.helperMethods.flash(data.message, 'notice');
+                    this.collection.add(mailingList);
                     this.trigger('selected', { model: this.model });
-                },
+                }.bind(this),
                 error: function (data) {
                     var message = data.message || "Erreur lors de l'association des colonnes, veuillez rééssayer.";
                     COURSAVENUE.helperMethods.flash(message, 'error');
@@ -93,7 +95,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 type: 'POST',
                 success: function (data) {
                     var mailingList = new Newsletter.Models.MailingList(data.mailing_list);
-
                     COURSAVENUE.helperMethods.flash(data.message, 'notice');
                     this.collection.add(mailingList);
                     this.trigger('selected', { model: this.model });
