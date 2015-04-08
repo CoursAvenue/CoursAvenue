@@ -255,7 +255,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         enableNavItem: function enableNavItem (navItem) {
             if (navItem.data('newsletter-disabled')) {
                 navItem.data('newsletter-disabled', false);
-                navItem.removeClass('cursor-disabled')
+                navItem.removeClass('cursor-disabled muted')
             }
         },
 
