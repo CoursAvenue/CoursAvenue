@@ -25,7 +25,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         emptyViewOptions: function emptyViewOptions () {
             return {
-                model: this.model,
+                model:      this.model,
+                collection: this.collection
             }
         },
 
