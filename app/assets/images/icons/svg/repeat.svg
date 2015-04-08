@@ -1,8 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="36px" height="44px" viewBox="0 0 36 44" version="1.1">
-    <title>sync_backup</title>
-    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
-    <defs/>
-    <g id="Editor" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <path d="M20.9036865,39.7670139 C29.4641659,38.3786619 36,30.9525943 36,22 C36,14.0757002 30.8793511,7.34739283 23.7664871,4.94351161 L23.7664871,4.94351161 L23.3520537,6.9170602 C29.5566324,9.11879781 34,15.0404965 34,22 C34,29.8450091 28.3539771,36.3713181 20.9036865,37.7371718 L20.9036865,33 L12.9036865,38.5 L20.9036865,44 L20.9036865,39.7670139 Z M13,4.70353325 C5.4914362,6.87022204 0,13.7938138 0,22 C0,29.3377009 4.39059346,35.6499232 10.6879364,38.4528229 L11.0946302,36.4372625 C5.71504733,33.8595458 2,28.363621 2,22 C2,14.9095595 6.61213661,8.89634192 13,6.796757 L13,11 L21,5.5 L13,0 L13,4.70353325 L13,4.70353325 Z M13,4.70353325" id="sync_backup" fill="#000000" sketch:type="MSShapeGroup"/>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="36px" height="44px"
+	 viewBox="0 0 36 44" enable-background="new 0 0 36 44" xml:space="preserve">
+<path id="Editor" sketch:type="MSPage" d="M20.904,39.768C29.465,38.379,36,30.953,36,22
+	c0-7.924-5.121-14.652-12.233-17.057l0,0l-0.415,1.974C29.557,9.119,34,15.041,34,22c0,7.846-5.646,14.371-13.096,15.737V33l-8,5.5
+	l8,5.5V39.768z M13,4.704C5.491,6.87,0,13.794,0,22c0,7.338,4.391,13.65,10.688,16.453l0.407-2.016C5.715,33.859,2,28.363,2,22
+	C2,14.91,6.612,8.896,13,6.797V11l8-5.5L13,0V4.704L13,4.704z"/>
 </svg>

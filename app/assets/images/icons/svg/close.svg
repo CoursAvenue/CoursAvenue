@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="102px" height="102px" viewBox="0 0 102 102" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
-    <title>Shape</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="dot-circle-o" sketch:type="MSLayerGroup" fill="#000000">
-            <g id="Your_Icon" sketch:type="MSShapeGroup">
-                <path d="M0.591,50.909 C0.591,23.114 23.205,0.5 51,0.5 C78.796,0.5 101.409,23.114 101.409,50.909 C101.409,78.705 78.796,101.318 51,101.318 C23.205,101.318 0.591,78.705 0.591,50.909 Z M51.5,48.3938813 L27.7191665,24.6130478 L25.1130478,27.2191665 L48.8938813,51 L25.1130478,74.7808335 L27.7191665,77.3869522 L51.5,53.6061187 L75.2808335,77.3869522 L77.8869522,74.7808335 L54.1061187,51 L77.8869522,27.2191665 L75.2808335,24.6130478 L51.5,48.3938813 Z M51,6.115 C26.3,6.115 6.206,26.209 6.206,50.909 C6.206,75.609 26.3,95.703 51,95.703 C75.701,95.703 95.794,75.609 95.794,50.909 C95.794,26.209 75.701,6.115 51,6.115 Z" id="Shape"></path>
-            </g>
-        </g>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="102px" height="102px"
+	 viewBox="0 0 102 102" enable-background="new 0 0 102 102" xml:space="preserve">
+<title>Shape</title>
+<desc>Created with Sketch.</desc>
+<path id="Page-1" sketch:type="MSPage" d="M0.591,50.909C0.591,23.114,23.205,0.5,51,0.5
+	c27.796,0,50.409,22.614,50.409,50.409c0,27.796-22.613,50.409-50.409,50.409C23.205,101.318,0.591,78.705,0.591,50.909z
+	 M51.5,48.394L27.719,24.613l-2.606,2.606L48.894,51L25.113,74.781l2.606,2.605L51.5,53.605l23.781,23.781l2.605-2.605L54.105,51
+	l23.781-23.781l-2.605-2.606L51.5,48.394z M51,6.115c-24.7,0-44.794,20.094-44.794,44.794S26.3,95.703,51,95.703
+	c24.701,0,44.794-20.094,44.794-44.794S75.701,6.115,51,6.115z"/>
 </svg>
