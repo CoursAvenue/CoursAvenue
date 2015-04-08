@@ -6,7 +6,8 @@
           %tr{ valign: 'top' }
             - bloc.sub_blocs.order('position ASC').each_with_index do |sub_bloc, sub_bloc_index|
               - proportion = @newsletter.layout.proportions[bloc_index][sub_bloc_index]
-              %td{ width: proportion_to_width(proportion) }
+              -# %td{ width: proportion_to_width(proportion) }
+              %td.inline-block.soft-half--sides.v-top{ class: proportion }
                 - if sub_bloc.image?
                   = image_tag sub_bloc.image.url, alt: @newsletter.title
                 - else
