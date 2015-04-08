@@ -1,4 +1,6 @@
 class Pro::Structures::Newsletters::MailingListsController < ApplicationController
+  include ApplicationHelper
+
   before_action :authenticate_pro_admin!
   before_action :set_structure_and_newsletter
 
@@ -56,11 +58,14 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
     if emails.present?
       @mailing_list = @structure.mailing_lists.create(tag: mailing_list_tag)
       UserProfile.delay.batch_create(@structure, params[:emails], { newsletter_id: @newsletter.id, mailing_list_tag: @mailing_list.tag })
+
+      mailing_list = NewsletterMailingListSerializer.new(@mailing_list)
     end
+
 
     respond_to do |format|
       if emails.present?
-        format.json { render json: { message: "L'import est en cours, nous vous enverrons un mail dès l'import terminé.", mailing_list: @mailing_list }, status: 201 }
+        format.json { render json: { message: "L'import est en cours, nous vous enverrons un mail dès l'import terminé.", mailing_list: mailing_list }, status: 201 }
       else
         format.json { render json: { message: "Veuillez renseigner des adresses emails à importer." }, status: 400 }
       end
