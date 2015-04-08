@@ -26,20 +26,26 @@
 - content_present = [@vertical_page.content, @subject.good_to_know, @subject.needed_meterial, @subject.tips].reject(&:blank?).any?
 
 .main-container.main-container--medium.soft--ends
-  %ul.nav.breadcrumb.epsilon
-    - @ancestors.each do |ancestor|
-      - next if ancestor.vertical_pages.empty?
-      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to vertical_page_path(ancestor.root, ancestor.vertical_pages.first), itemprop: 'url' do
-          %span{ itemprop: 'title' }
-            = ancestor.vertical_pages.first.subject_name
-    - if @ancestors.any?
-      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        %span{ itemprop: 'title' }
-          = @vertical_page_decorator.page_h1
 
   .grid
     .grid__item.six-tenths.palm-one-whole>
+      %ul.nav.breadcrumb.epsilon
+        - @ancestors.each do |ancestor|
+          - next if ancestor.vertical_pages.empty?
+          - if ancestor.depth == 0
+            %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+              = link_to root_vertical_page_path(ancestor.vertical_pages.first), itemprop: 'url' do
+                %span{ itemprop: 'title' }
+                  = ancestor.vertical_pages.first.subject_name
+          - else
+            %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+              = link_to vertical_page_path(ancestor.root, ancestor.vertical_pages.first), itemprop: 'url' do
+                %span{ itemprop: 'title' }
+                  = ancestor.vertical_pages.first.subject_name
+        - if @ancestors.any?
+          %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+            %span{ itemprop: 'title' }
+              = @vertical_page_decorator.page_h1
       -# = render partial: 'vertical_pages/cities'
       - bg_thumb   = @vertical_page.image.url(:thumb)
       - if @subject.root.vertical_pages.any?
@@ -99,12 +105,12 @@
 
     .grid__item.four-tenths.palm-one-whole>
       %h3 #{@vertical_page.subject_name} : sélection
-      .panel__body.soft--ends.soft--left.tab-content
-        - without_structure_ids = []
-        - trial_structures = StructureSearch.search(order_by: 'is_open_for_trial', subject_id: @vertical_page.subject.slug, per_page: 10).results
-        - trial_structures.each_with_index do |structure, index|
-          - without_structure_ids << structure.id
+      .bg-white.bordered.soft--ends.soft-half--sides.tab-content
+        - structures = StructureSearch.search(order_by: 'is_open_for_trial', subject_id: @vertical_page.subject.slug, per_page: 10).results
+        - structures.each_with_index do |structure, index|
           = render partial: 'vertical_pages/structure', locals: { structure: structure }
+        .text--center= link_to "Voir tous les cours de #{@vertical_page.subject_name}", search_page_path(@subject.root, @subject, 'paris'), class: 'epsilon'
+
 
 - if @subject.depth == 0
   .home-screen-promotion-wrapper

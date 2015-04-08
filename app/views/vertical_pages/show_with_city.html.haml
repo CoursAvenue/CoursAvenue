@@ -24,20 +24,21 @@
 - content_present = [@vertical_page.content, @subject.good_to_know, @subject.needed_meterial, @subject.tips].reject(&:blank?).any?
 
 .main-container.main-container--medium.soft--ends
-  %ul.nav.breadcrumb.epsilon.push--bottom
-    - @ancestors.each do |ancestor|
-      - next if ancestor.vertical_pages.empty?
-      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to vertical_page_path(ancestor.root, ancestor.vertical_pages.first), itemprop: 'url' do
-          %span{ itemprop: 'title' }= ancestor.vertical_pages.first.subject_name
-    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-      = link_to vertical_page_path(@subject.root, @vertical_page), itemprop: 'url' do
-        %span{ itemprop: 'title' }= @vertical_page_decorator.page_h1
-    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-      %span{ itemprop: 'title' }= "#{@vertical_page.subject_name} à #{@city.name}"
-
   .grid
     .grid__item.six-tenths.soft--right.palm-one-whole>
+      %ul.nav.breadcrumb.epsilon.push--bottom
+        - @ancestors.each do |ancestor|
+          - next if ancestor.vertical_pages.empty?
+          - if ancestor.depth == 0
+            %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+              = link_to root_vertical_page_with_city_path(ancestor.vertical_pages.first, @city), itemprop: 'url' do
+                %span{ itemprop: 'title' }= ancestor.vertical_pages.first.subject_name
+          - else
+            %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+              = link_to vertical_page_with_city_path(ancestor.root, ancestor.vertical_pages.first, @city), itemprop: 'url' do
+                %span{ itemprop: 'title' }= ancestor.vertical_pages.first.subject_name
+        %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+          %span{ itemprop: 'title' }= "#{@vertical_page.subject_name} à #{@city.name}"
       - bg_thumb   = @vertical_page.image.url(:thumb)
       - if @subject.root.vertical_pages.any?
         - bg_thumb_2 = @subject.root.vertical_pages.first.image.url(:thumb)
@@ -87,26 +88,12 @@
         = render partial: 'vertical_pages/siblings'
     .grid__item.four-tenths.palm-one-whole>
       %h3 #{@vertical_page.subject_name} : sélection à #{@city.name}
-      .panel
-        %ul.nav.tabs.panel__header
-          %li.active
-            %a{ href: '#choisis-pour-vous', data: { toggle: 'tab' } } Choisis pour vous
-          %li
-            %a{ href: '#essai-gratuits', data: { toggle: 'tab' } } Cours d'essai gratuits
-        .panel__body.soft--ends.soft-half--sides.tab-content
-          - without_structure_ids = []
-          - trial_structures = StructureSearch.search(radius: 500, lat: @city.latitude, lng: @city.longitude, order_by: 'is_open_for_trial', subject_id: @vertical_page.subject.slug, per_page: 8).results
-          .tab-pane#essai-gratuits
-            - trial_structures.each_with_index do |structure, index|
-              - without_structure_ids << structure.id
-              - cache [structure, 'vertical_pages/show'] do
-                = render partial: 'vertical_pages/structure', locals: { structure: structure }
-          - other_structures = StructureSearch.search(radius: 500, lat: @city.latitude, lng: @city.longitude, subject_id: @vertical_page.subject.slug, per_page: 8, without_ids: without_structure_ids).results
-          .tab-pane#choisis-pour-vous.active
-            - other_structures.each_with_index do |structure, index|
-              - cache [structure, 'vertical_pages/show'] do
-                = render partial: 'vertical_pages/structure', locals: { structure: structure }
-          .text--right= link_to "#{@vertical_page.subject_name} : voir tous les cours à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'epsilon'
+      .bg-white.bordered.soft--ends.soft-half--sides.tab-content
+        - structures = StructureSearch.search(radius: 500, lat: @city.latitude, lng: @city.longitude, order_by: 'is_open_for_trial', subject_id: @vertical_page.subject.slug, per_page: 8).results
+        - structures.each_with_index do |structure, index|
+          - cache [structure, 'vertical_pages/show'] do
+            = render partial: 'vertical_pages/structure', locals: { structure: structure }
+        .text--center= link_to "Voir tous les cours de #{@vertical_page.subject_name} à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'epsilon'
 
 
 - if @subject.depth == 0
