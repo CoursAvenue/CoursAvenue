@@ -6,8 +6,14 @@ RSpec.describe Newsletter, type: :model do
   # it { should belong_to(:structure) }
   # it { should have_many(:blocs) }
 
-  subject          { FactoryGirl.create(:newsletter) }
-  let!(:structure) { subject.structure }
+  subject            { FactoryGirl.create(:newsletter) }
+  let!(:structure)   { subject.structure }
+  let(:mailing_list) { FactoryGirl.create(:newsletter_mailing_list, structure: structure) }
+
+  before do
+    subject.mailing_list = mailing_list
+    subject.save
+  end
 
   describe 'defaults' do
     it 'is a draft by default' do
