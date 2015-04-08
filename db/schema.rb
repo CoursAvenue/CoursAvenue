@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150403155932) do
+ActiveRecord::Schema.define(version: 20150408114142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1180,13 +1180,16 @@ ActiveRecord::Schema.define(version: 20150403155932) do
   add_index "unfinished_resources", ["visitor_id"], name: "index_unfinished_resources_on_visitor_id", using: :btree
 
   create_table "user_profile_imports", force: true do |t|
-    t.binary   "data",         null: false
+    t.binary   "data",                       null: false
     t.string   "filename"
     t.string   "mime_type"
     t.integer  "structure_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "newsletter_mailing_list_id"
   end
+
+  add_index "user_profile_imports", ["newsletter_mailing_list_id"], name: "index_user_profile_imports_on_newsletter_mailing_list_id", using: :btree
 
   create_table "user_profiles", force: true do |t|
     t.integer "structure_id"
