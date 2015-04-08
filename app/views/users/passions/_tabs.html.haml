@@ -1,7 +1,7 @@
 %ul.tabs.panel__header.flush
   %li{class: current == 'offers' ? 'active' : ''}
     = link_to offers_user_passions_path(@user) do
-      %i.fa.fa-gift
+      %i.fa-gift
       Mes offres
   %li{class: current == 'passions' ? 'active' : ''}
     = link_to user_passions_path(@user) do

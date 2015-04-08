@@ -7,7 +7,7 @@
     Tout charger
 
   = link_to download_pro_subscription_plans_path, class: 'btn btn--green push-half--right' do
-    %i.fa.fa-download
+    %i.fa-download
     Exporter
 
   - if SubscriptionPlanExport.where.not(url: nil).any?
@@ -15,7 +15,7 @@
     .alert.alert--warning.inline-block
       = "Date du dernier export : #{l(file.created_at)} : "
       = link_to file.url do
-        %i.fa.fa-download
+        %i.fa-download
         Télécharger le dernier fichier
 
 %table.table--striped

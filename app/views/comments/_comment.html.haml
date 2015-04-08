@@ -56,7 +56,7 @@
               %i.fa.fa-envelope
               Envoyer un message
             = link_to structure_url(comment.commentable), target: :_blank, class: 'btn btn--small' do
-              %i.fa.fa-eye
+              %i.fa-eye
               Voir tous les avis du profil
 
       .grid__item.palm-one-whole.three-twelfths.soft--left.palm-hard>
@@ -69,16 +69,16 @@
               .drop-down__wrapper.very-soft--bottom
                 = link_to share_comment_url(comment, :facebook), target: '_blank', class: 'btn btn--small btn--full relative', onclick: "ga('send', 'event', 'Share comment on Facebook', 'click')" do
                   Partager
-                  %i.fa.fa-chevron-down.soft-half--right.absolute.east
+                  %i.fa-chevron-down.soft-half--right.absolute.east
                 .drop-down__el
                   %ul.drop-down__el-inner-box.text--left
                     %li.nowrap
                       = link_to share_comment_url(comment, :facebook), target: '_blank', onclick: "ga('send', 'event', 'Share comment on', 'click', 'Facebook')" do
-                        %i.fa.fa-facebook.soft-half--right
+                        %i.fa-facebook.soft-half--right
                         Partager sur Facebook
                     %li.nowrap
                       = link_to share_comment_url(comment, :twitter), target: '_blank', onclick: "ga('send', 'event', 'Share comment on', 'click', 'Twitter')" do
-                        %i.fa.fa-twitter.soft-half--right
+                        %i.fa-twitter.soft-half--right
                         Partager sur Twitter
           - if comment.waiting_for_deletion?
             %p.red.flush.float--left
@@ -92,9 +92,9 @@
             - if comment.certified?
               .drop-down__wrapper.text--center
                 %a{ href: 'javascript:void(0)', data: { behavior: 'tooltip', html: 'true', title: "Signaler&nbsp;un&nbsp;incident&nbsp;à l'équipe&nbsp;CoursAvenue" } }
-                  %i.fa.fa-flag
+                  %i.fa-flag
                   Signaler
-                  %i.fa.fa-chevron-down.soft-half--left
+                  %i.fa-chevron-down.soft-half--left
                 .drop-down__el
                   %ul.drop-down__el-inner-box.text--left
                     - t('comments.deletion_reasons').each do |i18n_key, traducted_string|
@@ -103,28 +103,28 @@
                           = traducted_string
             - else
               = link_to pro_comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet avis ?' }, class: 'red text--center block' do
-                %i.fa.fa-trash-o
+                %i.fa-trash-o
                 Supprimer
 
           - if current_pro_admin.super_admin?
             .drop-down__wrapper.push-half--top.push--bottom{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: 'right' } }
               %a.relative.btn--full.btn.btn--small{ href: 'javascript:void(0)' }
-                %i.fa.fa-cogs
+                %i.fa-cogs
                 Admin
-                %i.fa.fa-chevron-down.soft-half--right.absolute.east
+                %i.fa-chevron-down.soft-half--right.absolute.east
               .drop-down__el
                 %ul.drop-down__el-inner-box.text--left
                   - if comment.persisted? and can?(:destroy, comment)
                     - if comment.waiting_for_deletion?
                       %li.nowrap
                         = link_to recover_pro_comment_path(comment), method: :patch do
-                          %i.fa.fa-check
+                          %i.fa-check
                           Rétablir
                     %li.nowrap
                       = link_to edit_pro_comment_path(comment) do
-                        %i.fa.fa-pencil
+                        %i.fa-pencil
                         Modifier
                     %li.nowrap
                       = link_to pro_comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet avis ?' } do
-                        %i.fa.fa-trash-o
+                        %i.fa-trash-o
                         Supprimer

@@ -43,13 +43,13 @@
         .soft--sides
           %hr.push--ends
           %h5
-            %i.fa.fa-info
+            %i.fa-info
             Infos pratiques
 
           = f.input :info, input_html: { class: 'input--large', data: { behavior: 'autoresize' } }, label_html: { class: 'label--large' }
           .input<
             %label.label--large.text.optional.control-label{for: "course_private_info"}
-              %i.fa.fa-lock
+              %i.fa-lock
               Privées
             = f.input :private_info, label: false, input_html: { data: { behavior: 'autoresize' }}, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole input--large' }
 

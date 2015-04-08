@@ -13,13 +13,13 @@
       .grid__item.one-half.white-box.relative.soft-half>
         .delta.blue #{ comment.commentable.name }
         .push--right
-          %i.fa.fa-envelope-o
+          %i.fa-envelope-o
           = comment.email
         .push--right
           %i.fa.fa-home
           = comment.ip_address.nil? ? "0.0.0.0" : comment.ip_address
         .push--right
-          %i.fa.fa-calendar
+          %i.fa-calendar
           = l(comment.created_at)
         .lbl.absolute.north.east.push-half{ class: "#{ comment.submitted? ? "lbl--green" : "lbl--orange" }"}
           = comment.submitted? ? 'Submitted' : 'Abandoned'

@@ -34,11 +34,11 @@ module CommentsHelper
 
   def icon_rating(comment, class_name='')
     if comment.rating.nil? or comment.rating > 3
-      content_tag(:i, '', class: "fa fa-face-happy #{class_name}")
+      content_tag(:i, '', class: "fa-face-happy #{class_name}")
     elsif comment.rating > 1
-      content_tag(:i, '', class: "fa fa-face-neutral #{class_name}")
+      content_tag(:i, '', class: "fa-face-neutral #{class_name}")
     else
-      content_tag(:i, '', class: "fa fa-face-sad #{class_name}")
+      content_tag(:i, '', class: "fa-face-sad #{class_name}")
     end
   end
 end

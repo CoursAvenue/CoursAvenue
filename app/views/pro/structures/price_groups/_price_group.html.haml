@@ -5,11 +5,11 @@
         %h4.inline-block.line-height-normal.v-middle.flush--bottom.push-half--right= price_group.name
         .inline-block.line-height-normal.v-middle.nowrap
           = link_to edit_pro_structure_price_group_path(@structure, price_group), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false', lock_overlay: true } do
-            %i.fa.fa-pencil
+            %i.fa-pencil
             Modifier
           \/
           = link_to ask_for_deletion_pro_structure_price_group_path(@structure, price_group), class: 'red fancybox.ajax', data: { behavior: 'modal', width: '400', padding: '0' } do
-            %i.fa.fa-trash-o
+            %i.fa-trash-o
             Supprimer
 
       %table.table--striped.table--data.table-responsive

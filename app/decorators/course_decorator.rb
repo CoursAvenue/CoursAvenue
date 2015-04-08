@@ -39,7 +39,7 @@ class CourseDecorator < Draper::Decorator
     return nil if object.prices.empty?
     prices_content = object.prices.map do |price|
       popover = ''
-      popover = " <i class=\"v-middle fa fa-info cursor-help\" data-behavior=\"popover\" data-content=\"#{price.info}\"></i>" if price.info.present?
+      popover = " <i class=\"v-middle fa-info cursor-help\" data-behavior=\"popover\" data-content=\"#{price.info}\"></i>" if price.info.present?
       if price.promo_amount?
         content = "<strong class='v-middle line-through'>#{readable_amount(price.amount)}</strong> #{readable_amount(price.promo_amount)}" + popover
       else

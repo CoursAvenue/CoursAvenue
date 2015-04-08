@@ -1,5 +1,5 @@
 %h4
-  %i.fa.fa-envelope-o.fa.fa-2x.v-middle.soft-half--right
+  %i.fa-envelope-o.fa.fa-2x.v-middle.soft-half--right
   %span.v-middle Demandez des recommandations à vos élèves
 
 = simple_form_for [:pro, @structure, @structure.comment_notifications.build], remote: true do |f|
@@ -23,7 +23,7 @@
       .push-half--top.grid
         .grid__item.one-fifth>
           %a.btn.btn--full#recommendation-overview
-            %i.fa.fa-eye
+            %i.fa-eye
             Aperçu
         .grid__item.four-fifths>
           = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }

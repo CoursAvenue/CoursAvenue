@@ -61,7 +61,7 @@
                   .grid.soft-half--bottom
                     .grid__item.v-middle.two-twelfths>
                       %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
-                        %i.fa.fa-times
+                        %i.fa-times
                       %span.v-middle À la séance
                     .grid__item.v-middle.two-twelfths.nowrap>
                       - if @price_group.for_training?
@@ -73,12 +73,12 @@
                       .input-addon.soft-half--right
                         = per_course_form.input :amount, label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
                         .input-suffix
-                          %i.fa.fa-eur
+                          %i.fa-eur
                     .grid__item.v-middle.text--center{ style: 'width: 12%;'}>
                       .input-addon
                         = per_course_form.input :promo_amount, label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
                         .input-suffix
-                          %i.fa.fa-eur
+                          %i.fa-eur
                     .grid__item.v-middle.four-twelfths>
                       = per_course_form.input :info, as: :string, placeholder: "Ex. : prix pour 1 séance d'1h30", label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush'}
                   = per_course_form.input :type, as: :hidden
@@ -98,7 +98,7 @@
                     .grid.soft-half--bottom
                       .grid__item.v-middle.two-twelfths>
                         %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
-                          %i.fa.fa-times
+                          %i.fa-times
                         %span.v-middle Au carnet
                       .grid__item.v-middle.two-twelfths.nowrap>
                         = book_ticket_form.input :number, label: false, as: :select, collection: range, selected: book_ticket_form.object.number || 5, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { style: 'width: 50px;' }
@@ -111,12 +111,12 @@
                         .input-addon.soft-half--right
                           = book_ticket_form.input :amount, label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
                           .input-suffix
-                            %i.fa.fa-eur
+                            %i.fa-eur
                       .grid__item.v-middle.text--center{ style: 'width: 12%;'}>
                         .input-addon
                           = book_ticket_form.input :promo_amount, label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
                           .input-suffix
-                            %i.fa.fa-eur
+                            %i.fa-eur
                       .grid__item.v-middle.four-twelfths>
                         = book_ticket_form.input :info, as: :string, placeholder: 'Ex. : valable 3 mois', label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush'}
                     = book_ticket_form.input :type, as: :hidden
@@ -136,7 +136,7 @@
                     .grid.soft-half--bottom
                       .grid__item.v-middle.two-twelfths>
                         %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
-                          %i.fa.fa-times
+                          %i.fa-times
                         %span.v-middle À l'abonnement
                       .grid__item.v-middle.two-twelfths>
                         = price_form.input :libelle, as: :select, collection: Price::Subscription::TYPES, label_method: lambda{|l| I18n.t(l + '_short')}, label: false, wrapper_html: { class: 'flush v-middle inline-block' }, include_blank: false
@@ -144,12 +144,12 @@
                         .input-addon.soft-half--right
                           = price_form.input :amount, label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
                           .input-suffix
-                            %i.fa.fa-eur
+                            %i.fa-eur
                       .grid__item.v-middle.text--center{ style: 'width: 12%;'}>
                         .input-addon
                           = price_form.input :promo_amount, label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'two-thirds flush inline-block v-middle' }, as: :string
                           .input-suffix
-                            %i.fa.fa-eur
+                            %i.fa-eur
                       .grid__item.v-middle.four-twelfths>
                         = price_form.input :info, as: :string, placeholder: 'Ex. : 2 cours par semaine', label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush v-middle' }
                     = price_form.input :type, as: :hidden
@@ -167,7 +167,7 @@
                   .grid.soft-half--bottom
                     .grid__item.v-middle.two-twelfths>
                       %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
-                        %i.fa.fa-times
+                        %i.fa-times
                       %span.v-middle Adhésion
                     .grid__item.v-middle.two-twelfths>
                       %select.v-middle{ data: { behavior: 'disable-toggle-input', el: "#non_free_subscription_#{i}" } }
@@ -178,7 +178,7 @@
                       .input-addon.soft-half--right{ id: "non_free_subscription_#{i}" }>
                         = registration_form.input :amount, label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush two-thirds v-middle inline-block' }, as: :string
                         .input-suffix
-                          %i.fa.fa-eur
+                          %i.fa-eur
                     .grid__item.v-middle{ style: 'width: 12%;'}>
                     .grid__item.v-middle.four-twelfths>
                       = registration_form.input :info, as: :string, placeholder: "Ex. : Valable pendant toute l'année", label: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'flush--ends' }
@@ -198,7 +198,7 @@
                     .grid.soft-half--bottom
                       .grid__item.two-twelfths.v-middle>
                         %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
-                          %i.fa.fa-times
+                          %i.fa-times
                         %span.v-middle Offres spéciales
                       .grid__item.two-twelfths.v-middle>
                         = price_form.input :libelle, as: :select, collection: Price::PremiumOffer::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: { class: 'flush control-label text--left' }, label: false, include_blank: false, input_html: { data: { promo_amount: "#premium_offer_#{i}_promo_amount", promo_amount_type: "#premium_offer_#{i}_promo_amount_type", promo_amount_type_alternative: "#premium_offer_#{i}_promo_amount_type_alternative", promo_amount_info: "#premium_offer_#{i}_info", behavior: 'premium-offer' } }
@@ -206,7 +206,7 @@
                         .input-addon
                           = price_form.input :promo_amount, label: false, input_html: { id: "premium_offer_#{i}_promo_amount", class: 'flush one-whole', style: 'min-width: 70px;' }, wrapper_html: { class: 'five-twelfths flush' }, as: :string
                           .input-suffix
-                            %i.fa.fa-eur.hidden{ id: "premium_offer_#{i}_promo_amount_type_alternative" }>
+                            %i.fa-eur.hidden{ id: "premium_offer_#{i}_promo_amount_type_alternative" }>
                             = price_form.input :promo_amount_type, as: :select, collection: ['%', '€'], label: false, input_html: {  class: 'one-whole' }, wrapper_html: { class: 'four-twelfths flush inline-block v-middle', id: "premium_offer_#{i}_promo_amount_type", }, include_blank: false
                       .grid__item.v-middle.text--right{ style: 'width: 10%;'}>
                       .grid__item.four-twelfths.v-middle.text--right>
@@ -226,7 +226,7 @@
                     .grid.soft-half--bottom
                       .grid__item.two-twelfths.v-middle>
                         %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
-                          %i.fa.fa-times
+                          %i.fa-times
                         %span.v-middle Tarifs réduits
                       .grid__item.two-twelfths.v-middle>
                         = price_form.input :libelle, as: :select, collection: Price::Discount::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: { class: 'flush control-label text--left' }, label: false, include_blank: false

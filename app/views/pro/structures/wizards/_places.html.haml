@@ -1,6 +1,6 @@
 = simple_form_for [:pro, @structure], html: { class: 'wizard-form', id: 'form' }, remote: true do |f|
   %h4#title
-    %i.fa.fa-map-marker.fa.fa-2x.v-middle.soft-half--right
+    %i.fa-map-marker.fa.fa-2x.v-middle.soft-half--right
     %span.v-middle.soft-half--right Enseignez-vous dans plusieurs lieux ?
     = link_to 'Oui, ajouter un lieu', pro_structure_places_path(@structure), class: 'btn', target: '_blank'
     = link_to 'Non', 'javascript:void(0)', class: 'btn', target: '_blank', id: 'only-one-place'

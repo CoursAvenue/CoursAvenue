@@ -28,7 +28,7 @@
       - comment = (@structure.highlighted_comment || @structure.comments.last)
       - if comment
         %div.epsilon.soft-half--bottom
-          %i.fa.fa-quotes.v-super.white
+          %i.fa-quotes.v-super.white
           .inline-block.v-middle.white.inline-block.very-soft.hard--ends.f-weight-bold
             = truncate(comment.title, length: 60)
           .inline-block.v-middle.white.f-style-italic
@@ -107,7 +107,7 @@
                         - if header_promotion_title_for_structure(structure).present?
                           %h6.inline-block.push-half--bottom= truncate(structure.name, length: 18)
                           .lbl.lbl--small.lbl--yellow
-                            %i.fa.fa-star
+                            %i.fa-star
                             = header_promotion_title_for_structure(structure)
                         - else
                           %h6.inline-block.push-half--bottom= truncate(structure.name, length: 30)

@@ -2,7 +2,7 @@
  * To be used like:
  * .rotate-on-hover__wrapper
      .blog_article__image-icon.text--center.absolute.absolute--center.rotate-on-hover__child.bg-white-faded
-       %i.fa.fa-chevron-right
+       %i.fa-chevron-right
  */
 .blog_article__image-icon {
     @include border-radius(50px);

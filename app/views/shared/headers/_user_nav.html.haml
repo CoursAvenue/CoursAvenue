@@ -15,21 +15,21 @@
   %ul.drop-down__el.text--left
     %li.nowrap
       = link_to dashboard_user_path(current_user) do
-        %i.fa.fa-user
+        %i.fa-user
         Mon profil
     %li.nowrap
       = link_to user_comments_path(current_user) do
-        %i.fa.fa-comment
+        %i.fa-comment
         Mes avis
     %li.nowrap
       = link_to user_conversations_path(current_user) do
-        %i.fa.fa-envelope-o
+        %i.fa-envelope-o
         Mes messages
     %li.nowrap
       = link_to user_participations_path(current_user) do
-        %i.fa.fa-list
+        %i.fa-list
         Mes cours
     %li.nowrap
       = link_to destroy_user_session_path, method: :delete do
-        %i.fa.fa-sign-out
+        %i.fa-sign-out
         Se déconnecter

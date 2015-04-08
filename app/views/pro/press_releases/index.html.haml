@@ -24,7 +24,7 @@
         = l(press_release.published_at, format: :date_with_year) if press_release.published_at
       %td.text--center
         - if press_release.published?
-          %i.fa.fa-check.green
+          %i.fa-check.green
       %td.nowrap
         = link_to 'Modifier', edit_pro_press_release_path(press_release), class: 'orange'
         \/

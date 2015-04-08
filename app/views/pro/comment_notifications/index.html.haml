@@ -19,7 +19,7 @@
           %td= l(comment_notification.created_at)
           %td.text--center{data: {value: comment_notification.complete? ? '0' : '1'}}
             - if comment_notification.complete?
-              %i.fa.fa-check
+              %i.fa-check
 
 .text--center.push-half--ends= paginate @comment_notifications, window: 1, outer_window: 3
 

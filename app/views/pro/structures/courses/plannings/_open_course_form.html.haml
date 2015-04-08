@@ -30,16 +30,16 @@
 
   .input.add-teacher-wrapper
     = f.label :teacher, class: 'control-label' do
-      %i.fa.fa-user
+      %i.fa-user
       Professeur
     = f.association :teacher, as: :select, collection: @teachers, label: false, include_blank: true
     = link_to 'javascript:void(0)', class: 'add-teacher' do
       &nbsp
-      %i.fa.fa-user
+      %i.fa-user
       Ajouter un professeur
   .input.hidden.new-teacher-wrapper
     = f.label :teacher, class: 'control-label' do
-      %i.fa.fa-user
+      %i.fa-user
       Professeur
     = f.input :teacher, label: 'Nom du professeur', input_html: {value: '', placeholder: 'Ex. : Patrick'}, label: false
 
