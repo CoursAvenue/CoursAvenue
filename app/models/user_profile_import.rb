@@ -3,7 +3,7 @@ class UserProfileImport < ActiveRecord::Base
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessible :structure_id, :data, :filename, :mime_type
+  attr_accessible :structure_id, :data, :filename, :mime_type, :newsletter_mailing_list
 
   validates :structure_id, :data, :filename, :mime_type, presence: true
 
@@ -18,6 +18,7 @@ class UserProfileImport < ActiveRecord::Base
                                  :address_index
 
   belongs_to :structure
+  belongs_to :mailing_list, foreign_key: 'newsletter_mailing_list_id', class_name: 'Newsletter::MailingList'
 
   def import
     if imported_user_profiles.map(&:valid?).all?
@@ -67,6 +68,9 @@ class UserProfileImport < ActiveRecord::Base
       end
       user_profile.attributes = row.slice(*UserProfile.accessible_attributes)
       user_profile.structure_id ||= self.structure.id
+      if mailing_list
+        structure.tag(user_profile, with: mailing_list.tag, on: :tags)
+      end
       user_profile
     end
   end

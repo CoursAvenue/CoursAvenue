@@ -16,6 +16,13 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
     @user_profile_import.structure = @structure
 
     saved = @user_profile_import.save
+    # TODO: We only want to create the mailing list if the user_profile_import is valid.
+    # Find a way to not save this twice.
+    if saved
+      @mailing_list = @structure.mailing_lists.create(tag: mailing_list_tag)
+      @user_profile_import.mailing_list = @mailing_list
+      @user_profile_import.save
+    end
 
     popup_content = render_to_string(
       partial: 'pro/structures/newsletters/mailing_lists/choose_file_headers',
@@ -44,9 +51,12 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
       end
     end
 
+    mailing_list = NewsletterMailingListSerializer.new(@user_profile_import.mailing_list)
+
     respond_to do |format|
       if @user_profile_import.import
-        format.json { render json: { message: "Import du carnet d'addresse terminé" }, status: 201 }
+        format.json { render json: { message: "Import du carnet d'addresse terminé",
+                                     mailing_list: mailing_list }, status: 201 }
       else
         format.json { render json: { message: "Erreur lors de l'association des colonnes, veuillez rééssayer." }, status: 400 }
       end
