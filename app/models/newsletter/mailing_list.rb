@@ -67,41 +67,41 @@ class Newsletter::MailingList < ActiveRecord::Base
   # We loop on the filters and depending on the predicate, we get the corresponding profiles.
   #
   # @return an Array of UserProfiles.
-  def filter_profiles
-    profiles = []
-    self.filters.each do |filter|
-      case
-      when filter[:predicate] == 'is'
-        profiles += structure.user_profiles.tagged_with(filter[:tag])
-
-      when filter[:predicate] == 'isnot'
-        profiles += structure.user_profiles.tagged_with(filter[:tag], exclude: true)
-
-      when filter[:predicate] == 'contains'
-        tags = structure.user_profiles.flat_map(&:tags).uniq.map(&:name).select do |t|
-          t.include?(filter[:tag])
-        end
-
-        profiles += structure.user_profiles.tagged_with(tags)
-
-      when filter[:predicate] == 'containsnot'
-        tags = structure.user_profiles.flat_map(&:tags).uniq.map(&:name).reject do |t|
-          t.include?(filter[:tag])
-        end
-
-        profiles += structure.user_profiles.tagged_with(tags)
-
-      else
-        profiles += structure.user_profiles.tagged_with(filter[:tag])
-      end
-    end
-
-    profiles.select! do |profile|
-      profile.subscribed?
-    end
-
-    profiles
-  end
+  # def filter_profiles
+  #   profiles = []
+  #   self.filters.each do |filter|
+  #     case
+  #     when filter[:predicate] == 'is'
+  #       profiles += structure.user_profiles.tagged_with(filter[:tag])
+  #
+  #     when filter[:predicate] == 'isnot'
+  #       profiles += structure.user_profiles.tagged_with(filter[:tag], exclude: true)
+  #
+  #     when filter[:predicate] == 'contains'
+  #       tags = structure.user_profiles.flat_map(&:tags).uniq.map(&:name).select do |t|
+  #         t.include?(filter[:tag])
+  #       end
+  #
+  #       profiles += structure.user_profiles.tagged_with(tags)
+  #
+  #     when filter[:predicate] == 'containsnot'
+  #       tags = structure.user_profiles.flat_map(&:tags).uniq.map(&:name).reject do |t|
+  #         t.include?(filter[:tag])
+  #       end
+  #
+  #       profiles += structure.user_profiles.tagged_with(tags)
+  #
+  #     else
+  #       profiles += structure.user_profiles.tagged_with(filter[:tag])
+  #     end
+  #   end
+  #
+  #   profiles.select! do |profile|
+  #     profile.subscribed?
+  #   end
+  #
+  #   profiles
+  # end
 
   # Get the profiles tagged with the mailing list tag.
   #
