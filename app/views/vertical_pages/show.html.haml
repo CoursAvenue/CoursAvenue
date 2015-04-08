@@ -68,8 +68,7 @@
           Découvrez nos #{total} stages de #{@vertical_page.subject_name}
         .text--right= link_to ">> Voir tous les stages de #{@vertical_page.subject_name}", search_page_path(@subject.root, @subject, 'paris', course_types: ['training'])
 
-      %hr.push--ends
-      .blog-article__content.push--top
+      .vertical-page__content.push--top
         - if @vertical_page.content.present?
           %hr.push--top
           %h2
@@ -100,24 +99,12 @@
 
     .grid__item.four-tenths.palm-one-whole>
       %h3 #{@vertical_page.subject_name} : sélection
-      .panel
-        %ul.nav.tabs.panel__header
-          %li.active
-            %a{ href: '#side-panel-1', data: { toggle: 'tab' } } Choisis pour vous
-          %li
-            %a{ href: '#side-panel-2', data: { toggle: 'tab' } } Cours d'essai gratuits
-        .panel__body.soft--ends.soft-half--sides.tab-content
-          - without_structure_ids = []
-          - trial_structures = StructureSearch.search(order_by: 'is_open_for_trial', subject_id: @vertical_page.subject.slug, per_page: 8).results
-          .tab-pane#side-panel-2
-            - trial_structures.each_with_index do |structure, index|
-              - without_structure_ids << structure.id
-              = render partial: 'vertical_pages/structure', locals: { structure: structure }
-          - other_structures = StructureSearch.search(subject_id: @vertical_page.subject.slug, per_page: 8, without_ids: without_structure_ids).results
-          .tab-pane#side-panel-1.active
-            - other_structures.each_with_index do |structure, index|
-              = render partial: 'vertical_pages/structure', locals: { structure: structure }
-          .text--right= link_to "Voir tous les cours de #{@vertical_page.subject_name.downcase}", search_page_path(@subject.root, @subject, 'paris'), class: 'epsilon'
+      .panel__body.soft--ends.soft--left.tab-content
+        - without_structure_ids = []
+        - trial_structures = StructureSearch.search(order_by: 'is_open_for_trial', subject_id: @vertical_page.subject.slug, per_page: 10).results
+        - trial_structures.each_with_index do |structure, index|
+          - without_structure_ids << structure.id
+          = render partial: 'vertical_pages/structure', locals: { structure: structure }
 
 - if @subject.depth == 0
   .home-screen-promotion-wrapper
