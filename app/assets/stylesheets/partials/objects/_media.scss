@@ -133,3 +133,7 @@
 .fancybox-type-iframe .fancybox-prev {
     left: -60px;
 }
+
+iframe {
+  @extend .bordered;
+}

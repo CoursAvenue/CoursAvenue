@@ -1,9 +1,10 @@
 .push--ends
-  %h3 Statistiques d'envoi : #{@newsletter.title}
+  %h1 Statistiques d'envoi
+  %h2= @newsletter.title
 
 .grid.push--ends
   .grid__item.one-half>
-    %h4= link_to "#{@metric.nb_email_sent} Abonnés", "#details"
+    %h4= link_to "#{@newsletter.recipients.count} Abonnés", "#details", data: { behavior: 'scroll-to' }
     %p.delta
       %strong Liste de diffusion :
       #{@newsletter.mailing_list}
@@ -14,8 +15,6 @@
     %p.delta.push--down
       %strong Envoyé :
       #{I18n.l(local_time(@newsletter.sent_at), format: :long_human)}
-    %p.delta
-      = link_to 'Voir la newsletter', '#preview', data: { preview: true }
 
 .grid.push--ends
   .grid__item.one-half>
@@ -52,6 +51,7 @@
       clicks
 
 .grid.text--center
+  %h3 Aperçu de la newsletter envoyée
   .grid__item
     %iframe{ src: preview_newsletter_pro_structure_newsletter_path(@structure, @newsletter), width: '100%', height: 500, id: 'preview' }
 
