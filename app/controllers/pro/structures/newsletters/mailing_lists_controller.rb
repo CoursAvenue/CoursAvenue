@@ -52,11 +52,15 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
   end
 
   def bulk_import
-    UserProfile.delay.batch_create(@structure, params[:emails], newsletter_id: @newsletter.id)
+    emails = params[:emails]
+    if emails.present?
+      @mailing_list = @structure.mailing_lists.create(tag: mailing_list_tag)
+      UserProfile.delay.batch_create(@structure, params[:emails], { newsletter_id: @newsletter.id, mailing_list_tag: @mailing_list.tag })
+    end
 
     respond_to do |format|
-      if params[:email].present?
-        format.json { render json: { message: "L'import est en cours, nous vous enverrons un mail dès l'import terminé." }, status: 201 }
+      if emails.present?
+        format.json { render json: { message: "L'import est en cours, nous vous enverrons un mail dès l'import terminé.", mailing_list: @mailing_list }, status: 201 }
       else
         format.json { render json: { message: "Veuillez renseigner des adresses emails à importer." }, status: 400 }
       end
@@ -68,5 +72,12 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
   def set_structure_and_newsletter
     @structure  = Structure.find(params[:structure_id])
     @newsletter = @structure.newsletters.find(params[:newsletter_id])
+  end
+
+  # Create a default mailing list tag.
+  #
+  # @return a String.
+  def mailing_list_tag
+    "Import du #{I18n.l(local_time(Time.current), format: :long_human)}"
   end
 end

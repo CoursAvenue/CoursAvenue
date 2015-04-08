@@ -92,8 +92,12 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 data: data,
                 type: 'POST',
                 success: function (data) {
+                    var mailingList = new Newsletter.Models.MailingList(data.mailing_list);
+
                     COURSAVENUE.helperMethods.flash(data.message, 'notice');
-                },
+                    this.collection.add(mailingList);
+                    this.trigger('selected', { model: this.model });
+                }.bind(this),
                 error: function (data) {
                     var message = data.message || "Une erreur est seurvenue lors de l'import des emails, veuillez rééssayer.";
                     COURSAVENUE.helperMethods.flash(message, 'error');
