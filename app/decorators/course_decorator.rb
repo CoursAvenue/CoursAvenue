@@ -19,8 +19,8 @@ class CourseDecorator < Draper::Decorator
       detail_html << "data-toggle='popover'"
       detail_html << "data-html='true' data-placement='top' data-trigger='hover'>"
     end
-    if price_group.trial
-      detail_html << "Séance d'essai : #{readable_amount(price_group.trial.amount)}"
+    if object.prices.trials.any?
+      detail_html << "Séance d'essai : #{readable_amount(object.prices.trials.first.amount)}"
     elsif is_training?
       detail_html << "Stage : #{readable_amount(price_group.min_price_amount)}"
     elsif price_group.trial.nil?
