@@ -124,7 +124,7 @@ class UserProfile < ActiveRecord::Base
   # @param options Some options for the notification sent to the teacher.
   #
   # @return nil
-  def self.batch_create(structure, emails, options = nil)
+  def self.batch_create(structure, emails, options = {})
     unless emails.is_a? Array
       regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
       emails = emails.scan(regexp).uniq
@@ -133,6 +133,9 @@ class UserProfile < ActiveRecord::Base
     error_emails = []
     emails.each do |email|
       created = structure.user_profiles.create email: email
+      if created
+        structure.tag(created, with: options[:mailing_list_tag], on: :tags) if options[:mailing_list_tag].present?
+      end
       error_emails << email unless created
 
     end
