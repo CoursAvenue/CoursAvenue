@@ -11,7 +11,7 @@ class Newsletter::MailingList < ActiveRecord::Base
 
   validates :name, presence: true
 
-  store_accessor :metadata, :filters, :all_profiles
+  store_accessor :metadata, :filters, :all_profiles, :tag
   define_array_accessor_for :metadata, :filters
   define_boolean_accessor_for :metadata, :all_profiles
 
@@ -26,7 +26,7 @@ class Newsletter::MailingList < ActiveRecord::Base
     if self.all_profiles?
       profiles = structure.user_profiles.where(subscribed: true)
     else
-      profiles = filter_profiles
+      profiles = tagged_profiles
     end
 
     profiles = profiles.to_a.uniq { |profile| profile.email }.select { |profile| profile.email.present? }
@@ -45,7 +45,7 @@ class Newsletter::MailingList < ActiveRecord::Base
     if self.all_profiles?
       structure.user_profiles.where(subscribed: true).count
     else
-      filter_profiles.count
+      tagged_profiles.count
     end
   end
 
@@ -101,5 +101,12 @@ class Newsletter::MailingList < ActiveRecord::Base
     end
 
     profiles
+  end
+
+  # Get the profiles tagged with the mailing list tag.
+  #
+  # @return an Array of UserProfiles
+  def tagged_profiles
+    structure.user_profiles.tagged_with(self.tag)
   end
 end
