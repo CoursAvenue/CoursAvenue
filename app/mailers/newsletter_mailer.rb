@@ -1,6 +1,7 @@
 class NewsletterMailer < ActionMailer::Base
   include ::ActionMailerWithTextPart
   include Roadie::Rails::Automatic
+  helper NewsletterLayoutHelper
 
   layout 'newsletter'
 

@@ -1,11 +1,12 @@
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
   %tr{ valign: 'top' }
-    - blocs.each do |bloc|
-      %td.content-block{ colspan: '2', width: '600', style: 'padding-bottom: 0; padding-left: 7px; padding-right: 7px;' }
-        - bloc.sub_blocs.order('position ASC').each do |sub_bloc|
-          %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
-            %tr{ valign: 'top' }
-              .text--center.media__item
+    %td.content-block{ colspan: '2', width: '600', style: 'padding-bottom: 0; padding-left: 7px; padding-right: 7px;' }
+      - blocs.each_with_index do |bloc, bloc_index|
+        %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+          %tr{ valign: 'top' }
+            - bloc.sub_blocs.order('position ASC').each_with_index do |sub_bloc, sub_bloc_index|
+              - proportion = @newsletter.layout.proportions[bloc_index][sub_bloc_index]
+              %td{ width: proportion_to_width(proportion) }
                 - if sub_bloc.image?
                   = image_tag sub_bloc.image.url, alt: @newsletter.title
                 - else
