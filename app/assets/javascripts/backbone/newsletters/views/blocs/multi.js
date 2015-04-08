@@ -5,7 +5,7 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
         childViewContainer: '[data-type=sub-blocs]',
         className: function className () {
             if (this.model.collection.newsletter.get('layout').get('disposition') == 'vertical') {
-                return 'one-half inline-block soft-half--sides';
+                return 'one-half inline-block soft-half--sides v-top';
             }
             return ''
         },
