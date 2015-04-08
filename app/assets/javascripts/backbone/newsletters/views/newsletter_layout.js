@@ -116,6 +116,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             this.listenTo(mailing_list_collection_view, 'selected', this.selectMailingList);
             this.listenTo(mailing_list_collection_view, 'previous', this.previousStep);
+            mailing_list_collection.on('add', function (model, collection, options) {
+                this.selectMailingList( { model: model });
+            }.bind(this));
 
             this.getRegion('mailing-list').show(mailing_list_collection_view);
             this.getRegion('mailing-list').$el.show();
