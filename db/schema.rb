@@ -568,6 +568,14 @@ ActiveRecord::Schema.define(version: 20150403155932) do
     t.integer "media_id"
   end
 
+  create_table "newsletter_bloc_ownerships", id: false, force: true do |t|
+    t.integer "bloc_id"
+    t.integer "sub_bloc_id"
+  end
+
+  add_index "newsletter_bloc_ownerships", ["bloc_id", "sub_bloc_id"], name: "index_newsletter_bloc_ownerships_on_bloc_and_sub_bloc", unique: true, using: :btree
+  add_index "newsletter_bloc_ownerships", ["sub_bloc_id", "bloc_id"], name: "index_newsletter_bloc_ownerships_on_sub_bloc_and_bloc", unique: true, using: :btree
+
   create_table "newsletter_blocs", force: true do |t|
     t.string   "type"
     t.integer  "newsletter_id"
@@ -645,6 +653,7 @@ ActiveRecord::Schema.define(version: 20150403155932) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
+    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_request_participants", force: true do |t|
@@ -801,6 +810,9 @@ ActiveRecord::Schema.define(version: 20150403155932) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
