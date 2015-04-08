@@ -4,13 +4,11 @@
 - else
   - title = "Danse, Théâtre, Musique, Yoga..."
 
-- @total = Planning.count
 = content_for :title do
   = @vertical_page_decorator.page_title
 
 = content_for :meta_description do
-  #{title} : #{@total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com. Consultez #{number_with_delimiter @total_comments} avis d'élèves, #{number_with_delimiter @total_medias} photos. Inscrivez-vous gratuitement sur CoursAvenue.com
-
+  = "#{@vertical_page_decorator.page_h1} : toutes les écoles de #{@vertical_page.subject_name.downcase}, stages, cours d'essai gratuits, plannings, tarifs, conseils, avis, promotions"
 
 - slug = @subject.root.slug
 - if @vertical_page.image.present?

@@ -6,7 +6,7 @@
   = @vertical_page_decorator.page_title(@city)
 
 = content_for :meta_description do
-  #{@title} : Cours d'Essai GRATUITS & Promotions - CoursAvenue.com. Consultez #{number_with_delimiter @total_comments} avis d'élèves, #{number_with_delimiter @total_medias} photos. Inscrivez-vous gratuitement sur CoursAvenue.com
+  = "#{@vertical_page_decorator.page_h1} à #{@city.name} (#{@city.department_code}) : toutes les écoles de #{@vertical_page.subject_name.downcase} à #{@city.name}, stages, cours d'essai gratuits, plannings, tarifs, conseils, avis, promotions"
 
 - slug = @subject.root.slug
 - if @vertical_page.image.present?
