@@ -62,6 +62,12 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
                       initCallback: function initCallback () {
                           if (model.has('content')) {
                               this.code.set(model.get('content'));
+                          } else {
+                              var structure      = window.coursavenue.bootstrap.models.structure;
+                              var defaultContent = Module.templateDirname() + 'text_content';
+                              var content = JST[defaultContent](structure);
+
+                              this.code.set(content);
                           }
                       },
                 });
