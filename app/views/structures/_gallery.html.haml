@@ -11,7 +11,7 @@
       - else
         %a.media-photo.rounded.soft-black-box-shadow.muted-link.text--center.block.bg-cover{ href: media.url, rel: 'slideshow', style: "height: 100px; background-image: url('#{media.thumbnail_url}')", data: { behavior: "fancy" } }
           - if media.video?
-            %i.fa-youtube-play.fa-3x.white.soft--top.push-half--top.smooth-black-text-shadow
+            %i.fa-youtube-play.fa-3x.white.soft--top.push-half--top.smooth-black-text-shadow.inline-block
 
   - if medias.length > 4
     - medias[3..-1].each do |media|

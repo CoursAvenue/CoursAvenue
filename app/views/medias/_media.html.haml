@@ -5,7 +5,7 @@
   %a.relative.block.break-all{ rel: 'gallery', href: media.url, title: media.caption, data: { behavior: 'fancy' } }
     - if media.video?
       = media.thumbnail_url_html lazy: lazy
-      %i.fa-youtube-play
+      %i.fa-youtube-play.inline-block
     - else
       = media.url_html lazy: true
     %i.fa.fa-expand
