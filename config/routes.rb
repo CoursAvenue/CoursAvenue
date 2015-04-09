@@ -280,7 +280,7 @@ CoursAvenue::Application.routes.draw do
               end
             end
           end
-          resources :mailing_lists, only: [], controller: 'structures/newsletters/mailing_lists' do
+          resources :mailing_lists, only: [:create], controller: 'structures/newsletters/mailing_lists' do
             collection do
               post :file_import
               patch :update_headers

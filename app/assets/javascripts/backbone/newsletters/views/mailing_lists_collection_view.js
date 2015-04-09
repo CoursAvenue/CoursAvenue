@@ -68,8 +68,15 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var allContacts = new Newsletter.Models.MailingList({ all_profiles: true, newsletter: this.model })
             allContacts.save({}, {
                 success: function (model, response, options) {
+                    this.collection.add(model);
+
                     this.model.set('newsletter_mailing_list_id', model.get('id'));
+                    this.model.save();
+
                     this.all_profiles_selected = true
+
+                    this.render();
+                    this.trigger('selected', { model: model });
                 }.bind(this)
             });
         },

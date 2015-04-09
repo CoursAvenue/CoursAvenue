@@ -72,12 +72,23 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
       mailing_list = NewsletterMailingListSerializer.new(@mailing_list)
     end
 
-
     respond_to do |format|
       if emails.present?
         format.json { render json: { message: "L'import est en cours, nous vous enverrons un mail dès l'import terminé.", mailing_list: mailing_list }, status: 201 }
       else
         format.json { render json: { message: "Veuillez renseigner des adresses emails à importer." }, status: 400 }
+      end
+    end
+  end
+
+  def create
+    @mailing_list = @structure.mailing_lists.new(required_params)
+
+    respond_to do |format|
+      if @mailing_list.save
+        format.json { render json: NewsletterMailingListSerializer.new(@mailing_list).to_json, status: 201 }
+      else
+        format.json { render json: {}, status: 400 }
       end
     end
   end
@@ -94,5 +105,9 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
   # @return a String.
   def mailing_list_tag
     "Import du #{I18n.l(local_time(Time.current), format: :long_human)}"
+  end
+
+  def required_params
+    params.require(:mailing_list).permit(:all_profiles)
   end
 end
