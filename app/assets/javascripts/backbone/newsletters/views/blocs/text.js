@@ -60,7 +60,7 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
                           this.$element.trigger('change', event);
                       },
                       initCallback: function initCallback () {
-                          if (model.has('content')) {
+                          if (model.has('content') && ! _.isEmpty(model.get('content'))) {
                               this.code.set(model.get('content'));
                           } else {
                               var structure      = window.coursavenue.bootstrap.models.structure;
