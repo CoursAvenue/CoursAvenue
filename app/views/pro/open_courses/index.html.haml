@@ -35,7 +35,7 @@
       %th.text--center Places
       %th Prix
       %th
-        %i.fa.fa-clock-o
+        %i.fa-clock-o
       %th Follow up
   %tbody
     - @courses_inactive.each do |course|
@@ -43,10 +43,10 @@
         %td
           - if course.active?
             = link_to disable_pro_structure_course_path(course.structure, course), remote: true, method: :patch, title: 'Enlever le cours de CoursAvenue' do
-              %i.fa.fa-check.green
+              %i.fa-check.green
           - else
             = link_to activate_pro_structure_course_path(course.structure, course), remote: true, method: :patch, title: 'Afficher le cours sur CoursAvenue'  do
-              %i.fa.fa-times.red
+              %i.fa-times.red
 
         %td= link_to course.structure.name, pro_structure_course_opens_path(course.structure)
         %td= course.name
@@ -63,7 +63,7 @@
           %span.green Gratuit
         %td{ data: { value: course.updated_at.to_i }}
           = l(course.updated_at, format: :date)
-          %i.fa.fa-clock-o{title: "Créé le : #{l(course.created_at, format: :date)} / Modifié le : #{l(course.updated_at, format: :date)}", data: { behavior: 'tooltip' }}
+          %i.fa-clock-o{title: "Créé le : #{l(course.created_at, format: :date)} / Modifié le : #{l(course.updated_at, format: :date)}", data: { behavior: 'tooltip' }}
         %td
           = simple_form_for [:pro, course], url: pro_structure_course_path(course.structure, course), as: :course, remote: true do |f|
             = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 11px;' }, wrapper_html: { class: 'flush' }
@@ -80,7 +80,7 @@
       %th.text--center Places
       %th Prix
       %th
-        %i.fa.fa-clock-o
+        %i.fa-clock-o
       %th Follow up
   %tbody
     - @courses_active.each do |course|
@@ -88,10 +88,10 @@
         %td
           - if course.active
             = link_to disable_pro_structure_course_path(course.structure, course), remote: true, method: :patch, title: 'Enlever le cours de CoursAvenue' do
-              %i.fa.fa-check.green
+              %i.fa-check.green
           - else
             = link_to activate_pro_structure_course_path(course.structure, course), remote: true, method: :patch, title: 'Afficher le cours sur CoursAvenue'  do
-              %i.fa.fa-times.red
+              %i.fa-times.red
 
         %td= link_to course.structure.name, pro_structure_course_opens_path(course.structure)
         %td= course.name
@@ -108,7 +108,7 @@
           %span.green Gratuit
         %td{ data: { value: course.updated_at.to_i }}
           = l(course.updated_at, format: :date)
-          %i.fa.fa-clock-o{title: "Créé le : #{l(course.created_at, format: :date)} / Modifié le : #{l(course.updated_at, format: :date)}", data: { behavior: 'tooltip' }}
+          %i.fa-clock-o{title: "Créé le : #{l(course.created_at, format: :date)} / Modifié le : #{l(course.updated_at, format: :date)}", data: { behavior: 'tooltip' }}
         %td
           = simple_form_for [:pro, course.structure, course], url: pro_structure_course_path(course.structure, course), as: :course, remote: true do |f|
             = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 11px;' }, wrapper_html: { class: 'flush' }

@@ -3,14 +3,14 @@
   .soft--top
     .soft--sides.hard--bottom{ data: { behavior: 'wizard-helper', content: t('pro.admins.wizard.email')} }
       %h5
-        %i.fa.fa-user
+        %i.fa-user
         Identifiant de profil
       = render "pro/structures/admins/change_email"
 
   %hr.push--ends
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.admins.wizard.password') } }
     %h5
-      %i.fa.fa-lock
+      %i.fa-lock
       Changement de mot de passe
 
     = f.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
@@ -19,7 +19,7 @@
   %hr.push--ends
   .soft--sides
     %h5
-      %i.fa.fa-envelope-o
+      %i.fa-envelope-o
       Mes notifications
 
     %input{type: 'hidden', name: 'return_to', value: notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)}

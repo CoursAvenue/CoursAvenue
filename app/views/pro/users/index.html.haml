@@ -56,7 +56,7 @@
         %td.text--center{ data: { value: (user.provider == 'facebook' ? 'f' : '') } }
           %div
             - if user.provider == 'facebook'
-              %i.fa.fa-check
+              %i.fa-check
         - if params[:with_comments]
           %td{ data: { value: user.sign_up_at } }
             %div

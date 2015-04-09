@@ -32,11 +32,11 @@
             %td= facet.count
             %td{data: {value: subject.image.present? ? '0' : '1'}}
               - if subject.image.present?
-                %i.fa.fa-check
+                %i.fa-check
             %td.nowrap
               = link_to edit_pro_subject_path(subject) do
                 - if subject.title.present? and subject.good_to_know.present?
-                  %i.fa.fa-check
+                  %i.fa-check
                 Editer
             %td.nowrap
               - subject.vertical_pages.each do |verticale_page|
@@ -58,6 +58,6 @@
             %td= subject.name
             %td{data: {value: subject.image.present? ? '0' : '1'}}
               - if subject.image.present?
-                %i.fa.fa-check
+                %i.fa-check
             %td= link_to 'Editer', edit_pro_subject_path(subject)
 

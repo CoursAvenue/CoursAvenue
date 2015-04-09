@@ -45,7 +45,7 @@
             - if !participation_request.canceled?
               .flexbox__item.v-middle.nowrap.text--right
                 = link_to edit_pro_structure_place_path(participation_request.structure, participation_request.place, return_to_action: 'window.location.reload()'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
-                  %i.fa.fa-pencil
+                  %i.fa-pencil
                   Modifier
       %tr.bordered--bottom
         %th.v-middle.soft--sides.bordered--right.one-third.nowrap Infos publiques
@@ -59,7 +59,7 @@
             - if !participation_request.canceled?
               .flexbox__item.v-middle.nowrap.nowrap.text--right
                 = link_to edit_infos_pro_structure_place_path(participation_request.structure, participation_request.place, return_to: pro_structure_participation_request_path(@structure, participation_request)), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
-                  %i.fa.fa-pencil
+                  %i.fa-pencil
                   Modifier
       %tr.bordered--bottom
         %th.v-middle.soft--sides.bordered--right.one-third.nowrap Infos privées
@@ -73,7 +73,7 @@
             - if !participation_request.canceled?
               .flexbox__item.v-middle.nowrap.nowrap.text--right
                 = link_to edit_infos_pro_structure_place_path(participation_request.structure, participation_request.place, return_to: pro_structure_participation_request_path(@structure, participation_request)), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
-                  %i.fa.fa-pencil
+                  %i.fa-pencil
                   Modifier
     - elsif participation_request.at_student_home?
       %tr.bordered--bottom

@@ -9,11 +9,11 @@
   .grid__item.four-fifths.palm-one-whole>
     .float--right
       = link_to edit_pro_structure_teacher_path(@structure, teacher), title: 'Modifier ce professeur', class: 'fancybox.ajax btn btn--small btn--orange', data: {behavior: 'modal', width: 700} do
-        %i.fa.fa-pencil
+        %i.fa-pencil
         Modifier
       &nbsp;
       = link_to pro_structure_teacher_path(@structure, teacher), method: :delete, title: 'Supprimer ce professeur', data: {confirm: 'Êtes-vous sur de supprimer ce professeur ? Cette action sera irreversible.'}, class: 'btn btn--small btn--red' do
-        %i.fa.fa-trash-o
+        %i.fa-trash-o
         Supprimer
     %p
       %b= teacher.name

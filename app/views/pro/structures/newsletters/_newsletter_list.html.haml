@@ -26,7 +26,7 @@
         - else
           = succeed ' ' do
             = link_to edit_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger', data: { toggle: 'popover', content: 'Éditer' } do
-              %i.fa.fa-pencil
+              %i.fa-pencil
         = succeed ' ' do
           .drop-down__wrapper.inline-block.v-middle
             .btn.btn--bigger
@@ -41,5 +41,5 @@
                     %i.fa.fa-files-o
         = succeed ' ' do
           = link_to pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger btn--red', method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette newsletter ?', toggle: 'popover', content: 'Supprimer' } do
-            %i.fa.fa-trash-o
+            %i.fa-trash-o
       %hr

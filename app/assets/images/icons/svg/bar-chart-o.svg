@@ -1,15 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="96px" height="100px" viewBox="0 0 96 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
-    <title>Slice 1</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="bar-chart-o" sketch:type="MSLayerGroup" fill="#000000">
-            <path d="M26,90 L22,90 L22,4 L10,4 L10,90 L6,90 L6,0 L26,0 L26,90 Z" id="Shape" sketch:type="MSShapeGroup"></path>
-            <path d="M90,90 L86,90 L86,28 L74,28 L74,90 L70,90 L70,24 L90,24 L90,90 Z" id="Shape" sketch:type="MSShapeGroup"></path>
-            <path d="M58,90 L54,90 L54,52 L42,52 L42,90 L38,90 L38,48 L58,48 L58,90 Z" id="Shape" sketch:type="MSShapeGroup"></path>
-            <rect id="Rectangle-path" sketch:type="MSShapeGroup" x="0" y="96" width="96" height="4"></rect>
-        </g>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="96px" height="100px"
+	 viewBox="0 0 96 100" enable-background="new 0 0 96 100" xml:space="preserve">
+<title>Slice 1</title>
+<desc>Created with Sketch.</desc>
+<path id="Page-1" sketch:type="MSPage" d="M26,90h-4V4H10v86H6V0h20V90z M90,90h-4V28H74v62h-4V24h20V90z M58,90h-4V52
+	H42v38h-4V48h20V90z M0,96h96v4H0V96z"/>
 </svg>

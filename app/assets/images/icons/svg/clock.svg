@@ -1,8 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-<g id="Captions">
-</g>
-<g id="Your_Icon">
-	<path d="M50,0C22.386,0,0,22.386,0,50s22.386,50,50,50c27.613,0,50-22.386,50-50S77.613,0,50,0z M50,96C24.595,96,4,75.405,4,50   S24.595,4,50,4s46,20.595,46,46S75.405,96,50,96z"/>
-	<polygon points="48,12 48,49.171 34.443,62.728 37.272,65.556 50.828,52 52,50.828 52,45.171 52,12  "/>
-</g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" sketch:type="MSPage">
+        <g id="clock" sketch:type="MSLayerGroup">
+            <g id="Your_Icon" sketch:type="MSShapeGroup">
+                <path d="M50,0 C22.386,0 0,22.386 0,50 C0,77.614 22.386,100 50,100 C77.613,100 100,77.614 100,50 C100,22.386 77.613,0 50,0 L50,0 Z M50,96 C24.595,96 4,75.405 4,50 C4,24.595 24.595,4 50,4 C75.405,4 96,24.595 96,50 C96,75.405 75.405,96 50,96 Z M48,12 L48,49.171 L34.443,62.728 L37.272,65.556 L50.828,52 L52,50.828 L52,45.171 L52,12 L48,12 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
 </svg>

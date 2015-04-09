@@ -6,7 +6,7 @@
     %div.push-half--bottom
       %h3.inline-block.flush.v-middle CoursAvenue vous accompagne dans votre communication
       = link_to ca_communication_pro_structure_course_opens_path(@structure), class: 'btn btn--blue btn--small v-middle push-half--left fancybox.ajax', data: { behavior: 'modal' } do
-        %i.fa.fa-comment
+        %i.fa-comment
         Actions CoursAvenue
 
     .alert.alert--info.push--bottom
@@ -60,7 +60,7 @@
       Nous avons engagé des designers pour la réalisation d'un logo, flyer et d'une affiche. Utilisez-les pour votre propre communication sur l'événement : sur vos panneaux d'affichage, dans la salle de cours, communiquez sur l'événement autour du lieu.
       %br
       = link_to 'https://s3-eu-west-1.amazonaws.com/coursavenue-public/jpo/Visuels+CoursAvenue.zip', class: 'btn btn--blue', onclick: "ga('send', 'event', 'JPO / Download visuals', 'click', '#{@structure.name}')" do
-        %i.fa.fa-download
+        %i.fa-download
         Télécharger les visuels pour communiquer autour de mes lieux
 
       %p.push--bottom
@@ -69,7 +69,7 @@
         Ce sont les meilleurs relais de votre communication car le bouche à oreille passe par eux. Envoyez-leur un message pour qu'ils en parlent autour d'eux et pour qu'ils invitent leurs proches à découvrir leur passion gratuitement.
         %br
         = link_to jpo_new_pro_structure_invited_students_path(@structure), class: 'btn btn--blue' do
-          %i.fa.fa-bullhorn
+          %i.fa-bullhorn
           Communiquer auprès de mes élèves
 
       %p.push--bottom
@@ -78,7 +78,7 @@
         Annoncez votre RDV dans vos communications avec votre réseau, sur un post de votre site web ou dans votre newsletter. Visualisez le texte que nous vous avons rédigé, copiez-le et envoyez-le au plus grand nombre.
         %br
         = link_to '#popup', class: 'btn btn--blue', data: { behavior: 'modal' }, onclick: "ga('send', 'event', 'JPO / see newsletter text', 'click', '#{@structure.name}')" do
-          %i.fa.fa-eye
+          %i.fa-eye
           Visualiser le texte à copier puis à envoyer
 
       %p.push--bottom
@@ -94,7 +94,7 @@
         Un site Internet ou un blog doit sans cesse proposer de la nouveauté. Les sites les mieux référencés sur Google sont ceux qui offrent du contenu unique différent régulièrement : profitez-en pour annoncer vos Portes Ouvertes !
         %br
         = link_to widget_jpo_pro_structure_path(@structure), class: 'btn btn--blue' do
-          %i.fa.fa-cogs
+          %i.fa-cogs
           Installer la bannière sur mon site
       %p.push--bottom
         %strong Action 6 : annoncez l'événement à chaque fin de cours

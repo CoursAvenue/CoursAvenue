@@ -1,10 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-<g>
-	<path d="M24,28H7V11h17V28z M10,25h11V14H10V25z"/>
-	<path d="M24,59H7V42h17V59z M10,56h11V45H10V56z"/>
-	<path d="M24,90H7V73h17V90z M10,87h11V76H10V87z"/>
-</g>
-<rect x="33" y="18" width="59" height="3"/>
-<rect x="33" y="49" width="59" height="3"/>
-<rect x="33" y="80" width="59" height="3"/>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+<path d="M24,28H7V11h17V28z M10,25h11V14H10V25z M24,59H7V42h17V59z M10,56h11V45H10V56z M24,90H7V73h17V90z M10,87h11V76H10V87z
+	 M33,18h59v3H33V18z M33,49h59v3H33V49z M33,80h59v3H33V80z"/>
 </svg>

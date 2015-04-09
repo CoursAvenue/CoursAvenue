@@ -21,9 +21,9 @@
         = article.description
       .text--center
         = link_to article_decorator.share_url(:twitter), class: 'soft-half--right link-colored-on-hover', target: :_blank do
-          %i.fa.fa-twitter.delta
+          %i.fa-twitter.delta
         = link_to article_decorator.share_url(:facebook), class: 'link-colored-on-hover', target: :_blank do
-          %i.fa.fa-facebook.delta
+          %i.fa-facebook.delta
 
 - else
   %article.eight-twelfths.soft--right.palm-one-whole.text--center{ itemscope: true, itemtype: 'http://schema.org/Article' }>
@@ -44,6 +44,6 @@
       = article.description
     .text--center
       = link_to article_decorator.share_url(:twitter), class: 'soft-half--right link-colored-on-hover not-outlined', target: :_blank do
-        %i.fa.fa-twitter.delta
+        %i.fa-twitter.delta
       = link_to article_decorator.share_url(:facebook), class: 'link-colored-on-hover not-outlined', target: :_blank do
-        %i.fa.fa-facebook.delta
+        %i.fa-facebook.delta

@@ -2,7 +2,8 @@
 //*= require libs/jquery.fileupload/jquery.fileupload-ui
 
 @import "font-awesome";
-@import "CoursAvenueIconFont";
+// @import "CoursAvenueIconFont";
+@import "Fontello";
 
 .cf { clear: both; } // Here to prevent sass fail compilation
 
@@ -84,6 +85,7 @@
 @import "partials/objects/tags";
 @import "partials/objects/team";
 @import "partials/objects/toggler";
+@import "partials/objects/vertical_page";
 @import "partials/objects/wizard";
 
 @import "libs/autocomplete";

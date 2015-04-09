@@ -34,10 +34,10 @@
                       %h4.flush{title: course.name}
                         = truncate(course.name, length: 40)
                       .milli.f-white-transparent
-                        %i.fa.fa-map-marker
+                        %i.fa-map-marker
                         %i= course.plannings.first.place.city.name
                       .milli.f-white-transparent
-                        %i.fa.fa-gift
+                        %i.fa-gift
                         Offert par
                         = link_to truncate(course.structure.name, length: 30), structure_path(course.structure), target: :_blank, class: 'muted-link'
           %p.flush.f-weight-600{style: 'line-height: 1; font-size: 17px;'}
@@ -52,10 +52,10 @@
         .text--center
           = link_to "S'inscrire avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full text--left', id: 'facebook_button'
         .soft-half--top.soft-half--left.line-height-normal.milli
-          %i.fa.fa-check
+          %i.fa-check
           Nous ne publions rien sur votre mur
           %br
-          %i.fa.fa-check
+          %i.fa-check
           Connexion en 1 clic sans mot de passe
         .text--center.push-half--ends ou
         = simple_form_for User.new, url: user_registration_path, html: { id: 'register-form' } do |f|

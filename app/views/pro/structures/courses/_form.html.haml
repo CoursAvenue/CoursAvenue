@@ -82,7 +82,7 @@
                     = price_form.input :info, as: :string, label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large flush', placeholder: 'Ex. : prix pour 2h', style: 'width: 300px' }, wrapper_html: { class: 'flush v-middle inline-block' }
               - if @course.prices.length > 1
                 %a.cursor-pointer.v-middle.inline-block{ data: { clear: true } }
-                  %i.fa.fa-times
+                  %i.fa-times
 
 
           - if @course.prices.length > 1
@@ -124,7 +124,7 @@
                     .inline-block.v-middle.soft-half--left
                       %i.blue Dans un rayon de #{home_place.radius}km autour de #{home_place.city.try(:name)}.
                       = link_to edit_pro_structure_place_path(@structure, @structure.places.homes.first, type: 'Place::Home', return_to_action: return_to_action), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
-                        %i.fa.fa-pencil
+                        %i.fa-pencil
                         Modifier
                   - else
                     %div

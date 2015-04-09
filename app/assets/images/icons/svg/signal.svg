@@ -1,7 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="50px" height="50px" viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
-<g id="analitics_3_">
-	<path fill="#000000" d="M1.515,45.562h12.782V2.875H1.515V45.562z M5.057,6.417h5.7v35.605h-5.7V6.417z"/>
-	<path fill="#000000" d="M18.938,45.562h12.78V14.564h-12.78V45.562z M22.48,18.105h5.696v23.917H22.48V18.105z"/>
-	<path fill="#000000" d="M35.703,45.562h12.782V26.197H35.703V45.562z M39.244,29.737h5.699v12.284h-5.699V29.737z"/>
-</g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="50px" height="50px" viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
+<path id="analitics_3_" d="M1.515,45.562h12.782V2.875H1.515V45.562z M5.057,6.417h5.7v35.604h-5.7V6.417z
+	 M18.938,45.562h12.78V14.564h-12.78V45.562z M22.48,18.105h5.696v23.917H22.48V18.105z M35.703,45.562h12.781V26.197H35.703V45.562
+	z M39.244,29.736h5.699v12.285h-5.699V29.736z"/>
 </svg>

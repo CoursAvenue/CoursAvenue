@@ -28,13 +28,13 @@
           %td= vertical_page.subject.try(:name)
           %td
             - if vertical_page.image.present?
-              %i.fa.fa-check.green
+              %i.fa-check.green
           %td
             - if vertical_page.content.present?
-              %i.fa.fa-check.green
+              %i.fa-check.green
           %td.text--center
             - if vertical_page.checked?
-              %i.fa.fa-check.green
+              %i.fa-check.green
             - else
               = simple_form_for [:pro, vertical_page] do |f|
                 = f.input :checked, as: :hidden, input_html: { value: true }

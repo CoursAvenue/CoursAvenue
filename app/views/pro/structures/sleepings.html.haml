@@ -31,9 +31,9 @@
           = l(structure.main_contact.created_at.to_date) if structure.main_contact
         %td
           - if structure.main_contact and structure.main_contact.confirmed?
-            %i.fa.fa-check.green
+            %i.fa-check.green
           - else
-            %i.fa.fa-times.red
+            %i.fa-times.red
         %td.nowrap
           = link_to 'Public', structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
           \/

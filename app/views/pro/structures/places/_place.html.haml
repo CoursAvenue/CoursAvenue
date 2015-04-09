@@ -11,14 +11,14 @@
     %div
       - if place.info.present? or place.private_info.present?
         %a{ data: { toggle: 'popover', content: place.decorate.popover_place_infos, html: 'true', placement: 'top', trigger: 'hover' } }
-          %i.fa.fa-info
+          %i.fa-info
   %td.text--right.nowrap{ data: { th: 'Actions' } }
     %div
       = link_to edit_pro_structure_place_path(structure, place), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 } do
-        %i.fa.fa-pencil
+        %i.fa-pencil
         Modifier
       \/
       = link_to ask_for_deletion_pro_structure_place_path(structure, place), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: '400', padding: '0' } do
-        %i.fa.fa-trash-o
+        %i.fa-trash-o
         Supprimer
 

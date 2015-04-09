@@ -8,14 +8,14 @@
       Invitez vos proches à participer aux Portes Ouvertes CoursAvenue !
 
   %h5
-    %i.fa.fa-envelope-o
+    %i.fa-envelope-o
     Envoyez une invitation personnalisée
   = form_tag(bulk_create_jpo_user_invited_users_path(@user), method: :post, id: 'invite-user-form') do
     = hidden_field :structure, :id, value: @structure.id
     %h5.flush À :
     %p.flush.blue
       %span.italic.blue{data: {behavior: 'tooltip', title: "Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi \"Informatique et Liberté\" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant."}}
-        %i.fa.fa-question-circle
+        %i.fa-question-circle
         Entrez les e-mails de vos proches (gardés confidentiels) dans cet encadré (amis, familles, collègues, etc.) pour les inviter aux Journées Portes Ouvertes.
     %textarea.milli.one-whole{style: 'height: 50px', name: 'emails', rows: 8, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
 

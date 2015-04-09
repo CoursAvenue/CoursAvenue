@@ -25,7 +25,7 @@
       .flexbox__item.soft-half--right
         .input-with-icon.v-middle
           %input.one-whole.input--large#vp-address-picker.soft-half--left{ size: 25, placeholder:'Ville / CP / Adresse', type:'text', autocomplete: 'off', name:'address_name', data: { behavior:'address-picker', lng: '#vp-address-lng', lat: '#vp-address-lat', city: '#vp-address-city', address_name: '#vp-address-name', radius: '#vp-address-radius', zoom: '#vp-address-zoom' } }
-          %i.fa.fa-map-marker.delta
+          %i.fa-map-marker.delta
         %input#vp-address-lat{ type: 'hidden', value: '48.8592', name: 'lat' }
         %input#vp-address-lng{ type: 'hidden', value: '2.3417', name: 'lng' }
         %input#vp-address-city{ type: 'hidden', value: 'Paris', name: 'city' }
@@ -34,7 +34,7 @@
         %input#vp-address-zoom{ type: 'hidden', value: 'Paris', name: 'zoom' }
 
       %button.flexbox__item.v-middle.nowrap.btn.btn--blue.btn--full.input--large{ type: 'submit', id: 'submit_search_form' }
-        %i.fa.fa-search
+        %i.fa-search
         Trouver
 
 = content_for :scripts do

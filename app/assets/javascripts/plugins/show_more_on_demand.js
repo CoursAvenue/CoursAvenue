@@ -7,7 +7,7 @@
             // First one will be removed
             // On click, will clear and hide the el
             %a{ data: { clear: true } }
-                %i.fa.fa-times
+                %i.fa-times
             some other content
         %div{ data: { trigger: true } } Add item
 

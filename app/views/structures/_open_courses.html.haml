@@ -14,10 +14,10 @@
         = "(#{course.event_type})"
       - if course.info.present?
         .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
-          %i.fa.fa-info
+          %i.fa-info
           Infos pratiques
       %p.gray.milli
-        %i.fa.fa-tags
+        %i.fa-tags
         = course.subjects.map(&:name).join(', ')
       .read-more{data: {behavior: 'read-more', height: 50}}
         = simple_format course.description

@@ -21,7 +21,7 @@
               %td.text--right
                 = link_to 'Archiver', pro_call_reminder_path(call_reminder, call_reminder: { status: 'archived' }), class: 'btn btn--green btn--small', method: :patch
                 = link_to pro_call_reminder_path(call_reminder, call_reminder: { status: 'archived' }), class: 'btn btn--red btn--small', data: { behavior: 'popover', content: 'Supprimer' }, method: :delete do
-                  %i.fa.fa-trash-o
+                  %i.fa-trash-o
       %hr
       %h4 Rappel archivés
       %table.table--data.table--striped
@@ -40,4 +40,4 @@
               %td.text--right
                 = link_to 'Désarchiver', pro_call_reminder_path(call_reminder, call_reminder: { status: '' } ), class: 'btn btn--green btn--small', method: :patch
                 = link_to pro_call_reminder_path(call_reminder, call_reminder: { status: '' } ), class: 'btn btn--red btn--small', data: { behavior: 'popover', content: 'Supprimer' }, method: :delete do
-                  %i.fa.fa-trash-o
+                  %i.fa-trash-o

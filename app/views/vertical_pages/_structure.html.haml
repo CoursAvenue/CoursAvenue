@@ -10,7 +10,7 @@
           = structure.subjects_name_as_string(:subjects_string).reject{ |subject_name| subject_name == @vertical_page.subject_name }.join(', ').strip
         %div.text-ellipsis
           .f-weight-bold
-            %i.fa.fa-comment
+            %i.fa-comment
             #{structure.comments_count} avis ・
             - if structure.comments_count > 0
               %i.quoted.milli= (structure.highlighted_comment || structure.comments.sample).try(:title)
@@ -18,10 +18,10 @@
           %strong.f-weight-normal.f-style-italic= structure.cities_text
         - if structure.is_open_for_trial?
           .inline-block.lbl.lbl--yellow.milli.v-middle{ data: { toggle: 'popover', content: I18n.t("structures.trial_courses_policy.#{structure.trial_courses_policy}_nb_given"), placement: 'top' } }
-            %i.fa.fa-ticket
+            %i.fa-ticket
             Essai gratuit
         - if structure.has_promotion?
           .inline-block.lbl.lbl--gray-light.milli.v-middle
-            %i.fa.fa-star
+            %i.fa-star
             Promotions
   %hr

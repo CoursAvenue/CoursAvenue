@@ -10,7 +10,7 @@
             {{#each structure.phone_numbers}}
                 {{#ifCond @index '>' 0}}<br>{{/ifCond}}
                 <strong class="epsilon v-middle" itemprop="telephone">{{this}}</strong>
-                <i class="soft-half--left v-middle fa fa-check-circle green"></i>
+                <i class="soft-half--left v-middle fa-check-circle green"></i>
                 <i class="v-middle green milli">vérifié</i>
             {{/each}}
         </div>
@@ -31,7 +31,7 @@
     <div class="soft--sides soft--top soft--bottom bordered--bottom {{#unless last_message_sent_at}}hidden{{/unless}}">
         <div data-type="message-sent" class="text--center">
             <div class="green">
-                <i class="fa fa-check"></i>
+                <i class="fa-check"></i>
                 <strong>Dernière demande envoyée le {{#if last_message_sent_at}}{{ last_message_sent_at }}{{else}}{{ today }}{{/if}}</strong>
             </div>
             <div>
@@ -69,7 +69,7 @@
                 <div class="push-half--bottom soft--sides">
                     <div class="input-addon">
                         <div class="input-prefix">
-                            <i class="fa fa-phone-o"></i>
+                            <i class="fa-phone-o"></i>
                         </div>
                         <input type="text" class="input--large one-whole hard--right" name='user[phone_number]' type='text' placeholder='Votre téléphone (confidentiel)' value="{{#if user.phone_number}}{{ user.phone_number }}{{/if}}" data-toggle="popover" data-content="Nous vous recommandons de laisser votre numéro de portable : si la séance est annulée ou modifiée, un SMS pourra vous être envoyé." data-trigger="hover" data-placement="left">
                     </div>

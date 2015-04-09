@@ -78,7 +78,7 @@
                     .flexbox__item.v-middle.search-input-wrapper.very-soft.hard--ends.palm-hard{ style: 'width: 140px;' }
                       .input-with-icon
                         %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 19, placeholder:'Ville', type:'text', autocomplete: 'off', name:'address_name', value: 'Paris', data: { type:'address', lng:'#address-lng', lat: '#address-lat', city: '#address-city' , address_name: '#address-name', behavior: 'address-picker' } }
-                        %i.fa.fa-map-marker.delta.black
+                        %i.fa-map-marker.delta.black
                       %input#address-lat{ type: 'hidden', value: '48.8592', name: 'lat' }
                       %input#address-lng{ type: 'hidden', value: '2.3417', name: 'lng' }
                       %input#address-name{ type: 'hidden', value: 'Paris', name: 'address_name' }
@@ -86,7 +86,7 @@
 
                     .flexbox__item.v-middle.palm-text--center
                       %button.nowrap.btn.btn--yellow.input--large{type: 'submit', id: 'submit_search_form'}
-                        %i.fa.fa-search
+                        %i.fa-search
                         Trouver
 
 
@@ -96,7 +96,7 @@
               .gamma.palm-epsilon.push--bottom= profile[:content].html_safe
               .text--center
                 = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, result: (params[:id] || 'a')), :facebook), class: 'push-half--bottom btn--yellow btn btn--bigger', target: :_blank do
-                  %i.fa.fa-facebook
+                  %i.fa-facebook
                   Partager mon résultat sur Facebook
           .orange-transparent-box.soft.push--top
             .grid.main-container.main-container--medium

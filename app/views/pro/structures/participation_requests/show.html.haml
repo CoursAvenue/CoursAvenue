@@ -9,7 +9,7 @@
         %li.epsilon.f-weight-500.white.soft-half--ends= @user.name
     - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
       .flexbox__item.v-middle.text--right.white.soft--right
-        %i.fa.fa-clock-o.epsilon
+        %i.fa-clock-o.epsilon
         %strong.epsilon Expire dans
         %strong.epsilon{ data: { 'expires-in' => true } }
 
@@ -52,7 +52,7 @@
       %h3 Acceptez la demande
     - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
       .flexbox__item.v-middle.text--right.blue
-        %i.fa.fa-clock-o.delta
+        %i.fa-clock-o.delta
         %strong.delta Expire dans
         %strong.delta{ data: { 'expires-in' => true } }
   %p

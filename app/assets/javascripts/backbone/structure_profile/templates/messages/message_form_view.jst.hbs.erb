@@ -11,7 +11,7 @@
                 {{#ifCond @index '>' 0}}<br>{{/ifCond}}
                 <strong class="epsilon v-middle" itemprop="telephone">{{this}}</strong>
                 {{#if structure.premium }}
-                    <i class="soft-half--left v-middle fa fa-check-circle green"></i>
+                    <i class="soft-half--left v-middle fa-check-circle green"></i>
                     <i class="v-middle green milli">vérifié</i>
                 {{/if}}
             {{/each}}
@@ -28,7 +28,7 @@
 </div>
 <div class="panel__body soft">
     {{#if last_message_sent_at}}
-        <div class="green text--center"><i class="fa fa-check"></i> <strong>Dernier message envoyé le {{last_message_sent_at}}</strong></div>
+        <div class="green text--center"><i class="fa-check"></i> <strong>Dernier message envoyé le {{last_message_sent_at}}</strong></div>
         <div class="text--center">
             <a data-type="user-conversations-path" href="{{ user_conversations_path }}" class="f-weight-500">Voir mes messages</a>
         </div>
@@ -50,7 +50,7 @@
             <div class="one-whole v-middle push-half--bottom" class="one-whole">
                 <div class="input-addon">
                     <div class="input-prefix">
-                        <i class="fa fa-phone-o"></i>
+                        <i class="fa-phone-o"></i>
                     </div>
                     <input type="text" class="input--large one-whole hard--right" name='user[phone_number]' type='text' placeholder='Votre téléphone (confidentiel)' value="{{#if user.phone_number}}{{ user.phone_number }}{{/if}}">
                 </div>

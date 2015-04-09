@@ -19,7 +19,7 @@
         %td.text--center{ data: { value: comment_notification.complete? ? '0' : '1', th: 'À laissé une recommandation' } }
           %div
             - if comment_notification.complete?
-              %i.fa.fa-check
+              %i.fa-check
         - if current_pro_admin.super_admin?
           %td
             %div= link_to 'Supprimer', pro_structure_comment_notification_path(@structure, comment_notification), method: :delete, class: 'red'

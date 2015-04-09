@@ -15,7 +15,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         attributes: {
             'data-behavior': 'editable-tag-bar'
         },
-        taggy: Handlebars.compile('<span class="taggy--tag"><i class="fa fa-times cursor-pointer" data-behavior="destroy"></i></span>'),
+        taggy: Handlebars.compile('<span class="taggy--tag"><i class="fa-times cursor-pointer" data-behavior="destroy"></i></span>'),
 
         constructor: function (options) {
             CoursAvenue.Views.EditableFieldView.prototype.constructor.apply(this, arguments);
