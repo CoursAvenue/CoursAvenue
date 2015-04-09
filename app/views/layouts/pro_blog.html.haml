@@ -2,11 +2,11 @@
   .bg-white.soft-half--ends
     .main-container.relative
       .grid
-        .grid__item.one-half>
+        .grid__item.one-half.palm-one-whole.palm-push--bottom>
           = link_to root_path, class: 'block' do
             = image_tag 'logos/logo-pro.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo-pro@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute ', style: 'left: 3px; top: 3px;'
-        .grid__item.one-half>
-          %ul.nav.flush.epsilon.f-weight-600
+        .grid__item.one-half.palm-one-whole>
+          %ul.nav.flush.epsilon.f-weight-600.palm-push--top
             %li.palm-hidden.palm-block.palm-text--center.line-height-1-7.soft--right
               = link_to 'Bienvenue', root_path, class: 'header--pro__link orange'
             %li.palm-block.palm-text--center.line-height-1-7.soft--right

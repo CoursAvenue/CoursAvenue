@@ -5,7 +5,7 @@
 .main-container.main-container--medium.soft--ends
 
   .grid
-    .grid__item.three-quarters.v-top>
+    .grid__item.three-quarters.v-top.palm-one-whole>
       .gray-light.epsilon.line-height-1-7.push-half--bottom
         Par #{@article.author.try(:name) || 'Camille'} le
         %time{ itemprop: 'dateCreated', datetime: l(@article.published_at, format: :iso_date) }
@@ -33,7 +33,7 @@
           - if @article.author.avatar.present?
             .flexbox__item.v-top.soft--left
               = image_tag @article.author.avatar.url(:small), height: 80, width: 80, class: 'rounded--circle'
-    .grid__item.one-quarter.v-top>
+    .grid__item.one-quarter.v-top.palm-one-whole.visuallyhidden--palm>
       = render partial: 'pro/blog/subscribe_to_blog'
 
   %h4.beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Commentaires
