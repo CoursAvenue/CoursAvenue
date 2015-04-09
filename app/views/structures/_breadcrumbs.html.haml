@@ -1,7 +1,7 @@
 - if @structure.vertical_pages_breadcrumb.present?
   - cache [@structure, 'structure/show/breadcrumb/vertical_pages/V1', @structure.vertical_pages_breadcrumb] do
     - paris = City.find('paris') if @structure.is_parisian?
-    %ol.nav.breadcrumb.push-half--bottom
+    %ol.nav.breadcrumb.push-half--bottom.visuallyhidden--palm
       %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to vertical_pages_path, itemprop: 'url', class: "white" do
           %span{ itemprop: 'title' }= "Nos guides"

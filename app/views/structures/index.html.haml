@@ -1,13 +1,16 @@
-- @is_responsive       = true
 - @prerender_not_ready = true
+
+- if @models.empty?
+  - content_for :right_after_head do
+    %meta{ name: "robots", content: "noindex" }
 
 - if @subject
   - title = "#{@subject.name.gsub('&', 'et')} à #{@city.name} (#{@city.department_code})"
 - else
-  - title = "Danse, Théâtre, Musique, Yoga... à #{@city.name || 'Paris'} (#{@city.department_code}) "
+  - title = "Tous les cours de loisirs à #{@city.name || 'Paris'} (#{@city.department_code}) "
 
 = content_for :title do
-  = "#{title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com".html_safe
+  = "#{title} | CoursAvenue.com".html_safe
 
 = content_for :meta_description do
   #{title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com. Consultez #{number_with_delimiter @total_comments} avis d'élèves, #{number_with_delimiter @total_medias} photos. Inscrivez-vous gratuitement sur CoursAvenue.com
