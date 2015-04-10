@@ -10,13 +10,14 @@ class Admin::Blog::Articles::MediasController < Pro::ProController
   end
 
   def create
-    params[:media_image][:url].split(',').each do |s3_filepicker_url|
-      filepicker_url, s3_path = s3_filepicker_url.split(';')
-      url                     = CoursAvenue::Application::S3_BUCKET.objects[s3_path].public_url.to_s
-      Media::Image.create url: url, filepicker_url: filepicker_url, mediable: @article
+    params[:media_image][:url].split(',').each do |filepicker_url|
+      media_image                  = Media::Image.new filepicker_url: filepicker_url, mediable: @article
+      media_image.remote_image_url = filepicker_url
+      media_image.save
     end
+
     respond_to do |format|
-      format.html { redirect_to admin_blog_article_path(@article), notice: 'Vos images ont bien été ajoutées !' }
+      format.html { redirect_to edit_admin_blog_article_path(@article), notice: 'Vos images ont bien été ajoutées !' }
       format.js { render nothing: true }
     end
   end

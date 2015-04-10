@@ -78,7 +78,7 @@
               var $preview = $('#preview').empty();
               var image_string = [];
               _.each(event.originalEvent.fpfiles, function(file) {
-                  image_string.push(file.url + ';' + file.key);
+                  image_string.push(file.url);
                   $preview.append($('<img>', {src: file.url, style: 'height: 100px;', class: 'push-half--right'}));
               });
               $(this).val(image_string.join(','));
@@ -94,7 +94,7 @@
           .show-on-hover.absolute.absolute--center.text--center
             %i.fa-eye.fa-4x.white
         .soft-half
-          = simple_form_for [:pro, @article, media], url: pro_portrait_media_path(@article, media), remote: true, as: :media, html: { data: { behavior: 'live-form' } } do |f|
+          = simple_form_for [:pro, @article, media], url: admin_blog_article_media_path(@article, media), remote: true, as: :media, html: { data: { behavior: 'live-form' } } do |f|
             = f.input :caption, as: :string, label: false, input_html: { class: 'one-whole media_caption input--large', placeholder: 'Position' }, wrapper_html: { class: 'flush--top push-half--bottom' }
-          = link_to pro_portrait_media_path(@article, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, title: 'Supprimer', class: 'btn btn--small btn--red' do
+          = link_to admin_blog_article_media_path(@article, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, title: 'Supprimer', class: 'btn btn--small btn--red' do
             Supprimer
