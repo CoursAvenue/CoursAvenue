@@ -2,7 +2,7 @@ class Blog::Article < ActiveRecord::Base
   extend FriendlyId
   acts_as_paranoid
 
-  friendly_id :title_with_date, use: [:slugged, :finders]
+  friendly_id :title, use: [:slugged, :finders]
 
   acts_as_taggable_on :tags
 
@@ -78,10 +78,6 @@ class Blog::Article < ActiveRecord::Base
   def set_published_at
     published_at ||= Time.now
     self.save
-  end
-
-  def title_with_date
-    [title, (published_at ? I18n.l(published_at, format: :date_short) : nil)]
   end
 
   def should_generate_new_friendly_id?
