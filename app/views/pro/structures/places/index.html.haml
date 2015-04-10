@@ -2,10 +2,10 @@
 
 = render partial: 'pro/structures/tabs', locals:{ current: 'places' }
 %div{ data: { behavior: 'wizard-helper', content: t('pro.places.wizard_helper.index') } }
-  .flexbox.push--bottom
-    .flexbox__item.v-middle
+  .grid.push--bottom
+    .grid__item.v-middle.one-half.palm-one-whole>
       %h1.flush Lieux
-    .flexbox__item.v-middle.text--right
+    .grid__item.v-middle.text--right.one-half.palm-one-whole.palm-text--left>
       = link_to new_pro_structure_place_path(@structure, type: 'Place::Public'), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
         %i.fa.fa-plus
         Ajouter un lieu
@@ -15,13 +15,13 @@
         = link_to 'Modifier la zone géographique pour mes cours à domicile', edit_pro_structure_place_path(@structure, (@places.homes.first ? @places.homes.first : '__HOME_PLACE_ID__')), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 }
   #map.google-map.push--bottom{ class: (@places.any? ? '' : 'hidden')}
 
-  %table.table--striped.table--data.flush#place-table{ class: (@places.any? ? '' : 'hidden')}
+  %table.table-responsive.table--striped.table--data.flush#place-table{ class: (@places.any? ? '' : 'hidden')}
     %thead
       %tr
         %th.four-twelfths Nom du lieu
         %th.four-twelfths Adresse
         %th.one-twelfths.text--center
-          %i.fa.fa-info
+          %i.fa-info
         %th.three-twelfths
     %tbody
       - @places.each do |place|

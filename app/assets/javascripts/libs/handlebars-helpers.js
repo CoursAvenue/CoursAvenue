@@ -46,9 +46,10 @@ Handlebars.registerHelper('highlight', function(text, highlight_word, length) {
 
 
 
-// usage: {{#ifPresent valueA valueB}}/*...*/{{/ifPresent}}
-Handlebars.registerHelper('ifPresent', function (v1, v2, options) {
-    return (!_.isEmpty(v1) || !_.isEmpty(v2)) ? options.fn(this) : options.inverse(this);
+// usage: {{#ifPresent valueA}}/*...*/{{/ifPresent}}
+Handlebars.registerHelper('ifPresent', function (v1, options) {
+    console.log(v1)
+    return !_.isEmpty(v1) ? options.fn(this) : options.inverse(this);
 });
 
 

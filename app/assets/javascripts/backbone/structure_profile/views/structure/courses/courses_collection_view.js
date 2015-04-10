@@ -74,6 +74,6 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             } else {
                 collectionView.$el.append(childView.el);
             }
-        },
+        }
     });
 });

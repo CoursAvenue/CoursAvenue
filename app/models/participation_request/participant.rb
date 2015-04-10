@@ -13,4 +13,8 @@ class ParticipationRequest::Participant < ActiveRecord::Base
   def self.table_name_prefix
     'participation_request_'
   end
+
+  def total_price
+    price.final_amount * number
+  end
 end

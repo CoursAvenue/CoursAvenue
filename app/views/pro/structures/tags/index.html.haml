@@ -21,9 +21,9 @@
         %td= @structure.user_profiles.tagged_with(tag.name, match_all: false).count
         %td.text--right
           = link_to edit_pro_structure_tag_path(@structure, tag), class: 'fancybox.ajax', data: { behavior: 'modal' } do
-            %i.fa.fa-pencil
+            %i.fa-pencil
             Modifier
           \/
           = link_to pro_structure_tag_path(@structure, tag), class: 'red', method: :delete do
-            %i.fa.fa-trash-o
+            %i.fa-trash-o
             Supprimer

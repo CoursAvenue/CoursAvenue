@@ -3,10 +3,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         template: Module.templateDirname() + 'edition_view',
         tagName: 'div',
         childViewContainer: '[data-type=bloc]',
-        childView: Module.BlocView,
-
         events: {
             'submit':                'saveModel',
+            'click [data-next]':     'saveModel',
             'click [data-previous]': 'previousStep',
             'change input':          'silentSaveModel',
         },
@@ -14,6 +13,18 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
             _.bindAll(this, 'saveModel', 'silentSaveModel', 'savingError', 'savingSuccess', 'previousStep');
+        },
+
+        getChildView: function getChildView (item) {
+            var viewType = item.get('view_type')
+
+            if (viewType == 'multi') {
+                return Module.Blocs.Multi;
+            } else if (viewType == 'image') {
+                return Module.Blocs.Image;
+            } else {
+                return Module.Blocs.Text;
+            }
         },
 
         saveModel: function saveModel (event) {

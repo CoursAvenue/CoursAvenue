@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Your_Icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-<polygon points="91.333,59.75 91.333,85.917 8.667,85.917 8.667,59.75 0,59.75 0,93.083 100,93.083 100,59.75 "/>
-<polygon points="71.453,45.703 66.392,40.639 54.542,52.489 54.54,3.814 45.46,3.816 45.46,52.491 33.61,40.639 28.546,45.703 
-	50,67.157 "/>
+<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100px" height="100px"
+	 viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+<title>Slice 1</title>
+<path id="Page-1" sketch:type="MSPage" d="M91.333,56.75v26.167H8.667V56.75H0v33.333h100V56.75H91.333z M71.453,42.703
+	l-5.061-5.064l-11.851,11.85L54.54,0.814l-9.08,0.002v48.675L33.61,37.639l-5.064,5.064L50,64.157L71.453,42.703z"/>
 </svg>

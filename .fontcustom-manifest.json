@@ -1,13 +1,13 @@
 {
   "checksum": {
-    "previous": "e89c2e3250ad1039e1c85337fc1c85f860afe857fae1441e7bce6def7aab0b70",
-    "current": "e89c2e3250ad1039e1c85337fc1c85f860afe857fae1441e7bce6def7aab0b70"
+    "previous": "1a1c675de107461ce198b551e5b97f825eac40876a46058cd42aab86fae67234",
+    "current": "1a1c675de107461ce198b551e5b97f825eac40876a46058cd42aab86fae67234"
   },
   "fonts": [
-    "app/assets/fonts/CoursAvenueIconFont_e89c2e3250ad1039e1c85337fc1c85f8.ttf",
-    "app/assets/fonts/CoursAvenueIconFont_e89c2e3250ad1039e1c85337fc1c85f8.svg",
-    "app/assets/fonts/CoursAvenueIconFont_e89c2e3250ad1039e1c85337fc1c85f8.woff",
-    "app/assets/fonts/CoursAvenueIconFont_e89c2e3250ad1039e1c85337fc1c85f8.eot"
+    "app/assets/fonts/CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.ttf",
+    "app/assets/fonts/CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.svg",
+    "app/assets/fonts/CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.woff",
+    "app/assets/fonts/CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.eot"
   ],
   "glyphs": {
     "audiences": {

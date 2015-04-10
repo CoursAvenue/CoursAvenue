@@ -58,6 +58,7 @@ class Structure < ActiveRecord::Base
   has_many :followers, through: :followings, source: :user
 
   has_many :price_groups              , dependent: :destroy
+  has_many :course_prices             , through: :courses
   has_many :prices                    , through: :price_groups
   has_many :orders, class_name: 'Order::Premium'
   has_many :participation_requests
@@ -134,12 +135,13 @@ class Structure < ActiveRecord::Base
                              :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score,
                              :search_score_updated_at, :is_sleeping, :sleeping_email_opt_in,
                              :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient,
-                             :status
-
+                             :status, :vertical_pages_breadcrumb, :is_parisian,
+                             :close_io_lead_id
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
                                           :has_free_trial_course, :has_promotion, :gives_non_professional_courses,
-                                          :gives_professional_courses, :is_sleeping, :sleeping_email_opt_in, :promo_code_sent
+                                          :gives_professional_courses, :is_sleeping, :sleeping_email_opt_in,
+                                          :promo_code_sent, :is_parisian
 
   mount_uploader :logo, StructureLogoUploader
 
@@ -160,19 +162,22 @@ class Structure < ActiveRecord::Base
 
   after_create  :set_default_place_attributes
   after_create  :geocode  unless Rails.env.test?
+  after_create  :subscribe_to_crm
 
+  before_save   :reset_crop_if_changed_logo
   before_save   :strip_name
   before_save   :sanatize_description
   before_save   :encode_uris
 
   after_save    :update_open_for_trial_courses_if_neesds
   after_save    :geocode_if_needs_to    unless Rails.env.test?
-  after_save    :subscribe_to_crm
+  after_save    :subscribe_to_crm_with_delay
   after_save    :update_intercom_status if Rails.env.production?
 
   after_touch   :set_premium
   after_touch   :update_meta_datas
   after_touch   :update_cities_text
+  after_touch   :update_vertical_pages_breadcrumb
 
   before_destroy :unsubscribe_to_crm
 
@@ -365,7 +370,7 @@ class Structure < ActiveRecord::Base
     integer :funding_type_ids, multiple: true
 
     boolean :is_open_for_trial do
-      self.courses.open_for_trial.any?
+      self.is_open_for_trial?
     end
 
     boolean :premium
@@ -534,41 +539,12 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  def logo_geometry(style = :original)
-    @geometry ||= {}
-    begin
-      if Rails.env.production?
-        @geometry[style] ||= Paperclip::Geometry.from_file(logo.url(style))
-      else
-        @geometry[style] ||= Paperclip::Geometry.from_file(logo.path(style))
-      end
-    rescue
-      geometry = Struct.new(:width, :height)
-      if style == :original
-        @geometry[style] = geometry.new(600, 600)
-      elsif style == :large
-        @geometry[style] = geometry.new(450, 450)
-      else
-        @geometry[style] = geometry.new(200, 200)
-      end
-    end
-  end
-
   def ratio_from_original_from_large
     600.0 / 450.0
   end
 
   def crop_width
-    logo_min_width = [logo_geometry.width, logo_geometry.height].min
-    # if the crop is larger than the picture, return the nil
-    if (read_attribute(:crop_width) + crop_x) > logo_min_width or
-       (read_attribute(:crop_width) + crop_y) > logo_min_width
-      nil
-    elsif read_attribute(:crop_width) == 0
-      logo_min_width
-    else
-      read_attribute(:crop_width)
-    end
+    read_attribute(:crop_width) || 600
   end
 
   def has_cropping_attributes?
@@ -642,6 +618,7 @@ class Structure < ActiveRecord::Base
     # Store level and audiences ids as coma separated string values: "1,3,5"
     self.level_ids                = (plannings.collect(&:level_ids) + courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
     self.audience_ids             = (plannings.collect(&:audience_ids) + courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
+    self.is_parisian              = self.parisian?
     set_min_and_max_price
     compute_response_rate
     save(validate: false)
@@ -883,9 +860,9 @@ class Structure < ActiveRecord::Base
   def unanswered_information_message
     return [] if mailbox.nil?
     mailbox.conversations.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])).select do |conversation|
-      conversation_waiting_for_reply = Rails.cache.fetch [conversation, "structure/unanswered_information_message/conversation_waiting_for_reply"] do
+      conversation_waiting_for_reply =# Rails.cache.fetch [conversation, "structure/unanswered_information_message/conversation_waiting_for_reply"] do
         conversation_waiting_for_reply?(conversation)
-      end
+      #end
       conversation_waiting_for_reply
     end
   end
@@ -1043,8 +1020,8 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # @return Subject at depth 2
-  def dominant_child_subject
+  # @return Subject at depth 1
+  def dominant_parent_subject
     if courses.active.any? and (_subjects = courses.active.flat_map{ |c| c.subjects }).any?
       _subjects.group_by(&:name).values.max_by(&:size).first
     else
@@ -1052,15 +1029,22 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # @return VerticalPage from the dominant child subject
+  # @return Subject at depth 2
   def dominant_vertical_page
-    if subjects.at_depth(0).count > 1
-      # dominant_parent_subject.vertical_pages.first
-      dominant_child_subject.vertical_pages.first
+    _vertical_pages = {}
+    if plannings.any? and plannings.detect{|p| p.subjects.at_depth(2).any? }
+      plannings.each do |planning|
+        planning.subjects.at_depth(2).uniq.flat_map(&:vertical_pages).each do |vertical_page|
+          _vertical_pages[vertical_page] ||= 0
+          _vertical_pages[vertical_page] += 1
+        end
+      end
+      _vertical_pages.max_by(&:last).first if _vertical_pages.any?
     else
-      dominant_child_subject.vertical_pages.first
+      subjects.at_depth(2).flat_map(&:vertical_pages).group_by{ |vp| vp.subject.root }.values.max_by(&:size).try(:first)
     end
   end
+
 
   # Return the most used city
   #
@@ -1100,14 +1084,12 @@ class Structure < ActiveRecord::Base
     sleeping_structure
   end
 
-  def has_trial_courses?
-    courses.open_for_trial.any?
+  def is_sleeping
+    self.main_contact.nil? or self.meta_data['is_sleeping'] == 'true'
   end
 
   def is_open_for_trial?
-    return Rails.cache.fetch ['Structure#is_open_for_trial?', self] do
-      courses.open_for_trial.any?
-    end
+    self.courses.open_for_trial.any?
   end
 
   # Subjects actually associated to courses
@@ -1118,6 +1100,22 @@ class Structure < ActiveRecord::Base
   end
 
   private
+
+  # Will save slugs of vertical pages as breadcrumb separated by semi colons
+  # danse;Danse|danses-du-monde;Danse du monde|etc;Etc..
+  # First slug will always be root
+  def update_vertical_pages_breadcrumb
+    return if dominant_vertical_page.nil?
+    pages = []
+    dominant_vertical_page_subject = dominant_vertical_page.subject
+    pages << dominant_vertical_page_subject.root.vertical_pages.first
+    pages << dominant_vertical_page_subject.parent.vertical_pages.first if dominant_vertical_page_subject.depth > 0
+    pages << dominant_vertical_page
+    self.vertical_pages_breadcrumb = pages.compact.uniq.map{ |page| "#{page.slug};#{page.subject_name}" }.join('|')
+    save
+    nil
+  end
+  handle_asynchronously :update_vertical_pages_breadcrumb
 
   def update_intercom_status
     new_status = CrmSync.structure_status_for_intercom(self)
@@ -1174,8 +1172,12 @@ class Structure < ActiveRecord::Base
     CrmSync.delay.update(self)
   end
 
+  def subscribe_to_crm_with_delay
+    CrmSync.delay(run_at: 5.minutes.from_now).update(self)
+  end
+
   def unsubscribe_to_crm
-    CrmSync.delay.destroy(self.email)
+    CrmSync.delay.destroy(self.email) unless self.is_sleeping
   end
 
   def encode_uris
@@ -1276,5 +1278,11 @@ class Structure < ActiveRecord::Base
   def dominant_city_from_planning
     plannings.map(&:place).compact.flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first ||
       courses.flat_map(&:places).flat_map(&:city).group_by { |c| c }.values.max_by(&:size).first
+  end
+
+  def reset_crop_if_changed_logo
+    if self.remote_logo_url
+      self.crop_x, self.crop_y, self.crop_width = nil, nil, nil
+    end
   end
 end

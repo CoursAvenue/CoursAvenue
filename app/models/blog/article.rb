@@ -83,7 +83,7 @@ class Blog::Article < ActiveRecord::Base
   end
 
   def should_generate_new_friendly_id?
-    return (!published? or self.slug.nil? or (self.created_at > Time.now - 1.day))
+    return (!published? or self.slug.nil?)
   end
 
 end

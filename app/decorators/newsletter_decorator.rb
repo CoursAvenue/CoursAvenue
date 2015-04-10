@@ -15,13 +15,13 @@ class NewsletterDecorator < Draper::Decorator
     if object.mailing_list.present?
       object.mailing_list.name
     else
-      "Pas encore choisie"
+      "pas encore choisie"
     end
   end
 
   def badge
     if object.state == 'sent'
-      'Envoyé'
+      'Envoyée'
     elsif object.state == 'sending'
       "En cours d'envoi"
     else

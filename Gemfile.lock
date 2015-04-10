@@ -442,6 +442,8 @@ GEM
       activesupport (>= 3.0.0)
     launchy (2.4.3)
       addressable (~> 2.3)
+    legato (0.4.0)
+      multi_json
     libv8 (3.16.14.7)
     listen (2.9.0)
       celluloid (>= 0.15.2)
@@ -848,6 +850,7 @@ DEPENDENCIES
   jquery-rails (~> 3.1.2)
   js-routes (~> 1.0.0)
   kaminari (~> 0.16.3)
+  legato (~> 0.4.0)
   lograge (~> 0.3.1)
   mailboxer (~> 0.12.5)
   mandrill-api

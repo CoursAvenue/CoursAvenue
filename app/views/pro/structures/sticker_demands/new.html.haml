@@ -19,7 +19,7 @@
     .alert.alert-error
       = @sticker_demand.errors[:base].to_sentence
   .grid--full
-    .grid__item.one-half.bordered--right>
+    .grid__item.one-half.palm-one-wholes.bordered--right>
       .flexbox{style: 'height: 300px'}
         .flexbox__item.v-middle
           = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/stickers/round.png', height: 280, class: 'center-block'
@@ -32,7 +32,7 @@
       %div
         %strong.label--large.v-middle.soft-half--right Nombre souhaité :
         = f.input :round_number, as: :select, collection: (0..10), label: false, include_blank: false, wrapper_html: { class: 'input--large inline-block v-middle'}
-    .grid__item.one-half.soft-half--left>
+    .grid__item.one-half.palm-one-wholes.soft-half--left>
       .flexbox{style: 'height: 300px'}
         .flexbox__item.v-middle
           = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/stickers/square.png', height: 180, class: 'center-block'

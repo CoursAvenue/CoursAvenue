@@ -14,8 +14,8 @@
         %td.v-middle.soft--sides
           = render partial: 'pro/structures/participation_requests/actions'
     %tr.bordered--bottom
-      %th.v-middle.soft--sides.nowrap.bordered--right.one-third Demande d'inscription
-      %td.v-middle.text--left.soft--sides= course_decorator.first_session_detail
+      %th.v-middle.soft--sides.bordered--right.one-third Demande d'inscription
+      %td.v-middle.text--left.soft--sides= participation_request_decorator.details
     %tr.bordered--bottom
       %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Cours
       %td.v-middle.soft--sides.one-whole
@@ -28,7 +28,7 @@
               = link_to 'Proposer un autre cours', edit_pro_structure_participation_request_path(participation_request.structure, participation_request, show_course_select: true), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
     %tr.bordered--bottom
-      %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Jour et heure
+      %th.v-middle.soft--sides.bordered--right.one-third.nowrap Jour et heure
       %td.v-middle.soft--sides.one-whole
         .flexbox
           .flexbox__item.one-whole= participation_request_decorator.day_and_hour.capitalize
@@ -44,11 +44,11 @@
             .flexbox__item.one-whole= "#{participation_request.place.name}, #{participation_request.place.address}"
             - if !participation_request.canceled?
               .flexbox__item.v-middle.nowrap.text--right
-                = link_to edit_pro_structure_place_path(participation_request.structure, participation_request.place, return_to_action: 'window.location.reload()'), class: 'milli fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
-                  %i.fa.fa-pencil
+                = link_to edit_pro_structure_place_path(participation_request.structure, participation_request.place, return_to_action: 'window.location.reload()'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
+                  %i.fa-pencil
                   Modifier
       %tr.bordered--bottom
-        %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Infos publiques
+        %th.v-middle.soft--sides.bordered--right.one-third.nowrap Infos publiques
         %td.v-middle.soft--sides.one-whole
           .flexbox
             .flexbox__item.one-whole
@@ -58,11 +58,11 @@
                 %i.gray Pas d'info pratique concernant l'accès.
             - if !participation_request.canceled?
               .flexbox__item.v-middle.nowrap.nowrap.text--right
-                = link_to edit_infos_pro_structure_place_path(participation_request.structure, participation_request.place, return_to: pro_structure_participation_request_path(@structure, participation_request)), class: 'milli fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
-                  %i.fa.fa-pencil
+                = link_to edit_infos_pro_structure_place_path(participation_request.structure, participation_request.place, return_to: pro_structure_participation_request_path(@structure, participation_request)), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
+                  %i.fa-pencil
                   Modifier
       %tr.bordered--bottom
-        %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Infos privées
+        %th.v-middle.soft--sides.bordered--right.one-third.nowrap Infos privées
         %td.v-middle.soft--sides.one-whole
           .flexbox
             .flexbox__item.one-whole
@@ -72,8 +72,8 @@
                 %i.gray Pas de digicode ni d'info privée concernant l'accès.
             - if !participation_request.canceled?
               .flexbox__item.v-middle.nowrap.nowrap.text--right
-                = link_to edit_infos_pro_structure_place_path(participation_request.structure, participation_request.place, return_to: pro_structure_participation_request_path(@structure, participation_request)), class: 'milli fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
-                  %i.fa.fa-pencil
+                = link_to edit_infos_pro_structure_place_path(participation_request.structure, participation_request.place, return_to: pro_structure_participation_request_path(@structure, participation_request)), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
+                  %i.fa-pencil
                   Modifier
     - elsif participation_request.at_student_home?
       %tr.bordered--bottom

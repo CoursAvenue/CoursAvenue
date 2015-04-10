@@ -3,60 +3,61 @@
 - course_decorator                = participation_request.course.decorate
 - show_warning                    = true if show_warning.nil?
 %tr
-  %td.soft--ends.v-top.nowrap
-    - if participation_request.pending? and participation_request.last_modified_by == 'User' and !participation_request.past?
-      = participation_request_decorator.status_for('Structure')
-      - if participation_request.created_at > 2.days.ago
-        %div.blue{ id: "expires-in-#{participation_request.id}" }
-        = content_for :scripts do
-          :javascript
-            $(function() {
-              var date            = Date.parse("#{l(local_time(participation_request.created_at + 48.hours), format: :js )}");
-              var $countdown_div = $('#expires-in-#{participation_request.id}');
-              countdown(date,
-                  function(ts) {
-                      var hours   = ("0" + ts.hours).slice(-2);
-                      var minutes = ("0" + ts.minutes).slice(-2);
-                      var seconds = ("0" + ts.seconds).slice(-2);
-                      $countdown_div.text((ts.days > 0 ? ts.days + ' jour et ' : '') + hours + ':' + minutes + ':' + seconds);
-                  },
-                  countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
-            });
-    - else
-      = participation_request_decorator.status_for('Structure')
-    .very-soft.hard--left.hard--bottom.hard--right
-      = participation_request_decorator.teacher_action_link
-
-  %td.soft--ends.v-top
-    - course = participation_request.course
-    %strong= participation_request_decorator.day_and_hour
-    %br
-    %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
-      = course.name
-    - place = participation_request.place
-    - if place
-      %br
-      - if place.info.present? or place.private_info.present?
-        - place_decorator = participation_request.place.decorate
-        %span.has-tooltip{ data: { toggle: 'popover', content: place_decorator.popover_place_infos, html: 'true', placement: 'top', trigger: 'hover' } }
-          = place.name
+  %td.soft--ends.v-top.nowrap{ data: { th: 'Statut' } }
+    %div
+      - if participation_request.pending? and participation_request.last_modified_by == 'User' and !participation_request.past?
+        = participation_request_decorator.status_for('Structure')
+        - if participation_request.created_at > 2.days.ago
+          %div.blue{ id: "expires-in-#{participation_request.id}" }
+          = content_for :scripts do
+            :javascript
+              $(function() {
+                var date            = Date.parse("#{l(local_time(participation_request.created_at + 48.hours), format: :js )}");
+                var $countdown_div = $('#expires-in-#{participation_request.id}');
+                countdown(date,
+                    function(ts) {
+                        var hours   = ("0" + ts.hours).slice(-2);
+                        var minutes = ("0" + ts.minutes).slice(-2);
+                        var seconds = ("0" + ts.seconds).slice(-2);
+                        $countdown_div.text((ts.days > 0 ? ts.days + ' jour et ' : '') + hours + ':' + minutes + ':' + seconds);
+                    },
+                    countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
+              });
       - else
-        = place.name
+        = participation_request_decorator.status_for('Structure')
+      .very-soft.hard--left.hard--bottom.hard--right
+        = participation_request_decorator.teacher_action_link
 
-  %td.soft--ends.v-top
-    .flexbox
-      .flexbox__item.soft-half--right
-        = image_tag participation_request.user.avatar_url, height: 50, width: 50, class: 'rounded--circle'
-      .flexbox__item.one-whole
+  %td.soft--ends.v-top{ data: { th: 'Cours et date' } }
+    %div
+      - course = participation_request.course
+      %strong= participation_request_decorator.day_and_hour
+      %br
+      %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
+        = course.name
+      - place = participation_request.place
+      - if place
+        %br
+        - if place.info.present? or place.private_info.present?
+          - place_decorator = participation_request.place.decorate
+          %span.has-tooltip{ data: { toggle: 'popover', content: place_decorator.popover_place_infos, html: 'true', placement: 'top', trigger: 'hover' } }
+            = place.name
+        - else
+          = place.name
+
+  %td.soft--ends.v-top{ data: { th: 'Participant' } }
+    .grid--full
+      .grid__item.soft-half--right.one-third.palm-one-whole.text--right.palm-text--left.visuallyhidden--palm>
+        = image_tag participation_request.user.avatar_url, class: 'rounded--circle one-whole block'
+      .grid__item.one-whole.two-thirds.palm-one-whole.soft-half--left>
         %strong
           = participation_request.user.name
           - if participation_request.nb_participants > 1
             + #{participation_request.nb_participants - 1} personnes
         %br
         = user_decorator.age_and_city
-        %br
-        %span{ class: (participation_request.accepted? ? '' : 'has-tooltip'), data: { toggle: (participation_request.accepted? ? '' : 'popover'), content: t('tooltips.pro.structures.hidden_contact_infos'), html: 'true', placement: 'top', trigger: 'hover' } }
+        %div.text-ellipsis{ class: (participation_request.accepted? ? '' : 'has-tooltip'), data: { toggle: (participation_request.accepted? ? '' : 'popover'), content: t('tooltips.pro.structures.hidden_contact_infos'), html: 'true', placement: 'top', trigger: 'hover' } }
           = user_decorator.phone_number_and_email(!participation_request.accepted?)
 
-  %td.soft--ends.v-top
-    = participation_request_decorator.details
+  %td.soft--ends.v-top{ data: { th: 'Détails' } }
+    %div= participation_request_decorator.details

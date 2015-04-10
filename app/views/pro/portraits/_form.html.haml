@@ -51,7 +51,7 @@
       .media__item.one-whole.relative.gray-box
         %a.bg-cover.break-all.soft-half.hard--bottom.block.show-on-hover-wrapper.relative{ href: media.url, title: media.caption, style: "height: 200px; background-image: url(#{media.thumbnail_url})", data: { behavior: 'fancy' } }
           .show-on-hover.absolute.absolute--center.text--center
-            %i.fa.fa-eye.fa-4x.white
+            %i.fa-eye.fa-4x.white
         .soft-half
           = simple_form_for [:pro, @portrait, media], url: pro_portrait_media_path(@portrait, media), remote: true, as: :media, html: { data: { behavior: 'live-form' } } do |f|
             = f.input :caption, as: :string, label: false, input_html: { class: 'one-whole media_caption input--large', placeholder: 'Position' }, wrapper_html: { class: 'flush--top push-half--bottom' }

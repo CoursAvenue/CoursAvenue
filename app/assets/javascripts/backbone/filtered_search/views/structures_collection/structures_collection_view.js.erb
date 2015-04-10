@@ -47,7 +47,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         onAfterShow: function onAfterShow () {
           this.announcePaginatorUpdated(true);
           var $sticky = $('[data-behavior=sticky]');
-          $sticky.sticky({ offsetTop: 50,
+          $sticky.sticky({ offsetTop: 40,
                            z        : 1200,
                            oldWidth : true });
           this.renderSlideshows();
@@ -91,7 +91,6 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             /* announce the view we found */
             this.trigger('structures:childview:found', { structure_view: childview, location_view: data } );
-            // $.scrollTo(childview.el, { duration: 400, offset: -($('header').first().outerHeight() + $filters_wrapper.outerHeight()) });
 
         },
 
@@ -166,21 +165,14 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         },
 
         structuresUpdated: function structuresUpdated (structure_ids) {
-            this.logImpressions(structure_ids);
             this.renderSlideshows();
+            this.logImpressions(structure_ids);
         },
 
         logImpressions: function logImpressions (structure_ids) {
             if (!window.coursavenue.bootstrap.current_pro_admin) {
-                $.ajax({
-                    type: "POST",
-                    dataType: 'js',
-                    url: Routes.statistics_path(),
-                    data: {
-                        action_type: 'impression',
-                        fingerprint: $.cookie('fingerprint'),
-                        structure_ids: structure_ids
-                    }
+                structure_ids.forEach(function(structure_id) {
+                    CoursAvenue.statistic.logStat(structure_id, 'impression', {});
                 });
             }
         },
@@ -198,8 +190,8 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 self.$(".rslides").responsiveSlides({
                     auto: false,
                     nav: true,
-                    prevText: '<i class="alpha fa fa-chevron-left"></i>',
-                    nextText: '<i class="alpha fa fa-chevron-right"></i>'
+                    prevText: '<i class="alpha fa-chevron-left"></i>',
+                    nextText: '<i class="alpha fa-chevron-right"></i>'
                 });
                 COURSAVENUE.initialize_fancy(self.$('.rslides-wrapper [data-behavior="fancy"]'));
             });

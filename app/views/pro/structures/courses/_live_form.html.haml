@@ -10,11 +10,11 @@
             = truncate course.name, length: (course.is_lesson? ? 50 : 80)
           .inline-block.line-height-normal.v-middle.nowrap
             = link_to edit_pro_structure_course_path(structure, course), class: 'v-middle fancybox.ajax nowrap', data: { behavior: 'modal', width: '750', padding: '0', course_id: course.id, action: 'edit', lock_overlay: true } do
-              %i.fa.fa-pencil
+              %i.fa-pencil
               Modifier
             %span.v-middle /
             = link_to ask_for_deletion_pro_structure_course_path(structure, course), class: 'v-middle red fancybox.ajax nowrap', data: { behavior: 'modal', width: '400', padding: '0' } do
-              %i.fa.fa-trash-o
+              %i.fa-trash-o
               Supprimer
 
       - if course.is_private?
@@ -43,7 +43,7 @@
           \ :
           = course.decorate.training_prices
         = link_to edit_pro_structure_course_path(structure, course), class: 'v-middle fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', course_id: course.id, action: 'edit', lock_overlay: true } do
-          %i.fa.fa-pencil
+          %i.fa-pencil
           Modifier
       - unless course.is_training?
         .inline-block.soft-half.bordered--left

@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-<g>
-	<polygon points="28,90 24,90 24,4 12,4 12,90 8,90 8,0 28,0 	"/>
-</g>
-<g>
-	<polygon points="60,90 56,90 56,28 44,28 44,90 40,90 40,24 60,24 	"/>
-</g>
-<g>
-	<rect x="2" y="96" width="96" height="4"/>
-</g>
-<g>
-	<polygon points="92,90 88,90 88,52 76,52 76,90 72,90 72,48 92,48 	"/>
-</g>
+<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="96px" height="100px"
+	 viewBox="0 0 96 100" enable-background="new 0 0 96 100" xml:space="preserve">
+<title>levels</title>
+<desc>Created with Sketch.</desc>
+<path id="Page-1" sketch:type="MSPage" d="M26,90h-4V4H10v86H6V0h20V90z M58,90h-4V28H42v62h-4V24h20V90z M0,96h96v4H0
+	V96z M90,90h-4V52H74v38h-4V48h20V90z"/>
 </svg>

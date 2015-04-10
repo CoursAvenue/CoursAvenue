@@ -2,9 +2,9 @@
   %ul.tabs.panel__header
     %li{class: (current == 'new' ? 'active' : '')}
       = link_to new_user_invited_user_path(current_user) do
-        %i.fa.fa-bullhorn
+        %i.fa-bullhorn
         Parrainage
     %li{class: (current == 'invite-jpo' ? 'active' : '')}
       = link_to user_invited_users_path(current_user) do
-        %i.fa.fa-group
+        %i.fa-group
         Invitations envoyées

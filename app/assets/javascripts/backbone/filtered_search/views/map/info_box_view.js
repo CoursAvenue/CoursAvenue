@@ -6,6 +6,12 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
         onRender: function onRender (){
             this.$('a').removeClass('bordered--bottom soft-half--ends');
             this.$('[data-content]').addClass('soft-half--left');
+            this.$('.rslides img').each(function(){
+                var $this = $(this);
+                $this.closest('.media__item').hide();
+                $this.closest('li').css('background-image', 'url("' + $this.attr('src') + '")');
+            });
+
         }
     });
 });

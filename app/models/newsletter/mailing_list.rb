@@ -2,7 +2,7 @@ class Newsletter::MailingList < ActiveRecord::Base
   include Concerns::HstoreHelper
   include ApplicationHelper
 
-  attr_accessible :name, :filters, :all_profiles
+  attr_accessible :name, :filters, :all_profiles, :tag
 
   has_many :newsletters
   belongs_to :structure
@@ -11,7 +11,7 @@ class Newsletter::MailingList < ActiveRecord::Base
 
   validates :name, presence: true
 
-  store_accessor :metadata, :filters, :all_profiles
+  store_accessor :metadata, :filters, :all_profiles, :tag
   define_array_accessor_for :metadata, :filters
   define_boolean_accessor_for :metadata, :all_profiles
 
@@ -26,7 +26,7 @@ class Newsletter::MailingList < ActiveRecord::Base
     if self.all_profiles?
       profiles = structure.user_profiles.where(subscribed: true)
     else
-      profiles = filter_profiles
+      profiles = tagged_profiles
     end
 
     profiles = profiles.to_a.uniq { |profile| profile.email }.select { |profile| profile.email.present? }
@@ -45,7 +45,7 @@ class Newsletter::MailingList < ActiveRecord::Base
     if self.all_profiles?
       structure.user_profiles.where(subscribed: true).count
     else
-      filter_profiles.count
+      tagged_profiles.count
     end
   end
 
@@ -67,39 +67,46 @@ class Newsletter::MailingList < ActiveRecord::Base
   # We loop on the filters and depending on the predicate, we get the corresponding profiles.
   #
   # @return an Array of UserProfiles.
-  def filter_profiles
-    profiles = []
-    self.filters.each do |filter|
-      case
-      when filter[:predicate] == 'is'
-        profiles += structure.user_profiles.tagged_with(filter[:tag])
+  # def filter_profiles
+  #   profiles = []
+  #   self.filters.each do |filter|
+  #     case
+  #     when filter[:predicate] == 'is'
+  #       profiles += structure.user_profiles.tagged_with(filter[:tag])
+  #
+  #     when filter[:predicate] == 'isnot'
+  #       profiles += structure.user_profiles.tagged_with(filter[:tag], exclude: true)
+  #
+  #     when filter[:predicate] == 'contains'
+  #       tags = structure.user_profiles.flat_map(&:tags).uniq.map(&:name).select do |t|
+  #         t.include?(filter[:tag])
+  #       end
+  #
+  #       profiles += structure.user_profiles.tagged_with(tags)
+  #
+  #     when filter[:predicate] == 'containsnot'
+  #       tags = structure.user_profiles.flat_map(&:tags).uniq.map(&:name).reject do |t|
+  #         t.include?(filter[:tag])
+  #       end
+  #
+  #       profiles += structure.user_profiles.tagged_with(tags)
+  #
+  #     else
+  #       profiles += structure.user_profiles.tagged_with(filter[:tag])
+  #     end
+  #   end
+  #
+  #   profiles.select! do |profile|
+  #     profile.subscribed?
+  #   end
+  #
+  #   profiles
+  # end
 
-      when filter[:predicate] == 'isnot'
-        profiles += structure.user_profiles.tagged_with(filter[:tag], exclude: true)
-
-      when filter[:predicate] == 'contains'
-        tags = structure.user_profiles.flat_map(&:tags).uniq.map(&:name).select do |t|
-          t.include?(filter[:tag])
-        end
-
-        profiles += structure.user_profiles.tagged_with(tags)
-
-      when filter[:predicate] == 'containsnot'
-        tags = structure.user_profiles.flat_map(&:tags).uniq.map(&:name).reject do |t|
-          t.include?(filter[:tag])
-        end
-
-        profiles += structure.user_profiles.tagged_with(tags)
-
-      else
-        profiles += structure.user_profiles.tagged_with(filter[:tag])
-      end
-    end
-
-    profiles.select! do |profile|
-      profile.subscribed?
-    end
-
-    profiles
+  # Get the profiles tagged with the mailing list tag.
+  #
+  # @return an Array of UserProfiles
+  def tagged_profiles
+    structure.user_profiles.tagged_with(self.tag)
   end
 end

@@ -42,6 +42,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             var grand_total = 0,
                 total_nb_participants = 0;
             this.ui.$price_rows.filter(':not([data-hidden])').each(function() {
+                if ($(this).find('[data-element=price-select]').find(':selected').length == 0) { return; }
                 var price             = parseFloat($(this).find('[data-element=price-select]').find(':selected').data('amount'), 10);
                 nb_participants       = parseInt($(this).find('[data-element=number-select]').val() || 0, 10);
                 total_nb_participants = total_nb_participants + nb_participants;
@@ -66,6 +67,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
 
         serializeData: function serializeData () {
             return {
+                has_more_than_one_price: (this.prices_collection.length > 1),
                 prices: this.prices_collection.toJSON()
             };
         }

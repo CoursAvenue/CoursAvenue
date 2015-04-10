@@ -1,6 +1,7 @@
 class NewsletterMailer < ActionMailer::Base
   include ::ActionMailerWithTextPart
   include Roadie::Rails::Automatic
+  helper NewsletterLayoutHelper
 
   layout 'newsletter'
 
@@ -8,7 +9,7 @@ class NewsletterMailer < ActionMailer::Base
   def send_newsletter(newsletter, recipients)
     @newsletter = newsletter
     @structure  = newsletter.structure
-    @blocs      = @newsletter.blocs.order('position ASC')
+    @blocs      = @newsletter.blocs.includes(:sub_blocs).order('position ASC')
 
     mail subject: @newsletter.email_object,
       bcc: recipients,

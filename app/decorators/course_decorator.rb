@@ -19,8 +19,8 @@ class CourseDecorator < Draper::Decorator
       detail_html << "data-toggle='popover'"
       detail_html << "data-html='true' data-placement='top' data-trigger='hover'>"
     end
-    if price_group.trial
-      detail_html << "Séance d'essai : #{readable_amount(price_group.trial.amount)}"
+    if object.prices.trials.any?
+      detail_html << "Séance d'essai : #{readable_amount(object.prices.trials.first.amount)}"
     elsif is_training?
       detail_html << "Stage : #{readable_amount(price_group.min_price_amount)}"
     elsif price_group.trial.nil?
@@ -39,7 +39,7 @@ class CourseDecorator < Draper::Decorator
     return nil if object.prices.empty?
     prices_content = object.prices.map do |price|
       popover = ''
-      popover = " <i class=\"v-middle fa fa-info cursor-help\" data-behavior=\"popover\" data-content=\"#{price.info}\"></i>" if price.info.present?
+      popover = " <i class=\"v-middle fa-info cursor-help\" data-behavior=\"popover\" data-content=\"#{price.info}\"></i>" if price.info.present?
       if price.promo_amount?
         content = "<strong class='v-middle line-through'>#{readable_amount(price.amount)}</strong> #{readable_amount(price.promo_amount)}" + popover
       else

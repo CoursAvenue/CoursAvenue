@@ -163,10 +163,10 @@ class Pro::StructuresController < Pro::ProController
     end
 
     @profile_percentage = 100
-    @profile_percentage -= 20 if !@structure.profile_completed?
-    @profile_percentage -= 20 if @structure.medias.empty?
-    @profile_percentage -= 20 if @comments.empty?
-    @profile_percentage -= 20 if @structure.plannings.future.any?
+    @profile_percentage -= 25 if !@structure.profile_completed?
+    @profile_percentage -= 25 if @structure.medias.empty?
+    @profile_percentage -= 25 if @comments.empty?
+    @profile_percentage -= 25 if @structure.plannings.future.empty?
 
     @json_locations = Gmaps4rails.build_markers(@places) do |place, marker|
       marker.lat place.latitude
@@ -341,6 +341,7 @@ France
 
   def destroy
     @structure = Structure.friendly.find params[:id]
+    CrmSync.delay.destroy(@structure.email) if @structure.is_sleeping
     SuperAdminMailer.delay.has_destroyed(@structure)
     AdminMailer.delay.structure_has_been_destroy(@structure)
     respond_to do |format|

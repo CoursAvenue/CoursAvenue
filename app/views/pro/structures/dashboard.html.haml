@@ -1,10 +1,12 @@
 = side_menu_currently_at 'general'
 
+= render partial: 'pro/structures/general_tabs', locals: { current: 'general' }
+
 - if @wizard
   #wizard.hidden
     .blue-box.relative.soft.rounded--none.push--bottom
       %a#close-wizard.closer{ href: 'javascript:void(0)', data: { behavior: 'closer', el: '#wizard' } }
-        %i.fa.fa-times
+        %i.fa-times
       #wizard-form= render @wizard.partial
       .text--right
         - if @wizard.show_save
@@ -16,7 +18,7 @@
 %h1 Tableau de bord
 .grid
   .grid__item.palm-one-whole.one-half.bordered--right{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.profile_completion')} }>
-    - cache "pro/structures/dashboard/completion/#{@profile_percentage}" do
+    - cache "pro/structures/dashboard/completion/#{@profile_percentage}/v2" do
       %h4.push-half--bottom Votre profil est complété à #{@profile_percentage}%
       .text--center.progress.push-half--bottom{style: "width: 280px;"}
         - if @profile_percentage == 0
@@ -26,11 +28,11 @@
             #{@profile_percentage}%
       %ul.no-bullet-list
         %li
-          %i.fa.fa-check-square-o
+          %i.fa-check-square-o
           %span.line-through--gray Créer mon profil
         %li
           - if @structure.profile_completed?
-            %i.fa.fa-check-square-o
+            %i.fa-check-square-o
             %span.line-through--gray Compléter mes informations générales et ajouter un logo
           - else
             = link_to edit_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
@@ -38,7 +40,7 @@
               Compléter mes informations générales et ajouter un logo
         %li
           - if @structure.comments.any? or @structure.comment_notifications.any?
-            %i.fa.fa-check-square-o
+            %i.fa-check-square-o
             %span.line-through--gray Demander des recommandations à mes élèves
           - else
             = link_to recommendations_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
@@ -46,7 +48,7 @@
               Demander des recommandations à mes élèves
         %li
           - if @structure.medias.any?
-            %i.fa.fa-check-square-o
+            %i.fa-check-square-o
             %span.line-through--gray Mettre en ligne les photos et vidéos de mes cours
           - else
             = link_to pro_structure_medias_path(@structure), class: 'profile-task-uncomplete' do
@@ -54,13 +56,13 @@
               Mettre en ligne les photos et vidéos de mes cours
         %li
           - if @structure.plannings.future.any?
-            %i.fa.fa-check-square-o
+            %i.fa-check-square-o
             %span.line-through--gray Renseigner mes cours et mon planning
           - else
             = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
               %i.fa.fa-square-o
               Renseigner mes cours et mon planning
-  .grid__item.palm-one-whole.one-half{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.recommendations')} }>
+  .grid__item.visuallyhidden--palm.one-half{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.recommendations')} }>
     - cache [@structure, "pro/structures/dashboard/comments_completion/#{@structure.comments.accepted.count}"] do
       .soft--right
         %h4.push-half--bottom Vos avis
@@ -71,7 +73,7 @@
                 %td.text--center.hard{style: "width: 6.6%;"}
                   .hidden.bg-green{ data: { toggle: 'popover', html: 'true', placement: 'bottom', content: "<div style='font-size: 12px;'>#{comment.author_name} le #{I18n.l(comment.created_at, format: :date)}<br><br>#{comment.content.html_safe}<div>", trigger: 'hover' } }
                     %a{ href: 'javascript:void(0)' }
-                      %i.fa.fa-comment.white
+                      %i.fa-comment.white
               - if @structure.comments.count < 15
                 - (15 -@structure.comments.accepted.count).times do |index|
                   %td.text--center.hard{style: "width: 6.6%;"}
@@ -109,13 +111,13 @@
                 - else
                   %a.btn.btn--small.text--center{ href: '#sticker-explanation', data: { behavior: 'modal', width: 500, padding: 0 } } OBTENEZ VOS AUTOCOLLANTS
               -# %td.v-top.text--center.hard{ colspan: 9 }
-              -#   %i.fa.fa-chevron-up
+              -#   %i.fa-chevron-up
               -#   %br
               -#   Avec 5 avis, vous êtes
               -#   %br
               -#   2 fois plus visibles
               -# %td.text--right.v-top.hard{ colspan: 6 }
-              -#   %i.fa.fa-chevron-up
+              -#   %i.fa-chevron-up
               -#   %br
               -#   Avec 15 avis, vous êtes
               -#   %br
@@ -150,7 +152,7 @@
 
 %hr.push--ends
 %h4.push-half--bottom
-  %i.fa.fa-user
+  %i.fa-user
   Résumé du profil
 = render 'pro/structures/structure'
 
@@ -159,7 +161,7 @@
   .grid__item.palm-one-whole.one-third>
     .islet.text--center
       %h4.flush
-        %i.fa.fa-comment
+        %i.fa-comment
         Avis
       %p
         %span.beta{class: (@comments.length > 6 ? 'green' : 'red')}= @comments.length
@@ -169,7 +171,7 @@
   .grid__item.palm-one-whole.one-third>
     .islet.text--center
       %h4.flush
-        %i.fa.fa-list
+        %i.fa-list
         Cours & Stages
       %p
         %span.beta{class: (@structure.courses.without_open_courses.count > 0 ? 'green' : 'red')}= @structure.courses.without_open_courses.count
@@ -178,7 +180,7 @@
   .grid__item.palm-one-whole.one-third>
     .islet.text--center
       %h4.flush
-        %i.fa.fa-youtube-play
+        %i.fa-youtube-play
         Photo & vidéos
       %p
         %span.beta{class: (@structure.medias.count > 3 ? 'green' : 'red')}= @structure.medias.count
@@ -187,7 +189,7 @@
 
 %hr.push--ends
 %h4
-  %i.fa.fa-map-marker
+  %i.fa-map-marker
   Mes lieux d'enseignement
 
 #map.google-map
@@ -197,7 +199,7 @@
 - if @comments.length > 0
   %hr.push--ends
   %h4
-    %i.fa.fa-comment
+    %i.fa-comment
     Mes derniers avis
   %ul.comment-list
     - @comments[0..2].each do |comment|
@@ -209,7 +211,7 @@
 - if @courses.any?
   %hr.push--ends
   %h4
-    %i.fa.fa-list
+    %i.fa-list
     Mes cours & stages
 
   - if @courses.lessons.any?
@@ -278,7 +280,7 @@
 - if @medias.any?
   %hr.push--ends
   %h4
-    %i.fa.fa-youtube-play
+    %i.fa-youtube-play
     Mes photos & vidéos
   - @medias.each_with_index do |media, index|
     .soft-half.inline-block.one-third.palm-one-whole.v-top>
@@ -299,9 +301,9 @@
             }, index * 250)
         });
         $('a.profile-task-uncomplete').hover(function() {
-            $(this).find('i').removeClass('fa fa-square-o').addClass('fa fa-check-square-o');
+            $(this).find('i').removeClass('fa fa-square-o').addClass('fa-check-square-o');
         }, function() {
-            $(this).find('i').removeClass('fa fa-check-square-o').addClass('fa fa-square-o');
+            $(this).find('i').removeClass('fa-check-square-o').addClass('fa fa-square-o');
         });
         $('#profile-progress-bar').animate({
             width: '#{@profile_percentage}%'

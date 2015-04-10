@@ -30,7 +30,10 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
             } else {
                 this.pagination_bottom.$el.show();
             }
-            this.ui.$comments_count.text(this.collection.state.grandTotal);
+            // Prevent from bug when UIElements are not bound yet.
+            if (this.ui.$comments_count.text) {
+                this.ui.$comments_count.text(this.collection.state.grandTotal);
+            }
             var data = {
                 current_page:        this.collection.state.currentPage,
                 queryOptions:       '',
@@ -62,9 +65,6 @@ StructureProfile.module('Views.Structure.Comments', function(Module, App, Backbo
                 about            : this.about,
                 has_comments     : this.collection.structure.get('has_comments')
             }
-        },
-        serializeData: function serializeData () {
-
         },
         scrollToTop: function scrollToTop () {
             $.scrollTo(this.$el, { duration: 400, offset: -80 });

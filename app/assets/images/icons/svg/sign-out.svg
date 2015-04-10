@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-<g>
-	<polygon points="97.793,97.667 32.966,97.667 32.966,72.88 38,72.88 38,92.633 92.759,92.633 92.759,7.367 38,7.367 38,27.12 
-		32.966,27.12 32.966,2.333 97.793,2.333 	"/>
-</g>
-<g>
-	<rect x="4.366" y="47.483" width="53.387" height="5.034"/>
-</g>
-<g>
-	<polygon points="18.271,67.212 1.06,50 18.271,32.788 20.969,36.095 7.062,50 20.969,63.903 	"/>
-</g>
+<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="97px" height="96px"
+	 viewBox="0 0 97 96" enable-background="new 0 0 97 96" xml:space="preserve">
+<title>sign-out</title>
+<desc>Created with Sketch.</desc>
+<path id="Page-1" sketch:type="MSPage" d="M8.58,45.483h48.173v5.035H8.58l11.39,11.385l-2.698,3.31L0.06,48
+	l17.211-17.212l2.698,3.307L8.58,45.483z M96.793,95.667H31.966V70.88H37v19.753h54.759V5.367H37V25.12h-5.034V0.333h64.827V95.667z
+	"/>
 </svg>

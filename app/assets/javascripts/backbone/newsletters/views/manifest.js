@@ -1,4 +1,4 @@
-//= require ./bloc_view
+//= require ./blocs/manifest
 //= require ./edition_view
 //= require ./newsletter_layout
 //= require ./layout_view

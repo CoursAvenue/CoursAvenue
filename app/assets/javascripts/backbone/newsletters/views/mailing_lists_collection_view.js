@@ -10,19 +10,29 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             'click button[type=submit]':  'saveModel',
             'click [data-import]':        'importList',
             'change [data-all-contacts]': 'selectAllContacts',
+            'click [data-next]':          'saveModel',
             'click [data-previous]':      'previousStep',
         },
 
         initialize: function initialize (options) {
             this.model = options.model;
-            _.bindAll(this, 'saveModel', 'importList', 'selectAllContacts', 'previousStep');
+            _.bindAll(this, 'saveModel', 'importList', 'selectAllContacts', 'previousStep', 'emptyViewOptions');
         },
 
         getEmptyView: function getEmptyView () {
             return Module.MailingListsEmptyCollectionView;
         },
 
+        emptyViewOptions: function emptyViewOptions () {
+            return {
+                model:      this.model,
+                collection: this.collection
+            }
+        },
+
         templateHelpers: function templateHelpers () {
+            var structure = window.coursavenue.bootstrap.structure;
+
             return {
                 showAllProfilesOption: function () {
                     return this.collection.hasAllProfilesList();
@@ -31,6 +41,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 hasElements: function () {
                     return !this.collection.isEmpty();
                 }.bind(this),
+
+                previewUrl: Routes.preview_newsletter_pro_structure_newsletter_path(structure, this.model.get('id')),
             };
         },
 
@@ -56,8 +68,15 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var allContacts = new Newsletter.Models.MailingList({ all_profiles: true, newsletter: this.model })
             allContacts.save({}, {
                 success: function (model, response, options) {
+                    this.collection.add(model);
+
                     this.model.set('newsletter_mailing_list_id', model.get('id'));
+                    this.model.save();
+
                     this.all_profiles_selected = true
+
+                    this.render();
+                    this.trigger('selected', { model: model });
                 }.bind(this)
             });
         },

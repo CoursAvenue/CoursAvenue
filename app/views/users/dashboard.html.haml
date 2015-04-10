@@ -12,7 +12,7 @@
       - else
         = link_to edit_user_path(@user), class: 'soft block gray epsilon f-weight-500 v-middle bg-gray-light bordered' do
           .text--center
-            %i.fa.fa-avatar.fa-5x
+            %i.fa-avatar.fa-5x
           Choisir une photo
       %h3.text--center.push-half--ends= @user.full_name
       .push-half--ends
@@ -52,11 +52,11 @@
                       #{@profile_completion}%
                 %ul.no-bullet-list
                   %li
-                    %i.fa.fa-check-square-o
+                    %i.fa-check-square-o
                     %span.line-through--gray Créer mon profil
                   %li
                     - if @user.has_avatar? and @user.city
-                      %i.fa.fa-check-square-o
+                      %i.fa-check-square-o
                       %span.line-through--gray Compléter mes informations générales
                     - else
                       = link_to edit_user_path(@user), class: 'profile-task-uncomplete' do
@@ -64,7 +64,7 @@
                         Compléter mes informations générales
                   %li
                     - if @user.subjects.any?
-                      %i.fa.fa-check-square-o
+                      %i.fa-check-square-o
                       %span.line-through--gray Mettre à jour mes passions
                     - else
                       = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do
@@ -72,7 +72,7 @@
                         Mettre à jour mes passions
                   %li
                     - if @user.followings.any?
-                      %i.fa.fa-check-square-o
+                      %i.fa-check-square-o
                       %span.line-through--gray Ajouter mes favoris
                     - else
                       = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do

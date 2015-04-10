@@ -11,20 +11,20 @@
   .gray-box.soft.relative
     = simple_form_for [:pro, @structure, @structure.comment_notifications.build] do |f|
       .grid.push-half--bottom
-        .grid__item.two-twelfths.text--right>
+        .grid__item.two-twelfths.text--right.palm-one-whole>
           %h4 À
-        .grid__item.ten-twelfths>
+        .grid__item.ten-twelfths.palm-one-whole>
           .grid
-            .grid__item.three-quarters.v-middle>
+            .grid__item.three-quarters.v-middle.palm-one-whole>
               %textarea.input--large.one-whole{ name: 'emails', rows: 3, placeholder: "Entrez les e-mails de vos élèves gardés confidentiels et non réutilisés. Ex. : patrick@gmail.com, thomas.dupont@wanadoo.fr", data: { behavior: 'autoresize' } }
-            .grid__item.one-quarter.v-middle>
+            .grid__item.one-quarter.v-middle.palm-one-whole>
               = link_to '#', class: 'btn btn--full line-height-2 text--center btn--blue', id: 'import-from-gmail' do
                 Importer vos contacts Gmail
         %hr.push-half--ends
       .grid
-        .grid__item.two-twelfths.text--right>
+        .grid__item.two-twelfths.text--right.palm-one-whole>
           %h4 Message
-        .grid__item.ten-twelfths>
+        .grid__item.ten-twelfths.palm-one-whole>
           %textarea.input--large#recommendation-user-content.one-whole{ name: 'text', rows: 5, data: { behavior: 'autoresize' } }
             Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques secondes pour laisser un avis sur mon profil ?
           %p.gray-light.push-half--top.flush--bottom
@@ -34,9 +34,9 @@
             %br
             = @structure.name
           .push-half--top.grid
-            .grid__item.one-fifth>
+            .grid__item.one-fifth.palm-one-whole>
               %a.btn.btn--full#recommendation-overview Aperçu
-            .grid__item.four-fifths>
+            .grid__item.four-fifths.palm-one-whole>
               = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
             .text--center= link_to 'Envoyer un email depuis ma boîte perso', '#hidden-send', data: { behavior: 'modal', width: 550, padding: 0 }
 
@@ -59,26 +59,29 @@
 
   %p
     Copiez puis collez ce texte sur Facebook
-  .text--center
+  .text--center.palm-text--left
     = link_to "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From recommendation page')" do
-      %span Demander des recommandations
-  %p.gray-box.soft.push-half--top.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation'), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation'), target: '_blank'} Merci !
+      %span.break-all Demander des recommandations
+  %p.gray-box.soft.push-half--top.flush--left#facebook-text>
+    Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant :
+    = link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation'), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'facebook', utm_campaign: 'recommandation'), target: '_blank', class: 'break-all'
+    Merci !
 
   %hr.push--ends
   %h4#website-reco Partagez ces deux liens sur la page d'accueil de votre site Internet
   .gray-box.soft.one-whole#website-text
     Pour que les internautes visualisent tous vos avis :
-    = link_to structure_url(@structure, website: '', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'teacher_website', utm_campaign: 'share_profile'), target: '_blank'
+    = link_to structure_url(@structure, website: '', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'teacher_website', utm_campaign: 'share_profile'), target: '_blank', class: 'break-all'
     %br
     Pour que vos élèves déposent de nouveaux avis :
-    = link_to new_structure_comment_url(@structure, website: '', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'teacher_website', utm_campaign: 'recommandation'), target: '_blank'
+    = link_to new_structure_comment_url(@structure, website: '', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'teacher_website', utm_campaign: 'recommandation'), target: '_blank', class: 'break-all'
 
 %hr.push--ends
   .gray-box.soft.one-whole
     %h4.text--center.flush
       Lien à communiquer à vos élèves pour déposer leurs recommandations :
       %br
-      #{link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank}
+      = link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'break-all'
 
   #most-used-method.hidden
     .panel

@@ -45,7 +45,7 @@
           .input
             %div.control-label
               .lbl.lbl--blue
-                %i.fa.fa-eye.soft-half--right
+                %i.fa-eye.soft-half--right
                 Public
             %h5.inline
               Déposez votre avis visible de tous
@@ -57,15 +57,15 @@
                   = @comment.errors[:email].first
               .btn-group{ data: { toggle: 'buttons' } }
                 %label.text--center.soft-half.btn.button{ class: (@comment.rating == 5 ? 'active' : ''), data: { toggle: 'popover', content: 'Super content', placement: 'top', trigger: 'hover' }}>
-                  %i.fa.fa-face-happy{ style: 'font-size: 3em;' }
+                  %i.fa-face-happy{ style: 'font-size: 3em;' }
                   %input{ type: 'radio', name: 'comment[rating]', value: 5, checked: @comment.rating == 5 }
 
                 %label.text--center.soft-half.btn.button{ class: (@comment.rating == 3 ? 'active' : ''), data: { toggle: 'popover', content: 'Neutre', placement: 'top', trigger: 'hover' }}>
-                  %i.fa.fa-face-neutral{ style: 'font-size: 3em;' }
+                  %i.fa-face-neutral{ style: 'font-size: 3em;' }
                   %input{ type: 'radio', name: 'comment[rating]', value: 3, checked: @comment.rating == 3 }
 
                 %label.text--center.soft-half.btn.button{ class: (@comment.rating == 1 ? 'active' : ''), data: { toggle: 'popover', content: 'Pas content', placement: 'top', trigger: 'hover' }}>
-                  %i.fa.fa-face-sad{ style: 'font-size: 3em;' }
+                  %i.fa-face-sad{ style: 'font-size: 3em;' }
                   %input{ type: 'radio', name: 'comment[rating]', value: 1, checked: @comment.rating == 1 }
               - if @comment.errors[:rating].any?
                 %p.input_field_error.red

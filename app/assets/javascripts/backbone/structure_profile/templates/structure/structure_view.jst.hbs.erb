@@ -19,7 +19,7 @@
                         {{#if_string_length_is_more_than this.child_names 60 }}
                             <a class="relative float--right cursor-pointer" onclick="$(this).parent().removeClass('text-ellipsis'); $(this).remove();">+ Plus</a>
                         {{/if_string_length_is_more_than}}
-                        <i class="fa fa-{{ this.icon }}"></i>
+                        <i class="fa-{{ this.icon }}"></i>
                         <strong>{{this.root_name}} : </strong> {{this.child_names}}
                     </h3>
                 </div>
@@ -110,6 +110,21 @@
     </div>
 </article>
 
+{{#unless have_upcoming_plannings}}
+    <div class="bordered--top">
+        <div class="soft gamma line-height-1-7">
+            <strong>Planning</strong>
+        </div>
+        <div class="panel__body soft--bottom soft--sides">
+            <article>
+                <p class="flush--bottom">
+                    {{ capitalize about }} n'a pas mis à jour son planning.
+                    <a class="cursor-pointer" data-behavior="show-contact-panel" data-info-planning="true">Contactez-{{ about_genre }} pour demander son planning.</a>
+                </p>
+            </article>
+        </div>
+    </div>
+{{/unless}}
 <div class="bordered--top" id="stages-ateliers" data-wrapper>
     <div class="soft gamma line-height-1-7">
         <strong>Stages et ateliers</strong>
@@ -124,7 +139,6 @@
             </div>
             <div data-type="trainings-collection"></div>
         </article>
-    </div>
     </div>
 </div>
 

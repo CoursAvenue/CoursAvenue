@@ -9,7 +9,7 @@
     %input{ type: 'radio', name: 'comment[rating]', value: 3, checked: @comment.rating == 3 }
 
   %label.text--center.soft-half.btn.button{ class: (@comment.rating == 1 ? 'active' : '') }>
-    %i.fa.fa-face-sad{ style: 'font-size: 3em;' }
+    %i.fa-face-sad{ style: 'font-size: 3em;' }
     %input{ type: 'radio', name: 'comment[rating]', value: 1, checked: @comment.rating == 1 }
   = f.hidden_field :commentable_type
   = f.hidden_field :commentable_id

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150330203438) do
+ActiveRecord::Schema.define(version: 20150408114142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -568,6 +568,14 @@ ActiveRecord::Schema.define(version: 20150330203438) do
     t.integer "media_id"
   end
 
+  create_table "newsletter_bloc_ownerships", id: false, force: true do |t|
+    t.integer "bloc_id"
+    t.integer "sub_bloc_id"
+  end
+
+  add_index "newsletter_bloc_ownerships", ["bloc_id", "sub_bloc_id"], name: "index_newsletter_bloc_ownerships_on_bloc_and_sub_bloc", unique: true, using: :btree
+  add_index "newsletter_bloc_ownerships", ["sub_bloc_id", "bloc_id"], name: "index_newsletter_bloc_ownerships_on_sub_bloc_and_bloc", unique: true, using: :btree
+
   create_table "newsletter_blocs", force: true do |t|
     t.string   "type"
     t.integer  "newsletter_id"
@@ -645,6 +653,7 @@ ActiveRecord::Schema.define(version: 20150330203438) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
+    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_request_participants", force: true do |t|
@@ -801,6 +810,9 @@ ActiveRecord::Schema.define(version: 20150330203438) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
@@ -1168,13 +1180,16 @@ ActiveRecord::Schema.define(version: 20150330203438) do
   add_index "unfinished_resources", ["visitor_id"], name: "index_unfinished_resources_on_visitor_id", using: :btree
 
   create_table "user_profile_imports", force: true do |t|
-    t.binary   "data",         null: false
+    t.binary   "data",                       null: false
     t.string   "filename"
     t.string   "mime_type"
     t.integer  "structure_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "newsletter_mailing_list_id"
   end
+
+  add_index "user_profile_imports", ["newsletter_mailing_list_id"], name: "index_user_profile_imports_on_newsletter_mailing_list_id", using: :btree
 
   create_table "user_profiles", force: true do |t|
     t.integer "structure_id"
@@ -1269,12 +1284,13 @@ ActiveRecord::Schema.define(version: 20150330203438) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
-    t.boolean  "checked",            default: false
+    t.boolean  "checked",                 default: false
     t.text     "comments"
     t.text     "sidebar_title"
     t.string   "cl_image"
     t.string   "page_title"
     t.text     "page_description"
+    t.boolean  "show_trainings_in_title", default: false
   end
 
   create_table "visitors", force: true do |t|

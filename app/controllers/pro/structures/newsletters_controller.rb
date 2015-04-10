@@ -14,7 +14,6 @@ class Pro::Structures::NewslettersController < ApplicationController
       @newsletter = @structure.newsletters.find params[:id]
     end
     @mailing_lists = @structure.mailing_lists
-    @tags          = @structure.user_profiles.includes(:tags).flat_map(&:tags).map(&:name).uniq
   end
 
   def create
@@ -93,7 +92,7 @@ class Pro::Structures::NewslettersController < ApplicationController
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
     duplicated_newsletter = @newsletter.duplicate!
 
-    redirect_to pro_structure_newsletter_path(@structure, duplicated_newsletter), notice: 'Newsletter dupliquée avec succés.'
+    redirect_to pro_structure_newsletters_path(@structure), notice: 'Newsletter dupliquée avec succés.'
   end
 
   # Generate the newsletter as a String
@@ -137,7 +136,7 @@ class Pro::Structures::NewslettersController < ApplicationController
       id = layout_["attributes"]["id"]
 
       layout_["attributes"].merge({
-        image: view_context.asset_path("pro/newsletters/layouts/layout_#{id}.png"),
+        image:   view_context.asset_path("pro/newsletters/layouts/layout_#{id}.png"),
         image2x: view_context.asset_path("pro/newsletters/layouts/layout_#{id}@2x.png")
       })
     end

@@ -1,20 +1,24 @@
 %tr{ id: "place-#{place.id}"}
-  %td
-    - if current_pro_admin
-      = link_to place.name, edit_pro_structure_place_path(structure, place)
-    - else
-      = link_to place.name, place_url(place, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
-  %td= place.address
-  %td.text--center
-    - if place.info.present? or place.private_info.present?
-      %a{ data: { toggle: 'popover', content: place.decorate.popover_place_infos, html: 'true', placement: 'top', trigger: 'hover' } }
-        %i.fa.fa-info
-  %td.text--right.nowrap
-    = link_to edit_pro_structure_place_path(structure, place), class: 'orange fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 } do
-      %i.fa.fa-pencil
-      Modifier
-    \/
-    = link_to ask_for_deletion_pro_structure_place_path(structure, place), class: 'red fancybox.ajax', data: { behavior: 'modal', width: '400', padding: '0' } do
-      %i.fa.fa-trash-o
-      Supprimer
+  %td{ data: { th: 'Nom du lieu' } }
+    %div
+      - if current_pro_admin
+        = link_to place.name, edit_pro_structure_place_path(structure, place)
+      - else
+        = link_to place.name, place_url(place, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  %td{ data: { th: 'Adresse' } }
+    %div= place.address
+  %td.text--center{ data: { th: 'Infos' } }
+    %div
+      - if place.info.present? or place.private_info.present?
+        %a{ data: { toggle: 'popover', content: place.decorate.popover_place_infos, html: 'true', placement: 'top', trigger: 'hover' } }
+          %i.fa-info
+  %td.text--right.nowrap{ data: { th: 'Actions' } }
+    %div
+      = link_to edit_pro_structure_place_path(structure, place), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: '750', padding: 0 } do
+        %i.fa-pencil
+        Modifier
+      \/
+      = link_to ask_for_deletion_pro_structure_place_path(structure, place), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: '400', padding: '0' } do
+        %i.fa-trash-o
+        Supprimer
 

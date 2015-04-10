@@ -3,7 +3,7 @@ class ::Pro::AdminsController < InheritedResources::Base
   before_action :authenticate_pro_admin!, except: [:waiting_for_activation, :facebook_auth_callback, :facebook_auth_failure]
   load_and_authorize_resource :admin, except: [:waiting_for_activation, :show, :facebook_auth_callback, :facebook_auth_failure], find_by: :slug
 
-  layout 'admin'
+  layout :get_layout
 
   respond_to :js, :json
 
@@ -126,6 +126,14 @@ class ::Pro::AdminsController < InheritedResources::Base
       edit_pro_structure_path(admin.structure)
     else
       session['pro_admin_return_to'] || dashboard_pro_structure_path(admin.structure)
+    end
+  end
+
+  def get_layout
+    if action_name == 'waiting_for_activation'
+      'empty'
+    else
+      'admin'
     end
   end
 

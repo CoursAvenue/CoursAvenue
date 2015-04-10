@@ -1,0 +1,20 @@
+- content_for :email_title do
+  Votre import est terminé.
+
+.title
+  Votre import est terminé.
+
+.p
+  Vous pouvez retrouver vos #{pluralize @total_wanted, 'contact'} dans la liste de difusion de votre newsletter
+  - if @error_emails.any?
+    Malheureusement certains emails n'ont pas pu être importé. Veuillez vérifier leur synthaxe :
+    - @error_emails.each do |email|
+      %br
+      = email
+
+.p.action
+  = link_to "Voir ma newsletter", mailing_list_pro_structure_newsletter_url(@structure, @newsletter, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+
+.p N'hésitez pas à nous solliciter si vous avez des questions ! Merci et à très bientôt,
+
+= render 'shared/mailers/footer'

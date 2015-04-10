@@ -8,7 +8,7 @@ class StructureSerializer < ActiveModel::Serializer
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url,
               :data_url, :query_params, :structure_type, :highlighted_comment_title,
               :has_promotion, :is_open_for_trial, :cover_media, :subjects, :current_filtered_subject_name,
-              :cities_text, :min_price_amount, :is_open_for_trial
+              :cities_text, :min_price_amount
 
   has_many :places,            serializer: PlaceSerializer
   has_many :preloaded_medias,  serializer: MediaSerializer
@@ -67,10 +67,6 @@ class StructureSerializer < ActiveModel::Serializer
 
   def query_params
     @options[:query]
-  end
-
-  def is_open_for_trial
-    object.is_open_for_trial?
   end
 
   def current_filtered_subject_name

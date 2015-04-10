@@ -8,12 +8,14 @@
         - else
           - image = subject_image(subject)
         .relative.bg-cover{style: "background-image: url('#{image}'); height: 150px; "}>
-          - cache [subject, vertical_page, 'vertical_page/show/subjects/v1', @city] do
+          - cache [subject, vertical_page, 'vertical_page/show/subjects/v3', @city] do
             - if @city
               - url = vertical_page_with_city_path(subject.root, vertical_page, @city)
+            - elsif subject.depth == 0
+              - url = root_vertical_page_path(vertical_page)
             - else
               - url = vertical_page_path(subject.root, vertical_page)
             = link_to url, class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain', title: "Cours de #{subject.name}" do
               .home-screen-gallery__title.text--center
-                %h6.f-weight-normal.delta.push-half--bottom= vertical_page.subject_name
-                .show-on-hover__child.milli Voir le guide
+                %h6.f-weight-normal.delta.push-half--bottom= vertical_page.title
+                .show-on-hover__child.f-size-12 Voir le guide

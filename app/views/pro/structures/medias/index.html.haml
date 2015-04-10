@@ -6,17 +6,17 @@
   = simple_form_for [:pro, @structure, @image], url: pro_structure_images_path(@structure), html: { id: 'image-form', class: 'inline-block v-middle' } do |f|
     = f.error_notification
     = f.filepicker_field :url, multiple: true, button_text: 'Ajouter une photo', button_class: 'fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false
-.flexbox.push--bottom{ data: { behavior: 'wizard-helper', content: t('pro.medias.wizard.infos')} }
-  .flexbox__item.v-middle
+.grid.push--bottom{ data: { behavior: 'wizard-helper', content: t('pro.medias.wizard.infos')} }
+  .grid__item.v-middle.one-half.palm-one-whole>
     %h1.flush Photos & Vidéos
-  .flexbox__item.v-middle.text--right
+  .grid__item.v-middle.text--right.one-half.palm-one-whole.palm-text--left>
     - if @medias.any?
       = render 'pro/structures/medias/button_dropdown'
 - if @medias.any?
   %p.soft-half--top.soft--sides.flush#first-photo-helper.visibility-hidden
     %strong Votre première photo / vidéo figure dans les résultats de recherche !
   - @medias.each_with_index do |media, index|
-    .inline-block.one-third.push-half--bottom{ class: (index % 3 == 1 ? 'soft-half--sides' : '')}>
+    .inline-block.one-third.palm-one-whole.palm-hard.push-half--bottom{ class: (index % 3 == 1 ? 'soft-half--sides' : '')}>
       - cache [media, 'pro/structures/medias/index'] do
         = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, structure: @structure }
 - else

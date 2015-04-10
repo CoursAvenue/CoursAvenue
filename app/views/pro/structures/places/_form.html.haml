@@ -43,22 +43,22 @@
         .soft--sides
           %hr.push--ends
           %h5
-            %i.fa.fa-info
+            %i.fa-info
             Infos pratiques
 
           = f.input :info, input_html: { class: 'input--large', data: { behavior: 'autoresize' } }, label_html: { class: 'label--large' }
           .input<
             %label.label--large.text.optional.control-label{for: "course_private_info"}
-              %i.fa.fa-lock
+              %i.fa-lock
               Privées
             = f.input :private_info, label: false, input_html: { data: { behavior: 'autoresize' }}, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole input--large' }
 
       .soft--sides.push--top
         .grid--full.push--top
-          .grid__item.three-twelfths.soft-half--right>
+          .grid__item.three-twelfths.soft-half--right.palm-one-whole.palm-hard>
             - if params[:return_to_action].present?
               %a.btn.btn--full.btn--gray{ onclick: "#{params[:return_to_action]}"} Annuler
             - else
               %a.btn.btn--full.btn--gray{ onclick: '$.fancybox.close();' } Annuler
-          .grid__item.nine-twelfths>
+          .grid__item.nine-twelfths.palm-one-whole.palm-hard>
             = f.submit (@place.is_home? ? 'Enregistrer' : 'Suivant'), class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }

@@ -19,7 +19,7 @@
               .input-container>
                 = phone_number_form.input :number, label: false, input_html: { class: 'input--large one-whole', id: "phone_number_number_#{i}" }, wrapper_html: { class: 'inline-block v-middle flush' }
                 %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
-                  %i.fa.fa-trash-o
+                  %i.fa-trash-o
                   Supprimer
       .input
         .control-label>
@@ -30,12 +30,12 @@
 
   %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts.sms') } }
     .grid
-      .grid__item.one-quarter>
-        .label--large.text--right
+      .grid__item.one-quarter.palm-one-whole>
+        .label--large.text--right.palm-text--left
           Alertes SMS
-      .grid__item.three-quarters>
+      .grid__item.three-quarters.palm-one-whole>
         .checkbox-at-left
-          = form.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large nowrap hard--bottom' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, label: 'Recevoir un SMS à chaque nouvel inscrit au '
+          = form.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large hard--bottom' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, label: 'Recevoir un SMS à chaque nouvel inscrit au '
           = form.input :principal_mobile_id, as: :select, collection: @structure.phone_numbers.select(&:mobile?), label_method: :number, label: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, include_blank: false
 
   %hr.push--ends

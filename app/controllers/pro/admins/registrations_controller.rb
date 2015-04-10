@@ -5,7 +5,9 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
   def new
     @structure = Structure.where(slug: params[:structure_id]).first
     if @structure
-      if @structure.is_sleeping?
+      # TODO: fix this, when creating a structure, it is sleeping and if we remove
+      # `@structure.created_at < 1.day.ago` it will be redirected to take_control page!
+      if @structure.is_sleeping? and @structure.created_at < 1.day.ago
         @admin = @structure.admins.build
         render template: 'pro/admins/registrations/take_control'
       else

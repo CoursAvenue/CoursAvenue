@@ -1,26 +1,24 @@
-.flexbox
-  .flexbox__item.v-top.nowrap
-    - cache [@structure, 'structure/show/breadcrumb/v2'] do
-      %ol.nav.breadcrumb.push-half--bottom
-        %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-          = link_to root_search_page_without_subject_path(@city), class: 'white', itemprop: 'url' do
-            %span{ itemprop: 'title' }
-              = "Tous les cours à #{@city.name}"
-        - dominant_root_subject = @structure.dominant_root_subject
-        - if dominant_root_subject
-          %li.f-weight-600.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-            = link_to root_search_page_path(dominant_root_subject, @city), class: 'white', itemprop: 'url' do
-              %span{ itemprop: 'title' }
-                = dominant_root_subject.name
-        %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-          %span{ itemprop: 'title' }
-            = @structure.name
-  .flexbox__item.v-top.one-whole.text--right>
+- if @structure.vertical_pages_breadcrumb.present?
+  - cache [@structure, 'structure/show/breadcrumb/vertical_pages/V1', @structure.vertical_pages_breadcrumb] do
+    - paris = City.find('paris') if @structure.is_parisian?
     %ol.nav.breadcrumb.push-half--bottom
       %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to vertical_pages_path, itemprop: 'url', class: "white" do
           %span{ itemprop: 'title' }= "Nos guides"
+      - root_page_slug = @structure.vertical_pages_breadcrumb.split('|').first.split(';').first
+      - @structure.vertical_pages_breadcrumb.split('|').each_with_index do |couple, index|
+        - vertical_page_slug, vertical_page_name = couple.split(';')
+        %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+          - if index == 0
+            = link_to root_vertical_page_path(vertical_page_slug), itemprop: 'url', class: "white" do
+              %span{ itemprop: 'title' }= "#{vertical_page_name}"
+          - else
+            - if @structure.is_parisian?
+              = link_to vertical_page_with_city_path(root_page_slug, vertical_page_slug, paris), itemprop: 'url', class: "white" do
+                %span{ itemprop: 'title' }= VerticalPage.find(vertical_page_slug).decorate.page_h1(paris)
+            - else
+              = link_to vertical_page_path(root_page_slug, vertical_page_slug), itemprop: 'url', class: "white" do
+                %span{ itemprop: 'title' }= "#{vertical_page_name}"
       %li.f-weight-500.white{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to vertical_page_with_city_path(@structure.dominant_root_subject, @structure.dominant_vertical_page, @structure.dominant_city), itemprop: 'url', class: "white" do
-          %span{ itemprop: 'title' }= "#{@structure.dominant_vertical_page.subject_name} à #{@structure.dominant_city.name}"
-
+        %span{ itemprop: 'title' }
+          = @structure.name

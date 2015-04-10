@@ -10,11 +10,11 @@
         .north.west.absolute
           - if structure.is_open_for_trial?
             .lbl.lbl--yellow.push--left.push--top
-              %i.fa.fa-ticket
+              %i.fa-ticket
               Essai gratuit
           - if structure.premium? and structure.has_promotion?
             .lbl.lbl--yellow.push--left.push--top
-              %i.fa.fa-star
+              %i.fa-star
               Promotions
       .absolute.text--center.one-whole{ style: 'top: 90px;' }
         .gamma.white.opacity-hidden-on-hover__child Voir le profil

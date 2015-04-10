@@ -7,6 +7,7 @@
 
   = f.filepicker_field :remote_cl_image_url, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true, class: "filepicker-dragdrop text--center", drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft--ends text--center push--bottom", drag_text: "Glissez votre image ici ou cliquez pour changer de logo"
 
+  = f.input :show_trainings_in_title, as: :boolean
   = f.input :subject_name, label: false, input_html: { class: 'input--large one-whole'}
   = f.input :page_title, label: false, input_html: { class: 'input--large one-whole'}
   %p.flush.epsilon Environ 155 caractères

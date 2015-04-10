@@ -3,15 +3,15 @@
 
 UserManagement.module('Views.UserProfilesCollection', function(Module, App, Backbone, Marionette, $, _) {
 
-    var CHEVRON_UP   = "soft-half--left fa fa-chevron-up";
-    var CHEVRON_DOWN = "soft-half--left fa fa-chevron-down";
+    var CHEVRON_UP   = "soft-half--left fa-chevron-up";
+    var CHEVRON_DOWN = "soft-half--left fa-chevron-down";
 
     Module.UserProfilesCollectionView = CoursAvenue.Views.PaginatedCollectionView.extend({
         template: Module.templateDirname() + 'user_profiles_collection_view',
         childView: Module.UserProfile.UserProfileView,
         childViewContainer: '[data-type=container]',
         className: 'relative',
-        chevron: Handlebars.compile("<span class='soft-half--left fa fa-chevron-{{ order }}' data-type='order'></span>"),
+        chevron: Handlebars.compile("<span class='soft-half--left fa-chevron-{{ order }}' data-type='order'></span>"),
 
         initialize: function initialize () {
             this.setEditing            = _.debounce(this.setEditing).bind(this);

@@ -3,7 +3,7 @@
 .flexbox.push--bottom
   .flexbox__item.v-middle
     = link_to new_pro_structure_newsletter_path(@structure), class: 'btn' do
-      %i.fa.fa-chevron-left.v-middle
+      %i.fa-chevron-left.v-middle
       Retour
 
 - if @newsletter.sent? and @metric.present?

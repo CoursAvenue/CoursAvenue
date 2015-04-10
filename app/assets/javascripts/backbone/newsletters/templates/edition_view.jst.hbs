@@ -1,9 +1,13 @@
-<div class='flexbox'>
+<div class='text--right'>
+  <a class='btn btn--gray fancybox.ajax' href='{{ previewUrl }}' data-behavior='modal' data-width='700' data-padding='0'>
+    <i class='fa-eye'></i>
+    Previsualiser
+  </a>
+  <a href='javascript:void(0)' data-next='true' class='btn btn--green'>Étape suivante</a>
+</div>
+<div class='flexbox push-half--ends'>
   <div class='flexbox__item v-middle text--right'>
-    <a class='btn btn--green fancybox.ajax' href='{{ previewUrl }}' data-behavior='modal' data-width='700' data-padding='0'>
-      <i class='fa fa-eye'></i>
-      Previsualiser
-    </a>
+    <a href='javascript:void(0)' data-previous='true' class=''>Étape précédente</a>
   </div>
 </div>
 
@@ -11,16 +15,11 @@
   <input type="hidden" name="{{ csrfName }}" value="{{ csrfToken }}">
 
   <label for="title" class='label--large blue'>Titre de votre newsletter</label>
-  <p class="flush">Le titre de votre newsletter sera également l'objet de votre email. Pensez à être claire dans sa formulation.</p>
+  <p class="flush">Pensez à être clair dans sa formulation.</p>
   <input id="title" class='input--large one-whole' name="title" type="text" placeholder="Prochains stages à venir !" value="{{ title }}" required/>
   <input type='hidden' name='layout_id' value="{{ layout_id }}" />
 
   <hr class="push--ends">
 
   <div data-type='bloc'></div>
-
-  <div class='text--center'>
-    <a data-previous='true' class='btn btn--green two-fifths soft-half--ends'>Étape précédante</a>
-    <button type='submit' class='btn btn--green two-fifths soft-half--ends' data-disable-with="En cours d'enregistrement">Étape suivante</button>
-  </div>
 </form>

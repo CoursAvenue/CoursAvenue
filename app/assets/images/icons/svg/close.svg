@@ -1,47 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-<g id="Captions">
-</g>
-<g id="Plus">
-</g>
-<g id="Minus">
-</g>
-<g id="Right">
-</g>
-<g id="Left">
-</g>
-<g id="Up">
-</g>
-<g id="Down">
-</g>
-<g id="Play">
-</g>
-<g id="Forward">
-</g>
-<g id="Reverse">
-</g>
-<g id="Stop">
-</g>
-<g id="Pause_1_">
-</g>
-<g id="Record">
-</g>
-<g id="Close">
-	<circle fill="none" stroke="#000000" stroke-width="6" stroke-miterlimit="10" cx="50" cy="50" r="47"/>
-	<line fill="none" stroke="#000000" stroke-width="6" stroke-miterlimit="10" x1="71.214" y1="71.213" x2="28.787" y2="28.787"/>
-	<line fill="none" stroke="#000000" stroke-width="6" stroke-miterlimit="10" x1="28.787" y1="71.213" x2="71.214" y2="28.787"/>
-</g>
-<g id="Check">
-</g>
-<g id="Power">
-</g>
-<g id="Skip_Forward">
-</g>
-<g id="Skip_Backward">
-</g>
-<g id="Cancel">
-</g>
-<g id="Info">
-</g>
-<g id="Help">
-</g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="102px" height="102px"
+	 viewBox="0 0 102 102" enable-background="new 0 0 102 102" xml:space="preserve">
+<title>Shape</title>
+<desc>Created with Sketch.</desc>
+<path id="Page-1" sketch:type="MSPage" d="M0.591,50.909C0.591,23.114,23.205,0.5,51,0.5
+	c27.796,0,50.409,22.614,50.409,50.409c0,27.796-22.613,50.409-50.409,50.409C23.205,101.318,0.591,78.705,0.591,50.909z
+	 M51.5,48.394L27.719,24.613l-2.606,2.606L48.894,51L25.113,74.781l2.606,2.605L51.5,53.605l23.781,23.781l2.605-2.605L54.105,51
+	l23.781-23.781l-2.605-2.606L51.5,48.394z M51,6.115c-24.7,0-44.794,20.094-44.794,44.794S26.3,95.703,51,95.703
+	c24.701,0,44.794-20.094,44.794-44.794S75.701,6.115,51,6.115z"/>
 </svg>

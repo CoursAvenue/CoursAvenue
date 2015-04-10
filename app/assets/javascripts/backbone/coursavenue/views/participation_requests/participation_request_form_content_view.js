@@ -199,6 +199,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
          * If the student can choose between his home and an address, we show a dropdown
          */
         updateAddressField: function updateAddressField () {
+            var address_with_info;
             if (!this.getCurrentCourse()) { return; }
 
             // Hide everything in case some stuff was visible
@@ -214,7 +215,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 teacher_place_option.val(this.getCurrentCourse().get('place').id);
                 this.hideStudentAddressWrapper();
             // If teachers at home but DO NOT have a place, show address form
-            } else if (this.getCurrentCourse().get('teaches_at_home') || this.getCurrentPlanning().teaches_at_home) {
+            } else if (this.getCurrentCourse().get('teaches_at_home') || (this.getCurrentPlanning() && this.getCurrentPlanning().teaches_at_home)) {
                 var address = (this.getCurrentPlanning() ? this.getCurrentPlanning().address : this.getCurrentCourse().get('course_location'));
                 this.ui.$address_info.show().text('À votre domicile').attr('data-content', address);
                 this.ui.$address_info.parent().addClass('text-ellipsis');

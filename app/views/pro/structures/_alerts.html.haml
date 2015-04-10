@@ -18,7 +18,7 @@
           Plus vous répondez rapidement (de préférence sous 48h), plus vous avez de chances que cet élève s'inscrive à vos cours.
         - if conversation.created_at > 2.days.ago
           .float--right.nowrap.orange
-            %i.fa.fa-clock-o.delta
+            %i.fa-clock-o.delta
             %strong.epsilon Expire dans
             %strong.delta{ id: "conversation-countdown-#{conversation.id}" }
         %div

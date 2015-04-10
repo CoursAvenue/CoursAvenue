@@ -1,7 +1,7 @@
 - @is_responsive = true
 .bg-fixed.home-screen-promotion-wrapper.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{asset_path 'pro/home_background7.jpg'})" }
   .main-container.main-container--medium.soft
-    %h1.flush= t('.log_in')
+    %h1.flush.palm-gamma= t('.log_in')
 
 .main-container.main-container--medium.soft
   .white-box.soft
@@ -15,9 +15,9 @@
       .form-inputs
         = f.input :email, required: false, autofocus: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
         = f.input :password, required: false, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-        = f.input :remember_me, as: :boolean, input_html: { class: 'flush--top input--large' }, label_html: { class: 'label--large' }
+        = f.input :remember_me, as: :boolean, input_html: { class: 'flush--top input--large' }, label_html: { class: 'label--large' }, wrapper_class: { class: 'checkbox-at-left' }
 
-      .form-actions.one-whole
+      .one-whole
         = f.button :submit, "Se connecter", class: 'btn--green btn--full', data: { disable_with: 'Connexion en cours...' }
         .push-half--top
           = render "pro/admins/shared/links"

@@ -1,0 +1,47 @@
+/*
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@include media-query(palm) {
+    table.table-responsive {
+        width: 100%;
+        tr {
+            border-top   : 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            display      : block;
+            border-bottom: none !important;
+            &:last-child  { border-bottom: 1px solid #CCCCCC !important; }
+        }
+        thead { display: none; }
+
+        td {
+            display     : table;
+            width       : 100%;
+            border-left : 1px solid #DDD!important;
+            border-right: 1px solid #DDD!important;
+            &.nowrap { white-space: normal !important; }
+            &:first-child { padding-top: 0.5em; }
+            &:last-child  { padding-bottom: 0.5em; }
+            > div {
+                display       : table-cell;
+                vertical-align: middle;
+                padding       : 5px;
+            }
+            &:before {
+                vertical-align: middle;
+                content    : attr(data-th); // who knew you could do this? The internet, that's who.
+                font-weight: bold;
+                width      : 35% !important;
+                display    : table-cell;
+                padding    : 5px;
+                border-right: 1px solid #CCCCCC;
+            }
+        }
+        th, td {
+            &, &.text--center, &.text--right {
+                text-align: left !important;
+            }
+        }
+    }
+}

@@ -1,3 +1,16 @@
+<div class='text--right'>
+  <a class='btn btn--gray fancybox.ajax' href='{{ previewUrl }}' data-behavior='modal' data-width='700' data-padding='0'>
+    <i class='fa fa-eye'></i>
+    Previsualiser
+  </a>
+  <a href='javascript:void(0)' data-next='true' class='btn btn--green'>Étape suivante</a>
+</div>
+<div class='flexbox push-half--ends'>
+  <div class='flexbox__item v-middle text--right'>
+    <a href='javascript:void(0)' data-previous='true' class=''>Étape précédente</a>
+  </div>
+</div>
+
 {{#if hasElements }}
 <div data-type='mailing-list'>
   {{#if showAllProfilesOption}}
@@ -6,16 +19,6 @@
       <label for='mailing_list_all_profiles'>Envoyer à tous les contacts du répertoire</label>
     </div>
   {{/if}}
-</div>
-
-<div class='soft'>
-  <a data-import="true" href="javascript:void(0)">
-    Importer mon fichier de contact
-</div>
-
-<div class='text--center'>
-  <a data-previous='true' class='btn btn--green  two-fifths soft-half--ends'>Étape précédante</a>
-  <button type='submit' class='btn btn--green two-fifths soft-half--ends' data-disable-with="En cours d'enregistrement">Étape suivante</button>
 </div>
 {{else}}
 <div data-type='mailing-list'></div>

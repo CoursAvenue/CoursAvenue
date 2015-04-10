@@ -2,6 +2,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
     Module.LayoutsCollectionView = Backbone.Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'layouts_collection_layout',
         tagName: 'div',
+        className: 'text--center',
         childViewContainer: '[data-type=layout]',
         childView: Module.LayoutView,
 

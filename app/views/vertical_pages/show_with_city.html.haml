@@ -1,12 +1,12 @@
 - @is_reponsive = true
-- @title = "#{@vertical_page.subject_name} à #{@city.name}"
+- @title = "#{@vertical_page.subject_name} à #{@city.name} (#{@city.department_code})"
 - @total = Planning.count
 
 = content_for :title do
-  = "#{@title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com".html_safe
+  = @vertical_page_decorator.page_title(@city)
 
 = content_for :meta_description do
-  #{@title} : #{@total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com. Consultez #{number_with_delimiter @total_comments} avis d'élèves, #{number_with_delimiter @total_medias} photos. Inscrivez-vous gratuitement sur CoursAvenue.com
+  = "#{@vertical_page_decorator.page_h1} à #{@city.name} (#{@city.department_code}) : toutes les écoles de #{@vertical_page.subject_name.downcase} à #{@city.name}, stages, cours d'essai gratuits, plannings, tarifs, conseils, avis, promotions"
 
 - slug = @subject.root.slug
 - if @vertical_page.image.present?
@@ -16,7 +16,7 @@
 
 .bg-fixed.bg-cover{ style: "background-image: url('#{bg}')" }
   .main-container.main-container--medium.soft--ends
-    %h1.white.soft-black-text-shadow= @title
+    %h1.white.soft-black-text-shadow= @vertical_page_decorator.page_h1(@city)
     - if @vertical_page.caption
       %h4.center-block.white.soft-black-text-shadow
         = @vertical_page.caption
@@ -24,20 +24,21 @@
 - content_present = [@vertical_page.content, @subject.good_to_know, @subject.needed_meterial, @subject.tips].reject(&:blank?).any?
 
 .main-container.main-container--medium.soft--ends
-  %ul.nav.breadcrumb.epsilon.push--bottom
-    - @ancestors.each do |ancestor|
-      - next if ancestor.vertical_pages.empty?
-      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-        = link_to vertical_page_path(ancestor.root, ancestor.vertical_pages.first), itemprop: 'url' do
-          %span{ itemprop: 'title' }= ancestor.vertical_pages.first.subject_name
-    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-      = link_to vertical_page_path(@subject.root, @vertical_page), itemprop: 'url' do
-        %span{ itemprop: 'title' }= @vertical_page.subject_name
-    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-      %span{ itemprop: 'title' }= @city.name
-
   .grid
     .grid__item.six-tenths.soft--right.palm-one-whole>
+      %ul.nav.breadcrumb.epsilon.push--bottom
+        - @ancestors.each do |ancestor|
+          - next if ancestor.vertical_pages.empty?
+          - if ancestor.depth == 0
+            %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+              = link_to root_vertical_page_with_city_path(ancestor.vertical_pages.first, @city), itemprop: 'url' do
+                %span{ itemprop: 'title' }= ancestor.vertical_pages.first.subject_name
+          - else
+            %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+              = link_to vertical_page_with_city_path(ancestor.root, ancestor.vertical_pages.first, @city), itemprop: 'url' do
+                %span{ itemprop: 'title' }= ancestor.vertical_pages.first.subject_name
+        %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+          %span{ itemprop: 'title' }= "#{@vertical_page.subject_name} à #{@city.name}"
       - bg_thumb   = @vertical_page.image.url(:thumb)
       - if @subject.root.vertical_pages.any?
         - bg_thumb_2 = @subject.root.vertical_pages.first.image.url(:thumb)
@@ -48,28 +49,30 @@
           = link_to search_page_path(@subject.root, @subject, @city), class: 'block muted-link' do
             .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb}')" }
               = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'
-          %h2.delta.line-height-1-7= link_to "Essai gratuits à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
+          %h3.delta.line-height-1-7= link_to "Essai gratuits à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
         .grid__item.one-half>
           = link_to search_page_path(@subject.root, @subject, @city), class: 'block muted-link' do
             .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb_2}')" }
               = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'
-          %h2.delta.line-height-1-7= link_to "Promotions à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
+          %h3.delta.line-height-1-7= link_to "Promotions à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
 
       %hr
-      %h4.flush
-        #{StructureSearch.search(radius: 3, lat: @city.latitude, lng: @city.longitude, subject_id: @vertical_page.subject.slug, per_page: 8).total}
+      %h2.flush.delta
+        #{StructureSearch.search(radius: 3, lat: @city.latitude, lng: @city.longitude, subject_id: @subject.slug, per_page: 8).total}
         établissements à #{@city.name} pour prendre des cours de #{@vertical_page.subject_name}
       .text--right= link_to ">> Voir tous les cours de #{@vertical_page.subject_name} à #{@city.name}", search_page_path(@subject.root, @subject, @city)
+      - if (total = PlanningSearch.search({ course_type: 'training', lat: @city.latitude, lng: @city.longitude, subject_id: @subject.slug }, group: :structure_id_str)).total > 10
+        %h2.flush.delta
+          Découvrez nos #{total} stages de #{@vertical_page.subject_name} à #{@city.name}
+        .text--right= link_to ">> Voir tous les stages de #{@vertical_page.subject_name}", search_page_path(@subject.root, @subject, @city, course_types: ['training'])
 
       %hr.push-half--ends
 
-      .blog-article__content.push--top
+      .vertical-page__content.push--top
         - if @vertical_page.content.present?
           %h3= @vertical_page.title
           = @vertical_page.content.html_safe
         - else
-          - if [@subject.good_to_know, @subject.needed_meterial, @subject.tips].reject(&:blank?).any?
-            %hr.push--top
           - if @subject.good_to_know.present?
             %h4 Bon à savoir / Qu'est-ce que c'est ?
             %p= @subject.good_to_know
@@ -82,33 +85,15 @@
       - if @vertical_page.medias.any?
         = render partial: 'structures/map_and_gallery', locals: { medias: @vertical_page.medias, without_map: true }
       - if @subject.depth == 2
-        %h3= "D'autres disciplines qui pourraient vous plaire :"
-        - @subject.siblings.each do |sibling|
-          - sibling.vertical_pages.each do |vertical_page|
-            .inline-block.one-half>
-              = link_to vertical_page.subject_name, vertical_page_with_city_path(@subject.root, vertical_page, @city), class: 'epsilon line-height-1-7'
+        = render partial: 'vertical_pages/siblings'
     .grid__item.four-tenths.palm-one-whole>
       %h3 #{@vertical_page.subject_name} : sélection à #{@city.name}
-      .panel
-        %ul.nav.tabs.panel__header
-          %li.active
-            %a{ href: '#choisis-pour-vous', data: { toggle: 'tab' } } Choisis pour vous
-          %li
-            %a{ href: '#essai-gratuits', data: { toggle: 'tab' } } Cours d'essai gratuits
-        .panel__body.soft--ends.soft-half--sides.tab-content
-          - without_structure_ids = []
-          - trial_structures = StructureSearch.search(radius: 500, lat: @city.latitude, lng: @city.longitude, order_by: 'is_open_for_trial', subject_id: @vertical_page.subject.slug, per_page: 8).results
-          .tab-pane#essai-gratuits
-            - trial_structures.each_with_index do |structure, index|
-              - without_structure_ids << structure.id
-              - cache [structure, 'vertical_pages/show'] do
-                = render partial: 'vertical_pages/structure', locals: { structure: structure }
-          - other_structures = StructureSearch.search(radius: 500, lat: @city.latitude, lng: @city.longitude, subject_id: @vertical_page.subject.slug, per_page: 8, without_ids: without_structure_ids).results
-          .tab-pane#choisis-pour-vous.active
-            - other_structures.each_with_index do |structure, index|
-              - cache [structure, 'vertical_pages/show'] do
-                = render partial: 'vertical_pages/structure', locals: { structure: structure }
-          .text--right= link_to "#{@vertical_page.subject_name} : voir tous les cours à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'epsilon'
+      .bg-white.bordered.soft--ends.soft-half--sides.tab-content
+        - structures = StructureSearch.search(radius: 500, lat: @city.latitude, lng: @city.longitude, order_by: 'is_open_for_trial', subject_id: @vertical_page.subject.slug, per_page: 8).results
+        - structures.each_with_index do |structure, index|
+          - cache [structure, 'vertical_pages/show'] do
+            = render partial: 'vertical_pages/structure', locals: { structure: structure }
+        .text--center= link_to "Voir tous les cours de #{@vertical_page.subject_name} à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'epsilon'
 
 
 - if @subject.depth == 0
@@ -135,7 +120,7 @@
                 .flexbox__item.soft--left.v-top.text--center.visuallyhidden--palm>
                   = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
                     = image_tag (review.user || User.active.with_avatar.sample).avatar_url(:thumb), class: 'block rounded--circle', width: 60, height: 60
-                  .milli.soft-half--top
+                  .soft-half--top.break-all
                     = review.author_name
                 .flexbox__item.soft--sides.v-top.palm-one-whole>
                   .message__body.soft-half.message__appendix.gray-box
@@ -148,11 +133,11 @@
                         À propos de
                         = link_to review.structure.name, structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
 
-- if @vertical_page.keywords
-  - cache [@vertical_page, 'vertical_page/show/keywords'] do
-    .main-container.main-container--medium.soft--ends.text--center
-      - @vertical_page.keywords.split(',').each do |keyword|
-        %span.push-half--right= link_to "#{keyword} à #{@city.name}", structures_path_for_city_and_subject(@city, @subject)
+-# - if @vertical_page.keywords
+-#   - cache [@vertical_page, 'vertical_page/show/keywords'] do
+-#     .main-container.main-container--medium.soft--ends.text--center
+-#       - @vertical_page.keywords.split(',').each do |keyword|
+-#         %span.push-half--right= link_to "#{keyword} à #{@city.name}", structures_path_for_city_and_subject(@city, @subject)
 
 = content_for :scripts do
   :javascript

@@ -55,8 +55,10 @@ class Pro::Structures::ConversationsController < ApplicationController
   def index
     if params[:conversation_label_id].present?
       @conversations = @admin.mailbox.conversations.where(mailboxer_label_id: params[:conversation_label_id])
-    else
+    elsif @admin
       @conversations = @admin.mailbox.conversations
+    else
+      @conversations = []
     end
     @conversations = Kaminari.paginate_array(@conversations).page(params[:page] || 1).per(15)
   end

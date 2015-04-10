@@ -18,7 +18,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.router     = options.router;
             this.newsletter = options.newsletter;
 
-            _.bindAll(this, 'setCurrentTab', 'updateNav', 'nextStep', 'previousStep',
+            _.bindAll(this, 'setCurrentTab', 'updateNav', 'enableNavItem',
+                      'nextStep', 'previousStep', 'scrollUp',
                       'selectNewsletterLayout', 'finishEdition',
                       'savingSuccessCallback', 'savingErrorCallback');
         },
@@ -115,6 +116,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             this.listenTo(mailing_list_collection_view, 'selected', this.selectMailingList);
             this.listenTo(mailing_list_collection_view, 'previous', this.previousStep);
+            mailing_list_collection.on('add', function (model, collection, options) {
+                this.selectMailingList( { model: model });
+            }.bind(this));
 
             this.getRegion('mailing-list').show(mailing_list_collection_view);
             this.getRegion('mailing-list').$el.show();
@@ -154,9 +158,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         updateNav: function updateNav (event) {
-
             var eventSender = $(event.toElement);
-            var fragment     = eventSender.data('newsletter-nav');
+            var fragment    = eventSender.data('newsletter-nav');
+            var disabled    = eventSender.data('newsletter-disabled');
 
             var memberRoutes = ['remplissage', 'liste-de-diffusion', 'recapitulatif', 'previsualisation'];
 
@@ -165,7 +169,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 fragment = id + '/' + fragment;
             }
 
-            this.router.navigate(fragment, { trigger: true });
+            if (disabled) {
+                COURSAVENUE.helperMethods.flash('Veuillez compléter l’étape actuelle.', 'error', { delay: 3000 });
+            } else {
+                this.router.navigate(fragment, { trigger: true });
+            }
         },
 
         // Goes to the next step depending on the current step.
@@ -178,10 +186,16 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var nextStep = steps[steps.indexOf(this.currentStep) + 1]
             if (!nextStep) { nextStep = 'mise-en-page' }
 
+            var navName = nextStep.replace(':id/', '');
+            var navItem = this.$el.find('[data-newsletter-nav=' + navName + ']');
+
+            this.enableNavItem(navItem);
+
             // We replace the `:id` param by the actual model id.
             nextStep = nextStep.replace(':id', this.newsletter.get('id'));
 
             this.router.navigate(nextStep, { trigger: true });
+            this.scrollUp();
         },
 
         previousStep: function previousStep () {
@@ -192,9 +206,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             previousStep = previousStep.replace(':id', this.newsletter.get('id'));
 
             this.router.navigate(previousStep, { trigger: true });
+            this.scrollUp();
         },
 
-        // TODO: Create global error save callback that shows an alert / notice.
+        scrollUp: function scrollUp () {
+            $.scrollTo(0, { easing: 'easeOutCubic', duration: 350 });
+        },
+
         selectNewsletterLayout: function selectNewsletterLayout (data) {
             this.newsletter.set('layout_id', data.model.get('id'));
             this.newsletter.layout_changed = true;
@@ -234,5 +252,22 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             COURSAVENUE.helperMethods.flash('Erreur lors de la sauvegarde de la newsletter, veuillez rééssayer.', 'error');
         },
 
+        enableNavItem: function enableNavItem (navItem) {
+            if (navItem.data('newsletter-disabled')) {
+                navItem.data('newsletter-disabled', false);
+                navItem.removeClass('cursor-disabled muted')
+            }
+        },
+
+        enableNavItemsBefore: function enableNavItemsBefore (currentNavItem) {
+            var items   = this.$el.find('[data-newsletter-page]');
+            var current = this.$el.find('[data-newsletter-page=' + currentNavItem + ']');
+            var limit   = items.index(current);
+
+
+            items.slice(0, limit + 1).each(function(_, elem) {
+                this.enableNavItem($(elem));
+            }.bind(this));
+        },
     });
 });

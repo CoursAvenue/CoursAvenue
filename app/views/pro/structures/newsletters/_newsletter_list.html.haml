@@ -2,32 +2,44 @@
   - @newsletters.each do |newsletter|
     .flexbox.push--bottom
       .flexbox__item.v-middle
-        = link_to edit_pro_structure_newsletter_path(@structure, newsletter) do
-          %h4.flush--bottom
-            = newsletter.title
-            %span.caps.bg-gray.white.smaller-print= newsletter.badge
+        - if newsletter.sent?
+          = link_to metrics_pro_structure_newsletter_path(@structure, newsletter) do
+            %h4.flush--bottom
+              = newsletter.title
+              %span.caps.bg-green.white.smaller-print= newsletter.badge
+        - else
+          = link_to edit_pro_structure_newsletter_path(@structure, newsletter) do
+            %h4.flush--bottom
+              = newsletter.title
+              %span.caps.bg-gray.white.smaller-print= newsletter.badge
         Liste de diffusion :
         %strong= newsletter.mailing_list
         %br
-        Status :
+        Statut :
         %strong= newsletter.status
 
       .flexbox__item.v-middle.text--right
-        = succeed ' ' do
-          = link_to preview_newsletter_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 } do
-            %i.fa.fa-eye
         - if newsletter.sent?
           = succeed ' ' do
-            = link_to metrics_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger' do
-              %i.fa.fa-calculator
+            = link_to metrics_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger', data: { toggle: 'popover', content: 'Statistiques' } do
+              %i.fa.fa-bar-chart
         - else
           = succeed ' ' do
-            = link_to edit_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger' do
-              %i.fa.fa-pencil
+            = link_to edit_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger', data: { toggle: 'popover', content: 'Éditer' } do
+              %i.fa-pencil
         = succeed ' ' do
-          = link_to duplicate_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger' do
-            %i.fa.fa-files-o
+          .drop-down__wrapper.inline-block.v-middle
+            .btn.btn--bigger
+              %i.fa.fa-cog
+            .drop-down__el
+              %ul.drop-down__el-inner-box.text--left
+                %li.nowrap
+                  = link_to preview_newsletter_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0, toggle: 'popover', content: 'Visualiser' } do
+                    %i.fa.fa-eye
+                %li.nowrap
+                  = link_to duplicate_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger', data: { toggle: 'popover', content: 'Dupliquer' } do
+                    %i.fa.fa-files-o
         = succeed ' ' do
-          = link_to pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger btn--red', method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette newsletter ?' } do
-            %i.fa.fa-trash-o
+          = link_to pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger btn--red', method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette newsletter ?', toggle: 'popover', content: 'Supprimer' } do
+            %i.fa-trash-o
       %hr

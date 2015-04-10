@@ -2,7 +2,7 @@
 .panel.center-block{ style: 'width: 500px;'}
   .panel__header.soft.text--center
     %div.push-half--bottom
-      %i.fa.fa-check.fa-3x.green
+      %i.fa-check.fa-3x.green
     %h3.flush.green
       Votre demande d'inscription
       %br
@@ -22,7 +22,7 @@
             = f.label :remote_avatar_url, 'Votre photo', class: 'label--large block text--left f-weight-bold'
             = link_to '#', class: 'soft inline-block gray epsilon f-weight-500 v-middle bg-gray-light bordered', id: 'avatar-placeholder', data: { filepicker: true } do
               .text--center
-                %i.fa.fa-avatar.fa-5x
+                %i.fa-avatar.fa-5x
               .text--center Choisir une photo
             %img.hidden{ style: 'max-height: 200px; max-width: 200px;', height: 200, width: 200, data: { fpimage: true } }
             = f.filepicker_field :remote_avatar_url, multiple: false, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, class: 'visuallyhidden', button_text: 'Ajouter ma photo', button_class: 'visuallyhidden filepicker', onchange: 'onPhotoUpload(event)'

@@ -33,7 +33,7 @@
             = article.category.name
         %td.text--center
           - if article.published?
-            %i.fa.fa-check.green
+            %i.fa-check.green
         %td.nowrap
           = link_to 'Modifier', edit_admin_blog_article_path(article), class: 'orange'
           \/

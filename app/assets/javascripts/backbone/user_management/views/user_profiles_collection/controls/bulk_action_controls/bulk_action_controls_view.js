@@ -77,7 +77,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
                 return;
             }
 
-            var icon     = (options.select ? "fa fa-check"       : "fa fa-times");
+            var icon     = (options.select ? "fa-check"       : "fa-times");
             var text     = (options.select ? "Tout sélectionner" : "Déselectionner");
             var behavior = (options.select ? "select-all"        : "deselect-all");
 
