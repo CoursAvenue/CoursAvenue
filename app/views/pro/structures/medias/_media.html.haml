@@ -4,7 +4,7 @@
   %a.bg-cover.break-all.soft-half.hard--bottom.block.show-on-hover-wrapper.relative{ href: media.url, title: media.caption, style: "height: 200px; background-image: url(\"#{media.thumbnail_url}\")", data: { behavior: 'fancy' } }
     .show-on-hover.absolute.absolute--center.text--center
       - if media.video?
-        %i.fa-youtube-play.fa-4x.white
+        %i.fa-youtube-play.fa-4x.white.inline-block
       - else
         %i.fa-eye.fa-4x.white
   .soft-half

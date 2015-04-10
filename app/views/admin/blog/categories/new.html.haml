@@ -1,6 +1,6 @@
 = side_menu_currently_at 'blog'
 
-= render partial: 'pro/shared/pages_tabs', locals: { current: (@categorie.pro_category? == 'pro' ? 'blog_pro' : 'blog_user') }
+= render partial: 'pro/shared/pages_tabs', locals: { current: (@category.pro_category? == 'pro' ? 'blog_pro' : 'blog_user') }
 
 %ol.nav.breadcrumb.epsilon
   %li.delta= link_to 'Articles', pro_blog_articles_path

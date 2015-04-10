@@ -1,4 +1,3 @@
-- @is_reponsive = true
 - @title = "#{@vertical_page.subject_name} à #{@city.name} (#{@city.department_code})"
 - @total = Planning.count
 
@@ -26,7 +25,7 @@
 .main-container.main-container--medium.soft--ends
   .grid
     .grid__item.six-tenths.soft--right.palm-one-whole>
-      %ul.nav.breadcrumb.epsilon.push--bottom
+      %ul.nav.breadcrumb.epsilon.push--bottom.visuallyhidden--palm
         - @ancestors.each do |ancestor|
           - next if ancestor.vertical_pages.empty?
           - if ancestor.depth == 0
@@ -45,12 +44,12 @@
       - else
         - bg_thumb_2 = bg_thumb
       .grid
-        .grid__item.one-half>
+        .grid__item.one-half.palm-one-whole>
           = link_to search_page_path(@subject.root, @subject, @city), class: 'block muted-link' do
             .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb}')" }
               = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'
           %h3.delta.line-height-1-7= link_to "Essai gratuits à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'semi-muted-link'
-        .grid__item.one-half>
+        .grid__item.one-half.palm-one-whole>
           = link_to search_page_path(@subject.root, @subject, @city), class: 'block muted-link' do
             .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb_2}')" }
               = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'
@@ -83,7 +82,7 @@
             %h4 Matériel à prévoir
             %p= @subject.tips
       - if @vertical_page.medias.any?
-        = render partial: 'structures/map_and_gallery', locals: { medias: @vertical_page.medias, without_map: true }
+        = render partial: 'structures/gallery', locals: { medias: @vertical_page.medias, without_map: true }
       - if @subject.depth == 2
         = render partial: 'vertical_pages/siblings'
     .grid__item.four-tenths.palm-one-whole>

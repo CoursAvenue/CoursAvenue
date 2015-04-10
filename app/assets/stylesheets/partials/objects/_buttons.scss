@@ -282,5 +282,10 @@
     &:hover {
         border-color    : $btn--green;
         background-color: $btn--green;
+        &.btn--white-transparent--white {
+            border-color    : white;
+            background-color: white;
+            color           : black;
+        }
     }
 }

@@ -10,7 +10,9 @@ class Pro::Blog::ArticlesController < Pro::ProController
   end
 
   def show
-    @article = ::Blog::Article::ProArticle.find params[:id]
+    @article           = ::Blog::Article::ProArticle.find params[:id]
+    @article_decorator = BlogArticleDecorator.new @article
+    @category          = @article.category
   end
 
   def category_index

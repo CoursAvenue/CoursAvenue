@@ -17,13 +17,13 @@
   .bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under
     #header-map{ style: "height:300px;" }
     .black-curtain.black-curtain--soft.north.west.one-whole.absolute
-.soft--sides.soft-half--top.soft--bottom
+.soft--sides.soft-half--top.soft--bottom.palm-hard
   = render partial: 'structures/structure_header', locals: { structure: @structure }
   = render partial: 'structures/breadcrumbs', locals: { structure: @structure }
-  .grid
-    .grid__item.eight-twelfths.soft-half--right>
+  .grid--full
+    .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
       - if @structure.medias.any?
-        = render partial: 'structures/map_and_gallery', locals: { medias: @medias, structure: @structure }
+        = render partial: 'structures/gallery', locals: { medias: @medias, structure: @structure }
 
       - comment = (@structure.highlighted_comment || @structure.comments.last)
       - if comment
@@ -51,8 +51,8 @@
           .grid__item.one-third.palm-one-whole.push--bottom>
             = link_to blog_article_path(article), class: 'block link-colored-on-hover', title: article.title do
               = image_tag article.image.url(:similar_article), class: 'block one-whole hoverable-media'
-              %h4.text--center.ff-droid.f-style-italic.f-weight-normal.flush.delta.soft-half--top.line-height-1-3= article.title
-    .grid__item.four-twelfths>
+              %h4.text--center.ff-droid.f-style-itali--fullc.f-weight-normal.flush.delta.soft-half--top.line-height-1-3= article.title
+    .grid__item.four-twelfths.palm-one-whole.visuallyhidden--palm>
       %div{ data: { type: 'contact-form' } }
       - # This additionnal div is necessary for the husk that will be prepended
       - # to the parent of the sticky div

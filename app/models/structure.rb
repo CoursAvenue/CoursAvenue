@@ -172,7 +172,6 @@ class Structure < ActiveRecord::Base
   after_save    :update_open_for_trial_courses_if_neesds
   after_save    :geocode_if_needs_to    unless Rails.env.test?
   after_save    :subscribe_to_crm_with_delay
-  after_save    :update_intercom_status if Rails.env.production?
 
   after_touch   :set_premium
   after_touch   :update_meta_datas
@@ -1099,24 +1098,6 @@ class Structure < ActiveRecord::Base
     (ss.any? ? ss : subjects)
   end
 
-  private
-
-  # Will save slugs of vertical pages as breadcrumb separated by semi colons
-  # danse;Danse|danses-du-monde;Danse du monde|etc;Etc..
-  # First slug will always be root
-  def update_vertical_pages_breadcrumb
-    return if dominant_vertical_page.nil?
-    pages = []
-    dominant_vertical_page_subject = dominant_vertical_page.subject
-    pages << dominant_vertical_page_subject.root.vertical_pages.first
-    pages << dominant_vertical_page_subject.parent.vertical_pages.first if dominant_vertical_page_subject.depth > 0
-    pages << dominant_vertical_page
-    self.vertical_pages_breadcrumb = pages.compact.uniq.map{ |page| "#{page.slug};#{page.subject_name}" }.join('|')
-    save
-    nil
-  end
-  handle_asynchronously :update_vertical_pages_breadcrumb
-
   def update_intercom_status
     new_status = CrmSync.structure_status_for_intercom(self)
     if self.status != new_status
@@ -1134,6 +1115,24 @@ class Structure < ActiveRecord::Base
     end
   end
   handle_asynchronously :update_intercom_status
+
+  private
+
+  # Will save slugs of vertical pages as breadcrumb separated by semi colons
+  # danse;Danse|danses-du-monde;Danse du monde|etc;Etc..
+  # First slug will always be root
+  def update_vertical_pages_breadcrumb
+    return if dominant_vertical_page.nil?
+    pages = []
+    dominant_vertical_page_subject = dominant_vertical_page.subject
+    pages << dominant_vertical_page_subject.root.vertical_pages.first
+    pages << dominant_vertical_page_subject.parent.vertical_pages.first if dominant_vertical_page_subject.depth > 0
+    pages << dominant_vertical_page
+    self.vertical_pages_breadcrumb = pages.compact.uniq.map{ |page| "#{page.slug};#{page.subject_name}" }.join('|')
+    save
+    nil
+  end
+  handle_asynchronously :update_vertical_pages_breadcrumb
 
   def update_cities_text
     update_column :cities_text, places.map(&:city).map(&:name).uniq.join(', ')

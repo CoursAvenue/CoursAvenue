@@ -2,10 +2,10 @@
   - page = (params[:page].present? ? params[:page].to_i : 1)
   - @articles.each_with_index do |article, index|
     - if index == 2
-      .one-quarter.inline-block>
+      .one-quarter.inline-block.palm-one-whole.palm-push--bottom>
         = render partial: 'pro/blog/subscribe_to_blog'
     - double = (index * page % 5 == 0)
-    .inline-block.v-top.soft--sides{ class: (double ? 'one-half' : 'one-quarter') }>
+    .palm-push--bottom.palm-one-whole.inline-block.v-top.soft--sides{ class: (double ? 'one-half' : 'one-quarter') }>
       = render partial: 'pro/blog/articles/article', locals: { article: article, double: double }
 
 .text--center.push-half--ends= paginate @articles, window: 1, outer_window: 3

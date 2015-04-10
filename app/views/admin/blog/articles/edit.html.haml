@@ -1,6 +1,6 @@
 = side_menu_currently_at 'blog'
 
-= render partial: 'pro/shared/pages_tabs', locals: { current: (@article.pro_article? == 'pro' ? 'blog_pro' : 'blog_user') }
+= render partial: 'pro/shared/pages_tabs', locals: { current: (@article.pro_article? ? 'blog_pro' : 'blog_user') }
 
 %h3.flush Blog
 = render 'form'

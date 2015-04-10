@@ -9,7 +9,8 @@
 
   = f.input :show_trainings_in_title, as: :boolean
   = f.input :subject_name, label: false, input_html: { class: 'input--large one-whole'}
-  = f.input :page_title, label: false, input_html: { class: 'input--large one-whole'}
+  = f.input :page_title, label: false, input_html: { class: 'input--large one-whole', data: { behavior: 'text-counter', characters: true, 'good-words-nb' => 60, 'average-words-nb' => 50, 'bad-text' => 'Allez Camille, tu y es presque !', 'good-text' => 'Wouhou!!! Well done!', 'average-words-text' => 'Almost there!' } }
+
   %p.flush.epsilon Environ 155 caractères
   = f.input :page_description, input_html: { class: 'input--large one-whole one-whole', data: { behavior: 'text-counter', characters: true, 'good-words-nb' => 155, 'bad-text' => 'Allez Camille, tu y es presque !', 'good-text' => 'Wouhou!!! Well done!', 'average-words-text' => 'Almost there!' } }, label: false
 

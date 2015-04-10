@@ -1,5 +1,19 @@
 class BlogArticleDecorator < Draper::Decorator
 
+  def page_title
+    if object.page_title.present? and object.page_title.length < 47
+      if object.pro_article?
+        "#{object.page_title} | CoursAvenuePro"
+      else
+        "#{object.page_title} | CoursAvenue.com"
+      end
+    elsif object.page_title.present?
+      object.page_title
+    else
+      object.title
+    end
+  end
+
   def share_url(provider=:facebook)
     case provider
     when :facebook

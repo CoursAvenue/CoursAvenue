@@ -1,20 +1,33 @@
 - @header_image = @article.image.url(:large)
+
+= content_for :title do
+  = @article_decorator.page_title
+
 = content_for :header_title do
   = @article.title
 
-.main-container.main-container--medium.soft--ends
+= content_for :above_content do
+  = render partial: 'pro/blog/breadcrumb'
 
+.main-container.main-container--medium.soft--ends
   .grid
-    .grid__item.three-quarters.v-top>
+    .grid__item.v-top.palm-one-whole{ class: @article.medias.any? ? 'two-thirds' : 'three-quarters' }>
       .gray-light.epsilon.line-height-1-7.push-half--bottom
         Par #{@article.author.try(:name) || 'Camille'} le
         %time{ itemprop: 'dateCreated', datetime: l(@article.published_at, format: :iso_date) }
           = l @article.published_at, format: :date_with_year
-      %article{ itemscope: true, itemtype: 'http://schema.org/Article' }
+
+      %article.blog-article__content.pro-blog-article__content{ itemprop: 'text', itemscope: true, itemtype: 'http://schema.org/Article' }
         %p.epsilon.gray.line-height-1-7
           = @article.description.html_safe
-        .push--top.blog-article__content{ itemprop: 'text' }
+        - if @article.box_top.present?
+          .yellow-box.f-weight-600.soft.white.rounded
+            = @article.box_top.html_safe
+        .push--top
           = @article.content.html_safe
+        - if @article.box_bottom.present?
+          .yellow-box.f-weight-600.soft.white.rounded
+            = @article.box_bottom.html_safe
       %hr
       %p
         %span.soft-half--right= l(@article.published_at, format: :date_with_year).capitalize
@@ -33,8 +46,11 @@
           - if @article.author.avatar.present?
             .flexbox__item.v-top.soft--left
               = image_tag @article.author.avatar.url(:small), height: 80, width: 80, class: 'rounded--circle'
-    .grid__item.one-quarter.v-top>
-      = render partial: 'pro/blog/subscribe_to_blog'
+    .grid__item.v-top.palm-one-whole.visuallyhidden--palm{ class: @article.medias.any? ? 'one-third' : 'one-quarter' }>
+      - if @article.medias.any?
+        - @article.medias.limit(6).each do |image|
+          = image_tag image.thumbnail_url, class: 'block one-whole'
+      .push--top= render partial: 'pro/blog/subscribe_to_blog'
 
   %h4.beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Commentaires
   #disqus_thread

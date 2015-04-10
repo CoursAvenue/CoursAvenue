@@ -1,5 +1,5 @@
 - cache [@portrait, 'pro/portrait/show_V2'] do
-  .bg-fixed.bg-cover.home-screen-promotion-wrapper.soft{ style: "background-image: url(#{@portrait.medias.order('caption DESC').limit(1).offset(0).first.url});" }
+  .bg-fixed.bg-cover.home-screen-promotion-wrapper.soft{ style: "background-image: url(#{@portrait.medias.order('caption DESC').limit(1).offset(0).first.try(:url)});" }
     .main-container.main-container--medium.white.soft-black-text-shadow
       %h1= @portrait.title
       %h3.quoted.line-height-1-7= @portrait.quote

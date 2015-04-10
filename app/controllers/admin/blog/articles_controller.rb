@@ -14,6 +14,7 @@ class Admin::Blog::ArticlesController < Pro::ProController
 
   def edit
     @article = ::Blog::Article.find params[:id]
+    @medias  = @article.medias.order('caption ASC')
     get_categories
   end
 

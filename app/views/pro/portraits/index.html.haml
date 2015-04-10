@@ -1,14 +1,8 @@
 = content_for :title do
-  Pro.CoursAvenue.com - Vos parcours sont notre passion
+  Vos parcours sont notre passion | Pro.CoursAvenue.com
 
 = content_for :meta_description do
   Que vous soyez un professeur, une association ou une école à proposer des cours de yoga, de dessin ou de danse, la même envie vous réunit : transmettre votre passion à un maximum d'élèves, de manière à pouvoir en vivre et continuer à développer des cours de qualité. Vos parcours nous passionnent, c'est pourquoi notre équipe vient à votre rencontre pour mieux vous connaître. Voici une sélection de portraits inédits.
-
-- cache 'pro/portrait/header_V2' do
-  .relative.height-35vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('https://coursavenue-public.s3.amazonaws.com/public_assets/pro/portraits/bg_blur.jpg')", data: { behavior: 'parallax' } }
-    .black-curtain.north.west.one-whole.absolute
-    .flexbox__item.v-middle.text--center.relative
-      %h1.f-size-really-big.flush Vos parcours sont notre passion
 
 %h3.main-container.main-container--medium.text--center.f-weight-500.mega-soft--ends
   Que vous soyez un professeur, une association ou une école à proposer des cours de yoga, de dessin ou de danse, la même envie vous réunit : transmettre votre passion à un maximum d'élèves, de manière à pouvoir en vivre et continuer à développer des cours de qualité. Vos parcours nous passionnent, c'est pourquoi notre équipe vient à votre rencontre pour mieux vous connaître. Voici une sélection de portraits inédits.
@@ -17,11 +11,11 @@
   - cache [portrait, 'portrait'] do
     .main-container.main-container--medium.soft--bottom.push--bottom
       - medias = portrait.medias.order('caption ASC')
-      .opacity-hidden-on-hover__wrapper.bg-cover.text--center.relative{ style: "background-image: url(#{medias.limit(1).first.url}); height: 400px;" }>
+      .rotate-on-hover__wrapper.opacity-hidden-on-hover__wrapper.bg-cover.text--center.relative{ style: "background-image: url(#{medias.limit(1).first.url}); height: 400px;" }>
+        .blog_article__image-icon.text--center.absolute.absolute--center.rotate-on-hover__child.bg-white-faded.blog_article__image-icon--double
+          %i.fa-chevron-right
         = link_to pro_portrait_path(portrait), class: 'block show-on-hover__wrapper show-on-hover__wrapper--black-curtain' do
           .gamma.quoted.white.soft-black-text-shadow.absolute.one-whole.line-height-1-7{ style: 'top: 160px; '}= portrait.thumb_title
-          .opacity-hidden-on-hover__child.text--center.one-whole.absolute{ style: 'top: 300px; '}
-            .btn.btn--blue Voir ce portrait
           .epsilon.white.soft-black-text-shadow.absolute.one-whole.south.soft--bottom= portrait.thumb_subtitle
 
 - cache 'pro/portrait/bottom_V1' do

@@ -9,37 +9,41 @@
     = link_to new_admin_blog_article_path(type: params[:type]), class: 'btn btn--green' do
       %i.fa.fa-plus
       Ajouter un article
-%table.table--data.table--striped
-  %thead
-    %tr
-      %th.one-half Nom
-      %th Description
-      %th.three-twelfths Date de publication
-      %th Catégorie
-      %th Publié
-      %th
-  %tbody
-  - @articles.each do |article|
-    - cache [article, 'pro/blog_articles/index'] do
+- @articles.group_by{ |article| article.category.try(:root) }.each do |category, articles|
+  - if category
+    %h3.flush{ class: "very-soft #{category.color}-box #{category.color.present? ? 'white' : ''}"}
+      = category.name
+  %table.table--data.table--striped
+    %thead
       %tr
-        %td= article.title
-        %td
-          %div{ data: { toggle: 'popover', content: article.description, trigger: 'hover', position: 'top' } }
-            .btn Desc
-        %td
-          = l(article.published_at, format: :date_with_year) if article.published_at
-        %td
-          - if article.category
-            = article.category.name
-        %td.text--center
-          - if article.published?
-            %i.fa-check.green
-        %td.nowrap
-          = link_to 'Modifier', edit_admin_blog_article_path(article), class: 'orange'
-          \/
-          = link_to 'Supprimer', admin_blog_article_path(article), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette article ?' }, class: 'red'
-          \/
-          = link_to 'Voir', blog_article_url(article, subdomain: (article.pro_article? ? CoursAvenue::Application::PRO_SUBDOMAIN : CoursAvenue::Application::WWW_SUBDOMAIN)), target: :_blank
+        %th.one-half Nom
+        %th Description
+        %th.three-twelfths Date de publication
+        %th Catégorie
+        %th Publié
+        %th
+    %tbody
+    - articles.each do |article|
+      - cache [article, 'pro/blog_articles/index'] do
+        %tr
+          %td= article.title
+          %td
+            %div{ data: { toggle: 'popover', content: article.description, trigger: 'hover', position: 'top' } }
+              .btn Desc
+          %td
+            = l(article.published_at, format: :date_with_year) if article.published_at
+          %td
+            - if article.category
+              = article.category.name
+          %td.text--center
+            - if article.published?
+              %i.fa-check.green
+          %td.nowrap
+            = link_to 'Modifier', edit_admin_blog_article_path(article), class: 'orange'
+            \/
+            = link_to 'Supprimer', admin_blog_article_path(article), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette article ?' }, class: 'red'
+            \/
+            = link_to 'Voir', blog_article_url(article, subdomain: (article.pro_article? ? CoursAvenue::Application::PRO_SUBDOMAIN : CoursAvenue::Application::WWW_SUBDOMAIN)), target: :_blank
 
 %hr.push--ends
 

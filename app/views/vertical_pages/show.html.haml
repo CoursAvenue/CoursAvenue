@@ -1,4 +1,3 @@
-- @is_reponsive = true
 - if @subject
   - title = "#{@subject.name}"
 - else
@@ -29,7 +28,7 @@
 
   .grid
     .grid__item.six-tenths.palm-one-whole>
-      %ul.nav.breadcrumb.epsilon
+      %ul.nav.breadcrumb.epsilon.visuallyhidden--palm
         - @ancestors.each do |ancestor|
           - next if ancestor.vertical_pages.empty?
           - if ancestor.depth == 0
@@ -53,12 +52,12 @@
       - else
         - bg_thumb_2 = bg_thumb
       .grid
-        .grid__item.one-half>
+        .grid__item.one-half.palm-one-whole>
           = link_to search_page_path(@subject.root, @subject, 'paris'), class: 'block muted-link' do
             .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb}')" }
               = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'
           %h3.delta.line-height-1-7= link_to "Essai gratuits", search_page_path(@subject.root, @subject, 'paris'), class: 'semi-muted-link'
-        .grid__item.one-half>
+        .grid__item.one-half.palm-one-whole>
           = link_to search_page_path(@subject.root, @subject, 'paris'), class: 'block muted-link' do
             .relative.text--right.bg-cover.one-whole.height-150{ style: "background-image: url('#{bg_thumb_2}')" }
               = image_tag 'banners/decouvrir.png', height: 30, class: 'push--bottom absolute south east'

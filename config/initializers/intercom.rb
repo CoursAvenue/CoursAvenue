@@ -50,18 +50,26 @@ IntercomRails.config do |config|
   config.user.custom_data = {
     # We have this to ensure we can have an Admin and a User with the same email address and
     # none of them are overrided by the other.
-    :user_id                => Proc.new { |user| "Admin_#{user.id}" },
-    :slug                   => Proc.new { |user| ((s = user.structure) ? s.slug : nil) },
-    :name                   => Proc.new { |user| ((s = user.structure) ? s.name : user.name) },
-    'nb avis'               => Proc.new { |user| ((s = user.structure) ? s.comments_count : user.try(:comments).try(:count)) },
-    'Villes'                => Proc.new { |user| ((s = user.structure) ? s.places.map(&:city).map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
-    'A confirmé son compte' => Proc.new { |user| user.confirmed? },
+    :user_id                   => Proc.new { |user| "Admin_#{user.id}" },
+    :slug                      => Proc.new { |user| ((s = user.structure) ? s.slug : nil) },
+    :name                      => Proc.new { |user| ((s = user.structure) ? s.name : user.name) },
+    'nb avis'                  => Proc.new { |user| ((s = user.structure) ? s.comments_count : user.try(:comments).try(:count)) },
+    'Villes'                   => Proc.new { |user| ((s = user.structure) ? s.places.map(&:city).map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
+    'A confirmé son compte'    => Proc.new { |user| user.confirmed? },
     # Truncate string at 250 chars because we can't pass more than 255 chars
-    'Disciplines_1'         => Proc.new { |user| ((s = user.structure) ? s.subjects.at_depth(0).uniq.map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
-    'Disciplines_2'         => Proc.new { |user| ((s = user.structure) ? s.subjects.at_depth(2).map(&:parent).uniq.map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
-    'Disciplines_3'         => Proc.new { |user| ((s = user.structure) ? s.subjects.at_depth(2).uniq.map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
-    'Prof tag'              => Proc.new { |user| ((s = user.structure) ? CrmSync.structure_status_for_intercom(s) : nil) },
-    'Code postal'           => Proc.new { |user| ((s = user.structure) ?  s.zip_code : nil) }
+    'Disciplines_1'            => Proc.new { |user| ((s = user.structure) ? s.subjects.at_depth(0).uniq.map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
+    'Disciplines_2'            => Proc.new { |user| ((s = user.structure) ? s.subjects.at_depth(2).map(&:parent).uniq.map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
+    'Disciplines_3'            => Proc.new { |user| ((s = user.structure) ? s.subjects.at_depth(2).uniq.map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
+    'Prof tag'                 => Proc.new { |user| ((s = user.structure) ? CrmSync.structure_status_for_intercom(s) : nil) },
+    'Code postal'              => Proc.new { |user| ((s = user.structure) ?  s.zip_code : nil) },
+    'Email Opt-in'             => Proc.new { |user| user.monday_email_opt_in },
+    'Discipline 3 principale'  => Proc.new do |user|
+      if (s = user.structure) and s.vertical_pages_breadcrumb.present?
+        s.vertical_pages_breadcrumb.split('|').last.split(';').last
+      else
+        nil
+      end
+    end
   }
 
   # == User -> Company association
