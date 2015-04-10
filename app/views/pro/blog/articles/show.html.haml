@@ -42,7 +42,7 @@
     .grid__item.v-top.palm-one-whole.visuallyhidden--palm{ class: @article.medias.any? ? 'one-third' : 'one-quarter' }>
       - if @article.medias.any?
         - @article.medias.limit(6).each do |image|
-          .one-third.float--right.bg-cover{ style: "background-image: url(#{image.thumbnail_url}); height: 400px;" }>
+          = image_tag image.thumbnail_url, class: 'block one-whole'
       .push--top= render partial: 'pro/blog/subscribe_to_blog'
 
   %h4.beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Commentaires
