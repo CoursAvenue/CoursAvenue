@@ -61,7 +61,8 @@ IntercomRails.config do |config|
     'Disciplines_2'         => Proc.new { |user| ((s = user.structure) ? s.subjects.at_depth(2).map(&:parent).uniq.map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
     'Disciplines_3'         => Proc.new { |user| ((s = user.structure) ? s.subjects.at_depth(2).uniq.map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
     'Prof tag'              => Proc.new { |user| ((s = user.structure) ? CrmSync.structure_status_for_intercom(s) : nil) },
-    'Code postal'           => Proc.new { |user| ((s = user.structure) ?  s.zip_code : nil) }
+    'Code postal'           => Proc.new { |user| ((s = user.structure) ?  s.zip_code : nil) },
+    'Email Opt-in'          => Proc.new { |user| user.monday_email_opt_in }
   }
 
   # == User -> Company association
