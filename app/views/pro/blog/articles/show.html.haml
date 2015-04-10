@@ -1,4 +1,8 @@
 - @header_image = @article.image.url(:large)
+
+= content_for :title do
+  = @article_decorator.page_title
+
 = content_for :header_title do
   = @article.title
 
