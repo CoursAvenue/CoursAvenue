@@ -7,7 +7,7 @@ class Pro::PortraitsController < Pro::ProController
 
   def get_layout
     if %w(index show).include?(action_name)
-      'pro_blog'
+      'admin_pages'
     else
       'admin'
     end
