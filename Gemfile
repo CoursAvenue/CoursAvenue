@@ -297,3 +297,5 @@ gem 'omnicontacts', '~> 0.3.5'
 gem 'mandrill-api'
 
 gem 'legato', '~> 0.4.0'
+
+gem 'replicate', '~> 1.5.1'
