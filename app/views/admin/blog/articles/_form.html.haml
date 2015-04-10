@@ -17,7 +17,8 @@
   - categories = [['-', @categories.roots]] + @categories.roots.map{|root| [root.name, root.children]}
   = f.input :category_id, as: :grouped_select, collection: categories, input_html: { class: 'input--large' }, label: 'Catégorie', label_html: { class: 'label--large' }, group_method: :last
   = f.input :tag_list, input_html: { class: 'input--large one-whole' }, label: false
-  = f.input :page_title, label: false, input_html: { class: 'input--large one-whole' }
+  = f.input :page_title, label: false, input_html: { class: 'input--large one-whole', data: { behavior: 'text-counter', characters: true, 'good-words-nb' => 60, 'average-words-nb' => 50, 'bad-text' => 'Allez Camille, tu y es presque !', 'good-text' => 'Wouhou!!! Well done!', 'average-words-text' => 'Almost there!' } }
+
   = f.input :title, label: false, input_html: { class: 'input--large one-whole' }
   %p.flush.epsilon Environ 155 caractères
   = f.input :page_description, input_html: { class: 'input--large one-whole', data: { behavior: 'text-counter', characters: true, 'good-words-nb' => 155, 'bad-text' => 'Allez Camille, tu y es presque !', 'good-text' => 'Wouhou!!! Well done!', 'average-words-text' => 'Almost there!' } }, label: false
