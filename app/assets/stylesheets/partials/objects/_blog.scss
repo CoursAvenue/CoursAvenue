@@ -30,6 +30,22 @@
     max-width: 750px;
     margin   : auto;
 }
+.pro-blog-article__content {
+    h2 {
+        @media screen and (min-width: 1200px)  {
+            margin-left : -75px;
+            margin-right: 0;
+        }
+    }
+}
+.blog-article__content {
+    h2 {
+        @media screen and (min-width: 950px)  {
+            margin-left : -75px;
+            margin-right: -75px;
+        }
+    }
+}
 .blog-article__content, .pro-blog-article__content {
     &:not(.pro-blog-article__content) img {
         width  : 100% !important;
@@ -51,10 +67,6 @@
         @extend .f-weight-400;
         @extend .bordered--bottom;
         padding-bottom: 10px;
-        @media screen and (min-width: 950px)  {
-            margin-left : -75px;
-            margin-right: -75px;
-        }
     }
     blockquote {
         &, p {
