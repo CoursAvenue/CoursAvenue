@@ -30,15 +30,14 @@
     max-width: 750px;
     margin   : auto;
 }
-.blog-article__content {
-    img {
+.blog-article__content, .pro-blog-article__content {
+    &:not(.pro-blog-article__content) img {
         width  : 100% !important;
         height : auto !important;
         display: block;
     }
     strong { font-weight: 600; }
     p, ul, div {
-        color      : #1E1E1E;
         &.white {
             color: white;
         }
@@ -58,7 +57,7 @@
         }
     }
     blockquote {
-        p {
+        &, p {
             font-style : italic;
             font-size  : 20px;
             color      : #777;
@@ -70,6 +69,7 @@
 }
 
     .blog-article__image-with-legend {
+        display: inline-block;
         .blog-article__legend { opacity: 0; }
         &:hover {
           .blog-article__legend { opacity: 1; }

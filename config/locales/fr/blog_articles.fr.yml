@@ -14,3 +14,5 @@ fr:
         page_description: Description de la page (SEO)
         description: Description
         tag_list: "Liste de tag, ex. : (toto, tata)"
+        box_top: "Box d'intro : «À propos»"
+        box_bottom: "Box de conclusion : «À retenir»"

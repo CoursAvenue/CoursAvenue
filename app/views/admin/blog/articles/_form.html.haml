@@ -14,7 +14,8 @@
     %input.input-sm.input--large.datepicker-input#published_date{ type: 'text', value: (@article.published_at.nil? ? '' : l(@article.published_at.to_date)), name: 'blog_article[published_at]', data: { behavior: 'datepicker' } }
 
   = f.input :author_id, as: :select, collection: Blog::Author.all, input_html: { class: 'input--large' }, label: 'Auteur', label_html: { class: 'label--large' }
-  = f.input :category_id, as: :select, collection: @categories, input_html: { class: 'input--large' }, label: 'Catégorie', label_html: { class: 'label--large' }
+  - categories = [['-', @categories.roots]] + @categories.roots.map{|root| [root.name, root.children]}
+  = f.input :category_id, as: :grouped_select, collection: categories, input_html: { class: 'input--large' }, label: 'Catégorie', label_html: { class: 'label--large' }, group_method: :last
   = f.input :tag_list, input_html: { class: 'input--large one-whole' }, label: false
   = f.input :page_title, label: false, input_html: { class: 'input--large one-whole' }
   = f.input :title, label: false, input_html: { class: 'input--large one-whole' }
@@ -23,7 +24,13 @@
   = f.input :description, label: false, input_html: { class: 'input--large one-whole' }
   = f.association :subjects, as: :select, collection: Subject.all, input_html: { class: 'input--large one-whole', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Disciplines associée' }, multiple: true }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
 
+  - if @article.pro_article?
+    = f.input :box_top, as: :text, label: false, input_html: { class: 'input--large one-whole' }
+
   = f.input :content, label: false, input_html: { class: 'one-whole' }
+
+  - if @article.pro_article?
+    = f.input :box_bottom, as: :text, label: false, input_html: { class: 'input--large one-whole' }
 
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
 
@@ -32,7 +39,7 @@
 
   :javascript
       $(document).ready(function() {
-          $('#blog_article_content').redactor({
+          $('#blog_article_content, #blog_article_box_top, #blog_article_box_bottom').redactor({
               buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
                 'link', 'alignment', 'horizontalrule', 'image'],
               formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
@@ -48,3 +55,46 @@
               $('img[data-placeholder]').attr('src', event.originalEvent.fpfile.url);
           });
       });
+
+
+- if @article.pro_article? and @article.persisted?
+  %hr.push--ends
+  %h2 Partie pour les portraits
+  - @image = Media::Image.new mediable: @article
+  = simple_form_for [:pro, @article, @image], url: admin_blog_article_medias_path(@article), html: { id: 'image-form' } do |f|
+    = f.error_notification
+    .text--center
+      = f.filepicker_field :url, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true, class: "filepicker-dragdrop text--center", drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft--ends text--center push--bottom", drag_text: "Glissez votre image ici ou cliquez pour changer de logo", multiple: true
+      = f.input :thumbnail_url, as: :hidden
+    %h4#preview-title.hidden.push-half--ends Aperçu
+    #preview
+
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          var convertImages;
+          $('#media_image_url').change(function(event) {
+              $('#preview-title').show();
+              var $preview = $('#preview').empty();
+              var image_string = [];
+              _.each(event.originalEvent.fpfiles, function(file) {
+                  image_string.push(file.url + ';' + file.key);
+                  $preview.append($('<img>', {src: file.url, style: 'height: 100px;', class: 'push-half--right'}));
+              });
+              $(this).val(image_string.join(','));
+              $('#image-form').submit();
+          });
+      });
+
+
+  - @medias.each_with_index do |media, index|
+    .soft-half.inline-block.one-third>
+      .media__item.one-whole.relative.gray-box
+        %a.bg-cover.break-all.soft-half.hard--bottom.block.show-on-hover-wrapper.relative{ href: media.url, title: media.caption, style: "height: 200px; background-image: url(#{media.thumbnail_url})", data: { behavior: 'fancy' } }
+          .show-on-hover.absolute.absolute--center.text--center
+            %i.fa-eye.fa-4x.white
+        .soft-half
+          = simple_form_for [:pro, @article, media], url: pro_portrait_media_path(@article, media), remote: true, as: :media, html: { data: { behavior: 'live-form' } } do |f|
+            = f.input :caption, as: :string, label: false, input_html: { class: 'one-whole media_caption input--large', placeholder: 'Position' }, wrapper_html: { class: 'flush--top push-half--bottom' }
+          = link_to pro_portrait_media_path(@article, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, title: 'Supprimer', class: 'btn btn--small btn--red' do
+            Supprimer

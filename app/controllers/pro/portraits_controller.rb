@@ -1,11 +1,13 @@
 class Pro::PortraitsController < Pro::ProController
 
   before_action :authenticate_pro_super_admin!, except: [:index, :show]
+  before_action :load_categories
 
   layout :get_layout
+
   def get_layout
     if %w(index show).include?(action_name)
-      'admin_pages'
+      'pro_blog'
     else
       'admin'
     end
@@ -54,4 +56,11 @@ class Pro::PortraitsController < Pro::ProController
       end
     end
   end
+
+  private
+
+  def load_categories
+    @categories = ::Blog::Category::ProCategory.at_depth(0).order('position ASC NULLS LAST').all
+  end
+
 end

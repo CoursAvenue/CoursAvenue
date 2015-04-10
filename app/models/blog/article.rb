@@ -7,12 +7,14 @@ class Blog::Article < ActiveRecord::Base
   acts_as_taggable_on :tags
 
   attr_accessible :page_title, :title, :description, :content, :published, :subject_ids, :published_at,
-                  :tag_list, :category_id, :page_description, :type, :remote_image_url, :author_id
+                  :tag_list, :category_id, :page_description, :type, :remote_image_url, :author_id,
+                  :box_top, :box_bottom
 
   ######################################################################
   # Relations                                                          #
   ######################################################################
   has_and_belongs_to_many :subjects
+  has_many :medias, as: :mediable
   belongs_to :author, class_name: 'Blog::Author'
 
   mount_uploader :image, BlogImageUploader
