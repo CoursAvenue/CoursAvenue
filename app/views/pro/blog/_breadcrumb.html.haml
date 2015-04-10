@@ -1,0 +1,11 @@
+.text--center.bordered--top
+  %ol.nav.breadcrumb.blog__breadcrumb.text--center.soft-half--ends.epsilon.flush--bottom
+    %li.f-style-italic.f-weight-600{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+      = link_to "Accueil", blog_articles_path
+    - if @category
+      - @category.path.each do |category|
+        %li.f-style-italic.f-weight-600{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+          = link_to category.name, category_pro_blog_articles_path(category_id: category.slug)
+    - if @article
+      %li.f-style-italic.f-weight-400{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = @article.title

@@ -1,7 +1,11 @@
 - if @category.image.present?
   - @header_image = @category.image.url(:large)
+
 = content_for :header_title do
   = @category.name
+
+= content_for :above_content do
+  = render partial: 'pro/blog/breadcrumb'
 
 .soft
   %h2.text--center= @category.subtitle

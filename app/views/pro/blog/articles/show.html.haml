@@ -2,6 +2,9 @@
 = content_for :header_title do
   = @article.title
 
+= content_for :above_content do
+  = render partial: 'pro/blog/breadcrumb'
+
 .main-container.main-container--medium.soft--ends
   .grid
     .grid__item.v-top.palm-one-whole{ class: @article.medias.any? ? 'two-thirds' : 'three-quarters' }>

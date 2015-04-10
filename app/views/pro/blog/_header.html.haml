@@ -7,18 +7,20 @@
     %h1.text--center.relative.white.f-size-really-big.f-weight-300
       Université CoursAvenuePro
     %h3.relative.text--center Bienvenue sur la première page dédiée aux besoins des professionnels des cours de loisirs en France.
-  .main-container
-    .flexbox.push--bottom.relative
-      - @categories.each do |category|
-        .flexbox__item.palm-block.palm-one-whole.v-top.one-quarter.inline-block.relative.soft-half--sides.opacity-hidden-on-hover__wrapper
-          = link_to category_pro_blog_articles_path(category_id: category.slug), class: "block text--center soft #{category.color}-box rounded white f-weight-600 muted-link not-outlined", data: { category: category.slug, parent: true} do
-            .delta.push-half--bottom= category.name
-            - if category.subtitle
-              %div= category.subtitle
-          %ul.no-bullet-list.opacity-hidden-on-hover__child.flush--bottom.bordered--top.bordered--thick.push-half--top.soft-half.hard--left{ class: "border-color-#{category.color}", data: { category: category.slug, children: true } }
-            - category.children.order('position ASC').each do |child_category|
-              - if child_category.articles.any?
-                %li.line-height-1-7= link_to child_category.name, category_pro_blog_articles_path(category_id: child_category.slug), class: 'white epsilon f-weight-600 push-half--sides nowrap'
+  - if action_name != 'show'
+    .main-container
+      .flexbox.push--bottom.relative
+        - @categories.each do |category|
+          .flexbox__item.palm-block.palm-one-whole.v-top.one-quarter.inline-block.relative.soft-half--sides.opacity-hidden-on-hover__wrapper
+            = link_to category_pro_blog_articles_path(category_id: category.slug), class: "block text--center soft #{category.color}-box rounded white f-weight-600 muted-link not-outlined", data: { category: category.slug, parent: true} do
+              .delta.push-half--bottom= category.name
+              - if category.subtitle
+                %div= category.subtitle
+            %ul.no-bullet-list.opacity-hidden-on-hover__child.flush--bottom.bordered--top.bordered--thick.push-half--top.soft-half.hard--left{ class: "border-color-#{category.color}", data: { category: category.slug, children: true } }
+              - category.children.order('position ASC').each do |child_category|
+                - if child_category.articles.any?
+                  %li.line-height-1-7= link_to child_category.name, category_pro_blog_articles_path(category_id: child_category.slug), class: 'white epsilon f-weight-600 push-half--sides nowrap'
+  - if action_name == 'show'
     = link_to pro_blog_articles_path, class: 'btn btn--white-transparent btn--white-transparent--white btn--small push-half--left relative' do
       %i.fa-chevron-left
-      Retour aux articles
+      Retour à l'accueil

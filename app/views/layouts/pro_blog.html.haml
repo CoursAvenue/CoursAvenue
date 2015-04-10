@@ -20,8 +20,8 @@
                 = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'muted-link white btn btn--green' , data: { try: true }
 
 
-  = render partial: 'pro/blog/header'
   = yield :above_content
+  = render partial: 'pro/blog/header'
   .main-container
     = yield
   = render 'shared/footer'
