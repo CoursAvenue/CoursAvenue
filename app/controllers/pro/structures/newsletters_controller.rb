@@ -117,7 +117,7 @@ class Pro::Structures::NewslettersController < ApplicationController
   # Metrics modal.
   def metrics
     @newsletter = @structure.newsletters.includes(:metric).find(params[:id]).decorate
-    @metric = @newsletter.metric.decorate
+    @metric     = @newsletter.metric.decorate
 
     @metric.delayed_update if @metric.present?
   end

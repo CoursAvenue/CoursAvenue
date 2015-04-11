@@ -4,10 +4,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         regions: {
             'choose-layout': "[data-page=choose-layout]",
-            edit:            "[data-page=edit]",
+            'edit':            "[data-page=edit]",
             'mailing-list':  "[data-page=mailing-list]",
-            metadata:        "[data-page=metadata]",
-            preview:         "[data-page=preview]"
+            'metadata':        "[data-page=metadata]",
+            'preview':         "[data-page=preview]"
         },
 
         events: {

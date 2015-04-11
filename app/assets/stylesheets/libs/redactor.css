@@ -434,6 +434,7 @@ body .redactor-box-fullscreen {
   display: inline-block;
   background-color: #000;
   color: #555 !important;
+  font-weight: 600;
 }
 .redactor-link-tooltip,
 .redactor-link-tooltip a {

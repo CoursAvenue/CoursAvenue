@@ -19,13 +19,23 @@ class NewsletterDecorator < Draper::Decorator
     end
   end
 
-  def badge
-    if object.state == 'sent'
-      'Envoyée'
-    elsif object.state == 'sending'
-      "En cours d'envoi"
+  def url
+    if object.sent?
+      h.metrics_pro_structure_newsletter_path(object.structure, object)
     else
-      'Brouillon'
+      h.edit_pro_structure_newsletter_path(object.structure, object)
+    end
+  end
+
+  def badge
+    h.content_tag :span, class: ['push-half--left caps white smaller-print very-soft', (object.sent? ? 'bg-green' : 'bg-gray')] do
+      if object.state == 'sent'
+        'Envoyée'
+      elsif object.state == 'sending'
+        "En cours d'envoi"
+      else
+        'Brouillon'
+      end
     end
   end
 

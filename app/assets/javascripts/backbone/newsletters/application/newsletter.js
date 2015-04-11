@@ -7,7 +7,8 @@ Newsletter.addRegions({
 Newsletter.addInitializer(function(options) {
     var bootstrap  = window.coursavenue.bootstrap;
 
-    var newsletter = new Newsletter.Models.Newsletter(bootstrap.models.newsletter);
+    var newsletter     = new Newsletter.Models.Newsletter(bootstrap.models.newsletter);
+    var navigation_bar = new Newsletter.Views.NavigationBar();
 
     var router     = new Newsletter.Router.NewsletterRouter({
         model: newsletter
@@ -21,6 +22,12 @@ Newsletter.addInitializer(function(options) {
     router.saveLayout(layout);
 
     Newsletter.mainRegion.show(layout);
+
+    layout.showWidget(navigation_bar, {
+        events: {
+            'section:changed': 'updateButtonsVisibility'
+        }
+    });
 
     Backbone.history.start({
         pushState: true,

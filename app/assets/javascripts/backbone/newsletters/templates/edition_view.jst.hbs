@@ -1,23 +1,10 @@
-<div class='text--right'>
-  <a class='btn btn--gray fancybox.ajax' href='{{ previewUrl }}' data-behavior='modal' data-width='700' data-padding='0'>
-    <i class='fa-eye'></i>
-    Previsualiser
-  </a>
-  <a href='javascript:void(0)' data-next='true' class='btn btn--green'>Étape suivante</a>
-</div>
-<div class='flexbox push-half--ends'>
-  <div class='flexbox__item v-middle text--right'>
-    <a href='javascript:void(0)' data-previous='true' class=''>Étape précédente</a>
-  </div>
-</div>
-
 <form method='POST' action='{{ formAction }}'>
+  <input type='hidden' name='layout_id' value="{{ layout_id }}" />
   <input type="hidden" name="{{ csrfName }}" value="{{ csrfToken }}">
 
-  <label for="title" class='label--large blue'>Titre de votre newsletter</label>
-  <p class="flush">Pensez à être clair dans sa formulation.</p>
+  <label for="title" class="delta f-weight-600 block push-half--bottom">Titre de votre newsletter</label>
   <input id="title" class='input--large one-whole' name="title" type="text" placeholder="Prochains stages à venir !" value="{{ title }}" required/>
-  <input type='hidden' name='layout_id' value="{{ layout_id }}" />
+  <p class="flush line-height-2 f-style-italic flush">Pensez à être clair dans sa formulation. Ex. : « Découvrez nos stages d'été »</p>
 
   <hr class="push--ends">
 

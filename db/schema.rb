@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150408114142) do
+ActiveRecord::Schema.define(version: 20150410075547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -569,6 +569,14 @@ ActiveRecord::Schema.define(version: 20150408114142) do
     t.integer "subject_id"
     t.integer "media_id"
   end
+
+  create_table "newsletter_bloc_ownerships", id: false, force: true do |t|
+    t.integer "bloc_id"
+    t.integer "sub_bloc_id"
+  end
+
+  add_index "newsletter_bloc_ownerships", ["bloc_id", "sub_bloc_id"], name: "index_newsletter_bloc_ownerships_on_bloc_and_sub_bloc", unique: true, using: :btree
+  add_index "newsletter_bloc_ownerships", ["sub_bloc_id", "bloc_id"], name: "index_newsletter_bloc_ownerships_on_sub_bloc_and_bloc", unique: true, using: :btree
 
   create_table "newsletter_blocs", force: true do |t|
     t.string   "type"
