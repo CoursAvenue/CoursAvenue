@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150410075547) do
+ActiveRecord::Schema.define(version: 20150413133135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -570,6 +570,14 @@ ActiveRecord::Schema.define(version: 20150410075547) do
     t.integer "media_id"
   end
 
+  create_table "newsletter_bloc_ownerships", id: false, force: true do |t|
+    t.integer "bloc_id"
+    t.integer "sub_bloc_id"
+  end
+
+  add_index "newsletter_bloc_ownerships", ["bloc_id", "sub_bloc_id"], name: "index_newsletter_bloc_ownerships_on_bloc_and_sub_bloc", unique: true, using: :btree
+  add_index "newsletter_bloc_ownerships", ["sub_bloc_id", "bloc_id"], name: "index_newsletter_bloc_ownerships_on_sub_bloc_and_bloc", unique: true, using: :btree
+
   create_table "newsletter_blocs", force: true do |t|
     t.string   "type"
     t.integer  "newsletter_id"
@@ -647,6 +655,7 @@ ActiveRecord::Schema.define(version: 20150410075547) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
+    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_request_participants", force: true do |t|
@@ -803,6 +812,9 @@ ActiveRecord::Schema.define(version: 20150410075547) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
@@ -1034,10 +1046,12 @@ ActiveRecord::Schema.define(version: 20150410075547) do
     t.boolean  "sms_opt_in",                     default: false
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
+    t.string   "stripe_customer_id"
   end
 
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
+  add_index "structures", ["stripe_customer_id"], name: "index_structures_on_stripe_customer_id", unique: true, using: :btree
 
   create_table "structures_subjects", id: false, force: true do |t|
     t.integer "structure_id"
@@ -1170,13 +1184,16 @@ ActiveRecord::Schema.define(version: 20150410075547) do
   add_index "unfinished_resources", ["visitor_id"], name: "index_unfinished_resources_on_visitor_id", using: :btree
 
   create_table "user_profile_imports", force: true do |t|
-    t.binary   "data",         null: false
+    t.binary   "data",                       null: false
     t.string   "filename"
     t.string   "mime_type"
     t.integer  "structure_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "newsletter_mailing_list_id"
   end
+
+  add_index "user_profile_imports", ["newsletter_mailing_list_id"], name: "index_user_profile_imports_on_newsletter_mailing_list_id", using: :btree
 
   create_table "user_profiles", force: true do |t|
     t.integer "structure_id"

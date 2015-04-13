@@ -1116,6 +1116,16 @@ class Structure < ActiveRecord::Base
   end
   handle_asynchronously :update_intercom_status
 
+  # Retrieve the Stripe customer associated with this structure.
+  # The stripe customer is the stripe account used for the subscription with CoursAvenue.
+  #
+  # @return a Stripe::Customer or nil
+  def stripe_customer
+    return nil if self.stripe_customer_id.nil?
+
+    Stripe::Customer.retrieve(self.stripe_customer_id)
+  end
+
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons

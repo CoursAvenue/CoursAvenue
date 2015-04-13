@@ -405,4 +405,22 @@ describe Structure do
       expect(subject.independant?).to be_truthy
     end
   end
+
+  describe '#stripe_customer' do
+    context 'when not a stripe customer' do
+      it 'returns nil' do
+        expect(subject.stripe_customer).to be_nil
+      end
+    end
+
+    context 'when a stripe customber' do
+      subject { FactoryGirl.create(:structure, :with_stripe_customer) }
+
+      it 'returns a Stripe::Customer object' do
+        stripe_customer = Stripe::Customer
+
+        expect(subject.stripe_customer).to be_a(stripe_customer)
+      end
+    end
+  end
 end

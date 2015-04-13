@@ -2,14 +2,18 @@
 FactoryGirl.define do
 
   factory :structure do
-    name           { Faker::Name.name + ' institute' }
+    name               { Faker::Name.name + ' institute' }
 
-    street         'Paris'
-    zip_code       '75014'
-    latitude       48.8592
-    longitude      2.3417
+    street             'Paris'
+    zip_code           '75014'
+    latitude           48.8592
+    longitude          2.3417
 
-    structure_type Structure::STRUCTURE_TYPES.sample
+    structure_type     Structure::STRUCTURE_TYPES.sample
+
+    trait :with_stripe_customer do
+      stripe_customer_id 'cus_63E1iabiFAC2Bl'
+    end
 
     after(:build) do |structure|
       structure.subjects << FactoryGirl.build(:subject)
