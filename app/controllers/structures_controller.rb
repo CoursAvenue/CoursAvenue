@@ -186,7 +186,7 @@ class StructuresController < ApplicationController
   #
   # @return Structure
   def set_current_structure
-    @structure = Structure.fetch_by_id_or_slug(params[:id])
+    @structure = Structure.friendly.find(params[:id])
     raise ActiveRecord::RecordNotFound.new(params) if @structure.nil?
   end
 
