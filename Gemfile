@@ -252,6 +252,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'rspec-rails',        '~> 3.1.0'
   gem 'stripe_tester',      "~> 0.2.0"
+  gem 'stripe-ruby-mock',   '~> 2.1.0', :require => 'stripe_mock'
 end
 
 gem 'dotenv-rails', '~> 2.0.0'
