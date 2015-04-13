@@ -2,9 +2,18 @@ class Subscriptions::Plan < ActiveRecord::Base
   acts_as_paranoid
 
   ######################################################################
+  # Macros                                                             #
+  ######################################################################
+
+  has_many :subscriptions
+
+  ######################################################################
   # Validations                                                        #
   ######################################################################
 
+  validates :name,           presence: true
+  validates :amount,         presence: true
+  validates :interval,       presence: true
   validates :stripe_plan_id, uniqueness: true
 
   ######################################################################
