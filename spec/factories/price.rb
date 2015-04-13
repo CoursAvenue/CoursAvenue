@@ -11,7 +11,7 @@ FactoryGirl.define do
       number 10
     end
 
-    factory :subscription, class: 'Price::Subscription' do
+    factory :price_subscription, class: 'Price::Subscription' do
       type 'Price::Subscription'
       libelle 'prices.subscription.annual'
     end
