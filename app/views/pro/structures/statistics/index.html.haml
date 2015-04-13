@@ -33,15 +33,15 @@
 
 :javascript
   window.coursavenue = {};
-  window.coursavenue.series = [ { data: #{ @impressions },
+  window.coursavenue.series = [ { data: #{ @impressions.values },
                                   name: 'Affichages',
                                   stack: 'Affichages'
                                  },
-                                { data: #{ @views },
+                                { data: #{ @views.values },
                                   name: 'Vues',
                                   stack: 'Vues'
                                 },
-                                { data: #{ @actions },
+                                { data: #{ @actions.values },
                                   name: 'Actions',
                                   stack: 'Actions'
                                 }
