@@ -1122,6 +1122,18 @@ ActiveRecord::Schema.define(version: 20150421115523) do
 
   add_index "subscription_plans", ["structure_id"], name: "index_subscription_plans_on_structure_id", using: :btree
 
+  create_table "subscriptions", force: true do |t|
+    t.string   "name"
+    t.integer  "price"
+    t.string   "interval"
+    t.string   "stripe_subscription_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "canceled_at"
+  end
+
+  add_index "subscriptions", ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true, using: :btree
+
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
