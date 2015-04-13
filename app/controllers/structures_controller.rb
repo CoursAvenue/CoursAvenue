@@ -74,10 +74,6 @@ class StructuresController < ApplicationController
     @place_ids           = @structure.places.map(&:id)
     @city                = @structure.city
 
-    # Stopping stat. We have to find something else.
-    # if !current_pro_admin
-    #   Metric.delay(queue: 'metric').view(@structure.id, current_user, cookies[:fingerprint], request.ip)
-    # end
     @similar_profiles = @structure.similar_profiles(18)
     @medias = @structure.medias.cover_first.videos_first
     @model = StructureShowSerializer.new(@structure, {
@@ -137,7 +133,6 @@ class StructuresController < ApplicationController
   def add_to_favorite
     @structure.followings.create(user: current_user)
     AdminMailer.delay.user_is_now_following_you(@structure, current_user)
-    Metric.action(@structure.id, cookies[:fingerprint], request.ip, 'follow')
     respond_to do |format|
       format.html { redirect_to structure_path(@structure), notice: "#{@structure.name} a été ajouté à vos favoris"}
       format.json { render json: { succes: true } }
