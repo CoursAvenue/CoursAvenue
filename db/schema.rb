@@ -1130,9 +1130,22 @@ ActiveRecord::Schema.define(version: 20150421115523) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "canceled_at"
+    t.datetime "deleted_at"
   end
 
   add_index "subscriptions", ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true, using: :btree
+
+  create_table "subscriptions_plans", force: true do |t|
+    t.string   "stripe_plan_id"
+    t.integer  "amount"
+    t.string   "interval"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  add_index "subscriptions_plans", ["stripe_plan_id"], name: "index_subscriptions_plans_on_stripe_plan_id", unique: true, using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
