@@ -3,11 +3,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         template: Module.templateDirname() + 'newsletter_layout',
 
         regions: {
-            'choose-layout': "[data-page=choose-layout]",
-            'edit':            "[data-page=edit]",
-            'mailing-list':  "[data-page=mailing-list]",
-            'metadata':        "[data-page=metadata]",
-            'preview':         "[data-page=preview]"
+            'choose-layout' : "[data-page=choose-layout]",
+            'edit'          : "[data-page=edit]",
+            'mailing-list'  : "[data-page=mailing-list]",
+            'metadata'      : "[data-page=metadata]",
+            'preview'       : "[data-page=preview]"
         },
 
         events: {
@@ -30,8 +30,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         showOrCreatePage: function showOrCreatePage (page_name) {
-            // Start by hiding all regions
-            _.each(this.getRegions(), function(region) { region.$el.hide(); });
+            // Start by hiding all page regions
+            this.$('[data-page]').hide();
             this.setCurrentTab(page_name);
 
             switch(page_name) {
@@ -52,6 +52,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var bootstrap = window.coursavenue.bootstrap;
 
             var layouts_collection      = new Newsletter.Models.LayoutsCollection(bootstrap.models.layouts);
+            // Set selected layout in model
+            if (bootstrap.layout) {
+                layouts_collection.findWhere({ id: parseInt(bootstrap.layout, 10) }).set('selected', true);
+            }
             var layouts_collection_view = new Newsletter.Views.LayoutsCollectionView({
                 collection: layouts_collection
             });
@@ -245,6 +249,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         savingSuccessCallback: function savingSuccessCallback (model, response, options) {
+            this.trigger('newsletter:saved', model);
             this.nextStep();
         },
 

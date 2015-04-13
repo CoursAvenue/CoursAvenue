@@ -1,6 +1,6 @@
 Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
-    Module.MailingListsEmptyCollectionView = Backbone.Marionette.ItemView.extend({
-        template: Module.templateDirname() + 'mailing_lists_empty_collection_view',
+    Module.MailingListImportView = Backbone.Marionette.ItemView.extend({
+        template: Module.templateDirname() + 'mailing_list_import_view',
 
         events: {
             'change [data-import-file]':  'importFromFile',
@@ -36,13 +36,14 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 cache: false,
                 contentType: false,
                 processData: false,
-                success: function (data) {
-                    var element = $('[data-file-headers]');
-                    element.html(data.popup_to_show)
-                    element.slideDown();
+                success: function success (data) {
+                    $('[data-type=second-method]').slideUp();
+                    var $data_file_headers_wrapper = $('[data-file-headers]');
+                    $data_file_headers_wrapper.html(data.popup_to_show)
+                    $data_file_headers_wrapper.slideDown();
                     this.user_profile_import = data.user_profile_import.id;
                 }.bind(this),
-                error: function (data) {
+                error: function error (data) {
                     COURSAVENUE.helperMethods.flash("Erreur lors de l'import du fichier, veuillez rééssayer.", 'error');
                 }
             });
@@ -61,13 +62,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             $.ajax(url, {
                 data: data,
                 type: 'POST',
-                success: function (data) {
+                success: function success (data) {
                     var mailingList = new Newsletter.Models.MailingList(data.mailing_list);
                     COURSAVENUE.helperMethods.flash(data.message, 'notice');
                     this.collection.add(mailingList);
                     this.trigger('selected', { model: this.model });
                 }.bind(this),
-                error: function (data) {
+                error: function error (data) {
                     var message = data.message || "Erreur lors de l'association des colonnes, veuillez rééssayer.";
                     COURSAVENUE.helperMethods.flash(message, 'error');
                 }

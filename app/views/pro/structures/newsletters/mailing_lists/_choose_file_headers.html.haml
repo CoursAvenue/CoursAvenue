@@ -1,23 +1,20 @@
-.push--top.panel.center-block.soft
-  .panel__header.text--center
-    %h4 Associez les colonnes du fichier aux champs correspondants
+%h4 Associez les colonnes du fichier aux champs correspondants
 
-  = simple_form_for [:import, :pro, structure, user_profile_import], data: { header: true } do |f|
-    %table.table--data.table--striped
-      %thead
+= simple_form_for [:import, :pro, structure, user_profile_import], data: { header: true } do |f|
+  %table.table--data.table--striped
+    %thead
+      %tr
+        %th 1ère ligne
+        %th Association
+    %tbody
+      - user_profile_import.headers.each_with_index do |excel_first_row, index|
         %tr
-          %th 1ère ligne
-          %th Association
-      %tbody
-        - user_profile_import.headers.each_with_index do |excel_first_row, index|
-          %tr
-            %td= excel_first_row
-            %td
-              %select{name: 'table_indexes[]'}
-                %option
-                - user_profile_import.user_profile_accessible_attributes.each do |attribute_name|
-                  %option{selected: (user_profile_import.send("#{attribute_name}_index") == index) ,value: "#{attribute_name}:#{index}"}= UserProfile.human_attribute_name(attribute_name)
+          %td= excel_first_row
+          %td
+            %select{name: 'table_indexes[]'}
+              %option
+              - user_profile_import.user_profile_accessible_attributes.each do |attribute_name|
+                %option{selected: (user_profile_import.send("#{attribute_name}_index") == index) ,value: "#{attribute_name}:#{index}"}= UserProfile.human_attribute_name(attribute_name)
 
-    .soft--sides
-      %button.btn.btn--green.btn--full{ type: 'button', data: { popup: true } }
-        Valider
+  %button.btn.btn--green.btn--full{ type: 'button', data: { popup: true } }
+    Valider

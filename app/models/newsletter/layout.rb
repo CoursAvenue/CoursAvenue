@@ -37,4 +37,9 @@ class Newsletter::Layout < ActiveHash::Base
       proportions: []
     }
   ]
+
+  # To be able to serialize data with serialize
+  def serializable_hash
+    self.attributes
+  end
 end

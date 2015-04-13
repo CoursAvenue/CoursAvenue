@@ -1,25 +1,14 @@
-<div class='text--right'>
-  <a class='btn fancybox.ajax' href='{{ previewUrl }}' data-behavior='modal' data-width='700' data-padding='0'>
-    <i class='fa fa-eye'></i>
-    Previsualiser
-  </a>
-  <a href='javascript:void(0)' data-next='true' class='btn btn--green'>Étape suivante</a>
-</div>
-<div class='flexbox push-half--ends'>
-  <div class='flexbox__item v-middle text--right'>
-    <a href='javascript:void(0)' data-previous='true' class=''>Étape précédente</a>
-  </div>
-</div>
-
 {{#if hasElements }}
-<div data-type='mailing-list'>
-  {{#if showAllProfilesOption}}
-    <div class='input'>
-      <input type='radio' id='mailing_list_all_profiles' name='mailing_list' value='all' class='input--large one--whole' data-all-contacts='true'/>
-      <label for='mailing_list_all_profiles'>Envoyer à tous les contacts du répertoire</label>
+    <div data-type='mailing-list'>
+        {{#if showAllProfilesOption}}
+            <div class='input'>
+                <input type='radio' id='mailing_list_all_profiles' name='mailing_list' value='all' class='input--large one--whole' data-all-contacts='true'/>
+                <label for='mailing_list_all_profiles'>Envoyer à tous les contacts du répertoire</label>
+            </div>
+        {{/if}}
     </div>
-  {{/if}}
-</div>
 {{else}}
-<div data-type='mailing-list'></div>
+    <div data-type='mailing-list'></div>
 {{/if}}
+
+<div data-type='import-view'></div>

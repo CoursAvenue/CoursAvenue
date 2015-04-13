@@ -14,13 +14,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             _.bindAll(this, 'saveModel', 'savingError', 'savingSuccess');
         },
 
-        templateHelpers: function templateHelpers () {
-            var structure = window.coursavenue.bootstrap.structure;
-            return {
-                previewUrl: Routes.preview_newsletter_pro_structure_newsletter_path(structure, this.model.get('id')),
-            };
-        },
-
         saveModel: function saveModel (event) {
             event.preventDefault();
             this.model.save({}, {

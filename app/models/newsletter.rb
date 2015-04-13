@@ -15,10 +15,10 @@ class Newsletter < ActiveRecord::Base
   ######################################################################
 
   attr_accessible :title, :state,
-    :email_object, :sender_name, :reply_to,
-    :layout_id,
-    :blocs, :blocs_attributes,
-    :newsletter_mailing_list_id
+                  :email_object, :sender_name, :reply_to,
+                  :layout_id,
+                  :blocs, :blocs_attributes,
+                  :newsletter_mailing_list_id
 
   belongs_to :structure
 

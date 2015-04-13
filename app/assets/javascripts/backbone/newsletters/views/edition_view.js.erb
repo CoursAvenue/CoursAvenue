@@ -66,8 +66,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             return {
                 formAction: Routes.pro_structure_newsletters_path(structure),
                 csrfName: $('meta[name="csrf-param"]').attr('content'),
-                csrfToken: $('meta[name="csrf-token"]').attr('content'),
-                previewUrl: Routes.preview_newsletter_pro_structure_newsletter_path(structure, this.model.get('id')),
+                csrfToken: $('meta[name="csrf-token"]').attr('content')
             };
         },
 

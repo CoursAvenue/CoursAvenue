@@ -16,34 +16,26 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize (options) {
             this.model = options.model;
-            _.bindAll(this, 'saveModel', 'importList', 'selectAllContacts', 'previousStep', 'emptyViewOptions');
-        },
-
-        getEmptyView: function getEmptyView () {
-            return Module.MailingListsEmptyCollectionView;
-        },
-
-        emptyViewOptions: function emptyViewOptions () {
-            return {
-                model:      this.model,
-                collection: this.collection
-            }
+            _.bindAll(this, 'saveModel', 'importList', 'selectAllContacts', 'previousStep');
         },
 
         templateHelpers: function templateHelpers () {
             var structure = window.coursavenue.bootstrap.structure;
 
             return {
-                showAllProfilesOption: function () {
+                showAllProfilesOption: function showAllProfilesOption () {
                     return this.collection.hasAllProfilesList();
                 }.bind(this),
 
-                hasElements: function () {
+                hasElements: function hasElements () {
                     return !this.collection.isEmpty();
-                }.bind(this),
-
-                previewUrl: Routes.preview_newsletter_pro_structure_newsletter_path(structure, this.model.get('id')),
+                }.bind(this)
             };
+        },
+
+        onRender: function onRender () {
+            var mailing_list_import_view = new Module.MailingListImportView({ model: this.model, collection: this.collection });
+            this.$('[data-type=import-view]').append(mailing_list_import_view.render().$el);
         },
 
         saveModel: function saveModel () {
