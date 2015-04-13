@@ -2,6 +2,13 @@ class Subscription < ActiveRecord::Base
   acts_as_paranoid
 
   ######################################################################
+  # Macros                                                             #
+  ######################################################################
+
+  belongs_to :structure
+  belongs_to :plan, class_name: 'Subscriptions::Plan', foreign_key: 'subscriptions_plan_id'
+
+  ######################################################################
   # Validations                                                        #
   ######################################################################
 

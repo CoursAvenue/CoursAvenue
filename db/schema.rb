@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150413152049) do
+ActiveRecord::Schema.define(version: 20150413160146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1145,9 +1145,13 @@ ActiveRecord::Schema.define(version: 20150413152049) do
     t.datetime "updated_at"
     t.datetime "canceled_at"
     t.datetime "deleted_at"
+    t.integer  "structure_id"
+    t.integer  "subscriptions_plan_id"
   end
 
   add_index "subscriptions", ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true, using: :btree
+  add_index "subscriptions", ["structure_id"], name: "index_subscriptions_on_structure_id", using: :btree
+  add_index "subscriptions", ["subscriptions_plan_id"], name: "index_subscriptions_on_subscriptions_plan_id", using: :btree
 
   create_table "subscriptions_plans", force: true do |t|
     t.string   "stripe_plan_id"
