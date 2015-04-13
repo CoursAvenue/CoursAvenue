@@ -113,7 +113,7 @@ class Analytic::Client
     @token = ::OAuth2::AccessToken.new(oauth_client, @google_client.authorization.access_token, expires_in: EXPIRES_IN)
   end
 
-  # Get the profile to run the query on. By default we get the first one, which should be
+  # Get the profile to run the queries on. By default we get the first one, which should be
   # 'CoursAvenue'.
   #
   # @return a Legato::Profile
