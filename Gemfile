@@ -250,7 +250,8 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'faker',              '~> 1.4.3'
   gem 'factory_girl_rails', '~> 4.5.0'
-  gem 'rspec-rails',          '~> 3.1.0'
+  gem 'rspec-rails',        '~> 3.1.0'
+  gem 'stripe_tester',      "~> 0.2.0"
 end
 
 gem 'dotenv-rails', '~> 2.0.0'
@@ -295,3 +296,5 @@ gem 'mandrill-api'
 gem 'legato', '~> 0.4.0'
 
 gem 'replicate', '~> 1.5.1'
+
+gem 'stripe', '~> 1.20.4'

@@ -716,6 +716,11 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    stripe (1.20.4)
+      json (~> 1.8.1)
+      mime-types (>= 1.25, < 3.0)
+      rest-client (~> 1.4)
+    stripe_tester (0.2.0)
     sunspot (2.1.1)
       pr_geohash (~> 1.0)
       rsolr (~> 1.0.7)
@@ -887,6 +892,8 @@ DEPENDENCIES
   sitemap_generator (~> 5.0.5)
   spring
   spring-commands-rspec
+  stripe (~> 1.20.4)
+  stripe_tester (~> 0.2.0)
   sunspot (~> 2.1.1)
   sunspot-rails-tester (~> 1.0.0)
   sunspot_rails (~> 2.1.1)
