@@ -1,2 +1,0 @@
-class Analytic::FakeClient
-end
