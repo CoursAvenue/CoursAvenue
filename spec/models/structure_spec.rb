@@ -413,7 +413,7 @@ describe Structure do
       end
     end
 
-    context 'when a stripe customber' do
+    context 'when a stripe customer' do
       subject { FactoryGirl.create(:structure, :with_stripe_customer) }
 
       it 'returns a Stripe::Customer object' do

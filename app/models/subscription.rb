@@ -42,7 +42,7 @@ class Subscription < ActiveRecord::Base
   # current period. By default is true.
   #
   # @return
-  def cancel!({ at_period_end = true })
+  def cancel!(at_period_end: true)
     if stripe_subscription_id.nil? or structure.nil? or structure.stripe_customer.nil? or canceled?
       return false
     end
