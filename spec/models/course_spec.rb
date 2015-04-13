@@ -10,7 +10,7 @@ describe Course do
     it { expect(subject.has_promotion?).to eq false }
 
     context 'with promotion' do
-      let(:price)       { FactoryGirl.create(:subscription, amount: 200) }
+      let(:price)       { FactoryGirl.create(:price_subscription, amount: 200) }
       let(:price_group) { FactoryGirl.build(:price_group) }
 
       before do
