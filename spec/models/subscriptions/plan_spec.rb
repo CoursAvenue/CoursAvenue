@@ -13,7 +13,7 @@ RSpec.describe Subscriptions::Plan, type: :model do
     it 'returns a Stripe::Plan object' do
       stripe_plan = Stripe::Plan
 
-      expect(subject.stripe_plan).to eq(stripe_plan)
+      expect(subject.stripe_plan).to be_a(stripe_plan)
     end
   end
 
