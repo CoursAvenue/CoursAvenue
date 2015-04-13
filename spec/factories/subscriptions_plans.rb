@@ -1,5 +1,10 @@
 FactoryGirl.define do
   factory :subscriptions_plan, class: 'Subscriptions::Plan' do
+    name 'bronze'
+    amount 0
+    interval :month
+    stripe_plan_id nil
+
     trait :gold_plan do
       name 'Gold'
       amount 3000
