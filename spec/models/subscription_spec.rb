@@ -6,8 +6,8 @@ RSpec.describe Subscription, type: :model do
 
   it { should validate_uniqueness_of(:stripe_subscription_id) }
   it { should belong_to(:structure) }
-  it { should have_one(:plan).class_name('Subscription::Plan') }
-  it { should have_many(:invoices).class_name('Subscription::Invoice') }
+  it { should belong_to(:plan).class_name('Subscriptions::Plan') }
+  it { should have_many(:invoices).class_name('Subscriptions::Invoice') }
 
   describe '#stripe_subscription' do
     it 'returns a Stripe::Subscription object' do
