@@ -651,6 +651,7 @@ ActiveRecord::Schema.define(version: 20150421115523) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
+    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_request_participants", force: true do |t|
@@ -807,6 +808,9 @@ ActiveRecord::Schema.define(version: 20150421115523) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
@@ -1024,11 +1028,16 @@ ActiveRecord::Schema.define(version: 20150421115523) do
     t.boolean  "sms_opt_in",             default: false
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
+<<<<<<< HEAD
     t.boolean  "pure_player",            default: false
+=======
+    t.string   "stripe_customer_id"
+>>>>>>> Store stripe customer id in structure.
   end
 
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
+  add_index "structures", ["stripe_customer_id"], name: "index_structures_on_stripe_customer_id", unique: true, using: :btree
 
   create_table "structures_subjects", id: false, force: true do |t|
     t.integer "structure_id"
