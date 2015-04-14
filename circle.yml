@@ -2,7 +2,7 @@ machine:
   timezone:
     Europe/Paris
   ruby:
-    version: 2.2.1
+    version: 2.2.2
 
 database:
   post:
