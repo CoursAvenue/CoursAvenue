@@ -51,7 +51,9 @@ class ::Admin < ActiveRecord::Base
   after_create :check_if_was_invited
   after_create :set_email_opt_ins
   after_create :subscribe_to_crm
-  before_save  :downcase_email
+
+  before_save    :downcase_email
+  before_destroy :delete_from_intercom if Rails.env.production?
 
   ######################################################################
   # Scopes                                                             #
@@ -211,5 +213,9 @@ class ::Admin < ActiveRecord::Base
     user.custom_attributes['Prof tag']              =  CrmSync.structure_status_for_intercom(structure)
     user.custom_attributes['Code postal']           =   structure.zip_code
     user.save
+  end
+
+  def delete_from_intercom
+    Intercom::User.find(user_id: "Admin_#{self.id}").delete
   end
 end
