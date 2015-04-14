@@ -7,11 +7,12 @@ class UsersController < InheritedResources::Base
   before_action :authenticate_user!, except: [:unsubscribe, :waiting_for_activation,
                                               :invite_entourage_to_jpo_page, :invite_entourage_to_jpo,
                                               :welcome, :create, :facebook_auth_callback,
-                                              :facebook_auth_failure]
+                                              :edit_private_infos, :facebook_auth_failure]
+
   load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation,
                                                               :invite_entourage_to_jpo_page, :invite_entourage_to_jpo,
                                                               :welcome, :create, :facebook_auth_callback,
-                                                              :facebook_auth_failure]
+                                                              :edit_private_infos, :facebook_auth_failure]
 
   # Create from newsletter
   # GET /users
