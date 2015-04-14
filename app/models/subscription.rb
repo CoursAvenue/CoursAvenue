@@ -40,7 +40,7 @@ class Subscription < ActiveRecord::Base
   #
   # @return a Boolean.
   def canceled?
-    canceled_at.present?
+    self.canceled_at.present?
   end
 
   # Cancel the subscription
@@ -55,6 +55,9 @@ class Subscription < ActiveRecord::Base
     end
 
     structure.stripe_customer.subscriptions.retrieve(stripe_subscription_id).delete
+    self.canceled_at = Time.current
+
+    save
   end
 
   # Change the plan.
