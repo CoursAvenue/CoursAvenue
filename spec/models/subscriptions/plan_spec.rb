@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'stripe_mock'
 
 RSpec.describe Subscriptions::Plan, type: :model do
   subject { FactoryGirl.create(:subscriptions_plan, :gold_plan) }
@@ -17,9 +18,9 @@ RSpec.describe Subscriptions::Plan, type: :model do
     end
   end
 
-  describe '#subscribe!' do
+  describe '#create_subscription!' do
     context 'when stripe_plan_id is not defined' do
-      subject { FactoryGirl.create(:subscriptions_plan) }
+      subject { FactoryGirl.create(:subscriptions_plan, :empty) }
 
       it 'returns nil' do
         expect(subject.stripe_plan).to be_nil
