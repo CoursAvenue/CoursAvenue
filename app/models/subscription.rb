@@ -5,6 +5,8 @@ class Subscription < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
+  attr_accessible :structure, :stripe_subscription_id
+
   belongs_to :structure
   belongs_to :plan, class_name: 'Subscriptions::Plan', foreign_key: 'subscriptions_plan_id'
 
