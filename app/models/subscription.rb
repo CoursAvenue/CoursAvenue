@@ -67,14 +67,19 @@ class Subscription < ActiveRecord::Base
     subscription
   end
 
-  # Change the plan.
+  # Changes the plan.
   #
   # @return the new plan.
   def change_plan!(plan)
-    stripe_subscription.plan = plan.stripe_plan_id
-    stripe_subscription.save
+    if self.plan.id != plan.id
+      sub = stripe_subscription
+      sub.plan = plan.stripe_plan_id
+      sub.save
 
-    self.plan = plan
-    save
+      self.plan = plan
+      save
+    end
+
+    plan
   end
 end
