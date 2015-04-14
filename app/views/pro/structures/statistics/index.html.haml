@@ -1,7 +1,6 @@
 = side_menu_currently_at 'general'
 
-- if current_pro_admin and current_pro_admin.super_admin?
-  = render partial: 'pro/structures/general_tabs', locals: { current: 'statistics' }
+= render partial: 'pro/structures/general_tabs', locals: { current: 'statistics' }
 
 %h1 Statistiques
 
@@ -33,15 +32,15 @@
 
 :javascript
   window.coursavenue = {};
-  window.coursavenue.series = [ { data: #{ @impressions },
+  window.coursavenue.series = [ { data: #{ @impressions.values },
                                   name: 'Affichages',
                                   stack: 'Affichages'
                                  },
-                                { data: #{ @views },
+                                { data: #{ @views.values },
                                   name: 'Vues',
                                   stack: 'Vues'
                                 },
-                                { data: #{ @actions },
+                                { data: #{ @actions.values },
                                   name: 'Actions',
                                   stack: 'Actions'
                                 }

@@ -53,6 +53,48 @@ class Analytic::Client
       for_structure(structure_id).to_a
   end
 
+  # Retrieve the impression count in the given interval for the supplied structure.
+  #
+  # TODO: Cache results for the three functions bellow, since they will probably be called in
+  # succession.
+  #
+  # @param structure_id The structure id
+  # @param start_date   The start date, by default 15 days ago.
+  # @param end_date     The end date, by defautl yesterday.
+  #
+  # @return The impression count.
+  def impression_count(structure_id, start_date = 15.days.ago, end_date = 1.day.ago)
+    hits(structure_id, start_date, end_date).inject(0) do |sum, date|
+      sum + date.metric1.to_i
+    end
+  end
+
+  # Retrieve the view count in the given interval for the supplied structure.
+  #
+  # @param structure_id The structure id
+  # @param start_date   The start date, by default 15 days ago.
+  # @param end_date     The end date, by defautl yesterday.
+  #
+  # @return The view count.
+  def view_count(structure_id, start_date = 15.days.ago, end_date = 1.day.ago)
+    hits(structure_id, start_date, end_date).inject(0) do |sum, date|
+      sum + date.metric2.to_i
+    end
+  end
+
+  # Retrieve the action count in the given interval for the supplied structure.
+  #
+  # @param structure_id The structure id
+  # @param start_date   The start date, by default 15 days ago.
+  # @param end_date     The end date, by defautl yesterday.
+  #
+  # @return The action count.
+  def action_count(structure_id, start_date = 15.days.ago, end_date = 1.day.ago)
+    hits(structure_id, start_date, end_date).inject(0) do |sum, date|
+      sum + date.metric3.to_i
+    end
+  end
+
   private
 
   # Refresh the API token.
@@ -71,7 +113,7 @@ class Analytic::Client
     @token = ::OAuth2::AccessToken.new(oauth_client, @google_client.authorization.access_token, expires_in: EXPIRES_IN)
   end
 
-  # Get the profile to run the query on. By default we get the first one, which should be
+  # Get the profile to run the queries on. By default we get the first one, which should be
   # 'CoursAvenue'.
   #
   # @return a Legato::Profile

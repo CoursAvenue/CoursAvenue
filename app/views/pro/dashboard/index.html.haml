@@ -51,6 +51,10 @@
     .grid__item.palm-one-whole.one-third.text--center>
       %h3.flush= Course.open_for_trial.flat_map(&:plannings).count
       %h6 créneaux
+
+#admins-cumul
+#comments-cumul
+
 %h5.text--center Répartition / disciplines
 - subjects_count = {}
 - max_value = 1
@@ -59,8 +63,6 @@
   - subjects_count[subject.name] = structure_count
   - max_value = structure_count if structure_count > max_value
 
-
-#admins-cumul
 - subjects_count.each do |key, value|
   .grid.push-half--bottom
     .grid__item.palm-one-whole.one-quarter.text--right.palm-text--left>= key
@@ -189,6 +191,18 @@
             series: [
               { data: #{@admins_cumul_hash.map{|date, count| count}},
                 name: 'Profs cumul'
+               }
+            ]
+        });
+
+        new Highcharts.Chart({
+            chart: { renderTo: 'comments-cumul', type: 'spline' },
+            title: { text: null },
+            xAxis: { categories: #{@comments_cumul_hash.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [
+              { data: #{@comments_cumul_hash.map{|date, count| count}},
+                name: 'Avis cumul'
                }
             ]
         });

@@ -29,6 +29,7 @@ The old readme is available [here](doc/README.md).
   - [Using where with an attribute of type `hstore`](#using-where-with-an-attribute-of-type-hstore)
   - [Create a Sitemap](#create-a-sitemap)
   - [Installing `postgres` and creating a Role](#installing-postgres-and-creating-a-role)
+  - [Create a user for postgres](#create-a-user-for-postgres)
   - [Recovering a dump](#recovering-a-dump)
   - [Making a dump](#making-a-dump)
   - [SMS with Nexmo](#sms-nexmo)
@@ -267,6 +268,9 @@ create role postgres with login createdb createrole password 'password';
 ALTER USER postgres WITH SUPERUSER;
 create role udrhnkjoqg1jmn with login createdb createrole password 'password';
 ```
+
+### Create a user for postgres
+http://stackoverflow.com/questions/17633422/psql-fatal-database-user-does-not-exist
 
 ### Recovering a dump
 

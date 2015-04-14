@@ -26,7 +26,6 @@ class Structures::MessagesController < ApplicationController
     end
     respond_to do |format|
       if @conversation and @conversation.persisted?
-        Metric.action(@structure.id, cookies[:fingerprint], request.ip, 'contact_message')
         cookies.delete :user_contact_message
         format.json { render json: { succes: true, popup_to_show: render_to_string(partial: 'structures/messages/message_sent', formats: [:html]) } }
         format.html { redirect_to user_conversation_path(@user, @conversation) }
