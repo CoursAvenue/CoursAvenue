@@ -212,7 +212,6 @@ group :test do
   gem 'database_cleaner',     '~> 1.2.0'
   gem 'capybara',             '~> 2.2.1'
   gem 'rspec-instafail',      '~> 0.2.5'
-  gem 'mongoid-rspec',        '~> 2.0.0.rc1'
   gem 'shoulda-matchers',     '~> 2.8.0', require: false
 end
 
@@ -261,9 +260,6 @@ gem 'rmagick', '~> 2.13.4', require: 'RMagick'
 # Rails 4 upgrade
 gem 'actionpack-action_caching', '~> 1.1.1'
 
-# Use mongoid for statistics
-gem 'mongoid'                  , '~> 4.0.2'
-
 # ActiveRecord Caching
 gem 'identity_cache'           , '~> 0.2.3'
 gem 'cityhash'                 , '~> 0.8.1'
@@ -297,3 +293,5 @@ gem 'omnicontacts', '~> 0.3.5'
 gem 'mandrill-api'
 
 gem 'legato', '~> 0.4.0'
+
+gem 'replicate', '~> 1.5.1'

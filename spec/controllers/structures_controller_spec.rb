@@ -65,7 +65,6 @@ describe StructuresController, type: :controller do
     let(:structure) { FactoryGirl.create(:structure_with_admin) }
     before do
       sign_in user
-      Metric.where(structure_id: structure.id).destroy_all
     end
 
     it 'creates a new following' do
