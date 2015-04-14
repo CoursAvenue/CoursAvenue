@@ -1,4 +1,6 @@
 # -*- encoding : utf-8 -*-
+require 'stripe_mock'
+
 FactoryGirl.define do
 
   factory :structure do
@@ -11,8 +13,18 @@ FactoryGirl.define do
 
     structure_type     Structure::STRUCTURE_TYPES.sample
 
-    trait :with_stripe_customer do
-      stripe_customer_id 'cus_63E1iabiFAC2Bl'
+    factory :structure_with_stripe_customer do
+      with_contact_email
+      after(:build) do |structure|
+        stripe_helper = StripeMock.create_test_helper
+
+        customer = Stripe::Customer.create({
+          email: structure.contact_email,
+          card:  stripe_helper.generate_card_token
+        })
+
+        structure.stripe_customer_id = customer.id
+      end
     end
 
     after(:build) do |structure|
