@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 require 'rails_helper'
+require 'stripe_mock'
 
 describe Structure do
   # it { should have_many(:newsletters) }
@@ -407,6 +408,9 @@ describe Structure do
   end
 
   describe '#stripe_customer' do
+    before { StripeMock.start }
+    after  { StripeMock.stop }
+
     context 'when not a stripe customer' do
       it 'returns nil' do
         expect(subject.stripe_customer).to be_nil
@@ -414,7 +418,7 @@ describe Structure do
     end
 
     context 'when a stripe customer' do
-      subject { FactoryGirl.create(:structure, :with_stripe_customer) }
+      subject { FactoryGirl.create(:structure_with_stripe_customer) }
 
       it 'returns a Stripe::Customer object' do
         stripe_customer = Stripe::Customer
