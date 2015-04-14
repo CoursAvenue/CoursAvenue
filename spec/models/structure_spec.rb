@@ -418,7 +418,21 @@ describe Structure do
     end
 
     context 'when a stripe customer' do
-      subject { FactoryGirl.create(:structure_with_stripe_customer) }
+      subject             { FactoryGirl.create(:structure, :with_contact_email) }
+      let(:stripe_helper) { StripeMock.create_test_helper }
+
+      before { StripeMock.start }
+      after { StripeMock.stop }
+
+      before do
+        customer = Stripe::Customer.create({
+          email: subject.contact_email,
+          card:  stripe_helper.generate_card_token
+        })
+        subject.stripe_customer_id = customer.id
+
+        subject.save
+      end
 
       it 'returns a Stripe::Customer object' do
         stripe_customer = Stripe::Customer
