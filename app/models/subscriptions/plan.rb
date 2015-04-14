@@ -5,7 +5,7 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  has_many :subscriptions
+  has_many :subscriptions, foreign_key: 'subscriptions_plan_id'
 
   ######################################################################
   # Validations                                                        #
