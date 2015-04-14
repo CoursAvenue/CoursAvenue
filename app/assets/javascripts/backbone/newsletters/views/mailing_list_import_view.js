@@ -3,15 +3,24 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         template: Module.templateDirname() + 'mailing_list_import_view',
 
         events: {
-            'change [data-import-file]':  'importFromFile',
-            'click [data-import-emails]': 'importFromEmails',
-            'submit':                     'chooseFileHeaders',
-            'click [data-popup]':         'chooseFileHeaders',
+            'change [name=mailing_list]' : 'showImportOptions',
+            'change [data-import-file]'  : 'importFromFile',
+            'click [data-import-emails]' : 'importFromEmails',
+            'submit'                     : 'chooseFileHeaders',
+            'click [data-popup]'         : 'chooseFileHeaders',
+        },
+        ui: {
+            '$import_options' : '[data-type=import-option"]'
         },
 
         initialize: function initialize (options) {
             this.model = options.model;
             _.bindAll(this, 'importFromFile', 'chooseFileHeaders', 'importFromEmails');
+        },
+
+        showImportOptions: function showImportOptions (options) {
+            this.ui.$import_options.slideDown();
+            debugger
         },
 
         importFromFile: function importFromFile () {

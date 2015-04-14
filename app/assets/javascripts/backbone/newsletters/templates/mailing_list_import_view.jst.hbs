@@ -1,28 +1,34 @@
-<h1>2 méthodes pour Importer vos contacts personnels</h1>
+<input type='radio' name='mailing_list' value='import-contacts' class='input--large one--whole' />
+<label class="soft-half--ends label--large" for='mailing_list_all_profiles_{{ id }}'>Importer une liste de contacts</label>
 
-<h3>Méthode 1 : importez vos contacts réunis dans un fichier excel ou csv</h3>
+<hr class="push-half--ends">
+<div class="hidden" data-type="import-options">
+    <h1>2 méthodes pour Importer vos contacts personnels</h1>
 
-<form>
-  <p class='epsilon inline-block v-middle flush'>
-    Téléchargez votre fichier Excel de contacts puis affectez les colonnes aux champs correspondants :
-  </p>
+    <h3>Méthode 1 : importez vos contacts réunis dans un fichier excel ou csv</h3>
 
-  <label class='btn btn--small v-middle' for='user_profile_import_file' for='user_profile_import_file'>
-    Choisir mon fichier
-    <div class='visuallyhidden'>
-      <input type='file' id='user_profile_import_file' data-import-file='true'/>
-    </div>
-  </label>
-</form>
-
-<div class="hidden bordered soft push-half--top" data-file-headers='true'></div>
-
-<div data-type="second-method">
-    <hr class='push--ends' />
-
-    <h3>Méthode 2 : copiez puis collez dans cet espace tous vos e-mails de contacts</h3>
     <form>
-      <textarea class='push-half--bottom input--large one-whole' name='emails' placeholder='Ex. : maurice@gmail.com, elsa@gmail.com, marie@gmail.com, ...' rows='5' data-behavior='autoresize'></textarea>
-      <button class='btn btn--green' type='button' data-disable-with='Import en cours...' data-import-emails='true'>Importer les e-mails</button>
+      <p class='epsilon inline-block v-middle flush'>
+        Téléchargez votre fichier Excel de contacts puis affectez les colonnes aux champs correspondants :
+      </p>
+
+      <label class='btn btn--small v-middle' for='user_profile_import_file' for='user_profile_import_file'>
+        Choisir mon fichier
+        <div class='visuallyhidden'>
+          <input type='file' id='user_profile_import_file' data-import-file='true'/>
+        </div>
+      </label>
     </form>
+
+    <div class="hidden bordered soft push-half--top" data-file-headers='true'></div>
+
+    <div data-type="second-method">
+        <hr class='push--ends' />
+
+        <h3>Méthode 2 : copiez puis collez dans cet espace tous vos e-mails de contacts</h3>
+        <form>
+          <textarea class='push-half--bottom input--large one-whole' name='emails' placeholder='Ex. : maurice@gmail.com, elsa@gmail.com, marie@gmail.com, ...' rows='5' data-behavior='autoresize'></textarea>
+          <button class='btn btn--green' type='button' data-disable-with='Import en cours...' data-import-emails='true'>Importer les e-mails</button>
+        </form>
+    </div>
 </div>
