@@ -8,7 +8,6 @@ class Pro::Structures::SubscriptionPlansController < Pro::ProController
 
   # GET etablissements/:structure_id/premium
   def premium
-    Metric.create(structure_id: @structure.id, action_type: "structure_go_premium_premium_page", infos: request.referrer)
   end
 
   # GET etablissements/:structure_id/abonnements/:id

@@ -114,7 +114,6 @@ class Pro::Structures::NewslettersController < ApplicationController
     render layout: false
   end
 
-  # Metrics modal.
   def metrics
     @newsletter = @structure.newsletters.includes(:metric).find(params[:id]).decorate
     @metric     = @newsletter.metric.decorate
