@@ -78,6 +78,8 @@ class Structure < ActiveRecord::Base
   has_many :admins                   , dependent: :destroy
   has_many :subscription_plans       , dependent: :destroy
 
+  has_one :subscription, dependent: :destroy
+
   # The structure that is not modified when an admin takes control.
   has_one :sleeping_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
 
