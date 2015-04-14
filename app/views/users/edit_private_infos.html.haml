@@ -8,7 +8,7 @@
         %h3 Mon compte
         %h4 Changer mon mot de passe
 
-        = simple_form_for @user, url: update_password_user_path(current_user), html: { method: :patch } do |f|
+        = simple_form_for @user, url: update_password_user_path(@user), html: { method: :patch } do |f|
           = f.error_notification
 
           = f.input :current_password, label: 'Mot de passe actuel', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
