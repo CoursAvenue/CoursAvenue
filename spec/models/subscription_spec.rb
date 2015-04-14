@@ -8,7 +8,7 @@ RSpec.describe Subscription, type: :model do
   it { should validate_uniqueness_of(:stripe_subscription_id) }
   it { should belong_to(:structure) }
   it { should belong_to(:plan).class_name('Subscriptions::Plan').with_foreign_key('subscriptions_plan_id') }
-  # it { should have_many(:invoices).class_name('Subscriptions::Invoice') }
+  it { should have_many(:invoices).class_name('Subscriptions::Invoice') }
 
   describe '#stripe_subscription' do
     context "when there isn't a stripe_subscription_id" do
