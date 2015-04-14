@@ -408,9 +408,6 @@ describe Structure do
   end
 
   describe '#stripe_customer' do
-    before { StripeMock.start }
-    after  { StripeMock.stop }
-
     context 'when not a stripe customer' do
       it 'returns nil' do
         expect(subject.stripe_customer).to be_nil
@@ -418,6 +415,9 @@ describe Structure do
     end
 
     context 'when a stripe customer' do
+      before { StripeMock.start }
+      after  { StripeMock.stop }
+
       subject             { FactoryGirl.create(:structure, :with_contact_email) }
       let(:stripe_helper) { StripeMock.create_test_helper }
 
@@ -438,6 +438,35 @@ describe Structure do
         stripe_customer = Stripe::Customer
 
         expect(subject.stripe_customer).to be_a(stripe_customer)
+      end
+    end
+  end
+
+  describe '#create_stripe_customer' do
+    context 'when the token is not provided' do
+      it 'returns nil' do
+        expect(subject.create_stripe_customer(nil)).to eq(nil)
+      end
+    end
+
+    context 'when the token is provided' do
+      before { StripeMock.start }
+      after  { StripeMock.stop }
+
+      let(:token)         { stripe_helper.generate_card_token }
+      let(:stripe_helper) { StripeMock.create_test_helper }
+
+      it 'returns a new Stripe::Customer' do
+        stripe_customer_type = Stripe::Customer
+        stripe_customer      = subject.create_stripe_customer(token)
+
+        expect(stripe_customer).to be_a(stripe_customer_type)
+      end
+
+      it 'saves the stripe customer id' do
+        stripe_customer = subject.create_stripe_customer(token)
+
+        expect(subject.stripe_customer_id).to eq(stripe_customer.id)
       end
     end
   end
