@@ -55,4 +55,18 @@ describe Pro::SubscriptionsPlansController, type: :controller do
       end
     end
   end
+
+  describe '#new' do
+    it 'renders the new template' do
+      get :new
+
+      expect(response).to render_template('new')
+    end
+
+    it 'assigns a new plan' do
+      get :new
+
+      expect(assigns(:plan)).to be_a_new(Subscriptions::Plan)
+    end
+  end
 end
