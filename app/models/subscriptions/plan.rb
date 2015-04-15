@@ -5,16 +5,25 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
+  attr_accessible :name, :amount, :interval
+
   has_many :subscriptions, foreign_key: 'subscriptions_plan_id'
 
   ######################################################################
   # Validations                                                        #
   ######################################################################
 
-  validates :name,           presence: true
+  validates :name,           presence: true, uniqueness: true
   validates :amount,         presence: true
   validates :interval,       presence: true
   validates :stripe_plan_id, uniqueness: true
+
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
+
+  scope :monthly, -> { where(interval: 'month') }
+  scope :yearly,  -> { where(interval: 'year') }
 
   ######################################################################
   # Methods                                                            #

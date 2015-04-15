@@ -6,6 +6,7 @@ RSpec.describe Subscriptions::Plan, type: :model do
 
   it { should validate_uniqueness_of(:stripe_plan_id) }
   it { should validate_presence_of(:name) }
+  it { should validate_uniqueness_of(:name) }
   it { should validate_presence_of(:amount) }
   it { should validate_presence_of(:interval) }
   it { should have_many(:subscriptions) }
