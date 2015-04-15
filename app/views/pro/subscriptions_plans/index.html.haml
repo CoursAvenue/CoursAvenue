@@ -1,6 +1,17 @@
 = side_menu_currently_at 'admin'
 
-- if @monthly_plans.any? or @yearly_plans.any?
+- any_plans = @monthly_plans.any? or @yearly_plans.any?
+
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Offres d'abonnements
+  .flexbox__item.v-middle.text--right
+    - if any_plans
+      = link_to new_pro_subscriptions_plan_path, class: 'btn btn--green' do
+        %i.fa.fa-plus
+        Ajouter une offre
+
+- if any_plans
   = render 'plans_list'
 - else
   = render 'plans_empty'
