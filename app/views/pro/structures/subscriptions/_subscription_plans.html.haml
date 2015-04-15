@@ -1,1 +1,12 @@
-Not subscribed.
+%h1.flush Abonnements
+
+.flexbox
+  .flexbox__item.v-middle.text--center
+    .flush
+
+.grid--full.text--center
+  - @monthly_plans.each do |plan|
+    .grid__item.one-third
+      = plan.name
+
+= render 'pro/shared/choose_premium_boxes'
