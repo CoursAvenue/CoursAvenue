@@ -1,4 +1,6 @@
-<input type='radio' id='mailing_list_all_profiles_{{ id }}' name='mailing_list' value='{{ id }}' class='v-middle input--large one--whole' />
-<label class="v-middle soft-half--ends label--large" for='mailing_list_all_profiles_{{ id }}'>{{ name }} ({{ recipient_count }})</label>
-
 <hr class="push-half--ends">
+{{#if selected}}checked{{/if}}
+<input type='radio' {{#if selected}}checked{{/if}} id='mailing_list_all_profiles_{{ id }}' name='mailing_list' value='{{ id }}' class="v-middle input--large one--whole" />
+<label class="v-middle soft-half--ends label--large" for='mailing_list_all_profiles_{{ id }}'>{{ name }} ({{ recipient_count }} {{ pluralize recipient_count 'élève' 'élèves' }})</label>
+
+<a class="fancybox.ajax push-half--left v-middle" href="{{ edit_url }}" data-behavior="modal">Editer</a>

@@ -112,14 +112,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             if (this.getRegion('mailing-list').initialized) { this.getRegion('mailing-list').$el.show(); return; }
             var bootstrap = window.coursavenue.bootstrap;
 
-            var mailing_list_collection      = new Newsletter.Models.MailingListsCollection(bootstrap.models.mailingLists);
+            var mailing_list_collection      = new Newsletter.Models.MailingListsCollection(bootstrap.models.mailingLists, this.newsletter.get('newsletter_mailing_list_id'));
             var mailing_list_collection_view = new Newsletter.Views.MailingListsCollectionView({
               collection: mailing_list_collection,
               model: this.newsletter
             });
 
             this.listenTo(mailing_list_collection_view, 'selected', this.selectMailingList);
-            this.listenTo(mailing_list_collection_view, 'previous', this.previousStep);
             mailing_list_collection.on('add', function (model, collection, options) {
                 this.selectMailingList( { model: model });
             }.bind(this));
@@ -245,7 +244,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             if (this.newsletter.hasChanged()) {
                 this.newsletter.save();
             }
-            this.nextStep()
         },
 
         savingSuccessCallback: function savingSuccessCallback (model, response, options) {

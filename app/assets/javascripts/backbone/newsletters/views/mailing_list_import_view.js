@@ -3,14 +3,16 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         template: Module.templateDirname() + 'mailing_list_import_view',
 
         events: {
-            'change [name=mailing_list]' : 'showImportOptions',
-            'change [data-import-file]'  : 'importFromFile',
-            'click [data-import-emails]' : 'importFromEmails',
-            'submit'                     : 'chooseFileHeaders',
-            'click [data-popup]'         : 'chooseFileHeaders',
+            'click [data-behavior=show-import-options]' : 'showImportOptions',
+            'change [data-import-file]'                 : 'importFromFile',
+            'click [data-import-emails]'                : 'importFromEmails',
+            'submit'                                    : 'chooseFileHeaders',
+            'click [data-popup]'                        : 'chooseFileHeaders'
         },
+
         ui: {
-            '$import_options' : '[data-type=import-option"]'
+            '$import_options'          : '[data-type=import-options]',
+            '$show_more_options_button': '[data-behavior=show-import-options]'
         },
 
         initialize: function initialize (options) {
@@ -19,8 +21,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         showImportOptions: function showImportOptions (options) {
+            this.ui.$show_more_options_button.slideUp();
             this.ui.$import_options.slideDown();
-            debugger
         },
 
         importFromFile: function importFromFile () {
@@ -46,11 +48,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 contentType: false,
                 processData: false,
                 success: function success (data) {
-                    $('[data-type=second-method]').slideUp();
-                    var $data_file_headers_wrapper = $('[data-file-headers]');
-                    $data_file_headers_wrapper.html(data.popup_to_show)
-                    $data_file_headers_wrapper.slideDown();
-                    this.user_profile_import = data.user_profile_import.id;
+                    $.fancybox.open(data.popup_to_show);
                 }.bind(this),
                 error: function error (data) {
                     COURSAVENUE.helperMethods.flash("Erreur lors de l'import du fichier, veuillez rééssayer.", 'error');
@@ -72,10 +70,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 data: data,
                 type: 'POST',
                 success: function success (data) {
-                    var mailingList = new Newsletter.Models.MailingList(data.mailing_list);
+                    var mailing_list = new Newsletter.Models.MailingList(data.mailing_list);
                     COURSAVENUE.helperMethods.flash(data.message, 'notice');
-                    this.collection.add(mailingList);
-                    this.trigger('selected', { model: this.model });
+                    this.collection.add(mailing_list);
+                    mailing_list.set('selected', true);
                 }.bind(this),
                 error: function error (data) {
                     var message = data.message || "Erreur lors de l'association des colonnes, veuillez rééssayer.";
@@ -98,21 +96,28 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             var data = { emails: emails };
 
+            var submit_form_text = $('form [type=submit]').text();
+            $('form [type=submit]').text($('form [type=submit]').data('disable-with'));
+            this.$('form button').trigger('ajax:beforeSend.rails');
             var url = Routes.bulk_import_pro_structure_newsletter_mailing_lists_path(structure, newsletter)
 
             $.ajax(url, {
                 data: data,
                 type: 'POST',
-                success: function (data) {
+                success: function success (data) {
                     var mailingList = new Newsletter.Models.MailingList(data.mailing_list);
                     COURSAVENUE.helperMethods.flash(data.message, 'notice');
-                    this.collection.add(mailingList);
+                    this.collection.updateAllProfileMailingList(data.total);
+                    this.collection.add(mailingList, { at: 1 });
                     this.trigger('selected', { model: this.model });
                 }.bind(this),
-                error: function (data) {
+                error: function error (data) {
                     var message = data.message || "Une erreur est seurvenue lors de l'import des emails, veuillez rééssayer.";
                     COURSAVENUE.helperMethods.flash(message, 'error');
-                }
+                },
+                complete: function complete () {
+                    $('form [type=submit]').text(submit_form_text);
+                }.bind(this)
             });
         },
     });

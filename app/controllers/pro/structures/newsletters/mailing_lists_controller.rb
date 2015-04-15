@@ -4,12 +4,12 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
   before_action :authenticate_pro_admin!
   before_action :set_structure_and_newsletter
 
+
   def file_import
     @user_profile_import = @structure.user_profile_imports.build
     @file = params[:file]
 
     @user_profile_import.data      = @file.open.read.force_encoding('utf-8')
-    # @user_profile_import.data      = @file.open.read
     @user_profile_import.filename  = @file.original_filename
     @user_profile_import.mime_type = @file.content_type
 
@@ -67,14 +67,17 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
     emails = params[:emails]
     if emails.present?
       @mailing_list = @structure.mailing_lists.create(tag: mailing_list_tag)
-      UserProfile.delay.batch_create(@structure, params[:emails], { newsletter_id: @newsletter.id, mailing_list_tag: @mailing_list.tag })
+      UserProfile.batch_create(@structure, params[:emails], { newsletter_id: @newsletter.id, mailing_list_tag: @mailing_list.tag })
 
       mailing_list = NewsletterMailingListSerializer.new(@mailing_list)
     end
 
     respond_to do |format|
       if emails.present?
-        format.json { render json: { message: "L'import est en cours, nous vous enverrons un mail dès l'import terminé.", mailing_list: mailing_list }, status: 201 }
+        format.json { render json: { message: "Vos contacts sont bien importés.",
+                                     mailing_list: mailing_list,
+                                     total: @structure.user_profiles.count },
+                                    status: 201 }
       else
         format.json { render json: { message: "Veuillez renseigner des adresses emails à importer." }, status: 400 }
       end

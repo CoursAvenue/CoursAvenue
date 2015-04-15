@@ -35,6 +35,7 @@ class Newsletter < ActiveRecord::Base
   validates :state, presence: true
 
   after_create :set_defaults
+  after_create :create_first_mailing_list_if_does_not_exists
   before_validation :set_title, on: :create
 
   scope :sent,       -> { where(state: 'sent') }
@@ -198,6 +199,12 @@ class Newsletter < ActiveRecord::Base
   def set_title
     if self.title.nil?
       self.title = "[Brouillon] Newsletter du #{I18n.l(local_time(Time.current), format: :long_human)}"
+    end
+  end
+
+  def create_first_mailing_list_if_does_not_exists
+    if structure.mailing_lists.empty?
+      structure.mailing_lists.create all_profiles: true, name: 'Tous les contacts'
     end
   end
 end

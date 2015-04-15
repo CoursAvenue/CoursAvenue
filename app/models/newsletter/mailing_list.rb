@@ -7,8 +7,6 @@ class Newsletter::MailingList < ActiveRecord::Base
   has_many :newsletters
   belongs_to :structure
 
-  has_many :user_profiles
-
   validates :name, presence: true
 
   store_accessor :metadata, :filters, :all_profiles, :tag
@@ -47,6 +45,10 @@ class Newsletter::MailingList < ActiveRecord::Base
     else
       tagged_profiles.count
     end
+  end
+
+  def user_profiles
+    tagged_profiles
   end
 
   private

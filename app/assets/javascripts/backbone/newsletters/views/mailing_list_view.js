@@ -4,16 +4,15 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         tagName: 'div',
         className: 'input',
 
+        modelEvents: {
+            'change:selected' : 'selectMailingList'
+        },
         events: {
-            'change [type=radio]':         'selectMailingList',
+            'change [type=radio]': 'selectMailingList',
         },
 
         initialize: function initialize () {
             _.bindAll(this, 'selectMailingList');
-
-            Handlebars.registerHelper('isSelected', function(inputValue, predicate) {
-                return inputValue == predicate ? 'selected' : '';
-            });
 
             if (this.model.has('selected') && this.model.get('selected') == true) {
                 this.trigger('selected', { model: this.model });
@@ -23,10 +22,14 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         selectMailingList: function selectMailingList () {
-            this.model.set('selected', true);
-
-            this.trigger('selected', { model: this.model });
+            this.model.set('selected', true, { silent: true });
+            this.trigger('selected');
         },
+        serializeData: function serializeData () {
+            var data = this.model.toJSON()
+            return _.extend(data,
+                            { edit_url: Routes.edit_pro_structure_mailing_list_path(this.model.get('structure_id'), this.model.get('id'))});
+        }
     });
 });
 

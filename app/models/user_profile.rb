@@ -132,19 +132,19 @@ class UserProfile < ActiveRecord::Base
     total        = emails.length
     error_emails = []
     emails.each do |email|
-      created = structure.user_profiles.create email: email
+      created = structure.user_profiles.first_or_initialize(email: email).save
       if created
         structure.tag(created, with: options[:mailing_list_tag], on: :tags) if options[:mailing_list_tag].present?
       end
       error_emails << email unless created
+    end
 
-    end
-    if options.present? and options[:newsletter_id].present?
-      newsletter = structure.newsletters.find(options[:newsletter_id])
-      AdminMailer.delay.import_batch_user_profiles_finished_from_newsletter(structure, newsletter, total, error_emails)
-    else
-      AdminMailer.delay.import_batch_user_profiles_finished(structure, total, error_emails)
-    end
+    # if options.present? and options[:newsletter_id].present?
+    #   newsletter = structure.newsletters.find(options[:newsletter_id])
+    #   AdminMailer.delay.import_batch_user_profiles_finished_from_newsletter(structure, newsletter, total, error_emails)
+    # else
+    #   AdminMailer.delay.import_batch_user_profiles_finished(structure, total, error_emails)
+    # end
   end
 
   private

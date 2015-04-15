@@ -102,7 +102,7 @@
 /*------------------------------------*\
     COLORS
 \*------------------------------------*/
-.white              { color: white; }
+.white              { color: white !important; }
 .white-transparent  { color: transparentize(white, 0.2); }
 .white-faded        { color: #DDDDDD; }
 .black              { color: $text-black; }
