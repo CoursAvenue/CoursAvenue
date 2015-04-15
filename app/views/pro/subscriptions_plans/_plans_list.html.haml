@@ -2,8 +2,12 @@
   - @plans.each do |plan|
     .flexbox.push--bottom
       .flexbox__item.v-middle
-        %h4.flush--bottom
-          = plan.name
-          %span.caps.bg-green.white.smaller-print active
+        = link_to edit_pro_subscriptions_plan_path(plan), class: 'fancybox.ajax', data: { behavior: 'modal', width: '700', padding: '0' } do
+          %h4.flush--bottom
+            = plan.name
+            %span.caps.bg-green.white.smaller-print active
+
         - if plan.stripe_plan_id.present?
-          = link_to 'Voir sur Stripe', "https://dashboard.stripe.com/test/plans/#{plan.stripe_plan_id}"
+          = link_to 'Voir sur Stripe', "https://dashboard.stripe.com/test/plans/#{plan.stripe_plan_id}", target: :_blank
+
+      %hr
