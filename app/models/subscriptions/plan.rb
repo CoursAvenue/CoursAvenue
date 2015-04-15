@@ -14,7 +14,7 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :name, :amount, :interval
+  attr_accessible :name, :amount, :interval, :stripe_plan_id
 
   has_many :subscriptions, foreign_key: 'subscriptions_plan_id'
 
@@ -37,6 +37,8 @@ class Subscriptions::Plan < ActiveRecord::Base
   ######################################################################
   # Methods                                                            #
   ######################################################################
+
+  # TODO: Know wether the plan is active or not.
 
   # Retrieve the Stripe Plan.
   #
