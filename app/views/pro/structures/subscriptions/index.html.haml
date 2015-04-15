@@ -1,0 +1,8 @@
+= side_menu_currently_at 'premium'
+
+%h1= @structure.name
+
+- if @subscription.present?
+  = render 'subscription_details'
+- else
+  = render 'subscription_plans'
