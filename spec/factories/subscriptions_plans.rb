@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :subscriptions_plan, class: 'Subscriptions::Plan' do
     name           { Faker::Name.name }
     amount         { (15..30).to_a.sample * 100 }
-    interval       :month
+    interval       [ :month, :year ].sample
     stripe_plan_id { "#{name.parameterize}" }
 
     trait :gold_plan do
@@ -21,6 +21,14 @@ FactoryGirl.define do
 
     trait :empty do
       stripe_plan_id nil
+    end
+
+    trait :monthly do
+      interval :month
+    end
+
+    trait :yearly do
+      interval :year
     end
   end
 end
