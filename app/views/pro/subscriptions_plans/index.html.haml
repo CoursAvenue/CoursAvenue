@@ -1,0 +1,6 @@
+= side_menu_currently_at 'admin'
+
+- if @monthly_plans.any? or @yearly_plans.any?
+  = render 'plans_list'
+- else
+  = render 'plans_empty'
