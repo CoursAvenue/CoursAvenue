@@ -470,4 +470,33 @@ describe Structure do
       end
     end
   end
+
+  describe '#subscribed?' do
+    context 'when not subscribed' do
+      it { expect(subject.subscribed?).to be_falsy }
+    end
+
+    context 'when subscribed' do
+      before { StripeMock.start }
+      after  { StripeMock.stop }
+
+      subject             { FactoryGirl.create(:structure, :with_contact_email) }
+      let(:stripe_helper) { StripeMock.create_test_helper }
+
+      before { StripeMock.start }
+      after { StripeMock.stop }
+
+      before do
+        customer = Stripe::Customer.create({
+          email: subject.contact_email,
+          card:  stripe_helper.generate_card_token
+        })
+        subject.stripe_customer_id = customer.id
+
+        subject.save
+      end
+
+      it { expect(subject.subscribed?).to be_truthy }
+    end
+  end
 end

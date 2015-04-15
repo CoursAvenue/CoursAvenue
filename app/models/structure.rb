@@ -1148,6 +1148,13 @@ class Structure < ActiveRecord::Base
     stripe_customer
   end
 
+  # Whether the Structure is subscribed (with stripe) or not.
+  #
+  # @return a Boolean
+  def subscribed?
+    stripe_customer.present?
+  end
+
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons
