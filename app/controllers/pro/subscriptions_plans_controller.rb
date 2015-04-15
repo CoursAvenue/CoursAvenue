@@ -24,7 +24,24 @@ class Pro::SubscriptionsPlansController < Pro::ProController
         # format.html { render action: :new }
       end
     end
+  end
 
+  def edit
+    @plan = Subscriptions::Plan.find params[:id]
+
+    render layout: false
+  end
+
+  def update
+    @plan = Subscriptions::Plan.find params[:id]
+
+    respond_to do |format|
+      if @plan.update_attributes permitted_params
+        # format.html { redirect_to pro_subscriptions_plans_path, notice: 'Offre bien mise a jour', status: 200 }
+      else
+        # format.html { render action: :new }
+      end
+    end
   end
 
   private
