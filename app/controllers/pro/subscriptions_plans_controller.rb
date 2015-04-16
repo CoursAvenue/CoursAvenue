@@ -19,9 +19,11 @@ class Pro::SubscriptionsPlansController < Pro::ProController
 
     respond_to do |format|
       if @plan.save
-        # format.html { redirect_to pro_subscriptions_plans_path, notice: 'Offre bien créé', status: 201 }
+        format.html { redirect_to pro_subscriptions_plans_path, notice: 'Offre bien créée', status: 201 }
+        format.js
       else
-        # format.html { render action: :new }
+        format.html { render action: :new }
+        format.js
       end
     end
   end
