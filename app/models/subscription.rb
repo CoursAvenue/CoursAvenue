@@ -27,7 +27,6 @@ class Subscription < ActiveRecord::Base
   # Methods                                                            #
   ######################################################################
 
-  # TODO: Remove explicit api key.
   # TODO: Memoize object.
   # Retrieve the Stripe::Subscription. Useful for changing plans.
   #
@@ -37,6 +36,7 @@ class Subscription < ActiveRecord::Base
       return nil
     end
 
+    # TODO: Remove explicit api key.
     structure.stripe_customer.subscriptions.retrieve(stripe_subscription_id, { api_key: Stripe.api_key })
   end
 
@@ -47,7 +47,6 @@ class Subscription < ActiveRecord::Base
     self.canceled_at.present?
   end
 
-  # TODO: Remove explicit api key.
   # Cancel the subscription
   #
   # @param at_period_end Flag to delay the cancellation of the subscription until the end of the
@@ -59,6 +58,7 @@ class Subscription < ActiveRecord::Base
       return false
     end
 
+    # TODO: Remove explicit api key.
     subscription = structure.stripe_customer.subscriptions.retrieve(stripe_subscription_id, { api_key: Stripe.api_key }).delete(at_period_end: options[:at_period_end])
 
     self.canceled_at = Time.current
