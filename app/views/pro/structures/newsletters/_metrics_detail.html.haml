@@ -22,8 +22,8 @@
       .grid__item.two-thirds>
         %p.epsilon.push-half--bottom
           Pourcentage d'ouvertures
-      .grid__item.one-third>
-        %strong.float--right.blue= "#{@metric.opened_percentage}%"
+      .grid__item.one-third.text--right>
+        %strong.delta.blue= "#{@metric.opened_percentage}%"
     .progress
       .bar.bar-success{style: "width: #{@metric.opened_percentage}%;"}
   .grid__item.one-half
@@ -31,8 +31,8 @@
       .grid__item.two-thirds>
         %p.epsilon.push-half--bottom
           Pourcentage de clicks
-      .grid__item.one-third>
-        %strong.float--right.blue= "#{@metric.click_percentage}%"
+      .grid__item.one-third.text--right>
+        %strong.delta.blue= "#{@metric.click_percentage}%"
     .progress
       .bar.bar-success{style: "width: #{@metric.click_percentage}%;"}
 
