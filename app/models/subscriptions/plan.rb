@@ -54,7 +54,7 @@ class Subscriptions::Plan < ActiveRecord::Base
   def stripe_plan
     return nil if stripe_plan_id.nil?
 
-    Stripe::Plan.retrieve(stripe_plan_id)
+    Stripe::Plan.retrieve(stripe_plan_id, { api_key: Stripe.api_key })
   end
 
   # TODO: Remove explicit api key.
@@ -77,6 +77,8 @@ class Subscriptions::Plan < ActiveRecord::Base
   #
   # @return the Stripe::Plan
   def create_stripe_plan
+    return false if name.nil?
+
     plan_id = self.name.parameterize
     plan = Stripe::Plan.create({
       id:       plan_id,

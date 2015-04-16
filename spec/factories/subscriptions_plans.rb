@@ -20,6 +20,7 @@ FactoryGirl.define do
     end
 
     trait :empty do
+      name nil
       stripe_plan_id nil
     end
 

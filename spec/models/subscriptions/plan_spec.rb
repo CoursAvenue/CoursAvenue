@@ -19,7 +19,11 @@ RSpec.describe Subscriptions::Plan, type: :model do
 
   describe '#stripe_plan' do
     context 'when stripe_plan_id is not defined' do
-      subject { FactoryGirl.create(:subscriptions_plan, :empty) }
+      subject do
+        plan = FactoryGirl.build(:subscriptions_plan, :empty)
+        plan.save(validate: false)
+        plan
+      end
 
       it 'returns nil' do
         expect(subject.stripe_plan).to be_nil
