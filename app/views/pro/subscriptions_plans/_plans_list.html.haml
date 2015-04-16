@@ -10,4 +10,12 @@
         - if plan.stripe_plan_id.present?
           = link_to 'Voir sur Stripe', "https://dashboard.stripe.com/test/plans/#{plan.stripe_plan_id}", target: :_blank
 
-      %hr
+      .flexbox__item.v-middle.text--right
+        = succeed ' ' do
+          = link_to subscriptions_pro_subscriptions_plan_path(plan), class: 'btn btn--bigger fancybox.ajax', data: { behavior: 'modal', width: '700', padding: '0' } do
+            %i.fa.fa-th-list
+        = succeed ' ' do
+          = link_to pro_subscriptions_plan_path(plan), class: 'btn btn--bigger btn--red', method: :delete, data: { confirm: 'Êtes sûr de vouloir de supprimer cette offre ?' } do
+            %i.fa-trash-o
+
+    %hr

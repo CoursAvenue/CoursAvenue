@@ -4,7 +4,7 @@ class Pro::SubscriptionsPlansController < Pro::ProController
   def index
     # @monthly_plans = Subscriptions::Plan.monthly
     # @yearly_plans  = Subscriptions::Plan.yearly
-    @plans = Subscriptions::Plan.all
+    @plans = Subscriptions::Plan.all.decorate
   end
 
   # TODO: Find an elegant way to have the amount in cents.
@@ -42,6 +42,19 @@ class Pro::SubscriptionsPlansController < Pro::ProController
         # format.html { render action: :new }
       end
     end
+  end
+
+  def destroy
+    @plan = Subscriptions::Plan.find params[:id]
+
+    aaaaa?
+  end
+
+  def subscriptions
+    @plan          = Subscriptions::Plan.includes(:subscriptions).find(params[:id])
+    @subscriptions = @plan.subscriptions
+
+    render layout: false
   end
 
   private
