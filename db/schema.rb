@@ -1028,11 +1028,8 @@ ActiveRecord::Schema.define(version: 20150421115523) do
     t.boolean  "sms_opt_in",             default: false
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
-<<<<<<< HEAD
     t.boolean  "pure_player",            default: false
-=======
     t.string   "stripe_customer_id"
->>>>>>> Store stripe customer id in structure.
   end
 
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
@@ -1138,6 +1135,19 @@ ActiveRecord::Schema.define(version: 20150421115523) do
   add_index "subscriptions", ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true, using: :btree
   add_index "subscriptions", ["structure_id"], name: "index_subscriptions_on_structure_id", using: :btree
   add_index "subscriptions", ["subscriptions_plan_id"], name: "index_subscriptions_on_subscriptions_plan_id", using: :btree
+
+  create_table "subscriptions_invoices", force: true do |t|
+    t.string   "stripe_invoice_id"
+    t.datetime "payed_at"
+    t.integer  "structure_id"
+    t.integer  "subscription_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  add_index "subscriptions_invoices", ["structure_id"], name: "index_subscriptions_invoices_on_structure_id", using: :btree
+  add_index "subscriptions_invoices", ["subscription_id"], name: "index_subscriptions_invoices_on_subscription_id", using: :btree
 
   create_table "subscriptions_plans", force: true do |t|
     t.string   "stripe_plan_id"
