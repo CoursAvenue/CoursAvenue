@@ -11,14 +11,10 @@
           = link_to "l'interface de Stripe", 'https://dashboard.stripe.com/plans', target: :_blank
     .panel__body.soft--ends
       .soft--sides
-        = form.input :amount, label: 'Montant', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: '20€' }
+        = form.input :amount, label: 'Montant', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: '20€', min: '0' }
       .soft--sides
         - intervals = Subscriptions::Plan::INTERVALS
         = form.input :interval, as: :select, collection: intervals.keys, label_method: lambda { |key| intervals[key] }, default: intervals.keys.first, label: 'Intervalle', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-      -# .soft--sides
-      -#   = form.input :stripe_plan_id, label: 'Identifiant Stripe', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: '20€' }
-      -#   %i.blue.soft--left
-      -#     Ce nom sera affiché sur les factures et dans
       .soft--sides
         .grid.push--top
           .grid__item.two-tenths>
