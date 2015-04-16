@@ -5,5 +5,5 @@
         - bloc.sub_blocs.order('position ASC').each do |sub_bloc|
           - if sub_bloc.image?
             = image_tag sub_bloc.image.url, alt: @newsletter.title, class: 'center-block'
-          - else
+          - elsif sub_bloc.content.present?
             = sub_bloc.content.html_safe

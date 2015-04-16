@@ -15,6 +15,6 @@
               - if sub_bloc.image?
                 %td.text--center.inline-block.soft-half--sides.v-top{ width: proportion_in_px }
                   = image_tag sub_bloc.image.url, alt: @newsletter.title
-              - else
+              - elsif sub_bloc.content.present?
                 %td.inline-block.soft-half--sides.v-top{ width: proportion_in_px }
                   = sub_bloc.content.html_safe

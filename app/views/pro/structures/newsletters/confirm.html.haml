@@ -1,19 +1,19 @@
 .soft
-  .flexbox.push--bottom
-    .flexbox__item.v-middle
-      .text--center
-        %h1.flush Préparez-vous à l'envoi !
+  - if @newsletter.ready?
+    %h1.text--center.flush Préparez-vous à l'envoi !
 
-  .f-weight-500.text--center
-    %p.delta.line-height-normal
-      Vous êtes sur le point d'envoyer une newsletter à
-      = pluralize @newsletter.recipient_count, 'élève'
+    .f-weight-500.text--center
+      %p.delta.line-height-normal
+        Vous êtes sur le point d'envoyer une newsletter à
+        = pluralize @newsletter.recipient_count, 'élève'
 
-  .text--center
-    %a{ onclick: '$.fancybox.close();', href: 'javascript:void(0)', class: 'one-third soft-half--ends btn btn--gray' }>
-      %i.fa-times
-      Annuler
-    .two-thirds.soft-half--left.inline-block>
-      = link_to send_newsletter_pro_structure_newsletter_path(@structure, @newsletter), class: 'btn btn--full btn--green soft-half--ends' do
-        %i.fa.fa-paper-plane-o
-        Envoyer
+    .text--center
+      %a{ onclick: '$.fancybox.close();', href: 'javascript:void(0)', class: 'one-third soft-half--ends btn btn--gray' }>
+        %i.fa-times
+        Annuler
+      .two-thirds.soft-half--left.inline-block>
+        = link_to send_newsletter_pro_structure_newsletter_path(@structure, @newsletter), class: 'btn btn--full btn--green soft-half--ends' do
+          %i.fa.fa-paper-plane-o
+          Envoyer
+  - else
+    %h3.text--center.flush Vous devez choisir une liste de diffusion avant l'envoi
