@@ -17,7 +17,7 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
             var subBlocs      = this.model.get('sub_blocs');
 
             if (_.isEmpty(subBlocs)) {
-                subBlocs = subBlocsTypes.map(function(blocType, index) {
+                subBlocs = _.map(subBlocsTypes, function(blocType, index) {
                     return { type: blocType, index: index, position: index + 1 };
                 });
             }

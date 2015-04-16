@@ -28,11 +28,10 @@ class Newsletter < ActiveRecord::Base
   belongs_to :mailing_list, class_name: 'Newsletter::MailingList', foreign_key: :newsletter_mailing_list_id
 
   accepts_nested_attributes_for :blocs
-                                # reject_if: :reject_bloc,
-                                # allow_destroy: true
 
-  validates :title, presence: true
-  validates :state, presence: true
+  validates :structure, presence: true
+  validates :title    , presence: true
+  validates :state    , presence: true
 
   after_create :set_defaults
   after_create :create_first_mailing_list_if_does_not_exists
@@ -177,23 +176,6 @@ class Newsletter < ActiveRecord::Base
     end
 
     save
-  end
-
-  # Check if we should reject the bloc.
-  # We only reject it if the bloc has no content or no image.
-  #
-  # @return a Boolean.
-  def reject_bloc(attributes)
-    exists = attributes[:id].present?
-    blank = (attributes[:content].blank? or
-             attributes[:remote_image_url].blank? or
-             attributes[:image].blank?)
-
-    if blank and exists
-      attributes.merge!({ :_destroy => 1 })
-    end
-
-    (blank and !exists)
   end
 
   def set_title

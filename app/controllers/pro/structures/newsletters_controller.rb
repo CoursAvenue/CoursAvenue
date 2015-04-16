@@ -13,6 +13,7 @@ class Pro::Structures::NewslettersController < ApplicationController
     if params[:id].present?
       @newsletter = @structure.newsletters.find params[:id]
     end
+
     @mailing_lists = @structure.mailing_lists
   end
 
@@ -101,7 +102,8 @@ class Pro::Structures::NewslettersController < ApplicationController
   def preview_newsletter
     @newsletter = @structure.newsletters.find params[:id]
 
-    mail = NewsletterMailer.send_newsletter(@newsletter, nil)
+    # Send email to no recipients to generate mail object
+    mail  = NewsletterMailer.send_newsletter(@newsletter, nil)
     @body = MailerPreviewer.preview(mail)
 
     render layout: false
@@ -146,6 +148,6 @@ class Pro::Structures::NewslettersController < ApplicationController
   # @return the permitted parameters as a Hash.
   def required_params
     params.require(:newsletter).permit(:title, :layout_id, :sender_name, :reply_to, :email_object,
-                                      :newsletter_mailing_list_id)
+                                       :newsletter_mailing_list_id)
   end
 end

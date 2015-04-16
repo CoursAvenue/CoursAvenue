@@ -37,7 +37,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         render: function render () {
             Backbone.Marionette.ItemView.prototype.render.apply(this, arguments);
 
-            this._modelBinder.bind(this.model, this.$('form'));
+            this._modelBinder.bind(this.model,
+                                   this.$('form'),
+                                   null,
+                                   { changeTriggers:
+                                      { '': 'keyup change', '[contenteditable]': 'blur' } });
         },
 
         previousStep: function previousStep () {

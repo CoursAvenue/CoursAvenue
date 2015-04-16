@@ -60,7 +60,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 collection: layouts_collection
             });
 
-            this.listenTo(layouts_collection_view, 'layout:selected', this.selectNewsletterLayout);
+            layouts_collection_view.on('layout:selected', this.selectNewsletterLayout);
 
             this.getRegion('choose-layout').show(layouts_collection_view);
             this.getRegion('choose-layout').$el.show();

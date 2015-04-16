@@ -2,12 +2,17 @@
   %tr{ valign: 'top' }
     %td.content-block{ colspan: '2', width: '600', style: 'padding-bottom: 0; padding-left: 7px; padding-right: 7px;' }
       - blocs.each_with_index do |bloc, bloc_index|
-        %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+        - if bloc_index == 1
+          %hr
+        %table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
           %tr{ valign: 'top' }
+            - has_two_sub_blocs = bloc.sub_blocs.length > 1
             - bloc.sub_blocs.order('position ASC').each_with_index do |sub_bloc, sub_bloc_index|
-              - proportion = @newsletter.layout.proportions[bloc_index][sub_bloc_index]
-              -# %td{ width: proportion_to_width(proportion) }
-              %td.inline-block.soft-half--sides.v-top{ class: proportion }
+              - # proportion will be like: 150
+              - proportion_in_px = @newsletter.layout.proportions_in_px[bloc_index][sub_bloc_index]
+              - # Set width to max width (600px) if there are only one subblocs (ex. no images)
+              - proportion_in_px = NewsletterMailer::LAYOUT_WIDTH if !has_two_sub_blocs
+              %td.inline-block.soft-half--sides.v-top{ width: proportion_in_px }
                 - if sub_bloc.image?
                   = image_tag sub_bloc.image.url, alt: @newsletter.title
                 - else

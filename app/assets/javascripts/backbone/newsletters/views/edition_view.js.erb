@@ -4,10 +4,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         tagName: 'div',
         childViewContainer: '[data-type=bloc]',
         events: {
-            'submit':                'saveModel',
-            'click [data-next]':     'saveModel',
+            'submit'               : 'saveModel',
+            'click [data-next]'    : 'saveModel',
             'click [data-previous]': 'previousStep',
-            'change input':          'silentSaveModel',
+            'change input'         : 'silentSaveModel',
+            'keyup input'          : 'silentSaveModel'
         },
 
         initialize: function initialize () {
@@ -76,7 +77,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         render: function render () {
             Backbone.Marionette.CompositeView.prototype.render.apply(this, arguments);
 
-            this._modelBinder.bind(this.model, this.$('form'));
+            this._modelBinder.bind(this.model,
+                                   this.$('form'),
+                                   null,
+                                   { changeTriggers:
+                                      { '': 'keyup change', '[contenteditable]': 'blur' } });
         },
 
         // TODO: Save newsletter title before update.

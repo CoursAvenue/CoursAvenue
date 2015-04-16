@@ -3,6 +3,8 @@ class NewsletterMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
   helper NewsletterLayoutHelper
 
+  LAYOUT_WIDTH = 600 # px
+
   layout 'newsletter'
 
   # Send the newsletter, also used to preview the newsletter.
@@ -12,9 +14,9 @@ class NewsletterMailer < ActionMailer::Base
     @blocs      = @newsletter.blocs.includes(:sub_blocs).order('position ASC')
 
     mail subject: @newsletter.email_object,
-      bcc: recipients,
-      from: "\"#{@newsletter.sender_name}\" <noreply@coursavenue.com>",
-      reply_to: @newsletter.reply_to
+         bcc: recipients,
+         from: "\"#{@newsletter.sender_name}\" <noreply@coursavenue.com>",
+         reply_to: @newsletter.reply_to
   end
 
   # Sends the unsubscription confirmation.
@@ -23,7 +25,7 @@ class NewsletterMailer < ActionMailer::Base
     @structure = newsletter.structure
 
     mail to: user_profile.email,
-      subject: '',
-      from:  "\"#{@newsletter.sender_name}\" <noreply@coursavenue.com>"
+         subject: '',
+         from:  "\"#{@newsletter.sender_name}\" <noreply@coursavenue.com>"
   end
 end

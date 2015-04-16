@@ -21,8 +21,10 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
         },
 
         events: {
-            'change input':    'silentSave',
-            'change textarea': 'silentSave'
+            'keyup input'     : 'silentSave',
+            'keyup textarea'  : 'silentSave',
+            'change input'    : 'silentSave',
+            'change textarea' : 'silentSave'
         },
 
         initialize: function initialize () {
@@ -33,6 +35,9 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
                 positionLabel = this.model.collection.multiBloc.get('position') + '-' + positionLabel;
             }
             this.model.set('position_label', positionLabel);
+            if (!this.model.has('newsletter')) {
+                this.model.set('newsletter', this.model.collection.newsletter);
+            }
 
             _.bindAll(this, 'onShow', 'silentSave');
         },
@@ -68,6 +73,9 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
                               var content = JST[defaultContent](structure);
 
                               this.code.set(content);
+                              // Save in DB to be able to preview the email
+                              model.set('content', content);
+                              model.save();
                           }
                       },
                 });

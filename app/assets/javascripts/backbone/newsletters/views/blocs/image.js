@@ -25,6 +25,7 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
             'click [data-edit-image]':                     'editImage',
             'change input[data-type=filepicker-dragdrop]': 'updateImage',
             'change input':                                'silentSave',
+            'keyup input':                                 'silentSave'
         },
 
         initialize: function initialize () {
@@ -35,6 +36,9 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
                 positionLabel = this.model.collection.multiBloc.get('position') + '-' + positionLabel;
             }
             this.model.set('position_label', positionLabel);
+            if (!this.model.has('newsletter')) {
+                this.model.set('newsletter', this.model.collection.newsletter);
+            }
 
             _.bindAll(this, 'onRender', 'editImage', 'deleteImage', 'updateImage', 'onShow', 'silentSave');
         },
@@ -96,6 +100,9 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
                 // Remove type to prevent from filepicker JS to initialize it anyway
                 $(elem).removeAttr('type');
             });
+            // Do not use silent save here.
+            // Because if there is two images on the page, only one of them will be saved
+            this.model.save();
         },
 
         silentSave: function silentSave () {
