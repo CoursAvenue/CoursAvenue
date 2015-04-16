@@ -49,7 +49,16 @@ class Pro::SubscriptionsPlansController < Pro::ProController
   def destroy
     @plan = Subscriptions::Plan.find params[:id]
 
-    aaaaa?
+    respond_to do |format|
+      if @plan.destroy
+        format.html { redirect_to pro_subscriptions_plans_path,
+                      notice: 'Offre supprimé.' }
+      else
+        format.html { redirect_to pro_subscriptions_plans_path,
+                      error: "Erreur lors de la suppression de l'offre, veillez rééssayer." }
+      end
+    end
+
   end
 
   def subscriptions
