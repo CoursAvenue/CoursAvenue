@@ -46,7 +46,7 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Methods                                                            #
   ######################################################################
 
-  # TODO: Know wether the plan is active or not.
+  # TODO: Know whether the plan is active or not.
 
   # Retrieve the Stripe Plan.
   #

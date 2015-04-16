@@ -37,7 +37,7 @@ RSpec.describe Subscriptions::Plan, type: :model do
     end
   end
 
-  describe '#create_subscription' do
+  describe '#create_subscription!' do
     let(:token)     { stripe_helper.generate_card_token({}) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
 
