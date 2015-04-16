@@ -1,0 +1,13 @@
+.panel
+  .panel__body
+    %table.table--data.table--striped.table--hoverable
+      %thead
+        %tr
+          %th Structure
+          %th Depuis
+      %tbody
+        - @subscriptions.each do |subscription|
+          %tr
+            %td.text--center
+              = subscription.structure.name
+              = subscriptions.created_at
