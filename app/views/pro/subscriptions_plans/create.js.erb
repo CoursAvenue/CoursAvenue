@@ -1,4 +1,5 @@
-<% if @plan.persited? %>
+<% if @plan.persisted? %>
     COURSAVENUE.helperMethods.flash("Offre bien créée.", 'success');
     $.fancybox.close()
+    location.reload();
 <% end %>
