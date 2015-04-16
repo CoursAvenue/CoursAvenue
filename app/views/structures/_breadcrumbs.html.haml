@@ -15,7 +15,7 @@
           - else
             - if @structure.is_parisian?
               = link_to vertical_page_with_city_path(root_page_slug, vertical_page_slug, paris), itemprop: 'url', class: "white" do
-                %span{ itemprop: 'title' }= "Découvrir les cours de #{vertical_page_subject_name.downcase} à Paris"
+                %span{ itemprop: 'title' }= "Découvrir les cours de #{vertical_page_subject_name.downcase} (Paris)"
             - else
               = link_to vertical_page_path(root_page_slug, vertical_page_slug), itemprop: 'url', class: "white" do
                 %span{ itemprop: 'title' }= "Découvrir les cours de #{vertical_page_subject_name.downcase}"
