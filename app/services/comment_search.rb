@@ -1,7 +1,7 @@
 class CommentSearch
 
   # params: params
-  #     name:          fulltext
+  #     text:          fulltext
   #     subject_id:    slug of a subject
   #     audience_ids:  [1, 2, 3]
   #     level_ids:     [1, 2, 3]
@@ -10,6 +10,8 @@ class CommentSearch
     retrieve_location params
 
     @search = Sunspot.search(Comment::Review) do
+      fulltext params[:text] if params[:text].present?
+
       # --------------- Geolocation
       if params[:lat].present? and params[:lng].present?
         with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true))

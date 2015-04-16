@@ -1,0 +1,23 @@
+- comments.in_groups_of(2, false).each do |review_group|
+  .grid.push--bottom
+    - review_group.each do |review|
+      .grid__item.one-half.palm-one-whole.lap-one-half>
+        - cache [review, 'vertical_page/show'] do
+          .flexbox.push--bottom
+            .flexbox__item.soft--left.v-top.text--center.visuallyhidden--palm>
+              = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
+                = image_tag (review.user || User.active.with_avatar.sample).avatar_url(:thumb), class: 'block rounded--circle', width: 60, height: 60
+              .soft-half--top.break-all
+                = review.author_name
+            .flexbox__item.soft--sides.v-top.palm-one-whole>
+              .message__body.soft-half.message__appendix.gray-box
+                %p.epsilon.push-half--bottom.quoted
+                  %strong= review.title
+                %p
+                  = truncate(review.content, length: 500)
+                %p.text--right.flush
+                  %i
+                    À propos de
+                    = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank do
+                      = "#{review.structure.name} | #{review.course_name}"
+

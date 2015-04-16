@@ -63,6 +63,10 @@ class Comment::Review < Comment
   # ------------------------------------------------------------------------------------ Search attributes
   # :nocov:
   searchable do
+    text :title, boost: 5
+    text :course_name, boost: 10
+    text :content
+
     latlon :location, multiple: true do
       self.structure.places.collect do |place|
         Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
