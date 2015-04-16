@@ -75,7 +75,10 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
                               this.code.set(content);
                               // Save in DB to be able to preview the email
                               model.set('content', content);
-                              model.save();
+                              // Prevent from bug, dunnow why...
+                              setTimeout(function() {
+                                  model.save();
+                              }, 500);
                           }
                       },
                 });

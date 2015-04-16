@@ -23,7 +23,7 @@ class Newsletter::Metric < ActiveRecord::Base
     recipients.each(&:update_message_status)
 
     self.nb_opening    = recipients.select(&:opened).count
-    self.nb_click      = recipients.map(&:clicks).reduce(:+)
+    self.nb_click      = recipients.map(&:clicks).compact.reduce(:+)
     self.nb_bounced    = recipients.where(mandrill_message_status: MANDRILL_BOUNCED_STATE).count
     self.nb_email_sent = recipients.where(mandrill_message_status: MANDRILL_SENT_STATE).count
 

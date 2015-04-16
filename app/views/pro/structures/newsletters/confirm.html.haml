@@ -7,7 +7,7 @@
   .f-weight-500.text--center
     %p.delta.line-height-normal
       Vous êtes sur le point d'envoyer une newsletter à
-      = "#{ @newsletter.recipient_count } contacts"
+      = pluralize @newsletter.recipient_count, 'élève'
 
   .text--center
     %a{ onclick: '$.fancybox.close();', href: 'javascript:void(0)', class: 'one-third soft-half--ends btn btn--gray' }>

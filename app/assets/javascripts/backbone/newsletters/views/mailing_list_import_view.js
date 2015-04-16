@@ -110,6 +110,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     this.collection.updateAllProfileMailingList(data.total);
                     this.collection.add(mailingList, { at: 1 });
                     this.trigger('selected', { model: this.model });
+                    this.hideEverything();
                 }.bind(this),
                 error: function error (data) {
                     var message = data.message || "Une erreur est seurvenue lors de l'import des emails, veuillez rééssayer.";
@@ -120,5 +121,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 }.bind(this)
             });
         },
+
+        hideEverything: function hideEverything () {
+            this.ui.$show_more_options_button.slideDown();
+            this.ui.$import_options.slideUp();
+        }
     });
 });

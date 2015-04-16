@@ -2,7 +2,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
     Module.MailingListView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'mailing_list_view',
         tagName: 'div',
-        className: 'input',
 
         modelEvents: {
             'change:selected' : 'selectMailingList'
@@ -25,8 +24,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.model.set('selected', true, { silent: true });
             this.trigger('selected');
         },
+
         serializeData: function serializeData () {
-            var data = this.model.toJSON()
+            var data = this.model.toJSON();
+            debugger
             return _.extend(data,
                             { edit_url: Routes.edit_pro_structure_mailing_list_path(this.model.get('structure_id'), this.model.get('id'))});
         }

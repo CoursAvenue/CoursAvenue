@@ -13,11 +13,12 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         initialize: function initialize (collection, selected_mailing_list_id) {
-            this.reset(collection);
-            // Check if it's an ID
-            if (parseInt(selected_mailing_list_id, 10) == selected_mailing_list_id) {
-                this.findWhere({ id: selected_mailing_list_id }).set('selected', true);
-            }
+            // Set selected attribute to selected mailing list
+            _.each(collection, function(mailing_list) {
+                if (mailing_list.id == selected_mailing_list_id){
+                    mailing_list.selected = true;
+                }
+            });
         },
 
         allProfileMailingList: function allProfileMailingList() {

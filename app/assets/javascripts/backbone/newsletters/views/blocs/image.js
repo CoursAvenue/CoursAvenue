@@ -102,7 +102,10 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
             });
             // Do not use silent save here.
             // Because if there is two images on the page, only one of them will be saved
-            this.model.save();
+            // Prevent from bug, dunnow why...
+            setTimeout(function() {
+                this.model.save();
+            }.bind(this), 500);
         },
 
         silentSave: function silentSave () {

@@ -48,7 +48,11 @@ class Newsletter::MailingList < ActiveRecord::Base
   end
 
   def user_profiles
-    tagged_profiles
+    if self.all_profiles?
+      structure.user_profiles.where(subscribed: true)
+    else
+      tagged_profiles
+    end
   end
 
   private

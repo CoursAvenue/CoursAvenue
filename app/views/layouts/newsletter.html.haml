@@ -14,12 +14,12 @@
     %table.coursavenue-email-body{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%', style: 'margin: auto;' }
       %tr.coursavenue-email-body
         %td.hard--bottom.coursavenue-email-body{ width: '100%' }
-          %table.flush{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;' }
+          %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;' }
             %tr
               %td{ width: '600' }
                 %table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%'}
                   %tr{ valign: 'bottom' }
-                    %td.email-title.text--center.logo-cell
+                    %td.email-title.text--center.logo-cell.soft-half--ends
                       - if content_for? :email_title
                         = yield :email_title
                       - if content_for :permalink

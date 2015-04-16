@@ -132,9 +132,10 @@ class UserProfile < ActiveRecord::Base
     total        = emails.length
     error_emails = []
     emails.each do |email|
-      created = structure.user_profiles.first_or_initialize(email: email).save
+      user_profile = structure.user_profiles.where(email: email).first_or_initialize
+      created      = user_profile.save
       if created
-        structure.tag(created, with: options[:mailing_list_tag], on: :tags) if options[:mailing_list_tag].present?
+        structure.tag(user_profile, with: options[:mailing_list_tag], on: :tags) if options[:mailing_list_tag].present?
       end
       error_emails << email unless created
     end

@@ -12,8 +12,9 @@
               - proportion_in_px = @newsletter.layout.proportions_in_px[bloc_index][sub_bloc_index]
               - # Set width to max width (600px) if there are only one subblocs (ex. no images)
               - proportion_in_px = NewsletterMailer::LAYOUT_WIDTH if !has_two_sub_blocs
-              %td.inline-block.soft-half--sides.v-top{ width: proportion_in_px }
-                - if sub_bloc.image?
+              - if sub_bloc.image?
+                %td.text--center.inline-block.soft-half--sides.v-top{ width: proportion_in_px }
                   = image_tag sub_bloc.image.url, alt: @newsletter.title
-                - else
+              - else
+                %td.inline-block.soft-half--sides.v-top{ width: proportion_in_px }
                   = sub_bloc.content.html_safe

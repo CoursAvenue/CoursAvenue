@@ -15,8 +15,9 @@
     .flexbox__item.v-middle.text--right
       - if newsletter.sent?
         = succeed ' ' do
-          = link_to metrics_pro_structure_newsletter_path(@structure, newsletter), class: 'btn', data: { toggle: 'popover', content: 'Statistiques' } do
+          = link_to metrics_pro_structure_newsletter_path(@structure, newsletter), class: 'btn' do
             %i.fa.fa-bar-chart
+            Statistiques
       - else
         = succeed ' ' do
           = link_to edit_pro_structure_newsletter_path(@structure, newsletter), class: 'btn' do

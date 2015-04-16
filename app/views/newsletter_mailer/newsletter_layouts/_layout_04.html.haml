@@ -4,6 +4,6 @@
       %td.content-block.soft-half--sides{ class: (index == 0 ? 'bordered--right' : ''), width: '300' }
         - bloc.sub_blocs.order('position ASC').each do |sub_bloc|
           - if sub_bloc.image?
-            .media__item.text--center= image_tag sub_bloc.image.url, alt: @newsletter.title
+            = image_tag sub_bloc.image.url, alt: @newsletter.title, class: 'center-block'
           - else
             = sub_bloc.content.html_safe

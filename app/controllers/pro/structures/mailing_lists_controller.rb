@@ -9,6 +9,17 @@ class Pro::Structures::MailingListsController < ApplicationController
     render layout: false
   end
 
+  def destroy
+    @mailing_list = @structure.mailing_lists.find params[:id]
+    respond_to do |format|
+      if @mailing_list.destroy
+        format.js
+      else
+        format.js
+      end
+    end
+  end
+
   private
 
   def set_structure
