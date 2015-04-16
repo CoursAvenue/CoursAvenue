@@ -55,6 +55,9 @@ class Subscriptions::Plan < ActiveRecord::Base
   # @return nil or the new Subscription
   def create_subscription!(structure, token = nil)
     customer     = structure.stripe_customer || structure.create_stripe_customer(token)
+    return nil if customer.nil?
+
+    # TODO: Remove explicit api key.
     subscription = customer.subscriptions.create({ plan: self.stripe_plan_id }, { api_key: Stripe.api_key })
 
     self.subscriptions.create(stripe_subscription_id: subscription.id, structure: structure)
