@@ -72,8 +72,7 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
         goToStructurePage: function goToStructurePage (event) {
             // Checking the parent prevent from clicking on an icon that is nested within a link element.
             if (event.target.nodeName !== 'A'
-                && $(event.target).parent('a').length === 0
-                && $(event.target).closest('[data-el="structure-view"]').length > 0) {
+                && $(event.target).closest('a').length === 0) {
                 if (event.metaKey || event.ctrlKey) { // Open in new window if user pushes meta or ctrl key
                     window.open(this.model.get('data_url'));
                 } else {
