@@ -1,7 +1,7 @@
 = simple_form_for [:pro, @vertical_page] do |f|
   .text--center
     - if @vertical_page.cl_image.present?
-      = image_tag @vertical_page.cl_image.url(:default), width: 400, data: { placeholder: true }
+      = image_tag @vertical_page.cl_image.url(:large), width: 400, data: { placeholder: true }
     - else
       %img{ width: 400, data: { placeholder: true } }
 
