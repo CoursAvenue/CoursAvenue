@@ -124,8 +124,8 @@ gem 'fb_graph'                  , '~> 2.7.17'
 gem 'certified'                 , '~> 1.0.0'
 
 # Search engine
-gem 'sunspot'                   , '~> 2.1.1'
-gem 'sunspot_rails'             , '~> 2.1.1'
+gem 'sunspot'                   , '~> 2.2.0'
+gem 'sunspot_rails'             , '~> 2.2.0'
 
 gem 'truncate_html'             , '~> 0.9.3'
 
@@ -218,7 +218,7 @@ end
 group :development do
 
   # Add solr server for development
-  gem 'sunspot_solr'              , '~> 2.1.1'
+  gem 'sunspot_solr'              , '~> 2.2.0'
   gem 'rails_best_practices', require: false
   gem 'ruby-prof'
   # Speed up slow Rails development mode
