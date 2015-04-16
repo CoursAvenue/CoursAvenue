@@ -407,96 +407,98 @@ describe Structure do
     end
   end
 
-  describe '#stripe_customer' do
-    context 'when not a stripe customer' do
-      it 'returns nil' do
-        expect(subject.stripe_customer).to be_nil
+  context 'Stripe' do
+    describe '#stripe_customer' do
+      context 'when not a stripe customer' do
+        it 'returns nil' do
+          expect(subject.stripe_customer).to be_nil
+        end
+      end
+
+      context 'when a stripe customer' do
+        before { StripeMock.start }
+        after  { StripeMock.stop }
+
+        subject             { FactoryGirl.create(:structure, :with_contact_email) }
+        let(:stripe_helper) { StripeMock.create_test_helper }
+
+        before { StripeMock.start }
+        after { StripeMock.stop }
+
+        before do
+          customer = Stripe::Customer.create({
+            email: subject.contact_email,
+            card:  stripe_helper.generate_card_token
+          })
+          subject.stripe_customer_id = customer.id
+
+          subject.save
+        end
+
+        it 'returns a Stripe::Customer object' do
+          stripe_customer = Stripe::Customer
+
+          expect(subject.stripe_customer).to be_a(stripe_customer)
+        end
       end
     end
 
-    context 'when a stripe customer' do
-      before { StripeMock.start }
-      after  { StripeMock.stop }
-
-      subject             { FactoryGirl.create(:structure, :with_contact_email) }
-      let(:stripe_helper) { StripeMock.create_test_helper }
-
-      before { StripeMock.start }
-      after { StripeMock.stop }
-
-      before do
-        customer = Stripe::Customer.create({
-          email: subject.contact_email,
-          card:  stripe_helper.generate_card_token
-        })
-        subject.stripe_customer_id = customer.id
-
-        subject.save
+    describe '#create_stripe_customer' do
+      context 'when the token is not provided' do
+        it 'returns nil' do
+          expect(subject.create_stripe_customer(nil)).to eq(nil)
+        end
       end
 
-      it 'returns a Stripe::Customer object' do
-        stripe_customer = Stripe::Customer
+      context 'when the token is provided' do
+        before { StripeMock.start }
+        after  { StripeMock.stop }
 
-        expect(subject.stripe_customer).to be_a(stripe_customer)
-      end
-    end
-  end
+        let(:token)         { stripe_helper.generate_card_token }
+        let(:stripe_helper) { StripeMock.create_test_helper }
 
-  describe '#create_stripe_customer' do
-    context 'when the token is not provided' do
-      it 'returns nil' do
-        expect(subject.create_stripe_customer(nil)).to eq(nil)
+        it 'returns a new Stripe::Customer' do
+          stripe_customer_type = Stripe::Customer
+          stripe_customer      = subject.create_stripe_customer(token)
+
+          expect(stripe_customer).to be_a(stripe_customer_type)
+        end
+
+        it 'saves the stripe customer id' do
+          stripe_customer = subject.create_stripe_customer(token)
+
+          expect(subject.stripe_customer_id).to eq(stripe_customer.id)
+        end
       end
     end
 
-    context 'when the token is provided' do
-      before { StripeMock.start }
-      after  { StripeMock.stop }
-
-      let(:token)         { stripe_helper.generate_card_token }
-      let(:stripe_helper) { StripeMock.create_test_helper }
-
-      it 'returns a new Stripe::Customer' do
-        stripe_customer_type = Stripe::Customer
-        stripe_customer      = subject.create_stripe_customer(token)
-
-        expect(stripe_customer).to be_a(stripe_customer_type)
+    describe '#subscribed?' do
+      context 'when not subscribed' do
+        it { expect(subject.subscribed?).to be_falsy }
       end
 
-      it 'saves the stripe customer id' do
-        stripe_customer = subject.create_stripe_customer(token)
+      context 'when subscribed' do
+        before { StripeMock.start }
+        after  { StripeMock.stop }
 
-        expect(subject.stripe_customer_id).to eq(stripe_customer.id)
+        subject             { FactoryGirl.create(:structure, :with_contact_email) }
+        let(:stripe_helper) { StripeMock.create_test_helper }
+
+        before { StripeMock.start }
+        after { StripeMock.stop }
+
+        before do
+          customer = Stripe::Customer.create({
+            email: subject.contact_email,
+            card:  stripe_helper.generate_card_token
+          })
+          subject.stripe_customer_id = customer.id
+
+          subject.save
+        end
+
+        it { expect(subject.subscribed?).to be_truthy }
       end
-    end
-  end
-
-  describe '#subscribed?' do
-    context 'when not subscribed' do
-      it { expect(subject.subscribed?).to be_falsy }
-    end
-
-    context 'when subscribed' do
-      before { StripeMock.start }
-      after  { StripeMock.stop }
-
-      subject             { FactoryGirl.create(:structure, :with_contact_email) }
-      let(:stripe_helper) { StripeMock.create_test_helper }
-
-      before { StripeMock.start }
-      after { StripeMock.stop }
-
-      before do
-        customer = Stripe::Customer.create({
-          email: subject.contact_email,
-          card:  stripe_helper.generate_card_token
-        })
-        subject.stripe_customer_id = customer.id
-
-        subject.save
-      end
-
-      it { expect(subject.subscribed?).to be_truthy }
     end
   end
 end
