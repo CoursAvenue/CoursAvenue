@@ -10,6 +10,8 @@ class Subscriptions::Plan < ActiveRecord::Base
     year: 'Annuel'
   }
 
+  CURRENCY = 'EUR'
+
   ######################################################################
   # Macros                                                             #
   ######################################################################
@@ -25,7 +27,13 @@ class Subscriptions::Plan < ActiveRecord::Base
   validates :name,           presence: true, uniqueness: true
   validates :amount,         presence: true
   validates :interval,       presence: true
-  validates :stripe_plan_id, uniqueness: true
+  # validates :stripe_plan_id, uniqueness: true
+
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+
+  after_create :create_stripe_plan
 
   ######################################################################
   # Scopes                                                             #
@@ -62,4 +70,27 @@ class Subscriptions::Plan < ActiveRecord::Base
 
     self.subscriptions.create(stripe_subscription_id: subscription.id, structure: structure)
   end
+
+  private
+
+  # Create a new Stripe Plan and save the Stripe Plan id.
+  #
+  # @return the Stripe::Plan
+  def create_stripe_plan
+    plan_id = self.name.parameterize
+    plan = Stripe::Plan.create({
+      id:       plan_id,
+      amount:   self.amount,
+      currency: CURRENCY,
+      interval: self.interval,
+      name:     self.name
+    })
+
+    self.stripe_plan_id = plan_id
+    save
+
+    plan
+  end
+
+  handle_asynchronously :create_stripe_plan
 end
