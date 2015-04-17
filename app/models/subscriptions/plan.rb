@@ -56,6 +56,19 @@ class Subscriptions::Plan < ActiveRecord::Base
     Stripe::Plan.retrieve(stripe_plan_id, { api_key: Stripe.api_key })
   end
 
+  # Delete the plan from Stripe
+  #
+  # @return
+  def delete_stripe_plan!
+    plan = stripe_plan
+    return nil if plan.nil?
+
+    plan.delete({ api_key: Stripe.api_key })
+    self.stripe_plan_id = nil
+
+    save
+  end
+
   # TODO: Remove explicit api key.
   # Subscribe a structure to the current plan.
   #

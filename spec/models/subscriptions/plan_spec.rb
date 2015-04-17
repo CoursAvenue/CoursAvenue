@@ -30,8 +30,6 @@ RSpec.describe Subscriptions::Plan, type: :model do
     end
 
     context 'when the stripe_plan_id is defined' do
-      before { stripe_helper.create_plan(id: subject.stripe_plan_id) }
-
       it 'returns a Stripe::Plan object' do
         stripe_plan = Stripe::Plan
 
@@ -40,11 +38,41 @@ RSpec.describe Subscriptions::Plan, type: :model do
     end
   end
 
+  describe '#delete_stripe_plan!' do
+    context "when there's no plan" do
+      subject do
+        plan = FactoryGirl.build(:subscriptions_plan, :empty)
+        plan.save(validate: false)
+        plan
+      end
+
+      it 'returns nil' do
+        expect(subject.delete_stripe_plan!).to be_nil
+      end
+    end
+
+    context "when there's a plan" do
+
+      it 'sets the stripe_plan_id to nil' do
+        subject.delete_stripe_plan!
+
+        expect(subject.stripe_plan_id).to eq(nil)
+      end
+
+      it 'deletes the plan on Stripe' do
+        stripe_plan_id = subject.stripe_plan_id
+        subject.delete_stripe_plan!
+
+        expect { Stripe::Plan.retrieve(stripe_plan_id) }.
+          to raise_error(Stripe::InvalidRequestError, /No such plan/)
+      end
+    end
+
+  end
+
   describe '#create_subscription!' do
     let(:token)     { stripe_helper.generate_card_token({}) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
-
-    before { stripe_helper.create_plan(id: subject.stripe_plan_id) }
 
     context "when there isn't a Stripe customer yet" do
       it "doens't create a new subsription" do
