@@ -10,11 +10,20 @@
         = link_to root_vertical_page_path(ancestor.vertical_pages.first), itemprop: 'url' do
           %span{ itemprop: 'title' }
             = ancestor.vertical_pages.first.subject_name
-    - else
+    - elsif !@city
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to vertical_page_path(ancestor.root, ancestor.vertical_pages.first), itemprop: 'url' do
           %span{ itemprop: 'title' }
             = ancestor.vertical_pages.first.subject_name
-  %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-    %span{ itemprop: 'title' }
-      = @vertical_page.subject_name
+  - if @city
+    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+      = link_to vertical_page_path(@subject.root, @vertical_page), itemprop: 'url' do
+        %span{ itemprop: 'title' }
+          = @vertical_page.subject_name
+    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+      %span{ itemprop: 'title' }
+        = "#{@vertical_page.subject_name} à #{@city.name}"
+  - else
+    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+      %span{ itemprop: 'title' }
+        = @vertical_page.subject_name

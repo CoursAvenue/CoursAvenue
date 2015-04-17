@@ -48,6 +48,10 @@ class VerticalPage < ActiveRecord::Base
     subject.root if subject
   end
 
+  def blog_articles
+    BlogArticleSearch.search(name: subject_name, per_page: 3, type: 'user').results
+  end
+
   private
 
   def reject_media(attributes)
