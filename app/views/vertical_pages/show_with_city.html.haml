@@ -53,7 +53,7 @@
     .grid__item.four-tenths.palm-one-whole>
       %h3 #{@vertical_page.subject_name} : sélection à #{@city.name}
       .bg-white.bordered.soft--ends.soft-half--sides.tab-content
-        - structures = StructureSearch.search(radius: 500, lat: @city.latitude, lng: @city.longitude, order_by: 'is_open_for_trial', subject_id: @vertical_page.subject.slug, per_page: 8).results
+        - structures = StructureSearch.search(radius: 6, lat: @city.latitude, lng: @city.longitude, order_by: 'is_open_for_trial', subject_id: @vertical_page.subject.slug, per_page: 8).results
         - structures.each_with_index do |structure, index|
           - cache [structure, 'vertical_pages/show'] do
             = render partial: 'vertical_pages/structure', locals: { structure: structure }
