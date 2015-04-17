@@ -104,7 +104,7 @@
                         = image_tag structure.logo.url(:thumb)
                     .grid__item.v-top.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
                       %h6.flush.line-height-1-5.text-ellipsis
-                        = link_to "structure.name", structure_path(structure), class: 'muted-link'
+                        = link_to structure.name, structure_path(structure), class: 'muted-link'
                       .line-height-1-5
                         %i= truncate(structure.cities_text, length: 40)
                       - if header_promotion_title_for_structure(structure).present?
