@@ -1,0 +1,67 @@
+%ul.nav.tabs--link.inline-block.flush.btn-group
+  %li.active>
+    %a.btn.rounded-right--none{ href: '.monthly-details', data: { toggle: 'tab' } } Mensuel
+  %li>
+    %a.btn.rounded-left--none{ href: '.annual-details', data: { toggle: 'tab' } } Annuel
+
+- subscription = Subscription.new
+= form_for subscription, url: pro_structure_subscriptions_path(@structure) do
+  %input#premium_type_value{ type: 'hidden', name: 'plan_id', value: @monthly_plans.first.id }
+  .grid--full.push-half--bottom.text--center
+    - @monthly_plans.each do |plan|
+      .grid__item.one-third.text--center.soft-half--right.v-top.zoom-on-hover>
+        .white-box-half.bordered
+          .orange-box.soft.white.tab-content
+            %p.epsilon.flush
+              Premium
+            %p.beta.push-half--ends
+              %strong= plan.name
+            .tab-pane.hard--top.monthly-details.active
+              %p.delta.line-height-1-7 44€ / mois
+              .btn.btn--full.btn--yellow{ data: { stripe: true, amount: 44 } } Souscrire
+              -# = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('#{plan.id}');"
+            .tab-pane.hard--top.annual-details
+              %p.delta.line-height-1-7 440€ / an
+              .btn.btn--full.btn--yellow{ data: { stripe: true, amount: 440 } } Souscrire
+              -# = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('#{plan.id}');"
+          .soft
+            %p
+              %i.milli Idéal pour les professeurs proposant moins de 5 séances par semaine et moins de 10 stages par an.
+            %p.cursor-help{ data: { behavior: 'popover', content: "En passant au Premium, vous accédez à 10 fonctionnalités qui ont pour but d'optimiser et de personnaliser votre profil. Par exemple, vos cours d'essai gratuits et vos offres découvertes deviennent visibles, le lien vers votre site Internet apparaît et vous n'avez plus de profil similaire sur votre profil.", trigger: 'hover', placement: 'top' } }
+              %strong 10 nouvelles fonctionnalités
+            %p.cursor-help{ data: { behavior: 'popover', content: "Grâce aux fonctionnalités spéciales Premium, votre profil devient complet et apparaît dans les 1er résultats de recherche CoursAvenue. Votre profil s'affiche également en 1er dans nos newsletters et sur chaque profil dans la partie \"profils similaires\".", trigger: 'hover', placement: 'top' } }
+              %strong Visibilité CoursAvenue et newsletters
+            %p.cursor-help{ data: { behavior: 'popover', content: "Chaque jour, nous pilotons des campagnes sur Google de manière à vous en faire pleinement profiter. Nous investissons de larges sommes sur Google AdWords pour gagner rapidement et efficacement en visibilité. Par exemple, vous donnez des cours de dessin à Paris ? Notre objectif est qu'un élève vous contacte après avoir recherché \"cours de dessin Paris\".", trigger: 'hover', placement: 'top' } }
+              %strong Visibilié Google AdWords
+            %p.cursor-help{ data: { behavior: 'popover', content: "Pour vous faire connaître des personnes intéressées par vos disciplines et proches de vos lieux, nous pilotons des campagnes ciblées sur Facebook. Avec l'offre Premium \"Solo\", ces campagnes sont basiques : pour communiquer sur votre profil, nous pilotons une annonce qui sera visible tout au long de votre abonnement.", trigger: 'hover', placement: 'top' } }
+              %strong Campagnes Facebook : basiques
+            %p.cursor-help{ data: { behavior: 'popover', content: "Grâce à tous les moyens mis en oeuvre, nous touchons une audience en adéquation avec vos besoins de communication.", trigger: 'hover', placement: 'top' } }
+              %strong Audience touchée : +
+            %p.cursor-help{ data: { behavior: 'popover', content: "En toute transparence, suivez quotidiennement les statistiques de performance de votre profil (nombre de visites, de prises de contact, etc.) et optimisez son efficacité.", trigger: 'hover', placement: 'top' } }
+              %strong Statistiques
+            %p.cursor-help{ data: { behavior: 'popover', content: "Contactez nos conseillers par chat ou e-mail, nous vous répondons sous 2 jours.", trigger: 'hover', placement: 'top' } }
+              %strong Chat & e-mail
+
+- content_for :scripts do
+  = javascript_include_tag '//checkout.stripe.com/checkout.js'
+
+  :javascript
+    $(document).ready(function() {
+      var stripeHandler = StripeCheckout.configure({
+          key: "#{ENV['STRIPE_PUBLISHABLE_KEY']}",
+          token: function(token) {
+              debugger
+          },
+      });
+
+      $('[data-stripe]').click(function(event) {
+          event.preventDefault();
+          stripeHandler.open({
+              email: "#{@structure.contact_email}",
+              name: 'CoursAvenue',
+              description: 'Abonnement Premium',
+              currency: "#{Subscriptions::Plan::CURRENCY}",
+              amount: $(this).data('amount') * 100
+          });
+      });
+    });
