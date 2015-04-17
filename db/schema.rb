@@ -1158,8 +1158,7 @@ ActiveRecord::Schema.define(version: 20150421115523) do
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.integer  "trial_period_days"
-    t.integer  "amount_unit",       default: 0
-    t.integer  "amount_cents",      default: 0
+    t.integer  "amount"
   end
 
   add_index "subscriptions_plans", ["stripe_plan_id"], name: "index_subscriptions_plans_on_stripe_plan_id", unique: true, using: :btree
