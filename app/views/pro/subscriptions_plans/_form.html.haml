@@ -9,6 +9,7 @@
         %i.blue
           Ce nom sera affiché sur les factures et dans
           = link_to "l'interface de Stripe", 'https://dashboard.stripe.com/plans', target: :_blank
+          et doit être unique
     .panel__body.soft--ends
       .soft--sides
         = form.input :amount, label: 'Montant', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: '20€', min: '0' }
