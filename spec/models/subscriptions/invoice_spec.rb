@@ -5,16 +5,16 @@ RSpec.describe Subscriptions::Invoice, type: :model do
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 
-  let(:stripe_helper)     { StripeMock.create_test_helper }
-  let(:plan)              { FactoryGirl.create(:subscriptions_plan) }
-  let(:structure)         { FactoryGirl.create(:structure, :with_contact_email) }
-  let(:token)             { stripe_helper.generate_card_token }
-  let(:subscription)      { plan.create_subscription!(structure, token) }
-  let(:stripe_invoice_id) { Stripe::Invoice.create(customer: structure.stripe_customer.id).id }
+  let(:stripe_helper)  { StripeMock.create_test_helper }
+  let(:plan)           { FactoryGirl.create(:subscriptions_plan) }
+  let(:structure)      { FactoryGirl.create(:structure, :with_contact_email) }
+  let(:token)          { stripe_helper.generate_card_token }
+  let(:subscription)   { plan.create_subscription!(structure, token) }
+  let(:stripe_invoice) { Stripe::Invoice.upcoming(customer: structure.stripe_customer_id) }
 
   subject do
     FactoryGirl.create(:subscriptions_invoice, structure: structure, subscription: subscription,
-                       stripe_invoice_id: stripe_invoice_id)
+                       stripe_invoice_id: stripe_invoice.id)
   end
 
   it { should belong_to(:structure) }
