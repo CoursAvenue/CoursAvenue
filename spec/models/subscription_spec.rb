@@ -28,10 +28,6 @@ RSpec.describe Subscription, type: :model do
 
       subject { plan.create_subscription!(structure, token) }
 
-      before do
-        # stripe_helper.create_plan(id: plan.stripe_plan_id, amount: plan.amount, currency: 'EUR')
-      end
-
       it 'returns a Stripe::Subscription object' do
         stripe_subscription = Stripe::Subscription
 
@@ -44,15 +40,11 @@ RSpec.describe Subscription, type: :model do
     let(:plan)      { FactoryGirl.create(:subscriptions_plan) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
 
-    before do
-      token = stripe_helper.generate_card_token
-      # stripe_helper.create_plan(id: plan.stripe_plan_id, amount: plan.amount, currency: 'EUR')
-
-      @subscription = plan.create_subscription!(structure, token)
-    end
-
     context 'when not canceled' do
-      it { expect(@subscription.canceled?).to be_falsy }
+      let(:token) { stripe_helper.generate_card_token }
+      subject     { plan.create_subscription!(structure, token) }
+
+      it { expect(subject.canceled?).to be_falsy }
     end
 
     context 'when canceled' do
@@ -67,10 +59,6 @@ RSpec.describe Subscription, type: :model do
     let(:token)     { stripe_helper.generate_card_token }
 
     subject         { plan.create_subscription!(structure, token) }
-
-    before do
-      # stripe_helper.create_plan(id: plan.stripe_plan_id, amount: plan.amount, currency: 'EUR')
-    end
 
     it 'cancels the subscription' do
       subject.cancel!
@@ -98,8 +86,7 @@ RSpec.describe Subscription, type: :model do
     let!(:other_plan) { FactoryGirl.create(:subscriptions_plan) }
     let(:structure)   { FactoryGirl.create(:structure, :with_contact_email) }
     let(:token)       { stripe_helper.generate_card_token }
-
-    subject          { plan.create_subscription!(structure, token) }
+    subject           { plan.create_subscription!(structure, token) }
 
     it 'does nothing if the new plan is the current plan' do
       subject.change_plan!(plan)
