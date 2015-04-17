@@ -79,4 +79,12 @@ RSpec.describe Subscriptions::Invoice, type: :model do
       end
     end
   end
+
+  describe '#file_path' do
+    it 'returns the file_path of the invoice on S3' do
+      invoice_file_path = "invoices/#{subject.structure.slug}/#{subject.id}.pdf"
+
+      expect(subject.file_path).to eq(invoice_file_path)
+    end
+  end
 end
