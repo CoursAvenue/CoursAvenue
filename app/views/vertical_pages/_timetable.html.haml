@@ -21,9 +21,9 @@
     - planning_decorator = planning.decorate
     - structure          = planning.structure
     .flexbox.push--bottom.line-height-1-5{ itemscope: true, itemtype: 'http://data-vocabulary.org/Event' }
-      .flexbox__item.v-middle
-        = image_tag structure.logo.url(:thumb), height: 50, width: 50, class: 'block rounded--circle'
-      .flexbox__item.v-middle.one-whole.soft-half--left
+      .flexbox__item.v-middle.palm-block
+        = image_tag structure.logo.url(:thumb), height: 50, width: 50, class: 'center-block rounded--circle'
+      .flexbox__item.v-middle.one-whole.soft-half--left.palm-block
         .epsilon.inline-block.v-middle{ itemprop: 'summary' }
           = link_to structure.name, structure_path(planning.structure), class: 'f-weight-600 v-middle'
           %span.v-middle= "- #{planning.course.name.capitalize}"
@@ -40,7 +40,7 @@
               %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }
                 %meta{ itemprop: 'latitude', content: planning.place.latitude }
                 %meta{ itemprop: 'longitude', content: planning.place.longitude }
-      .flexbox__item.v-middle.one-whole.soft-half--left.nowrap.text--center
+      .flexbox__item.v-middle.one-whole.soft-half--left.nowrap.text--center.palm-block
         - price = planning.course.decorate.min_price
         - if price
           = show_price planning.course.decorate.min_price
