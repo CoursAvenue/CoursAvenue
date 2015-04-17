@@ -35,6 +35,10 @@ class CourseDecorator < Draper::Decorator
     "<strong class='push-half--right'>#{readable_amount(trial.amount)}</strong>".html_safe
   end
 
+  def min_price
+    object.prices.order('amount ASC').first if object.prices.any?
+  end
+
   def training_prices
     return nil if object.prices.empty?
     prices_content = object.prices.map do |price|

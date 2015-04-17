@@ -13,7 +13,8 @@ class VerticalPage < ActiveRecord::Base
   attr_accessible :subject_name, :caption, :title, :content, :keywords, :subject_id, :image,
                   :medias_attributes, :sidebar_title, :show_trainings_in_title,
                   :image, :remote_image_url, :page_title, :page_description,
-                  :checked, :comments, :homepage_position # For internal use
+                  :checked, :comments, # For internal use
+                  :homepage_position, :depth
 
   mount_uploader :image, VerticalPageImageUploader
 
@@ -22,6 +23,7 @@ class VerticalPage < ActiveRecord::Base
                                  allow_destroy: true
 
   scope :homepage, -> { order('homepage_position ASC NULLS LAST') }
+  scope :roots,    -> { where(depth: 0) }
 
   # Return reviews related to the vertical page.
   # @param limit=4 Integer number of review wanted
@@ -43,7 +45,7 @@ class VerticalPage < ActiveRecord::Base
   end
 
   def root_subject
-    subject.root
+    subject.root if subject
   end
 
   private
