@@ -12,6 +12,23 @@ class Subscriptions::Invoice < ActiveRecord::Base
   # Methods                                                            #
   ######################################################################
 
+  # Create a Subscriptions::Invoice from a Stripe::Invoice
+  #
+  # @param stripe_invoice The Stripe invoice.
+  #
+  # @return The Subscription::Invoice
+  def self.create_from_stripe_invoice(stripe_invoice)
+    return nil if stripe_invoice.nil?
+
+    invoice = where(stripe_invoice_id: stripe_invoice.id).first
+    return invoice unless invoice.nil?
+
+    subscription = Subscription.where(stripe_subscription_id: stripe_invoice.subscription).first
+    structure    = subscription.structure
+
+    create!(structure: structure, subscription: subscription, stripe_invoice_id: stripe_invoice.id)
+  end
+
   # TODO: Memoize object.
   # Retrieve the Stripe::Invoice.
   #
