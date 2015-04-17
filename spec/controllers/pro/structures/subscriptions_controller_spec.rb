@@ -4,15 +4,18 @@ require 'stripe_mock'
 RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
   include Devise::TestHelpers
 
-  let!(:structure) { FactoryGirl.create(:structure_with_admin, :with_contact_email) }
-  let!(:admin)     { structure.main_contact }
+  before(:all) { StripeMock.start }
+  after(:all)  { StripeMock.stop }
+
+  let(:stripe_helper) { StripeMock.create_test_helper }
+  let!(:structure)    { FactoryGirl.create(:structure_with_admin, :with_contact_email) }
+  let!(:admin)        { structure.main_contact }
+  let(:plan)          { FactoryGirl.create(:subscriptions_plan) }
+  let(:token)         { stripe_helper.generate_card_token }
 
   before do
     sign_in admin
   end
-
-  before { StripeMock.start }
-  after  { StripeMock.stop }
 
   describe '#index' do
     render_views
@@ -32,8 +35,7 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
     end
 
     context 'when the structure is subscribed' do
-
-      let!(:subscription) { create_subscription(structure) }
+      let!(:subscription) { plan.create_subscription!(structure, token) }
 
       it 'assigns the subscription' do
         get :index, structure_id: structure.id
@@ -48,15 +50,4 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
       end
     end
   end
-end
-
-def create_subscription(structure)
-  stripe_helper = StripeMock.create_test_helper
-  plan          = FactoryGirl.create(:subscriptions_plan)
-  token         = stripe_helper.generate_card_token
-
-  stripe_helper.create_plan(id: plan.stripe_plan_id, amount: plan.amount, currency: 'EUR')
-  subscription = plan.create_subscription!(structure, token)
-
-  subscription
 end
