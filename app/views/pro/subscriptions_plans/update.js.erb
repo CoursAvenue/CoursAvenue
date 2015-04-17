@@ -1,0 +1,7 @@
+<% if @plan.persisted? %>
+    COURSAVENUE.helperMethods.flash("Offre mise a jour.", 'success');
+    $.fancybox.close()
+    location.reload();
+<% else %>
+    COURSAVENUE.helperMethods.flash("Erreur lors de la mise a jour de l'offre, veuillez rééssayer.", 'error');
+<% end %>
