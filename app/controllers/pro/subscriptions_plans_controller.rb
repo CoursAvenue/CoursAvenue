@@ -56,7 +56,7 @@ class Pro::SubscriptionsPlansController < Pro::ProController
     respond_to do |format|
       if @plan.delete_stripe_plan! and @plan.destroy
         format.html { redirect_to pro_subscriptions_plans_path,
-                      notice: 'Offre supprimé.' }
+                      notice: 'Offre supprimée.' }
       else
         format.html { redirect_to pro_subscriptions_plans_path,
                       error: "Erreur lors de la suppression de l'offre, veillez rééssayer." }
