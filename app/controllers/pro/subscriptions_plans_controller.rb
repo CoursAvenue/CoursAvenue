@@ -7,12 +7,13 @@ class Pro::SubscriptionsPlansController < Pro::ProController
     @plans         = Subscriptions::Plan.all.decorate
   end
 
-  # TODO: Find an elegant way to have the amount in cents.
   def new
     @plan    = Subscriptions::Plan.new
     @edition = false
 
-    render layout: false
+    if request.xhr?
+      render layout: false
+    end
   end
 
   def create
