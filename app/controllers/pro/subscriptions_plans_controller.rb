@@ -2,9 +2,9 @@ class Pro::SubscriptionsPlansController < Pro::ProController
   before_action :authenticate_pro_super_admin!
 
   def index
-    # @monthly_plans = Subscriptions::Plan.monthly
-    # @yearly_plans  = Subscriptions::Plan.yearly
-    @plans = Subscriptions::Plan.all.decorate
+    @monthly_plans = Subscriptions::Plan.monthly.decorate
+    @yearly_plans  = Subscriptions::Plan.yearly.decorate
+    @plans         = Subscriptions::Plan.all.decorate
   end
 
   # TODO: Find an elegant way to have the amount in cents.

@@ -7,8 +7,7 @@
             = plan.name
             %span.caps.bg-green.white.smaller-print active
 
-        - if plan.stripe_plan_id.present?
-          = link_to 'Voir sur Stripe', "https://dashboard.stripe.com/test/plans/#{plan.stripe_plan_id}", target: :_blank
+        = link_to 'Voir sur Stripe', "https://dashboard.stripe.com/test/plans/#{plan.stripe_plan_id}", target: :_blank
 
       .flexbox__item.v-middle.text--right
         = succeed ' ' do
