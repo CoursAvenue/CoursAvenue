@@ -4,12 +4,12 @@
   - if @city
     - training_search = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['training'], per_page: 4, start_date: date, end_date: (date + 2.days), lat: @city.latitude, lng: @city.longitude)
     - trainings = training_search.results
-    - course_search = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['lesson'], per_page: 4, week_days: [date.wday], end_date: date, lat: @city.latitude, lng: @city.longitude)
+    - course_search = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['lesson'], per_page: 4, week_days: [date.wday], lat: @city.latitude, lng: @city.longitude)
     - courses   = course_search.results
   - else
     - training_search = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['training'], per_page: 4, start_date: date, end_date: (date + 2.days))
     - trainings = training_search.results
-    - course_search = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['lesson'], per_page: 4, week_days: [date.wday], end_date: date)
+    - course_search = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['lesson'], per_page: 4, week_days: [date.wday])
     - courses   = course_search.results
 
   - all_courses = (trainings + courses)
