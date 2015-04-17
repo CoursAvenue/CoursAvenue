@@ -58,6 +58,18 @@ class Subscriptions::Plan < ActiveRecord::Base
     Stripe::Plan.retrieve(stripe_plan_id, { api_key: Stripe.api_key })
   end
 
+  # Update the plan on Stripe.
+  # It only updates the plan's name on Stripe.
+  #
+  # @return the Stripe::Plan
+  def update_stripe_plan!
+    plan = stripe_plan
+    plan.name = self.name
+    plan.save
+
+    plan
+  end
+
   # Delete the plan from Stripe
   #
   # @return

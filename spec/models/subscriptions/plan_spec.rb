@@ -2,8 +2,8 @@ require 'rails_helper'
 require 'stripe_mock'
 
 RSpec.describe Subscriptions::Plan, type: :model do
-  before { StripeMock.start }
-  after  { StripeMock.stop }
+  before(:all) { StripeMock.start }
+  after(:all)  { StripeMock.stop }
 
   subject             { FactoryGirl.create(:subscriptions_plan) }
   let(:stripe_helper) { StripeMock.create_test_helper }
@@ -33,6 +33,24 @@ RSpec.describe Subscriptions::Plan, type: :model do
 
         expect(subject.stripe_plan).to be_a(stripe_plan)
       end
+    end
+  end
+
+  describe '#update_stripe_plan!' do
+    let(:new_plan_name) { Faker::Name.name }
+
+    it "updates the plan's name on Stripe" do
+      current_plan_name = subject.name
+
+      subject.name = new_plan_name
+      subject.save
+
+      expect { subject.update_stripe_plan! }.
+        to change { subject.stripe_plan.name }.from(current_plan_name).to(new_plan_name)
+    end
+
+    it 'returns the Stripe::Plan' do
+      expect(subject.update_stripe_plan!).to be_a(Stripe::Plan)
     end
   end
 
