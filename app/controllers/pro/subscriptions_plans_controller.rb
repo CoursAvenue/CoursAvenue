@@ -40,10 +40,12 @@ class Pro::SubscriptionsPlansController < Pro::ProController
     @plan = Subscriptions::Plan.find params[:id]
 
     respond_to do |format|
-      if @plan.update_attributes permitted_params
-        # format.html { redirect_to pro_subscriptions_plans_path, notice: 'Offre bien mise a jour', status: 200 }
+      if @plan.update_attributes permitted_params and @plan.update_stripe_plan!
+        format.html { redirect_to pro_subscriptions_plans_path, notice: 'Offre bien mise a jour', status: 200 }
+        format.js
       else
-        # format.html { render action: :new }
+        format.html { render action: :new }
+        format.js
       end
     end
   end
