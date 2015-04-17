@@ -9,7 +9,8 @@ class Pro::SubscriptionsPlansController < Pro::ProController
 
   # TODO: Find an elegant way to have the amount in cents.
   def new
-    @plan = Subscriptions::Plan.new
+    @plan    = Subscriptions::Plan.new
+    @edition = false
 
     render layout: false
   end
@@ -29,7 +30,8 @@ class Pro::SubscriptionsPlansController < Pro::ProController
   end
 
   def edit
-    @plan = Subscriptions::Plan.find params[:id]
+    @plan    = Subscriptions::Plan.find params[:id]
+    @edition = true
 
     render layout: false
   end
