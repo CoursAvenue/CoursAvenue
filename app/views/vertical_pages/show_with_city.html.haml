@@ -27,9 +27,6 @@
     .grid__item.six-tenths.soft--right.palm-one-whole>
       = render partial: 'vertical_pages/breadcrumb'
       %hr
-      = render partial: 'vertical_pages/timetable'
-
-      %hr.push-half--ends
 
       .vertical-page__content.push--top
         - if @vertical_page.content.present?
@@ -46,6 +43,9 @@
             %h4 Matériel à prévoir
             %p= @subject.tips
 
+      = render partial: 'vertical_pages/timetable'
+
+      %hr.push-half--ends
       - if @vertical_page.medias.any?
         = render partial: 'structures/gallery', locals: { medias: @vertical_page.medias, without_map: true }
       - if @subject.depth == 2

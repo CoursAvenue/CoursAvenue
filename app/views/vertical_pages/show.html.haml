@@ -30,7 +30,6 @@
     .grid__item.six-tenths.palm-one-whole>
       = render partial: 'vertical_pages/breadcrumb'
       %hr
-      = render partial: 'vertical_pages/timetable'
 
       .vertical-page__content.push--top
         - if @vertical_page.content.present?
@@ -47,6 +46,8 @@
           - if @subject.tips.present?
             %h3 Matériel à prévoir
             %p= @subject.tips
+
+      = render partial: 'vertical_pages/timetable'
 
       - if @subject.depth == 2
         = render partial: 'vertical_pages/siblings'

@@ -14,9 +14,9 @@
 
   - all_courses = (trainings + courses)
   - next if all_courses.empty?
-  %h4.push-half--bottom= l(date, format: :semi_long).capitalize
   - if index > 0
     %hr.push-half--ends
+  %h4.push-half--bottom= l(date, format: :semi_long).capitalize
   - all_courses.uniq.sort_by(&:start_time).each do |planning|
     - planning_decorator = planning.decorate
     - structure          = planning.structure
