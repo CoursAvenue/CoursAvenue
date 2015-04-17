@@ -1144,6 +1144,7 @@ ActiveRecord::Schema.define(version: 20150421115523) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.string   "pdf_file_path"
   end
 
   add_index "subscriptions_invoices", ["structure_id"], name: "index_subscriptions_invoices_on_structure_id", using: :btree
