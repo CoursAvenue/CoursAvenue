@@ -16,7 +16,7 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :name, :amount, :interval, :stripe_plan_id, :trial_period_days
+  attr_accessible :name, :amount_unit, :amount_cents, :interval, :stripe_plan_id, :trial_period_days
 
   has_many :subscriptions, foreign_key: 'subscriptions_plan_id'
 
@@ -24,9 +24,10 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Validations                                                        #
   ######################################################################
 
-  validates :name,           presence: true, uniqueness: true
-  validates :amount,         presence: true
-  validates :interval,       presence: true
+  validates :name,         presence: true, uniqueness: true
+  validates :amount_unit,  presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :amount_cents, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :interval,     presence: true
 
   # validate :plan_not_already_on_stripe, on: :create
 
@@ -106,9 +107,10 @@ class Subscriptions::Plan < ActiveRecord::Base
     return false if name.nil?
 
     plan_id = self.name.parameterize
+    amount = self.amount_unit * 100 + self.amount_cents
     plan = Stripe::Plan.create({
       id:                plan_id,
-      amount:            self.amount,
+      amount:            amount,
       currency:          CURRENCY,
       interval:          self.interval,
       name:              self.name,
