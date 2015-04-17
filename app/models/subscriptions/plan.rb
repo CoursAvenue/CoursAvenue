@@ -28,6 +28,8 @@ class Subscriptions::Plan < ActiveRecord::Base
   validates :amount,         presence: true
   validates :interval,       presence: true
 
+  # validate :plan_not_already_on_stripe, on: :create
+
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
@@ -107,4 +109,17 @@ class Subscriptions::Plan < ActiveRecord::Base
   end
 
   handle_asynchronously :create_stripe_plan
+
+  # Validates that the plan doesn't already exist on Stripe.
+  # If it throws a `Stripe::InvalidRequestError`, it means the Plan doesn't exist and we can
+  # proceed. Otherwise, it will add the validation error.
+  #
+  # @return
+  def plan_not_already_on_stripe
+    plan_id = name.parameterize
+    plan = Stripe::Plan.retrieve(plan_id)
+
+    errors.add(:stripe_plan_id, "Stripe Plan already exists")
+  rescue Stripe::InvalidRequestError => e
+  end
 end
