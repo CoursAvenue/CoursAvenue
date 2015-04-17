@@ -6,8 +6,8 @@
       %i.fa-chevron-left.v-middle
       Retour
 
-- if @newsletter.sent? and @metric.present?
+- if @newsletter.sent? and @metric
   = render 'metrics_detail'
 - else
-  %p.delta
+  %p.delta.text--center
     Les statistiques d'envoi de newsletter sont en cours de création. Veuillez rééssayer dans quelques minutes.
