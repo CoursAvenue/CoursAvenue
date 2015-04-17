@@ -44,9 +44,10 @@ class Subscriptions::Invoice < ActiveRecord::Base
   # @return nil or a string.
   def pdf_url
     return nil if stripe_invoice_id.nil?
-    generate_pdf! if pdf_file_path.nil?
+    generate_pdf! unless self.generated?
 
-    pdf_file_path
+    file = CoursAvenue::Application::S3_BUCKET.objects[file_path]
+    file.url_for(:read, expires: 10.years.from_now).to_s
   end
 
   # The path of the invoice file on S3.
@@ -62,7 +63,8 @@ class Subscriptions::Invoice < ActiveRecord::Base
   #
   # @return nil or a String
   def generate_pdf!
-    self.pdf_file_path = PDFGenerator.generate_invoice(self, pdf_template)
+    PDFGenerator.generate_invoice(self, pdf_template)
+    self.generated = true
     save
   end
 
