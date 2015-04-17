@@ -408,6 +408,9 @@ describe Structure do
   end
 
   context 'Stripe' do
+    before(:all) { StripeMock.start }
+    after(:all)  { StripeMock.stop }
+
     describe '#stripe_customer' do
       context 'when not a stripe customer' do
         it 'returns nil' do
@@ -416,14 +419,8 @@ describe Structure do
       end
 
       context 'when a stripe customer' do
-        before { StripeMock.start }
-        after  { StripeMock.stop }
-
         subject             { FactoryGirl.create(:structure, :with_contact_email) }
         let(:stripe_helper) { StripeMock.create_test_helper }
-
-        before { StripeMock.start }
-        after { StripeMock.stop }
 
         before do
           customer = Stripe::Customer.create({
@@ -451,9 +448,6 @@ describe Structure do
       end
 
       context 'when the token is provided' do
-        before { StripeMock.start }
-        after  { StripeMock.stop }
-
         let(:token)         { stripe_helper.generate_card_token }
         let(:stripe_helper) { StripeMock.create_test_helper }
 
@@ -478,14 +472,8 @@ describe Structure do
       end
 
       context 'when subscribed' do
-        before { StripeMock.start }
-        after  { StripeMock.stop }
-
         subject             { FactoryGirl.create(:structure, :with_contact_email) }
         let(:stripe_helper) { StripeMock.create_test_helper }
-
-        before { StripeMock.start }
-        after { StripeMock.stop }
 
         before do
           customer = Stripe::Customer.create({

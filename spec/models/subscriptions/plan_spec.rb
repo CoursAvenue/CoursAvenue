@@ -2,10 +2,8 @@ require 'rails_helper'
 require 'stripe_mock'
 
 RSpec.describe Subscriptions::Plan, type: :model do
-  after(:context) do
-    Stripe::Customer.all(limit: 100).each(&:delete)
-    Stripe::Plan.all(limit: 100).each(&:delete)
-  end
+  before { StripeMock.start }
+  after  { StripeMock.stop }
 
   subject             { FactoryGirl.create(:subscriptions_plan) }
   let(:stripe_helper) { StripeMock.create_test_helper }
