@@ -80,10 +80,11 @@
       - cache [@subject, 'vertical_pages/subjects/depth_2'] do
         = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.descendants.at_depth(2).includes(:vertical_pages) }
 
-%div{ class: (@subject.depth == 0 || @subject.depth == 2 ? 'home-screen-promotion-wrapper' : '') }
-  .main-container.main-container--medium.soft--ends
-    %h2.soft--bottom.f-weight-300 #{@vertical_page.title} : sélection d'avis
-    = render partial: 'vertical_pages/comments', locals: { comments: @vertical_page.reviews }
+- if @vertical_page.reviews.any?
+  %div{ class: (@subject.depth == 0 || @subject.depth == 2 ? 'home-screen-promotion-wrapper' : '') }
+    .main-container.main-container--medium.soft--ends
+      %h2.soft--bottom.f-weight-300 #{@vertical_page.title} : sélection d'avis
+      = render partial: 'vertical_pages/comments', locals: { comments: @vertical_page.reviews }
 
 %div{ class: (@subject.depth == 0 || @subject.depth == 2 ? '' : 'home-screen-promotion-wrapper') }
   .main-container.main-container--medium.soft--ends
