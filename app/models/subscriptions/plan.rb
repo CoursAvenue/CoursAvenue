@@ -16,7 +16,7 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :name, :amount, :interval, :stripe_plan_id
+  attr_accessible :name, :amount, :interval, :stripe_plan_id, :trial_period_days
 
   has_many :subscriptions, foreign_key: 'subscriptions_plan_id'
 
@@ -95,11 +95,12 @@ class Subscriptions::Plan < ActiveRecord::Base
 
     plan_id = self.name.parameterize
     plan = Stripe::Plan.create({
-      id:       plan_id,
-      amount:   self.amount,
-      currency: CURRENCY,
-      interval: self.interval,
-      name:     self.name
+      id:                plan_id,
+      amount:            self.amount,
+      currency:          CURRENCY,
+      interval:          self.interval,
+      name:              self.name,
+      trial_period_days: self.trial_period_days || 0
     })
 
     self.stripe_plan_id = plan_id
