@@ -1,20 +1,26 @@
 %h3 Planning
 
-- (Date.today..7.days.from_now).each do |date|
+- (Date.today..7.days.from_now).each_with_index do |date, index|
   - if @city
-    - trainings = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['training'], per_page: 5, start_date: date, lat: @city.latitude, lng: @city.longitude).results
-    - courses = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['lesson'], per_page: 5, week_days: [date.wday], end_date: date, lat: @city.latitude, lng: @city.longitude).results
+    - training_search = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['training'], per_page: 4, start_date: date, end_date: (date + 2.days), lat: @city.latitude, lng: @city.longitude)
+    - trainings = training_search.results
+    - course_search = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['lesson'], per_page: 4, week_days: [date.wday], end_date: date, lat: @city.latitude, lng: @city.longitude)
+    - courses   = course_search.results
   - else
-    - trainings = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['training'], per_page: 5, start_date: date).results
-    - courses = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['lesson'], per_page: 5, week_days: [date.wday], end_date: date).results
+    - training_search = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['training'], per_page: 4, start_date: date, end_date: (date + 2.days))
+    - trainings = training_search.results
+    - course_search = PlanningSearch.search(visible: true, subject_id: @subject.slug, course_types: ['lesson'], per_page: 4, week_days: [date.wday], end_date: date)
+    - courses   = course_search.results
 
   - all_courses = (trainings + courses)
   - next if all_courses.empty?
   %h4.push-half--bottom= l(date, format: :semi_long).capitalize
+  - if index > 0
+    %hr.push-half--ends
   - all_courses.uniq.sort_by(&:start_time).each do |planning|
     - planning_decorator = planning.decorate
     - structure          = planning.structure
-    .flexbox.push-half--bottom.line-height-1-5{ itemscope: true, itemtype: 'http://data-vocabulary.org/Event' }
+    .flexbox.push--bottom.line-height-1-5{ itemscope: true, itemtype: 'http://data-vocabulary.org/Event' }
       .flexbox__item.v-middle
         = image_tag structure.logo.url(:thumb), height: 50, width: 50, class: 'block rounded--circle'
       .flexbox__item.v-middle.one-whole.soft-half--left
@@ -34,4 +40,12 @@
               %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }
                 %meta{ itemprop: 'latitude', content: planning.place.latitude }
                 %meta{ itemprop: 'longitude', content: planning.place.longitude }
-  %hr.push-half--ends
+      .flexbox__item.v-middle.one-whole.soft-half--left.nowrap.text--center
+        = show_price planning.course.decorate.min_price
+        %br
+        = link_to 'Inscription en ligne', structure_path(planning.structure), class: 'f-weight-600 v-middle'
+  .text--center.push--bottom
+    - if @subject.root?
+      = link_to "Voir toutes les séances", root_search_page_path(@subject.root, (@city || 'paris')), class: 'f-weight-600'
+    - else
+      = link_to "Voir toutes les séances", search_page_path(@subject.root, @subject, (@city || 'paris')), class: 'f-weight-600'
