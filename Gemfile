@@ -206,12 +206,10 @@ end
 
 group :test do
   gem 'sunspot-rails-tester', '~> 1.0.0'
-  gem 'rspec',                '~> 3.1.0'
-  gem 'rspec-core',           '~> 3.1.7'
   gem 'simplecov',            '~> 0.9.1'
   gem 'database_cleaner',     '~> 1.2.0'
   gem 'capybara',             '~> 2.2.1'
-  gem 'rspec-instafail',      '~> 0.2.5'
+  gem 'rspec-instafail',      '~> 0.2.6', require: false
   gem 'shoulda-matchers',     '~> 2.8.0', require: false
 end
 
@@ -246,13 +244,16 @@ group :development, :test do
   gem 'byebug'
   # Permits to travel in the past
   gem 'delorean'
-  gem 'spring'
-  gem 'spring-commands-rspec'
-  gem 'faker',              '~> 1.4.3'
-  gem 'factory_girl_rails', '~> 4.5.0'
-  gem 'rspec-rails',        '~> 3.1.0'
-  gem 'stripe_tester',      "~> 0.2.0"
-  gem 'stripe-ruby-mock',   '~> 2.1.0', :require => 'stripe_mock'
+  gem 'spring',                '~> 1.3.4'
+  gem 'spring-commands-rspec', '~> 1.0.4'
+  gem 'faker',                 '~> 1.4.3'
+  gem 'factory_girl_rails',    '~> 4.5.0'
+  gem 'rspec',                 '~> 3.2.0'
+  gem 'rspec-core',            '~> 3.2.0'
+  gem 'rspec-support',         '~> 3.2.0'
+  gem 'rspec-rails',           '~> 3.2.1'
+  gem 'stripe_tester',         "~> 0.2.0"
+  gem 'stripe-ruby-mock',      '~> 2.1.0', :require => 'stripe_mock'
 end
 
 gem 'dotenv-rails', '~> 2.0.0'
