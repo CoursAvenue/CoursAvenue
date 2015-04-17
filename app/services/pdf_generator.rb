@@ -14,7 +14,7 @@ class PDFGenerator
                                                                    locals: { :@invoice => invoice })
 
     pdf = WickedPdf.new.pdf_from_string(invoice)
-    file.write(pdf)
+    file.write(pdf) unless Rails.env.test?
 
     true
   end
