@@ -217,7 +217,7 @@ CoursAvenue::Application.routes.draw do
             get 'export'
           end
         end
-        resources :subscriptions, only: [:index], controller: 'structures/subscriptions'
+        resources :subscriptions, only: [:index, :create], controller: 'structures/subscriptions'
         resources :subscription_plans, only: [:new, :index, :destroy], controller: 'structures/subscription_plans', path: 'abonnements' do
           collection do
             get :choose_premium, path: 'choisir-un-abonnement'

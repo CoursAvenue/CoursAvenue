@@ -4,8 +4,13 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   layout 'admin'
 
   def index
-    @subscription = @structure.subscription
-    @plans        = Subscriptions::Plan.all
+    @subscription  = @structure.subscription
+    @monthly_plans = Subscriptions::Plan.monthly
+    @yearly_plans  = Subscriptions::Plan.yearly
+  end
+
+  def create
+    aaaaa?
   end
 
   private
