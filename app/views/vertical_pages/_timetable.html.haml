@@ -41,8 +41,10 @@
                 %meta{ itemprop: 'latitude', content: planning.place.latitude }
                 %meta{ itemprop: 'longitude', content: planning.place.longitude }
       .flexbox__item.v-middle.one-whole.soft-half--left.nowrap.text--center
-        = show_price planning.course.decorate.min_price
-        %br
+        - price = planning.course.decorate.min_price
+        - if price
+          = show_price planning.course.decorate.min_price
+          %br
         = link_to 'Inscription en ligne', structure_path(planning.structure), class: 'f-weight-600 v-middle'
   .text--center.push--bottom
     - if @subject.root?

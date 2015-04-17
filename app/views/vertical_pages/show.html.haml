@@ -57,9 +57,9 @@
           - next if StructureSearch.search(lat: city.latitude, lng: city.longitude).total < 10
           .inline-block.one-half>
             - if @subject.is_root?
-              = link_to "Cours de #{@vertical_page.subject_name} à #{city.name}", root_vertical_page_with_city_path(@vertical_page, city), class: 'epsilon line-height-1-7'
+              = link_to "Cours de #{@vertical_page.subject_name.downcase} à #{city.name}", root_vertical_page_with_city_path(@vertical_page, city), class: 'epsilon line-height-1-7'
             - else
-              = link_to "Cours de #{@vertical_page.subject_name} à #{city.name}", vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'epsilon line-height-1-7'
+              = link_to "Cours de #{@vertical_page.subject_name.downcase} à #{city.name}", vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'epsilon line-height-1-7'
 
     .grid__item.four-tenths.palm-one-whole>
       %h3 #{@vertical_page.subject_name} : sélection
