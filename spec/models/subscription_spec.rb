@@ -2,10 +2,8 @@ require 'rails_helper'
 require 'stripe_mock'
 
 RSpec.describe Subscription, type: :model do
-  after(:context) do
-    Stripe::Customer.all(limit: 100).each(&:delete)
-    Stripe::Plan.all(limit: 100).each(&:delete)
-  end
+  before(:all) { StripeMock.start }
+  after(:all)  { StripeMock.stop }
 
   let(:stripe_helper) { StripeMock.create_test_helper }
   subject             { FactoryGirl.create(:subscription) }
@@ -30,11 +28,8 @@ RSpec.describe Subscription, type: :model do
 
       subject { plan.create_subscription!(structure, token) }
 
-      before { StripeMock.start }
-      after  { StripeMock.stop }
-
       before do
-        stripe_helper.create_plan(id: plan.stripe_plan_id, amount: plan.amount, currency: 'EUR')
+        # stripe_helper.create_plan(id: plan.stripe_plan_id, amount: plan.amount, currency: 'EUR')
       end
 
       it 'returns a Stripe::Subscription object' do
@@ -49,12 +44,9 @@ RSpec.describe Subscription, type: :model do
     let(:plan)      { FactoryGirl.create(:subscriptions_plan) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
 
-    before { StripeMock.start }
-    after  { StripeMock.stop }
-
     before do
       token = stripe_helper.generate_card_token
-      stripe_helper.create_plan(id: plan.stripe_plan_id, amount: plan.amount, currency: 'EUR')
+      # stripe_helper.create_plan(id: plan.stripe_plan_id, amount: plan.amount, currency: 'EUR')
 
       @subscription = plan.create_subscription!(structure, token)
     end
@@ -77,7 +69,7 @@ RSpec.describe Subscription, type: :model do
     subject         { plan.create_subscription!(structure, token) }
 
     before do
-      stripe_helper.create_plan(id: plan.stripe_plan_id, amount: plan.amount, currency: 'EUR')
+      # stripe_helper.create_plan(id: plan.stripe_plan_id, amount: plan.amount, currency: 'EUR')
     end
 
     it 'cancels the subscription' do
@@ -104,29 +96,16 @@ RSpec.describe Subscription, type: :model do
   describe '#change_plan!' do
     let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
     let!(:other_plan) { FactoryGirl.create(:subscriptions_plan) }
-    let(:structure)  { FactoryGirl.create(:structure, :with_contact_email) }
-    let(:token)      { stripe_helper.generate_card_token }
+    let(:structure)   { FactoryGirl.create(:structure, :with_contact_email) }
+    let(:token)       { stripe_helper.generate_card_token }
 
     subject          { plan.create_subscription!(structure, token) }
-
-    before { StripeMock.start }
-    after  { StripeMock.stop }
-
-    before do
-      @current_stripe_plan = stripe_helper.create_plan(id:       plan.stripe_plan_id,
-                                                       amount:   plan.amount,
-                                                       currency: 'EUR')
-
-      @other_stripe_plan = stripe_helper.create_plan(id:     other_plan.stripe_plan_id,
-                                                    amount: other_plan.amount,
-                                                    currency: 'EUR')
-    end
 
     it 'does nothing if the new plan is the current plan' do
       subject.change_plan!(plan)
 
       expect(subject.plan).to                        eq(plan)
-      expect(subject.stripe_subscription.plan.id).to eq(@current_stripe_plan.id)
+      expect(subject.stripe_subscription.plan.id).to eq(plan.stripe_plan_id)
     end
 
     it 'changes associated plan' do
@@ -137,7 +116,7 @@ RSpec.describe Subscription, type: :model do
       stripe_subscription.refresh
 
       expect(subject.plan).to eq(other_plan)
-      expect(stripe_subscription.plan.id).to eq(@other_stripe_plan.id)
+      expect(stripe_subscription.plan.id).to eq(other_plan.stripe_plan_id)
     end
   end
 end
