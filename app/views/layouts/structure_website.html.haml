@@ -1,0 +1,16 @@
+.soft
+  %h1.text--center
+    = @structure.name
+
+%ul.text--center.push.nav
+  = link_to 'Présentation', structures_website_presentation_path, class: ['delta soft-half--sides', (action_name == 'index' ? 'f-weight-bold' : '')]
+  = link_to 'Planning', structures_website_planning_path, class: ['delta soft-half--sides', (action_name == 'planning' ? 'f-weight-bold' : '')]
+  = link_to "Livre d'Or", structures_website_reviews_path, class: ['delta soft-half--sides', (action_name == 'reviews' ? 'f-weight-bold' : '')]
+  = link_to 'Photos / Vidéos', structures_website_medias_path, class: ['delta soft-half--sides', (action_name == 'medias' ? 'f-weight-bold' : '')]
+  = link_to 'Contact', structures_website_contact_path, class: ['delta soft-half--sides', (action_name == 'contact' ? 'f-weight-bold' : '')]
+
+= content_for :content do
+  .main-container.main-container--medium{ class: controller_path }
+    = yield
+
+= render :template => 'layouts/application'
