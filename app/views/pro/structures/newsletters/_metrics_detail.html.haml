@@ -1,20 +1,22 @@
-.push--ends
-  %h1 Statistiques d'envoi
-  %h2= @newsletter.title
+%h1 Statistiques d'envoi
+- # Show message if newsletter sent less than an hour ago
+- if 1.hour.ago < @newsletter.sent_at
+  %p.alert.alert--warning
+    %strong Important :
+    Votre newsletter a été envoyé il y a moins d'une heure, les informations sur les statistiques d'envoi peuvent mettre un certain temps à s'actualier.
+%h2= @newsletter.title
 
-.grid.push--ends
-  .grid__item.one-half>
-    %h4= link_to "#{@newsletter.recipients.count} Abonnés", "#details", data: { behavior: 'scroll-to' }
-    %p.delta
-      %strong Liste de diffusion :
-      #{@newsletter.mailing_list}
-    %p.delta
-      %strong Objet :
-      #{@newsletter.email_object}
-  .grid__item.one-half>
-    %p.delta.push--down
-      %strong Envoyé :
-      #{I18n.l(local_time(@newsletter.sent_at), format: :long_human)}
+%p.delta.push--down
+  %strong Envoyé :
+  #{I18n.l(local_time(@newsletter.sent_at), format: :long_human)}
+  à
+  = link_to pluralize(@newsletter.recipients.count, 'élève'), "#details", data: { behavior: 'scroll-to' }, class: 'f-weight-600'
+%p.delta
+  %strong Liste de diffusion :
+  #{@newsletter.mailing_list}
+%p.delta
+  %strong Objet :
+  #{@newsletter.email_object}
 
 .grid.push--ends
   .grid__item.one-half>
@@ -34,7 +36,7 @@
       .grid__item.one-third.text--right>
         %strong.delta.blue= "#{@metric.click_percentage}%"
     .progress
-      .bar.bar-success{style: "width: #{@metric.click_percentage}%;"}
+      .bar.bar-success{ style: "width: #{@metric.click_percentage}%;" }
 
 .grid--full.text--center.bordered.push--ends
   .grid__item.one-third.bordered--right>
@@ -47,7 +49,7 @@
       ouvertures
   .grid__item.one-third>
     .soft-half.text--center
-      %h3.flush= "#{@metric.nb_click}"
+      %h3.flush= "#{@metric.nb_click || 0}"
       clicks
 
 %div

@@ -26,7 +26,9 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         updateAllProfileMailingList: function updateAllProfileMailingList(new_recipient_count) {
-            this.allProfileMailingList().set({ recipient_count: new_recipient_count});
+            if (this.allProfileMailingList()) {
+                this.allProfileMailingList().set({ recipient_count: new_recipient_count});
+            }
         }
 
     });
