@@ -49,6 +49,13 @@ class Subscriptions::Invoice < ActiveRecord::Base
     pdf_file_path
   end
 
+  # The path of the invoice file on S3.
+  #
+  # @return a String.
+  def file_path
+    "invoices/#{self.structure.slug}/#{self.id}.pdf"
+  end
+
   private
 
   # Generate the PDF for the invoice.
