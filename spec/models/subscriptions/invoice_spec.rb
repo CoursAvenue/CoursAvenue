@@ -20,6 +20,28 @@ RSpec.describe Subscriptions::Invoice, type: :model do
   it { should belong_to(:structure) }
   it { should belong_to(:subscription) }
 
+  describe '.create_from_stripe_invoice' do
+    it "returns nothing if there's no invoice" do
+      invoice = Subscriptions::Invoice.create_from_stripe_invoice(nil)
+
+      expect(invoice).to be_nil
+    end
+
+    it "returns the already created invoice if it already exists" do
+      subject
+      invoice = Subscriptions::Invoice.create_from_stripe_invoice(stripe_invoice)
+
+      expect(invoice).to eq(subject)
+    end
+
+    it 'creates a new invoice' do
+      subscription # So the stripe_customer_id creates itself.
+      invoice = Subscriptions::Invoice.create_from_stripe_invoice(stripe_invoice)
+
+      expect(invoice).to be_a(Subscriptions::Invoice)
+    end
+  end
+
   describe '#stripe_invoice' do
     context "when there isn't a stripe_invoice_id" do
       subject { FactoryGirl.create(:subscriptions_invoice, structure: structure, subscription: subscription) }
