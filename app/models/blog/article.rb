@@ -36,8 +36,14 @@ class Blog::Article < ActiveRecord::Base
   ######################################################################
   # :nocov:
   searchable do
-    text :title
+    text :title, boost: 5
     text :description
+    text :content
+    text :category
+    text :subjects do
+      subjects.map(&:name).join(' ')
+    end
+
     string :type do
       (type == 'Blog::Article::UserArticle' ? 'user' : 'pro')
     end

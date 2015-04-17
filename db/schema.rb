@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416135421) do
+ActiveRecord::Schema.define(version: 20150416142346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1326,17 +1326,15 @@ ActiveRecord::Schema.define(version: 20150416135421) do
     t.integer  "subject_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "image_file_name"
-    t.string   "image_content_type"
-    t.integer  "image_file_size"
-    t.datetime "image_updated_at"
     t.boolean  "checked",                 default: false
     t.text     "comments"
     t.text     "sidebar_title"
-    t.string   "cl_image"
+    t.string   "image"
     t.string   "page_title"
     t.text     "page_description"
     t.boolean  "show_trainings_in_title", default: false
+    t.integer  "homepage_position"
+    t.integer  "depth"
   end
 
   create_table "visitors", force: true do |t|

@@ -11,7 +11,7 @@ class BlogArticleSearch
     @search = Sunspot.search(Blog::Article) do
       fulltext params[:name]           if params[:name].present?
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
-      with(:subject_slugs).any_of params[:subject_slugs]
+      with(:subject_slugs).any_of               params[:subject_slugs] if params[:subject_slugs].present?
 
       order_by :page_views, :desc
       order_by :created_at, :desc

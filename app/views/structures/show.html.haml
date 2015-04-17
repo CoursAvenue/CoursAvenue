@@ -47,7 +47,7 @@
             %div{ data: { type: "guestbook-collection" } }
       .beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--bottom Articles de blog associés
       .grid
-        - BlogArticleSearch.search(per_page: 3, type: 'user', subject_slugs: @structure_decorator.all_subjects_slugs).results.each do |article|
+        - @structure.associate_blog_articles.each do |article|
           .grid__item.one-third.palm-one-whole.push--bottom>
             = link_to blog_article_path(article), class: 'block link-colored-on-hover', title: article.title do
               = image_tag article.image.url(:similar_article), class: 'block one-whole hoverable-media'
@@ -97,23 +97,21 @@
               %hr.push-half--ends
             - cache ['similar_profiles', structure] do
               %div{ style: 'height: 70px;' }
-                = link_to structure_path(structure), class: 'soft-half--sides block muted-link' do
+                .soft-half--sides
                   .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
                     .grid__item.v-top.one-fifth>
                       .media-photo{ itemprop: 'image', content: structure.logo.url }
                         = image_tag structure.logo.url(:thumb)
                     .grid__item.v-top.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
-                      .nowrap
-                        - if header_promotion_title_for_structure(structure).present?
-                          %h6.inline-block.push-half--bottom= truncate(structure.name, length: 18)
+                      %h6.flush.line-height-1-5.text-ellipsis
+                        = link_to structure.name, structure_path(structure), class: 'muted-link'
+                      .line-height-1-5
+                        %i= truncate(structure.cities_text, length: 40)
+                      - if header_promotion_title_for_structure(structure).present?
+                        .line-height-1-5
                           .lbl.lbl--small.lbl--yellow
                             %i.fa-star
                             = header_promotion_title_for_structure(structure)
-                        - else
-                          %h6.inline-block.push-half--bottom= truncate(structure.name, length: 30)
-                      %div
-                        %i= truncate(structure.cities_text, length: 40)
-                      .btn.btn--small.btn--blue.btn--full.opacity-hidden-on-hover__child Voir le profil
 
 - if @structure.medias.empty?
   - @structure_locations = Gmaps4rails.build_markers([@structure]) do |structure, marker|

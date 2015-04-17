@@ -12,36 +12,40 @@ class VerticalPage < ActiveRecord::Base
 
   attr_accessible :subject_name, :caption, :title, :content, :keywords, :subject_id, :image,
                   :medias_attributes, :sidebar_title, :show_trainings_in_title,
-                  :cl_image, :remote_cl_image_url, :page_title, :page_description,
-                  :checked, :comments # For internal use
+                  :image, :remote_image_url, :page_title, :page_description,
+                  :checked, :comments, # For internal use
+                  :homepage_position, :depth
 
-  mount_uploader :cl_image, VerticalPageImageUploader
+  mount_uploader :image, VerticalPageImageUploader
 
   accepts_nested_attributes_for :medias,
                                  reject_if: :reject_media,
                                  allow_destroy: true
 
-  has_attached_file :image,
-                    styles: { thumb: '250x200#', large: '1600x500#' },
-                    convert_options: { thumb: '-interlace Plane', large: '-interlace Plane' },
-                    processors: [:thumbnail, :paperclip_optimizer]
-
-  validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-
+  scope :homepage, -> { order('homepage_position ASC NULLS LAST') }
+  scope :roots,    -> { where(depth: 0) }
 
   # Return reviews related to the vertical page.
   # @param limit=4 Integer number of review wanted
   #
   # @return array of Comment::Review
-  def reviews(limit=4)
+  def reviews(limit=4, city=nil)
     reviews = []
-    slugs = [subject.slug] + subject.ancestors.map(&:slug).reverse
-    slugs.each do |slug|
-      reviews += CommentSearch.search(per_page: limit, has_title: true, subject_slug: slug).results
-
-      break if reviews.length >= limit
+    if city
+      reviews = CommentSearch.search(text: subject_name,
+                                     per_page: limit,
+                                     has_title: true,
+                                     lat: city.latitude,
+                                     lng: city.longitude,
+                                     radius: 10).results
+    else
+      reviews = CommentSearch.search(text: subject_name, per_page: limit, has_title: true).results
     end
     reviews[0..(limit - 1)]
+  end
+
+  def root_subject
+    subject.root if subject
   end
 
   private

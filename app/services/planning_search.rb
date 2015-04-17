@@ -34,7 +34,7 @@ class PlanningSearch
         with(:end_hour).less_than_or_equal_to             params[:end_hour].to_i                        if params[:end_hour].present?
 
         with(:start_date).greater_than_or_equal_to        params[:start_date]                           if params[:start_date].present?
-        if params[:end_date].present?.present?
+        if params[:end_date].present?
           with(:end_date).less_than_or_equal_to           params[:end_date]
         else # Always retrieve future plannings
           with(:end_date).greater_than_or_equal_to Date.today

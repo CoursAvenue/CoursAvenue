@@ -1,4 +1,4 @@
-<a href="{{ data_url }}" class="muted-link grid--full f-weight-500 block bordered--bottom soft-half--ends relative structure-item-view">
+<div class="cursor-pointer muted-link grid--full f-weight-500 block bordered--bottom soft-half--ends relative structure-item-view">
     <div class="visuallyhidden--palm grid__item three-twelfths relative rslides-wrapper" data-resizeable-height style="height: 110px">
         <ul class="rslides">
             {{#if preloaded_medias}}
@@ -25,9 +25,11 @@
             <i class="fa-heart-o fa-2x"></i>
         </div>
     </div>{{!--
---}}<div class="grid__item palm-one-whole nine-twelfths soft--sides epsilon line-height-2" data-content>
+--}}<div class="cursor-pointer grid__item palm-one-whole nine-twelfths soft--sides epsilon line-height-2" data-content>
         <div>
-            <h3 class="blue flush text-ellipsis" style="padding-right: 80px;">{{ name }}</h3>
+            <h3 class="blue flush text-ellipsis" style="padding-right: 80px;">
+                <a href="{{ data_url }}" class="muted-link">{{ name }}</a>
+            </h3>
         </div>
         <div>
             <div>
@@ -65,4 +67,4 @@
             {{/if}}
         </div>
     </div>
-</a>
+</div>

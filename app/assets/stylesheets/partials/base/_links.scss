@@ -32,7 +32,7 @@ a.selected, a.active {
 .muted-link {
     font-weight: inherit;
     color      : inherit;
-    &:hover { text-decoration: none; }
+    &:hover { text-decoration: none !important; }
 }
 .semi-muted-link {
     color: inherit;

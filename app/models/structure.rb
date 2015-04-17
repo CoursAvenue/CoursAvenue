@@ -1119,6 +1119,17 @@ class Structure < ActiveRecord::Base
   end
   handle_asynchronously :update_intercom_status
 
+  def associate_blog_articles
+    if vertical_pages_breadcrumb.present?
+      dominant_subject_name = vertical_pages_breadcrumb.split('|').last.split(';').last
+      articles = BlogArticleSearch.search(name: dominant_subject_name, per_page: 3, type: 'user').results
+    else
+      articles = BlogArticleSearch.search(per_page: 3, type: 'user', subject_slugs: self.decorate.all_subjects_slugs).results
+    end
+    articles += BlogArticleSearch.search(per_page: 3 - articles.length, type: 'user').results if articles.length < 3
+    articles
+  end
+
   # Retrieve the Stripe customer associated with this structure.
   # The stripe customer is the stripe account used for the subscription with CoursAvenue.
   #

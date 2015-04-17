@@ -60,4 +60,18 @@ class PlanningDecorator < Draper::Decorator
       I18n.t('date.day_names')[week_day].capitalize
     end
   end
+
+  def start_date_datetime
+    start_time      = object.start_time
+    next_start_time = DateTime.new(object.next_date.year, object.next_date.month, object.next_date.day, start_time.hour, start_time.min)
+    # −06:00 is the french Timezone in ISO format
+    I18n.l(next_start_time, format: :iso_date_8601).gsub(/Z$/, '') + '−06:00'
+  end
+
+  def end_date_datetime
+    end_time      = object.end_time
+    next_end_time = DateTime.new(object.next_date.year, object.next_date.month, object.next_date.day, end_time.hour, end_time.min)
+    # −06:00 is the french Timezone in ISO format
+    I18n.l(next_end_time, format: :iso_date_8601).gsub(/Z$/, '') + '−06:00'
+  end
 end
