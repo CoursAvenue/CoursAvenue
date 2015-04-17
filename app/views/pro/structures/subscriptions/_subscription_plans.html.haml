@@ -1,12 +1,11 @@
-%h1.flush Abonnements
+%h2.flush.text--center Passez au Premium pour recruter plus d'élèves
 
-.flexbox
-  .flexbox__item.v-middle.text--center
-    .flush
+.text--center
+  %h4.flush
+    Commencez dès maintenant :
+    .inline-block.green.tab-pane.hard--top.monthly-details.active offre sans engagement
+    .inline-block.green.tab-pane.hard--top.annual-details 12 mois pour le prix de 10
+  %p.epsilon.two-thirds.center-block
+    60 secondes suffisent pour passer au Premium : immédiatement, votre trafic augmente et vous apporte de nouveaux élèves. Vous pouvez interrompre votre abonnement à tout moment, en toute liberté et simplement.
 
-.grid--full.text--center
-  - @plans.each do |plan|
-    .grid__item.one-third
-      = plan.name
-
-= render 'pro/shared/choose_premium_boxes'
+= render 'choose_plans'
