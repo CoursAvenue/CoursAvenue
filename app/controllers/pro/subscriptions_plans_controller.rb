@@ -53,9 +53,8 @@ class Pro::SubscriptionsPlansController < Pro::ProController
   def destroy
     @plan = Subscriptions::Plan.find params[:id]
 
-    @plan.delete_stripe_plan!
     respond_to do |format|
-      if @plan.destroy
+      if @plan.delete_stripe_plan! and @plan.destroy
         format.html { redirect_to pro_subscriptions_plans_path,
                       notice: 'Offre supprimé.' }
       else

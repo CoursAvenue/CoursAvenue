@@ -77,7 +77,7 @@ class Subscriptions::Plan < ActiveRecord::Base
     plan = stripe_plan
     return nil if plan.nil?
 
-    plan.delete({ api_key: Stripe.api_key })
+    plan.delete
     self.stripe_plan_id = nil
 
     save
