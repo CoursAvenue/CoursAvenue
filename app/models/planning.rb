@@ -86,7 +86,7 @@ class Planning < ActiveRecord::Base
   # is through `:courses` which make the join
   scope :trainings_future,  -> { where( Planning.arel_table[:end_date].gt(Date.today)
                                   .and(Course.arel_table[:type].eq('Course::Training')) ) }
-  scope :future,            -> { where( arel_table[:end_date].gt(Date.today) ) }
+  scope :future,            -> { where( arel_table[:end_date].gteq(Date.today) ) }
   scope :past,              -> { where( arel_table[:end_date].lteq(Date.today) ) }
   scope :ordered_by_day,    -> { order('week_day=0, week_day ASC, start_date ASC, start_time ASC') }
   scope :visible,           -> { where(visible: true) }
