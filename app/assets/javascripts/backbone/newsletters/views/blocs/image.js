@@ -1,24 +1,46 @@
-Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
-    Module.BlocView = Backbone.Marionette.ItemView.extend({
-        template: function template (model) {
-            return JST[Module.templateDirname() + 'bloc_' + model.view_type](model);
-        },
+Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, _) {
+    Module.Image = Backbone.Marionette.ItemView.extend({
+        template: Module.templateDirname() + 'image',
         tagName: 'div',
+        className: function className () {
+            var classes     = '';
+            var layout      = this.model.collection.newsletter.get('layout');
+            var disposition = layout.get('disposition');
+            var subBlocs    = layout.get('sub_blocs')[this.model.get('position') - 1];
+            var proportions = layout.get('proportions')[this.model.get('position') - 1]
+
+
+            if (this.model.collection.multiBloc && disposition == 'horizontal') {
+                var classIndex = subBlocs.indexOf(this.model.get('view_type'));
+                classes = 'inline-block soft-half--sides v-top ' + proportions[classIndex];
+            } else {
+                classes = 'push-half--bottom'
+            }
+
+            return classes;
+        },
 
         events: {
             'click [data-delete-image]':                   'deleteImage',
+            'click [data-edit-image]':                     'editImage',
             'change input[data-type=filepicker-dragdrop]': 'updateImage',
             'change input':                                'silentSave',
-            'change textarea':                             'silentSave'
+            'keyup input':                                 'silentSave'
         },
 
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
 
-            var position_label = this.model.collection.where({type: this.model.get('type')}).indexOf(this.model) + 1
-            this.model.set('position_label', position_label);
+            var positionLabel = this.model.collection.where({ type: this.model.get('type') }).indexOf(this.model) + 1
+            if (this.model.collection.multiBloc) {
+                positionLabel = this.model.collection.multiBloc.get('position') + '-' + positionLabel;
+            }
+            this.model.set('position_label', positionLabel);
+            if (!this.model.has('newsletter')) {
+                this.model.set('newsletter', this.model.collection.newsletter);
+            }
 
-            _.bindAll(this, 'onRender', 'deleteImage', 'updateImage', 'onShow', 'silentSave');
+            _.bindAll(this, 'onRender', 'editImage', 'deleteImage', 'updateImage', 'onShow', 'silentSave');
         },
 
         // Custom render function.
@@ -33,7 +55,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         onRender: function onRender () {
             if (this.model.has('image')) {
                 this.$el.find('img').show();
-                this.$el.find('[data-delete-image]').show();
+                this.$el.find('[data-delete-image-wrapper]').show();
             }
         },
 
@@ -43,23 +65,23 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
                 this.$el.find('img').attr('src', event.fpfile.url);
                 this.$el.find('img').show();
-                this.$el.find('[data-delete-image]').show();
+                this.$el.find('[data-delete-image-wrapper]').show();
             } else {
                 this.deleteImage();
             }
         },
 
-        // TODO:
-        // 2. Empty input.
-        // 1. Ask for confirmation.
-        // 3. Remove image..
+        editImage: function editImage () {
+            this.$el.find('.filepicker-btn').click()
+        },
+
         deleteImage: function deleteImage () {
             this.model.unset('image');
             this.model.set('remote_image_url', '');
 
             this.$el.find('img').hide();
             this.$el.find('img').attr('src', '');
-            this.$el.find('[data-delete-image]').hide();
+            this.$el.find('[data-delete-image-wrapper]').hide();
 
             this.render();
             this.onShow();
@@ -68,26 +90,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         // Replace the HTML elements with their rich version:
         // - Replacing a `remote_image_url` input by a filepicker button.
         onShow: function onShow () {
-            var text_areas = this.$el.find('[data-type=redactor]');
             var pickers    = this.$el.find('[data-type=filepicker-dragdrop]');
             var model      = this.model;
-
-            text_areas.each(function(index, elem) {
-                $(elem).redactor({
-                      buttons: ['formatting', 'bold', 'italic','unorderedlist',
-                                'orderedlist', 'link', 'alignment', 'horizontalrule'],
-                      lang: 'fr',
-                      formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
-                      blurCallback: function blurCallback (event) {
-                          this.$element.trigger('change', event);
-                      },
-                      initCallback: function initCallback () {
-                          if (model.has('content')) {
-                              this.code.set(model.get('content'));
-                          }
-                      },
-                });
-            });
 
             pickers.each(function(index, elem) {
                 // We have to add the type to be able to `constructWidget`
@@ -96,6 +100,12 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 // Remove type to prevent from filepicker JS to initialize it anyway
                 $(elem).removeAttr('type');
             });
+            // Do not use silent save here.
+            // Because if there is two images on the page, only one of them will be saved
+            // Prevent from bug, dunnow why...
+            setTimeout(function() {
+                this.model.save();
+            }.bind(this), 500);
         },
 
         silentSave: function silentSave () {

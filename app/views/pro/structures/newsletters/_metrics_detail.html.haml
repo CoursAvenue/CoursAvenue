@@ -1,9 +1,10 @@
 .push--ends
-  %h3 Statistiques d'envoi : #{@newsletter.title}
+  %h1 Statistiques d'envoi
+  %h2= @newsletter.title
 
 .grid.push--ends
   .grid__item.one-half>
-    %h4= link_to "#{@metric.nb_email_sent} Abonnés", "#details"
+    %h4= link_to "#{@newsletter.recipients.count} Abonnés", "#details", data: { behavior: 'scroll-to' }
     %p.delta
       %strong Liste de diffusion :
       #{@newsletter.mailing_list}
@@ -14,8 +15,6 @@
     %p.delta.push--down
       %strong Envoyé :
       #{I18n.l(local_time(@newsletter.sent_at), format: :long_human)}
-    %p.delta
-      = link_to 'Voir la newsletter', '#preview'
 
 .grid.push--ends
   .grid__item.one-half>
@@ -23,8 +22,8 @@
       .grid__item.two-thirds>
         %p.epsilon.push-half--bottom
           Pourcentage d'ouvertures
-      .grid__item.one-third>
-        %strong.float--right.blue= "#{@metric.opened_percentage}%"
+      .grid__item.one-third.text--right>
+        %strong.delta.blue= "#{@metric.opened_percentage}%"
     .progress
       .bar.bar-success{style: "width: #{@metric.opened_percentage}%;"}
   .grid__item.one-half
@@ -32,8 +31,8 @@
       .grid__item.two-thirds>
         %p.epsilon.push-half--bottom
           Pourcentage de clicks
-      .grid__item.one-third>
-        %strong.float--right.blue= "#{@metric.click_percentage}%"
+      .grid__item.one-third.text--right>
+        %strong.delta.blue= "#{@metric.click_percentage}%"
     .progress
       .bar.bar-success{style: "width: #{@metric.click_percentage}%;"}
 
@@ -51,9 +50,9 @@
       %h3.flush= "#{@metric.nb_click}"
       clicks
 
-.grid.text--center
-  .grid__item
-    %iframe{ src: preview_newsletter_pro_structure_newsletter_path(@structure, @newsletter), width: '100%', height: 500, id: 'preview' }
+%div
+  %h3 Aperçu de la newsletter envoyée
+  %iframe{ src: preview_newsletter_pro_structure_newsletter_path(@structure, @newsletter), width: '100%', height: 500, id: 'preview' }
 
 .push--ends#details
   %h3 Détails des envois
@@ -70,5 +69,5 @@
       %tr
         %td= recipient[:email]
         %td= recipient[:name]
-        %td= recipient[:opens]
-        %td= recipient[:clicks]
+        %td= recipient[:opens] || 0
+        %td= recipient[:clicks] || 0

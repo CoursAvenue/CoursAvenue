@@ -18,11 +18,20 @@ describe NewsletterSender do
     it 'sends the newsletter' do
       newsletter = FactoryGirl.create(:newsletter)
 
+      mailing_list = newsletter.mailing_list
+      mailing_list.structure = newsletter.structure
+      mailing_list.save
+
       expect(NewsletterSender.send_newsletter(newsletter)).to be_truthy
     end
 
     it 'sets the newsletter as sent' do
       newsletter = FactoryGirl.create(:newsletter)
+
+      mailing_list = newsletter.mailing_list
+      mailing_list.structure = newsletter.structure
+      mailing_list.save
+
       NewsletterSender.send_newsletter(newsletter)
 
       expect(newsletter.sent?).to be_truthy

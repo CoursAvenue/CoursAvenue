@@ -9,11 +9,11 @@ UserManagement.module('Views', function(Module, App, Backbone, Marionette, $, _)
             master: "#search-results",
         },
 
-        onShow: function() {
+        onShow: function onShow () {
             if (App.$loader) {
                 App.$loader().fadeOut('slow');
                 this.$("[data-behavior=sticky-controls]").sticky({
-                    offsetTop: 45,
+                    offsetTop: 36,
                     oldWidth: true
                 });
             }

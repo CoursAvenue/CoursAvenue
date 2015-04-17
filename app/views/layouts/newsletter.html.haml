@@ -8,98 +8,29 @@
     - elsif @_message and @_message.subject
       %title= @_message.subject
     - else
-      %title Email de CoursAvenue
+      %title= "#{@structure.name} : newsletter"
 
   %body.coursavenue-email-body{ leftmargin: '0', marginheight: '0', marginwidth: '0', topmargin: '0' }
     %table.coursavenue-email-body{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%', style: 'margin: auto;' }
       %tr.coursavenue-email-body
-        %td.coursavenue-email-body{ width: '100%' }
+        %td.hard--bottom.coursavenue-email-body{ width: '100%' }
           %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;' }
             %tr
               %td{ width: '600' }
                 %table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%'}
                   %tr{ valign: 'bottom' }
-                    %td.email-title.text--center.logo-cell
+                    %td.email-title.text--center.logo-cell.soft-half--ends
                       - if content_for? :email_title
                         = yield :email_title
-                      - elsif content_for? :promo
-                        = yield(:promo).gsub(/(<|&lt;)[^;<]*(>|&gt;)/, '').gsub('  ',' ').strip.html_safe
-                      - else
-                        - email_title = (yield).gsub(/(<|&lt;)[^;<]*(>|&gt;)/, '').gsub('  ',' ').strip.html_safe
-                        = truncate(email_title, length: 80)
-
                       - if content_for :permalink
                         = yield :permalink
 
             %tr
               %td.white-box{ width: '600' }
-                - if content_for? :promo
-                  %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0' }
-                    %tr
-                      %td.content-block
-                        %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0' }
-                          %tr
-                            - if content_for? :logo
-                              %td.v-top.logo-cell{ width: '100', valign: 'top', align: 'center' }
-                                .soft--left.soft--top.soft--bottom.hard--right
-                                  = yield :logo
-                            %td.v-top.soft--left.soft--top.soft--right.content-block{ width: (content_for?(:logo) ? '500' : '600'), valign: 'top' }
-                              = yield :promo
-                  - if yield.present?
-                    %hr
-
-                - if yield.present?
-                  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0' }
-                    %tr
-                      %td.soft--left.soft--top.soft--right.content-block{ width: 600 }
-                        = yield
-
-                - if content_for? :under_content_no_box
-                  = yield :under_content_no_box
-
-                - if content_for? :under_content_no_box_2
-                  = yield :under_content_no_box_2
-
-                - if content_for? :under_content_no_box_3
-                  = yield :under_content_no_box_3
-
-                - if content_for? :under_content_no_box_4
-                  = yield :under_content_no_box_4
-
-                - if content_for? :under_content
-                  - if yield.present? or content_for?(:promo)
-                    %hr
-                  %table.under-content{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;', width: 600 }
-                    %tr
-                      %td.soft.content-block{ width: 600 }
-                        = yield :under_content
-
-                - if content_for? :under_content_2
-                  %hr
-                  %table.under-content{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;', width: 600 }
-                    %tr
-                      %td.soft.content-block{ width: 600 }
-                        = yield :under_content_2
-
-                - if content_for? :under_content_3
-                  %hr
-                  %table.under-content{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;', width: 600 }
-                    %tr
-                      %td.soft.content-block{ width: 600 }
-                        = yield :under_content_3
-
-                - if content_for? :under_content_4
-                  %hr
-                  %table.under-content{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', style: 'margin: auto;', width: 600 }
-                    %tr
-                      %td.soft.content-block
-                        = yield :under_content_4
-
-                - if content_for? :under_content_gray
-                  %table.bordered--top.under-content{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
-                    %tr
-                      %td.content-block.gray-box.soft{ width: 600 }
-                        = yield :under_content_gray
+                %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0' }
+                  %tr
+                    %td.soft--left.soft--top.soft--right.content-block{ width: 600 }
+                      = yield
 
             %table{ align: 'center', border: '0', cellpadding: '5', cellspacing: '0', style: 'margin: auto;' }
               %tr

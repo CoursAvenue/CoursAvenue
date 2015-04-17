@@ -9,11 +9,11 @@
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
           structure: "#{ @structure.slug }",
-          layout: "#{ @layout_id.nil? ? 1 : @layout_id }",
+          layout: "#{ @newsletter and @newsletter.layout ?  @newsletter.layout.id : '' }",
           models: {
               layouts:  #{ @layouts_json.to_json },
               newsletter: #{ @newsletter.nil? ? {}.to_json : NewsletterSerializer.new(@newsletter).to_json },
               mailingLists: #{ ActiveModel::ArraySerializer.new(@mailing_lists, each_serializer: NewsletterMailingListSerializer).to_json },
-              tags: #{ @tags.any? ? @tags.to_json : [] }
+              structure: #{ { name: @structure.name, url: structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) }.to_json }
           }
       };

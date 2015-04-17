@@ -5,7 +5,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         className: 'inline-block palm-one-while push--right',
 
         events: {
-            'click [data-layout]': 'selectLayout'
+            'click [data-layout]'  : 'selectLayout',
         },
 
         initialize: function initialize () {

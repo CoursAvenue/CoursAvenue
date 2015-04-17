@@ -13,8 +13,8 @@ class Pro::Structures::NewslettersController < ApplicationController
     if params[:id].present?
       @newsletter = @structure.newsletters.find params[:id]
     end
+
     @mailing_lists = @structure.mailing_lists
-    @tags          = @structure.user_profiles.includes(:tags).flat_map(&:tags).map(&:name).uniq
   end
 
   def create
@@ -93,7 +93,7 @@ class Pro::Structures::NewslettersController < ApplicationController
     @newsletter = @structure.newsletters.includes(:blocs).find params[:id]
     duplicated_newsletter = @newsletter.duplicate!
 
-    redirect_to pro_structure_newsletter_path(@structure, duplicated_newsletter), notice: 'Newsletter dupliquée avec succés.'
+    redirect_to pro_structure_newsletters_path(@structure), notice: 'Newsletter dupliquée avec succés.'
   end
 
   # Generate the newsletter as a String
@@ -102,7 +102,8 @@ class Pro::Structures::NewslettersController < ApplicationController
   def preview_newsletter
     @newsletter = @structure.newsletters.find params[:id]
 
-    mail = NewsletterMailer.send_newsletter(@newsletter, nil)
+    # Send email to no recipients to generate mail object
+    mail  = NewsletterMailer.send_newsletter(@newsletter, nil)
     @body = MailerPreviewer.preview(mail)
 
     render layout: false
@@ -117,7 +118,7 @@ class Pro::Structures::NewslettersController < ApplicationController
 
   def metrics
     @newsletter = @structure.newsletters.includes(:metric).find(params[:id]).decorate
-    @metric = @newsletter.metric.decorate
+    @metric     = @newsletter.metric.decorate
 
     @metric.delayed_update if @metric.present?
   end
@@ -136,7 +137,7 @@ class Pro::Structures::NewslettersController < ApplicationController
       id = layout_["attributes"]["id"]
 
       layout_["attributes"].merge({
-        image: view_context.asset_path("pro/newsletters/layouts/layout_#{id}.png"),
+        image:   view_context.asset_path("pro/newsletters/layouts/layout_#{id}.png"),
         image2x: view_context.asset_path("pro/newsletters/layouts/layout_#{id}@2x.png")
       })
     end
@@ -147,6 +148,6 @@ class Pro::Structures::NewslettersController < ApplicationController
   # @return the permitted parameters as a Hash.
   def required_params
     params.require(:newsletter).permit(:title, :layout_id, :sender_name, :reply_to, :email_object,
-                                      :newsletter_mailing_list_id)
+                                       :newsletter_mailing_list_id)
   end
 end

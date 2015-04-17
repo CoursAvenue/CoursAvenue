@@ -17,10 +17,12 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
                 this.set('layout_id', layout_id);
             }
 
-            var layout = layouts.get(this.get('layout_id'))
-            this.set('layout', layout);
+            if (this.get('layout_id')) {
+                var layout = layouts.get(this.get('layout_id'))
+                this.set('layout', layout);
 
-            this.setBlocs();
+                this.setBlocs();
+            }
         },
 
         setBlocs: function setBlocs () {
@@ -38,7 +40,7 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
         // For some reason, when updating, some attributes are not namespace'd into `newsletter`,
         // and are therefore not found by Rails strong parameters. This fixes that by manually
         // generating the JSON sent to the server.
-        toJSON: function () {
+        toJSON: function toJSON () {
             return { newsletter: _.clone(this.attributes) }
         },
     });

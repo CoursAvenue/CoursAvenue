@@ -229,6 +229,14 @@ class AdminMailer < ActionMailer::Base
     @error_emails = error_emails
     mail to: @structure.main_contact.email, subject: 'Votre import est terminé.'
   end
+
+  def import_batch_user_profiles_finished_from_newsletter(structure, newsletter, total_wanted, error_emails)
+    @structure    = structure
+    @total_wanted = total_wanted
+    @error_emails = error_emails
+    @newsletter   = newsletter
+    mail to: @structure.main_contact.email, subject: 'Votre import est terminé.'
+  end
   ######################################################################
   # Blog                                                               #
   ######################################################################

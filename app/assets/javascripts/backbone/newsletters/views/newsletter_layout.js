@@ -3,11 +3,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         template: Module.templateDirname() + 'newsletter_layout',
 
         regions: {
-            'choose-layout': "[data-page=choose-layout]",
-            edit:            "[data-page=edit]",
-            'mailing-list':  "[data-page=mailing-list]",
-            metadata:        "[data-page=metadata]",
-            preview:         "[data-page=preview]"
+            'choose-layout' : "[data-page=choose-layout]",
+            'edit'          : "[data-page=edit]",
+            'mailing-list'  : "[data-page=mailing-list]",
+            'metadata'      : "[data-page=metadata]",
+            'preview'       : "[data-page=preview]"
         },
 
         events: {
@@ -18,7 +18,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.router     = options.router;
             this.newsletter = options.newsletter;
 
-            _.bindAll(this, 'setCurrentTab', 'updateNav', 'nextStep', 'previousStep',
+            _.bindAll(this, 'setCurrentTab', 'updateNav', 'enableNavItem',
+                      'nextStep', 'previousStep', 'scrollUp',
                       'selectNewsletterLayout', 'finishEdition',
                       'savingSuccessCallback', 'savingErrorCallback');
         },
@@ -29,8 +30,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         showOrCreatePage: function showOrCreatePage (page_name) {
-            // Start by hiding all regions
-            _.each(this.getRegions(), function(region) { region.$el.hide(); });
+            // Start by hiding all page regions
+            this.$('[data-page]').hide();
             this.setCurrentTab(page_name);
 
             switch(page_name) {
@@ -51,11 +52,15 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var bootstrap = window.coursavenue.bootstrap;
 
             var layouts_collection      = new Newsletter.Models.LayoutsCollection(bootstrap.models.layouts);
+            // Set selected layout in model
+            if (bootstrap.layout) {
+                layouts_collection.findWhere({ id: parseInt(bootstrap.layout, 10) }).set('selected', true);
+            }
             var layouts_collection_view = new Newsletter.Views.LayoutsCollectionView({
                 collection: layouts_collection
             });
 
-            this.listenTo(layouts_collection_view, 'layout:selected', this.selectNewsletterLayout);
+            layouts_collection_view.on('layout:selected', this.selectNewsletterLayout);
 
             this.getRegion('choose-layout').show(layouts_collection_view);
             this.getRegion('choose-layout').$el.show();
@@ -107,14 +112,16 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             if (this.getRegion('mailing-list').initialized) { this.getRegion('mailing-list').$el.show(); return; }
             var bootstrap = window.coursavenue.bootstrap;
 
-            var mailing_list_collection      = new Newsletter.Models.MailingListsCollection(bootstrap.models.mailingLists);
+            var mailing_list_collection      = new Newsletter.Models.MailingListsCollection(bootstrap.models.mailingLists, this.newsletter.get('newsletter_mailing_list_id'));
             var mailing_list_collection_view = new Newsletter.Views.MailingListsCollectionView({
               collection: mailing_list_collection,
               model: this.newsletter
             });
 
             this.listenTo(mailing_list_collection_view, 'selected', this.selectMailingList);
-            this.listenTo(mailing_list_collection_view, 'previous', this.previousStep);
+            mailing_list_collection.on('add', function (model, collection, options) {
+                this.selectMailingList( { model: model });
+            }.bind(this));
 
             this.getRegion('mailing-list').show(mailing_list_collection_view);
             this.getRegion('mailing-list').$el.show();
@@ -154,9 +161,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         updateNav: function updateNav (event) {
-
             var eventSender = $(event.toElement);
-            var fragment     = eventSender.data('newsletter-nav');
+            var fragment    = eventSender.data('newsletter-nav');
+            var disabled    = eventSender.data('newsletter-disabled');
 
             var memberRoutes = ['remplissage', 'liste-de-diffusion', 'recapitulatif', 'previsualisation'];
 
@@ -165,7 +172,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 fragment = id + '/' + fragment;
             }
 
-            this.router.navigate(fragment, { trigger: true });
+            if (disabled) {
+                COURSAVENUE.helperMethods.flash('Veuillez compléter l’étape actuelle.', 'error', { delay: 3000 });
+            } else {
+                this.router.navigate(fragment, { trigger: true });
+            }
         },
 
         // Goes to the next step depending on the current step.
@@ -178,10 +189,16 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             var nextStep = steps[steps.indexOf(this.currentStep) + 1]
             if (!nextStep) { nextStep = 'mise-en-page' }
 
+            var navName = nextStep.replace(':id/', '');
+            var navItem = this.$el.find('[data-newsletter-nav=' + navName + ']');
+
+            this.enableNavItem(navItem);
+
             // We replace the `:id` param by the actual model id.
             nextStep = nextStep.replace(':id', this.newsletter.get('id'));
 
             this.router.navigate(nextStep, { trigger: true });
+            this.scrollUp();
         },
 
         previousStep: function previousStep () {
@@ -192,9 +209,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             previousStep = previousStep.replace(':id', this.newsletter.get('id'));
 
             this.router.navigate(previousStep, { trigger: true });
+            this.scrollUp();
         },
 
-        // TODO: Create global error save callback that shows an alert / notice.
+        scrollUp: function scrollUp () {
+            $.scrollTo(0, { easing: 'easeOutCubic', duration: 350 });
+        },
+
         selectNewsletterLayout: function selectNewsletterLayout (data) {
             this.newsletter.set('layout_id', data.model.get('id'));
             this.newsletter.layout_changed = true;
@@ -223,10 +244,10 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             if (this.newsletter.hasChanged()) {
                 this.newsletter.save();
             }
-            this.nextStep()
         },
 
         savingSuccessCallback: function savingSuccessCallback (model, response, options) {
+            this.trigger('newsletter:saved', model);
             this.nextStep();
         },
 
@@ -234,5 +255,22 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             COURSAVENUE.helperMethods.flash('Erreur lors de la sauvegarde de la newsletter, veuillez rééssayer.', 'error');
         },
 
+        enableNavItem: function enableNavItem (navItem) {
+            if (navItem.data('newsletter-disabled')) {
+                navItem.data('newsletter-disabled', false);
+                navItem.removeClass('cursor-disabled muted')
+            }
+        },
+
+        enableNavItemsBefore: function enableNavItemsBefore (currentNavItem) {
+            var items   = this.$el.find('[data-newsletter-page]');
+            var current = this.$el.find('[data-newsletter-page=' + currentNavItem + ']');
+            var limit   = items.index(current);
+
+
+            items.slice(0, limit + 1).each(function(_, elem) {
+                this.enableNavItem($(elem));
+            }.bind(this));
+        },
     });
 });

@@ -55,13 +55,40 @@ describe UserProfile do
   end
 
   describe '#batch_create' do
-    it 'creates 2 user profile' do
-      emails = 'lala@lala.com lala2@lala.com lalaiswrong.com'
-      mocked_message = Mail::Message.new
+    let(:emails)         { 'lala@lala.com lala2@lala.com lalaiswrong.com' }
+    let(:mocked_message) { Mail::Message.new }
+
+    before do
       # Prevent from sending email
       allow(AdminMailer).to receive(:import_batch_user_profiles_finished).and_return(mocked_message)
+      allow(AdminMailer).to receive(:import_batch_user_profiles_finished_from_newsletter).
+        and_return(mocked_message)
       allow(mocked_message).to receive(:deliver).and_return(nil)
-      expect { UserProfile.batch_create(structure, emails) }.to change { structure.user_profiles.count }.by(2)
+    end
+
+    it 'creates 2 user profile' do
+      expect { UserProfile.batch_create(structure, emails) }.
+        to change { structure.user_profiles.count }.by(2)
+    end
+
+    context 'during a newsletter creation' do
+      let(:newsletter)   { FactoryGirl.create(:newsletter, structure: structure) }
+      let(:mailing_list) { FactoryGirl.create(:newsletter_mailing_list, :with_tag, structure: structure) }
+
+      it 'creates 2 user profiles' do
+        expect {
+          UserProfile.batch_create(
+            structure, emails, { newsletter_id: newsletter.id, mailing_list_tag: mailing_list.tag }
+          )}.to change { structure.user_profiles.count }.by(2)
+      end
+
+      it 'tags two user profiles' do
+        UserProfile.batch_create(
+          structure, emails, { newsletter_id: newsletter.id, mailing_list_tag: mailing_list.tag })
+        profiles = structure.user_profiles.tagged_with(mailing_list.tag)
+
+        expect(profiles.count).to eq(2)
+      end
     end
   end
 end
