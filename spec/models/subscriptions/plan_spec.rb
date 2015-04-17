@@ -10,7 +10,6 @@ RSpec.describe Subscriptions::Plan, type: :model do
   subject             { FactoryGirl.create(:subscriptions_plan) }
   let(:stripe_helper) { StripeMock.create_test_helper }
 
-  it { should validate_uniqueness_of(:stripe_plan_id) }
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }
   it { should validate_presence_of(:amount) }

@@ -27,7 +27,6 @@ class Subscriptions::Plan < ActiveRecord::Base
   validates :name,           presence: true, uniqueness: true
   validates :amount,         presence: true
   validates :interval,       presence: true
-  # validates :stripe_plan_id, uniqueness: true
 
   ######################################################################
   # Callbacks                                                          #
