@@ -30,7 +30,7 @@ namespace :scheduler do
       Rails.application.routes.default_url_options[:host] = 'coursavenue.com'
       Rails.application.routes.default_url_options[:protocol] = Rails.env.production? ? 'https' : 'http'
       Structure.find_each do |structure|
-        PrerenderRenewer.delay structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+        PrerenderRenewer.delay.renew_url structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
       end
     end
 
@@ -46,14 +46,14 @@ namespace :scheduler do
       Rails.application.routes.default_url_options[:protocol] = Rails.env.production? ? 'https' : 'http'
       CITIES = ['paris', 'paris-01', 'paris-02', 'paris-03', 'paris-04', 'paris-05', 'paris-06', 'paris-07', 'paris-08', 'paris-09', 'paris-10', 'paris-11', 'paris-12', 'paris-13', 'paris-14', 'paris-15', 'paris-16', 'paris-17', 'paris-18', 'paris-19', 'paris-20']
       CITIES.each do |city|
-        PrerenderRenewer.delay root_search_page_without_subject_url(city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+        PrerenderRenewer.delay.renew_url root_search_page_without_subject_url(city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
       end
       Subject.find_each do |subject|
         CITIES.each do |city|
           if subject.is_root?
-            PrerenderRenewer.delay root_search_page_url(subject, city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+            PrerenderRenewer.delay.renew_url root_search_page_url(subject, city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
           else
-            PrerenderRenewer.delay search_page_url(subject.root, subject, city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+            PrerenderRenewer.delay.renew_url search_page_url(subject.root, subject, city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
           end
         end
       end
