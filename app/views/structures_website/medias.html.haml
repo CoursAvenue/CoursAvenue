@@ -1,2 +1,15 @@
-- @medias.each do |media|
-  = media.image.url
+%div{ data: { behavior: 'masonry' } }
+  - @medias.each_with_index do |media, index|
+    %a.masonry__item.bg-cover.bg-fixed{ rel: 'gallery', href: media.url, title: media.caption, data: { behavior: 'fancy', el: 'masonry-item' } }>
+      = image_tag media.image.url(:gallery), class: 'very-soft block one-whole'
+      .very-soft.absolute.south.west
+        .one-whole.soft-half.white.gradient-black-to-transparent-bottom-up.f-weight-600
+          = media.caption
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        var $container = $('[data-behavior=masonry]').packery({
+            itemSelector: '[data-el=masonry-item]',
+        });
+    });

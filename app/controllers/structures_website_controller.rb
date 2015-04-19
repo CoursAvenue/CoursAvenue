@@ -27,6 +27,7 @@ class StructuresWebsiteController < ApplicationController
   end
 
   def reviews
+    @reviews = @structure.comments
   end
 
   def medias
