@@ -7,8 +7,8 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     if @structure.subscription.present? and @structure.subscription.active?
       @subscription  = @structure.subscription.decorate
     else
-      @monthly_plans = Subscriptions::Plan.monthly.decorate
-      @yearly_plans  = Subscriptions::Plan.yearly.decorate
+      @monthly_plans = ::Subscriptions::Plan.monthly.decorate
+      @yearly_plans  = ::Subscriptions::Plan.yearly.decorate
 
       @plans = []
 
