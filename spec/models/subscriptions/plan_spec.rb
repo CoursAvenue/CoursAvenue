@@ -147,5 +147,17 @@ RSpec.describe Subscriptions::Plan, type: :model do
         expect(subscription.stripe_subscription).to be_a(Stripe::Subscription)
       end
     end
+
+    context "when there's a coupon code" do
+      let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
+      before { structure.create_stripe_customer(token) }
+
+      it 'creates a new subscription and applies the coupon code' do
+        subscription = subject.create_subscription!(structure, nil, coupon.coupon_code)
+
+        expect(subscription).to_not be_nil
+        expect(subscription.has_coupon?).to be_true
+      end
+    end
   end
 end
