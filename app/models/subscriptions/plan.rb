@@ -83,15 +83,17 @@ class Subscriptions::Plan < ActiveRecord::Base
     save
   end
 
-  # TODO: Remove explicit api key.
   # Subscribe a structure to the current plan.
+  #
+  # @param structure The structure that subscribes to the plan.
+  # @param token The Stripe token for when we create a new user.
   #
   # @return nil or the new Subscription
   def create_subscription!(structure, token = nil)
-    customer     = structure.stripe_customer || structure.create_stripe_customer(token)
+    customer = structure.stripe_customer || structure.create_stripe_customer(token)
     return nil if customer.nil?
 
-    # TODO: Remove explicit api key.
+    # TODO: Remove explicit API key.
     subscription = customer.subscriptions.create({ plan: self.stripe_plan_id }, { api_key: Stripe.api_key })
 
     self.subscriptions.create(stripe_subscription_id: subscription.id, structure: structure)
