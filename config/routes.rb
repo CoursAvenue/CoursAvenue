@@ -222,7 +222,7 @@ CoursAvenue::Application.routes.draw do
             get :download
           end
         end
-        resources :subscriptions, only: [:index, :create], controller: 'structures/subscriptions' do
+        resources :subscriptions, only: [:index, :create, :destroy], controller: 'structures/subscriptions' do
           member do
             get :cancel
             get :confirm_cancellation

@@ -38,9 +38,28 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   end
 
   def cancel
+    @subscription = @structure.subscription
+
+    if request.xhr?
+      render layout: false
+    end
   end
 
-  def confirm_cancelation
+  def confirm_cancellation
+    @subscription = @structure.subscription
+
+    if request.xhr?
+      render layout: false
+    end
+  end
+
+  def destroy
+    @subscription = @structure.subscription
+
+    @subscription.update_attributes params[:subscription]
+    @subscription.cancel!
+
+    redirect_to pro_structure_subscriptions_path(@structure), notice: 'Abonnement supprimé avec succès'
   end
 
   # https://support.stripe.com/questions/how-can-i-resume-a-subscription-after-it-has-been-canceled
