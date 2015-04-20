@@ -66,18 +66,36 @@ RSpec.describe Subscription, type: :model do
       expect(subject.canceled?).to be_truthy
     end
 
-    it 'delays the cancelation until the period end by default' do
-      canceled_subscription = subject.cancel!
+    context 'when we cancel at the end of the period' do
+      it 'sets the expiration date to the end of the current period' do
+        stripe_subscription = subject.cancel!
 
-      expect(canceled_subscription.status).to eq('active')
-      expect(canceled_subscription.cancel_at_period_end).to be_truthy
+        expect(subject.expires_at).to_not be_nil
+        expect(subject.expires_at).to eq(Time.at(stripe_subscription.current_period_end))
+      end
+
+      it 'delays the cancelation' do
+        canceled_subscription = subject.cancel!
+
+        expect(canceled_subscription.status).to eq('active')
+        expect(canceled_subscription.cancel_at_period_end).to be_truthy
+      end
     end
 
-    it 'cancels immediately when the flag is given' do
-      canceled_subscription = subject.cancel!(at_period_end: false)
+    context 'when we cancel immediately' do
+      it 'cancels immediately when the flag is given' do
+        canceled_subscription = subject.cancel!(at_period_end: false)
 
-      expect(canceled_subscription.status).to eq('canceled')
-      expect(canceled_subscription.cancel_at_period_end).to be_falsy
+        expect(canceled_subscription.status).to eq('canceled')
+        expect(canceled_subscription.cancel_at_period_end).to be_falsy
+      end
+
+      it 'sets the expiration date to the cancelation date' do
+        canceled_subscription = subject.cancel!(at_period_end: false)
+
+        expect(subject.expires_at).to_not be_nil
+        expect(subject.expires_at).to eq(subject.canceled_at)
+      end
     end
 
     context "when there's a trial period" do

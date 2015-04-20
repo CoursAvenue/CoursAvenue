@@ -63,6 +63,13 @@ class Subscription < ActiveRecord::Base
     subscription = structure.stripe_customer.subscriptions.retrieve(stripe_subscription_id, { api_key: Stripe.api_key }).delete(at_period_end: options[:at_period_end])
 
     self.canceled_at = Time.current
+
+    if options[:at_period_end]
+      self.expires_at = Time.at(subscription.current_period_end)
+    else
+      self.expires_at = self.canceled_at
+    end
+
     self.save
 
     subscription
