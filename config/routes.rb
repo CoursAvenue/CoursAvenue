@@ -7,7 +7,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
-  constraints subdomain: (Rails.env.staging? ? 'pro.staging' : 'pro') do
+  constraints subdomain: 'pro' do
     namespace :admin do
       resources :blog_articles, controller: 'blog/articles', path: 'blog' do
         resources :medias, controller: 'blog/articles/medias'
@@ -431,7 +431,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
-  constraints subdomain: (Rails.env.staging? ? 'staging' : 'www') do
+  constraints subdomain: 'www' do
     resources :press_releases, path: 'communiques-de-presse', only: [:show]
 
     resources :blog_subscribers, only: [:create], controller: 'blog/subscribers'
