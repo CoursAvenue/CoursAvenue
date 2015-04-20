@@ -4,16 +4,19 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   layout 'admin'
 
   def index
-    @subscription  = @structure.subscription
-    @monthly_plans = Subscriptions::Plan.monthly.decorate
-    @yearly_plans  = Subscriptions::Plan.yearly.decorate
+    if @structure.subscribed?
+      @subscription  = @structure.subscription.decorate
+    else
+      @monthly_plans = Subscriptions::Plan.monthly.decorate
+      @yearly_plans  = Subscriptions::Plan.yearly.decorate
 
-    @plans = []
+      @plans = []
 
-    [@monthly_plans, @yearly_plans].each do |plans_by_period|
-      plans_by_period.each_with_index do |plan, index|
-        @plans[index] ||= []
-        @plans[index] << plan
+      [@monthly_plans, @yearly_plans].each do |plans_by_period|
+        plans_by_period.each_with_index do |plan, index|
+          @plans[index] ||= []
+          @plans[index] << plan
+        end
       end
     end
   end
