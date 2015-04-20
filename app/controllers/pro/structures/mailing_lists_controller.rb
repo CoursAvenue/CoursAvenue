@@ -23,7 +23,7 @@ class Pro::Structures::MailingListsController < ApplicationController
   private
 
   def set_structure
-    @structure  = Structure.find(params[:structure_id])
+    @structure  = Structure.friendly.find(params[:structure_id])
   end
 
 

@@ -24,11 +24,11 @@ class Pro::VerticalPagesController < InheritedResources::Base
   end
 
   def edit
-    @vertical_page = VerticalPage.find(params[:id])
+    @vertical_page = VerticalPage.friendly.find(params[:id])
   end
 
   def update
-    @vertical_page = VerticalPage.find(params[:id])
+    @vertical_page = VerticalPage.friendly.find(params[:id])
     respond_to do |format|
       if @vertical_page.update_attributes params[:vertical_page]
         format.html { redirect_to pro_vertical_pages_path, notice: 'Bien enregistré' }
@@ -39,7 +39,7 @@ class Pro::VerticalPagesController < InheritedResources::Base
   end
 
   def destroy
-    @vertical_page = VerticalPage.find(params[:id])
+    @vertical_page = VerticalPage.friendly.find(params[:id])
     respond_to do |format|
       if @vertical_page.destroy
         format.html { redirect_to pro_vertical_pages_path, notice: 'Supprimé' }

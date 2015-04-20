@@ -1,20 +1,26 @@
-= side_menu_currently_at 'structures'
+= side_menu_currently_at 'pro_dashboard'
 
-%table.white-box.table--striped.table--data#dataTable
+= render partial: 'pro/shared/dashboard_tabs', locals: { current: 'structures' }
+
+.push-half--bottom= paginate @structures, window: 2, outer_window: 1
+
+%table.table--data.table--striped
   %thead
     %tr
-      %th
-        %span Nom
-      %th.sortAsc
-        %span Date de création
+      %th Nom
+      %th Date de création
+      %th Activé
       %th Profil
   %tbody
     - @structures.each do |structure|
       %tr
         %td
           = link_to structure.name, dashboard_pro_structure_path(structure)
-        %td{data: {value: structure.created_at}}
+        %td
           = l(structure.created_at.to_date)
+        %td.text--center
+          - if structure.main_contact.present?
+            %i.fa.fa-check.green
         %td.nowrap
           = link_to 'Public', structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
           \/
@@ -24,3 +30,4 @@
           \/
           = link_to "Supprimer", pro_structure_path(structure), method: :delete, class: 'red'
 
+.push-half--bottom= paginate @structures, window: 2, outer_window: 1

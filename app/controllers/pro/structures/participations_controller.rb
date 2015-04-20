@@ -25,6 +25,6 @@ class Pro::Structures::ParticipationsController < Pro::ProController
   private
 
   def load_structure
-    @structure = Structure.find(params[:structure_id])
+    @structure = Structure.friendly.find(params[:structure_id])
   end
 end

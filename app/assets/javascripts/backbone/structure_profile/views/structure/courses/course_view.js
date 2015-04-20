@@ -96,8 +96,9 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             };
         },
         serializeData: function serializeData () {
-            var attributes       = this.model.toJSON()
-            attributes.min_price = new CoursAvenue.Models.Price(attributes.min_price).toJSON()
+            var attributes         = this.model.toJSON()
+            attributes.min_price   = new CoursAvenue.Models.Price(attributes.min_price).toJSON()
+            attributes.is_sleeping = window.coursavenue.bootstrap.meta.is_sleeping;
             return attributes;
         },
 

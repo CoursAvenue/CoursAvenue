@@ -7,7 +7,7 @@ class VerticalPageDecorator < Draper::Decorator
   #   Cours de salsa - stages de salsa à Paris | CoursAvenue.com
   def page_title(city=nil)
     if object.page_title.present?
-      object.page_title
+      "#{object.page_title} #{(city ? "à #{city.name}" : '')}".strip
     else
       if object.show_trainings_in_title?
         text = "Cours de #{object.subject_name.downcase} - stages de #{object.subject_name.downcase} #{(city ? "à #{city.name}" : '')}"

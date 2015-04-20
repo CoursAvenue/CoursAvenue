@@ -3,6 +3,8 @@ class Blog::ArticlesController < ApplicationController
 
   layout 'blog'
 
+  before_action :load_article, only: [:show]
+
   def index
     @articles   = Blog::Article::UserArticle.ordered_by_publish_date.published.page(params[:page] || 1).per(8)
   end
@@ -13,8 +15,7 @@ class Blog::ArticlesController < ApplicationController
   end
 
   def show
-    @article = Blog::Article::UserArticle.where(slug: params[:id]).first
-    @article = Blog::Article::UserArticle.find(params[:id])
+    @article = Blog::Article::UserArticle.friendly.find(params[:id])
     redirect_to(blog_articles_path, status: 301) if @article.nil?
     @article.increment_page_views! if @article
     @article_decorator = BlogArticleDecorator.new(@article) if @article
@@ -24,7 +25,16 @@ class Blog::ArticlesController < ApplicationController
   end
 
   def category_index
-    @category = Blog::Category::UserCategory.find params[:category_id]
+    @category = Blog::Category::UserCategory.friendly.find params[:category_id]
     @articles = @category.articles.page(params[:page] || 1).per(5)
+  end
+
+  private
+
+  def load_article
+    @article = Blog::Article::UserArticle.friendly.find(params[:id])
+    if params[:id] != @article.slug
+      redirect_to blog_article_path(@article.slug), status: 301
+    end
   end
 end

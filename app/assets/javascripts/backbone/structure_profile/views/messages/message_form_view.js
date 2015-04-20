@@ -20,13 +20,6 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
         },
 
         onRender: function onRender () {
-            // Not having panel class for sleeping structures
-            if (this.model.get('structure').get('is_sleeping')){
-                this.$el.removeClass('panel');
-                if (this.model.get('structure').get('phone_numbers').length == 0) {
-                    this.$el.removeClass('push--bottom');
-                }
-            }
             setTimeout(COURSAVENUE.chosen_initializer, 5)
         },
 

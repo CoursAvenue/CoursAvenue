@@ -5,7 +5,7 @@ class Structures::TeachersController < InheritedResources::Base
 
   def index
     @teacher   = Teacher.new
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @teachers  = @structure.teachers.order('name ASC')
 
     respond_to do |format|

@@ -1,4 +1,4 @@
-- @prerender_not_ready = !@is_sleeping
+- @prerender_not_ready = false
 
 = content_for :head do
   %link{ rel: 'canonical', href: structure_url(@structure) }
@@ -37,14 +37,13 @@
             = link_to '#avis', data: { behavior: 'scroll-to', offset_top: '-50' }, class: 'white' do
               Voir les #{@structure.comments_count} avis
 
-      #structure-profile.push--bottom{ class: (@is_sleeping ? '' : 'bg-white bordered'), data: { type: 'structure-profile-root' } }
+      #structure-profile.push--bottom.bg-white.bordered{ data: { type: 'structure-profile-root' } }
+        #structure-region
+        #avis
+          %div{ data: { type: "certified-comments-collection" } }
+          %div{ data: { type: "guestbook-collection" } }
         - if @is_sleeping
           = render partial: 'structures/sleeping_content', locals: { medias: @medias }
-        - else
-          #structure-region
-          #avis
-            %div{ data: { type: "certified-comments-collection" } }
-            %div{ data: { type: "guestbook-collection" } }
       .beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--bottom Articles de blog associés
       .grid
         - @structure.associate_blog_articles.each do |article|
@@ -58,7 +57,7 @@
       - # to the parent of the sticky div
       %div
         .on-top.bg-site-background-on-stick.transition-all-300{ data: { type: 'sticky-map-container' } }>
-          .soft--top{ data: { type: 'sticky-map', stick: (@is_sleeping ? 'false' : 'true') } }>
+          .soft--top{ data: { type: 'sticky-map', stick: true } }>
       - unless @is_sleeping
         - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
           .panel.push--ends
@@ -136,6 +135,7 @@
           structure: #{ @model.to_json },
           meta: {
               have_upcoming_plannings: #{ @structure.plannings.future.any? },
+              is_sleeping: #{ @structure.is_sleeping? },
               structure_id: #{ @structure.id }
           }
       };

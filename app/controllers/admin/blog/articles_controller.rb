@@ -13,13 +13,13 @@ class Admin::Blog::ArticlesController < Pro::ProController
   end
 
   def edit
-    @article = ::Blog::Article.find params[:id]
+    @article = ::Blog::Article.friendly.find params[:id]
     @medias  = @article.medias.order('caption ASC')
     get_categories
   end
 
   def show
-    @article = ::Blog::Article.find params[:id]
+    @article = ::Blog::Article.friendly.find params[:id]
   end
 
   def create
@@ -34,7 +34,7 @@ class Admin::Blog::ArticlesController < Pro::ProController
   end
 
   def update
-    @article = ::Blog::Article.find params[:id]
+    @article = ::Blog::Article.friendly.find params[:id]
     respond_to do |format|
       if @article.update_attributes params[:blog_article]
         format.html { redirect_to admin_blog_articles_path(type: (@article.pro_article? ? 'pro' : 'user')) }
@@ -45,7 +45,7 @@ class Admin::Blog::ArticlesController < Pro::ProController
   end
 
   def destroy
-    @article = ::Blog::Article.find params[:id]
+    @article = ::Blog::Article.friendly.find params[:id]
     @article.destroy
     respond_to do |format|
       format.html { redirect_to admin_blog_articles_path(type: (@article.pro_article? ? 'pro' : 'user')), notice: "Supprimé !" }

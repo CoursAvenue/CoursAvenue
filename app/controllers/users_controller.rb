@@ -41,7 +41,7 @@ class UsersController < InheritedResources::Base
       @user = User.where(email: params[:user_email]).first_or_initialize
       @user.save(validate: false)
     end
-    @structure = Structure.find(params[:structure_id]) if params[:structure_id].present?
+    @structure = Structure.friendly.find(params[:structure_id]) if params[:structure_id].present?
     respond_to do |format|
       if @user.nil?
         format.html { redirect_to open_courses_path }

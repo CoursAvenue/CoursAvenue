@@ -92,7 +92,9 @@ class Structure < ActiveRecord::Base
                   :place_ids, :name, :info, :registration_info,
                   :website, :facebook_url,
                   :contact_email,
-                  :description, :subject_ids, :active, # active: for tests profile, eg. L'atelier de Nima, etc.
+                  :description, :subject_ids, :active,
+                  # active: for tests profile, eg. L'atelier de Nima, etc.
+                  # And for duplicated sleeping structures (when an admin takes control of a sleeping profile)
                   :has_validated_conditions,
                   :validated_by, :logo, :remote_logo_url,
                   :funding_type_ids,

@@ -9,18 +9,18 @@ class Pro::Structures::AdminsController < Pro::ProController
   before_action :authenticate_pro_admin!
 
   def show
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @admin     = @structure.admins.find(params[:id])
     redirect_to edit_pro_structure_admin_path(@structure, @admin)
   end
 
   def edit
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @admin     = @structure.admins.find(params[:id])
   end
 
   def modify_email
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @admin     = @structure.admins.find(params[:id])
     render layout: false
   end

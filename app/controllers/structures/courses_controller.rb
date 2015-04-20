@@ -2,7 +2,7 @@
 class Structures::CoursesController < ApplicationController
 
   def index
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     if params[:course_type].present?
       @courses = @structure.courses.send(params[:course_type])
     else
