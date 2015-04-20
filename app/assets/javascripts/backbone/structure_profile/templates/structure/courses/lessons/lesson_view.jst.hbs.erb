@@ -15,7 +15,9 @@
                 {{/if}}
             </div>
         {{/if}}
-        <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full">M'inscrire</a>
+        {{#unless is_sleeping}}
+            <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full">M'inscrire</a>
+        {{/unless}}
     </div>
     <div class="push-half--bottom">
         <h3 class="v-middle flush--bottom push-half--right inline-block delta">{{ name }}</h3>

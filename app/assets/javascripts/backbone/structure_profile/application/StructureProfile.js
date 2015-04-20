@@ -35,7 +35,7 @@ StructureProfile.addInitializer(function(options) {
 
     layout.render();
 
-    if (bootstrap.meta.have_upcoming_plannings) {
+    if (bootstrap.meta.have_upcoming_plannings && !bootstrap.meta.is_sleeping) {
         participation_request      = new StructureProfile.Models.ParticipationRequest({ structure: structure });
         participation_request_view = new StructureProfile.Views.ParticipationRequests.RequestFormView( {
           model: participation_request
@@ -51,7 +51,7 @@ StructureProfile.addInitializer(function(options) {
     } else {
         message           = new StructureProfile.Models.Message({ structure: structure });
         message_form_view = new StructureProfile.Views.Messages.MessageFormView( {
-          model: message
+            model: message
         } );
         layout.showWidget(message_form_view, { selector: '[data-type=contact-form]' });
     }

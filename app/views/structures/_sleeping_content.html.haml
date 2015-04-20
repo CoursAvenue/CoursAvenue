@@ -1,23 +1,5 @@
 - structure_decorator = @structure.decorate
-.bg-white.bordered.push--bottom
-  .soft
-    .grid
-      - if @structure.logo.present?
-        .grid__item.three-twelfths>
-          .media-photo= image_tag @structure.logo.url(:thumb), class: 'block'
-      .grid__item.nine-twelfths>
-        %h1.beta.gray.push-half--bottom= @structure.name
-        .delta.f-weight-500.push-half--bottom.gray
-          - if structure_decorator.structure_type
-            = structure_decorator.structure_type
-            \—
-          = @structure.city.name
-        - @structure.subjects.group_by(&:root).each do |root_subject, subjects|
-          %h3.flush.very-soft--bottom.f-weight-normal.f-size-12.text-ellipsis
-            %i.fa{ class: "fa-#{root_subject.slug}" }
-            %strong= "#{root_subject.name} : "
-            = subjects.map(&:name).join(', ')
-
+.push--bottom
   .soft.bordered--top
     .gamma.line-height-1-7
       %strong  S'agit-il de votre profil ?
@@ -33,13 +15,10 @@
   .soft.bordered--top
     .gamma.line-height-1-7.push--bottom
       %strong Bons plans & suggestions
-    - similars = StructureSearch.search({lat: (params[:lat] || @structure.latitude), lng: (params[:lng] || @structure.longitude), without_id: @structure.id, radius: 10, sort: 'premium', has_logo: true,per_page: 6, subject_id: @structure.subjects.roots, medias_count: 1}).results
+    - similars = StructureSearch.search({ lat: (params[:lat] || @structure.latitude), lng: (params[:lng] || @structure.longitude), without_id: @structure.id, radius: 10, sort: 'premium', has_logo: true,per_page: 6, subject_id: @structure.subjects.roots, medias_count: 1 }).results
     - similars += StructureSearch.search({lat: (params[:lat] || @structure.latitude), lng: (params[:lng] || @structure.longitude), without_id: @structure.id, radius: 100, sort: 'premium', has_logo: true,per_page: 6, medias_count: 1}).results if similars.length < 6
     - similars.each do |structure|
       - next if structure.medias.cover_first.first.nil?
       .inline-block.one-half.very-soft.relative>
         - cache ['sleeping_content', structure] do
           = render partial: "structures/similar_profile", locals: { structure: structure }
-  #structure-region.hidden
-  #avis
-    .soft--bottom{ data: { type: "guestbook-collection" } }
