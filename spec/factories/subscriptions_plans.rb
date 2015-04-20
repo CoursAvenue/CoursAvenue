@@ -31,5 +31,9 @@ FactoryGirl.define do
     trait :yearly do
       interval :year
     end
+
+    trait :with_trial_period do
+      trial_period_days 30
+    end
   end
 end
