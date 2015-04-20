@@ -48,6 +48,13 @@ class Subscription < ActiveRecord::Base
     self.canceled_at.present?
   end
 
+  # Wether the subscription is active or not.
+  #
+  # @return a Boolean.
+  def active?
+    ! canceled?
+  end
+
   # Cancel the subscription
   #
   # @param at_period_end Flag to delay the cancellation of the subscription until the end of the
