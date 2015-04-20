@@ -66,10 +66,6 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
         it 'redirects to the index page' do
           expect(subject).to redirect_to(action: :index, structure_id: structure.slug)
         end
-
-        it 'sends a success code' do
-          expect(subject).to have_http_status(200)
-        end
       end
 
       context 'without a stripe token' do
