@@ -37,6 +37,16 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     end
   end
 
+  def cancel
+  end
+
+  def confirm_cancelation
+  end
+
+  # https://support.stripe.com/questions/how-can-i-resume-a-subscription-after-it-has-been-canceled
+  def reactivate
+  end
+
   private
 
   def set_structure
