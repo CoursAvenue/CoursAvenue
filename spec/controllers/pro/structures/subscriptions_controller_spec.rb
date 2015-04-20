@@ -84,5 +84,17 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
         end
       end
     end
+
+    context "when it's an existing subscribed" do
+      subject { post :create, { structure_id: structure.id, plan_id: plan.id } }
+      before do
+        structure.create_stripe_customer(token)
+      end
+
+      it 'creates a new subscription' do
+        expect { subject }.to change { Subscription.count }.by(1)
+      end
+
+    end
   end
 end
