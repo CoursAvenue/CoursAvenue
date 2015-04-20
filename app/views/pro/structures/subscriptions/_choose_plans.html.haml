@@ -5,8 +5,9 @@
     %a.btn.rounded-left--none{ href: '.annual-details', data: { toggle: 'tab' } } Annuel
 
 - subscription = Subscription.new
-= form_for subscription, url: pro_structure_subscriptions_path(@structure) do
-  %input#premium_type_value{ type: 'hidden', name: 'plan_id', value: @monthly_plans.first.id }
+= form_for subscription, url: pro_structure_subscriptions_path(@structure), html: { id: 'subscription_form' } do
+  %input#plan_id_value{ type: 'hidden', name: 'plan_id', value: '' }
+  %input#stripe_token{ type: 'hidden', name: 'stripe_token', value: '' }
   .grid--full.push-half--bottom.text--center
     - @monthly_plans.each do |plan|
       .grid__item.one-third.text--center.soft-half--right.v-top.zoom-on-hover>
@@ -17,13 +18,13 @@
             %p.beta.push-half--ends
               %strong= plan.name
             .tab-pane.hard--top.monthly-details.active
-              %p.delta.line-height-1-7 44€ / mois
-              .btn.btn--full.btn--yellow{ data: { stripe: true, amount: 44 } } Souscrire
-              -# = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('#{plan.id}');"
+              %p.delta.line-height-1-7= plan.price
+              .btn.btn--full.btn--yellow{ data: { stripe: plan.id, amount: plan.amount } } Souscrire
+              -# = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#plan_id_value').val('#{plan.id}');"
             .tab-pane.hard--top.annual-details
-              %p.delta.line-height-1-7 440€ / an
-              .btn.btn--full.btn--yellow{ data: { stripe: true, amount: 440 } } Souscrire
-              -# = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#premium_type_value').val('#{plan.id}');"
+              %p.delta.line-height-1-7= plan.price
+              .btn.btn--full.btn--yellow{ data: { stripe: plan.id, amount: plan.amount } } Souscrire
+              -# = submit_tag 'Souscrire', class: 'btn btn--full btn--yellow', onclick: "$('#plan_id_value').val('#{plan.id}');"
           .soft
             %p
               %i.milli Idéal pour les professeurs proposant moins de 5 séances par semaine et moins de 10 stages par an.
@@ -46,16 +47,21 @@
   = javascript_include_tag '//checkout.stripe.com/checkout.js'
 
   :javascript
+    // TODO: Differentiate from when we already have a stripe customer.
     $(document).ready(function() {
       var stripeHandler = StripeCheckout.configure({
           key: "#{ Rails.configuration.stripe[:publishable_key] }",
           token: function(token) {
-              debugger
+              $('#stripe_token').val(token.id);
+              $('#subscription_form').submit();
           },
       });
 
       $('[data-stripe]').click(function(event) {
           event.preventDefault();
+
+          $('#plan_id_value').val($(this).data('stripe'));
+
           stripeHandler.open({
               email: "#{@structure.contact_email}",
               name: 'CoursAvenue',
