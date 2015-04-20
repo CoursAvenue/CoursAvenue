@@ -56,7 +56,8 @@
   = javascript_include_tag '//checkout.stripe.com/checkout.js'
 
   :javascript
-    // TODO: Differentiate from when we already have a stripe customer.
+    var customerSubscribed = #{@structure.stripe_customer.present?};
+
     $(document).ready(function() {
       var stripeHandler = StripeCheckout.configure({
           key: "#{ Rails.configuration.stripe[:publishable_key] }",
@@ -67,16 +68,20 @@
       });
 
       $('[data-stripe]').click(function(event) {
-          event.preventDefault();
-
           $('#plan_id_value').val($(this).data('stripe'));
 
-          stripeHandler.open({
-              email: "#{@structure.contact_email}",
-              name: 'CoursAvenue',
-              description: 'Abonnement Premium',
-              currency: "#{Subscriptions::Plan::CURRENCY}",
-              amount: $(this).data('amount') * 100
-          });
+          if (!customerSubscribed) {
+              event.preventDefault();
+
+              stripeHandler.open({
+                  email: "#{@structure.contact_email}",
+                  name: 'CoursAvenue',
+                  description: 'Abonnement Premium',
+                  currency: "#{Subscriptions::Plan::CURRENCY}",
+                  amount: $(this).data('amount') * 100
+              });
+          } else {
+              $('#subscription_form').submit();
+          }
       });
     });
