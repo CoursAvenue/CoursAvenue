@@ -40,8 +40,8 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
 
-  scope :monthly, -> { where(interval: 'month') }
-  scope :yearly,  -> { where(interval: 'year') }
+  scope :monthly, -> { where(interval: 'month').order('created_at ASC') }
+  scope :yearly,  -> { where(interval: 'year').order('created_at ASC')}
 
   ######################################################################
   # Methods                                                            #
