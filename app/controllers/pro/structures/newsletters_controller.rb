@@ -127,7 +127,7 @@ class Pro::Structures::NewslettersController < ApplicationController
 
   # Set the current structure.
   def set_structure
-    @structure = Structure.find(params[:structure_id])
+    @structure = Structure.friendly.find(params[:structure_id])
   end
 
   # Set the layouts as usable JSON.

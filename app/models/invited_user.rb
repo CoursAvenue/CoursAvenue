@@ -60,7 +60,7 @@ class InvitedUser < ActiveRecord::Base
 
   def structure
     if structure_id
-      Structure.find(structure_id)
+      Structure.friendly.find(structure_id)
     elsif referrer_type == 'Structure'
       referrer
     end

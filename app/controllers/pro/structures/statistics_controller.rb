@@ -6,7 +6,7 @@ class Pro::Structures::StatisticsController < Pro::ProController
   layout 'admin'
 
   def index
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     client     = ::Analytic.client
     raw_data   = client.hits(@structure.id)
 

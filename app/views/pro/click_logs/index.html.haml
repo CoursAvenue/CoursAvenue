@@ -14,7 +14,7 @@
           %th # clicks
       %tbody
         - @click_logs.each do |structure_id, count|
-          - structure = Structure.find(structure_id)
+          - structure = Structure.friendly.find(structure_id)
           %tr
             %td= link_to structure.name, structure_url(structure)
             %td= structure.comments_count

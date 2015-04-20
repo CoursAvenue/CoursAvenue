@@ -2,7 +2,7 @@
 class VerticalPage < ActiveRecord::Base
   extend FriendlyId
 
-  friendly_id :name, use: [:slugged, :finders, :history]
+  friendly_id :subject_name, use: [:slugged, :finders, :history]
 
   ######################################################################
   # Relations                                                          #

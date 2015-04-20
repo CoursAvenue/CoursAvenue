@@ -99,7 +99,7 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
   private
 
   def set_structure_and_newsletter
-    @structure  = Structure.find(params[:structure_id])
+    @structure  = Structure.friendly.find(params[:structure_id])
     @newsletter = @structure.newsletters.find(params[:newsletter_id])
   end
 

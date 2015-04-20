@@ -8,7 +8,7 @@ class Pro::Structures::TeachersController < InheritedResources::Base
   load_and_authorize_resource :structure, except: [:index], find_by: :slug
 
   def index
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @teachers  = @structure.teachers.order('name ASC')
   end
 

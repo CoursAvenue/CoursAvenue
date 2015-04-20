@@ -56,7 +56,7 @@ module FilteredSearchProvider
       places << place_group.value
     end
     search.group(:structure_id_str).groups.each do |structure_group|
-      structures << Structure.find(structure_group.value)
+      structures << Structure.friendly.find(structure_group.value)
     end
     places                  = places.uniq
     total                   = search.group(:structure_id_str).total
