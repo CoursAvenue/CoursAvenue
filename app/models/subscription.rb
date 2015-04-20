@@ -97,4 +97,25 @@ class Subscription < ActiveRecord::Base
 
     Time.at(stripe_subscription.current_period_end)
   end
+
+  # Return the next amount to be payed.
+  #
+  # @return Integer or nil
+  def next_amount
+    return nil if stripe_subscription_id.nil? or canceled?
+  end
+
+  # Apply a coupon to the next invoice.
+  #
+  # @return the new amount or nil
+  def apply_coupon(coupon)
+    return nil if stripe_subscription_id.nil? or canceled? or !coupon.valid?
+  end
+
+  # Whether coupon is currently applied on the Subscription
+  #
+  # @return a Boolean
+  def has_coupon?
+    false
+  end
 end

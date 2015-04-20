@@ -110,27 +110,6 @@ RSpec.describe Subscription, type: :model do
     end
   end
 
-  describe '#current_period_end' do
-    context "when there isn't a stripe_subscription_id" do
-      subject { FactoryGirl.create(:subscription) }
-
-      it 'returns nil' do
-        expect(subject.current_period_end).to be_nil
-      end
-    end
-
-    context "when there's a stripe_subscription_id" do
-      let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
-      let(:structure)   { FactoryGirl.create(:structure, :with_contact_email) }
-      let(:token)       { stripe_helper.generate_card_token }
-      subject           { plan.create_subscription!(structure, token) }
-
-      it 'returns the current period end' do
-        expect(subject.current_period_end).to_not be_nil
-      end
-    end
-  end
-
   describe '#change_plan!' do
     let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
     let!(:other_plan) { FactoryGirl.create(:subscriptions_plan) }
@@ -154,6 +133,94 @@ RSpec.describe Subscription, type: :model do
 
       expect(subject.plan).to eq(other_plan)
       expect(stripe_subscription.plan.id).to eq(other_plan.stripe_plan_id)
+    end
+  end
+
+  describe '#current_period_end' do
+    context "when there isn't a stripe_subscription_id" do
+      subject { FactoryGirl.create(:subscription) }
+
+      it 'returns nil' do
+        expect(subject.current_period_end).to be_nil
+      end
+    end
+
+    context "when there's a stripe_subscription_id" do
+      let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
+      let(:structure)   { FactoryGirl.create(:structure, :with_contact_email) }
+      let(:token)       { stripe_helper.generate_card_token }
+      subject           { plan.create_subscription!(structure, token) }
+
+      it 'returns the current period end' do
+        expect(subject.current_period_end).to_not be_nil
+      end
+    end
+  end
+
+  describe '#next_amount' do
+    context "when there isn't a stripe_subscription_id" do
+      subject { FactoryGirl.create(:subscription) }
+
+      it 'returns nil' do
+        expect(subject.next_amount).to be_nil
+      end
+    end
+
+    context "when there's a stripe_subscription_id" do
+      let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
+      let(:structure)   { FactoryGirl.create(:structure, :with_contact_email) }
+      let(:token)       { stripe_helper.generate_card_token }
+      subject           { plan.create_subscription!(structure, token) }
+
+      context 'with a coupon code' do
+        let(:coupon_code) { FactoryGirl.create(:subscriptions_coupon) }
+
+        it 'returns the next amount' do
+          next_amount = plan.amount - coupon_code.amount
+
+          expect(subject.next_amount).to eq(next_amount)
+        end
+      end
+
+      context 'without a coupon code' do
+        it 'returns the next amount' do
+          next_amount = plan.amount
+
+          expect(subject.next_amount).to eq(next_amount)
+        end
+      end
+    end
+  end
+
+  describe '#apply_coupon' do
+    let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
+
+    context 'when the coupon is valid' do
+      it 'applies the coupon' do
+        new_amount = subject.next_amount - coupon.amount
+
+        expect(subject.apply_coupon(coupon)).to eq(new_amount)
+      end
+    end
+
+    context 'when the coupon is not valid' do
+      it 'returns nil' do
+        expect(subject).apply_coupon(coupon).to be_nil
+      end
+    end
+
+  end
+
+  describe '#has_coupon' do
+    context 'the subscription has a coupon' do
+      let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
+      before       { subject.apply_coupon(coupon) }
+
+      it { expect(subject.has_coupon?).to be_truthy }
+    end
+
+    context "the subscription doesn't have a coupon" do
+      it { expect(subject.has_coupon?).to be_falsy }
     end
   end
 end
