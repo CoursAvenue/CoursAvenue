@@ -75,6 +75,15 @@ class Subscription < ActiveRecord::Base
     subscription
   end
 
+  # Return the end of the current period as a date. (AKA the next billing date)
+  #
+  # @return a date.
+  def current_period_end
+    return nil if stripe_subscription_id.nil? or canceled?
+
+    Time.at(stripe_subscription.current_period_end)
+  end
+
   # Changes the plan.
   #
   # @return the new plan.

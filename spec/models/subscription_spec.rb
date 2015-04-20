@@ -110,6 +110,28 @@ RSpec.describe Subscription, type: :model do
     end
   end
 
+  describe '#current_period_end' do
+    context "when there isn't a stripe_subscription_id" do
+      subject { FactoryGirl.create(:subscription) }
+
+      it 'returns nil' do
+        expect(subject.current_period_end).to be_nil
+      end
+    end
+
+    context "when there's a stripe_subscription_id" do
+      let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
+      let!(:other_plan) { FactoryGirl.create(:subscriptions_plan) }
+      let(:structure)   { FactoryGirl.create(:structure, :with_contact_email) }
+      let(:token)       { stripe_helper.generate_card_token }
+      subject           { plan.create_subscription!(structure, token) }
+
+      it 'returns the current period end' do
+        expect(subject.current_period_end).to_not be_nil
+      end
+    end
+  end
+
   describe '#change_plan!' do
     let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
     let!(:other_plan) { FactoryGirl.create(:subscriptions_plan) }
