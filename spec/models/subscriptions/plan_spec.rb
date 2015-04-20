@@ -18,6 +18,25 @@ RSpec.describe Subscriptions::Plan, type: :model do
 
   it { should have_many(:subscriptions) }
 
+  describe '.create' do
+    let(:trial_period) { (1..30).to_a.sample }
+
+    it 'creates a stripe plan' do
+      plan = FactoryGirl.create(:subscriptions_plan)
+      stripe_plan = Stripe::Plan.retrieve(plan.stripe_plan_id)
+
+      expect(plan.stripe_plan).to be_a (Stripe::Plan)
+    end
+
+    it 'creates a plan with a trial period if one is given' do
+      plan = FactoryGirl.create(:subscriptions_plan, trial_period_days: trial_period)
+      stripe_plan = Stripe::Plan.retrieve(plan.stripe_plan_id)
+
+      expect(stripe_plan).to be_a (Stripe::Plan)
+      expect(stripe_plan.trial_period_days).to eq(trial_period)
+    end
+  end
+
   describe '#stripe_plan' do
     context 'when stripe_plan_id is not defined' do
       subject do

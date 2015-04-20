@@ -79,6 +79,17 @@ RSpec.describe Subscription, type: :model do
       expect(canceled_subscription.status).to eq('canceled')
       expect(canceled_subscription.cancel_at_period_end).to be_falsy
     end
+
+    context "when there's a trial period" do
+      let(:plan) { FactoryGirl.create(:subscriptions_plan, :with_trial_period) }
+
+      it "doesn't do anything" do
+        subscription = subject.cancel!
+
+        expect(subscription.status).to eq('trialing')
+        expect(subscription.cancel_at_period_end).to be_truthy
+      end
+    end
   end
 
   describe '#change_plan!' do

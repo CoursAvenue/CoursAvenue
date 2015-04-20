@@ -106,14 +106,19 @@ class Subscriptions::Plan < ActiveRecord::Base
     return false if name.nil?
 
     plan_id = self.name.parameterize
-    plan = Stripe::Plan.create({
-      id:                plan_id,
-      amount:            self.amount * 100,
-      currency:          CURRENCY,
-      interval:          self.interval,
-      name:              self.name,
-      trial_period_days: self.trial_period_days || 0
-    })
+    options = {
+      id:       plan_id,
+      amount:   self.amount * 100,
+      currency: CURRENCY,
+      interval: self.interval,
+      name:     self.name
+    }
+
+    if self.trial_period_days.present?
+      options.merge!(trial_period_days: self.trial_period_days)
+    end
+
+    plan = Stripe::Plan.create(options)
 
     self.stripe_plan_id = plan_id
     save
