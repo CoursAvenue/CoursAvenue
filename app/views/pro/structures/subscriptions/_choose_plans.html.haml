@@ -40,7 +40,7 @@
             %p.cursor-help{ data: { behavior: 'popover', content: "En toute transparence, suivez quotidiennement les statistiques de performance de votre profil (nombre de visites, de prises de contact, etc.) et optimisez son efficacité.", trigger: 'hover', placement: 'top' } }
               %strong Statistiques
             %p.cursor-help{ data: { behavior: 'popover', content: "Contactez nos conseillers par chat ou e-mail, nous vous répondons sous 2 jours.", trigger: 'hover', placement: 'top' } }
-              %strong Chat & e-mail
+              %strong Chat &amp; e-mail
 
 - content_for :scripts do
   = javascript_include_tag '//checkout.stripe.com/checkout.js'
@@ -48,7 +48,7 @@
   :javascript
     $(document).ready(function() {
       var stripeHandler = StripeCheckout.configure({
-          key: "#{ENV['STRIPE_PUBLISHABLE_KEY']}",
+          key: "#{ Rails.configuration.stripe[:publishable_key] }",
           token: function(token) {
               debugger
           },
