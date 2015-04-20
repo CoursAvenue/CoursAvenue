@@ -15,10 +15,8 @@ class Blog::ArticlesController < ApplicationController
   end
 
   def show
-    @article = Blog::Article::UserArticle.friendly.find(params[:id])
-    redirect_to(blog_articles_path, status: 301) if @article.nil?
-    @article.increment_page_views! if @article
-    @article_decorator = BlogArticleDecorator.new(@article) if @article
+    @article.increment_page_views!
+    @article_decorator = BlogArticleDecorator.new(@article)
     unless current_pro_admin and current_pro_admin.super_admin?
       redirect_to blog_articles_path if ! @article.published?
     end
@@ -33,7 +31,7 @@ class Blog::ArticlesController < ApplicationController
 
   def load_article
     @article = Blog::Article::UserArticle.friendly.find(params[:id])
-    if params[:id] != @article.slug
+    if @article.slug != params[:id]
       redirect_to blog_article_path(@article.slug), status: 301
     end
   end
