@@ -121,7 +121,6 @@ RSpec.describe Subscription, type: :model do
 
     context "when there's a stripe_subscription_id" do
       let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
-      let!(:other_plan) { FactoryGirl.create(:subscriptions_plan) }
       let(:structure)   { FactoryGirl.create(:structure, :with_contact_email) }
       let(:token)       { stripe_helper.generate_card_token }
       subject           { plan.create_subscription!(structure, token) }

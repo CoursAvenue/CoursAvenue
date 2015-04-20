@@ -217,7 +217,18 @@ CoursAvenue::Application.routes.draw do
             get 'export'
           end
         end
-        resources :subscriptions, only: [:index, :create], controller: 'structures/subscriptions'
+        resources :invoices, only: [:index], controller: 'structures/invoices' do
+          member do
+            get :download
+          end
+        end
+        resources :subscriptions, only: [:index, :create], controller: 'structures/subscriptions' do
+          member do
+            get :cancel
+            get :confirm_cancellation
+            patch :reactivate
+          end
+        end
         resources :subscription_plans, only: [:new, :index, :destroy], controller: 'structures/subscription_plans', path: 'abonnements' do
           collection do
             get :choose_premium, path: 'choisir-un-abonnement'
