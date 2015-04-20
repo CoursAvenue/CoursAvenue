@@ -3,19 +3,24 @@
     = "#{@reviews.length} avis d'élèves"
   %div
     = link_to 'Déposer mon avis', new_structure_comment_url(@structure), subdomain: 'www'
-%div{ data: { behavior: 'masonry' } }
+
+.relative{ data: { el: 'loading-indicator' } }
+  .absolute.push--top{ style: 'left: 50%; margin-left: -40px;' }
+    = image_tag 'gifs/loading-indicator.gif', height: 10, width: 80
+
+.transition-all-300.invisible.transit{ data: { behavior: 'masonry' } }
   - @reviews.each do |comment|
-    %article.masonry__item.soft-half{ itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review', data: { el: 'masonry-item' } }
-      .gray-box.soft-half.rounded--top
+    %article.one-half.soft-half{ itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review', data: { el: 'masonry-item' } }
+      .gray-box.soft.rounded--top
         -# - if comment.user
         -#   = image_tag comment.user.avatar_url(:small), height: 60, width: 60, class: 'bordered rounded--circle'
         - if comment.title.present?
-          %h6.line-height-1-3.delta.push-half--bottom{itemprop: 'headline', content: comment.title}= "#{comment.title}"
+          %h6.line-height-1-3.gamma.push-half--bottom{itemprop: 'headline', content: comment.title}= "#{comment.title}"
         %span.rating{title: 'Excellent !', itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
           %meta{itemprop: 'ratingValue', content: 5}
           %meta{itemprop: 'worstRating', content: 1}
           %meta{itemprop: 'bestRating', content: 5}
-        %div
+        .line-height-1-7.epsilon
           = simple_format comment.content
         .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
           %meta{itemprop: 'url', content: commentable_url(comment)}
@@ -35,7 +40,13 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('[data-behavior=masonry]').packery({
+        var masonry = new Masonry($('[data-behavior=masonry]')[0], {
             itemSelector: '[data-el=masonry-item]',
+            isInitLayout: false
         });
+        masonry.on( 'layoutComplete', function() {
+            $('[data-behavior=masonry]').removeClass('invisible');
+            $('[data-el=loading-indicator]').fadeOut();
+        });
+        masonry.layout();
     });

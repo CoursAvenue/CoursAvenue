@@ -52,7 +52,7 @@
 //= require libs/bootstrap/datepicker-locales/bootstrap.datepicker.fr
 //= require libs/moment
 //= require libs/retina
-//= require libs/packery.pkgd
+//= require libs/masonry.pkgd
 
 // ---------------------------------- jQuery plugins
 // See boilerplate and pattern:

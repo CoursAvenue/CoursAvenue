@@ -1,4 +1,8 @@
-%div{ data: { behavior: 'masonry' } }
+.relative{ data: { el: 'loading-indicator' } }
+  .absolute.push--top{ style: 'left: 50%; margin-left: -40px;' }
+    = image_tag 'gifs/loading-indicator.gif', height: 10, width: 80
+
+.transition-all-300.invisible.transit{ data: { behavior: 'masonry' } }
   - @medias.each_with_index do |media, index|
     %a.masonry__item.bg-cover.bg-fixed{ rel: 'gallery', href: media.url, title: media.caption, data: { behavior: 'fancy', el: 'masonry-item' } }>
       = image_tag media.image.url(:gallery), class: 'very-soft block one-whole'
@@ -9,7 +13,14 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        var $container = $('[data-behavior=masonry]').packery({
+        var masonry = new Masonry($('[data-behavior=masonry]')[0], {
             itemSelector: '[data-el=masonry-item]',
+            isInitLayout: false
         });
+        masonry.on( 'layoutComplete', function() {
+            $('[data-behavior=masonry]').removeClass('invisible');
+            $('[data-el=loading-indicator]').fadeOut();
+        });
+        masonry.layout();
+
     });
