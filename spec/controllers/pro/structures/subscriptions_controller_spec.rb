@@ -93,4 +93,60 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
 
     end
   end
+
+  describe '#cancel' do
+    render_views
+
+    let(:subscription) { plan.create_subscription!(structure, token) }
+
+    it 'renders the cancel template' do
+      get :cancel, structure_id: structure.slug, id: subscription.id
+
+      expect(response).to render_template('cancel')
+      expect(response).to render_with_layout('admin')
+    end
+
+    it 'renders without a layout if it is a xhr request' do
+      xhr :get, :cancel, structure_id: structure.slug, id: subscription.id
+
+      expect(response).to_not render_with_layout('admin')
+    end
+
+      it 'assigns the subscription' do
+        get :cancel, structure_id: structure.slug, id: subscription.id
+
+        expect(assigns(:subscription)).to eq(subscription)
+      end
+  end
+
+  describe '#confirm_cancellation' do
+    render_views
+
+    let(:subscription) { plan.create_subscription!(structure, token) }
+
+    it 'renders the cancel template' do
+      get :confirm_cancellation, structure_id: structure.slug, id: subscription.id
+
+      expect(response).to render_template('confirm_cancellation')
+      expect(response).to render_with_layout('admin')
+    end
+
+    it 'renders without a layout if it is a xhr request' do
+      xhr :get, :confirm_cancellation, structure_id: structure.slug, id: subscription.id
+
+      expect(response).to_not render_with_layout('admin')
+    end
+
+      it 'assigns the subscription' do
+        get :confirm_cancellation, structure_id: structure.slug, id: subscription.id
+
+        expect(assigns(:subscription)).to eq(subscription)
+      end
+  end
+
+  describe '#destroy' do
+  end
+
+  describe '#reactivate' do
+  end
 end
