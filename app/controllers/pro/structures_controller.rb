@@ -203,7 +203,7 @@ class Pro::StructuresController < Pro::ProController
 
   # GET collection
   def index
-    @structures = Structure.order('structures.created_at DESC').page(params[:page] || 1).per(50)
+    @structures = Structure.order('structures.created_at DESC').where(sleeping_structure_id: nil).page(params[:page] || 1).per(50)
   end
 
   # GET member
