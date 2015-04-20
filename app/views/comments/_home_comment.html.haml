@@ -2,7 +2,7 @@
 - lazy            = false if lazy.nil?
 .flexbox.push--bottom{itemprop: true, itemscope: true, itemtype:'http://data-vocabulary.org/Review'}
   .flexbox__item.soft--left.v-top.text--center.visuallyhidden--palm>
-    = link_to structure_url(comment.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link block' do
+    = link_to structure_url(comment.structure, subdomain: 'www'), class: 'block media-photo', target: :_blank, class: 'muted-link block' do
       - if lazy
         = image_tag '', class: 'block rounded--circle', width: 60, data: { behavior: 'lazy-load', original: comment.structure.logo.url(:small_thumb) }
       - else

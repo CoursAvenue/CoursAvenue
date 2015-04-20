@@ -28,5 +28,5 @@
               = link_to "Connexion", new_user_session_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax', id: 'connection'
             = render 'shared/help_dropdown'
             .inline-block.soft-half--sides
-              = link_to 'Publiez vos cours', root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), onclick: "ga('send', 'event', 'Publier vos cours', 'click','Inscrit')", class: 'btn btn--green'
+              = link_to 'Publiez vos cours', root_url(subdomain: 'pro'), onclick: "ga('send', 'event', 'Publier vos cours', 'click','Inscrit')", class: 'btn btn--green'
   .jpo-frise

@@ -1,6 +1,6 @@
 - if @referrer.logo?
   - content_for :logo do
-    = link_to structure_url(@referrer, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+    = link_to structure_url(@referrer, subdomain: 'www'), target: '_blank' do
       = image_tag @referrer.logo.url(:thumb), style: 'width: 125px; height: 125px;', class: 'block'
 
 - content_for :promo do
@@ -15,12 +15,12 @@
 - if @referrer.comments_count and @referrer.comments_count > 0
   %p
     #{@referrer.name} a déjà reçu ses premiers avis, voici son profil :
-    = link_to "profil de #{@referrer.name}", structure_url(@referrer, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+    = link_to "profil de #{@referrer.name}", structure_url(@referrer, subdomain: 'www')
 %p
   Cliquez sur ce lien pour créer votre profil gratuit en quelques minutes :
 
 %p.action
-  = link_to 'Créer mon profil gratuitement', inscription_pro_structures_url(email: @invited_email, from_friend: true, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_teacher', utm_medium: 'stage_1'
+  = link_to 'Créer mon profil gratuitement', inscription_pro_structures_url(email: @invited_email, from_friend: true, subdomain: 'pro'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_teacher', utm_medium: 'stage_1'
 
 %p À très bientôt !
 

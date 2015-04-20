@@ -2,7 +2,7 @@
   Félicitations ! Votre profil Premium est maintenant activé.
 
 - content_for :logo do
-  = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+  = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
     = image_tag @structure.logo.url(:thumb), class: 'block', height: 100, width: 100, alt: "Logo de #{@structure.name}"
   %div.yellow.text--center{ style: 'padding-top: 2px;' }
     = image_tag 'icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
@@ -13,7 +13,7 @@
   .p
     Votre profil Premium est maintenant activé. Connectez-vous pour découvrir toutes les fonctionnalités et mettre votre profil en avant :
   .action.text--left
-    = link_to "Accéder à mon profil premium", dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'premium', utm_medium: 'account_activated'), class: 'btn btn--green'
+    = link_to "Accéder à mon profil premium", dashboard_pro_structure_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'premium', utm_medium: 'account_activated'), class: 'btn btn--green'
 
 .title Nos conseils
 
@@ -24,16 +24,16 @@
 
 = content_for :under_content_gray do
   .title
-    = link_to "Foire aux questions", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Foire aux questions", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'
   .soft-half--bottom.bordered--bottom
     .p.hard
-      = link_to "Que faire après avoir activé mon compte Premium ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+      = link_to "Que faire après avoir activé mon compte Premium ?", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'
   .soft-half--ends.bordered--bottom
     .p.hard
-      = link_to "A quoi sert un profil Premium ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+      = link_to "A quoi sert un profil Premium ?", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'
   .soft-half--ends.bordered--bottom
     .p.hard
-      = link_to "Où retrouver les informations de mon compte Premium (durée d'abonnement, renouvellement, factures...) ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+      = link_to "Où retrouver les informations de mon compte Premium (durée d'abonnement, renouvellement, factures...) ?", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'
   .soft-half--ends
     .p.hard
-      = link_to "Quand est-ce que mon compte Premium sera renouvelé ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+      = link_to "Quand est-ce que mon compte Premium sera renouvelé ?", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'

@@ -210,7 +210,7 @@ class Structure < ActiveRecord::Base
       'structure'
     end
     add_attribute :url do
-      structure_path(self, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+      structure_path(self, subdomain: 'www')
     end
 
     add_attribute :logo_url do

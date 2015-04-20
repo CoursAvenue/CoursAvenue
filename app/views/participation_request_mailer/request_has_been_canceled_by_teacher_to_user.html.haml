@@ -15,12 +15,12 @@
   Notre objectif est de vous faire découvrir le maximum de cours, continuez à vous inscrire aux séances de votre choix :
 
 .p.action
-  = link_to "Découvrir les meilleurs cours", root_search_page_url(@structure.dominant_root_subject, @structure.city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Découvrir les meilleurs cours", root_search_page_url(@structure.dominant_root_subject, @structure.city, subdomain: 'www'), class: 'btn btn--green'
 
 - if @message
   = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
   .p.action.soft--top
-    = link_to "Répondre", user_participation_request_path(@user, @conversation, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn'
+    = link_to "Répondre", user_participation_request_path(@user, @conversation, subdomain: 'www'), class: 'btn'
 
 .p.soft--top
   Pour éviter qu'une telle situation se reproduise, notre équipe prendra contact avec ce partenaire pour comprendre les raisons de son annulation.

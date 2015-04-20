@@ -19,7 +19,7 @@
       %h4.text--center.flush
         Lien à communiquer pour l'inscription à vos ateliers Portes Ouvertes :
         %br
-        #{link_to jpo_structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), jpo_structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank}
+        #{link_to jpo_structure_url(@structure, subdomain: 'www'), jpo_structure_url(@structure, subdomain: 'www'), target: :_blank}
 
     %h3 Communiquez pour chacune des 3 phases précédant l'événement :
 
@@ -136,4 +136,4 @@
     Organisée en partenariat avec le site CoursAvenue.com, nous participons aux Portes Ouvertes des cours de loisirs ce week-end des 5 et 6 avril : les ateliers seront entièrement gratuits, c'est l'occasion pour vous d'inviter vos proches, un voisin, un ami, une cousine, un collègue... bref plus on est de fous... !
 
   %p
-    Pour réserver votre place => inscriptions préalables sur le site CoursAvenue.com à cette adresse : #{link_to jpo_structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), jpo_structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}
+    Pour réserver votre place => inscriptions préalables sur le site CoursAvenue.com à cette adresse : #{link_to jpo_structure_url(@structure, subdomain: 'www'), jpo_structure_url(@structure, subdomain: 'www')}

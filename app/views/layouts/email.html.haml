@@ -127,10 +127,10 @@
                     = yield :footer
                   - elsif @structure and @structure.main_contact
                     .text--center
-                      = link_to 'Préférences e-mail', edit_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'fix-class'
+                      = link_to 'Préférences e-mail', edit_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro'), class: 'fix-class'
                   - elsif @user
                     %div
                       - if @user.active?
-                        = link_to 'Préférences e-mail.', edit_private_infos_user_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'fix-class'
+                        = link_to 'Préférences e-mail.', edit_private_infos_user_url(@user, subdomain: 'www'), class: 'fix-class'
                       - else
-                        = link_to 'Me désinscrire de la liste.', unsubscribe_users_url(@user.access_token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'fix-class'
+                        = link_to 'Me désinscrire de la liste.', unsubscribe_users_url(@user.access_token, subdomain: 'www'), class: 'fix-class'

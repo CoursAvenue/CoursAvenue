@@ -2,7 +2,7 @@
   Votre abonnement Premium vient d'être résilié.
 
 - content_for :logo do
-  = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+  = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
     = image_tag @structure.logo.url(:thumb), class: 'block', height: 100, width: 100, alt: "Logo de #{@structure.name}"
 
 - content_for :promo do
@@ -10,7 +10,7 @@
     Bonjour
   .p
     Votre abonnement Premium vient d'être résilié. A tout moment, vous pouvez le réactiver pour bénéficier de toutes les fonctionnalités Premium depuis
-    = link_to 'votre profil', dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+    = link_to 'votre profil', dashboard_pro_structure_url(@structure, subdomain: 'pro')
 
   = render 'admin_mailer/shared/see_help_center'
 

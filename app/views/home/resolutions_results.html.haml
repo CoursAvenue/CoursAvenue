@@ -8,7 +8,7 @@
   Marre de ne pas savoir quoi répondre à la question "Et toi, quelles sont tes bonnes résolutions pour 2015 ?" Ce quizz est fait pour vous !
 
 - content_for :og_url do
-  = home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, result: (params[:id] || 'a'))
+  = home_resolutions_url(subdomain: 'www', result: (params[:id] || 'a'))
 
 :ruby
   profiles = {
@@ -59,7 +59,7 @@
       .push.on-top.relative.palm-text--center
         = link_to root_path, target: :_blank, class: 'inline-block v-middle' do
           = image_tag 'logos/logo.png', width: 250, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'v-middle'
-        .push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, result: (params[:id] || 'a')), layout: 'button' } }
+        .push-half--left.relative.v-middle.fb-share-button{ data: { href: home_resolutions_url(subdomain: 'www', result: (params[:id] || 'a')), layout: 'button' } }
         %a.push-half--left.v-middle{ href: "https://twitter.com/share", class: "twitter-share-button", data: { text: 'Marre de ne pas savoir quoi répondre à la question "Quelles sont tes bonnes résolutions pour 2015 ?" @CoursAvenue', lang: "fr", url: home_resolutions_url(subdomain: 'www'), count: 'none' } } Tweeter
       .push--top.soft--top.one-whole.relative
         .v-middle
@@ -93,7 +93,7 @@
               %h4.beta.palm-gamma= profile[:title]
               .gamma.palm-epsilon.push--bottom= profile[:content].html_safe
               .text--center
-                = link_to media_share_url(home_resolutions_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, result: (params[:id] || 'a')), :facebook), class: 'push-half--bottom btn--yellow btn btn--bigger', target: :_blank do
+                = link_to media_share_url(home_resolutions_url(subdomain: 'www', result: (params[:id] || 'a')), :facebook), class: 'push-half--bottom btn--yellow btn btn--bigger', target: :_blank do
                   %i.fa-facebook
                   Partager mon résultat sur Facebook
           .orange-transparent-box.soft.push--top

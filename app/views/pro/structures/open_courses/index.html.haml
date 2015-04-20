@@ -4,7 +4,7 @@
   = render partial: 'pro/structures/open_courses/tabs', locals: { current: 'courses' }
   .panel__body.soft
     %h3.inline-block.flush.v-middle Portes Ouvertes des 5-6 avril
-    = link_to jpo_structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'push-half--left btn', target: :_blank do
+    = link_to jpo_structure_url(@structure, subdomain: 'www'), class: 'push-half--left btn', target: :_blank do
       %i.fa.fa-external-link.v-middle
       %span.v-middle Voir mon profil public Portes Ouvertes
 
@@ -146,7 +146,7 @@
 #cannot-modify.hidden
   %p Vous ne pouvez rendre non visible votre atelier.
   %p Pour annuler un cours ou le modifier, *contactez-nous* au plus vite par mail de préférence, en décrivant précisément votre demande.
-  = link_to "Contacter CoursAvenue", pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green btn--full', target: :_blank
+  = link_to "Contacter CoursAvenue", pages_contact_url(subdomain: 'www'), class: 'btn btn--green btn--full', target: :_blank
 
 #activate-popup.hidden
   %h5 En attente de validation par l'équipe CoursAvenue

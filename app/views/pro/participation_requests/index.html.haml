@@ -24,7 +24,7 @@
         %td{ data: { th: '1ere date' } }
           %div= l(local_time(participation_request.created_at))
         %td{ data: { th: 'Eleve' } }
-          %div= link_to participation_request.user.name, user_participation_request_url(participation_request.user, participation_request, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
+          %div= link_to participation_request.user.name, user_participation_request_url(participation_request.user, participation_request, subdomain: 'www'), target: :_blank
         %td{ data: { th: 'Prof' } }
           %div= link_to participation_request.structure.name, pro_structure_participation_request_path(participation_request.structure, participation_request), target: :_blank
 

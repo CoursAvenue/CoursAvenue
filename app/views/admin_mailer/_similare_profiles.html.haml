@@ -6,11 +6,11 @@
     %tr{valign: 'top'}
       - structure_group.each do |structure|
         %td.soft-half--ends.v-middle.content-block{ width: 80 }
-          = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
+          = link_to structure_url(structure, subdomain: 'www') do
             = image_tag structure.logo.url(:thumb), width: 80, height: 80
         %td.v-middle.content-block.soft-half--sides{ width: '250' }
           .p.hard--bottom
-            %strong= link_to truncate(structure.name, length: 25), structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link'
+            %strong= link_to truncate(structure.name, length: 25), structure_url(structure, subdomain: 'www'), class: 'muted-link'
             %br
             = structure.city.name
             %br

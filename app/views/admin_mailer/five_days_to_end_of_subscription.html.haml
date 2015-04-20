@@ -2,7 +2,7 @@
   Votre abonnement Premium arrive à échéance dans 5 jours.
 
 - content_for :logo do
-  = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+  = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
     = image_tag @structure.logo.url(:thumb), class: 'block', height: 100, width: 100, alt: "Logo de #{@structure.name}"
   %div.yellow.text--center{ style: 'padding-top: 2px;' }
     = image_tag 'icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-middle', style: 'padding-right: 2px;'
@@ -28,7 +28,7 @@
     %tr{ valign: 'top' }
       - @similar_profiles.each do |similar_profile|
         %td.v-top.content-block{ width: 80 }
-          = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link block' do
+          = link_to structure_url(similar_profile, subdomain: 'www'), class: 'muted-link block' do
             = image_tag similar_profile.logo.url(:thumb), width: 80, height: 80, alt: "Logo #{similar_profile.name}", class: 'bordered'
           %div.yellow.text--center{ style: 'padding-top: 2px;' }
             = image_tag 'icons/icon-star-full--yellow.png', height: 15, widht: 15, class: 'v-top', style: 'padding-right: 2px;'
@@ -36,7 +36,7 @@
         %td.v-top.content-block{ width: 220 }
           .p.soft-half--left.hard--bottom
             %strong
-              = link_to truncate(similar_profile.name, length: 23), structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link'
+              = link_to truncate(similar_profile.name, length: 23), structure_url(similar_profile, subdomain: 'www'), class: 'muted-link'
             %br
             = similar_profile.city.name
             %br
@@ -45,7 +45,7 @@
       %tr{ valign: 'top' }
         %td.v-middle.content-block{ colspan: 4 }
           .p.hard--bottom.soft--top.text--center
-            = link_to 'Devenez Premium et augmentez les performances de votre profil', pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+            = link_to 'Devenez Premium et augmentez les performances de votre profil', pro_structure_subscription_plans_url(@structure, subdomain: 'pro')
 
 = content_for :under_content_gray do
   = render 'admin_mailer/premium/faq'

@@ -3,7 +3,7 @@
 
 - if @structure and @structure.logo?
   - content_for :logo do
-    = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+    = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
       = image_tag @structure.logo.url(:thumb), style: 'width: 125px; height: 125px;', class: 'block'
 
 - content_for :promo do
@@ -15,9 +15,9 @@
 
 %p.action
   - if @structure
-    = link_to "Réserver mon cours gratuit", jpo_structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_friend_to_jpo', utm_medium: 'stage_2'
+    = link_to "Réserver mon cours gratuit", jpo_structure_url(@structure, subdomain: 'www'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_friend_to_jpo', utm_medium: 'stage_2'
   - else
-    = link_to "Réserver mon cours gratuit", open_courses_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_friend_to_jpo', utm_medium: 'stage_2'
+    = link_to "Réserver mon cours gratuit", open_courses_url(subdomain: 'www'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_friend_to_jpo', utm_medium: 'stage_2'
 %p
   À très bientôt !
 %p= @referrer.name
@@ -26,5 +26,5 @@
   %p
     Vous recevez cet email car #{@referrer.name} vous invite sur CoursAvenue.
     - if @invited_user.user
-      = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@invited_user.user.access_token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+      = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@invited_user.user.access_token, subdomain: 'www')
 

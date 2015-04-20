@@ -47,9 +47,9 @@ class ApplicationController < ActionController::Base
   # @param  exception
   def not_allowed(exception)
     if request.subdomain == 'pro'
-      redirect_to new_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), alert: I18n.t('devise.failure.unauthenticated')
+      redirect_to new_pro_admin_session_url(subdomain: 'pro'), alert: I18n.t('devise.failure.unauthenticated')
     else
-      redirect_to root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), alert: I18n.t('devise.failure.unauthenticated')
+      redirect_to root_url(subdomain: 'www'), alert: I18n.t('devise.failure.unauthenticated')
     end
   end
 
@@ -109,7 +109,7 @@ class ApplicationController < ActionController::Base
   end
 
   def on_pro_subdomain?
-    request.subdomain == CoursAvenue::Application::PRO_SUBDOMAIN
+    request.subdomain == 'pro'
   end
 
   def robots

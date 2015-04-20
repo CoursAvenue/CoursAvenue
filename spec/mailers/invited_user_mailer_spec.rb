@@ -22,7 +22,7 @@ describe InvitedUserMailer do
           expect(mail.subject).to eq "#{structure.name} vous invite à créer votre profil sur CoursAvenue"
         end
         it 'renders the right link in body' do
-          expect(mail.body.encoded).to match(inscription_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN))
+          expect(mail.body.encoded).to match(inscription_pro_structures_url(subdomain: 'pro'))
         end
       end
 
@@ -33,7 +33,7 @@ describe InvitedUserMailer do
           expect(mail.subject).to eq "#{structure.name} vous invite à créer votre profil sur CoursAvenue"
         end
         it 'renders the right link in body' do
-          expect(mail.body.encoded).to match(inscription_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN))
+          expect(mail.body.encoded).to match(inscription_pro_structures_url(subdomain: 'pro'))
         end
       end
 
@@ -44,7 +44,7 @@ describe InvitedUserMailer do
           expect(mail.subject).to eq "#{structure.name} vous invite à créer votre profil sur CoursAvenue"
         end
         it 'renders the right link in body' do
-          expect(mail.body.encoded).to match(inscription_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN))
+          expect(mail.body.encoded).to match(inscription_pro_structures_url(subdomain: 'pro'))
         end
       end
     end
@@ -60,7 +60,7 @@ describe InvitedUserMailer do
     #     end
 
     #     it 'renders the right link in body' do
-    #       expect(mail.body.encoded).to match(invite_entourage_to_jpo_page_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN))
+    #       expect(mail.body.encoded).to match(invite_entourage_to_jpo_page_users_url(subdomain: 'www'))
     #     end
     #   end
 
@@ -71,7 +71,7 @@ describe InvitedUserMailer do
     #       expect(mail.subject).to eq "Offrez un cours gratuit à vos proches avec #{structure.name}"
     #     end
     #     it 'renders the right link in body' do
-    #       expect(mail.body.encoded).to match(invite_entourage_to_jpo_page_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN))
+    #       expect(mail.body.encoded).to match(invite_entourage_to_jpo_page_users_url(subdomain: 'www'))
     #     end
     #   end
 
@@ -82,7 +82,7 @@ describe InvitedUserMailer do
     #       expect(mail.subject).to eq "Derniers jours pour offrir des cours gratuits à vos proches !"
     #     end
     #     it 'renders the right link in body' do
-    #       expect(mail.body.encoded).to match(invite_entourage_to_jpo_page_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN))
+    #       expect(mail.body.encoded).to match(invite_entourage_to_jpo_page_users_url(subdomain: 'www'))
     #     end
     #   end
     # end
@@ -105,7 +105,7 @@ describe InvitedUserMailer do
           expect(mail.subject).to eq "#{user.name} vous invite à créer votre profil sur CoursAvenue"
         end
         it 'renders the right link in body' do
-          expect(mail.body.encoded).to match(new_user_registration_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN))
+          expect(mail.body.encoded).to match(new_user_registration_url(subdomain: 'www'))
         end
       end
 
@@ -116,7 +116,7 @@ describe InvitedUserMailer do
           expect(mail.subject).to eq "#{user.name} vous invite à créer votre profil sur CoursAvenue"
         end
         it 'renders the right link in body' do
-          expect(mail.body.encoded).to match(new_user_registration_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN))
+          expect(mail.body.encoded).to match(new_user_registration_url(subdomain: 'www'))
         end
       end
 
@@ -127,7 +127,7 @@ describe InvitedUserMailer do
           expect(mail.subject).to eq "#{user.name} vous invite à créer votre profil sur CoursAvenue"
         end
         it 'renders the right link in body' do
-          expect(mail.body.encoded).to match(new_user_registration_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN))
+          expect(mail.body.encoded).to match(new_user_registration_url(subdomain: 'www'))
         end
       end
     end
@@ -148,7 +148,7 @@ describe InvitedUserMailer do
     #     end
 
     #     it 'renders the right link in body' do
-    #       expect(mail.body.encoded).to match(root_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN))
+    #       expect(mail.body.encoded).to match(root_url(@structure, subdomain: 'www'))
     #     end
     #   end
 
@@ -159,7 +159,7 @@ describe InvitedUserMailer do
     #       expect(mail.subject).to eq "Réservez votre cours gratuit offert par #{user.name}"
     #     end
     #     it 'renders the right link in body' do
-    #       expect(mail.body.encoded).to match(root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN))
+    #       expect(mail.body.encoded).to match(root_url(subdomain: 'www'))
     #     end
     #   end
 
@@ -170,7 +170,7 @@ describe InvitedUserMailer do
     #       expect(mail.subject).to eq "Derniers jours pour réserver votre cours gratuit des 5-6 avril"
     #     end
     #     it 'renders the right link in body' do
-    #       expect(mail.body.encoded).to match(root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN))
+    #       expect(mail.body.encoded).to match(root_url(subdomain: 'www'))
     #     end
     #   end
     # end

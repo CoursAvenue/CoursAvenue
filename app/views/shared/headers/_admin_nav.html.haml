@@ -1,11 +1,11 @@
 .push-half--left.inline-block.v-middle.drop-down__wrapper
   - if current_pro_admin.super_admin?
-    = link_to 'Dashboard', pro_dashboard_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--blue btn--small'
+    = link_to 'Dashboard', pro_dashboard_url(subdomain: 'pro'), class: 'btn btn--blue btn--small'
   - if current_pro_admin.structure
-    = link_to 'Mon profil', pro_structure_url(current_pro_admin.structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--blue btn--small'
+    = link_to 'Mon profil', pro_structure_url(current_pro_admin.structure, subdomain: 'pro'), class: 'btn btn--blue btn--small'
   .drop-down__el
     %ul.drop-down__el-inner-box
       %li.nowrap
-        = link_to destroy_pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), method: :delete do
+        = link_to destroy_pro_admin_session_url(subdomain: 'pro'), method: :delete do
           %i.fa-sign-out
           Déconnexion

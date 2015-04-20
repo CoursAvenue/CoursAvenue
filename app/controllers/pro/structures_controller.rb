@@ -319,12 +319,12 @@ France
     respond_to do |format|
       # If structure already existed
       if @structure.persisted?
-        format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
+        format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
       elsif @structure.new_record? && @structure.save
         if current_pro_admin and current_pro_admin.super_admin?
-          format.html { redirect_to edit_pro_structure_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) }
+          format.html { redirect_to edit_pro_structure_path(@structure, subdomain: 'pro') }
         else
-          format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
+          format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
         end
       else
         format.html { render 'pro/structures/new' }

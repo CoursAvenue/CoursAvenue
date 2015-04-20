@@ -28,7 +28,7 @@
         #other_form.hidden
           = render 'users/registrations/form'
       .grid__item.v-bottom.one-half>
-        = simple_form_for(Admin.new, as: :pro_admin, url: pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)) do |f|
+        = simple_form_for(Admin.new, as: :pro_admin, url: pro_admin_session_url(subdomain: 'pro')) do |f|
           = f.input :email, label: false, placeholder: 'Email', input_html: { class: 'one-whole' }
           = f.input :password, label: false, placeholder: 'Mot de passe', input_html: { class: 'one-whole' }
 

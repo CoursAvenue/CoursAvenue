@@ -26,7 +26,7 @@ module ParticipationsHelper
       course = participation.course
       link   = URI.encode(jpo_structure_url(course.structure, subdomain: (Rails.env.staging? ? 'staging' : 'www')))
     else
-      link = URI.encode(open_courses_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN))
+      link = URI.encode(open_courses_url(subdomain: 'www'))
     end
     redirect_uri = URI.encode(user_participations_url(current_user))
     URI.encode("http://www.facebook.com/dialog/send?app_id=#{CoursAvenue::Application::FACEBOOK_APP_ID}&link=#{link}&redirect_uri=#{redirect_uri}&to=#{friend_id}")
@@ -37,9 +37,9 @@ module ParticipationsHelper
     summary = "Je viens de m'inscrire aux Journées Portes Ouvertes de CoursAvenue des 5-6 avril en Ile-de-France. Comme moi, participez gratuitement à l'atelier «#{@participations.last.course.name}»."
     case provider
     when :facebook
-      URI.encode("http://www.facebook.com/sharer.php?s=100&p[title]=#{course.name} par #{course.structure.name}&p[url]=#{jpo_structure_url(course.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}&p[summary]=#{summary}")
+      URI.encode("http://www.facebook.com/sharer.php?s=100&p[title]=#{course.name} par #{course.structure.name}&p[url]=#{jpo_structure_url(course.structure, subdomain: 'www')}&p[summary]=#{summary}")
     when :twitter
-      URI.encode("https://twitter.com/intent/tweet?text=Je participe à un cours gratuit donné par #{course.structure.name}&via=CoursAvenue&hashtags=JPO14&url=#{jpo_structure_url(course.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}")
+      URI.encode("https://twitter.com/intent/tweet?text=Je participe à un cours gratuit donné par #{course.structure.name}&via=CoursAvenue&hashtags=JPO14&url=#{jpo_structure_url(course.structure, subdomain: 'www')}")
     end
   end
 end

@@ -36,9 +36,9 @@ module StructuresHelper
     summary = "Je participe aux Journées Portes Ouvertes de CoursAvenue des 5-6 avril en Ile-de-France. N'hésitez pas à vous inscrire gratuitement et à pofiter des ateliers gratuits que je propose."
     case provider
     when :facebook
-      URI.encode("http://www.facebook.com/sharer.php?s=100&p[title]=Retrouvez les ateliers gratuits que je donne aux Journées Portes Ouvertes CoursAvenue&p[url]=#{jpo_structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}&p[summary]=#{summary}")
+      URI.encode("http://www.facebook.com/sharer.php?s=100&p[title]=Retrouvez les ateliers gratuits que je donne aux Journées Portes Ouvertes CoursAvenue&p[url]=#{jpo_structure_url(structure, subdomain: 'www')}&p[summary]=#{summary}")
     when :twitter
-      URI.encode("https://twitter.com/intent/tweet?text=Je propose des ateliers gratuits pour les Journées Portes Ouvertes CoursAvenue #{structure.name}&via=CoursAvenue&hashtags=JPO14&url=#{jpo_structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}")
+      URI.encode("https://twitter.com/intent/tweet?text=Je propose des ateliers gratuits pour les Journées Portes Ouvertes CoursAvenue #{structure.name}&via=CoursAvenue&hashtags=JPO14&url=#{jpo_structure_url(structure, subdomain: 'www')}")
     end
   end
 

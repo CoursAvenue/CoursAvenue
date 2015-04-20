@@ -85,9 +85,9 @@ class Pro::Structures::SubscriptionPlansController < Pro::ProController
   def paypal_express_checkout
     subscription_plan = SubscriptionPlan.new plan_type: params[:plan_type], promotion_code_id: params[:promotion_code_id]
     paypal_recurring_payment = PayPal::Recurring.new({
-      :return_url   => paypal_confirmation_pro_payments_url(structure_id: @structure.id, plan_type: params[:plan_type], promotion_code_id: params[:promotion_code_id], subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-      :cancel_url   => paypal_confirmation_pro_payments_url(structure_id: @structure.id, plan_type: params[:plan_type], cancel: true, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
-      :ipn_url      => paypal_notification_pro_payments_url(structure_id: @structure.id, plan_type: params[:plan_type], ipn: true, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+      :return_url   => paypal_confirmation_pro_payments_url(structure_id: @structure.id, plan_type: params[:plan_type], promotion_code_id: params[:promotion_code_id], subdomain: 'pro'),
+      :cancel_url   => paypal_confirmation_pro_payments_url(structure_id: @structure.id, plan_type: params[:plan_type], cancel: true, subdomain: 'pro'),
+      :ipn_url      => paypal_notification_pro_payments_url(structure_id: @structure.id, plan_type: params[:plan_type], ipn: true, subdomain: 'pro'),
       :description  => "CoursAvenue Premium - #{SubscriptionPlan::PLAN_TYPE_DESCRIPTION[params[:plan_type]]}",
       :amount       => subscription_plan.amount.to_f.to_s,
       :currency     => "EUR"

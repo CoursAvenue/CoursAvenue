@@ -2,17 +2,17 @@
   %tr{ valign: 'top' }
     %td.content-block.push--bottom{ width: '200' }
       .p.text--center
-        = link_to "4 bonnes raisons d'être recommandé", pro_pages_why_be_recommended_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'push-half--bottom'
+        = link_to "4 bonnes raisons d'être recommandé", pro_pages_why_be_recommended_url(subdomain: 'pro'), class: 'push-half--bottom'
         %br
         Découvrez tous les avantages du bouche à oreille sur CoursAvenue
     %td.content-block.push--bottom{ width: '200' }
       .p.text--center
-        = link_to 'Découvrez tout sur CoursAvenue', pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'push-half--bottom'
+        = link_to 'Découvrez tout sur CoursAvenue', pro_pages_questions_url(subdomain: 'pro'), class: 'push-half--bottom'
         %br
         Tout sur CoursAvenue grâce aux questions les plus fréquentes
     %td.content-block.push--bottom{ width: '200' }
       .p.text--center
-        = link_to root_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'push-half--bottom' do
+        = link_to root_url(subdomain: 'www'), class: 'push-half--bottom' do
           Notre communauté
           %br
           grandit vite !

@@ -96,7 +96,7 @@
     .panel__body.soft.epsilon
       %strong Attention !
       Actuellement, le Pass concerne exclusivement Paris et ses alentours. Or, selon votre code postal, vous vous situez dans une autre région. Si vous souhaitez un Pass en dehors de cette zone,
-      = link_to 'contactez-nous.', pages_contact_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+      = link_to 'contactez-nous.', pages_contact_url(subdomain: 'www')
   = content_for :scripts do
     :javascript
       $(function() {

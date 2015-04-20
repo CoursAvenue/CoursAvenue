@@ -16,7 +16,7 @@
   .main-container
     %header.grid--full
       .grid__item.four-twelfths.v-bottom.soft--top.relative.visuallyhidden--palm>
-        = link_to structure_url(selected_profile[:slug], subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute block', target: :_blank, id: 'valerie-profile', style: 'bottom: -230px' do
+        = link_to structure_url(selected_profile[:slug], subdomain: 'www'), class: 'absolute block', target: :_blank, id: 'valerie-profile', style: 'bottom: -230px' do
           = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/testimonies/#{selected_profile[:profile_name]}-profile-small.jpg", class: 'block', width: selected_profile[:image_profile_width]
         = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/testimonies/#{selected_profile[:image_name]}-detour.png", class: 'rounded block', width: selected_profile[:image_width], style: "margin-left: auto; #{selected_profile[:image_style]}"
       .grid__item.eight-twelfths.v-bottom.soft--top.palm-one-whole.relative>
@@ -34,12 +34,12 @@
                 .grid--full
                   - if @structure.logo.present?
                     .grid__item.one-fifth.v-top.text--right.soft--left>
-                      = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block', target: :_blank do
+                      = link_to structure_url(@structure, subdomain: 'www'), class: 'block', target: :_blank do
                         = image_tag @structure.logo.url(:thumb), width: 85
                   .grid__item.v-top.soft--left{ class: (@structure.logo.present? ? 'four-fifths' : 'one-whole')}>
                     %h3.flush
                       Travaillez-vous pour
-                      = link_to "\"#{@structure.name}\"", structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'semi-muted-link', target: :_blank
+                      = link_to "\"#{@structure.name}\"", structure_url(@structure, subdomain: 'www'), class: 'semi-muted-link', target: :_blank
                       ?
                     %h4 Choisissez vos identifiants pour gérer votre profil :
 
@@ -95,7 +95,7 @@
     %h4.text--center.push-half--bottom.push--top Pourquoi CoursAvenue ?
     %p.epsilon.text--center
       L'objectif de CoursAvenue est de relier les Français aux meilleurs cours de loisirs locaux.
-      = link_to 'En savoir plus', root_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+      = link_to 'En savoir plus', root_url(subdomain: 'pro')
 
 .main-container.main-container--medium.soft
   %h2.text--center.push--bottom.soft--ends.f-weight-300 Les avantages du profil CoursAvenue
@@ -133,10 +133,10 @@
       .inline-block.one-third.palm-one-whole.lap-one-half>
         .grid.push--bottom
           .grid__item.one-quarter.epsilon.v-middle>
-            = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block muted-link media-photo', target: :_blank do
+            = link_to structure_url(structure, subdomain: 'www'), class: 'block muted-link media-photo', target: :_blank do
               = image_tag structure.logo.url(:thumb), class: 'block'
           .grid__item.three-quarters.v-middle>
-            = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'muted-link block' do
+            = link_to structure_url(structure, subdomain: 'www'), target: :_blank, class: 'muted-link block' do
               %p.flush.epsilon
                 %strong= structure.name
                 %br
@@ -155,7 +155,7 @@
         .grid__item.one-half.palm-one-whole.lap-one-half>
           .flexbox.push--bottom
             .flexbox__item.soft--left.v-top.text--center>
-              = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
+              = link_to structure_url(review.structure, subdomain: 'www'), class: 'block media-photo', target: :_blank, class: 'muted-link' do
                 = image_tag review.user.avatar_url(:thumb), class: 'block rounded--circle', width: 60, height: 60
               .milli.soft-half--top
                 = review.author_name
@@ -168,7 +168,7 @@
                 %p.text--right.flush
                   %i
                     À propos de
-                    = link_to review.structure.name, structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
+                    = link_to review.structure.name, structure_url(review.structure, subdomain: 'www'), target: :_blank
 
 = content_for :scripts do
   :javascript

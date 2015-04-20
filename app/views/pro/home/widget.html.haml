@@ -32,14 +32,14 @@
             - cache [comment, 'pro/widget/comment'] do
               .coursavenue-white-box
                 %p.coursavenue-header
-                  = link_to structure_url(comment.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: "recommandation-#{comment.id}"), class: 'coursavenue-widget-link', target: '_blank' do
+                  = link_to structure_url(comment.structure, subdomain: 'www', anchor: "recommandation-#{comment.id}"), class: 'coursavenue-widget-link', target: '_blank' do
                     %strong= comment.author_name
                     = "— #{comment.course_name}"
                 - if comment.title.present?
                   %p.coursavenue-comment-paragraph
                     %strong= "\"#{comment.title}\""
                 .coursavenue-comment-paragraph
-                  - omission = link_to('Lire la suite →', structure_url(comment.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: "recommandation-#{comment.id}"), target: '_blank', class: 'coursavenue-widget-link')
+                  - omission = link_to('Lire la suite →', structure_url(comment.structure, subdomain: 'www', anchor: "recommandation-#{comment.id}"), target: '_blank', class: 'coursavenue-widget-link')
                   = truncate_html(simple_format(comment.content), length: 600, omission: "… #{omission}")
                 %p.coursavenue-comment-footer
                   %i= "Avis déposé le #{I18n.l(comment.created_at, format: :date)}"

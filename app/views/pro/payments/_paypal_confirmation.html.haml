@@ -3,7 +3,7 @@
     Une erreur est survenue lors du paiement :
   %h4.text--center
   .text--center
-    = link_to 'Réessayer', new_pro_structure_subscription_plan_url(@structure, premium_type: @premium_type, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--large btn--yellow f-weight-bold'
+    = link_to 'Réessayer', new_pro_structure_subscription_plan_url(@structure, premium_type: @premium_type, subdomain: 'pro'), class: 'btn btn--large btn--yellow f-weight-bold'
 - else
   %h2
     %i.fa-check.green.fa-2x.v-middle

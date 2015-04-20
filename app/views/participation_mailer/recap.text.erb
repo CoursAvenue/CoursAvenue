@@ -1,6 +1,6 @@
-Connexion : <%= new_user_session_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) %>
-JPO : <%= open_courses_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) %>
-Rechercher : <%= structures_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) %>
+Connexion : <%= new_user_session_url(subdomain: 'www') %>
+JPO : <%= open_courses_url(subdomain: 'www') %>
+Rechercher : <%= structures_url(subdomain: 'www') %>
 
 <% if @participations.length == 1 %>
 Récapitulatif de votre inscription aux Portes Ouvertes CoursAvenue
@@ -21,7 +21,7 @@ Accéder à mon profil et imprimer mon récapitulatif : <%= user_participations_
 
 De nouveaux ateliers gratuits ont été ajoutés, les inscriptions sont toujours ouvertes :
 
-M'inscrire à plus d'ateliers : <%= open_courses_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) %>
+M'inscrire à plus d'ateliers : <%= open_courses_url(subdomain: 'www') %>
 
 <% if @participations.length == 1 %>
 Ci-dessous, un récapitulatif de votre inscription :

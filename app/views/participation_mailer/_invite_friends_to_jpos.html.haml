@@ -4,4 +4,4 @@
       %h4 Invitez vos proches à vous rejoindre
       %p N'attendez pas que le cours soit complet ! Invitez dès maintenant votre famille, vos amis ou vos collègues à s'inscrire au même atelier que vous :
       %p.action.flush--bottom
-        = link_to "Inviter mes proches", invite_entourage_to_jpo_page_users_url(user_email: @user.try(:email), structure_id: @structure.id, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--blue'
+        = link_to "Inviter mes proches", invite_entourage_to_jpo_page_users_url(user_email: @user.try(:email), structure_id: @structure.id, subdomain: 'www'), class: 'btn btn--blue'
