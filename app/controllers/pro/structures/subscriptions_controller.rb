@@ -5,8 +5,8 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
 
   def index
     @subscription  = @structure.subscription
-    @monthly_plans = Subscriptions::Plan.monthly
-    @yearly_plans  = Subscriptions::Plan.yearly
+    @monthly_plans = Subscriptions::Plan.monthly.decorate
+    @yearly_plans  = Subscriptions::Plan.yearly.decorate
   end
 
   def create
