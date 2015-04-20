@@ -4,7 +4,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   layout 'admin'
 
   def index
-    if @structure.subscribed?
+    if @structure.subscription.present? and @structure.subscription.active?
       @subscription  = @structure.subscription.decorate
     else
       @monthly_plans = Subscriptions::Plan.monthly.decorate

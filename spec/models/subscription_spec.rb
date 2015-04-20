@@ -53,6 +53,25 @@ RSpec.describe Subscription, type: :model do
     end
   end
 
+  describe '#active?' do
+    let(:plan)      { FactoryGirl.create(:subscriptions_plan) }
+    let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
+
+    context 'when not active' do
+      subject { FactoryGirl.create(:subscription, :canceled) }
+
+      it { expect(subject.active?).to be_falsy }
+    end
+
+    context 'when active' do
+      let(:token) { stripe_helper.generate_card_token }
+      subject     { plan.create_subscription!(structure, token) }
+
+      it { expect(subject.active?).to be_truthy }
+    end
+  end
+
+
   describe '#cancel!' do
     let(:plan)      { FactoryGirl.create(:subscriptions_plan) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
