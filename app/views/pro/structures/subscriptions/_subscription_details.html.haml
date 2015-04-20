@@ -8,7 +8,7 @@
 - else
   %p.epsilon
     Votre abonnement <strong>CoursAvenue Premium</strong> sera automatiquement renouvelé le
-    %strong= l(@subscription.current_period_end)
+    %strong= l(@subscription.current_period_end, format: :date_short)
     et nous prélèverons
     %strong= "#{@subscription.next_amount}€"
     = "#{@subscription.frequency},"
