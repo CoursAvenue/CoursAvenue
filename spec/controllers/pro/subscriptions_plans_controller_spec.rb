@@ -57,6 +57,8 @@ describe Pro::SubscriptionsPlansController, type: :controller do
   end
 
   describe '#new' do
+    render_views
+
     it 'renders the new template' do
       get :new
 
@@ -67,6 +69,12 @@ describe Pro::SubscriptionsPlansController, type: :controller do
       get :new
 
       expect(assigns(:plan)).to be_a_new(Subscriptions::Plan)
+    end
+
+    it 'renders the edition form' do
+      get :new
+
+      expect(response).to render_template(partial: '_form')
     end
   end
 end
