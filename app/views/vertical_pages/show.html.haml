@@ -26,9 +26,9 @@
 
 .main-container.main-container--medium.soft--ends
 
+  = render partial: 'vertical_pages/breadcrumb'
   .grid
     .grid__item.six-tenths.palm-one-whole.soft-half--right>
-      = render partial: 'vertical_pages/breadcrumb'
       = render partial: 'vertical_pages/timetable'
 
       - if @subject.depth == 2
