@@ -43,4 +43,21 @@ RSpec.describe Subscriptions::Coupon, type: :model do
       it { expect(subject.still_valid?).to be_falsy }
     end
   end
+
+  describe '#code' do
+    context 'when stripe_coupon_id is not defined' do
+      subject { FactoryGirl.create(:subscriptions_coupon) }
+      before  { subject.stripe_coupon_id = nil; subject.save }
+
+      it 'returns nil' do
+        expect(subject.code).to be_nil
+      end
+    end
+
+    context 'when the stripe_coupon_id is defined' do
+      it 'returns a Stripe::Coupon object' do
+        expect(subject.code).to eq(subject.stripe_coupon_id)
+      end
+    end
+  end
 end

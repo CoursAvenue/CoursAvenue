@@ -59,6 +59,9 @@ class Subscriptions::Coupon < ActiveRecord::Base
     stripe_coupon.valid
   end
 
+  # Delete the coupon from Stripe
+  #
+  # @return a Boolean
   def delete_stripe_coupon!
     coupon = stripe_coupon
     return false if coupon.nil?
@@ -67,6 +70,13 @@ class Subscriptions::Coupon < ActiveRecord::Base
     self.stripe_coupon_id = nil
 
     save
+  end
+
+  # Simple getter for the stripe coupon id
+  #
+  # @return a String or nil
+  def code
+    stripe_coupon_id
   end
 
   private
