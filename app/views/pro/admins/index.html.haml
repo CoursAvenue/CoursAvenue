@@ -11,8 +11,8 @@
 .input
   %label.v-middle.push-half--right Trier par
   %select.v-middle#sorting
-    %option{value: 'created_at_desc', selected: params[:sort] == 'created_at_desc'} Date de création
-    %option{value: 'comments_count_desc', selected: params[:sort] == 'comments_count_desc'} Nombre d'avis
+    %option{ value: 'created_at_desc', selected: params[:sort] == 'created_at_desc' } Date de création
+    %option{ value: 'comments_count_desc', selected: params[:sort] == 'comments_count_desc' } Nombre d'avis
 
 = link_to 'Voir les structures sans admins', pro_structures_path
 |

@@ -5,7 +5,12 @@ class Pro::VerticalPagesController < InheritedResources::Base
   layout 'admin'
 
   def index
-    @vertical_pages = VerticalPage.order('content DESC').all
+    if params[:name].present?
+      @vertical_pages = VerticalPage.where(VerticalPage.arel_table[:subject_name].matches("%#{params[:name]}%").or(
+                                           VerticalPage.arel_table[:title].matches("%#{params[:name]}%"))).order('content DESC').page(params[:page] || 1).per(50)
+    else
+      @vertical_pages = VerticalPage.order('content DESC').page(params[:page] || 1).per(50)
+    end
   end
 
   def new
