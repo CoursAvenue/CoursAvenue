@@ -48,7 +48,7 @@ class Subscriptions::Coupon < ActiveRecord::Base
   def stripe_coupon
     return nil if stripe_coupon_id.nil?
 
-    Stripe::Coupon.retrieve(stripe_coupon_id)
+    Stripe::Coupon.retrieve(stripe_coupon_id, { api_key: Stripe.api_key })
   end
 
   # Check if the coupon is still valid.
@@ -65,7 +65,7 @@ class Subscriptions::Coupon < ActiveRecord::Base
   # @return a Boolean
   def delete_stripe_coupon!
     coupon = stripe_coupon
-    return false if coupon.nil?
+    return nil if coupon.nil?
 
     coupon.delete
     self.stripe_coupon_id = nil

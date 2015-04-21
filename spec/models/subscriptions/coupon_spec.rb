@@ -46,7 +46,29 @@ RSpec.describe Subscriptions::Coupon, type: :model do
   end
 
   describe '#delete_stripe_coupon!' do
-    it 'deletes the plan on stripe'
+    context "when there's no coupon" do
+      before { subject.stripe_coupon_id = nil; subject.save }
+
+      it 'returns nil' do
+        expect(subject.delete_stripe_coupon!).to be_nil
+      end
+    end
+
+    context "when there's a coupon" do
+      it 'set the stripe_coupon_id to nil' do
+        subject.delete_stripe_coupon!
+
+        expect(subject.stripe_coupon_id).to be_nil
+      end
+
+      it 'deletes the coupon on Stripe' do
+        stripe_coupon_id = subject.stripe_coupon_id
+        subject.delete_stripe_coupon!
+
+        expect { Stripe::Coupon.retrieve(stripe_coupon_id) }.
+          to raise_error(Stripe::InvalidRequestError, /No such coupon/)
+      end
+    end
   end
 
   describe '#code' do
