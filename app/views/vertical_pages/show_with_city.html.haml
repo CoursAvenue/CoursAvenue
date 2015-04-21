@@ -81,13 +81,3 @@
     .main-container.main-container--medium.soft--ends
       %h2.soft--bottom.f-weight-300 Articles de blog associés
       = render partial: 'vertical_pages/blog_articles', locals: { articles: @vertical_page.blog_articles }
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#address-picker').on('typeahead:selected', function() {
-            setTimeout(function() {
-                $('#vp-city-form').submit()
-            }, 5); // To be triggered at last
-        });
-    });
