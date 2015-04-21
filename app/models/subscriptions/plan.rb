@@ -99,15 +99,19 @@ class Subscriptions::Plan < ActiveRecord::Base
       plan: self.stripe_plan_id
     }
 
-    # if coupon_code
-    #   coupon = Subscriptions::Coupon.where(coupon_code: coupon_code).first
-    #   options.merge!({ coupon: coupon.stripe_coupon_id })
-    # end
+    coupon = Subscriptions::Coupon.where(stripe_coupon_id: coupon_code).first
+    if coupon.present? and coupon.valid?
+      options.merge!({ coupon: coupon.stripe_coupon_id })
+    end
 
     # TODO: Remove explicit API key.
     subscription = customer.subscriptions.create(options, { api_key: Stripe.api_key })
 
-    self.subscriptions.create(stripe_subscription_id: subscription.id, structure: structure)
+    self.subscriptions.create({
+      structure: structure,
+      stripe_subscription_id: subscription.id,
+      coupon: coupon
+    })
   end
 
   private

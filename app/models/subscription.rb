@@ -130,19 +130,27 @@ class Subscription < ActiveRecord::Base
   # @return Integer or nil
   def next_amount
     return nil if stripe_subscription_id.nil? or canceled?
+
+    amount = plan.amount
+    amount -= coupon.amount if has_coupon?
+
+    amount
   end
 
   # Apply a coupon to the next invoice.
   #
   # @return the new amount or nil
   def apply_coupon(coupon)
-    return nil if stripe_subscription_id.nil? or canceled? or !coupon.valid?
+    return nil if stripe_subscription_id.nil? or canceled? or coupon.nil? or !coupon.valid?
+
+    self.coupon = coupon
+    save
   end
 
   # Whether coupon is currently applied on the Subscription
   #
   # @return a Boolean
   def has_coupon?
-    false
+    coupon.present?
   end
 end
