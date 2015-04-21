@@ -59,10 +59,24 @@ class Subscriptions::Coupon < ActiveRecord::Base
     stripe_coupon.valid
   end
 
+  def delete_stripe_coupon!
+    coupon = stripe_coupon
+    return false if coupon.nil?
+
+    coupon.delete
+    self.stripe_coupon_id = nil
+
+    save
+  end
+
   private
 
   def create_stripe_coupon
-    stripe_coupon = Stripe::Coupon.create(duration: self.duration, currency: CURRENCY)
+    stripe_coupon = Stripe::Coupon.create({
+      duration:   self.duration,
+      currency:   CURRENCY,
+      amount_off: self.amount * 100
+    })
     self.stripe_coupon_id = stripe_coupon.id
 
     save
