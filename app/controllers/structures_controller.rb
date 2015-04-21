@@ -183,7 +183,7 @@ class StructuresController < ApplicationController
   def set_current_structure
     @structure = Structure.friendly.find(params[:id])
     if @structure.slug != params[:id]
-      redirect_to structure_path @structure, status: 301
+      redirect_to structure_path(@structure), status: 301
     end
     raise ActiveRecord::RecordNotFound.new(params) if @structure.nil?
   end
