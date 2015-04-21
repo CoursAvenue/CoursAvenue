@@ -156,7 +156,7 @@ RSpec.describe Subscriptions::Plan, type: :model do
         subscription = subject.create_subscription!(structure, nil, coupon.code)
 
         expect(subscription).to_not be_nil
-        expect(subscription.has_coupon?).to be_true
+        expect(subscription.has_coupon?).to be_truthy
       end
     end
   end

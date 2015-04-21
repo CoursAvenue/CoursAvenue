@@ -7,10 +7,11 @@ class Subscription < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :structure, :stripe_subscription_id
+  attr_accessible :structure, :coupon, :stripe_subscription_id
 
   belongs_to :structure
-  belongs_to :plan,     class_name: 'Subscriptions::Plan', foreign_key: 'subscriptions_plan_id'
+  belongs_to :plan,     class_name: 'Subscriptions::Plan',   foreign_key: 'subscriptions_plan_id'
+  belongs_to :coupon,   class_name: 'Subscriptions::Coupon', foreign_key: 'subscriptions_coupon_id'
   has_many   :invoices, class_name: 'Subscriptions::Invoice'
 
   store_accessor :metadata, :cancelation_reason_dont_want_more_students,

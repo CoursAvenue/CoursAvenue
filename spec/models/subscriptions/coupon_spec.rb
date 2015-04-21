@@ -9,6 +9,7 @@ RSpec.describe Subscriptions::Coupon, type: :model do
   it { should validate_presence_of(:duration) }
   it { should validate_inclusion_of(:duration).in_array(Subscriptions::Coupon::DURATIONS.keys.map(&:to_s)) }
   it { should validate_presence_of(:amount) }
+  it { should have_many(:subscriptions) }
 
   subject { FactoryGirl.create(:subscriptions_coupon) }
 

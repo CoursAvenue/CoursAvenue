@@ -1132,10 +1132,12 @@ ActiveRecord::Schema.define(version: 20150421115523) do
     t.integer  "subscriptions_plan_id"
     t.datetime "expires_at"
     t.hstore   "metadata"
+    t.integer  "subscriptions_coupon_id"
   end
 
   add_index "subscriptions", ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true, using: :btree
   add_index "subscriptions", ["structure_id"], name: "index_subscriptions_on_structure_id", using: :btree
+  add_index "subscriptions", ["subscriptions_coupon_id"], name: "index_subscriptions_on_subscriptions_coupon_id", using: :btree
   add_index "subscriptions", ["subscriptions_plan_id"], name: "index_subscriptions_on_subscriptions_plan_id", using: :btree
 
   create_table "subscriptions_coupons", force: true do |t|
