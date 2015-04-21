@@ -1,21 +1,23 @@
 # encoding: utf-8
-require 'new_relic/agent/method_tracer'
 class StructuresController < ApplicationController
   include FilteredSearchProvider
   include StructuresHelper
   include ApplicationHelper
-  include ::NewRelic::Agent::MethodTracer
-
-  add_method_tracer :show, 'StructureController/show'
-  add_method_tracer :index, 'StructureController/index'
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
 
   before_filter :set_current_structure, except: [:index, :search, :typeahead]
+  before_filter :authenticate_pro_admin!, only: [:toggle_pure_player]
 
   respond_to :json
 
   layout :choose_layout
+
+  def toggle_pure_player
+    @structure.pure_player = (@structure.pure_player? ? false : true)
+    @structure.save
+    redirect_to structure_path(@structure)
+  end
 
   # GET /etablissements
   # GET /paris

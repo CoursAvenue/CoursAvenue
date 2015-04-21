@@ -1,5 +1,13 @@
 - @prerender_not_ready = false
 
+- if current_pro_admin and current_pro_admin.super_admin?
+  .fixed.west.south.push
+    = link_to toggle_pure_player_structure_path(@structure), class: 'btn btn--green' do
+      - if @structure.pure_player?
+        Remove me from pure players
+      - else
+        Make me a pure player
+
 = content_for :head do
   %link{ rel: 'canonical', href: structure_url(@structure) }
 
