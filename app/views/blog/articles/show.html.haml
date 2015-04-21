@@ -20,11 +20,19 @@
           = l @article.published_at, format: :date_with_year
 
 
-.blog-article__show-wrapper
+#social-badges.hidden.text--center.fixed{ style: 'margin-left: -50px;' }
+  .push-half--bottom
+    %div.fb-like{ data: { href: "https://www.facebook.com/CoursAvenue", layout: "box_count", action: "like", "show-faces" => "false", share: "false" } }
+  .push-half--bottom
+    %div{ class: "fb-share-button", data: { href:  blog_article_url(@article), type: 'box_count' } }
+  %div
+    %a{ href: blog_article_url(@article), class: 'twitter-share-button', data: { lang: "fr", via: 'CoursAvenue', url: blog_article_url(@article), count: 'vertical' } } Tweeter
+
+.blog-article__show-wrapper.relative
   .text--right>
-    %strong.v-middle Partager :
     .inline-block.v-middle.push-half--right{ class: "fb-share-button", data: { href:  blog_article_url(@article), type: 'button_count' } }
     %a.inline-block.v-middle{ href: blog_article_url(@article), class: 'twitter-share-button', data: { lang: "fr", via: 'CoursAvenue', url: blog_article_url(@article) } } Tweeter
+
   - cache [@article, 'blog/articles/index/v2'] do
     %article{ itemscope: true, itemtype: 'http://schema.org/Article' }
       .blog-article__content.push--top{ itemprop: 'text' }
@@ -70,3 +78,24 @@
   %noscript
     Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
 
+= content_for :scripts do
+  :javascript
+      $(function() {
+          var replaceSocialBadges = function() {
+              $('#social-badges').css({
+                  left: $('.blog-article__content').offset().left - $('#social-badges').width() - 70,
+                  top: '50px'
+              });
+          }
+          replaceSocialBadges();
+          $(window).resize(replaceSocialBadges);
+          var blog_article_offset_top = $('.blog-article__content').offset().top
+          $(window).scroll(function(){
+              if ($(window).scrollTop() > blog_article_offset_top) {
+                  $('#social-badges').fadeIn();
+              } else {
+                  $('#social-badges').fadeOut();
+              }
+          });
+
+      });
