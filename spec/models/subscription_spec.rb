@@ -220,16 +220,20 @@ RSpec.describe Subscription, type: :model do
     let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
 
     context 'when the coupon is valid' do
-      it 'applies the coupon' do
-        new_amount = subject.next_amount - coupon.amount
+      let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
+      let(:structure)   { FactoryGirl.create(:structure, :with_contact_email) }
+      let(:token)       { stripe_helper.generate_card_token }
+      subject           { plan.create_subscription!(structure, token) }
 
-        expect(subject.apply_coupon(coupon)).to eq(new_amount)
+      it 'applies the coupon' do
+        expect{ subject.apply_coupon(coupon) }.
+          to change { subject.next_amount }.by( - coupon.amount)
       end
     end
 
     context 'when the coupon is not valid' do
       it 'returns nil' do
-        expect(subject).apply_coupon(coupon).to be_nil
+        expect(subject.apply_coupon(coupon)).to be_nil
       end
     end
 
@@ -237,7 +241,12 @@ RSpec.describe Subscription, type: :model do
 
   describe '#has_coupon' do
     context 'the subscription has a coupon' do
-      let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
+      let!(:plan)     { FactoryGirl.create(:subscriptions_plan) }
+      let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
+      let(:token)     { stripe_helper.generate_card_token }
+      let(:coupon)    { FactoryGirl.create(:subscriptions_coupon) }
+      subject         { plan.create_subscription!(structure, token) }
+
       before       { subject.apply_coupon(coupon) }
 
       it { expect(subject.has_coupon?).to be_truthy }
