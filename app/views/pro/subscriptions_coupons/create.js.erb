@@ -1,0 +1,8 @@
+<% if @coupon.persisted? %>
+    COURSAVENUE.helperMethods.flash("Code promo bien créée.", 'success');
+    $.fancybox.close()
+    location.reload();
+<% else %>
+    COURSAVENUE.helperMethods.flash("Erreur lors de la création du code promo, veuillez rééssayer.", 'error');
+<% end %>
+

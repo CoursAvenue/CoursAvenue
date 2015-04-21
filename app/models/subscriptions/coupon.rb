@@ -8,8 +8,8 @@ class Subscriptions::Coupon < ActiveRecord::Base
   CURRENCY  = 'EUR'
 
   DURATIONS = {
-    forever:   'Pour toujours',
     once:      'Une fois',
+    forever:   'Pour toujours',
     repeating: 'Se repete'
   }
 
