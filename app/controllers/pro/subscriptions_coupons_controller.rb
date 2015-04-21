@@ -37,6 +37,20 @@ class Pro::SubscriptionsCouponsController < Pro::ProController
     end
   end
 
+  def destroy
+    @coupon = Subscriptions::Coupon.find(params[:id])
+
+    respond_to do |format|
+      if @coupon.delete_stripe_coupon! and @coupon.destroy
+        format.html { redirect_to pro_subscriptions_coupons_path,
+                      notice: 'Code promo supprimé.' }
+      else
+        format.html { redirect_to pro_subscriptions_coupons_path,
+                      error: "Erreur lors de la suppression du code promo, veuillez rééssayer." }
+      end
+    end
+  end
+
   private
 
   def permitted_params
