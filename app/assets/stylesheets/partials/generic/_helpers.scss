@@ -102,7 +102,7 @@
 /*------------------------------------*\
     COLORS
 \*------------------------------------*/
-.white              { color: white; }
+.white              { color: white !important; }
 .white-transparent  { color: transparentize(white, 0.2); }
 .white-faded        { color: #DDDDDD; }
 .black              { color: $text-black; }
@@ -273,6 +273,7 @@
 .cursor-pointer     { cursor: pointer !important; }
 .cursor-default     { cursor: default !important; }
 .cursor-help        { cursor: help !important; }
+.cursor-disabled    { cursor: not-allowed !important; }
 
 .ie-blocker {
     background : #EEE;

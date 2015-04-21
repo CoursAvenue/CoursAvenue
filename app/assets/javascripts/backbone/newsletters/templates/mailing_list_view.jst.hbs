@@ -1,24 +1,6 @@
-<input type='radio' id='mailing_list_all_profiles_{{ id }}' name='mailing_list' value='{{ id }}' class='input--large one--whole' />
-<label for='mailing_list_all_profiles_{{ id }}'>{{ name }} ({{ recipient_count }})</label>
+<div id="mailing-list-{{ id }}" class="bordered--top">
+    <input type='radio' {{#if selected}}checked{{/if}} id='mailing_list_all_profiles_{{ id }}' name='mailing_list' value='{{ id }}' class="v-middle input--large one--whole" />
+    <label class="inline-block v-middle soft-half--ends label--large" for='mailing_list_all_profiles_{{ id }}'>{{ name }} ({{ recipient_count }} {{ pluralize recipient_count 'élève' 'élèves' }})</label>
 
-{{#unless all_profiles}}
-  <a href='javascript:void(0)' data-toggle-filters='true'>Afficher / cacher les filtres</a>
-  <ul class='hidden' data-filters-list="true">
-    Envoyer uniquement aux contacts dont l' étiquette
-
-    {{#each filters}}
-    <select name='{{@index}}_predicate'>
-      <option value='is'          {{isSelected 'is' predicate          }}>est</option>
-      <option value='isnot'       {{isSelected 'isnot' predicate       }}>n'est pas</option>
-      <option value='contains'    {{isSelected 'contains' predicate    }}>contient</option>
-      <option value='containsnot' {{isSelected 'containsnot' predicate }}>ne contient pas</option>
-    </select>
-
-    <select name='{{@index}}_tag'>
-      {{#each ../allTags}}
-        <option value='{{ this }}' {{ isSelected this tag }}>{{ this }}</option>
-      {{/each}}
-    </select>
-    {{/each}}
-  </ul>
-{{/unless}}
+    <a class="fancybox.ajax push-half--left v-middle" href="{{ edit_url }}" data-width="400" data-behavior="modal">Voir</a>
+</div>

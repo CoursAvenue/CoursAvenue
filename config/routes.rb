@@ -289,9 +289,27 @@ CoursAvenue::Application.routes.draw do
           end
         end
 
+        resources :mailing_lists, only: [:destroy, :edit], controller: 'structures/mailing_lists'
+
         resources :newsletters, only: [:index, :new, :create, :edit, :update, :destroy], controller: 'structures/newsletters' do
-          resources :blocs, only: [:create, :update, :destroy], controller: 'structures/newsletters/blocs'
-          resources :mailing_lists, only: [:create], controller: 'structures/newsletters/mailing_lists'
+          resources :blocs, only: [:create, :update, :destroy], controller: 'structures/newsletters/blocs' do
+            resources :sub_blocs, only: [], controller: 'structures/newsletters/blocs' do
+              member do
+                put :update, to: 'structures/newsletters/blocs#sub_bloc_update'
+              end
+              collection do
+                post :create, to: 'structures/newsletters/blocs#sub_bloc_create'
+              end
+            end
+          end
+          resources :mailing_lists, only: [:create], controller: 'structures/newsletters/mailing_lists' do
+            collection do
+              post :file_import
+              patch :update_headers
+
+              post :bulk_import
+            end
+          end
           member do
             get :duplicate
             get :preview_newsletter
@@ -522,6 +540,7 @@ CoursAvenue::Application.routes.draw do
 
     resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
       member do
+        get  :toggle_pure_player
         get  :jpo, path: 'portes-ouvertes-cours-loisirs'
         post :add_to_favorite
         post :remove_from_favorite

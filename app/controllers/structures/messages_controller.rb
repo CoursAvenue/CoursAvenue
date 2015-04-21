@@ -7,7 +7,7 @@ class Structures::MessagesController < ApplicationController
   # For an example of a message controller see:
   # https://github.com/ging/social_stream/blob/master/base/app/controllers/messages_controller.rb
   def create
-    @structure    = Structure.find params[:structure_id]
+    @structure    = Structure.friendly.find params[:structure_id]
     # Retrieve or create user
     if current_user
       @user = current_user

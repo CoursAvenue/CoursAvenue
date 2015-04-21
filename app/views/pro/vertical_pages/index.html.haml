@@ -10,6 +10,12 @@
       %i.fa.fa-plus
       Ajouter une page
 
+.push-half--bottom
+  = form_for pro_vertical_pages_path, method: :get do
+    %input.input--large.one-whole{ type: 'text', placeholder: 'Cherchez une page verticale', name: 'name', value: params[:name] }
+
+.push-half--bottom= paginate @vertical_pages, window: 2, outer_window: 1
+
 %table.table--data.table--striped#dataTable
   %thead
     %tr
@@ -52,3 +58,4 @@
             = link_to 'Éditer', edit_pro_vertical_page_path(vertical_page)
             \/
             = link_to 'Supprimer', pro_vertical_page_path(vertical_page), class: 'red', method: :delete
+.push-half--bottom= paginate @vertical_pages, window: 2, outer_window: 1

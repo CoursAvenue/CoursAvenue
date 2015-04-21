@@ -58,6 +58,7 @@ class StructureSearch
       with :sleeping_email_opt_in,  params[:sleeping_email_opt_in]                  if params.has_key? :sleeping_email_opt_in
       with :has_admin,    params[:has_admin]                                        if params.has_key? :has_admin
 
+      # Active is for duplicated sleeping structures (when an admin takes control of a sleeping profile)
       if params.has_key? :active
         with :active, params[:active]
       else

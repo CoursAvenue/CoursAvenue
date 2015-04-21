@@ -3,17 +3,29 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         template: Module.templateDirname() + 'edition_view',
         tagName: 'div',
         childViewContainer: '[data-type=bloc]',
-        childView: Module.BlocView,
-
         events: {
-            'submit':                'saveModel',
+            'submit'               : 'saveModel',
+            'click [data-next]'    : 'saveModel',
             'click [data-previous]': 'previousStep',
-            'change input':          'silentSaveModel',
+            'change input'         : 'silentSaveModel',
+            'keyup input'          : 'silentSaveModel'
         },
 
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
             _.bindAll(this, 'saveModel', 'silentSaveModel', 'savingError', 'savingSuccess', 'previousStep');
+        },
+
+        getChildView: function getChildView (item) {
+            var viewType = item.get('view_type')
+
+            if (viewType == 'multi') {
+                return Module.Blocs.Multi;
+            } else if (viewType == 'image') {
+                return Module.Blocs.Image;
+            } else {
+                return Module.Blocs.Text;
+            }
         },
 
         saveModel: function saveModel (event) {
@@ -55,8 +67,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             return {
                 formAction: Routes.pro_structure_newsletters_path(structure),
                 csrfName: $('meta[name="csrf-param"]').attr('content'),
-                csrfToken: $('meta[name="csrf-token"]').attr('content'),
-                previewUrl: Routes.preview_newsletter_pro_structure_newsletter_path(structure, this.model.get('id')),
+                csrfToken: $('meta[name="csrf-token"]').attr('content')
             };
         },
 
@@ -66,7 +77,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         render: function render () {
             Backbone.Marionette.CompositeView.prototype.render.apply(this, arguments);
 
-            this._modelBinder.bind(this.model, this.$('form'));
+            this._modelBinder.bind(this.model,
+                                   this.$('form'),
+                                   null,
+                                   { changeTriggers:
+                                      { '': 'keyup change', '[contenteditable]': 'blur' } });
         },
 
         // TODO: Save newsletter title before update.

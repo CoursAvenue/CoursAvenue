@@ -4,7 +4,7 @@ FactoryGirl.define do
     association :mailing_list, factory: :newsletter_mailing_list
 
     title     { Faker::Name.name }
-    layout_id { (1..5).to_a.sample }
+    layout_id { (1..4).to_a.sample }
 
     trait :sent do
       state 'sent'

@@ -23,6 +23,16 @@ namespace :scheduler do
         end
       end
     end
+    # $ rake scheduler:prerender:refresh_structures
+    desc 'Prerender pages and save them to S3.1'
+    task :refresh_structures => :environment do
+      include Rails.application.routes.url_helpers
+      Rails.application.routes.default_url_options[:host] = 'coursavenue.com'
+      Rails.application.routes.default_url_options[:protocol] = Rails.env.production? ? 'https' : 'http'
+      Structure.find_each do |structure|
+        PrerenderRenewer.delay.renew_url structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+      end
+    end
 
     # To create or update the pre-rendered version of the pages, we send a POST
     # request to the prerender service with the URL to update as a parameter.
@@ -34,27 +44,18 @@ namespace :scheduler do
       include Rails.application.routes.url_helpers
       Rails.application.routes.default_url_options[:host] = 'coursavenue.com'
       Rails.application.routes.default_url_options[:protocol] = Rails.env.production? ? 'https' : 'http'
-      CITIES = ['paris']
-      URLS = []
+      CITIES = ['paris', 'paris-01', 'paris-02', 'paris-03', 'paris-04', 'paris-05', 'paris-06', 'paris-07', 'paris-08', 'paris-09', 'paris-10', 'paris-11', 'paris-12', 'paris-13', 'paris-14', 'paris-15', 'paris-16', 'paris-17', 'paris-18', 'paris-19', 'paris-20']
       CITIES.each do |city|
-        URLS << root_search_page_without_subject_url(city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
-      end
-      Structure.find_each do |structure|
-        URLS << structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+        PrerenderRenewer.delay.renew_url root_search_page_without_subject_url(city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
       end
       Subject.find_each do |subject|
         CITIES.each do |city|
           if subject.is_root?
-            URLS << root_search_page_url(subject, city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+            PrerenderRenewer.delay.renew_url root_search_page_url(subject, city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
           else
-            URLS << search_page_url(subject.root, subject, city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+            PrerenderRenewer.delay.renew_url search_page_url(subject.root, subject, city, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
           end
         end
-      end
-      if Rails.env.production?
-        PrerenderRenewer.delay(queue: 'prerender').new(URLS)
-      else
-        PrerenderRenewer.new(URLS)
       end
     end
   end

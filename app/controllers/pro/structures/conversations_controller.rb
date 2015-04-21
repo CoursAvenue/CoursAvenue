@@ -86,7 +86,7 @@ class Pro::Structures::ConversationsController < ApplicationController
   private
 
   def get_structure
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
   end
 
   def get_admin

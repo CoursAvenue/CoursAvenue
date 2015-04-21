@@ -15,7 +15,7 @@
                 var send_ajax = function(options) {
                     options = options || '';
                     $.ajax({
-                        url: "#{wizard_user_path(current_user, format: :json)}",
+                        url: "#{wizard_user_path(@user, format: :json)}",
                         dataType: 'json',
                         data: options,
                         success: function(response) {

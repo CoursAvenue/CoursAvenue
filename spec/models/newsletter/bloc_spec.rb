@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Newsletter::Bloc, type: :model do
   # it { should belong_to(:newsletter) }
   it { should validate_presence_of(:type) }
-  it { should validate_uniqueness_of(:position).scoped_to(:newsletter_id) }
+  # it { should validate_uniqueness_of(:position).scoped_to(:newsletter_id) }
 
   let!(:newsletter) { FactoryGirl.create(:newsletter) }
 

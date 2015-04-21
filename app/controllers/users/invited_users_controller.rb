@@ -18,7 +18,7 @@ class Users::InvitedUsersController < ApplicationController
       @participation = @user.participations.find(params[:participation_id])
       @structure     = @participation.structure
     elsif params[:structure_id].present?
-      @structure = Structure.find(params[:structure_id])
+      @structure = Structure.friendly.find(params[:structure_id])
     elsif @user.participations.length == 1
       @participation = @user.participations.first
       @structure     = @participation.structure

@@ -3,14 +3,14 @@
 
     <li class='active'>
       <a data-newsletter-page="choose-layout" data-newsletter-nav='mise-en-page' href='javascript:void(0)' class='muted-link epsilon f-weight-600 soft--sides soft-half--ends'>
-        Design
+        Modèle
       </a>
     </li>
     <li>
         <i class="white fa-chevron-right v-middle"></i>
     </li>
     <li>
-      <a data-newsletter-page="edit" data-newsletter-nav='remplissage' href='javascript:void(0)' class='muted-link epsilon f-weight-600 soft--sides soft-half--ends'>
+      <a data-newsletter-page="edit" data-newsletter-nav='remplissage' href='javascript:void(0)' class='muted-link muted epsilon f-weight-600 soft--sides soft-half--ends cursor-disabled' data-newsletter-disabled='true'>
         Remplissage
       </a>
     </li>
@@ -18,7 +18,7 @@
         <i class="white fa-chevron-right v-middle"></i>
     </li>
     <li>
-      <a data-newsletter-page="mailing-list" data-newsletter-nav='liste-de-diffusion' href='javascript:void(0)' class='muted-link epsilon f-weight-600 soft--sides soft-half--ends'>
+      <a data-newsletter-page="mailing-list" data-newsletter-nav='liste-de-diffusion' href='javascript:void(0)' class='muted-link muted epsilon f-weight-600 soft--sides soft-half--ends cursor-disabled' data-newsletter-disabled='true'>
         Liste de diffusion
       </a>
     </li>
@@ -27,7 +27,7 @@
     </li>
 
     <li>
-      <a data-newsletter-page="metadata" data-newsletter-nav='recapitulatif' href='javascript:void(0)' class='muted-link epsilon f-weight-600 soft--sides soft-half--ends'>
+      <a data-newsletter-page="metadata" data-newsletter-nav='recapitulatif' href='javascript:void(0)' class='muted-link muted epsilon f-weight-600 soft--sides soft-half--ends cursor-disabled' data-newsletter-disabled='true'>
         Récapitulatif
       </a>
     </li>
@@ -35,17 +35,20 @@
         <i class="white fa-chevron-right v-middle"></i>
     </li>
     <li>
-      <a data-newsletter-page="preview" data-newsletter-nav='previsualisation' href='javascript:void(0)' class='muted-link epsilon f-weight-600 soft--sides soft-half--ends'>
+      <a data-newsletter-page="preview" data-newsletter-nav='previsualisation' href='javascript:void(0)' class='muted-link muted epsilon f-weight-600 soft--sides soft-half--ends cursor-disabled' data-newsletter-disabled='true'>
         Prévisualisation &amp; Envoi
       </a>
     </li>
   </ul>
 </div>
 
- <div class='bg-white bordered--left bordered--right bordered--right bordered--bottom soft--ends soft-double--sides shadowed--bottom rounded--top min-height-800'>
-    <div data-page="choose-layout"></div>
-    <div data-page="edit"></div>
-    <div data-page="mailing-list"></div>
-    <div data-page="metadata"></div>
-    <div data-page="preview"></div>
+ <div class='bg-white bordered--left bordered--right bordered--right bordered--bottom soft--bottom soft-half--top shadowed--bottom rounded--top min-height-800'>
+    <div data-type="navigation-bar"></div>
+    <div class="soft-double--sides">
+        <div data-page="choose-layout"></div>
+        <div data-page="edit"></div>
+        <div data-page="mailing-list"></div>
+        <div data-page="metadata"></div>
+        <div data-page="preview"></div>
+    </div>
  </div>

@@ -15,10 +15,10 @@ class Newsletter < ActiveRecord::Base
   ######################################################################
 
   attr_accessible :title, :state,
-    :email_object, :sender_name, :reply_to,
-    :layout_id,
-    :blocs, :blocs_attributes,
-    :newsletter_mailing_list_id
+                  :email_object, :sender_name, :reply_to,
+                  :layout_id,
+                  :blocs, :blocs_attributes,
+                  :newsletter_mailing_list_id
 
   belongs_to :structure
 
@@ -28,13 +28,13 @@ class Newsletter < ActiveRecord::Base
   belongs_to :mailing_list, class_name: 'Newsletter::MailingList', foreign_key: :newsletter_mailing_list_id
 
   accepts_nested_attributes_for :blocs
-                                # reject_if: :reject_bloc,
-                                # allow_destroy: true
 
-  validates :title, presence: true
-  validates :state, presence: true
+  validates :structure, presence: true
+  validates :title    , presence: true
+  validates :state    , presence: true
 
   after_create :set_defaults
+  after_create :create_first_mailing_list_if_does_not_exists
   before_validation :set_title, on: :create
 
   scope :sent,       -> { where(state: 'sent') }
@@ -178,26 +178,15 @@ class Newsletter < ActiveRecord::Base
     save
   end
 
-  # Check if we should reject the bloc.
-  # We only reject it if the bloc has no content or no image.
-  #
-  # @return a Boolean.
-  def reject_bloc(attributes)
-    exists = attributes[:id].present?
-    blank = (attributes[:content].blank? or
-             attributes[:remote_image_url].blank? or
-             attributes[:image].blank?)
-
-    if blank and exists
-      attributes.merge!({ :_destroy => 1 })
-    end
-
-    (blank and !exists)
-  end
-
   def set_title
     if self.title.nil?
       self.title = "[Brouillon] Newsletter du #{I18n.l(local_time(Time.current), format: :long_human)}"
+    end
+  end
+
+  def create_first_mailing_list_if_does_not_exists
+    if structure.mailing_lists.empty?
+      structure.mailing_lists.create all_profiles: true, name: 'Tous les contacts'
     end
   end
 end

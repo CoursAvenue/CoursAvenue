@@ -5,24 +5,25 @@
 
 = render 'home_screen'
 
-.home-screen-promotion-wrapper#vivez-passionnement
-  .main-container.mega-soft--ends.hard--sides
-    = render 'subject_guides'
+-# .home-screen-promotion-wrapper#vivez-passionnement
+-#   .main-container.mega-soft--ends.hard--sides
+-#     = render 'subject_guides'
 
 .home-screen-promotion-wrapper
-  .main-container.main-container--medium.mega-soft--ends
-    %h2.text--center.push--top.push-half--bottom.f-size-big.f-weight-400 Découvrez nos guides de disciplines
-    %h5.text--center.delta.push--bottom.soft--bottom.f-weight-400 Parfait pour se lancer !
+  .main-container.mega-soft--ends
+    .text--center.soft--sides
+      %h2.f-weight-400.push-half--bottom.f-size-big Vivez passionnément
+      %h5.f-weight-400.delta.push--bottom.soft--bottom Des centaines de disciplines pour trouver celle qui vous correspond le mieux
     - VerticalPage.homepage.limit(21).each_with_index do |vertical_page, index|
       .inline-block.v-top.one-third.very-soft.palm-one-whole>
         - if index % 2 == 0
-          = link_to vertical_page_path(vertical_page.root_subject, vertical_page), class: 'white relative semi-muted-link line-height-1-5 delta block f-weight-500 text--center bg-cover', style: "background-image: url('#{vertical_page.image.url(:thumb)}'); height: 125px;" do
+          = link_to vertical_page_path(vertical_page.root_subject, vertical_page), class: 'white relative semi-muted-link line-height-1-5 delta block f-weight-500 text--center bg-cover', style: "background-image: url('#{vertical_page.image.url(:thumb)}'); height: 130px;" do
             .black-curtain.north.west.one-whole.absolute
-            .relative{ style: 'line-height: 125px;' }= "Cours de #{vertical_page.subject_name.downcase}"
+            .relative.f-weight-600{ style: 'line-height: 130px;' }= "Cours de #{vertical_page.subject_name.downcase}"
         - else
-          = link_to vertical_page_with_city_path(vertical_page.root_subject, vertical_page, 'paris'), class: 'white relative semi-muted-link line-height-1-5 delta block f-weight-500 text--center bg-cover', style: "background-image: url('#{vertical_page.image.url(:thumb)}'); height: 125px;" do
+          = link_to vertical_page_with_city_path(vertical_page.root_subject, vertical_page, 'paris'), class: 'white relative semi-muted-link line-height-1-5 delta block f-weight-500 text--center bg-cover', style: "background-image: url('#{vertical_page.image.url(:thumb)}'); height: 130px;" do
             .black-curtain.north.west.one-whole.absolute
-            .relative{ style: 'line-height: 125px;' }= "Cours de #{vertical_page.subject_name.downcase} à Paris"
+            .relative.f-weight-600{ style: 'line-height: 130px;' }= "Cours de #{vertical_page.subject_name.downcase} à Paris"
 
 
 .main-container.main-container--medium.mega-soft--ends

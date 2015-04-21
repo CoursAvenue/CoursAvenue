@@ -2,7 +2,7 @@ class Blog::Article < ActiveRecord::Base
   extend FriendlyId
   acts_as_paranoid
 
-  friendly_id :title, use: [:slugged, :finders]
+  friendly_id :title, use: [:slugged, :finders, :history]
 
   acts_as_taggable_on :tags
 

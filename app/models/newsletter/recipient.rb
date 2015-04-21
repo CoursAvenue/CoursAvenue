@@ -46,10 +46,12 @@ class Newsletter::Recipient < ActiveRecord::Base
     client = MandrillFactory.client
     infos  = client.messages.info(self.mandrill_message_id)
 
-    self.opened                  = infos[:opens] > 0
-    self.opens                   = infos[:opens]
-    self.clicks                  = infos[:clicks]
-    self.mandrill_message_status = infos[:state]
+    if infos.present? and infos[:opens].present?
+      self.opened                  = infos[:opens] > 0
+      self.opens                   = infos[:opens]
+      self.clicks                  = infos[:clicks]
+      self.mandrill_message_status = infos[:state]
+    end
 
     save
   rescue Mandrill::UnknownMessageError

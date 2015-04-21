@@ -2,7 +2,7 @@
 class VerticalPage < ActiveRecord::Base
   extend FriendlyId
 
-  friendly_id :name, use: [:slugged, :finders, :history]
+  friendly_id :subject_name, use: [:slugged, :finders, :history]
 
   ######################################################################
   # Relations                                                          #
@@ -46,6 +46,10 @@ class VerticalPage < ActiveRecord::Base
 
   def root_subject
     subject.root if subject
+  end
+
+  def blog_articles
+    BlogArticleSearch.search(name: subject_name, per_page: 3, type: 'user').results
   end
 
   private

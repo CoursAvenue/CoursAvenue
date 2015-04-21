@@ -11,5 +11,9 @@ FactoryGirl.define do
     factory :image_bloc do
       type 'Newsletter::Bloc::Image'
     end
+
+    factory :multi_bloc do
+      type 'Newsletter::Bloc::Multi'
+    end
   end
 end

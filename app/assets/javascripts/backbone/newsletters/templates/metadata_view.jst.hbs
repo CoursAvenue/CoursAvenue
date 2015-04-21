@@ -1,30 +1,19 @@
-<div class='flexbox push--bottom'>
-  <div class='flexbox__item v-middle'>
-    <h3 class='flush'>Derniers paramètres avant l'envoi de votre newsletter</h3>
-  </div>
-</div>
-
 <form>
   <div class='input'>
-    <label for="sender_name" class='label--large blue'>Nom de l'éxpéditeur</label>
-    <p class="flush">Le nom apparaissant dans la boite e-mail de l'élève</p>
+    <label for="sender_name" class="delta f-weight-600 block push-half--bottom">Nom de l'éxpéditeur</label>
     <input id="title" class='input--large one-whole' name="sender_name" type="text" placeholder=" {{ structure_id }}" value="{{ sender_name }}" required />
+    <p class="flush line-height-2 f-style-italic flush">Le nom apparaissant dans la boîte e-mail des élèves</p>
   </div>
 
   <div class='input'>
-    <label for="reply_to" class='label--large blue'>E-mail de réponse</label>
-    <p class="flush">L'email où l'élève pourra vous répondre</p>
+    <label for="reply_to" class="delta f-weight-600 block push-half--bottom">E-mail de réponse</label>
     <input id="title" class='input--large one-whole' name="reply_to" type="text" placeholder="Prochains stages à venir !" value="{{ reply_to }}" required />
+    <p class="flush line-height-2 f-style-italic flush">L'e-mail sur lequel l'élève pourra vous répondre</p>
   </div>
 
   <div class='input'>
-    <label for="email_object" class='label--large blue'>Objet de l'e-mail</label>
-    <p class="flush">Ce qui s'affichera dans la boite de réception de l'élève</p>
+    <label for="email_object" class="delta f-weight-600 block push-half--bottom">Objet de l'e-mail</label>
     <input id="title" class='input--large one-whole' name="email_object" type="text" placeholder="Prochains stages à venir !" value="{{ email_object }}" required />
-  </div>
-
-  <div class='text--center'>
-    <a data-previous='true' class='btn btn--green  two-fifths soft-half--ends'>Étape précédante</a>
-    <button type='submit' class='btn btn--green two-fifths soft-half--ends' data-disable-with="En cours d'enregistrement">Étape suivante</button>
+    <p class="flush line-height-2 f-style-italic flush">Ce qui s'affichera dans la boite de réception de l'élève</p>
   </div>
 </form>

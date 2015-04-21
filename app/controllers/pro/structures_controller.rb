@@ -23,13 +23,13 @@ class Pro::StructuresController < Pro::ProController
   # GET etablissements/:id/quelqu-un-a-deja-le-control
   # When somebody try to register to a structure that already has an admin
   def someone_already_took_control
-    @structure = Structure.find params[:id]
+    @structure = Structure.friendly.find params[:id]
   end
 
   # GET etablissements/:id/dont_want_to_take_control_of_my_sleeping_account
   # No login required
   def dont_want_to_take_control_of_my_sleeping_account
-    @structure = Structure.find params[:id]
+    @structure = Structure.friendly.find params[:id]
     @structure.sleeping_email_opt_in = false
     @structure.sleeping_email_opt_out_reason = params[:reason]
     @structure.save
@@ -50,7 +50,7 @@ class Pro::StructuresController < Pro::ProController
   # PUT etablissements/:id/wake_up
   # Changed is_sleeping from true to false
   def wake_up
-    @structure = Structure.find params[:id]
+    @structure = Structure.friendly.find params[:id]
     @structure.wake_up!
     redirect_to request.referrer, notice: 'Le profil est réveillé !'
   end
@@ -58,7 +58,7 @@ class Pro::StructuresController < Pro::ProController
   # PUT etablissements/:id/return_to_sleeping_mode
   # Rollback to sleeping attributes
   def return_to_sleeping_mode
-    @structure = Structure.find params[:id]
+    @structure = Structure.friendly.find params[:id]
     @structure.return_to_sleeping_mode!
     redirect_to pro_structure_path(@structure), notice: 'Rollback du profil effectué !'
   end
@@ -203,7 +203,7 @@ class Pro::StructuresController < Pro::ProController
 
   # GET collection
   def index
-    @structures = Structure.includes(:admins).where(admins: { structure_id: nil }).order('structures.created_at DESC')
+    @structures = Structure.order('structures.created_at DESC').where(sleeping_structure_id: nil).page(params[:page] || 1).per(50)
   end
 
   # GET member
@@ -294,7 +294,7 @@ France
   end
 
   def crop_logo
-    @structure = Structure.find(params[:id])
+    @structure = Structure.friendly.find(params[:id])
 
     if !@structure.logo.present?
       redirect_to edit_pro_structure_path(@structure), alert: "Vous n'avez pas de logo"

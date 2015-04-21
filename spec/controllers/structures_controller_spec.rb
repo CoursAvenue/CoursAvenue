@@ -14,7 +14,7 @@ describe StructuresController, type: :controller do
   describe 'show' do
     let(:structure) { FactoryGirl.create(:structure_with_place) }
     it 'returns 200' do
-      get :show, id: structure.id
+      get :show, id: structure.slug
       expect(response.status).to eq(200)
     end
   end
@@ -69,7 +69,7 @@ describe StructuresController, type: :controller do
 
     it 'creates a new following' do
       followings_count = structure.followings.count
-      post :add_to_favorite, id: structure.id
+      post :add_to_favorite, id: structure.slug
 
       expect(structure.followings.count).to eq followings_count + 1
     end

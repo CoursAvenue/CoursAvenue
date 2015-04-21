@@ -47,6 +47,10 @@
     }
 }
 .blog-article__content, .pro-blog-article__content {
+    &:not(.pro-blog-article__content) iframe {
+        width : 100% !important;
+        height: 400px !important;
+    }
     &:not(.pro-blog-article__content) img {
         width  : 100% !important;
         height : auto !important;

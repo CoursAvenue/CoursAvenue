@@ -25,6 +25,13 @@ module FakeCloseio
       }
     end
 
+    def find_lead(options)
+      Rails.logger.debug "[FakeCloseio][find_lead] #{options}"
+      {
+        'errors' => []
+      }
+    end
+
   end
 end
 

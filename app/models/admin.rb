@@ -170,7 +170,7 @@ class ::Admin < ActiveRecord::Base
       end
     end
   end
-  handle_asynchronously :notify_intercom_event
+  handle_asynchronously :notify_intercom_event, run_at: Proc.new { 15.minutes.from_now }
 
   def subscribe_to_crm
     CrmSync.delay.update(self.structure) if self.structure

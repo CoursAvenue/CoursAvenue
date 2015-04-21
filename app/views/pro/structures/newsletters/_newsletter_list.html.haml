@@ -1,37 +1,43 @@
-%div
-  %h2
-    Newsletters précédentes
-
-.soft--sides
-  - @newsletters.each do |newsletter|
-    .flexbox.push--bottom
-      .flexbox__item.v-middle
-        = link_to edit_pro_structure_newsletter_path(@structure, newsletter) do
-          %h4.flush--bottom
-            = newsletter.title
-            %span.caps.bg-gray.white.smaller-print= newsletter.badge
+- @newsletters.each do |newsletter|
+  - newsletter_decorator = newsletter.decorate
+  .flexbox.push--bottom.hoverable.transition-all-300.soft
+    = link_to newsletter_decorator.url, class: 'flexbox__item v-middle muted-link' do
+      %h4.push-half--bottom
+        = newsletter.title
+        = newsletter_decorator.badge
+      .line-height-1-5
         Liste de diffusion :
         %strong= newsletter.mailing_list
-        %br
-        Status :
+      .line-height-1-5
+        Statut :
         %strong= newsletter.status
 
-      .flexbox__item.v-middle.text--right
+    .flexbox__item.v-middle.text--right
+      - if newsletter.sent? or newsletter.sending?
         = succeed ' ' do
-          = link_to preview_newsletter_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 } do
-            %i.fa-eye
-        - if newsletter.sent?
-          = succeed ' ' do
-            = link_to metrics_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger' do
-              %i.fa.fa-calculator
-        - else
-          = succeed ' ' do
-            = link_to edit_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger' do
-              %i.fa-pencil
+          = link_to metrics_pro_structure_newsletter_path(@structure, newsletter), class: 'btn' do
+            Statistiques
+            %i.fa.fa-bar-chart
+      - else
         = succeed ' ' do
-          = link_to duplicate_pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger' do
-            %i.fa.fa-files-o
-        = succeed ' ' do
-          = link_to pro_structure_newsletter_path(@structure, newsletter), class: 'btn btn--bigger btn--red', method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette newsletter ?' } do
-            %i.fa-trash-o
-      %hr
+          = link_to edit_pro_structure_newsletter_path(@structure, newsletter), class: 'btn' do
+            Éditer
+            %i.fa.fa-pencil
+      .drop-down__wrapper.inline-block.v-middle
+        .btn
+          %i.fa-chevron-down
+        .drop-down__el.drop-down__el--left
+          %ul.drop-down__el-inner-box.text--left
+            %li.nowrap
+              = link_to preview_newsletter_pro_structure_newsletter_path(@structure, newsletter), class: 'fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 } do
+                %i.fa.fa-eye.soft-half--right
+                Prévisualiser
+            %li.nowrap
+              = link_to duplicate_pro_structure_newsletter_path(@structure, newsletter) do
+                %i.fa.fa-files-o.soft-half--right
+                Dupliquer
+            %li.nowrap
+            = link_to pro_structure_newsletter_path(@structure, newsletter), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette newsletter ?' } do
+              %i.fa-trash-o.soft-half--right
+              Supprimer
+    %hr

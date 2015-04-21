@@ -4,31 +4,21 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         tagName: 'div',
 
         events: {
-            'submit':                'saveModel',
-            'click [data-previous]': 'previousStep',
+            'change input': 'silentSave',
+            'keyup input' : 'silentSave'
         },
 
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
-            _.bindAll(this, 'saveModel', 'savingError', 'savingSuccess');
+            _.bindAll(this, 'silentSave');
         },
 
-        saveModel: function saveModel (event) {
+        silentSave: function silentSave (event) {
             event.preventDefault();
-            this.model.save({}, {
-                error:   this.savingError,
-                success: this.savingSuccess
-            });
+            this.model.save();
 
             return false;
-        },
-
-        savingError: function savingError (model, response, options) {
-        },
-
-        savingSuccess: function savingSuccess (model, response, options) {
-            this.trigger('edited', { model: this.model });
-        },
+        }.debounce(500),
 
         // Custom render function.
         // We start by calling the Marionette CompositeView's render function on this view.
@@ -36,7 +26,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         render: function render () {
             Backbone.Marionette.ItemView.prototype.render.apply(this, arguments);
 
-            this._modelBinder.bind(this.model, this.$('form'));
+            this._modelBinder.bind(this.model,
+                                   this.$('form'),
+                                   null,
+                                   { changeTriggers:
+                                      { '': 'keyup change', '[contenteditable]': 'blur' } });
         },
 
         previousStep: function previousStep () {

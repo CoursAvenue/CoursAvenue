@@ -1,11 +1,20 @@
-- blocs.each do |bloc|
-  %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
-    %tr{ valign: 'top' }
-      %td.content-block{ colspan: '2', width: '600', style: 'padding-bottom: 0; padding-left: 7px; padding-right: 7px;' }
-        %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+%table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
+  %tr{ valign: 'top' }
+    %td.content-block{ colspan: '2', width: '600', style: 'padding-bottom: 0; padding-left: 7px; padding-right: 7px;' }
+      - blocs.each_with_index do |bloc, bloc_index|
+        - if bloc_index == 1
+          %hr
+        %table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
           %tr{ valign: 'top' }
-            .text--center
-              - if bloc.image?
-                = image_tag bloc.image.url, alt: @newsletter.title
-              - else
-                = bloc.content.html_safe
+            - has_two_sub_blocs = bloc.sub_blocs.length > 1
+            - bloc.sub_blocs.order('position ASC').each_with_index do |sub_bloc, sub_bloc_index|
+              - # proportion will be like: 150
+              - proportion_in_px = @newsletter.layout.proportions_in_px[bloc_index][sub_bloc_index]
+              - # Set width to max width (600px) if there are only one subblocs (ex. no images)
+              - proportion_in_px = NewsletterMailer::LAYOUT_WIDTH if !has_two_sub_blocs
+              - if sub_bloc.image?
+                %td.text--center.soft-half--sides.v-top{ width: proportion_in_px }
+                  = image_tag sub_bloc.image.url, alt: @newsletter.title, style: "max-width: #{proportion_in_px}px";
+              - elsif sub_bloc.content.present?
+                %td.soft-half--sides.v-top{ width: proportion_in_px }
+                  = sub_bloc.content.html_safe
