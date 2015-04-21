@@ -45,6 +45,10 @@ RSpec.describe Subscriptions::Coupon, type: :model do
     end
   end
 
+  describe '#delete_stripe_coupon!' do
+    it 'deletes the plan on stripe'
+  end
+
   describe '#code' do
     context 'when stripe_coupon_id is not defined' do
       subject { FactoryGirl.create(:subscriptions_coupon) }

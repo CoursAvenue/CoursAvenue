@@ -195,6 +195,10 @@ RSpec.describe Subscription, type: :model do
       context 'with a coupon code' do
         let(:coupon_code) { FactoryGirl.create(:subscriptions_coupon) }
 
+        before do
+          subject.apply_coupon(coupon_code)
+        end
+
         it 'returns the next amount' do
           next_amount = plan.amount - coupon_code.amount
 
