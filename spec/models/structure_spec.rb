@@ -466,12 +466,12 @@ describe Structure do
       end
     end
 
-    describe '#subscribed?' do
-      context 'when not subscribed' do
-        it { expect(subject.subscribed?).to be_falsy }
+    describe '#premium?' do
+      context 'when not premium' do
+        it { expect(subject.premium?).to be_falsy }
       end
 
-      context 'when subscribed' do
+      context 'when premium' do
         subject             { FactoryGirl.create(:structure, :with_contact_email) }
         let(:stripe_helper) { StripeMock.create_test_helper }
 
@@ -485,7 +485,7 @@ describe Structure do
           subject.save
         end
 
-        it { expect(subject.subscribed?).to be_truthy }
+        it { expect(subject.premium?).to be_truthy }
       end
     end
   end

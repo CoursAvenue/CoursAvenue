@@ -1169,7 +1169,7 @@ class Structure < ActiveRecord::Base
   # Whether the Structure is subscribed (with stripe) or not.
   #
   # @return a Boolean
-  def subscribed?
+  def premium?
     stripe_customer.present?
   end
 

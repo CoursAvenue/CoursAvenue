@@ -12,7 +12,7 @@ class Pro::Structures::InvoicesController < Pro::ProController
   private
 
   def set_structure
-    @structure = Structure.find(params[:structure_id])
+    @structure = Structure.friendly.find(params[:structure_id])
   end
 
   def set_subscription
