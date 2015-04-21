@@ -732,7 +732,6 @@ GEM
       dante (>= 0.2.0)
       jimson-temp
       stripe (>= 1.20.1)
-    stripe_tester (0.2.0)
     sunspot (2.2.0)
       pr_geohash (~> 1.0)
       rsolr (~> 1.0.7)
@@ -907,7 +906,6 @@ DEPENDENCIES
   spring-commands-rspec (~> 1.0.4)
   stripe (~> 1.20.4)
   stripe-ruby-mock (~> 2.1.0)
-  stripe_tester (~> 0.2.0)
   sunspot (~> 2.2.0)
   sunspot-rails-tester (~> 1.0.0)
   sunspot_rails (~> 2.2.0)

@@ -252,7 +252,6 @@ group :development, :test do
   gem 'rspec-core',            '~> 3.2.0'
   gem 'rspec-support',         '~> 3.2.0'
   gem 'rspec-rails',           '~> 3.2.1'
-  gem 'stripe_tester',         "~> 0.2.0"
   gem 'stripe-ruby-mock',      '~> 2.1.0', :require => 'stripe_mock'
 end
 
