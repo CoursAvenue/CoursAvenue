@@ -254,7 +254,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
               },
               {
                 slug: 'sports-arts-martiaux',
-                name: 'Sports & Arts martiaux',
+                name: 'Sports',
                 show_href: (_.isUndefined(window.coursavenue.bootstrap.selected_subject.root) || window.coursavenue.bootstrap.selected_subject.root == 'sports-arts-martiaux')
               },
               {

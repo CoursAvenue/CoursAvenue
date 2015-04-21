@@ -441,7 +441,7 @@ class User < ActiveRecord::Base
     subjects_to_array_for_csv roots.uniq.map(&:name)
   end
 
-  @@roots_subjects = ["Culture, Sciences & Nature", "Business & Informatique", "Cuisine & Vins", "Musique & Chant", "Photo & Vidéo", "Déco, Mode & Bricolage", "Langues & Soutien scolaire", "Yoga, Bien-être & Santé", "Sports & Arts martiaux", "Danse", "Dessin, Peinture & Arts", "Théâtre & Scène"]
+  @@roots_subjects = ["Culture, Sciences & Nature", "Business & Informatique", "Cuisine & Vins", "Musique & Chant", "Photo & Vidéo", "Déco, Mode & Bricolage", "Langues & Soutien scolaire", "Yoga, Bien-être & Santé", "Sports", "Danse", "Dessin, Peinture & Arts", "Théâtre & Scène"]
   def subjects_to_array_for_csv(user_subjects)
     @@roots_subjects.map do |subject|
       if user_subjects.include?(subject)
