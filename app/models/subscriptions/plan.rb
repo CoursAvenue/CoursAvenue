@@ -72,7 +72,7 @@ class Subscriptions::Plan < ActiveRecord::Base
 
   # Delete the plan from Stripe
   #
-  # @return
+  # @return a Boolean
   def delete_stripe_plan!
     plan = stripe_plan
     return nil if plan.nil?
