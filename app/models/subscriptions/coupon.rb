@@ -18,6 +18,7 @@ class Subscriptions::Coupon < ActiveRecord::Base
   ######################################################################
 
   attr_accessible :name, :amount, :duration
+  has_many :subscriptions, foreign_key: 'subscriptions_coupon_id'
 
   ######################################################################
   # Validations                                                        #
