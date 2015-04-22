@@ -70,12 +70,12 @@ RSpec.describe Subscriptions::Invoice, type: :model do
     end
 
     context "when there's a stripe_invoice_id" do
-      let!(:url) { Faker::Internet.url }
+      let(:bucket_pattern) { /.*\/coursavenue-staging.*/ }
 
       it "returns the generated PDF's URL" do
-        allow(PDFGenerator).to receive(:generate_invoice).and_return(url)
+        allow(PDFGenerator).to receive(:generate_invoice).and_return(nil)
 
-        expect(subject.pdf_url).to eq(url)
+        expect(subject.pdf_url).to match(bucket_pattern)
       end
     end
   end
