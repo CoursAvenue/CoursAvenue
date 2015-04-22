@@ -73,6 +73,9 @@ class StripeEvent < ActiveRecord::Base
   #
   # @return a Boolean
   def create_invoice
+    stripe_invoice = stripe_event.data.object
+
+    Subscriptions::Invoice.create_from_stripe_invoice(stripe_invoice)
     true
   end
 end
