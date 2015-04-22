@@ -9,8 +9,13 @@ RSpec.describe StripeEvent, type: :model do
   it { should validate_uniqueness_of(:stripe_event_id) }
   it { should validate_presence_of(:event_type) }
 
-  let(:stripe_helper) { StripeMock.create_test_helper }
-  let(:stripe_event)  { StripeMock.mock_webhook_event('invoice.created') }
+  let(:stripe_helper)  { StripeMock.create_test_helper }
+  let(:plan)           { FactoryGirl.create(:subscriptions_plan) }
+  let(:structure)      { FactoryGirl.create(:structure, :with_contact_email) }
+  let(:token)          { stripe_helper.generate_card_token }
+  let!(:subscription)   { plan.create_subscription!(structure, token) }
+  let(:stripe_invoice) { Stripe::Invoice.upcoming(customer: structure.stripe_customer_id) }
+  let(:stripe_event)   { StripeMock.mock_webhook_event('invoice.created', stripe_invoice.as_json) }
 
   describe '#stripe_event' do
     subject { FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id) }
@@ -74,13 +79,6 @@ RSpec.describe StripeEvent, type: :model do
       end
 
       context 'invoice.created' do
-        let(:plan)           { FactoryGirl.create(:subscriptions_plan) }
-        let(:structure)      { FactoryGirl.create(:structure, :with_contact_email) }
-        let(:token)          { stripe_helper.generate_card_token }
-        let!(:subscription)  { plan.create_subscription!(structure, token) }
-        let(:stripe_invoice) { Stripe::Invoice.upcoming(customer: structure.stripe_customer_id) }
-        let(:stripe_event)   { StripeMock.mock_webhook_event('invoice.created', stripe_invoice.as_json) }
-
         subject do
           FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id,
                                             event_type:      'invoice.created')
