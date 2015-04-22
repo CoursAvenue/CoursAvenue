@@ -7,6 +7,7 @@ RSpec.describe StripeEvent, type: :model do
 
   it { should validate_presence_of(:stripe_event_id) }
   it { should validate_uniqueness_of(:stripe_event_id) }
+  it { should validate_presence_of(:event_type) }
 
   let!(:stripe_event) { StripeMock.mock_webhook_event('invoice.created') }
 

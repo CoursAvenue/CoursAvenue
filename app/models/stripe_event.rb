@@ -1,10 +1,18 @@
 class StripeEvent < ActiveRecord::Base
 
   ######################################################################
+  # Constants                                                          #
+  ######################################################################
+
+  SUPPORTED_EVENTS = [
+    'invoice.created'
+  ]
+
+  ######################################################################
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :stripe_event_id
+  attr_accessible :stripe_event_id, :event_type
 
   ######################################################################
   # Validations                                                        #
@@ -12,6 +20,7 @@ class StripeEvent < ActiveRecord::Base
 
   validate :stripe_event_id, presence: true
   validate :stripe_event_id, uniqueness: true
+  validate :event_type,      presence: true
 
   ######################################################################
   # Methods                                                            #
@@ -34,7 +43,8 @@ class StripeEvent < ActiveRecord::Base
   def self.process!(stripe_event_object)
     return false if StripeEvent.processed?(stripe_event_object)
 
-    stripe_event = create(stripe_event_id: stripe_event_object.id)
+    stripe_event = create(stripe_event_id: stripe_event_object.id,
+                          event_type:      stripe_event_object.type)
   end
 
   def stripe_event
