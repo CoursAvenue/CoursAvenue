@@ -44,7 +44,7 @@ class StripeEvent < ActiveRecord::Base
     where(stripe_event_id: stripe_event_object.id).any?
   end
 
-  # Process an event.
+  # Save and process an event.
   #
   # @param stripe_event_object The event to process.
   #
@@ -54,11 +54,25 @@ class StripeEvent < ActiveRecord::Base
 
     stripe_event = create(stripe_event_id: stripe_event_object.id,
                           event_type:      stripe_event_object.type)
+    stripe_event.process!
   end
 
-  def stripe_event
-    return nil if stripe_event_id.nil?
+  # Process the event.
+  #
+  # @return a Boolean
+  def process!
+    case event_type
+    when 'invoice.created' then create_invoice
+    else false
+    end
+  end
 
-    Stripe::Event.retrieve(stripe_event_id)
+  private
+
+  # Process for the `invoice.created` event.
+  #
+  # @return a Boolean
+  def create_invoice
+    true
   end
 end

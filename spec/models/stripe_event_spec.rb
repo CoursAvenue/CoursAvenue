@@ -39,10 +39,8 @@ RSpec.describe StripeEvent, type: :model do
       end
 
       it 'creates a new StripeEvent' do
-        event = StripeEvent.process!(stripe_event)
-
-        expect(event).to_not be_nil
-        expect(event).to be_a(StripeEvent)
+        expect { StripeEvent.process!(stripe_event) }.
+          to change { StripeEvent.count }.by(1)
       end
     end
 
@@ -55,12 +53,21 @@ RSpec.describe StripeEvent, type: :model do
     end
   end
 
-  describe '#stripe_event' do
-    subject { FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id) }
+  describe '#process!' do
+    context 'when the event type is valid' do
+      subject { FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id) }
 
-    it 'returns the Stripe event object' do
-      expect(subject.stripe_event).to be_a(Stripe::Event)
+      it 'processes the event' do
+        expect(subject.process!).to be_truthy
+      end
+    end
+
+    context 'when the event_type is not valid' do
+      subject { FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: '') }
+
+      it "doesn't process the event" do
+        expect(subject.process!).to be_falsy
+      end
     end
   end
-
 end
