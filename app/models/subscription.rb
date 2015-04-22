@@ -43,6 +43,7 @@ class Subscription < ActiveRecord::Base
 
   scope :running,  -> { where(canceled_at: nil) }
   scope :canceled, -> { where.not(canceled_at: nil) }
+  scope :paused,   -> { where(paused: true) }
 
   ######################################################################
   # Methods                                                            #
@@ -100,6 +101,22 @@ class Subscription < ActiveRecord::Base
     self.save
 
     subscription
+  end
+
+  # Pause the subscription
+  #
+  # @return
+  def pause!
+    self.paused = true
+    save
+  end
+
+  # Resume the subscription
+  #
+  # @return
+  def resume!
+    self.paused = false
+    save
   end
 
   # Changes the plan.

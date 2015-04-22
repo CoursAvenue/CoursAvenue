@@ -5,5 +5,9 @@ FactoryGirl.define do
       canceled_at 10.days.ago
     end
 
+    trait :paused do
+      paused true
+    end
+
   end
 end

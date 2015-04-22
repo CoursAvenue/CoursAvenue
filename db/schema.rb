@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422091111) do
+ActiveRecord::Schema.define(version: 20150422145949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1142,6 +1142,7 @@ ActiveRecord::Schema.define(version: 20150422091111) do
     t.datetime "expires_at"
     t.hstore   "metadata"
     t.integer  "subscriptions_coupon_id"
+    t.boolean  "paused",                  default: false
   end
 
   add_index "subscriptions", ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true, using: :btree

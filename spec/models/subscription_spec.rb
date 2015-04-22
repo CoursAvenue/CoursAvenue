@@ -72,7 +72,6 @@ RSpec.describe Subscription, type: :model do
     end
   end
 
-
   describe '#cancel!' do
     let(:plan)      { FactoryGirl.create(:subscriptions_plan) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
@@ -127,6 +126,23 @@ RSpec.describe Subscription, type: :model do
         expect(subscription.status).to eq('trialing')
         expect(subscription.cancel_at_period_end).to be_truthy
       end
+    end
+  end
+
+  describe '#pause!' do
+    it 'pauses the subscription' do
+      subject.pause!
+
+      expect(subject.paused?).to be_truthy
+    end
+  end
+
+  describe '#resume!' do
+    subject { FactoryGirl.create(:subscription, :paused) }
+    it 'resumes the subscription' do
+      subject.resume!
+
+      expect(subject.paused?).to be_falsy
     end
   end
 
@@ -236,7 +252,6 @@ RSpec.describe Subscription, type: :model do
         expect(subject.apply_coupon(coupon)).to be_nil
       end
     end
-
   end
 
   describe '#has_coupon' do
