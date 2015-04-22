@@ -65,7 +65,7 @@
       - # to the parent of the sticky div
       %div
         .on-top.bg-site-background-on-stick.transition-all-300{ data: { type: 'sticky-map-container' } }>
-          .soft--top{ data: { type: 'sticky-map', stick: true } }>
+          .soft--top{ data: { type: 'sticky-map' } }>
       - unless @is_sleeping
         - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
           .panel.push--ends
