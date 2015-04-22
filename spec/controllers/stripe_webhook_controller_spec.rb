@@ -12,10 +12,10 @@ describe StripeWebhookController do
   let(:structure)     { FactoryGirl.create(:structure, :with_contact_email) }
   let(:token)         { stripe_helper.generate_card_token }
   let!(:subscription) { plan.create_subscription!(structure, token) }
+  let(:invoice)       { Stripe::Invoice.upcoming(customer: structure.stripe_customer_id) }
 
   describe '#create' do
     context 'when receiving a `invoice.payment_succeeded` event' do
-      let(:invoice) { Stripe::Invoice.upcoming(customer: structure.stripe_customer_id) }
       let!(:event)  { StripeMock.mock_webhook_event('invoice.payment_succeeded', invoice.as_json) }
 
       subject { post :create, event.as_json }
@@ -32,6 +32,33 @@ describe StripeWebhookController do
         it "doesn't create a new invoice" do
           expect { subject }.to_not change { Subscriptions::Invoice.count }
         end
+      end
+
+      context 'after a failed payment' do
+        let(:failed_event) { StripeMock.mock_webhook_event('invoice.payment_failed', invoice.as_json) }
+
+        before do
+          post :create, failed_event.as_json
+        end
+
+        it "doesn't create a new subscription" do
+          expect { subject }.to_not change { Subscriptions::Invoice.count }
+        end
+
+        it 'resumes the subscription' do
+          expect { subject }.
+            to change { subscription.reload; subscription.paused? }.from(true).to(false)
+        end
+      end
+    end
+
+    context 'when receiving a `invoice.payment_failed` event' do
+      let!(:event) { StripeMock.mock_webhook_event('invoice.payment_failed', invoice.as_json) }
+
+      subject { post :create, event.as_json }
+      it 'pauses the current subscription' do
+        expect { subject }.
+            to change { subscription.reload; subscription.paused? }.from(false).to(true)
       end
     end
   end

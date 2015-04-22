@@ -88,6 +88,20 @@ RSpec.describe StripeEvent, type: :model do
           expect { subject.process! }.to change { Subscriptions::Invoice.count }.by(1)
         end
       end
+
+      context 'invoice.payment_failed' do
+        subject do
+          FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id,
+                                            event_type:      'invoice.payment_failed')
+        end
+
+        it 'pauses the subscription' do
+          subject.process!
+          subscription.reload
+
+          expect(subscription.paused?).to be_truthy
+        end
+      end
     end
   end
 end

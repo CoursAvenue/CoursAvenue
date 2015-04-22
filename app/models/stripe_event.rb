@@ -5,7 +5,8 @@ class StripeEvent < ActiveRecord::Base
   ######################################################################
 
   SUPPORTED_EVENTS = [
-    'invoice.payment_succeeded'
+    'invoice.payment_succeeded',
+    'invoice.payment_failed'
   ]
 
   ######################################################################
@@ -63,6 +64,7 @@ class StripeEvent < ActiveRecord::Base
   def process!
     case event_type
     when 'invoice.payment_succeeded' then create_invoice
+    when 'invoice.payment_failed'    then cancel_subscription
     else false
     end
   end
@@ -74,8 +76,18 @@ class StripeEvent < ActiveRecord::Base
   # @return a Boolean
   def create_invoice
     stripe_invoice = stripe_event.data.object
+    invoice = Subscriptions::Invoice.create_from_stripe_invoice(stripe_invoice)
+    invoice.subscription.resume! if invoice.subscription.paused?
 
-    Subscriptions::Invoice.create_from_stripe_invoice(stripe_invoice)
+    true
+  end
+
+  def cancel_subscription
+    stripe_invoice = stripe_event.data.object
+
+    invoice = Subscriptions::Invoice.create_from_stripe_invoice(stripe_invoice)
+    invoice.subscription.pause!
+
     true
   end
 end
