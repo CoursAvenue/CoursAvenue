@@ -15,7 +15,7 @@ RSpec.describe StripeEvent, type: :model do
   let(:token)          { stripe_helper.generate_card_token }
   let!(:subscription)   { plan.create_subscription!(structure, token) }
   let(:stripe_invoice) { Stripe::Invoice.upcoming(customer: structure.stripe_customer_id) }
-  let(:stripe_event)   { StripeMock.mock_webhook_event('invoice.created', stripe_invoice.as_json) }
+  let(:stripe_event)   { StripeMock.mock_webhook_event('invoice.payment_succeeded', stripe_invoice.as_json) }
 
   describe '#stripe_event' do
     subject { FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id) }
@@ -78,10 +78,10 @@ RSpec.describe StripeEvent, type: :model do
         expect(subject.process!).to be_truthy
       end
 
-      context 'invoice.created' do
+      context 'invoice.payment_succeeded' do
         subject do
           FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id,
-                                            event_type:      'invoice.created')
+                                            event_type:      'invoice.payment_succeeded')
         end
 
         it 'creates a new invoice' do

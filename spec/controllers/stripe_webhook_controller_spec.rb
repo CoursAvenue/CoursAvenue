@@ -14,9 +14,9 @@ describe StripeWebhookController do
   let!(:subscription) { plan.create_subscription!(structure, token) }
 
   describe '#create' do
-    context 'when receiving a `invoice.created` event' do
+    context 'when receiving a `invoice.payment_succeeded` event' do
       let(:invoice) { Stripe::Invoice.upcoming(customer: structure.stripe_customer_id) }
-      let!(:event)  { StripeMock.mock_webhook_event('invoice.created', invoice.as_json) }
+      let!(:event)  { StripeMock.mock_webhook_event('invoice.payment_succeeded', invoice.as_json) }
 
       subject { post :create, event.as_json }
 

@@ -5,7 +5,7 @@ class StripeEvent < ActiveRecord::Base
   ######################################################################
 
   SUPPORTED_EVENTS = [
-    'invoice.created'
+    'invoice.payment_succeeded'
   ]
 
   ######################################################################
@@ -62,14 +62,14 @@ class StripeEvent < ActiveRecord::Base
   # @return a Boolean
   def process!
     case event_type
-    when 'invoice.created' then create_invoice
+    when 'invoice.payment_succeeded' then create_invoice
     else false
     end
   end
 
   private
 
-  # Process for the `invoice.created` event.
+  # Process for the `invoice.payment_succeeded` event.
   #
   # @return a Boolean
   def create_invoice
