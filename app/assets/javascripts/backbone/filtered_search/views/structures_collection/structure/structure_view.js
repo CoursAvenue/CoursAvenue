@@ -12,17 +12,13 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
             _.bindAll(this, 'initializeAddToFavoriteLinks');
             this.$el.data('url', options.model.get('data_url'));
             this.model.on('user:signed:in', this.initializeAddToFavoriteLinks);
-            /* the structure view needs to know how it is being filtered */
-            if (options.search_term) {
-                this.search_term = options.search_term;
-            }
+            this.selected_subject_name = options.subject_name;
 
             /* any implementation of RelationalAccordionView must do this */
             this.getModuleForRelation = _.bind(this.getModuleForRelation, Module);
         },
 
         onRender: function onRender () {
-            this.highlight();
             this.initializeAddToFavoriteLinks();
         },
 
@@ -92,17 +88,10 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
             this.trigger('unhighlighted', this.placesToJSON());
         },
 
-        highlight: function highlight () {
-            if (this.search_term) {
-                this.$el.highlight(this.search_term);
-            }
-        },
-
         serializeData: function serializeData () {
             var data = this.model.toJSON();
-            data.search_term = this.search_term;
-
-            return data;
+            data.subjects = data.subjects.replace(this.selected_subject_name, '').replace(', ,', ',');
+            return _.extend(data, { selected_subject_name: this.selected_subject_name });
         }
     });
 });
