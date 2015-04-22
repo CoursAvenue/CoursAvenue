@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150421115523) do
+ActiveRecord::Schema.define(version: 20150421164146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -974,6 +974,14 @@ ActiveRecord::Schema.define(version: 20150421115523) do
     t.datetime "sent_at"
   end
 
+  create_table "stripe_events", force: true do |t|
+    t.string   "stripe_event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stripe_events", ["stripe_event_id"], name: "index_stripe_events_on_stripe_event_id", unique: true, using: :btree
+
   create_table "structures", force: true do |t|
     t.string   "structure_type"
     t.string   "name"
@@ -1028,8 +1036,8 @@ ActiveRecord::Schema.define(version: 20150421115523) do
     t.boolean  "sms_opt_in",             default: false
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
-    t.boolean  "pure_player",            default: false
     t.string   "stripe_customer_id"
+    t.boolean  "pure_player",            default: false
   end
 
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
