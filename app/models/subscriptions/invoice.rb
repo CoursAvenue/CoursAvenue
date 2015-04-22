@@ -5,6 +5,8 @@ class Subscriptions::Invoice < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
+  attr_accessible :stripe_invoice_id, :structure, :subscription
+
   belongs_to :structure
   belongs_to :subscription
 
