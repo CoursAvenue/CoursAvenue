@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416142346) do
+ActiveRecord::Schema.define(version: 20150421115523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -539,21 +539,17 @@ ActiveRecord::Schema.define(version: 20150416142346) do
     t.text     "caption"
     t.integer  "mediable_id"
     t.string   "mediable_type"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.string   "format"
     t.string   "provider_id"
     t.string   "provider_name"
     t.text     "thumbnail_url"
     t.string   "type"
     t.string   "filepicker_url"
-    t.boolean  "cover",                  default: false
+    t.boolean  "cover",                 default: false
     t.boolean  "star"
     t.string   "vertical_page_caption"
-    t.string   "old_image_file_name"
-    t.string   "old_image_content_type"
-    t.integer  "old_image_file_size"
-    t.datetime "old_image_updated_at"
     t.boolean  "image_processing"
     t.string   "image"
     t.string   "remote_image_url"
@@ -977,57 +973,43 @@ ActiveRecord::Schema.define(version: 20150416142346) do
   create_table "structures", force: true do |t|
     t.string   "structure_type"
     t.string   "name"
-    t.text     "info"
-    t.text     "registration_info"
     t.string   "website"
     t.string   "contact_phone"
     t.string   "contact_mobile_phone"
     t.string   "contact_email"
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.string   "slug"
     t.string   "street"
     t.string   "zip_code"
     t.text     "description"
     t.integer  "city_id"
-    t.boolean  "active",                         default: false
-    t.boolean  "has_validated_conditions",       default: false
-    t.integer  "validated_by"
+    t.boolean  "active",                 default: false
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
-    t.decimal  "rating"
-    t.integer  "comments_count",                 default: 0
+    t.integer  "comments_count",         default: 0
     t.text     "facebook_url"
     t.boolean  "no_facebook"
     t.boolean  "no_website"
-    t.string   "old_logo_file_name"
-    t.string   "old_logo_content_type"
-    t.integer  "old_logo_file_size"
-    t.datetime "old_logo_updated_at"
-    t.integer  "crop_x",                         default: 0
-    t.integer  "crop_y",                         default: 0
-    t.integer  "crop_width",                     default: 500
+    t.integer  "crop_x",                 default: 0
+    t.integer  "crop_y",                 default: 0
+    t.integer  "crop_width",             default: 500
     t.boolean  "has_only_one_place"
     t.string   "email_status"
     t.datetime "last_email_sent_at"
     t.string   "last_email_sent_status"
     t.string   "funding_type_ids"
     t.string   "widget_status"
-    t.string   "sticker_status"
-    t.boolean  "teaches_at_home",                default: false
+    t.boolean  "teaches_at_home",        default: false
     t.text     "widget_url"
     t.integer  "teaches_at_home_radius"
     t.hstore   "meta_data"
     t.integer  "highlighted_comment_id"
-    t.string   "pricing_plan",                   default: "free"
+    t.string   "pricing_plan",           default: "free"
     t.datetime "last_geocode_try"
-    t.string   "old_sleeping_logo_file_name"
-    t.string   "old_sleeping_logo_content_type"
-    t.integer  "old_sleeping_logo_file_size"
-    t.datetime "old_sleeping_logo_updated_at"
     t.text     "sleeping_attributes"
     t.boolean  "logo_processing"
     t.string   "delivery_email_status"
@@ -1039,9 +1021,10 @@ ActiveRecord::Schema.define(version: 20150416142346) do
     t.text     "course_subjects_string"
     t.boolean  "premium"
     t.text     "cities_text"
-    t.boolean  "sms_opt_in",                     default: false
+    t.boolean  "sms_opt_in",             default: false
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
+    t.boolean  "pure_player",            default: false
   end
 
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
@@ -1228,10 +1211,6 @@ ActiveRecord::Schema.define(version: 20150416142346) do
     t.string   "fb_avatar"
     t.string   "location"
     t.string   "slug"
-    t.string   "old_avatar_file_name"
-    t.string   "old_avatar_content_type"
-    t.integer  "old_avatar_file_size"
-    t.datetime "old_avatar_updated_at"
     t.string   "gender"
     t.date     "birthdate"
     t.boolean  "email_opt_in",            default: true

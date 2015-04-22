@@ -205,10 +205,8 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
         childViewOptions: function childViewOptions () {
             var subject_name = $('[data-value="' + decodeURIComponent(this.collection.queryParams.subject_id) + '"]').first().text().trim();
-            var search_term = this.collection.queryParams.name || "";
 
             return {
-                search_term: decodeURIComponent(search_term),
                 subject_name: subject_name
             }
         }

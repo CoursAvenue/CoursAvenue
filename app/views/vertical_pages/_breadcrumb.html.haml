@@ -2,7 +2,7 @@
   %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
     = link_to vertical_pages_path, itemprop: 'url' do
       %span{ itemprop: 'title' }
-        Guide des disciplines
+        Nos guides
   - @ancestors.each do |ancestor|
     - next if ancestor.vertical_pages.empty?
     - if ancestor.depth == 0
@@ -10,16 +10,17 @@
         = link_to root_vertical_page_path(ancestor.vertical_pages.first), itemprop: 'url' do
           %span{ itemprop: 'title' }
             = ancestor.vertical_pages.first.subject_name
-    - elsif !@city
+    - elsif @city
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = link_to vertical_page_with_city_path(ancestor.root, ancestor.vertical_pages.first, @city), itemprop: 'url' do
+          %span{ itemprop: 'title' }
+            = "#{ancestor.vertical_pages.first.subject_name} (#{@city.name})"
+    - else
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to vertical_page_path(ancestor.root, ancestor.vertical_pages.first), itemprop: 'url' do
           %span{ itemprop: 'title' }
             = ancestor.vertical_pages.first.subject_name
   - if @city
-    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
-      = link_to vertical_page_path(@subject.root, @vertical_page), itemprop: 'url' do
-        %span{ itemprop: 'title' }
-          = @vertical_page.subject_name
     %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
       %span{ itemprop: 'title' }
         = "#{@vertical_page.subject_name} à #{@city.name}"

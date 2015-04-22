@@ -26,9 +26,9 @@
 
 .main-container.main-container--medium.soft--ends
 
+  = render partial: 'vertical_pages/breadcrumb'
   .grid
     .grid__item.six-tenths.palm-one-whole.soft-half--right>
-      = render partial: 'vertical_pages/breadcrumb'
       = render partial: 'vertical_pages/timetable'
 
       - if @subject.depth == 2
@@ -86,7 +86,8 @@
       %h2.soft--bottom.f-weight-300 #{@vertical_page.title} : sélection d'avis
       = render partial: 'vertical_pages/comments', locals: { comments: @vertical_page.reviews }
 
-%div{ class: (@subject.depth == 0 || @subject.depth == 2 ? '' : 'home-screen-promotion-wrapper') }
-  .main-container.main-container--medium.soft--ends
-    %h2.soft--bottom.f-weight-300 Articles de blog associés
-    = render partial: 'vertical_pages/blog_articles', locals: { articles: @vertical_page.blog_articles }
+- if @vertical_page.blog_articles.any?
+  %div{ class: (@subject.depth == 0 || @subject.depth == 2 ? '' : 'home-screen-promotion-wrapper') }
+    .main-container.main-container--medium.soft--ends
+      %h2.soft--bottom.f-weight-300 Articles de blog associés
+      = render partial: 'vertical_pages/blog_articles', locals: { articles: @vertical_page.blog_articles }

@@ -89,20 +89,19 @@ class Structure < ActiveRecord::Base
 
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,
-                  :place_ids, :name, :info, :registration_info,
+                  :place_ids, :name,
                   :website, :facebook_url,
                   :contact_email,
                   :description, :subject_ids, :active,
                   # active: for tests profile, eg. L'atelier de Nima, etc.
                   # And for duplicated sleeping structures (when an admin takes control of a sleeping profile)
                   :has_validated_conditions,
-                  :validated_by, :logo, :remote_logo_url,
+                  :logo, :remote_logo_url,
                   :funding_type_ids,
                   :crop_x, :crop_y, :crop_width,
-                  :rating, :comments_count,
-                  :no_facebook, :no_website, :has_only_one_place,
+                  :comments_count, :no_facebook, :no_website, :has_only_one_place,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
-                  :widget_status, :widget_url, :sticker_status,
+                  :widget_status, :widget_url,
                   :teaches_at_home, :teaches_at_home_radius, # in KM
                   # "Name of the subject,slug-of-the-subject;Name,slug"
                   :subjects_string, :parent_subjects_string, :course_subjects_string,
@@ -114,7 +113,7 @@ class Structure < ActiveRecord::Base
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason,
                   :order_recipient, :delivery_email_status, :trial_courses_policy,
                   :sleeping_structure, :premium, :cities_text, :sms_opt_in,
-                  :principal_mobile_id
+                  :principal_mobile_id, :pure_player # Helps to know which actors are big on the market
 
   accepts_nested_attributes_for :places,
                                  reject_if: :reject_places,
@@ -883,7 +882,8 @@ class Structure < ActiveRecord::Base
     :response_rate  => 3,
     :response_time  => 3,
     :external_links => 1,
-    :promotions     => 5
+    :promotions     => 5,
+    :pure_player    => 15
   }
 
   # Compute a search score for ordering
@@ -897,9 +897,9 @@ class Structure < ActiveRecord::Base
     else
       score = 0
       ## Medias
-      if premium? and medias.count > 1
+      if medias.count > 1
         score += (2 * SEARCH_SCORE_COEF[:medias])
-      elsif (!premium? and medias.count > 1) or medias.count == 1
+      elsif medias.count == 1
         score += (1 * SEARCH_SCORE_COEF[:medias])
       end
       ## Plannings
@@ -923,7 +923,7 @@ class Structure < ActiveRecord::Base
         score += (1 * SEARCH_SCORE_COEF[:logo])
       end
       ## External_links
-      if premium? and (facebook_url.present? or website.present?)
+      if facebook_url.present? or website.present?
         score += (1 * SEARCH_SCORE_COEF[:external_links])
       end
       ## Response_rate
@@ -939,8 +939,12 @@ class Structure < ActiveRecord::Base
         score += (1 * SEARCH_SCORE_COEF[:response_time])
       end
       ## Promotions
-      if premium? and prices.select{|p| p.promo_amount.present?}.any?
+      if prices.select{|p| p.promo_amount.present?}.any?
         score += (2 * SEARCH_SCORE_COEF[:promotions])
+      end
+      ## Pure player
+      if pure_player?
+        score += SEARCH_SCORE_COEF[:pure_player]
       end
 
       self.search_score            = score

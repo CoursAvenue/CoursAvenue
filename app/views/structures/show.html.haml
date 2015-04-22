@@ -1,5 +1,13 @@
 - @prerender_not_ready = false
 
+- if current_pro_admin and current_pro_admin.super_admin?
+  .fixed.west.south.push
+    = link_to toggle_pure_player_structure_path(@structure), class: 'btn btn--green' do
+      - if @structure.pure_player?
+        Remove me from pure players
+      - else
+        Make me a pure player
+
 = content_for :head do
   %link{ rel: 'canonical', href: structure_url(@structure) }
 
@@ -57,7 +65,7 @@
       - # to the parent of the sticky div
       %div
         .on-top.bg-site-background-on-stick.transition-all-300{ data: { type: 'sticky-map-container' } }>
-          .soft--top{ data: { type: 'sticky-map', stick: true } }>
+          .soft--top{ data: { type: 'sticky-map' } }>
       - unless @is_sleeping
         - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
           .panel.push--ends
