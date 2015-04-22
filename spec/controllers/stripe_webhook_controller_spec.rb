@@ -1,7 +1,8 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-describe Pro::StripeWebhookController do
+describe StripeWebhookController do
+
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 

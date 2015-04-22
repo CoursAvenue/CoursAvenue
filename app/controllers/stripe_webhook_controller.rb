@@ -1,4 +1,4 @@
-class Pro::StripeWebhookController < ApplicationController
+class StripeWebhookController < ApplicationController
   def create
     @event = Stripe::Event.retrieve(params[:id])
     StripeEvent.process!(@event) unless StripeEvent.processed?(@event)

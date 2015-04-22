@@ -436,7 +436,6 @@ CoursAvenue::Application.routes.draw do
       get "/contacts/:importer/callback", to: "contacts#callback"
       get "/contacts/failure",            to: "contacts#failure"
 
-      post '/stripe_webhook', to: 'stripe_webhook#create'
     end
   end
 
@@ -669,6 +668,7 @@ CoursAvenue::Application.routes.draw do
 
     post '/mandrill-webhook' => 'mandrill_webhook#create'
     get  '/mandrill-webhook' => 'mandrill_webhook#index'
+    post '/stripe_webhook', to: 'stripe_webhook#create'
     root :to => 'home#index'
 
     ########### Search pages ###########
