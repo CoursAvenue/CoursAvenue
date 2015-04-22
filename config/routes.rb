@@ -435,6 +435,8 @@ CoursAvenue::Application.routes.draw do
 
       get "/contacts/:importer/callback", to: "contacts#callback"
       get "/contacts/failure",            to: "contacts#failure"
+
+      post '/stripe_webhook', to: 'stripe_webhook#create'
     end
   end
 
