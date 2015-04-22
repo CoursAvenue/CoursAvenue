@@ -14,8 +14,7 @@
   = link_to 'Contact', structure_website_contact_path, class: ['delta soft-half--sides', (action_name == 'contact' ? 'f-weight-bold' : '')]
 
 = content_for :content do
-  .main-container.main-container--medium{ class: controller_path }
-    = yield
+  = yield
 
 = render :template => 'layouts/application'
 

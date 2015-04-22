@@ -34,9 +34,6 @@
                 <i class="fa-check"></i>
                 <strong>Dernière demande envoyée le {{#if last_message_sent_at}}{{ last_message_sent_at }}{{else}}{{ today }}{{/if}}</strong>
             </div>
-            <div>
-                <a data-type="user-participation-requests-path" href="{{ user_participation_requests_path }}" class="f-weight-500">Voir mes inscriptions</a>
-            </div>
         </div>
     </div>
     {{#if last_message_sent_at}}

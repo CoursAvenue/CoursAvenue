@@ -1,14 +1,15 @@
-.relative{ data: { el: 'loading-indicator' } }
-  .absolute.push--top{ style: 'left: 50%; margin-left: -40px;' }
-    = image_tag 'gifs/loading-indicator.gif', height: 10, width: 80
+.main-container
+  .relative{ data: { el: 'loading-indicator' } }
+    .absolute.push--top{ style: 'left: 50%; margin-left: -40px;' }
+      = image_tag 'gifs/loading-indicator.gif', height: 10, width: 80
 
-.transition-all-300.invisible.transit{ data: { behavior: 'masonry' } }
-  - @medias.each_with_index do |media, index|
-    %a.masonry__item.bg-cover.bg-fixed{ rel: 'gallery', href: media.url, title: media.caption, data: { behavior: 'fancy', el: 'masonry-item' } }>
-      = image_tag media.image.url(:gallery), class: 'very-soft block one-whole'
-      .very-soft.absolute.south.west
-        .one-whole.soft-half.white.gradient-black-to-transparent-bottom-up.f-weight-600
-          = media.caption
+  .transition-all-300.invisible.transit{ data: { behavior: 'masonry' } }
+    - @medias.each_with_index do |media, index|
+      %a.masonry__item.bg-cover.bg-fixed{ rel: 'gallery', href: media.url, title: media.caption, data: { behavior: 'fancy', el: 'masonry-item' } }>
+        = image_tag media.image.url(:gallery), class: 'very-soft block one-whole'
+        .very-soft.absolute.south.west
+          .one-whole.soft-half.white.gradient-black-to-transparent-bottom-up.f-weight-600
+            = media.caption
 
 = content_for :scripts do
   :javascript

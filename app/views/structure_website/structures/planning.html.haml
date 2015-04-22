@@ -1,16 +1,17 @@
-.grid
-  .grid__item.eight-twelfths.palm-one-whole.visuallyhidden--palm>
-    #structure-planning.push--bottom.bg-white{ data: { type: 'structure-planning-root' } }
-      #structure-region
-  .grid__item.four-twelfths.palm-one-whole.visuallyhidden--palm>
-    %div{ data: { type: 'contact-form' } }
-    .on-top.bg-site-background-on-stick.transition-all-300{ data: { type: 'sticky-map-container' } }>
-      .soft--top{ data: { type: 'sticky-map', stick: (@is_sleeping ? 'false' : 'true') } }>
+.main-container
+  .grid
+    .grid__item.eight-twelfths.palm-one-whole.visuallyhidden--palm>
+      #structure-planning.push--bottom.bg-white{ data: { type: 'structure-planning-root' } }
+        #structure-region
+    .grid__item.four-twelfths.palm-one-whole.visuallyhidden--palm>
+      %div{ data: { type: 'contact-form' } }
+      .on-top.bg-site-background-on-stick.transition-all-300{ data: { type: 'sticky-map-container' } }>
+        .soft--top{ data: { type: 'sticky-map', stick: (@is_sleeping ? 'false' : 'true') } }>
 
-- if @structure.medias.empty?
-  - @structure_locations = Gmaps4rails.build_markers([@structure]) do |structure, marker|
-    - marker.lat structure.latitude
-    - marker.lng structure.longitude
+  - if @structure.medias.empty?
+    - @structure_locations = Gmaps4rails.build_markers([@structure]) do |structure, marker|
+      - marker.lat structure.latitude
+      - marker.lng structure.longitude
 
 = content_for :scripts do
   :javascript

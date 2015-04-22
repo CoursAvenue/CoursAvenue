@@ -8,14 +8,15 @@ class StructureWebsite::ParticipationRequestsController < ApplicationController
   # https://github.com/ging/social_stream/blob/master/base/app/controllers/messages_controller.rb
   def create
     @structure = Structure.friendly.find params[:structure_id]
-    @user      = User.where(email: params[:participation_request][:user][:email]).first_or_create(validate: false)
-    if params[:participation_request][:user] and params[:participation_request][:user][:phone_number].present? and params[:participation_request][:user][:phone_number].length < 30
-      @user.phone_number = params[:participation_request][:user][:phone_number]
-      @user.save
+    @user      = User.where(email: request_params[:user][:email]).first_or_initialize(validate: false)
+    @user.save(validate: false) if @user.new_record?
+    if request_params[:user] and request_params[:user][:phone_number].present? and request_params[:user][:phone_number].length < 30
+      @user.phone_number = request_params[:user][:phone_number]
+      @user.save(validate: false) if @user.new_record?
     end
     @structure.create_or_update_user_profile_for_user(@user, UserProfile::DEFAULT_TAGS[:contacts])
 
-    @participation_request = ParticipationRequest.create_and_send_message params[:participation_request], params[:participation_request][:message][:body], @user, @structure
+    @participation_request = ParticipationRequest.create_and_send_message request_params, request_params[:message][:body], @user, @structure
     respond_to do |format|
       if @participation_request.persisted?
         format.json { render json: { succes: true,
@@ -28,7 +29,17 @@ class StructureWebsite::ParticipationRequestsController < ApplicationController
                                      status: :unprocessable_entity }
       end
     end
-
   end
 
+  private
+
+  def request_params
+    params.require(:participation_request).permit(:course_id,
+                                                  :planning_id,
+                                                  :date,
+                                                  :participants_attributes,
+                                                  :structure_id,
+                                                  user: [ :phone_number, :email ],
+                                                  message: [ :body ])
+  end
 end

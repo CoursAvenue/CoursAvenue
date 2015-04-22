@@ -19,7 +19,6 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
          * If user is connected, will post the message, else, will ask to login first.
          */
         submitForm: function submitForm () {
-            if (CoursAvenue.isProduction()) { mixpanel.track('Structures/show: submit form'); }
             this.populateRequest();
             $.cookie('participation_request_body', this.ui.$participation_request_message_body.val());
             $.cookie('user_phone_number'         , this.ui.$participation_request_user_phone_number.val());
@@ -80,7 +79,6 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
                               type: 'inline'
                           }
                     });
-                    if (CoursAvenue.isProduction()) { mixpanel.track("Dismissed request form view"); }
                     this.ui.$message_sent.slideDown();
                 }.bind(this),
                 error: this.showPopupMessageDidntSend

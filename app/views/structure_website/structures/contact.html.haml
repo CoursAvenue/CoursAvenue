@@ -1,8 +1,9 @@
-%h1 Pour nous contacter :
+.main-container.main-container--medium
+  %h1 Pour nous contacter :
 
-%h2.flush Par téléphone :
-- @structure.phone_numbers.each do |phone_number|
-  %div= phone_number.number
+  %h2.flush Par téléphone :
+  - @structure.phone_numbers.each do |phone_number|
+    %div= phone_number.number
 
-%h2.flush--bottom.push--top Par e-mail :
-%div= @structure.contact_email
+  %h2.flush--bottom.push--top Par e-mail :
+  %div= @structure.contact_email
