@@ -57,7 +57,11 @@ module StructuresHelper
   # Use subject string stored in structure
   # @return Course subjects as text
   def join_structure_course_subjects_text(structure)
-    structure.subjects_name_as_string(:course_subjects_string).join(', ')
+    if structure.course_subjects_string.present?
+      structure.subjects_name_as_string(:course_subjects_string).join(', ')
+    else
+      structure.subjects_name_as_string(:subjects_string).join(', ')
+    end
   end
 
   def readable_phone_number phone_number
