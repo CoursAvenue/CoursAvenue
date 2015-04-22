@@ -11,6 +11,14 @@ RSpec.describe StripeEvent, type: :model do
 
   let!(:stripe_event) { StripeMock.mock_webhook_event('invoice.created') }
 
+  describe '#stripe_event' do
+    subject { FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id) }
+
+    it 'returns the Stripe event object' do
+      expect(subject.stripe_event).to be_a(Stripe::Event)
+    end
+  end
+
   describe '.processed?' do
     context "when it hasn't been processed" do
       it { expect(StripeEvent.processed?(stripe_event)).to be_falsy }

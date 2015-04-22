@@ -26,6 +26,15 @@ class StripeEvent < ActiveRecord::Base
   # Methods                                                            #
   ######################################################################
 
+  # Retrieve the event from Stripe.
+  #
+  # @return nil or a Stripe::Event.
+  def stripe_event
+    return nil if stripe_event_id.nil?
+
+    Stripe::Event.retrieve(stripe_event_id)
+  end
+
   # Check if an event has been processed
   #
   # @param stripe_event_object The event to check.
