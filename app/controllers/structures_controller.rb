@@ -56,14 +56,13 @@ class StructuresController < ApplicationController
     @total_medias   = Media.count
     respond_to do |format|
       format.html do
-        @models = jasonify @structures, place_ids: @places, current_filtered_subject_name: @subject.try(:name)
+        @models = jasonify @structures, place_ids: @places
         cookies[:structure_search_path] = request.fullpath
       end
       format.json do
         render json: @structures,
                root: 'structures',
                place_ids: @places,
-               current_filtered_subject_name: @subject.try(:name),
                each_serializer: StructureSerializer,
                meta: { total: @total, location: @latlng }
       end

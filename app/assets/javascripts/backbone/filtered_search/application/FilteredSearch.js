@@ -33,7 +33,6 @@ FilteredSearch.addInitializer(function(options) {
             'filter:price'          : 'filterQuery',
             'filter:structure_type' : 'filterQuery',
             'filter:payment_method' : 'filterQuery',
-            'filter:search_term'    : 'filterQuery',
             'filter:trial_course'   : 'filterQuery',
             'map:marker:click'      : 'findChildView',
             'structures:updated'    : 'structuresUpdated',
@@ -85,7 +84,6 @@ FilteredSearch.addInitializer(function(options) {
     /* basic filters */
     top_results_summary        = new FiltersModule.TopResultsSummaryView({});
     results_summary            = new FiltersModule.ResultsSummaryView({});
-    keyword_filter             = new FiltersModule.KeywordFilterView({});
     subjects_collection_filter = new FiltersModule.Subjects.SubjectsCollectionView({ collection: subjects });
 
     /* advanced filters */
@@ -93,7 +91,6 @@ FilteredSearch.addInitializer(function(options) {
      * to be*/
     filter_breadcrumbs        = new FiltersModule.FilterBreadcrumbs.FilterBreadcrumbsView({
         fancy_breadcrumb_names: {
-            'search_term'     : 'Mot clé',
             'level'           : 'Niveaux',
             'audience'        : 'Public',
             'course_type'     : 'Type de cours',
@@ -166,12 +163,6 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    layout.showWidget(keyword_filter, {
-        events: {
-          'filters:clear:search_term': 'clear',
-          'filters:clear:all'        : 'clear'
-        }
-      });
     layout.showWidget(level_filter, {
         events: {
           'filters:clear:level': 'clear',
