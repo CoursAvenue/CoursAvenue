@@ -18,9 +18,9 @@ class StripeEvent < ActiveRecord::Base
   # Validations                                                        #
   ######################################################################
 
-  validate :stripe_event_id, presence: true
-  validate :stripe_event_id, uniqueness: true
-  validate :event_type,      presence: true
+  validates :stripe_event_id, presence: true
+  validates :stripe_event_id, uniqueness: true
+  validates :event_type,      presence: true
 
   ######################################################################
   # Methods                                                            #

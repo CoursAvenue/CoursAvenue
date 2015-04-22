@@ -63,7 +63,10 @@ RSpec.describe StripeEvent, type: :model do
     end
 
     context 'when the event_type is not valid' do
-      subject { FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: '') }
+      subject do
+        FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id,
+                                          event_type:      'random.event')
+      end
 
       it "doesn't process the event" do
         expect(subject.process!).to be_falsy
