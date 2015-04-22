@@ -420,12 +420,15 @@ CoursAvenue::Application.routes.draw do
   end
 
   constraints DomainConstraint.new do
-    get '/'       , to: 'structures_website#index'   , as: :structures_website_presentation
-    get 'planning', to: 'structures_website#planning', as: :structures_website_planning
-    get 'reviews' , to: 'structures_website#reviews' , as: :structures_website_reviews
-    get 'medias'  , to: 'structures_website#medias'  , as: :structures_website_medias
-    get 'contact' , to: 'structures_website#contact' , as: :structures_website_contact
-    resources :courses, controller: 'structures/courses', path: 'cours'
+    namespace :structure_website, path: '' do
+      get '/'       , to: 'structures#index'   , as: :presentation
+      get 'planning', to: 'structures#planning', as: :planning
+      get 'reviews' , to: 'structures#reviews' , as: :reviews
+      get 'medias'  , to: 'structures#medias'  , as: :medias
+      get 'contact' , to: 'structures#contact' , as: :contact
+      resources :courses, controller: '/structures/courses', path: 'cours'
+      resources :participation_requests, only: [:create]
+    end
   end
 
   # ---------------------------------------------

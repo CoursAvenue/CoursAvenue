@@ -40,6 +40,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         },
 
         /*
+         * TODO: Refactor using Backbone.ModelBinder
          * Set attributes on message model for validations
          */
         populateRequest: function populateRequest (event) {

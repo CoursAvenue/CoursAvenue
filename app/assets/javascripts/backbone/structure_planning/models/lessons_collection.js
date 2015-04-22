@@ -10,7 +10,7 @@ StructurePlanning.module('Models', function(Module, App, Backbone, Marionette, $
                     structure_id: this.structure_id,
                     course_type: 'lessons'
                 };
-            return Routes.courses_path(route_details);
+            return Routes.structure_website_courses_path(route_details);
         }
     });
 });

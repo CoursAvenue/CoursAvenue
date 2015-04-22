@@ -1,5 +1,5 @@
 # encoding: utf-8
-class StructuresWebsiteController < ApplicationController
+class StructureWebsite::StructuresController < ApplicationController
   include FilteredSearchProvider
 
   before_action :load_structure

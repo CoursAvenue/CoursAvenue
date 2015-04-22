@@ -26,8 +26,8 @@ StructurePlanning.addInitializer(function(options) {
     layout.render();
 
     if (bootstrap.meta.have_upcoming_plannings) {
-        participation_request      = new StructureProfile.Models.ParticipationRequest({ structure: structure });
-        participation_request_view = new StructureProfile.Views.ParticipationRequests.RequestFormView( {
+        participation_request      = new StructurePlanning.Models.ParticipationRequest({ structure: structure });
+        participation_request_view = new StructurePlanning.Views.ParticipationRequests.RequestFormView( {
           model: participation_request
         } );
         layout.showWidget(participation_request_view, {
