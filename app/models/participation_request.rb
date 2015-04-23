@@ -20,7 +20,7 @@ class ParticipationRequest < ActiveRecord::Base
   belongs_to :city
   belongs_to :course, -> { with_deleted }
   belongs_to :user
-  belongs_to :structure
+  belongs_to :structure, -> { with_deleted }
   belongs_to :cancelation_reason, class_name: 'ParticipationRequest::CancelationReason'
   belongs_to :report_reason     , class_name: 'ParticipationRequest::ReportReason'
 
