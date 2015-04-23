@@ -411,6 +411,8 @@ describe Structure do
     before(:all) { StripeMock.start }
     after(:all)  { StripeMock.stop }
 
+    let(:stripe_helper) { StripeMock.create_test_helper }
+
     describe '#stripe_customer' do
       context 'when not a stripe customer' do
         it 'returns nil' do
@@ -419,8 +421,7 @@ describe Structure do
       end
 
       context 'when a stripe customer' do
-        subject             { FactoryGirl.create(:structure, :with_contact_email) }
-        let(:stripe_helper) { StripeMock.create_test_helper }
+        subject { FactoryGirl.create(:structure, :with_contact_email) }
 
         before do
           customer = Stripe::Customer.create({
@@ -486,6 +487,50 @@ describe Structure do
         end
 
         it { expect(subject.premium?).to be_truthy }
+      end
+    end
+
+    describe '#stripe_managed_account' do
+      context 'when not a managed account' do
+        it 'returns nil' do
+          expect(subject.stripe_managed_account).to be_nil
+        end
+
+        context 'when a managed account' do
+          subject { FactoryGirl.create(:structure, :with_contact_email) }
+
+          before do
+            managed_account = Stripe::Account.create({
+              managed: true,
+              country: 'FR'
+            })
+
+            subject.stripe_managed_account_id = managed_account.id
+            subject.save
+          end
+
+          it 'returns the Stripe::Account object' do
+            managed_account = Stripe::Account
+
+            expect(subject.stripe_managed_account).to be_a(Stripe::Account)
+          end
+        end
+      end
+
+    end
+
+    describe '#create_managed_account' do
+      context 'when not a managed account' do
+        it 'creates a managed account' do
+          subject.create_managed_account
+
+          expect(subject.stripe_managed_account_id).to_not be_nil
+          expect(subject.stripe_managed_account).to be_a(Stripe::Account)
+        end
+      end
+
+      context 'when a managed account' do
+        it "doesn't do anything"
       end
     end
   end

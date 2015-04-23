@@ -1163,6 +1163,37 @@ class Structure < ActiveRecord::Base
     stripe_customer.present?
   end
 
+  # Retrieve the Stripe managed account.
+  #
+  # @return nil or a Stripe::Account
+  def stripe_managed_account
+    return nil if self.stripe_managed_account_id.nil?
+
+    Stripe::Account.retrieve(self.stripe_managed_account_id)
+  end
+
+  # Create the stripe manged account
+  #
+  # @param options The option for the creation of the managed account.
+  #
+  # @return nil or a Stripe::Account
+  def create_managed_account(options = {})
+    return stripe_managed_account if self.stripe_managed_account_id.present?
+
+    default_options = {
+      managed: true,
+      country: 'FR',
+      email:   self.contact_email
+    }
+
+    managed_account = Stripe::Account.create(options.merge(default_options))
+
+    self.stripe_managed_account_id = managed_account.id
+    self.save
+
+    managed_account
+  end
+
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons
