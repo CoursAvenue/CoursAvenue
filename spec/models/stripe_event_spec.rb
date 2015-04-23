@@ -87,6 +87,10 @@ RSpec.describe StripeEvent, type: :model do
         it 'creates a new invoice' do
           expect { subject.process! }.to change { Subscriptions::Invoice.count }.by(1)
         end
+
+        it 'sends an email to the teacher' do
+          expect { subject.process! }.to change { ActionMailer::Base.deliveries.count }.by(1)
+        end
       end
 
       context 'invoice.payment_failed' do

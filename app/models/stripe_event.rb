@@ -88,6 +88,8 @@ class StripeEvent < ActiveRecord::Base
     invoice = Subscriptions::Invoice.create_from_stripe_invoice(stripe_invoice)
     invoice.subscription.resume! if invoice.subscription.paused?
 
+    SubscriptionMailer.delay.invoice_creation_notification(invoice)
+
     true
   end
 
