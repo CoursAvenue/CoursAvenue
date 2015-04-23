@@ -8,7 +8,7 @@ class LightStructureSerializer < ActiveModel::Serializer
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
              :logo_thumb_url, :data_url,
              :plannings_count, :more_than_five_comments, :has_comments,
-             :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle,
+             :min_price_amount, :max_price_libelle,
              :gives_group_courses, :gives_individual_courses,
              :has_promotion, :course_names, :highlighted_comment_title
 
