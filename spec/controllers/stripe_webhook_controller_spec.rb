@@ -16,10 +16,22 @@ describe StripeWebhookController do
 
   describe '#create' do
 
-    it 'Always sends the ok' do
-      post :create
+    context "when there's no id" do
+      it "Sends a bad_request response when there's no id" do
+        post :create
 
-      expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
+
+    context "when there's an id" do
+      let!(:event)  { StripeMock.mock_webhook_event('ping') }
+
+      it "sends a ok response when there's no id" do
+        post :create, event.as_json
+
+        expect(response).to have_http_status(:ok)
+      end
     end
 
     context 'when receiving a `ping` event' do
