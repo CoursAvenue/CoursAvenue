@@ -12,4 +12,9 @@ class SubscriptionMailer < ActionMailer::Base
     mail to: "#{decorated_invoice.structure_name} noreply@coursavenue.com",
       subject: 'coucou'
   end
+
+  def trial_will_end(subscription, structure)
+    mail to:   structure.contact_email,
+      subject: "La période d'essai de votre abonnement arrive à sa fin"
+  end
 end

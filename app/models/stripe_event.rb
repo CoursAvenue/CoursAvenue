@@ -9,6 +9,8 @@ class StripeEvent < ActiveRecord::Base
     'invoice.payment_succeeded',
     'invoice.payment_failed',
 
+    'customer.subscription.trial_will_end',
+
     'ping'
   ]
 
@@ -69,6 +71,8 @@ class StripeEvent < ActiveRecord::Base
     when 'invoice.payment_succeeded'            then create_invoice
     when 'invoice.payment_failed'               then cancel_subscription
 
+
+    when 'customer.subscription.trial_will_end' then subscription_trial_will_end
     when 'ping'                                 then no_op
     else false
     end
@@ -97,6 +101,62 @@ class StripeEvent < ActiveRecord::Base
     invoice.subscription.pause!
 
     true
+  end
+
+  # Process for the `charge.dispute.created` event.
+  #
+  # @return a Boolean
+  def dispute_created
+    dispute        = stripe_event.data.object
+    dispute_reason = dispute.reason
+    dispute_status = dispute.status
+
+    # TODO: Send an email to the admins.
+    # TODO: Send an email to the teacher.
+    true
+  end
+
+  # Process for the `charge.dispute.funds_withdrawn` event.
+  #
+  # @return a Boolean
+  def dispute_funds_withdrawn
+    dispute        = stripe_event.data.object
+    dispute_reason = dispute.reason
+    dispute_status = dispute.status
+
+    # TODO: Send an email to the admins.
+    # TODO: Send an email to the teacher.
+    true
+  end
+
+  # Process for the `charge.dispute.funds_reinstated` event.
+  #
+  # @return a Boolean
+  def dispute_funds_reinstated
+    dispute        = stripe_event.data.object
+    dispute_reason = dispute.reason
+    dispute_status = dispute.status
+
+    # TODO: Send an email to the admins.
+    # TODO: Send an email to the teacher.
+    true
+  end
+
+  # Process for the `customer.subscription.trial_will_end` event.
+  # This is the event sent by Stripe three days before the end of the trial. This allows us to send
+  # a reminder email to the teacher.
+  #
+  # @return a Boolean
+  def subscription_trial_will_end
+    stripe_subscription = stripe_event.data.object
+    subscription        = Subscription.where(stripe_subscription_id: stripe_subscription.id).first
+    if subscription
+      structure = subscription.structure
+      SubscriptionMailer.delay.trial_will_end(subscription, structure)
+      true
+    else
+      false
+    end
   end
 
   # No operation process.

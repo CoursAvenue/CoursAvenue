@@ -102,6 +102,20 @@ RSpec.describe StripeEvent, type: :model do
           expect(subscription.paused?).to be_truthy
         end
       end
+
+      context 'customer.subscription.trial_will_end' do
+        let(:event_type)          { 'customer.subscription.trial_will_end' }
+        let(:stripe_subscription) { subscription.stripe_subscription }
+        let(:stripe_event)        { StripeMock.mock_webhook_event(event_type, stripe_subscription.as_json) }
+
+        subject do
+          FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
+        end
+
+        it 'sends an email to the teacher' do
+          expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(1)
+        end
+      end
     end
   end
 end
