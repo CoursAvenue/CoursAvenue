@@ -83,4 +83,16 @@ class SuperAdminMailer < ActionMailer::Base
     @structure = @comment.structure
     mail subject: 'Un professeur demande une suppression de commentaire'
   end
+
+  def alert_charge_disputed(structure, reason, status)
+    mail subject: 'Un professeur a contesté un paiement'
+  end
+
+  def alert_charge_withdrawn(structure, reason, status)
+    mail subject: 'Un retrait a eu lieu suite a une contestation de paiement'
+  end
+
+  def alert_charge_reinstated(structure, reason, status)
+    mail subject: ''
+  end
 end

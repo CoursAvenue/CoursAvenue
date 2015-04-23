@@ -17,4 +17,9 @@ class SubscriptionMailer < ActionMailer::Base
     mail to:   structure.contact_email,
       subject: "La période d'essai de votre abonnement arrive à sa fin"
   end
+
+  def subscription_canceled(structure, subscription)
+    mail to: structure.contact_email,
+      subject: 'Votre abonnement a été annulé'
+  end
 end
