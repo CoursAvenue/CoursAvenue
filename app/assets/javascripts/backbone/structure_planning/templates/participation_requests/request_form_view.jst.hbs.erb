@@ -66,12 +66,12 @@
                 <div class="push-half--bottom soft--sides">
                     <div class="input-addon">
                         <div class="input-prefix">
-                            <i class="fa-phone-o"></i>
+                            <i class="fa-user"></i>
                         </div>
-                        <input type="text" class="input--large one-whole hard--right" name='user[phone_number]' type='text' placeholder='Votre téléphone' value="{{#if user.phone_number}}{{ user.phone_number }}{{/if}}" data-toggle="popover" data-content="Nous vous recommandons de laisser votre numéro de portable : si la séance est annulée ou modifiée, un SMS pourra vous être envoyé." data-trigger="hover" data-placement="left">
+                        <input type="text" class="input--large one-whole hard--right" name='user[name]' type='text' placeholder='Votre Prénom Nom' value="{{#if user.name}}{{ user.name }}{{/if}}">
                     </div>
 
-                    <div data-error="user_phone_number" class="{{#unless errors.user.phone_number}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.user.phone_number}}</div>
+                    <div data-error="user_name" class="{{#unless errors.user.name}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.user.name}}</div>
                 </div>
                 <div class="push-half--bottom soft--sides">
                     <div class="input-addon">
@@ -82,6 +82,16 @@
                     </div>
 
                     <div data-error="user_email" class="{{#unless errors.user.email}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.user.email}}</div>
+                </div>
+                <div class="push-half--bottom soft--sides">
+                    <div class="input-addon">
+                        <div class="input-prefix">
+                            <i class="fa-phone-o"></i>
+                        </div>
+                        <input type="text" class="input--large one-whole hard--right" name='user[phone_number]' type='text' placeholder='Votre téléphone' value="{{#if user.phone_number}}{{ user.phone_number }}{{/if}}" data-toggle="popover" data-content="Nous vous recommandons de laisser votre numéro de portable : si la séance est annulée ou modifiée, un SMS pourra vous être envoyé." data-trigger="hover" data-placement="left">
+                    </div>
+
+                    <div data-error="user_phone_number" class="{{#unless errors.user.phone_number}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.user.phone_number}}</div>
                 </div>
                 <div class="input flush--top push-half--bottom soft--sides">
                     <textarea name="message[body]" id="" cols="30" rows="12" class="one-whole input--large" style='height: 185px;' data-behavior='autoresize'>{{#unless errors.body}}{{ participation_request.message.body }}{{/unless}}</textarea>

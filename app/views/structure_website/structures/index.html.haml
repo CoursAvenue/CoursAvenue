@@ -1,3 +1,6 @@
 .main-container.main-container--medium
+  - if @structure.medias.any?
+    = render partial: 'gallery', locals: { medias: @structure.medias, structure: @structure }
+
   .blog-article__content
     = simple_format @structure.description

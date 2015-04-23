@@ -23,7 +23,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             $.cookie('participation_request_body', this.ui.$participation_request_message_body.val());
             $.cookie('user_phone_number'         , this.ui.$participation_request_user_phone_number.val());
             if (this.model.isValid(true)) {
-                this.$('form').trigger('ajax:beforeSend.rails');
+                this.$('form').trigger('ajax:send');
                 this.saveMessage();
             } else {
                 this.showErrors();
@@ -72,7 +72,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             this.model.save(null, {
                 success: function success (model, response) {
                     // We disable the submit button
-                    this.$('form').trigger('ajax:complete.rails');
+                    this.$('form').trigger('ajax:complete');
                     $.magnificPopup.open({
                           items: {
                               src: $(response.popup_to_show),

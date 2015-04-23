@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150421115523) do
+ActiveRecord::Schema.define(version: 20150423130427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -685,6 +685,7 @@ ActiveRecord::Schema.define(version: 20150421115523) do
     t.string   "street"
     t.string   "zip_code"
     t.integer  "city_id"
+    t.string   "token"
   end
 
   create_table "participations", force: true do |t|
@@ -1025,10 +1026,13 @@ ActiveRecord::Schema.define(version: 20150421115523) do
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
     t.boolean  "pure_player",            default: false
+    t.string   "stripe_customer_id"
+    t.boolean  "from_personal_website",  default: false
   end
 
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
+  add_index "structures", ["stripe_customer_id"], name: "index_structures_on_stripe_customer_id", unique: true, using: :btree
 
   create_table "structures_subjects", id: false, force: true do |t|
     t.integer "structure_id"
@@ -1112,6 +1116,64 @@ ActiveRecord::Schema.define(version: 20150421115523) do
   end
 
   add_index "subscription_plans", ["structure_id"], name: "index_subscription_plans_on_structure_id", using: :btree
+
+  create_table "subscriptions", force: true do |t|
+    t.string   "name"
+    t.integer  "price"
+    t.string   "interval"
+    t.string   "stripe_subscription_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "canceled_at"
+    t.datetime "deleted_at"
+    t.integer  "structure_id"
+    t.integer  "subscriptions_plan_id"
+    t.datetime "expires_at"
+    t.hstore   "metadata"
+    t.integer  "subscriptions_coupon_id"
+  end
+
+  add_index "subscriptions", ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true, using: :btree
+  add_index "subscriptions", ["structure_id"], name: "index_subscriptions_on_structure_id", using: :btree
+  add_index "subscriptions", ["subscriptions_coupon_id"], name: "index_subscriptions_on_subscriptions_coupon_id", using: :btree
+  add_index "subscriptions", ["subscriptions_plan_id"], name: "index_subscriptions_on_subscriptions_plan_id", using: :btree
+
+  create_table "subscriptions_coupons", force: true do |t|
+    t.string   "name"
+    t.string   "stripe_coupon_id"
+    t.string   "duration"
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "amount"
+  end
+
+  create_table "subscriptions_invoices", force: true do |t|
+    t.string   "stripe_invoice_id"
+    t.datetime "payed_at"
+    t.integer  "structure_id"
+    t.integer  "subscription_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+    t.boolean  "generated",         default: false
+  end
+
+  add_index "subscriptions_invoices", ["structure_id"], name: "index_subscriptions_invoices_on_structure_id", using: :btree
+  add_index "subscriptions_invoices", ["subscription_id"], name: "index_subscriptions_invoices_on_subscription_id", using: :btree
+
+  create_table "subscriptions_plans", force: true do |t|
+    t.string   "stripe_plan_id"
+    t.string   "interval"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+    t.integer  "trial_period_days"
+    t.integer  "amount"
+  end
+
+  add_index "subscriptions_plans", ["stripe_plan_id"], name: "index_subscriptions_plans_on_stripe_plan_id", unique: true, using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"

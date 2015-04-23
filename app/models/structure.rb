@@ -15,10 +15,11 @@ class Structure < ActiveRecord::Base
   include Rails.application.routes.url_helpers
   include AlgoliaSearch
 
+  extend FriendlyId
+
   acts_as_paranoid
   acts_as_tagger
 
-  extend FriendlyId
 
   NB_STRUCTURE_PER_PAGE = 25
   STRUCTURE_STATUS      = %w(SA SAS SASU EURL SARL)
@@ -619,18 +620,12 @@ class Structure < ActiveRecord::Base
     self.level_ids                = (plannings.collect(&:level_ids) + courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
     self.audience_ids             = (plannings.collect(&:audience_ids) + courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
     self.is_parisian              = self.parisian?
-    set_min_and_max_price
+    best_price = course_prices.where(Price.arel_table[:amount].gt(0)).order('amount ASC').first
+    self.min_price_amount = best_price.amount if best_price
     compute_response_rate
     save(validate: false)
   end
   handle_asynchronously :update_meta_datas
-
-  def set_min_and_max_price
-    best_price = course_prices.where(Price.arel_table[:amount].gt(0)).order('amount ASC').first
-    if best_price
-      self.min_price_amount  = best_price.amount
-    end
-  end
 
   # Tells if the structure is based in Paris and around
   #
@@ -1121,6 +1116,11 @@ class Structure < ActiveRecord::Base
     end
     articles += BlogArticleSearch.search(per_page: 3 - articles.length, type: 'user').results if articles.length < 3
     articles
+  end
+
+  # Here in case we want to have a specific column to store the `subdomain_slug`
+  def subdomain_slug
+    slug
   end
 
   private

@@ -17,7 +17,7 @@ class Structures::ParticipationRequestsController < ApplicationController
   end
 
   def book_and_send_message
-    @participation_request = ParticipationRequest.create_and_send_message params[:participation_request], params[:participation_request][:message][:body], current_user, @structure
+    @participation_request = ParticipationRequest.create_and_send_message params[:participation_request], current_user
     respond_to do |format|
       if @participation_request.persisted?
         format.json { render json: { succes: true, popup_to_show: render_to_string(partial: 'structures/participation_requests/request_sent', formats: [:html]) } }

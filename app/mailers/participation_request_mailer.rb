@@ -19,6 +19,14 @@ class ParticipationRequestMailer < ActionMailer::Base
          reply_to: generate_reply_to('admin')
   end
 
+  def you_sent_a_request_from_personal_website(participation_request)
+    @message = participation_request.conversation.messages.first
+    retrieve_participation_request_variables(participation_request)
+    mail to: @user.email,
+         subject: "Demande d'inscription envoyée - #{@structure.name}",
+         reply_to: generate_reply_to('admin')
+  end
+
   def you_received_a_request(participation_request)
     @message = participation_request.conversation.messages.first
     retrieve_participation_request_variables(participation_request)
