@@ -1,0 +1,12 @@
+
+{
+  "created": 1326853478,
+  "data": {
+    "object": {
+    }
+  },
+  "id": "evt_00000000000000",
+  "livemode": false,
+  "object": "event",
+  "type": "ping"
+}

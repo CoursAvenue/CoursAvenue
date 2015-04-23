@@ -4,9 +4,12 @@ class StripeEvent < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
+  # https://stripe.com/docs/api/ruby#event_types
   SUPPORTED_EVENTS = [
     'invoice.payment_succeeded',
-    'invoice.payment_failed'
+    'invoice.payment_failed',
+
+    'ping'
   ]
 
   ######################################################################
@@ -63,8 +66,10 @@ class StripeEvent < ActiveRecord::Base
   # @return a Boolean
   def process!
     case event_type
-    when 'invoice.payment_succeeded' then create_invoice
-    when 'invoice.payment_failed'    then cancel_subscription
+    when 'invoice.payment_succeeded'            then create_invoice
+    when 'invoice.payment_failed'               then cancel_subscription
+
+    when 'ping'                                 then no_op
     else false
     end
   end
@@ -82,12 +87,22 @@ class StripeEvent < ActiveRecord::Base
     true
   end
 
+  # Process for the `invoice.payment_failed` event.
+  #
+  # @return a Boolean
   def cancel_subscription
     stripe_invoice = stripe_event.data.object
 
     invoice = Subscriptions::Invoice.create_from_stripe_invoice(stripe_invoice)
     invoice.subscription.pause!
 
+    true
+  end
+
+  # No operation process.
+  #
+  # @return a Boolean
+  def no_op
     true
   end
 end

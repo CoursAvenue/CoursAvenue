@@ -15,6 +15,23 @@ describe StripeWebhookController do
   let(:invoice)       { Stripe::Invoice.upcoming(customer: structure.stripe_customer_id) }
 
   describe '#create' do
+
+    it 'Always sends the ok' do
+      post :create
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    context 'when receiving a `ping` event' do
+      let!(:event)  { StripeMock.mock_webhook_event('ping') }
+
+      subject { post :create, event.as_json }
+
+      it 'saves the event' do
+        expect { subject }.to change { StripeEvent.count }.by(1)
+      end
+    end
+
     context 'when receiving a `invoice.payment_succeeded` event' do
       let!(:event)  { StripeMock.mock_webhook_event('invoice.payment_succeeded', invoice.as_json) }
 
