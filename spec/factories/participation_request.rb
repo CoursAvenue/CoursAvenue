@@ -2,7 +2,6 @@
 FactoryGirl.define do
   factory :participation_request do
     user
-    conversation
     structure         { FactoryGirl.create(:structure_with_admin) }
     course
     planning
@@ -24,5 +23,8 @@ FactoryGirl.define do
       state 'pending'
     end
 
+    after(:build) do |participation_request|
+      participation_request.conversation = FactoryGirl.create(:conversation_with_messages)
+    end
   end
 end

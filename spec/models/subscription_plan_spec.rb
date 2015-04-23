@@ -27,9 +27,7 @@ describe SubscriptionPlan do
     it 'is creates a monthly subscription' do
       structure = FactoryGirl.create :structure_with_admin
       subscription_plan = SubscriptionPlan.subscribe! :monthly, structure, {}
-      initial_deliveries_count = ActionMailer::Base.deliveries.count
       subscription_plan.cancel!
-      expect(ActionMailer::Base.deliveries.count).to eq (initial_deliveries_count + 2)
       expect(subscription_plan.canceled_at).not_to be_nil
       expect(subscription_plan.canceled?).to be(true)
     end
