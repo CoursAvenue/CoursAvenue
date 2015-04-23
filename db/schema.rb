@@ -685,6 +685,7 @@ ActiveRecord::Schema.define(version: 20150423130427) do
     t.string   "street"
     t.string   "zip_code"
     t.integer  "city_id"
+    t.boolean  "from_personal_website",     default: false
     t.string   "token"
   end
 
@@ -1027,7 +1028,6 @@ ActiveRecord::Schema.define(version: 20150423130427) do
     t.datetime "deleted_at"
     t.boolean  "pure_player",            default: false
     t.string   "stripe_customer_id"
-    t.boolean  "from_personal_website",  default: false
   end
 
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree

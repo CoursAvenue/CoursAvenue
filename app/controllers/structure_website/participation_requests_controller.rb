@@ -1,5 +1,4 @@
-class StructureWebsite::ParticipationRequestsController < ApplicationController
-
+class StructureWebsite::ParticipationRequestsController < StructureWebsiteController
   include ConversationsHelper
 
   skip_before_filter  :verify_authenticity_token, only: [:create]
@@ -30,10 +29,12 @@ class StructureWebsite::ParticipationRequestsController < ApplicationController
   end
 
   def show
-    @participation_request = ParticipationRequest.where(token: params[:id]).first
+    @participation_request = @structure.participation_requests.where(token: params[:id]).first
     if @participation_request.nil?
       redirect_to structure_website_presentation_path
+      return
     end
+    @user                  = @participation_request.user
   end
 
   private

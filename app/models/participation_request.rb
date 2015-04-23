@@ -37,19 +37,12 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
-<<<<<<< Updated upstream
-  before_save   :update_times
-  before_create :set_default_attributes
-  after_create  :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher, :touch_user
-  after_destroy :destroy_conversation_attached, :touch_user
   before_validation :set_date_if_empty
-=======
   before_validation :create_token
   before_save       :update_times
   before_create     :set_default_attributes
   after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher, :touch_user
   after_destroy     :destroy_conversation_attached, :touch_user
->>>>>>> Stashed changes
 
   ######################################################################
   # Validation                                                         #
@@ -285,7 +278,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return nil
   def send_email_to_user
-    if self.from_personal_website
+    if from_personal_website?
       ParticipationRequestMailer.delay.you_sent_a_request_from_personal_website(self)
     else
       ParticipationRequestMailer.delay.you_sent_a_request(self)
@@ -351,7 +344,7 @@ class ParticipationRequest < ActiveRecord::Base
     if self.token.nil?
       self.token = loop do
         random_token = SecureRandom.urlsafe_base64
-        break random_token unless ReplyToken.exists?(token: random_token)
+        break random_token unless ParticipationRequest.exists?(token: random_token)
       end
     end
   end

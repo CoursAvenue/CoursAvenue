@@ -9,6 +9,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             '$participation_request_message_body'     : '[name="message[body]"]',
             '$participation_request_user_phone_number': '[name="user[phone_number]"]',
             '$participation_request_user_email'       : '[name="user[email]"]',
+            '$participation_request_user_name'        : '[name="user[name]"]',
             '$user_participation_requests_path'       : '[data-type=user-participation-requests-path]',
             '$first_step_form_wrapper'                : '[data-element=first-step-form-wrapper]',
             '$second_step_form_wrapper'               : '[data-element=second-step-form-wrapper]'
@@ -62,7 +63,8 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
                 },
                 user: {
                     phone_number: this.ui.$participation_request_user_phone_number.val(),
-                    email: this.ui.$participation_request_user_email.val()
+                    email:        this.ui.$participation_request_user_email.val(),
+                    name:         this.ui.$participation_request_user_name.val()
                 }
             });
             this.model.set(new_attributes);

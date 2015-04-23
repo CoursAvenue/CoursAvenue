@@ -427,7 +427,9 @@ CoursAvenue::Application.routes.draw do
       get 'medias'  , to: 'structures#medias'  , as: :medias
       get 'contact' , to: 'structures#contact' , as: :contact
       resources :courses, controller: '/structures/courses', path: 'cours'
-      resources :participation_requests, only: [:create, :update, :show]
+      resources :participation_requests, only: [:create, :update, :show], path: 'inscription' do
+        resources :conversations, controller: 'participation_requests/conversations'
+      end
     end
   end
 

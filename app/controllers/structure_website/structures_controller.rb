@@ -1,10 +1,6 @@
 # encoding: utf-8
-class StructureWebsite::StructuresController < ApplicationController
+class StructureWebsite::StructuresController < StructureWebsiteController
   include FilteredSearchProvider
-
-  before_action :load_structure
-
-  layout 'structure_website'
 
   def index
   end
@@ -35,11 +31,5 @@ class StructureWebsite::StructuresController < ApplicationController
   end
 
   def contact
-  end
-
-  private
-
-  def load_structure
-    @structure = Structure.find request.subdomain
   end
 end
