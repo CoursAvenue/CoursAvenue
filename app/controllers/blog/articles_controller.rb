@@ -24,7 +24,7 @@ class Blog::ArticlesController < ApplicationController
 
   def category_index
     @category = Blog::Category::UserCategory.friendly.find params[:category_id]
-    @articles = @category.articles.page(params[:page] || 1).per(5)
+    @articles = @category.articles.ordered_by_publish_date.page(params[:page] || 1).per(5)
   end
 
   private

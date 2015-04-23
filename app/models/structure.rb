@@ -58,7 +58,7 @@ class Structure < ActiveRecord::Base
   has_many :followers, through: :followings, source: :user
 
   has_many :price_groups              , dependent: :destroy
-  has_many :course_prices             , through: :courses
+  has_many :course_prices             , through: :courses, source: :prices
   has_many :prices                    , through: :price_groups
   has_many :orders, class_name: 'Order::Premium'
   has_many :participation_requests
@@ -131,8 +131,8 @@ class Structure < ActiveRecord::Base
   store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
                              :plannings_count, :has_promotion, :has_free_trial_course, :has_promotion,
                              :course_names, :open_course_names, :open_course_subjects,
-                             :highlighted_comment_title, :min_price_libelle, :min_price_amount,
-                             :max_price_libelle, :max_price_amount, :level_ids, :audience_ids, :busy,
+                             :highlighted_comment_title, :min_price_amount,
+                             :max_price_libelle, :level_ids, :audience_ids, :busy,
                              :open_courses_open_places, :open_course_nb, :jpo_email_status,
                              :open_course_plannings_nb, :response_rate, :response_time,
                              :gives_non_professional_courses, :gives_professional_courses,
@@ -629,19 +629,9 @@ class Structure < ActiveRecord::Base
   handle_asynchronously :update_meta_datas
 
   def set_min_and_max_price
-    best_price           = prices.where(Price.arel_table[:type].not_eq('Price::Registration').and(Price.arel_table[:amount].gt(0))).order('amount ASC').first
-    most_expensive_price = prices.where(Price.arel_table[:type].not_eq('Price::Registration').and(Price.arel_table[:amount].gt(0))).order('amount DESC').first
-
+    best_price = course_prices.where(Price.arel_table[:amount].gt(0)).order('amount ASC').first
     if best_price
-      self.min_price_libelle = best_price.localized_libelle
       self.min_price_amount  = best_price.amount
-      if best_price != most_expensive_price
-        self.max_price_libelle = most_expensive_price.localized_libelle
-        self.max_price_amount  = most_expensive_price.amount
-      else
-        self.max_price_libelle = nil
-        self.max_price_amount  = nil
-      end
     end
   end
 
