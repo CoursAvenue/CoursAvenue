@@ -38,6 +38,7 @@ class ParticipationRequest < ActiveRecord::Base
   before_create :set_default_attributes
   after_create  :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher, :touch_user
   after_destroy :destroy_conversation_attached, :touch_user
+  before_validation :set_date_if_empty
 
   ######################################################################
   # Validation                                                         #
@@ -320,5 +321,11 @@ class ParticipationRequest < ActiveRecord::Base
 
   def reject_participants attributes
     return (attributes[:price_id].blank? or attributes[:number].blank? or attributes[:number] == '0')
+  end
+
+  # Set the date to the start_date of the planning if no date is given
+  # Usually correspond to training courses.
+  def set_date_if_empty
+    self.date ||= self.planning.start_date if self.planning
   end
 end
