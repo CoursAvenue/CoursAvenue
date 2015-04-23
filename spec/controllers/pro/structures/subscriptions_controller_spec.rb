@@ -59,11 +59,6 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
       context 'with a stripe token' do
         subject { post :create, { structure_id: structure.id, plan_id: plan.id, stripe_token: token } }
 
-        it 'creates a new subscription with a coupon code' do
-          expect { subject }.to change { Subscription.count }.by(1)
-          expect(structure.subscription.has_coupon?).to be_truthy
-        end
-
         it 'redirects to the index page' do
           expect(subject).to redirect_to(action: :index, structure_id: structure.slug)
         end
@@ -121,7 +116,7 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
           }
         end
 
-        it 'creates a new subscription with a coupon code' do
+        it 'creates a new subscription' do
           expect { subject }.to change { Subscription.count }.by(1)
           expect(structure.subscription.has_coupon?).to be_truthy
         end
