@@ -74,10 +74,6 @@ RSpec.describe StripeEvent, type: :model do
     context 'when the event type is valid' do
       subject { FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id) }
 
-      # it 'processes the event' do
-      #   expect(subject.process!).to be_truthy
-      # end
-
       context 'invoice.payment_succeeded' do
         subject do
           FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id,
@@ -104,6 +100,102 @@ RSpec.describe StripeEvent, type: :model do
           subscription.reload
 
           expect(subscription.paused?).to be_truthy
+        end
+      end
+
+      context 'charge.dispute.created' do
+        let(:event_type) { 'charge.dispute.created' }
+        let(:charge) do
+          Stripe::Charge.create({
+            amount:   plan.amount * 100,
+            currency: Subscriptions::Plan::CURRENCY,
+            customer: structure.stripe_customer_id
+          })
+        end
+
+        let(:stripe_event) do
+          StripeMock.mock_webhook_event(event_type, {
+            charge: charge.id
+          })
+        end
+
+        subject do
+          FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
+        end
+
+        it 'sends an email to the admins' do
+          expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(1)
+        end
+
+        it 'pauses the subscription' do
+          subject.process!
+          subscription.reload
+
+          expect(subscription.paused?).to be_truthy
+        end
+      end
+
+      context 'charge.dispute.funds_withdrawn' do
+        let(:event_type) { 'charge.dispute.funds_withdrawn' }
+        let(:charge) do
+          Stripe::Charge.create({
+            amount:   plan.amount * 100,
+            currency: Subscriptions::Plan::CURRENCY,
+            customer: structure.stripe_customer_id
+          })
+        end
+
+        let(:stripe_event) do
+          StripeMock.mock_webhook_event(event_type, {
+            charge: charge.id
+          })
+        end
+
+        subject do
+          FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
+        end
+
+        it 'sends an email to the admins and to the teacher' do
+          expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(2)
+        end
+
+        it 'cancels the subscription' do
+          subject.process!
+          subscription.reload
+
+          expect(subscription.canceled?).to be_truthy
+        end
+      end
+
+      context 'charge.dispute.funds_reinstated' do
+        let(:event_type) { 'charge.dispute.funds_reinstated' }
+        let(:charge) do
+          Stripe::Charge.create({
+            amount:   plan.amount * 100,
+            currency: Subscriptions::Plan::CURRENCY,
+            customer: structure.stripe_customer_id
+          })
+        end
+
+        let(:stripe_event) do
+          StripeMock.mock_webhook_event(event_type, {
+            charge: charge.id
+          })
+        end
+
+        subject do
+          FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
+        end
+
+        it 'sends an email to the admins' do
+          expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(1)
+        end
+
+        it 'resumes the subscription' do
+          subject.process!
+          subscription.reload
+
+          expect(subscription.paused?).to be_falsy
         end
       end
 

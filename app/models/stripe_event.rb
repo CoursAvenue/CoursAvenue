@@ -9,6 +9,10 @@ class StripeEvent < ActiveRecord::Base
     'invoice.payment_succeeded',
     'invoice.payment_failed',
 
+    'charge.dispute.created',
+    'charge.dispute.funds_withdrawn',
+    'charge.dispute.funds_reinstated',
+
     'customer.subscription.trial_will_end',
 
     'ping'
@@ -71,6 +75,9 @@ class StripeEvent < ActiveRecord::Base
     when 'invoice.payment_succeeded'            then payment_succeeded
     when 'invoice.payment_failed'               then payment_failed
 
+    when 'charge.dispute.created'               then dispute_created
+    when 'charge.dispute.funds_withdrawn'       then dispute_funds_withdrawn
+    when 'charge.dispute.funds_reinstated'      then dispute_funds_reinstated
 
     when 'customer.subscription.trial_will_end' then subscription_trial_will_end
     when 'ping'                                 then no_op
@@ -113,9 +120,22 @@ class StripeEvent < ActiveRecord::Base
     dispute_reason = dispute.reason
     dispute_status = dispute.status
 
-    # TODO: Send an email to the admins.
-    # TODO: Send an email to the teacher.
-    true
+    charge = Stripe::Charge.retrieve(dispute.charge)
+
+    customer = charge.customer
+    customer = customer.id if customer.class != String
+
+    structure = Structure.where(stripe_customer_id: customer).first
+
+    if structure.present?
+      subscription = structure.subscription
+
+      SuperAdminMailer.delay.alert_charge_disputed(structure, dispute_reason, dispute_status)
+      subscription.pause!
+      true
+    else
+      false
+    end
   end
 
   # Process for the `charge.dispute.funds_withdrawn` event.
@@ -126,9 +146,23 @@ class StripeEvent < ActiveRecord::Base
     dispute_reason = dispute.reason
     dispute_status = dispute.status
 
-    # TODO: Send an email to the admins.
-    # TODO: Send an email to the teacher.
-    true
+    charge       = Stripe::Charge.retrieve(dispute.charge)
+
+    customer = charge.customer
+    customer = customer.id if customer.class != String
+
+    structure = Structure.where(stripe_customer_id: customer).first
+
+    if structure.present?
+      subscription = structure.subscription
+
+      SuperAdminMailer.delay.alert_charge_withdrawn(structure, dispute_reason, dispute_reason)
+      SubscriptionMailer.delay.subscription_canceled(structure, subscription)
+      subscription.cancel!
+      true
+    else
+      false
+    end
   end
 
   # Process for the `charge.dispute.funds_reinstated` event.
@@ -139,9 +173,23 @@ class StripeEvent < ActiveRecord::Base
     dispute_reason = dispute.reason
     dispute_status = dispute.status
 
-    # TODO: Send an email to the admins.
-    # TODO: Send an email to the teacher.
-    true
+    charge       = Stripe::Charge.retrieve(dispute.charge)
+    charge       = Stripe::Charge.retrieve(dispute.charge)
+
+    customer = charge.customer
+    customer = customer.id if customer.class != String
+
+    structure = Structure.where(stripe_customer_id: customer).first
+
+    if structure.present?
+      subscription = structure.subscription
+
+      SuperAdminMailer.delay.alert_charge_reinstated(structure, dispute_reason, dispute_reason)
+      subscription.cancel!
+      true
+    else
+      false
+    end
   end
 
   # Process for the `customer.subscription.trial_will_end` event.
