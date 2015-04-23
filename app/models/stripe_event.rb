@@ -14,6 +14,7 @@ class StripeEvent < ActiveRecord::Base
     'charge.dispute.funds_reinstated',
 
     'customer.subscription.trial_will_end',
+    'customer.deleted',
 
     'ping'
   ]
@@ -80,6 +81,7 @@ class StripeEvent < ActiveRecord::Base
     when 'charge.dispute.funds_reinstated'      then dispute_funds_reinstated
 
     when 'customer.subscription.trial_will_end' then subscription_trial_will_end
+    when 'customer.deleted'                     then delete_stripe_customer
     when 'ping'                                 then no_op
     else false
     end
@@ -203,6 +205,23 @@ class StripeEvent < ActiveRecord::Base
     if subscription
       structure = subscription.structure
       SubscriptionMailer.delay.trial_will_end(subscription, structure)
+      true
+    else
+      false
+    end
+  end
+
+  # Process for the `customer.deleted` event.
+  #
+  # @return a Boolean
+  def delete_stripe_customer
+    stripe_customer = stripe_event.data.object
+    structure = Structure.where(stripe_customer_id: stripe_customer.id).first
+
+    if structure.present?
+      structure.stripe_customer_id = nil
+      structure.save
+
       true
     else
       false

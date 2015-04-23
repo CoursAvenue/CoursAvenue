@@ -212,6 +212,25 @@ RSpec.describe StripeEvent, type: :model do
           expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(1)
         end
       end
+
+      context 'customer.deleted' do
+        let(:event_type)   { 'customer.deleted' }
+        let(:customer)     { structure.stripe_customer }
+        let(:stripe_event) { StripeMock.mock_webhook_event(event_type, customer.as_json) }
+
+        subject do
+          FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
+        end
+
+        it 'deletes the stripe_customer_id from the structure' do
+          subject.process!
+
+          structure.reload
+
+          expect(structure.stripe_customer).to be_nil
+          expect(structure.stripe_customer_id).to be_nil
+        end
+      end
     end
   end
 end
