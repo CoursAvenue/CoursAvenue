@@ -112,6 +112,7 @@ RSpec.describe Subscriptions::Plan, type: :model do
   describe '#create_subscription!' do
     let(:token)     { stripe_helper.generate_card_token({}) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
+    let(:coupon)    { FactoryGirl.create(:subscriptions_coupon) }
 
     context "when there isn't a Stripe customer yet" do
       it "doens't create a new subsription" do
@@ -134,6 +135,15 @@ RSpec.describe Subscriptions::Plan, type: :model do
         expect(subscription).to                     be_a(Subscription)
         expect(subscription.stripe_subscription).to be_a(Stripe::Subscription)
       end
+
+      it 'creates a new subscription with a coupon if the coupon is given' do
+        subscription = subject.create_subscription!(structure, token, coupon.code)
+
+        expect(subscription).to_not                 be_nil
+        expect(subscription).to                     be_a(Subscription)
+        expect(subscription.stripe_subscription).to be_a(Stripe::Subscription)
+        expect(subscription.has_coupon?).to         be_truthy
+      end
     end
 
     context "when there is a stripe customer" do
@@ -145,6 +155,15 @@ RSpec.describe Subscriptions::Plan, type: :model do
         expect(subscription).to_not                 be_nil
         expect(subscription).to                     be_a(Subscription)
         expect(subscription.stripe_subscription).to be_a(Stripe::Subscription)
+      end
+
+      it 'creates a new subscription with a coupon if the coupon is given' do
+        subscription = subject.create_subscription!(structure, nil, coupon.code)
+
+        expect(subscription).to_not                 be_nil
+        expect(subscription).to                     be_a(Subscription)
+        expect(subscription.stripe_subscription).to be_a(Stripe::Subscription)
+        expect(subscription.has_coupon?).to         be_truthy
       end
     end
 
