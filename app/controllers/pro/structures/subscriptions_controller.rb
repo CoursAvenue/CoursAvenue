@@ -57,7 +57,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   def destroy
     @subscription = @structure.subscription
 
-    @subscription.update_attributes params[:subscription]
+    @subscription.update_attributes(params[:subscription])
     @subscription.cancel!
 
     redirect_to pro_structure_subscriptions_path(@structure), notice: 'Abonnement supprimé avec succès'
