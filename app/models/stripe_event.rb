@@ -68,8 +68,8 @@ class StripeEvent < ActiveRecord::Base
   # @return a Boolean
   def process!
     case event_type
-    when 'invoice.payment_succeeded'            then create_invoice
-    when 'invoice.payment_failed'               then cancel_subscription
+    when 'invoice.payment_succeeded'            then payment_succeeded
+    when 'invoice.payment_failed'               then payment_failed
 
 
     when 'customer.subscription.trial_will_end' then subscription_trial_will_end
@@ -83,7 +83,7 @@ class StripeEvent < ActiveRecord::Base
   # Process for the `invoice.payment_succeeded` event.
   #
   # @return a Boolean
-  def create_invoice
+  def payment_succeeded
     stripe_invoice = stripe_event.data.object
     invoice = Subscriptions::Invoice.create_from_stripe_invoice(stripe_invoice)
     invoice.subscription.resume! if invoice.subscription.paused?
@@ -94,7 +94,7 @@ class StripeEvent < ActiveRecord::Base
   # Process for the `invoice.payment_failed` event.
   #
   # @return a Boolean
-  def cancel_subscription
+  def payment_failed
     stripe_invoice = stripe_event.data.object
 
     invoice = Subscriptions::Invoice.create_from_stripe_invoice(stripe_invoice)
