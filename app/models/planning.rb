@@ -315,12 +315,6 @@ class Planning < ActiveRecord::Base
     return 0 unless price
     price.amount.to_i
   end
-
-  def max_price_amount_for(type)
-    price = price_amount_for_scope(type).order('amount DESC').first
-    return 0 unless price
-    price.amount.to_i
-  end
   # :nocov:
 
   def week_days
