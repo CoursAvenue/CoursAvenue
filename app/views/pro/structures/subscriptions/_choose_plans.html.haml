@@ -78,7 +78,7 @@
                   name: 'CoursAvenue',
                   description: 'Abonnement Premium',
                   currency: "#{Subscriptions::Plan::CURRENCY}",
-                  amount: parseInt($(this).data('amount'), 10)
+                  amount: parseInt($(this).data('amount'), 10) * 100
               });
           } else {
               $('#subscription_form').submit();
