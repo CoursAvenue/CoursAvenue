@@ -59,13 +59,32 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
       context 'with a stripe token' do
         subject { post :create, { structure_id: structure.id, plan_id: plan.id, stripe_token: token } }
 
-        it 'creates a new subscription' do
-          expect{ subject }.to change { Subscription.count }.by(1)
+        it 'creates a new subscription with a coupon code' do
+          expect { subject }.to change { Subscription.count }.by(1)
+          expect(structure.subscription.has_coupon?).to be_truthy
         end
 
         it 'redirects to the index page' do
           expect(subject).to redirect_to(action: :index, structure_id: structure.slug)
         end
+
+        context 'with a coupon code' do
+          let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
+
+          subject do
+            post :create, {
+              structure_id: structure.id,
+              plan_id:      plan.id,
+              stripe_token: token,
+              coupon_code:  coupon.code
+            }
+          end
+
+          it 'creates a new subscription' do
+            expect{ subject }.to change { Subscription.count }.by(1)
+          end
+        end
+
       end
 
       context 'without a stripe token' do
@@ -83,12 +102,29 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
 
     context "when it's an existing subscribed" do
       subject { post :create, { structure_id: structure.id, plan_id: plan.id } }
+
       before do
         structure.create_stripe_customer(token)
       end
 
       it 'creates a new subscription' do
         expect { subject }.to change { Subscription.count }.by(1)
+      end
+
+      context 'with a coupon code' do
+        let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
+        subject do
+          post :create, {
+            structure_id: structure.id,
+            plan_id:      plan.id,
+            coupon_code:  coupon.code
+          }
+        end
+
+        it 'creates a new subscription with a coupon code' do
+          expect { subject }.to change { Subscription.count }.by(1)
+          expect(structure.subscription.has_coupon?).to be_truthy
+        end
       end
 
     end
