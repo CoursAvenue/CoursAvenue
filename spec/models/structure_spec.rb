@@ -527,6 +527,13 @@ describe Structure do
           expect(subject.stripe_managed_account_id).to_not be_nil
           expect(subject.stripe_managed_account).to be_a(Stripe::Account)
         end
+
+        it 'saves the API keys for this account' do
+          subject.create_managed_account
+
+          expect(subject.stripe_managed_account_secret_key).to_not      be_nil
+          expect(subject.stripe_managed_account_publishable_key).to_not be_nil
+        end
       end
 
       context 'when a managed account' do

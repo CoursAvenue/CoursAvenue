@@ -1188,7 +1188,9 @@ class Structure < ActiveRecord::Base
 
     managed_account = Stripe::Account.create(options.merge(default_options))
 
-    self.stripe_managed_account_id = managed_account.id
+    self.stripe_managed_account_id              = managed_account.id
+    self.stripe_managed_account_secret_key      = managed_account.keys.secret
+    self.stripe_managed_account_publishable_key = managed_account.keys.publishable
     self.save
 
     managed_account

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150423155954) do
+ActiveRecord::Schema.define(version: 20150424074349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -990,38 +990,38 @@ ActiveRecord::Schema.define(version: 20150423155954) do
     t.string   "contact_phone"
     t.string   "contact_mobile_phone"
     t.string   "contact_email"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
     t.string   "slug"
     t.string   "street"
     t.string   "zip_code"
     t.text     "description"
     t.integer  "city_id"
-    t.boolean  "active",                    default: false
+    t.boolean  "active",                                 default: false
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
-    t.integer  "comments_count",            default: 0
+    t.integer  "comments_count",                         default: 0
     t.text     "facebook_url"
     t.boolean  "no_facebook"
     t.boolean  "no_website"
-    t.integer  "crop_x",                    default: 0
-    t.integer  "crop_y",                    default: 0
-    t.integer  "crop_width",                default: 500
+    t.integer  "crop_x",                                 default: 0
+    t.integer  "crop_y",                                 default: 0
+    t.integer  "crop_width",                             default: 500
     t.boolean  "has_only_one_place"
     t.string   "email_status"
     t.datetime "last_email_sent_at"
     t.string   "last_email_sent_status"
     t.string   "funding_type_ids"
     t.string   "widget_status"
-    t.boolean  "teaches_at_home",           default: false
+    t.boolean  "teaches_at_home",                        default: false
     t.text     "widget_url"
     t.integer  "teaches_at_home_radius"
     t.hstore   "meta_data"
     t.integer  "highlighted_comment_id"
-    t.string   "pricing_plan",              default: "free"
+    t.string   "pricing_plan",                           default: "free"
     t.datetime "last_geocode_try"
     t.text     "sleeping_attributes"
     t.boolean  "logo_processing"
@@ -1034,18 +1034,22 @@ ActiveRecord::Schema.define(version: 20150423155954) do
     t.text     "course_subjects_string"
     t.boolean  "premium"
     t.text     "cities_text"
-    t.boolean  "sms_opt_in",                default: false
+    t.boolean  "sms_opt_in",                             default: false
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
     t.string   "stripe_customer_id"
-    t.boolean  "pure_player",               default: false
+    t.boolean  "pure_player",                            default: false
     t.string   "stripe_managed_account_id"
+    t.string   "stripe_managed_account_secret_key"
+    t.string   "stripe_managed_account_publishable_key"
   end
 
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
   add_index "structures", ["stripe_customer_id"], name: "index_structures_on_stripe_customer_id", unique: true, using: :btree
   add_index "structures", ["stripe_managed_account_id"], name: "index_structures_on_stripe_managed_account_id", unique: true, using: :btree
+  add_index "structures", ["stripe_managed_account_publishable_key"], name: "index_structures_on_stripe_managed_account_publishable_key", unique: true, using: :btree
+  add_index "structures", ["stripe_managed_account_secret_key"], name: "index_structures_on_stripe_managed_account_secret_key", unique: true, using: :btree
 
   create_table "structures_subjects", id: false, force: true do |t|
     t.integer "structure_id"
