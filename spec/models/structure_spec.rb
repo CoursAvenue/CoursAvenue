@@ -540,6 +540,67 @@ describe Structure do
           subject.create_managed_account
 
           expect(Stripe::Account).to_not receive(:create)
+        end
+      end
+    end
+
+    describe '#can_receive_payments?' do
+      subject { FactoryGirl.create(:structure, :with_contact_email) }
+
+      context 'when not a managed account' do
+        it 'returns false' do
+          expect(subject.can_receive_payments?).to be_falsy
+        end
+      end
+
+      context 'when a managed account' do
+        context 'some information is missing' do
+          before do
+            subject.create_managed_account
+          end
+
+          it 'returns false' do
+            expect(subject.can_receive_payments?).to be_falsy
+          end
+        end
+
+        context 'when all needed information have been submitted' do
+          let(:bank_token)     { { country: 'FR', currency: 'EUR', account_number: '000123456789' } }
+          let(:tos_acceptance) { { date: Time.now.to_i, ip: Faker::Internet.ip_v4_address } }
+          let(:legal_entity) do
+            {
+              type: 'individual',
+              address: {
+                line1:       Faker::Address.street_address,
+                line2:       Faker::Address.secondary_address,
+                city:        Faker::Address.city,
+                state:       Faker::Address.state,
+                postal_code: Faker::Address.postcode,
+                country:     Faker::Address.country
+              },
+              dob: {
+                day:   (1..28).to_a.sample.to_s,
+                month: (1..12).to_a.sample.to_s,
+                year:  (1950..1996).to_a.sample.to_s
+              },
+              first_name: Faker::Name.first_name,
+              last_name:  Faker::Name.last_name,
+              personal_id_number: Faker::Number.number(15)
+            }
+          end
+
+          before do
+            subject.create_managed_account({
+              legal_entity:   legal_entity,
+              bank_account:   bank_token,
+              tos_acceptance: tos_acceptance
+            })
+          end
+
+          xit 'returns true' do
+            expect(subject.can_receive_payments?).to be_truthy
+          end
+        end
       end
     end
   end

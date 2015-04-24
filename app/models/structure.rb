@@ -1217,6 +1217,16 @@ class Structure < ActiveRecord::Base
     managed_account
   end
 
+  # Whether the structure can receive payments through its Stripe managed account.
+  #
+  # @return a Boolean
+  def can_receive_payments?
+    return false if self.stripe_managed_account_id.nil?
+    managed_account = self.stripe_managed_account
+
+    managed_account.charges_enabled and managed_account.transfers_enabled
+  end
+
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons
