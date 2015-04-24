@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'rails_helper'
 require 'carrierwave/test/matchers'
+require 'stripe_mock'
 
 describe User do
   include CarrierWave::Test::Matchers
@@ -209,34 +210,95 @@ describe User do
       end
     end
   end
-end
 
-describe '#avatar_url' do
-  context 'User from Facebook' do
-    let(:user) { FactoryGirl.create(:user_from_facebook) }
+  describe '#avatar_url' do
+    context 'User from Facebook' do
+      let(:user) { FactoryGirl.create(:user_from_facebook) }
 
-    it 'returns the url from facebook' do
-      expect(user.avatar_url).to eq(user.fb_avatar)
+      it 'returns the url from facebook' do
+        expect(user.avatar_url).to eq(user.fb_avatar)
+      end
     end
+
+    # context 'User from the website' do
+    #   before do
+    #     UserAvatarUploader.enable_processing = true
+    #   end
+    #
+    #   after do
+    #     UserAvatarUploader.enable_processing = false
+    #   end
+    #
+    #   let(:image_url) { 'http://placehold.it/500' }
+    #   let(:user)      { FactoryGirl.create(:user, remote_avatar_url: image_url) }
+    #
+    #   it 'returns the url from the uploader' do
+    #     expect(user.avatar.wide).to have_dimensions(800, 800)
+    #   end
+    # end
+
   end
 
-  # context 'User from the website' do
-  #   before do
-  #     UserAvatarUploader.enable_processing = true
-  #   end
-  #
-  #   after do
-  #     UserAvatarUploader.enable_processing = false
-  #   end
-  #
-  #   let(:image_url) { 'http://placehold.it/500' }
-  #   let(:user)      { FactoryGirl.create(:user, remote_avatar_url: image_url) }
-  #
-  #   it 'returns the url from the uploader' do
-  #     expect(user.avatar.wide).to have_dimensions(800, 800)
-  #   end
-  # end
+  describe 'Stripe' do
+    before(:all) { StripeMock.start }
+    after(:all)  { StripeMock.stop }
 
+    let(:stripe_helper) { StripeMock.create_test_helper }
+
+    describe '#stripe_customer' do
+      context 'when not a stripe customer' do
+        it 'returns nil' do
+          expect(subject.stripe_customer).to be_nil
+        end
+      end
+
+      context 'when a stripe customer' do
+        subject { FactoryGirl.create(:user) }
+
+        before do
+          customer = Stripe::Customer.create({
+            email: subject.email,
+            card:  stripe_helper.generate_card_token
+          })
+          subject.stripe_customer_id = customer.id
+
+          subject.save
+        end
+
+        it 'returns a Stripe::Customer object' do
+          stripe_customer = Stripe::Customer
+
+          expect(subject.stripe_customer).to be_a(stripe_customer)
+        end
+      end
+    end
+
+    describe '#create_stripe_customer' do
+      context 'when the token is not provided' do
+        it 'returns nil' do
+          expect(subject.create_stripe_customer(nil)).to eq(nil)
+        end
+      end
+
+      context 'when the token is provided' do
+        let(:token)         { stripe_helper.generate_card_token }
+        let(:stripe_helper) { StripeMock.create_test_helper }
+
+        it 'returns a new Stripe::Customer' do
+          stripe_customer_type = Stripe::Customer
+          stripe_customer      = subject.create_stripe_customer(token)
+
+          expect(stripe_customer).to be_a(stripe_customer_type)
+        end
+
+        it 'saves the stripe customer id' do
+          stripe_customer = subject.create_stripe_customer(token)
+
+          expect(subject.stripe_customer_id).to eq(stripe_customer.id)
+        end
+      end
+    end
+  end
 end
 
 def create_oauth(options = { uid: Faker::Number.number(6) })
