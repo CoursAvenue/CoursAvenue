@@ -1217,7 +1217,15 @@ class Structure < ActiveRecord::Base
     managed_account
   end
 
-  # Update the managed account
+  # Update the managed account.
+  #
+  # This uses `[]` to access and update the managed account attributes. Hopefully, this doesn't
+  # break in the future /shrug.
+  #
+  # Furthermore, if this method is called while the managed_account is still in cache from its
+  # creation, the `keys` accessor corresponds to the `keys` attributes, containing the secret and
+  # publishable keys (https://stripe.com/docs/api/ruby#create_account) for this account instead
+  # of the `keys` methods.
   #
   # @param options The attributes to update.
   #
@@ -1227,7 +1235,9 @@ class Structure < ActiveRecord::Base
     managed_account = self.stripe_managed_account
 
     options.keys.each do |key|
-      managed_account[key] = options[key]
+      if managed_account.keys.include?(key) or managed_account.methods.include?(key)
+        managed_account[key] = options[key]
+      end
     end
 
     managed_account.save

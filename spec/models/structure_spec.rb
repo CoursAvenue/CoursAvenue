@@ -553,7 +553,7 @@ describe Structure do
 
       context "when there's a managed account" do
         before do
-          subject.create_managed_account
+          subject.create_managed_account({ email: Faker::Internet.email })
           subject.reload
         end
 
@@ -567,6 +567,16 @@ describe Structure do
 
         context 'when there are options' do
           let(:options) { { email: Faker::Internet.email } }
+
+          context 'when there are invalid options' do
+            let(:options) { { email: Faker::Internet.email, lorem: 'ipsum' } }
+            it "only updates the valid options" do
+              managed_account = subject.update_managed_account(options)
+
+              expect(managed_account[:email]).to eq(options[:email])
+              expect(managed_account[:lorem]).to be_nil
+            end
+          end
 
           it 'returns the managed account' do
             managed_account = subject.update_managed_account(options)
