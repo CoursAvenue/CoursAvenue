@@ -544,6 +544,45 @@ describe Structure do
       end
     end
 
+    describe '#update_managed_account' do
+      context "when there's no managed account" do
+        it 'returns nil' do
+          expect(subject.update_managed_account({})).to be_nil
+        end
+      end
+
+      context "when there's a managed account" do
+        before do
+          subject.create_managed_account
+          subject.reload
+        end
+
+        context "when there are no options" do
+          let(:options) { {} }
+
+          it 'returns nil' do
+            expect(subject.update_managed_account(options)).to be_nil
+          end
+        end
+
+        context 'when there are options' do
+          let(:options) { { email: Faker::Internet.email } }
+
+          it 'returns the managed account' do
+            managed_account = subject.update_managed_account(options)
+
+            expect(managed_account).to be_a(Stripe::Account)
+          end
+
+          it 'updates the managed account' do
+            managed_account = subject.update_managed_account(options)
+
+            expect(managed_account.email).to eq(options[:email])
+          end
+        end
+      end
+    end
+
     describe '#can_receive_payments?' do
       subject { FactoryGirl.create(:structure, :with_contact_email) }
 

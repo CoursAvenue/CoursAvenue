@@ -1217,6 +1217,22 @@ class Structure < ActiveRecord::Base
     managed_account
   end
 
+  # Update the managed account
+  #
+  # @param options The attributes to update.
+  #
+  # @return the Stripe::Account or nil
+  def update_managed_account(options)
+    return nil if self.stripe_managed_account_id.nil? or options.nil? or options.empty?
+    managed_account = self.stripe_managed_account
+
+    options.keys.each do |key|
+      managed_account[key] = options[key]
+    end
+
+    managed_account.save
+  end
+
   # Whether the structure can receive payments through its Stripe managed account.
   #
   # @return a Boolean
