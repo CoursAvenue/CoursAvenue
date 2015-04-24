@@ -495,28 +495,27 @@ describe Structure do
         it 'returns nil' do
           expect(subject.stripe_managed_account).to be_nil
         end
-
-        context 'when a managed account' do
-          subject { FactoryGirl.create(:structure, :with_contact_email) }
-
-          before do
-            managed_account = Stripe::Account.create({
-              managed: true,
-              country: 'FR'
-            })
-
-            subject.stripe_managed_account_id = managed_account.id
-            subject.save
-          end
-
-          it 'returns the Stripe::Account object' do
-            managed_account = Stripe::Account
-
-            expect(subject.stripe_managed_account).to be_a(Stripe::Account)
-          end
-        end
       end
 
+      context 'when a managed account' do
+        subject { FactoryGirl.create(:structure, :with_contact_email) }
+
+        before do
+          managed_account = Stripe::Account.create({
+            managed: true,
+            country: 'FR'
+          })
+
+          subject.stripe_managed_account_id = managed_account.id
+          subject.save
+        end
+
+        it 'returns the Stripe::Account object' do
+          managed_account = Stripe::Account
+
+          expect(subject.stripe_managed_account).to be_a(Stripe::Account)
+        end
+      end
     end
 
     describe '#create_managed_account' do
