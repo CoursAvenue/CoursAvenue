@@ -4,9 +4,10 @@
 .main-container.main-container--medium
   .panel.push--bottom
     .panel__body.soft--top
-      = render partial: 'users/participation_requests/table_recap', locals: { participation_request: @participation_request }
-
+      %h1.soft--sides Votre demande d'inscription
+      = render partial: 'participation_requests/table_recap', locals: { participation_request: @participation_request }
       %hr
+      %h2.soft--sides Conversation avec le professeur
       .soft
         .grid--full.push-half--bottom.message
           .grid__item.two-twelfths.v-top.v-top.visuallyhidden--palm>

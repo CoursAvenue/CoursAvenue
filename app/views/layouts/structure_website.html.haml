@@ -1,3 +1,6 @@
+= content_for :right_after_head do
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
+
 - if @structure.medias.any?
   - image = @structure.medias.cover_first.images_first.first.image
   #photos-videos.relative.bg-position-top.bg-cover.one-whole.z-index-under{ style: "background-image: url('#{image.url(:wide_and_blurry)}')" }

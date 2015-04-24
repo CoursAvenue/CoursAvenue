@@ -75,18 +75,17 @@ fr:
             pending: En attente de confirmation par le professeur
             canceled: Annulée
   # Views
-  users:
-    participation_requests:
-      table_recap:
-        see_on_map: Voir sur la carte
-        propose_another_date: Proposer une autre date
-        propose_another_course: Proposer un autre cours
-      actions:
-        discuss: Discuter
-        propose_another_date: Proposer une autre date
-        ask_more_info: Envoyer un message
-        decline: Refuser
-        accept: Accepter
+  participation_requests:
+    table_recap:
+      see_on_map: Voir sur la carte
+      propose_another_date: Proposer une autre date
+      propose_another_course: Proposer un autre cours
+    actions:
+      discuss: Discuter
+      propose_another_date: Proposer une autre date
+      ask_more_info: Envoyer un message
+      decline: Refuser
+      accept: Accepter
 
   pro:
     structures:
