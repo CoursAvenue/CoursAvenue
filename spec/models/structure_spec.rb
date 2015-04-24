@@ -536,7 +536,10 @@ describe Structure do
       end
 
       context 'when a managed account' do
-        it "doesn't do anything"
+        it "doesn't do anything" do
+          subject.create_managed_account
+
+          expect(Stripe::Account).to_not receive(:create)
       end
     end
   end

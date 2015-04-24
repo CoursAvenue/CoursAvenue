@@ -1172,18 +1172,39 @@ class Structure < ActiveRecord::Base
     Stripe::Account.retrieve(self.stripe_managed_account_id)
   end
 
-  # Create the stripe manged account
+  # Create the stripe manged account.
+  # More information: <https://stripe.com/docs/api/ruby#account_object>
   #
   # @param options The option for the creation of the managed account.
+  # In the options, we are waiting for:
+  #  * legal_entity: a hash
+  #
+  #  * bank_account: either a Stripe token or a hash with
+  #    - The country of the bank account (country),
+  #    - The currency of the bank account (currency) (Must be in the supported currencies
+  #      <https://support.stripe.com/questions/which-currencies-does-stripe-support>
+  #    - The account number of the bank account (account_number).
+  #
+  #  * tos_acceptance: a hash with the details on Stripe's TOS acceptance:
+  #    - The date as a UNIX timestamp (date).
+  #    - The ip address from which Stripe’s TOS were agreed (ip).
   #
   # @return nil or a Stripe::Account
   def create_managed_account(options = {})
     return stripe_managed_account if self.stripe_managed_account_id.present?
 
     default_options = {
-      managed: true,
-      country: 'FR',
-      email:   self.contact_email
+      managed:  true,
+      country:  'FR',
+      timezone: 'Europe/Paris',
+
+      email:                self.contact_email,
+      display_name:         "Compte pour la structure #{name} (id = #{id})",
+      # statement_descriptor: '',
+
+      business_name: self.name,
+      business_url:  self.website,
+
     }
 
     managed_account = Stripe::Account.create(options.merge(default_options))
