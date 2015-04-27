@@ -221,6 +221,15 @@ class ParticipationRequest < ActiveRecord::Base
     participants.map(&:number).reduce(&:+) || 0
   end
 
+  # Retrieve the `Stripe::Charge` associated with the participation request.
+  #
+  # @return nil or Stripe::Charge
+  def stripe_charge
+    return nil if self.stripe_charge_id.nil?
+
+    Stripe::Charge.retrieve(stripe_charge_id)
+  end
+
   private
 
   # Set state to pending by default when creating
