@@ -460,7 +460,6 @@ CoursAvenue::Application.routes.draw do
         get    :destroy_confirmation
         get    :edit_private_infos, path: 'mon-compte'
         patch  :update_password
-        patch  :update_passions
         get  :wizard
         get  :dashboard
         get  :choose_password
