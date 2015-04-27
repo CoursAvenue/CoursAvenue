@@ -20,7 +20,7 @@
 - if @message
   = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
   .p.action.soft--top
-    = link_to "Répondre", user_participation_request_path(@user, @conversation, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn'
+    = link_to "Répondre", user_participation_request_path(@user, @participation_request, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn'
 
 .p.soft--top
   Pour éviter qu'une telle situation se reproduise, notre équipe prendra contact avec ce partenaire pour comprendre les raisons de son annulation.
