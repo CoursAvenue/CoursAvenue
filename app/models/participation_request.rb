@@ -235,7 +235,7 @@ class ParticipationRequest < ActiveRecord::Base
   def stripe_charge
     return nil if self.stripe_charge_id.nil?
 
-    Stripe::Charge.retrieve(stripe_charge_id)
+    Stripe::Charge.retrieve(stripe_charge_id, stripe_account: structure.stripe_managed_account_id)
   end
 
   # Charge the amount of the participation request to the user.
