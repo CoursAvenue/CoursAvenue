@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422145949) do
+ActiveRecord::Schema.define(version: 20150423130427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -651,7 +651,6 @@ ActiveRecord::Schema.define(version: 20150422145949) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
-    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_request_participants", force: true do |t|
@@ -810,9 +809,6 @@ ActiveRecord::Schema.define(version: 20150422145949) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
-    t.string   "address"
-    t.float    "latitude"
-    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
@@ -1039,7 +1035,6 @@ ActiveRecord::Schema.define(version: 20150422145949) do
     t.boolean  "sms_opt_in",             default: false
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
-    t.string   "stripe_customer_id"
     t.boolean  "pure_player",            default: false
     t.string   "stripe_customer_id"
   end
