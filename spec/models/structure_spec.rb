@@ -8,7 +8,7 @@ describe Structure do
   subject {structure}
   let(:structure) { FactoryGirl.create(:structure) }
 
-  it {should be_valid}
+  it { should be_valid }
   it { expect(structure.active).to be true}
 
   context 'contact' do
@@ -413,33 +413,7 @@ describe Structure do
 
     let(:stripe_helper) { StripeMock.create_test_helper }
 
-    describe '#stripe_customer' do
-      context 'when not a stripe customer' do
-        it 'returns nil' do
-          expect(subject.stripe_customer).to be_nil
-        end
-      end
-
-      context 'when a stripe customer' do
-        subject { FactoryGirl.create(:structure, :with_contact_email) }
-
-        before do
-          customer = Stripe::Customer.create({
-            email: subject.contact_email,
-            card:  stripe_helper.generate_card_token
-          })
-          subject.stripe_customer_id = customer.id
-
-          subject.save
-        end
-
-        it 'returns a Stripe::Customer object' do
-          stripe_customer = Stripe::Customer
-
-          expect(subject.stripe_customer).to be_a(stripe_customer)
-        end
-      end
-    end
+    it_behaves_like 'StripeCustomer'
 
     describe '#create_stripe_customer' do
       context 'when the token is not provided' do

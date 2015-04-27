@@ -55,7 +55,6 @@ describe ParticipationRequest do
     let(:stripe_helper) { StripeMock.create_test_helper }
 
     describe '#stripe_charge' do
-
       context "when there isn't a stripe_charge_id" do
         it 'return nil' do
           expect(subject.stripe_charge).to be_nil

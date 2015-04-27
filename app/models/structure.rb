@@ -6,6 +6,7 @@ class Structure < ActiveRecord::Base
   include Concerns::IdentityCacheFetchHelper
   include Concerns::SMSSender
   include Concerns::ReminderEmailStatus
+  include Concerns::StripeCustomer
   include StructuresHelper
   include HasSubjects
   include ActsAsCommentable
@@ -1124,36 +1125,6 @@ class Structure < ActiveRecord::Base
     end
     articles += BlogArticleSearch.search(per_page: 3 - articles.length, type: 'user').results if articles.length < 3
     articles
-  end
-
-  # Retrieve the Stripe customer associated with this structure.
-  # The stripe customer is the stripe account used for the subscription with CoursAvenue.
-  #
-  # @return a Stripe::Customer or nil
-  def stripe_customer
-    return nil if self.stripe_customer_id.nil?
-
-    Stripe::Customer.retrieve(self.stripe_customer_id)
-  end
-
-  # Create a new Stripe customer.
-  # The stripe customer is the stripe account used for the subscription with CoursAvenue.
-  #
-  # @param token The card token gotten from the Stripe.js.
-  #
-  # @return a Stripe::Customer or nil
-  def create_stripe_customer(token)
-    return nil if token.nil?
-
-    stripe_customer = Stripe::Customer.create({
-      description: "Compte client pour la structure #{name} (id = #{id})",
-      source: token
-    })
-
-    self.stripe_customer_id = stripe_customer.id
-    self.save
-
-    stripe_customer
   end
 
   # Whether the Structure is subscribed (with stripe) or not.
