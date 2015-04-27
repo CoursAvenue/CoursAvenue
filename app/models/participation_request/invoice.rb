@@ -5,9 +5,11 @@ class ParticipationRequest::Invoice < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :stripe_invoice_id
+  attr_accessible :stripe_invoice_id, :participation_request
 
   belongs_to :participation_request
+
+  validates :participation_request, presence: true
 
   ######################################################################
   # Methods                                                            #
@@ -16,17 +18,17 @@ class ParticipationRequest::Invoice < ActiveRecord::Base
   # Retrieve the Stripe::Invoice.
   #
   # @return nil or a Stripe::Invoice.
-  def stripe_invoice
-    return nil if stripe_invoice_id.nil?
-
-    Stripe::Invoice.retrieve(stripe_invoice_id)
-  end
+  # def stripe_invoice
+  #   return nil if stripe_invoice_id.nil?
+  #
+  #   Stripe::Invoice.retrieve(stripe_invoice_id)
+  # end
 
   # The URL of the invoice as a PDF. (Hosted on S3)
   #
   # @return nil or a string.
   def pdf_url
-    return nil if stripe_invoice_id.nil?
+    # return nil if stripe_invoice_id.nil?
     generate_pdf! unless self.generated?
 
     file = CoursAvenue::Application::S3_BUCKET.objects[file_path]
