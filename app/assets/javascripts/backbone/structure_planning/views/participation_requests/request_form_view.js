@@ -85,6 +85,43 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
                 }.bind(this),
                 error: this.showPopupMessageDidntSend
             });
+        },
+
+        /*
+         * Called when a user click on "register" on a planning
+         * We create an instance of a message form view
+         */
+        showRegistrationForm: function showRegistrationForm (planning_data) {
+            if (this.model.get('structure').get('lessons').findWhere({ id: planning_data.course_id })) {
+                this.model.set('course_collection_type', 'lessons');
+            } else if (this.model.get('structure').get('privates').findWhere({ id: planning_data.course_id })) {
+                this.model.set('course_collection_type', 'privates');
+            } else {
+                this.model.set('course_collection_type', 'trainings');
+            }
+            this.model.set('course_id', planning_data.course_id);
+            this.model.set('planning_id', planning_data.id);
+            var request_form_view = new Module.RequestFormView( { structure: this.model.get('structure'), model: this.model, in_two_steps: true } ).render();
+            $.magnificPopup.open({
+                  items: {
+                      src: $(request_form_view.$el),
+                      type: 'inline'
+                  }
+            });
+            request_form_view.$el.css('max-width', '400px');
+        },
+
+        showSecondStepForm: function showSecondStepForm () {
+            this.populateRequest();
+            // Rejecting errors related to users
+            errors = _.reject(this.errors, function(value, key) { return (key.indexOf('user') != -1) })
+            if (errors.length == 0) {
+                this.ui.$first_step_form_wrapper.slideUp();
+                this.ui.$second_step_form_wrapper.slideDown();
+                this.$('[data-error]').hide(); // Hide errors if there was any
+            } else {
+                this.showErrors();
+            }
         }
 
     });

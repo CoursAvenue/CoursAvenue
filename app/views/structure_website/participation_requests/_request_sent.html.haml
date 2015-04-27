@@ -3,3 +3,6 @@
     %h3.flush
       Vous êtes bien inscrit
   .panel__body.soft
+    %p.epsilon Suivez et gérez votre réservation :
+    .text--center
+      = link_to 'Gérer ma réservation', structure_website_participation_request_path(@participation_request), class: 'btn btn--green', target: :_blank

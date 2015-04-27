@@ -226,6 +226,10 @@ class ParticipationRequest < ActiveRecord::Base
     participants.map(&:number).reduce(&:+) || 0
   end
 
+  def show_personnal_info?
+    return (accepted? || from_personal_website)
+  end
+
   private
 
   # Set state to pending by default when creating

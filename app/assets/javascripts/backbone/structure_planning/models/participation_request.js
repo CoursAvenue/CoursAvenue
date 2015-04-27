@@ -12,7 +12,7 @@ StructurePlanning.module('Models', function(Module, App, Backbone, Marionette, $
                 if (this.get('at_student_home') == 'true') {
                     if (_.isEmpty(this.get('street')) || _.isEmpty(this.get('zip_code')) ||
                                                          _.isEmpty(this.get('city_id'))) {
-                        return 'Vous devez rentrer une adresse';
+                        return 'Vous devez renseigner une adresse';
                     }
                 }
             },
@@ -34,14 +34,18 @@ StructurePlanning.module('Models', function(Module, App, Backbone, Marionette, $
                     return 'Vous devez sélectionner un cours';
                 }
             },
+            'user.name': {
+                required: true,
+                msg: 'Vous devez renseigner votre nom.'
+            },
             'user.phone_number': {
                 maxLength: 20,
                 required: true,
-                msg: 'Vous devez rentrer un numéro de téléphone valide.'
+                msg: 'Vous devez renseigner un numéro de téléphone valide.'
             },
             'user.email': {
                 pattern: 'email',
-                msg: 'Vous devez rentrer un e-mail valide.'
+                msg: 'Vous devez renseigner un e-mail valide.'
             }
         },
 
