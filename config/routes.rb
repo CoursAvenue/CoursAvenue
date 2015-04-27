@@ -522,7 +522,7 @@ CoursAvenue::Application.routes.draw do
       resources :sponsorships, only: [:index, :new, :create], controller: 'users/sponsorships', path: 'mes-parrainages'
       resources :participation_requests, only: [:index, :show], controller: 'users/participation_requests', path: 'mes-inscriptions'
     end
-    resources :participation_requests, only: [:edit], path: 'mes-inscriptions' do
+    resources :participation_requests, only: [:edit] do
       member do
         get   :report_form
         get   :cancel_form

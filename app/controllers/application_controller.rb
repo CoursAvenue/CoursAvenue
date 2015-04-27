@@ -113,7 +113,7 @@ class ApplicationController < ActionController::Base
   end
 
   def on_teacher_subdomain?
-    (request.subdomain != 'pro' && request.subdomain != 'www')
+    (request.subdomain.present? and request.subdomain != 'pro' and request.subdomain != 'www')
   end
 
   def robots
