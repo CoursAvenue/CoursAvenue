@@ -231,6 +231,35 @@ class ParticipationRequest < ActiveRecord::Base
     Stripe::Charge.retrieve(stripe_charge_id)
   end
 
+  # Charge the amount of the participation request to the user.
+  #
+  # @param token The token needed to create the stripe customer, if it doesn't already exists.
+  #
+  # @return the charge or nil
+  def charge!(token = nil)
+    return nil if ! structure.can_receive_payments?
+
+    customer = user.stripe_customer || user.create_stripe_customer(token)
+    return nil if customer.nil?
+
+    amount = participants.map(&:total_price).reduce(0, :+).to_i
+
+    charge = Stripe::Charge.create({
+      amount:          amount * 100,
+      currency:        Subscription::CURRENCY,
+      customer:        customer.id,
+      destination:     structure.stripe_managed_account,
+      application_fee: Subscription::APPLICATION_FEE
+    })
+
+    self.delay.create_and_send_invoie
+
+    self.stripe_charge_id = charge.id
+    self.save
+
+    charge
+  end
+
   private
 
   # Set state to pending by default when creating

@@ -56,8 +56,87 @@ describe ParticipationRequest do
       end
     end
 
+    describe '#charge!' do
+      let!(:user)      { subject.user }
+      let!(:structure) { subject.structure }
+      let(:token)      { stripe_helper.generate_card_token }
+
+      context "when the structure can't receive payments" do
+        it "doesn't create the charge" do
+          subject.charge!
+
+          expect(subject.stripe_charge).to be_nil
+        end
+
+        it "returns nil" do
+          expect(subject.charge!).to be_nil
+        end
       end
 
+      context 'when the structure can receive payments' do
+        before do
+          structure.create_managed_account
+        end
+
+        context "when the user doesn't have a customer account" do
+          before do
+            structure.create_managed_account
+            allow(structure).to receive(:can_receive_payments?).and_return(true)
+          end
+
+          context "when there isn't a token" do
+            it "doesn't create a stripe customer for the user" do
+              subject.charge!
+
+              expect(user.stripe_customer).to be_nil
+            end
+
+            it "doesn't create the charge" do
+              subject.charge!
+
+              expect(subject.stripe_charge).to be_nil
+            end
+
+            it "returns nil" do
+              expect(subject.charge!).to be_nil
+            end
+          end
+
+          context "when there's a token" do
+            it 'creates a Stripe customer for the user' do
+              subject.charge!(token)
+
+              expect(user.stripe_customer).to_not be_nil
+              expect(user.stripe_customer).to be_a(Stripe::Customer)
+            end
+          end
+
+          context 'all of the above' do
+            before do
+              user.create_stripe_customer(token)
+              user.reload
+            end
+
+            it 'creates a charge' do
+              subject.charge!
+
+              expect(subject.stripe_charge).to_not be_nil
+            end
+
+            it 'generates an invoice' do
+              expect { subject.charge! }.to change { ParticipationRequest::Invoice.count }.by(1)
+            end
+
+            it 'sends the invoice via mail' do
+              expect { subject.charge! }.to change { ActionMailer::Base.deliveries.count }.by(2)
+            end
+
+            it 'returns the charge' do
+              expect(subject.charge!).to_not be_nil
+              expect(subject.charge!).to be_a(Stripe::Charge)
+            end
+          end
+        end
       end
     end
   end
