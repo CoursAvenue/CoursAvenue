@@ -56,7 +56,7 @@ class Subscriptions::Invoice < ActiveRecord::Base
   #
   # @return a String.
   def file_path
-    "invoices/#{self.structure.slug}/#{self.id}.pdf"
+    "invoices/#{ self.structure.slug }/subscriptions/#{ self.id }.pdf"
   end
 
   private

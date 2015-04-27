@@ -5,7 +5,7 @@ require 'stripe_mock'
 # TODO: Prevent the sending of emails.
 describe ParticipationRequest do
 
-  subject { FactoryGirl.create(:participation_request) }
+  subject { FactoryGirl.create(:participation_request, :with_participants) }
 
   describe '#past?' do
     it 'returns true' do

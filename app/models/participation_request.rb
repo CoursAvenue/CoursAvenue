@@ -3,7 +3,7 @@ class ParticipationRequest < ActiveRecord::Base
 
   acts_as_paranoid
 
-  STATE = %w(accepted pending canceled)
+  STATE                 = %w(accepted pending canceled)
   PARAMS_THAT_MODIFY_PR = %w(date start_time end_time planning_id course_id)
 
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
