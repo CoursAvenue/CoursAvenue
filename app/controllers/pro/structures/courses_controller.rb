@@ -101,7 +101,7 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def create
-    @course           = Course.new params[:course]
+    @course           = Course.new course_attributes
     @course.structure = @structure
     respond_to do |format|
       if @course.save
@@ -117,7 +117,7 @@ class Pro::Structures::CoursesController < Pro::ProController
   def update
     @course = @structure.courses.friendly.find params[:id]
     respond_to do |format|
-      if @course.update_attributes params[:course]
+      if @course.update_attributes course_attributes
         format.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours a bien été mis à jour' }
         format.json { render json: {}, status: 200 }
         format.js
@@ -147,4 +147,13 @@ class Pro::Structures::CoursesController < Pro::ProController
   def load_structure
     @structure = Structure.friendly.find(params[:structure_id])
   end
+
+  def course_attributes
+    params.require(:course).permit(:type, :name, :frequency, :description, :teaches_at_home,
+                                   :cant_be_joined_during_year, :no_class_during_holidays,
+                                   :place_id, :on_appointment, :max_age_for_kid, :min_age_for_kid,
+                                   audience_ids: [], level_ids: [], subject_ids: [],
+                                   prices_attributes: [:id, :number, :type, :amount, :promo_amount, :info])
+  end
+
 end

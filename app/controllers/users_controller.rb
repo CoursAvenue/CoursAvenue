@@ -67,7 +67,12 @@ class UsersController < InheritedResources::Base
   # PATCH
   def update_password
     @user = User.find(current_user.id)
-    if @user.update(params[:user])
+    new_params = user_params
+    if new_params[:password].blank?
+      new_params.delete(:password)
+      new_params.delete(:password_confirmation)
+    end
+    if @user.update(new_params)
       # Sign in the user by passing validation in case his password changed
       sign_in @user, bypass: true
       redirect_to edit_private_infos_user_path(@user), notice: 'Votre mot de passe a bien été mis à jour'
@@ -127,27 +132,11 @@ class UsersController < InheritedResources::Base
     end
   end
 
-  def update_passions
-    @user = User.find params[:id]
-    merge_passions_subject_descendants_ids
-    params[:user][:passions_attributes].each do |index, passions_attribute|
-      if passions_attribute[:id].present?
-        passion = @user.passions.find(passions_attribute[:id])
-        passion.update_attributes(passions_attribute)
-      else
-        @user.passions.create passions_attribute
-      end
-    end
-    @user.save
-    respond_to do |format|
-      format.html { redirect_to user_passions_path(@user), notice: 'Vos passions ont bien été mises à jour.' }
-    end
-  end
-
   def update
     if params[:user] && params[:user][:subject_descendants_ids].present?
       params[:user][:subject_ids] = params[:user][:subject_ids] + params[:user].delete(:subject_descendants_ids)
     end
+    @user.subjects = Subject.find(params[:user][:subject_ids].reject(&:blank?)) if params[:user][:subject_ids]
     update! do |format|
       format.html { redirect_to (params[:return_to] || edit_user_path(@user)), notice: 'Votre profil a bien été mis à jour.' }
       format.js   { render nothing: true }
@@ -235,25 +224,6 @@ class UsersController < InheritedResources::Base
     end
   end
 
-  # Merge subject_descendants_ids into subject_ids
-  # Turns: {
-  #   subject_ids              => [12]
-  #   subject_descendants_ids  => [231]
-  # }
-  # Into: {
-  #   subject_ids              => [12, 231]
-  #   subject_descendants_ids  => [231]
-  # }
-  #
-  # @return nil
-  def merge_passions_subject_descendants_ids
-    if params[:user].has_key? :passions_attributes
-      params[:user][:passions_attributes].each do |index, passions_attributes|
-        passions_attributes[:subject_ids] = passions_attributes[:subject_ids] + passions_attributes[:subject_descendants_ids] if passions_attributes[:subject_descendants_ids]
-      end
-    end
-  end
-
   def after_omni_auth_sign_in_path_for(user)
     session[:after_sign_up_url] = user.after_sign_up_url || session['user_return_to'] || dashboard_user_path(user)
     if user.sign_in_count == 1
@@ -261,5 +231,13 @@ class UsersController < InheritedResources::Base
     else
       session[:after_sign_up_url]
     end
+  end
+
+  def user_params
+    params.require(:user).permit(:id, :first_name, :last_name, :gender, :description,
+                                 :birthdate, :phone_number, :zip_code, :city_id, :remote_avatar_url,
+                                 :password, :password_confirmation, :current_password,
+                                 :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
+                                 :sms_opt_in)
   end
 end
