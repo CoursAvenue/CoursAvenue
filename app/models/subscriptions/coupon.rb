@@ -5,8 +5,6 @@ class Subscriptions::Coupon < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  CURRENCY  = 'EUR'
-
   DURATIONS = {
     once:      'Une fois',
     forever:   'Pour toujours',
@@ -85,7 +83,7 @@ class Subscriptions::Coupon < ActiveRecord::Base
   def create_stripe_coupon
     stripe_coupon = Stripe::Coupon.create({
       duration:   self.duration,
-      currency:   CURRENCY,
+      currency:   Subscription::CURRENCY,
       amount_off: self.amount * 100
     })
     self.stripe_coupon_id = stripe_coupon.id

@@ -77,7 +77,7 @@
                   email: "#{@structure.contact_email}",
                   name: 'CoursAvenue',
                   description: 'Abonnement Premium',
-                  currency: "#{ Subscriptions::Plan::CURRENCY }",
+                  currency: "#{ Subscription::CURRENCY }",
                   amount: parseInt($(this).data('amount'), 10) * 100
               });
           } else {

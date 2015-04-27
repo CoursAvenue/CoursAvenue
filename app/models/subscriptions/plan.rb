@@ -10,8 +10,6 @@ class Subscriptions::Plan < ActiveRecord::Base
     year: 'Annuel'
   }
 
-  CURRENCY = 'EUR'
-
   ######################################################################
   # Macros                                                             #
   ######################################################################
@@ -126,7 +124,7 @@ class Subscriptions::Plan < ActiveRecord::Base
     options = {
       id:       plan_id,
       amount:   self.amount * 100,
-      currency: CURRENCY,
+      currency: Subscription::CURRENCY,
       interval: self.interval,
       name:     self.name
     }

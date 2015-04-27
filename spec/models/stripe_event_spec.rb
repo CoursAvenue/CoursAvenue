@@ -108,7 +108,7 @@ RSpec.describe StripeEvent, type: :model do
         let(:charge) do
           Stripe::Charge.create({
             amount:   plan.amount * 100,
-            currency: Subscriptions::Plan::CURRENCY,
+            currency: Subscription::CURRENCY,
             customer: structure.stripe_customer_id
           })
         end
@@ -140,7 +140,7 @@ RSpec.describe StripeEvent, type: :model do
         let(:charge) do
           Stripe::Charge.create({
             amount:   plan.amount * 100,
-            currency: Subscriptions::Plan::CURRENCY,
+            currency: Subscription::CURRENCY,
             customer: structure.stripe_customer_id
           })
         end
@@ -172,16 +172,12 @@ RSpec.describe StripeEvent, type: :model do
         let(:charge) do
           Stripe::Charge.create({
             amount:   plan.amount * 100,
-            currency: Subscriptions::Plan::CURRENCY,
+            currency: Subscription::CURRENCY,
             customer: structure.stripe_customer_id
           })
         end
 
-        let(:stripe_event) do
-          StripeMock.mock_webhook_event(event_type, {
-            charge: charge.id
-          })
-        end
+        let(:stripe_event) { StripeMock.mock_webhook_event(event_type, { charge: charge.id }) }
 
         subject do
           FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)

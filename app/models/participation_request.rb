@@ -185,7 +185,6 @@ class ParticipationRequest < ActiveRecord::Base
     end
   end
 
-
   # Tell wether the course will happen at student place
   #
   # @return Boolean
