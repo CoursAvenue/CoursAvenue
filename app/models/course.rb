@@ -74,6 +74,10 @@ class Course < ActiveRecord::Base
                   :price_group_id, :on_appointment,
                   :is_open_for_trial, :has_promotion, :prices_attributes
 
+  accepts_nested_attributes_for :prices,
+                                 reject_if: :reject_price,
+                                 allow_destroy: true
+
   # ------------------------------------------------------------------------------------ Search attributes
   # :nocov:
   searchable do
