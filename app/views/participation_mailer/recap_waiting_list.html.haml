@@ -2,11 +2,11 @@
   = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: 'width: 300px; height: 89px;'
 
 - content_for :header_links do
-  = link_to 'Connexion', new_user_session_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'Connexion', new_user_session_url(subdomain: 'www')
   %span.gray-light &#124;
-  = link_to 'JPO', open_courses_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'JPO', open_courses_url(subdomain: 'www')
   %span.gray-light &#124;
-  = link_to 'Rechercher', structures_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'Rechercher', structures_url(subdomain: 'www')
 
 - content_for :promo do
   %h4
@@ -19,7 +19,7 @@
   Vous vous êtes récemment inscrit à des ateliers mais êtes en liste d'attente.
 
 %p.action
-  = link_to "M'inscrire à d'autres ateliers", open_courses_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--yellow'
+  = link_to "M'inscrire à d'autres ateliers", open_courses_url(subdomain: 'www'), class: 'btn btn--yellow'
 
 %p.flush
   - if @participations.length == 1

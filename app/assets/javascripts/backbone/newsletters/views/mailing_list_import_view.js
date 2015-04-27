@@ -98,7 +98,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             var submit_form_text = $('form [type=submit]').text();
             $('form [type=submit]').text($('form [type=submit]').data('disable-with'));
-            this.$('form button').trigger('ajax:beforeSend.rails');
+            this.$('form button').trigger('ajax:send');
             var url = Routes.bulk_import_pro_structure_newsletter_mailing_lists_path(structure, newsletter)
 
             $.ajax(url, {

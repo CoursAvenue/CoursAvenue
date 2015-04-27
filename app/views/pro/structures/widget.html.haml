@@ -40,7 +40,7 @@
 
   %div{ style: 'margin-bottom: 300px;' }
   #coursavenue-link-to-remove-wrapper.hidden>
-    = link_to "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", style: 'border: 0 !important; clip: rect(0 0 0 0) !important; height: 1px !important; margin: -1px !important; overflow: hidden !important; padding: 0 !important; position: absolute !important; width: 1px !important;'
+    = link_to "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", structure_url(@structure, subdomain: 'www'), title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", style: 'border: 0 !important; clip: rect(0 0 0 0) !important; height: 1px !important; margin: -1px !important; overflow: hidden !important; padding: 0 !important; position: absolute !important; width: 1px !important;'
 
 - content_for :scripts do
   :javascript
@@ -67,7 +67,7 @@
             load_widget();
         });
         load_widget = function() {
-            var url      = "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)}",
+            var url      = "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}",
                 new_code;
             url += '?last_comments='    + params['last_comments'];
             url += '&show_new_comment=' + params['show_new_comment'];

@@ -5,11 +5,11 @@
   = image_tag 'jpo_2014/logo_j_moins_5.png', style: 'width: 125px; height: 125px;', class: 'block'
 
 - content_for :header_links do
-  = link_to 'Connexion', new_user_session_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'Connexion', new_user_session_url(subdomain: 'www')
   %span.gray-light &#124;
-  = link_to 'JPO', open_courses_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'JPO', open_courses_url(subdomain: 'www')
   %span.gray-light &#124;
-  = link_to 'Rechercher', structures_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'Rechercher', structures_url(subdomain: 'www')
 
 - content_for :promo do
   .title
@@ -19,7 +19,7 @@
   Le week-end de la semaine prochaine, plus de 200 associations, écoles et professeurs vous offrent l'opportunité de découvrir gratuitement leurs disciplines : aquazumba, décoration de cupcakes, initiation au flamenco, ateliers créatifs parents-enfants… Les places sont limitées, réservez vite :
 
 .p.action
-  = link_to "Choisir mon atelier gratuit", open_courses_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'choose_jpo_course', utm_medium: 'monday'), class: 'btn btn--green'
+  = link_to "Choisir mon atelier gratuit", open_courses_url(subdomain: 'www', utm_source: 'email', utm_campaign: 'choose_jpo_course', utm_medium: 'monday'), class: 'btn btn--green'
 
 .p.blue.blue-tip
   %i Trucs & astuces : les places étant limitées, réservez votre atelier le plus tôt possible, puis invitez vos amis.
@@ -33,7 +33,7 @@
         .p.soft-half--sides
           Invitez vos amis, familles et collègues à s'inscrire aux ateliers gratuits des Portes Ouvertes les 5-6 avril à Paris / Ile-de-France :
         .p.action.push-half--bottom{style: 'margin-top: 18px !important'}
-          = link_to 'En parler à mes proches', jpo_new_user_invited_users_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_campaign: 'share_jpo', utm_medium: 'monday'), class: 'btn btn--blue'
+          = link_to 'En parler à mes proches', jpo_new_user_invited_users_url(@user, subdomain: 'www', utm_campaign: 'share_jpo', utm_medium: 'monday'), class: 'btn btn--blue'
 
 - content_for :under_content_2 do
   %table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600'}

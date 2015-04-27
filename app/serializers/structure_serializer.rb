@@ -59,8 +59,7 @@ class StructureSerializer < ActiveModel::Serializer
     elsif Rails.env.development?
       host = 'coursavenue.dev'
     elsif Rails.env.staging?
-      host      = 'staging.coursavenue.com'
-      subdomain = 'staging'
+      host      = 'coursaven.eu'
     end
     structure_url(object, subdomain: subdomain, host: host, only_path: host.nil?)
   end

@@ -22,7 +22,7 @@
             - unread_conversations       = unread_conversations.uniq.sort_by(&:created_at).reverse
             - unread_conversations_count = unread_conversations.count
             .inline-block.v-middle.drop-down__wrapper
-              = link_to pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft-half--ends muted-link f-weight-bold' do
+              = link_to pro_structure_conversations_url(@structure, subdomain: 'pro'), class: 'white block soft-half--ends muted-link f-weight-bold' do
                 %i.fa-envelope-o
                 = pluralize @structure.mailbox.inbox.count, 'message'
                 - if unread_conversations_count > 0
@@ -52,15 +52,15 @@
                                 = conversation_label_name conversation
                               .flexbox__item.v-middle.soft-half--left>
                                 = conversation_label conversation, class: 'lbl--small'
-                  %li.text--center= link_to 'Voir tous les messages', pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+                  %li.text--center= link_to 'Voir tous les messages', pro_structure_conversations_url(@structure, subdomain: 'pro')
           %span.v-middle.push-half--sides= '|'
           .inline-block.v-middle.drop-down__wrapper
-            = link_to pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'white block soft-half--ends muted-link f-weight-bold' do
+            = link_to pro_structure_comments_url(@structure, subdomain: 'pro'), class: 'white block soft-half--ends muted-link f-weight-bold' do
               %i.fa-comment.v-middle
               %span.v-middle= "#{@structure.comments.accepted.count} avis"
           %span.v-middle.push-half--sides= '|'
           .inline-block.v-middle.drop-down__wrapper
-            = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'white block soft-half--ends muted-link f-weight-bold', title: 'Voir&nbsp;mon&nbsp;profil&nbsp;public', data: { toggle: 'tooltip', placement: 'right', html: true } do
+            = link_to structure_url(@structure, subdomain: 'www'), target: :_blank, class: 'white block soft-half--ends muted-link f-weight-bold', title: 'Voir&nbsp;mon&nbsp;profil&nbsp;public', data: { toggle: 'tooltip', placement: 'right', html: true } do
               %i.fa-eye.v-middle.epsilon
               = truncate(@structure.name, length: 80)
               .fa.fa-caret-down.very-soft--left

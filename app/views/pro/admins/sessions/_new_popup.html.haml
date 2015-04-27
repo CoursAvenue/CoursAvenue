@@ -9,7 +9,7 @@
       %span.f-weight-600
         ou
 
-    = simple_form_for(Admin.new, as: :pro_admin, url: pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)) do |f|
+    = simple_form_for(Admin.new, as: :pro_admin, url: pro_admin_session_url(subdomain: 'pro')) do |f|
       .form-inputs
         .input-addon.push-half--bottom
           .input-prefix.epsilon @

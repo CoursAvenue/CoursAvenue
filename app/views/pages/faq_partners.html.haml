@@ -9,7 +9,7 @@
     .grid__item.two-thirds
       %p
         Cliquez sur le lien
-        = link_to '« Référencer mes cours et stages »', inscription_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+        = link_to '« Référencer mes cours et stages »', inscription_pro_structures_url(subdomain: 'pro')
         et accédez à votre espace pro. Après avoir renseigné votre email et votre mot de passe, vous accéderez à notre logiciel en ligne qui vous permettra d'ajouter tous vos cours et stages en quelques clics.
 
   .grid
@@ -18,7 +18,7 @@
     .grid__item.two-thirds
       %p
         Non, CoursAvenue.com ne facture pas de frais pour inscrire votre établissement ou vos cours. Si vous souhaitez avoir accès aux modules plus avancés de notre logiciel en ligne, vous paierez alors un abonnement mensuel
-        = link_to '(voir nos offres et nos tarifs)', pro_pages_price_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+        = link_to '(voir nos offres et nos tarifs)', pro_pages_price_url(subdomain: 'pro')
 
 
   .grid

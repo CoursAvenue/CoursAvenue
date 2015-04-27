@@ -11,12 +11,12 @@
         Prenez le contrôle de votre profil pour compléter vos informations, recruter plus d'élèves et bien d'autres choses encore :
 
       .p.action.text--left
-        = link_to "Gérer mon profil gratuit", new_pro_admin_structure_registration_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'take_control', utm_medium: 'take_control'), class: 'btn btn--green'
+        = link_to "Gérer mon profil gratuit", new_pro_admin_structure_registration_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'take_control', utm_medium: 'take_control'), class: 'btn btn--green'
     %td.content-block.text--center{ width: '50%' }
-      = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'take_control', utm_medium: 'see_my_profile') do
+      = link_to structure_url(@structure, subdomain: 'www', utm_source: 'email', utm_campaign: 'take_control', utm_medium: 'see_my_profile') do
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/flat_profile.png', width: 250, height: 188, alt: 'Exemple de profil CoursAvenue'
       %br
-      = link_to 'Voir mon profil actuel', structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, utm_source: 'email', utm_campaign: 'take_control', utm_medium: 'see_my_profile')
+      = link_to 'Voir mon profil actuel', structure_url(@structure, subdomain: 'www', utm_source: 'email', utm_campaign: 'take_control', utm_medium: 'see_my_profile')
 
 - content_for :under_content do
   - @similar_profiles = @structure.similar_profiles(3, { is_sleeping: false, nb_courses: 1, medias_count: 1 })
@@ -27,7 +27,7 @@
     %tr{ valign: 'top' }
       - @similar_profiles.each do |similar_profile|
         %td.content-block{ width: '33%', style: 'padding-bottom: 0' }
-          = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
+          = link_to structure_url(similar_profile, subdomain: 'www') do
             .text--center
               - media = similar_profile.medias.cover_first.videos_first.first
               - if media.nil?
@@ -101,19 +101,19 @@
     %tr
       %td.content-block
         .p.action
-          = link_to 'Je ne veux pas communiquer sur mes cours', dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'dont_want_to_communicate', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
+          = link_to 'Je ne veux pas communiquer sur mes cours', dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'dont_want_to_communicate', subdomain: 'pro'), class: 'btn'
       %td.content-block
         .p.action
-          = link_to "Mon établissement n'existe plus", dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'no_more_exist', subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
+          = link_to "Mon établissement n'existe plus", dont_want_to_take_control_of_my_sleeping_account_pro_structure_url(@structure, reason: 'no_more_exist', subdomain: 'pro'), class: 'btn'
 
 - content_for :under_content_gray do
   .title
-    = link_to "Foire aux questions", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Foire aux questions", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'
   .p.soft-half--bottom.bordered--bottom
-    = link_to "Qu'est-ce que CoursAvenue ? A quoi sert un profil gratuit CoursAvenue ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Qu'est-ce que CoursAvenue ? A quoi sert un profil gratuit CoursAvenue ?", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'
   .p.soft-half--ends.bordered--bottom
-    = link_to "Qui a créé mon profil CoursAvenue ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Qui a créé mon profil CoursAvenue ?", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'
   .p.soft-half--ends.bordered--bottom
-    = link_to "Pourquoi et comment prendre le contrôle de mon profil ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Pourquoi et comment prendre le contrôle de mon profil ?", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'
   .p.soft-half--ends
-    = link_to "Est-ce vraiment gratuit ? Existe-t-il d'autres types de profils que le profil gratuit CoursAvenue ?", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'muted-link'
+    = link_to "Est-ce vraiment gratuit ? Existe-t-il d'autres types de profils que le profil gratuit CoursAvenue ?", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'

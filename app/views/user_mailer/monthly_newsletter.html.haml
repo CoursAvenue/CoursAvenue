@@ -30,7 +30,7 @@
               %tr{ valign: 'top' }
                 - structure_group.each do |similar_profile|
                   %td.content-block{ width: '33%', style: 'padding-bottom: 0' }
-                    = link_to structure_url(similar_profile, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
+                    = link_to structure_url(similar_profile, subdomain: 'www') do
                       .text--center
                         - media = similar_profile.medias.cover_first.videos_first.first
                         - if media.nil?

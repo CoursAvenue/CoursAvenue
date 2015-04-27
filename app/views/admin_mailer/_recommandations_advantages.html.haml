@@ -20,7 +20,7 @@
     %td.soft-half.v-middle.cell.content-block.push--bottom{ width: '250', style: 'padding-right: 0; padding-left: 0;' }
       .p.flush--bottom
         Votre
-        = link_to "livre d'Or", pro_pages_widget_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+        = link_to "livre d'Or", pro_pages_widget_url(subdomain: 'pro')
         est visible sur votre propre site Internet.
     %td.soft-half.v-middle.cell.content-block.push--bottom{ width: '50' }
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/emails_logo/search.png', alt: 'CoursAvenue', height: '50', style: 'width: 50px; height: 50px;', width: '50'
@@ -30,4 +30,4 @@
   %tr{ valign: 'top' }
     %td.soft-half.content-block{ width: '600', colspan: '4' }
       .p.action.flush--top
-        = link_to 'Envoyer ma demande de recommandations', recommendations_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--blue'
+        = link_to 'Envoyer ma demande de recommandations', recommendations_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'

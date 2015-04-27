@@ -2,11 +2,11 @@
   = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: 'width: 300px; height: 89px;'
 
 - content_for :header_links do
-  = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+  = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: 'pro')
   %span.gray-light &#124;
-  = link_to 'Aide', pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+  = link_to 'Aide', pro_pages_questions_url(subdomain: 'pro')
   %span.gray-light &#124;
-  = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+  = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: 'pro')
 
 - content_for :promo do
   %h4 Récapitulatif des inscription à vos Portes Ouvertes
@@ -20,7 +20,7 @@
 %ul
   %li
     Vérifiez le récapitulatif de vos cours ci-dessous : pour toute modification, prévenez l'équipe CoursAvenue (contact@coursavenue.com) ainsi que vos inscrits en leur envoyant un message groupé
-    = link_to 'depuis votre profil', pro_structure_participations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+    = link_to 'depuis votre profil', pro_structure_participations_url(@structure, subdomain: 'pro')
     ;
 
   %li Profitez de l'occasion pour présenter votre lieu à vos nouveaux élèves et l'esprit de votre enseignement ;
@@ -29,7 +29,7 @@
   %li Dès la semaine prochaine, l'équipe CoursAvenue prendra contact avec vous pour faire le point et connaître votre ressenti.
 
 .p.action
-  = link_to "Modifier ou annuler mes inscriptions", pro_structure_participations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Modifier ou annuler mes inscriptions", pro_structure_participations_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 
 .p
   Toute l'équipe CoursAvenue vous souhaite de très belles Portes Ouvertes ! Très bon week-end à vous, merci,

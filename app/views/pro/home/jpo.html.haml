@@ -1,7 +1,7 @@
 - if current_pro_admin and current_pro_admin.structure
-  - inscription_link = pro_structure_course_opens_url(current_pro_admin.structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+  - inscription_link = pro_structure_course_opens_url(current_pro_admin.structure, subdomain: 'pro')
 - else
-  - inscription_link = inscription_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+  - inscription_link = inscription_pro_structures_url(subdomain: 'pro')
 
 = content_for :title do
   Portes Ouvertes des cours de loisirs par CoursAvenue | CoursAvenue.com

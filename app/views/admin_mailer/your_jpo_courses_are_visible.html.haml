@@ -3,11 +3,11 @@
 
 - if @structure
   - content_for :header_links do
-    = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+    = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: 'pro')
     %span.gray-light &#124;
-    = link_to 'Aide', pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+    = link_to 'Aide', pro_pages_questions_url(subdomain: 'pro')
     %span.gray-light &#124;
-    = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+    = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: 'pro')
 
 - content_for :promo do
   %h4
@@ -17,7 +17,7 @@
   Notre équipe vient de valider vos ateliers Portes Ouvertes qui sont maintenant ouverts aux inscriptions. A chaque inscription, un e-mail vous sera envoyé et vous pourrez suivre vos inscrits en temps réel sur votre profil. Profitez de cette occasion pour offrir à vos élèves l'opportunité d'inviter leurs proches :
 
 %p.action
-  = link_to "Inviter mes élèves et mon réseau", jpo_new_pro_structure_invited_students_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'invite_jpo_students', utm_medium: 'jpo_course_visible'), class: 'btn btn--green'
+  = link_to "Inviter mes élèves et mon réseau", jpo_new_pro_structure_invited_students_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'invite_jpo_students', utm_medium: 'jpo_course_visible'), class: 'btn btn--green'
 
 %p.blue.blue-tip
   %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter leurs proches.

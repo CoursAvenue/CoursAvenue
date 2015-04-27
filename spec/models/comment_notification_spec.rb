@@ -17,15 +17,6 @@ describe CommentNotification do
       end
     end
 
-    context 'after creation' do
-      it 'sends an email after create' do
-        comment_notification = FactoryGirl.build :comment_notification
-        expect {
-          comment_notification.save
-        }.to change { ActionMailer::Base.deliveries.count }.by(1)
-        expect(comment_notification.status).to eq nil
-      end
-    end
     # -------------------------------
     # Has already received 1 email
     # -------------------------------

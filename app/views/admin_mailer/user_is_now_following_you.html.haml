@@ -12,7 +12,7 @@
     vous pourrez à tout moment accéder à ses coordonnées de contact depuis la rubrique "Répertoire" de votre profil pour l'inviter à assister à l'un de vos cours :
 
 .action
-  = link_to 'Accéder à mon répertoire', pro_structure_user_profiles_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+  = link_to 'Accéder à mon répertoire', pro_structure_user_profiles_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 
 = render 'shared/mailers/footer'
 

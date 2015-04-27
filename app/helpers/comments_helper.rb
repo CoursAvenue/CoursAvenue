@@ -1,14 +1,14 @@
 # encoding: utf-8
 module CommentsHelper
   def structure_comment_url(comment)
-    structure_url(comment.structure, anchor: "recommandation-#{comment.id}", subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+    structure_url(comment.structure, anchor: "recommandation-#{comment.id}", subdomain: 'www')
   end
 
   def share_comment_url(comment, provider = :facebook)
     case provider
     when :facebook
       # Add c parameter to pass id of the comment in the URL and have specific og:title and description
-      URI.encode("http://www.facebook.com/sharer.php?s=100&p[url]=#{structure_url(comment.structure, c: comment.id, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}")
+      URI.encode("http://www.facebook.com/sharer.php?s=100&p[url]=#{structure_url(comment.structure, c: comment.id, subdomain: 'www')}")
     when :twitter
       URI.encode("https://twitter.com/intent/tweet?text=\"#{comment.title}\" par #{comment.author_name}&via=CoursAvenue&url=#{structure_comment_url(comment)}")
     end
@@ -26,9 +26,9 @@ module CommentsHelper
   # URL of the commentable
   def commentable_url(comment, options = {})
     if comment.commentable.is_a? Structure
-      structure_url(comment.commentable, { subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: "recommandation-#{comment.id}" }.merge(options))
+      structure_url(comment.commentable, { subdomain: 'www', anchor: "recommandation-#{comment.id}" }.merge(options))
     elsif comment.commentable
-      structure_course_url comment.commentable.structure, comment.commentable, { subdomain: CoursAvenue::Application::WWW_SUBDOMAIN }.merge(options)
+      structure_course_url comment.commentable.structure, comment.commentable, { subdomain: 'www' }.merge(options)
     end
   end
 

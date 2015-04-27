@@ -139,30 +139,6 @@ describe Comment::Review do
 
       expect(subject.status).to eq(:accepted)
     end
-
-    # it "doesn't send a congratulatory email" do
-    #   expect { subject.accept! }.to_not change { ActionMailer::Base.deliveries.count }
-    # end
-
-    context "when there's less than 5 comments" do
-      before do
-        5.times { FactoryGirl.create(:comment_review, commentable: structure) }
-      end
-
-      it 'send a congratulatory email' do
-        expect { subject.accept! }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      end
-    end
-
-    context "when there's less than 15 comments" do
-      before do
-        15.times { FactoryGirl.create(:comment_review, commentable: structure) }
-      end
-
-      it 'send a congratulatory email' do
-        expect { subject.accept! }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      end
-    end
   end
 
   describe '#ask_for_deletion!' do
@@ -172,10 +148,6 @@ describe Comment::Review do
       subject.ask_for_deletion!
 
       expect(subject.status).to eq(:waiting_for_deletion)
-    end
-
-    it 'send a congratulatory email' do
-      expect { subject.ask_for_deletion! }.to change { ActionMailer::Base.deliveries.count }
     end
   end
 

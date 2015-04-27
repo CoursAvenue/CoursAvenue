@@ -1,5 +1,8 @@
 class ParticipationRequest < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
+  extend FriendlyId
+
+  friendly_id :token, use: [:finders]
 
   acts_as_paranoid
 
@@ -10,7 +13,7 @@ class ParticipationRequest < ActiveRecord::Base
                   :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
                   :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
                   :old_course_id, :structure_responded, :street, :zip_code, :city_id,
-                  :participants_attributes, :structure_id
+                  :participants_attributes, :structure_id, :from_personal_website, :token
 
   ######################################################################
   # Relations                                                          #
@@ -34,11 +37,12 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
-  before_save   :update_times
-  before_create :set_default_attributes
-  after_create  :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher, :touch_user
-  after_destroy :destroy_conversation_attached, :touch_user
   before_validation :set_date_if_empty
+  before_validation :create_token
+  before_save       :update_times
+  before_create     :set_default_attributes
+  after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher, :touch_user
+  after_destroy     :destroy_conversation_attached, :touch_user
 
   ######################################################################
   # Validation                                                         #
@@ -62,21 +66,21 @@ class ParticipationRequest < ActiveRecord::Base
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
   #
   # @return ParticipationRequest
-  def self.create_and_send_message(request_attributes, message_body, user, structure)
-    message_body            = StringHelper.replace_contact_infos(message_body)
+  def self.create_and_send_message(request_attributes, user)
+    structure = Structure.friendly.find request_attributes[:structure_id]
+    request_attributes[:message][:body] = StringHelper.replace_contact_infos(request_attributes[:message][:body])
     request_attributes      = self.set_start_time(request_attributes)
     participants_attributes = { participants_attributes: (request_attributes['participants_attributes'] || [{ number: 1}]) }
-    request_attributes      = request_attributes.slice(*ParticipationRequest.attribute_names)
-    request_attributes      = request_attributes.merge(participants_attributes)
-    participation_request   = ParticipationRequest.new request_attributes
+    new_request_attributes  = request_attributes.slice(*ParticipationRequest.attribute_names.map(&:to_sym))
+    new_request_attributes  = new_request_attributes.merge(participants_attributes)
+    participation_request   = ParticipationRequest.new new_request_attributes
 
     participation_request.user      = user
-    participation_request.structure = structure
     if participation_request.valid?
       # Create and send conversation
-      structure.create_or_update_user_profile_for_user(user, UserProfile::DEFAULT_TAGS[:discovery_pass])
+      structure.create_or_update_user_profile_for_user(user, UserProfile::DEFAULT_TAGS[:participation_request])
       recipients                         = structure.main_contact
-      receipt                            = user.send_message_with_label(recipients, message_body, I18n.t(Mailboxer::Label::REQUEST.name), Mailboxer::Label::REQUEST.id)
+      receipt                            = user.send_message_with_label(recipients, request_attributes[:message][:body], I18n.t(Mailboxer::Label::REQUEST.name), Mailboxer::Label::REQUEST.id)
       conversation                       = receipt.conversation
       participation_request.conversation = conversation
       participation_request.save
@@ -222,6 +226,10 @@ class ParticipationRequest < ActiveRecord::Base
     participants.map(&:number).reduce(&:+) || 0
   end
 
+  def show_personnal_info?
+    return (accepted? || from_personal_website)
+  end
+
   private
 
   # Set state to pending by default when creating
@@ -274,7 +282,11 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return nil
   def send_email_to_user
-    ParticipationRequestMailer.delay.you_sent_a_request(self)
+    if from_personal_website?
+      ParticipationRequestMailer.delay.you_sent_a_request_from_personal_website(self)
+    else
+      ParticipationRequestMailer.delay.you_sent_a_request(self)
+    end
     nil
   end
 
@@ -327,5 +339,17 @@ class ParticipationRequest < ActiveRecord::Base
   # Usually correspond to training courses.
   def set_date_if_empty
     self.date ||= self.planning.start_date if self.planning
+  end
+
+  # Creates an unique token.
+  #
+  # @return self
+  def create_token
+    if self.token.nil?
+      self.token = loop do
+        random_token = SecureRandom.urlsafe_base64
+        break random_token unless ParticipationRequest.exists?(token: random_token)
+      end
+    end
   end
 end

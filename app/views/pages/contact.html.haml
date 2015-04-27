@@ -28,9 +28,9 @@
         %li Quels sont les avantages du profil Premium&nbsp;?
   .grid.epsilon
     .grid__item.one-half>
-      = link_to "Voir toute l'aide élèves", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn'
+      = link_to "Voir toute l'aide élèves", pages_faq_users_url(subdomain: 'www'), class: 'btn'
     .grid__item.one-half>
-      = link_to "Voir toute l'aide professionnels", pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn'
+      = link_to "Voir toute l'aide professionnels", pro_pages_questions_url(subdomain: 'pro'), class: 'btn'
 
 .home-screen-promotion-wrapper
   .main-container.main-container--medium.mega-soft--ends
@@ -47,7 +47,7 @@
   = render partial: 'shared/home_page_search_form', locals: { form_class: 'header-search-bar center-block push-half--bottom', wrapper_class: '' }
   %p.epsilon.text--center
     Besoin d'aide pour trouver un cours ? Accédez à toutes nos réponses dans notre
-    = link_to "centre d'aide", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+    = link_to "centre d'aide", pages_faq_users_url(subdomain: 'www')
 
 .home-screen-promotion-wrapper
   .main-container.mega-soft--ends
@@ -87,13 +87,13 @@
           = render partial: 'shared/home_page_search_form', locals: { form_class: 'inline-block', wrapper_class: '' }
           %p
             Besoin d'aide pour trouver un cours ? Accédez à toutes nos réponses dans notre
-            = link_to "centre d'aide", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+            = link_to "centre d'aide", pages_faq_users_url(subdomain: 'www')
 
         .hidden-contact-fields.hidden-contact-contact-teacher.soft--top.hidden
           %p.epsilon
             %strong Vous souhaitez contacter l'un des profils repérés sur CoursAvenue ?
             %br
-            = link_to "Cliquez ici", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+            = link_to "Cliquez ici", pages_faq_users_url(subdomain: 'www')
             pour accéder à toutes nos réponses à vos questions.
 
         .hidden-contact-fields.hidden-contact-want-to-publish-courses.soft--top.hidden

@@ -2,11 +2,11 @@
   = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: 'width: 300px; height: 89px;'
 
 - content_for :header_links do
-  = link_to 'Connexion', new_user_session_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'Connexion', new_user_session_url(subdomain: 'www')
   %span.gray-light &#124;
-  = link_to 'JPO', open_courses_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'JPO', open_courses_url(subdomain: 'www')
   %span.gray-light &#124;
-  = link_to 'Rechercher', structures_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'Rechercher', structures_url(subdomain: 'www')
 
 - content_for :promo do
   %h4
@@ -44,7 +44,7 @@
       - else
         Transférez cet email aux #{@invited_friends} autres adultes pour lesquels vous avez réservé l'atelier ;
   %li
-    = link_to "Imprimez et emportez votre récapitulatif", user_participations_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+    = link_to "Imprimez et emportez votre récapitulatif", user_participations_url(@user, subdomain: 'www')
     avec vous le jour J, y compris l'adresse de l'organisateur et son numéro de téléphone ;
   %li
     Si vous souhaitez annuler ou modifier
@@ -53,15 +53,15 @@
     - else
       vos inscriptions,
     faites-le dès maintenant depuis
-    = link_to 'votre profil.', user_participations_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+    = link_to 'votre profil.', user_participations_url(@user, subdomain: 'www')
 
 %p.action
-  = link_to "Accéder à mon profil et imprimer mon récapitulatif", user_participations_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--yellow'
+  = link_to "Accéder à mon profil et imprimer mon récapitulatif", user_participations_url(@user, subdomain: 'www'), class: 'btn btn--yellow'
 
 %p
   Profitez-en pour inviter vos proches à suivre le même atelier que vous :
 %p.action
-  = link_to "Inviter mes proches", jpo_new_user_invited_users_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Inviter mes proches", jpo_new_user_invited_users_url(@user, subdomain: 'www'), class: 'btn btn--green'
 
 
 %p

@@ -15,7 +15,7 @@
       %textarea#recommendation-user-content.one-whole{ name: 'text', rows: 5, style: 'min-height: 150px;', data: { behavior: 'autoresize' } }
         Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques secondes pour laisser un avis sur mon profil ?
       %p.push-half--top.flush--bottom
-        = link_to 'Lien que recevront mes élèves', new_structure_comment_url(@structure, email: @email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank'
+        = link_to 'Lien que recevront mes élèves', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), target: '_blank'
       %p.flush
         Merci et à très bientôt,
         %br
@@ -37,7 +37,7 @@
       %p.epsilon.flush Pas de souci, nous vous avons préparé un texte que vous pouvez copier, puis coller dans votre email :
     .panel__body.soft
       %p Bonjour,
-      %p Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laisser votre recommandation en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), new_structure_comment_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank'}
+      %p Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laisser votre recommandation en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: '_blank'}
       %p Merci pour votre contribution et à très bientôt !
       %p.flush--bottom= @structure.name
 
@@ -85,13 +85,13 @@
       .grid--full
         .grid__item{ style: 'width: 60px;' }>
           - if @structure.logo?
-            = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: 'media-photo block' do
+            = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', class: 'media-photo block' do
               = image_tag @structure.logo.url(:thumb), style: 'width: 50px; height: 50px;', width: '50', height: '50'
         .grid__item.eight-tenths.soft--left>
           %h4 #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com :
       %hr
       %pre#recommendation-overview-content.push--bottom
-      %p= link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green', target: :_blank
+      %p= link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), class: 'btn btn--green', target: :_blank
       %p À très bientôt !
       %p= @structure.name
 

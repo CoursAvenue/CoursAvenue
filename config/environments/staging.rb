@@ -1,8 +1,8 @@
 CoursAvenue::Application.configure do
 
-  # config.session_store :cookie_store, key: '_CoursAvenue_session', :domain => 'coursavenue.com'
+  # config.session_store :cookie_store, key: '_CoursAvenue_session', :domain => 'coursaven.eu'
   # Settings specified here will take precedence over those in config/application.rb
-  CoursAvenue::Application.config.session_store :active_record_store, key: '_CoursAvenue_session_ar', domain: 'coursavenue.com'
+  CoursAvenue::Application.config.session_store :active_record_store, key: '_CoursAvenue_session_ar', domain: 'coursaven.eu'
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests
@@ -91,7 +91,7 @@ CoursAvenue::Application.configure do
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   config.action_controller.asset_host = "https://#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
-  # config.action_controller.asset_host = "cdn%d.coursavenue.com"
+  # config.action_controller.asset_host = "cdn%d.coursaven.eu"
   # config.action_controller.asset_host = "d1eu1s8jeg2hfj.cloudfront.net"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
@@ -131,15 +131,15 @@ CoursAvenue::Application.configure do
   # ------------ Mailer configuration
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { host: 'coursavenue.com' }
-  config.action_mailer.asset_host = 'http://staging.coursavenue.com'
+  config.action_mailer.default_url_options = { host: 'coursaven.eu' }
+  config.action_mailer.asset_host = 'http://coursaven.eu'
 
   config.action_mailer.smtp_settings = {
     address:          'smtp.mandrillapp.com',
     port:             '587',
     user_name:        ENV["MANDRILL_USERNAME"],
     password:         ENV["MANDRILL_PASSWORD"],
-    domain:           'coursavenue.com',
+    domain:           'coursaven.eu',
     authentication:   :plain
   }
 

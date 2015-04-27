@@ -57,7 +57,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             this.populateMessage();
             if (this.model.isValid(true)) {
                 if (CoursAvenue.currentUser().isLogged()) {
-                    this.$('form').trigger('ajax:beforeSend.rails');
+                    this.$('form').trigger('ajax:send');
                     this.saveMessage();
                 } else {
                     CoursAvenue.signUp({
@@ -92,7 +92,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
                     if (CoursAvenue.isProduction()) {
                         ga('send', 'event', 'Action', 'message');
                     }
-                    this.$('form').trigger('ajax:complete.rails');
+                    this.$('form').trigger('ajax:complete');
                     this.ui.$user_conversations_path.attr('href', Routes.user_conversations_path({ id: CoursAvenue.currentUser().get('slug') }));
                     $.magnificPopup.open({
                           items: {
@@ -106,7 +106,7 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
         },
 
         showPopupMessageDidntSend: function showPopupMessageDidntSend (model, response) {
-              this.$('form').trigger('ajax:beforeSend.rails');
+              this.$('form').trigger('ajax:send');
               var response = JSON.parse(response.responseText);
               $.magnificPopup.open({
                     items: {

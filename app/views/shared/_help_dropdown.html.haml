@@ -1,17 +1,17 @@
 - button_class = '' unless button_class
 %span.inline-block.soft-half--sides.drop-down__wrapper
-  = link_to pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank', class: button_class do
+  = link_to pages_faq_users_url(subdomain: 'www'), target: '_blank', class: button_class do
     Aide
     %i.fa.fa-caret-down
   .drop-down__el
     %ul.drop-down__el-inner-box.text--left.on-top
       %li.nowrap
-        = link_to "Comment trouver puis s'inscrire à un cours de loisir ?", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: 'about-creating-profile'), target: '_blank'
+        = link_to "Comment trouver puis s'inscrire à un cours de loisir ?", pages_faq_users_url(subdomain: 'www', anchor: 'about-creating-profile'), target: '_blank'
       %li.nowrap
-        = link_to "Comment contacter un professeur, une association ou une école ?", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: 'about-creating-profile'), target: '_blank'
+        = link_to "Comment contacter un professeur, une association ou une école ?", pages_faq_users_url(subdomain: 'www', anchor: 'about-creating-profile'), target: '_blank'
       %li.nowrap
-        = link_to "Je n'ai pas reçu mon mail d'activation : comment faire ?", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: 'about-creating-profile'), target: '_blank'
+        = link_to "Je n'ai pas reçu mon mail d'activation : comment faire ?", pages_faq_users_url(subdomain: 'www', anchor: 'about-creating-profile'), target: '_blank'
       %li.nowrap
-        = link_to "Pourquoi créer un compte élève ?", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: 'about-creating-profile'), target: '_blank'
+        = link_to "Pourquoi créer un compte élève ?", pages_faq_users_url(subdomain: 'www', anchor: 'about-creating-profile'), target: '_blank'
       %li.nowrap
-        = link_to "Comment déposer une recommandation ?", pages_faq_users_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, anchor: 'about-creating-profile'), target: '_blank'
+        = link_to "Comment déposer une recommandation ?", pages_faq_users_url(subdomain: 'www', anchor: 'about-creating-profile'), target: '_blank'

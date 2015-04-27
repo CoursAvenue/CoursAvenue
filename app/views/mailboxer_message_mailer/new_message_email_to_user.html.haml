@@ -7,7 +7,7 @@
 = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
 
 .p.action.soft--top
-  = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: 'www'), class: 'btn btn--green'
 
 = render 'shared/mailers/footer'
 

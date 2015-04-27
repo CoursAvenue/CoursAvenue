@@ -40,6 +40,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         },
 
         /*
+         * TODO: Refactor using Backbone.ModelBinder
          * Set attributes on message model for validations
          */
         populateRequest: function populateRequest (event) {
@@ -115,7 +116,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             $.cookie('user_phone_number'         , this.ui.$participation_request_user_phone_number.val());
             if (this.model.isValid(true)) {
                 if (CoursAvenue.currentUser().isLogged()) {
-                    this.$('form').trigger('ajax:beforeSend.rails');
+                    this.$('form').trigger('ajax:send');
                     this.saveMessage();
                 } else {
                     CoursAvenue.signUp({
@@ -156,7 +157,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             this.model.save(null, {
                 success: function success (model, response) {
                     // We disable the submit button
-                    this.$('form').trigger('ajax:complete.rails');
+                    this.$('form').trigger('ajax:complete');
                     $.magnificPopup.open({
                           items: {
                               src: $(response.popup_to_show),
@@ -172,7 +173,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         },
 
         showPopupMessageDidntSend: function showPopupMessageDidntSend (model, response) {
-              this.$('form').trigger('ajax:complete.rails');
+              this.$('form').trigger('ajax:complete');
               var popup_to_show = JSON.parse(response.responseText).popup_to_show;
               $.magnificPopup.open({
                     items: {

@@ -10,7 +10,7 @@ class StructureTypeaheadSerializer < ActiveModel::Serializer
   end
 
   def url
-    structure_path(object, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+    structure_path(object, subdomain: 'www')
   end
 
   def logo_url

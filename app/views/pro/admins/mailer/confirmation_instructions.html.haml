@@ -14,7 +14,7 @@
   .p
     Nous avons bien pris en compte votre changement d'e-mail. Pour valider ce changement veuillez cliquer sur le lien de validation suivant :
   .p.action
-    = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green' do
+    = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: 'pro'), class: 'btn btn--green' do
       Valider mon nouvel e-mail
 - else
   .title
@@ -23,7 +23,7 @@
   .p Accédez dès maintenant à votre profil pour valider votre inscription et votre e-mail :
 
   .p.action
-    = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green' do
+    = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: 'pro'), class: 'btn btn--green' do
       Valider et compléter mon profil
 
   = render 'shared/mailers/footer'

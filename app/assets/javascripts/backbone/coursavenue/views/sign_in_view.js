@@ -59,7 +59,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         signIn: function signIn () {
-            this.$('form').trigger('ajax:beforeSend.rails');
+            this.$('form').trigger('ajax:send');
             $.ajax({
                 beforeSend: function beforeSend (xhr) {
                     xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
@@ -75,7 +75,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     }
                 },
                 complete: function complete (response) {
-                    this.$('form').trigger('ajax:complete.rails');
+                    this.$('form').trigger('ajax:complete');
                 }.bind(this),
                 error: function error (response) {
                     var json_response = $.parseJSON(response.responseText);

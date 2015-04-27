@@ -15,7 +15,7 @@ class CommentSerializer < ActiveModel::Serializer
   end
 
   def comment_url
-    structure_url((options[:structure] || object.structure), anchor: "recommandation-#{object.id}", subdomain: CoursAvenue::Application::WWW_SUBDOMAIN, host: 'coursavenue.com')
+    structure_url((options[:structure] || object.structure), anchor: "recommandation-#{object.id}", subdomain: 'www', host: 'coursavenue.com')
   end
 
   def avatar_url

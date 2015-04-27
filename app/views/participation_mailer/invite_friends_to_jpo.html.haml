@@ -2,11 +2,11 @@
   = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: 'width: 300px; height: 89px;'
 
 - content_for :header_links do
-  = link_to 'Connexion', new_user_session_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'Connexion', new_user_session_url(subdomain: 'www')
   %span.gray-light &#124;
-  = link_to 'JPO', open_courses_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'JPO', open_courses_url(subdomain: 'www')
   %span.gray-light &#124;
-  = link_to 'Rechercher', structures_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'Rechercher', structures_url(subdomain: 'www')
 
 - content_for :promo do
   %h4
@@ -25,7 +25,7 @@
     Vous vous êtes récemment inscrits à un atelier des Portes Ouvertes des cours de loisirs. N'attendez plus pour inviter votre entourage à profiter des centaines de cours gratuits :
 
 %p.action
-  = link_to "Inviter mes proches", jpo_new_user_invited_users_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Inviter mes proches", jpo_new_user_invited_users_url(@user, subdomain: 'www'), class: 'btn btn--green'
 
 %p.blue.blue-tip
   %i Trucs & astuces : depuis votre profil, renseignez vos passions pour recevoir des invitations à des cours d'essai gratuits et des promotions tout au long de l'année.

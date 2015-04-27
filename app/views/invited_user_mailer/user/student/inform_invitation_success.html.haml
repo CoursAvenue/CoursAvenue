@@ -4,7 +4,7 @@
   Félicitations ! Nous avons le plaisir de vous informer que, suite à votre parrainage, #{@invited_email} a créé son profil CoursAvenue. Pensez à tous vos proches qui vous entourent et multipliez vos parrainages :
 
 %p.action
-  = link_to "Parrainer d'autres élèves", new_user_invited_user_url(@referrer, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Parrainer d'autres élèves", new_user_invited_user_url(@referrer, subdomain: 'www'), class: 'btn btn--green'
 
 %p N'hésitez pas à nous solliciter si vous avez des questions ! Merci et à très bientôt,
 
@@ -12,4 +12,4 @@
   L'équipe de CoursAvenue
 
 - content_for :footer do
-  %p= link_to 'Gérer mes préférences e-mails', edit_private_infos_user_url(@referrer, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  %p= link_to 'Gérer mes préférences e-mails', edit_private_infos_user_url(@referrer, subdomain: 'www')
