@@ -257,7 +257,6 @@ class ParticipationRequest < ActiveRecord::Base
     nil
   end
 
-
   # Check if the request is duplicate or not
   #
   # @return Boolean
