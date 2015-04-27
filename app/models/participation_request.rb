@@ -222,6 +222,13 @@ class ParticipationRequest < ActiveRecord::Base
     participants.map(&:number).reduce(&:+) || 0
   end
 
+  # The cost of this Participation Request in Euros.
+  #
+  # @return an integer
+  def price
+    participants.map(&:total_price).reduce(0, :+).to_i
+  end
+
   # Retrieve the `Stripe::Charge` associated with the participation request.
   #
   # @return nil or Stripe::Charge
@@ -242,10 +249,8 @@ class ParticipationRequest < ActiveRecord::Base
     customer = user.stripe_customer || user.create_stripe_customer(token)
     return nil if customer.nil?
 
-    amount = participants.map(&:total_price).reduce(0, :+).to_i
-
     charge = Stripe::Charge.create({
-      amount:          amount * 100,
+      amount:          price * 100,
       currency:        Subscription::CURRENCY,
       customer:        customer.id,
       destination:     structure.stripe_managed_account,

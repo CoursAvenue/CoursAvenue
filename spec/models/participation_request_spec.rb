@@ -21,6 +21,32 @@ describe ParticipationRequest do
     end
   end
 
+  describe '#price' do
+    context "when there's no participant" do
+      subject { FactoryGirl.create(:participation_request) }
+
+      it 'return 0' do
+        expect(subject.price).to eq(0)
+      end
+    end
+
+    context "when there are participant" do
+      let(:price) do
+        price = 0
+
+        subject.participants.each do |participant|
+          price += participant.total_price.to_i
+        end
+
+        price
+      end
+
+      it 'returns the price' do
+        expect(subject.price).to eq(price)
+      end
+    end
+  end
+
   context 'stripe' do
 
     before(:all) { StripeMock.start }
