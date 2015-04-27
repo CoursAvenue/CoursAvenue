@@ -265,6 +265,21 @@ class ParticipationRequest < ActiveRecord::Base
     charge
   end
 
+  # Refund the amount of the participation request to the user.
+  #
+  # @return
+  def refund!
+    return nil if stripe_charge_id.nil? or stripe_charge.refunded
+
+    charge = stripe_charge
+    refund = charge.refunds.create
+
+    ParticipationRequestMailer.delay.send_charge_refunded_to_teacher(self)
+    ParticipationRequestMailer.delay.send_charge_refunded_to_user(self)
+
+    refund
+  end
+
   private
 
   # Set state to pending by default when creating

@@ -165,5 +165,41 @@ describe ParticipationRequest do
         end
       end
     end
+
+    describe '#refund!' do
+      context "when there isn't a stripe_charge_id" do
+        it 'return nil' do
+          expect(subject.refund!).to be_nil
+        end
+      end
+
+      context "when there's a stripe_charge_id" do
+        before do
+          source        = stripe_helper.generate_card_token
+          stripe_charge = Stripe::Charge.create({
+            amount:   (5..30).to_a.sample * 100,
+            currency: Subscription::CURRENCY,
+            source:   source
+          })
+          subject.stripe_charge_id = stripe_charge.id
+
+          subject.save
+        end
+
+        it 'refunds the charge' do
+          subject.refund!
+
+          expect(subject.stripe_charge.refunded).to be_truthy
+        end
+
+        it 'sends an email to both the teacher and the studend' do
+          expect{ subject.refund! }.to change { ActionMailer::Base.deliveries.count }.by(2)
+        end
+
+        it 'returns the refund' do
+          expect(subject.refund!).to be_a(Stripe::Refund)
+        end
+      end
+    end
   end
 end
