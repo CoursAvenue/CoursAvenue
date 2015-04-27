@@ -336,4 +336,15 @@ class ParticipationRequest < ActiveRecord::Base
   def set_date_if_empty
     self.date ||= self.planning.start_date if self.planning
   end
+
+  # Create and send the invoice.
+  #
+  # @return
+  def create_and_send_invoie
+    self.invoice = ParticipationRequest::Invoice.create(participation_request: self)
+    save
+
+    ParticipationRequestMailer.delay.send_invoice_to_user(self)
+    ParticipationRequestMailer.delay.send_invoice_to_teacher(self)
+  end
 end

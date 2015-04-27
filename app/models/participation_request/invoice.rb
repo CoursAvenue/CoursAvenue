@@ -9,8 +9,6 @@ class ParticipationRequest::Invoice < ActiveRecord::Base
 
   belongs_to :participation_request
 
-  validates :participation_request, presence: true
-
   ######################################################################
   # Methods                                                            #
   ######################################################################

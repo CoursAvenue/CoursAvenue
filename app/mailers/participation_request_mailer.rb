@@ -187,12 +187,13 @@ class ParticipationRequestMailer < ActionMailer::Base
   # @param participation_request The related participation request
   #
   # @return
-  def send_invoice_to_user(user, structure, participation_request)
-    @user                  = user
-    @structure             = structure
+  def send_invoice_to_user(participation_request)
+    @user                  = participation_request.user
+    @structure             = participation_request.structure
+    @invoice               = participation_request.invoice
     @participation_request = participation_request.decorate
 
-    mail to: user.email,
+    mail to: @user.email,
       subject: "Votre facture du cours du #{ @participation_request.day_and_hour } avec #{ @structure.name }"
   end
 
@@ -203,12 +204,13 @@ class ParticipationRequestMailer < ActionMailer::Base
   # @param participation_request The related participation request
   #
   # @return
-  def send_invoice_to_teacher(structure, user, participation_request)
-    @user                  = user
-    @structure             = structure
+  def send_invoice_to_teacher(participation_request)
+    @user                  = participation_request.user
+    @structure             = participation_request.structure
+    @invoice               = participation_request.invoice
     @participation_request = participation_request.decorate
 
-    mail to: user.email,
+    mail to: @structure.email,
       subject: "Votre facture du cours du #{ @participation_request.day_and_hour } avec #{ @user.name }"
   end
 

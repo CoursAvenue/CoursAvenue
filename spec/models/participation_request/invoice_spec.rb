@@ -6,7 +6,6 @@ RSpec.describe ParticipationRequest::Invoice, type: :model do
   after(:all)  { StripeMock.stop }
 
   it { should belong_to(:participation_request) }
-  it { should validate_presence_of(:participation_request) }
 
   let(:stripe_helper)  { StripeMock.create_test_helper }
   let(:pr)             { FactoryGirl.create(:participation_request, :with_participants) }
