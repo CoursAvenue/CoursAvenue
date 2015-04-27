@@ -1196,15 +1196,11 @@ class Structure < ActiveRecord::Base
     default_options = {
       managed:  true,
       country:  'FR',
-      timezone: 'Europe/Paris',
 
       email:                self.contact_email,
-      display_name:         "Compte pour la structure #{name} (id = #{id})",
-      # statement_descriptor: '',
 
       business_name: self.name,
       business_url:  self.website,
-
     }
 
     managed_account = Stripe::Account.create(options.merge(default_options))
