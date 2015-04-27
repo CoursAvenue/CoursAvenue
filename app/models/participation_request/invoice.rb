@@ -49,7 +49,7 @@ class ParticipationRequest::Invoice < ActiveRecord::Base
   #
   # @return nil or a String
   def generate_pdf!
-    PDFGenerator.generate_participation_request_invoice(self, pdf_template)
+    PDFGenerator.generate_invoice(self, pdf_template)
     self.generated = true
     save
   end

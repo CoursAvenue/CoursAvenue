@@ -5,7 +5,7 @@ class PDFGenerator
   # @param template The template to use for the generatio:
   #
   # @return the URL of the generated invoice.
-  def self.generate_subscription_invoice(invoice, template)
+  def self.generate_invoice(invoice, template)
     return nil if invoice.nil? or template.nil?
 
     file        = CoursAvenue::Application::S3_BUCKET.objects[invoice.file_path]
@@ -15,10 +15,6 @@ class PDFGenerator
     pdf = WickedPdf.new.pdf_from_string(invoice_str)
     file.write(pdf) unless Rails.env.test?
 
-    true
-  end
-
-  def self.generate_participation_request_invoice(participation_request, template)
     true
   end
 end

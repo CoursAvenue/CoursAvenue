@@ -73,7 +73,7 @@ RSpec.describe Subscriptions::Invoice, type: :model do
       let(:bucket_pattern) { /.*\/coursavenue-staging.*/ }
 
       it "returns the generated PDF's URL" do
-        allow(PDFGenerator).to receive(:generate_subscription_invoice).and_return(nil)
+        allow(PDFGenerator).to receive(:generate_invoice).and_return(nil)
 
         expect(subject.pdf_url).to match(bucket_pattern)
       end
