@@ -1121,7 +1121,6 @@ class Structure < ActiveRecord::Base
     articles
   end
 
-<<<<<<< HEAD
   # Retrieve the Stripe customer associated with this structure.
   # The stripe customer is the stripe account used for the subscription with CoursAvenue.
   #
