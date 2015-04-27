@@ -16,6 +16,8 @@ class StripeEvent < ActiveRecord::Base
     'customer.subscription.trial_will_end',
     'customer.deleted',
 
+    'account.updated',
+
     'ping'
   ]
 
@@ -82,6 +84,9 @@ class StripeEvent < ActiveRecord::Base
 
     when 'customer.subscription.trial_will_end' then subscription_trial_will_end
     when 'customer.deleted'                     then delete_stripe_customer
+
+    when 'account.updated'                      then account_updated
+
     when 'ping'                                 then no_op
     else false
     end
@@ -226,6 +231,13 @@ class StripeEvent < ActiveRecord::Base
     else
       false
     end
+  end
+
+  # Process for the `account.updated` event.
+  #
+  # @return a Boolean
+  def account_updated
+    true
   end
 
   # No operation process.

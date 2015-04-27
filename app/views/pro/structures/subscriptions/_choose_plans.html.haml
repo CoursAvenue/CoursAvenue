@@ -56,7 +56,7 @@
   = javascript_include_tag '//checkout.stripe.com/checkout.js'
 
   :javascript
-    var customerSubscribed = #{@structure.stripe_customer.present?};
+    var customerSubscribed = #{ @structure.stripe_customer.present? };
 
     $(document).ready(function() {
       var stripeHandler = StripeCheckout.configure({
@@ -77,7 +77,7 @@
                   email: "#{@structure.contact_email}",
                   name: 'CoursAvenue',
                   description: 'Abonnement Premium',
-                  currency: "#{Subscriptions::Plan::CURRENCY}",
+                  currency: "#{ Subscriptions::Plan::CURRENCY }",
                   amount: parseInt($(this).data('amount'), 10) * 100
               });
           } else {
