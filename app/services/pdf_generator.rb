@@ -17,4 +17,8 @@ class PDFGenerator
 
     true
   end
+
+  def self.generate_participation_request_invoice(participation_request, template)
+    true
+  end
 end

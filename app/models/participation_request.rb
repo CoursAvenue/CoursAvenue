@@ -26,6 +26,7 @@ class ParticipationRequest < ActiveRecord::Base
 
   has_many :participants, class_name: 'ParticipationRequest::Participant'
   has_many :prices, through: :participants
+  has_one :invoice, class_name: 'ParticipationRequest::Invoice'
 
   accepts_nested_attributes_for :participants,
                                  reject_if: :reject_participants,

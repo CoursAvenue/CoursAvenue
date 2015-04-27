@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150427092907) do
+ActiveRecord::Schema.define(version: 20150427124125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -653,6 +653,19 @@ ActiveRecord::Schema.define(version: 20150427092907) do
     t.integer  "user_id"
     t.boolean  "on_dropbox",           default: false
   end
+
+  create_table "participation_request_invoices", force: true do |t|
+    t.string   "stripe_invoice_id"
+    t.datetime "payed_at"
+    t.integer  "participation_request_id"
+    t.datetime "deleted_at"
+    t.boolean  "generated"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "participation_request_invoices", ["participation_request_id"], name: "index_participation_request_invoices_on_participation_request", using: :btree
+  add_index "participation_request_invoices", ["stripe_invoice_id"], name: "index_participation_request_invoices_on_stripe_invoice_id", unique: true, using: :btree
 
   create_table "participation_request_participants", force: true do |t|
     t.integer  "number"

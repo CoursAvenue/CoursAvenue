@@ -5,6 +5,8 @@ require 'stripe_mock'
 # TODO: Prevent the sending of emails.
 describe ParticipationRequest do
 
+  it { should have_one(:invoice).class_name('ParticipationRequest::Invoice') }
+
   subject { FactoryGirl.create(:participation_request, :with_participants) }
 
   describe '#past?' do
