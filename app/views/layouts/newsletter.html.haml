@@ -9,6 +9,13 @@
       %title= @_message.subject
     - else
       %title= "#{@structure.name} : newsletter"
+    -# %style{ 'data-roadie-ignore' => true }
+    -#   @media only screen and (max-width: 600px) {
+    -#   table[class=w200], td[class=w200], img[class=w200] { display: none!important; }
+    -#   table[class=w400], td[class=w400], img[class=w400] { width:300px !important; padding-left: 0!important; }
+    -#   table[class=w600], td[class=w600], img[class=w600] { width:300px !important; }
+    -#   img{ height:auto;}
+    -#   }
 
   %body.coursavenue-email-body{ leftmargin: '0', marginheight: '0', marginwidth: '0', topmargin: '0' }
     %table.coursavenue-email-body{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%', style: 'margin: auto;' }
