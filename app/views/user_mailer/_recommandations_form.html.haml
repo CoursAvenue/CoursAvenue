@@ -1,7 +1,7 @@
 %table.under-content{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: 600, style: 'width: 600px; margin: auto;' }
   %tr
     %td.soft.content-block{ width: 600, style: 'width: 600px;' }
-      = simple_form_for @comment, url: create_from_email_structure_comments_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), as: :comment, method: 'get' do |f|
+      = simple_form_for @comment, url: create_from_email_structure_comments_url(@structure, subdomain: 'www'), as: :comment, method: 'get' do |f|
         %table{ width: '100%', style: 'width: 600px;' }
           %tbody
             %tr

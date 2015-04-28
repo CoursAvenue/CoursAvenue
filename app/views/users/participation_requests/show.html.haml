@@ -8,7 +8,7 @@
       %li.f-weight-600.delta= link_to 'Mes inscriptions', user_participation_requests_path(@user)
       %li.f-weight-600.delta= @structure.name
   .panel__body.soft--top
-    = render partial: 'users/participation_requests/table_recap', locals: { participation_request: @participation_request }
+    = render partial: 'participation_requests/table_recap', locals: { participation_request: @participation_request }
 
 .panel.push--bottom
   .panel__header.soft

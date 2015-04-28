@@ -6,7 +6,7 @@
 .p Nous avons bien pris en compte votre création de compte. Pour vous assurer la meilleure expérience sur CoursAvenue, confirmez votre inscription :
 
 .p.action
-  = link_to 'Confirmer mon inscription', user_confirmation_url(confirmation_token: @token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+  = link_to 'Confirmer mon inscription', user_confirmation_url(confirmation_token: @token, subdomain: 'www'), class: 'btn btn--green'
 
 .p
   Merci !

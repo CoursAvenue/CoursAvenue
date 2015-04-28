@@ -43,7 +43,7 @@
             \/
             = link_to 'Supprimer', admin_blog_article_path(article), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette article ?' }, class: 'red'
             \/
-            = link_to 'Voir', blog_article_url(article, subdomain: (article.pro_article? ? CoursAvenue::Application::PRO_SUBDOMAIN : CoursAvenue::Application::WWW_SUBDOMAIN)), target: :_blank
+            = link_to 'Voir', blog_article_url(article, subdomain: (article.pro_article? ? 'pro' : 'www')), target: :_blank
 
 %hr.push--ends
 
@@ -77,7 +77,7 @@
         \/
         = link_to 'Supprimer', admin_blog_category_path(category), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette catégorie ?' }, class: 'red'
         \/
-        = link_to 'Voir', category_blog_articles_url(category_id: category.slug, subdomain: (category.pro_category? ? CoursAvenue::Application::PRO_SUBDOMAIN : CoursAvenue::Application::WWW_SUBDOMAIN)), target: :_blank
+        = link_to 'Voir', category_blog_articles_url(category_id: category.slug, subdomain: (category.pro_category? ? 'pro' : 'www')), target: :_blank
 
 %hr.push--ends
 

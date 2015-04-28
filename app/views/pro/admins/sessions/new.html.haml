@@ -10,7 +10,7 @@
     .or
       %span
         ou
-    = simple_form_for(Admin.new, as: :pro_admin, url: pro_admin_session_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)) do |f|
+    = simple_form_for(Admin.new, as: :pro_admin, url: pro_admin_session_url(subdomain: 'pro')) do |f|
       .form-inputs
         = f.input :email, required: false, autofocus: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
         = f.input :password, required: false, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }

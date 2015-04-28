@@ -12,7 +12,7 @@
     .main-container{ class: ( selected_profile[:medium] ? 'main-container--medium' : '')}
       %header.grid--full
         .grid__item.soft--top.v-middle.relative.visuallyhidden--palm{ class: ( selected_profile[:medium] ? 'three-tenths' : 'five-twelfths')}>
-          = link_to structure_url(selected_profile[:slug], subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'absolute', target: :_blank, id: 'emilie-profile', style: "bottom: -155px; left: #{selected_profile[:profile_style]}%; margin-left: -137px;" do
+          = link_to structure_url(selected_profile[:slug], subdomain: 'www'), class: 'absolute', target: :_blank, id: 'emilie-profile', style: "bottom: -155px; left: #{selected_profile[:profile_style]}%; margin-left: -137px;" do
             = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/testimonies/#{selected_profile[:image_name]}-profile-small.jpg", class: 'block', width: 275
           = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/testimonies/#{selected_profile[:image_name]}-detour.png", class: 'block', width: selected_profile[:image_width], style: 'margin-left: auto'
         .grid__item.v-middle.soft--top.soft--left.palm-one-whole.relative{ class: ( selected_profile[:medium] ? 'seven-tenths' : 'seven-twelfths')}>

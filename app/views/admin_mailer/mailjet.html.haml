@@ -13,7 +13,7 @@
   Le week-end des 5 et 6 avril, partez à la rencontre des 200 professeurs, associations ou écoles proposant tous types de cours de loisirs : aquazumba, cuisine bio, baby karaté, gym séniors, dessin, yoga, ateliers parents-enfants... C'est l'occasion unique de découvrir ou re-découvrir toutes vos passions :
 
 %p.action
-  = link_to "Choisir et réserver mon cours gratuit", open_courses_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Choisir et réserver mon cours gratuit", open_courses_url(subdomain: 'www'), class: 'btn btn--green'
 
 %p.blue.blue-tip
   %i Trucs & astuces : pour être sûr de pouvoir participer à l'événement, réservez votre place sans tarder et invitez vos proches à venir avec vous.
@@ -25,14 +25,14 @@
         %h4.flush Nos suggestions
     %tr.v-top{valign: 'top'}
       %td.v-middle.cell.content-block.hard--ends{width: '300', style: 'width: 300px;'}
-        = link_to open_courses_url(name: 'yoga', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+        = link_to open_courses_url(name: 'yoga', subdomain: 'www'), class: 'block' do
           = image_tag 'https://s3-eu-west-1.amazonaws.com/coursavenue-public/mailjet/yoga.jpg', alt: 'CoursAvenue', height: '157', width: '298', style: 'padding-right: 2px;'
       %td.v-middle.cell.content-block.hard--ends{width: '300', style: 'width: 300px;', rowspan: '2'}
-        = link_to open_courses_url(name: 'arts martiaux', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+        = link_to open_courses_url(name: 'arts martiaux', subdomain: 'www'), class: 'block' do
           = image_tag 'https://s3-eu-west-1.amazonaws.com/coursavenue-public/mailjet/arts_martiaux.jpg', alt: 'CoursAvenue', height: '314', width: '298', style: 'padding-left: 2px;'
     %tr.v-top{valign: 'top'}
       %td.v-middle.cell.content-block.hard--ends{width: '300', style: 'width: 300px;'}
-        = link_to open_courses_url(name: 'zumba', subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block' do
+        = link_to open_courses_url(name: 'zumba', subdomain: 'www'), class: 'block' do
           = image_tag 'https://s3-eu-west-1.amazonaws.com/coursavenue-public/mailjet/zumba.jpg', alt: 'CoursAvenue', height: '157', width: '298', style: 'padding-right: 2px; padding-top: 4px;'
 
 - content_for :under_content_2 do

@@ -51,7 +51,7 @@
               - cache [review, 'what_is_it'] do
                 .flexbox.push--bottom
                   .flexbox__item.soft--left.v-top.text--center>
-                    = link_to structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block media-photo', target: :_blank, class: 'muted-link' do
+                    = link_to structure_url(review.structure, subdomain: 'www'), class: 'block media-photo', target: :_blank, class: 'muted-link' do
                       = image_tag review.user.avatar_url(:thumb), class: 'block rounded--circle', width: 60, height: 60
                     .milli.soft-half--top.white.soft-black-text-shadow
                       = review.author_name
@@ -64,7 +64,7 @@
                       %p.text--right.flush
                         %i
                           À propos de
-                          = link_to review.structure.name, structure_url(review.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
+                          = link_to review.structure.name, structure_url(review.structure, subdomain: 'www'), target: :_blank
 
 
 = render 'home/guide'

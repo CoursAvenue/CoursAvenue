@@ -26,9 +26,9 @@
           %br
           %br
           %textarea.milli.one-whole{name: 'text', rows: 11, data: {behavior: 'autoresize'}}
-            Salut !&#x000A;&#x000A;Ce week-end des 5 et 6 avril, nous participons aux Portes Ouvertes des cours de loisirs de CoursAvenue : exceptionnellement, nous offrons des cours gratuits ouverts à tous les Parisiens. Voici les ateliers proposés : #{jpo_structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)}.&#x000A;&#x000A;Profitez de l'occasion pour faire découvrir votre passion à vos proches (famille, amis, collègues...) :
+            Salut !&#x000A;&#x000A;Ce week-end des 5 et 6 avril, nous participons aux Portes Ouvertes des cours de loisirs de CoursAvenue : exceptionnellement, nous offrons des cours gratuits ouverts à tous les Parisiens. Voici les ateliers proposés : #{jpo_structure_url(@structure, subdomain: 'www')}.&#x000A;&#x000A;Profitez de l'occasion pour faire découvrir votre passion à vos proches (famille, amis, collègues...) :
           %p.gray-light.flush
-            = link_to "Lien que recevront vos élèves", invite_entourage_to_jpo_page_users_url(structure_id: @structure.id, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank
+            = link_to "Lien que recevront vos élèves", invite_entourage_to_jpo_page_users_url(structure_id: @structure.id, subdomain: 'www'), target: :_blank
             %br
             À très bientôt,
             %br

@@ -94,10 +94,10 @@
         - cache [structure, 'pro/home/discovery_pass'] do
           .grid.push--bottom
             .grid__item.one-quarter.epsilon.v-middle>
-              = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'block muted-link media-photo', target: :_blank do
+              = link_to structure_url(structure, subdomain: 'www'), class: 'block muted-link media-photo', target: :_blank do
                 = image_tag structure.logo.url(:thumb), class: 'block'
             .grid__item.three-quarters.v-middle>
-              = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: :_blank, class: 'muted-link block' do
+              = link_to structure_url(structure, subdomain: 'www'), target: :_blank, class: 'muted-link block' do
                 %p.flush.epsilon.line-height-1-5
                   %strong= structure.name
                   %br

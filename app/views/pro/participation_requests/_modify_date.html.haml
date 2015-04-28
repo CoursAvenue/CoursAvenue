@@ -9,36 +9,39 @@
         Proposer un autre cours
       - else
         Proposer une autre date
-  .panel__body.soft
+  .panel__body
     = simple_form_for simple_form_array, url: simple_form_url, html: { id: 'participation-request-form' } do |f|
       - if params[:return_to].present?
         %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }
       = f.error_notification
       - if discuss_only
-        %p
-          Envoyez votre message de demande d'information.
-          - if on_pro_subdomain?
-            Vous devrez ensuite accepter ou refuser cette réservation le plus tôt possible pour éviter les pénalités.
-        = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
-          = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
-        = render partial: 'pro/structures/participation_requests/dont_contact_information'
+        .soft--sides.soft--top
+          %p
+            Envoyez votre message de demande d'information.
+            - if on_pro_subdomain?
+              Vous devrez ensuite accepter ou refuser cette réservation le plus tôt possible pour éviter les pénalités.
+          = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
+            = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+          = render partial: 'pro/structures/participation_requests/dont_contact_information'
       - else
         %div.push-half--bottom{ data: { type: 'participation-request-form-content' } }
 
       - if on_pro_subdomain?
         %hr.push-half--bottom
-        = render partial: 'pro/structures/participation_requests/share_information'
+        .soft--sides= render partial: 'pro/structures/participation_requests/share_information'
 
       - if !discuss_only
-        = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
-          = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behaviors: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
-        = render partial: 'pro/structures/participation_requests/dont_contact_information'
+        .soft--sides
+          = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
+            = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behaviors: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+          = render partial: 'pro/structures/participation_requests/dont_contact_information'
 
-      .grid
-        .grid__item.two-tenths>
-          %a.btn.btn--full{ href: '#', onclick: '$.fancybox.close();' } Fermer
-        .grid__item.eight-tenths>
-          = f.submit 'Envoyer', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
+      .soft--sides.soft--bottom
+        .grid
+          .grid__item.two-tenths>
+            %a.btn.btn--full{ href: '#', onclick: '$.fancybox.close();' } Fermer
+          .grid__item.eight-tenths>
+            = f.submit 'Envoyer', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
 
 :javascript
   $('#participation-request-message').preventFromContact();

@@ -3,7 +3,7 @@
     = image_tag message.sender.avatar_url(:thumb), class: 'message__avatar rounded--circle block center-block bordered visuallyhidden--palm' if message.sender
     %p.text--center.palm-text--left.push-half--bottom
       - if message.sender.is_a? Admin
-        %strong= link_to message.sender.name, structure_url(message.sender.structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'semi-muted-link'
+        %strong= link_to message.sender.name, structure_url(message.sender.structure, subdomain: 'www'), class: 'semi-muted-link'
       - else
         %strong= message.sender.name
       %br

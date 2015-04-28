@@ -5,7 +5,7 @@
   %tr{valign: 'top'}
     - @similar_profiles.each do |structure|
       %td.soft-half.v-middle.content-block{ width: 80 }
-        = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN) do
+        = link_to structure_url(structure, subdomain: 'www') do
           = image_tag structure.logo.url(:thumb), width: 80, height: 80, alt: "Logo de #{structure.name}"
       %td.soft-half.v-middle.content-block{ width: '250', style: 'padding-right: 0; padding-left: 0;' }
         .p.hard--bottom
@@ -16,5 +16,5 @@
           = truncate "#{structure.comments.first.try(:title)}", length: 23
           - if structure.comments_count > 0
             %br
-            = link_to "Lire les #{structure.comments_count} avis", structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+            = link_to "Lire les #{structure.comments_count} avis", structure_url(structure, subdomain: 'www')
 

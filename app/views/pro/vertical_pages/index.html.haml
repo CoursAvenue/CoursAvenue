@@ -53,7 +53,7 @@
                 = f.submit 'OK', class: 'flexbox__item v-middle btn btn--small btn--green', data: { disable_with: "Validation en cours"}
 
           %td
-            = link_to 'Voir', vertical_page_url(vertical_page.subject.try(:root) || 'danse', vertical_page, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+            = link_to 'Voir', vertical_page_url(vertical_page.subject.try(:root) || 'danse', vertical_page, subdomain: 'www')
             \/
             = link_to 'Éditer', edit_pro_vertical_page_path(vertical_page)
             \/

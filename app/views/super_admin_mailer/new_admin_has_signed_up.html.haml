@@ -6,6 +6,6 @@
   Disciplines : #{@structure.subjects.map(&:name).join(', ')}
 
 .p.action
-  = link_to 'Voir son profil', dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green'
+  = link_to 'Voir son profil', dashboard_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 
 = render 'shared/mailers/footer'

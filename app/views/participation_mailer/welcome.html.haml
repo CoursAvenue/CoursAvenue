@@ -2,11 +2,11 @@
   = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: 'width: 300px; height: 89px;'
 
 - content_for :header_links do
-  = link_to 'Connexion', new_user_session_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'Connexion', new_user_session_url(subdomain: 'www')
   %span.gray-light &#124;
-  = link_to 'JPO', open_courses_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'JPO', open_courses_url(subdomain: 'www')
   %span.gray-light &#124;
-  = link_to 'Rechercher', structures_url(subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+  = link_to 'Rechercher', structures_url(subdomain: 'www')
 
 - if @structure.logo.present?
   - content_for :logo do
@@ -25,7 +25,7 @@
   %p Votre réservation concerne plusieurs adultes : pour pouvoir leur communiquer toutes les informations pratiques (adresse exacte, station de métro la plus proche, code d’entrée, etc.), pouvez-vous renseigner les e-mails de tous les participants ? Indiquez-les directement depuis votre profil en cliquant sur le bouton jaune dans l’onglet « Mes cours » :
 
   %p.action
-    = link_to 'Renseigner les emails des autres participants', user_participations_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--yellow'
+    = link_to 'Renseigner les emails des autres participants', user_participations_url(@user, subdomain: 'www'), class: 'btn btn--yellow'
 
 %p
   Informations sur votre réservation :
@@ -43,7 +43,7 @@
   = link_to 'votre profil.', user_participations_url(@user, inscription_confirmed: true)
   En attendant profitez-en pour inviter vos proches, les places sont limitées !
 %p.action
-  = link_to "Inviter mes proches", jpo_new_user_invited_users_url(@user, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Inviter mes proches", jpo_new_user_invited_users_url(@user, subdomain: 'www'), class: 'btn btn--green'
 
 %p.blue.blue-tip
   %i Trucs & astuces : depuis votre profil, invitez vos amis, familles et collègues à participer aux Portes Ouvertes avec vous.

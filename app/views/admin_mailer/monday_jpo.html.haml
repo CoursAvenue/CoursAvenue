@@ -5,11 +5,11 @@
   = image_tag 'jpo_2014/logo_j_moins_5.png', style: 'width: 125px; height: 125px;', class: 'block'
 
 - content_for :header_links do
-  = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+  = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: 'pro')
   %span.gray-light &#124;
-  = link_to 'Aide', pro_pages_questions_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+  = link_to 'Aide', pro_pages_questions_url(subdomain: 'pro')
   %span.gray-light &#124;
-  = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)
+  = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: 'pro')
 
 - content_for :promo do
   .title.flush
@@ -29,21 +29,21 @@
   si vous n'avez pas de newsletter, envoyez un simple message à vos élèves et proposez-leur d'inviter leurs amis, ce sont vos meilleurs ambassadeurs !
 
 .p.action
-  = link_to "Newsletter et message à mes élèves", communicate_pro_structure_course_opens_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'communicate_jpo', utm_medium: 'newsletter'), class: 'btn btn--yellow'
+  = link_to "Newsletter et message à mes élèves", communicate_pro_structure_course_opens_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'communicate_jpo', utm_medium: 'newsletter'), class: 'btn btn--yellow'
 
 .p
   %strong - Communiquez sur la page d’accueil de votre site Internet, voici un exemple de texte d’accroche efficace :
   « Dernière semaine pour participer à nos ateliers gratuits ce week-end des 5 et 6 avril » (n’oubliez pas de mettre le lien d’inscription CoursAvenue direct à vos ateliers).
 
 .p.action
-  = link_to "Bannière sur mon site Internet", widget_jpo_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'communicate_jpo', utm_medium: 'widget'), class: 'btn btn--yellow'
+  = link_to "Bannière sur mon site Internet", widget_jpo_pro_structure_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'communicate_jpo', utm_medium: 'widget'), class: 'btn btn--yellow'
 
 .p
   %strong - Accédez à toutes les actions
   en vous connectant à votre profil :
 
 .p.action
-  = link_to "Visualiser toutes mes actions de communication", communicate_pro_structure_course_opens_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN, utm_source: 'email', utm_campaign: 'communicate_jpo', utm_medium: 'monday'), class: 'btn btn--green'
+  = link_to "Visualiser toutes mes actions de communication", communicate_pro_structure_course_opens_url(@structure, subdomain: 'pro', utm_source: 'email', utm_campaign: 'communicate_jpo', utm_medium: 'monday'), class: 'btn btn--green'
 
 .p.blue.blue-tip
   %i Important : pour éviter tout risque de surbooking de vos ateliers, toutes les inscriptions aux Portes Ouvertes doivent se faire directement sur le site CoursAvenue.com et ne peuvent pas passer par vous directement.

@@ -2,66 +2,66 @@
   %ul.push--top
     - if current_pro_admin and current_pro_admin.super_admin?
       - if !@structure
-        = pro_side_menu_link 'pro_dashboard',      pro_dashboard_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),            current: current_tab, icon: 'fa-2x fa-dashboard'
-        = pro_side_menu_link 'sleepers',           sleepings_pro_structures_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), current: current_tab, icon: 'fa fa-2x fa-moon-o'
-        = pro_side_menu_link 'activity',           pro_conversations_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),        current: current_tab, icon: 'fa-2x fa-pulse-rate'
-        = pro_side_menu_link 'subscription_plans', pro_subscription_plans_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),   current: current_tab, icon: 'fa-2x fa-credit-card'
-        = pro_side_menu_link 'pages',              admin_blog_articles_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),      current: current_tab, icon: 'fa-2x fa-book'
-        = pro_side_menu_link 'invitations',        pro_invited_users_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),        current: current_tab, icon: 'fa fa-2x fa-group'
-        = pro_side_menu_link 'subjects',           all_pro_subjects_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),         current: current_tab, icon: 'fa fa-2x fa-chevron-down'
-        = pro_side_menu_link 'emailings',          pro_emailings_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),            current: current_tab, icon: 'fa-2x fa-send'
+        = pro_side_menu_link 'pro_dashboard',      pro_dashboard_url(subdomain: 'pro'),            current: current_tab, icon: 'fa-2x fa-dashboard'
+        = pro_side_menu_link 'sleepers',           sleepings_pro_structures_url(subdomain: 'pro'), current: current_tab, icon: 'fa fa-2x fa-moon-o'
+        = pro_side_menu_link 'activity',           pro_conversations_url(subdomain: 'pro'),        current: current_tab, icon: 'fa-2x fa-pulse-rate'
+        = pro_side_menu_link 'subscription_plans', pro_subscription_plans_url(subdomain: 'pro'),   current: current_tab, icon: 'fa-2x fa-credit-card'
+        = pro_side_menu_link 'pages',              admin_blog_articles_url(subdomain: 'pro'),      current: current_tab, icon: 'fa-2x fa-book'
+        = pro_side_menu_link 'invitations',        pro_invited_users_url(subdomain: 'pro'),        current: current_tab, icon: 'fa fa-2x fa-group'
+        = pro_side_menu_link 'subjects',           all_pro_subjects_url(subdomain: 'pro'),         current: current_tab, icon: 'fa fa-2x fa-chevron-down'
+        = pro_side_menu_link 'emailings',          pro_emailings_url(subdomain: 'pro'),            current: current_tab, icon: 'fa-2x fa-send'
       - else
-        = pro_side_menu_link 'pro_dashboard',      pro_dashboard_url(subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),            current: current_tab, icon: 'fa fa-2x fa-dashboard'
+        = pro_side_menu_link 'pro_dashboard',      pro_dashboard_url(subdomain: 'pro'),            current: current_tab, icon: 'fa fa-2x fa-dashboard'
 
     - if @structure
       = pro_side_menu_link 'general',
-                            dashboard_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                            dashboard_pro_structure_url(@structure, subdomain: 'pro'),
                             current: current_tab,
                             icon: 'fa-2x fa-house'
 
       = pro_side_menu_link 'presentation',
-                            edit_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                            edit_pro_structure_url(@structure, subdomain: 'pro'),
                             current: current_tab,
                             icon: 'fa fa-2x fa-user'
 
       = pro_side_menu_link 'plannings',
-                            regular_pro_structure_courses_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                            regular_pro_structure_courses_url(@structure, subdomain: 'pro'),
                             current: current_tab,
                             icon: 'fa fa-2x fa-calendar'
 
       = pro_side_menu_link 'inscriptions',
-                            pro_structure_participation_requests_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                            pro_structure_participation_requests_url(@structure, subdomain: 'pro'),
                             current: current_tab,
                             icon: 'fa fa-2x fa-group'
 
       = pro_side_menu_link 'comments',
-                            pro_structure_comments_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                            pro_structure_comments_url(@structure, subdomain: 'pro'),
                             current: current_tab,
                             icon: 'fa fa-2x fa-comment'
 
       = pro_side_menu_link 'messages',
-                            pro_structure_conversations_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                            pro_structure_conversations_url(@structure, subdomain: 'pro'),
                             current: current_tab,
                             icon: 'fa fa-2x fa-envelope-o'
 
       - if current_pro_admin.super_admin?
         = pro_side_menu_link 'newsletters',
-                              pro_structure_newsletters_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                              pro_structure_newsletters_url(@structure, subdomain: 'pro'),
                               current: current_tab,
                               icon: 'fa fa-2x fa-paper-plane-o'
 
       = pro_side_menu_link 'crm',
-                            pro_structure_user_profiles_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN) ,
+                            pro_structure_user_profiles_url(@structure, subdomain: 'pro') ,
                             current: current_tab,
                             icon: 'fa-2x fa-contact'
 
       = pro_side_menu_link 'communicate',
-                            widget_pro_structure_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                            widget_pro_structure_url(@structure, subdomain: 'pro'),
                             current: current_tab,
                             icon: 'fa fa-2x fa-bullhorn'
 
       - if @structure.premium?
         = pro_side_menu_link 'premium',
-                             pro_structure_subscription_plans_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN),
+                             pro_structure_subscription_plans_url(@structure, subdomain: 'pro'),
                              current: current_tab,
                              icon: 'fa-2x fa-star'

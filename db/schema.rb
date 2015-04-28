@@ -700,6 +700,8 @@ ActiveRecord::Schema.define(version: 20150427124125) do
     t.string   "zip_code"
     t.integer  "city_id"
     t.string   "stripe_charge_id"
+    t.boolean  "from_personal_website",     default: false
+    t.string   "token"
   end
 
   add_index "participation_requests", ["stripe_charge_id"], name: "index_participation_requests_on_stripe_charge_id", unique: true, using: :btree

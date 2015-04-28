@@ -8,7 +8,7 @@
   = @email_text.html.safe
 
 %p.action
-  = link_to 'Créer mon profil', new_user_registration_url(email: @email, from_friend: true, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_student', utm_medium: 'stage_2'
+  = link_to 'Créer mon profil', new_user_registration_url(email: @email, from_friend: true, subdomain: 'www'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_student', utm_medium: 'stage_2'
 %p
   À très bientôt !
 
@@ -18,5 +18,5 @@
   %p
     Vous recevez cet email car #{@referrer.name} vous invite sur CoursAvenue.
     - if @invited_user.user
-      = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@invited_user.user.access_token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+      = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@invited_user.user.access_token, subdomain: 'www')
 

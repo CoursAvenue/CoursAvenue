@@ -4,11 +4,11 @@ class UserProfile < ActiveRecord::Base
 
   PER_PAGE_CRM = 20
   DEFAULT_TAGS = {
-    :comments       => 'Avis',
-    :contacts       => "Demande d'info",
-    :jpo_2014       => 'JPO 2014',
-    :following      => 'Favori',
-    :discovery_pass => 'Pass Découverte'
+    :comments              => 'Avis',
+    :contacts              => "Demande d'info",
+    :jpo_2014              => 'JPO 2014',
+    :following             => 'Favori',
+    :participation_request => "Demande d'inscription"
   }
 
   belongs_to :structure

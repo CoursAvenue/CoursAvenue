@@ -3,7 +3,7 @@ require 'rails_helper'
 
 describe Structures::CoursesController do
 
-  subject {course}
+  subject { course }
   let(:course) { FactoryGirl.create(:course) }
 
   describe '#show' do

@@ -5,10 +5,10 @@
       .grid--full
         .grid__item.one-third.relative>
           = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70
-          = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link block', target: :_blank do
+          = link_to structure_url(structure, subdomain: 'www'), class: 'muted-link block', target: :_blank do
             = image_tag structure.logo.url(:thumb), class: 'one-whole block'
         .grid__item.two-thirds.soft-half--left>
-          = link_to structure_url(structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'muted-link delta', target: :_blank do
+          = link_to structure_url(structure, subdomain: 'www'), class: 'muted-link delta', target: :_blank do
             %strong= structure.name
           %div.epsilon
             - if structure.structure_type.present?

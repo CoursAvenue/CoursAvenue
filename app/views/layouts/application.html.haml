@@ -79,7 +79,7 @@
     - if !on_pro_subdomain? and @structure and @structure.is_sleeping
       :javascript
           window.on_sleeping_page = true;
-          window.take_control_url = "#{new_pro_admin_structure_registration_url(@structure, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN)}";
+          window.take_control_url = "#{new_pro_admin_structure_registration_url(@structure, subdomain: 'pro')}";
     :javascript
         Bugsnag.releaseStage = '#{Rails.env}';
         Bugsnag.notifyReleaseStages = ["staging", "production"]

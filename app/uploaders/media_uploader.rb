@@ -49,6 +49,10 @@ class MediaUploader < CarrierWave::Uploader::Base
     cloudinary_transformation transformation: [{ width: 300, height: 200, crop: :fill, effect: 'blur:900' }]
   end
 
+  version :gallery do
+    cloudinary_transformation transformation: [{ width: 400, crop: :fill }]
+  end
+
   private
 
   def thumbnail_email_cropped

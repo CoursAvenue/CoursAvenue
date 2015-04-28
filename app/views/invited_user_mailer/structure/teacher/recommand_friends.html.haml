@@ -1,6 +1,6 @@
 - if @referrer.logo?
   - content_for :logo do
-    = link_to structure_url(@referrer, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+    = link_to structure_url(@referrer, subdomain: 'www'), target: '_blank' do
       = image_tag @referrer.logo.url(:thumb), width: 80, height: 80, class: 'block'
 
 - content_for :promo do
@@ -11,7 +11,7 @@
   = simple_format @email_text
 
 %p.action
-  = link_to 'Créer mon profil', inscription_pro_structures_url(email: @email, from_friend: true, subdomain: CoursAvenue::Application::PRO_SUBDOMAIN), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_teacher', utm_medium: 'stage_0'
+  = link_to 'Créer mon profil', inscription_pro_structures_url(email: @email, from_friend: true, subdomain: 'pro'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_teacher', utm_medium: 'stage_0'
 %p
   À très bientôt !
 %p= @referrer.name

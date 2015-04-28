@@ -177,7 +177,7 @@
 .bg-cover   { @include background-size(cover); }
 .bg-contain { @include background-size(contain !important); }
 
-.opacity-30 { @include opacity(0.3);  }
+.opacity-30  { @include opacity(0.3);  }
 .opacity-50  { @include opacity(0.50); }
 .opacity-75  { @include opacity(0.75); }
 .invisible   { @include opacity(0);    }
@@ -541,6 +541,10 @@
 .gradient-black-to-white {
     background: transparent;
     @include background-image(linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)));
+}
+.gradient-black-to-transparent-bottom-up {
+    background: transparent;
+    @include background-image(linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)));
 }
 
 .column-count-2 { @include prefix('column-count', 2); }

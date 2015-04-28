@@ -1,6 +1,6 @@
 - if @structure.logo?
   - content_for :logo do
-    = link_to structure_url(@structure, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), target: '_blank' do
+    = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
       = image_tag @structure.logo.url(:thumb), style: 'width: 125px; height: 125px;', class: 'block'
 
 - content_for :promo do
@@ -11,7 +11,7 @@
   = simple_format @email_text
 
 %p.action
-  = link_to "J'offre un cours gratuit à mes proches", invite_entourage_to_jpo_page_users_url(user_email: @email, structure_id: @structure.id, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_friends_for_jpo', utm_medium: 'stage_2'
+  = link_to "J'offre un cours gratuit à mes proches", invite_entourage_to_jpo_page_users_url(user_email: @email, structure_id: @structure.id, subdomain: 'www'), class: 'btn btn--green', utm_source: 'email', utm_campaign: 'invite_friends_for_jpo', utm_medium: 'stage_2'
 %p
   À très bientôt !
 %p= @structure.name
@@ -20,5 +20,5 @@
   %p
     Vous recevez cet email car #{@structure.name} vous invite sur CoursAvenue.
     - if @invited_user.user
-      = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@invited_user.user.access_token, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN)
+      = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@invited_user.user.access_token, subdomain: 'www')
 

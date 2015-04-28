@@ -18,7 +18,7 @@
   Connectez-vous à votre compte pour envoyer votre confirmation :
 
 .p.action
-  = link_to "Accepter / Proposer une autre date / Refuser", user_participation_request_url(@user, @participation_request, subdomain: CoursAvenue::Application::WWW_SUBDOMAIN), class: 'btn btn--green'
+  = link_to "Accepter / Proposer une autre date / Refuser", @participation_request_url_for_user, class: 'btn btn--green'
 
 - if @message
   .soft--bottom

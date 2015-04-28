@@ -71,7 +71,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         signUp: function signIn () {
             this.updateModel();
             if (this.model.isValid(true)) {
-                this.$('form').trigger('ajax:beforeSend.rails');
+                this.$('form').trigger('ajax:send');
                 $.ajax({
                     beforeSend: function beforeSend (xhr) {
                         xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
@@ -83,7 +83,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                         user: this.model.toJSON()
                     },
                     complete: function complete (response) {
-                        this.$('form').trigger('ajax:complete.rails');
+                        this.$('form').trigger('ajax:complete');
                     }.bind(this),
                     error: function error (response) {
                         var errors = $.parseJSON(response.responseText).errors;

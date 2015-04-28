@@ -7,7 +7,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
-  constraints subdomain: (Rails.env.staging? ? 'pro.staging' : 'pro') do
+  constraints subdomain: 'pro' do
     namespace :admin do
       resources :blog_articles, controller: 'blog/articles', path: 'blog' do
         resources :medias, controller: 'blog/articles/medias'
@@ -439,10 +439,38 @@ CoursAvenue::Application.routes.draw do
     end
   end
 
+  constraints DomainConstraint.new do
+    namespace :structure_website, path: '' do
+      get '/'       , to: 'structures#index'   , as: :presentation
+      get 'planning', to: 'structures#planning', as: :planning
+      get 'reviews' , to: 'structures#reviews' , as: :reviews
+      get 'medias'  , to: 'structures#medias'  , as: :medias
+      get 'contact' , to: 'structures#contact' , as: :contact
+      resources :courses, controller: '/structures/courses', path: 'cours'
+      resources :participation_requests, only: [:create, :update, :show], path: 'inscription' do
+        resources :conversations, controller: 'participation_requests/conversations'
+      end
+    end
+    # Use shared participation request controller
+    # That's why it is out of the namespace
+    resources :participation_requests, only: [:edit], controller: 'participation_requests' do
+      member do
+        get   :report_form
+        get   :cancel_form
+        get   :accept_form
+        patch :accept
+        patch :discuss
+        patch :modify_date
+        patch :cancel
+        patch :report
+      end
+    end
+  end
+
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
-  constraints subdomain: (Rails.env.staging? ? 'staging' : 'www') do
+  constraints subdomain: 'www' do
     resources :press_releases, path: 'communiques-de-presse', only: [:show]
 
     resources :blog_subscribers, only: [:create], controller: 'blog/subscribers'
@@ -511,17 +539,18 @@ CoursAvenue::Application.routes.draw do
       end
       resources :orders, only: [:index, :show], controller: 'users/orders', path: 'mes-factures'
       resources :sponsorships, only: [:index, :new, :create], controller: 'users/sponsorships', path: 'mes-parrainages'
-      resources :participation_requests, only: [:index, :edit, :show], controller: 'users/participation_requests', path: 'mes-inscriptions' do
-        member do
-          get   :report_form
-          get   :cancel_form
-          get   :accept_form
-          patch :accept
-          patch :discuss
-          patch :modify_date
-          patch :cancel
-          patch :report
-        end
+      resources :participation_requests, only: [:index, :show], controller: 'users/participation_requests', path: 'mes-inscriptions'
+    end
+    resources :participation_requests, only: [:edit] do
+      member do
+        get   :report_form
+        get   :cancel_form
+        get   :accept_form
+        patch :accept
+        patch :discuss
+        patch :modify_date
+        patch :cancel
+        patch :report
       end
     end
     resources :sponsorships, only: [:show], path: 'obtenir-mon-pass-decouverte'

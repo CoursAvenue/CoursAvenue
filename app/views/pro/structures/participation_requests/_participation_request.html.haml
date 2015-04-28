@@ -61,3 +61,9 @@
 
   %td.soft--ends.v-top{ data: { th: 'Détails' } }
     %div= participation_request_decorator.details
+  %td.soft--ends.v-top{ data: { th: 'Source' } }
+    %div
+      - if participation_request.from_personal_website?
+        Votre site
+      - else
+        CoursAvenue
