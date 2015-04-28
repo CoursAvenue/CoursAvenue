@@ -16,6 +16,19 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
         },
 
         /*
+         * Override the events hash from the parent View.
+         * Indeed, by default, Marionette doens't merge the different child event hash with the
+         * parent event hash, so we do it manually.
+         */
+        events: function events () {
+            _events = {
+                'click [data-behavior=show-third-step-form]': 'showThirdStepForm'
+            }
+
+            return _.extend(StructureProfile.Views.ParticipationRequests.RequestFormView.prototype.events, _events);
+        },
+
+        /*
          * Called when the form is submitted.
          * If user is connected, will post the message, else, will ask to login first.
          */
@@ -122,7 +135,10 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             } else {
                 this.showErrors();
             }
-        }
+        },
+
+        showThirdStepForm: function showThirdStepForm () {
+        },
 
     });
 
