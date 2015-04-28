@@ -46,8 +46,9 @@
                     %div
                       Suivez-nous :
                       = link_to 'Facebook', @structure.facebook_url, class: 'soft-half--right', target: :_blank
-                    = "© #{@structure.name}"
-                    = @structure.address
+                    %div
+                      = "© #{@structure.name}"
+                      = @structure.address
                   %div
                     Envoyé avec ♥ depuis le siège de CoursAvenue
                   - if content_for? :footer
