@@ -30,6 +30,8 @@
 @import "partials/generic/helpers";
 @import "partials/generic/font_helpers";
 
+th, td { padding: 0; }
+table { margin-bottom: 0; }
 div {
     color: #333333!important;;
 }
@@ -151,6 +153,12 @@ div {
     h1, h2, h3, h4, h5 {
         margin-top: 0;
     }
+    h1 { font-size: $h1-size; }
+    h2 { font-size: $h2-size; }
+    h3 { font-size: $h3-size; }
+    h4 { font-size: $h4-size; }
+    h5 { font-size: $h5-size; }
+    h6 { font-size: $h6-size; }
 
 .fix-class {
     overflow-x: inherit;
