@@ -1,3 +1,9 @@
+###################################################
+#                                                 #
+# THIS MAILER IS USED ONLY FOR TESTS, PREVIEWS,   #
+# AND GENERATING HTML FOR MANDRILL                #
+#                                                 #
+###################################################
 class NewsletterMailer < ActionMailer::Base
   include ::ActionMailerWithTextPart
   include Roadie::Rails::Automatic
@@ -28,4 +34,18 @@ class NewsletterMailer < ActionMailer::Base
          subject: '',
          from:  "\"#{@newsletter.sender_name}\" <noreply@coursavenue.com>"
   end
+
+  private
+
+  # Override of roadie-rails for having data-mandrill-href turned into href
+  def roadie_options
+    super.combine(after_transformation: method(:inline_mandrill))
+  end
+
+  def inline_mandrill(doc)
+    doc.css('[data-mandrill-href]').each do |element|
+      element['href'] = element.delete 'data-mandrill-href'
+    end
+  end
+
 end

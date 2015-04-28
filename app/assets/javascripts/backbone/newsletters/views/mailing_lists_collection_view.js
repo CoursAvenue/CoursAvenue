@@ -12,6 +12,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         onRender: function onRender () {
             var mailing_list_import_view = new Module.MailingListImportView({ model: this.model, collection: this.collection });
             this.$('[data-type=import-view]').append(mailing_list_import_view.render().$el);
+            mailing_list_import_view.on('selected', function(data) {
+                this.trigger('selected', data);
+            }.bind(this))
         },
 
         onChildviewSelected: function onChildviewSelected (mailing_list_view) {

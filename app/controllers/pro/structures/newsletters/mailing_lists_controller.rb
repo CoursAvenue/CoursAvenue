@@ -107,7 +107,7 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
   #
   # @return a String.
   def mailing_list_tag
-    "Import du #{I18n.l(local_time(Time.current), format: :long_human)}"
+    "Import du #{I18n.l(local_time(Time.current), format: :very_long_human)}"
   end
 
   def required_params

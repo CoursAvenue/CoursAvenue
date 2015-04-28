@@ -41,15 +41,16 @@
 
             %table{ align: 'center', border: '0', cellpadding: '5', cellspacing: '0', style: 'margin: auto;' }
               %tr
-                %td.soft-half--ends.footer.text--center{ width: '590' }
-                  .delta.soft-half--bottom{ style: "color: #CCC; font-size: 15px;" }
+                %td.soft-half--ends.email-footer.text--center{ width: '590' }
                   - if @structure.facebook_url.present?
                     %div
                       Suivez-nous :
-                      = link_to 'Facebook', @structure.facebook_url, class: 'soft-half--right'
+                      = link_to 'Facebook', @structure.facebook_url, class: 'soft-half--right', target: :_blank
                     = "© #{@structure.name}"
                     = @structure.address
                   %div
                     Envoyé avec ♥ depuis le siège de CoursAvenue
                   - if content_for? :footer
                     = yield :footer
+                  - if @structure
+                    = link_to 'Se désinscrire', "#", 'data-mandrill-href' => "*|UNSUB:#{unsubscribe_structure_website_newsletters_url(subdomain: @structure.subdomain_slug)}|*"

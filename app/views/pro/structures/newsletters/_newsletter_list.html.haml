@@ -6,9 +6,6 @@
         = newsletter.title
         = newsletter_decorator.badge
       .line-height-1-5
-        Liste de diffusion :
-        %strong= newsletter.mailing_list
-      .line-height-1-5
         Statut :
         %strong= newsletter.status
 
@@ -31,7 +28,10 @@
             %li.nowrap
               = link_to preview_newsletter_pro_structure_newsletter_path(@structure, newsletter), class: 'fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 } do
                 %i.fa.fa-eye.soft-half--right
-                Prévisualiser
+                - if newsletter.sent? or newsletter.sending?
+                  Aperçu
+                - else
+                  Prévisualiser
             %li.nowrap
               = link_to duplicate_pro_structure_newsletter_path(@structure, newsletter) do
                 %i.fa.fa-files-o.soft-half--right

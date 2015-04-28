@@ -13,13 +13,14 @@ class NewsletterSender
     async   = false
     ip_pool = 'Main Pool'
 
-    sending_informations = client.messages.send message, async, ip_pool
+    # Send newsletter through Mandrill `client.messages.send`
+    sent_informations = client.messages.send message, async, ip_pool
 
-    if sending_informations
-      newsletter.send!(sending_informations)
+    if sent_informations
+      newsletter.send!(sent_informations)
     end
 
-    sending_informations
+    sent_informations
   end
 
   # Send the newsletter to the passed recipients.

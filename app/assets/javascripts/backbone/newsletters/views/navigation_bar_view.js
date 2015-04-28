@@ -5,8 +5,9 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         className: 'hidden',
 
         ui: {
-            '$preview'  : '[data-preview]',
-            '$next_link': '[data-next]'
+            '$preview'      : '[data-preview]',
+            '$next_link'    : '[data-next]',
+            '$previous_link': '[data-previous]'
         },
         events: {
             'click [data-previous]': 'previousStep',
@@ -36,9 +37,19 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         updateButtonsVisibility: function updateButtonsVisibility (route) {
             this.ui.$next_link.fadeIn();
+            this.ui.$previous_link.fadeIn();
+            this.ui.$preview.fadeIn();
             switch(route) {
                 case 'chooseLayout':
-                    this.$el.slideUp();
+                    // If a layout is set, we just hide previous_link
+                    if (this.options.newsletter.get('layout')) {
+                        this.ui.$previous_link.fadeOut();
+                        this.$el.slideDown();
+                    // If there is no layout selected, we force user to select one
+                    // to go to next step
+                    } else {
+                        this.$el.slideUp();
+                    }
                     break;
                 case 'edit':
                     this.$el.slideDown();
@@ -51,6 +62,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     break;
                 case 'showPreview':
                     this.$el.slideDown();
+                    this.ui.$preview.fadeOut();
                     this.ui.$next_link.fadeOut();
                     break;
             }
