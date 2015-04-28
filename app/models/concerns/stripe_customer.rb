@@ -22,8 +22,14 @@ module Concerns
       def create_stripe_customer(token)
         return nil if token.nil?
 
+        if self.class.to_s == 'Structure'
+          description = "Compte client pour la structure #{ name } (id = #{ id })"
+        else
+          description = "Compte client pour l'utilisateur #{ name } (id = #{ id })"
+        end
+
         stripe_customer = Stripe::Customer.create({
-          description: "Compte client pour l'utilisateur #{name} (id = #{id})",
+          description: description,
           source: token
         })
 
