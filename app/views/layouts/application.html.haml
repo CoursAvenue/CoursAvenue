@@ -23,11 +23,6 @@
     = csrf_meta_tags unless response.cache_control[:public]
 
   %body
-    = link_to '#typeform', class: 'epsilon text--center f-weight-bold fixed soft-half yellow-box rounded--bottom', id: 'typeform-link', data: { behavior: 'modal', padding: 0, width: 800 }, style: 'color: #825d01; left: 50%; margin-left: -175px; width: 350px; top: -70px; z-index: 999999;' do
-      %span La révolution des cours de loisirs est en marche
-      %span.hidden Vous pouvez en faire partie !
-      %span.hidden Cliquez pour savoir comment
-
     - unless response.cache_control[:public]
       - flash.each do |key, msg|
         .flash{ class: key, data: { behavior: 'flash', type: key } }
@@ -38,6 +33,13 @@
     <![endif]-->
 
     = yield :header
+    - unless on_pro_subdomain?
+      - unless controller_name == 'structure' and action_name == 'index'
+        .epsilon.text--center.f-weight-bold.yellow-box#typeform-link{ style: 'height: 0;'}
+          = link_to '#typeform', class: 'soft-half block', data: { behavior: 'modal', padding: 0, width: 800 }, style: 'color: #825d01;' do
+            %span La révolution des cours de loisirs est en marche
+            %span.hidden Vous pouvez en faire partie !
+            %span.hidden Cliquez pour savoir comment
 
     = yield :above_container
     = content_for?(:content) ? yield(:content) : yield
@@ -97,24 +99,27 @@
           });
     - if on_pro_subdomain?
       = intercom_script_tag
-    #typeform.hidden.typeform-widget{ style: "height:500px;", data: { url: "https://coursavenue.typeform.com/to/DRib66", text: "Motivations" } }
-    :javascript
-      $(function() {
-          setTimeout(function() {
-              $('#typeform-link').animate({ top: 0 });
-          }, 1000);
-          setInterval(function() {
-              $($('#typeform-link span')[0]).show();
-              $($('#typeform-link span')[2]).hide();
+
+    - unless on_pro_subdomain?
+      - unless controller_name == 'structures' and action_name == 'index'
+        #typeform.hidden.typeform-widget{ style: "height:500px;", data: { url: "https://coursavenue.typeform.com/to/DRib66", text: "Motivations" } }
+        :javascript
+          $(function() {
               setTimeout(function() {
-                  $($('#typeform-link span')[0]).hide();
-                  $($('#typeform-link span')[1]).show();
+                  $('#typeform-link').animate({ height: '36px' });
+              }, 1000);
+              setInterval(function() {
+                  $($('#typeform-link span')[0]).show();
+                  $($('#typeform-link span')[2]).hide();
                   setTimeout(function() {
-                      $($('#typeform-link span')[1]).hide();
-                      $($('#typeform-link span')[2]).show();
-                  }, 1000)
-              }, 2000)
-          }, 6000);
-      });
-      (function(){var qs,js,q,s,d=document,gi=d.getElementById,ce=d.createElement,gt=d.getElementsByTagName,id='typef_orm',b='https://s3-eu-west-1.amazonaws.com/share.typeform.com/';if(!gi.call(d,id)){js=ce.call(d,'script');js.id=id;js.src=b+'widget.js';q=gt.call(d,'script')[0];q.parentNode.insertBefore(js,q)}})()</script>
-        <div style="font-family: Sans-Serif;font-size: 12px;color: #999;opacity: 0.5; padding-top: 5px;">Powered by <a href="http://www.typeform.com/?utm_campaign=typeform_DRib66&amp;utm_source=website&amp;utm_medium=typeform&amp;utm_content=typeform-embedded&amp;utm_term=Français" style="color: #999" target="_blank">Typeform</a></div>
+                      $($('#typeform-link span')[0]).hide();
+                      $($('#typeform-link span')[1]).show();
+                      setTimeout(function() {
+                          $($('#typeform-link span')[1]).hide();
+                          $($('#typeform-link span')[2]).show();
+                      }, 1000)
+                  }, 2000)
+              }, 6000);
+          });
+          (function(){var qs,js,q,s,d=document,gi=d.getElementById,ce=d.createElement,gt=d.getElementsByTagName,id='typef_orm',b='https://s3-eu-west-1.amazonaws.com/share.typeform.com/';if(!gi.call(d,id)){js=ce.call(d,'script');js.id=id;js.src=b+'widget.js';q=gt.call(d,'script')[0];q.parentNode.insertBefore(js,q)}})()</script>
+            <div style="font-family: Sans-Serif;font-size: 12px;color: #999;opacity: 0.5; padding-top: 5px;">Powered by <a href="http://www.typeform.com/?utm_campaign=typeform_DRib66&amp;utm_source=website&amp;utm_medium=typeform&amp;utm_content=typeform-embedded&amp;utm_term=Français" style="color: #999" target="_blank">Typeform</a></div>
