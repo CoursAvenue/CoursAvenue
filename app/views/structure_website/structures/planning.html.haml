@@ -34,6 +34,7 @@
       window.coursavenue.bootstrap = {
           current_pro_admin: #{(current_pro_admin ? true : false)},
           structure: #{ @model.to_json },
+          stripe_errors: #{ I18n.t('stripe.error_codes').to_json },
           meta: {
               have_upcoming_plannings: #{ @structure.plannings.future.any? },
               structure_id: #{ @structure.id }
