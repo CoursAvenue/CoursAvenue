@@ -10,6 +10,9 @@ class StructureWebsite::ParticipationRequestsController < StructureWebsiteContro
     @user.phone_number = request_params[:user][:phone_number]
     @user.first_name   = request_params[:user][:name]
     @user.save(validate: false)
+
+    @user.create_stripe_customer(token)
+
     @structure.create_or_update_user_profile_for_user(@user, UserProfile::DEFAULT_TAGS[:contacts])
 
     @participation_request = ParticipationRequest.create_and_send_message request_params.merge(from_personal_website: true), @user
@@ -44,6 +47,7 @@ class StructureWebsite::ParticipationRequestsController < StructureWebsiteContro
                                                   :date,
                                                   :participants_attributes,
                                                   :structure_id,
+                                                  :stripe_token,
                                                   user: [ :phone_number, :email, :name ],
                                                   message: [ :body ])
   end
