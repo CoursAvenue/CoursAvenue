@@ -4,15 +4,22 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
         template: Module.templateDirname() + 'request_form_view',
         message_failed_to_send_template: StructureProfile.Views.ParticipationRequests.templateDirname() + 'message_failed_to_send',
 
+        initialize: function initialize (options) {
+            StructureProfile.Views.ParticipationRequests.RequestFormView.prototype.initialize.apply(this, arguments);
+            _.bindAll(this, 'stripeResponseHandler');
+        },
+
         ui: {
             '$message_sent'                           : '[data-type=message-sent]',
             '$participation_request_message_body'     : '[name="message[body]"]',
             '$participation_request_user_phone_number': '[name="user[phone_number]"]',
             '$participation_request_user_email'       : '[name="user[email]"]',
             '$participation_request_user_name'        : '[name="user[name]"]',
+            '$participation_request_card_token'       : '[name="card[token]"]',
             '$user_participation_requests_path'       : '[data-type=user-participation-requests-path]',
             '$first_step_form_wrapper'                : '[data-element=first-step-form-wrapper]',
-            '$second_step_form_wrapper'               : '[data-element=second-step-form-wrapper]'
+            '$second_step_form_wrapper'               : '[data-element=second-step-form-wrapper]',
+            '$third_step_form_wrapper'                : '[data-element=third-step-form-wrapper]',
         },
 
         /*
@@ -22,7 +29,8 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
          */
         events: function events () {
             _events = {
-                'click [data-behavior=show-third-step-form]': 'showThirdStepForm'
+                'click [data-behavior=show-third-step-form]': 'showThirdStepForm',
+                'submit form':                                'retrieveStripeToken'
             }
 
             return _.extend(StructureProfile.Views.ParticipationRequests.RequestFormView.prototype.events, _events);
@@ -33,15 +41,16 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
          * If user is connected, will post the message, else, will ask to login first.
          */
         submitForm: function submitForm () {
-            this.populateRequest();
             $.cookie('participation_request_body', this.ui.$participation_request_message_body.val());
             $.cookie('user_phone_number'         , this.ui.$participation_request_user_phone_number.val());
+
             if (this.model.isValid(true)) {
                 this.$('form').trigger('ajax:send');
                 this.saveMessage();
             } else {
                 this.showErrors();
             }
+
             return false;
         },
 
@@ -130,7 +139,10 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             errors = _.reject(this.errors, function(value, key) { return (key.indexOf('user') != -1) })
             if (errors.length == 0) {
                 this.ui.$first_step_form_wrapper.slideUp();
+                this.ui.$third_step_form_wrapper.slideUp();
+
                 this.ui.$second_step_form_wrapper.slideDown();
+
                 this.$('[data-error]').hide(); // Hide errors if there was any
             } else {
                 this.showErrors();
@@ -138,8 +150,36 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
         },
 
         showThirdStepForm: function showThirdStepForm () {
+            this.populateRequest();
+
+            errors = _.reject(this.errors, function(value, key) { return (key.indexOf('user') != -1) })
+            if (this.model.isValid(true)) {
+                this.ui.$second_step_form_wrapper.slideUp();
+                this.ui.$third_step_form_wrapper.slideDown();
+                this.$('[data-error]').hide(); // Hide errors if there was any
+            } else {
+                this.showErrors();
+            }
         },
 
+        retrieveStripeToken: function retrieveStripeToken () {
+            if (this.ui.$participation_request_card_token.val() == '') {
+                Stripe.card.createToken(this.$el.find('form'), this.stripeResponseHandler);
+            }
+
+            return false;
+        },
+
+        stripeResponseHandler: function stripeResponseHandler (status, response) {
+            if (status == 200) {
+                this.model.set('stripe_token', response.id)
+                this.ui.$participation_request_card_token.val(response.id)
+                this.submitForm();
+            } else {
+                var errorMessage = window.coursavenue.bootstrap.stripe_errors[response.error.code];
+                this.$el.find('[data-error=stripe-error]').text(errorMessage).show();
+            }
+        },
     });
 
 }, undefined);
