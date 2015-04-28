@@ -32,7 +32,7 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
 
             var positionLabel = this.model.collection.where({ type: this.model.get('type') }).indexOf(this.model) + 1
             if (this.model.collection.multiBloc) {
-                positionLabel = this.model.collection.multiBloc.get('position') + '-' + positionLabel;
+                positionLabel = this.model.collection.multiBloc.get('position');
             }
             this.model.set('position_label', positionLabel);
             if (!this.model.has('newsletter')) {
