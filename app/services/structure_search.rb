@@ -113,7 +113,7 @@ class StructureSearch
     # Choose parent subjects that are used if the profile has courses
     used_subjects = []
     if structure.courses.any?
-      used_subjects = structure.courses.map(&:subjects).flatten.uniq
+      used_subjects = structure.courses.includes(:subjects).flat_map(&:subjects).uniq
     else
       used_subjects = structure.subjects.at_depth(2).uniq
     end
