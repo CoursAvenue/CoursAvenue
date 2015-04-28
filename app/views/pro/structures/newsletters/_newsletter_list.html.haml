@@ -1,6 +1,6 @@
 - @newsletters.each do |newsletter|
   - newsletter_decorator = newsletter.decorate
-  .flexbox.push--bottom.hoverable.transition-all-300.soft
+  .flexbox.push-half--bottom.hoverable.transition-all-300.soft
     = link_to newsletter_decorator.url, class: 'flexbox__item v-middle muted-link' do
       %h4.push-half--bottom
         = newsletter.title

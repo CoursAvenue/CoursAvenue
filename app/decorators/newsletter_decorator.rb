@@ -20,7 +20,7 @@ class NewsletterDecorator < Draper::Decorator
   end
 
   def url
-    if object.sent?
+    if object.sent? or object.sending?
       h.metrics_pro_structure_newsletter_path(object.structure, object)
     else
       h.edit_pro_structure_newsletter_path(object.structure, object)

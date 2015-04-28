@@ -12,7 +12,7 @@
         %i.fa-times
         Annuler
       .two-thirds.soft-half--left.inline-block>
-        = link_to send_newsletter_pro_structure_newsletter_path(@structure, @newsletter), class: 'btn btn--full btn--green soft-half--ends' do
+        = link_to send_newsletter_pro_structure_newsletter_path(@structure, @newsletter), class: 'btn btn--full btn--green soft-half--ends', data: { disable_with: 'Envoi en cours...' } do
           %i.fa.fa-paper-plane-o
           Envoyer
   - else
