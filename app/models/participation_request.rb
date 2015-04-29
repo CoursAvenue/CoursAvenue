@@ -1,8 +1,6 @@
 class ParticipationRequest < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
-  extend FriendlyId
-
-  friendly_id :token, use: [:finders]
+  include Concerns::HasRandomToken
 
   acts_as_paranoid
 
@@ -38,7 +36,6 @@ class ParticipationRequest < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   before_validation :set_date_if_empty
-  before_validation :create_token
   before_save       :update_times
   before_create     :set_default_attributes
   after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher, :touch_user
@@ -341,15 +338,4 @@ class ParticipationRequest < ActiveRecord::Base
     self.date ||= self.planning.start_date if self.planning
   end
 
-  # Creates an unique token.
-  #
-  # @return self
-  def create_token
-    if self.token.nil?
-      self.token = loop do
-        random_token = SecureRandom.urlsafe_base64
-        break random_token unless ParticipationRequest.exists?(token: random_token)
-      end
-    end
-  end
 end

@@ -1,6 +1,7 @@
 # TODO: slugs.
 class Newsletter < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
+  include Concerns::HasRandomToken
   include ApplicationHelper
 
   ######################################################################
@@ -18,7 +19,7 @@ class Newsletter < ActiveRecord::Base
                   :email_object, :sender_name, :reply_to,
                   :layout_id,
                   :blocs, :blocs_attributes,
-                  :newsletter_mailing_list_id
+                  :newsletter_mailing_list_id, :token
 
   belongs_to :structure
 

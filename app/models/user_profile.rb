@@ -141,7 +141,7 @@ class UserProfile < ActiveRecord::Base
     end
 
     # if options.present? and options[:newsletter_id].present?
-    #   newsletter = structure.newsletters.find(options[:newsletter_id])
+    #   newsletter = structure.newsletters.friendly.find(options[:newsletter_id])
     #   AdminMailer.delay.import_batch_user_profiles_finished_from_newsletter(structure, newsletter, total, error_emails)
     # else
     #   AdminMailer.delay.import_batch_user_profiles_finished(structure, total, error_emails)
