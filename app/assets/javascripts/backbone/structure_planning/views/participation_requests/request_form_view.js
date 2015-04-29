@@ -91,6 +91,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             });
             this.model.set(new_attributes);
         },
+
         saveMessage: function saveMessage () {
             this.$('.input_field_error').remove();
             this.model.save(null, {
