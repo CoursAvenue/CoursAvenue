@@ -188,7 +188,7 @@ describe ParticipationRequest do
             end
           end
 
-          context 'all of the above', with_mail: true do
+          context 'all of the above' do
             before do
               user.create_stripe_customer(token)
               user.reload
@@ -204,7 +204,7 @@ describe ParticipationRequest do
               expect { subject.charge! }.to change { ParticipationRequest::Invoice.count }.by(1)
             end
 
-            it 'sends the invoice via mail' do
+            it 'sends the invoice via mail', with_mail: true do
               expect { subject.charge! }.to change { ActionMailer::Base.deliveries.count }.by(2)
             end
 
