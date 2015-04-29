@@ -2,18 +2,18 @@
   - if @newsletter.ready?
     %h1.text--center.flush C'est parti !
 
-    .f-weight-500.text--center
-      %p.delta.line-height-normal
+    = form_tag send_newsletter_pro_structure_newsletter_path(@structure, @newsletter), method: :get do
+      %p.delta.line-height-normal.f-weight-500
         Vous êtes sur le point d'envoyer une newsletter à
         = pluralize @newsletter.recipient_count, 'élève'
-
-    .text--center
-      %a{ onclick: '$.fancybox.close();', href: 'javascript:void(0)', class: 'one-third soft-half--ends btn btn--gray' }>
-        %i.fa-times
-        Annuler
-      .two-thirds.soft-half--left.inline-block>
-        = link_to send_newsletter_pro_structure_newsletter_path(@structure, @newsletter), class: 'btn btn--full btn--green soft-half--ends', data: { disable_with: 'Envoi en cours...' } do
-          %i.fa.fa-paper-plane-o
-          Envoyer
+      .input.epsilon.push--bottom
+        %input.delta#send-me-a-copy{ type: 'checkbox', name: 'send_me_a_copy', checked: true }
+        %label{ for: 'send-me-a-copy' } Envoyer la newsletter à mon adresse e-mail
+      .text--center
+        %a{ onclick: '$.fancybox.close();', href: 'javascript:void(0)', class: 'one-third soft-half--ends btn btn--gray' }>
+          %i.fa-times
+          Annuler
+        .two-thirds.soft-half--left.inline-block>
+          = submit_tag 'Envoyer', class: 'btn btn--full btn--green soft-half--ends', data: { disable_with: 'Envoi en cours...' }
   - else
     %h3.text--center.flush Vous devez choisir une liste de diffusion avant l'envoi

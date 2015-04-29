@@ -14,13 +14,13 @@ class NewsletterMailer < ActionMailer::Base
   layout 'newsletter'
 
   # Send the newsletter, also used to preview the newsletter.
-  def send_newsletter(newsletter, recipients)
+  def send_newsletter(newsletter, recipient)
     @newsletter = newsletter
     @structure  = newsletter.structure
     @blocs      = @newsletter.blocs.includes(:sub_blocs).order('position ASC')
 
     mail subject: @newsletter.email_object,
-         bcc: recipients,
+         to: recipient,
          from: "\"#{@newsletter.sender_name}\" <noreply@coursavenue.com>",
          reply_to: @newsletter.reply_to
   end
