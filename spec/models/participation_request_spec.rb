@@ -101,7 +101,6 @@ describe ParticipationRequest do
   end
 
   context 'stripe' do
-
     before(:all) { StripeMock.start }
     after(:all)  { StripeMock.stop }
 
