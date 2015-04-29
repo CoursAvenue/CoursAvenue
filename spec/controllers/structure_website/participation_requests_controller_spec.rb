@@ -27,7 +27,6 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
                           planning_id: planning.id,
                           date: Date.tomorrow.to_s,
                           structure_id: structure.id,
-                          stripe_token: token,
                           message: {
                             body: 'Lorem'
                           },
@@ -44,7 +43,6 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
       it 'creates a user' do
         post :create, { participation_request: {
                           structure_id: structure.id,
-                          stripe_token: token,
                           message: {
                             body: 'Lorem'
                           },
@@ -82,7 +80,6 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
       it 'updates existing user' do
         post :create, { participation_request: {
                           structure_id: structure.id,
-                          stripe_token: token,
                           message: {
                             body: 'Lorem'
                           },

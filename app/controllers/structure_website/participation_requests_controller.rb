@@ -11,7 +11,9 @@ class StructureWebsite::ParticipationRequestsController < StructureWebsiteContro
     @user.first_name   = request_params[:user][:name]
     @user.save(validate: false)
 
-    @user.create_stripe_customer(token)
+    if request_params[:stripe_token].present?
+      @user.create_stripe_customer(request_params[:stripe_token])
+    end
 
     @structure.create_or_update_user_profile_for_user(@user, UserProfile::DEFAULT_TAGS[:contacts])
 
