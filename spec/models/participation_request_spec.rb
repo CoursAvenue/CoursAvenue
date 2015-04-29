@@ -188,7 +188,7 @@ describe ParticipationRequest do
             end
           end
 
-          context 'all of the above' do
+          context 'all of the above', with_mail: true do
             before do
               user.create_stripe_customer(token)
               user.reload
