@@ -51,6 +51,10 @@ StructurePlanning.module('Models', function(Module, App, Backbone, Marionette, $
 
         url: function url () {
             return Routes.structure_website_participation_requests_path({ structure_id: this.get('structure').get('id') });
-        }
+        },
+
+        isFree: function isFree () {
+            return ! (this.total_price && this.total_price != 0);
+        },
     });
 });
