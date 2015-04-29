@@ -30,10 +30,24 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
         events: function events () {
             _events = {
                 'click [data-behavior=show-third-step-form]': 'showThirdStepForm',
-                'submit form':                                'retrieveStripeToken'
+                'submit form':                                'preSubmitForm'
             }
 
             return _.extend(StructureProfile.Views.ParticipationRequests.RequestFormView.prototype.events, _events);
+        },
+
+        /*
+         * Called right before the form is submitted.
+         * Check whether we need to get a Stripe token or not.
+         */
+        preSubmitForm: function preSubmitForm () {
+            this.populateRequest();
+            if (this.model.isFree()) {
+                return this.submitForm();
+            } else {
+                Stripe.card.createToken(this.$('form'), this.stripeResponseHandler);
+                return false;
+            }
         },
 
         /*
@@ -80,6 +94,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             });
             _.extend(new_attributes, {
                 structure_id: this.model.get('structure').get('id'),
+                is_free: this.model.isFree(),
                 message: {
                     body: this.ui.$participation_request_message_body.val()
                 },
@@ -152,8 +167,6 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
 
         showThirdStepForm: function showThirdStepForm () {
             this.populateRequest();
-
-            errors = _.reject(this.errors, function(value, key) { return (key.indexOf('user') != -1) })
             if (this.model.isValid(true)) {
                 this.ui.$second_step_form_wrapper.slideUp();
                 this.ui.$third_step_form_wrapper.slideDown();
@@ -161,14 +174,6 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             } else {
                 this.showErrors();
             }
-        },
-
-        retrieveStripeToken: function retrieveStripeToken () {
-            if (this.ui.$participation_request_card_token.val() == '') {
-                Stripe.card.createToken(this.$el.find('form'), this.stripeResponseHandler);
-            }
-
-            return false;
         },
 
         stripeResponseHandler: function stripeResponseHandler (status, response) {
