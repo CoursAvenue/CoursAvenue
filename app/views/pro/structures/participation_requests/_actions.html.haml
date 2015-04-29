@@ -1,7 +1,7 @@
 - position = 'right' if position.nil?
 .flexbox
   - if !@participation_request.canceled?
-    - if @participation_request.pending? and @participation_request.last_modified_by == 'User'
+    - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and !@participation_request.past?
       .flexbox__item.one-third.soft-half--right>
         = link_to accept_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full btn--green btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
           = t('.accept')
