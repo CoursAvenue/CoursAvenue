@@ -18,7 +18,7 @@ describe ParticipationRequest do
         structure_id:  structure.id,
         message: { body: 'lala' }
       }
-      pr = ParticipationRequest.create_and_send_message request_attributes, user, from_personal_website=false
+      pr = ParticipationRequest.create_and_send_message(request_attributes, user)
       expect(pr).to be_persisted
     end
 
