@@ -84,7 +84,7 @@ RSpec.describe StripeEvent, type: :model do
           expect { subject.process! }.to change { Subscriptions::Invoice.count }.by(1)
         end
 
-        it 'sends an email to the teacher' do
+        it 'sends an email to the teacher', with_mail: true do
           expect { subject.process! }.to change { ActionMailer::Base.deliveries.count }.by(1)
         end
       end
@@ -123,7 +123,7 @@ RSpec.describe StripeEvent, type: :model do
           FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
         end
 
-        it 'sends an email to the admins' do
+        it 'sends an email to the admins', with_mail: true do
           expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(1)
         end
 
@@ -155,7 +155,7 @@ RSpec.describe StripeEvent, type: :model do
           FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
         end
 
-        it 'sends an email to the admins and to the teacher' do
+        it 'sends an email to the admins and to the teacher', with_mail: true do
           expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(2)
         end
 
@@ -187,7 +187,7 @@ RSpec.describe StripeEvent, type: :model do
           FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
         end
 
-        it 'sends an email to the admins' do
+        it 'sends an email to the admins', with_mail: true do
           expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(1)
         end
 
@@ -208,7 +208,7 @@ RSpec.describe StripeEvent, type: :model do
           FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
         end
 
-        it 'sends an email to the teacher' do
+        it 'sends an email to the teacher', with_mail: true do
           expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(1)
         end
       end
