@@ -86,13 +86,15 @@
                 <div data-error="message_body" class="soft--sides {{#unless errors.body}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.body}}</div>
                 {{#if in_two_steps}}
                 <div class="soft--sides">
-                    <a data-behavior="show-third-step-form" class="hidden btn btn--green btn--full">
-                      Payer
-                    </a>
+                  <a data-behavior="show-third-step-form" class="hidden btn btn--green btn--full">
+                    Payer
+                  </a>
+                </div>
 
-                    <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
-                      Enregistrer
-                    </button>
+                <div class="soft--sides">
+                  <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi..." data-behavior='skip-third-step-form'>
+                    Enregistrer
+                  </button>
                 </div>
                 {{/if}}
             </div>

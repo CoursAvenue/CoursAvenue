@@ -155,7 +155,11 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             errors = _.reject(this.errors, function(value, key) { return (key.indexOf('user') != -1) })
             if (errors.length == 0) {
                 this.ui.$first_step_form_wrapper.slideUp();
-                this.ui.$third_step_form_wrapper.slideUp();
+
+                if (!this.model.isFree()) {
+                    this.addThirdStepForm();
+                    this.ui.$third_step_form_wrapper.slideUp();
+                }
 
                 this.ui.$second_step_form_wrapper.slideDown();
 
@@ -163,6 +167,14 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             } else {
                 this.showErrors();
             }
+        },
+
+        /*
+         * Switch the submition button for the "go to third step" button.
+         */
+        addThirdStepForm: function addThirdStepForm () {
+            this.$('[data-behavior=show-third-step-form]').removeClass('hidden');
+            this.$('[data-behavior=skip-third-step-form]').hide();
         },
 
         showThirdStepForm: function showThirdStepForm () {
