@@ -16,7 +16,7 @@
         - @upcoming_participation_requests.each do |participation_request|
           = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request }
   - else
-    = render partial: 'pro/structures/improve_your_stats', locals: { message: "Vous n'avez pas encore d'inscrit. Quelques conseils pour améliorer vos statistiques : "}
+    = render partial: 'pro/structures/improve_your_stats', locals: { message: "Vous n'avez pas d'inscriptions à venir. Quelques conseils pour améliorer vos statistiques : "}
   - if @past_participation_requests.any?
     %hr
     %p.flush
