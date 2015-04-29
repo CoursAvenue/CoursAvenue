@@ -1,6 +1,6 @@
 .soft
   - if @newsletter.ready?
-    %h1.text--center.flush Préparez-vous à l'envoi !
+    %h1.text--center.flush C'est parti !
 
     .f-weight-500.text--center
       %p.delta.line-height-normal
@@ -12,7 +12,7 @@
         %i.fa-times
         Annuler
       .two-thirds.soft-half--left.inline-block>
-        = link_to send_newsletter_pro_structure_newsletter_path(@structure, @newsletter), class: 'btn btn--full btn--green soft-half--ends' do
+        = link_to send_newsletter_pro_structure_newsletter_path(@structure, @newsletter), class: 'btn btn--full btn--green soft-half--ends', data: { disable_with: 'Envoi en cours...' } do
           %i.fa.fa-paper-plane-o
           Envoyer
   - else

@@ -10,6 +10,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         initialize: function initialize () {
             this._modelBinder = new Backbone.ModelBinder();
+            this.model.set('email_object', this.model.get('email_object') || this.model.get('title'))
             _.bindAll(this, 'silentSave');
         },
 

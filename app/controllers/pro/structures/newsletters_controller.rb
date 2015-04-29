@@ -6,7 +6,7 @@ class Pro::Structures::NewslettersController < ApplicationController
   layout 'admin'
 
   def index
-    @newsletters = @structure.newsletters.includes(:mailing_list).decorate
+    @newsletters = @structure.newsletters.order('created_at DESC').includes(:mailing_list).decorate
   end
 
   def new

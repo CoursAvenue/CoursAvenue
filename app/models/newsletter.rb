@@ -167,10 +167,6 @@ class Newsletter < ActiveRecord::Base
       self.reply_to = self.structure.contact_email
     end
 
-    if email_object.nil?
-      self.email_object = self.title
-    end
-
     if layout_id.nil?
       self.layout_id = 1
     end

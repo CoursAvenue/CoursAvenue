@@ -9,6 +9,13 @@
       %title= @_message.subject
     - else
       %title= "#{@structure.name} : newsletter"
+    -# %style{ 'data-roadie-ignore' => true }
+    -#   @media only screen and (max-width: 600px) {
+    -#   table[class=w200], td[class=w200], img[class=w200] { display: none!important; }
+    -#   table[class=w400], td[class=w400], img[class=w400] { width:300px !important; padding-left: 0!important; }
+    -#   table[class=w600], td[class=w600], img[class=w600] { width:300px !important; }
+    -#   img{ height:auto;}
+    -#   }
 
   %body.coursavenue-email-body{ leftmargin: '0', marginheight: '0', marginwidth: '0', topmargin: '0' }
     %table.coursavenue-email-body{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%', style: 'margin: auto;' }
@@ -34,15 +41,17 @@
 
             %table{ align: 'center', border: '0', cellpadding: '5', cellspacing: '0', style: 'margin: auto;' }
               %tr
-                %td.soft-half--ends.footer.text--center{ width: '590' }
-                  .delta.soft-half--bottom{ style: "color: #CCC; font-size: 15px;" }
+                %td.soft-half--ends.email-footer.text--center{ width: '590' }
                   - if @structure.facebook_url.present?
                     %div
                       Suivez-nous :
-                      = link_to 'Facebook', @structure.facebook_url, class: 'soft-half--right'
-                    = "© #{@structure.name}"
-                    = @structure.address
+                      = link_to 'Facebook', @structure.facebook_url, class: 'soft-half--right', target: :_blank
+                    %div
+                      = "© #{@structure.name}"
+                      = @structure.address
                   %div
                     Envoyé avec ♥ depuis le siège de CoursAvenue
                   - if content_for? :footer
                     = yield :footer
+                  - if @structure
+                    = link_to 'Se désinscrire', "#", 'data-mandrill-href' => "*|UNSUB:#{unsubscribe_structure_website_newsletters_url(subdomain: @structure.subdomain_slug)}|*"

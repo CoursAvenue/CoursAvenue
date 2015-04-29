@@ -109,7 +109,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     COURSAVENUE.helperMethods.flash(data.message, 'notice');
                     this.collection.updateAllProfileMailingList(data.total);
                     this.collection.add(mailingList, { at: 1 });
-                    this.trigger('selected', { model: this.model });
+                    mailingList.set('selected', true);
                     this.hideEverything();
                 }.bind(this),
                 error: function error (data) {

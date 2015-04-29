@@ -60,7 +60,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 collection: layouts_collection
             });
 
-            layouts_collection_view.on('layout:selected', this.selectNewsletterLayout);
+            layouts_collection_view.on('layout:selected', this.selectNewsletterLayout.bind(this));
 
             this.getRegion('choose-layout').show(layouts_collection_view);
             this.getRegion('choose-layout').$el.show();
@@ -99,8 +99,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 collection: bloc_collection
             });
 
-            this.listenTo(edition_view, 'edited',   this.finishEdition);
-            this.listenTo(edition_view, 'previous', this.previousStep);
+            edition_view.on('edited',   this.finishEdition.bind(this));
+            edition_view.on('previous', this.previousStep.bind(this));
 
             this.getRegion('edit').show(edition_view);
             this.getRegion('edit').$el.show();
@@ -118,10 +118,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
               model: this.newsletter
             });
 
-            this.listenTo(mailing_list_collection_view, 'selected', this.selectMailingList);
-            mailing_list_collection.on('add', function (model, collection, options) {
-                this.selectMailingList( { model: model });
-            }.bind(this));
+            mailing_list_collection_view.on('selected', this.selectMailingList.bind(this));
 
             this.getRegion('mailing-list').show(mailing_list_collection_view);
             this.getRegion('mailing-list').$el.show();
@@ -137,8 +134,8 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 model: this.newsletter
             });
 
-            this.listenTo(metadata_view, 'edited',   this.finishEdition);
-            this.listenTo(metadata_view, 'previous', this.previousStep);
+            metadata_view.on('edited',   this.finishEdition.bind(this));
+            metadata_view.on('previous', this.previousStep.bind(this));
 
             this.getRegion('metadata').show(metadata_view);
             this.getRegion('metadata').$el.show();
@@ -153,7 +150,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 model: this.newsletter
             });
 
-            this.listenTo(preview_view, 'previous', this.previousStep);
+            preview_view.on('previous', this.previousStep.bind(this));
 
             this.getRegion('preview').show(preview_view);
             this.getRegion('preview').$el.show();

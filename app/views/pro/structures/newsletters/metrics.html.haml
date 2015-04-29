@@ -1,13 +1,11 @@
 = side_menu_currently_at 'newsletters'
 
-.flexbox.push--bottom
-  .flexbox__item.v-middle
-    = link_to pro_structure_newsletters_path(@structure), class: 'btn' do
-      %i.fa-chevron-left.v-middle
-      Retour
+%h1.flush Statistiques d'envoi
+.push--bottom
+  = link_to '← Retour', pro_structure_newsletters_path(@structure) do
 
 - if @newsletter.sent? and @metric
   = render 'metrics_detail'
 - else
   %p.delta.text--center
-    Les statistiques d'envoi de newsletter sont en cours de création. Veuillez rééssayer dans quelques minutes.
+    Les statistiques d'envoi sont en cours de création. Veuillez réessayer dans quelques minutes.

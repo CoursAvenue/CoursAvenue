@@ -1,4 +1,16 @@
 <div class='panel__body soft text--center'>
+  <div class='soft text--center'>
+    <a href="{{ confirmation_url }}" class='btn btn--green btn--large fancybox.ajax' data-behavior='modal' data-width='500' data-padding='0'>
+      <i class='fa fa-paper-plane-o'></i>
+      Envoyer
+    </a>
+    <div class="soft-half--top epsilon">
+        <a href='{{ save_url }}'>
+    </div>
+      Enregistrer et envoyer plus tard
+    </a>
+  </div>
+
   <iframe data-preview='true' src="about:blank" width="700" height="500" class="one-whole"></iframe>
 
   <div class='soft text--center'>
@@ -6,14 +18,9 @@
       <i class='fa fa-paper-plane-o'></i>
       Envoyer
     </a>
-  </div>
-
-  <div class='or'>
-    <span>ou</span>
-  </div>
-
-  <div class='text--center'>
-    <a href='{{ save_url }}'>
+    <div class="soft-half--top epsilon">
+        <a href='{{ save_url }}'>
+    </div>
       Enregistrer et envoyer plus tard
     </a>
   </div>

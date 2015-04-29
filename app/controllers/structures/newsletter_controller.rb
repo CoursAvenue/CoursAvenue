@@ -11,9 +11,6 @@ class NewsletterController < ApplicationController
     render layout: false
   end
 
-  def unsubscribe
-  end
-
   private
 
   def set_structure

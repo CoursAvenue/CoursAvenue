@@ -22,6 +22,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         selectMailingList: function selectMailingList () {
             this.model.set('selected', true, { silent: true });
+            this.render();
             this.trigger('selected');
         },
 
