@@ -272,7 +272,11 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return nil
   def send_email_to_teacher
-    ParticipationRequestMailer.delay.you_received_a_request(self)
+    if from_personal_website?
+      StructureWebsiteParticipationRequestMailer.delay.you_received_a_request(self)
+    else
+      ParticipationRequestMailer.delay.you_received_a_request(self)
+    end
   end
 
   # When a request is created we inform the user
@@ -280,7 +284,7 @@ class ParticipationRequest < ActiveRecord::Base
   # @return nil
   def send_email_to_user
     if from_personal_website?
-      ParticipationRequestMailer.delay.you_sent_a_request_from_personal_website(self)
+      StructureWebsiteParticipationRequestMailer.delay.you_sent_a_request(self)
     else
       ParticipationRequestMailer.delay.you_sent_a_request(self)
     end
