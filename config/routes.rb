@@ -4,6 +4,8 @@ CoursAvenue::Application.routes.draw do
   mount_griddler
   get "/email_processor", to: proc { [200, {}, ["OK"]] }, as: "mandrill_head_test_request"
   get '/robots.txt' => 'home#robots'
+
+
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
@@ -439,39 +441,6 @@ CoursAvenue::Application.routes.draw do
     end
   end
 
-  constraints DomainConstraint.new do
-    namespace :structure_website, path: '' do
-      get '/'       , to: 'structures#index'   , as: :presentation
-      get 'planning', to: 'structures#planning', as: :planning
-      get 'reviews' , to: 'structures#reviews' , as: :reviews
-      get 'medias'  , to: 'structures#medias'  , as: :medias
-      get 'contact' , to: 'structures#contact' , as: :contact
-      resources :courses, controller: '/structures/courses', path: 'cours'
-      resources :newsletters, only: [] do
-        collection do
-          get :unsubscribe
-        end
-      end
-      resources :participation_requests, only: [:create, :update, :show], path: 'inscription' do
-        resources :conversations, controller: 'participation_requests/conversations'
-      end
-    end
-    # Use shared participation request controller
-    # That's why it is out of the namespace
-    resources :participation_requests, only: [:edit], controller: 'participation_requests' do
-      member do
-        get   :report_form
-        get   :cancel_form
-        get   :accept_form
-        patch :accept
-        patch :discuss
-        patch :modify_date
-        patch :cancel
-        patch :report
-      end
-    end
-  end
-
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
@@ -722,6 +691,43 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # -----------------------------------END OF WWW
   # ---------------------------------------------
+
+
+  # ---------------------------------------------
+  # -------------------------- STRUCTURE WEBSITES
+  # ---------------------------------------------
+  constraints DomainConstraint.new do
+    namespace :structure_website, path: '' do
+      get '/'       , to: 'structures#index'   , as: :presentation
+      get 'planning', to: 'structures#planning', as: :planning
+      get 'reviews' , to: 'structures#reviews' , as: :reviews
+      get 'medias'  , to: 'structures#medias'  , as: :medias
+      get 'contact' , to: 'structures#contact' , as: :contact
+      resources :courses, controller: '/structures/courses', path: 'cours'
+      resources :newsletters, only: [] do
+        collection do
+          get :unsubscribe
+        end
+      end
+      resources :participation_requests, only: [:create, :update, :show], path: 'inscription' do
+        resources :conversations, controller: 'participation_requests/conversations'
+      end
+    end
+    # Use shared participation request controller
+    # That's why it is out of the namespace
+    resources :participation_requests, only: [:edit], controller: 'participation_requests' do
+      member do
+        get   :report_form
+        get   :cancel_form
+        get   :accept_form
+        patch :accept
+        patch :discuss
+        patch :modify_date
+        patch :cancel
+        patch :report
+      end
+    end
+  end
 
   get '/', to: 'redirect#www_root'
   ########### Search pages ###########
