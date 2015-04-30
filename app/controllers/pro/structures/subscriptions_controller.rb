@@ -23,11 +23,12 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
 
   def create
     plan        = Subscriptions::Plan.find(params[:plan_id])
-    token       = params[:stripe_token]
     coupon_code = params[:coupon_code]
 
+    @subscription = plan.create_subscription!(@structure, coupon_code)
+
     respond_to do |format|
-      if (@subscription = plan.create_subscription!(@structure, coupon_code)).present?
+      if @subscription.present? and @subscription.persisted?
         format.html { redirect_to pro_structure_subscriptions_path(@structure),
                       notice: 'Votre abonnement a été créé avec succés' }
       else

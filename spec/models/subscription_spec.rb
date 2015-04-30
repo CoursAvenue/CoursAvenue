@@ -8,7 +8,7 @@ RSpec.describe Subscription, type: :model do
   let(:stripe_helper) { StripeMock.create_test_helper }
   subject             { FactoryGirl.create(:subscription) }
 
-  it { should validate_uniqueness_of(:stripe_subscription_id) }
+  it { should validate_uniqueness_of(:stripe_subscription_id).allow_blank }
   it { should belong_to(:structure) }
   it { should belong_to(:plan).class_name('Subscriptions::Plan').with_foreign_key('subscriptions_plan_id') }
   it { should belong_to(:coupon).class_name('Subscriptions::Coupon').with_foreign_key('subscriptions_coupon_id') }
@@ -359,14 +359,32 @@ RSpec.describe Subscription, type: :model do
       it { expect(subject.in_trial?).to be_falsy }
     end
 
-    context 'when the trial end is in the paste or current' do
-      subject { FactoryGirl.create(:subscription, trial_end: 1.day.ago) }
+    context 'when the trial end is in the past or current' do
+      let(:structure) { FactoryGirl.create(:structure) }
+      subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.ago) }
+
       it { expect(subject.in_trial?).to be_falsy }
     end
 
     context 'when the trial end is in the future' do
-      subject { FactoryGirl.create(:subscription, trial_end: 1.day.from_now) }
+      let(:structure) { FactoryGirl.create(:structure) }
+      subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.from_now) }
+
       it { expect(subject.in_trial?).to be_truthy }
+    end
+
+    context 'when the structure is subscribed' do
+      let(:plan)      { FactoryGirl.create(:subscriptions_plan) }
+      let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
+      let(:token)     { stripe_helper.generate_card_token }
+
+      subject         { plan.create_subscription!(structure) }
+
+      before do
+        subject.charge!(token)
+      end
+
+      it { expect(subject.in_trial?).to be_falsy }
     end
   end
 end

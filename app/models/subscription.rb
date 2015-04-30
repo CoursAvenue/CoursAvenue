@@ -46,7 +46,7 @@ class Subscription < ActiveRecord::Base
   # Validations                                                        #
   ######################################################################
 
-  validates :stripe_subscription_id, uniqueness: true
+  validates :stripe_subscription_id, uniqueness: true, allow_blank: true
 
   ######################################################################
   # Scopes                                                             #
@@ -211,7 +211,7 @@ class Subscription < ActiveRecord::Base
   #
   # @return a boolean
   def in_trial?
-    return false if trial_end.nil?
+    return false if trial_end.nil? or structure.premium?
 
     trial_end > DateTime.current
   end
