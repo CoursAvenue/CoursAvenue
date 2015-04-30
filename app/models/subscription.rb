@@ -4,10 +4,16 @@ class Subscription < ActiveRecord::Base
   acts_as_paranoid
 
   ######################################################################
+  # Constants                                                          #
+  ######################################################################
+
+  CURRENCY = 'EUR'
+
+  ######################################################################
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :structure, :coupon, :stripe_subscription_id,
+  attr_accessible :structure, :coupon, :plan, :stripe_subscription_id, :trial_end,
     :cancelation_reason_dont_want_more_students,
     :cancelation_reason_stopping_activity,
     :cancelation_reason_didnt_have_return_on_investment,
@@ -79,6 +85,31 @@ class Subscription < ActiveRecord::Base
   # @return a Boolean.
   def active?
     ! canceled?
+  end
+
+  # Charge the subscription. Usually after the trial period.
+  #
+  # @param token The Stripe token for when we create a new user.
+  #
+  # @return nil or the new Subscription.
+  def charge!(token = nil)
+    customer = structure.stripe_customer || structure.create_stripe_customer(token)
+    return nil if customer.nil?
+
+    options = {
+      plan: self.plan.stripe_plan_id
+    }
+
+    if self.coupon.present? and coupon.valid?
+      options.merge!({ coupon: coupon.stripe_coupon_id })
+    end
+
+    _subscription = customer.subscriptions.create(options, { api_key: Stripe.api_key })
+
+    self.stripe_subscription_id = _subscription.id
+    save
+
+    _subscription
   end
 
   # Cancel the subscription
@@ -174,5 +205,14 @@ class Subscription < ActiveRecord::Base
   # @return a Boolean
   def has_coupon?
     coupon.present?
+  end
+
+  # Whether the Subscription is still in its trial method.
+  #
+  # @return a boolean
+  def in_trial?
+    false if self.trial_end.nil?
+
+    self.trial_end > DateTime.current
   end
 end

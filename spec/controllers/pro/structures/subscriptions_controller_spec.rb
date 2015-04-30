@@ -38,7 +38,11 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
     end
 
     context 'when the structure is subscribed' do
-      let!(:subscription) { plan.create_subscription!(structure, token) }
+      let!(:subscription) { plan.create_subscription!(structure) }
+
+      before do
+        subscription.charge!(token)
+      end
 
       it 'assigns the subscription' do
         get :index, structure_id: structure.id
@@ -55,80 +59,42 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
   end
 
   describe '#create' do
-    context "when it is a new subscriber" do
-      context 'with a stripe token' do
-        subject { post :create, { structure_id: structure.id, plan_id: plan.id, stripe_token: token } }
+    subject { post :create, { structure_id: structure.id, plan_id: plan.id } }
 
-        it 'redirects to the index page' do
-          expect(subject).to redirect_to(action: :index, structure_id: structure.slug)
-        end
-
-        context 'with a coupon code' do
-          let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
-
-          subject do
-            post :create, {
-              structure_id: structure.id,
-              plan_id:      plan.id,
-              stripe_token: token,
-              coupon_code:  coupon.code
-            }
-          end
-
-          it 'creates a new subscription' do
-            expect{ subject }.to change { Subscription.count }.by(1)
-          end
-        end
-
-      end
-
-      context 'without a stripe token' do
-        subject { post :create, { structure_id: structure.id, plan_id: plan.id } }
-
-        it "doesn't create a new subscription" do
-          expect { subject }.to_not change { Subscription.count }
-        end
-
-        it 'sends an error code' do
-          expect(subject).to have_http_status(400)
-        end
-      end
+    it 'redirects to the index page' do
+      expect(subject).to redirect_to(action: :index, structure_id: structure.slug)
     end
 
-    context "when it's an existing subscribed" do
-      subject { post :create, { structure_id: structure.id, plan_id: plan.id } }
+    context 'with a coupon code' do
+      let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
 
-      before do
-        structure.create_stripe_customer(token)
+      subject do
+        post :create, {
+          structure_id: structure.id,
+          plan_id:      plan.id,
+          coupon_code:  coupon.code
+        }
+      end
+
+      it 'creates a new subscription' do
+        expect{ subject }.to change { Subscription.count }.by(1)
       end
 
       it 'creates a new subscription' do
         expect { subject }.to change { Subscription.count }.by(1)
+        expect(structure.subscription.has_coupon?).to be_truthy
       end
-
-      context 'with a coupon code' do
-        let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
-        subject do
-          post :create, {
-            structure_id: structure.id,
-            plan_id:      plan.id,
-            coupon_code:  coupon.code
-          }
-        end
-
-        it 'creates a new subscription' do
-          expect { subject }.to change { Subscription.count }.by(1)
-          expect(structure.subscription.has_coupon?).to be_truthy
-        end
-      end
-
     end
   end
 
   describe '#cancel' do
     render_views
 
-    let(:subscription) { plan.create_subscription!(structure, token) }
+    let(:subscription) { plan.create_subscription!(structure) }
+
+    before do
+      subscription.charge!(token)
+    end
 
     it 'renders the cancel template' do
       get :cancel, structure_id: structure.slug, id: subscription.id
@@ -153,7 +119,11 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
   describe '#confirm_cancellation' do
     render_views
 
-    let(:subscription) { plan.create_subscription!(structure, token) }
+    let(:subscription) { plan.create_subscription!(structure) }
+
+    before do
+      subscription.charge!(token)
+    end
 
     it 'renders the cancel template' do
       get :confirm_cancellation, structure_id: structure.slug, id: subscription.id

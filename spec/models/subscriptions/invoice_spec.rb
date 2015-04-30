@@ -9,12 +9,16 @@ RSpec.describe Subscriptions::Invoice, type: :model do
   let(:plan)           { FactoryGirl.create(:subscriptions_plan) }
   let(:structure)      { FactoryGirl.create(:structure, :with_contact_email) }
   let(:token)          { stripe_helper.generate_card_token }
-  let(:subscription)   { plan.create_subscription!(structure, token) }
+  let!(:subscription)   { plan.create_subscription!(structure) }
   let(:stripe_invoice) { Stripe::Invoice.upcoming(customer: structure.stripe_customer_id) }
 
   subject do
     FactoryGirl.create(:subscriptions_invoice, structure: structure, subscription: subscription,
                        stripe_invoice_id: stripe_invoice.id)
+  end
+
+  before do
+    subscription.charge!(token)
   end
 
   it { should belong_to(:structure) }

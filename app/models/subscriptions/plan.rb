@@ -10,8 +10,6 @@ class Subscriptions::Plan < ActiveRecord::Base
     year: 'Annuel'
   }
 
-  CURRENCY = 'EUR'
-
   ######################################################################
   # Macros                                                             #
   ######################################################################
@@ -84,17 +82,13 @@ class Subscriptions::Plan < ActiveRecord::Base
   end
 
   # Subscribe a structure to the current plan.
-  # TODO: Coupon code.
   #
-  # @param structure   The structure that subscribes to the plan.
-  # @param token       The Stripe token for when we create a new user.
-  # @param coupon_code The coupon code to apply to the subscription
+  # @param structure    The structure that subscribes to the plan.
+  # @param coupon_code  The coupon code to apply to the subscription
+  # @param trial_period The trial period, by default 15 days.
   #
   # @return nil or the new Subscription
-  def create_subscription!(structure, token = nil, coupon_code = nil)
-    customer = structure.stripe_customer || structure.create_stripe_customer(token)
-    return nil if customer.nil?
-
+  def create_subscription!(structure, coupon_code = nil, trial_period = 15.days.ago)
     options = {
       plan: self.stripe_plan_id
     }
@@ -104,13 +98,10 @@ class Subscriptions::Plan < ActiveRecord::Base
       options.merge!({ coupon: coupon.stripe_coupon_id })
     end
 
-    # TODO: Remove explicit API key.
-    subscription = customer.subscriptions.create(options, { api_key: Stripe.api_key })
-
     self.subscriptions.create({
       structure: structure,
-      stripe_subscription_id: subscription.id,
-      coupon: coupon
+      coupon:    coupon,
+      trial_end: 15.days.from_now
     })
   end
 
@@ -126,7 +117,7 @@ class Subscriptions::Plan < ActiveRecord::Base
     options = {
       id:       plan_id,
       amount:   self.amount * 100,
-      currency: CURRENCY,
+      currency: Subscription::CURRENCY,
       interval: self.interval,
       name:     self.name
     }
