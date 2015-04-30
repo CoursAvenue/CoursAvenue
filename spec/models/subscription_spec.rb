@@ -27,7 +27,11 @@ RSpec.describe Subscription, type: :model do
       let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
       let(:token)     { stripe_helper.generate_card_token }
 
-      subject { plan.create_subscription!(structure, token) }
+      subject { plan.create_subscription!(structure) }
+
+      before do
+        subject.charge!(token)
+      end
 
       it 'returns a Stripe::Subscription object' do
         stripe_subscription = Stripe::Subscription
@@ -43,9 +47,12 @@ RSpec.describe Subscription, type: :model do
 
     context 'when not canceled' do
       let(:token) { stripe_helper.generate_card_token }
-      subject     { plan.create_subscription!(structure, token) }
+      subject     { plan.create_subscription!(structure) }
 
-      it { expect(subject.canceled?).to be_falsy }
+      before do
+        subject.charge!(token)
+      end
+
     end
 
     context 'when canceled' do
@@ -66,7 +73,11 @@ RSpec.describe Subscription, type: :model do
 
     context 'when active' do
       let(:token) { stripe_helper.generate_card_token }
-      subject     { plan.create_subscription!(structure, token) }
+      subject     { plan.create_subscription!(structure) }
+
+      before do
+        subject.charge!(token)
+      end
 
       it { expect(subject.active?).to be_truthy }
     end
@@ -118,7 +129,11 @@ RSpec.describe Subscription, type: :model do
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
     let(:token)     { stripe_helper.generate_card_token }
 
-    subject         { plan.create_subscription!(structure, token) }
+    subject { plan.create_subscription!(structure) }
+
+    before do
+      subject.charge!(token)
+    end
 
     it 'cancels the subscription' do
       subject.cancel!
@@ -192,7 +207,11 @@ RSpec.describe Subscription, type: :model do
     let!(:other_plan) { FactoryGirl.create(:subscriptions_plan) }
     let(:structure)   { FactoryGirl.create(:structure, :with_contact_email) }
     let(:token)       { stripe_helper.generate_card_token }
-    subject           { plan.create_subscription!(structure, token) }
+    subject           { plan.create_subscription!(structure) }
+
+    before do
+      subject.charge!(token)
+    end
 
     it 'does nothing if the new plan is the current plan' do
       subject.change_plan!(plan)
@@ -226,7 +245,11 @@ RSpec.describe Subscription, type: :model do
       let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
       let(:structure)   { FactoryGirl.create(:structure, :with_contact_email) }
       let(:token)       { stripe_helper.generate_card_token }
-      subject           { plan.create_subscription!(structure, token) }
+      subject           { plan.create_subscription!(structure) }
+
+      before do
+        subject.charge!(token)
+      end
 
       it 'returns the current period end' do
         expect(subject.current_period_end).to_not be_nil
@@ -247,7 +270,11 @@ RSpec.describe Subscription, type: :model do
       let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
       let(:structure)   { FactoryGirl.create(:structure, :with_contact_email) }
       let(:token)       { stripe_helper.generate_card_token }
-      subject           { plan.create_subscription!(structure, token) }
+      subject           { plan.create_subscription!(structure) }
+
+      before do
+        subject.charge!(token)
+      end
 
       context 'with a coupon code' do
         let(:coupon_code) { FactoryGirl.create(:subscriptions_coupon) }
@@ -280,7 +307,11 @@ RSpec.describe Subscription, type: :model do
       let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
       let(:structure)   { FactoryGirl.create(:structure, :with_contact_email) }
       let(:token)       { stripe_helper.generate_card_token }
-      subject           { plan.create_subscription!(structure, token) }
+      subject           { plan.create_subscription!(structure) }
+
+      before do
+        subject.charge!(token)
+      end
 
       it 'applies the coupon' do
         expect{ subject.apply_coupon(coupon) }.
@@ -301,9 +332,12 @@ RSpec.describe Subscription, type: :model do
       let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
       let(:token)     { stripe_helper.generate_card_token }
       let(:coupon)    { FactoryGirl.create(:subscriptions_coupon) }
-      subject         { plan.create_subscription!(structure, token) }
+      subject         { plan.create_subscription!(structure) }
 
-      before       { subject.apply_coupon(coupon) }
+      before do
+        subject.charge!(token)
+        subject.apply_coupon(coupon)
+      end
 
       it { expect(subject.has_coupon?).to be_truthy }
     end
@@ -315,7 +349,7 @@ RSpec.describe Subscription, type: :model do
 
   describe 'in_trial?' do
     context 'when there is no `trial_end`' do
-      subject { FactoryGirl.create(:subscription, trial_end: 1.day.from_now) }
+      subject { FactoryGirl.create(:subscription, trial_end: nil) }
       it { expect(subject.in_trial?).to be_falsy }
     end
 

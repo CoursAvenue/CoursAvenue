@@ -27,7 +27,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     coupon_code = params[:coupon_code]
 
     respond_to do |format|
-      if (@subscription = plan.create_subscription!(@structure, token, coupon_code)).present?
+      if (@subscription = plan.create_subscription!(@structure, coupon_code)).present?
         format.html { redirect_to pro_structure_subscriptions_path(@structure),
                       notice: 'Votre abonnement a été créé avec succés' }
       else
