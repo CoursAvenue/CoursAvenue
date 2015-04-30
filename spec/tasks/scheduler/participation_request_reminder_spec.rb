@@ -3,7 +3,7 @@ require 'rake'
 
 CoursAvenue::Application.load_tasks
 
-context "scheduler:participation_requests" do
+context "scheduler:participation_requests", with_mail: true do
 
   context 'For Admins' do
 

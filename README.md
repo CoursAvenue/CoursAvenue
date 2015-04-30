@@ -142,6 +142,16 @@ command instead:
 $ CI=1 bundle exec rspec
 ```
 
+By default, most of the mailers are disabled. If your spec requires testing
+whether an email has been sent or not, you can re-enable emails by adding the
+tag `with_email`:
+
+```ruby
+it 'sends two emails', with_email: true do
+  expect { subject.my_cool_method! }.to change{ ActionMailer::Base.deliveries.count }.by(2)
+end
+```
+
 ### Rubocop
 
 Run [Rubocop](https://github.com/bbatsov/rubocop/):

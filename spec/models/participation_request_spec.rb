@@ -18,7 +18,7 @@ describe ParticipationRequest do
         structure_id:  structure.id,
         message: { body: 'lala' }
       }
-      pr = ParticipationRequest.create_and_send_message request_attributes, user, from_personal_website=false
+      pr = ParticipationRequest.create_and_send_message(request_attributes, user)
       expect(pr).to be_persisted
     end
 
@@ -69,7 +69,7 @@ describe ParticipationRequest do
     end
   end
 
-  describe '#accept!' do
+  describe '#accept!', with_mail: true do
     it 'changes the status to accepted' do
       participation_request.accept!('lala', 'User')
       expect(participation_request.accepted?).to be_truthy
