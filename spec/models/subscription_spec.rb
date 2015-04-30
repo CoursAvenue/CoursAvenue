@@ -271,4 +271,21 @@ RSpec.describe Subscription, type: :model do
       it { expect(subject.has_coupon?).to be_falsy }
     end
   end
+
+  describe 'in_trial?' do
+    context 'when there is no `trial_end`' do
+      subject { FactoryGirl.create(:subscription, trial_end: 1.day.from_now) }
+      it { expect(subject.in_trial?).to be_falsy }
+    end
+
+    context 'when the trial end is in the paste or current' do
+      subject { FactoryGirl.create(:subscription, trial_end: 1.day.ago) }
+      it { expect(subject.in_trial?).to be_falsy }
+    end
+
+    context 'when the trial end is in the future' do
+      subject { FactoryGirl.create(:subscription, trial_end: 1.day.from_now) }
+      it { expect(subject.in_trial?).to be_truthy }
+    end
+  end
 end
