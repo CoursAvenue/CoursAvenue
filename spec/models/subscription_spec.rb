@@ -349,7 +349,13 @@ RSpec.describe Subscription, type: :model do
 
   describe 'in_trial?' do
     context 'when there is no `trial_end`' do
-      subject { FactoryGirl.create(:subscription, trial_end: nil) }
+      subject { FactoryGirl.create(:subscription) }
+
+      before do
+        subject.trial_end = nil
+        subject.save
+      end
+
       it { expect(subject.in_trial?).to be_falsy }
     end
 
