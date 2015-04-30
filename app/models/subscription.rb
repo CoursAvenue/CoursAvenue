@@ -46,7 +46,7 @@ class Subscription < ActiveRecord::Base
   # Validations                                                        #
   ######################################################################
 
-  validates :stripe_subscription_id, uniqueness: true
+  validates :stripe_subscription_id, uniqueness: true, allow_blank: true
 
   ######################################################################
   # Scopes                                                             #
