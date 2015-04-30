@@ -34,6 +34,11 @@ StructurePlanning.module('Models', function(Module, App, Backbone, Marionette, $
                     return 'Vous devez sélectionner un cours';
                 }
             },
+            date: function date () {
+                if (this.get('course_type') != 'Course::Training' && _.isEmpty(this.get('date'))) {
+                    return 'Vous devez sélectionner une date';
+                }
+            },
             'user.name': {
                 required: true,
                 msg: 'Vous devez renseigner votre nom.'

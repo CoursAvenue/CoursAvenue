@@ -84,6 +84,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 this.hideAllFields();
             } else {
                 this.model.set('course_id', course_id);
+                this.model.set('course_type', this.getCurrentCourse().get('db_type'));
                 this.selectCourse();
             }
         },
