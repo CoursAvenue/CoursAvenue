@@ -1,5 +1,5 @@
-require 'rails_helper'
 require 'stripe_mock'
+require 'rails_helper'
 
 RSpec.describe Subscription, type: :model do
   before(:all) { StripeMock.start }
@@ -69,6 +69,47 @@ RSpec.describe Subscription, type: :model do
       subject     { plan.create_subscription!(structure, token) }
 
       it { expect(subject.active?).to be_truthy }
+    end
+  end
+
+  describe '#charge!' do
+    let!(:plan)      { FactoryGirl.create(:subscriptions_plan) }
+    let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
+    let(:token)     { stripe_helper.generate_card_token }
+
+    subject         { plan.create_subscription!(structure) }
+
+    context "when there isn't a a stripe customer" do
+      context 'without a token' do
+        it "doesn't create a Stripe Subscription" do
+          subject.charge!
+
+          expect(subject.stripe_subscription).to be_nil
+        end
+      end
+
+      context "with a token" do
+        it 'creates a Stripe Subscription' do
+          subject.charge!(token)
+
+          expect(subject.stripe_subscription).to_not be_nil
+          expect(subject.stripe_subscription).to be_a(Stripe::Subscription)
+        end
+      end
+    end
+
+    context "when there is a Stripe customer" do
+      before do
+        structure.create_stripe_customer(token)
+        structure.reload
+      end
+
+      it 'creates a stripe subscription' do
+        subject.charge!
+
+        expect(subject.stripe_subscription).to_not be_nil
+        expect(subject.stripe_subscription).to be_a(Stripe::Subscription)
+      end
     end
   end
 

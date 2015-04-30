@@ -87,6 +87,31 @@ class Subscription < ActiveRecord::Base
     ! canceled?
   end
 
+  # Charge the subscription. Usually after the trial period.
+  #
+  # @param token The Stripe token for when we create a new user.
+  #
+  # @return nil or the new Subscription.
+  def charge!(token = nil)
+    customer = structure.stripe_customer || structure.create_stripe_customer(token)
+    return nil if customer.nil?
+
+    options = {
+      plan: self.plan.stripe_plan_id
+    }
+
+    if self.coupon.present? and coupon.valid?
+      options.merge!({ coupon: coupon.stripe_coupon_id })
+    end
+
+    _subscription = customer.subscriptions.create(options, { api_key: Stripe.api_key })
+
+    self.stripe_subscription_id = _subscription.id
+    save
+
+    _subscription
+  end
+
   # Cancel the subscription
   #
   # @param at_period_end Flag to delay the cancellation of the subscription until the end of the
