@@ -11,7 +11,7 @@ class Pro::Structures::NewslettersController < ApplicationController
 
   def new
     if params[:id].present?
-      @newsletter = @structure.newsletters.find params[:id]
+      @newsletter = @structure.newsletters.friendly.find params[:id]
     end
 
     @mailing_lists = @structure.mailing_lists
@@ -103,7 +103,7 @@ class Pro::Structures::NewslettersController < ApplicationController
   #
   # @return a String.
   def preview_newsletter
-    @newsletter = @structure.newsletters.find params[:id]
+    @newsletter = @structure.newsletters.friendly.find params[:id]
 
     # Send email to no recipients to generate mail object
     mail  = NewsletterMailer.send_newsletter(@newsletter, nil)
@@ -114,7 +114,7 @@ class Pro::Structures::NewslettersController < ApplicationController
 
   # Confirmation modal.
   def confirm
-    @newsletter = @structure.newsletters.find(params[:id]).decorate
+    @newsletter = @structure.newsletters.friendly.find(params[:id]).decorate
 
     render layout: false
   end

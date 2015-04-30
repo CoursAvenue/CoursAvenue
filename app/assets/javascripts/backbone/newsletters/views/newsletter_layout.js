@@ -269,5 +269,11 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 this.enableNavItem($(elem));
             }.bind(this));
         },
+        serializeData: function () {
+            return {
+                back_path: Routes.pro_structure_newsletters_path(window.coursavenue.bootstrap.structure)
+            };
+        },
+
     });
 });

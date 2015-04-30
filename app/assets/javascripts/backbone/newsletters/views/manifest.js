@@ -9,3 +9,5 @@
 //= require ./metadata_view
 //= require ./preview_view
 //= require ./navigation_bar_view
+//= require ./image_view
+//= require ./image_gallery_picker_view

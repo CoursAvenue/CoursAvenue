@@ -1,6 +1,7 @@
 # TODO: slugs.
 class Newsletter < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
+  include Concerns::HasRandomToken
   include ApplicationHelper
 
   ######################################################################
@@ -18,7 +19,7 @@ class Newsletter < ActiveRecord::Base
                   :email_object, :sender_name, :reply_to,
                   :layout_id,
                   :blocs, :blocs_attributes,
-                  :newsletter_mailing_list_id
+                  :newsletter_mailing_list_id, :token
 
   belongs_to :structure
 
@@ -104,7 +105,7 @@ class Newsletter < ActiveRecord::Base
     sending_informations.each do |message_information|
       recipient = self.recipients.select { |recipient| recipient.email == message_information[:email] }.first
       if recipient
-        recipient.mandrill_message_id = message_information[:_id]
+        recipient.mandrill_message_id = message_information['_id']
         recipient.save
       end
     end

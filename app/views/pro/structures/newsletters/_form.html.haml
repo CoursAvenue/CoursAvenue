@@ -10,6 +10,7 @@
       window.coursavenue.bootstrap = {
           structure: "#{ @structure.slug }",
           layout: "#{ @newsletter and @newsletter.layout ?  @newsletter.layout.id : '' }",
+          images: #{ ActiveModel::ArraySerializer.new(@structure.medias.images, each_serializer: MediaSerializer).to_json },
           models: {
               layouts:  #{ @layouts_json.to_json },
               newsletter: #{ @newsletter.nil? ? {}.to_json : NewsletterSerializer.new(@newsletter).to_json },

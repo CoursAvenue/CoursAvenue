@@ -70,7 +70,7 @@ class Pro::Structures::Newsletters::BlocsController < ApplicationController
 
   def set_structure_and_newsletter
     @structure  = Structure.friendly.find(params[:structure_id])
-    @newsletter = @structure.newsletters.find(params[:newsletter_id])
+    @newsletter = @structure.newsletters.friendly.find(params[:newsletter_id])
   end
 
   def permitted_params
