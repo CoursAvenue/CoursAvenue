@@ -37,6 +37,28 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
       end
     end
 
+    context 'when the structure is trialing' do
+      let!(:subscription) { plan.create_subscription!(structure) }
+
+      it 'assigns the subscription' do
+        get :index, structure_id: structure.id
+
+        expect(assigns(:subscription)).to eq(subscription)
+      end
+
+      it 'renders the subscription details partial' do
+        get :index, structure_id: structure.id
+
+        expect(response).to render_template(partial: '_subscription_details')
+      end
+
+      it 'renders the trial subscription partial' do
+        get :index, structure_id: structure.id
+
+        expect(response).to render_template(partial: '_subscription_in_trial')
+      end
+    end
+
     context 'when the structure is subscribed' do
       let!(:subscription) { plan.create_subscription!(structure) }
 
@@ -50,12 +72,45 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
         expect(assigns(:subscription)).to eq(subscription)
       end
 
-      it 'renders the subscribed structure partial' do
+      it 'renders the subscription details partial' do
         get :index, structure_id: structure.id
 
         expect(response).to render_template(partial: '_subscription_details')
       end
+
+      it 'renders the running subscription partial' do
+        get :index, structure_id: structure.id
+
+        expect(response).to render_template(partial: '_subscription_running')
+      end
     end
+
+    # context "when the structure's subscription is canceled" do
+    #   let!(:subscription) { plan.create_subscription!(structure) }
+    #
+    #   before do
+    #     subscription.charge!(token)
+    #     subscription.cancel!(at_period_end: false)
+    #   end
+    #
+    #   it 'assigns the subscription' do
+    #     get :index, structure_id: structure.id
+    #
+    #     expect(assigns(:subscription)).to eq(subscription)
+    #   end
+    #
+    #   it 'renders the subscription details partial' do
+    #     get :index, structure_id: structure.id
+    #
+    #     expect(response).to render_template(partial: '_subscription_details')
+    #   end
+    #
+    #   it 'renders the canceled subscription partial' do
+    #     get :index, structure_id: structure.id
+    #
+    #     expect(response).to render_template(partial: '_subscription_canceled')
+    #   end
+    # end
   end
 
   describe '#create' do
