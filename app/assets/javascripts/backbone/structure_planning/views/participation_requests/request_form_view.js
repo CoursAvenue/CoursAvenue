@@ -20,6 +20,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             '$first_step_form_wrapper'                : '[data-element=first-step-form-wrapper]',
             '$second_step_form_wrapper'               : '[data-element=second-step-form-wrapper]',
             '$third_step_form_wrapper'                : '[data-element=third-step-form-wrapper]',
+            '$form_submit'                            : '[data-element=form-submit]',
         },
 
         /*
@@ -42,6 +43,10 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
          */
         preSubmitForm: function preSubmitForm () {
             this.populateRequest();
+            if (!this.model.isValid(true)) {
+                this.showErrors();
+                return false;
+            }
             if (this.model.isFree()) {
                 return this.submitForm();
             } else {
@@ -195,9 +200,34 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
                 this.submitForm();
             } else {
                 var errorMessage = window.coursavenue.bootstrap.stripe_errors[response.error.code];
-                this.$el.find('[data-error=stripe-error]').text(errorMessage).show();
+                this.$('[data-error=stripe-error]').text(errorMessage).show();
             }
         },
+
+        /*
+         * Toggle the payment form depending on whether a course is selected and if the course has
+         * payment
+         */
+        togglePaymentForm: function togglePaymentForm (data) {
+            if (data) {
+                var hasPayment = _.any(data.prices, function(price) {
+                    return (parseFloat(price.amount) > 0)
+                });
+
+                if (hasPayment) {
+                    this.ui.$third_step_form_wrapper.slideDown();
+                    this.ui.$form_submit.slideUp();
+                } else  {
+                    this.ui.$third_step_form_wrapper.slideUp()
+                    this.ui.$form_submit.slideDown();
+                }
+
+            } else {
+                this.ui.$third_step_form_wrapper.slideUp()
+                this.ui.$form_submit.slideUp();
+            }
+        },
+
     });
 
 }, undefined);
