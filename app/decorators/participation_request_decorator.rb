@@ -82,12 +82,12 @@ class ParticipationRequestDecorator < Draper::Decorator
     if object.past?
       h.link_to action_button_name_for('Structure'),
                 h.report_form_pro_structure_participation_request_path(object.structure, object),
-                class: 'btn btn--small red nowrap fancybox.ajax soft--sides',
+                class: 'btn btn--small red fancybox.ajax soft--sides',
                 data: { behavior: 'modal', width: 500, padding: 0 }
     else
       h.link_to action_button_name_for('Structure'),
                 h.pro_structure_participation_request_path(object.structure, object),
-                class: "#{action_button_class_for('Structure')} btn btn--small nowrap"
+                class: "#{action_button_class_for('Structure')} btn btn--small"
     end
   end
 
