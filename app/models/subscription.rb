@@ -211,8 +211,8 @@ class Subscription < ActiveRecord::Base
   #
   # @return a boolean
   def in_trial?
-    false if self.trial_end.nil?
+    return false if trial_end.nil?
 
-    self.trial_end > DateTime.current
+    trial_end > DateTime.current
   end
 end
