@@ -133,4 +133,60 @@ class ParticipationRequestDecorator < Draper::Decorator
     end
     _details.html_safe
   end
+
+  def sms_reminder_message
+    if object.from_personal_website
+      sms_reminder_message_for_pr_from_personal_websites
+    else
+      sms_reminder_message_for_coursavenue_users
+    end
+  end
+
+  def sms_reminder_message_for_pr_from_personal_websites
+    course = object.course
+    default_attributes = { start_time: I18n.l(object.start_time, format: :short),
+                           course_name: course.name,
+                           structure_name: object.structure.name,
+                           url: h.structure_website_participation_request_url(object, subdomain: object.structure.subdomain_slug) }
+
+    if object.course_address and object.structure.phone_numbers.any?
+      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.with_address_and_phone',
+                       default_attributes.merge({ address: object.course_address,
+                        phone_number: object.structure.phone_numbers.first.number }))
+    elsif object.course_address
+      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.with_address',
+                       default_attributes.merge({ address: object.course_address }))
+    elsif object.structure.phone_numbers.any?
+      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.with_phone',
+                       default_attributes.merge({ phone_number: object.structure.phone_numbers.first.number }))
+    else
+      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.without_phone_and_address',
+                       default_attributes)
+
+    end
+
+  end
+
+  def sms_reminder_message_for_coursavenue_users
+    course = object.course
+    default_attributes = { start_time: I18n.l(object.start_time, format: :short),
+                           course_name: course.name,
+                           structure_name: object.structure.name }
+    if object.course_address and object.structure.phone_numbers.any?
+      message = I18n.t('sms.users.day_before_reminder.one_course.general.with_address_and_phone',
+                       default_attributes.merge({ address: object.course_address,
+                        phone_number: object.structure.phone_numbers.first.number }))
+    elsif object.course_address
+      message = I18n.t('sms.users.day_before_reminder.one_course.general.with_address',
+                       default_attributes.merge({ address: object.course_address }))
+    elsif object.structure.phone_numbers.any?
+      message = I18n.t('sms.users.day_before_reminder.one_course.general.with_phone',
+                       default_attributes.merge({ phone_number: object.structure.phone_numbers.first.number }))
+    else
+      message = I18n.t('sms.users.day_before_reminder.one_course.general.without_phone_and_address',
+                       default_attributes)
+
+    end
+
+  end
 end

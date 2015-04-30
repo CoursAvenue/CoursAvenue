@@ -227,6 +227,16 @@ class ParticipationRequest < ActiveRecord::Base
     return (accepted? || from_personal_website)
   end
 
+  def course_address
+    if !at_student_home?
+      if planning and planning.place
+        planning.place.address
+      elsif course.place
+        course.place.address
+      end
+    end
+  end
+
   private
 
   # Set state to pending by default when creating

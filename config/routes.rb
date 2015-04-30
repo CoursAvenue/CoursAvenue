@@ -709,7 +709,7 @@ CoursAvenue::Application.routes.draw do
           get :unsubscribe
         end
       end
-      resources :participation_requests, only: [:create, :update, :show], path: 'inscription' do
+      resources :participation_requests, only: [:create, :update, :show], path: 'inscriptions' do
         resources :conversations, controller: 'participation_requests/conversations'
       end
     end
