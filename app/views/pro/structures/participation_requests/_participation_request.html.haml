@@ -3,11 +3,11 @@
 - course_decorator                = participation_request.course.decorate
 - show_warning                    = true if show_warning.nil?
 %tr
-  %td.soft--ends.v-top.nowrap{ data: { th: 'Statut' } }
+  %td.soft--ends.v-top{ data: { th: 'Statut' } }
     %div
       - if participation_request.pending? and participation_request.last_modified_by == 'User' and !participation_request.past?
         = participation_request_decorator.status_for('Structure')
-        - if participation_request.created_at > 2.days.ago
+        - if participation_request.created_at > 2.days.ago and !participation_request.from_personal_website?
           %div.blue{ id: "expires-in-#{participation_request.id}" }
           = content_for :scripts do
             :javascript
@@ -48,7 +48,7 @@
   %td.soft--ends.v-top{ data: { th: 'Participant' } }
     .grid--full
       .grid__item.soft-half--right.one-third.palm-one-whole.text--right.palm-text--left.visuallyhidden--palm>
-        = image_tag participation_request.user.avatar_url, class: 'rounded--circle one-whole block'
+        = image_tag participation_request.user.avatar_url, class: 'rounded--circle', height: 60, width: 60
       .grid__item.one-whole.two-thirds.palm-one-whole.soft-half--left>
         %strong
           = participation_request.user.name
@@ -56,14 +56,14 @@
             + #{participation_request.nb_participants - 1} personnes
         %br
         = user_decorator.age_and_city
-        %div.text-ellipsis{ class: (participation_request.accepted? ? '' : 'has-tooltip'), data: { toggle: (participation_request.accepted? ? '' : 'popover'), content: t('tooltips.pro.structures.hidden_contact_infos'), html: 'true', placement: 'top', trigger: 'hover' } }
-          = user_decorator.phone_number_and_email(!participation_request.accepted?)
+        %div.text-ellipsis{ class: (participation_request.show_personnal_info? ? '' : 'has-tooltip'), data: { toggle: (participation_request.show_personnal_info? ? '' : 'popover'), content: t('tooltips.pro.structures.hidden_contact_infos'), html: 'true', placement: 'top', trigger: 'hover' } }
+          = user_decorator.phone_number_and_email(!participation_request.show_personnal_info?)
 
   %td.soft--ends.v-top{ data: { th: 'Détails' } }
     %div= participation_request_decorator.details
   %td.soft--ends.v-top{ data: { th: 'Source' } }
-    %div
+    .text--center
       - if participation_request.from_personal_website?
-        Votre site
+        %strong.blue Votre site
       - else
-        CoursAvenue
+        %strong.yellow CoursAvenue

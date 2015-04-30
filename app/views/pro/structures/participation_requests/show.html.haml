@@ -50,13 +50,15 @@
   .flexbox
     .flexbox__item.v-middle
       %h3 Acceptez la demande
-    - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
-      .flexbox__item.v-middle.text--right.blue
-        %i.fa-clock-o.delta
-        %strong.delta Expire dans
-        %strong.delta{ data: { 'expires-in' => true } }
-  %p
-    Vous risquez d'être pénalisé si vous n'acceptez pas ou ne refusez pas cette demande d'inscription avant son expiration :
+    - if !@participation_request.from_personal_website?
+      - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
+        .flexbox__item.v-middle.text--right.blue
+          %i.fa-clock-o.delta
+          %strong.delta Expire dans
+          %strong.delta{ data: { 'expires-in' => true } }
+  - if !@participation_request.from_personal_website?
+    %p
+      Vous risquez d'être pénalisé si vous n'acceptez pas ou ne refusez pas cette demande d'inscription avant son expiration :
   = render partial: 'actions', locals: { position: 'top' }
 
 = content_for :scripts do

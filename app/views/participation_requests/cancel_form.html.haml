@@ -12,7 +12,8 @@
         = message_form.input :body, input_html: { value: prefilled_message, placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
 
 
-      = render partial: 'pro/structures/participation_requests/dont_contact_information'
+      - if !@participation_request.from_personal_website?
+        = render partial: 'pro/structures/participation_requests/dont_contact_information'
 
       .grid
         .grid__item.two-tenths>
@@ -20,5 +21,6 @@
         .grid__item.eight-tenths>
           = f.submit 'Envoyer', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
 
-:javascript
-  $('#participation-request-message').preventFromContact();
+- if !@participation_request.from_personal_website?
+  :javascript
+    $('#participation-request-message').preventFromContact();
