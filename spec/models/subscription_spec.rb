@@ -359,13 +359,17 @@ RSpec.describe Subscription, type: :model do
       it { expect(subject.in_trial?).to be_falsy }
     end
 
-    context 'when the trial end is in the paste or current' do
-      subject { FactoryGirl.create(:subscription, trial_end: 1.day.ago) }
+    context 'when the trial end is in the past or current' do
+      let(:structure) { FactoryGirl.create(:structure) }
+      subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.ago) }
+
       it { expect(subject.in_trial?).to be_falsy }
     end
 
     context 'when the trial end is in the future' do
-      subject { FactoryGirl.create(:subscription, trial_end: 1.day.from_now) }
+      let(:structure) { FactoryGirl.create(:structure) }
+      subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.from_now) }
+
       it { expect(subject.in_trial?).to be_truthy }
     end
 
