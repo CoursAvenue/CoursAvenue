@@ -1,6 +1,8 @@
 class StructureWebsite::ParticipationRequestsController < StructureWebsiteController
   include ConversationsHelper
 
+  layout 'structure_websites/empty'
+
   skip_before_filter  :verify_authenticity_token, only: [:create]
 
   # For an example of a message controller see:

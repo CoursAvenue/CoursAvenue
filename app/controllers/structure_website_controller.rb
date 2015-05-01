@@ -1,6 +1,6 @@
 class StructureWebsiteController < ApplicationController
 
-  layout 'structure_website'
+  layout 'structure_websites/website'
 
   before_action :load_structure
 
