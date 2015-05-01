@@ -33,6 +33,20 @@
               - if !participation_request.canceled?
                 = link_to t('.propose_another_course'), edit_participation_request_path(participation_request, show_course_select: true), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
+      - if @participation_request.from_personal_website?
+        %tr.bordered--bottom
+          %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Professeur
+          %td.v-middle.soft--sides.one-whole
+            = @structure.name
+            - if @structure.website
+              = "(#{link_to @structure.website, @structure.website, target: :_blank})".html_safe
+        %tr.bordered--bottom
+          %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Contact
+          %td.v-middle.soft--sides.one-whole.line-height-1-5
+            - if @structure.phone_numbers.any?
+              = "Tél : #{@structure.phone_numbers.map(&:number).join(', ')}"
+              %br
+            = "E-mail : #{@structure.email}"
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Jour et heure
         %td.v-middle.soft--sides.one-whole
