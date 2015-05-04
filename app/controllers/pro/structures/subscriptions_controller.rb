@@ -4,7 +4,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   layout 'admin'
 
   def index
-    if @structure.subscription.present? and @structure.subscription.active?
+    if @structure.subscription.present?
       @subscription  = @structure.subscription.decorate
     else
       @monthly_plans = ::Subscriptions::Plan.monthly.decorate
@@ -62,6 +62,9 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     @subscription.cancel!
 
     redirect_to pro_structure_subscriptions_path(@structure), notice: 'Abonnement supprimé avec succès'
+  end
+
+  def activate
   end
 
   # https://support.stripe.com/questions/how-can-i-resume-a-subscription-after-it-has-been-canceled

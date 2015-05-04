@@ -1,7 +1,6 @@
 %p.epsilon
   La résiliation de votre abonnement Premium a bien été prise en compte : à partir du #{l(@subscription.expires_at)} (dernier jour de votre abonnement), votre profil ne bénéficiera plus des avantages du Premium et vous ne serez plus prélevé. Si vous changez d'avis et souhaitez finalement rester en profil Premium,
   = link_to 'annulez votre résiliation.', '#reactivate-subscription',  data: { behavior: 'modal', width: '600', padding: 0 }, class: 'f-weight-bold'
-- else
 
 %hr.push--ends
 %h3 Historique des factures

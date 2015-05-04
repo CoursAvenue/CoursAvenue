@@ -227,6 +227,7 @@ CoursAvenue::Application.routes.draw do
         end
         resources :subscriptions, only: [:index, :create, :destroy], controller: 'structures/subscriptions' do
           member do
+            get :activate
             get :cancel
             get :confirm_cancellation
             patch :reactivate

@@ -8,4 +8,5 @@
 %hr.push--ends
 %h3 Gestion de votre abonnement
 %p
+  = link_to 'Activer mon abonnement', activate_pro_structure_subscription_parth(@structure, @subscription)
   = link_to 'Résilier mon abonnement', cancel_pro_structure_subscription_path(@structure, @subscription), class: 'red fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
