@@ -46,6 +46,14 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     end
   end
 
+  def stripe_payment_form
+    @subscription = @structure.subscription.decorate
+
+    if request.xhr?
+      render layout: false
+    end
+  end
+
   def destroy
     @subscription = @structure.subscription
 
@@ -56,15 +64,55 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   end
 
   def activate
+    @subscription = @structure.subscription
+
+    error_code_value = @subscription.charge! stripe_token_params[:stripe_token]
+    respond_to do |format|
+      if error_code_value.nil?
+        format.html { redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant abonné !' }
+      else
+        format.html { redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant abonné !' }
+      end
+    end
+  end
+
+  def choose_new_plan
+    @subscription  = @structure.subscription
+    @monthly_plans = ::Subscriptions::Plan.monthly.order('amount ASC').decorate
+    @yearly_plans  = ::Subscriptions::Plan.yearly.order('amount ASC').decorate
+
+    if request.xhr?
+      render layout: false
+    end
+  end
+
+  def change_plan
+    @subscription = @structure.subscription
+    plan          = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
+    @subscription.change_plan!(plan)
+
+    redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant réabonné'
   end
 
   # https://support.stripe.com/questions/how-can-i-resume-a-subscription-after-it-has-been-canceled
   def reactivate
+    @subscription = @structure.subscription
+    @subscription.reactivate!
+
+    redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant réabonné'
   end
 
   private
 
   def set_structure
     @structure = Structure.find(params[:structure_id])
+  end
+
+  def stripe_token_params
+    params.require(:subscription).permit(:stripe_token)
+  end
+
+  def subscription_plan_id_params
+    params.permit(:plan_id)
   end
 end
