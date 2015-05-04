@@ -60,8 +60,7 @@
                             current: current_tab,
                             icon: 'fa fa-2x fa-bullhorn'
 
-      - if @structure.premium?
-        = pro_side_menu_link 'premium',
-                             pro_structure_subscription_plans_url(@structure, subdomain: 'pro'),
-                             current: current_tab,
-                             icon: 'fa-2x fa-star'
+      = pro_side_menu_link 'premium',
+                           pro_structure_subscriptions_url(@structure, subdomain: 'pro'),
+                           current: current_tab,
+                           icon: 'fa-2x fa-star'
