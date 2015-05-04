@@ -137,6 +137,9 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
 
       it 'creates a new subscription' do
         expect { subject }.to change { Subscription.count }.by(1)
+
+        structure.reload
+
         expect(structure.subscription.has_coupon?).to be_truthy
       end
     end
@@ -200,10 +203,78 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
       end
   end
 
+  describe '#stripe_payment_form' do
+    render_views
+
+    let(:subscription) { plan.create_subscription!(structure) }
+
+    before do
+      subscription.charge!(token)
+    end
+
+    it 'renders the cancel template' do
+      get :stripe_payment_form, structure_id: structure.slug, id: subscription.id
+
+      expect(response).to render_template('stripe_payment_form')
+      expect(response).to render_with_layout('admin')
+    end
+
+    it 'renders without a layout if it is a xhr request' do
+      xhr :get, :stripe_payment_form, structure_id: structure.slug, id: subscription.id
+
+      expect(response).to_not render_with_layout('admin')
+    end
+
+      it 'assigns the subscription' do
+        get :stripe_payment_form, structure_id: structure.slug, id: subscription.id
+
+        expect(assigns(:subscription)).to eq(subscription)
+      end
+  end
+
   describe '#destroy' do
+    render_views
+
+    let(:subscription)       { plan.create_subscription!(structure) }
+    let(:cancelation_reason) { Faker::Lorem.paragraph }
+
+    before do
+      subscription.charge!(token)
+    end
+
+    it 'cancels the subscription' do
+      delete :destroy, structure_id: structure.slug, id: subscription.id
+
+      expect(subscription.canceled?).to be_truthy
+    end
+
+    it 'saves the cancelation reasons' do
+      delete :destroy, structure_id: structure.slug, id: subscription.id, cancelation_reason_other: cancelation_reason
+
+      expect(subscription.cancelation_reason).to eq(cancelation_reason)
+    end
+
+    it 'redirects to the plans page' do
+      delete :destroy, structure_id: structure.slug, id: subscription.id
+
+      expect(response).to redirect_to(action: :index, structure_id: structure.slug)
+    end
   end
 
   describe 'activate' do
+    it 'activates the subscription'
+    it 'redirects to the subscription detail page'
+  end
+
+  describe 'choose_new_plan' do
+    it 'renders the choose_new_plan template'
+    it 'assigns the subscriptions'
+    it 'renders without a layout if it is a xhr request'
+  end
+
+  describe '#change_plan' do
+    it 'changes the plan'
+    it 'redirects to the index page'
   end
 
   describe '#reactivate' do

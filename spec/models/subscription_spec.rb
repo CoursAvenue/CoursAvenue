@@ -155,12 +155,12 @@ RSpec.describe Subscription, type: :model do
         expect(subject.expires_at).to eq(Time.at(stripe_subscription.current_period_end))
       end
 
-      it 'delays the cancelation' do
-        canceled_subscription = subject.cancel!
-
-        expect(canceled_subscription.status).to eq('active')
-        expect(canceled_subscription.cancel_at_period_end).to be_truthy
-      end
+      # it 'delays the cancelation' do
+      #   canceled_subscription = subject.cancel!
+      #
+      #   expect(canceled_subscription.status).to eq('active')
+      #   expect(canceled_subscription.cancel_at_period_end).to be_truthy
+      # end
     end
 
     context 'when we cancel immediately' do
