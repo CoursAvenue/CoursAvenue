@@ -2,7 +2,6 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-# TODO: Prevent the sending of emails.
 describe ParticipationRequest do
 
   it { should have_one(:invoice).class_name('ParticipationRequest::Invoice') }
@@ -266,7 +265,7 @@ describe ParticipationRequest do
       }.by(1)
     end
 
-    context "when the participation request is not free" do
+    context "when the participation request is not free", with_mail: true do
       before(:all) { StripeMock.start }
       after(:all)  { StripeMock.stop }
 
