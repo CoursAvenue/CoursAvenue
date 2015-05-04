@@ -20,7 +20,7 @@ module FakeMandrill
       Rails.logger.debug "[FakeMandrill][messages][send]   from_name:  #{message[:from_name]}"
 
       # Send the newsletter using a regular mailer. This should be intercepted.
-      newsletter = Newsletter.find message[:metadata][0][:newsletter]
+      newsletter = Newsletter.friendly.find message[:metadata][0][:newsletter]
       NewsletterSender.send_preview(newsletter, newsletter.reply_to)
 
       # Mock the response.

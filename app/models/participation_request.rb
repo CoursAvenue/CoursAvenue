@@ -1,8 +1,6 @@
 class ParticipationRequest < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
-  extend FriendlyId
-
-  friendly_id :token, use: [:finders]
+  include Concerns::HasRandomToken
 
   acts_as_paranoid
 
@@ -39,7 +37,6 @@ class ParticipationRequest < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   before_validation :set_date_if_empty
-  before_validation :create_token
   before_save       :update_times
   before_create     :set_default_attributes
   after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher, :touch_user
@@ -275,7 +272,7 @@ class ParticipationRequest < ActiveRecord::Base
       application_fee: Subscription::APPLICATION_FEE
     })
 
-    self.delay.create_and_send_invoie
+    self.delay.create_and_send_invoice
 
     self.stripe_charge_id = charge.id
     self.save
@@ -296,6 +293,16 @@ class ParticipationRequest < ActiveRecord::Base
     ParticipationRequestMailer.delay.send_charge_refunded_to_user(self)
 
     refund
+  end
+
+  def course_address
+    if !at_student_home?
+      if planning and planning.place
+        planning.place.address
+      elsif course.place
+        course.place.address
+      end
+    end
   end
 
   private
@@ -342,7 +349,11 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return nil
   def send_email_to_teacher
-    ParticipationRequestMailer.delay.you_received_a_request(self)
+    if from_personal_website?
+      StructureWebsiteParticipationRequestMailer.delay.you_received_a_request(self)
+    else
+      ParticipationRequestMailer.delay.you_received_a_request(self)
+    end
   end
 
   # When a request is created we inform the user
@@ -350,7 +361,7 @@ class ParticipationRequest < ActiveRecord::Base
   # @return nil
   def send_email_to_user
     if from_personal_website?
-      ParticipationRequestMailer.delay.you_sent_a_request_from_personal_website(self)
+      StructureWebsiteParticipationRequestMailer.delay.you_sent_a_request(self)
     else
       ParticipationRequestMailer.delay.you_sent_a_request(self)
     end
@@ -411,7 +422,7 @@ class ParticipationRequest < ActiveRecord::Base
   # Create and send the invoice.
   #
   # @return
-  def create_and_send_invoie
+  def create_and_send_invoice
     self.invoice = ParticipationRequest::Invoice.create(participation_request: self)
     save
 

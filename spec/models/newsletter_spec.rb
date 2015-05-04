@@ -27,10 +27,6 @@ RSpec.describe Newsletter, type: :model do
     it 'sets the default reply to address' do
       expect(subject.reply_to).to eq(structure.contact_email)
     end
-
-    it 'sets the default email object' do
-      expect(subject.email_object).to eq(subject.title)
-    end
   end
 
   describe '#layout' do

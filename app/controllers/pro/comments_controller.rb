@@ -35,15 +35,4 @@ class Pro::CommentsController < InheritedResources::Base
     redirect_to pro_comments_path, notice: "L'avis a été rétabli"
   end
 
-  def destroy
-    @comment = Comment::Review.find(params[:id])
-    respond_to do |format|
-      if can?(:destroy, @comment) && @comment.destroy
-        AdminMailer.delay.recommandation_has_been_deleted(@comment.structure)
-        format.html { redirect_to request.referrer || pro_comments_path, notice: 'Votre avis a bien été supprimé' }
-      else
-        format.html { redirect_to request.referrer || root_path, alert: 'Vous ne pouvez pas supprimer ce avis' }
-      end
-    end
-  end
 end

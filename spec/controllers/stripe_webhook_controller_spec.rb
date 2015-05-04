@@ -11,8 +11,13 @@ describe StripeWebhookController do
   let(:plan)          { FactoryGirl.create(:subscriptions_plan) }
   let(:structure)     { FactoryGirl.create(:structure, :with_contact_email) }
   let(:token)         { stripe_helper.generate_card_token }
-  let!(:subscription) { plan.create_subscription!(structure, token) }
+  let!(:subscription) { plan.create_subscription!(structure) }
   let(:invoice)       { Stripe::Invoice.upcoming(customer: structure.stripe_customer_id) }
+
+
+  before do
+    subscription.charge!(token)
+  end
 
   describe '#create' do
 

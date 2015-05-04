@@ -102,7 +102,7 @@
                         = link_to ask_for_deletion_pro_structure_comment_path(structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
                           = traducted_string
             - else
-              = link_to pro_comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet avis ?' }, class: 'red text--center block' do
+              = link_to pro_structure_comment_path(comment.structure, comment), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet avis ?' }, class: 'red text--center block' do
                 %i.fa-trash-o
                 Supprimer
 

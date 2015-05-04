@@ -1,5 +1,5 @@
 class ReplyToken < ActiveRecord::Base
-  extend FriendlyId
+  include Concerns::HasRandomToken
 
   ######################################################################
   # Constants                                                          #
@@ -10,7 +10,6 @@ class ReplyToken < ActiveRecord::Base
   ######################################################################
   # Macros                                                             #
   ######################################################################
-  friendly_id :token, use: [:finders]
   store_accessor :data, :sender_id, :sender_type,
                         :conversation_id, :participation_request_id,
                         :gmail_action_name
@@ -22,10 +21,6 @@ class ReplyToken < ActiveRecord::Base
   validates :reply_type, presence: true
   validates :token,      presence: true, uniqueness: true
 
-  ######################################################################
-  # Callbacks                                                          #
-  ######################################################################
-  before_validation :create_token
 
   ######################################################################
   # Methods                                                            #
@@ -56,20 +51,6 @@ class ReplyToken < ActiveRecord::Base
   def use!
     self.used = true
     self.save
-  end
-
-  private
-
-  # Creates an unique token.
-  #
-  # @return self
-  def create_token
-    if self.token.nil?
-      self.token = loop do
-        random_token = SecureRandom.urlsafe_base64
-        break random_token unless ReplyToken.exists?(token: random_token)
-      end
-    end
   end
 
 end

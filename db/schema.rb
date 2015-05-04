@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150427124125) do
+ActiveRecord::Schema.define(version: 20150504090944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -635,6 +635,7 @@ ActiveRecord::Schema.define(version: 20150427124125) do
     t.integer  "layout_id"
     t.datetime "sent_at"
     t.integer  "newsletter_mailing_list_id"
+    t.string   "token"
   end
 
   add_index "newsletters", ["newsletter_mailing_list_id"], name: "index_newsletters_on_newsletter_mailing_list_id", using: :btree
@@ -1153,9 +1154,6 @@ ActiveRecord::Schema.define(version: 20150427124125) do
   add_index "subscription_plans", ["structure_id"], name: "index_subscription_plans_on_structure_id", using: :btree
 
   create_table "subscriptions", force: true do |t|
-    t.string   "name"
-    t.integer  "price"
-    t.string   "interval"
     t.string   "stripe_subscription_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -1167,6 +1165,7 @@ ActiveRecord::Schema.define(version: 20150427124125) do
     t.hstore   "metadata"
     t.integer  "subscriptions_coupon_id"
     t.boolean  "paused",                  default: false
+    t.datetime "trial_end"
   end
 
   add_index "subscriptions", ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true, using: :btree
@@ -1207,6 +1206,7 @@ ActiveRecord::Schema.define(version: 20150427124125) do
     t.datetime "deleted_at"
     t.integer  "trial_period_days"
     t.integer  "amount"
+    t.string   "public_name"
   end
 
   add_index "subscriptions_plans", ["stripe_plan_id"], name: "index_subscriptions_plans_on_stripe_plan_id", unique: true, using: :btree

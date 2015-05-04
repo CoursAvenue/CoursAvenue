@@ -110,73 +110,30 @@ RSpec.describe Subscriptions::Plan, type: :model do
   end
 
   describe '#create_subscription!' do
-    let(:token)     { stripe_helper.generate_card_token({}) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
     let(:coupon)    { FactoryGirl.create(:subscriptions_coupon) }
 
-    context "when there isn't a Stripe customer yet" do
-      it "doens't create a new subsription" do
-        subscription = subject.create_subscription!(structure)
+    it 'creates a new subscription' do
+      subscription = subject.create_subscription!(structure)
 
-        expect(subscription).to be_nil
-      end
-
-      it 'creates a new customer if the card token is given' do
-        subject.create_subscription!(structure, token)
-
-        expect(structure.stripe_customer).to_not be_nil
-        expect(structure.stripe_customer).to be_a(Stripe::Customer)
-      end
-
-      it 'creates a new subscription if the card token is given' do
-        subscription = subject.create_subscription!(structure, token)
-
-        expect(subscription).to_not                 be_nil
-        expect(subscription).to                     be_a(Subscription)
-        expect(subscription.stripe_subscription).to be_a(Stripe::Subscription)
-      end
-
-      it 'creates a new subscription with a coupon if the coupon is given' do
-        subscription = subject.create_subscription!(structure, token, coupon.code)
-
-        expect(subscription).to_not                 be_nil
-        expect(subscription).to                     be_a(Subscription)
-        expect(subscription.stripe_subscription).to be_a(Stripe::Subscription)
-        expect(subscription.has_coupon?).to         be_truthy
-      end
+      expect(subscription).to_not                 be_nil
+      expect(subscription).to                     be_a(Subscription)
     end
 
-    context "when there is a stripe customer" do
-      before { structure.create_stripe_customer(token) }
+    it 'creates a new subscription with a coupon if the coupon is given' do
+      subscription = subject.create_subscription!(structure, coupon.code)
 
-      it 'creates a new subscription' do
-        subscription = subject.create_subscription!(structure)
-
-        expect(subscription).to_not                 be_nil
-        expect(subscription).to                     be_a(Subscription)
-        expect(subscription.stripe_subscription).to be_a(Stripe::Subscription)
-      end
-
-      it 'creates a new subscription with a coupon if the coupon is given' do
-        subscription = subject.create_subscription!(structure, nil, coupon.code)
-
-        expect(subscription).to_not                 be_nil
-        expect(subscription).to                     be_a(Subscription)
-        expect(subscription.stripe_subscription).to be_a(Stripe::Subscription)
-        expect(subscription.has_coupon?).to         be_truthy
-      end
+      expect(subscription).to_not                 be_nil
+      expect(subscription).to                     be_a(Subscription)
+      expect(subscription.has_coupon?).to         be_truthy
     end
 
-    context "when there's a coupon code" do
-      let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
-      before { structure.create_stripe_customer(token) }
+    it 'creates a subscription with a trial period' do
+      subscription = subject.create_subscription!(structure)
 
-      it 'creates a new subscription and applies the coupon code' do
-        subscription = subject.create_subscription!(structure, nil, coupon.code)
-
-        expect(subscription).to_not be_nil
-        expect(subscription.has_coupon?).to be_truthy
-      end
+      expect(subscription).to_not be_nil
+      expect(subscription).to be_a(Subscription)
+      expect(subscription.in_trial?).to be_truthy
     end
   end
 end

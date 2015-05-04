@@ -203,16 +203,15 @@ class User < ActiveRecord::Base
   # @return a Boolean, whether the sms was sent or not.
   def send_sms_reminder
     if phone_number and sms_opt_in?
-      courses = participation_requests.where(date: Date.tomorrow, state: 'accepted')
-      return false if courses.empty?
+      _participation_requests = participation_requests.where(date: Date.tomorrow, state: 'accepted')
+      return false if _participation_requests.empty?
 
-      if courses.length > 1
+      if _participation_requests.length > 1
         message = I18n.t('sms.users.day_before_reminder.multiple_course',
-                         nb_courses: courses.length,
-                         start_time: I18n.l(courses.first.start_time, format: :short))
+                         _participation_requests: _participation_requests.length,
+                         start_time: I18n.l(_participation_requests.first.start_time, format: :short))
       else
-        message = I18n.t('sms.users.day_before_reminder.one_course',
-                         start_time: I18n.l(courses.first.start_time, format: :short))
+        message = _participation_requests.first.decorate.sms_reminder_message
       end
 
       self.delay.send_sms(message, phone_number)
@@ -313,7 +312,7 @@ class User < ActiveRecord::Base
   end
 
   def full_name
-    "#{first_name.try(:capitalize)} #{last_name}"
+    "#{first_name} #{last_name}".strip
   end
 
   def name_with_email

@@ -1,13 +1,17 @@
 <div class="push-half--bottom">
     <label for="content" class='delta f-weight-600 block push-half--bottom'>Image {{ position_label }}</label>
-    <!-- <p class="flush">Donnez plus de visuels à votre newsletter en ajoutant des images</p> -->
 </div>
 
 <div class="text--center">
   <img class='hidden bordered' data-fpimage='true' src='{{ image }}'>
 
-  <input data-type='filepicker-dragdrop' id='{{ index }}_remote_image_url' data-fp-class="filepicker-dragdrop text--center {{#if image }} hidden {{/if}}" data-fp-button-class="hidden filepicker-btn" data-fp-drag-class="flush--left push-half--bottom one-whole f-weight-500 soft--ends text--center push--bottom" data-fp-drag-text="Glissez votre image ici ou cliquez pour choisir" name='remote_image_url' data-fp-apikey="<%= ENV['FILEPICKER_API_KEY'] %>" data-fp-mimetypes="image/*" data-fp-container="modal" data-fp-button-text="Choisir mon image"/>
+  <div class="filepicker-wrapper {{#if image }} hidden {{/if}}">
+      <input data-type='filepicker-dragdrop' id='{{ index }}_remote_image_url' data-fp-class="filepicker-dragdrop text--center" data-fp-button-class="hidden filepicker-btn" data-fp-drag-class="flush--left push-half--bottom one-whole f-weight-500 soft--ends text--center push--bottom" data-fp-drag-text="Glissez votre image ici ou cliquez pour choisir" name='remote_image_url' data-fp-apikey="<%= ENV['FILEPICKER_API_KEY'] %>" data-fp-mimetypes="image/*" data-fp-container="modal" data-fp-button-text="Choisir mon image"/>
 
+      <div>
+          <a class="f-weight-600" data-behavior="choose-from-gallery" href="javascript:void(0)">Ou choisissez une image de votre bibliothèque CoursAvenue</a>
+      </div>
+  </div>
   <div class='flush--left push-half--bottom one-whole f-weight-500 soft-half--ends text--center push--bottom hidden' data-delete-image-wrapper="true">
     <a class='one-whole' href='javascript:void(0)' data-edit-image='true'>
       <i class="fa fa-pencil-square-o"></i>

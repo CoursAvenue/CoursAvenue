@@ -1,0 +1,27 @@
+- content_for :email_title do
+  #{@structure.name} - Votre demande d'inscription.
+
+.p
+  Bonjour #{@user.name},
+.p
+  Merci pour votre demande, nous revenons vers vous au plus vite pour confirmer votre inscription.
+
+.p
+  Si vous n'avez pas de réponse de notre part dans les 48h, n'hésitez pas à nous contacter directement
+  - if @structure.phone_numbers.any?
+    (e-mail : @structure.main_contact.email)
+  - else
+    (tél. : #{@structure.phone_numbers.map(&:number).join(', ')} / e-mail : @structure.main_contact.email)
+  ou répondez directement à cet e-mail.
+.p
+  Et si finalement vous souhaitez modifier ou annuler votre séance, accédez à votre page dédiée :
+
+.p.action
+  = link_to "Consulter / Modifier mon inscription", structure_website_participation_request_url(@participation_request.token, subdomain: @structure.subdomain_slug), class: 'btn btn--green'
+
+.p Au plaisir de vous rencontrer ! Merci,
+
+.p= @structure.name
+
+- content_for :under_content do
+  = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: @participation_request }

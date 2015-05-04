@@ -1,5 +1,5 @@
 = content_for :title do
-  = "Offres & Tarifs | CoursAvenue PRO".html_safe
+  Offres et Tarifs | CoursAvenue PRO
 
 = content_for :meta_description do
   Optimisez votre visibilité, augmentez votre taux d'inscription et de fidélisation. Trafic supplémentaire ciblé et rentabilité.
@@ -10,70 +10,10 @@
 
 .main-container.main-container--medium.relative.soft--ends
   .grid--full
-    %a.muted-link.grid__item.palm-hard.soft--right.one-half.palm-one-whole.text--center{ href: inscription_pro_structures_path }>
-      .soft.rounded.bordered.bg-white.shadowed--bottom{ style: 'min-height: 13em;'}
-        %h1 Basic
-        %h4 Gratuit
-      .btn.soft--sides.btn--green.btn--bigger{ style: 'margin-top: -15px; margin-bottom: -15px;'} Essayer gratuitement
-      .bordered.soft.bg-white.shadowed--bottom.push-half--bottom
-        .text--center.gamma.line-height-1-7.v-middle.f-weight-bold.orange.soft--top>
-          Visibilité
-        .text--center.delta.line-height-1-7.v-middle.f-weight-500.orange.soft-half--bottom>
-          Profil CoursAvenue
-        .text--center.delta.line-height-1-7.v-middle.f-weight-500.orange>
-          Avis & Livre d'Or
-        %hr.push--ends
-        .text--center.gamma.line-height-1-7.v-middle.f-weight-bold.green>
-          Attractivité
-        .text--center.delta.line-height-1-7.v-middle.f-weight-500.green.soft-half--bottom>
-          Page planning sur votre site Internet
-          %br
-          optimisée mobiles & tablettes
-      %p.textt--center.soft--sides.epsilon
-        %i
-          Le minimum pour augmenter votre visibilité et
-          %br
-          améliorer l'efficacité de votre site Internet
-    %a.muted-link.grid__item.palm-hard.soft--right.one-half.palm-one-whole.text--center{ class: 'fancybox.ajax', href: new_pro_call_reminder_path, data: { behavior: 'modal', width: 600, padding: 0 } }>
-      .soft.rounded.bordered.bg-white.shadowed--bottom{ style: 'min-height: 13em;'}
-        %h1 Pro
-        %h4.flush 39€/mois
-        %p.flush Sans engagement
-      .btn.soft--sides.btn--yellow.btn--bigger{ style: 'margin-top: -15px; margin-bottom: -15px;'} Rappel immédiat
-      .bordered.soft.bg-white.shadowed--bottom.push-half--bottom
-        .text--center.gamma.line-height-1-7.v-middle.f-weight-bold.orange.soft--top>
-          Visibilité
-        .text--center.delta.line-height-1-7.v-middle.f-weight-500.orange.soft-half--bottom>
-          Profil CoursAvenue
-        .text--center.delta.line-height-1-7.v-middle.f-weight-500.orange>
-          Avis & Livre d'Or
-        %hr.push--ends
-        .text--center.gamma.line-height-1-7.v-middle.f-weight-bold.green>
-          Attractivité
-        .text--center.delta.line-height-1-7.v-middle.f-weight-500.green.soft-half--bottom>
-          Page planning sur votre site Internet
-          %br
-          optimisée mobiles & tablettes
-        .text--center.delta.line-height-1-7.v-middle.f-weight-500.green.soft-half--bottom>
-          Inscriptions en ligne
-        .text--center.delta.line-height-1-7.v-middle.f-weight-500.green>
-          Statistiques de trafic &
-          %br
-          suivi des conversions
-        %hr.push--ends
-        .text--center.gamma.line-height-1-7.v-middle.f-weight-bold.dark-blue>
-          Fidélisation
-        .text--center.delta.line-height-1-7.v-middle.f-weight-500.dark-blue.soft-half--bottom>
-          Newsletters & fichier élèves
-        .text--center.delta.line-height-1-7.v-middle.f-weight-500.dark-blue.soft-half--bottom>
-          Multi-postage sur les réseaux sociaux
-        .text--center.delta.line-height-1-7.v-middle.f-weight-500.dark-blue.soft-half--bottom>
-          Questionnaire de satisfaction
-      %p.textt--center.soft--sides.epsilon
-        %i
-          Idéal pour booster le nombre de nouveaux
-          %br
-          inscrits et fidéliser vos élèves
+    = render partial: 'pro/subscriptions/plans/free'
+    = render partial: 'pro/subscriptions/plans/pro', locals: { plan: nil }
+    = render partial: 'pro/subscriptions/plans/pro_plus', locals: { plan: nil }
+
 
 = render partial: 'testimonies_banner', locals: { profile: 'alain'}
 
@@ -84,10 +24,10 @@
         .epsilon.push-half--bottom.soft--sides
           %strong L'offre Basic est-elle vraiment gratuite&nbsp;?
         %p.epsilon.soft--sides
-          Oui, totalement gratuite. Votre profil complet apparaîtra alors sur le moteur de recherche géolocalisé CoursAvenue et vous pourrez afficher sur votre propre site Internet votre page planning optimisée tous supports ainsi que votre Livre d'Or.
+          Oui, totalement gratuite. Votre profil complet apparaîtra alors sur le moteur de recherche géolocalisé CoursAvenue et vous pourrez même afficher vos avis sur votre Livre d'Or CoursAvenue.
       .grid__item.one-half.palm-one-whole>
         .epsilon.push-half--bottom.soft--sides
-          %strong L'offre Pro inclut-elle une durée d'engagement minimale&nbsp;?
+          %strong Les offres Pro et Pro+ incluent-elles une durée d'engagement minimale&nbsp;?
         %p.epsilon.soft--sides
           Non. CoursAvenue est un service à la demande. Il n'y a pas de contrat ni d'engagement de votre part. Vous payez tout simplement chaque mois. En cas de résiliation, vous serez facturé pour le mois en cours, mais vous ne serez pas facturé à nouveau.
 

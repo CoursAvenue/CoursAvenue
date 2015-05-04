@@ -21,6 +21,7 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
         },
 
         events: {
+            'click [data-behavior=choose-from-gallery]':   'showGallery',
             'click [data-delete-image]':                   'deleteImage',
             'click [data-edit-image]':                     'editImage',
             'change input[data-type=filepicker-dragdrop]': 'updateImage',
@@ -43,6 +44,19 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
             _.bindAll(this, 'onRender', 'editImage', 'deleteImage', 'updateImage', 'onShow', 'silentSave');
         },
 
+        showGallery: function showGallery () {
+            var images_collection         = new Backbone.Collection(window.coursavenue.bootstrap.images);
+            var image_gallery_picker_view = new Newsletter.Views.ImageGalleryPickerView({ collection: images_collection });
+            image_gallery_picker_view.render();
+            image_gallery_picker_view.on('image:selected', function(image_model) {
+                this.setImage(image_model.get('url'));
+                this.model.set('remote_image_url', image_model.get('url'));
+                this.silentSave();
+                $.fancybox.close();
+            }.bind(this));
+            $.fancybox.open(image_gallery_picker_view.$el, { width: 550, minWidth: 550, padding: 0 });
+        },
+
         // Custom render function.
         // We start by calling the Marionette CompositeView's render function on this view.
         // We then bind the model to the inputs by calling modelBinder.
@@ -59,13 +73,16 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
             }
         },
 
+        setImage: function setImage (image_url) {
+            this.$el.find('.filepicker-wrapper').hide();
+            this.$el.find('img').attr('src', image_url);
+            this.$el.find('img').show();
+            this.$el.find('[data-delete-image-wrapper]').show();
+        },
+
         updateImage: function updateImage () {
             if (event.fpfile) {
-                this.$el.find('.filepicker-dragdrop').hide();
-
-                this.$el.find('img').attr('src', event.fpfile.url);
-                this.$el.find('img').show();
-                this.$el.find('[data-delete-image-wrapper]').show();
+                this.setImage(event.fpfile.url);
             } else {
                 this.deleteImage();
             }

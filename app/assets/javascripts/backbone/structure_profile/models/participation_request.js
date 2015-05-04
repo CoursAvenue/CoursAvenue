@@ -57,6 +57,11 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
                     return 'Vous devez sélectionner un cours';
                 }
             },
+            date: function date () {
+                if (this.get('course_type') != 'Course::Training' && _.isEmpty(this.get('date'))) {
+                    return 'Vous devez sélectionner une date';
+                }
+            },
             'user.phone_number': {
                 maxLength: 20,
                 msg: 'Mauvais format'

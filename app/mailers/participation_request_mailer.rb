@@ -4,6 +4,7 @@ class ParticipationRequestMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
 
   layout 'email'
+
   helper :application, :structures, :email_actions
 
   default from: 'CoursAvenue <hello@coursavenue.com>'
@@ -12,14 +13,6 @@ class ParticipationRequestMailer < ActionMailer::Base
   # For Participation Requests                                         #
   ######################################################################
   def you_sent_a_request(participation_request)
-    @message = participation_request.conversation.messages.first
-    retrieve_participation_request_variables(participation_request)
-    mail to: @user.email,
-         subject: "Demande d'inscription envoyée - #{@structure.name}",
-         reply_to: generate_reply_to('admin')
-  end
-
-  def you_sent_a_request_from_personal_website(participation_request)
     @message = participation_request.conversation.messages.first
     retrieve_participation_request_variables(participation_request)
     mail to: @user.email,
@@ -274,4 +267,5 @@ class ParticipationRequestMailer < ActionMailer::Base
 
     return "CoursAvenue <#{@reply_token.token}@#{CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN}>"
   end
+
 end

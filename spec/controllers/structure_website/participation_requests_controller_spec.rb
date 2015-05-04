@@ -8,7 +8,7 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
 
   let (:stripe_helper)         { StripeMock.create_test_helper }
   let (:participation_request) { FactoryGirl.create(:participation_request) }
-  let (:structure)             { FactoryGirl.create(:structure) }
+  let (:structure)             { FactoryGirl.create(:structure_with_admin) }
   let (:user)                  { FactoryGirl.create(:user) }
   let (:planning)              { FactoryGirl.create(:planning) }
   let(:token)                  { stripe_helper.generate_card_token }
@@ -17,7 +17,7 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
     @request.host = "#{participation_request.structure.slug}.example.com"
   end
 
-  describe '#create' do
+  describe '#create', with_mail: true do
     before(:each) do
       request.env["HTTP_ACCEPT"] = 'application/json'
     end

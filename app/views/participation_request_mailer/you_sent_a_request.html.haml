@@ -27,7 +27,7 @@
 = render 'shared/mailers/footer'
 
 - content_for :under_content do
-  = render partial: 'participation_request_mailer/shared/participation_recap', locals: { participation_request: @participation_request }
+  = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: @participation_request }
 
 - content_for :under_content_gray do
   = render 'participation_request_mailer/shared/user_faq'

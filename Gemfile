@@ -30,6 +30,7 @@ gem 'google-api-client'  , '~> 0.8.2'
 
 # Database
 gem 'pg',               '~> 0.18.1'
+gem 'bitly',            '~> 0.10.4'
 
 gem 'actionpack-page_caching', '~> 1.0.2'
 # Lets you access the version of the deploy on Heroku

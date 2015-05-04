@@ -2,7 +2,7 @@
 
 %h1.flush Statistiques d'envoi
 .push--bottom
-  = link_to '← Retour', pro_structure_newsletters_path(@structure) do
+  = link_to '← Retour', pro_structure_newsletters_path(@structure)
 
 - if @newsletter.sent? and @metric
   = render 'metrics_detail'

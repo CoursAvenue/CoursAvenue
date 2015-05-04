@@ -13,6 +13,7 @@ class AdminAbility
         can :manage, admin
       else
         can :manage, admin.structure
+        can :manage, admin.structure.comments
         can :manage, admin.structure.places
         can :manage, admin.structure.courses
         can :manage, admin.structure.teachers

@@ -254,7 +254,7 @@ describe ParticipationRequest do
     end
   end
 
-  describe '#accept!' do
+  describe '#accept!', with_mail: true do
     it 'changes the status to accepted' do
       participation_request.accept!('lala', 'User')
       expect(participation_request.accepted?).to be_truthy

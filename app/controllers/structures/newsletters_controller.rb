@@ -1,4 +1,4 @@
-class NewsletterController < ApplicationController
+class Structures::NewslettersController < ApplicationController
 
   before_action :set_structure
 

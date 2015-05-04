@@ -82,12 +82,12 @@ class ParticipationRequestDecorator < Draper::Decorator
     if object.past?
       h.link_to action_button_name_for('Structure'),
                 h.report_form_pro_structure_participation_request_path(object.structure, object),
-                class: 'btn btn--small red nowrap fancybox.ajax soft--sides',
+                class: 'btn btn--small red fancybox.ajax soft--sides',
                 data: { behavior: 'modal', width: 500, padding: 0 }
     else
       h.link_to action_button_name_for('Structure'),
                 h.pro_structure_participation_request_path(object.structure, object),
-                class: "#{action_button_class_for('Structure')} btn btn--small nowrap"
+                class: "#{action_button_class_for('Structure')} btn btn--small"
     end
   end
 
@@ -132,5 +132,63 @@ class ParticipationRequestDecorator < Draper::Decorator
       _details = object.course.decorate.first_session_detail
     end
     _details.html_safe
+  end
+
+  def sms_reminder_message
+    if object.from_personal_website
+      sms_reminder_message_for_pr_from_personal_websites
+    else
+      sms_reminder_message_for_coursavenue_users
+    end
+  end
+
+  def sms_reminder_message_for_pr_from_personal_websites
+    pr_url = h.structure_website_participation_request_url(object, subdomain: object.structure.subdomain_slug)
+    bitly  = Bitly.client.shorten(pr_url)
+    course = object.course
+    default_attributes = { start_time: I18n.l(object.start_time, format: :short),
+                           course_name: course.name,
+                           structure_name: object.structure.name,
+                           url: bitly.short_url }
+
+    if object.course_address and object.structure.phone_numbers.any?
+      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.with_address_and_phone',
+                       default_attributes.merge({ address: object.course_address,
+                        phone_number: object.structure.phone_numbers.first.number }))
+    elsif object.course_address
+      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.with_address',
+                       default_attributes.merge({ address: object.course_address }))
+    elsif object.structure.phone_numbers.any?
+      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.with_phone',
+                       default_attributes.merge({ phone_number: object.structure.phone_numbers.first.number }))
+    else
+      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.without_phone_and_address',
+                       default_attributes)
+
+    end
+
+  end
+
+  def sms_reminder_message_for_coursavenue_users
+    course = object.course
+    default_attributes = { start_time: I18n.l(object.start_time, format: :short),
+                           course_name: course.name,
+                           structure_name: object.structure.name }
+    if object.course_address and object.structure.phone_numbers.any?
+      message = I18n.t('sms.users.day_before_reminder.one_course.general.with_address_and_phone',
+                       default_attributes.merge({ address: object.course_address,
+                        phone_number: object.structure.phone_numbers.first.number }))
+    elsif object.course_address
+      message = I18n.t('sms.users.day_before_reminder.one_course.general.with_address',
+                       default_attributes.merge({ address: object.course_address }))
+    elsif object.structure.phone_numbers.any?
+      message = I18n.t('sms.users.day_before_reminder.one_course.general.with_phone',
+                       default_attributes.merge({ phone_number: object.structure.phone_numbers.first.number }))
+    else
+      message = I18n.t('sms.users.day_before_reminder.one_course.general.without_phone_and_address',
+                       default_attributes)
+
+    end
+
   end
 end

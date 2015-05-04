@@ -1,0 +1,11 @@
+= content_for :right_after_head do
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
+
+= render 'layouts/structure_websites/header'
+
+= content_for :content do
+  = yield
+
+= render :template => 'layouts/structure_websites/application'
+
+#coursavenue-footer

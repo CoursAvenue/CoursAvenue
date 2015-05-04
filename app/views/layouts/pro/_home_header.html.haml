@@ -13,6 +13,8 @@
   %li.palm-block.palm-text--center.line-height-1-7.soft--right
     = link_to 'Fonctionnalités', pro_pages_features_path, class: ['white-transparent', 'header--pro__link', (current == 'features' ? 'active bordered--bottom bordered--larger' : '')]
   %li.palm-block.palm-text--center.line-height-1-7.soft--right
+    = link_to 'Tarif', pro_pages_price_path, class: ['white-transparent', 'header--pro__link', (current == 'tarif' ? 'active bordered--bottom bordered--larger' : '')]
+  %li.palm-block.palm-text--center.line-height-1-7.soft--right
     = link_to 'Blog', pro_blog_articles_path, class: ['white-transparent', 'header--pro__link', (current == 'blog' ? 'active bordered--bottom bordered--larger' : '')]
   %li.visuallyhidden--palm.soft--right
     - if current_pro_admin and !current_pro_admin.super_admin?

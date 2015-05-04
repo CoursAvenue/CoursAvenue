@@ -164,7 +164,7 @@ class ::Admin < ActiveRecord::Base
         Intercom::Event.create(event_name: "Confirmed account",
                                created_at: Time.now.to_i,
                                email: self.email,
-                               user_id: "Admin_#{user.id}")
+                               user_id: "Admin_#{self.id}")
       rescue
         Bugsnag.notify(RuntimeError.new("Can't sync with Intercom after confirmation"), {email: self.email})
       end

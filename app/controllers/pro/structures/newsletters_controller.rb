@@ -11,7 +11,7 @@ class Pro::Structures::NewslettersController < ApplicationController
 
   def new
     if params[:id].present?
-      @newsletter = @structure.newsletters.find params[:id]
+      @newsletter = @structure.newsletters.friendly.find params[:id]
     end
 
     @mailing_lists = @structure.mailing_lists
@@ -79,6 +79,9 @@ class Pro::Structures::NewslettersController < ApplicationController
       @newsletter.state = 'sending'
       @newsletter.save!
 
+      if params[:send_me_a_copy] == 'on'
+        NewsletterMailer.delay.send_newsletter(@newsletter, @structure.main_contact.email)
+      end
       NewsletterSender.delay.send_newsletter(@newsletter)
       redirect_to pro_structure_newsletters_path(@structure),
         notice: "Votre newsletter est en cours d'envoi."
@@ -100,7 +103,7 @@ class Pro::Structures::NewslettersController < ApplicationController
   #
   # @return a String.
   def preview_newsletter
-    @newsletter = @structure.newsletters.find params[:id]
+    @newsletter = @structure.newsletters.friendly.find params[:id]
 
     # Send email to no recipients to generate mail object
     mail  = NewsletterMailer.send_newsletter(@newsletter, nil)
@@ -111,7 +114,7 @@ class Pro::Structures::NewslettersController < ApplicationController
 
   # Confirmation modal.
   def confirm
-    @newsletter = @structure.newsletters.find(params[:id]).decorate
+    @newsletter = @structure.newsletters.friendly.find(params[:id]).decorate
 
     render layout: false
   end

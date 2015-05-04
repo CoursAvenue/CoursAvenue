@@ -37,8 +37,8 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
       end
     end
 
-    context 'when the structure is subscribed' do
-      let!(:subscription) { plan.create_subscription!(structure, token) }
+    context 'when the structure is trialing' do
+      let!(:subscription) { plan.create_subscription!(structure) }
 
       it 'assigns the subscription' do
         get :index, structure_id: structure.id
@@ -46,89 +46,113 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
         expect(assigns(:subscription)).to eq(subscription)
       end
 
-      it 'renders the subscribed structure partial' do
+      it 'renders the subscription details partial' do
         get :index, structure_id: structure.id
 
         expect(response).to render_template(partial: '_subscription_details')
+      end
+
+      it 'renders the trial subscription partial' do
+        get :index, structure_id: structure.id
+
+        expect(response).to render_template(partial: '_subscription_in_trial')
+      end
+    end
+
+    context 'when the structure is subscribed' do
+      let!(:subscription) { plan.create_subscription!(structure) }
+
+      before do
+        subscription.charge!(token)
+      end
+
+      it 'assigns the subscription' do
+        get :index, structure_id: structure.id
+
+        expect(assigns(:subscription)).to eq(subscription)
+      end
+
+      it 'renders the subscription details partial' do
+        get :index, structure_id: structure.id
+
+        expect(response).to render_template(partial: '_subscription_details')
+      end
+
+      it 'renders the running subscription partial' do
+        get :index, structure_id: structure.id
+
+        expect(response).to render_template(partial: '_subscription_running')
+      end
+    end
+
+    context "when the structure's subscription is canceled" do
+      let!(:subscription) { plan.create_subscription!(structure) }
+
+      before do
+        subscription.charge!(token)
+        subscription.cancel!(at_period_end: false)
+      end
+
+      it 'assigns the subscription' do
+        get :index, structure_id: structure.id
+
+        expect(assigns(:subscription)).to eq(subscription)
+      end
+
+      it 'renders the subscription details partial' do
+        get :index, structure_id: structure.id
+
+        expect(response).to render_template(partial: '_subscription_details')
+      end
+
+      it 'renders the canceled subscription partial' do
+        get :index, structure_id: structure.id
+
+        expect(response).to render_template(partial: '_subscription_canceled')
       end
     end
   end
 
   describe '#create' do
-    context "when it is a new subscriber" do
-      context 'with a stripe token' do
-        subject { post :create, { structure_id: structure.id, plan_id: plan.id, stripe_token: token } }
+    subject { post :create, { structure_id: structure.id, plan_id: plan.id } }
 
-        it 'redirects to the index page' do
-          expect(subject).to redirect_to(action: :index, structure_id: structure.slug)
-        end
-
-        context 'with a coupon code' do
-          let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
-
-          subject do
-            post :create, {
-              structure_id: structure.id,
-              plan_id:      plan.id,
-              stripe_token: token,
-              coupon_code:  coupon.code
-            }
-          end
-
-          it 'creates a new subscription' do
-            expect{ subject }.to change { Subscription.count }.by(1)
-          end
-        end
-
-      end
-
-      context 'without a stripe token' do
-        subject { post :create, { structure_id: structure.id, plan_id: plan.id } }
-
-        it "doesn't create a new subscription" do
-          expect { subject }.to_not change { Subscription.count }
-        end
-
-        it 'sends an error code' do
-          expect(subject).to have_http_status(400)
-        end
-      end
+    it 'redirects to the index page' do
+      expect(subject).to redirect_to(action: :index, structure_id: structure.slug)
     end
 
-    context "when it's an existing subscribed" do
-      subject { post :create, { structure_id: structure.id, plan_id: plan.id } }
+    context 'with a coupon code' do
+      let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
 
-      before do
-        structure.create_stripe_customer(token)
+      subject do
+        post :create, {
+          structure_id: structure.id,
+          plan_id:      plan.id,
+          coupon_code:  coupon.code
+        }
+      end
+
+      it 'creates a new subscription' do
+        expect{ subject }.to change { Subscription.count }.by(1)
       end
 
       it 'creates a new subscription' do
         expect { subject }.to change { Subscription.count }.by(1)
+
+        structure.reload
+
+        expect(structure.subscription.has_coupon?).to be_truthy
       end
-
-      context 'with a coupon code' do
-        let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
-        subject do
-          post :create, {
-            structure_id: structure.id,
-            plan_id:      plan.id,
-            coupon_code:  coupon.code
-          }
-        end
-
-        it 'creates a new subscription' do
-          expect { subject }.to change { Subscription.count }.by(1)
-          expect(structure.subscription.has_coupon?).to be_truthy
-        end
-      end
-
     end
   end
 
   describe '#cancel' do
     render_views
 
-    let(:subscription) { plan.create_subscription!(structure, token) }
+    let(:subscription) { plan.create_subscription!(structure) }
+
+    before do
+      subscription.charge!(token)
+    end
 
     it 'renders the cancel template' do
       get :cancel, structure_id: structure.slug, id: subscription.id
@@ -153,7 +177,11 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
   describe '#confirm_cancellation' do
     render_views
 
-    let(:subscription) { plan.create_subscription!(structure, token) }
+    let(:subscription) { plan.create_subscription!(structure) }
+
+    before do
+      subscription.charge!(token)
+    end
 
     it 'renders the cancel template' do
       get :confirm_cancellation, structure_id: structure.slug, id: subscription.id
@@ -175,7 +203,78 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
       end
   end
 
+  describe '#stripe_payment_form' do
+    render_views
+
+    let(:subscription) { plan.create_subscription!(structure) }
+
+    before do
+      subscription.charge!(token)
+    end
+
+    it 'renders the cancel template' do
+      get :stripe_payment_form, structure_id: structure.slug, id: subscription.id
+
+      expect(response).to render_template('stripe_payment_form')
+      expect(response).to render_with_layout('admin')
+    end
+
+    it 'renders without a layout if it is a xhr request' do
+      xhr :get, :stripe_payment_form, structure_id: structure.slug, id: subscription.id
+
+      expect(response).to_not render_with_layout('admin')
+    end
+
+      it 'assigns the subscription' do
+        get :stripe_payment_form, structure_id: structure.slug, id: subscription.id
+
+        expect(assigns(:subscription)).to eq(subscription)
+      end
+  end
+
   describe '#destroy' do
+    render_views
+
+    let(:subscription)       { plan.create_subscription!(structure) }
+    let(:cancelation_reason) { Faker::Lorem.paragraph }
+
+    before do
+      subscription.charge!(token)
+    end
+
+    it 'cancels the subscription' do
+      delete :destroy, structure_id: structure.slug, id: subscription.id
+
+      expect(subscription.canceled?).to be_truthy
+    end
+
+    it 'saves the cancelation reasons' do
+      delete :destroy, structure_id: structure.slug, id: subscription.id, cancelation_reason_other: cancelation_reason
+
+      expect(subscription.cancelation_reason).to eq(cancelation_reason)
+    end
+
+    it 'redirects to the plans page' do
+      delete :destroy, structure_id: structure.slug, id: subscription.id
+
+      expect(response).to redirect_to(action: :index, structure_id: structure.slug)
+    end
+  end
+
+  describe 'activate' do
+    it 'activates the subscription'
+    it 'redirects to the subscription detail page'
+  end
+
+  describe 'choose_new_plan' do
+    it 'renders the choose_new_plan template'
+    it 'assigns the subscriptions'
+    it 'renders without a layout if it is a xhr request'
+  end
+
+  describe '#change_plan' do
+    it 'changes the plan'
+    it 'redirects to the index page'
   end
 
   describe '#reactivate' do

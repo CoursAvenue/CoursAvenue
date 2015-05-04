@@ -17,16 +17,20 @@
       - if discuss_only
         .soft--sides.soft--top
           %p
-            Envoyez votre message de demande d'information.
-            - if on_pro_subdomain?
-              Vous devrez ensuite accepter ou refuser cette réservation le plus tôt possible pour éviter les pénalités.
+            - if @participation_request.from_personal_website?
+              Envoyez votre message ci-dessous :
+            - else
+              Envoyez votre message de demande d'information.
+              - if on_pro_subdomain?
+                Vous devrez ensuite accepter ou refuser cette réservation le plus tôt possible pour éviter les pénalités.
           = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
             = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
-          = render partial: 'pro/structures/participation_requests/dont_contact_information'
+          - if !@participation_request.from_personal_website?
+            = render partial: 'pro/structures/participation_requests/dont_contact_information'
       - else
         %div.push-half--bottom{ data: { type: 'participation-request-form-content' } }
 
-      - if on_pro_subdomain?
+      - if on_pro_subdomain? and !@participation_request.from_personal_website?
         %hr.push-half--bottom
         .soft--sides= render partial: 'pro/structures/participation_requests/share_information'
 
@@ -34,7 +38,8 @@
         .soft--sides
           = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
             = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behaviors: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
-          = render partial: 'pro/structures/participation_requests/dont_contact_information'
+          - if !@participation_request.from_personal_website?
+            = render partial: 'pro/structures/participation_requests/dont_contact_information'
 
       .soft--sides.soft--bottom
         .grid
@@ -43,8 +48,9 @@
           .grid__item.eight-tenths>
             = f.submit 'Envoyer', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
 
-:javascript
-  $('#participation-request-message').preventFromContact();
+- if !@participation_request.from_personal_website?
+  :javascript
+    $('#participation-request-message').preventFromContact();
 
 - if !discuss_only
   :javascript

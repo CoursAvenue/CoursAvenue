@@ -5,30 +5,27 @@
 %h1 Statistiques
 
 %div{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
-  %p.delta.line-height-1-5
-    Vos statistiques sont momentanément indisponibles. Nous travaillons actuellement sur leur amélioration et les données seront de nouveau visibles dans les prochains jours.
+  .grid.push--bottom
+    .grid__item.one-third.text--center.v-middle>
+      .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
+        .v-middle.lbl.lbl--red.v-middle.lbl--small &nbsp;
+        %h5.flush.v-middle.inline-block
+          Affichages :
+          = @impressions_total_count
+    .grid__item.one-third.text--center.v-middle>
+      .inline-block.cursor-pointer.nowrap{ data: { behavior: 'toggle-serie' } }
+        .v-middle.lbl.lbl--blue.v-middle.lbl--small &nbsp;
+        %h5.flush.v-middle.inline-block
+          Consultations :
+          = @views_total_count
+    .grid__item.one-third.text--center.v-middle>
+      .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
+        .v-middle.lbl.lbl--green.v-middle.lbl--small &nbsp;
+        %h5.flush.v-middle.inline-block
+          Actions :
+          = @actions_total_count
 
-.grid.push--bottom
-  .grid__item.one-third.text--center.v-middle>
-    .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
-      .v-middle.lbl.lbl--red.v-middle.lbl--small &nbsp;
-      %h5.flush.v-middle.inline-block
-        Affichages :
-        = @impressions_total_count
-  .grid__item.one-third.text--center.v-middle>
-    .inline-block.cursor-pointer.nowrap{ data: { behavior: 'toggle-serie' } }
-      .v-middle.lbl.lbl--blue.v-middle.lbl--small &nbsp;
-      %h5.flush.v-middle.inline-block
-        Consultations :
-        = @views_total_count
-  .grid__item.one-third.text--center.v-middle>
-    .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
-      .v-middle.lbl.lbl--green.v-middle.lbl--small &nbsp;
-      %h5.flush.v-middle.inline-block
-        Actions :
-        = @actions_total_count
-
-#statistics
+  #statistics
 
 :javascript
   window.coursavenue = {};

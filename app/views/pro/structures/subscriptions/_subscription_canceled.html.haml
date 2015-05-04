@@ -1,0 +1,21 @@
+%p.epsilon
+  La résiliation de votre abonnement Premium a bien été prise en compte : à partir du #{l(@subscription.expires_at.to_date)} (dernier jour de votre abonnement), votre profil ne bénéficiera plus des avantages du Premium et vous ne serez plus prélevé. Si vous changez d'avis et souhaitez finalement rester en profil Premium,
+  = link_to 'annulez votre résiliation.', '#reactivate-subscription',  data: { behavior: 'modal', width: '500', padding: 0 }, class: 'f-weight-bold'
+
+%hr.push--ends
+%h3 Historique des factures
+= link_to "Voir l'historique des factures.", pro_structure_invoices_path(@structure)
+
+%hr.push--ends
+%h3 Gestion de votre abonnement
+%p
+  = link_to 'Réactiver mon abonnement', '#reactivate-subscription',  data: { behavior: 'modal', width: '500', padding: 0 }, class: 'btn btn--green'
+
+.panel#reactivate-subscription.hidden
+  .panel__header.soft
+    %h4.flush Souhaitez-vous réactiver votre désabonner ?
+  .panel__body.soft
+    %p
+      Nous sommes heureux d'apprendre que vous souhaitez annuler votre résiliation et prolonger votre expérience Premium. Ainsi, vous mettez toutes les chances de votre côté pour recruter un maximum d'élèves, et pour assurer une présence permanente optimale de votre profil sur CoursAvenue.
+    .text--center
+      = link_to 'Me réabonner', reactivate_pro_structure_subscription_path(@structure, @subscription), class: 'btn btn--green btn--full', method: :patch, data: { disable_with: 'Réabonnement en cours' }

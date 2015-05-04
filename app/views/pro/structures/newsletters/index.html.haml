@@ -4,12 +4,15 @@
   .flexbox__item.v-middle
     %h1.flush Newsletters
   .flexbox__item.v-middle.text--right
-    - if @newsletters.any?
+    - if @newsletters.any? and @structure.premium?
       = link_to new_pro_structure_newsletter_path(@structure), class: 'btn btn--green' do
         %i.fa.fa-plus
         Envoyer une newsletter
 
-- if @newsletters.any?
-  = render 'newsletter_list'
+- if @structure.premium?
+  - if @newsletters.any?
+    = render 'newsletter_list'
+  - else
+    = render 'newsletter_empty'
 - else
-  = render 'newsletter_empty'
+  = link_to 'Passez au premium pour envoyer des newsletter. 14 jours gratuits.', pro_structure_subscriptions_path(@structure)

@@ -4,6 +4,8 @@ CoursAvenue::Application.routes.draw do
   mount_griddler
   get "/email_processor", to: proc { [200, {}, ["OK"]] }, as: "mandrill_head_test_request"
   get '/robots.txt' => 'home#robots'
+
+
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
@@ -223,13 +225,19 @@ CoursAvenue::Application.routes.draw do
             get :download
           end
         end
-        resources :subscriptions, only: [:index, :create, :destroy], controller: 'structures/subscriptions' do
+        # New subscriptions with Stripe
+        resources :subscriptions, only: [:index, :create, :destroy], controller: 'structures/subscriptions', path: 'mon-abonnement' do
           member do
-            get :cancel
-            get :confirm_cancellation
+            patch :activate
+            get   :cancel
+            get   :choose_new_plan
+            patch :change_plan
+            get   :confirm_cancellation
             patch :reactivate
+            get   :stripe_payment_form
           end
         end
+        # Old subscriptions with Be2Bill
         resources :subscription_plans, only: [:new, :index, :destroy], controller: 'structures/subscription_plans', path: 'abonnements' do
           collection do
             get :choose_premium, path: 'choisir-un-abonnement'
@@ -327,7 +335,7 @@ CoursAvenue::Application.routes.draw do
         end
 
         resources :comment_notifications, controller: 'structures/comment_notifications'
-        resources :comments, only: [:index], controller: 'structures/comments', path: 'avis' do
+        resources :comments, only: [:index, :destroy], controller: 'structures/comments', path: 'avis' do
           member do
             patch :highlight
             patch :ask_for_deletion
@@ -436,39 +444,6 @@ CoursAvenue::Application.routes.draw do
       get "/contacts/:importer/callback", to: "contacts#callback"
       get "/contacts/failure",            to: "contacts#failure"
 
-    end
-  end
-
-  constraints DomainConstraint.new do
-    namespace :structure_website, path: '' do
-      get '/'       , to: 'structures#index'   , as: :presentation
-      get 'planning', to: 'structures#planning', as: :planning
-      get 'reviews' , to: 'structures#reviews' , as: :reviews
-      get 'medias'  , to: 'structures#medias'  , as: :medias
-      get 'contact' , to: 'structures#contact' , as: :contact
-      resources :courses, controller: '/structures/courses', path: 'cours'
-      resources :newsletters, only: [] do
-        collection do
-          get :unsubscribe
-        end
-      end
-      resources :participation_requests, only: [:create, :update, :show], path: 'inscription' do
-        resources :conversations, controller: 'participation_requests/conversations'
-      end
-    end
-    # Use shared participation request controller
-    # That's why it is out of the namespace
-    resources :participation_requests, only: [:edit], controller: 'participation_requests' do
-      member do
-        get   :report_form
-        get   :cancel_form
-        get   :accept_form
-        patch :accept
-        patch :discuss
-        patch :modify_date
-        patch :cancel
-        patch :report
-      end
     end
   end
 
@@ -597,7 +572,7 @@ CoursAvenue::Application.routes.draw do
           get :add_private_message, path: 'envoyer-un-message-prive'
         end
       end
-      resources :newsletter, only: [:show]
+      resources :newsletters, only: [:show], controller: 'structures/newsletters'
 
       # Here for old 404
       resources :comments              , only: [:new]                                       , controller: 'structures/comments'   , path: 'recommendations'
@@ -722,6 +697,43 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # -----------------------------------END OF WWW
   # ---------------------------------------------
+
+
+  # ---------------------------------------------
+  # -------------------------- STRUCTURE WEBSITES
+  # ---------------------------------------------
+  constraints DomainConstraint.new do
+    namespace :structure_website, path: '' do
+      get '/'       , to: 'structures#index'   , as: :presentation
+      get 'planning', to: 'structures#planning', as: :planning
+      get 'reviews' , to: 'structures#reviews' , as: :reviews
+      get 'medias'  , to: 'structures#medias'  , as: :medias
+      get 'contact' , to: 'structures#contact' , as: :contact
+      resources :courses, controller: '/structures/courses', path: 'cours'
+      resources :newsletters, only: [] do
+        collection do
+          get :unsubscribe
+        end
+      end
+      resources :participation_requests, only: [:create, :update, :show], path: 'inscriptions' do
+        resources :conversations, controller: 'participation_requests/conversations'
+      end
+    end
+    # Use shared participation request controller
+    # That's why it is out of the namespace
+    resources :participation_requests, only: [:edit], controller: 'participation_requests' do
+      member do
+        get   :report_form
+        get   :cancel_form
+        get   :accept_form
+        patch :accept
+        patch :discuss
+        patch :modify_date
+        patch :cancel
+        patch :report
+      end
+    end
+  end
 
   get '/', to: 'redirect#www_root'
   ########### Search pages ###########

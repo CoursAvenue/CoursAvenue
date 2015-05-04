@@ -16,7 +16,8 @@ class Subscription < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :structure, :coupon, :stripe_subscription_id,
+  attr_accessor :stripe_token
+  attr_accessible :structure, :coupon, :plan, :stripe_subscription_id, :trial_end,
     :cancelation_reason_dont_want_more_students,
     :cancelation_reason_stopping_activity,
     :cancelation_reason_didnt_have_return_on_investment,
@@ -49,7 +50,7 @@ class Subscription < ActiveRecord::Base
   # Validations                                                        #
   ######################################################################
 
-  validates :stripe_subscription_id, uniqueness: true
+  validates :stripe_subscription_id, uniqueness: true, allow_blank: true
 
   ######################################################################
   # Scopes                                                             #
@@ -87,7 +88,39 @@ class Subscription < ActiveRecord::Base
   #
   # @return a Boolean.
   def active?
-    ! canceled?
+    (!canceled? and stripe_subscription_id.present?)
+  end
+
+  # Charge the subscription. Usually after the trial period.
+  #
+  # @param token The Stripe token for when we create a new user.
+  #
+  # @return nil or error_code_value: nil = success
+  def charge!(token = nil)
+    error_code_value = nil
+    begin
+      customer = structure.stripe_customer || structure.create_stripe_customer(token)
+      return nil if customer.nil?
+
+      options = {
+        plan:      self.plan.stripe_plan_id,
+        trial_end: trial_end.to_i
+      }
+
+      if self.coupon.present? and coupon.valid?
+        options.merge!({ coupon: coupon.stripe_coupon_id })
+      end
+
+      _subscription = customer.subscriptions.create(options, { api_key: Stripe.api_key })
+
+      self.stripe_subscription_id = _subscription.id
+      save
+
+    rescue Stripe::CardError => exception
+      Bugsnag.notify(exception)
+      error_code_value = 'fail'
+    end
+    error_code_value
   end
 
   # Cancel the subscription
@@ -133,12 +166,19 @@ class Subscription < ActiveRecord::Base
     save
   end
 
+  # Reactivates current plan.
+  #
+  # @return Boolean (saved or not)
+  def reactivate!
+    change_plan!(plan)
+    self.canceled_at = nil
+    save
+  end
+
   # Changes the plan.
   #
-  # @return the new plan.
+  # @return Boolean (saved or not)
   def change_plan!(plan)
-    return if self.plan == plan
-
     subscription      = stripe_subscription
     subscription.plan = plan.stripe_plan_id
     subscription.save
@@ -183,5 +223,14 @@ class Subscription < ActiveRecord::Base
   # @return a Boolean
   def has_coupon?
     coupon.present?
+  end
+
+  # Whether the Subscription is still in its trial method.
+  #
+  # @return a boolean
+  def in_trial?
+    return false if trial_end.nil?
+
+    trial_end > DateTime.current
   end
 end

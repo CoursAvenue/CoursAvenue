@@ -4,7 +4,7 @@ This query will take effect for any screen smaller than 760px
 and also iPads specifically.
 */
 @include media-query(palm) {
-    table.table-responsive {
+    .table-responsive {
         width: 100%;
         tr {
             border-top   : 1px solid #ddd;

@@ -1215,6 +1215,10 @@ class Structure < ActiveRecord::Base
     managed_account.charges_enabled and managed_account.transfers_enabled
   end
 
+  def premium?
+    subscription and subscription.active?
+  end
+
   # Here in case we want to have a specific column to store the `subdomain_slug`
   def subdomain_slug
     slug
