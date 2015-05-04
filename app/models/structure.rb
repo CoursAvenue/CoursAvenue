@@ -1155,7 +1155,7 @@ class Structure < ActiveRecord::Base
   #
   # @return a Boolean
   def premium?
-    stripe_customer.present?
+    subscription and subscription.active?
   end
 
   # Here in case we want to have a specific column to store the `subdomain_slug`

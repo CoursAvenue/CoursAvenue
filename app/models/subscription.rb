@@ -218,7 +218,7 @@ class Subscription < ActiveRecord::Base
   #
   # @return a boolean
   def in_trial?
-    return false if trial_end.nil? or structure.premium?
+    return false if trial_end.nil?
 
     trial_end > DateTime.current
   end
