@@ -5,7 +5,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
 
   def index
     if @structure.subscription.present?
-      @subscription  = @structure.subscription.decorate
+      @subscription = @structure.subscription.decorate
     else
       @monthly_plans = ::Subscriptions::Plan.monthly.decorate
       @yearly_plans  = ::Subscriptions::Plan.yearly.decorate
@@ -62,9 +62,12 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     @subscription.cancel!
 
     redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant désabonné'
+<<<<<<< Updated upstream
   end
 
   def activate
+=======
+>>>>>>> Stashed changes
   end
 
   # https://support.stripe.com/questions/how-can-i-resume-a-subscription-after-it-has-been-canceled
