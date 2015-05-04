@@ -13,6 +13,7 @@ class Subscription < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
+  attr_accessor :stripe_token
   attr_accessible :structure, :coupon, :plan, :stripe_subscription_id, :trial_end,
     :cancelation_reason_dont_want_more_students,
     :cancelation_reason_stopping_activity,
@@ -162,12 +163,19 @@ class Subscription < ActiveRecord::Base
     save
   end
 
+  # Reactivates current plan.
+  #
+  # @return Boolean (saved or not)
+  def reactivate!
+    change_plan!(plan)
+    self.canceled_at = nil
+    save
+  end
+
   # Changes the plan.
   #
-  # @return the new plan.
+  # @return Boolean (saved or not)
   def change_plan!(plan)
-    return if self.plan == plan
-
     subscription      = stripe_subscription
     subscription.plan = plan.stripe_plan_id
     subscription.save

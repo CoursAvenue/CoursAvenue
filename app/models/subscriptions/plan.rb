@@ -5,6 +5,7 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
+  TRIAL_LENGTH = 14
   INTERVALS = {
     month: 'Mensuel',
     year: 'Annuel'
@@ -98,10 +99,20 @@ class Subscriptions::Plan < ActiveRecord::Base
       options.merge!({ coupon: coupon.stripe_coupon_id })
     end
 
+    # TODO: add Intercom event
+    # begin
+    #   Intercom::Event.create(event_name: "Confirmed account",
+    #                          created_at: Time.now.to_i,
+    #                          email: structure.email,
+    #                          user_id: "Admin_#{structure.id}")
+    # rescue
+    #   Bugsnag.notify(RuntimeError.new("Can't sync with Intercom after confirmation"), {email: self.email})
+    # end
+
     self.subscriptions.create({
       structure: structure,
       coupon:    coupon,
-      trial_end: 15.days.from_now
+      trial_end: TRIAL_LENGTH.days.from_now
     })
   end
 
@@ -113,17 +124,17 @@ class Subscriptions::Plan < ActiveRecord::Base
   def create_stripe_plan
     return false if name.nil?
 
-    plan_id = self.name.parameterize
+    plan_id = "#{name.parameterize}-#{id}"
     options = {
       id:       plan_id,
-      amount:   self.amount * 100,
+      amount:   amount * 100,
       currency: Subscription::CURRENCY,
-      interval: self.interval,
-      name:     self.name
+      interval: interval,
+      name:     name
     }
 
-    if self.trial_period_days.present?
-      options.merge!(trial_period_days: self.trial_period_days)
+    if trial_period_days.present?
+      options.merge!(trial_period_days: trial_period_days)
     end
 
     plan = Stripe::Plan.create(options)
