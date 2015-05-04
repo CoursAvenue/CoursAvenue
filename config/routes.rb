@@ -226,12 +226,15 @@ CoursAvenue::Application.routes.draw do
           end
         end
         # New subscriptions with Stripe
-        resources :subscriptions, only: [:index, :create, :destroy], controller: 'structures/subscriptions' do
+        resources :subscriptions, only: [:index, :create, :destroy], controller: 'structures/subscriptions', path: 'mon-abonnement' do
           member do
-            get   :activate
+            patch :activate
             get   :cancel
+            get   :choose_new_plan
+            patch :change_plan
             get   :confirm_cancellation
             patch :reactivate
+            get   :stripe_payment_form
           end
         end
         # Old subscriptions with Be2Bill

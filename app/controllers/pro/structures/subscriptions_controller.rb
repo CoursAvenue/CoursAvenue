@@ -13,7 +13,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   end
 
   def create
-    plan        = Subscriptions::Plan.find(params[:plan_id])
+    plan        = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
     coupon_code = params[:coupon_code]
 
     @subscription = plan.create_subscription!(@structure, coupon_code)
