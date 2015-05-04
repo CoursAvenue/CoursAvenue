@@ -265,6 +265,39 @@ describe ParticipationRequest do
         participation_request.reload.conversation.messages.length
       }.by(1)
     end
+
+    context "when the participation request is not free" do
+      before(:all) { StripeMock.start }
+      after(:all)  { StripeMock.stop }
+
+      subject             { FactoryGirl.create(:participation_request, :with_participants) }
+
+      let(:stripe_helper) { StripeMock.create_test_helper }
+
+      let!(:user)         { subject.user }
+      let!(:structure)    { subject.structure }
+      let(:token)         { stripe_helper.generate_card_token }
+      let(:message)       { Faker::Lorem.paragraph }
+
+      before do
+        structure.create_managed_account
+        user.create_stripe_customer(token)
+
+        allow_any_instance_of(Structure).to receive(:can_receive_payments?).and_return(true)
+      end
+
+      it 'charges the customer' do
+        subject.accept!(message)
+        subject.reload
+
+        expect(subject.stripe_charge).to_not be_nil
+      end
+
+      it 'creates an invoice' do
+        expect { subject.accept!(message); subject.reload }.
+          to change { ParticipationRequest::Invoice.count }.by(1)
+      end
+    end
   end
 
   describe '#modify_date!' do

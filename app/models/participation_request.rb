@@ -125,6 +125,11 @@ class ParticipationRequest < ActiveRecord::Base
     message                  = reply_to_conversation(message_body, last_modified_by)
     self.structure_responded = true if last_modified_by == 'Structure'
     save
+
+    if price != 0 and structure.can_receive_payments?
+      charge!
+    end
+
     if self.last_modified_by == 'Structure'
       ParticipationRequestMailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
