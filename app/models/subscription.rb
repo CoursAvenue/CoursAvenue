@@ -84,32 +84,39 @@ class Subscription < ActiveRecord::Base
   #
   # @return a Boolean.
   def active?
-    ! (canceled? or in_trial?)
+    (!canceled? and stripe_subscription_id.present?)
   end
 
   # Charge the subscription. Usually after the trial period.
   #
   # @param token The Stripe token for when we create a new user.
   #
-  # @return nil or the new Subscription.
+  # @return nil or error_code_value: nil = success
   def charge!(token = nil)
-    customer = structure.stripe_customer || structure.create_stripe_customer(token)
-    return nil if customer.nil?
+    error_code_value = nil
+    begin
+      customer = structure.stripe_customer || structure.create_stripe_customer(token)
+      return nil if customer.nil?
 
-    options = {
-      plan: self.plan.stripe_plan_id
-    }
+      options = {
+        plan:      self.plan.stripe_plan_id,
+        trial_end: trial_end.to_i
+      }
 
-    if self.coupon.present? and coupon.valid?
-      options.merge!({ coupon: coupon.stripe_coupon_id })
+      if self.coupon.present? and coupon.valid?
+        options.merge!({ coupon: coupon.stripe_coupon_id })
+      end
+
+      _subscription = customer.subscriptions.create(options, { api_key: Stripe.api_key })
+
+      self.stripe_subscription_id = _subscription.id
+      save
+
+    rescue Stripe::CardError => exception
+      Bugsnag.notify(exception)
+      error_code_value = 'fail'
     end
-
-    _subscription = customer.subscriptions.create(options, { api_key: Stripe.api_key })
-
-    self.stripe_subscription_id = _subscription.id
-    save
-
-    _subscription
+    error_code_value
   end
 
   # Cancel the subscription

@@ -14,7 +14,7 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :name, :amount, :interval, :stripe_plan_id, :trial_period_days
+  attr_accessible :name, :public_name, :amount, :interval, :stripe_plan_id, :trial_period_days
 
   has_many :subscriptions, foreign_key: 'subscriptions_plan_id'
 
