@@ -61,7 +61,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     @subscription.update_attributes(params[:subscription])
     @subscription.cancel!
 
-    redirect_to pro_structure_subscriptions_path(@structure), notice: 'Abonnement supprimé avec succès'
+    redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant désabonné'
   end
 
   def activate

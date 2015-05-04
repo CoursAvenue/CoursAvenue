@@ -225,14 +225,16 @@ CoursAvenue::Application.routes.draw do
             get :download
           end
         end
+        # New subscriptions with Stripe
         resources :subscriptions, only: [:index, :create, :destroy], controller: 'structures/subscriptions' do
           member do
-            get :activate
-            get :cancel
-            get :confirm_cancellation
+            get   :activate
+            get   :cancel
+            get   :confirm_cancellation
             patch :reactivate
           end
         end
+        # Old subscriptions with Be2Bill
         resources :subscription_plans, only: [:new, :index, :destroy], controller: 'structures/subscription_plans', path: 'abonnements' do
           collection do
             get :choose_premium, path: 'choisir-un-abonnement'

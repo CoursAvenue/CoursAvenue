@@ -8,6 +8,7 @@
       %tbody
         - @subscriptions.each do |subscription|
           %tr
-            %td.text--center
+            %td
               = subscription.structure.name
-              = subscriptions.created_at
+            %td
+              = l(subscription.created_at)
