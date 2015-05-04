@@ -125,6 +125,6 @@
                         %i.fa-pencil
                         Modifier
                     %li.nowrap
-                      = link_to pro_comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet avis ?' } do
+                      = link_to pro_structure_comment_path(comment.structure, comment), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet avis ?' } do
                         %i.fa-trash-o
                         Supprimer
