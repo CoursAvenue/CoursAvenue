@@ -38,7 +38,8 @@ class ParticipationRequest < ActiveRecord::Base
   before_validation :set_date_if_empty
   before_save       :update_times
   before_create     :set_default_attributes
-  after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher, :touch_user
+  after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher,
+                    :send_sms_to_user, :touch_user
   after_destroy     :destroy_conversation_attached, :touch_user
 
   ######################################################################
@@ -122,9 +123,9 @@ class ParticipationRequest < ActiveRecord::Base
     self.structure_responded = true if last_modified_by == 'Structure'
     save
     if self.last_modified_by == 'Structure'
-      ParticipationRequestMailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)
+      mailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
-      ParticipationRequestMailer.delay.request_has_been_accepted_by_user_to_teacher(self, message)
+      mailer.delay.request_has_been_accepted_by_user_to_teacher(self, message)
     end
   end
 
@@ -145,9 +146,9 @@ class ParticipationRequest < ActiveRecord::Base
     self.structure_responded = true if last_modified_by == 'Structure'
     save
     if self.last_modified_by == 'Structure'
-      ParticipationRequestMailer.delay.request_has_been_modified_by_teacher_to_user(self, message)
+      mailer.delay.request_has_been_modified_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
-      ParticipationRequestMailer.delay.request_has_been_modified_by_user_to_teacher(self, message)
+      mailer.delay.request_has_been_modified_by_user_to_teacher(self, message)
     end
   end
 
@@ -161,9 +162,9 @@ class ParticipationRequest < ActiveRecord::Base
     self.structure_responded = true if discussed_by == 'Structure'
     save
     if discussed_by == 'Structure'
-      ParticipationRequestMailer.delay.request_has_been_discussed_by_teacher_to_user(self, message)
+      mailer.delay.request_has_been_discussed_by_teacher_to_user(self, message)
     elsif discussed_by == 'User'
-      ParticipationRequestMailer.delay.request_has_been_discussed_by_user_to_teacher(self, message)
+      mailer.delay.request_has_been_discussed_by_user_to_teacher(self, message)
     end
   end
 
@@ -180,9 +181,9 @@ class ParticipationRequest < ActiveRecord::Base
     self.structure_responded   = true if last_modified_by == 'Structure'
     save
     if self.last_modified_by == 'Structure'
-      ParticipationRequestMailer.delay.request_has_been_canceled_by_teacher_to_user(self, message)
+      mailer.delay.request_has_been_canceled_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
-      ParticipationRequestMailer.delay.request_has_been_canceled_by_user_to_teacher(self, message)
+      mailer.delay.request_has_been_canceled_by_user_to_teacher(self, message)
     end
   end
 
@@ -282,22 +283,14 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return nil
   def send_email_to_teacher
-    if from_personal_website?
-      StructureWebsiteParticipationRequestMailer.delay.you_received_a_request(self)
-    else
-      ParticipationRequestMailer.delay.you_received_a_request(self)
-    end
+    mailer.delay.you_received_a_request(self)
   end
 
   # When a request is created we inform the user
   #
   # @return nil
   def send_email_to_user
-    if from_personal_website?
-      StructureWebsiteParticipationRequestMailer.delay.you_sent_a_request(self)
-    else
-      ParticipationRequestMailer.delay.you_sent_a_request(self)
-    end
+    mailer.delay.you_sent_a_request(self)
     nil
   end
 
@@ -352,4 +345,22 @@ class ParticipationRequest < ActiveRecord::Base
     self.date ||= self.planning.start_date if self.planning
   end
 
+  def mailer
+    if from_personal_website?
+      StructureWebsiteParticipationRequestMailer
+    else
+      ParticipationRequestMailer
+    end
+  end
+
+  # If participation request is from personal website, send a SMS to user
+  def send_sms_to_user
+    if from_personal_website?
+      if user.phone_number and user.sms_opt_in?
+        message = self.decorate.sms_message_for_new_request
+
+        user.delay.send_sms(message, user.phone_number)
+      end
+    end
+  end
 end
