@@ -203,6 +203,9 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
   describe '#destroy' do
   end
 
+  describe 'activate' do
+  end
+
   describe '#reactivate' do
   end
 end

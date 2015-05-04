@@ -64,6 +64,9 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     redirect_to pro_structure_subscriptions_path(@structure), notice: 'Abonnement supprimé avec succès'
   end
 
+  def activate
+  end
+
   # https://support.stripe.com/questions/how-can-i-resume-a-subscription-after-it-has-been-canceled
   def reactivate
   end
