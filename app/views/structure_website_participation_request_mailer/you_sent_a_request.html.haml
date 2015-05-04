@@ -17,11 +17,9 @@
   Et si finalement vous souhaitez modifier ou annuler votre séance, accédez à votre page dédiée :
 
 .p.action
-  = link_to "Consulter / Modifier mon inscription", structure_website_participation_request_url(@participation_request.token, subdomain: @structure.subdomain_slug), class: 'btn btn--green'
+  = link_to "Envoyer un message / Modifier / Annuler", structure_website_participation_request_url(@participation_request.token, subdomain: @structure.subdomain_slug), class: 'btn btn--green'
 
-.p Au plaisir de vous rencontrer ! Merci,
-
-.p= @structure.name
+= render partial: 'structure_website_participation_request_mailer/user_footer'
 
 - content_for :under_content do
   = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: @participation_request }

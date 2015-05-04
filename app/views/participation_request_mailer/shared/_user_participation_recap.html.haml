@@ -22,7 +22,10 @@
   %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
       .p.hard
-        %strong Profil
+        - if participation_request.from_personal_website?
+          %strong Professeur
+        - else
+          %strong Profil
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
       .p.hard
         = link_to structure_url(participation_request.structure, subdomain: 'www'), target: '_blank' do
