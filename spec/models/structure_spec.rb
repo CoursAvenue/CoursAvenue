@@ -473,16 +473,13 @@ describe Structure do
 
       context 'when premium' do
         subject             { FactoryGirl.create(:structure, :with_contact_email) }
+        let(:plan)          { FactoryGirl.create(:subscriptions_plan) }
         let(:stripe_helper) { StripeMock.create_test_helper }
+        let(:token)     { stripe_helper.generate_card_token }
 
         before do
-          customer = Stripe::Customer.create({
-            email: subject.contact_email,
-            card:  stripe_helper.generate_card_token
-          })
-          subject.stripe_customer_id = customer.id
-
-          subject.save
+          subscription = plan.create_subscription!(subject)
+          subscription.charge!(token)
         end
 
         it { expect(subject.premium?).to be_truthy }
