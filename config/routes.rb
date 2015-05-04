@@ -329,7 +329,7 @@ CoursAvenue::Application.routes.draw do
         end
 
         resources :comment_notifications, controller: 'structures/comment_notifications'
-        resources :comments, only: [:index], controller: 'structures/comments', path: 'avis' do
+        resources :comments, only: [:index, :destroy], controller: 'structures/comments', path: 'avis' do
           member do
             patch :highlight
             patch :ask_for_deletion
