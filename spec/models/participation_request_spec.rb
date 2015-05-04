@@ -243,7 +243,7 @@ describe ParticipationRequest do
           expect(subject.stripe_charge.refunded).to be_truthy
         end
 
-        it 'sends an email to both the teacher and the studend' do
+        it 'sends an email to both the teacher and the studend', with_mail: true do
           expect{ subject.refund! }.to change { ActionMailer::Base.deliveries.count }.by(2)
         end
 
