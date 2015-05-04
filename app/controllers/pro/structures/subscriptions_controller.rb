@@ -62,15 +62,9 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     @subscription.cancel!
 
     redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant désabonné'
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   end
 
   def activate
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
   end
 
   # https://support.stripe.com/questions/how-can-i-resume-a-subscription-after-it-has-been-canceled
