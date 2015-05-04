@@ -1,64 +1,22 @@
-%ul.nav.tabs--link.inline-block.flush.btn-group
+%ul.nav.tabs--link.flush.btn-group
   %li.active>
     %a.btn.rounded-right--none{ href: '.monthly-details', data: { toggle: 'tab' } } Mensuel
   %li>
     %a.btn.rounded-left--none{ href: '.annual-details', data: { toggle: 'tab' } } Annuel
 
-- subscription = Subscription.new
-= form_for subscription, url: pro_structure_subscriptions_path(@structure), html: { id: 'subscription_form' } do
-  %input#plan_id_value{ type: 'hidden', name: 'plan_id', value: '' }
-  %input#stripe_token{ type: 'hidden', name: 'stripe_token', value: '' }
-  .grid--full.push-half--bottom.text--center
-    - box_classes = ['orange-box', 'dark-blue-box', 'green-box']
-    - @plans.each_with_index do |plan_group, index|
-      - monthly_plan = plan_group[0]
-      - yearly_plan  = plan_group[1]
-      .grid__item.one-third.text--center.soft-half--right.v-top.zoom-on-hover>
-        .white-box-half.bordered
-          .soft.white.tab-content{ class: box_classes[index] }
-            %p.epsilon.flush
-              Premium
+.tab-pane.monthly-details.active.grid--full
+  .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+    = render partial: 'pro/subscriptions/plans/free'
+  .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+    = render partial: 'pro/subscriptions/plans/pro', locals: { plan: @monthly_plans.first }
+  .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+    = render partial: 'pro/subscriptions/plans/pro_plus', locals: { plan: @monthly_plans.last }
 
-            .tab-pane.monthly-details.active
-              %p.beta.push-half--ends
-                %strong= monthly_plan.name
+.tab-pane.annual-details.hidden.grid--full
+  .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+    = render partial: 'pro/subscriptions/plans/free'
+  .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+    = render partial: 'pro/subscriptions/plans/pro', locals: { plan: @yearly_plans.first }
+  .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+    = render partial: 'pro/subscriptions/plans/pro_plus', locals: { plan: @yearly_plans.last }
 
-            .tab-pane.annual-details
-              %p.beta.push-half--ends
-                %strong= yearly_plan.name
-
-            .tab-pane.hard--top.monthly-details.active
-              %p.delta.line-height-1-7= monthly_plan.price
-              .btn.btn--full.btn--yellow{ data: { plan: monthly_plan.id, amount: monthly_plan.amount } } Souscrire
-
-            .tab-pane.hard--top.annual-details
-              %p.delta.line-height-1-7= yearly_plan.price
-              .btn.btn--full.btn--yellow{ data: { plan: yearly_plan.id, amount: yearly_plan.amount } } Souscrire
-          .soft
-            %p
-              %i.milli Idéal pour les professeurs proposant moins de 5 séances par semaine et moins de 10 stages par an.
-            %p.cursor-help{ data: { behavior: 'popover', content: "En passant au Premium, vous accédez à 10 fonctionnalités qui ont pour but d'optimiser et de personnaliser votre profil. Par exemple, vos cours d'essai gratuits et vos offres découvertes deviennent visibles, le lien vers votre site Internet apparaît et vous n'avez plus de profil similaire sur votre profil.", trigger: 'hover', placement: 'top' } }
-              %strong 10 nouvelles fonctionnalités
-            %p.cursor-help{ data: { behavior: 'popover', content: "Grâce aux fonctionnalités spéciales Premium, votre profil devient complet et apparaît dans les 1er résultats de recherche CoursAvenue. Votre profil s'affiche également en 1er dans nos newsletters et sur chaque profil dans la partie \"profils similaires\".", trigger: 'hover', placement: 'top' } }
-              %strong Visibilité CoursAvenue et newsletters
-            %p.cursor-help{ data: { behavior: 'popover', content: "Chaque jour, nous pilotons des campagnes sur Google de manière à vous en faire pleinement profiter. Nous investissons de larges sommes sur Google AdWords pour gagner rapidement et efficacement en visibilité. Par exemple, vous donnez des cours de dessin à Paris ? Notre objectif est qu'un élève vous contacte après avoir recherché \"cours de dessin Paris\".", trigger: 'hover', placement: 'top' } }
-              %strong Visibilié Google AdWords
-            %p.cursor-help{ data: { behavior: 'popover', content: "Pour vous faire connaître des personnes intéressées par vos disciplines et proches de vos lieux, nous pilotons des campagnes ciblées sur Facebook. Avec l'offre Premium \"Solo\", ces campagnes sont basiques : pour communiquer sur votre profil, nous pilotons une annonce qui sera visible tout au long de votre abonnement.", trigger: 'hover', placement: 'top' } }
-              %strong Campagnes Facebook : basiques
-            %p.cursor-help{ data: { behavior: 'popover', content: "Grâce à tous les moyens mis en oeuvre, nous touchons une audience en adéquation avec vos besoins de communication.", trigger: 'hover', placement: 'top' } }
-              %strong Audience touchée : +
-            %p.cursor-help{ data: { behavior: 'popover', content: "En toute transparence, suivez quotidiennement les statistiques de performance de votre profil (nombre de visites, de prises de contact, etc.) et optimisez son efficacité.", trigger: 'hover', placement: 'top' } }
-              %strong Statistiques
-            %p.cursor-help{ data: { behavior: 'popover', content: "Contactez nos conseillers par chat ou e-mail, nous vous répondons sous 2 jours.", trigger: 'hover', placement: 'top' } }
-              %strong Chat &amp; e-mail
-
-- content_for :scripts do
-  :javascript
-    var customerSubscribed = #{@structure.stripe_customer.present?};
-
-    $(document).ready(function() {
-        $('[data-plan]').click(function(event) {
-            $('#plan_id_value').val($(this).data('plan'));
-            $('#subscription_form').submit();
-        });
-    });
