@@ -10,9 +10,6 @@ StructureProfile.module('Views.Messages', function(Module, App, Backbone, Marion
             this.model = options.model; // Message
             Backbone.Validation.bind(this);
             _.bindAll(this, 'showPopupMessageDidntSend');
-            if (this.model.get('structure')) {
-                CoursAvenue.statistic.logStat(this.model.get('structure').get('id'), 'action', {});
-            }
         },
 
         ui: {
