@@ -104,7 +104,7 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
-      resources :comments, only: [:edit, :update, :index, :destroy] do
+      resources :comments, only: [:edit, :update, :index] do
         member do
           patch :recover
         end
