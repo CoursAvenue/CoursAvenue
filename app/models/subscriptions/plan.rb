@@ -145,8 +145,6 @@ class Subscriptions::Plan < ActiveRecord::Base
     plan
   end
 
-  handle_asynchronously :create_stripe_plan
-
   # Validates that the plan doesn't already exist on Stripe.
   # If it throws a `Stripe::InvalidRequestError`, it means the Plan doesn't exist and we can
   # proceed. Otherwise, it will add the validation error.
