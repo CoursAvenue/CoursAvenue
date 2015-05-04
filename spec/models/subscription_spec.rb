@@ -65,8 +65,14 @@ RSpec.describe Subscription, type: :model do
     let(:plan)      { FactoryGirl.create(:subscriptions_plan) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
 
-    context 'when not active' do
+    context 'when canceled' do
       subject { FactoryGirl.create(:subscription, :canceled) }
+
+      it { expect(subject.active?).to be_falsy }
+    end
+
+    context 'when in trial' do
+      subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.from_now) }
 
       it { expect(subject.active?).to be_falsy }
     end
