@@ -6,7 +6,8 @@ class Subscriptions::Plan < ActiveRecord::Base
   ######################################################################
 
   TRIAL_LENGTH = 14
-  INTERVALS = {
+  PLAN_TYPES   = ['module', 'website']
+  INTERVALS    = {
     month: 'Mensuel',
     year: 'Annuel'
   }
@@ -15,7 +16,8 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :name, :public_name, :amount, :interval, :stripe_plan_id, :trial_period_days
+  attr_accessible :name, :public_name, :plan_type,
+    :amount, :interval, :stripe_plan_id, :trial_period_days
 
   has_many :subscriptions, foreign_key: 'subscriptions_plan_id'
 
@@ -114,6 +116,10 @@ class Subscriptions::Plan < ActiveRecord::Base
       coupon:    coupon,
       trial_end: TRIAL_LENGTH.days.from_now
     })
+  end
+
+  def website_plan?
+    plan_type == 'website'
   end
 
   private

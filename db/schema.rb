@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150504090944) do
+ActiveRecord::Schema.define(version: 20150505160000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1181,6 +1181,7 @@ ActiveRecord::Schema.define(version: 20150504090944) do
     t.integer  "trial_period_days"
     t.integer  "amount"
     t.string   "public_name"
+    t.string   "plan_type"
   end
 
   add_index "subscriptions_plans", ["stripe_plan_id"], name: "index_subscriptions_plans_on_stripe_plan_id", unique: true, using: :btree
