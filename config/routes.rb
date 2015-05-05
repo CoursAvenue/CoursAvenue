@@ -235,6 +235,7 @@ CoursAvenue::Application.routes.draw do
             get   :confirm_cancellation
             patch :reactivate
             get   :stripe_payment_form
+            patch :accept_payments
           end
         end
         # Old subscriptions with Be2Bill

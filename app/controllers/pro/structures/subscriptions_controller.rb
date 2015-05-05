@@ -101,6 +101,32 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant réabonné'
   end
 
+  # PATCH :id/accept_payments
+  # TODO: additional_owners (show more on demand)
+  def accept_payments
+    @subscription = @structure.subscription
+
+    token = accept_payments_permitted_params[:stripe_bank_token]
+    legal_entity = build_legal_entity(accept_payments_permitted_params)
+
+    managed_account_options = {
+      legal_entity:   legal_entity,
+      bank_account:   token,
+      tos_acceptance: {
+        date: Time.now.to_i,
+        ip: request.ip
+      }
+    }
+
+    created = @structure.create_managed_account(managed_account_options)
+
+    if created
+      redirect_to pro_structure_subscriptions_path(@structure), notice: 'ok'
+    else
+      redirect_to pro_structure_subscriptions_path(@structure), error: 'ko'
+    end
+  end
+
   private
 
   def set_structure

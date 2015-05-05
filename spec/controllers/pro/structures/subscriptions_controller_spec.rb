@@ -283,4 +283,60 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
 
   describe '#reactivate' do
   end
+
+  describe '#accept_payments' do
+    let!(:subscription) { plan.create_subscription!(structure) }
+    let(:legal_entity)  { create_legal_entity(structure) }
+    let(:bank_token) do
+      StripeMock.generate_bank_token({
+        bank_account: { country: 'FR', account_number: '000123456789', currency: 'EUR' }
+      })
+    end
+
+    context 'without a bank token' do
+      subject do
+        patch :accept_payments, structure_id: structure.id, id: subscription.id,
+          subscription: { legal_entity: legal_entity }
+      end
+
+      it "doesn't create a managed account" do
+        subject
+
+        structure.reload
+
+        expect(structure.stripe_managed_account_id).to be_nil
+        expect(structure.stripe_managed_account).to be_nil
+      end
+
+      it 'redirects to the home page' do
+        subject
+
+        structure.reload
+
+        expect(response).to redirect_to(action: :index, structure_id: structure.slug)
+      end
+    end
+
+    context 'with a bank token' do
+      it 'creates a managed account' do
+        patch :accept_payments, structure_id: structure.id, id: subscription.id,
+          subscription: { stripe_bank_token: bank_token }
+
+        structure.reload
+
+        expect(structure.stripe_managed_account_id).to_not be_nil
+        expect(structure.stripe_managed_account).to be_a(Stripe::Account)
+        expect(structure.stripe_managed_account_secret_key).to_not be_nil
+        expect(structure.stripe_managed_account_publishable_key).to_not be_nil
+      end
+
+      it 'redirects to the home page' do
+        patch :accept_payments, structure_id: structure.id, id: subscription.id,
+          subscription: { stripe_bank_token: bank_token, legal_entity: legal_entity }
+
+        expect(response).to redirect_to(action: :index, structure_id: structure.slug)
+      end
+    end
+
+  end
 end
