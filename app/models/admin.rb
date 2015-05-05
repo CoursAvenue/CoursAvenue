@@ -216,6 +216,9 @@ class ::Admin < ActiveRecord::Base
   end
 
   def delete_from_intercom
-    Intercom::User.find(user_id: "Admin_#{self.id}").delete
+    begin
+      Intercom::User.find(user_id: "Admin_#{self.id}").delete
+    rescue
+    end
   end
 end
