@@ -26,6 +26,17 @@ class StructureWebsiteParticipationRequestMailer < ActionMailer::Base
          reply_to: generate_reply_to('admin')
   end
 
+
+  ######################################################################
+  # Request has been accepted                                          #
+  ######################################################################
+  def request_has_been_accepted_by_user_to_teacher(participation_request, message=nil)
+    retrieve_participation_request_variables(participation_request)
+    @message = message if message
+    mail to: @admin.email, subject: "Inscription acceptée - #{@user.name}",
+         reply_to: generate_reply_to('admin')
+  end
+
   def request_has_been_accepted_by_teacher_to_user(participation_request, message=nil)
     retrieve_participation_request_variables(participation_request)
     @message = message if message
@@ -34,12 +45,51 @@ class StructureWebsiteParticipationRequestMailer < ActionMailer::Base
          reply_to: generate_reply_to('user')
   end
 
+  ######################################################################
+  # Request has been discussed                                         #
+  ######################################################################
+  def request_has_been_discussed_by_user_to_teacher(participation_request, message)
+    @message = message
+    retrieve_participation_request_variables(participation_request)
+    mail to: @admin.email, subject: "Nouveau message - #{@user.name}",
+         reply_to: generate_reply_to('admin')
+  end
+
+  ######################################################################
+  # Request has been modified                                          #
+  ######################################################################
+  def request_has_been_modified_by_user_to_teacher(participation_request, message)
+    @message = message
+    retrieve_participation_request_variables(participation_request)
+    mail to: @admin.email,
+         subject: (@participation_request.old_course_id.present? ? 'Changement de cours' : 'Changement de date') + " - #{@user.name}",
+         reply_to: generate_reply_to('admin')
+  end
+
   def request_has_been_modified_by_teacher_to_user(participation_request, message=nil)
     retrieve_participation_request_variables(participation_request)
     @message = message if message
     mail to: @user.email, subject: "Inscription acceptée - #{@structure.name}",
          from: "#{@structure.name} <hello@coursavenue.com>",
          reply_to: generate_reply_to('user')
+  end
+
+  ######################################################################
+  # Request has been canceled                                          #
+  ######################################################################
+  def request_has_been_canceled_by_teacher_to_user(participation_request, message)
+    retrieve_participation_request_variables(participation_request)
+    @message = message
+    mail to: @user.email, subject: "Inscription annulée - #{@structure.name}",
+         from: "#{@structure.name} <hello@coursavenue.com>",
+         reply_to: generate_reply_to('user')
+  end
+
+  def request_has_been_canceled_by_user_to_teacher(participation_request,  message)
+    retrieve_participation_request_variables(participation_request)
+    @message = message
+    mail to: @admin.email, subject: "Inscription annulée - #{@user.name}",
+         reply_to: generate_reply_to('admin')
   end
 
   private

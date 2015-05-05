@@ -1,0 +1,5 @@
+- content_for :email_title do
+  Répondez à #{@structure.name} en répondant directement à cet e-mail
+  %hr
+
+= simple_format(@message.body).gsub('<p>', '<div class="p">').gsub('</p>', '</div>').html_safe
