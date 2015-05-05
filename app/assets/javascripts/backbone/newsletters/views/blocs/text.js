@@ -20,6 +20,9 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
             return classes;
         },
 
+        ui: {
+            '$textarea' : '[data-type=redactor]'
+        },
         events: {
             'keyup input'     : 'silentSave',
             'keyup textarea'  : 'silentSave',
@@ -28,8 +31,6 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
         },
 
         initialize: function initialize () {
-            this._modelBinder = new Backbone.ModelBinder();
-
             var positionLabel = this.model.collection.where({ type: this.model.get('type') }).indexOf(this.model) + 1
             if (this.model.collection.multiBloc) {
                 positionLabel = this.model.collection.multiBloc.get('position');
@@ -47,41 +48,37 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
         // We then bind the model to the inputs by calling modelBinder.
         render: function render () {
             Backbone.Marionette.ItemView.prototype.render.apply(this, arguments);
-
-            this._modelBinder.bind(this.model, this.el);
         },
 
         onShow: function onShow () {
-            var text_areas = this.$el.find('[data-type=redactor]');
-            var model      = this.model;
+            var model = this.model;
+            // var $textarea = this.$el.find('[data-type=redactor]')
+            this.ui.$textarea.redactor({
+                  buttons: ['formatting', 'bold', 'italic','unorderedlist', 'orderedlist',
+                            'link', 'alignment', 'horizontalrule', 'underline'],
+                  lang: 'fr',
+                  formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
+                  blurCallback: function blurCallback (event) {
+                      model.set('content', this.ui.$textarea.val());
+                      this.ui.$textarea.trigger('change', event);
+                  }.bind(this),
+                  initCallback: function initCallback () {
+                      if (model.has('content') && ! _.isEmpty(model.get('content'))) {
+                          this.code.set(model.get('content'));
+                      } else {
+                          var structure      = window.coursavenue.bootstrap.models.structure;
+                          var defaultContent = Module.templateDirname() + 'text_content';
+                          var content = JST[defaultContent](structure);
 
-            text_areas.each(function(index, elem) {
-                $(elem).redactor({
-                      buttons: ['formatting', 'bold', 'italic','unorderedlist', 'orderedlist',
-                                'link', 'alignment', 'horizontalrule', 'underline'],
-                      lang: 'fr',
-                      formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
-                      blurCallback: function blurCallback (event) {
-                          this.$element.trigger('change', event);
-                      },
-                      initCallback: function initCallback () {
-                          if (model.has('content') && ! _.isEmpty(model.get('content'))) {
-                              this.code.set(model.get('content'));
-                          } else {
-                              var structure      = window.coursavenue.bootstrap.models.structure;
-                              var defaultContent = Module.templateDirname() + 'text_content';
-                              var content = JST[defaultContent](structure);
-
-                              this.code.set(content);
-                              // Save in DB to be able to preview the email
-                              model.set('content', content);
-                              // Prevent from bug, dunnow why...
-                              setTimeout(function() {
-                                  model.save();
-                              }, 500);
-                          }
-                      },
-                });
+                          this.code.set(content);
+                          // Save in DB to be able to preview the email
+                          model.set('content', content);
+                          // Prevent from bug, dunnow why...
+                          setTimeout(function() {
+                              model.save();
+                          }, 500);
+                      }
+                  },
             });
         },
 
