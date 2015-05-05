@@ -1168,6 +1168,9 @@ class Structure < ActiveRecord::Base
 
       business_name: self.name,
       business_url:  self.website,
+      metadata: {
+        structure: id
+      }
     }
 
     managed_account = Stripe::Account.create(options.merge(default_options))

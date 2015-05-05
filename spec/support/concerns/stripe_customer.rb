@@ -63,6 +63,13 @@ shared_examples_for 'StripeCustomer' do
           expect(stripe_customer).to be_a(stripe_customer_type)
         end
 
+        it 'saves the object id as metadata' do
+          stripe_customer = subject.create_stripe_customer(token)
+          key = described_class.to_s.downcase.to_sym
+
+          expect(stripe_customer.metadata[key]).to eq(subject.id)
+        end
+
         it 'saves the stripe customer id' do
           stripe_customer = subject.create_stripe_customer(token)
 
