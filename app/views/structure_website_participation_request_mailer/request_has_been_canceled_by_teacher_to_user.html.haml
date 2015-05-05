@@ -3,3 +3,6 @@
   %hr
 
 = simple_format(@message.body).gsub('<p>', '<div class="p">').gsub('</p>', '</div>').html_safe
+
+- content_for :under_content do
+  = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: @participation_request }

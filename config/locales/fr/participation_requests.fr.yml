@@ -30,7 +30,7 @@ fr:
         dont_give_this_course_anymore: Je ne propose plus ce cours
         dont_take_new_students: Je ne prends plus de nouveaux inscrits
         request_already_treated: Cette inscription a déjà été traitée
-        fake_request: Il s'agit d'une fausse demande d'inscription
+        fake_request: Il s'agit d'une fausse demande d'inscription (réponse masquée)
         do_not_trust: Je n'ai pas confiance en cet élève (réponse masquée)
         other: Autre motif
       users:

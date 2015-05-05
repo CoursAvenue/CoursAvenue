@@ -25,6 +25,8 @@ class Pro::HomeController < Pro::ProController
   end
 
   def price
+    @monthly_plans = Subscriptions::Plan.monthly.decorate
+    @yearly_plans  = Subscriptions::Plan.yearly.decorate
     @email = ::Email.new
   end
 

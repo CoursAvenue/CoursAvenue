@@ -8,8 +8,17 @@
     %tr{ valign: 'top' }
       %td.v-top.content-block{ colspan: 3, style: 'padding: 8px 4px;'}
         .title Récapitulatif de la demande d'inscription
+  %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
+    %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
+      .p.hard
+        %strong Statut
+    %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
+      .p.hard
+        = I18n.t("participation_request.state.#{participation_request.state}")
+        - if participation_request.canceled? and participation_request.cancelation_reason and !participation_request.cancelation_reason.hidden
+          %strong= "(#{t(participation_request.cancelation_reason.name)})"
   - if participation_request.from_personal_website?
-    %tr{ valign: 'top' }
+    %tr.table-row-alternate-color{ valign: 'top' }
       %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
         .p.hard
           %strong Contact
@@ -19,7 +28,7 @@
             Tél. : #{@structure.phone_numbers.map(&:number).join(', ')} /
           E-mail : #{@structure.main_contact.email}
 
-  %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
+  %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
       .p.hard
         - if participation_request.from_personal_website?
@@ -32,13 +41,6 @@
           = participation_request.structure.name
         - if participation_request.accepted? and participation_request.structure.phone_numbers.any?
           = "(#{participation_request.structure.phone_numbers.map(&:number).join(', ')})"
-  %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
-    %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
-      .p.hard
-        %strong Statut
-    %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
-      .p.hard
-        = I18n.t("participation_request.state.#{participation_request.state}")
   %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
       .p.hard
