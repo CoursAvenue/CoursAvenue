@@ -16,7 +16,15 @@ class Subscription < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessor :stripe_token
+  attr_accessor :stripe_token, :stripe_bank_token, :bank_account_number,
+    :address_line1, :address_line2, :address_city, :address_state, :address_postal_code,
+    :address_country, :business_type, :business_name, :business_address_line1,
+    :business_address_line2, :business_name, :business_address_line1, :business_address_line2,
+    :business_address_city, :business_address_state, :business_address_postal_code,
+    :owner_first_name, :owner_last_name, :owner_dob_day, :owner_dob_month, :owner_dob_year,
+    :owner_address_line1, :owner_address_line2, :owner_address_city, :owner_address_state,
+    :owner_address_postal_code, :owner_address_country
+
   attr_accessible :structure, :coupon, :plan, :stripe_subscription_id, :trial_end,
     :cancelation_reason_dont_want_more_students,
     :cancelation_reason_stopping_activity,

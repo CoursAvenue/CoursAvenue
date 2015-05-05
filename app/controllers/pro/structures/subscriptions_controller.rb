@@ -114,4 +114,46 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   def subscription_plan_id_params
     params.permit(:plan_id)
   end
+
+  def accept_payments_permitted_params
+    params.require(:subscription).permit(
+      :stripe_token, :stripe_bank_token, :bank_account_number,
+      :address_line1, :address_line2, :address_city, :address_state, :address_postal_code,
+      :address_country, :business_type, :business_name, :business_address_line1,
+      :business_address_line2, :business_name, :business_address_line1, :business_address_line2,
+      :business_address_city, :business_address_state, :business_address_postal_code,
+      :owner_first_name, :owner_last_name, :owner_dob_day, :owner_dob_month, :owner_dob_year,
+      :owner_address_line1, :owner_address_line2, :owner_address_city, :owner_address_state,
+      :owner_address_postal_code, :owner_address_country)
+  end
+
+  def build_legal_entity(form_params)
+    {
+      address: {
+        line1:       form_params[:business_address_line1],
+        line2:       form_params[:business_address_line1],
+        city:        form_params[:business_address_city],
+        state:       form_params[:business_address_state],
+        postal_code: form_params[:business_address_postal_code],
+        country:     'FR',
+      },
+      dob: {
+        day:   form_params[:owner_dob_day],
+        month: form_params[:owner_dob_month],
+        year:  form_params[:owner_dob_year],
+      },
+      personal_address: {
+        line1:       form_params[:owner_address_line1],
+        city:        form_params[:owner_address_city],
+        state:       form_params[:owner_address_state],
+        postal_code: form_params[:owner_address_postal_code],
+        country:     'FR',
+      },
+      business_name: form_params[:business_name],
+      first_name: form_params[:owner_first_name],
+      last_name: form_params[:owner_last_name],
+      type: form_params[:business_type],
+      additional_owners: nil,
+    }
+  end
 end
