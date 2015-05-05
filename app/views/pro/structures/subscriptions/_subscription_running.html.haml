@@ -16,3 +16,20 @@
   = link_to 'Résilier mon abonnement', cancel_pro_structure_subscription_path(@structure, @subscription), class: 'red fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
 %p
   = link_to 'Changer mon abonnement', choose_new_plan_pro_structure_subscription_path(@structure, @subscription), class: 'fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
+
+%hr.push--ends
+%h3 Accpeter des paiemnts
+
+- if @structure.stripe_managed_account_id.present?
+  Vous pouvez recevoir des paiements.
+- else
+  = link_to 'Activer la reception des paiements', 'javascript:void(0)', data: { behavior: 'toggle-form' }
+
+  = render 'accept_payments'
+
+- content_for :scripts do
+  :javascript
+
+    $('[data-behavior=toggle-form]').click(function() {
+        $('#managed_account').slideToggle();
+    });

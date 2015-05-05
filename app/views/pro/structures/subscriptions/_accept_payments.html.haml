@@ -1,0 +1,96 @@
+#managed_account
+  .panel
+    .panel__header.soft
+      .delta.line-height-normal
+        %h3.flush Accpeter les paiments
+    .panel__body.soft
+      %p.epsilon
+        Blabla Stripe
+        Pour accepter les paiements, vous devez renseigner les information suivantes:
+
+      = simple_form_for [:pro, @structure, @subscription], url: accept_payments_pro_structure_subscription_path(@structure, @subscription), method: :patch, html: { id: 'managed_account_form' } do |f|
+        = f.input :stripe_bank_token, as: :hidden
+
+        %hr.push--ends
+        %h5 Informations sur l'etablissement
+        - types = { individual: 'Personel', company: 'Entreprise' }
+        = f.input :business_type, as: :select, collection: types.keys, label_method: lambda { |key| types[key] }, label: "Type d'etablissement",
+          label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        = f.input :business_name, label: "Nom de l'etablissement", label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.name }, required: true
+        = f.input :business_address_line1, label: 'Adresse 1', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        = f.input :business_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+        = f.input :business_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        = f.input :business_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        = f.input :business_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        -# = f.input :business_address_country, label: '', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+
+        %hr.push--ends
+        %h5 Informations bancaires
+        = f.input :bank_account_number, label: 'Numéro IBAN', label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { stripe: true } }, required: true
+        #bank_account_number_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+
+        %hr.push--ends
+        %h5 Informations personnelles
+        = f.input :owner_first_name, label: 'Prénom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        = f.input :owner_last_name,  label: 'Nom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+
+        .input.flush--top
+          = f.label :owner_dob_day, label: 'Date de naissance', class: 'label--large nowrap'
+          = f.input :owner_dob_day, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+          = f.input :owner_dob_month, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+          = f.input :owner_dob_year, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+
+        = f.input :owner_address_line1, label: "Adresse 1", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        = f.input :owner_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+        = f.input :owner_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        = f.input :owner_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        = f.input :owner_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        -# = f.input :owner_address_country, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+
+        .grid
+          .grid__item.three-twelfths>
+            = link_to 'Annuler', '#', class: 'btn btn--full btn--gray'
+          .grid__item.nine-twelfths>
+            = link_to 'Enregistrer', 'javascript:void(0)', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement", form: 'submit' }
+            -# = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
+            .smallprint
+              En cliquant sur ce boutton, vous acceptez nos
+              = link_to 'CGV', '#'
+              et l'
+              = link_to "l'Accord Stripe Connected Account", "https://stripe.com/connect/account-terms", target: :_blank
+              \.
+
+- content_for :scripts do
+  = javascript_include_tag '//js.stripe.com/v2/'
+
+  :javascript
+    var stripe_error_codes = #{ I18n.t('stripe.error_codes').to_json };
+    $(document).ready(function() {
+        Stripe.setPublishableKey("#{ Rails.configuration.stripe[:publishable_key] }");
+
+        function stripeResponseHandler(status, response) {
+            var form = $('#managed_account_form');
+
+            if (response.error) {
+                var errorText = stripe_error_codes[response.error.type] || 'Votre IBAN est incorrect';
+                $('#bank_account_number_error').text(errorText).show();
+                debugger
+            } else {
+                var stripeBankToken = response.id;
+                $("[name='subscription[stripe_bank_token]']").val(stripeBankToken);
+                form.submit();
+            }
+        }
+
+        $('[data-form=submit]').click(function(event) {
+            event.preventDefault();
+
+            debugger
+
+            Stripe.bankAccount.createToken({
+                country:        'FR',
+                currency:       'EUR',
+                account_number: $('[data-stripe]').val()
+            }, stripeResponseHandler);
+        });
+    });
