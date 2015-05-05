@@ -54,7 +54,7 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
                 this.silentSave();
                 $.fancybox.close();
             }.bind(this));
-            $.fancybox.open(image_gallery_picker_view.$el, { width: 550, minWidth: 550, padding: 0 });
+            $.fancybox.open(image_gallery_picker_view.$el, { width: 550, minWidth: 550, maxWidth: 550, padding: 0 });
         },
 
         // Custom render function.
