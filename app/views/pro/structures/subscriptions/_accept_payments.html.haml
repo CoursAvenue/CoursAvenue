@@ -14,9 +14,13 @@
         %hr.push--ends
         %h5 Informations sur l'etablissement
         - types = { individual: 'Personel', company: 'Entreprise' }
-        = f.input :business_type, as: :select, collection: types.keys, label_method: lambda { |key| types[key] }, label: "Type d'etablissement",
-          label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        = f.input :business_type, as: :select, collection: types.keys, label_method: lambda { |key| types[key] }, default: types.keys.first, label: "Type d'etablissement", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        %p.flush
+          %i.blue
+            TODO: Texte d'explication pour la difference.
+
         = f.input :business_name, label: "Nom de l'etablissement", label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.name }, required: true
+        = f.input :business_url, label: "Site Web", label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.website }, required: true
         = f.input :business_address_line1, label: 'Adresse 1', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
         = f.input :business_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
         = f.input :business_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true

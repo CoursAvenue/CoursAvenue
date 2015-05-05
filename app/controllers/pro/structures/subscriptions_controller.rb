@@ -147,7 +147,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     params.require(:subscription).permit(
       :stripe_token, :stripe_bank_token, :bank_account_number,
       :address_line1, :address_line2, :address_city, :address_state, :address_postal_code,
-      :address_country, :business_type, :business_name, :business_address_line1,
+      :address_country, :business_type, :business_name, :business_url, :business_address_line1,
       :business_address_line2, :business_name, :business_address_line1, :business_address_line2,
       :business_address_city, :business_address_state, :business_address_postal_code,
       :owner_first_name, :owner_last_name, :owner_dob_day, :owner_dob_month, :owner_dob_year,
@@ -178,10 +178,11 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
         country:     'FR',
       },
       business_name: form_params[:business_name],
+      business_url: form_params[:business_url],
       first_name: form_params[:owner_first_name],
       last_name: form_params[:owner_last_name],
       type: form_params[:business_type],
-      additional_owners: nil,
+      additional_owners: nil
     }
   end
 end
