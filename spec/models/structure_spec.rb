@@ -491,24 +491,42 @@ describe Structure do
 
     describe '#create_managed_account' do
       context 'when not a managed account' do
-        it 'creates a managed account' do
-          subject.create_managed_account
+        context 'without the bank account' do
+          it 'return false' do
+            return_value = subject.create_managed_account
 
-          expect(subject.stripe_managed_account_id).to_not be_nil
-          expect(subject.stripe_managed_account).to be_a(Stripe::Account)
+            expect(return_value).to be_falsy
+            expect(subject.stripe_managed_account_id).to be_nil
+            expect(subject.stripe_managed_account).to be_nil
+          end
         end
 
-        it 'saves the API keys for this account' do
-          subject.create_managed_account
+        context 'with a bank account' do
+          let(:bank_account) do
+            StripeMock.generate_bank_token({
+              bank_account: { country: 'FR', account_number: '000123456789', currency: 'EUR' }
+            })
+          end
 
-          expect(subject.stripe_managed_account_secret_key).to_not      be_nil
-          expect(subject.stripe_managed_account_publishable_key).to_not be_nil
+          it 'creates a managed account' do
+            subject.create_managed_account({ bank_account: bank_account })
+
+            expect(subject.stripe_managed_account_id).to_not be_nil
+            expect(subject.stripe_managed_account).to be_a(Stripe::Account)
+          end
+
+          it 'saves the API keys for this account' do
+            subject.create_managed_account({ bank_account: bank_account })
+
+            expect(subject.stripe_managed_account_secret_key).to_not      be_nil
+            expect(subject.stripe_managed_account_publishable_key).to_not be_nil
+          end
         end
       end
 
       context 'when a managed account' do
         it "doesn't do anything" do
-          subject.create_managed_account
+          subject.create_managed_account({ bank_account: bank_account })
 
           expect(Stripe::Account).to_not receive(:create)
         end

@@ -1158,12 +1158,13 @@ class Structure < ActiveRecord::Base
   # @return nil or a Stripe::Account
   def create_managed_account(options = {})
     return stripe_managed_account if self.stripe_managed_account_id.present?
+    return false                  if options[:bank_account].nil?
 
     default_options = {
       managed:  true,
       country:  'FR',
 
-      email:                self.contact_email,
+      email: self.contact_email,
 
       business_name: self.name,
       business_url:  self.website,
