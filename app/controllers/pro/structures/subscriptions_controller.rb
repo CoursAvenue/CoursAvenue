@@ -121,9 +121,11 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     created = @structure.create_managed_account(managed_account_options)
 
     if created
-      redirect_to pro_structure_subscriptions_path(@structure), notice: 'ok'
+      redirect_to pro_structure_subscriptions_path(@structure),
+        notice: 'Vos informations ont été reçus avec succès'
     else
-      redirect_to pro_structure_subscriptions_path(@structure), error: 'ko'
+      redirect_to pro_structure_subscriptions_path(@structure),
+        error: 'Une erreur est survenue, veuillez rééssayer.'
     end
   end
 
