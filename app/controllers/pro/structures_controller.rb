@@ -390,6 +390,10 @@ France
   def logo
   end
 
+  # GET structure/:id/planning-sur-mon-site
+  def website_planning
+  end
+
   private
 
   # Return the next wizard regarding the params passed (skip: true)

@@ -206,6 +206,7 @@ CoursAvenue::Application.routes.draw do
           patch :update_and_delete
           post  :recommend_friends
           post  :update
+          get   :website_planning, path: 'planning-sur-mon-site'
           get   :premium # redirect to subscriptions
         end
         collection do
