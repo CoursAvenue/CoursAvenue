@@ -15,9 +15,9 @@ def create_legal_entity(structure)
       country:     'FR',
     },
     dob: {
-      day: dob.day,
+      day:   dob.day,
       month: dob.month,
-      year: dob.year,
+      year:  dob.year,
     },
     personal_address: {
       line1:       Faker::Address.street_address,
@@ -29,7 +29,8 @@ def create_legal_entity(structure)
     business_name: structure.name,
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
-    type: ['individual', 'company'].sample
+    type: ['individual', 'company'].sample,
+    additional_owners: nil
   }
   entity
 end
