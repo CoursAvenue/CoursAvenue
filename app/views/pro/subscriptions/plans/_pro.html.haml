@@ -1,50 +1,54 @@
-- if @structure.subscription
+- if @structure and @structure.subscription
   - url = change_plan_pro_structure_subscription_path(@structure, @structure.subscription, plan_id: plan.id)
   - method = :patch
-- else
+- elsif @structure
   - url = pro_structure_subscriptions_path(@structure, plan_id: plan.id)
   - method = :post
+- else
+  - url = inscription_pro_structures_path
+  - method = :get
+
 = link_to url, class: 'block muted-link text--center', method: method do
   .soft.rounded.bordered.bg-white.shadowed--bottom
-    %h2.flush Pro
+    %h2.flush Module
     %h4.flush= plan.price
     %p.flush 14 jours gratuits. Sans engagement
-  .btn.soft--sides.btn--green{ style: 'margin-top: -15px; margin-bottom: -15px;'} Essayer
+  .btn.soft--sides.btn--green{ style: 'margin-top: -15px; margin-bottom: -15px;'} Essayer gratuitement
   .bordered.soft.bg-white.shadowed--bottom.push-half--bottom
-    -# .text--center.line-height-1-5.v-middle.orange.soft--top>
-    -#   .f-weight-bold.gamma Visibilité
-    -#   %div Pour recruter de nouveaux élèves grâce à Internet
+    .text--center.line-height-1-5.v-middle.soft-half--ends>
+      .f-weight-bold.delta Annonce sur CoursAvenue
     .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.orange.soft-half--bottom>
-      Profil CoursAvenue
+      Profil complet
+    .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.orange.soft-half--bottom>
+      Inscriptions en ligne
     .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.orange>
       Avis & Livre d'Or
-    %hr.push--ends
-    .text--center.line-height-1-5.v-middle.green>
-      -# .f-weight-bold.gamma Attractivité
-      -# %div Pour convertir les visiteurs de votre site en inscrits
-    .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.green.soft-half--bottom>
-      Page planning sur votre site Internet
-      %br
-      optimisée mobiles & tablettes
+    -# %hr.push--ends
+    .text--center.v-middle.soft-half--ends.push-half--top>
+      .line-height-1-3.f-weight-bold.delta Modules à installer sur votre propre site Internet
+    .text--center.epsilon.line-height-1-5.v-middle.green.soft-half--bottom>
+      .epsilon.f-weight-bold Page planning
+      %div optimisée mobiles & tablettes
     .text--center.line-height-1-5.v-middle.green.soft-half--bottom>
-      .epsilon.f-weight-bold Inscriptions en ligne
+      .epsilon.f-weight-bold Inscriptions en ligne 24h/24
       %div avec ou sans paiement en ligne
+    .text--center.epsilon.line-height-1-5.v-middle.green>
+      .epsilon.f-weight-bold Bons cadeaux
+      %div pour que vos activités puissent être offertes
     .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.green>
-      Bons cadeaux
-    .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.green>
-      Statistiques de trafic
-    %hr.push--ends
-    -# .text--center.line-height-1-5.v-middle.dark-blue>
-    -#   .f-weight-bold.gamma Fidélisation
-    -#   %div Pour faire revenir plus souvent vos élèves
+      Livre d'Or
+    -# %hr.push--ends
+    .text--center.v-middle.soft-half--ends.push-half--top>
+      .line-height-1-3.f-weight-bold.delta Outils de gestion
+    .text--center.epsilon.line-height-1-5.v-middle.dark-blue.soft-half--bottom>
+      .epsilon.f-weight-bold Centralisation de vos inscriptions
+      %div notification par e-mail / SMS pour chaque nouvel inscrit
     .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.dark-blue.soft-half--bottom>
       Newsletters
     .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.dark-blue.soft-half--bottom>
       Multi-postage sur les réseaux sociaux
     .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.dark-blue.soft-half--bottom>
-      Questionnaire de satisfaction
+      Statistiques de trafic
   %p.textt--center.soft--sides.epsilon
     %i
-      Idéal pour booster le nombre de nouveaux
-      %br
-      inscrits et fidéliser vos élèves
+      Equipez votre site Internet des meilleurs outils pour booster vos inscriptions

@@ -4,15 +4,84 @@
 = content_for :meta_description do
   Optimisez votre visibilité, augmentez votre taux d'inscription et de fidélisation. Trafic supplémentaire ciblé et rentabilité.
 
-= render layout: 'pro/home/header_layout', locals: { current: 'prices' } do
-  %h1.f-size-big.text--center.white.relative.main-container.mega-soft--ends
-    Essayez CoursAvenue gratuitement.
+= render layout: 'pro/home/header_layout', locals: { current: 'prices', full: true } do
+  .main-container.mega-soft--top
+    %h1.flush.f-size-big.text--center.white.relative
+      L'essentiel pour développer vos activités de loisirs
 
-.main-container.main-container--medium.relative.soft--ends
-  .grid--full
-    = render partial: 'pro/subscriptions/plans/free'
-    = render partial: 'pro/subscriptions/plans/pro', locals: { plan: nil }
-    = render partial: 'pro/subscriptions/plans/pro_plus', locals: { plan: nil }
+  .main-container.main-container--medium.relative.mega-soft--ends
+    .grid.white
+      .grid__item.one-third.palm-one-whole.text--center>
+        %a.muted-link{ href: '#offers', data: { behavior: 'scroll-to' } }>
+          .opacity-hidden-on-hover__wrapper
+            .transparant-white-box.rounded.soft.orange-box--on-hover
+              %h2.alpha.push--top.flush Basic
+              %h3.epsilon.f-style-italic.visuallyhidden--palm.soft--bottom Augmentez votre visibilité et le bouche-à-oreille sur Internet
+              .beta.f-weight-bold.line-height-1-5 Gratuit
+              .epsilon
+                &nbsp;
+            .opacity-hidden-on-hover__child.soft--top.visuallyhidden--palm
+              .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
+                Annonce sur CoursAvenue
+      .grid__item.one-third.palm-one-whole.text--center>
+        %a.muted-link{ href: '#offers', data: { behavior: 'scroll-to' } }>
+          .opacity-hidden-on-hover__wrapper
+            .transparant-white-box.rounded.soft.dark-blue-box--on-hover
+              %h2.alpha.push--top.flush Modules
+              %h3.epsilon.f-style-italic.visuallyhidden--palm.soft--bottom Equipez votre site Internet des meilleurs outils pour booster vos inscriptions
+              .beta.f-weight-bold.line-height-1-5
+                49€ / mois
+              .epsilon.f-weight-bold
+                Sans engagement
+            .opacity-hidden-on-hover__child.soft--top.visuallyhidden--palm
+              .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
+                Annonce sur CoursAvenue
+              .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
+                Modules à installer sur votre propre site Internet
+              .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
+                Outils de gestion
+      .grid__item.one-third.palm-one-whole.text--center>
+        %a.muted-link{ href: '#offers', data: { behavior: 'scroll-to' } }>
+          .opacity-hidden-on-hover__wrapper
+            .show-on-hover__wrapper
+              .transparant-white-box.rounded.soft.green-box--on-hover
+                %h2.alpha.push--top.flush Site Internet
+                %h3.epsilon.f-style-italic.visuallyhidden--palm.soft--bottom Bénéficiez d'un site Internet tout inclus conçu pour les activités de loisirs
+                .beta.f-weight-bold.line-height-1-5
+                  79€ / mois
+                .epsilon.f-weight-bold
+                  Sans engagement
+              .opacity-hidden-on-hover__child.soft--top.visuallyhidden--palm
+                .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
+                  Annonce sur CoursAvenue
+                .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
+                  Tout inclus dans un site web
+                .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
+                  Outils de gestion
+
+.main-container.main-container--medium.relative.soft--ends#offers
+  %ul.nav.tabs--link.flush.btn-group
+    %li.active>
+      %a.btn.rounded-right--none{ href: '.monthly-details', data: { toggle: 'tab' } } Mensuel
+    %li>
+      %a.btn.rounded-left--none{ href: '.annual-details', data: { toggle: 'tab' } } Annuel
+
+  .tab-pane.monthly-details.active.grid--full
+    .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+      = render partial: 'pro/subscriptions/plans/free'
+    .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+      = render partial: 'pro/subscriptions/plans/pro', locals: { plan: @monthly_plans.first }
+    .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+      = render partial: 'pro/subscriptions/plans/pro_plus', locals: { plan: @monthly_plans.last }
+
+  .tab-pane.annual-details.hidden.grid--full
+    .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+      = render partial: 'pro/subscriptions/plans/free'
+    .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+      = render partial: 'pro/subscriptions/plans/pro', locals: { plan: @yearly_plans.first }
+    .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+      = render partial: 'pro/subscriptions/plans/pro_plus', locals: { plan: @yearly_plans.last }
+
 
 
 = render partial: 'testimonies_banner', locals: { profile: 'alain'}
