@@ -36,5 +36,14 @@ Newsletter.module('Models', function(Module, App, Backbone, Marionette, $, _) {
             this.set('type', backend_types[model.type]);
         },
 
+        // For some reason, when updating, some attributes are not namespaced into `bloc`,
+        // and are therefore not found by Rails strong parameters. This fixes that by manually
+        // generating the JSON sent to the server.
+        toJSON: function toJSON () {
+            var serialized_new_attributes        = _.clone(this.attributes);
+            serialized_new_attributes.newsletter = null; // We do not need newsletter attributes
+            return { bloc: serialized_new_attributes }
+        }
+
     });
 });
