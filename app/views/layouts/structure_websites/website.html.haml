@@ -18,3 +18,8 @@
 = render :template => '/layouts/structure_websites/application'
 
 #coursavenue-footer
+= content_for :scripts do
+  :javascript
+      $(function() {
+          CoursAvenue.statistic.logView(#{@structure.id}, 'website');
+      });

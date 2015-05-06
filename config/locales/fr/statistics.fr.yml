@@ -13,5 +13,9 @@ fr:
       advices: >
         <p><strong>Conseils personnalisés</strong></p>
         <p>L'objectif de votre profil CoursAvenue est de maximiser le nombre de visites et de mises en relation avec des élèves potentiels. Grâce au volume de profils présents sur CoursAvenue, nous analysons les comportements des internautes pour comprendre ce qui les pousse à prendre contact avec nos partenaires.</p>
-
-
+      premium_infos: >
+        <p><strong>Suivez les performances de votre propre site Internet</strong></p>
+        <p>Grâce à nos offres Modules et Site Internet, suivez le trafic de vos pages</p>
+        <p><strong>Visiteurs site Internet</strong> (uniquement proposé dans l'offre Modules) = nombre d'Internautes ayant visité votre site Internet (n'importe quelle page du site). Plusieurs pages visitées par un seul et même utilisateur compte comme 1.</p>
+        <p><strong>Visiteurs page Planning</strong> = nombre d'Internautes ayant visualisé votre page planning.</p>
+        <p><strong>Inscriptions</strong> = nombre de demandes d'inscription en ligne via le bouton « M'inscrire » du planning.</p>

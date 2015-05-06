@@ -53,6 +53,19 @@ class Analytic::Client
       for_structure(structure_id).to_a
   end
 
+  # Retrieve all the metrics for the supplied structure and given page_name.
+  #
+  # @param structure_id The structure id
+  # @param page_name    The name of the page (eg. 'website' or 'website/planning')
+  # @param start_date   The start date, by default 15 days ago.
+  # @param end_date     The end date, by defautl yesterday.
+  #
+  # @return an OpenStruct with the data.
+  def page_views(structure_id, page_name, start_date = 15.days.ago, end_date = 1.day.ago)
+    Analytic::Hit.results(profile, start_date: start_date, end_date: end_date).
+      for_structure("#{structure_id}/page/#{page_name}").to_a
+  end
+
   # Retrieve the impression count in the given interval for the supplied structure.
   #
   # TODO: Cache results for the three functions bellow, since they will probably be called in
