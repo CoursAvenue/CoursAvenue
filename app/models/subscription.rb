@@ -40,8 +40,7 @@ class Subscription < ActiveRecord::Base
     :cancelation_reason_stopping_activity,
     :cancelation_reason_didnt_have_return_on_investment,
     :cancelation_reason_too_hard_to_use,
-    :cancelation_reason_not_satisfied_of_coursavenue_users,
-    :cancelation_reason_other
+    :cancelation_reason_not_satisfied_of_coursavenue_users
 
   ######################################################################
   # Validations                                                        #

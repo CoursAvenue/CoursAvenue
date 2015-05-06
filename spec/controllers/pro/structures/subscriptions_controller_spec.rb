@@ -245,13 +245,13 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
     it 'cancels the subscription' do
       delete :destroy, structure_id: structure.slug, id: subscription.id
 
-      expect(subscription.canceled?).to be_truthy
+      expect(subscription.reload.canceled?).to be_truthy
     end
 
     it 'saves the cancelation reasons' do
-      delete :destroy, structure_id: structure.slug, id: subscription.id, cancelation_reason_other: cancelation_reason
+      delete :destroy, structure_id: structure.slug, id: subscription.id, subscription: { cancelation_reason_other: cancelation_reason }
 
-      expect(subscription.cancelation_reason).to eq(cancelation_reason)
+      expect(subscription.reload.cancelation_reason_other).to eq(cancelation_reason)
     end
 
     it 'redirects to the plans page' do
