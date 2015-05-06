@@ -16,14 +16,19 @@
   = link_to 'Résilier mon abonnement', cancel_pro_structure_subscription_path(@structure, @subscription), class: 'red fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
 %p
   = link_to 'Changer mon abonnement', choose_new_plan_pro_structure_subscription_path(@structure, @subscription), class: 'fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
+%p
+  = link_to 'Mettre à jour mes informations bancaires', '#' # , class: 'fancybox.ajax', data: { behavior: 'modal', width: '600', padding: 0 }
 
 %hr.push--ends
-%h3 Accpeter des paiemnts
+%h3 Accepter des paiemnts
+%p
+  Grace à votre abonnement <strong>#{ @subscription.plan_name }</strong>, vous pouvez accepter les paiement de vos élèves depuis la platforme CoursAvenue.
 
 - if @structure.stripe_managed_account_id.present?
-  Vous pouvez recevoir des paiements.
+  = link_to 'Mettre à jour mes information bancaires', '#' #, class: 'fancybox.ajax', data: { behavior: 'modal', width: '600', padding: 0 }
 - else
-  = link_to 'Activer la reception des paiements', 'javascript:void(0)', data: { behavior: 'toggle-form' }
+  .text--center
+    = link_to 'Activer la reception des paiements', 'javascript:void(0)', class: 'btn btn--green', data: { behavior: 'toggle-form' }
 
   = render 'accept_payments'
 

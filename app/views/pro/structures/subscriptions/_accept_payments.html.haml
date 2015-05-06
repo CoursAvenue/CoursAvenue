@@ -1,12 +1,13 @@
-#managed_account
+#managed_account.hidden.push--top
   .panel
-    .panel__header.soft
-      .delta.line-height-normal
-        %h3.flush Accpeter les paiments
     .panel__body.soft
       %p.epsilon
-        Blabla Stripe
-        Pour accepter les paiements, vous devez renseigner les information suivantes:
+        Pour la gestion des données bancaire, nous utilisons le service
+        = link_to 'Stripe', 'https://stripe.com/fr'
+        -# Nous utilisons
+        -# = link_to 'Stripe', 'https://stripe.com/fr'
+        -# pour la gestion des informations bancaires. Plus d'informations dans
+        -# = link_to " les conditions générales d'utilsations de Stripe.", 'https://stripe.com/fr/terms'
 
       = simple_form_for [:pro, @structure, @subscription], url: accept_payments_pro_structure_subscription_path(@structure, @subscription), method: :patch, html: { id: 'managed_account_form' } do |f|
         = f.input :stripe_bank_token, as: :hidden
@@ -19,39 +20,125 @@
           %i.blue
             TODO: Texte d'explication pour la difference.
 
-        = f.input :business_name, label: "Nom de l'etablissement", label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.name }, required: true
-        = f.input :business_url, label: "Site Web", label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.website }, required: true
-        = f.input :business_address_line1, label: 'Adresse 1', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        = f.input :business_name, label: "Nom de l'etablissement", label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.name,
+          data: { required: true, error_el: '#business_name_error' } }, required: true
+        #business_name_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+        = f.input :business_url, label: "Site Web", label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.website }
+        = f.input :business_address_line1, label: 'Adresse 1', label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { required: true, error_el: '#business_address_line1_error' } }, required: true
+        #business_address_line1_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
         = f.input :business_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-        = f.input :business_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-        = f.input :business_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-        = f.input :business_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-        -# = f.input :business_address_country, label: '', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+        = f.input :business_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { required: true, error_el: '#business_address_city_error' } }, required: true
+        #business_address_city_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+        = f.input :business_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { required: true, error_el: '#business_address_postal_code_error' } }, required: true
+        #business_address_postal_code_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+        = f.input :business_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { required: true, error_el: '#business_address_state_error' } }, required: true
+        #business_address_state_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+        -# = f.input :business_address_country, label: '', label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { required: true } }
 
         %hr.push--ends
         %h5 Informations bancaires
         = f.input :bank_account_number, label: 'Numéro IBAN', label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { stripe: true } }, required: true
         #bank_account_number_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
 
-        %hr.push--ends
-        %h5 Informations personnelles
-        = f.input :owner_first_name, label: 'Prénom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-        = f.input :owner_last_name,  label: 'Nom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+        %div{ data: { behavior: 'show-more-on-demand' } }
+          %div{ data: { el: true, hidden: false } }
+            %hr.push--ends
+            %h5 Informations personnelles
+            = f.input :owner_first_name, label: 'Prénom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_last_name,  label: 'Nom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
 
-        .input.flush--top
-          = f.label :owner_dob_day, label: 'Date de naissance', class: 'label--large nowrap'
-          = f.input :owner_dob_day, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
-          = f.input :owner_dob_month, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
-          = f.input :owner_dob_year, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+            .input.flush--top
+              = f.label :owner_dob_day, label: 'Date de naissance', class: 'label--large nowrap'
+              = f.input :owner_dob_day, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+              = f.input :owner_dob_month, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+              = f.input :owner_dob_year, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
 
-        = f.input :owner_address_line1, label: "Adresse 1", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-        = f.input :owner_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-        = f.input :owner_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-        = f.input :owner_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-        = f.input :owner_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-        -# = f.input :owner_address_country, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+            = f.input :owner_address_line1, label: "Adresse 1", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+            = f.input :owner_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            -# = f.input :owner_address_country, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
-        .grid
+          %hr.push--ends
+
+          %p
+            Dans le case ou vous n'êtes pas la seule personne en charge de la structure, vous devez renseigner ci-dessous les informations de chaques personnes detenant plus de 25% de la structure.
+
+          %div{ data: { el: true, hidden: true } }
+            %hr.push--ends
+            %h5 Informations supplémentaire
+            = f.input :owner_first_name, label: 'Prénom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_last_name,  label: 'Nom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+
+            .input.flush--top
+              = f.label :owner_dob_day, label: 'Date de naissance', class: 'label--large nowrap'
+              = f.input :owner_dob_day, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+              = f.input :owner_dob_month, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+              = f.input :owner_dob_year, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+
+            = f.input :owner_address_line1, label: "Adresse 1", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+            = f.input :owner_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            -# = f.input :owner_address_country, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+            .input.text--right
+              %a{ data: { clear: true }, href: 'javascript:void(0)' }
+                %i.fa-trash-o
+                Supprimer
+
+          %div{ data: { el: true, hidden: true } }
+            %hr.push--ends
+            %h5 Informations supplémentaire
+            = f.input :owner_first_name, label: 'Prénom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_last_name,  label: 'Nom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+
+            .input.flush--top
+              = f.label :owner_dob_day, label: 'Date de naissance', class: 'label--large nowrap'
+              = f.input :owner_dob_day, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+              = f.input :owner_dob_month, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+              = f.input :owner_dob_year, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+
+            = f.input :owner_address_line1, label: "Adresse 1", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+            = f.input :owner_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            -# = f.input :owner_address_country, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+            .input.text--right
+              %a{ data: { clear: true }, href: 'javascript:void(0)' }
+                %i.fa-trash-o
+                Supprimer
+
+          %div{ data: { el: true, hidden: true } }
+            %hr.push--ends
+            %h5 Informations supplémentaire
+            = f.input :owner_first_name, label: 'Prénom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_last_name,  label: 'Nom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+
+            .input.flush--top
+              = f.label :owner_dob_day, label: 'Date de naissance', class: 'label--large nowrap'
+              = f.input :owner_dob_day, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+              = f.input :owner_dob_month, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+              = f.input :owner_dob_year, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+
+            = f.input :owner_address_line1, label: "Adresse 1", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+            = f.input :owner_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            -# = f.input :owner_address_country, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+            .input.text--right
+              %a{ data: { clear: true }, href: 'javascript:void(0)' }
+                %i.fa-trash-o
+                Supprimer
+
+          %a.btn.btn--green.btn--full{ data: { trigger: true }, href: 'javascript:void(0)' }
+            %i.fa.fa-plus
+            Ajouter une personne
+
+        .grid.push--top
           .grid__item.three-twelfths>
             = link_to 'Annuler', '#', class: 'btn btn--full btn--gray'
           .grid__item.nine-twelfths>
@@ -74,11 +161,18 @@
 
         function stripeResponseHandler(status, response) {
             var form = $('#managed_account_form');
+            var textErrorEl = '';
+
+            $('[data-required]').each(function(index, element) {
+                if ($(element).val() == '') {
+                    textErrorEl = $($(element).data('error-el'));
+                    textErrorEl.text('Ce champ est obligatoire, veuillez le remplir.').show();;
+                }
+            });
 
             if (response.error) {
                 var errorText = stripe_error_codes[response.error.type] || 'Votre IBAN est incorrect';
                 $('#bank_account_number_error').text(errorText).show();
-                debugger
             } else {
                 var stripeBankToken = response.id;
                 $("[name='subscription[stripe_bank_token]']").val(stripeBankToken);
@@ -89,12 +183,16 @@
         $('[data-form=submit]').click(function(event) {
             event.preventDefault();
 
-            debugger
+            $('[data-required]').each(function(index, element) {
+                errorEl = $($(element).data('error-el'))
+                errorEl.hide();
+            });
 
             Stripe.bankAccount.createToken({
                 country:        'FR',
                 currency:       'EUR',
                 account_number: $('[data-stripe]').val()
             }, stripeResponseHandler);
+
         });
     });
