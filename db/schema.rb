@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150504090944) do
+ActiveRecord::Schema.define(version: 20150506092439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -703,6 +703,7 @@ ActiveRecord::Schema.define(version: 20150504090944) do
     t.string   "stripe_charge_id"
     t.boolean  "from_personal_website",     default: false
     t.string   "token"
+    t.boolean  "refunded",                  default: false
   end
 
   add_index "participation_requests", ["stripe_charge_id"], name: "index_participation_requests_on_stripe_charge_id", unique: true, using: :btree

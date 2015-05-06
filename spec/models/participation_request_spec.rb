@@ -216,6 +216,28 @@ describe ParticipationRequest do
       end
     end
 
+    describe 'charged?' do
+      context "when there isn't a stripe_charge_id" do
+        it { expect(subject.charged?).to be_falsy }
+      end
+
+      context 'when there is a stripe_charge_id' do
+        before do
+          source        = stripe_helper.generate_card_token
+          stripe_charge = Stripe::Charge.create({
+            amount:   (5..30).to_a.sample * 100,
+            currency: Subscription::CURRENCY,
+            source:   source
+          })
+          subject.stripe_charge_id = stripe_charge.id
+
+          subject.save
+        end
+
+        it { expect(subject.charged?).to be_truthy }
+      end
+    end
+
     describe '#refund!' do
       context "when there isn't a stripe_charge_id" do
         it 'return nil' do

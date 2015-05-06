@@ -245,6 +245,13 @@ class ParticipationRequest < ActiveRecord::Base
     participants.map(&:total_price).reduce(0, :+).to_i
   end
 
+  # Whether the Participation Request has been charged to the user.
+  #
+  # @return a Boolean
+  def charged?
+    stripe_charge_id.present?
+  end
+
   # Retrieve the `Stripe::Charge` associated with the participation request.
   #
   # @return nil or Stripe::Charge
