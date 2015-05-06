@@ -30,7 +30,11 @@ def create_legal_entity(structure)
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
     type: ['individual', 'company'].sample,
-    additional_owners: nil
+    additional_owners: create_additional_owners
   }
   entity
+end
+
+def create_additional_owners
+  nil
 end
