@@ -2,6 +2,7 @@
   Votre abonnement <strong>à l'offre #{@subscription.plan.public_name}</strong> sera automatiquement renouvelé le
   %strong= l(@subscription.current_period_end, format: :date_short)
   et nous prélèverons
+  %strong= "#{@subscription.next_amount}€"
   = "#{@subscription.frequency},"
   sauf si vous l'annulez avant cette date. Vous pouvez annuler votre abonnement à tout moment en accédant à l'espace « Gestion de votre abonnement ».
 

@@ -1,5 +1,7 @@
 = side_menu_currently_at 'premium'
 
+= render partial: 'pro/structures/subscriptions/tabs', locals: { current: 'offers' }
+
 - if @subscription.present?
   = render 'subscription_details'
 - else

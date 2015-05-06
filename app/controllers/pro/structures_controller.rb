@@ -380,6 +380,10 @@ France
     end
   end
 
+  # GET structure/:id/communication
+  def communication
+  end
+
   # GET structure/:id/signature
   # Static page that show example of email signature for teachers
   def signature

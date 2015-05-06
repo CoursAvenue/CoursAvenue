@@ -1,17 +1,4 @@
-= side_menu_currently_at 'communicate'
-
-= render partial: 'pro/structures/communication_tabs', locals: {current: 'sticker'}
-
-%h3
-  Affichez votre réputation grâce à nos autocollants gratuits
-.alert.alert--info.push--bottom
-  %p
-    Félicitations, vous avez déjà plus de 15 recommandations d’élèves ! Cela signifie que vos élèves vous apprécient et que vos cours sont réputés. Pour vous, c’est un point fort à mettre en avant car cela vous différencie : communiquez sur votre réputation dès aujourd’hui, c’est le moyen le plus efficace et le plus économique pour attirer de nouveaux élèves.
-  %p.flush
-    Affichez votre réputation grâce à nos autocollants à coller partout : sur vos panneaux d’affichage (en plus de vos feuilles de plannings) ou dans vos salles de cours, à l’extérieur sur votre vitrine, sur vos flyers… plus il y en a, mieux c’est.
-
-%h3 Choisissez vos autocollants et commandez-les, c’est gratuit !
-
+- @sticker_demand ||= @structure.sticker_demands.new
 = simple_form_for [:pro, @structure, @sticker_demand] do |f|
   = f.error_notification
   - if @sticker_demand.errors.any?

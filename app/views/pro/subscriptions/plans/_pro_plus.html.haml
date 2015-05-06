@@ -1,6 +1,12 @@
+- is_subscribed_to_this_plan = false
 - if @structure and @structure.subscription
-  - url = change_plan_pro_structure_subscription_path(@structure, @structure.subscription, plan_id: plan.id)
-  - method = :patch
+  - if @structure.subscription.plan == plan
+    - url = 'javascript:void(0)'
+    - method = nil
+    - is_subscribed_to_this_plan = true
+  - else
+    - url = change_plan_pro_structure_subscription_path(@structure, @structure.subscription, plan_id: plan.id)
+    - method = :patch
 - elsif @structure
   - url = pro_structure_subscriptions_path(@structure, plan_id: plan.id)
   - method = :post
@@ -13,7 +19,14 @@
     %h2.flush Site Internet
     %h4.flush= plan.price
     %p.flush 14 jours gratuits. Sans engagement
-  .btn.soft--sides.btn--green{ style: 'margin-top: -15px; margin-bottom: -15px;'} Essayer gratuitement
+  - if is_subscribed_to_this_plan
+    .btn.soft--sides.btn--gray.btn--disabled{ style: 'margin-top: -15px; margin-bottom: -15px;'} Déjà abonné
+  - else
+    .btn.soft--sides.btn--green{ style: 'margin-top: -15px; margin-bottom: -15px;'}
+      - if @structure and @structure.subscription
+        Choisir
+      - else
+        Essayer gratuitement
   .bordered.soft.bg-white.shadowed--bottom.push-half--bottom
     .text--center.line-height-1-5.v-middle.soft-half--ends>
       .f-weight-bold.delta Annonce sur CoursAvenue

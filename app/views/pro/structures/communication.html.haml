@@ -1,0 +1,23 @@
+= side_menu_currently_at 'general'
+
+= render partial: 'pro/structures/general_tabs', locals: { current: 'communication' }
+
+
+%h1 Développez votre bouche à oreille
+
+%h2 Grâce à la signature de vos e-mails
+= render template: 'pro/structures/signature'
+
+%hr.push--ends
+
+%h2 Grâce au logo CoursAvenue
+.push--bottom= render template: 'pro/structures/logo'
+
+%hr.push--ends
+
+%h2 Grâce à vos autocollants CoursAvenue
+= render template: 'pro/structures/sticker_demands/new'
+- if @structure.sticker_demands.any?
+  .soft--top
+    %h4.push-half--bottom Suivi
+    = render template: 'pro/structures/sticker_demands/index'

@@ -195,6 +195,7 @@ CoursAvenue::Application.routes.draw do
           get   :premium_modal
           get   :recommendations, path: 'recommendations'
           get   :signature
+          get   :communication
           get   :update_widget_status
           patch :wake_up
           patch :return_to_sleeping_mode

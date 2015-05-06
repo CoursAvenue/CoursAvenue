@@ -37,15 +37,15 @@
 
 .tab-pane.monthly-details.active.grid--full
   - if @monthly_plans.any?
-    .grid__item.palm-hard.soft--right.one-half.palm-one-whole>
+    .grid__item.palm-hard.soft-half--right.one-half.palm-one-whole>
       = render partial: 'pro/subscriptions/plans/pro', locals: { plan: @monthly_plans.first }
-    .grid__item.palm-hard.soft--right.one-half.palm-one-whole>
+    .grid__item.palm-hard.soft-half--left.one-half.palm-one-whole>
       = render partial: 'pro/subscriptions/plans/pro_plus', locals: { plan: @monthly_plans.last }
 
 .tab-pane.annual-details.hidden.grid--full
   - if @yearly_plans.any?
-    .grid__item.palm-hard.soft--right.one-half.palm-one-whole>
+    .grid__item.palm-hard.soft-half--right.one-half.palm-one-whole>
       = render partial: 'pro/subscriptions/plans/pro', locals: { plan: @yearly_plans.first }
-    .grid__item.palm-hard.soft--right.one-half.palm-one-whole>
+    .grid__item.palm-hard.soft-half--left.one-half.palm-one-whole>
       = render partial: 'pro/subscriptions/plans/pro_plus', locals: { plan: @yearly_plans.last }
 
