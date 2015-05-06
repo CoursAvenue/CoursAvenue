@@ -92,7 +92,7 @@
                 %span.nowrap À partir du 5<sup>e</sup> avis :
                 %br
                 - if @structure.comments_count > 4
-                  = link_to widget_pro_structure_path(@structure), class: 'btn btn--blue nowrap text--center' do
+                  = link_to comments_on_website_pro_structure_comments_path(@structure), class: 'btn btn--blue nowrap text--center' do
                     Installer mon
                     %br
                     livre d'or
