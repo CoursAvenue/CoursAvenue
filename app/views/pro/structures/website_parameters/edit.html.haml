@@ -9,4 +9,8 @@
     .input-container>
       Pour modifier le nom de domaine de votre site (son URL), [envoyez-nous votre demande].
   = f.input :title, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+  .input.flush--top
+    .control-label>
+    .input-container>
+      Le titre principal apparaît sous le nom de votre structure et est utilisé par Google. Nous vous recommandons de décrire en moins de 10 mots les activités que vous proposez et leurs lieux géographiques. Ex. : Cours de dessin à Paris et Nanterre.
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
