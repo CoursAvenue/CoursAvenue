@@ -292,13 +292,16 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return
   def refund!
-    return nil if stripe_charge_id.nil? or stripe_charge.refunded
+    return nil if stripe_charge_id.nil? or stripe_charge.refunded or refunded?
 
     charge = stripe_charge
     refund = charge.refunds.create
 
     ParticipationRequestMailer.delay.send_charge_refunded_to_teacher(self)
     ParticipationRequestMailer.delay.send_charge_refunded_to_user(self)
+
+    self.refunded = true
+    save
 
     refund
   end

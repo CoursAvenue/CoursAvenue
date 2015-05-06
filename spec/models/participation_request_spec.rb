@@ -271,6 +271,12 @@ describe ParticipationRequest do
         it 'returns the refund' do
           expect(subject.refund!).to be_a(Stripe::Refund)
         end
+
+        it 'sets the refunded flag to true' do
+          subject.refund!
+
+          expect(subject.refunded?).to be_truthy
+        end
       end
     end
   end
