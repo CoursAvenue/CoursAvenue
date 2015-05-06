@@ -101,16 +101,6 @@ class Subscriptions::Plan < ActiveRecord::Base
       options.merge!({ coupon: coupon.stripe_coupon_id })
     end
 
-    # TODO: add Intercom event
-    # begin
-    #   Intercom::Event.create(event_name: "Confirmed account",
-    #                          created_at: Time.now.to_i,
-    #                          email: structure.email,
-    #                          user_id: "Admin_#{structure.id}")
-    # rescue
-    #   Bugsnag.notify(RuntimeError.new("Can't sync with Intercom after confirmation"), {email: self.email})
-    # end
-
     self.subscriptions.create({
       structure: structure,
       coupon:    coupon,
