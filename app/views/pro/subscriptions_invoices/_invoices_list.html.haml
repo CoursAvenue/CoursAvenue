@@ -1,0 +1,36 @@
+- invoice_path = "https://dashboard.stripe.com/#{ Rails.env.production? ? '' : 'test/' }invoices/"
+- if @pro_invoices.any?
+  %h3 Factures Établissement
+  .soft--sides.soft--top
+    - @pro_invoices.each do |invoice|
+      .flexbox.push--bottom
+        .flexbox__item.v-middle
+          %h4.flush--bottom
+            = invoice.structure.name
+            %span.caps.bg-green.white.smaller-print payée
+
+          = link_to 'Voir sur Stripe', "#{ invoice_path }#{ invoice.stripe_invoice_id }", target: :_blank
+
+        .flexbox__item.v-middle.text--right
+          = succeed ' ' do
+            = link_to invoice.pdf_url, class: 'btn btn--bigger', target: :_blank do
+              %i.fa.fa-eye
+      %hr
+
+- if @user_invoices.any?
+  %h3 Factures Élève
+  .soft--sides.soft--top
+    - @user_invoices.each do |invoice|
+      .flexbox.push--bottom
+        .flexbox__item.v-middle
+          %h4.flush--bottom
+            = "#{ invoice.participation_request.structure.name } et #{ invoice.participation_request.user.name }"
+            %span.caps.bg-green.white.smaller-print payée
+
+          = link_to 'Voir sur Stripe', "#{ invoice_path }#{ invoice.stripe_invoice_id }", target: :_blank
+
+        .flexbox__item.v-middle.text--right
+          = succeed ' ' do
+            = link_to invoice.pdf_url, class: 'btn btn--bigger', target: :_blank do
+              %i.fa.fa-eye
+      %hr
