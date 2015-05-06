@@ -293,7 +293,7 @@ describe ParticipationRequest do
       }.by(1)
     end
 
-    context "when the participation request is not free", with_mail: true do
+    context "when the participation request is not free" do
       before(:all) { StripeMock.start }
       after(:all)  { StripeMock.stop }
 

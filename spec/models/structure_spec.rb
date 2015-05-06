@@ -544,8 +544,10 @@ describe Structure do
       end
 
       context "when there's a managed account" do
+        let(:bank_token) { { country: 'FR', currency: 'EUR', account_number: '000123456789' } }
+
         before do
-          subject.create_managed_account({ email: Faker::Internet.email })
+          subject.create_managed_account({ email: Faker::Internet.email, bank_account: bank_token })
           subject.reload
         end
 
@@ -571,6 +573,7 @@ describe Structure do
           end
 
           it 'returns the managed account' do
+            subject.reload
             managed_account = subject.update_managed_account(options)
 
             expect(managed_account).to be_a(Stripe::Account)

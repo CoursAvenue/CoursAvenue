@@ -282,6 +282,8 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
   end
 
   describe '#reactivate' do
+    it 'reactivates the subscription'
+    it 'redirects to the index page'
   end
 
   describe '#accept_payments' do
