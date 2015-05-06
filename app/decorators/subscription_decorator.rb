@@ -8,4 +8,8 @@ class SubscriptionDecorator < Draper::Decorator
   def plan_name
     object.plan.public_name
   end
+
+  def structure_name
+    object.structure.name
+  end
 end
