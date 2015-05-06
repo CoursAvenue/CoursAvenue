@@ -152,6 +152,7 @@ CoursAvenue::Application.routes.draw do
       resources :promotion_codes, path: 'code-promos'
 
       resources :subscriptions_coupons, only: [:index, :new, :create, :destroy, :show]
+      resources :subscriptions,          only: [:index]
       resources :subscriptions_plans do
         member do
           get :subscriptions
