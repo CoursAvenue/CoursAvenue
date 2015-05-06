@@ -5,8 +5,8 @@
         #structure-region
     .grid__item.four-twelfths.palm-one-whole.visuallyhidden--palm>
       %div{ data: { type: 'contact-form' } }
-      .on-top.bg-site-background-on-stick.transition-all-300{ data: { type: 'sticky-map-container' } }>
-        .soft--top{ data: { type: 'sticky-map', stick: (@is_sleeping ? 'false' : 'true') } }>
+      .on-top.transition-all-300{ data: { type: 'sticky-map-container' } }>
+        .soft--top{ data: { type: 'sticky-map', offset_top: '0' } }>
 
   - if @structure.medias.empty?
     - @structure_locations = Gmaps4rails.build_markers([@structure]) do |structure, marker|
