@@ -8,6 +8,9 @@ class StructureWebsiteController < ApplicationController
 
   def load_structure
     @structure = Structure.find request.subdomain
+    if !@structure.premium?
+      redirect_to root_url(subdomain: 'www'), notice: "Cette page n'existe pas"
+    end
   end
 
 end
