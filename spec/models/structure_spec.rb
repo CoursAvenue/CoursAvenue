@@ -490,6 +490,15 @@ describe Structure do
     end
 
     describe '#create_managed_account' do
+      before(:all) { StripeMock.start }
+      after(:all)  { StripeMock.stop }
+
+      let(:bank_account) do
+        StripeMock.generate_bank_token({
+          bank_account: { country: 'FR', account_number: '000123456789', currency: 'EUR' }
+        })
+      end
+
       context 'when not a managed account' do
         context 'without the bank account' do
           it 'return false' do
@@ -502,12 +511,6 @@ describe Structure do
         end
 
         context 'with a bank account' do
-          let(:bank_account) do
-            StripeMock.generate_bank_token({
-              bank_account: { country: 'FR', account_number: '000123456789', currency: 'EUR' }
-            })
-          end
-
           it 'creates a managed account' do
             subject.create_managed_account({ bank_account: bank_account })
 

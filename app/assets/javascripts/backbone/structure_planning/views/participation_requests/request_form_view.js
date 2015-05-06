@@ -187,7 +187,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             if (this.model.isValid(true)) {
                 this.ui.$second_step_form_wrapper.slideUp();
                 this.ui.$third_step_form_wrapper.slideDown();
-                this.$('[data-error]').hide(); // Hide errors if there was any
+                this.$('[data-error]').hide(); // Hide errors if there were any
             } else {
                 this.showErrors();
             }
