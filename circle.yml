@@ -26,7 +26,3 @@ deployment:
     commands:
       - ./script/ci_heroku_deploy coursavenue-staging:
           timeout: 1800
-
-notify:
-  webhooks:
-    - url: https://hooks.slack.com/services/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
