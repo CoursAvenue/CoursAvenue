@@ -453,3 +453,4 @@ class ParticipationRequest < ActiveRecord::Base
       end
     end
   end
+end
