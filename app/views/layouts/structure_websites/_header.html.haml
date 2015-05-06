@@ -5,4 +5,4 @@
     - if @structure.logo.present?
       = image_tag @structure.logo.url, height: 80, width: 80, class: 'rounded--circle inline-block v-middle push-half--right'
     %h1.text--center.white.push--ends.inline-block.v-middle
-      = @structure.name
+      = @website_parameter.title

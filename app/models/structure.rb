@@ -79,6 +79,7 @@ class Structure < ActiveRecord::Base
   has_many :admins                   , dependent: :destroy
   has_many :subscription_plans       , dependent: :destroy
 
+  has_one  :website_parameter
   has_one  :subscription
   has_many :invoices, class_name: 'Subscriptions::Invoice'
 

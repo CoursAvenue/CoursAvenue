@@ -215,6 +215,8 @@ CoursAvenue::Application.routes.draw do
           get :best
           get :inscription, to: :new
         end
+        resources :website_parameters, except: [:destroy], path: 'site-internet', controller: 'structures/website_parameters'
+
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
         resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures' do
           member do
@@ -340,6 +342,9 @@ CoursAvenue::Application.routes.draw do
           member do
             patch :highlight
             patch :ask_for_deletion
+          end
+          collection do
+            get :comments_on_website, path: 'livre-d-or'
           end
           resources :comment_replies, controller: 'structures/comments/comment_replies' do
             member do
@@ -707,7 +712,7 @@ CoursAvenue::Application.routes.draw do
     namespace :structure_website, path: '' do
       get '/'       , to: 'structures#index'   , as: :presentation
       get 'planning', to: 'structures#planning', as: :planning
-      get 'reviews' , to: 'structures#reviews' , as: :reviews
+      get 'reviews' , to: 'structures#reviews' , as: :reviews, path: 'livre-d-or'
       get 'medias'  , to: 'structures#medias'  , as: :medias
       get 'contact' , to: 'structures#contact' , as: :contact
       resources :courses, controller: '/structures/courses', path: 'cours'

@@ -4,3 +4,13 @@
 
   .blog-article__content
     = simple_format @structure.description
+  - if @structure.teachers.any?
+    %h2 Les professeurs
+    - @structure.teachers.each_with_index do |teacher, index|
+      - if index > 0
+        %hr.push--ends
+      %h4.push-half--bottom= teacher.name
+      - if teacher.image.present?
+        = image_tag teacher.image.url(:normal)
+      .blog-article__content
+        = simple_format teacher.description

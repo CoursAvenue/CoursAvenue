@@ -60,6 +60,11 @@
                             current: current_tab,
                             icon: 'fa fa-2x fa-bullhorn'
 
+      = pro_side_menu_link 'website',
+                           pro_structure_website_parameters_url(@structure, subdomain: 'pro'),
+                           current: current_tab,
+                           icon: 'fa fa-2x fa-laptop'
+
       = pro_side_menu_link 'premium',
                            pro_structure_subscriptions_url(@structure, subdomain: 'pro'),
                            current: current_tab,
