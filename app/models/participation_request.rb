@@ -8,10 +8,10 @@ class ParticipationRequest < ActiveRecord::Base
   PARAMS_THAT_MODIFY_PR = %w(date start_time end_time planning_id course_id)
 
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
-                  :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
-                  :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
-                  :old_course_id, :structure_responded, :street, :zip_code, :city_id,
-                  :participants_attributes, :structure_id, :from_personal_website, :token
+    :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
+    :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
+    :old_course_id, :structure_responded, :street, :zip_code, :city_id,
+    :participants_attributes, :structure_id, :from_personal_website, :token
 
   ######################################################################
   # Relations                                                          #
@@ -30,8 +30,8 @@ class ParticipationRequest < ActiveRecord::Base
   has_one :invoice, class_name: 'ParticipationRequest::Invoice'
 
   accepts_nested_attributes_for :participants,
-                                 reject_if: :reject_participants,
-                                 allow_destroy: false
+    reject_if: :reject_participants,
+    allow_destroy: false
 
   ######################################################################
   # Callbacks                                                          #
@@ -39,7 +39,8 @@ class ParticipationRequest < ActiveRecord::Base
   before_validation :set_date_if_empty
   before_save       :update_times
   before_create     :set_default_attributes
-  after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher, :touch_user
+  after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher,
+    :send_sms_to_user, :touch_user
   after_destroy     :destroy_conversation_attached, :touch_user
 
   ######################################################################
@@ -54,7 +55,7 @@ class ParticipationRequest < ActiveRecord::Base
   scope :accepted,                -> { where( state: 'accepted') }
   scope :pending,                 -> { where( state: 'pending') }
   scope :upcoming,                -> { where( arel_table[:date].gteq(Date.today) )
-                                      .order("state='pending' DESC, state='canceled' ASC,
+    .order("state='pending' DESC, state='canceled' ASC,
                                               updated_at DESC, date ASC") }
   scope :past,                    -> { where( arel_table[:date].lt(Date.today) ).order("date ASC") }
   scope :canceled,                -> { where( arel_table[:state].eq('canceled') ) }
@@ -128,9 +129,9 @@ class ParticipationRequest < ActiveRecord::Base
     end
 
     if self.last_modified_by == 'Structure'
-      ParticipationRequestMailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)
+      mailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
-      ParticipationRequestMailer.delay.request_has_been_accepted_by_user_to_teacher(self, message)
+      mailer.delay.request_has_been_accepted_by_user_to_teacher(self, message)
     end
   end
 
@@ -151,9 +152,9 @@ class ParticipationRequest < ActiveRecord::Base
     self.structure_responded = true if last_modified_by == 'Structure'
     save
     if self.last_modified_by == 'Structure'
-      ParticipationRequestMailer.delay.request_has_been_modified_by_teacher_to_user(self, message)
+      mailer.delay.request_has_been_modified_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
-      ParticipationRequestMailer.delay.request_has_been_modified_by_user_to_teacher(self, message)
+      mailer.delay.request_has_been_modified_by_user_to_teacher(self, message)
     end
   end
 
@@ -167,9 +168,9 @@ class ParticipationRequest < ActiveRecord::Base
     self.structure_responded = true if discussed_by == 'Structure'
     save
     if discussed_by == 'Structure'
-      ParticipationRequestMailer.delay.request_has_been_discussed_by_teacher_to_user(self, message)
+      mailer.delay.request_has_been_discussed_by_teacher_to_user(self, message)
     elsif discussed_by == 'User'
-      ParticipationRequestMailer.delay.request_has_been_discussed_by_user_to_teacher(self, message)
+      mailer.delay.request_has_been_discussed_by_user_to_teacher(self, message)
     end
   end
 
@@ -191,9 +192,9 @@ class ParticipationRequest < ActiveRecord::Base
     end
 
     if self.last_modified_by == 'Structure'
-      ParticipationRequestMailer.delay.request_has_been_canceled_by_teacher_to_user(self, message)
+      mailer.delay.request_has_been_canceled_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
-      ParticipationRequestMailer.delay.request_has_been_canceled_by_user_to_teacher(self, message)
+      mailer.delay.request_has_been_canceled_by_user_to_teacher(self, message)
     end
   end
 
@@ -337,10 +338,10 @@ class ParticipationRequest < ActiveRecord::Base
   # @return Boolean
   def request_is_not_duplicate
     if self.user.participation_requests.where(ParticipationRequest.arel_table[:created_at].gt(Date.today - 1.week)
-                                                 .and(ParticipationRequest.arel_table[:planning_id].eq(self.planning_id))
-                                                 .and(ParticipationRequest.arel_table[:date].eq(self.date))).any?
-      self.errors[:base] << "duplicate"
-      return false
+      .and(ParticipationRequest.arel_table[:planning_id].eq(self.planning_id))
+      .and(ParticipationRequest.arel_table[:date].eq(self.date))).any?
+    self.errors[:base] << "duplicate"
+    return false
     end
     true
   end
@@ -349,22 +350,14 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return nil
   def send_email_to_teacher
-    if from_personal_website?
-      StructureWebsiteParticipationRequestMailer.delay.you_received_a_request(self)
-    else
-      ParticipationRequestMailer.delay.you_received_a_request(self)
-    end
+    mailer.delay.you_received_a_request(self)
   end
 
   # When a request is created we inform the user
   #
   # @return nil
   def send_email_to_user
-    if from_personal_website?
-      StructureWebsiteParticipationRequestMailer.delay.you_sent_a_request(self)
-    else
-      ParticipationRequestMailer.delay.you_sent_a_request(self)
-    end
+    mailer.delay.you_sent_a_request(self)
     nil
   end
 
@@ -440,5 +433,23 @@ class ParticipationRequest < ActiveRecord::Base
         break random_token unless ParticipationRequest.exists?(token: random_token)
       end
     end
+
+    def mailer
+      if from_personal_website?
+        StructureWebsiteParticipationRequestMailer
+      else
+        ParticipationRequestMailer
+      end
+    end
+
+    # If participation request is from personal website, send a SMS to user
+    def send_sms_to_user
+      if from_personal_website?
+        if user.phone_number and user.sms_opt_in?
+          message = self.decorate.sms_message_for_new_request
+
+          user.delay.send_sms(message, user.phone_number)
+        end
+      end
+    end
   end
-end

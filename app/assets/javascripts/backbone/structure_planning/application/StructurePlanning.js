@@ -89,15 +89,5 @@ $(document).ready(function() {
     /* we only want the current app on the search page */
     if (StructurePlanning.detectRoot()) {
         StructurePlanning.start({});
-        if (!window.coursavenue.bootstrap.current_pro_admin) {
-            $('body').on('click', '[data-action=log-action]', function() {
-                var infos = $(this).text().trim();
-                if ($(this).data('action-info')) {
-                    infos = $(this).data('action-info');
-                }
-                CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'action', { infos: infos });
-            });
-        }
-
     }
 });

@@ -1,0 +1,32 @@
+- content_for :email_title do
+  Acceptez la nouvelle proposition de #{@user.name} en répondant directement à cet e-mail
+  %hr
+
+.p
+  Bonjour,
+
+.p
+  - if @participation_request.old_course_id.present?
+    #{@user.name} souhaiterait finalement assister à une séance de
+    %strong "#{@course.name}"
+    le
+    %strong= "#{@participation_request_decorator.day_and_hour}"
+  - else
+    #{@user.name} souhaite venir à un autre créneau et vous demande de venir assister le
+    %strong= "#{@participation_request_decorator.day_and_hour}"
+    au cours "#{@participation_request.course.name}"
+  - if @place
+    au #{@place.address} (#{@place.name}).
+  Connectez-vous à votre profil pour répondre à sa demande :
+
+.p.action
+  = link_to "Accepter / Proposer une autre date / Refuser", pro_structure_participation_request_url(@admin.structure, @participation_request, subdomain: 'pro'), class: 'btn btn--green'
+
+- if @message
+  = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user }
+
+.soft-half--top
+  = render 'shared/mailers/footer'
+
+- content_for :under_content do
+  = render partial: 'participation_request_mailer/shared/participation_recap', locals: { participation_request: @participation_request }

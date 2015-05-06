@@ -1,6 +1,19 @@
 fr:
   sms:
     users:
+      new_participation_request:
+        with_address_and_phone: >
+          Félicitations ! Votre demande d'inscription vient d'être transmise : "%{course_name}" - %{day} à %{start_time} - %{address} - %{phone_number}.
+          A bientôt ! %{structure_name}. PS : pour modifier/annuler : %{url}
+        with_address: >
+          Félicitations ! Votre demande d'inscription vient d'être transmise : "%{course_name}" - %{day} à %{start_time} - %{address}.
+          A bientôt ! %{structure_name}. PS : pour modifier/annuler : %{url}
+        with_phone: >
+          Félicitations ! Votre demande d'inscription vient d'être transmise : "%{course_name}" - %{day} à %{start_time} - %{phone_number}.
+          A bientôt ! %{structure_name}. PS : pour modifier/annuler : %{url}
+        without_phone_and_address: >
+          Félicitations ! Votre demande d'inscription vient d'être transmise : "%{course_name}" - %{day} à %{start_time}.
+          A bientôt ! %{structure_name}. PS : pour modifier/annuler : %{url}
       day_before_reminder:
         multiple_course: >
           Rappel : vous avez #{nb_courses} cours demain et le premier commence à %{start_time}.
@@ -24,16 +37,16 @@ fr:
           from_personal_website:
             with_address_and_phone: >
               Rappel de votre séance "%{course_name}" : demain - %{start_time} - %{structure_name} - %{address} - %{phone_number}.
-              A demain ! YOGA SATTVA PARIS. PS : pour modifier/annuler : %{url}
+              A demain ! %{structure_name}. PS : pour modifier/annuler : %{url}
             with_address: >
               Rappel de votre séance "%{course_name}" : demain - %{start_time} - %{structure_name} - %{address}.
-              A demain ! YOGA SATTVA PARIS. PS : pour modifier/annuler : %{url}
+              A demain ! %{structure_name}. PS : pour modifier/annuler : %{url}
             with_phone: >
               Rappel de votre séance "%{course_name}" : demain - %{start_time} - %{structure_name} - %{phone_number}.
-              A demain ! YOGA SATTVA PARIS. PS : pour modifier/annuler : %{url}
+              A demain ! %{structure_name}. PS : pour modifier/annuler : %{url}
             without_phone_and_address: >
               Rappel de votre séance "%{course_name}" : demain - %{start_time} - %{structure_name}.
-              A demain ! YOGA SATTVA PARIS. PS : pour modifier/annuler : %{url}
+              A demain ! %{structure_name}. PS : pour modifier/annuler : %{url}
     structures:
       new_participation_request: >
         Bonne nouvelle ! %{user_name} souhaite venir à une séance le %{date} à %{start_time}.

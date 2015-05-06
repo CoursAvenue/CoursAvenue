@@ -134,6 +134,33 @@ class ParticipationRequestDecorator < Draper::Decorator
     _details.html_safe
   end
 
+  def sms_message_for_new_request
+    pr_url = h.structure_website_participation_request_url(object, subdomain: object.structure.subdomain_slug)
+    bitly  = Bitly.client.shorten(pr_url)
+    course = object.course
+    default_attributes = { day:            I18n.l(object.date),
+                           start_time:     I18n.l(object.start_time, format: :short),
+                           course_name:    course.name,
+                           structure_name: object.structure.name,
+                           url:            bitly.short_url }
+
+    if object.course_address and object.structure.phone_numbers.any?
+      message = I18n.t('sms.users.new_participation_request.with_address_and_phone',
+                       default_attributes.merge({ address: object.course_address,
+                        phone_number: object.structure.phone_numbers.first.number }))
+    elsif object.course_address
+      message = I18n.t('sms.users.new_participation_request.with_address',
+                       default_attributes.merge({ address: object.course_address }))
+    elsif object.structure.phone_numbers.any?
+      message = I18n.t('sms.users.new_participation_request.with_phone',
+                       default_attributes.merge({ phone_number: object.structure.phone_numbers.first.number }))
+    else
+      message = I18n.t('sms.users.new_participation_request.without_phone_and_address',
+                       default_attributes)
+
+    end
+  end
+
   def sms_reminder_message
     if object.from_personal_website
       sms_reminder_message_for_pr_from_personal_websites
@@ -166,7 +193,6 @@ class ParticipationRequestDecorator < Draper::Decorator
                        default_attributes)
 
     end
-
   end
 
   def sms_reminder_message_for_coursavenue_users

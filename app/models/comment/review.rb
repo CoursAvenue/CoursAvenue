@@ -49,6 +49,7 @@ class Comment::Review < Comment
   after_create     :create_or_update_user_profile
 
   after_destroy    :update_comments_count
+  after_destroy    :remove_highlighted_comment_id_from_commentable
 
   ######################################################################
   # Scopes                                                             #
@@ -289,6 +290,17 @@ class Comment::Review < Comment
   # @return nil
   def sanatize_content
     self.content = StringHelper.sanatize(self.content) if self.content.present?
+    nil
+  end
+
+  # Prevent from having a deleted comment as highlighted
+  #
+  # @return nil
+  def remove_highlighted_comment_id_from_commentable
+    if commentable and commentable.highlighted_comment_id == id
+      commentable.highlighted_comment_id = nil
+      commentable.save
+    end
     nil
   end
 end
