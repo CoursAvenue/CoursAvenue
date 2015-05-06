@@ -30,14 +30,6 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     end
   end
 
-  def cancel
-    @subscription = @structure.subscription
-
-    if request.xhr?
-      render layout: false
-    end
-  end
-
   def confirm_cancellation
     @subscription = @structure.subscription
 

@@ -223,7 +223,7 @@ CoursAvenue::Application.routes.draw do
             get 'export'
           end
         end
-        resources :invoices, only: [:index], controller: 'structures/invoices' do
+        resources :invoices, only: [:index], controller: 'structures/invoices', path: 'factures' do
           member do
             get :download
           end

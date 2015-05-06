@@ -7,8 +7,7 @@ fr:
         cancelation_reason_dont_want_more_students: "J'ai assez d'élèves, je ne souhaite plus recruter de nouveaux élèves."
         cancelation_reason_stopping_activity: "Je cesse mon activité."
         cancelation_reason_didnt_have_return_on_investment: "Je n'ai pas le retour sur investissement escompté."
-        cancelation_reason_too_hard_to_use: "Je trouve l'utilisation de mon profil trop compliquée."
-        cancelation_reason_not_satisfied_of_coursavenue_users: "Je ne suis pas satisfait du profil des élèves venus à mes cours grâce à CoursAvenue."
+        cancelation_reason_too_hard_to_use: "Je trouve l'utilisation trop compliquée."
         cancelation_reason_other: "Autres"
 
   simple_form:

@@ -1,7 +1,7 @@
 .panel
   .panel__header.soft
     .delta.line-height-normal
-      %h3.flush Souhaitez-vous toujours vous désabonner ?
+      %h3.flush Souhaitez-vous vous désabonner ?
   .panel__body.soft
     %p.epsilon
       Nous mettons tous nos efforts pour que CoursAvenue soit le meilleur outil de marketing sur Internet et nous sommes tristes d'apprendre votre désabonnement. Pouvez-vous nous aider en nous expliquant les raisons de votre choix ? Nous cherchons à nous améliorer chaque jour et nous prenons très au sérieux les remarques de nos partenaires.
@@ -11,10 +11,10 @@
       = f.input :cancelation_reason_stopping_activity, as: :boolean, wrapper_class: { class: 'checkbox-at-left' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
       = f.input :cancelation_reason_didnt_have_return_on_investment, as: :boolean, wrapper_class: { class: 'checkbox-at-left' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
       = f.input :cancelation_reason_too_hard_to_use, as: :boolean, wrapper_class: { class: 'checkbox-at-left' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-      = f.input :cancelation_reason_not_satisfied_of_coursavenue_users, as: :boolean, wrapper_class: { class: 'checkbox-at-left' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
       = f.input :cancelation_reason_other, as: :boolean, wrapper_class: { class: 'checkbox-at-left' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
 
-      %h5.push--top Pouvez-vous nous en dire davantage ?
+      %p.push-half--bottom.push--top
+        %strong Pouvez-vous nous en dire davantage ?
       = f.input :cancelation_reason_text, as: :text, label: false, input_html: { class: 'input--large one-whole' }
 
       .grid
