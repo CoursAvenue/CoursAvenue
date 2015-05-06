@@ -116,6 +116,15 @@ class Subscriptions::Plan < ActiveRecord::Base
     })
   end
 
+  # Return the plan URL on Stripe.
+  #
+  # @return nil or a String.
+  def stripe_plan_url
+    return nil if stripe_plan_id.nil?
+
+    "https://dashboard.stripe.com/#{ Rails.env.production? ? '' : 'test/' }plans/#{ stripe_plan_id }"
+  end
+
   private
 
   # Create a new Stripe Plan and save the Stripe Plan id.

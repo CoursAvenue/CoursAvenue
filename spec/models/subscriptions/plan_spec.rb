@@ -136,4 +136,36 @@ RSpec.describe Subscriptions::Plan, type: :model do
       expect(subscription.in_trial?).to be_truthy
     end
   end
+
+  describe '#stripe_plan_url' do
+    context 'not in production environment' do
+      it { expect(Rails.env).to be_test }
+
+      it 'returns the stripe plan url on the test dashboard' do
+        expect(subject.stripe_plan_url).to match(/test/)
+      end
+    end
+
+    context 'in production environment' do
+      it 'is in production' do
+        switch_to_prod_env do
+          expect(Rails.env).to be_production
+        end
+      end
+
+      it 'returns the stripe plan url on the regular dashboard' do
+        switch_to_prod_env do
+          expect(subject.stripe_plan_url).to_not match(/test/)
+        end
+      end
+
+    end
+  end
+end
+
+def switch_to_prod_env
+  Rails.env = 'production'
+  yield
+ensure
+  Rails.env = 'test'
 end
