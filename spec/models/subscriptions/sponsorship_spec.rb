@@ -1,6 +1,10 @@
 require 'rails_helper'
+require 'stripe_mock'
 
 RSpec.describe Subscriptions::Sponsorship, type: :model do
+  before(:all) { StripeMock.start }
+  after(:all)  { StripeMock.stop }
+
   context 'associations' do
     it { should belong_to(:subscription) }
   end
