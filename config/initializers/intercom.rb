@@ -63,6 +63,58 @@ IntercomRails.config do |config|
     'Prof tag'                 => Proc.new { |user| ((s = user.structure) ? CrmSync.structure_status_for_intercom(s) : nil) },
     'Code postal'              => Proc.new { |user| ((s = user.structure) ?  s.zip_code : nil) },
     'Email Opt-in'             => Proc.new { |user| user.monday_email_opt_in },
+    # 0 if no subscription
+    # 1 in_trial?
+    # 2 in_trial? more than 14 days
+    # 3 s'il n'est plus en période d'essai mais qu'il a déjà eu droit dans le passé
+    'Test B2B'                 => Proc.new do |user|
+      if (s = user.structure)
+        if s.subscription
+          if s.subscription.in_trial? and !s.subscription.active?
+            1
+          end
+        else
+          0
+        end
+      else
+        nil
+      end
+    end,
+    # 0 s'il n'a pas mis sa CB,
+    # 1 s'il a mis sa CB,
+    # 2 si sa CB a un problème de validité (date expiration, coordonnées...)
+    'CB B2B'                   => Proc.new do |user|
+      if (s = user.structure) and s.subscription
+        if s.subscription.active?
+          1
+        else
+          0
+        end
+      end
+    end,
+    "trial_ends_at"             => Proc.new do |user|
+      if (s = user.structure) and s.subscription
+        s.subscription.trial_end
+      else
+        nil
+      end
+    end,
+    # 1 Si un prof a envoyé au moins 1 newsletter,
+    # 2 s'il a au moins un brouillon mettre
+    # 0 s'il n'a rien fait mettre
+    "Newsletters"              => Proc.new do |user|
+      if (s = user.structure)
+        if s.newsletters.sent.count > 0
+          1
+        elsif s.newsletters.drafts.count > 0
+          2
+        else
+          0
+        end
+      else
+        nil
+      end
+    end,
     'Discipline 3 principale'  => Proc.new do |user|
       if (s = user.structure) and s.vertical_pages_breadcrumb.present?
         s.vertical_pages_breadcrumb.split('|').last.split(';').last
