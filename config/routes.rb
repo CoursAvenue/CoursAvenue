@@ -243,6 +243,7 @@ CoursAvenue::Application.routes.draw do
           collection do
             get :confirm_choice
             get :choose_plan_and_pay
+            resources :subscriptions_sponsorships, only: [:index, :create], controller: 'structures/subscriptions_sponsorships', path: 'parrainage'
           end
         end
         # Old subscriptions with Be2Bill
