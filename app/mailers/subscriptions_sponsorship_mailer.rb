@@ -14,4 +14,14 @@ class SubscriptionsSponsorshipMailer < ActionMailer::Base
     mail to: sponsorship.sponsored_email,
       subject: "#{sponsorship.subscription.structure} veut vous parrainer !"
   end
+
+  def subscription_reedeemed(sponsorship)
+    @sponsorship  = sponsorship
+    @subscription = sponsorship.subscription
+    @structure    = sponsorship.subscription.structure
+    @plan         = @subscription.plan
+
+    mail to: @structure.email,
+      subject: "Vous venez d'être crédité d'un mois gratuit d'abonnement #{ @plan.public_name }"
+  end
 end
