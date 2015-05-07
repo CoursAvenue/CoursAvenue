@@ -8,11 +8,17 @@ RSpec.describe Subscription, type: :model do
   let(:stripe_helper) { StripeMock.create_test_helper }
   subject             { FactoryGirl.create(:subscription) }
 
-  it { should validate_uniqueness_of(:stripe_subscription_id).allow_blank }
-  it { should belong_to(:structure) }
-  it { should belong_to(:plan).class_name('Subscriptions::Plan').with_foreign_key('subscriptions_plan_id') }
-  it { should belong_to(:coupon).class_name('Subscriptions::Coupon').with_foreign_key('subscriptions_coupon_id') }
-  it { should have_many(:invoices).class_name('Subscriptions::Invoice') }
+  context 'associations' do
+    it { should belong_to(:structure) }
+    it { should belong_to(:plan).class_name('Subscriptions::Plan').with_foreign_key('subscriptions_plan_id') }
+    it { should belong_to(:coupon).class_name('Subscriptions::Coupon').with_foreign_key('subscriptions_coupon_id') }
+    it { should have_many(:invoices).class_name('Subscriptions::Invoice') }
+    it { should have_many(:sponsorships).class_name('Subscriptions::Sponsorship') }
+  end
+
+  context 'validation' do
+    it { should validate_uniqueness_of(:stripe_subscription_id).allow_blank }
+  end
 
   describe '#stripe_subscription' do
     context "when there isn't a stripe_subscription_id" do
