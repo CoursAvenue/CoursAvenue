@@ -19,13 +19,13 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
   # Methods                                                            #
   ######################################################################
 
-  # Consume the sponsorship.
+  # Redeem the sponsorship.
   #
   # @return boolean
-  def consume!
-    return if consumed?
+  def redeem!
+    return if redeemed?
 
-    self.consumed = true
+    self.redeemed = true
     save
   end
 

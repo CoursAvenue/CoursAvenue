@@ -13,10 +13,10 @@ RSpec.describe Subscriptions::Sponsorship, type: :model do
   subject { FactoryGirl.create(:subscriptions_sponsorship) }
 
   describe '#consume!' do
-    it 'consumes the sponsorship' do
-      subject.consume!
+    it 'redeems the sponsorship' do
+      subject.redeem!
 
-      expect(subject.consumed?).to be_truthy
+      expect(subject.redeemed?).to be_truthy
     end
   end
 end
