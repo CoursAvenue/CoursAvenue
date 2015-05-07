@@ -44,6 +44,9 @@ class Subscriptions::Plan < ActiveRecord::Base
   scope :monthly, -> { where(interval: 'month').order('created_at ASC') }
   scope :yearly,  -> { where(interval: 'year').order('created_at ASC')}
 
+  scope :website,  -> { where(plan_type: 'website').order('created_at ASC')}
+  scope :module,   -> { where(plan_type: 'module').order('created_at ASC')}
+
   ######################################################################
   # Methods                                                            #
   ######################################################################
