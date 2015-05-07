@@ -1,7 +1,7 @@
 - if @plan.website_plan?
-  = render partial: 'pro/subscriptions/plans/pro_confirm', locals: { plan: @plan }
-- else
   = render partial: 'pro/subscriptions/plans/pro_plus_confirm', locals: { plan: @plan }
+- else
+  = render partial: 'pro/subscriptions/plans/pro_confirm', locals: { plan: @plan }
 
 
 - if @structure.subscription

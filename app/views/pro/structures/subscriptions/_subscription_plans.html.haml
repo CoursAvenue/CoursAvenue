@@ -27,13 +27,18 @@
 %hr.push--ends
 .grid
   .grid__item.one-half>
-    %h2.flush Détail de nos offres :
+    %h2.flush Détail des offres :
   .grid__item.one-half.text--right>
-    %ul.nav.tabs--link.flush.btn-group
-      %li.active>
-        %a.btn.rounded-right--none{ href: '.monthly-details', data: { toggle: 'tab' } } Mensuel
-      %li>
-        %a.btn.rounded-left--none{ href: '.annual-details', data: { toggle: 'tab' } } Annuel
+    Abonnement :
+    %ul.nav.tabs--link.flush.inline-block.v-middle
+      %li.push--right.active>
+        %a{ href: '.monthly-details', data: { toggle: 'tab' } }
+          %input{ type: 'radio', name: 'plan_duration', checked: true }
+          Mensuel
+      %li
+        %a{ href: '.annual-details', data: { toggle: 'tab' } }
+          %input{ type: 'radio', name: 'plan_duration' }
+          Annuel
 
 .tab-pane.monthly-details.active.grid--full
   - if @monthly_plans.any?
