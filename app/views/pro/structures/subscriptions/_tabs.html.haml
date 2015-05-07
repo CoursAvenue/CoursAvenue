@@ -2,7 +2,7 @@
   %ul.nav.flush
     %li{ class: current == 'offers' ? 'active' : '' }
       = link_to pro_structure_subscriptions_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
-        Offres & abonnements
-    -# %li{ class: current == 'offers' ? 'active' : '' }
-    -#   = link_to pro_structure_subscriptions_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
-    -#     Offres & abonnements
+        Offres &amp; abonnements
+    %li{ class: current == 'sponsorships' ? 'active' : '' }
+      = link_to pro_structure_subscriptions_sponsorships_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+        Parrainage
