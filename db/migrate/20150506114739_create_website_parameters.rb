@@ -4,7 +4,7 @@ class CreateWebsiteParameters < ActiveRecord::Migration
       t.string :slug
       t.string :title
 
-      t.references :structure
+      t.references :structure, index: true
 
       t.timestamps
     end

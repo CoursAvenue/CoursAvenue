@@ -217,6 +217,9 @@ CoursAvenue::Application.routes.draw do
           get :inscription, to: :new
         end
         resources :website_parameters, except: [:destroy], path: 'site-internet', controller: 'structures/website_parameters'
+        resources :website_pages, path: 'pages-personnalisees', controller: 'structures/website_pages' do
+          resources :website_page_articles, as: :articles, path: 'articles', controller: 'structures/website_pages/articles'
+        end
 
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
         resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures' do
@@ -357,6 +360,7 @@ CoursAvenue::Application.routes.draw do
             end
           end
         end
+        resources :redactor_images, only: [:index, :create], controller: 'structures/redactor_images'
         resources :medias, only: [:edit, :update, :index, :destroy], controller: 'structures/medias', path: 'photos-videos' do
           member do
             put :make_it_cover
@@ -720,6 +724,7 @@ CoursAvenue::Application.routes.draw do
       get 'reviews' , to: 'structures#reviews' , as: :reviews, path: 'livre-d-or'
       get 'medias'  , to: 'structures#medias'  , as: :medias
       get 'contact' , to: 'structures#contact' , as: :contact
+      resources :website_pages, only: [:show], path: 'pages'
       resources :courses, controller: '/structures/courses', path: 'cours'
       resources :newsletters, only: [] do
         collection do

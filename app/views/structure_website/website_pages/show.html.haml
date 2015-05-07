@@ -1,0 +1,7 @@
+.main-container.main-container--medium
+  %h1= @page.title
+
+  - @page.articles.each do |article|
+    %h2= article.title
+    .blog-article__content
+      = article.content.html_safe

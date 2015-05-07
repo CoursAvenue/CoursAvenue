@@ -1,0 +1,8 @@
+fr:
+  activerecord:
+    models:
+      website_page_article: Article
+    attributes:
+      website_page_article:
+        title: Titre de votre article
+        content: Contenu

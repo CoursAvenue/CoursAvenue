@@ -11,6 +11,8 @@
   - if @structure.subscription.plan.website_plan?
     = link_to 'Photos / Vidéos', structure_website_medias_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'medias' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
     = link_to 'Contact', structure_website_contact_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'contact' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+    - @structure.website_pages.each do |page|
+      = link_to page.title, structure_website_website_page_path(page), class: ['delta soft-half--sides soft-half--bottom', (@page and @page.slug == page.slug ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
 
 = content_for :content do
   = yield

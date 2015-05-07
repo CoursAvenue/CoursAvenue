@@ -1,6 +1,6 @@
 class WebsiteParameter < ActiveRecord::Base
 
-  belongs_to :strucutre
+  belongs_to :structure
 
   validates :slug, uniqueness: true
 

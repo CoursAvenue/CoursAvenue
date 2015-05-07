@@ -92,6 +92,8 @@ class Structure < ActiveRecord::Base
   has_many :newsletters
   has_many :mailing_lists, class_name: 'Newsletter::MailingList'
 
+  has_many :website_pages
+
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name,
@@ -678,7 +680,7 @@ class Structure < ActiveRecord::Base
   end
 
 
-  # Create or update a user profile for the current strucutre
+  # Create or update a user profile for the current structure
   # If tag is given, then affect a tag to it
   # @param user User
   # @param tag=nil String

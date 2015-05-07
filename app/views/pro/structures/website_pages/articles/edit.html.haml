@@ -1,0 +1,7 @@
+= side_menu_currently_at 'website'
+
+= render partial: 'pro/structures/website_parameters/tabs', locals: { current: 'pages' }
+
+%h1 Édition de l'article « #{@article.title} »
+
+= render 'form'

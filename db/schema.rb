@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150507112603) do
+ActiveRecord::Schema.define(version: 20150507135103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -652,7 +652,6 @@ ActiveRecord::Schema.define(version: 20150507112603) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
-    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_request_invoices", force: true do |t|
@@ -700,9 +699,9 @@ ActiveRecord::Schema.define(version: 20150507112603) do
     t.string   "street"
     t.string   "zip_code"
     t.integer  "city_id"
-    t.string   "stripe_charge_id"
     t.boolean  "from_personal_website",     default: false
     t.string   "token"
+    t.string   "stripe_charge_id"
     t.boolean  "refunded",                  default: false
   end
 
@@ -828,9 +827,6 @@ ActiveRecord::Schema.define(version: 20150507112603) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
-    t.string   "address"
-    t.float    "latitude"
-    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
@@ -1057,8 +1053,8 @@ ActiveRecord::Schema.define(version: 20150507112603) do
     t.boolean  "sms_opt_in",                             default: false
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
-    t.string   "stripe_customer_id"
     t.boolean  "pure_player",                            default: false
+    t.string   "stripe_customer_id"
     t.string   "stripe_managed_account_id"
     t.string   "stripe_managed_account_secret_key"
     t.string   "stripe_managed_account_publishable_key"
@@ -1392,6 +1388,27 @@ ActiveRecord::Schema.define(version: 20150507112603) do
 
   add_index "visitors", ["fingerprint"], name: "index_visitors_on_fingerprint", using: :btree
 
+  create_table "website_page_articles", force: true do |t|
+    t.integer  "website_page_id"
+    t.string   "slug"
+    t.string   "title"
+    t.text     "content"
+    t.datetime "deleted_at"
+  end
+
+  add_index "website_page_articles", ["website_page_id"], name: "index_website_page_articles_on_website_page_id", using: :btree
+
+  create_table "website_pages", force: true do |t|
+    t.integer  "structure_id"
+    t.string   "slug"
+    t.string   "title"
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "website_pages", ["structure_id"], name: "index_website_pages_on_structure_id", using: :btree
+
   create_table "website_parameters", force: true do |t|
     t.string   "slug"
     t.string   "title"
@@ -1399,6 +1416,8 @@ ActiveRecord::Schema.define(version: 20150507112603) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "website_parameters", ["structure_id"], name: "index_website_parameters_on_structure_id", using: :btree
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
 
