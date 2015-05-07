@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150507084828) do
+ActiveRecord::Schema.define(version: 20150507112603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1216,7 +1216,7 @@ ActiveRecord::Schema.define(version: 20150507084828) do
   create_table "subscriptions_sponsorships", force: true do |t|
     t.integer  "subscription_id"
     t.string   "sponsored_email",                 null: false
-    t.boolean  "consumed",        default: false
+    t.boolean  "redeemed",        default: false
     t.datetime "deleted_at"
     t.string   "token"
     t.datetime "created_at"

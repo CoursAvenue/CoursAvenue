@@ -7,26 +7,34 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
+  attr_accessible :sponsored_email
+
   belongs_to :subscription
 
   ######################################################################
   # Validations                                                        #
   ######################################################################
 
-  validates :sponsored_email, uniqueness: true, presence: true
+  validates :sponsored_email, presence: true, uniqueness: { scope: :subscription_id }
 
   ######################################################################
   # Methods                                                            #
   ######################################################################
 
-  # Consume the sponsorship.
+  # Redeem the sponsorship.
   #
   # @return boolean
-  def consume!
-    return if consumed?
+  def redeem!
+    return if redeemed?
 
-    self.consumed = true
+    self.redeemed = true
     save
   end
 
+  # Send an email to the sponsored structure.
+  #
+  # @return
+  def notify_sponsored(custom_message = nil)
+    SubscriptionsSponsorshipMailer.delay.sponsor_user(self, custom_message)
+  end
 end
