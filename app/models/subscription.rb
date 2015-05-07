@@ -82,7 +82,7 @@ class Subscription < ActiveRecord::Base
   #
   # @return a Boolean.
   def active?
-    (!canceled? and stripe_subscription_id.present?)
+    !canceled?
   end
 
   # Charge the subscription. Usually after the trial period.
