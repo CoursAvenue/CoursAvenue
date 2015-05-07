@@ -30,6 +30,11 @@ class Blog::ArticlesController < ApplicationController
   private
 
   def load_article
+    # Add 301 redirection for old links that were pointing to pro articles
+    if Blog::Article::ProArticle.where(slug: params[:id]).any?
+      redirect_to pro_blog_article_url(params[:id], subdomain: 'pro'), status: 301
+      return
+    end
     @article = Blog::Article::UserArticle.friendly.find(params[:id])
     if @article.slug != params[:id]
       redirect_to blog_article_path(@article.slug), status: 301
