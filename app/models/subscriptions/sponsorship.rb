@@ -7,6 +7,8 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
+  attr_accessible :sponsored_email
+
   belongs_to :subscription
 
   ######################################################################
@@ -29,4 +31,10 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
     save
   end
 
+  # Send an email to the sponsored structure.
+  #
+  # @return
+  def notify_sponsored(custom_message = nil)
+    SubscriptionsSponsorshipMailer.delay.sponsor_user(self, custom_message)
+  end
 end
