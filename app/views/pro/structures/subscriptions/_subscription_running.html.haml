@@ -21,7 +21,10 @@
 %hr.push--ends
 %h3 Gestion de votre abonnement
 %p
-  = link_to 'Changer mon abonnement', choose_new_plan_pro_structure_subscription_path(@structure, @subscription), class: 'fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
+  = link_to 'Changer mon abonnement', choose_plan_and_pay_pro_structure_subscriptions_path(@structure), class: 'fancybox.ajax',  data: { behavior: 'modal', width: '800', padding: 0 }
 
 %p
   = link_to 'Résilier mon abonnement', confirm_cancellation_pro_structure_subscription_path(@structure, @subscription), class: 'red fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
+
+= content_for :scripts do
+  = javascript_include_tag '//checkout.stripe.com/checkout.js'

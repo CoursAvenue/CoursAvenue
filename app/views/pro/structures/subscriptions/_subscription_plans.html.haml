@@ -1,6 +1,3 @@
-%h1
-  Essayez gratuitement nos offres : 14 jours d'essai gratuits.
-
 %h4.push-half--bottom
   Option A : vous avez déjà un site web et vous souhaitez l'équiper des meilleurs outils pour booster vos inscriptions
 
@@ -12,7 +9,7 @@
     .grid
       .grid__item.v-middle.two-thirds.delta.line-height-1-5> Equipez votre site Internet des meilleurs outils pour booster vos inscriptions
       .grid__item.v-middle.one-third.text--right>
-        = link_to 'Activer gratuitement', pro_structure_subscriptions_path(@structure, plan_id: @monthly_plans.first.id), method: :post, class: 'btn btn--green'
+        = link_to 'Activer gratuitement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: @monthly_plans.first.id), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
 %hr.push--ends
 
 %h4.push-half--bottom
@@ -25,15 +22,18 @@
     .grid
       .grid__item.v-middle.two-thirds.delta.line-height-1-5> Bénéficiez d'un site Internet tout inclus spécialement conçu pour les activités de loisirs
       .grid__item.v-middle.one-third.text--right>
-        = link_to 'Activer gratuitement', pro_structure_subscriptions_path(@structure, plan_id: @monthly_plans.last.id), method: :post, class: 'btn btn--green'
+        = link_to 'Activer gratuitement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: @monthly_plans.last.id), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
 
 %hr.push--ends
-%h2 Détail de nos offres :
-%ul.nav.tabs--link.flush.btn-group.text--center
-  %li.active>
-    %a.btn.rounded-right--none{ href: '.monthly-details', data: { toggle: 'tab' } } Mensuel
-  %li>
-    %a.btn.rounded-left--none{ href: '.annual-details', data: { toggle: 'tab' } } Annuel
+.grid
+  .grid__item.one-half>
+    %h2.flush Détail de nos offres :
+  .grid__item.one-half.text--right>
+    %ul.nav.tabs--link.flush.btn-group
+      %li.active>
+        %a.btn.rounded-right--none{ href: '.monthly-details', data: { toggle: 'tab' } } Mensuel
+      %li>
+        %a.btn.rounded-left--none{ href: '.annual-details', data: { toggle: 'tab' } } Annuel
 
 .tab-pane.monthly-details.active.grid--full
   - if @monthly_plans.any?

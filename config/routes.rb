@@ -240,6 +240,10 @@ CoursAvenue::Application.routes.draw do
             patch :reactivate
             get   :stripe_payment_form
           end
+          collection do
+            get :confirm_choice
+            get :choose_plan_and_pay
+          end
         end
         # Old subscriptions with Be2Bill
         resources :subscription_plans, only: [:new, :index, :destroy], controller: 'structures/subscription_plans', path: 'abonnements' do

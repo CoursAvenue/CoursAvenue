@@ -30,6 +30,22 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     end
   end
 
+  def confirm_choice
+    @plan = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
+    if request.xhr?
+      render layout: false
+    end
+  end
+
+  def choose_plan_and_pay
+    @monthly_plans = ::Subscriptions::Plan.monthly.order('amount ASC').decorate
+    @yearly_plans  = ::Subscriptions::Plan.yearly.order('amount ASC').decorate
+    @plan          = @structure.subscription.plan
+    if request.xhr?
+      render layout: false
+    end
+  end
+
   def confirm_cancellation
     @subscription = @structure.subscription
 
@@ -83,7 +99,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     plan          = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
     @subscription.change_plan!(plan)
 
-    redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant réabonné'
+    redirect_to pro_structure_subscriptions_path(@structure), notice: 'Votre abonnement a bién été changé'
   end
 
   def reactivate

@@ -234,6 +234,9 @@
         display: table-cell;
         padding: 0.8em;
         @include border-radius(0);
+        &.btn--small {
+            padding: 0.5em;
+        }
     }
     .btn--blue {
         color: white;

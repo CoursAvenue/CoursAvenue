@@ -112,6 +112,16 @@ class Subscriptions::Plan < ActiveRecord::Base
     plan_type == 'website'
   end
 
+  # Return plan that is monthyl. If self, then will return self
+  def monthly_sibling
+    Subscriptions::Plan.where(plan_type: plan_type, interval: 'month').first
+  end
+
+  # Return plan that is yearly. If self, then will return self
+  def yearly_sibling
+    Subscriptions::Plan.where(plan_type: plan_type, interval: 'year').first
+  end
+
   private
 
   # Create a new Stripe Plan and save the Stripe Plan id.

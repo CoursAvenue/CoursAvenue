@@ -2,7 +2,7 @@
   Vous profitez actuellement de l'offre d'essai gratuite jusqu'au #{l(@subscription.trial_end.to_date)}. Il ne vous reste
   %strong plus que #{(@subscription.trial_end.to_date - Date.today).to_i} jours
   avant la fin de votre période d'essai : pour ne pas interrompre vos services,
-  = link_to 'activez à tout moment votre abonnement.', 'javascript:void(0)', data: { stripe: true, amount: @subscription.plan.amount }
+  = link_to 'activez à tout moment votre abonnement.', choose_plan_and_pay_pro_structure_subscriptions_path(@structure)
   Vous ne serez débité une fois la période d'essai terminée, et vous pouvez suspendre votre abonnement à tout moment (même avant la fin de la période d'essai).
 
 %hr.push--ends
@@ -17,36 +17,7 @@
 
 %h3 Gestion de votre abonnement
 %p
-  = link_to 'Activer mon abonnement', 'javascript:void(0)', data: { stripe: true, amount: @subscription.plan.amount }, class: 'btn btn--green'
+  = link_to 'Activer mon abonnement', choose_plan_and_pay_pro_structure_subscriptions_path(@structure), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
 
-= simple_form_for [:pro, @structure, @subscription], url: activate_pro_structure_subscription_path(@structure, @subscription), html: { id: 'subscription_form' } do |f|
-  = f.input :stripe_token, as: :hidden
-
-- content_for :scripts do
+= content_for :scripts do
   = javascript_include_tag '//checkout.stripe.com/checkout.js'
-
-  :javascript
-    $(document).ready(function() {
-      var stripeHandler = StripeCheckout.configure({
-          key: "#{ Rails.configuration.stripe[:publishable_key] }",
-          token: function(token) {
-              $('[name="subscription[stripe_token]"]').val(token.id);
-              $('#subscription_form').submit();
-          },
-      });
-      $('[data-stripe]').click(function(event) {
-
-          event.preventDefault();
-
-          stripeHandler.open({
-              email: "#{@structure.contact_email}",
-              name: 'CoursAvenue',
-              panelLabel: 'Payer {{amount}}',
-              //image: '#{asset_path('logos/coursavenue_2_lignes.png')}',
-              image: 'http://coursavenue-public.s3.amazonaws.com/logos/logo_stripe.jpg',
-              description: 'Abonnement #{@subscription.plan.public_name}',
-              currency: "#{Subscription::CURRENCY}",
-              amount: parseInt($(this).data('amount'), 10) * 100
-          });
-      });
-    });

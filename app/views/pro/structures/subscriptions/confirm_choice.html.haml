@@ -1,0 +1,34 @@
+- if @plan.website_plan?
+  = render partial: 'pro/subscriptions/plans/pro_confirm', locals: { plan: @plan }
+- else
+  = render partial: 'pro/subscriptions/plans/pro_plus_confirm', locals: { plan: @plan }
+
+
+- if @structure.subscription
+  - @subscription = @structure.subscription
+  = simple_form_for [:pro, @structure, @subscription], url: activate_pro_structure_subscription_path(@structure, @subscription), html: { id: 'subscription_form' } do |f|
+    = f.input :stripe_token, as: :hidden
+
+  :javascript
+    var stripeHandler = StripeCheckout.configure({
+        key: "#{ Rails.configuration.stripe[:publishable_key] }",
+        token: function(token) {
+            $('[name="subscription[stripe_token]"]').val(token.id);
+            $('#subscription_form').submit();
+            CoursAvenue.showFullPageLoader('Activation en cours...');
+        },
+    });
+    $('[data-stripe]').click(function(event) {
+
+        event.preventDefault();
+
+        stripeHandler.open({
+            email: "#{@structure.contact_email}",
+            name: 'CoursAvenue',
+            panelLabel: 'Payer {{amount}}',
+            image: 'http://coursavenue-public.s3.amazonaws.com/logos/logo_stripe.jpg',
+            description: 'Abonnement #{@subscription.plan.public_name}',
+            currency: "#{Subscription::CURRENCY}",
+            amount: parseInt($(this).data('amount'), 10) * 100
+        });
+    });
