@@ -1,0 +1,24 @@
+.push--top
+  %h3 Suivi des parrainages envoyés
+
+  %table.table--striped.table--data.table-responsive
+    %thead
+      %tr
+        %th.ten-twelfths
+          coucou
+        %th.one-twelfths
+          coucou
+        %th.one-twelfths
+          coucou
+    %tbody
+      - @sponsorships.each do |sponsorship|
+        %tr
+          %td
+            = sponsorship.sponsored_email
+            %br
+            = sponsorship.redeemed? ? "S'est inscrit et s'est abonné. Bien joué !" : "Ne s'est pas encore inscrit."
+          %td
+            = sponsorship.redeemed? ? 'gain' : 'en attente'
+          %td
+            = sponsorship.redeemed? ? '1 mois gratuit' : '1 mois offert'
+

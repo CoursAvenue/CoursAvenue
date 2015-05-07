@@ -1,0 +1,10 @@
+= side_menu_currently_at 'premium'
+
+= render partial: 'pro/structures/subscriptions/tabs', locals: { current: 'sponsorships' }
+
+- if @subscription.active?
+  = render 'sponsorships_invite_form'
+  - if @sponsorships.any?
+    = render 'sponsorships_list'
+- else
+  = render 'activate_subscription'
