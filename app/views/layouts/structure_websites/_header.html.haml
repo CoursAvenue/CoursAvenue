@@ -4,5 +4,8 @@
   .soft.text--center.relative
     - if @structure.logo.present?
       = image_tag @structure.logo.url, height: 80, width: 80, class: 'rounded--circle inline-block v-middle push-half--right'
-    %h1.text--center.white.push--ends.inline-block.v-middle
-      = @website_parameter.title
+    .inline-block.v-middle
+      %h1.text--center.white.push--top.flush--bottom
+        = @structure.name
+      %h2.gamma.text--center.white
+        = @website_parameter.title

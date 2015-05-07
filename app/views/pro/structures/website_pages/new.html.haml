@@ -8,7 +8,8 @@
   = f.label :title, class: 'label--large'
   = f.input :title, input_html: { class: 'input--large one-whole' }, label: false
 
-  %h3 1er article
+  %hr
+  %h3.push-half--bottom 1er article
 
   = f.simple_fields_for :articles do |article_form|
     %p.flush
