@@ -101,6 +101,9 @@ $(function() {
         selector: '[data-behavior=popover],[data-toggle=popover]',
         trigger: 'hover'
     });
+    $('body').on('click', '[data-toggle=tab]', function() {
+        $(this).find('input').prop('checked', true);
+    })
 
     // Initialize all callbacks
     COURSAVENUE.reinitializePlugins = function() {
