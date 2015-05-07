@@ -74,6 +74,9 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
 
   def activate
     @subscription = @structure.subscription
+    plan          = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
+    @subscription.plan = plan
+    @subscription.save
 
     error_code_value = @subscription.charge! stripe_token_params[:stripe_token]
     respond_to do |format|

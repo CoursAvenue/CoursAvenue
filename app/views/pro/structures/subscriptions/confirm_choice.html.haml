@@ -8,17 +8,19 @@
   - @subscription = @structure.subscription
   = simple_form_for [:pro, @structure, @subscription], url: activate_pro_structure_subscription_path(@structure, @subscription), html: { id: 'subscription_form' } do |f|
     = f.input :stripe_token, as: :hidden
+    %input{ type: 'hidden', name: 'plan_id' }
 
   :javascript
     var stripeHandler = StripeCheckout.configure({
         key: "#{ Rails.configuration.stripe[:publishable_key] }",
-        token: function(token) {
+        token: function token(token) {
             $('[name="subscription[stripe_token]"]').val(token.id);
             $('#subscription_form').submit();
             CoursAvenue.showFullPageLoader('Activation en cours...');
         },
     });
     $('[data-stripe]').click(function(event) {
+        $('[name=plan_id]').val($(this).data('plan-id'));
 
         event.preventDefault();
 

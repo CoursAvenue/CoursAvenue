@@ -27,9 +27,9 @@
   - elsif @structure.subscription and @structure.subscription.in_trial?
     .float--right
       .tab-pane.monthly-details{ class: (monthly_plan == plan ? 'active' : '')}
-        = link_to "M'abonner", 'javascript:void(0)', data: { stripe: true, amount: monthly_plan.amount }, class: 'btn btn--green'
+        = link_to "M'abonner", 'javascript:void(0)', data: { stripe: true, plan_id: monthly_plan.id, amount: monthly_plan.amount }, class: 'btn btn--green'
       .tab-pane.annual-details{ class: (yearly_plan == plan ? 'active' : '')}
-        = link_to "M'abonner", 'javascript:void(0)', data: { stripe: true, amount: yearly_plan.amount }, class: 'btn btn--green'
+        = link_to "M'abonner", 'javascript:void(0)', data: { stripe: true, plan_id: yearly_plan.id, amount: yearly_plan.amount }, class: 'btn btn--green'
   %div
     .inline-block.v-middle.soft-half--right PRIX
     %ul.nav.tabs--link.flush.btn-group.inline-block.v-middle
