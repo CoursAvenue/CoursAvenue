@@ -27,13 +27,14 @@ class Subscription < ActiveRecord::Base
   has_many   :invoices,     class_name: 'Subscriptions::Invoice'
   has_many   :sponsorships, class_name: 'Subscriptions::Sponsorship'
 
-  store_accessor :metadata, :cancelation_reason_dont_want_more_students,
-                            :cancelation_reason_dont_want_more_students,
-                            :cancelation_reason_stopping_activity,
-                            :cancelation_reason_didnt_have_return_on_investment,
-                            :cancelation_reason_too_hard_to_use,
-                            :cancelation_reason_other,
-                            :cancelation_reason_text
+  store_accessor :metadata, :sponsorship_token,
+    :cancelation_reason_dont_want_more_students,
+    :cancelation_reason_dont_want_more_students,
+    :cancelation_reason_stopping_activity,
+    :cancelation_reason_didnt_have_return_on_investment,
+    :cancelation_reason_too_hard_to_use,
+    :cancelation_reason_other,
+    :cancelation_reason_text
 
   define_boolean_accessor_for :metadata, :cancelation_reason_dont_want_more_students,
     :cancelation_reason_stopping_activity,
