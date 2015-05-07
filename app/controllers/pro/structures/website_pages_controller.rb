@@ -44,6 +44,12 @@ class Pro::Structures::WebsitePagesController < Pro::ProController
     end
   end
 
+  def destroy
+    @website_page = @structure.website_pages.find(params[:id])
+    @website_page.destroy
+    redirect_to pro_structure_website_pages_path(@structure)
+  end
+
   private
 
   def website_page_params
