@@ -32,7 +32,11 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   end
 
   def confirm_choice
-    @plan = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
+    if subscription_plan_id_params[:plan_id].present?
+      @plan = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
+    else
+      @plan = @structure.subscription.plan
+    end
     if request.xhr?
       render layout: false
     end

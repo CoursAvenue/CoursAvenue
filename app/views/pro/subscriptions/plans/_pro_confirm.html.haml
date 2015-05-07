@@ -1,6 +1,10 @@
 .panel
   .panel__header.soft--sides.soft-half--ends
-    %h4.flush OFFRE SITE INTERNET
+    %h4.flush.inline-block.soft-half--right OFFRE MODULES
+    .inline-block
+      Passer à l'offre
+      = link_to 'Site internet', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: plan.other_plan), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+
   .panel__body.soft
     = render partial: 'pro/subscriptions/plans/confirm_header_panel', locals: { text: "Bénéficiez d'un site Internet tout inclus spécialement conçu pour les activités de loisirs", plan: plan }
 
@@ -31,9 +35,9 @@
         .text--center.line-height-1-5.v-middle.green.soft-half--bottom>
           .epsilon.f-weight-bold Inscriptions en ligne 24h/24
           %div avec ou sans paiement en ligne
-        .text--center.epsilon.line-height-1-5.v-middle.green>
+        .text--center.epsilon.line-height-1-5.v-middle.green.soft-half--bottom>
           .epsilon.f-weight-bold Bons cadeaux
-          %div pour que vos activités puissent être offertes
+          %div pour que vos activités soient offertes
         .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.green>
           Livre d'Or
       .grid__item.one-third>

@@ -122,6 +122,11 @@ class Subscriptions::Plan < ActiveRecord::Base
     Subscriptions::Plan.where(plan_type: plan_type, interval: 'year').first
   end
 
+  # Return other plan that has the same interval
+  def other_plan
+    Subscriptions::Plan.where.not(plan_type: plan_type).where(interval: interval).first
+  end
+
   private
 
   # Create a new Stripe Plan and save the Stripe Plan id.
