@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506114739) do
+ActiveRecord::Schema.define(version: 20150507084828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -652,7 +652,21 @@ ActiveRecord::Schema.define(version: 20150506114739) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
+    t.boolean  "on_dropbox",           default: false
   end
+
+  create_table "participation_request_invoices", force: true do |t|
+    t.string   "stripe_invoice_id"
+    t.datetime "payed_at"
+    t.integer  "participation_request_id"
+    t.datetime "deleted_at"
+    t.boolean  "generated"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "participation_request_invoices", ["participation_request_id"], name: "index_participation_request_invoices_on_participation_request", using: :btree
+  add_index "participation_request_invoices", ["stripe_invoice_id"], name: "index_participation_request_invoices_on_stripe_invoice_id", unique: true, using: :btree
 
   create_table "participation_request_participants", force: true do |t|
     t.integer  "number"
@@ -686,9 +700,13 @@ ActiveRecord::Schema.define(version: 20150506114739) do
     t.string   "street"
     t.string   "zip_code"
     t.integer  "city_id"
+    t.string   "stripe_charge_id"
     t.boolean  "from_personal_website",     default: false
     t.string   "token"
+    t.boolean  "refunded",                  default: false
   end
+
+  add_index "participation_requests", ["stripe_charge_id"], name: "index_participation_requests_on_stripe_charge_id", unique: true, using: :btree
 
   create_table "participations", force: true do |t|
     t.integer  "user_id"
@@ -810,6 +828,9 @@ ActiveRecord::Schema.define(version: 20150506114739) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
@@ -989,38 +1010,38 @@ ActiveRecord::Schema.define(version: 20150506114739) do
     t.string   "contact_phone"
     t.string   "contact_mobile_phone"
     t.string   "contact_email"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
     t.string   "slug"
     t.string   "street"
     t.string   "zip_code"
     t.text     "description"
     t.integer  "city_id"
-    t.boolean  "active",                 default: false
+    t.boolean  "active",                                 default: false
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
-    t.integer  "comments_count",         default: 0
+    t.integer  "comments_count",                         default: 0
     t.text     "facebook_url"
     t.boolean  "no_facebook"
     t.boolean  "no_website"
-    t.integer  "crop_x",                 default: 0
-    t.integer  "crop_y",                 default: 0
-    t.integer  "crop_width",             default: 500
+    t.integer  "crop_x",                                 default: 0
+    t.integer  "crop_y",                                 default: 0
+    t.integer  "crop_width",                             default: 500
     t.boolean  "has_only_one_place"
     t.string   "email_status"
     t.datetime "last_email_sent_at"
     t.string   "last_email_sent_status"
     t.string   "funding_type_ids"
     t.string   "widget_status"
-    t.boolean  "teaches_at_home",        default: false
+    t.boolean  "teaches_at_home",                        default: false
     t.text     "widget_url"
     t.integer  "teaches_at_home_radius"
     t.hstore   "meta_data"
     t.integer  "highlighted_comment_id"
-    t.string   "pricing_plan",           default: "free"
+    t.string   "pricing_plan",                           default: "free"
     t.datetime "last_geocode_try"
     t.text     "sleeping_attributes"
     t.boolean  "logo_processing"
@@ -1033,16 +1054,22 @@ ActiveRecord::Schema.define(version: 20150506114739) do
     t.text     "course_subjects_string"
     t.boolean  "premium"
     t.text     "cities_text"
-    t.boolean  "sms_opt_in",             default: false
+    t.boolean  "sms_opt_in",                             default: false
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
-    t.boolean  "pure_player",            default: false
     t.string   "stripe_customer_id"
+    t.boolean  "pure_player",                            default: false
+    t.string   "stripe_managed_account_id"
+    t.string   "stripe_managed_account_secret_key"
+    t.string   "stripe_managed_account_publishable_key"
   end
 
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
   add_index "structures", ["stripe_customer_id"], name: "index_structures_on_stripe_customer_id", unique: true, using: :btree
+  add_index "structures", ["stripe_managed_account_id"], name: "index_structures_on_stripe_managed_account_id", unique: true, using: :btree
+  add_index "structures", ["stripe_managed_account_publishable_key"], name: "index_structures_on_stripe_managed_account_publishable_key", unique: true, using: :btree
+  add_index "structures", ["stripe_managed_account_secret_key"], name: "index_structures_on_stripe_managed_account_secret_key", unique: true, using: :btree
 
   create_table "structures_subjects", id: false, force: true do |t|
     t.integer "structure_id"
@@ -1186,6 +1213,18 @@ ActiveRecord::Schema.define(version: 20150506114739) do
 
   add_index "subscriptions_plans", ["stripe_plan_id"], name: "index_subscriptions_plans_on_stripe_plan_id", unique: true, using: :btree
 
+  create_table "subscriptions_sponsorships", force: true do |t|
+    t.integer  "subscription_id"
+    t.string   "sponsored_email",                 null: false
+    t.boolean  "consumed",        default: false
+    t.datetime "deleted_at"
+    t.string   "token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subscriptions_sponsorships", ["subscription_id"], name: "index_subscriptions_sponsorships_on_subscription_id", using: :btree
+
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
@@ -1314,11 +1353,13 @@ ActiveRecord::Schema.define(version: 20150506114739) do
     t.datetime "sign_up_at"
     t.string   "avatar"
     t.datetime "deleted_at"
+    t.string   "stripe_customer_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["slug"], name: "index_users_on_slug", unique: true, using: :btree
+  add_index "users", ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true, using: :btree
 
   create_table "vertical_pages", force: true do |t|
     t.string   "subject_name"

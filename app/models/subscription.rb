@@ -22,9 +22,10 @@ class Subscription < ActiveRecord::Base
     :cancelation_reason_other
 
   belongs_to :structure
-  belongs_to :plan,     class_name: 'Subscriptions::Plan',   foreign_key: 'subscriptions_plan_id'
-  belongs_to :coupon,   class_name: 'Subscriptions::Coupon', foreign_key: 'subscriptions_coupon_id'
-  has_many   :invoices, class_name: 'Subscriptions::Invoice'
+  belongs_to :plan,         class_name: 'Subscriptions::Plan',   foreign_key: 'subscriptions_plan_id'
+  belongs_to :coupon,       class_name: 'Subscriptions::Coupon', foreign_key: 'subscriptions_coupon_id'
+  has_many   :invoices,     class_name: 'Subscriptions::Invoice'
+  has_many   :sponsorships, class_name: 'Subscriptions::Sponsorship'
 
   store_accessor :metadata, :cancelation_reason_dont_want_more_students,
                             :cancelation_reason_dont_want_more_students,
