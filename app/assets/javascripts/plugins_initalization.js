@@ -166,8 +166,11 @@ $(function() {
         $this = $(this);
         $this.parent().addClass('relative blog-article__image-with-legend');
         $this.addClass('shadowed--bottom');
-        var div = $('<div>').text($this.attr('title') || $this.attr('alt'))
-                            .addClass('absolute blog-article__legend one-whole soft--sides soft-half--ends bg-black-faded white south west transition-all-500');
+        var text = $this.attr('title') || $this.attr('alt')
+        if (text && text.length > 0) {
+            var div = $('<div>').text(text)
+                                .addClass('absolute blog-article__legend one-whole soft--sides soft-half--ends bg-black-faded white south west transition-all-500');
+        }
         $this.after(div);
     });
     // Responsive menu
