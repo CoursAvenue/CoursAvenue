@@ -161,11 +161,6 @@ class AdminMailer < ActionMailer::Base
     mail to: @structure.main_contact.email, subject: "Votre demande de modification d'avis a bien été prise en compte"
   end
 
-  def recommandation_has_been_deleted(structure)
-    @structure  = structure
-    mail to: @structure.main_contact.email, subject: "Votre suppression d'avis a bien été prise en compte"
-  end
-
   ######################################################################
   # The End                                                            #
   ######################################################################
