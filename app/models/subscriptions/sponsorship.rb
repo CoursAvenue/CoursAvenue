@@ -15,7 +15,7 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
   # Validations                                                        #
   ######################################################################
 
-  validates :sponsored_email, uniqueness: true, presence: true
+  validates :sponsored_email, presence: true, uniqueness: { scope: :subscription_id }
 
   ######################################################################
   # Methods                                                            #

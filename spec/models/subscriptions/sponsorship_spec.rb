@@ -6,7 +6,7 @@ RSpec.describe Subscriptions::Sponsorship, type: :model do
   end
 
   context 'validations' do
-    it { should validate_uniqueness_of(:sponsored_email) }
+    it { should validate_uniqueness_of(:sponsored_email).scoped_to(:subscription_id) }
     it { should validate_presence_of(:sponsored_email) }
   end
 
