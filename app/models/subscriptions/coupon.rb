@@ -92,6 +92,4 @@ class Subscriptions::Coupon < ActiveRecord::Base
 
     save
   end
-
-  handle_asynchronously :create_stripe_coupon
 end
