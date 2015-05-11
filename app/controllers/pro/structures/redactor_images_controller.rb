@@ -12,7 +12,7 @@ class Pro::Structures::RedactorImagesController < ApplicationController
   end
 
   def create
-    image = @structure.medias.images.news
+    image = @structure.medias.images.new
     image.remote_image_url = params[:file]
     image.save
 
