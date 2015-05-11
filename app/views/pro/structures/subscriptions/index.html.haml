@@ -8,4 +8,7 @@
   %h1
     Essayez nos offres : 14 jours d'essai gratuits
 
+  - if @sponsorship.present?
+    = render 'pending_sponsorship'
+
   = render 'subscription_plans'

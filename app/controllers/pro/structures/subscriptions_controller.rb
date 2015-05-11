@@ -11,6 +11,9 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
       @monthly_plans = ::Subscriptions::Plan.monthly.order('amount ASC').decorate
       @yearly_plans  = ::Subscriptions::Plan.yearly.order('amount ASC').decorate
     end
+
+    @sponsorship = Subscriptions::Sponsorship.where(
+      token: session[:sponsorship_token] || params[:sponsorship_token]).first
   end
 
   def create
