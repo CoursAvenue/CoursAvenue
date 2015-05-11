@@ -10,9 +10,9 @@
       Créer une page personnalisée
 - else
   .grid.push--bottom
-    .grid__item.v-middle.one-half.palm-one-whole>
+    .grid__item.v-middle.six-tenths.palm-one-whole>
       %h1.flush Mes pages personnalisées
-    .grid__item.v-middle.text--right.one-half.palm-one-whole.palm-text--left>
+    .grid__item.v-middle.text--right.four-tenths.palm-one-whole.palm-text--left>
       = link_to new_pro_structure_website_page_path(@structure), class: 'btn btn--green' do
         %i.fa.fa-plus
         Ajouter une page personnalisée
@@ -39,8 +39,6 @@
           = link_to pro_structure_website_page_article_path(@structure, page, article), method: :delete, data: { confirm: 'Voulez-vous vraiment supprimer cet article ?' } do
             %i.fa-trash-o
             Supprimer
-        %div
-          = truncate_html(article.content, length: 300).html_safe
     .soft--left
       = link_to new_pro_structure_website_page_article_path(@structure, page), class: 'btn btn--green btn--small' do
         %i.fa.fa-plus
