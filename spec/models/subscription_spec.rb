@@ -134,6 +134,35 @@ RSpec.describe Subscription, type: :model do
         expect(subject.stripe_subscription).to be_a(Stripe::Subscription)
       end
     end
+
+    context 'with a sponsorship' do
+      let(:other_structure)    { FactoryGirl.create(:structure, :with_contact_email) }
+      let(:other_subscription) { plan.create_subscription!(other_structure) }
+      let(:other_token)        { stripe_helper.generate_card_token }
+      let(:sponsorship)        {
+        FactoryGirl.create(:subscriptions_sponsorship, subscription: other_subscription)
+      }
+
+      before do
+        other_subscription.charge!(other_token)
+
+        subject.sponsorship_token = sponsorship.token
+        subject.save
+      end
+
+      it 'applies the half off coupon' do
+        subject.charge!(token)
+
+        expect(subject.next_amount).to eq(plan.amount / 2.0)
+      end
+
+      it 'applies the coupon to the sponsor' do
+        subject.charge!(token)
+
+        other_subscription.reload
+        expect(other_subscription.next_amount).to eq(0)
+      end
+    end
   end
 
   describe '#cancel!' do
