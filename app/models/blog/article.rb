@@ -44,6 +44,8 @@ class Blog::Article < ActiveRecord::Base
       subjects.map(&:name).join(' ')
     end
 
+    boolean :published
+
     string :type do
       (type == 'Blog::Article::UserArticle' ? 'user' : 'pro')
     end

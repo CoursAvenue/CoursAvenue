@@ -14,6 +14,7 @@ class BlogArticleSearch
       with(:subject_slugs).any_of               params[:subject_slugs] if params[:subject_slugs].present?
 
       with :type, params[:type] if params[:type].present?
+      with :published, true
 
       order_by :page_views, :desc
       order_by :created_at, :desc
