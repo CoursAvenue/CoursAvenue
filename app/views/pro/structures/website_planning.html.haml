@@ -42,3 +42,6 @@
       %li Affichez un planning optimisé tous supports et mis à jour en temps réel
       %li Proposez l'inscription en ligne 7j/7, 24h/24 (plus de message téléphonique à devoir rappeler)
       %li Faites payer vos activités par carte bleue et recevez l'argent en temps réel
+
+  = content_for :scripts do
+    = javascript_include_tag 'https://checkout.stripe.com/checkout.js'

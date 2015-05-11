@@ -31,3 +31,6 @@
       %li Profitez d'un référencement Google optimisé web et mobiles
       %li Transformez plus de visiteurs en inscrits
       %li Simplicité de mise en place et d'utilisation, actualisé en temps réel, accompagnement personnalisé
+
+  = content_for :scripts do
+    = javascript_include_tag 'https://checkout.stripe.com/checkout.js'
