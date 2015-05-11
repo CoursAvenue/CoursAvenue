@@ -4,10 +4,10 @@
 
 = simple_form_for [:pro, @structure, @website_parameter] do |f|
   = f.input :slug, input_html: { value: @website_parameter.website_url, disabled: true, class: 'input--large flush--bottom' }, label_html: { class: 'label--large hard--bottom' }, wrapper_html: { class: 'flush--bottom' }
-  .input.flush--top
-    .control-label>
-    .input-container>
-      Pour modifier le nom de domaine de votre site (son URL), [envoyez-nous votre demande].
+  -# .input.flush--top
+  -#   .control-label>
+  -#   .input-container>
+  -#     Pour modifier le nom de domaine de votre site (son URL), [envoyez-nous votre demande].
   = f.input :title, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
   .input.flush--top
     .control-label>

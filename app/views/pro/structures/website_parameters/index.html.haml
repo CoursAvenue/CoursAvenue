@@ -13,7 +13,7 @@
     Suivez les statistiques de votre site Internet depuis l'onglet
     = link_to 'Statistiques', pro_structure_statistics_path(@structure)
 
-  %div
+  .text--center
     = link_to 'Voir mon site Internet', @structure.website_parameter.decorate.website_url, class: 'btn btn--green', target: :_blank
 
 - else
