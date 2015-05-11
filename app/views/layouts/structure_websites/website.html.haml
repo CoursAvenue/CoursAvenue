@@ -1,23 +1,24 @@
 = content_for :right_after_head do
   %meta{ name: 'robots', content: 'noindex, nofollow' }
 
-= render 'layouts/structure_websites/header'
+= content_for :header do
+  = render 'layouts/structure_websites/header'
 
-%ul.text--center.push.nav.soft--bottom
-  - if @structure.subscription.plan.website_plan?
-    = link_to 'Présentation', structure_website_presentation_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'index' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
-  = link_to 'Planning', structure_website_planning_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'planning' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
-  = link_to "Livre d'Or", structure_website_reviews_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'reviews' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
-  - if @structure.subscription.plan.website_plan?
-    = link_to 'Photos / Vidéos', structure_website_medias_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'medias' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
-    - @structure.website_pages.each do |page|
-      = link_to page.title, structure_website_website_page_path(page), class: ['delta soft-half--sides soft-half--bottom', (@page and @page.slug == page.slug ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
-    = link_to 'Contact', structure_website_contact_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'contact' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+  %ul.text--center.push.nav.soft--bottom
+    - if @structure.subscription.plan.website_plan?
+      = link_to 'Présentation', structure_website_presentation_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'index' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+    = link_to 'Planning', structure_website_planning_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'planning' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+    = link_to "Livre d'Or", structure_website_reviews_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'reviews' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+    - if @structure.subscription.plan.website_plan?
+      = link_to 'Photos / Vidéos', structure_website_medias_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'medias' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+      - @structure.website_pages.each do |page|
+        = link_to page.title, structure_website_website_page_path(page), class: ['delta soft-half--sides soft-half--bottom', (@page and @page.slug == page.slug ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+      = link_to 'Contact', structure_website_contact_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'contact' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
 
 = content_for :content do
   = yield
 
-= render :template => '/layouts/structure_websites/application'
+= render template: '/layouts/structure_websites/application'
 
 #coursavenue-footer
 = content_for :scripts do
