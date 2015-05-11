@@ -5,7 +5,7 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  TRIAL_LENGTH = 14
+  TRIAL_LENGTH = 15
   PLAN_TYPES   = ['module', 'website']
   INTERVALS    = {
     month: 'Mensuel',
