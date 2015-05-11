@@ -80,7 +80,7 @@ RSpec.describe Subscription, type: :model do
     context 'when in trial' do
       subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.from_now) }
 
-      it { expect(subject.active?).to be_falsy }
+      it { expect(subject.active?).to be_truthy }
     end
 
     context 'when active' do
