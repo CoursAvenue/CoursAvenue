@@ -76,6 +76,6 @@ class Pro::SubscriptionsPlansController < Pro::ProController
   private
 
   def permitted_params
-    params.require(:subscriptions_plan).permit(:name, :amount, :interval, :trial_period_days)
+    params.require(:subscriptions_plan).permit(:name, :public_name, :plan_type, :amount, :interval, :trial_period_days)
   end
 end
