@@ -83,6 +83,12 @@ RSpec.describe Subscription, type: :model do
       it { expect(subject.active?).to be_truthy }
     end
 
+    context 'when in trial ends' do
+      subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.ago) }
+
+      it { expect(subject.active?).to be_falsy }
+    end
+
     context 'when active' do
       let(:token) { stripe_helper.generate_card_token }
       subject     { plan.create_subscription!(structure) }
