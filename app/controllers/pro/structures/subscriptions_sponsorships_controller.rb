@@ -30,9 +30,6 @@ class Pro::Structures::SubscriptionsSponsorshipsController < Pro::ProController
       notice: 'Vos parrainages ont bien été envoyés.'
   end
 
-  def show
-  end
-
   private
 
   def set_subscription
