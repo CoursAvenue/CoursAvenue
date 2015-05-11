@@ -33,4 +33,4 @@
       %br
       90% des Français recherchent des avis sur Internet avant de s'inscrire à une activité.
     %p.text--center
-      = link_to 'Essayer gratuitement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.module.first), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+      = link_to 'Essayer gratuitement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.module.first.id), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }

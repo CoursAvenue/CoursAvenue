@@ -22,7 +22,7 @@
               %div
                 %i
                   Statistiques de l'offre
-                  = link_to 'Site Internet', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.website.first), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+                  = link_to 'Site Internet', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.website.first.id), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
       .grid__item.one-third.text--center.v-middle>
         .inline-block.cursor-pointer.nowrap{ data: { behavior: 'toggle-premium-serie' } }
           .v-middle.lbl.lbl--blue.v-middle.lbl--chip
@@ -44,11 +44,11 @@
 
     %p.delta.line-height-1-5.soft-half--left
       \- L'offre
-      = link_to 'Modules', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.module.first), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+      = link_to 'Modules', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.module.first.id), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
       pour suivre le nombre d'Internautes qui visualisent la page planning de votre site Internet ainsi que le nombre de demandes d'inscriptions ;
       %br
       \- L'offre
-      = link_to 'Site Internet', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.website.first), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+      = link_to 'Site Internet', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.website.first.id), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
       qui vous permet de suivre en plus les visites uniques de votre site web.
     .text--center
       = link_to 'Essayer gratuitement', pro_structure_subscriptions_path(@structure), class: 'btn btn--green'
