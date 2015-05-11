@@ -34,11 +34,11 @@
     .inline-block.v-middle.soft-half--right Abonnement
     %ul.nav.tabs--link.flush.inline-block.v-middle
       %li.push--right{ class: (monthly_plan == plan ? 'active' : '')}>
-        %a{ href: '.monthly-details', data: { toggle: 'tab' } }
+        %a.muted-link{ href: '.monthly-details', data: { toggle: 'tab' } }
           %input{ type: 'radio', name: 'plan_duration', checked: (monthly_plan == plan) }
           Mensuel
       %li{ class: (yearly_plan == plan ? 'active' : '')}>
-        %a{ href: '.annual-details', data: { toggle: 'tab' } }
+        %a.muted-link{ href: '.annual-details', data: { toggle: 'tab' } }
           %input{ type: 'radio', name: 'plan_duration', checked: (yearly_plan == plan) }
           Annuel
   .tab-pane.hard.monthly-details{ class: (monthly_plan == plan ? 'active' : '')}
