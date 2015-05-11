@@ -7,8 +7,9 @@
   %ul.line-height-1-7.inline-block.text--left
     %li
       = link_to "Mettez à jour votre planning d'activités", pro_structure_courses_path(@structure)
-    -# %li Affichez votre [planning sur votre site Internet]
+    %li
+      = link_to "Affichez votre planning sur votre site Internet", website_planning_pro_structure_path(@structure)
     %li
       = link_to "Demandez des recommandations à vos élèves", pro_structure_comments_path(@structure)
     %li
-      = link_to "Affichez votre livre d'Or sur votre site Internet", widget_pro_structure_path(@structure)
+      = link_to "Affichez votre livre d'Or sur votre site Internet", comments_on_website_pro_structure_comments_path(@structure)
