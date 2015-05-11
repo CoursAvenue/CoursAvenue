@@ -157,6 +157,7 @@ CoursAvenue::Application.routes.draw do
           get :subscriptions
         end
       end
+      resources :subscriptions_sponsorships, only: [:show], path: 'parrainage'
 
       resources :subscription_plans, only: [:index, :update], path: 'abonnements' do
         collection do
