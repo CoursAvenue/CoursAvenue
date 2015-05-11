@@ -236,7 +236,6 @@ CoursAvenue::Application.routes.draw do
         resources :subscriptions, only: [:index, :create, :destroy], controller: 'structures/subscriptions', path: 'mon-abonnement' do
           member do
             patch :activate
-            get   :cancel
             get   :choose_new_plan
             patch :change_plan
             get   :confirm_cancellation
