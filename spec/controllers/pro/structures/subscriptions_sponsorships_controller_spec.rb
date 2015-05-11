@@ -28,6 +28,19 @@ describe Pro::Structures::SubscriptionsSponsorshipsController do
 
     let(:sponsorships) { [] }
 
+    context 'when there is no subscription' do
+      before do
+        structure.subscription = nil
+        structure.save
+      end
+
+      it 'redirect to the subscription registration page' do
+        get :index, structure_id: structure.slug
+
+        expect(response).to redirect_to(pro_structure_subscriptions_path(structure))
+      end
+    end
+
     it 'renders the index template' do
       get :index, structure_id: structure.slug
 

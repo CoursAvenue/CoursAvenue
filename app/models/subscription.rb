@@ -111,6 +111,11 @@ class Subscription < ActiveRecord::Base
       self.stripe_subscription_id = _subscription.id
       save
 
+      if self.sponsorship_token.present?
+        sponsorship = Subscriptions::Sponsorship.where(token: self.sponsorship_token).first
+        sponsorship.redeem!(self) unless sponsorship.nil?
+      end
+
     rescue Stripe::CardError => exception
       Bugsnag.notify(exception)
       error_code_value = 'fail'

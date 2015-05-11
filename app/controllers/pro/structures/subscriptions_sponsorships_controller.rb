@@ -3,6 +3,11 @@ class Pro::Structures::SubscriptionsSponsorshipsController < Pro::ProController
   before_action :authenticate_pro_admin!, :set_subscription
 
   def index
+    if @subscription.nil?
+      return redirect_to pro_structure_subscriptions_path(@structure),
+        error: "Vous n'êtes pas autorisé à accéder à cette page."
+    end
+
     @sponsorships              = @subscription.sponsorships
     @remaining_monthly_credits = @sponsorships.count(&:consumed?)
   end
