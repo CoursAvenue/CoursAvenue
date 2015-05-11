@@ -3,7 +3,6 @@ class Pro::Structures::RedactorImagesController < ApplicationController
   load_and_authorize_resource :structure, find_by: :slug
 
   def index
-    puts 'lol'
     images = @structure.medias.images.map do |media|
       { thumb: media.image.redactor.url, image: media.image.url }
     end
