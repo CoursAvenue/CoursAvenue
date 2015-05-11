@@ -26,7 +26,11 @@
       %br
       Plus de 8 Français sur 10 à la recherche d'activités de loisirs vont sur Internet. Et la moitié le fait sur un mobile ou une tablette.
     %p.text--center
-      = link_to 'Essayer gratuitement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.website.first), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+      = link_to confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.website.first), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
+        - if @structure.premium?
+          M'abonner
+        - else
+          Essayer gratuitement
     %ul.delta.line-height-1-3
       %li Bénéficiez d'un site Internet 100% sur-mesure spécialement conçu pour vos activités
       %li Profitez d'un référencement Google optimisé web et mobiles
