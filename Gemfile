@@ -245,8 +245,6 @@ group :development, :test do
   gem 'byebug'
   # Permits to travel in the past
   gem 'delorean'
-  gem 'spring',                '~> 1.3.4'
-  gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'faker',                 '~> 1.4.3'
   gem 'factory_girl_rails',    '~> 4.5.0'
   gem 'rspec',                 '~> 3.2.0'

@@ -25,7 +25,7 @@
         = image_tag structure.logo.url(:thumb), height: 50, width: 50, class: 'center-block rounded--circle'
       .flexbox__item.v-middle.one-whole.soft-half--left.palm-block
         .epsilon.inline-block.v-middle{ itemprop: 'summary' }
-          = link_to structure.name, structure_path(planning.structure), class: 'f-weight-600 v-middle'
+          = link_to structure.name, structure_path(planning.structure), class: 'f-weight-600 v-middle', itemprop: 'url'
           %span.v-middle= "- #{planning.course.name.capitalize}"
           %time.v-middle.epsilon.f-weight-600{ itemprop: 'startDate', datetime: planning_decorator.start_date_datetime }
             = planning_decorator.time_slot
@@ -36,7 +36,7 @@
               %i.fa.fa-map-marker
               %i= "#{planning.place.address} (#{planning.place.name})"
             %span{ itemprop: 'address', itemscope: true, itemtype: 'http://data-vocabulary.org/Address' }
-              %meta{ itemprop: 'street-address', content:planning.place.address }
+              %meta{ itemprop: 'street-address', content: planning.place.address }
               %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }
                 %meta{ itemprop: 'latitude', content: planning.place.latitude }
                 %meta{ itemprop: 'longitude', content: planning.place.longitude }
