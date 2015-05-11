@@ -59,6 +59,10 @@ class Subscriptions::Invoice < ActiveRecord::Base
     "invoices/#{self.structure.slug}/#{self.id}.pdf"
   end
 
+  def amount
+    subscription.plan.amount
+  end
+
   private
 
   # Generate the PDF for the invoice.
