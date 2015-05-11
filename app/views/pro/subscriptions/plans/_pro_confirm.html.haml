@@ -1,6 +1,8 @@
 .panel
   .panel__header.soft--sides.soft-half--ends
-    %h4.flush.inline-block.soft-half--right OFFRE MODULES
+    .delta.flush.inline-block.soft-half--right
+      OFFRE
+      %strong= plan.public_name.upcase
     .inline-block
       Passer à l'offre
       = link_to 'Site internet', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: plan.other_plan), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
@@ -12,7 +14,7 @@
     %h4.flush INCLUS DANS L'OFFRE
   .panel__body.soft
     .grid
-      .grid__item.one-third>
+      .grid__item.one-third.v-top>
         .text--center.line-height-1-5.v-middle.soft-half--bottom>
           .f-weight-bold.delta Annonce sur CoursAvenue
         .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.orange.soft-half--bottom>
@@ -21,14 +23,9 @@
           Inscriptions en ligne
         .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.orange>
           Avis & Livre d'Or
-      .grid__item.one-third>
+      .grid__item.one-third.v-top>
         .text--center.v-middle.soft-half--bottom>
-          .line-height-1-3.f-weight-bold.delta Tout inclus dans un site web
-        .text--center.epsilon.line-height-1-5.v-middle.green.soft-half--bottom>
-          .epsilon.f-weight-bold Site web & mobile
-          %div spécialement dédié aux loisirs
-        .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.green.soft-half--bottom>
-          .epsilon.f-weight-bold Nom de domaine & hébergement
+          .line-height-1-3.f-weight-bold.delta.text--center Modules à installer sur votre propre site Internet
         .text--center.epsilon.line-height-1-5.v-middle.green.soft-half--bottom>
           .epsilon.f-weight-bold Page planning
           %div optimisée mobiles & tablettes
@@ -40,7 +37,7 @@
           %div pour que vos activités soient offertes
         .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.green>
           Livre d'Or
-      .grid__item.one-third>
+      .grid__item.one-third.v-top>
         .text--center.v-middle.soft-half--bottom>
           .line-height-1-3.f-weight-bold.delta Outils de gestion
         .text--center.epsilon.line-height-1-5.v-middle.dark-blue.soft-half--bottom>
