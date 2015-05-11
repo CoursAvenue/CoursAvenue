@@ -10,7 +10,8 @@
   %p.delta.line-height-1-3
     %strong Le saviez-vous ?
     %br
-    Suivez les statistiques de votre site Internet depuis l'onglet [Statistiques]
+    Suivez les statistiques de votre site Internet depuis l'onglet
+    = link_to 'Statistiques', pro_structure_statistics_path(@structure)
 
   %div
     = link_to 'Voir mon site Internet', @structure.website_parameter.decorate.website_url, class: 'btn btn--green', target: :_blank

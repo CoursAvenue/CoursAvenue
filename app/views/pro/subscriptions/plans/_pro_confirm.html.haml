@@ -8,7 +8,7 @@
       = link_to 'Site internet', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: plan.other_plan), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
 
   .panel__body.soft
-    = render partial: 'pro/subscriptions/plans/confirm_header_panel', locals: { text: "Bénéficiez d'un site Internet tout inclus spécialement conçu pour les activités de loisirs", plan: plan }
+    = render partial: 'pro/subscriptions/plans/confirm_header_panel', locals: { plan: plan }
 
   .panel__header.soft--sides.soft-half--ends.bordered--top
     %h4.flush INCLUS DANS L'OFFRE

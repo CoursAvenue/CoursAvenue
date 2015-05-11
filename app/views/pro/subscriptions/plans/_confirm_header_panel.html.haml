@@ -4,9 +4,12 @@
 - # User is not premium and is about to go into trial mode
 - if @structure.subscription.nil?
   .grid
-    .grid__item.two-thirds.epsilon>
-      Bénéficiez d'un site Internet tout inclus spécialement conçu pour les activités de loisirs
-    .grid__item.one-third.text--right>
+    .grid__item.v-middle.two-thirds.epsilon>
+      - if plan.website_plan?
+        Bénéficiez d'un site Internet tout inclus spécialement conçu pour les activités de loisirs
+      - else
+        Équipez votre site Internet des meilleurs outils pour booster vos inscriptions
+    .grid__item.v-middle.one-third.text--right>
       = link_to 'Activer mes 14 jours gratuits', pro_structure_subscriptions_path(@structure, plan_id: plan.id), method: :post, class: 'btn btn--green', data: { disable_with: 'Activation en cours...' }
   - # User is paying a plan and is about to change plan
 - else

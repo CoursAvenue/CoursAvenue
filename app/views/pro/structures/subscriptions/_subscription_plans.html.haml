@@ -3,7 +3,9 @@
 
 .panel
   .panel__header.soft
-    %h4.inline-block.v-middle.soft-half--right.flush OFFRE MODULES
+    .delta.inline-block.v-middle.soft-half--right.flush
+      OFFRE
+      %strong MODULES
     .inline-block.v-middle.gray.f-style-italic.epsilon 49€/mois sans engagement
   .panel__body.soft
     .grid
@@ -16,7 +18,9 @@
   Option B : vous souhaitez notre offre tout inclus, y compris un site web, pour tirer le meilleur d'Internet en tout liberté
 .panel
   .panel__header.soft
-    %h4.inline-block.v-middle.flush.soft-half--right OFFRE SITE INTERNET
+    .delta.inline-block.v-middle.soft-half--right.flush
+      OFFRE
+      %strong SITE INTERNET
     .inline-block.v-middle.gray.f-style-italic.epsilon 79€/mois sans engagement
   .panel__body.soft
     .grid
@@ -27,16 +31,16 @@
 %hr.push--ends
 .grid
   .grid__item.one-half>
-    %h2.flush Détail des offres :
+    %h2.flush Détail des offres
   .grid__item.one-half.text--right>
     Abonnement :
     %ul.nav.tabs--link.flush.inline-block.v-middle
       %li.push--right.active>
-        %a{ href: '.monthly-details', data: { toggle: 'tab' } }
+        %a.muted-link{ href: '.monthly-details', data: { toggle: 'tab' } }
           %input{ type: 'radio', name: 'plan_duration', checked: true }
           Mensuel
       %li
-        %a{ href: '.annual-details', data: { toggle: 'tab' } }
+        %a.muted-link{ href: '.annual-details', data: { toggle: 'tab' } }
           %input{ type: 'radio', name: 'plan_duration' }
           Annuel
 
