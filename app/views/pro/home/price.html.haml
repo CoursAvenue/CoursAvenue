@@ -60,6 +60,7 @@
                   Outils de gestion
 
 .main-container.main-container--medium.relative.soft--ends#en-savoir-plus
+  %h2.text--center Votre communication sur Internet enfin simple et efficace
   .text--center
     Abonnement :
     %ul.nav.tabs--link.flush.inline-block.v-middle
@@ -71,7 +72,6 @@
         %a.muted-link{ href: '.annual-details', data: { toggle: 'tab' } }
           %input{ type: 'radio', name: 'plan_duration' }
           Annuel
-
   .tab-pane.monthly-details.active.grid--full
     .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
       = render partial: 'pro/subscriptions/plans/free'
@@ -125,3 +125,16 @@
         %p.delta.line-height-1-5.soft--sides
           Nous sommes à votre écoute prêts à vous aider tous les jours du lundi au vendredi, de 9h à 18h. Vous pouvez nous appeler, chatter en temps réel ou nous envoyer un e-mail.
 
+.bg-white.bordered.inline-block.soft-half.fixed.push.rounded.text--center#need-help{ style: 'bottom: 100px; right: -300px;' }
+  = image_tag 'team_pictures/olivier.jpg', height: 60, width: 60, class: 'rounded'
+  %div.f-weight-500 Besoin d'aide ?
+  %div
+    = link_to 'Rappel Immediat', new_pro_call_reminder_path, class: 'btn btn--yellow fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 600 }
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          setTimeout(function() {
+              $('#need-help').animate({ right: '0' }, 400, 'easeOutCubic');
+          }, 2000);
+      });

@@ -13,7 +13,7 @@ class Pro::CallRemindersController < Pro::ProController
   end
 
   def create
-    CallReminder.create params[:call_reminder]
+    CallReminder.create call_reminder_params
     respond_to do |format|
       format.js
     end
@@ -21,7 +21,7 @@ class Pro::CallRemindersController < Pro::ProController
 
   def update
     @call_reminder = CallReminder.find params[:id]
-    @call_reminder.update_attributes params[:call_reminder]
+    @call_reminder.update_attributes call_reminder_params
     respond_to do |format|
       format.html { redirect_to pro_call_reminders_path }
     end
@@ -33,5 +33,11 @@ class Pro::CallRemindersController < Pro::ProController
     respond_to do |format|
       format.html { redirect_to pro_call_reminders_path }
     end
+  end
+
+  private
+
+  def call_reminder_params
+    params.require(:call_reminder).permit(:name, :phone_number, :website, :comment)
   end
 end

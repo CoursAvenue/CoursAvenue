@@ -107,6 +107,12 @@ class SuperAdminMailer < ActionMailer::Base
       subject = "Le prof #{@structure.name} n'a pas répondu"
     end
     mail to: 'kryqhl33@incoming.intercom.io',
-      subject: subject
+         subject: subject
+  end
+
+  def new_call_reminder_arrived(call_reminder)
+    @call_reminder = call_reminder
+    mail to: 'kryqhl33@incoming.intercom.io',
+         subject: 'Demande de rappel'
   end
 end
