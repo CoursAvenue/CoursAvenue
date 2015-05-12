@@ -50,14 +50,24 @@ describe Pro::Structures::SubscriptionsSponsorshipsController do
     it 'assigns the sponsorships' do
       get :index, structure_id: structure.slug
 
-      expect(assigns(:sponsorships)).to eq(sponsorships)
+      expect(assigns(:sponsorships).to_a).to match_array(sponsorships)
     end
 
     context 'when the subscription is not active' do
-      it 'asks to activate the subscription' do
+      before do
+        subscription.trial_end              = 1.day.ago
+        subscription.canceled_at            = 1.day.ago
+        subscription.stripe_subscription_id = Faker::Number.digit
+        subscription.save
+
+        structure.reload
+        subscription.reload
+      end
+
+      it 'redirects to the subscription creation' do
         get :index, structure_id: structure.slug
 
-        expect(response).to render_template(partial: '_activate_subscription')
+        expect(response).to redirect_to(pro_structure_subscriptions_path(structure))
       end
     end
 
@@ -67,10 +77,18 @@ describe Pro::Structures::SubscriptionsSponsorshipsController do
       end
 
       context 'when there are sponsorships' do
+        let!(:sponsorships) { 3.times.map { subscription.sponsorships.create(sponsored_email: Faker::Internet.email) } }
         it 'shows the list of sponsorships' do
           get :index, structure_id: structure.slug
 
           expect(response).to render_template(partial: '_sponsorships_list')
+        end
+
+        it 'assigns the sponsorships' do
+          get :index, structure_id: structure.slug
+
+          expect(assigns(:sponsorships).map(&:id).to_a.compact)
+            .to match_array(sponsorships.map(&:id))
         end
       end
     end

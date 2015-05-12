@@ -1,9 +1,16 @@
 %p.epsilon
-  Vous profitez actuellement de l'offre d'essai gratuite (offre <strong>#{@subscription.plan.public_name}</strong>) jusqu'au #{l(@subscription.trial_end.to_date)}. Il ne vous reste
-  %strong plus que #{(@subscription.trial_end.to_date - Date.today).to_i} jours
+  Vous profitez actuellement de l'offre d'essai gratuite (offre <strong>#{ @subscription.plan.public_name }</strong>) jusqu'au #{l(@subscription.trial_end.to_date)}. Il ne vous reste
+  %strong plus que #{ @subscription.remaining_trial_days } jours
   avant la fin de votre période d'essai : pour ne pas interrompre vos services,
   = link_to 'activez à tout moment votre abonnement.', confirm_choice_pro_structure_subscriptions_path(@structure), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
   Vous ne serez débité une fois la période d'essai terminée, et vous pouvez suspendre votre abonnement à tout moment (même avant la fin de la période d'essai).
+
+  %br
+  - if @sponsorship.present?
+    - sponsor = @sponsorship.subscription.structure
+    De plus, vous bénéficier de 50% de réduction sur votre premier mois d'abonnement grâce au parrainage de
+    = link_to sponsor.name, structure_url(sponsor, subdomain: 'www'), target: :_blank
+    \.
 
 %hr.push--ends
 

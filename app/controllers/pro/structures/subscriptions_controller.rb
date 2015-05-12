@@ -7,17 +7,28 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   def index
     if @structure.subscription.present?
       @subscription = @structure.subscription.decorate
+      @sponsorship  = Subscriptions::Sponsorship.where(token: @subscription.sponsorship_token).first
     else
       @monthly_plans = ::Subscriptions::Plan.monthly.order('amount ASC').decorate
       @yearly_plans  = ::Subscriptions::Plan.yearly.order('amount ASC').decorate
+      @sponsorship   = Subscriptions::Sponsorship.where(token: session[:sponsorship_token] ||
+                                                        params[:sponsorship_token]).first
     end
+
+    @sponsorship_token = @sponsorship.present? ? @sponsorship.token : nil
   end
 
   def create
-    plan        = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
-    coupon_code = params[:coupon_code]
+    plan              = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
+    coupon_code       = subscription_plan_id_params[:coupon_code]
+    sponsorship_token = subscription_plan_id_params[:sponsorship_token]
 
     @subscription = plan.create_subscription!(@structure, coupon_code)
+
+    if sponsorship_token.present?
+      @subscription.sponsorship_token = sponsorship_token
+      @subscription.save
+    end
 
     respond_to do |format|
       if @subscription.present? and @subscription.persisted?
@@ -82,7 +93,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     @subscription.plan = plan
     @subscription.save
 
-    error_code_value = @subscription.charge! stripe_token_params[:stripe_token]
+    error_code_value = @subscription.charge!(stripe_token_params[:stripe_token])
     respond_to do |format|
       if error_code_value.nil?
         format.html { redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant abonné !' }
@@ -128,6 +139,6 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   end
 
   def subscription_plan_id_params
-    params.permit(:plan_id)
+    params.permit(:plan_id, :coupon_code, :sponsorship_token)
   end
 end

@@ -1,8 +1,9 @@
-- if @plan.website_plan?
-  = render partial: 'pro/subscriptions/plans/pro_plus_confirm', locals: { plan: @plan }
-- else
-  = render partial: 'pro/subscriptions/plans/pro_confirm', locals: { plan: @plan }
+- token = params[:sponsorship_token]
 
+- if @plan.website_plan?
+  = render partial: 'pro/subscriptions/plans/pro_plus_confirm', locals: { plan: @plan, sponsorship_token: token }
+- else
+  = render partial: 'pro/subscriptions/plans/pro_confirm', locals: { plan: @plan, sponsorship_token: token }
 
 - if @structure.subscription
   - @subscription = @structure.subscription

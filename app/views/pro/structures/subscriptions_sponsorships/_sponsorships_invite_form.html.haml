@@ -11,7 +11,7 @@
 %h5.push--top Entrez les emails de vos amis et envoyez-leur votre parrainage :
 
 .gray-box.soft.relative.push--down
-  = simple_form_for @subscription.sponsorships.build, url: pro_structure_subscriptions_sponsorships_path(@structure) do |f|
+  = simple_form_for Subscriptions::Sponsorship.new, url: pro_structure_subscriptions_sponsorships_path(@structure) do |f|
     .grid.push-half--bottom
       .grid__item.two-twelfths.text--right.palm-one-whole>
         %h4 À

@@ -16,6 +16,10 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
   let(:plan)          { FactoryGirl.create(:subscriptions_plan) }
   let(:token)         { stripe_helper.generate_card_token }
 
+  let!(:monthly_plans) { 3.times.map { FactoryGirl.create(:subscriptions_plan, :monthly) } }
+  let!(:yearly_plans)  { 3.times.map { FactoryGirl.create(:subscriptions_plan, :yearly) } }
+
+
   before do
     sign_in admin
   end
@@ -109,6 +113,25 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
         get :index, structure_id: structure.id
 
         expect(response).to render_template(partial: '_subscription_canceled')
+      end
+    end
+
+    context "when there's a sponsorship token" do
+      let(:other_structure)    { FactoryGirl.create(:structure_with_admin) }
+      let(:other_subscription) { FactoryGirl.create(:subscription, structure: other_structure) }
+      let!(:other_sponsorship) { FactoryGirl.create(:subscriptions_sponsorship,
+                                                    subscription: other_subscription) }
+
+      it 'renders the sponsorship pending partial' do
+        get :index, structure_id: structure.id, sponsorship_token: other_sponsorship.token
+
+        expect(response).to render_template(partial: '_pending_sponsorship')
+      end
+
+      it 'assigns the sponsorship' do
+        get :index, structure_id: structure.id, sponsorship_token: other_sponsorship.token
+
+        expect(assigns(:sponsorship)).to eq(other_sponsorship)
       end
     end
   end

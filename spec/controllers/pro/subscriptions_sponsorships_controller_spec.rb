@@ -66,7 +66,9 @@ describe Pro::SubscriptionsSponsorshipsController do
       it 'redirects to the subscription creation page' do
         get :show, id: sponsorship.token
 
-        expect(response).to redirect_to(pro_structure_subscriptions_path(structure))
+        expect(response).to redirect_to(
+          pro_structure_subscriptions_path(structure, sponsorship_token: sponsorship.token)
+        )
       end
     end
 
@@ -80,7 +82,9 @@ describe Pro::SubscriptionsSponsorshipsController do
       it 'stores the page to be redirected to in the session' do
         get :show, id: sponsorship.token
 
-        expect(sessions[:pro_admin_return_to]).to eq(pro_structure_subscriptions_path(structure))
+        expect(session[:pro_admin_return_to]). to eq(
+          pro_structure_subscriptions_path('__STRUCTURE_ID__', sponsorship_token: sponsorship.token)
+        )
       end
 
       it 'shows the connection / login partial' do
