@@ -6,6 +6,11 @@
   %p.flush
     %strong.label--large Titre de l'article
   = f.input :title, label: false, input_html: { class: 'input--large one-whole', placeholder: 'Ex. : Spectacle à venir !' }
+  .input.flush--top
+    .control-label>
+    .input-container>
+      Nous vous conseillons un titre de page court car il apparaîtra sous forme d'un onglet.
+
   %p.flush--bottom.push--top
     %strong.label--large Contenu
   = f.input :content, label:  false, input_html: { class: 'input--large' }

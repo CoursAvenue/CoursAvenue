@@ -7,6 +7,9 @@
 = simple_form_for [:pro, @structure, @page] do |f|
   = f.label :title, class: 'label--large'
   = f.input :title, input_html: { class: 'input--large one-whole' }, label: false
+  %p
+    Nous vous conseillons un titre de page court car il apparaîtra sous forme d'un onglet.
+
 
   %hr
   %h3.push-half--bottom 1er article

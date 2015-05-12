@@ -12,7 +12,7 @@
   .main-container.main-container--medium.relative.mega-soft--ends
     .grid.white
       .grid__item.one-third.palm-one-whole.text--center>
-        %a.muted-link{ href: '#offers', data: { behavior: 'scroll-to' } }>
+        %a.muted-link{ href: '#en-savoir-plus', data: { behavior: 'scroll-to', offset_top: '-50' } }>
           .opacity-hidden-on-hover__wrapper
             .transparant-white-box.rounded.soft.orange-box--on-hover
               %h2.alpha.push--top.flush Basic
@@ -24,7 +24,7 @@
               .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
                 Annonce sur CoursAvenue
       .grid__item.one-third.palm-one-whole.text--center>
-        %a.muted-link{ href: '#offers', data: { behavior: 'scroll-to' } }>
+        %a.muted-link{ href: '#en-savoir-plus', data: { behavior: 'scroll-to', offset_top: '-50' } }>
           .opacity-hidden-on-hover__wrapper
             .transparant-white-box.rounded.soft.dark-blue-box--on-hover
               %h2.alpha.push--top.flush Modules
@@ -41,7 +41,7 @@
               .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
                 Outils de gestion
       .grid__item.one-third.palm-one-whole.text--center>
-        %a.muted-link{ href: '#offers', data: { behavior: 'scroll-to' } }>
+        %a.muted-link{ href: '#en-savoir-plus', data: { behavior: 'scroll-to', offset_top: '-50' } }>
           .opacity-hidden-on-hover__wrapper
             .show-on-hover__wrapper
               .transparant-white-box.rounded.soft.green-box--on-hover
@@ -59,12 +59,18 @@
                 .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
                   Outils de gestion
 
-.main-container.main-container--medium.relative.soft--ends#offers
-  %ul.nav.tabs--link.flush.btn-group.text--center
-    %li.active>
-      %a.btn.rounded-right--none{ href: '.monthly-details', data: { toggle: 'tab' } } Mensuel
-    %li>
-      %a.btn.rounded-left--none{ href: '.annual-details', data: { toggle: 'tab' } } Annuel
+.main-container.main-container--medium.relative.soft--ends#en-savoir-plus
+  .text--center
+    Abonnement :
+    %ul.nav.tabs--link.flush.inline-block.v-middle
+      %li.push--right.active
+        %a.muted-link{ href: '.monthly-details', data: { toggle: 'tab' } }
+          %input{ type: 'radio', name: 'plan_duration', checked: true }
+          Mensuel
+      %li
+        %a.muted-link{ href: '.annual-details', data: { toggle: 'tab' } }
+          %input{ type: 'radio', name: 'plan_duration' }
+          Annuel
 
   .tab-pane.monthly-details.active.grid--full
     .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
@@ -115,7 +121,7 @@
           L'offre Modules vous permet de bénéficier de nos outils à installer (facilement et rapidement) sur votre propre site Internet déjà existant. Si vous n'avez pas de site ou si vous souhaitez améliorer le vôtre, l'offre Site Internet fonctionne sur le principe du tout inclus : tous nos outils sont directement intégrés dans un site web automatiquement référencé sur Google et optimisé mobiles & tablettes.
 
         .delta.line-height-1-5.push-half--bottom.soft--sides.push--top
-          %strong Comment vous contacter pour toute aide ?&nbsp;?
+          %strong Comment vous contacter pour toute aide&nbsp;?
         %p.delta.line-height-1-5.soft--sides
           Nous sommes à votre écoute prêts à vous aider tous les jours du lundi au vendredi, de 9h à 18h. Vous pouvez nous appeler, chatter en temps réel ou nous envoyer un e-mail.
 
