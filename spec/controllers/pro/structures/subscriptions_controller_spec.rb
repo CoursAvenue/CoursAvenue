@@ -119,7 +119,8 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
     context "when there's a sponsorship token" do
       let(:other_structure)    { FactoryGirl.create(:structure_with_admin) }
       let(:other_subscription) { FactoryGirl.create(:subscription, structure: other_structure) }
-      let!(:other_sponsorship) { FactoryGirl.create(:subscriptions_sponsorship, subscription: other_subscription) }
+      let!(:other_sponsorship) { FactoryGirl.create(:subscriptions_sponsorship,
+                                                    subscription: other_subscription) }
 
       it 'renders the sponsorship pending partial' do
         get :index, structure_id: structure.id, sponsorship_token: other_sponsorship.token
