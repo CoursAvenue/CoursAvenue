@@ -13,14 +13,21 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     end
 
     @sponsorship = Subscriptions::Sponsorship.where(
-      token: session[:sponsorship_token] || params[:sponsorship_token]).first
+      token: session[:sponsorship_token] || params[:sponsorship_token] || @subscription.sponsorship_token).first
+    @sponsorship_token = @sponsorship.present? ? @sponsorship.token : nil
   end
 
   def create
-    plan        = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
-    coupon_code = subscription_plan_id_params[:coupon_code]
+    plan              = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
+    coupon_code       = subscription_plan_id_params[:coupon_code]
+    sponsorship_token = subscription_plan_id_params[:sponsorship_token]
 
     @subscription = plan.create_subscription!(@structure, coupon_code)
+
+    if sponsorship_token.present?
+      @subscription.sponsorship_token = sponsorship_token
+      @subscription.save
+    end
 
     respond_to do |format|
       if @subscription.present? and @subscription.persisted?
