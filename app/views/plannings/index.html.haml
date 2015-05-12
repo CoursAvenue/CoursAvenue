@@ -17,7 +17,7 @@
   - course             = planning.course
   - price              = course.decorate.min_price
   - if structure.medias.images.any?
-    - image = structure.medias.images.sample.image.url(:thumbnail)
+    - image = structure.medias.images.cover_first.first.image.url(:thumbnail)
   - else
     - image = structure.logo.url(:thumb)
   .inline-block.one-half.soft-half.push--bottom.line-height-1-5{ itemscope: true, itemtype: 'http://data-vocabulary.org/Event' }>

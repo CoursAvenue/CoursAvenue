@@ -298,6 +298,11 @@
         .show-on-hover__child-ilb { display: inline-block; }
     }
 }
+.shadowed--bottom-on-hover {
+    &:hover {
+        @include box-shadow(0 2px 3px rgba(56,67,67,0.2));
+    }
+}
 .z-index-1 { z-index: 1; }
 .z-index-3 { z-index: 3; }
 .shadowed--bottom         { @include box-shadow(0 2px 3px rgba(56,67,67,0.2)); }
