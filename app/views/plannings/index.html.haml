@@ -10,7 +10,7 @@
     = link_to 'Tous les stages', plannings_path, class: ['gamma', params[:sort].blank? ? 'f-weight-bold' : '']
   %span.push-half--sides.gamma= '|'
   %span.push-half--sides
-    = link_to 'Les stages du week-end', plannings_path(sort: 'week_end'), class: ['gamma', params[:sort] == 'week_end' ? 'f-weight-bold' : '']
+    = link_to 'Les stages du week-end', plannings_path(sort: 'week-end'), class: ['gamma', params[:sort] == 'week-end' ? 'f-weight-bold' : '']
 - @plannings.each do |planning|
   - planning_decorator = planning.decorate
   - structure          = planning.structure
