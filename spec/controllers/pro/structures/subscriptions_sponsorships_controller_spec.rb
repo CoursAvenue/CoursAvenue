@@ -77,10 +77,18 @@ describe Pro::Structures::SubscriptionsSponsorshipsController do
       end
 
       context 'when there are sponsorships' do
+        let!(:sponsorships) { 3.times.map { subscription.sponsorships.create(sponsored_email: Faker::Internet.email) } }
         it 'shows the list of sponsorships' do
           get :index, structure_id: structure.slug
 
           expect(response).to render_template(partial: '_sponsorships_list')
+        end
+
+        it 'assigns the sponsorships' do
+          get :index, structure_id: structure.slug
+
+          expect(assigns(:sponsorships).map(&:id).to_a.compact)
+            .to match_array(sponsorships.map(&:id))
         end
       end
     end
