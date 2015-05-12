@@ -3,7 +3,7 @@ class Pro::Structures::SubscriptionsSponsorshipsController < Pro::ProController
   before_action :authenticate_pro_admin!, :set_subscription
 
   def index
-    if @subscription.nil?
+    if @subscription.nil? or ! @subscription.active?
       return redirect_to pro_structure_subscriptions_path(@structure),
         error: "Vous n'êtes pas autorisé à accéder à cette page."
     end
