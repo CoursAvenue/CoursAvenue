@@ -467,6 +467,7 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- WWW
   # ---------------------------------------------
   constraints subdomain: 'www' do
+    resources  :plannings, only: [:index], path: 'stages'
     resources :press_releases, path: 'communiques-de-presse', only: [:show]
 
     resources :blog_subscribers, only: [:create], controller: 'blog/subscribers'

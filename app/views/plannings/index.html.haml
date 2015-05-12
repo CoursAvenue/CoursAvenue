@@ -1,0 +1,34 @@
+= content_for :title do
+  Stages et activité à venir à Paris
+
+%h1 Stages à venir à Paris
+- @plannings.each do |planning|
+  - planning_decorator = planning.decorate
+  - structure          = planning.structure
+  - course             = planning.course
+  - if structure.medias.images.any?
+    - image = structure.medias.images.sample.image.url(:thumbnail)
+  - else
+    - image = structure.logo.url(:thumb)
+  .inline-block.one-half.soft-half.push--bottom.line-height-1-5{ itemscope: true, itemtype: 'http://data-vocabulary.org/Event' }>
+    %div
+      = link_to structure_path(planning.structure), class: 'block push-half--bottom' do
+        = image_tag image, class: 'block'
+    .grid--full
+      .grid__item.ten-twelfths>
+        .epsilon.v-middle{ itemprop: 'summary' }
+          = link_to course.name, structure_path(planning.structure), class: 'f-weight-600 v-middle delta', itemprop: 'url'
+          %div
+            %time.v-middle.epsilon.f-weight-600{ itemprop: 'startDate', datetime: planning_decorator.start_date_datetime }
+              = planning_decorator.dates
+              = planning_decorator.time_slot
+        %div
+          = structure.name
+        %time{ itemprop: 'endDate', datetime: planning_decorator.end_date_datetime }
+      .grid__item.two-twelfths.soft-half--top.text--right>
+        - price = planning.course.decorate.min_price
+        - if price
+          = show_price planning.course.decorate.min_price
+          %br
+
+.push-half--bottom= paginate @plannings, window: 2, outer_window: 1
