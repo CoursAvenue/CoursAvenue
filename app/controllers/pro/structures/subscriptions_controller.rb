@@ -135,7 +135,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   end
 
   def stripe_token_params
-    params.require(:subscription).permit(:stripe_token)
+    params.require(:subscription).permit(:stripe_token, :sponsorship_token)
   end
 
   def subscription_plan_id_params
