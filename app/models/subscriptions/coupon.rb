@@ -86,7 +86,7 @@ class Subscriptions::Coupon < ActiveRecord::Base
     stripe_coupon = Stripe::Coupon.create({
       duration:   self.duration,
       currency:   CURRENCY,
-      amount_off: self.amount * 100
+      amount_off: (self.amount * 100).to_i
     })
     self.stripe_coupon_id = stripe_coupon.id
 
