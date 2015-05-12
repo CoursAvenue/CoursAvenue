@@ -5,6 +5,13 @@
   = link_to 'activez à tout moment votre abonnement.', confirm_choice_pro_structure_subscriptions_path(@structure), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
   Vous ne serez débité une fois la période d'essai terminée, et vous pouvez suspendre votre abonnement à tout moment (même avant la fin de la période d'essai).
 
+  %br
+  - if @sponsorship.present?
+    - sponsor = @sponsorship.subscription.structure
+    De plus, vous bénéficier de 50% de réduction sur votre premier mois d'abonnement grâce au parrainage de
+    = link_to sponsor.name, structure_url(sponsor, subdomain: 'www'), target: :_blank
+    \.
+
 %hr.push--ends
 
 -# %h3 Offre parrainage - 1 mois offert à chaque invitation
