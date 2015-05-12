@@ -1212,12 +1212,13 @@ ActiveRecord::Schema.define(version: 20150512143527) do
 
   create_table "subscriptions_sponsorships", force: true do |t|
     t.integer  "subscription_id"
-    t.string   "sponsored_email",                 null: false
-    t.boolean  "redeemed",        default: false
+    t.string   "sponsored_email",                        null: false
+    t.boolean  "redeemed",               default: false
     t.datetime "deleted_at"
     t.string   "token"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "redeeming_structure_id"
   end
 
   add_index "subscriptions_sponsorships", ["subscription_id"], name: "index_subscriptions_sponsorships_on_subscription_id", using: :btree
