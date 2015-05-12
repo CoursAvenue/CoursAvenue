@@ -93,7 +93,7 @@ class PlanningSearch
       end
 
       if params[:order_by] == :start_date
-        order_by :start_date, :desc
+        order_by :start_date, :asc
       else
         order_by :has_logo, :desc
         order_by :search_score, :desc
