@@ -48,6 +48,11 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     else
       @plan = @structure.subscription.plan
     end
+
+    @sponsorship = Subscriptions::Sponsorship.where(
+      token: @structure.subscription.sponsorship_token).first
+    @sponsorship_token = @sponsorship.present? ? @sponsorship.token : nil
+
     if request.xhr?
       render layout: false
     end
@@ -92,8 +97,24 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     plan          = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
     @subscription.plan = plan
     @subscription.save
+    promo_code = stripe_token_params[:sponsorship_token]
+
+    if promo_code.present?
+      @coupon = Subscriptions::Sponsorship.where(token: promo_code).first ||
+        Subscriptions::Coupon.where(stripe_subscription_id: promo_code).first
+    end
+
+    if @coupon.is_a?(Subscriptions::Sponsorship)
+      @subscription.sponsorship_token = @coupon.token
+      @subscription.save
+    end
 
     error_code_value = @subscription.charge!(stripe_token_params[:stripe_token])
+
+    if @coupon.is_a?(Subscriptions::Coupon) and error_code_value.nil?
+      @subscription.apply_coupon(@coupon)
+    end
+
     respond_to do |format|
       if error_code_value.nil?
         format.html { redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant abonné !' }
