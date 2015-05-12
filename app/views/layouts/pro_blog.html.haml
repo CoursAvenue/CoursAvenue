@@ -12,6 +12,8 @@
             %li.palm-block.palm-text--center.line-height-1-7.soft--right
               = link_to 'Fonctionnalités', pro_pages_features_path, class: 'header--pro__link orange'
             %li.palm-block.palm-text--center.line-height-1-7.soft--right
+              = link_to 'Tarifs', pro_pages_price_path, class: 'header--pro__link orange'
+            %li.palm-block.palm-text--center.line-height-1-7.soft--right
               = link_to 'Blog', pro_blog_articles_path, class: 'header--pro__link active bordered--bottom bordered--larger border-color-orange orange'
             %li.visuallyhidden--palm.soft--right
               - if current_pro_admin and !current_pro_admin.super_admin?
