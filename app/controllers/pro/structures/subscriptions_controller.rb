@@ -85,7 +85,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     @subscription.plan = plan
     @subscription.save
 
-    error_code_value = @subscription.charge! stripe_token_params[:stripe_token]
+    error_code_value = @subscription.charge!(stripe_token_params[:stripe_token])
     respond_to do |format|
       if error_code_value.nil?
         format.html { redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant abonné !' }
@@ -131,6 +131,6 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   end
 
   def subscription_plan_id_params
-    params.permit(:plan_id, :coupon_code)
+    params.permit(:plan_id, :coupon_code, :sponsorship_token)
   end
 end
