@@ -10,6 +10,7 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
   attr_accessible :sponsored_email
 
   belongs_to :subscription
+  belongs_to :redeeming_structure, class_name: 'Structure'
 
   ######################################################################
   # Validations                                                        #
@@ -49,7 +50,8 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
     sponsored_subscription.apply_coupon(sponsored_coupon)
 
     SubscriptionsSponsorshipMailer.delay.subscription_reedeemed(self)
-    self.redeemed = true
+    self.redeemed            = true
+    self.redeeming_structure = sponsored_subscription.structure
     save
   end
 

@@ -62,6 +62,12 @@ RSpec.describe Subscriptions::Sponsorship, type: :model do
 
       expect(subject.redeemed?).to be_truthy
     end
+
+    it 'saves the redeeming structure' do
+      subject.redeem!(sponsored_subscription)
+
+      expect(subject.redeeming_structure).to eq(sponsored_structure)
+    end
   end
 
   describe '#notify_sponsored' do
