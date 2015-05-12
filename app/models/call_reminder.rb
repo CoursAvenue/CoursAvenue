@@ -11,6 +11,6 @@ class CallReminder < ActiveRecord::Base
   private
 
   def send_email_to_intercom
-    SuperAdminMailer.delay.new_call_reminder_arrived(self)
+    SuperAdminMailer.new_call_reminder_arrived(self)
   end
 end
