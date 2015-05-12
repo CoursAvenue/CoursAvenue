@@ -46,6 +46,10 @@
   :javascript
     $(function() {
         $('[data-behavior=follow-inside-link]').click(function(event) {
-            window.location = $(this).find('a').attr('href');
+            if (event.metaKey || event.ctrlKey) { // Open in new window if user pushes meta or ctrl key
+                window.open($(this).find('a').attr('href'));
+            } else {
+                window.location = $(this).find('a').attr('href');
+            }
         })
     });
