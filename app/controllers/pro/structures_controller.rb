@@ -316,6 +316,10 @@ France
     @structure  = Structure.where( Structure.arel_table[:name].eq(s_name).and(
                                    Structure.arel_table[:zip_code].eq(s_zip_code)) ).first_or_initialize params[:structure]
 
+    if session[:sponsorship_token].present?
+      @structure.sponsorship_token = session[:sponsorship_token]
+    end
+
     respond_to do |format|
       # If structure already existed
       if @structure.persisted?
