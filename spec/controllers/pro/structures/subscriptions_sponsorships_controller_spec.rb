@@ -50,7 +50,7 @@ describe Pro::Structures::SubscriptionsSponsorshipsController do
     it 'assigns the sponsorships' do
       get :index, structure_id: structure.slug
 
-      expect(assigns(:sponsorships)).to eq(sponsorships)
+      expect(assigns(:sponsorships).to_a).to match_array(sponsorships)
     end
 
     context 'when the subscription is not active' do
