@@ -9,10 +9,12 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
       @subscription = @structure.subscription.decorate
       @sponsorship  = Subscriptions::Sponsorship.where(token: @subscription.sponsorship_token).first
     else
+      token = session[:sponsorship_token] || params[:sponsorship_token] ||
+        @structure.sponsorship_token
+
       @monthly_plans = ::Subscriptions::Plan.monthly.order('amount ASC').decorate
       @yearly_plans  = ::Subscriptions::Plan.yearly.order('amount ASC').decorate
-      @sponsorship   = Subscriptions::Sponsorship.where(token: session[:sponsorship_token] ||
-                                                        params[:sponsorship_token]).first
+      @sponsorship   = Subscriptions::Sponsorship.where(token: token).first
     end
 
     @sponsorship_token = @sponsorship.present? ? @sponsorship.token : nil
