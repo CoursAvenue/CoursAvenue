@@ -21,9 +21,9 @@
 .main-container
   .soft-half--ends.grid
     .grid__item.one-half.text--right>
-      = link_to 'Toutes les activités', plannings_path, class: ['gamma', params[:sort].blank? ? 'f-weight-bold' : '']
+      = link_to 'Toutes les activités', plannings_path, class: ['gamma', params[:sort].blank? ? 'f-weight-bold f-decoration-underlined' : '']
     .grid__item.one-half>
-      = link_to 'Les activités du week-end', plannings_path(sort: 'week-end'), class: ['gamma', params[:sort] == 'week-end' ? 'f-weight-bold' : '']
+      = link_to 'Les activités du week-end', plannings_path(sort: 'week-end'), class: ['gamma', params[:sort] == 'week-end' ? 'f-weight-bold f-decoration-underlined' : '']
   - @plannings.each do |planning|
     - planning_decorator = planning.decorate
     - structure          = planning.structure
