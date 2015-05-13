@@ -10,7 +10,7 @@ class Pro::SubscriptionsSponsorshipsController < ApplicationController
     end
 
     session[:sponsorship_token] = @token
-    if current_pro_admin.present?
+    if current_pro_admin and current_pro_admin.structure
       return redirect_to pro_structure_subscriptions_path(current_pro_admin.structure,
                                                           sponsorship_token: @token)
     end
