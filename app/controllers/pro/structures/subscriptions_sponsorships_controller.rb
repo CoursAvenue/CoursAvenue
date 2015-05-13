@@ -9,7 +9,7 @@ class Pro::Structures::SubscriptionsSponsorshipsController < Pro::ProController
     end
 
     @sponsorships              = @subscription.sponsorships
-    @remaining_monthly_credits = @sponsorships.count(&:consumed?)
+    @remaining_monthly_credits = @sponsorships.redeemed.count
   end
 
   def create
