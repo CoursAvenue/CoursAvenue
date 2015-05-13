@@ -136,4 +136,29 @@ RSpec.describe Subscriptions::Plan, type: :model do
       expect(subscription.in_trial?).to be_truthy
     end
   end
+
+  describe '#monthly?' do
+    context 'when the interval is monthly' do
+      subject { FactoryGirl.create(:subscriptions_plan, :monthly) }
+      it { expect(subject.monthly?).to be_truthy }
+    end
+
+    context 'when the interval is yearly' do
+      subject { FactoryGirl.create(:subscriptions_plan, :yearly) }
+      it { expect(subject.monthly?).to be_falsy }
+    end
+  end
+
+  describe '#yearly?' do
+    context 'when the interval is yearly' do
+      subject { FactoryGirl.create(:subscriptions_plan, :yearly) }
+      it { expect(subject.yearly?).to be_truthy }
+    end
+
+    context 'when the interval is monthly' do
+      subject { FactoryGirl.create(:subscriptions_plan, :monthly) }
+      it { expect(subject.yearly?).to be_falsy }
+    end
+  end
+
 end
