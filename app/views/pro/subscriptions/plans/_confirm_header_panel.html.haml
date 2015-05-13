@@ -53,4 +53,6 @@
       %strong.gamma= yearly_plan.price
       %span.epsilon (soit 2 mois offerts)
     %div.epsilon Offre sans engagement. Prélevé automatiquement chaque année, résiliable à tout moment.
-
+  .text--right.flush
+    %label{ for: 'sponsorship_token' }Code Promo
+    %input.input--large{ id: 'sponsorship_token', name: 'sponsorship_token', value: sponsorship_token, size: '30' }

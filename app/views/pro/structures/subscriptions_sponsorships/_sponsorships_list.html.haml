@@ -2,14 +2,6 @@
   %h3 Suivi des parrainages envoyés
 
   %table.table--striped.table--data.table-responsive
-    %thead
-      %tr
-        %th.ten-twelfths
-          coucou
-        %th.one-twelfths
-          coucou
-        %th.one-twelfths
-          coucou
     %tbody
       - @sponsorships.each do |sponsorship|
         %tr
@@ -21,4 +13,3 @@
             = sponsorship.redeemed? ? 'gain' : 'en attente'
           %td
             = sponsorship.redeemed? ? '1 mois gratuit' : '1 mois offert'
-

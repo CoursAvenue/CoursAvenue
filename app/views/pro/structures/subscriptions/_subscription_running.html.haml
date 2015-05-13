@@ -6,12 +6,12 @@
   = "#{@subscription.frequency},"
   sauf si vous l'annulez avant cette date. Vous pouvez annuler votre abonnement à tout moment en accédant à l'espace « Gestion de votre abonnement ».
 
--# %hr.push--ends
--# %h3 Offre parrainage - 1 mois offert à chaque invitation
--# %p.epsilon
--#   Parrainez autant de professeurs, associations ou écoles que vous le souhaitez : pour chaque nouvel abonnement souscrit par l'un de vos parrainé, vous bénéficiez d'un mois offert sur votre abonnement. Parrainez autant de personnes que vous le souhaitez, l'offre est cumulable à l'infini !
--# %div
--#   = link_to 'Parrainer', '#', class: 'btn btn--green'
+%hr.push--ends
+%h3 Offre parrainage - 1 mois offert à chaque invitation
+%p.epsilon
+  Parrainez autant de professeurs, associations ou écoles que vous le souhaitez : pour chaque nouvel abonnement souscrit par l'un de vos parrainé, vous bénéficiez d'un mois offert sur votre abonnement. Parrainez autant de personnes que vous le souhaitez, l'offre est cumulable à l'infini !
+%div
+  = link_to 'Parrainer', pro_structure_subscriptions_sponsorships_path(@structure), class: 'btn btn--green'
 
 %hr.push--ends
 

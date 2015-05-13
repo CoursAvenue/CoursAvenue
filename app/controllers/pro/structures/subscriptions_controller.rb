@@ -9,10 +9,12 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
       @subscription = @structure.subscription.decorate
       @sponsorship  = Subscriptions::Sponsorship.where(token: @subscription.sponsorship_token).first
     else
+      token = session[:sponsorship_token] || params[:sponsorship_token] ||
+        @structure.sponsorship_token
+
       @monthly_plans = ::Subscriptions::Plan.monthly.order('amount ASC').decorate
       @yearly_plans  = ::Subscriptions::Plan.yearly.order('amount ASC').decorate
-      @sponsorship   = Subscriptions::Sponsorship.where(token: session[:sponsorship_token] ||
-                                                        params[:sponsorship_token]).first
+      @sponsorship   = Subscriptions::Sponsorship.where(token: token).first
     end
 
     @sponsorship_token = @sponsorship.present? ? @sponsorship.token : nil
@@ -48,6 +50,11 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     else
       @plan = @structure.subscription.plan
     end
+
+    @sponsorship = Subscriptions::Sponsorship.where(
+      token: @structure.subscription.sponsorship_token).first
+    @sponsorship_token = @sponsorship.present? ? @sponsorship.token : nil
+
     if request.xhr?
       render layout: false
     end
@@ -92,8 +99,24 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     plan          = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
     @subscription.plan = plan
     @subscription.save
+    promo_code = stripe_token_params[:sponsorship_token]
+
+    if promo_code.present?
+      @coupon = Subscriptions::Sponsorship.where(token: promo_code).first ||
+        Subscriptions::Coupon.where(stripe_subscription_id: promo_code).first
+    end
+
+    if @coupon.is_a?(Subscriptions::Sponsorship)
+      @subscription.sponsorship_token = @coupon.token
+      @subscription.save
+    end
 
     error_code_value = @subscription.charge!(stripe_token_params[:stripe_token])
+
+    if @coupon.is_a?(Subscriptions::Coupon) and error_code_value.nil?
+      @subscription.apply_coupon(@coupon)
+    end
+
     respond_to do |format|
       if error_code_value.nil?
         format.html { redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant abonné !' }
@@ -135,7 +158,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   end
 
   def stripe_token_params
-    params.require(:subscription).permit(:stripe_token)
+    params.require(:subscription).permit(:stripe_token, :sponsorship_token)
   end
 
   def subscription_plan_id_params

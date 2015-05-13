@@ -115,12 +115,16 @@ class Subscriptions::Plan < ActiveRecord::Base
     plan_type == 'website'
   end
 
-  # Return plan that is monthyl. If self, then will return self
+  # Return the plan that has the same type but a monthly interval.
+  #
+  # @return a Plan or self
   def monthly_sibling
     Subscriptions::Plan.where(plan_type: plan_type, interval: 'month').first
   end
 
-  # Return plan that is yearly. If self, then will return self
+  # Return the plan that has the same type but a yearly interval.
+  #
+  # @return a Plan or self
   def yearly_sibling
     Subscriptions::Plan.where(plan_type: plan_type, interval: 'year').first
   end
@@ -128,6 +132,31 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Return other plan that has the same interval
   def other_plan
     Subscriptions::Plan.where.not(plan_type: plan_type).where(interval: interval).first
+  end
+
+  # The amount of the current plan if the plan is monthly, or the amount of the sibling plan.
+  #
+  # @return integer
+  def monthly_amount
+    if monthly?
+      amount
+    else
+      monthly_sibling.amount
+    end
+  end
+
+  # Whether a plan is monthly or not.
+  #
+  # @return Boolean
+  def monthly?
+    interval == 'month'
+  end
+
+  # Whether a plan is yearly or not.
+  #
+  # @return Boolean
+  def yearly?
+    !monthly?
   end
 
   private

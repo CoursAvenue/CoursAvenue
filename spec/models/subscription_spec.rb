@@ -29,7 +29,7 @@ RSpec.describe Subscription, type: :model do
     end
 
     context "when there's a stripe_subscription_id" do
-      let(:plan)      { FactoryGirl.create(:subscriptions_plan) }
+      let(:plan)      { FactoryGirl.create(:subscriptions_plan, :monthly) }
       let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
       let(:token)     { stripe_helper.generate_card_token }
 
@@ -48,7 +48,7 @@ RSpec.describe Subscription, type: :model do
   end
 
   describe '#canceled?' do
-    let(:plan)      { FactoryGirl.create(:subscriptions_plan) }
+    let(:plan)      { FactoryGirl.create(:subscriptions_plan, :monthly) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
 
     context 'when not canceled' do
@@ -68,7 +68,7 @@ RSpec.describe Subscription, type: :model do
   end
 
   describe '#active?' do
-    let(:plan)      { FactoryGirl.create(:subscriptions_plan) }
+    let(:plan)      { FactoryGirl.create(:subscriptions_plan, :monthly) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
 
     context 'when canceled' do
@@ -102,7 +102,7 @@ RSpec.describe Subscription, type: :model do
   end
 
   describe '#charge!' do
-    let!(:plan)      { FactoryGirl.create(:subscriptions_plan) }
+    let!(:plan)      { FactoryGirl.create(:subscriptions_plan, :monthly) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
     let(:token)     { stripe_helper.generate_card_token }
 
@@ -418,20 +418,6 @@ RSpec.describe Subscription, type: :model do
       subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.from_now) }
 
       it { expect(subject.in_trial?).to be_truthy }
-    end
-
-    context 'when the structure is subscribed' do
-      let(:plan)      { FactoryGirl.create(:subscriptions_plan) }
-      let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
-      let(:token)     { stripe_helper.generate_card_token }
-
-      subject         { plan.create_subscription!(structure) }
-
-      before do
-        subject.charge!(token)
-      end
-
-      it { expect(subject.in_trial?).to be_falsy }
     end
   end
 end
