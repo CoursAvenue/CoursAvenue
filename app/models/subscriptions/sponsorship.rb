@@ -34,17 +34,19 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
     sponsored_structure_name = sponsored_subscription.structure.name
 
     sponsor_coupon   = Subscriptions::Coupon.create(
-      amount:   subscription.plan.monthly_amount,
-      name:     "Parrainage structure #{ structure_name } -> #{ sponsored_structure_name }",
-      duration: 'once'
+      amount:          subscription.plan.monthly_amount,
+      name:            "Parrainage structure #{ structure_name } -> #{ sponsored_structure_name }",
+      duration:        'once',
+      max_redemptions: 1
     )
 
     subscription.apply_coupon(sponsor_coupon)
 
     sponsored_coupon = Subscriptions::Coupon.create(
-      amount:   sponsored_subscription.plan.monthly_amount / 2.0,
-      name:     "Parrainage structure #{ structure_name } <- #{ sponsored_structure_name }",
-      duration: 'once'
+      amount:          sponsored_subscription.plan.monthly_amount / 2.0,
+      name:            "Parrainage structure #{ structure_name } <- #{ sponsored_structure_name }",
+      duration:        'once',
+      max_redemptions: 1
     )
 
     sponsored_subscription.apply_coupon(sponsored_coupon)

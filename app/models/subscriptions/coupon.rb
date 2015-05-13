@@ -83,11 +83,15 @@ class Subscriptions::Coupon < ActiveRecord::Base
   private
 
   def create_stripe_coupon
-    stripe_coupon = Stripe::Coupon.create({
+    options = {
       duration:   duration,
       currency:   CURRENCY,
       amount_off: (amount * 100).to_i
-    })
+    }
+
+    options[:max_redemptions] = 1 if max_redemptions.present?
+
+    stripe_coupon = Stripe::Coupon.create(options)
     self.stripe_coupon_id = stripe_coupon.id
 
     save
