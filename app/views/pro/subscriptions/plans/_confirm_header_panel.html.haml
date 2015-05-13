@@ -33,6 +33,9 @@
         = link_to "M'abonner", 'javascript:void(0)', data: { stripe: true, plan_id: monthly_plan.id, amount: monthly_plan.amount }, class: 'btn btn--green soft--sides'
       .tab-pane.annual-details{ class: (yearly_plan == plan ? 'active' : '')}
         = link_to "M'abonner", 'javascript:void(0)', data: { stripe: true, plan_id: yearly_plan.id, amount: yearly_plan.amount }, class: 'btn btn--green soft--sides'
+      - if !@sponsorship
+        .text--center.line-height-2
+          %a{ href: 'javascript:void(0)', onclick: "$(this).slideUp(); $('#promo-code-input').slideDown()"} J'ai un code promo
   %div
     .inline-block.v-middle.soft-half--right Abonnement
     %ul.nav.tabs--link.flush.inline-block.v-middle
@@ -53,6 +56,13 @@
       %strong.gamma= yearly_plan.price
       %span.epsilon (soit 2 mois offerts)
     %div.epsilon Offre sans engagement. Prélevé automatiquement chaque année, résiliable à tout moment.
-  .text--right.flush
-    %label{ for: 'sponsorship_token' }Code Promo
-    %input.input--large{ id: 'sponsorship_token', name: 'sponsorship_token', value: sponsorship_token, size: '30' }
+
+  #promo-code-input.soft-half--top{ class: (@sponsorship ? '' : 'hidden')}
+    %hr.push-half--bottom
+    %label.v-middle Code promo :
+    %input.v-middle{ id: 'promo_code', name: 'promo_code', value: @sponsorship.try(:token), size: '20' }
+    %span.green.f-weight-600.delta.v-middle#promo-code-description
+      - if @sponsorship
+        = "Offre parrainage : -#{readable_amount(plan.monthly_amount / 2.0)} pour votre premier paiement."
+        :javascript
+          window.promo_code_amount = #{plan.monthly_amount / 2.0};
