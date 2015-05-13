@@ -1,9 +1,25 @@
+%table.table--data.table--striped.bordered
+  %tbody
+    %tr
+      %td Offre actuel
+      %td
+        = "#{@subscription.plan.public_name.capitalize} (#{@subscription.plan.decorate.price})"
+    %tr
+      %td Prochain prélèvement
+      %td
+        = "#{l(@subscription.current_period_end, format: :date_short)} (#{readable_amount(@subscription.next_amount)})"
+    - if @subscription.coupon and @subscription.coupon_end_date
+      %tr
+        %td Code promo utilisé
+        %td
+          = @subscription.coupon.name
+          - if @subscription.coupon_end_date > Date.today
+            s'applique jusqu'au #{l(@subscription.coupon_end_date.to_date)}
+          - else
+            s'est appliqué jusqu'au #{l(@subscription.coupon_end_date.to_date)}
+
 %p.epsilon
   Votre abonnement <strong>à l'offre #{@subscription.plan.public_name}</strong> sera automatiquement renouvelé le
-  %strong= l(@subscription.current_period_end, format: :date_short)
-  et nous prélèverons
-  %strong= "#{@subscription.next_amount}€"
-  = "#{@subscription.frequency},"
   sauf si vous l'annulez avant cette date. Vous pouvez annuler votre abonnement à tout moment en accédant à l'espace « Gestion de votre abonnement ».
 
 %hr.push--ends
