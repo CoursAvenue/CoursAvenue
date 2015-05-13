@@ -156,7 +156,7 @@ class Subscriptions::Plan < ActiveRecord::Base
   #
   # @return Boolean
   def yearly?
-    ! monthly?
+    !monthly?
   end
 
   private
