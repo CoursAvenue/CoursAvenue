@@ -152,8 +152,9 @@ RSpec.describe Subscription, type: :model do
       before do
         other_subscription.charge!(other_token)
 
-        subject.sponsorship_token = sponsorship.token
-        subject.save
+        structure.sponsorship_token = sponsorship.token
+        structure.save
+        structure.reload
       end
 
       it 'applies the half off coupon' do
