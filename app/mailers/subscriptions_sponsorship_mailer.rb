@@ -13,16 +13,17 @@ class SubscriptionsSponsorshipMailer < ActionMailer::Base
     @structure   = sponsorship.subscription.structure
 
     mail to: sponsorship.sponsored_email,
-      subject: "#{ sponsorship.subscription.structure.name } veut vous parrainer !"
+      subject: "#{ sponsorship.subscription.structure.name } vous offre 1 mois gratuit sur CoursAvenue"
   end
 
   def subscription_reedeemed(sponsorship)
-    @sponsorship  = sponsorship
-    @subscription = sponsorship.subscription
-    @structure    = sponsorship.subscription.structure
-    @plan         = @subscription.plan
+    @sponsorship         = sponsorship
+    @subscription        = sponsorship.subscription
+    @structure           = sponsorship.subscription.structure
+    @redeeming_structure = sponsorship.redeeming_structure
+    @plan                = @subscription.plan
 
     mail to: @structure.email,
-      subject: "Vous venez d'être crédité d'un mois gratuit d'abonnement #{ @plan.public_name }"
+      subject: "Félicitations ! Votre parrainage a bien été pris en compte"
   end
 end
