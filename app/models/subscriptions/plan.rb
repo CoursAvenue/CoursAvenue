@@ -90,23 +90,11 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Subscribe a structure to the current plan.
   #
   # @param structure    The structure that subscribes to the plan.
-  # @param coupon_code  The coupon code to apply to the subscription
-  # @param trial_period The trial period, by default 15 days.
   #
   # @return nil or the new Subscription
-  def create_subscription!(structure, coupon_code = nil, trial_period = 15.days.ago)
-    options = {
-      plan: self.stripe_plan_id
-    }
-
-    coupon = Subscriptions::Coupon.where(stripe_coupon_id: coupon_code).first
-    if coupon.present? and coupon.valid?
-      options.merge!({ coupon: coupon.stripe_coupon_id })
-    end
-
+  def create_subscription!(structure)
     self.subscriptions.create({
       structure: structure,
-      coupon:    coupon,
       trial_end: TRIAL_LENGTH.days.from_now
     })
   end
