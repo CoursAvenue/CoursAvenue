@@ -157,14 +157,6 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
       it 'creates a new subscription' do
         expect{ subject }.to change { Subscription.count }.by(1)
       end
-
-      it 'creates a new subscription' do
-        expect { subject }.to change { Subscription.count }.by(1)
-
-        structure.reload
-
-        expect(structure.subscription.has_coupon?).to be_truthy
-      end
     end
   end
 
