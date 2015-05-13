@@ -40,7 +40,7 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
 
     sponsor_coupon   = Subscriptions::Coupon.create(
       amount:          subscription.plan.monthly_amount,
-      name:            "Parrainage structure #{ structure_name } -> #{ sponsored_structure_name }",
+      name:            "1 mois offert - parrainage de #{ sponsored_structure_name }",
       duration:        'once',
       max_redemptions: 1
     )
@@ -49,7 +49,7 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
 
     sponsored_coupon = Subscriptions::Coupon.create(
       amount:          sponsored_subscription.plan.monthly_amount / 2.0,
-      name:            "Parrainage structure #{ structure_name } <- #{ sponsored_structure_name }",
+      name:            "1 mois offert - parrainage de #{ structure_name }",
       duration:        'once',
       max_redemptions: 1
     )
@@ -67,5 +67,17 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
   # @return
   def notify_sponsored(custom_message = nil)
     SubscriptionsSponsorshipMailer.delay.sponsor_user(self, custom_message)
+  end
+
+  private
+
+  def create_token
+    if self.token.nil?
+      self.token = loop do
+        # UUID like: 2d931510-d99f-494a-8c67-87feb05e1594
+        random_token = "PARRAIN-#{SecureRandom.uuid.split('-').first}"
+        break random_token unless self.class.exists?(token: random_token)
+      end
+    end
   end
 end
