@@ -125,6 +125,7 @@ class ::Pro::AdminsController < InheritedResources::Base
     if admin.sign_in_count == 1
       edit_pro_structure_path(admin.structure)
     else
+      session['pro_admin_return_to'].gsub('__STRUCTURE_ID__', admin.structure.slug) if session['pro_admin_return_to'].present? and admin.structure.present?
       session['pro_admin_return_to'] || dashboard_pro_structure_path(admin.structure)
     end
   end
