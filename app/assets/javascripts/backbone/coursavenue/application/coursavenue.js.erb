@@ -15,7 +15,11 @@ CoursAvenue = new Backbone.Marionette.Application({
 
     showFullPageLoader: function showFullPageLoader (text) {
         var template_html = JST[CoursAvenue.Views.templateDirname() + 'fullpage_loader']({ text: text });
-        $('body').append(template_html);
+        $template_html = $(template_html);
+        $('body').append($template_html);
+        setTimeout(function() {
+            $template_html.removeClass('invisible');
+        }, 100)
     },
 
     setCurrentAdmin: function setCurrentAdmin (admin_attributes) {
