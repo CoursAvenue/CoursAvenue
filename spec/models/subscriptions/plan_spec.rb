@@ -137,6 +137,25 @@ RSpec.describe Subscriptions::Plan, type: :model do
     end
   end
 
+  describe '#monthly_amount' do
+    context "when it's a monthly plan" do
+      subject { FactoryGirl.create(:subscriptions_plan, :monthly) }
+
+      it 'returns the plan amount' do
+        expect(subject.monthly_amount).to eq(subject.amount)
+      end
+    end
+
+    context "when it's a yearly plan" do
+      subject       { FactoryGirl.create(:subscriptions_plan, :monthly) }
+      let(:sibling) { FactoryGirl.create(:subscriptions_plan, :yearly, plan_type: subject.plan_type) }
+
+      it 'returns the amount of the monthly sibling' do
+        expect(subject.monthly_amount).to eq(subject.monthly_sibling.amount)
+      end
+    end
+  end
+
   describe '#monthly?' do
     context 'when the interval is monthly' do
       subject { FactoryGirl.create(:subscriptions_plan, :monthly) }

@@ -134,6 +134,17 @@ class Subscriptions::Plan < ActiveRecord::Base
     Subscriptions::Plan.where.not(plan_type: plan_type).where(interval: interval).first
   end
 
+  # The amount of the current plan if the plan is monthly, or the amount of the sibling plan.
+  #
+  # @return integer
+  def monthly_amount
+    if monthly?
+      amount
+    else
+      monthly_sibling.amount
+    end
+  end
+
   # Whether a plan is monthly or not.
   #
   # @return Boolean
