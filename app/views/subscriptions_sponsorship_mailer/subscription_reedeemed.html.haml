@@ -1,1 +1,16 @@
-=  "Vous venez d'être crédité d'un mois gratuit d'abonnement #{ @plan.public_name }"
+.p
+  Bonjour #{@structure.name},
+
+.p
+  %strong Félicitations !
+  Nous avons le plaisir de vous informer que, suite à votre parrainage, #{@redeeming_structure.name} a souscrit à l'une des offres CoursAvenue : ainsi,
+  %strong nous vous offrons 1 mois gratuit
+  (directement crédité sur votre compte).
+
+.p
+  Pensez à tous les professeurs qui vous entourent (toutes disciplines confondues) et multipliez vos parrainages. Chaque fois qu'une structure parrainée active son abonnement, vous cumulez un mois gratuit :
+
+.p
+  Si vous avez des questions, n'hésitez pas !
+
+= render 'shared/mailers/footer'
