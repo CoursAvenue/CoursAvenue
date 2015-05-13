@@ -5,10 +5,10 @@
       %strong= plan.public_name.upcase
     .inline-block
       Passer à l'offre
-      = link_to 'Modules', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: plan.other_plan.id, sponsorship_token: sponsorship_token), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+      = link_to 'Modules', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: plan.other_plan.id), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
 
   .panel__body.soft
-    = render partial: 'pro/subscriptions/plans/confirm_header_panel', locals: { text: "Equipez votre site Internet des meilleurs outils pour booster vos inscriptions", plan: plan, sponsorship_token: sponsorship_token }
+    = render partial: 'pro/subscriptions/plans/confirm_header_panel', locals: { text: "Equipez votre site Internet des meilleurs outils pour booster vos inscriptions", plan: plan }
 
   .panel__header.soft--sides.soft-half--ends.bordered--top
     %h4.flush INCLUS DANS L'OFFRE

@@ -10,7 +10,7 @@
       - else
         Équipez votre site Internet des meilleurs outils pour booster vos inscriptions
     .grid__item.v-middle.one-third.text--right>
-      = link_to 'Activer mes 14 jours gratuits', pro_structure_subscriptions_path(@structure, plan_id: plan.id, sponsorship_token: sponsorship_token), method: :post, class: 'btn btn--green', data: { disable_with: 'Activation en cours...' }
+      = link_to 'Activer mes 14 jours gratuits', pro_structure_subscriptions_path(@structure, plan_id: plan.id), method: :post, class: 'btn btn--green', data: { disable_with: 'Activation en cours...' }
   - # User is paying a plan and is about to change plan
 - else
   - if @structure.subscription.active? and !@structure.subscription.in_trial?
