@@ -7,7 +7,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   def index
     if @structure.subscription.present?
       @subscription = @structure.subscription.decorate
-      @sponsorship  = Subscriptions::Sponsorship.where(token: @subscription.sponsorship_token).first
+      @sponsorship  = Subscriptions::Sponsorship.where(token: @structure.sponsorship_token).first
     else
       token = session[:sponsorship_token] || params[:sponsorship_token] ||
         @structure.sponsorship_token
@@ -22,13 +22,12 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
 
   def create
     plan              = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
-    coupon_code       = subscription_plan_id_params[:coupon_code]
     sponsorship_token = subscription_plan_id_params[:sponsorship_token]
 
-    @subscription = plan.create_subscription!(@structure, coupon_code)
+    @subscription = plan.create_subscription!(@structure)
 
     if sponsorship_token.present?
-      @subscription.sponsorship_token = sponsorship_token
+      @structure.sponsorship_token = sponsorship_token
       @subscription.save
     end
 
@@ -52,8 +51,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     end
 
     @sponsorship = Subscriptions::Sponsorship.where(
-      token: @structure.subscription.sponsorship_token).first
-    @sponsorship_token = @sponsorship.present? ? @sponsorship.token : nil
+      token: @structure.sponsorship_token).first
 
     if request.xhr?
       render layout: false
@@ -99,23 +97,9 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     plan          = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
     @subscription.plan = plan
     @subscription.save
-    promo_code = stripe_token_params[:sponsorship_token]
 
-    if promo_code.present?
-      @coupon = Subscriptions::Sponsorship.where(token: promo_code).first ||
-        Subscriptions::Coupon.where(stripe_subscription_id: promo_code).first
-    end
-
-    if @coupon.is_a?(Subscriptions::Sponsorship)
-      @subscription.sponsorship_token = @coupon.token
-      @subscription.save
-    end
-
-    error_code_value = @subscription.charge!(stripe_token_params[:stripe_token])
-
-    if @coupon.is_a?(Subscriptions::Coupon) and error_code_value.nil?
-      @subscription.apply_coupon(@coupon)
-    end
+    error_code_value = @subscription.charge!(stripe_token_params[:stripe_token],
+            Subscriptions::Coupon.where(stripe_coupon_id: stripe_token_params[:promo_code]).first)
 
     respond_to do |format|
       if error_code_value.nil?
@@ -158,7 +142,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   end
 
   def stripe_token_params
-    params.require(:subscription).permit(:stripe_token, :sponsorship_token)
+    params.require(:subscription).permit(:stripe_token, :sponsorship_token, :promo_code)
   end
 
   def subscription_plan_id_params
