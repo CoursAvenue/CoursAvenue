@@ -54,6 +54,6 @@ class Pro::SubscriptionsCouponsController < Pro::ProController
   private
 
   def permitted_params
-    params.require(:subscriptions_coupon).permit(:name, :amount, :duration)
+    params.require(:subscriptions_coupon).permit(:name, :amount, :duration, :duration_in_months, :stripe_coupon_id, :redeem_by)
   end
 end

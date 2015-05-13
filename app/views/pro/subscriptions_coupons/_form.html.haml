@@ -8,6 +8,7 @@
         = form.input :amount, label: 'Montant', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: '20€', min: '0' }, disabled: @showing
         = form.input :duration, as: :select, collection: duration.keys, label_method: lambda { |key| duration[key] }, default: duration.keys.first, label: 'Durée', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, disabled: @showing
         = form.input :duration_in_months, as: :select, collection: [nil] + (1..6).to_a, default: nil, label: 'Durée en mois', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, disabled: @showing
+        = form.input :redeem_by, as: :date, label: "Date d'expiration", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, disabled: @showing
       - unless @showing
         .soft--sides
           .grid.push--top

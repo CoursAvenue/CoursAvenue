@@ -18,7 +18,7 @@ class Subscriptions::Coupon < ActiveRecord::Base
   ######################################################################
 
   attr_accessible :name, :amount, :duration, :max_redemptions, :duration_in_months,
-                  :stripe_coupon_id
+                  :stripe_coupon_id, :redeem_by
 
   has_many :subscriptions, foreign_key: 'subscriptions_coupon_id'
 
@@ -89,7 +89,11 @@ class Subscriptions::Coupon < ActiveRecord::Base
       duration:           duration,
       duration_in_months: duration_in_months,
       currency:           CURRENCY,
-      amount_off:         (amount * 100).to_i
+      amount_off:         (amount * 100).to_i,
+      redeem_by:          redeem_by,
+      metadata: {
+        name: name
+      }
     }
 
     options[:max_redemptions] = 1 if max_redemptions.present?

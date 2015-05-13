@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150513131052) do
+ActiveRecord::Schema.define(version: 20150513155126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1181,6 +1181,7 @@ ActiveRecord::Schema.define(version: 20150513131052) do
     t.float    "amount"
     t.integer  "max_redemptions"
     t.integer  "duration_in_months"
+    t.datetime "redeem_by"
   end
 
   create_table "subscriptions_invoices", force: true do |t|
