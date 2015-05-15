@@ -1103,10 +1103,10 @@ class Structure < ActiveRecord::Base
           Intercom::Event.create(
           event_name: "#{self.status} -> #{new_status}", created_at: Time.now.to_i,
           email: self.main_contact.email,
-          user_id: "Admin_#{self.id}"
+          user_id: "Admin_#{self.main_contact.id}"
         )
         rescue Exception => exception
-          Bugsnag.notify(exception)
+          Bugsnag.notify(exception, { name: name, slug: slug, id: id })
         end
       end
       self.update_columns meta_data: self.meta_data.merge('status' => new_status)
