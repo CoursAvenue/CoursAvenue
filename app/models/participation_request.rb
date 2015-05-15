@@ -19,9 +19,18 @@ class ParticipationRequest < ActiveRecord::Base
   belongs_to :conversation, class_name: 'Mailboxer::Conversation', foreign_key: 'mailboxer_conversation_id', touch: true
   belongs_to :planning
   belongs_to :city
-  belongs_to :course   , -> { with_deleted }
-  belongs_to :user     , -> { with_deleted }
-  belongs_to :structure, -> { with_deleted }
+  # belongs_to :course
+  def course
+    Course.with_deleted.find(course_id)
+  end
+  # belongs_to :user
+  def user
+    User.with_deleted.find(user_id)
+  end
+  # belongs_to :structure
+  def structure
+    Structure.with_deleted.find(structure_id)
+  end
   belongs_to :cancelation_reason, class_name: 'ParticipationRequest::CancelationReason'
   belongs_to :report_reason     , class_name: 'ParticipationRequest::ReportReason'
 
