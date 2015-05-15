@@ -3,6 +3,7 @@ class StructureWebsite::StructuresController < StructureWebsiteController
   include FilteredSearchProvider
 
   def index
+    @website_parameter = @structure.website_parameter
   end
 
   def planning

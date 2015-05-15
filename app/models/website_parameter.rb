@@ -4,7 +4,7 @@ class WebsiteParameter < ActiveRecord::Base
 
   validates :slug, uniqueness: true
 
-  attr_accessible :slug, :title
+  attr_accessible :slug, :title, :presentation_text
 
   #
   # Create Website Parameter for structure if does not exist yet.

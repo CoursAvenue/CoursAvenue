@@ -23,7 +23,7 @@ class Pro::Structures::WebsiteParametersController < Pro::ProController
   private
 
   def website_parameter_params
-    params.require(:website_parameter).permit(:title)
+    params.require(:website_parameter).permit(:title, :presentation_text)
   end
 
   def get_or_create_parameter
