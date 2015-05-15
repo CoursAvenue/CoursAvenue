@@ -1164,6 +1164,7 @@ ActiveRecord::Schema.define(version: 20150513155126) do
     t.integer  "subscriptions_coupon_id"
     t.boolean  "paused",                  default: false
     t.datetime "trial_end"
+    t.datetime "coupon_ends_at"
   end
 
   add_index "subscriptions", ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true, using: :btree
