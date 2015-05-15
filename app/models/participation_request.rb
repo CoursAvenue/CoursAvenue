@@ -19,15 +19,15 @@ class ParticipationRequest < ActiveRecord::Base
   belongs_to :conversation, class_name: 'Mailboxer::Conversation', foreign_key: 'mailboxer_conversation_id', touch: true
   belongs_to :planning
   belongs_to :city
-  # belongs_to :course
+  belongs_to :course
   def course
     Course.with_deleted.find(course_id)
   end
-  # belongs_to :user
+  belongs_to :user
   def user
     User.with_deleted.find(user_id)
   end
-  # belongs_to :structure
+  belongs_to :structure
   def structure
     Structure.with_deleted.find(structure_id)
   end
