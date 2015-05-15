@@ -24,6 +24,10 @@ class Blog::ArticlesController < ApplicationController
 
   def category_index
     @category = Blog::Category::UserCategory.friendly.find params[:category_id]
+    if @category.slug != params[:category_id]
+      redirect_to category_blog_articles_path(category_id: @category.slug), status: 301
+      return
+    end
     @articles = @category.articles.ordered_by_publish_date.page(params[:page] || 1).per(5)
   end
 
