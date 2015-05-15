@@ -45,10 +45,9 @@
             %meta{itemprop: 'url', content: commentable_url(comment)}
             %meta{itemprop: 'name', content: comment.commentable.name}
 
-          - if with_reply
+          - if with_reply and comment.reply
             %div{ id: "comment-reply-#{comment.id}" }
-              - if comment.reply
-                = render partial: 'comments/reply', locals: { structure: @structure, comment: comment, reply: comment.reply }
+              = render partial: 'comments/reply', locals: { structure: @structure, comment: comment, reply: comment.reply }
 
         - if current_user and comment.owner?(current_user)
           .gray-box__footer.soft-half.text--right.rounded--bottom
