@@ -1,7 +1,7 @@
 .main-container
   .relative{ data: { el: 'loading-indicator' } }
-    .absolute.push--top{ style: 'left: 50%; margin-left: -40px;' }
-      = image_tag 'gifs/loading-indicator.gif', height: 10, width: 80
+    .absolute.push--top{ style: 'left: 50%; margin-left: -16px;' }
+      = image_tag 'gifs/loading-bubbles-orange.svg'
 
   .transition-all-300.invisible.transit{ data: { behavior: 'masonry' } }
     - @medias.each_with_index do |media, index|
