@@ -1,8 +1,10 @@
-<% if params[:comment_reply][:show_to_everyone] == '0' || @comment_reply.persisted? %>
+<% if params[:comment_reply][:show_to_everyone] == '1' and @comment_reply.persisted? %>
     $('#comment-reply-<%= @comment.id %>').html("<%= escape_javascript(render partial: 'comments/reply', locals: { structure: @structure, comment: @comment, reply: @comment_reply}) %>")
     $('#comment-reply-button-<%= @comment.id %>').hide();
     $('#comment-reply-<%= @comment.id %>').yellowFade({ delay: 400 });
     $.fancybox.close();
-<% else %>
+<% elsif @comment_reply %>
     $.fancybox("<%= escape_javascript(render partial: 'pro/structures/comments/comment_replies/form') %>", { width: 700, minWidth: 700, maxWidth: 700, padding: 0 });
+<% else %>
+    $.fancybox.close();
 <% end %>

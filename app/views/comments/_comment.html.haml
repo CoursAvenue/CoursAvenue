@@ -45,8 +45,9 @@
             %meta{itemprop: 'url', content: commentable_url(comment)}
             %meta{itemprop: 'name', content: comment.commentable.name}
 
-          - if with_reply and comment.reply
-            %div{ id: "comment-reply-#{comment.id}" }
+          -# We must have this div here, because we use it in comment_reply/create.js.erb
+          %div{ id: "comment-reply-#{comment.id}" }
+            - if with_reply and comment.reply
               = render partial: 'comments/reply', locals: { structure: @structure, comment: comment, reply: comment.reply }
 
         - if current_user and comment.owner?(current_user)
