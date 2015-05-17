@@ -90,6 +90,8 @@ class Pro::Structures::CoursesController < Pro::ProController
     @course = Course.friendly.find params[:id]
     if request.xhr?
       render partial: 'form', layout: false
+    else
+      redirect_to pro_structure_courses_path(@course.structure)
     end
   end
 
