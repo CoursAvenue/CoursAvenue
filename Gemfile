@@ -297,4 +297,4 @@ gem 'legato', '~> 0.4.0'
 
 gem 'replicate', '~> 1.5.1'
 
-gem 'stripe', '~> 1.21.0'
+gem 'stripe', '~> 1.20.1'
