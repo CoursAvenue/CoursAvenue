@@ -351,7 +351,7 @@ RSpec.describe Subscription, type: :model, with_stripe: true do
   end
 
   describe '#apply_coupon' do
-    let(:coupon) { FactoryGirl.create(:subscriptions_coupon, amount: plan.amount - 5) }
+    let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
 
     context 'when the coupon is valid' do
       let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
