@@ -1,6 +1,6 @@
 RSpec.configure do |config|
-  MAILER_CLASSES = [AdminMailer, TestMailer,
-                    SuperAdminMailer, UserMailer, ParticipationRequestMailer]
+  MAILER_CLASSES = [AdminMailer, TestMailer, SuperAdminMailer, UserMailer,
+                    ParticipationRequestMailer, SubscriptionsSponsorshipMailer]
 
   config.before(:each) do
     unless self.to_s.include? 'Mailer' or self.to_s.include? 'Task'
