@@ -248,19 +248,69 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller, with
   end
 
   describe 'activate' do
-    it 'activates the subscription'
-    it 'redirects to the subscription detail page'
+    let(:plan)          { monthly_plans.sample }
+    let!(:subscription) { plan.create_subscription!(structure) }
+
+    it 'activates the subscription' do
+      patch :activate, structure_id: structure.slug, id: subscription.id, plan_id: plan.id,
+        subscription: { stripe_token: token }
+
+      expect(subscription.active?).to be_truthy
+    end
+
+    it 'redirects to the subscription detail page' do
+      patch :activate, structure_id: structure.slug, id: subscription.id, plan_id: plan.id,
+        subscription: { stripe_token: token }
+
+      expect(response).to redirect_to(action: :index, structure_id: structure.slug)
+    end
   end
 
   describe 'choose_new_plan' do
-    it 'renders the choose_new_plan template'
-    it 'assigns the subscriptions'
-    it 'renders without a layout if it is a xhr request'
+    let(:plan)          { monthly_plans.sample }
+    let!(:subscription) { plan.create_subscription!(structure) }
+
+    it 'renders the choose_new_plan template' do
+      get :choose_new_plan, id: subscription.id, structure_id: structure.slug
+
+      expect(response).to render_template('choose_new_plan')
+    end
+
+    xit 'assigns the subscriptions' do
+      get :choose_new_plan, id: subscription.id, structure_id: structure.slug
+
+      expect(assigns(monthly_plans)).to_not be_nil
+      expect(assigns(yearly_plans)).to_not be_nil
+    end
+
+    it 'renders without a layout if it is a xhr request' do
+      xhr :get, :choose_new_plan, id: subscription.id, structure_id: structure.slug
+
+      expect(response).to_not render_with_layout('admin')
+    end
   end
 
   describe '#change_plan' do
-    it 'changes the plan'
-    it 'redirects to the index page'
+    let(:plan)          { monthly_plans.sample }
+    let!(:subscription) { plan.create_subscription!(structure) }
+    let(:other_plan)    { yearly_plans.sample }
+
+    before do
+      subscription.charge!(token)
+    end
+
+    it 'changes the plan' do
+      patch :change_plan, id: subscription.id, structure_id: structure.slug, plan_id: other_plan.id
+
+      subscription.reload
+      expect(subscription.plan).to eq(other_plan)
+    end
+
+    it 'redirects to the index page' do
+      patch :change_plan, id: subscription.id, structure_id: structure.slug, plan_id: other_plan.id
+
+      expect(response).to redirect_to(action: :index, structure_id: structure.slug)
+    end
   end
 
   describe '#reactivate' do
