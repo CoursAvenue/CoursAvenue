@@ -28,14 +28,14 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller, with
     render_views
 
     it 'renders the index template' do
-      get :index, structure_id: structure.id
+      get :index, structure_id: structure.slug
 
       should render_template('index')
     end
 
     context "when the structure isn't subscribed" do
       it 'renders the unsubscribed structure partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_plans')
       end
@@ -45,19 +45,19 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller, with
       let!(:subscription) { plan.create_subscription!(structure) }
 
       it 'assigns the subscription' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(assigns(:subscription)).to eq(subscription)
       end
 
       it 'renders the subscription details partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_details')
       end
 
       it 'renders the trial subscription partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_in_trial')
       end
@@ -71,19 +71,19 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller, with
       end
 
       it 'assigns the subscription' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(assigns(:subscription)).to eq(subscription)
       end
 
       it 'renders the subscription details partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_details')
       end
 
       it 'renders the running subscription partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_running')
       end
@@ -98,19 +98,19 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller, with
       end
 
       it 'assigns the subscription' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(assigns(:subscription)).to eq(subscription)
       end
 
       it 'renders the subscription details partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_details')
       end
 
       it 'renders the canceled subscription partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_canceled')
       end
@@ -123,13 +123,13 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller, with
                                                     subscription: other_subscription) }
 
       it 'renders the sponsorship pending partial' do
-        get :index, structure_id: structure.id, sponsorship_token: other_sponsorship.token
+        get :index, structure_id: structure.slug, sponsorship_token: other_sponsorship.token
 
         expect(response).to render_template(partial: '_pending_sponsorship')
       end
 
       it 'assigns the sponsorship' do
-        get :index, structure_id: structure.id, sponsorship_token: other_sponsorship.token
+        get :index, structure_id: structure.slug, sponsorship_token: other_sponsorship.token
 
         expect(assigns(:sponsorship)).to eq(other_sponsorship)
       end
@@ -137,7 +137,7 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller, with
   end
 
   describe '#create' do
-    subject { post :create, { structure_id: structure.id, plan_id: plan.id } }
+    subject { post :create, { structure_id: structure.slug, plan_id: plan.id } }
 
     it 'redirects to the index page' do
       expect(subject).to redirect_to(action: :index, structure_id: structure.slug)
@@ -148,7 +148,7 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller, with
 
       subject do
         post :create, {
-          structure_id: structure.id,
+          structure_id: structure.slug,
           plan_id:      plan.id,
           coupon_code:  coupon.code
         }
