@@ -5,6 +5,7 @@ FactoryGirl.define do
     interval       [ :month, :year ].sample
     stripe_plan_id { "#{name.parameterize}" }
     plan_type      { Subscriptions::Plan::PLAN_TYPES.sample }
+    public_name    { Faker::Name.name }
 
     trait :gold_plan do
       name           'Gold'
