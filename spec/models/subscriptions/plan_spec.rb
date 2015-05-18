@@ -111,21 +111,12 @@ RSpec.describe Subscriptions::Plan, type: :model, with_stripe: true do
 
   describe '#create_subscription!' do
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
-    let(:coupon)    { FactoryGirl.create(:subscriptions_coupon) }
 
     it 'creates a new subscription' do
       subscription = subject.create_subscription!(structure)
 
       expect(subscription).to_not                 be_nil
       expect(subscription).to                     be_a(Subscription)
-    end
-
-    it 'creates a new subscription with a coupon if the coupon is given' do
-      subscription = subject.create_subscription!(structure, coupon.code)
-
-      expect(subscription).to_not                 be_nil
-      expect(subscription).to                     be_a(Subscription)
-      expect(subscription.has_coupon?).to         be_truthy
     end
 
     it 'creates a subscription with a trial period' do
