@@ -38,6 +38,7 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
     structure_name           = subscription.structure.name
     sponsored_structure_name = sponsored_subscription.structure.name
 
+    # Coupon created for sponsorer
     sponsor_coupon   = Subscriptions::Coupon.create(
       amount:          subscription.plan.monthly_amount,
       name:            "1 mois offert - parrainage de #{ sponsored_structure_name }",
@@ -47,9 +48,10 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
 
     subscription.apply_coupon(sponsor_coupon)
 
+    # Coupon created for sponsored user
     sponsored_coupon = Subscriptions::Coupon.create(
-      amount:          sponsored_subscription.plan.monthly_amount / 2.0,
-      name:            "1 mois offert - parrainage de #{ structure_name }",
+      amount:          amount_for_sponsored,
+      name:            name_for_sponsored,
       duration:        'once',
       max_redemptions: 1
     )
@@ -67,6 +69,18 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
   # @return
   def notify_sponsored(custom_message = nil)
     SubscriptionsSponsorshipMailer.delay.sponsor_user(self, custom_message)
+  end
+
+  # Amount for the sponsored structure
+  # @return Double amount of the promo code
+  def amount_for_sponsored
+    subscription.plan.monthly_amount / 2.0
+  end
+
+  # Description of the coupon shown to the sponsored structure
+  # @return String
+  def name_for_sponsored
+    "1 mois offert - parrainage de #{ subscription.structure.name }"
   end
 
   private

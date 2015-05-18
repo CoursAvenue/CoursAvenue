@@ -35,7 +35,7 @@
         = link_to "M'abonner", 'javascript:void(0)', data: { stripe: true, plan_id: yearly_plan.id, amount: yearly_plan.amount }, class: 'btn btn--green soft--sides'
       - if !@sponsorship
         .text--center.line-height-2
-          %a{ href: 'javascript:void(0)', onclick: "$(this).slideUp(); $('#promo-code-input').slideDown()"} J'ai un code promo
+          %a{ href: 'javascript:void(0)', onclick: "$(this).slideUp(); $('#promo-code-input-wrapper').slideDown()"} J'ai un code promo
   %div
     .inline-block.v-middle.soft-half--right Abonnement
     %ul.nav.tabs--link.flush.inline-block.v-middle
@@ -57,12 +57,43 @@
       %span.epsilon (soit 2 mois offerts)
     %div.epsilon Offre sans engagement. Prélevé automatiquement chaque année, résiliable à tout moment.
 
-  #promo-code-input.soft-half--top{ class: (@sponsorship ? '' : 'hidden')}
+  #promo-code-input-wrapper.soft-half--top{ class: (@sponsorship ? '' : 'hidden')}
     %hr.push-half--bottom
     %label.v-middle Code promo :
     %input.v-middle{ id: 'promo_code', name: 'promo_code', value: @sponsorship.try(:token), size: '20' }
+    .inline-block.v-middle
+      = image_tag 'gifs/loading-bubbles-orange.svg', height: 25, width: 80, id: 'coupon-loader', class: 'hidden'
     %span.green.f-weight-600.delta.v-middle#promo-code-description
       - if @sponsorship
         = "Offre parrainage : -#{readable_amount(plan.monthly_amount / 2.0)} pour votre premier paiement."
         :javascript
           window.promo_code_amount = #{plan.monthly_amount / 2.0};
+
+:javascript
+    var xhr, promo_code = null;
+    var check_promo_code = function check_promo_code () {
+        if (promo_code == $(this).val()) { return; }
+        if (xhr) { xhr.abort(); }
+        promo_code = $(this).val();
+        xhr = $.ajax({
+            url: Routes.check_pro_subscriptions_coupon_path($(this).val()),
+            type: 'GET',
+            dataType: 'json',
+            complete: function complete (response) {
+                $('#coupon-loader').hide();
+            },
+            success: function success (response) {
+                var coupon = $.parseJSON(response.coupon);
+                if (coupon) {
+                    $('#promo-code-description').addClass('green').removeClass('red')
+                                                .text(coupon.name);
+                    window.promo_code_amount = coupon.amount;
+                } else {
+                    $('#promo-code-description').addClass('red').removeClass('green')
+                                                .text('Code promo non valide');
+                }
+            }
+        });
+    };
+    $('#promo_code').keyup(check_promo_code);
+    $('#promo_code').change(check_promo_code);

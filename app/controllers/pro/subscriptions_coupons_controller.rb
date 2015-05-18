@@ -42,6 +42,11 @@ class Pro::SubscriptionsCouponsController < Pro::ProController
   # GET /subscriptions_coupons/:id
   def check
     @coupon = Subscriptions::Coupon.where(stripe_coupon_id: params[:id]).first
+    # Also check in Sponsorships
+    if @coupon.nil?
+      @coupon = Subscriptions::Sponsorship.where(token: params[:id]).first
+      @coupon = Subscriptions::SponsorshipSerializer.new(@coupon)
+    end
     respond_to do |format|
       format.json { render json: { coupon: (@coupon ? @coupon.to_json : nil) } }
     end
