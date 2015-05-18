@@ -407,7 +407,7 @@ describe Structure do
     end
   end
 
-  context 'Stripe' do
+  context 'Stripe', with_stripe: true do
     before(:all) { StripeMock.start }
     after(:all)  { StripeMock.stop }
 

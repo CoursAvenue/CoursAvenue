@@ -1,7 +1,7 @@
 require 'stripe_mock'
 require 'rails_helper'
 
-RSpec.describe Subscription, type: :model do
+RSpec.describe Subscription, type: :model, with_stripe: true do
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 
