@@ -1,16 +1,19 @@
-.main-container.main-container--medium
+= render partial: 'structure_website/structures/header'
+.main-container.main-container--medium.push--top
   - if @structure.medias.any?
     = render partial: 'gallery', locals: { medias: @structure.medias, structure: @structure }
 
-  .blog-article__content
-    = simple_format @structure.description
-  - if @structure.teachers.any?
-    %h2 Les professeurs
-    - @structure.teachers.each_with_index do |teacher, index|
-      - if index > 0
-        %hr.push--ends
-      %h4.push-half--bottom= teacher.name
-      - if teacher.image.present?
-        = image_tag teacher.image.url(:normal)
-      .blog-article__content
+  .website-presentation.center-block
+    - if @website_parameter.presentation_text.present?
+      = @website_parameter.presentation_text.html_safe
+    - else
+      = simple_format @structure.description
+    - if @structure.teachers.any?
+      %h2 Les professeurs
+      - @structure.teachers.each_with_index do |teacher, index|
+        - if index > 0
+          %hr.push--ends
+        %h4.push-half--bottom= teacher.name
+        - if teacher.image.present?
+          = image_tag teacher.image.url(:normal)
         = simple_format teacher.description

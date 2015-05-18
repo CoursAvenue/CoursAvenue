@@ -1417,6 +1417,7 @@ ActiveRecord::Schema.define(version: 20150513155126) do
 
   create_table "website_parameters", force: true do |t|
     t.string   "slug"
+    t.text     "presentation_text"
     t.string   "title"
     t.integer  "structure_id"
     t.datetime "created_at"
