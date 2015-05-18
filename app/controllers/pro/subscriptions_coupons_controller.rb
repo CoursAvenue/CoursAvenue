@@ -37,6 +37,16 @@ class Pro::SubscriptionsCouponsController < Pro::ProController
     end
   end
 
+  # @params:
+  #   id
+  # GET /subscriptions_coupons/:id
+  def check
+    @coupon = Subscriptions::Coupon.where(stripe_coupon_id: params[:id]).first
+    respond_to do |format|
+      format.json { render json: { coupon: (@coupon ? @coupon.to_json : nil) } }
+    end
+  end
+
   def destroy
     @coupon = Subscriptions::Coupon.find(params[:id])
 
