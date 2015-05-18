@@ -1,4 +1,5 @@
-#managed_account.hidden.push--top
+-# #managed_account.hidden.push--top
+#managed_account.push--top
   .panel
     .panel__body.soft
       %p.epsilon
@@ -22,18 +23,20 @@
 
         = f.input :business_name, label: "Nom de l'etablissement", label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.name,
           data: { required: true, error_el: '#business_name_error' } }, required: true
-        #business_name_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
-        = f.input :business_url, label: "Site Web", label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.website }
-        = f.input :business_address_line1, label: 'Adresse 1', label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { required: true, error_el: '#business_address_line1_error' } }, required: true
-        #business_address_line1_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
-        = f.input :business_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-        = f.input :business_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { required: true, error_el: '#business_address_city_error' } }, required: true
-        #business_address_city_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
-        = f.input :business_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { required: true, error_el: '#business_address_postal_code_error' } }, required: true
-        #business_address_postal_code_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
-        = f.input :business_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { required: true, error_el: '#business_address_state_error' } }, required: true
-        #business_address_state_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
-        -# = f.input :business_address_country, label: '', label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { required: true } }
+        .hidden
+          #business_name_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+          = f.input :business_url, label: "Site Web", label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.website }
+        = f.input :business_address_line1, label: 'Adresse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.street, data: { required: true, error_el: '#business_address_line1_error' } }, required: true
+
+        .input>
+          .control-label.v-middle>
+            %label.label--large Code Postal
+          .input-container.v-middle>
+            = f.input :business_address_postal_code, label: false, input_html: { class: 'input--large', placeholder: 'Ex. 75014', value: @structure.zip_code, style: 'width: 5em', data: { behavior: 'city-autocomplete', el: '#subscription_business_address_city' } }, required: true, wrapper_html: { class: 'inline-block v-middle flush '}
+            = f.input :business_address_city, collection: [@structure.city], label: false, input_html: { class: 'input--large' }, required: true, wrapper_html: { class: 'inline-block v-middle flush '}, selected: @structure.city
+            #business_address_postal_code_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+            #business_address_city_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+            = f.input :business_address_state, as: :hidden, input_html: { value: 'France' }
 
         %hr.push--ends
         %h5 Informations bancaires
@@ -44,97 +47,80 @@
           %div{ data: { el: true, hidden: false } }
             %hr.push--ends
             %h5 Informations personnelles
-            = f.input :owner_first_name, label: 'Prénom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :owner_last_name,  label: 'Nom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            .input.flush>
+              .control-label.v-middle>
+                %label.label--large Prénom
+              .input-container.v-middle>
+                = f.input :owner_first_name, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }, required: true
+                %label.label--large.soft-half--right Nom
+                = f.input :owner_last_name, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }, required: true
 
-            .input.flush--top
-              = f.label :owner_dob_day, label: 'Date de naissance', class: 'label--large nowrap'
-              = f.input :owner_dob_day, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
-              = f.input :owner_dob_month, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
-              = f.input :owner_dob_year, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+            .input>
+              .control-label.v-middle>
+                %label.label--large Date de naissance
+              .input-container.v-middle>
+                %input.input--large{ style: 'width: 9em;', name: 'owner_dob', data: { behavior: 'datepicker' } }
+              = f.input :owner_dob_day, as: :hidden, required: true
+              = f.input :owner_dob_month, as: :hidden, required: true
+              = f.input :owner_dob_year, as: :hidden, required: true
 
-            = f.input :owner_address_line1, label: "Adresse 1", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :owner_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-            = f.input :owner_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :owner_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :owner_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            -# = f.input :owner_address_country, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+            = f.input :owner_address_line1, label: "Adresse", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+
+            .input>
+              .control-label.v-middle>
+                %label.label--large Code Postal
+              .input-container.v-middle>
+                = f.input :owner_address_postal_code, label: false, input_html: { class: 'input--large', placeholder: 'Ex. 75014', value: @structure.zip_code, style: 'width: 5em', data: { behavior: 'city-autocomplete', el: '#subscription_owner_address_city' } }, required: true, wrapper_html: { class: 'inline-block v-middle flush '}
+                = f.input :owner_address_city, collection: [@structure.city], label: false, input_html: { class: 'input--large' }, required: true, wrapper_html: { class: 'inline-block v-middle flush '}
+                #owner_address_city_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+                #owner_address_postal_code_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+            = f.input :owner_address_state, as: :hidden, input_html: { value: 'France' }
 
           %hr.push--ends
 
           %p
-            Dans le case ou vous n'êtes pas la seule personne en charge de la structure, vous devez renseigner ci-dessous les informations de chaques personnes detenant plus de 25% de la structure.
+            Dans le cas ou vous n'êtes pas la seule personne en charge de la structure, vous devez renseigner ci-dessous les informations de chaques personnes détenant plus de 25% de la structure.
 
-          %div{ data: { el: true, hidden: true } }
-            %hr.push--ends
-            %h5 Informations supplémentaire
-            = f.input :additional_owner_0_first_name, label: 'Prénom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :additional_owner_0_last_name,  label: 'Nom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+          - 3.times do |i|
+            %div{ data: { el: true, hidden: true } }
+              %hr.push--ends
+              %h5 Informations supplémentaire
 
-            .input.flush--top
-              = f.label :additional_owner_0_dob_day, label: 'Date de naissance', class: 'label--large nowrap'
-              = f.input :additional_owner_0_dob_day, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
-              = f.input :additional_owner_0_dob_month, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
-              = f.input :additional_owner_0_dob_year, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+              .input.flush>
+                .control-label.v-middle>
+                  %label.label--large Prénom
+                .input-container.v-middle>
+                  = f.input "additional_owner_#{i}_first_name".to_sym, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }
+                  %label.label--large.soft-half--right Nom
+                  = f.input "additional_owner_#{i}_last_name".to_sym, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }
 
-            = f.input :additional_owner_0_address_line1, label: "Adresse 1", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :additional_owner_0_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-            = f.input :additional_owner_0_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :additional_owner_0_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :additional_owner_0_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            -# = f.input :additional_owner_0_address_country, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-            .input.text--right
-              %a{ data: { clear: true }, href: 'javascript:void(0)' }
-                %i.fa-trash-o
-                Supprimer
+              .input>
+                .control-label.v-middle>
+                  %label.label--large Date de naissance
+                .input-container.v-middle>
+                  %input.input--large{ style: 'width: 9em;', name: "additional_owner_#{i}_dob", data: { behavior: 'datepicker' } }
+                = f.input "additional_owner_#{i}_dob_day".to_sym, as: :hidden, required: true
+                = f.input "additional_owner_#{i}_dob_month".to_sym, as: :hidden, required: true
+                = f.input "additional_owner_#{i}_dob_year".to_sym, as: :hidden, required: true
 
-          %div{ data: { el: true, hidden: true } }
-            %hr.push--ends
-            %h5 Informations supplémentaire
-            = f.input :additional_owner_1_first_name, label: 'Prénom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :additional_owner_1_last_name,  label: 'Nom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+              = f.input "additional_owner_#{i}_address_line1".to_sym, label: "Adresse", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
 
-            .input.flush--top
-              = f.label :additional_owner_1_dob_day, label: 'Date de naissance', class: 'label--large nowrap'
-              = f.input :additional_owner_1_dob_day, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
-              = f.input :additional_owner_1_dob_month, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
-              = f.input :additional_owner_1_dob_year, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
+              .input>
+                .control-label.v-middle>
+                  %label.label--large Code Postal
+                .input-container.v-middle>
+                  .hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right{ id: "additional_owner_#{i}_address_postal_code_error"}
+                  = f.input "additional_owner_#{i}_address_postal_code".to_sym, label: false, input_html: { class: 'input--large', placeholder: 'Ex. 75014', value: @structure.zip_code, style: 'width: 5em', data: { behavior: 'city-autocomplete', el: "#additional_owner_#{i}_address_city" } }, required: true, wrapper_html: { class: 'inline-block v-middle flush '}
+                  .hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right{ id: "additional_owner_#{i}_address_city_error"}
+                  = f.input "additional_owner_#{i}_address_city".to_sym, collection: [@structure.city], label: false, input_html: { class: 'input--large', id: "additional_owner_#{i}_address_city" }, required: true, wrapper_html: { class: 'inline-block v-middle flush '}
 
-            = f.input :additional_owner_1_address_line1, label: "Adresse 1", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :additional_owner_1_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-            = f.input :additional_owner_1_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :additional_owner_1_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :additional_owner_1_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            -# = f.input :additional_owner_1_address_country, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-            .input.text--right
-              %a{ data: { clear: true }, href: 'javascript:void(0)' }
-                %i.fa-trash-o
-                Supprimer
+              -# = f.input :additional_owner_0_address_country, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+              .input.text--right
+                %a{ data: { clear: true }, href: 'javascript:void(0)' }
+                  %i.fa-trash-o
+                  Supprimer
 
-          %div{ data: { el: true, hidden: true } }
-            %hr.push--ends
-            %h5 Informations supplémentaire
-            = f.input :additional_owner_2_first_name, label: 'Prénom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :additional_owner_2_last_name,  label: 'Nom', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-
-            .input.flush--top
-              = f.label :additional_owner_2_dob_day, label: 'Date de naissance', class: 'label--large nowrap'
-              = f.input :additional_owner_2_dob_day, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
-              = f.input :additional_owner_2_dob_month, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
-              = f.input :additional_owner_2_dob_year, label: false, input_html: { class: 'input--large' }, required: true #, wrapper_html: { class: 'flush one-third' }
-
-            = f.input :additional_owner_2_address_line1, label: "Adresse 1", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :additional_owner_2_address_line2, label: 'Adresse 2', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-            = f.input :additional_owner_2_address_city, label: 'Ville', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :additional_owner_2_address_postal_code, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            = f.input :additional_owner_2_address_state, label: 'Région', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
-            -# = f.input :additional_owner_2_address_country, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-            .input.text--right
-              %a{ data: { clear: true }, href: 'javascript:void(0)' }
-                %i.fa-trash-o
-                Supprimer
-
-          %a.btn.btn--green.btn--full{ data: { trigger: true }, href: 'javascript:void(0)' }
+          %a.btn.btn--full{ data: { trigger: true }, href: 'javascript:void(0)' }
             %i.fa.fa-plus
             Ajouter une personne
 
@@ -143,7 +129,6 @@
             = link_to 'Annuler', '#', class: 'btn btn--full btn--gray'
           .grid__item.nine-twelfths>
             = link_to 'Enregistrer', 'javascript:void(0)', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement", form: 'submit' }
-            -# = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
             .smallprint
               En cliquant sur ce boutton, vous acceptez nos
               = link_to 'CGV', '#'
@@ -162,6 +147,7 @@
         function stripeResponseHandler(status, response) {
             var form = $('#managed_account_form');
             var textErrorEl = '';
+            debugger
 
             $('[data-required]').each(function(index, element) {
                 if ($(element).val() == '') {
