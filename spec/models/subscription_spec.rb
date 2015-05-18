@@ -159,15 +159,17 @@ RSpec.describe Subscription, type: :model, with_stripe: true do
 
       it 'applies the half off coupon' do
         subject.charge!(token)
+        coupon_amount = plan.monthly_amount / 2.0
 
-        expect(subject.next_amount).to eq(plan.amount / 2.0)
+        expect(subject.next_amount).to eq(plan.amount - coupon_amount)
       end
 
       it 'applies the coupon to the sponsor' do
         subject.charge!(token)
+        coupon_amount = plan.monthly_amount
 
         other_subscription.reload
-        expect(other_subscription.next_amount).to eq(0)
+        expect(other_subscription.next_amount).to eq(plan.amount - coupon_amount)
       end
     end
   end
@@ -349,7 +351,7 @@ RSpec.describe Subscription, type: :model, with_stripe: true do
   end
 
   describe '#apply_coupon' do
-    let(:coupon) { FactoryGirl.create(:subscriptions_coupon) }
+    let(:coupon) { FactoryGirl.create(:subscriptions_coupon, amount: plan.amount - 5) }
 
     context 'when the coupon is valid' do
       let!(:plan)       { FactoryGirl.create(:subscriptions_plan) }
