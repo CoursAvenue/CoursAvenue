@@ -23,7 +23,7 @@
 %p
   = link_to 'Changer mon abonnement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: @subscription.plan.other_plan.id), class: 'fancybox.ajax',  data: { behavior: 'modal', width: '800', padding: 0 }
 %p
-  = link_to 'Mettre à jour mes informations bancaires', '#' # , class: 'fancybox.ajax', data: { behavior: 'modal', width: '600', padding: 0 }
+  -# = link_to 'Mettre à jour mes informations bancaires', '#' # , class: 'fancybox.ajax', data: { behavior: 'modal', width: '600', padding: 0 }
 %p
   = link_to 'Résilier mon abonnement', confirm_cancellation_pro_structure_subscription_path(@structure, @subscription), class: 'red fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
 
@@ -32,13 +32,10 @@
 %p
   Grace à votre abonnement <strong>#{ @subscription.plan_name }</strong>, vous pouvez accepter les paiement de vos élèves depuis la platforme CoursAvenue.
 
-- if @structure.stripe_managed_account_id.present?
-  = link_to 'Mettre à jour mes information bancaires', '#' #, class: 'fancybox.ajax', data: { behavior: 'modal', width: '600', padding: 0 }
-- else
+- if @structure.stripe_managed_account_id.blank?
   .text--center
     = link_to 'Activer la reception des paiements', 'javascript:void(0)', class: 'btn btn--green', data: { behavior: 'toggle-form' }
-
-  = render 'accept_payments'
+    = render 'accept_payments'
 
 - content_for :scripts do
   = javascript_include_tag '//checkout.stripe.com/checkout.js'
