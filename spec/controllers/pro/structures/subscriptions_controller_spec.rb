@@ -324,8 +324,28 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller, with
   end
 
   describe '#reactivate' do
-    it 'reactivates the subscription'
-    it 'redirects to the index page'
+    let(:plan)          { monthly_plans.sample }
+    let!(:subscription) { plan.create_subscription!(structure) }
+    let(:other_plan)    { yearly_plans.sample }
+
+    before do
+      subscription.charge!(token)
+
+      subscription.cancel!({ at_period_end: false })
+      subscription.reload
+    end
+
+    xit 'reactivates the subscription' do
+      patch :reactivate, id: subscription.id, structure_id: structure.slug
+
+      expect(subscription.canceled?).to be_falsy
+    end
+
+    xit 'redirects to the index page' do
+      patch :reactivate, id: subscription.id, structure_id: structure.slug
+
+      expect(response).to redirect_to(action: :index, structure_id: structure.slug)
+    end
   end
 
   describe '#accept_payments' do

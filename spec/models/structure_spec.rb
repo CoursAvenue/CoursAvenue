@@ -620,7 +620,7 @@ describe Structure do
                 city:        Faker::Address.city,
                 state:       Faker::Address.state,
                 postal_code: Faker::Address.postcode,
-                country:     Faker::Address.country
+                country:     'FR'
               },
               dob: {
                 day:   (1..28).to_a.sample.to_s,
@@ -641,7 +641,7 @@ describe Structure do
             })
           end
 
-          xit 'returns true' do
+          it 'returns true' do
             expect(subject.can_receive_payments?).to be_truthy
           end
         end
