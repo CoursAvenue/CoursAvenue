@@ -34,9 +34,9 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
         logView: function logStat (structure_id, page_name) {
             if (CoursAvenue.isProduction()) {
                 if (page_name) {
-                    var options = { 'dimension1': structure_id };
-                } else {
                     var options = { 'dimension1': structure_id + '/page/' + page_name };
+                } else {
+                    var options = { 'dimension1': structure_id };
                 }
                 ga('send', 'pageview', options);
             }
