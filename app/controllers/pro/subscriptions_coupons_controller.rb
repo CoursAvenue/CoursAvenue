@@ -37,6 +37,21 @@ class Pro::SubscriptionsCouponsController < Pro::ProController
     end
   end
 
+  # @params:
+  #   id
+  # GET /subscriptions_coupons/:id
+  def check
+    @coupon = Subscriptions::Coupon.where(stripe_coupon_id: params[:id]).first
+    # Also check in Sponsorships
+    if @coupon.nil?
+      @coupon = Subscriptions::Sponsorship.where(token: params[:id]).first
+      @coupon = Subscriptions::SponsorshipSerializer.new(@coupon)
+    end
+    respond_to do |format|
+      format.json { render json: { coupon: (@coupon ? @coupon.to_json : nil) } }
+    end
+  end
+
   def destroy
     @coupon = Subscriptions::Coupon.find(params[:id])
 
@@ -54,6 +69,7 @@ class Pro::SubscriptionsCouponsController < Pro::ProController
   private
 
   def permitted_params
-    params.require(:subscriptions_coupon).permit(:name, :amount, :duration)
+    params.require(:subscriptions_coupon).permit(:name, :amount, :duration,
+                                                 :duration_in_months, :stripe_coupon_id, :redeem_by)
   end
 end

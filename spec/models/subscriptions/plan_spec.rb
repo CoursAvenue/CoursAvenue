@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-RSpec.describe Subscriptions::Plan, type: :model do
+RSpec.describe Subscriptions::Plan, type: :model, with_stripe: true do
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 
@@ -111,21 +111,12 @@ RSpec.describe Subscriptions::Plan, type: :model do
 
   describe '#create_subscription!' do
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
-    let(:coupon)    { FactoryGirl.create(:subscriptions_coupon) }
 
     it 'creates a new subscription' do
       subscription = subject.create_subscription!(structure)
 
       expect(subscription).to_not                 be_nil
       expect(subscription).to                     be_a(Subscription)
-    end
-
-    it 'creates a new subscription with a coupon if the coupon is given' do
-      subscription = subject.create_subscription!(structure, coupon.code)
-
-      expect(subscription).to_not                 be_nil
-      expect(subscription).to                     be_a(Subscription)
-      expect(subscription.has_coupon?).to         be_truthy
     end
 
     it 'creates a subscription with a trial period' do
@@ -159,6 +150,49 @@ RSpec.describe Subscriptions::Plan, type: :model do
         end
       end
 
+    end
+  end
+
+  describe '#monthly_amount' do
+    context "when it's a monthly plan" do
+      subject { FactoryGirl.create(:subscriptions_plan, :monthly) }
+
+      it 'returns the plan amount' do
+        expect(subject.monthly_amount).to eq(subject.amount)
+      end
+    end
+
+    context "when it's a yearly plan" do
+      subject       { FactoryGirl.create(:subscriptions_plan, :monthly) }
+      let(:sibling) { FactoryGirl.create(:subscriptions_plan, :yearly, plan_type: subject.plan_type) }
+
+      it 'returns the amount of the monthly sibling' do
+        expect(subject.monthly_amount).to eq(subject.monthly_sibling.amount)
+      end
+    end
+  end
+
+  describe '#monthly?' do
+    context 'when the interval is monthly' do
+      subject { FactoryGirl.create(:subscriptions_plan, :monthly) }
+      it { expect(subject.monthly?).to be_truthy }
+    end
+
+    context 'when the interval is yearly' do
+      subject { FactoryGirl.create(:subscriptions_plan, :yearly) }
+      it { expect(subject.monthly?).to be_falsy }
+    end
+  end
+
+  describe '#yearly?' do
+    context 'when the interval is yearly' do
+      subject { FactoryGirl.create(:subscriptions_plan, :yearly) }
+      it { expect(subject.yearly?).to be_truthy }
+    end
+
+    context 'when the interval is monthly' do
+      subject { FactoryGirl.create(:subscriptions_plan, :monthly) }
+      it { expect(subject.yearly?).to be_falsy }
     end
   end
 end

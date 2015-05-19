@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-RSpec.describe StripeEvent, type: :model do
+RSpec.describe StripeEvent, type: :model, with_stripe: true do
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 

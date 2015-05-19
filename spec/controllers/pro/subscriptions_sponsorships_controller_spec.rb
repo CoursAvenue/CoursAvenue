@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-describe Pro::SubscriptionsSponsorshipsController do
+describe Pro::SubscriptionsSponsorshipsController, with_stripe: true do
   include Devise::TestHelpers
 
   before(:all) { StripeMock.start }
@@ -85,12 +85,6 @@ describe Pro::SubscriptionsSponsorshipsController do
         expect(session[:pro_admin_return_to]). to eq(
           pro_structure_subscriptions_path('__STRUCTURE_ID__', sponsorship_token: sponsorship.token)
         )
-      end
-
-      it 'shows the connection / login partial' do
-        get :show, id: sponsorship.token
-
-        expect(response).to render_template(partial: '_connection')
       end
     end
   end
