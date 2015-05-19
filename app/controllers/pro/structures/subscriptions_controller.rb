@@ -130,23 +130,13 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
 
   # PATCH :id/accept_payments
   def accept_payments
-    @subscription = @structure.subscription
+    @subscription                      = @structure.subscription
+    @managed_account_form              = ManagedAccountForm.new(params[:managed_account_form])
 
-    token        = accept_payments_permitted_params[:stripe_bank_token]
-    legal_entity = build_legal_entity(accept_payments_permitted_params)
+    @managed_account_form.structure_id      = @structure.id
+    @managed_account_form.tos_acceptance_ip = request.ip
 
-    managed_account_options = {
-      legal_entity:   legal_entity,
-      bank_account:   token,
-      tos_acceptance: {
-        date: Time.now.to_i,
-        ip: request.ip
-      }
-    }
-
-    created = @structure.create_managed_account(managed_account_options)
-
-    if created
+    if @managed_account_form.save
       redirect_to pro_structure_subscriptions_path(@structure),
         notice: 'Vos informations ont été reçus avec succès'
     else
@@ -167,131 +157,5 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
 
   def subscription_plan_id_params
     params.permit(:plan_id, :coupon_code, :sponsorship_token)
-  end
-
-  def accept_payments_permitted_params
-    params.require(:subscription).permit(
-      :stripe_token, :stripe_bank_token, :bank_account_number,
-      :address_line1, :address_line2, :address_city, :address_state, :address_postal_code,
-      :address_country, :business_type, :business_name, :business_url, :business_address_line1,
-      :business_address_line2, :business_name, :business_address_line1, :business_address_line2,
-      :business_address_city, :business_address_state, :business_address_postal_code,
-      :owner_first_name, :owner_last_name, :owner_dob_day, :owner_dob_month, :owner_dob_year,
-      :owner_address_line1, :owner_address_line2, :owner_address_city, :owner_address_state,
-      :owner_address_postal_code, :owner_address_country,
-
-      :additional_owner_0_first_name, :additional_owner_0_last_name, :additional_owner_0_dob_day,
-      :additional_owner_0_dob_day, :additional_owner_0_dob_month, :additional_owner_0_dob_year,
-      :additional_owner_0_address_line1, :additional_owner_0_address_line2,
-      :additional_owner_0_address_city, :additional_owner_0_address_postal_code,
-      :additional_owner_0_address_state, :additional_owner_0_address_country,
-
-      :additional_owner_1_first_name, :additional_owner_1_last_name, :additional_owner_1_dob_day,
-      :additional_owner_1_dob_day, :additional_owner_1_dob_month, :additional_owner_1_dob_year,
-      :additional_owner_1_address_line1, :additional_owner_1_address_line2,
-      :additional_owner_1_address_city, :additional_owner_1_address_postal_code,
-      :additional_owner_1_address_state, :additional_owner_1_address_country,
-
-      :additional_owner_2_first_name, :additional_owner_2_last_name, :additional_owner_2_dob_day,
-      :additional_owner_2_dob_day, :additional_owner_2_dob_month, :additional_owner_2_dob_year,
-      :additional_owner_2_address_line1, :additional_owner_2_address_line2,
-      :additional_owner_2_address_city, :additional_owner_2_address_postal_code,
-      :additional_owner_2_address_state, :additional_owner_2_address_country
-    )
-  end
-
-  def build_legal_entity(form_params)
-    additional_owners = build_additional_owners(accept_payments_permitted_params)
-    {
-      address: {
-        line1:       form_params[:business_address_line1],
-        line2:       form_params[:business_address_line2],
-        city:        form_params[:business_address_city],
-        state:       form_params[:business_address_state],
-        postal_code: form_params[:business_address_postal_code],
-        country:     'FR',
-      },
-      dob: {
-        day:   form_params[:owner_dob_day],
-        month: form_params[:owner_dob_month],
-        year:  form_params[:owner_dob_year],
-      },
-      personal_address: {
-        line1:       form_params[:owner_address_line1],
-        city:        form_params[:owner_address_city],
-        state:       form_params[:owner_address_state],
-        postal_code: form_params[:owner_address_postal_code],
-        country:     'FR',
-      },
-      business_name: form_params[:business_name],
-      business_url:  form_params[:business_url],
-      first_name:    form_params[:owner_first_name],
-      last_name:     form_params[:owner_last_name],
-      type:          form_params[:business_type],
-      additional_owners: additional_owners
-    }
-  end
-
-  def build_additional_owners(form_params)
-    # We test the opposite of the presence because it tests both if the variable is nil and empty.
-    return nil if ! form_params[:additional_owner_0_first_name].present? and
-      ! form_params[:additional_owner_1_first_name].present? and
-      ! form_params[:additional_owner_2_first_name].present?
-
-    owner_0 = {
-      first_name: form_params[:additional_owner_0_first_name],
-      last_name:  form_params[:additional_owner_0_last_name],
-      dob: {
-        day:   form_params[:additional_owner_0_dob_day],
-        month: form_params[:additional_owner_0_dob_month],
-        year:  form_params[:additional_owner_0_dob_year],
-      },
-      address: {
-        line1:       form_params[:additional_owner_0_address_line1],
-        line2:       form_params[:additional_owner_0_address_line2],
-        city:        form_params[:additional_owner_0_address_city],
-        state:       form_params[:additional_owner_0_address_state],
-        postal_code: form_params[:additional_owner_0_address_postal_code],
-        country:     'FR',
-      },
-    }
-
-    owner_1 = {
-      first_name: form_params[:additional_owner_1_first_name],
-      last_name:  form_params[:additional_owner_1_last_name],
-      dob: {
-        day:   form_params[:additional_owner_1_dob_day],
-        month: form_params[:additional_owner_1_dob_month],
-        year:  form_params[:additional_owner_1_dob_year],
-      },
-      address: {
-        line1:       form_params[:additional_owner_1_address_line1],
-        line2:       form_params[:additional_owner_1_address_line2],
-        city:        form_params[:additional_owner_1_address_city],
-        state:       form_params[:additional_owner_1_address_state],
-        postal_code: form_params[:additional_owner_1_address_postal_code],
-        country:     'FR',
-      },
-    }
-
-    owner_2 = {
-      first_name: form_params[:additional_owner_2_first_name],
-      last_name:  form_params[:additional_owner_2_last_name],
-      dob: {
-        day:   form_params[:additional_owner_2_dob_day],
-        month: form_params[:additional_owner_2_dob_month],
-        year:  form_params[:additional_owner_2_dob_year],
-      },
-      address: {
-        line1:       form_params[:additional_owner_2_address_line1],
-        line2:       form_params[:additional_owner_2_address_line2],
-        city:        form_params[:additional_owner_2_address_city],
-        state:       form_params[:additional_owner_2_address_state],
-        postal_code: form_params[:additional_owner_2_address_postal_code],
-        country:     'FR',
-      },
-    }
-
-    [owner_0, owner_1, owner_2]
   end
 end

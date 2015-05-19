@@ -16,32 +16,7 @@ class Subscription < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessor :stripe_token, :stripe_bank_token, :bank_account_number,
-    :address_line1, :address_line2, :address_city, :address_state, :address_postal_code,
-    :address_country, :business_type, :business_name, :business_url, :business_address_line1,
-    :business_address_line2, :business_name, :business_address_line1, :business_address_line2,
-    :business_address_city, :business_address_state, :business_address_postal_code,
-    :owner_first_name, :owner_last_name, :owner_dob_day, :owner_dob_month, :owner_dob_year,
-    :owner_address_line1, :owner_address_line2, :owner_address_city, :owner_address_state,
-    :owner_address_postal_code, :owner_address_country,
-
-    :additional_owner_0_first_name, :additional_owner_0_last_name, :additional_owner_0_dob_day,
-    :additional_owner_0_dob_day, :additional_owner_0_dob_month, :additional_owner_0_dob_year,
-    :additional_owner_0_address_line1, :additional_owner_0_address_line2,
-    :additional_owner_0_address_city, :additional_owner_0_address_postal_code,
-    :additional_owner_0_address_state, :additional_owner_0_address_country,
-
-    :additional_owner_1_first_name, :additional_owner_1_last_name, :additional_owner_1_dob_day,
-    :additional_owner_1_dob_day, :additional_owner_1_dob_month, :additional_owner_1_dob_year,
-    :additional_owner_1_address_line1, :additional_owner_1_address_line2,
-    :additional_owner_1_address_city, :additional_owner_1_address_postal_code,
-    :additional_owner_1_address_state, :additional_owner_1_address_country,
-
-    :additional_owner_2_first_name, :additional_owner_2_last_name, :additional_owner_2_dob_day,
-    :additional_owner_2_dob_day, :additional_owner_2_dob_month, :additional_owner_2_dob_year,
-    :additional_owner_2_address_line1, :additional_owner_2_address_line2,
-    :additional_owner_2_address_city, :additional_owner_2_address_postal_code,
-    :additional_owner_2_address_state, :additional_owner_2_address_country
+  attr_accessor :stripe_token, :stripe_bank_token, :bank_account_number
 
   attr_accessible :structure, :coupon, :plan, :stripe_subscription_id, :trial_end,
     :cancelation_reason_dont_want_more_students,

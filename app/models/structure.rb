@@ -1171,7 +1171,7 @@ class Structure < ActiveRecord::Base
       email: self.contact_email,
 
       business_name: self.name,
-      business_url:  self.website,
+      # business_url:  self.website,
       metadata: {
         structure: id
       }

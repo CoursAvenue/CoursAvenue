@@ -10,7 +10,7 @@
         -# pour la gestion des informations bancaires. Plus d'informations dans
         -# = link_to " les conditions générales d'utilsations de Stripe.", 'https://stripe.com/fr/terms'
 
-      = simple_form_for [:pro, @structure, @subscription], url: accept_payments_pro_structure_subscription_path(@structure, @subscription), method: :patch, html: { id: 'managed_account_form' } do |f|
+      = simple_form_for [:pro, @structure, ManagedAccountForm.new], url: accept_payments_pro_structure_subscription_path(@structure, @subscription), method: :patch, html: { id: 'managed_account_form' } do |f|
         = f.input :stripe_bank_token, as: :hidden
 
         %hr.push--ends
@@ -51,20 +51,20 @@
               .control-label.v-middle>
                 %label.label--large Prénom
               .input-container.v-middle>
-                = f.input :owner_first_name, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }, required: true
+                = f.input :owner_first_name, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }, required: true, data: { required: true }
                 %label.label--large.soft-half--right Nom
-                = f.input :owner_last_name, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }, required: true
+                = f.input :owner_last_name, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }, required: true, data: { required: true }
 
             .input>
               .control-label.v-middle>
                 %label.label--large Date de naissance
               .input-container.v-middle>
-                %input.input--large{ style: 'width: 9em;', name: 'owner_dob', data: { behavior: 'datepicker' } }
+                %input.input--large{ style: 'width: 9em;', name: 'managed_account_form[owner_dob]', data: { behavior: 'datepicker' } }
               = f.input :owner_dob_day, as: :hidden, required: true
               = f.input :owner_dob_month, as: :hidden, required: true
               = f.input :owner_dob_year, as: :hidden, required: true
 
-            = f.input :owner_address_line1, label: "Adresse", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+            = f.input :owner_address_line1, label: "Adresse", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true, data: { required: true }
 
             .input>
               .control-label.v-middle>
@@ -98,7 +98,7 @@
                 .control-label.v-middle>
                   %label.label--large Date de naissance
                 .input-container.v-middle>
-                  %input.input--large{ style: 'width: 9em;', name: "additional_owner_#{i}_dob", data: { behavior: 'datepicker' } }
+                  %input.input--large{ style: 'width: 9em;', name: "managed_account_form[additional_owner_#{i}_dob]", data: { behavior: 'datepicker' } }
                 = f.input "additional_owner_#{i}_dob_day".to_sym, as: :hidden, required: true
                 = f.input "additional_owner_#{i}_dob_month".to_sym, as: :hidden, required: true
                 = f.input "additional_owner_#{i}_dob_year".to_sym, as: :hidden, required: true
@@ -147,7 +147,6 @@
         function stripeResponseHandler(status, response) {
             var form = $('#managed_account_form');
             var textErrorEl = '';
-            debugger
 
             $('[data-required]').each(function(index, element) {
                 if ($(element).val() == '') {
@@ -161,7 +160,7 @@
                 $('#bank_account_number_error').text(errorText).show();
             } else {
                 var stripeBankToken = response.id;
-                $("[name='subscription[stripe_bank_token]']").val(stripeBankToken);
+                $("[name='managed_account_form[stripe_bank_token]']").val(stripeBankToken);
                 form.submit();
             }
         }

@@ -298,7 +298,7 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
     context 'without a bank token' do
       subject do
         patch :accept_payments, structure_id: structure.id, id: subscription.id,
-          subscription: { legal_entity: legal_entity }
+          managed_account_form: { legal_entity: legal_entity }
       end
 
       it "doesn't create a managed account" do
@@ -322,7 +322,7 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
     context 'with a bank token' do
       it 'creates a managed account' do
         patch :accept_payments, structure_id: structure.id, id: subscription.id,
-          subscription: { stripe_bank_token: bank_token }
+          managed_account_form: { stripe_bank_token: bank_token }
 
         structure.reload
 
@@ -334,7 +334,7 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
 
       it 'redirects to the home page' do
         patch :accept_payments, structure_id: structure.id, id: subscription.id,
-          subscription: { stripe_bank_token: bank_token, legal_entity: legal_entity }
+          managed_account_form: { stripe_bank_token: bank_token, legal_entity: legal_entity }
 
         expect(response).to redirect_to(action: :index, structure_id: structure.slug)
       end
