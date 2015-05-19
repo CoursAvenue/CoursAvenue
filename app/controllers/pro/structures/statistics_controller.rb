@@ -55,7 +55,7 @@ class Pro::Structures::StatisticsController < Pro::ProController
     end
 
     (15.days.ago.to_date..Date.yesterday).each do |date|
-      @website_inscription[date] = ParticipationRequest.where(created_at: (date.beginning_of_day..date.end_of_day), from_personal_website: false).count
+      @website_inscription[date] = @structure.participation_requests.where(created_at: (date.beginning_of_day..date.end_of_day), from_personal_website: false).count
     end
     @website_views_total_count        = @website_views.values.reduce(&:+)
     @website_planning_views_count     = @website_planning_views.values.reduce(&:+)
