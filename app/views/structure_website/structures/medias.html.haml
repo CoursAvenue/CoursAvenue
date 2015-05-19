@@ -14,7 +14,8 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        var masonry = new Masonry($('[data-behavior=masonry]')[0], {
+        var container = $('[data-behavior=masonry]')[0];
+        var masonry = new Masonry(container, {
             itemSelector: '[data-el=masonry-item]',
             isInitLayout: false
         });
@@ -22,6 +23,7 @@
             $('[data-behavior=masonry]').removeClass('invisible');
             $('[data-el=loading-indicator]').fadeOut();
         });
-        masonry.layout();
-
+        imagesLoaded( container, function() {
+            masonry.layout();
+        });
     });

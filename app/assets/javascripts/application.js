@@ -25,6 +25,7 @@
 //= require libs/jquery.nouislider
 //= require libs/responsiveslides
 //= require libs/jquery.placeholder
+//= require libs/imagesloaded.pkgd
 
 //= require libs/jquery.magnific-popup
 //= require libs/jquery.lazyload

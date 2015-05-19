@@ -32,10 +32,10 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        google_map_handler = Gmaps.build('Google');
-        google_map_handler.buildMap({ provider: { scrollwheel: false, zoom: 6}, internal: { id: 'activity-map' }}, function() {
-            markers = google_map_handler.addMarkers(#{@place_locations.to_json});
-            google_map_handler.bounds.extendWith(markers);
-            google_map_handler.fitMapToBounds();
+        var footer_google_map_handler = Gmaps.build('Google');
+        footer_google_map_handler.buildMap({ provider: { scrollwheel: false, zoom: 6}, internal: { id: 'activity-map' }}, function() {
+            markers = footer_google_map_handler.addMarkers(#{@place_locations.to_json});
+            footer_google_map_handler.bounds.extendWith(markers);
+            footer_google_map_handler.fitMapToBounds();
         });
     });

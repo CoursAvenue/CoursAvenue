@@ -14,4 +14,3 @@
             = link_to 'Voir sur Stripe', "https://dashboard.stripe.com/test/coupons/#{coupon.stripe_coupon_id}", target: :_blank
             = link_to pro_subscriptions_coupon_path(coupon), class: 'btn btn--red btn--small', method: :delete, data: { confirm: 'Êtes sûr de vouloir de supprimer ce code promo ? Il sera aussi supprimé de Stripe.' } do
               %i.fa-trash-o
-
