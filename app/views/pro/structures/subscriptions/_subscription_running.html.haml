@@ -1,4 +1,4 @@
-%table.table--data.table--striped.bordered
+%table.table--data.table--striped.bordered{ style: 'max-width: 500px;'}
   %tbody
     %tr
       %td Offre actuel
@@ -18,9 +18,9 @@
           - else
             s'est appliqué jusqu'au #{l(@subscription.coupon_end_date.to_date)}
 
-%p.epsilon
-  Votre abonnement <strong>à l'offre #{@subscription.plan.public_name}</strong> sera automatiquement renouvelé le
-  sauf si vous l'annulez avant cette date. Vous pouvez annuler votre abonnement à tout moment en accédant à l'espace « Gestion de votre abonnement ».
+-# %p.epsilon
+-#   Votre abonnement <strong>à l'offre #{@subscription.plan.public_name}</strong> sera automatiquement renouvelé le
+-#   sauf si vous l'annulez avant cette date. Vous pouvez annuler votre abonnement à tout moment en accédant à l'espace « Gestion de votre abonnement ».
 
 %hr.push--ends
 %h3 Offre parrainage - 1 mois offert à chaque invitation
