@@ -99,7 +99,7 @@ describe ParticipationRequest do
     end
   end
 
-  context 'stripe' do
+  context 'stripe', with_stripe: true do
     before(:all) { StripeMock.start }
     after(:all)  { StripeMock.stop }
 
@@ -179,8 +179,14 @@ describe ParticipationRequest do
           end
 
           context "when there's a token" do
+            before do
+              allow_any_instance_of(Structure).to receive(:can_receive_payments?).and_return(true)
+            end
+
             it 'creates a Stripe customer for the user' do
               subject.charge!(token)
+
+              user.reload
 
               expect(user.stripe_customer).to_not be_nil
               expect(user.stripe_customer).to be_a(Stripe::Customer)
@@ -189,6 +195,8 @@ describe ParticipationRequest do
 
           context 'all of the above' do
             before do
+              allow_any_instance_of(Structure).to receive(:can_receive_payments?).and_return(true)
+
               user.create_stripe_customer(token)
               user.reload
             end
