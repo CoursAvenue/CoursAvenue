@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Pro::Structures::InvoicesController, type: :controller do
+RSpec.describe Pro::Structures::InvoicesController, type: :controller, with_stripe: true do
   include Devise::TestHelpers
 
   before(:all) { StripeMock.start }

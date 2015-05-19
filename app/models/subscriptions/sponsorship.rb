@@ -58,10 +58,10 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
 
     sponsored_subscription.apply_coupon(sponsored_coupon)
 
-    SubscriptionsSponsorshipMailer.delay.subscription_reedeemed(self)
     self.redeemed            = true
     self.redeeming_structure = sponsored_subscription.structure
     save
+    SubscriptionsSponsorshipMailer.delay.subscription_reedeemed(self)
   end
 
   # Send an email to the sponsored structure.

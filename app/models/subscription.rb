@@ -204,7 +204,8 @@ class Subscription < ActiveRecord::Base
   def next_amount
     return nil if stripe_subscription_id.nil? or canceled?
 
-    Rails.cache.fetch ["Subscription#next_amount", self], expires_in: (current_period_end - Time.now).to_i do
+    expiration_delay = current_period_end - Time.now
+    Rails.cache.fetch ["Subscription#next_amount", self], expires_in: expiration_delay.to_i do
       Stripe::Invoice.upcoming(customer: structure.stripe_customer_id).amount_due / 100.0
     end
   end

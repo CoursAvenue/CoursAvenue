@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
+RSpec.describe Pro::Structures::SubscriptionsController, type: :controller, with_stripe: true do
   include Devise::TestHelpers
 
   before(:all) { StripeMock.start }
@@ -28,14 +28,14 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
     render_views
 
     it 'renders the index template' do
-      get :index, structure_id: structure.id
+      get :index, structure_id: structure.slug
 
       should render_template('index')
     end
 
     context "when the structure isn't subscribed" do
       it 'renders the unsubscribed structure partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_plans')
       end
@@ -45,19 +45,19 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
       let!(:subscription) { plan.create_subscription!(structure) }
 
       it 'assigns the subscription' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(assigns(:subscription)).to eq(subscription)
       end
 
       it 'renders the subscription details partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_details')
       end
 
       it 'renders the trial subscription partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_in_trial')
       end
@@ -71,19 +71,19 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
       end
 
       it 'assigns the subscription' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(assigns(:subscription)).to eq(subscription)
       end
 
       it 'renders the subscription details partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_details')
       end
 
       it 'renders the running subscription partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_running')
       end
@@ -98,19 +98,19 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
       end
 
       it 'assigns the subscription' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(assigns(:subscription)).to eq(subscription)
       end
 
       it 'renders the subscription details partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_details')
       end
 
       it 'renders the canceled subscription partial' do
-        get :index, structure_id: structure.id
+        get :index, structure_id: structure.slug
 
         expect(response).to render_template(partial: '_subscription_canceled')
       end
@@ -123,13 +123,13 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
                                                     subscription: other_subscription) }
 
       it 'renders the sponsorship pending partial' do
-        get :index, structure_id: structure.id, sponsorship_token: other_sponsorship.token
+        get :index, structure_id: structure.slug, sponsorship_token: other_sponsorship.token
 
         expect(response).to render_template(partial: '_pending_sponsorship')
       end
 
       it 'assigns the sponsorship' do
-        get :index, structure_id: structure.id, sponsorship_token: other_sponsorship.token
+        get :index, structure_id: structure.slug, sponsorship_token: other_sponsorship.token
 
         expect(assigns(:sponsorship)).to eq(other_sponsorship)
       end
@@ -137,7 +137,7 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
   end
 
   describe '#create' do
-    subject { post :create, { structure_id: structure.id, plan_id: plan.id } }
+    subject { post :create, { structure_id: structure.slug, plan_id: plan.id } }
 
     it 'redirects to the index page' do
       expect(subject).to redirect_to(action: :index, structure_id: structure.slug)
@@ -148,7 +148,7 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
 
       subject do
         post :create, {
-          structure_id: structure.id,
+          structure_id: structure.slug,
           plan_id:      plan.id,
           coupon_code:  coupon.code
         }
@@ -248,19 +248,69 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller do
   end
 
   describe 'activate' do
-    it 'activates the subscription'
-    it 'redirects to the subscription detail page'
+    let(:plan)          { monthly_plans.sample }
+    let!(:subscription) { plan.create_subscription!(structure) }
+
+    it 'activates the subscription' do
+      patch :activate, structure_id: structure.slug, id: subscription.id, plan_id: plan.id,
+        subscription: { stripe_token: token }
+
+      expect(subscription.active?).to be_truthy
+    end
+
+    it 'redirects to the subscription detail page' do
+      patch :activate, structure_id: structure.slug, id: subscription.id, plan_id: plan.id,
+        subscription: { stripe_token: token }
+
+      expect(response).to redirect_to(action: :index, structure_id: structure.slug)
+    end
   end
 
   describe 'choose_new_plan' do
-    it 'renders the choose_new_plan template'
-    it 'assigns the subscriptions'
-    it 'renders without a layout if it is a xhr request'
+    let(:plan)          { monthly_plans.sample }
+    let!(:subscription) { plan.create_subscription!(structure) }
+
+    it 'renders the choose_new_plan template' do
+      get :choose_new_plan, id: subscription.id, structure_id: structure.slug
+
+      expect(response).to render_template('choose_new_plan')
+    end
+
+    xit 'assigns the subscriptions' do
+      get :choose_new_plan, id: subscription.id, structure_id: structure.slug
+
+      expect(assigns(monthly_plans)).to_not be_nil
+      expect(assigns(yearly_plans)).to_not be_nil
+    end
+
+    it 'renders without a layout if it is a xhr request' do
+      xhr :get, :choose_new_plan, id: subscription.id, structure_id: structure.slug
+
+      expect(response).to_not render_with_layout('admin')
+    end
   end
 
   describe '#change_plan' do
-    it 'changes the plan'
-    it 'redirects to the index page'
+    let(:plan)          { monthly_plans.sample }
+    let!(:subscription) { plan.create_subscription!(structure) }
+    let(:other_plan)    { yearly_plans.sample }
+
+    before do
+      subscription.charge!(token)
+    end
+
+    it 'changes the plan' do
+      patch :change_plan, id: subscription.id, structure_id: structure.slug, plan_id: other_plan.id
+
+      subscription.reload
+      expect(subscription.plan).to eq(other_plan)
+    end
+
+    it 'redirects to the index page' do
+      patch :change_plan, id: subscription.id, structure_id: structure.slug, plan_id: other_plan.id
+
+      expect(response).to redirect_to(action: :index, structure_id: structure.slug)
+    end
   end
 
   describe '#reactivate' do
