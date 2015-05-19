@@ -85,10 +85,14 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
 
   private
 
+  # Create a uniq random token.
+  # We generate a UUID like: `2d931510-d99f-494a-8c67-87feb05e1594` and then split it to make it
+  # friendlier than genereting a purely random string.
+  #
+  # @return
   def create_token
     if self.token.nil?
       self.token = loop do
-        # UUID like: 2d931510-d99f-494a-8c67-87feb05e1594
         random_token = "PARRAIN-#{SecureRandom.uuid.split('-').first}"
         break random_token unless self.class.exists?(token: random_token)
       end

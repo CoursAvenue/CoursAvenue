@@ -70,7 +70,9 @@ class ManagedAccountForm
   #
   # @return a Hash.
   def legal_entity
-    owner_dob_day, owner_dob_month, owner_dob_year = owner_dob.split('/').map(&:to_i)
+    if owner_dob.present?
+      owner_dob_day, owner_dob_month, owner_dob_year = owner_dob.split('/').map(&:to_i)
+    end
 
     {
       address: {

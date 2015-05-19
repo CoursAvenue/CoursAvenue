@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe NewsletterSender do
   describe '.send_newsletter' do
-
     it "doesn't send the newsletter if there's no mailing list" do
       newsletter = FactoryGirl.create(:newsletter, :without_mailing_list)
 
