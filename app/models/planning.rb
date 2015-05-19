@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Planning < ActiveRecord::Base
   acts_as_paranoid
+  include AlgoliaSearch
   # extend ActiveHashHelper
   include Concerns::ActiveHashHelper
 
@@ -90,6 +91,27 @@ class Planning < ActiveRecord::Base
   scope :past,              -> { where( arel_table[:end_date].lteq(Date.today) ) }
   scope :ordered_by_day,    -> { order('week_day=0, week_day ASC, start_date ASC, start_time ASC') }
   scope :visible,           -> { where(visible: true) }
+
+  ######################################################################
+  # Algolia                                                            #
+  ######################################################################
+  # :nocov:
+  algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
+    attribute :id
+
+    geoloc :latitude, :longitude
+
+    # add_attribute :_geoloc do
+    #   { lat: latitude, lng: longitude }
+    # end
+    add_attribute :course_name do
+      course.name
+    end
+    add_attribute :structure_name do
+      structure.name
+    end
+  end
+  # :nocov:
 
   ######################################################################
   # Solr                                                               #
@@ -392,6 +414,21 @@ class Planning < ActiveRecord::Base
       else
         (today + (7 - today.wday)).next_day(week_day)
       end
+    end
+  end
+
+  def latitude
+    if course.teaches_at_home and structure.places.homes.any?
+      structure.places.homes.first.latitude
+    else
+      (place ? place.latitude : course.place.latitude)
+    end
+  end
+  def longitude
+    if course.teaches_at_home and structure.places.homes.any?
+      structure.places.homes.first.longitude
+    else
+      (place ? place.longitude : course.place.longitude)
     end
   end
 

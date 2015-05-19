@@ -1,0 +1,62 @@
+SearchPage.module('Views', function(Module, App, Backbone, Marionette, $, _) {
+
+    ELEMENT_MAP_ID = 'mapbox-map';
+
+    Module.MapView = Backbone.Marionette.ItemView.extend({
+        template: Module.templateDirname() + 'map_view',
+
+        initialize: function initialize(plannings) {
+            this.map = null;
+            this.marker_layer = L.layerGroup();
+            _.bindAll(this, 'triggerNewBounds');
+        },
+
+        /*
+         * Remove all the markers
+         */
+        removeAllMarkers: function removeAllMarkers(plannings) {
+            _.each(this.marker_layer.getLayers(), function(marker) {
+                this.marker_layer.removeLayer(marker);
+            }, this);
+        },
+
+        /*
+         * Remove all markers and add new ones
+         */
+        updateMarkers: function updateMarkers(plannings) {
+            this.removeAllMarkers();
+            _.each(plannings, function(planning) {
+                var marker = L.marker([planning.get('_geoloc').lat, planning.get('_geoloc').lng]);
+                this.marker_layer.addLayer(marker);
+            }, this);
+        },
+
+        onAfterShow: function onAfterShow() {
+            if (_.isNull(this.map)){
+                L.mapbox.accessToken = '<%= ENV['MAPBOX_API_KEY'] %>';
+                this.map = L.mapbox.map(ELEMENT_MAP_ID, 'mapbox.streets')
+                           .setView([48.8592, 2.3417], 9)
+                           .addLayer(this.marker_layer);
+            }
+            this.map.on('moveend', this.triggerNewBounds);
+            // this.centerMap();
+        },
+
+        triggerNewBounds: function triggerNewBounds () {
+            var bounds = [];
+            bounds.push([this.map.getBounds().getNorthWest().lat, this.map.getBounds().getNorthWest().lng]);
+            bounds.push([this.map.getBounds().getSouthEast().lat, this.map.getBounds().getSouthEast().lng]);
+            this.trigger('map:bounds:change', bounds);
+        },
+
+        centerMap: function centerMap () {
+            var array_of_latlngs = [];
+            this.map.eachLayer(function(marker) {
+                if (marker.getLatLng) {
+                    array_of_latlngs.push(marker.getLatLng())
+                }
+            });
+            this.map.fitBounds(array_of_latlngs);
+        }
+    });
+});
