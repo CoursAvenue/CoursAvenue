@@ -86,7 +86,7 @@ class Subscriptions::Coupon < ActiveRecord::Base
     options = {
       duration:           duration,
       duration_in_months: duration_in_months,
-      currency:           CURRENCY,
+      currency:           Subscription::CURRENCY,
       amount_off:         (amount * 100).to_i,
       redeem_by:          redeem_by.to_i,
       metadata: {
