@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506092439) do
+ActiveRecord::Schema.define(version: 20150513155126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 20150506092439) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "comment"
   end
 
   create_table "cities", force: true do |t|
@@ -1167,6 +1168,7 @@ ActiveRecord::Schema.define(version: 20150506092439) do
     t.integer  "subscriptions_coupon_id"
     t.boolean  "paused",                  default: false
     t.datetime "trial_end"
+    t.datetime "coupon_ends_at"
   end
 
   add_index "subscriptions", ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true, using: :btree
@@ -1181,7 +1183,10 @@ ActiveRecord::Schema.define(version: 20150506092439) do
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "amount"
+    t.float    "amount"
+    t.integer  "max_redemptions"
+    t.integer  "duration_in_months"
+    t.datetime "redeem_by"
   end
 
   create_table "subscriptions_invoices", force: true do |t|
@@ -1208,9 +1213,23 @@ ActiveRecord::Schema.define(version: 20150506092439) do
     t.integer  "trial_period_days"
     t.integer  "amount"
     t.string   "public_name"
+    t.string   "plan_type"
   end
 
   add_index "subscriptions_plans", ["stripe_plan_id"], name: "index_subscriptions_plans_on_stripe_plan_id", unique: true, using: :btree
+
+  create_table "subscriptions_sponsorships", force: true do |t|
+    t.integer  "subscription_id"
+    t.string   "sponsored_email",                        null: false
+    t.boolean  "redeemed",               default: false
+    t.datetime "deleted_at"
+    t.string   "token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "redeeming_structure_id"
+  end
+
+  add_index "subscriptions_sponsorships", ["subscription_id"], name: "index_subscriptions_sponsorships_on_subscription_id", using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
@@ -1378,6 +1397,36 @@ ActiveRecord::Schema.define(version: 20150506092439) do
   end
 
   add_index "visitors", ["fingerprint"], name: "index_visitors_on_fingerprint", using: :btree
+
+  create_table "website_page_articles", force: true do |t|
+    t.integer  "website_page_id"
+    t.string   "slug"
+    t.string   "title"
+    t.text     "content"
+    t.datetime "deleted_at"
+  end
+
+  add_index "website_page_articles", ["website_page_id"], name: "index_website_page_articles_on_website_page_id", using: :btree
+
+  create_table "website_pages", force: true do |t|
+    t.integer  "structure_id"
+    t.string   "slug"
+    t.string   "title"
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "website_pages", ["structure_id"], name: "index_website_pages_on_structure_id", using: :btree
+
+  create_table "website_parameters", force: true do |t|
+    t.string   "slug"
+    t.string   "title"
+    t.integer  "structure_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "presentation_text"
+  end
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
 

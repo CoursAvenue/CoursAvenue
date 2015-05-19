@@ -11,9 +11,9 @@ class Pro::Structures::StickerDemandsController < Pro::ProController
       if @sticker_demand.save
         AdminMailer.delay.stickers_has_been_ordered(@sticker_demand)
         SuperAdminMailer.delay.inform_admin('Des stickers ont été commandés', "Des sticker ont été commandés par #{@structure.name} : #{@sticker_demand.round_number} ronds et #{@sticker_demand.square_number} rectangulaires")
-        format.html { redirect_to pro_structure_sticker_demands_path(@structure), notice: 'Votre demande a bien été transmise' }
+        format.html { redirect_to communication_pro_structure_path(@structure), notice: 'Votre demande a bien été transmise' }
       else
-        format.html { render action: 'new' }
+        format.html { render template: 'pro/structures/communication' }
       end
     end
   end

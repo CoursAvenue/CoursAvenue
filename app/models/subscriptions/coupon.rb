@@ -82,14 +82,12 @@ class Subscriptions::Coupon < ActiveRecord::Base
 
   def create_stripe_coupon
     stripe_coupon = Stripe::Coupon.create({
-      duration:   self.duration,
-      currency:   Subscription::CURRENCY,
-      amount_off: self.amount * 100
+      duration:   duration,
+      currency:   CURRENCY,
+      amount_off: (amount * 100).to_i
     })
     self.stripe_coupon_id = stripe_coupon.id
 
     save
   end
-
-  handle_asynchronously :create_stripe_coupon
 end

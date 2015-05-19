@@ -19,3 +19,7 @@ Style/SingleSpaceBeforeFirstArg:
 
 LineLength:
   Max: 100
+
+  Style/ExtraSpacing:
+    Description: Do not use unnecessary spacing.
+    Enabled: false

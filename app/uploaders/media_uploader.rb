@@ -53,6 +53,10 @@ class MediaUploader < CarrierWave::Uploader::Base
     cloudinary_transformation transformation: [{ width: 400, crop: :fill }]
   end
 
+  version :redactor do
+    cloudinary_transformation transformation: [{ width: 250, height: 200, crop: :limit }]
+  end
+
   private
 
   def thumbnail_email_cropped
@@ -68,3 +72,4 @@ class MediaUploader < CarrierWave::Uploader::Base
     { transformation: transformations }
   end
 end
+

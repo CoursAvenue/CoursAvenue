@@ -1,4 +1,6 @@
-= side_menu_currently_at 'newsletters'
+= side_menu_currently_at 'messages'
+
+= render partial: 'pro/structures/conversations/tabs', locals: { current: 'newsletter' }
 
 .flexbox.push--bottom
   .flexbox__item.v-middle
@@ -14,5 +16,19 @@
     = render 'newsletter_list'
   - else
     = render 'newsletter_empty'
+
 - else
-  = link_to 'Passez au premium pour envoyer des newsletter. 14 jours gratuits.', pro_structure_subscriptions_path(@structure)
+  .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides
+    %p.delta.line-height-1-3 Envoyez des newsletters de qualité à vos élèves pour qu'ils participent régulièrement à vos activités.
+
+    %p.delta.line-height-1-3
+      %strong Le saviez-vous ?
+      %br
+      Plus de 80% des participants à un stage ou un événement s'y sont inscrits après avoir reçu une newsletter attractive.
+    %p.text--center
+      = link_to 'Essayer gratuitement', pro_structure_subscriptions_path(@structure), class: 'btn btn--green'
+
+    %ul.delta.line-height-1-3
+      %li Envoyez des newsletters de qualité en quelques minutes
+      %li Visualisez tous ceux qui ont ouvert votre e-mail
+      %li Créez vos propres listes de contacts

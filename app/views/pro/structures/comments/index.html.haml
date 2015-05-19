@@ -33,7 +33,8 @@
         %br
         Demandez à vos élèves leurs recommandations et créez votre
         %br
-        livre d'Or à afficher sur votre propre site Internet :
+        = link_to "livre d'Or", comments_on_website_pro_structure_comments_path(@structure)
+        à afficher sur votre propre site Internet :
       %div
         = link_to recommendations_pro_structure_path(@structure), class: 'btn btn--green' do
           %i.fa.fa-plus

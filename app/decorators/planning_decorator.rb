@@ -46,7 +46,7 @@ class PlanningDecorator < Draper::Decorator
   # @return:
   #   Du lundi 3 janvier au mardi 4
   def dates
-    if start_date == end_date
+    if start_date == end_date or end_date.nil?
       "#{I18n.l(start_date, format: :semi_longer).capitalize}"
     else
       "Du #{I18n.l(start_date, format: :semi_long)} au #{I18n.l(end_date, format: :long)}"

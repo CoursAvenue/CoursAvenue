@@ -3,7 +3,7 @@
 %h3 État de votre abonnement
 - if @subscription.canceled?
   = render 'subscription_canceled'
-- elsif @subscription.active?
-  = render 'subscription_running'
-- elsif @subscription.in_trial?
+- elsif @subscription.in_trial? and @subscription.stripe_subscription_id.nil?
   = render 'subscription_in_trial'
+- else
+  = render 'subscription_running'

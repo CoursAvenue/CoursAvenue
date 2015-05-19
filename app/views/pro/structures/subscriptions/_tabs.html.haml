@@ -1,0 +1,12 @@
+= content_for :top_menu do
+  %ul.nav.flush
+    %li{ class: current == 'offers' ? 'active' : '' }
+      = link_to pro_structure_subscriptions_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+        Offres &amp; abonnements
+    - if @structure.invoices.any? or @structure.orders.any?
+      %li{ class: current == 'invoices' ? 'active' : '' }
+        = link_to pro_structure_invoices_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+          Factures
+    -# %li{ class: current == 'sponsorships' ? 'active' : '' }
+    -#   = link_to pro_structure_subscriptions_sponsorships_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+    -#     Parrainage

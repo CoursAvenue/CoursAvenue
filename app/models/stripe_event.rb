@@ -13,7 +13,6 @@ class StripeEvent < ActiveRecord::Base
     'charge.dispute.funds_withdrawn',
     'charge.dispute.funds_reinstated',
 
-    'customer.subscription.trial_will_end',
     'customer.deleted',
 
     'account.updated',
@@ -82,7 +81,6 @@ class StripeEvent < ActiveRecord::Base
     when 'charge.dispute.funds_withdrawn'       then dispute_funds_withdrawn
     when 'charge.dispute.funds_reinstated'      then dispute_funds_reinstated
 
-    when 'customer.subscription.trial_will_end' then subscription_trial_will_end
     when 'customer.deleted'                     then delete_stripe_customer
 
     when 'account.updated'                      then account_updated
@@ -193,23 +191,6 @@ class StripeEvent < ActiveRecord::Base
 
       SuperAdminMailer.delay.alert_charge_reinstated(structure, dispute_reason, dispute_reason)
       subscription.cancel!
-      true
-    else
-      false
-    end
-  end
-
-  # Process for the `customer.subscription.trial_will_end` event.
-  # This is the event sent by Stripe three days before the end of the trial. This allows us to send
-  # a reminder email to the teacher.
-  #
-  # @return a Boolean
-  def subscription_trial_will_end
-    stripe_subscription = stripe_event.data.object
-    subscription        = Subscription.where(stripe_subscription_id: stripe_subscription.id).first
-    if subscription
-      structure = subscription.structure
-      SubscriptionMailer.delay.trial_will_end(subscription, structure)
       true
     else
       false

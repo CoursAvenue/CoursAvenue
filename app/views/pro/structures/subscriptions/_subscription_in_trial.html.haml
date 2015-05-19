@@ -1,46 +1,30 @@
 %p.epsilon
-  Votre abonnement <strong>#{@subscription.plan.public_name}</strong> est en periode d'essai. Vous pouvez vous abonner ci-dessous, dans l'espace « Gestion de votre abonnement ».
+  Vous profitez actuellement de l'offre d'essai gratuite (offre <strong>#{ @subscription.plan.public_name }</strong>) jusqu'au #{l(@subscription.trial_end.to_date)}. Il ne vous reste
+  %strong plus que #{ @subscription.remaining_trial_days } jours
+  avant la fin de votre période d'essai : pour ne pas interrompre vos services,
+  = link_to 'activez à tout moment votre abonnement.', confirm_choice_pro_structure_subscriptions_path(@structure), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+  Vous ne serez débité une fois la période d'essai terminée, et vous pouvez suspendre votre abonnement à tout moment (même avant la fin de la période d'essai).
+
+  %br
+  - if @sponsorship.present?
+    - sponsor = @sponsorship.subscription.structure
+    De plus, vous bénéficier de 50% de réduction sur votre premier mois d'abonnement grâce au parrainage de
+    = link_to sponsor.name, structure_url(sponsor, subdomain: 'www'), target: :_blank
+    \.
 
 %hr.push--ends
-%h3 Historique des factures
-= link_to "Voir l'historique des factures.", pro_structure_invoices_path(@structure)
 
-%hr.push--ends
+-# %h3 Offre parrainage - 1 mois offert à chaque invitation
+-# %p.epsilon
+-#   Parrainez autant de professeurs, associations ou écoles que vous le souhaitez : pour chaque nouvel abonnement souscrit par l'un de vos parrainé, vous bénéficiez d'un mois offert sur votre abonnement. Parrainez autant de personnes que vous le souhaitez, l'offre est cumulable à l'infini !
+-# %div
+-#   = link_to 'Parrainer', '#', class: 'btn btn--green'
+
+-# %hr.push--ends
+
 %h3 Gestion de votre abonnement
 %p
-  = link_to 'Activer mon abonnement', 'javascript:void(0)', data: { stripe: true, amount: @subscription.plan.amount }, class: 'btn btn--green'
-  -# = link_to 'Activer mon abonnement', stripe_payment_form_pro_structure_subscription_path(@structure, @subscription), data: { stripe: true, amount: @subscription.plan.amount }, class: 'btn btn--green fancybox.ajax',  data: { behavior: 'modal', width: '300', padding: 0 }
+  = link_to 'Activer mon abonnement', confirm_choice_pro_structure_subscriptions_path(@structure), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
 
-  = link_to 'Résilier mon abonnement', cancel_pro_structure_subscription_path(@structure, @subscription), class: 'red fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
-
-= simple_form_for [:pro, @structure, @subscription], url: activate_pro_structure_subscription_path(@structure, @subscription), html: { id: 'subscription_form' } do |f|
-  = f.input :stripe_token, as: :hidden
-
-- content_for :scripts do
-  = javascript_include_tag '//checkout.stripe.com/checkout.js'
-
-  :javascript
-    $(document).ready(function() {
-      var stripeHandler = StripeCheckout.configure({
-          key: "#{ Rails.configuration.stripe[:publishable_key] }",
-          token: function(token) {
-              $('[name="subscription[stripe_token]"]').val(token.id);
-              $('#subscription_form').submit();
-          },
-      });
-      $('[data-stripe]').click(function(event) {
-
-          event.preventDefault();
-
-          stripeHandler.open({
-              email: "#{@structure.contact_email}",
-              name: 'CoursAvenue',
-              panelLabel: 'Payer {{amount}}',
-              //image: '#{asset_path('logos/coursavenue_2_lignes.png')}',
-              image: 'http://coursavenue-public.s3.amazonaws.com/logos/logo_stripe.jpg',
-              description: 'Abonnement #{@subscription.plan.public_name}',
-              currency: "#{Subscription::CURRENCY}",
-              amount: parseInt($(this).data('amount'), 10) * 100
-          });
-      });
-    });
+= content_for :scripts do
+  = javascript_include_tag 'https://checkout.stripe.com/checkout.js'

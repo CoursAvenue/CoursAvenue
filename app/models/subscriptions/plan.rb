@@ -5,8 +5,9 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  TRIAL_LENGTH = 14
-  INTERVALS = {
+  TRIAL_LENGTH = 15
+  PLAN_TYPES   = ['module', 'website']
+  INTERVALS    = {
     month: 'Mensuel',
     year: 'Annuel'
   }
@@ -15,7 +16,8 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :name, :public_name, :amount, :interval, :stripe_plan_id, :trial_period_days
+  attr_accessible :name, :public_name, :plan_type,
+    :amount, :interval, :stripe_plan_id, :trial_period_days
 
   has_many :subscriptions, foreign_key: 'subscriptions_plan_id'
 
@@ -41,6 +43,9 @@ class Subscriptions::Plan < ActiveRecord::Base
 
   scope :monthly, -> { where(interval: 'month').order('created_at ASC') }
   scope :yearly,  -> { where(interval: 'year').order('created_at ASC')}
+
+  scope :website,  -> { where(plan_type: 'website').order('created_at ASC')}
+  scope :module,   -> { where(plan_type: 'module').order('created_at ASC')}
 
   ######################################################################
   # Methods                                                            #
@@ -99,16 +104,6 @@ class Subscriptions::Plan < ActiveRecord::Base
       options.merge!({ coupon: coupon.stripe_coupon_id })
     end
 
-    # TODO: add Intercom event
-    # begin
-    #   Intercom::Event.create(event_name: "Confirmed account",
-    #                          created_at: Time.now.to_i,
-    #                          email: structure.email,
-    #                          user_id: "Admin_#{structure.id}")
-    # rescue
-    #   Bugsnag.notify(RuntimeError.new("Can't sync with Intercom after confirmation"), {email: self.email})
-    # end
-
     self.subscriptions.create({
       structure: structure,
       coupon:    coupon,
@@ -123,6 +118,25 @@ class Subscriptions::Plan < ActiveRecord::Base
     return nil if stripe_plan_id.nil?
 
     "https://dashboard.stripe.com/#{ Rails.env.production? ? '' : 'test/' }plans/#{ stripe_plan_id }"
+  end
+
+  def website_plan?
+    plan_type == 'website'
+  end
+
+  # Return plan that is monthyl. If self, then will return self
+  def monthly_sibling
+    Subscriptions::Plan.where(plan_type: plan_type, interval: 'month').first
+  end
+
+  # Return plan that is yearly. If self, then will return self
+  def yearly_sibling
+    Subscriptions::Plan.where(plan_type: plan_type, interval: 'year').first
+  end
+
+  # Return other plan that has the same interval
+  def other_plan
+    Subscriptions::Plan.where.not(plan_type: plan_type).where(interval: interval).first
   end
 
   private

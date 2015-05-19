@@ -18,6 +18,7 @@ class Pro::PortraitsController < Pro::ProController
   end
 
   def index
+    redirect_to pro_blog_articles_path, status: 301
     @portraits = Portrait.all
   end
 

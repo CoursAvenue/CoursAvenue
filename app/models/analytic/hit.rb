@@ -13,7 +13,7 @@ class Analytic::Hit
   filter :for_structure, &lambda { |structure| matches(:dimension1, structure) }
 
   dimensions :dimension1, :date
-  metrics :hits, :metric1, :metric2, :metric3
+  metrics :hits, :metric1, :metric2, :metric3, :pageviews
 end
 # More information:
 # <https://www.google.com/analytics/web/?authuser=1#management/Settings/a36532956w65949456p67806356/%3Fm.page%3DCustomMetrics%26m-content-metricsTable.rowShow%3D10%26m-content-metricsTable.rowStart%3D0%26m-content-metricsTable.sortColumnId%3Dindex%26m-content-metricsTable.sortDescending%3Dfalse/>

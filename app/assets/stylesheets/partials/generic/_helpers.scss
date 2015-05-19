@@ -102,6 +102,7 @@
 /*------------------------------------*\
     COLORS
 \*------------------------------------*/
+.white-links a      { color: white !important; }
 .white              { color: white !important; }
 .white-transparent  { color: transparentize(white, 0.2); }
 .white-faded        { color: #DDDDDD; }
@@ -122,6 +123,7 @@
 .gray-very-light    { color: #CCC; }
 .bg-blue-green      { background-color: $blue-green; }
 .bg-green           { background-color: $green-success; }
+.bg-dark-gray       { background-color: $gray; }
 .bg-gray            { background-color: $gray-light; }
 .bg-orange          { background-color: $orange; }
 .bg-red             { background-color: $red; }
@@ -296,6 +298,11 @@
     &:hover {
         .show-on-hover__child     { display: block; }
         .show-on-hover__child-ilb { display: inline-block; }
+    }
+}
+.shadowed--bottom-on-hover {
+    &:hover {
+        @include box-shadow(0 2px 3px rgba(56,67,67,0.2));
     }
 }
 .z-index-1 { z-index: 1; }

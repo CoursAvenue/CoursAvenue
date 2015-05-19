@@ -13,6 +13,11 @@ CoursAvenue = new Backbone.Marionette.Application({
         return this.env == 'production';
     },
 
+    showFullPageLoader: function showFullPageLoader (text) {
+        var template_html = JST[CoursAvenue.Views.templateDirname() + 'fullpage_loader']({ text: text });
+        $('body').append(template_html);
+    },
+
     setCurrentAdmin: function setCurrentAdmin (admin_attributes) {
         this.admin.set(admin_attributes);
     },

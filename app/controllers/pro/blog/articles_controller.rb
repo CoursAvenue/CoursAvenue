@@ -2,6 +2,7 @@
 class Pro::Blog::ArticlesController < Pro::ProController
 
   before_action :load_categories
+  before_action :load_article, only: [:show]
 
   layout 'pro_blog'
 
@@ -10,7 +11,6 @@ class Pro::Blog::ArticlesController < Pro::ProController
   end
 
   def show
-    @article           = ::Blog::Article::ProArticle.find params[:id]
     @article_decorator = BlogArticleDecorator.new @article
     @category          = @article.category
   end
@@ -24,5 +24,12 @@ class Pro::Blog::ArticlesController < Pro::ProController
 
   def load_categories
     @categories = ::Blog::Category::ProCategory.at_depth(0).order('position ASC NULLS LAST').all
+  end
+
+  def load_article
+    @article = ::Blog::Article::ProArticle.friendly.find(params[:id])
+    if @article.slug != params[:id]
+      redirect_to pro_blog_article_path(@article.slug), status: 301
+    end
   end
 end

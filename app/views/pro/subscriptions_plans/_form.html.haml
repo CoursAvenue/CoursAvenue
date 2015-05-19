@@ -3,6 +3,7 @@
     .panel__body.soft
       = form.input :name, label:"Nom de l'offre sur Stripe", input_html: { class: 'input--large', style: 'width: 20em;' }, label_html: { class: 'label--large' }
       = form.input :public_name, label: "Nom de l'offre affiché au prof", input_html: { class: 'input--large', style: 'width: 20em;' }, label_html: { class: 'label--large' }
+      = form.input :plan_type, label: "Type de plan", as: :select, collection: Subscriptions::Plan::PLAN_TYPES, input_html: { class: 'input--large', style: 'width: 20em;' }, label_html: { class: 'label--large' }
       %p.flush
         %i.blue
           Ce nom sera affiché sur les factures et dans

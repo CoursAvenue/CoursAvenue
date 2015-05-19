@@ -1,0 +1,26 @@
+- content_for :email_title do
+  = "#{ @structure.name } veut vous parrainer !"
+
+- if @message.present?
+  .gray-box.soft-half
+    %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+      %tr{ valign: 'top' }
+        %td.text--center.v-top.content-block{ width: 125 }
+          = link_to structure_url(@structure, subdomain: 'www'), class: 'block' do
+            = image_tag @structure.logo.url(:thumb), class: 'message__avatar rounded--circle bordered', width: 50, height: 50, alt: "Logo de #{ @structure.name }"
+          .p.text--center.milli
+            %strong= @structure.name
+
+        %td.soft-half--left.v-top.content-block{ width: 475 }
+          .p
+          = simple_format(@message).gsub('<p>', '<div class="p">').gsub('</p>', '</div>').html_safe
+
+.p
+  #{ @structure.name } veut vous parrainer à l'abonnement Pro CoursAvenue !
+
+  Pour commenecer votre essai gratuit et accepter ce parrainage, veuillez cliquer sur le lien suivant:
+
+.p.action
+  = link_to "Accepeter le parrainage", pro_subscriptions_sponsorship_url(@sponsorship)
+
+= render 'shared/mailers/footer'

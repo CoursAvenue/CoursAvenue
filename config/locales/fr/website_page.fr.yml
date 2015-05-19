@@ -1,0 +1,11 @@
+fr:
+  activerecord:
+    models:
+      website_page: Page
+    attributes:
+      website_page:
+        title: Titre de votre page
+  simple_form:
+    placeholders:
+      website_page:
+        title: 'Ex. : Actualités'

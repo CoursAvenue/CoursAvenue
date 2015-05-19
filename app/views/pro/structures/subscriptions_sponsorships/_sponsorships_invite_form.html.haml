@@ -1,0 +1,60 @@
+%h5.text--center
+  Invitez d'autres professeurs, associations ou écoles à découvrir les offres CoursAvenue
+  %br
+  Gagnez et cumulez 1 mois gratuit à chaque parrainage
+
+.text--center
+  Pour chaque personne parrainée souscrivant à l'offre Modules ou Site Internet, vous recevrez 1 mois d'abonnement offert et votre ami bénéficiera d'une réduction de 50% sur son 1er mois.
+
+%h5 Vous disposez de #{ @remaining_monthly_credits } mois de crédit parrainage automatiquement déduit de vos prochains paiements.
+
+%h5.push--top Entrez les emails de vos amis et envoyez-leur votre parrainage :
+
+.gray-box.soft.relative.push--down
+  = simple_form_for Subscriptions::Sponsorship.new, url: pro_structure_subscriptions_sponsorships_path(@structure) do |f|
+    .grid.push-half--bottom
+      .grid__item.two-twelfths.text--right.palm-one-whole>
+        %h4 À
+      .grid__item.ten-twelfths.palm-one-whole>
+        %textarea.input--large.one-whole{ name: 'emails', rows: 3, placeholder: "Entrez les e-mails gardés confidentiels et non réutilisés. Ex. : patrick@gmail.com, thomas.dupont@wanadoo.fr", data: { behavior: 'autoresize' } }
+      %hr.push-half--ends
+    .grid
+      .grid__item.two-twelfths.text--right.palm-one-whole>
+        %h4 Message
+      .grid__item.ten-twelfths.palm-one-whole>
+        %textarea.input--large#sponsorship-user-content.one-whole{ name: 'message', rows: 6, data: { behavior: 'autoresize' } }
+          Bonjour,&#x000A;&#x000A;J’utilise CoursAvenue pour développer mes activités sur Internet et je pense que leurs offres, qui peuvent t’aider à augmenter tes inscriptions sur ton site, peuvent aussi t’intéresser. Et ce à mon parrainage, tu pourras bénéficier de 50% sur ton premier moins. Voici le lien pour en savoir plus :
+        .push-half--top.grid
+          .grid__item.one-fifth.palm-one-whole>
+            %a.btn.btn--full{ href: 'javascript:void(0)', data: { behavior: 'preview' } }Aperçu
+          .grid__item.four-fifths.palm-one-whole>
+            = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
+
+#sponsorship-overview-popup.hidden
+  .soft
+    .grid--full
+      - if @structure.logo?
+        .grid__item.soft--right{ style: 'width: 80px;' }>
+          = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', class: 'media-photo block' do
+            = image_tag @structure.logo.url(:thumb), style: 'width: 50px; height: 50px;', width: '50', height: '50'
+      .grid__item.eight-tenths>
+        %h4 #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com :
+    %hr
+    %pre#sponsorship-overview-content.push--bottom.bg-white
+    %p= link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), class: 'btn btn--green', target: :_blank
+    %p À très bientôt !
+    %p= @structure.name
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          $('[data-behavior=preview]').click(function() {
+              $('#sponsorship-overview-content').text($('#sponsorship-user-content').val());
+              $.fancybox.open($('#sponsorship-overview-popup'), {
+                  padding: 0,
+                  width: 600,
+                  minWidth: 600,
+                  maxWidth: 600
+              });
+          });
+      });

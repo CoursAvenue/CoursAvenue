@@ -16,6 +16,7 @@
     - url = pro_structure_comment_comment_reply_path(@structure, @comment, @comment_reply)
   = simple_form_for [:pro, @structure, @comment, @comment_reply], url: url, remote: true do |f|
     = f.input :content, label: false, input_html: { class: 'one-whole input--large', placeholder: 'Ajoutez votre réponse ici', data: { behavior: 'autoresize' } }
+    - @comment_reply.show_to_everyone = true
     - unless action_name == 'edit'
-      = f.input :show_to_everyone, label: "Afficher publiquement ma réponse à la suite de l'avis (recommandé)", as: :boolean, wrapper_html: { class: 'checkbox-at-left' }, input_html: { value: true }
+      = f.input :show_to_everyone, label: "Afficher publiquement ma réponse à la suite de l'avis (recommandé)", as: :boolean, wrapper_html: { class: 'checkbox-at-left' }
     = f.submit (@comment_reply.new_record? ? 'Répondre' : 'Modifier votre réponse'), class: 'btn btn--full btn--green', data: { disable_with: 'Enregistrement en cours...' }

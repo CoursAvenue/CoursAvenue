@@ -15,12 +15,14 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
 
   before(:each) do
     @request.host = "#{participation_request.structure.slug}.example.com"
+    allow_any_instance_of(Structure).to receive(:premium?).and_return(true)
   end
 
   describe '#create', with_mail: true do
     before(:each) do
       request.env["HTTP_ACCEPT"] = 'application/json'
     end
+
     context 'when resource is found' do
       it 'creates a participation_request' do
         post :create, { participation_request: {
@@ -36,7 +38,7 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
                             email: 'lorem@ipsum.com'
                           }
                         }
-        }
+                    }
         expect(assigns(:participation_request)).to be_persisted
       end
 
@@ -52,7 +54,7 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
                             email: 'lorem@ipsum.com'
                           }
                         }
-        }
+                      }
         expect(assigns(:user)).to be_persisted
         expect(assigns(:user).email).to eq 'lorem@ipsum.com'
         expect(assigns(:user).phone_number).to eq '021402104'
@@ -89,7 +91,7 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
                             email: user.email
                           }
                         }
-        }
+                      }
         expect(assigns(:user).id).to eq user.id
         expect(assigns(:user).phone_number).to eq '021402104'
         expect(assigns(:user).first_name).to eq 'Lorem'

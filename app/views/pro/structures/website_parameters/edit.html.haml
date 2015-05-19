@@ -1,0 +1,46 @@
+= side_menu_currently_at 'website'
+
+= render partial: 'pro/structures/website_parameters/tabs', locals: { current: 'parameters' }
+
+%h1 Paramètres
+= simple_form_for [:pro, @structure, @website_parameter] do |f|
+  = f.input :slug, input_html: { value: @website_parameter.website_url, disabled: true, class: 'input--large flush--bottom' }, label_html: { class: 'label--large hard--bottom' }, wrapper_html: { class: 'flush--bottom' }
+  -# .input.flush--top
+  -#   .control-label>
+  -#   .input-container>
+  -#     Pour modifier le nom de domaine de votre site (son URL), [envoyez-nous votre demande].
+  = f.input :title, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+  .input.flush--top
+    .control-label>
+    .input-container>
+      Le titre principal apparaît sous le nom de votre structure et est utilisé par Google. Nous vous recommandons de décrire en moins de 10 mots les activités que vous proposez et leurs lieux géographiques. Ex. : Cours de dessin à Paris et Nanterre.
+
+  %hr.push--ends
+  %h3 Page de présentation
+  %div
+    %label.label--large Texte de présentation
+  = f.input :presentation_text, label: false, input_html: { value: @website_parameter.presentation_text || @structure.description }
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
+
+
+= content_for :scripts do
+
+  :javascript
+      $(document).ready(function() {
+          $('#website_parameter_presentation_text').redactor({
+              buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
+                'link', 'alignment', 'horizontalrule', 'image'],
+              formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
+              lang: 'fr',
+              plugins: ['imagemanager', 'video'],
+              imageUpload: Routes.admin_images_path({
+                  'authenticity_token': $('meta[name=csrf-token]').attr('content')
+              }),
+              imageManagerJson: Routes.admin_images_path(),
+          });
+
+          $('#blog_article_remote_image_url').change(function(event) {
+              $('img[data-placeholder]').attr('src', event.originalEvent.fpfile.url);
+          });
+      });
+

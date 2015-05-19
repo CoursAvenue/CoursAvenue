@@ -18,7 +18,7 @@ gem 'rack-ssl-enforcer'   , '~> 0.2.8'
 gem 'lograge'             , '~> 0.3.1'
 
 gem 'intercom'            , '~> 2.4.4'
-gem 'intercom-rails'      , '~> 0.2.27'
+gem 'intercom-rails'      , '~> 0.2.28'
 gem 'closeio'             , '~> 2.0.6'
 
 # Webserver
@@ -245,8 +245,6 @@ group :development, :test do
   gem 'byebug'
   # Permits to travel in the past
   gem 'delorean'
-  gem 'spring',                '~> 1.3.4'
-  gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'faker',                 '~> 1.4.3'
   gem 'factory_girl_rails',    '~> 4.5.0'
   gem 'rspec',                 '~> 3.2.0'

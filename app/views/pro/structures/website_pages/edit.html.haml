@@ -1,0 +1,10 @@
+= side_menu_currently_at 'website'
+
+= render partial: 'pro/structures/website_parameters/tabs', locals: { current: 'pages' }
+
+%h1 Édition de votre page personnalisée
+
+= simple_form_for [:pro, @structure, @page] do |f|
+  = f.input :title, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }

@@ -80,6 +80,7 @@ class Structure < ActiveRecord::Base
   has_many :admins                   , dependent: :destroy
   has_many :subscription_plans       , dependent: :destroy
 
+  has_one  :website_parameter
   has_one  :subscription
   has_many :invoices, class_name: 'Subscriptions::Invoice'
 
@@ -91,6 +92,8 @@ class Structure < ActiveRecord::Base
 
   has_many :newsletters
   has_many :mailing_lists, class_name: 'Newsletter::MailingList'
+
+  has_many :website_pages
 
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,
@@ -678,7 +681,7 @@ class Structure < ActiveRecord::Base
   end
 
 
-  # Create or update a user profile for the current strucutre
+  # Create or update a user profile for the current structure
   # If tag is given, then affect a tag to it
   # @param user User
   # @param tag=nil String
@@ -1100,10 +1103,11 @@ class Structure < ActiveRecord::Base
         begin
           Intercom::Event.create(
           event_name: "#{self.status} -> #{new_status}", created_at: Time.now.to_i,
-          email: self.main_contact.email
+          email: self.main_contact.email,
+          user_id: "Admin_#{self.main_contact.id}"
         )
         rescue Exception => exception
-          Bugsnag.notify(exception)
+          Bugsnag.notify(exception, { name: name, slug: slug, id: id })
         end
       end
       self.update_columns meta_data: self.meta_data.merge('status' => new_status)
@@ -1220,7 +1224,7 @@ class Structure < ActiveRecord::Base
   end
 
   def premium?
-    subscription and subscription.active?
+    (subscription and subscription.active?)
   end
 
   # Here in case we want to have a specific column to store the `subdomain_slug`

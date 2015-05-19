@@ -1,0 +1,8 @@
+= content_for :top_menu do
+  %ul.nav.flush
+    %li{ class: current == 'conversations' ? 'active' : '' }
+      = link_to pro_structure_conversations_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+        Messages
+    %li{ class: current == 'newsletter' ? 'active' : '' }
+      = link_to pro_structure_newsletters_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+        Newsletters

@@ -166,37 +166,38 @@ fr:
         structure_address: Adresse principale (N° + Rue)
       side_menu:
         account: Compte
+        activity: Activités
         blog: Blog
-        pages: Pages
-        portraits: Portraits
+        call_reminders: Profs à rappeler
         clicks: Nombre de click
         comments: Avis
         communicate: Communiquer
         contact: Contact
-        plannings: Planning
         courses: Cours réguliers
         crm: Répertoire
-        pro_dashboard: Admin
-        call_reminders: Profs à rappeler
-        general: Général
         dashboard: Tableau de bord
+        emailings: Newsletters
+        general: Général
+        inscriptions: Inscriptions
         invitations: Invitations
         jpo: Portes Ouvertes
         last_comments: Derniers avis
         last_messages: Derniers messages
-        activity: Activités
         medias: "Photos & vidéos"
-        messages: Messages
+        messages: Newsletters &<br>Messages
+        newsletters: Newsletters
+        pages: Pages
         places: Lieux
-        premium: Premium
+        plannings: Planning
+        portraits: Portraits
+        premium: "Offres &<br>Abonnements"
         presentation: Vous
         price_groups: Tarifs
+        pro_dashboard: Admin
         pro_trial_courses: Demande d'inscriptions
-        trial_courses: Essais gratuits
-        inscriptions: Inscriptions
         share: Parrainer
-        statistics: Statistiques
         sleepers: Pr. dormants
+        statistics: Statistiques
         stickers: Demande de stickers
         students_invitations: Invitation élèves
         subjects: Disciplines
@@ -204,11 +205,11 @@ fr:
         teachers: Derniers professeurs
         teachers_stars: Profs stars
         trainings: Stages & ateliers
+        trial_courses: Essais gratuits
         users: Users
         vertical_pages: Pages verticales
         visitors: Visiteurs
-        emailings: Newsletters
-        newsletters: Newsletters
+        website: Site Internet
       wizard_helper:
         name: >
           <p><strong>Un bon titre de profil</strong>

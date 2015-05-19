@@ -5,22 +5,16 @@ class Pro::Structures::AdminsController < Pro::ProController
   before_action :authenticate_pro_admin!
   load_and_authorize_resource :structure, find_by: :slug
 
-  before_action :retrieve_structure
-  before_action :authenticate_pro_admin!
-
   def show
-    @structure = Structure.friendly.find params[:structure_id]
     @admin     = @structure.admins.find(params[:id])
     redirect_to edit_pro_structure_admin_path(@structure, @admin)
   end
 
   def edit
-    @structure = Structure.friendly.find params[:structure_id]
     @admin     = @structure.admins.find(params[:id])
   end
 
   def modify_email
-    @structure = Structure.friendly.find params[:structure_id]
     @admin     = @structure.admins.find(params[:id])
     render layout: false
   end
@@ -58,11 +52,5 @@ class Pro::Structures::AdminsController < Pro::ProController
         format.html { render 'pro/structures/admins/edit' }
       end
     end
-  end
-
-  private
-
-  def retrieve_structure
-    @structure = ::Structure.friendly.find(params[:structure_id])
   end
 end

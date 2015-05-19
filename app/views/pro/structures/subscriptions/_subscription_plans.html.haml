@@ -1,10 +1,60 @@
-%h1.flush Passez au Premium pour recruter plus d'élèves
+%h4.push-half--bottom
+  Option A : vous avez déjà un site web et vous souhaitez l'équiper des meilleurs outils pour booster vos inscriptions
 
-%h4.flush
-  Commencez dès maintenant :
-  .inline-block.green.tab-pane.hard--top.monthly-details.active offre sans engagement
-  .inline-block.green.tab-pane.hard--top.annual-details 12 mois pour le prix de 10
-%p.epsilon
-  60 secondes suffisent pour passer au Premium : immédiatement, votre trafic augmente et vous apporte de nouveaux élèves. Vous pouvez interrompre votre abonnement à tout moment, en toute liberté et simplement.
+.panel
+  .panel__header.soft
+    .delta.inline-block.v-middle.soft-half--right.flush
+      OFFRE
+      %strong MODULES
+    .inline-block.v-middle.gray.f-style-italic.epsilon 49€/mois sans engagement
+  .panel__body.soft
+    .grid
+      .grid__item.v-middle.two-thirds.delta.line-height-1-5> Equipez votre site Internet des meilleurs outils pour booster vos inscriptions
+      .grid__item.v-middle.one-third.text--right>
+        = link_to 'Activer mes 14 jours gratuits', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: @monthly_plans.first.id, sponsorship_token: @sponsorship_token), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+%hr.push--ends
 
-= render 'choose_plans'
+%h4.push-half--bottom
+  Option B : vous souhaitez notre offre tout inclus, y compris un site web, pour tirer le meilleur d'Internet en toute liberté
+.panel
+  .panel__header.soft
+    .delta.inline-block.v-middle.soft-half--right.flush
+      OFFRE
+      %strong SITE INTERNET
+    .inline-block.v-middle.gray.f-style-italic.epsilon 79€/mois sans engagement
+  .panel__body.soft
+    .grid
+      .grid__item.v-middle.two-thirds.delta.line-height-1-5> Bénéficiez d'un site Internet tout inclus spécialement conçu pour les activités de loisirs
+      .grid__item.v-middle.one-third.text--right>
+        = link_to 'Activer mes 14 jours gratuits', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: @monthly_plans.last.id, sponsorship_token: @sponsorship_token), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+
+%hr.push--ends
+.grid
+  .grid__item.one-half>
+    %h2.flush Détail des offres
+  .grid__item.one-half.text--right>
+    Abonnement :
+    %ul.nav.tabs--link.flush.inline-block.v-middle
+      %li.push--right.active>
+        %a.muted-link{ href: '.monthly-details', data: { toggle: 'tab' } }
+          %input{ type: 'radio', name: 'plan_duration', checked: true }
+          Mensuel
+      %li
+        %a.muted-link{ href: '.annual-details', data: { toggle: 'tab' } }
+          %input{ type: 'radio', name: 'plan_duration' }
+          Annuel
+
+.tab-pane.monthly-details.active.grid--full
+  - if @monthly_plans.any?
+    .grid__item.palm-hard.soft-half--right.one-half.palm-one-whole>
+      = render partial: 'pro/subscriptions/plans/pro', locals: { plan: @monthly_plans.first }
+    .grid__item.palm-hard.soft-half--left.one-half.palm-one-whole>
+      = render partial: 'pro/subscriptions/plans/pro_plus', locals: { plan: @monthly_plans.last }
+
+.tab-pane.annual-details.hidden.grid--full
+  - if @yearly_plans.any?
+    .grid__item.palm-hard.soft-half--right.one-half.palm-one-whole>
+      = render partial: 'pro/subscriptions/plans/pro', locals: { plan: @yearly_plans.first }
+    .grid__item.palm-hard.soft-half--left.one-half.palm-one-whole>
+      = render partial: 'pro/subscriptions/plans/pro_plus', locals: { plan: @yearly_plans.last }
+

@@ -1,0 +1,41 @@
+= side_menu_currently_at 'website'
+
+= render partial: 'pro/structures/website_parameters/tabs', locals: { current: 'website' }
+
+- if @structure.premium? and @structure.subscription.plan.website_plan?
+  %h1 Site Internet tout-en-un
+
+  %p.delta.line-height-1-3 Félicitations ! Grâce à l'offre Site Internet, vous bénéficiez d'un site web optimisé pour booster vos inscriptions.
+
+  %p.delta.line-height-1-3
+    %strong Le saviez-vous ?
+    %br
+    Suivez les statistiques de votre site Internet depuis l'onglet
+    = link_to 'Statistiques', pro_structure_statistics_path(@structure)
+
+  .text--center
+    = link_to 'Voir mon site Internet', @structure.website_parameter.decorate.website_url, class: 'btn btn--green', target: :_blank
+
+- else
+  %h1 Site web & Site mobile
+  .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides
+    %p.delta.line-height-1-3 Un site professionnel à l'image de vos activités sans aucune compétence technique nécessaire
+
+    %p.delta.line-height-1-3
+      %strong Le saviez-vous ?
+      %br
+      Plus de 8 Français sur 10 à la recherche d'activités de loisirs vont sur Internet. Et la moitié le fait sur un mobile ou une tablette.
+    %p.text--center
+      = link_to confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.website.first.id), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
+        - if @structure.premium?
+          M'abonner
+        - else
+          Essayer gratuitement
+    %ul.delta.line-height-1-3
+      %li Bénéficiez d'un site Internet 100% sur-mesure spécialement conçu pour vos activités
+      %li Profitez d'un référencement Google optimisé web et mobiles
+      %li Transformez plus de visiteurs en inscrits
+      %li Simplicité de mise en place et d'utilisation, actualisé en temps réel, accompagnement personnalisé
+
+  = content_for :scripts do
+    = javascript_include_tag 'https://checkout.stripe.com/checkout.js'

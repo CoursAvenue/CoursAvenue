@@ -1,5 +1,5 @@
 class Blog::Category::ProCategory < Blog::Category
-  friendly_id :name, use: [:slugged, :finders]
+  friendly_id :name, use: [:slugged, :finders, :history]
 
   def articles
     if self.root?

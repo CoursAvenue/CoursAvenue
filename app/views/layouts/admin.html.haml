@@ -39,7 +39,7 @@
                     - cache [conversation, 'pro/structures/layout/unread_conversations'] do
                       %li
                         = link_to pro_structure_conversation_path(@structure, conversation), class: 'flexbox' do
-                          .flexbox__item.two-twelfths.v-middle>
+                          .flexbox__item.two-twelfths.v-middle.soft-half--right>
                             - last_sender = conversation.messages.order('created_at DESC').first.sender
                             = image_tag last_sender.avatar_url(:thumb), class: 'block bordered rounded--circle', width: 50, height: 50
                           .flexbox__item.six-twelfths.v-middle.text--left.f-weight-normal>

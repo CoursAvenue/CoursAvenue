@@ -148,5 +148,19 @@ namespace :scheduler do
       end
     end
 
+    # Send email to Intercom for requests that are not answered since 24 hours
+    # $ rake scheduler:participation_requests:alert_intercom_for_non_answered_requests
+    desc 'Send email to admins who have user requests not answered'
+    task :alert_intercom_for_non_answered_requests => :environment do |t, args|
+      participation_requests = ParticipationRequest.upcoming
+                                                   .pending
+                                                   .where( ParticipationRequest.arel_table[:created_at].gteq(Date.today - 1.day).and(
+                                                           ParticipationRequest.arel_table[:created_at].lt(Date.today)) )
+      participation_requests.each do |participation_request|
+        SuperAdminMailer.delay.alert_for_non_answered_participation_request(participation_request)
+      end
+    end
+
   end
 end
+

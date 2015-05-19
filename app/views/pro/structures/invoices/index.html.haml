@@ -1,0 +1,42 @@
+= side_menu_currently_at 'premium'
+
+= render partial: 'pro/structures/subscriptions/tabs', locals: { current: 'invoices' }
+
+%h1 Mes factures
+
+- if @structure.invoices.any? or @structure.orders.any?
+  %table.table--striped.epsilon
+    %thead
+      %tr
+        %th Offre
+        %th Date
+        %th Opération
+        %th Payé
+        %th # Facture
+        %th
+    %tbody
+      - @structure.invoices.order('payed_at ASC').each do |invoice|
+        %tr
+          %td= "Offre #{invoice.subscription.plan.public_name}"
+          %td= l(invoice.payed_at, format: :date_short)
+          %td Carte bancaire
+          %td= number_to_currency(invoice.subscription.plan.amount)
+          %td= invoice.stripe_invoice_id
+          %td= link_to 'Afficher', invoice.pdf_url
+
+      - @structure.orders.order('created_at ASC').each do |order|
+        %tr
+          %td Premium
+          %td= l(order.created_at, format: :date_short)
+          %td
+            - if order.subscription_plan.payed_through_paypal?
+              Paypal
+            - else
+              Carte bancaire
+          %td= number_to_currency(order.amount)
+          %td= order.public_order_id
+          %td= link_to 'Afficher', order.S3_invoice_path
+
+- else
+  %p
+    Cette partie est en cours de réalisation. On a bientôt fini, promis !

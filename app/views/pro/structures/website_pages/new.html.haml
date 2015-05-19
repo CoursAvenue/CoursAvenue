@@ -1,0 +1,44 @@
+= side_menu_currently_at 'website'
+
+= render partial: 'pro/structures/website_parameters/tabs', locals: { current: 'pages' }
+
+%h1 Nouvelle page personnalisée
+
+= simple_form_for [:pro, @structure, @page] do |f|
+  = f.label :title, class: 'label--large'
+  = f.input :title, input_html: { class: 'input--large one-whole' }, label: false
+  %p
+    Nous vous conseillons un titre de page court car il apparaîtra sous forme d'un onglet.
+
+
+  %hr
+  %h3.push-half--bottom 1er article
+
+  = f.simple_fields_for :articles do |article_form|
+    %p.flush
+      %strong.label--large Titre de l'article
+    = article_form.input :title, label: false, input_html: { class: 'input--large one-whole', placeholder: 'Ex. : Spectacle à venir !' }
+    %p.flush--bottom.push--top
+      %strong.label--large Contenu
+    = article_form.input :content, label:  false, input_html: { class: 'input--large' }
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
+
+= content_for :scripts do
+  = filepicker_js_include_tag
+
+  :javascript
+      $(document).ready(function() {
+          $('#website_page_articles_attributes_0_content').redactor({
+              buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
+                'link', 'alignment', 'horizontalrule', 'image'],
+              formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
+              lang: 'fr',
+              plugins: ['imagemanager', 'video'],
+              imageUpload: Routes.pro_structure_redactor_images_path('#{@structure.slug}', {
+                  'authenticity_token': $('meta[name=csrf-token]').attr('content')
+              }),
+              imageManagerJson: Routes.pro_structure_redactor_images_path('#{@structure.slug}')
+          });
+      });
+

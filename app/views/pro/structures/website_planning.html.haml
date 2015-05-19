@@ -1,0 +1,51 @@
+= side_menu_currently_at 'plannings'
+
+= render partial: 'pro/structures/courses/tabs', locals: { current: 'website_planning' }
+
+%h1 Planning sur votre site web
+
+- if @structure.premium?
+  - if @structure.subscription.plan.website_plan?
+    %p.delta.line-height-1-3 Félicitations ! Grâce à l'offre Site Internet, votre site Internet bénéficie d'une page planning optimisée pour vos activités.
+
+    %p.delta.line-height-1-3
+      %strong Le saviez-vous ?
+      %br
+      Suivez les statistiques de votre page planning depuis l'onglet
+      = link_to 'Statistiques', pro_structure_statistics_path(@structure)
+
+    .text--center
+      = link_to 'Voir ma page planning', structure_website_planning_url(subdomain: @structure.subdomain_slug), target: :_blank, class: 'btn btn--green'
+  - else
+    %p.delta.line-height-1-3 Equipez votre site Internet d'une page planning optimisée et augmentez votre nombre d'inscrits :
+
+    %p.delta.line-height-1-3 1. Créez un bouton ou une rubrique «&nbsp;Planning&nbsp;» sur votre site Internet
+
+    %p.delta.line-height-1-3
+      2. Une fois votre Planning à jour sur CoursAvenue, copiez et associez le lien suivant à votre rubrique «&nbsp;Planning&nbsp;» :
+      = link_to structure_website_planning_url(subdomain: @structure.subdomain_slug), structure_website_planning_url(subdomain: @structure.subdomain_slug), target: :_blank
+
+    %p.delta.line-height-1-3
+      3. C'est fait ! Suivez ensuite le nombre de visites et de demandes d'inscriptions depuis l'onglet
+      = link_to 'Statistiques', pro_structure_statistics_path(@structure)
+
+- else
+  .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides
+    %p.delta.line-height-1-3
+      Affichez une page planning optimisée mobiles et tablettes sur votre site Internet et augmentez votre nombre d'inscriptions.
+
+    %p.delta.line-height-1-3
+      %strong Le saviez-vous ?
+      %br
+      La page Planning est la page la plus visitée de votre site web et la moitié des visites vient d'une mobile ou d'une tablette.
+
+    .text--center.push--bottom
+      = link_to 'Essayer gratuitement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.module.first.id), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+
+    %ul.delta.line-height-1-3
+      %li Affichez un planning optimisé tous supports et mis à jour en temps réel
+      %li Proposez l'inscription en ligne 7j/7, 24h/24 (plus de message téléphonique à devoir rappeler)
+      %li Faites payer vos activités par carte bleue et recevez l'argent en temps réel
+
+  = content_for :scripts do
+    = javascript_include_tag 'https://checkout.stripe.com/checkout.js'

@@ -159,6 +159,7 @@ CoursAvenue::Application.routes.draw do
           get :subscriptions
         end
       end
+      resources :subscriptions_sponsorships, only: [:show], path: 'parrainage'
 
       resources :subscription_plans, only: [:index, :update], path: 'abonnements' do
         collection do
@@ -197,6 +198,7 @@ CoursAvenue::Application.routes.draw do
           get   :premium_modal
           get   :recommendations, path: 'recommendations'
           get   :signature
+          get   :communication
           get   :update_widget_status
           patch :wake_up
           patch :return_to_sleeping_mode
@@ -208,6 +210,7 @@ CoursAvenue::Application.routes.draw do
           patch :update_and_delete
           post  :recommend_friends
           post  :update
+          get   :website_planning, path: 'planning-sur-mon-site'
           get   :premium # redirect to subscriptions
         end
         collection do
@@ -216,13 +219,18 @@ CoursAvenue::Application.routes.draw do
           get :best
           get :inscription, to: :new
         end
+        resources :website_parameters, except: [:destroy], path: 'site-internet', controller: 'structures/website_parameters'
+        resources :website_pages, path: 'pages-personnalisees', controller: 'structures/website_pages' do
+          resources :website_page_articles, as: :articles, path: 'articles', controller: 'structures/website_pages/articles'
+        end
+
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
         resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures' do
           member do
             get 'export'
           end
         end
-        resources :invoices, only: [:index], controller: 'structures/invoices' do
+        resources :invoices, only: [:index], controller: 'structures/invoices', path: 'factures' do
           member do
             get :download
           end
@@ -231,13 +239,17 @@ CoursAvenue::Application.routes.draw do
         resources :subscriptions, only: [:index, :create, :destroy], controller: 'structures/subscriptions', path: 'mon-abonnement' do
           member do
             patch :activate
-            get   :cancel
             get   :choose_new_plan
             patch :change_plan
             get   :confirm_cancellation
             patch :reactivate
             get   :stripe_payment_form
             patch :accept_payments
+          end
+          collection do
+            get :confirm_choice
+            get :choose_plan_and_pay
+            resources :subscriptions_sponsorships, only: [:index, :create], controller: 'structures/subscriptions_sponsorships', path: 'parrainage'
           end
         end
         # Old subscriptions with Be2Bill
@@ -343,12 +355,16 @@ CoursAvenue::Application.routes.draw do
             patch :highlight
             patch :ask_for_deletion
           end
+          collection do
+            get :comments_on_website, path: 'livre-d-or'
+          end
           resources :comment_replies, controller: 'structures/comments/comment_replies' do
             member do
               get :ask_for_deletion
             end
           end
         end
+        resources :redactor_images, only: [:index, :create], controller: 'structures/redactor_images'
         resources :medias, only: [:edit, :update, :index, :destroy], controller: 'structures/medias', path: 'photos-videos' do
           member do
             put :make_it_cover
@@ -454,6 +470,7 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- WWW
   # ---------------------------------------------
   constraints subdomain: 'www' do
+    resources  :plannings, only: [:index], path: 'stages'
     resources :press_releases, path: 'communiques-de-presse', only: [:show]
 
     resources :blog_subscribers, only: [:create], controller: 'blog/subscribers'
@@ -709,9 +726,10 @@ CoursAvenue::Application.routes.draw do
     namespace :structure_website, path: '' do
       get '/'       , to: 'structures#index'   , as: :presentation
       get 'planning', to: 'structures#planning', as: :planning
-      get 'reviews' , to: 'structures#reviews' , as: :reviews
+      get 'reviews' , to: 'structures#reviews' , as: :reviews, path: 'livre-d-or'
       get 'medias'  , to: 'structures#medias'  , as: :medias
       get 'contact' , to: 'structures#contact' , as: :contact
+      resources :website_pages, only: [:show], path: 'pages'
       resources :courses, controller: '/structures/courses', path: 'cours'
       resources :newsletters, only: [] do
         collection do

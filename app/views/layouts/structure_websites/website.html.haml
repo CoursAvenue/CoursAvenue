@@ -1,18 +1,49 @@
 = content_for :right_after_head do
   %meta{ name: 'robots', content: 'noindex, nofollow' }
 
-= render 'layouts/structure_websites/header'
+= content_for :header do
+  %header.bg-dark-gray
+    .main-container.soft-half--ends.flexbox
+      .flexbox__item.one-whole
+        .inline-block.v-middle
+          %h5.white.flush= @structure.name
+        - if @structure.comments_count > 0
+          .inline-block.v-middle.soft-half--sides.white= '|'
+          .inline-block.v-middle
+            %strong.white= "#{@structure.comments_count} avis"
+        .inline-block.v-middle.soft-half--sides.white= '|'
+        .inline-block.v-middle
+          = link_to structure_website_planning_path, class: 'btn btn--small btn--green' do
+            - if @structure.has_free_trial_course
+              Essai GRATUIT
+            - else
+              Inscription en ligne
+      .flexbox__item.one-whole.text--right
+        - if @structure.facebook_url.present?
+          = link_to @structure.facebook_url, target: :_blank, class: 'white' do
+            %i.fa.fa-facebook
 
-%ul.text--center.push.nav.soft--bottom
-  = link_to 'Présentation', structure_website_presentation_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'index' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
-  = link_to 'Planning', structure_website_planning_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'planning' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
-  = link_to "Livre d'Or", structure_website_reviews_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'reviews' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
-  = link_to 'Photos / Vidéos', structure_website_medias_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'medias' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
-  = link_to 'Contact', structure_website_contact_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'contact' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+  %ul.text--center.nav.flush.soft--top.soft-half--bottom
+    - if @structure.subscription.plan.website_plan?
+      %li= link_to 'Présentation', structure_website_presentation_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'index' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+    %li= link_to 'Planning', structure_website_planning_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'planning' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+    %li= link_to "Livre d'Or", structure_website_reviews_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'reviews' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+    - if @structure.subscription.plan.website_plan?
+      %li= link_to 'Photos / Vidéos', structure_website_medias_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'medias' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+      - @structure.website_pages.each do |page|
+        %li= link_to page.title, structure_website_website_page_path(page), class: ['delta soft-half--sides soft-half--bottom', (@page and @page.slug == page.slug ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+      %li= link_to 'Contact', structure_website_contact_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'contact' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
 
 = content_for :content do
   = yield
 
-= render :template => '/layouts/structure_websites/application'
+  - if @structure.subscription.plan.website_plan?
+    = render partial: 'structure_website/structures/footer'
 
-#coursavenue-footer
+= content_for :scripts do
+  :javascript
+      $(function() {
+          CoursAvenue.statistic.logView(#{@structure.id}, 'website');
+      });
+= render template: '/layouts/structure_websites/application'
+

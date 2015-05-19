@@ -3,7 +3,7 @@ class Subscriptions::PlanDecorator < Draper::Decorator
 
   # Get the price in the format "xx € / mois".
   def price
-    "#{ object.amount } € #{ by_interval }"
+    "#{ object.amount }€ #{ by_interval }"
   end
 
   # Get the interval in the format "/ mois".

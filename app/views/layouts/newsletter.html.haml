@@ -2,6 +2,9 @@
 %html{ lang: 'fr' }
   %head
     %meta{ content: 'text/html; charset=utf-8', 'httpequiv' => 'Content-Type' }/
+    %meta{ name: 'robots', content: 'noindex, nofollow' }
+    %meta{ 'http-equiv' => 'Content-Type', content: 'text/html; charset=utf-8' }
+    %meta{ name: 'viewport',               content: 'width=device-width, initial-scale=1.0'  }
     %link{ rel:'stylesheet', href: 'email.css' }
     - if content_for? :title
       %title= yield :title
@@ -9,6 +12,7 @@
       %title= @_message.subject
     - else
       %title= "#{@structure.name} : newsletter"
+
     -# %style{ 'data-roadie-ignore' => true }
     -#   @media only screen and (max-width: 600px) {
     -#   table[class=w200], td[class=w200], img[class=w200] { display: none!important; }

@@ -95,4 +95,24 @@ class SuperAdminMailer < ActionMailer::Base
   def alert_charge_reinstated(structure, reason, status)
     mail subject: ''
   end
+
+  def alert_for_non_answered_participation_request(participation_request)
+    @participation_request = participation_request
+    @structure             = participation_request.structure
+    @user                  = participation_request.user
+    @course                = participation_request.course
+    if @participation_request.last_modified_by == 'Structure'
+      subject =  "L'élève #{@user.full_name} n'a pas répondu"
+    else
+      subject = "Le prof #{@structure.name} n'a pas répondu"
+    end
+    mail to: 'kryqhl33@incoming.intercom.io',
+         subject: subject
+  end
+
+  def new_call_reminder_arrived(call_reminder)
+    @call_reminder = call_reminder
+    mail to: 'kryqhl33@incoming.intercom.io',
+         subject: 'Demande de rappel'
+  end
 end

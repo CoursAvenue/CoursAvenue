@@ -1,23 +1,31 @@
 %p.epsilon
-  Votre abonnement <strong>CoursAvenue Premium</strong> sera automatiquement renouvelé le
+  Votre abonnement <strong>à l'offre #{@subscription.plan.public_name}</strong> sera automatiquement renouvelé le
   %strong= l(@subscription.current_period_end, format: :date_short)
   et nous prélèverons
   %strong= "#{@subscription.next_amount}€"
   = "#{@subscription.frequency},"
   sauf si vous l'annulez avant cette date. Vous pouvez annuler votre abonnement à tout moment en accédant à l'espace « Gestion de votre abonnement ».
 
+-# %hr.push--ends
+-# %h3 Offre parrainage - 1 mois offert à chaque invitation
+-# %p.epsilon
+-#   Parrainez autant de professeurs, associations ou écoles que vous le souhaitez : pour chaque nouvel abonnement souscrit par l'un de vos parrainé, vous bénéficiez d'un mois offert sur votre abonnement. Parrainez autant de personnes que vous le souhaitez, l'offre est cumulable à l'infini !
+-# %div
+-#   = link_to 'Parrainer', '#', class: 'btn btn--green'
+
 %hr.push--ends
+
 %h3 Historique des factures
 = link_to "Voir l'historique des factures.", pro_structure_invoices_path(@structure)
 
 %hr.push--ends
 %h3 Gestion de votre abonnement
 %p
-  = link_to 'Résilier mon abonnement', cancel_pro_structure_subscription_path(@structure, @subscription), class: 'red fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
-%p
-  = link_to 'Changer mon abonnement', choose_new_plan_pro_structure_subscription_path(@structure, @subscription), class: 'fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
+  = link_to 'Changer mon abonnement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: @subscription.plan.other_plan.id), class: 'fancybox.ajax',  data: { behavior: 'modal', width: '800', padding: 0 }
 %p
   = link_to 'Mettre à jour mes informations bancaires', '#' # , class: 'fancybox.ajax', data: { behavior: 'modal', width: '600', padding: 0 }
+%p
+  = link_to 'Résilier mon abonnement', confirm_cancellation_pro_structure_subscription_path(@structure, @subscription), class: 'red fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
 
 %hr.push--ends
 %h3 Accepter des paiemnts
@@ -33,6 +41,7 @@
   = render 'accept_payments'
 
 - content_for :scripts do
+  = javascript_include_tag '//checkout.stripe.com/checkout.js'
   :javascript
 
     $('[data-behavior=toggle-form]').click(function() {

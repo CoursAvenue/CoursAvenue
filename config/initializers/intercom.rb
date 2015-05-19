@@ -62,7 +62,46 @@ IntercomRails.config do |config|
     'Disciplines_3'            => Proc.new { |user| ((s = user.structure) ? s.subjects.at_depth(2).uniq.map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
     'Prof tag'                 => Proc.new { |user| ((s = user.structure) ? CrmSync.structure_status_for_intercom(s) : nil) },
     'Code postal'              => Proc.new { |user| ((s = user.structure) ?  s.zip_code : nil) },
+    'last_comment_at'          => Proc.new { |user| ((s = user.structure) and s.comments.any? ?  s.comments.order('created_at DESC').first.created_at : nil) },
     'Email Opt-in'             => Proc.new { |user| user.monday_email_opt_in },
+    'Type Offre'               => Proc.new { |user| ((s = user.structure) and s.premium? ?  (s.subscription.plan.website_plan? ? 'Site Internet' : 'Modules') : nil) },
+    'Offre Premium'            => Proc.new { |user| ((s = user.structure) and s.subscription_plan.try(:active?) ?  s.subscription_plan.plan_type : nil) },
+    'premium_ends_at'          => Proc.new { |user| ((s = user.structure) and s.subscription_plan.try(:active?) ?  s.subscription_plan.expires_at : nil) },
+    # 0 s'il n'a pas mis sa CB,
+    # 1 s'il a mis sa CB,
+    # 2 si sa CB a un problème de validité (date expiration, coordonnées...)
+    'CB B2B'                   => Proc.new do |user|
+      if (s = user.structure) and s.subscription
+        if s.subscription.active?
+          1
+        else
+          0
+        end
+      end
+    end,
+    "trial_ends_at"             => Proc.new do |user|
+      if (s = user.structure) and s.subscription
+        s.subscription.trial_end
+      else
+        nil
+      end
+    end,
+    # 1 Si un prof a envoyé au moins 1 newsletter,
+    # 2 s'il a au moins un brouillon mettre
+    # 0 s'il n'a rien fait mettre
+    "Newsletters"              => Proc.new do |user|
+      if (s = user.structure)
+        if s.newsletters.sent.count > 0
+          1
+        elsif s.newsletters.drafts.count > 0
+          2
+        else
+          0
+        end
+      else
+        nil
+      end
+    end,
     'Discipline 3 principale'  => Proc.new do |user|
       if (s = user.structure) and s.vertical_pages_breadcrumb.present?
         s.vertical_pages_breadcrumb.split('|').last.split(';').last

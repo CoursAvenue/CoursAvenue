@@ -1,0 +1,16 @@
+.p
+  Un professeur demande un rappel immédiat
+
+.p
+  Nom :
+  %strong= @call_reminder.name
+.p
+  Numéro :
+  %strong= @call_reminder.phone_number
+.p
+  Site :
+  %strong= @call_reminder.website
+- if @call_reminder.comment.present?
+  .p
+    Commentaire :
+    = @call_reminder.comment

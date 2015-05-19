@@ -380,6 +380,10 @@ France
     end
   end
 
+  # GET structure/:id/communication
+  def communication
+  end
+
   # GET structure/:id/signature
   # Static page that show example of email signature for teachers
   def signature
@@ -388,6 +392,10 @@ France
   # GET structure/:id/logo
   # Static page where teacher can download CoursAvenue logos for their communications
   def logo
+  end
+
+  # GET structure/:id/planning-sur-mon-site
+  def website_planning
   end
 
   private

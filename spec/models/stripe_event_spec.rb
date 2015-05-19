@@ -87,10 +87,6 @@ RSpec.describe StripeEvent, type: :model do
         it 'creates a new invoice' do
           expect { subject.process! }.to change { Subscriptions::Invoice.count }.by(1)
         end
-
-        it 'sends an email to the teacher', with_mail: true do
-          expect { subject.process! }.to change { ActionMailer::Base.deliveries.count }.by(1)
-        end
       end
 
       context 'invoice.payment_failed' do
@@ -159,9 +155,9 @@ RSpec.describe StripeEvent, type: :model do
           FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
         end
 
-        it 'sends an email to the admins and to the teacher', with_mail: true do
-          expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(2)
-        end
+        it 'sends an email to the admins and to the teacher', with_mail: true # do
+          # expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(2)
+        #end
 
         it 'cancels the subscription' do
           subject.process!
@@ -196,20 +192,6 @@ RSpec.describe StripeEvent, type: :model do
           subscription.reload
 
           expect(subscription.paused?).to be_falsy
-        end
-      end
-
-      context 'customer.subscription.trial_will_end' do
-        let(:event_type)          { 'customer.subscription.trial_will_end' }
-        let(:stripe_subscription) { subscription.stripe_subscription }
-        let(:stripe_event)        { StripeMock.mock_webhook_event(event_type, stripe_subscription.as_json) }
-
-        subject do
-          FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
-        end
-
-        it 'sends an email to the teacher', with_mail: true do
-          expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(1)
         end
       end
 

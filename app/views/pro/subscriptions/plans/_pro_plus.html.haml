@@ -1,19 +1,27 @@
-- if @structure and @structure.subscription
-  - url = change_plan_pro_structure_subscription_path(@structure, @structure.subscription, plan_id: plan.id)
-  - method = :patch
-- elsif @structure
-  - url = pro_structure_subscriptions_path(@structure, plan_id: plan.id)
-  - method = :post
+- data                       = {}
+- is_subscribed_to_this_plan = false
+- if @structure and @structure.subscription and @structure.subscription.plan == plan
+  - url                        = 'javascript:void(0)'
+  - is_subscribed_to_this_plan = true
+- if @structure
+  - url  = confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: plan.id)
+  - data = { behavior: 'modal', width: 800, padding: 0 }
 - else
-  - url = inscription_pro_structures_path
-  - method = :get
+  - url = inscription_pro_structures_path(plan_id: plan.id)
 
-= link_to url, class: 'block muted-link text--center', method: method do
+= link_to url, class: ['block muted-link text--center', (@structure ? 'fancybox.ajax' : '')], data: data do
   .soft.rounded.bordered.bg-white.shadowed--bottom
     %h2.flush Site Internet
     %h4.flush= plan.price
     %p.flush 14 jours gratuits. Sans engagement
-  .btn.soft--sides.btn--green{ style: 'margin-top: -15px; margin-bottom: -15px;'} Essayer gratuitement
+  - if is_subscribed_to_this_plan
+    .btn.soft--sides.btn--gray.btn--disabled{ style: 'margin-top: -15px; margin-bottom: -15px;'} Déjà abonné
+  - else
+    .btn.soft--sides.btn--green{ style: 'margin-top: -15px; margin-bottom: -15px;'}
+      - if @structure and @structure.subscription
+        Choisir
+      - else
+        Activer mes 14 jours gratuits
   .bordered.soft.bg-white.shadowed--bottom.push-half--bottom
     .text--center.line-height-1-5.v-middle.soft-half--ends>
       .f-weight-bold.delta Annonce sur CoursAvenue
@@ -28,17 +36,18 @@
     .text--center.epsilon.line-height-1-5.v-middle.green.soft-half--bottom>
       .epsilon.f-weight-bold Site web & mobile
       %div spécialement dédié aux loisirs
-    .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.green.soft-half--bottom>
+    .text--center.epsilon.line-height-1-5.v-middle.green.soft-half--bottom>
       .epsilon.f-weight-bold Nom de domaine & hébergement
+      %div référencement optimisé sur Google
     .text--center.epsilon.line-height-1-5.v-middle.green.soft-half--bottom>
       .epsilon.f-weight-bold Page planning
       %div optimisée mobiles & tablettes
     .text--center.line-height-1-5.v-middle.green.soft-half--bottom>
       .epsilon.f-weight-bold Inscriptions en ligne 24h/24
       %div avec ou sans paiement en ligne
-    .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.green>
+    .text--center.epsilon.line-height-1-5.v-middle.green.soft-half--bottom>
       .epsilon.f-weight-bold Bons cadeaux
-      %div pour que vos activités puissent être offertes
+      %div pour que vos activités soient offertes
     .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.green>
       Livre d'Or
     .text--center.v-middle.soft-half--ends.push-half--top>
@@ -52,6 +61,6 @@
       Multi-postage sur les réseaux sociaux
     .text--center.epsilon.line-height-1-5.v-middle.f-weight-bold.dark-blue.soft-half--bottom>
       Statistiques de trafic
-  %p.textt--center.soft--sides.epsilon
+  %p.text--center.epsilon
     %i
       Bénéficiez d'un site Internet tout inclus spécialement conçu pour les activités de loisirs

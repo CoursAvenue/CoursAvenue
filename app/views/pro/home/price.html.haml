@@ -7,12 +7,12 @@
 = render layout: 'pro/home/header_layout', locals: { current: 'prices', full: true } do
   .main-container.mega-soft--top
     %h1.flush.f-size-big.text--center.white.relative
-      L'essentiel pour développer vos activités de loisirs
+      Essayez nos offres gratuitement pendant 14 jours
 
   .main-container.main-container--medium.relative.mega-soft--ends
     .grid.white
       .grid__item.one-third.palm-one-whole.text--center>
-        %a.muted-link{ href: '#offers', data: { behavior: 'scroll-to' } }>
+        %a.muted-link{ href: '#en-savoir-plus', data: { behavior: 'scroll-to', offset_top: '-50' } }>
           .opacity-hidden-on-hover__wrapper
             .transparant-white-box.rounded.soft.orange-box--on-hover
               %h2.alpha.push--top.flush Basic
@@ -24,7 +24,7 @@
               .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
                 Annonce sur CoursAvenue
       .grid__item.one-third.palm-one-whole.text--center>
-        %a.muted-link{ href: '#offers', data: { behavior: 'scroll-to' } }>
+        %a.muted-link{ href: '#en-savoir-plus', data: { behavior: 'scroll-to', offset_top: '-50' } }>
           .opacity-hidden-on-hover__wrapper
             .transparant-white-box.rounded.soft.dark-blue-box--on-hover
               %h2.alpha.push--top.flush Modules
@@ -41,7 +41,7 @@
               .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
                 Outils de gestion
       .grid__item.one-third.palm-one-whole.text--center>
-        %a.muted-link{ href: '#offers', data: { behavior: 'scroll-to' } }>
+        %a.muted-link{ href: '#en-savoir-plus', data: { behavior: 'scroll-to', offset_top: '-50' } }>
           .opacity-hidden-on-hover__wrapper
             .show-on-hover__wrapper
               .transparant-white-box.rounded.soft.green-box--on-hover
@@ -59,13 +59,19 @@
                 .epsilon.line-height-2.v-middle.f-weight-600.soft-half-bottom.white>
                   Outils de gestion
 
-.main-container.main-container--medium.relative.soft--ends#offers
-  %ul.nav.tabs--link.flush.btn-group
-    %li.active>
-      %a.btn.rounded-right--none{ href: '.monthly-details', data: { toggle: 'tab' } } Mensuel
-    %li>
-      %a.btn.rounded-left--none{ href: '.annual-details', data: { toggle: 'tab' } } Annuel
-
+.main-container.main-container--medium.relative.soft--ends#en-savoir-plus
+  %h2.text--center Votre communication sur Internet enfin simple et efficace
+  .text--center
+    Abonnement :
+    %ul.nav.tabs--link.flush.inline-block.v-middle
+      %li.push--right.active
+        %a.muted-link{ href: '.monthly-details', data: { toggle: 'tab' } }
+          %input{ type: 'radio', name: 'plan_duration', checked: true }
+          Mensuel
+      %li
+        %a.muted-link{ href: '.annual-details', data: { toggle: 'tab' } }
+          %input{ type: 'radio', name: 'plan_duration' }
+          Annuel
   .tab-pane.monthly-details.active.grid--full
     .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
       = render partial: 'pro/subscriptions/plans/free'
@@ -90,37 +96,45 @@
   .main-container.main-container--medium.mega-soft--ends.soft--sides
     .grid.push--bottom
       .grid__item.one-half.palm-one-whole>
-        .epsilon.push-half--bottom.soft--sides
+        .delta.line-height-1-5.push-half--bottom.soft--sides
           %strong L'offre Basic est-elle vraiment gratuite&nbsp;?
-        %p.epsilon.soft--sides
-          Oui, totalement gratuite. Votre profil complet apparaîtra alors sur le moteur de recherche géolocalisé CoursAvenue et vous pourrez même afficher vos avis sur votre Livre d'Or CoursAvenue.
-      .grid__item.one-half.palm-one-whole>
-        .epsilon.push-half--bottom.soft--sides
-          %strong Les offres Pro et Pro+ incluent-elles une durée d'engagement minimale&nbsp;?
-        %p.epsilon.soft--sides
+        %p.delta.line-height-1-5.soft--sides
+          Oui, totalement gratuite. Votre annonce complète apparaîtra alors sur le moteur de recherche géolocalisé CoursAvenue et vous pourrez même afficher vos avis sur votre Livre d'Or CoursAvenue.
+        .delta.line-height-1-5.push-half--bottom.soft--sides.push--top
+          %strong Quels moyens de paiement acceptez-vous et comment obtenir mes factures mensuelles&nbsp;?
+        %p.delta.line-height-1-5.soft--sides
+          Le paiement se fait en ligne par carte bleue (pas de chèques, virements ni espèces). Depuis votre compte, vous accèderez ensuite à toutes vos informations d'abonnement, y compris vos factures à télécharger en format pdf.
+        .delta.line-height-1-5.push-half--bottom.soft--sides.push--top
+          %strong Les offres Modules et Site Internet incluent-elles une durée d'engagement minimale&nbsp;?
+        %p.delta.line-height-1-5.soft--sides
           Non. CoursAvenue est un service à la demande. Il n'y a pas de contrat ni d'engagement de votre part. Vous payez tout simplement chaque mois. En cas de résiliation, vous serez facturé pour le mois en cours, mais vous ne serez pas facturé à nouveau.
 
-    .grid.push--bottom
       .grid__item.one-half.palm-one-whole>
-        .epsilon.push-half--bottom.soft--sides
+        .delta.line-height-1-5.push-half--bottom.soft--sides
+          %strong A quoi ressemble le site proposé dans l'offre Site Internet&nbsp;?
+        %p.delta.line-height-1-5.soft--sides
+          Le site web proposé est le fruit de toutes nos analyses sur le comportement des Internautes pour répondre au mieux à leurs attentes et, par conséquent, augmenter les inscriptions. Ainsi, vous gagnez du temps, vous gardez la liberté de votre contenu mis à jour en temps réel, et vous boostez vos inscriptions : le webmaster, c'est enfin vous.
+
+        .delta.line-height-1-5.push-half--bottom.soft--sides.push--top
+          %strong Quelle est la différence entre l'offre Modules et l'offre Site Internet&nbsp;?
+        %p.delta.line-height-1-5.soft--sides
+          L'offre Modules vous permet de bénéficier de nos outils à installer (facilement et rapidement) sur votre propre site Internet déjà existant. Si vous n'avez pas de site ou si vous souhaitez améliorer le vôtre, l'offre Site Internet fonctionne sur le principe du tout inclus : tous nos outils sont directement intégrés dans un site web automatiquement référencé sur Google et optimisé mobiles & tablettes.
+
+        .delta.line-height-1-5.push-half--bottom.soft--sides.push--top
           %strong Comment vous contacter pour toute aide&nbsp;?
-        %p.epsilon.soft--sides
+        %p.delta.line-height-1-5.soft--sides
           Nous sommes à votre écoute prêts à vous aider tous les jours du lundi au vendredi, de 9h à 18h. Vous pouvez nous appeler, chatter en temps réel ou nous envoyer un e-mail.
-      .grid__item.one-half.palm-one-whole>
-        .epsilon.push-half--bottom.soft--sides
-          %strong Quels moyens de paiement acceptez-vous&nbsp;?
-        %p.epsilon.soft--sides
-          Le paiement se fait en ligne par carte bleue (Visa ou Mastercard) ou via Paypal. Nous n'acceptons pas les paiements traditionnels de type chèques, virements ou espèces.
 
-    .grid.push--bottom
-      .grid__item.one-half.palm-one-whole>
-        .epsilon.push-half--bottom.soft--sides
-          %strong Existe-t-il d'autres frais cachés&nbsp;?
-        %p.epsilon.soft--sides
-          Non, vous ne paierez jamais plus que votre abonnement mensuel. Tous les services inclus dans l'offre son illimités, et vous n'aurez aucune mauvaise surprise.
-      .grid__item.one-half.palm-one-whole>
-        .epsilon.push-half--bottom.soft--sides
-          %strong Comment faire pour obtenir mes factures mensuelles&nbsp;?
-        %p.epsilon.soft--sides
-          Dans votre profil privé, vous accèderez à toutes vos informations de compte, y compris vos factures mensuelles à télécharger en format pdf.
+.bg-white.bordered.inline-block.soft-half.fixed.push--right.rounded.text--center#need-help{ style: 'bottom: 90px; right: -300px;' }
+  = image_tag 'team_pictures/olivier.jpg', height: 60, width: 60, class: 'rounded'
+  %div.f-weight-500 Besoin d'aide ?
+  %div
+    = link_to 'Rappel Immediat', new_pro_call_reminder_path, class: 'btn btn--yellow fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 600 }
 
+= content_for :scripts do
+  :javascript
+      $(function() {
+          setTimeout(function() {
+              $('#need-help').animate({ right: '0' }, 400, 'easeOutCubic');
+          }, 2000);
+      });

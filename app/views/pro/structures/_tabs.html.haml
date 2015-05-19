@@ -12,7 +12,6 @@
     %li{ class: current == 'medias' ? 'active' : '' }
       = link_to pro_structure_medias_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
         Photos & Vidéos
-    - if @structure.teachers.any?
-      %li{ class: current == 'professeurs' ? 'active' : '' }
-        = link_to pro_structure_teachers_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
-          Professeurs
+    %li{ class: current == 'professeurs' ? 'active' : '' }
+      = link_to pro_structure_teachers_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+        Professeurs

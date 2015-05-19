@@ -1,0 +1,12 @@
+- if @structure.medias.cover_first.images_first.any?
+  - image = @structure.medias.cover_first.images_first.first.image
+#photos-videos.relative.bg-position-top.bg-cover.one-whole.z-index-under{ style: (image ? "background-image: url('#{image.url(:wide_and_blurry)}')" : '') }
+  .black-curtain.black-curtain--soft.north.west.one-whole.absolute
+  .soft.text--center.relative
+    - if @structure.logo.present?
+      = image_tag @structure.logo.url, height: 80, width: 80, class: 'rounded--circle inline-block v-middle push-half--right'
+    .inline-block.v-middle
+      %h1.text--center.white.push--top.flush--bottom
+        = @structure.name
+      %h2.gamma.text--center.white
+        = @website_parameter.title

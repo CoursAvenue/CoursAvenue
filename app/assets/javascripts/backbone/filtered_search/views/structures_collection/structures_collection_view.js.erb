@@ -172,7 +172,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         logImpressions: function logImpressions (structure_ids) {
             if (!window.coursavenue.bootstrap.current_pro_admin) {
                 structure_ids.forEach(function(structure_id) {
-                    CoursAvenue.statistic.logStat(structure_id, 'impression', {});
+                    CoursAvenue.statistic.logStat(structure_id, 'impression');
                 });
             }
         },

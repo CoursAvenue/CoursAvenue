@@ -17,7 +17,7 @@ StructurePlanning.addInitializer(function(options) {
 
     places_collection          = structure.get('places');
 
-    sticky_google_maps_view    = new StructureProfile.Views.Map.StickyGoogleMapsView({
+    sticky_google_maps_view    = new StructurePlanning.Views.Map.StickyGoogleMapsView({
         collection:         places_collection,
         mapOptions:         { scrollwheel: false },
         infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) }

@@ -1,0 +1,45 @@
+.p
+  Demande d'inscription à traiter :
+- if @participation_request.last_modified_by == 'Structure'
+  .p
+    %strong A contacter :
+    %br
+    L'élève : #{@user.full_name}
+    %br
+    = link_to 'Voir la demande', user_participation_request_url(@user, @participation_request)
+    %br
+    Infos : #{@user.phone_number}, #{@user.email}
+  .P
+    Prof : #{@structure.name}
+    %br
+    = link_to 'Voir la demande', pro_structure_participation_request_url(@structure, @participation_request, subdomain: 'pro')
+    %br
+    Infos : #{@structure.phone_numbers.map(&:number).join(', ')}, #{@structure.main_contact.email}
+- else
+  .p
+    %strong A contacter :
+    %br
+    Le prof : #{@structure.name}
+    %br
+    = link_to 'Voir la demande', pro_structure_participation_request_url(@structure, @participation_request, subdomain: 'pro')
+    %br
+    Infos : #{@structure.phone_numbers.map(&:number).join(', ')}, #{@structure.main_contact.email}
+  .p
+    Elève : "#{@user.full_name}"
+    %br
+    = link_to 'Voir la demande', user_participation_request_url(@user, @participation_request)
+    %br
+    Infos : #{@user.phone_number}, #{@user.email}
+
+.p
+  Cours : #{@course.name}, #{@participation_request.decorate.day_and_hour},
+  - if @participation_request.place
+    = @participation_request.place.address
+  (#{@participation_request.decorate.details})
+
+.p
+  Date dernier message : #{l(@participation_request.conversation.messages.order('created_at DESC').first.created_at)}
+.p
+  Date premier message : #{l(@participation_request.conversation.messages.order('created_at DESC').last.created_at)}
+.p
+  Nombre de messages envoyés : #{@participation_request.conversation.messages.count}

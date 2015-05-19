@@ -91,8 +91,13 @@ class PlanningSearch
 
         with(:structure_type).any_of                       params[:structure_types]                     if params[:structure_types].present?
       end
-      order_by :has_logo, :desc
-      order_by :search_score, :desc
+
+      if params[:order_by] == :start_date
+        order_by :start_date, :asc
+      else
+        order_by :has_logo, :desc
+        order_by :search_score, :desc
+      end
 
       paginate page: (params[:page] ? params[:page] : 1), per_page: (params[:per_page] || 15)
     end

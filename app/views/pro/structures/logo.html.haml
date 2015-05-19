@@ -1,10 +1,4 @@
-= side_menu_currently_at 'communicate'
-
-= render partial: 'pro/structures/communication_tabs', locals: { current: 'logo' }
-
 %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.communicate_logo') } }
-  %h1.push-half--bottom
-    Téléchargez nos logos
   .grid
     .grid__item.one-half.v-middle>
       = link_to asset_path('logos/coursavenue_1_ligne_com.png'), download: 'Logo_CoursAvenue_com', class: 'block' do

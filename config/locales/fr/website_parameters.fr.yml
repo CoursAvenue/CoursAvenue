@@ -1,0 +1,13 @@
+fr:
+  activerecord:
+    models:
+      website_parameter: Paramètre du site Internet
+    attributes:
+      website_parameter:
+        slug: Adresse de votre site Internet (URL)
+        title: Titre principal
+
+  simple_form:
+    placeholders:
+      website_parameter:
+        slug: SLUG.coursavenue.com

@@ -44,21 +44,10 @@
                             current: current_tab,
                             icon: 'fa fa-2x fa-envelope-o'
 
-      - if current_pro_admin.super_admin? or (@structure and @structure.slug == 'danse-fusion')
-        = pro_side_menu_link 'newsletters',
-                              pro_structure_newsletters_url(@structure, subdomain: 'pro'),
-                              current: current_tab,
-                              icon: 'fa fa-2x fa-paper-plane-o'
-
-      = pro_side_menu_link 'crm',
-                            pro_structure_user_profiles_url(@structure, subdomain: 'pro') ,
-                            current: current_tab,
-                            icon: 'fa-2x fa-contact'
-
-      = pro_side_menu_link 'communicate',
-                            widget_pro_structure_url(@structure, subdomain: 'pro'),
-                            current: current_tab,
-                            icon: 'fa fa-2x fa-bullhorn'
+      = pro_side_menu_link 'website',
+                           pro_structure_website_parameters_url(@structure, subdomain: 'pro'),
+                           current: current_tab,
+                           icon: 'fa fa-2x fa-laptop'
 
       = pro_side_menu_link 'premium',
                            pro_structure_subscriptions_url(@structure, subdomain: 'pro'),

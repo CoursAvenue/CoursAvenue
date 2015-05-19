@@ -10,8 +10,8 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_requests = @structure.participation_requests
     # Select participation request that have the right label id (some could have been flagged as inapropriate
     # and therefore have a different label_id)
-    @upcoming_participation_requests = @participation_requests.upcoming.includes(:user, :course, :structure, :planning, :participants)
-    @past_participation_requests     = @participation_requests.order('date DESC').past.includes(:user, :course, :structure, :planning, :participants)
+    @upcoming_participation_requests = @participation_requests.upcoming
+    @past_participation_requests     = @participation_requests.order('date DESC').past
   end
 
   # GET pro/etablissements/:structure_id/participation_request/:id/edit

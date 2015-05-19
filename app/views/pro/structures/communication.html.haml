@@ -1,0 +1,29 @@
+= side_menu_currently_at 'general'
+
+= render partial: 'pro/structures/general_tabs', locals: { current: 'communication' }
+
+
+%h1 Développez votre bouche à oreille
+
+%h2 Grâce à la signature de vos e-mails
+= render template: 'pro/structures/signature'
+
+%hr.push--ends
+
+%h2 Grâce au logo CoursAvenue
+.push--bottom= render template: 'pro/structures/logo'
+
+%hr.push--ends
+
+- if @structure.comments_count > 14
+  %h2 Grâce à vos autocollants CoursAvenue
+  = render template: 'pro/structures/sticker_demands/new'
+  - if @structure.sticker_demands.any?
+    .soft--top
+      %h4.push-half--bottom Suivi
+      = render template: 'pro/structures/sticker_demands/index'
+- else
+  %h2 Autocollants CoursAvenue
+  %p.epsilon
+    Pour recevoir vos autocollants CoursAvenue à afficher, recevez au moins 15 avis de vos élèves
+  .text--center= link_to 'Obtenir des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn--green'

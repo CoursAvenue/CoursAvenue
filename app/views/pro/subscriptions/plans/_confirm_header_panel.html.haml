@@ -1,0 +1,56 @@
+- monthly_plan = plan.monthly_sibling.decorate
+- yearly_plan  = plan.yearly_sibling.decorate
+
+- # User is not premium and is about to go into trial mode
+- if @structure.subscription.nil?
+  .grid
+    .grid__item.v-middle.two-thirds.epsilon>
+      - if plan.website_plan?
+        Bénéficiez d'un site Internet tout inclus spécialement conçu pour les activités de loisirs
+      - else
+        Équipez votre site Internet des meilleurs outils pour booster vos inscriptions
+    .grid__item.v-middle.one-third.text--right>
+      = link_to 'Activer mes 14 jours gratuits', pro_structure_subscriptions_path(@structure, plan_id: plan.id, sponsorship_token: sponsorship_token), method: :post, class: 'btn btn--green', data: { disable_with: 'Activation en cours...' }
+  - # User is paying a plan and is about to change plan
+- else
+  - if @structure.subscription.active? and !@structure.subscription.in_trial?
+    .float--right
+      .tab-pane.monthly-details{ class: (monthly_plan == plan ? 'active' : '')}
+        - if @structure.subscription.plan == monthly_plan
+          .btn.soft--sides.btn--gray.btn--disabled Déjà abonné
+        - else
+          = link_to "M'abonner", change_plan_pro_structure_subscription_path(@structure, @structure.subscription, plan_id: monthly_plan), class: 'btn btn--green sode--sides', method: :patch, data: { disable_with: 'Changement en cours...' }
+      .tab-pane.annual-details{ class: (yearly_plan == plan ? 'active' : '')}
+        - if @structure.subscription.plan == yearly_plan
+          .btn.soft--sides.btn--gray.btn--disabled Déjà abonné
+        - else
+          = link_to "M'abonner", change_plan_pro_structure_subscription_path(@structure, @structure.subscription, plan_id: yearly_plan), class: 'btn btn--green sode--sides', method: :patch, data: { disable_with: 'Changement en cours...' }
+
+    - # User is about to activate his trial mode and pay
+  - elsif @structure.subscription and @structure.subscription.in_trial?
+    .float--right
+      .tab-pane.monthly-details{ class: (monthly_plan == plan ? 'active' : '')}
+        = link_to "M'abonner", 'javascript:void(0)', data: { stripe: true, plan_id: monthly_plan.id, amount: monthly_plan.amount }, class: 'btn btn--green soft--sides'
+      .tab-pane.annual-details{ class: (yearly_plan == plan ? 'active' : '')}
+        = link_to "M'abonner", 'javascript:void(0)', data: { stripe: true, plan_id: yearly_plan.id, amount: yearly_plan.amount }, class: 'btn btn--green soft--sides'
+  %div
+    .inline-block.v-middle.soft-half--right Abonnement
+    %ul.nav.tabs--link.flush.inline-block.v-middle
+      %li.push--right{ class: (monthly_plan == plan ? 'active' : '')}>
+        %a.muted-link{ href: '.monthly-details', data: { toggle: 'tab' } }
+          %input{ type: 'radio', name: 'plan_duration', checked: (monthly_plan == plan) }
+          Mensuel
+      %li{ class: (yearly_plan == plan ? 'active' : '')}>
+        %a.muted-link{ href: '.annual-details', data: { toggle: 'tab' } }
+          %input{ type: 'radio', name: 'plan_duration', checked: (yearly_plan == plan) }
+          Annuel
+  .tab-pane.hard.monthly-details{ class: (monthly_plan == plan ? 'active' : '')}
+    .gamma
+      %strong= monthly_plan.price
+    %div Offre sans engagement. Prélevé automatiquement chaque mois, résiliable à tout moment.
+  .tab-pane.hard.annual-details{ class: (yearly_plan == plan ? 'active' : '')}
+    %div
+      %strong.gamma= yearly_plan.price
+      %span.epsilon (soit 2 mois offerts)
+    %div.epsilon Offre sans engagement. Prélevé automatiquement chaque année, résiliable à tout moment.
+

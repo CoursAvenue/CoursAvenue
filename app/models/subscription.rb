@@ -48,29 +48,27 @@ class Subscription < ActiveRecord::Base
     :cancelation_reason_stopping_activity,
     :cancelation_reason_didnt_have_return_on_investment,
     :cancelation_reason_too_hard_to_use,
-    :cancelation_reason_not_satisfied_of_coursavenue_users,
     :cancelation_reason_other
 
   belongs_to :structure
-  belongs_to :plan,     class_name: 'Subscriptions::Plan',   foreign_key: 'subscriptions_plan_id'
-  belongs_to :coupon,   class_name: 'Subscriptions::Coupon', foreign_key: 'subscriptions_coupon_id'
-  has_many   :invoices, class_name: 'Subscriptions::Invoice'
+  belongs_to :plan,         class_name: 'Subscriptions::Plan',   foreign_key: 'subscriptions_plan_id'
+  belongs_to :coupon,       class_name: 'Subscriptions::Coupon', foreign_key: 'subscriptions_coupon_id'
+  has_many   :invoices,     class_name: 'Subscriptions::Invoice'
+  has_many   :sponsorships, class_name: 'Subscriptions::Sponsorship'
 
-  store_accessor :metadata, :cancelation_reason_dont_want_more_students,
-                            :cancelation_reason_dont_want_more_students,
-                            :cancelation_reason_stopping_activity,
-                            :cancelation_reason_didnt_have_return_on_investment,
-                            :cancelation_reason_too_hard_to_use,
-                            :cancelation_reason_not_satisfied_of_coursavenue_users,
-                            :cancelation_reason_other,
-                            :cancelation_reason_text
+  store_accessor :metadata, :sponsorship_token,
+    :cancelation_reason_dont_want_more_students,
+    :cancelation_reason_dont_want_more_students,
+    :cancelation_reason_stopping_activity,
+    :cancelation_reason_didnt_have_return_on_investment,
+    :cancelation_reason_too_hard_to_use,
+    :cancelation_reason_other,
+    :cancelation_reason_text
 
   define_boolean_accessor_for :metadata, :cancelation_reason_dont_want_more_students,
     :cancelation_reason_stopping_activity,
     :cancelation_reason_didnt_have_return_on_investment,
-    :cancelation_reason_too_hard_to_use,
-    :cancelation_reason_not_satisfied_of_coursavenue_users,
-    :cancelation_reason_other
+    :cancelation_reason_too_hard_to_use
 
   ######################################################################
   # Validations                                                        #
@@ -114,7 +112,7 @@ class Subscription < ActiveRecord::Base
   #
   # @return a Boolean.
   def active?
-    (!canceled? and stripe_subscription_id.present?)
+    (in_trial? or (!canceled? and stripe_subscription_id.present?))
   end
 
   # Charge the subscription. Usually after the trial period.
@@ -141,6 +139,11 @@ class Subscription < ActiveRecord::Base
 
       self.stripe_subscription_id = _subscription.id
       save
+
+      if self.sponsorship_token.present?
+        sponsorship = Subscriptions::Sponsorship.where(token: self.sponsorship_token).first
+        sponsorship.redeem!(self) unless sponsorship.nil?
+      end
 
     rescue Stripe::CardError => exception
       Bugsnag.notify(exception)

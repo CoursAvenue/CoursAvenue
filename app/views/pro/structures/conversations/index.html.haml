@@ -1,5 +1,7 @@
 = side_menu_currently_at 'messages'
 
+= render partial: 'pro/structures/conversations/tabs', locals: { current: 'conversations' }
+
 %h1 Messages
 
 %div{ data: { behavior: 'wizard-helper', content: t('messages.wizard.index') } }

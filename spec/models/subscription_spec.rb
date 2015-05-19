@@ -8,11 +8,17 @@ RSpec.describe Subscription, type: :model do
   let(:stripe_helper) { StripeMock.create_test_helper }
   subject             { FactoryGirl.create(:subscription) }
 
-  it { should validate_uniqueness_of(:stripe_subscription_id).allow_blank }
-  it { should belong_to(:structure) }
-  it { should belong_to(:plan).class_name('Subscriptions::Plan').with_foreign_key('subscriptions_plan_id') }
-  it { should belong_to(:coupon).class_name('Subscriptions::Coupon').with_foreign_key('subscriptions_coupon_id') }
-  it { should have_many(:invoices).class_name('Subscriptions::Invoice') }
+  context 'associations' do
+    it { should belong_to(:structure) }
+    it { should belong_to(:plan).class_name('Subscriptions::Plan').with_foreign_key('subscriptions_plan_id') }
+    it { should belong_to(:coupon).class_name('Subscriptions::Coupon').with_foreign_key('subscriptions_coupon_id') }
+    it { should have_many(:invoices).class_name('Subscriptions::Invoice') }
+    it { should have_many(:sponsorships).class_name('Subscriptions::Sponsorship') }
+  end
+
+  context 'validation' do
+    it { should validate_uniqueness_of(:stripe_subscription_id).allow_blank }
+  end
 
   describe '#stripe_subscription' do
     context "when there isn't a stripe_subscription_id" do
@@ -74,6 +80,12 @@ RSpec.describe Subscription, type: :model do
     context 'when in trial' do
       subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.from_now) }
 
+      it { expect(subject.active?).to be_truthy }
+    end
+
+    context 'when in trial ends' do
+      subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.ago) }
+
       it { expect(subject.active?).to be_falsy }
     end
 
@@ -126,6 +138,35 @@ RSpec.describe Subscription, type: :model do
 
         expect(subject.stripe_subscription).to_not be_nil
         expect(subject.stripe_subscription).to be_a(Stripe::Subscription)
+      end
+    end
+
+    context 'with a sponsorship' do
+      let(:other_structure)    { FactoryGirl.create(:structure, :with_contact_email) }
+      let(:other_subscription) { plan.create_subscription!(other_structure) }
+      let(:other_token)        { stripe_helper.generate_card_token }
+      let(:sponsorship)        {
+        FactoryGirl.create(:subscriptions_sponsorship, subscription: other_subscription)
+      }
+
+      before do
+        other_subscription.charge!(other_token)
+
+        subject.sponsorship_token = sponsorship.token
+        subject.save
+      end
+
+      it 'applies the half off coupon' do
+        subject.charge!(token)
+
+        expect(subject.next_amount).to eq(plan.amount / 2.0)
+      end
+
+      it 'applies the coupon to the sponsor' do
+        subject.charge!(token)
+
+        other_subscription.reload
+        expect(other_subscription.next_amount).to eq(0)
       end
     end
   end

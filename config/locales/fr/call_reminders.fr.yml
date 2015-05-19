@@ -7,9 +7,11 @@ fr:
         name: Nom
         phone_number: N° de téléphone
         website: Site Internet
+        comment: Commentaire
   simple_form:
     placeholders:
       call_reminder:
         name: Prénom Nom
         phone_number: Numéro pour vous joindre
         website: Lien de votre site (optionnel)
+        comment: Proposez-nous le jour et l'heure de rappel de votre choix.

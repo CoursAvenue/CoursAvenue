@@ -7,7 +7,7 @@
             = plan.name
             %span.caps.bg-green.white.smaller-print active
 
-        = link_to 'Voir sur Stripe', plan.stripe_plan_url, target: :_blank
+        = link_to 'Voir sur Stripe', "#{ stripe_dashboard_url }/plans/#{plan.stripe_plan_id}", target: :_blank
 
       .flexbox__item.v-middle.text--right
         = succeed ' ' do
