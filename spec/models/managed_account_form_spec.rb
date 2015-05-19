@@ -24,7 +24,8 @@ describe ManagedAccountForm, with_stripe: true do
       let(:token)         { stripe_helper.generate_card_token }
       let(:structure)     { FactoryGirl.create(:structure, :with_contact_email) }
 
-      subject { ManagedAccountForm.new(structure_id: structure.id, stripe_bank_token: token) }
+      subject { ManagedAccountForm.new(structure_id: structure.id, stripe_bank_token: token,
+                                       owner_dob: "1/1/1990") }
 
       it 'saves the object' do
         expect(subject.save).to be_truthy
