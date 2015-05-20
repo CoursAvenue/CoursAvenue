@@ -14,9 +14,8 @@
 
   .soft.bordered--top
     .gamma.line-height-1-7.push--bottom
-      %strong Bons plans & suggestions
-    - similars = StructureSearch.search({ lat: (params[:lat] || @structure.latitude), lng: (params[:lng] || @structure.longitude), without_id: @structure.id, radius: 10, sort: 'premium', has_logo: true,per_page: 6, subject_id: @structure.subjects.roots, medias_count: 1 }).results
-    - similars += StructureSearch.search({lat: (params[:lat] || @structure.latitude), lng: (params[:lng] || @structure.longitude), without_id: @structure.id, radius: 100, sort: 'premium', has_logo: true,per_page: 6, medias_count: 1}).results if similars.length < 6
+      %strong Suggestions
+    - similars = @structure.similar_profiles(6, { has_logo: true, medias_count: 1 })
     - similars.each do |structure|
       - next if structure.medias.cover_first.first.nil?
       .inline-block.one-half.very-soft.relative>
