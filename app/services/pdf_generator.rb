@@ -16,7 +16,7 @@ class PDFGenerator
 
 
     pdf = WickedPdf.new.pdf_from_string(invoice_str)
-    file.write(pdf) unless Rails.env.test?
+    file.write(pdf)
 
     true
   end
