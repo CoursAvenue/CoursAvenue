@@ -1,7 +1,13 @@
 RSpec.configure do |config|
-  MAILER_CLASSES = [AdminMailer, TestMailer, SuperAdminMailer, UserMailer,
-                    ParticipationRequestMailer, MailboxerMessageMailer,
-                    SubscriptionsSponsorshipMailer]
+  # MAILER_CLASSES = [AdminMailer, TestMailer, SuperAdminMailer, UserMailer,
+  #                   ParticipationRequestMailer, MailboxerMessageMailer,
+  #                   SubscriptionsSponsorshipMailer]
+
+  # We explicitely load all of the mailers so they are added to the ActionMailer::Base.descendants
+  # array before we use it.
+  Dir['app/mailers/*.rb'].each { |f| require File.basename(f, '.rb') }
+
+  MAILER_CLASSES = ActionMailer::Base.descendants
 
   config.before(:each) do
     unless self.to_s.include? 'Mailer' or self.to_s.include? 'Task'

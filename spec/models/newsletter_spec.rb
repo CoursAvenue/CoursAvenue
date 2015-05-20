@@ -109,7 +109,7 @@ RSpec.describe Newsletter, type: :model do
     end
   end
 
-  describe '#to_mandrill_message' do
+  describe '#to_mandrill_message', with_mail: true do
     it 'sets the right values' do
       mandrill_message = subject.to_mandrill_message
       body = MailerPreviewer.preview(NewsletterMailer.send_newsletter(subject, nil))
