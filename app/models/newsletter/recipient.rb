@@ -2,7 +2,7 @@ class Newsletter::Recipient < ActiveRecord::Base
   belongs_to :user_profile
   belongs_to :newsletter
 
-  attr_accessible :user_profile, :newsletter
+  attr_accessible :user_profile, :newsletter, :mandrill_message_id
 
   # The email of the recipient.
   #

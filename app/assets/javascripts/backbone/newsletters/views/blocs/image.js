@@ -2,6 +2,7 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
     Module.Image = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'image',
         tagName: 'div',
+
         className: function className () {
             var classes     = '';
             var layout      = this.model.collection.newsletter.get('layout');
@@ -54,7 +55,7 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
                 this.silentSave();
                 $.fancybox.close();
             }.bind(this));
-            $.fancybox.open(image_gallery_picker_view.$el, { width: 550, minWidth: 550, maxWidth: 550, padding: 0 });
+            $.fancybox.open(image_gallery_picker_view.$el, { width: 800, minWidth: 800, maxWidth: 800, height: 500, minHeight: 500, maxHeight: 500, padding: 0 });
         },
 
         // Custom render function.
@@ -95,6 +96,9 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
         deleteImage: function deleteImage () {
             this.model.unset('image');
             this.model.set('remote_image_url', '');
+            this.model.set('remove_image', '1');
+            this.model.save();
+            this.model.unset('remove_image');
 
             this.$el.find('img').hide();
             this.$el.find('img').attr('src', '');
@@ -117,17 +121,22 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
                 // Remove type to prevent from filepicker JS to initialize it anyway
                 $(elem).removeAttr('type');
             });
-            // Do not use silent save here.
-            // Because if there is two images on the page, only one of them will be saved
-            // Prevent from bug, dunnow why...
-            setTimeout(function() {
-                this.model.save();
-            }.bind(this), 500);
+            if (!this.model.has('id')) {
+                // Do not use silent save here.
+                // Because if there is two images on the page, only one of them will be saved
+                // Prevent from bug, dunnow why...
+                setTimeout(function() {
+                    this.model.save();
+                }.bind(this), 500);
+            }
         },
 
         silentSave: function silentSave () {
             this.model.save();
         }.debounce(500),
 
+        serializeData: function serializeData () {
+            return this.model.attributes;
+        },
     })
 });
