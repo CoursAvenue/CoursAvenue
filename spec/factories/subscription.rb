@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :subscription do
+    plan
 
     trait :canceled do
       canceled_at 10.days.ago
