@@ -19,11 +19,11 @@
     -# Ex: YOGA SATTVA PARIS - Essai GRATUIT - CoursAvenue.com
     - cache [@structure, 'structure/show/meta/title'] do
       - if @structure.is_open_for_trial?
-        #{@structure.name} - Essais GRATUIT - CoursAvenue.com
+        #{@structure.name.gsub('&', 'et')} - Essais GRATUIT - CoursAvenue.com
       - elsif @structure.has_promotion?
-        #{@structure.name} - PROMOTIONS - CoursAvenue.com
+        #{@structure.name.gsub('&', 'et')} - PROMOTIONS - CoursAvenue.com
       - else
-        #{@structure.name} - CoursAvenue.com
+        #{@structure.name.gsub('&', 'et')} - CoursAvenue.com
 
   = content_for :meta_description do
     -# Ex: Professeur Yoga Sattva Paris à Paris : Cours d'Essai Gratuits & Promotions.
