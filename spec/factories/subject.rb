@@ -2,7 +2,7 @@
 FactoryGirl.define do
 
   factory :subject do
-    name { Faker::Name.name }
+    name { Faker::Name.name + ' child'}
 
     factory :subject_children do
       name { Faker::Name.name + ' child' }
