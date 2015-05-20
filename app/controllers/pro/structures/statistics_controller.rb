@@ -25,7 +25,7 @@ class Pro::Structures::StatisticsController < Pro::ProController
       @impressions[date] = entry.metric1.to_i
       @views[date]       = entry.metric2.to_i
       @actions[date] = @structure.participation_requests.where(created_at: (date.beginning_of_day..date.end_of_day), from_personal_website: false).count
-      @actions[date] += @structure.conversations.where(created_at: (date.beginning_of_day..date.end_of_day),
+      @actions[date] += @structure.mailbox.conversations.where(created_at: (date.beginning_of_day..date.end_of_day),
                                                       mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count
       @actions[date] += @structure.followings.where(structure_id: @structure.id, created_at: (date.beginning_of_day..date.end_of_day)).count
     end
