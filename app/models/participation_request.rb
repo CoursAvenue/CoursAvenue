@@ -435,7 +435,8 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return
   def create_and_send_invoice
-    self.invoice = ParticipationRequest::Invoice.create(participation_request: self)
+    self.invoice = ParticipationRequest::Invoice.create(participation_request: self,
+                                                        payed_at:              Time.now)
     save
 
     ParticipationRequestMailer.delay.send_invoice_to_user(self)
