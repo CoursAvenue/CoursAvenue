@@ -14,7 +14,8 @@ describe PDFGenerator do
     end
 
     it 'generates the invoice as PDF' do
-      generated = PDFGenerator.generate_invoice(invoice, template)
+      locals    = invoice.send(:pdf_template_locals)
+      generated = PDFGenerator.generate_invoice(invoice, template, locals)
 
       expect(generated).to be_truthy
     end
