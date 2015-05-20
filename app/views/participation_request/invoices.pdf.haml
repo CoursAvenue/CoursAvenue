@@ -5,7 +5,7 @@
     .grid__item.seven-tenths>
     .grid__item.three-tenths>
       %div
-        %strong Facture n° #{@invoice.stripe_invoice_id}
+        %strong Facture n° #{@participation_request.stripe_charge_id}
       %div Date : #{l(@invoice.payed_at.to_date)}
       %div
         Moyen de paiement : carte bancaire
@@ -35,9 +35,9 @@
         %th.text--right Montant
     %tbody
       %tr.bordered--bottom
-        %td Abonnement
-        %td CoursAvenue Premium
-        %td 1
+        %td Cours
+        %td= @participation_request.course.name
+        %td= @participation_request.participants.count
         %td 20%
         %td= readable_amount(@invoice.amount)
         %td.text--right= readable_amount(@invoice.amount)
