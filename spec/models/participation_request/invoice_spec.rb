@@ -42,4 +42,10 @@ RSpec.describe ParticipationRequest::Invoice, type: :model do
       expect(subject.file_path).to eq(invoice_file_path)
     end
   end
+
+  describe '#amount' do
+    it 'returns the participation request amount' do
+      expect(subject.amount).to eq(subject.participation_request.price)
+    end
+  end
 end

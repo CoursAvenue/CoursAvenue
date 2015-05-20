@@ -32,6 +32,13 @@ class ParticipationRequest::Invoice < ActiveRecord::Base
     "invoices/#{ structure.slug }/participation_requests/#{ self.id }.pdf"
   end
 
+  # The amount of the invoice.
+  #
+  # @return Float
+  def amount
+    participation_request.price
+  end
+
   private
 
   # Generate the PDF for the invoice.
