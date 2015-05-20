@@ -62,6 +62,10 @@ class ParticipationRequest::Invoice < ActiveRecord::Base
   #
   # @return a hash.
   def pdf_template_locals
-    { :@invoice => self, :@structure => participation_request.structure }
+    {
+      :@invoice               => self,
+      :@participation_request => participation_request,
+      :@structure             => participation_request.structure
+    }
   end
 end
