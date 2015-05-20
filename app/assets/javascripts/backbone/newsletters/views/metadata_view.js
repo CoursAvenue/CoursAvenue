@@ -15,11 +15,15 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         silentSave: function silentSave (event) {
-            event.preventDefault();
+            if (event) { event.preventDefault(); }
             this.model.save();
 
             return false;
         }.debounce(500),
+
+        onShow: function onShow () {
+            this.silentSave();
+        },
 
         // Custom render function.
         // We start by calling the Marionette CompositeView's render function on this view.
