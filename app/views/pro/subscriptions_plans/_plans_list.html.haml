@@ -18,3 +18,21 @@
             %i.fa-trash-o
 
     %hr
+- @plans.each do |plan|
+  %h4= plan.name
+  %table.table--data.table--striped.table--hoverable
+    %thead
+      %tr
+        %th Structure
+        %th Depuis
+        %th.text--center À payé
+    %tbody
+      - plan.subscriptions.each do |subscription|
+        %tr
+          %td.seven-twelfths
+            = link_to subscription.structure.name, pro_structure_subscriptions_path(subscription.structure), target: :_blank
+          %td.four-twelfths= l(subscription.created_at)
+          %td.one-twelfths.text--center
+            - if subscription.stripe_subscription_id.present?
+              %i.fa.fa-check.green
+
