@@ -45,8 +45,9 @@ class ParticipationRequest::Invoice < ActiveRecord::Base
   #
   # @return nil or a String
   def generate_pdf!
-    PDFGenerator.generate_invoice(self, pdf_template)
+    PDFGenerator.generate_invoice(self, pdf_template, pdf_template_locals)
     self.generated = true
+
     save
   end
 
@@ -55,5 +56,12 @@ class ParticipationRequest::Invoice < ActiveRecord::Base
   # @return a String.
   def pdf_template
     'participation_request/invoices.pdf.haml'
+  end
+
+  # The locals used in the pdf template.
+  #
+  # @return a hash.
+  def pdf_template_locals
+    { :@invoice => self, :@structure => participation_request.structure }
   end
 end

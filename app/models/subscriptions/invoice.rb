@@ -31,7 +31,6 @@ class Subscriptions::Invoice < ActiveRecord::Base
     create!(structure: structure, subscription: subscription, stripe_invoice_id: stripe_invoice.id)
   end
 
-  # TODO: Memoize object.
   # Retrieve the Stripe::Invoice.
   #
   # @return nil or a Stripe::Invoice.
@@ -76,7 +75,7 @@ class Subscriptions::Invoice < ActiveRecord::Base
   #
   # @return nil or a String
   def generate_pdf!
-    PDFGenerator.generate_invoice(self, pdf_template)
+    PDFGenerator.generate_invoice(self, pdf_template, pdf_template_locals)
     self.generated = true
     save
   end
@@ -86,5 +85,12 @@ class Subscriptions::Invoice < ActiveRecord::Base
   # @return a String.
   def pdf_template
     'pro/subscriptions/invoices.pdf.haml'
+  end
+
+  # The locals used in the pdf template.
+  #
+  # @return a hash.
+  def pdf_template_locals
+    { :@invoice => self, :@structure => structure }
   end
 end
