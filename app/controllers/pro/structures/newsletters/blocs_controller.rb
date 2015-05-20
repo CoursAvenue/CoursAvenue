@@ -16,7 +16,6 @@ class Pro::Structures::Newsletters::BlocsController < ApplicationController
 
   def update
     @bloc = @newsletter.blocs.find params[:id]
-
     respond_to do |format|
       if @bloc.update_attributes permitted_params
         format.json { render json: @bloc, status: 201 }
@@ -74,6 +73,6 @@ class Pro::Structures::Newsletters::BlocsController < ApplicationController
   end
 
   def permitted_params
-    params.require(:bloc).permit(:position, :type, :content, :remote_image_url)
+    params.require(:bloc).permit(:position, :type, :content, :remote_image_url, :remove_image)
   end
 end
