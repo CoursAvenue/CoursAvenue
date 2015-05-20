@@ -53,8 +53,7 @@
         %td
         %td
         %td Remise
-        -# TODO: take promo codes in acount
-        %td.text--right 0,00€
+        %td.text--right= readable_amount(@invoice.coupon_amount)
       %tr.no-stripe
         %td
         %td

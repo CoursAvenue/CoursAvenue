@@ -69,6 +69,15 @@ class Subscriptions::Invoice < ActiveRecord::Base
     stripe_invoice.amount_due / 100.0
   end
 
+  # The amount of the coupon applied to the charge
+  #
+  # @return a Float.
+  def coupon_amount
+    return 0.0 unless subscription.has_coupon? and subscription.coupon.still_valid?
+
+    subscription.coupon.amount
+  end
+
   private
 
   # Generate the PDF for the invoice.

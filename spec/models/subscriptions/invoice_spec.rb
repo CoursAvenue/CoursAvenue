@@ -112,4 +112,23 @@ RSpec.describe Subscriptions::Invoice, type: :model, with_stripe: true do
       end
     end
   end
+
+  describe '#coupon_amount' do
+    context "when there isn't a coupon" do
+      it { expect(subject.coupon_amount).to eq(0) }
+    end
+
+    context "when there's a coupon" do
+      let(:coupon_amount) { (1..10).to_a.sample.to_f }
+      let(:coupon)        { FactoryGirl.create(:subscriptions_coupon, amount: coupon_amount) }
+
+      before do
+        subscription.apply_coupon(coupon)
+      end
+
+      it 'returns the amount of the coupon code' do
+        expect(subject.coupon_amount).to eq(coupon_amount)
+      end
+    end
+  end
 end
