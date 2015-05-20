@@ -8,10 +8,12 @@ describe ParticipationRequest do
 
   subject { FactoryGirl.create(:participation_request, :with_participants) }
 
-  let(:participation_request)  { FactoryGirl.create(:participation_request) }
-  let(:structure)              { FactoryGirl.create(:structure_with_admin) }
-  let(:planning)               { FactoryGirl.create(:planning) }
-  let(:user)                   { FactoryGirl.create(:user) }
+  let(:participation_request) { FactoryGirl.create(:participation_request) }
+  let(:structure)             { FactoryGirl.create(:structure_with_admin) }
+  let(:planning)              { FactoryGirl.create(:planning) }
+  let(:user)                  { FactoryGirl.create(:user) }
+  let(:message)               { Faker::Lorem.paragraph }
+
 
   describe '#create_and_send_message' do
     it 'saves it' do
@@ -20,7 +22,7 @@ describe ParticipationRequest do
         planning_id:   planning.id,
         date:          Date.tomorrow.to_s,
         structure_id:  structure.id,
-        message: { body: 'lala' }
+        message: { body: message }
       }
       pr = ParticipationRequest.create_and_send_message(request_attributes, user)
       expect(pr).to be_persisted
@@ -291,12 +293,14 @@ describe ParticipationRequest do
 
   describe '#accept!', with_mail: true do
     it 'changes the status to accepted' do
-      participation_request.accept!('lala', 'User')
+      # byebug
+      participation_request.accept!(message, 'User')
+      # byebug
       expect(participation_request.accepted?).to be_truthy
     end
 
     it 'sends a message' do
-      expect{ participation_request.accept!('lala', 'User') }.to change {
+      expect{ participation_request.accept!(message, 'User') }.to change {
         participation_request.reload.conversation.messages.length
       }.by(1)
     end
@@ -312,7 +316,6 @@ describe ParticipationRequest do
       let!(:user)         { subject.user }
       let!(:structure)    { subject.structure }
       let(:token)         { stripe_helper.generate_card_token }
-      let(:message)       { Faker::Lorem.paragraph }
 
       before do
         structure.create_managed_account
@@ -337,18 +340,18 @@ describe ParticipationRequest do
 
   describe '#modify_date!' do
     it 'changes the status to pending' do
-      participation_request.modify_date!('lala', { date: Date.tomorrow.to_s }, 'User')
+      participation_request.modify_date!(message, { date: Date.tomorrow.to_s }, 'User')
       expect(participation_request.pending?).to be_truthy
     end
 
     it 'sends a message' do
-      expect{ participation_request.modify_date!('lala', { date: Date.tomorrow.to_s }, 'User') }.to change {
+      expect{ participation_request.modify_date!(message, { date: Date.tomorrow.to_s }, 'User') }.to change {
         participation_request.reload.conversation.messages.length
       }.by(1)
     end
 
     it 'modify the date' do
-      participation_request.modify_date!('lala', { date: Date.tomorrow.to_s }, 'User')
+      participation_request.modify_date!(message, { date: Date.tomorrow.to_s }, 'User')
       expect(participation_request.date).to eq Date.tomorrow
     end
   end
