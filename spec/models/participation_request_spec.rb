@@ -293,14 +293,12 @@ describe ParticipationRequest do
 
   describe '#accept!', with_mail: true do
     it 'changes the status to accepted' do
-      # byebug
       participation_request.accept!(message, 'User')
-      # byebug
       expect(participation_request.accepted?).to be_truthy
     end
 
     it 'sends a message' do
-      expect{ participation_request.accept!(message, 'User') }.to change {
+      expect{ participation_request.accept!(message) }.to change {
         participation_request.reload.conversation.messages.length
       }.by(1)
     end
