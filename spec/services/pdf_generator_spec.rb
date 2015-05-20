@@ -13,10 +13,10 @@ describe PDFGenerator do
       expect(PDFGenerator.generate_invoice(nil, nil)).to be_nil
     end
 
-    xit 'generates the invoice as PDF' do
-      PDFGenerator.generate_invoice(invoice, template)
+    it 'generates the invoice as PDF' do
+      generated = PDFGenerator.generate_invoice(invoice, template)
 
-      expect(WickedPdf).to receive(:pdf_from_string)
+      expect(generated).to be_truthy
     end
   end
 end
