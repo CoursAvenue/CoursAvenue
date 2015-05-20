@@ -9,8 +9,11 @@ class PDFGenerator
     return nil if invoice.nil? or template.nil?
 
     file        = CoursAvenue::Application::S3_BUCKET.objects[invoice.file_path]
-    invoice_str = ApplicationController.new.render_to_string(template, layout: 'layouts/pdf.html.haml',
-                                                             locals: { :@invoice => invoice })
+    locals      = { :@invoice => invoice, :@structure => invoice.structure }
+    invoice_str = ApplicationController.new.render_to_string(template,
+                                                             layout: 'layouts/pdf.html.haml',
+                                                             locals: locals)
+
 
     pdf = WickedPdf.new.pdf_from_string(invoice_str)
     file.write(pdf) unless Rails.env.test?
