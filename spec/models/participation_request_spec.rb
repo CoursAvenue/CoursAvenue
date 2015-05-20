@@ -343,9 +343,8 @@ describe ParticipationRequest do
     end
 
     it 'sends a message' do
-      expect{ participation_request.modify_date!(message, { date: Date.tomorrow.to_s }, 'User') }.to change {
-        participation_request.reload.conversation.messages.length
-      }.by(1)
+      expect{ participation_request.modify_date!(message, { date: Date.tomorrow.to_s }, 'User') }.
+        to change { participation_request.reload.conversation.messages.length }.by(1)
     end
 
     it 'modify the date' do
