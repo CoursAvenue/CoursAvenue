@@ -1,2 +1,76 @@
-= @invoice.participation_request.structure.name
+.bg-white
+  %div CoursAvenue
+
+  .grid
+    .grid__item.seven-tenths>
+    .grid__item.three-tenths>
+      %div
+        %strong Facture n° #{@invoice.stripe_invoice_id}
+      %div Date : #{l(@invoice.payed_at.to_date)}
+      %div
+        Moyen de paiement : carte bancaire
+  %div.three-tenths>
+    %div= @structure.name
+    %div= @structure.street
+    %div= "#{@structure.city.zip_code} #{@structure.city.commune_name}"
+    %div FRANCE
+
+  .grid
+    .grid__item.seven-tenths>
+    .grid__item.three-tenths>
+      %div
+        %strong Destinataire
+        %div= @participation_request.user.name
+  %p
+    %strong
+      Détails de la facture
+  %table.table--data.table--striped
+    %thead
+      %tr
+        %th Type
+        %th Description
+        %th Qté
+        %th TVA
+        %th Prix Unit.
+        %th.text--right Montant
+    %tbody
+      %tr.bordered--bottom
+        %td Abonnement
+        %td CoursAvenue Premium
+        %td 1
+        %td 20%
+        %td= readable_amount(@invoice.amount)
+        %td.text--right= readable_amount(@invoice.amount)
+      %tr.no-stripe
+        %td
+        %td
+        %td
+        %td
+        %td Total HT
+        %td.text--right= readable_amount(@invoice.amount / 1.20)
+      %tr.no-stripe
+        %td
+        %td
+        %td
+        %td
+        %td TVA
+        %td.text--right= readable_amount(@invoice.amount - (@invoice.amount / 1.20))
+      %tr.no-stripe.f-weight-bold
+        %td
+        %td
+        %td
+        %td
+        %td Total TTC
+        %td.text--right= readable_amount(@invoice.amount)
+      %tr.no-stripe.f-weight-bold
+        %td
+        %td
+        %td
+        %td
+        %td PAYÉ
+        %td.text--right= readable_amount(@invoice.amount)
+
+  %div Siret : 79009610100015 - APE 6201Z - 790 096 101 R.C.S. Paris
+  %div N° TVA intracommunautaire FR01790096101
+  %div CoursAvenue - SAS au capital de 19 748 euros
 
