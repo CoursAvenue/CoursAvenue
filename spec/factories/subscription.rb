@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :subscription do
-    plan
+    association :plan, factory: :subscriptions_plan
 
     trait :canceled do
       canceled_at 10.days.ago
