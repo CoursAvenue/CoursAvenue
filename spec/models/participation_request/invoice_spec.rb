@@ -14,31 +14,6 @@ RSpec.describe ParticipationRequest::Invoice, type: :model do
 
   subject { FactoryGirl.create(:participation_request_invoice, participation_request: pr) }
 
-  # describe '#stripe_invoice' do
-  #   context "when there isn't a stripe_invoice_id" do
-  #     subject { FactoryGirl.create(:participation_request_invoice, participation_request: pr) }
-  #
-  #     it 'returns nil' do
-  #       expect(subject.stripe_invoice).to be_nil
-  #     end
-  #   end
-  #
-  #   context "when there's a stripe_invoice_id" do
-  #     before do
-  #       allow_any_instance_of(Structure).to receive(:can_receive_payments?).and_return(true)
-  #       token = stripe_helper.generate_card_token
-  #
-  #       pr.charge!(token)
-  #     end
-  #
-  #     it 'returs a Stripe::Invoice' do
-  #       stripe_invoice = Stripe::Invoice
-  #
-  #       expect(subject.stripe_invoice).to be_a(stripe_invoice)
-  #     end
-  #   end
-  # end
-
   describe 'pdf_url' do
     # context "when there isn't a stripe_invoice_id" do
     #

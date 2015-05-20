@@ -5,22 +5,13 @@ class ParticipationRequest::Invoice < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :stripe_invoice_id, :participation_request
+  attr_accessible :participation_request, :payed_at
 
   belongs_to :participation_request
 
   ######################################################################
   # Methods                                                            #
   ######################################################################
-
-  # Retrieve the Stripe::Invoice.
-  #
-  # @return nil or a Stripe::Invoice.
-  # def stripe_invoice
-  #   return nil if stripe_invoice_id.nil?
-  #
-  #   Stripe::Invoice.retrieve(stripe_invoice_id)
-  # end
 
   # The URL of the invoice as a PDF. (Hosted on S3)
   #
