@@ -5,11 +5,16 @@ RSpec.describe Subscriptions::Invoice, type: :model, with_stripe: true do
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 
+  context 'associations' do
+    it { should belong_to(:structure) }
+    it { should belong_to(:subscription) }
+  end
+
   let(:stripe_helper)  { StripeMock.create_test_helper }
   let(:plan)           { FactoryGirl.create(:subscriptions_plan) }
   let(:structure)      { FactoryGirl.create(:structure, :with_contact_email) }
   let(:token)          { stripe_helper.generate_card_token }
-  let!(:subscription)   { plan.create_subscription!(structure) }
+  let!(:subscription)  { plan.create_subscription!(structure) }
   let(:stripe_invoice) { Stripe::Invoice.upcoming(customer: structure.stripe_customer_id) }
 
   subject do
@@ -20,9 +25,6 @@ RSpec.describe Subscriptions::Invoice, type: :model, with_stripe: true do
   before do
     subscription.charge!(token)
   end
-
-  it { should belong_to(:structure) }
-  it { should belong_to(:subscription) }
 
   describe '.create_from_stripe_invoice' do
     it "returns nothing if there's no invoice" do
@@ -89,6 +91,25 @@ RSpec.describe Subscriptions::Invoice, type: :model, with_stripe: true do
       invoice_file_path = "invoices/#{subject.structure.slug}/subscriptions/#{subject.id}.pdf"
 
       expect(subject.file_path).to eq(invoice_file_path)
+    end
+  end
+
+  describe '#amount' do
+    context "when there's a stripe invoice" do
+      subject { FactoryGirl.create(:subscriptions_invoice,
+                                   structure: structure, subscription: subscription) }
+
+      it 'returns the plan amount' do
+        expect(subject.amount).to eq(plan.amount)
+      end
+    end
+
+    context "when there's a stripe invoice" do
+      it 'returns the amount on the stripe invoice' do
+        stripe_invoice_amount = subject.stripe_invoice.amount_due / 100.0
+
+        expect(subject.amount).to eq(stripe_invoice_amount)
+      end
     end
   end
 end

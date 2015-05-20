@@ -59,8 +59,15 @@ class Subscriptions::Invoice < ActiveRecord::Base
     "invoices/#{ self.structure.slug }/subscriptions/#{ self.id }.pdf"
   end
 
+  # The amount of the invoice.
+  # If the invoice exists but doesn't have a stripe invoice id (unlikely), it returns the plan
+  # amount. It return the amount on the stripe invoice otherwise.
+  #
+  # @return a Float.
   def amount
-    subscription.plan.amount
+    return subscription.plan.amount if stripe_invoice_id.nil?
+
+    stripe_invoice.amount_due / 100.0
   end
 
   private
