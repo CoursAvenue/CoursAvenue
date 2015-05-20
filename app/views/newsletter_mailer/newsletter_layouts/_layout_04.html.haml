@@ -5,6 +5,6 @@
         - bloc.sub_blocs.order('position ASC').each do |sub_bloc|
           - if sub_bloc.image?
             .soft-half--bottom
-              = image_tag sub_bloc.image.url, alt: @newsletter.title, class: 'center-block', style: 'max-width: 300px';
+              = image_tag sub_bloc.image.url, alt: @newsletter.title, class: 'center-block', style: 'max-width: 300px', width: 300
           - elsif sub_bloc.content.present?
             = sub_bloc.content.html_safe
