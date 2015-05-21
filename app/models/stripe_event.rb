@@ -104,8 +104,9 @@ class StripeEvent < ActiveRecord::Base
   def payment_succeeded
     stripe_invoice = stripe_event.data.object
     invoice = Subscriptions::Invoice.create_from_stripe_invoice(stripe_invoice)
-    invoice.subscription.resume! if invoice.subscription.paused?
+    return false if invoice.nil?
 
+    invoice.subscription.resume! if invoice.subscription.paused?
     SubscriptionMailer.delay.invoice_creation_notification(invoice)
 
     true
