@@ -46,6 +46,8 @@ class StripeEvent < ActiveRecord::Base
   scope :processed,             -> { where(processed: true) }
   scope :not_processed,         -> { where(processed: false) }
 
+  scope :not_in_the_last_month, -> { where( arel_table[:created_at].lt(1.month.ago) ) }
+
   ######################################################################
   # Methods                                                            #
   ######################################################################
