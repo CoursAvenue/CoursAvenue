@@ -1,4 +1,6 @@
 class StripeWebhookController < ApplicationController
+  protect_against_forgery except: :create
+
   def create
     if params[:id].present?
       @event = Stripe::Event.retrieve(params[:id])
