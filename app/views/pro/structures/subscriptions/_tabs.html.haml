@@ -7,6 +7,7 @@
       %li{ class: current == 'invoices' ? 'active' : '' }
         = link_to pro_structure_invoices_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
           Factures
-    %li{ class: current == 'sponsorships' ? 'active' : '' }
-      = link_to pro_structure_subscriptions_sponsorships_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
-        Parrainage
+    - if @structure.subscription.present? and (@structure.subscription.active? or @structure.subscription.in_trial?)
+      %li{ class: current == 'sponsorships' ? 'active' : '' }
+        = link_to pro_structure_subscriptions_sponsorships_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+          Parrainage
