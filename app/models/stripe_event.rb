@@ -40,6 +40,13 @@ class StripeEvent < ActiveRecord::Base
   validates :event_type,      presence: true
 
   ######################################################################
+  # Scopes                                                             #
+  ######################################################################
+
+  scope :processed,             -> { where(processed: true) }
+  scope :not_processed,         -> { where(processed: false) }
+
+  ######################################################################
   # Methods                                                            #
   ######################################################################
 
@@ -58,7 +65,9 @@ class StripeEvent < ActiveRecord::Base
   #
   # @return a boolean
   def self.processed?(stripe_event_object)
-    where(stripe_event_id: stripe_event_object.id).any?
+    event = where(stripe_event_id: stripe_event_object.id).first
+
+    event.present? and event.processed?
   end
 
   # Save and process an event.
@@ -78,22 +87,26 @@ class StripeEvent < ActiveRecord::Base
   #
   # @return a Boolean
   def process!
-    case event_type
-    when 'invoice.payment_succeeded'            then payment_succeeded
-    when 'invoice.payment_failed'               then payment_failed
+    self.processed =
+      case event_type
+      when 'invoice.payment_succeeded'            then payment_succeeded
+      when 'invoice.payment_failed'               then payment_failed
 
-    when 'charge.dispute.created'               then dispute_created
-    when 'charge.dispute.funds_withdrawn'       then dispute_funds_withdrawn
-    when 'charge.dispute.funds_reinstated'      then dispute_funds_reinstated
+      when 'charge.dispute.created'               then dispute_created
+      when 'charge.dispute.funds_withdrawn'       then dispute_funds_withdrawn
+      when 'charge.dispute.funds_reinstated'      then dispute_funds_reinstated
 
-    when 'customer.deleted'                     then delete_stripe_customer
-    when 'customer.subscription.created'        then customer_subscription_created
+      when 'customer.deleted'                     then delete_stripe_customer
+      when 'customer.subscription.created'        then customer_subscription_created
 
-    when 'account.updated'                      then account_updated
+      when 'account.updated'                      then account_updated
 
-    when 'ping'                                 then no_op
-    else false
-    end
+      when 'ping'                                 then no_op
+      else false
+      end
+    save
+
+    self.processed
   end
 
   private
