@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'stripe_mock'
 
 RSpec.describe Pro::Structures::InvoicesController, type: :controller, with_stripe: true do
   include Devise::TestHelpers

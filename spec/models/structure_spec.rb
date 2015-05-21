@@ -3,7 +3,10 @@ require 'rails_helper'
 require 'stripe_mock'
 
 describe Structure do
-  # it { should have_many(:newsletters) }
+  before(:all) { StripeMock.start }
+  after(:all)  { StripeMock.stop }
+
+  it { should have_many(:newsletters) }
 
   subject {structure}
   let(:structure) { FactoryGirl.create(:structure) }
@@ -408,9 +411,6 @@ describe Structure do
   end
 
   context 'Stripe', with_stripe: true do
-    before(:all) { StripeMock.start }
-    after(:all)  { StripeMock.stop }
-
     let(:stripe_helper) { StripeMock.create_test_helper }
 
     it_behaves_like 'StripeCustomer'
