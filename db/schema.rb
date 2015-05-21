@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150513155126) do
+ActiveRecord::Schema.define(version: 20150521082706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1000,6 +1000,7 @@ ActiveRecord::Schema.define(version: 20150513155126) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "event_type"
+    t.datetime "deleted_at"
   end
 
   add_index "stripe_events", ["stripe_event_id"], name: "index_stripe_events_on_stripe_event_id", unique: true, using: :btree

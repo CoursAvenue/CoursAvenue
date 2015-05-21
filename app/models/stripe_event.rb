@@ -1,4 +1,5 @@
 class StripeEvent < ActiveRecord::Base
+  acts_as_paranoid
 
   ######################################################################
   # Constants                                                          #
