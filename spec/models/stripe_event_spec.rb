@@ -155,9 +155,9 @@ RSpec.describe StripeEvent, type: :model, with_stripe: true do
           FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
         end
 
-        it 'sends an email to the admins and to the teacher', with_mail: true # do
-          # expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(2)
-        #end
+        it 'sends an email to the admins', with_mail: true do
+          expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(1)
+        end
 
         it 'cancels the subscription' do
           subject.process!
