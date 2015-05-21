@@ -6,7 +6,7 @@
     .grid__item.three-tenths>
       %div
         %strong Facture n° #{@invoice.stripe_invoice_id}
-      %div Date : #{l(@invoice.payed_at.to_date)}
+      %div Date : #{ @invoice.payed_at.present? ? l(@invoice.payed_at.to_date) : 'En Cours' }
       %div
         Moyen de paiement : carte bancaire
   %div.three-tenths>
