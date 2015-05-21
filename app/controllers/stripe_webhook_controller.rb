@@ -1,5 +1,5 @@
 class StripeWebhookController < ApplicationController
-  protect_against_forgery except: :create
+  protect_from_forgery except: :create
 
   def create
     if params[:id].present?
