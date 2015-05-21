@@ -46,6 +46,13 @@ RSpec.describe Subscriptions::Invoice, type: :model, with_stripe: true do
 
       expect(invoice).to be_a(Subscriptions::Invoice)
     end
+
+    it 'sets the payed_at date' do
+      subscription # So the stripe_customer_id creates itself.
+      invoice = Subscriptions::Invoice.create_from_stripe_invoice(stripe_invoice)
+
+      expect(invoice.payed_at).to_not be_nil
+    end
   end
 
   describe '#stripe_invoice' do

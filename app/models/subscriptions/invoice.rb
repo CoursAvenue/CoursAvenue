@@ -5,7 +5,7 @@ class Subscriptions::Invoice < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :stripe_invoice_id, :structure, :subscription
+  attr_accessible :stripe_invoice_id, :structure, :subscription, :payed_at
 
   belongs_to :structure
   belongs_to :subscription
@@ -28,7 +28,10 @@ class Subscriptions::Invoice < ActiveRecord::Base
     subscription = Subscription.where(stripe_subscription_id: stripe_invoice.subscription).first
     structure    = subscription.structure
 
-    create!(structure: structure, subscription: subscription, stripe_invoice_id: stripe_invoice.id)
+    create!(structure:         structure,
+            payed_at:          Time.at(stripe_invoice.date.to_i),
+            subscription:      subscription,
+            stripe_invoice_id: stripe_invoice.id)
   end
 
   # Retrieve the Stripe::Invoice.
