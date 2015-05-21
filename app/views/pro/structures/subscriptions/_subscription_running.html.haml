@@ -51,7 +51,7 @@
 - if @structure.stripe_managed_account_id.blank?
   .text--center
     = link_to 'Activer la reception des paiements', 'javascript:void(0)', class: 'btn btn--green', data: { behavior: 'toggle-form' }
-    = render 'accept_payments'
+  = render 'accept_payments'
 
 - content_for :scripts do
   = javascript_include_tag '//checkout.stripe.com/checkout.js'
