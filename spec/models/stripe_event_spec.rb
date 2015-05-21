@@ -195,6 +195,20 @@ RSpec.describe StripeEvent, type: :model, with_stripe: true do
         end
       end
 
+      context 'customer.subscription.created' do
+        let(:event_type)   { 'customer.subscription.created' }
+        let(:customer)     { structure.stripe_customer }
+        let(:stripe_event) { StripeMock.mock_webhook_event(event_type, customer.as_json) }
+
+        subject do
+          FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
+        end
+
+        it 'creates a new invoice' do
+          expect { subject.process! }.to change { Subscriptions::Invoice.count }.by(1)
+        end
+      end
+
       context 'customer.deleted' do
         let(:event_type)   { 'customer.deleted' }
         let(:customer)     { structure.stripe_customer }

@@ -18,6 +18,7 @@ class StripeEvent < ActiveRecord::Base
     'charge.dispute.funds_reinstated',
 
     'customer.deleted',
+    'customer.subscription.created',
 
     'account.updated',
 
@@ -86,6 +87,7 @@ class StripeEvent < ActiveRecord::Base
     when 'charge.dispute.funds_reinstated'      then dispute_funds_reinstated
 
     when 'customer.deleted'                     then delete_stripe_customer
+    when 'customer.subscription.created'        then customer_subscription_created
 
     when 'account.updated'                      then account_updated
 
@@ -216,6 +218,23 @@ class StripeEvent < ActiveRecord::Base
     else
       false
     end
+  end
+
+  # Process for the `customer.subscription.created` event.
+  #
+  # @return a Boolean
+  def customer_subscription_created
+    stripe_customer = stripe_event.data.object
+    structure = Structure.where(stripe_customer_id: stripe_customer.id).first
+    return false if structure.nil?
+
+    customer_id = structure.stripe_customer_id
+    invoice = Stripe::Invoice.upcoming(customer: customer_id) ||
+      Stripe::Invoice.all(customer: customer_id, limit: 1).first
+    return false if invoice.nil?
+
+    Subscriptions::Invoice.create_from_stripe_invoice(invoice)
+    true
   end
 
   # Process for the `account.updated` event.
