@@ -1,5 +1,8 @@
 class StripeEvent < ActiveRecord::Base
+  extend FriendlyId
+
   acts_as_paranoid
+  friendly_id :stripe_event_id, use: [:finders]
 
   ######################################################################
   # Constants                                                          #
