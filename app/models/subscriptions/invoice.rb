@@ -26,8 +26,9 @@ class Subscriptions::Invoice < ActiveRecord::Base
     return invoice unless invoice.nil?
 
     subscription = Subscription.where(stripe_subscription_id: stripe_invoice.subscription).first
-    structure    = subscription.structure
+    return nil if subscription.nil?
 
+    structure    = subscription.structure
     create!(structure:         structure,
             payed_at:          Time.at(stripe_invoice.date.to_i),
             subscription:      subscription,
