@@ -1,21 +1,14 @@
 = simple_form_for [:pro, @coupon], remote: true do |form|
   .panel
-    .panel__header.soft
-      %h4.flush.inline-block.v-middle
-        %span.v-middle
-          Nom du code promo
-        = form.input :name, label: false, input_html: { class: 'input--large', style: 'width: 20em;' }, wrapper_html: { class: 'inline-block v-middle flush--ends push-half--left' }, disabled: @showing
-      %p.flush
-        %i.blue
-          Ce nom sera affiché sur les factures et dans
-          = link_to "l'interface de Stripe", 'https://dashboard.stripe.com/coupons', target: :_blank
-          et doit être unique
     .panel__body.soft--ends
       .soft--sides
-        = form.input :amount, label: 'Montant', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: '20€', min: '0' }, disabled: @showing
-      .soft--sides
+        = form.input :stripe_coupon_id, label: 'Nom du code promo', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: 'SPECIAL-ETE-2015' }, disabled: @showing
+        = form.input :name, label: 'Description', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: "Réduction de 30€ jusqu'à Janvier" }, disabled: @showing
         - duration = Subscriptions::Coupon::DURATIONS
+        = form.input :amount, label: 'Montant', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: '20€', min: '0' }, disabled: @showing
         = form.input :duration, as: :select, collection: duration.keys, label_method: lambda { |key| duration[key] }, default: duration.keys.first, label: 'Durée', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, disabled: @showing
+        = form.input :duration_in_months, as: :select, collection: [nil] + (1..6).to_a, default: nil, label: 'Durée en mois', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, disabled: @showing
+        = form.input :redeem_by, as: :date, label: "Date d'expiration", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, disabled: @showing
       - unless @showing
         .soft--sides
           .grid.push--top

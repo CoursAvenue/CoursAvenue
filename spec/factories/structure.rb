@@ -11,10 +11,9 @@ FactoryGirl.define do
 
     structure_type     Structure::STRUCTURE_TYPES.sample
 
-    after(:build) do |structure|
-      structure.subjects << FactoryGirl.build(:subject)
-      structure.subjects << FactoryGirl.build(:subject_children)
+    subjects { [ FactoryGirl.create(:subject), FactoryGirl.create(:subject_with_grand_parent) ] }
 
+    after(:build) do |structure|
       structure.places   << FactoryGirl.build(:place, structure: structure)
       structure.save
     end

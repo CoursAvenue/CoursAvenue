@@ -1,26 +1,52 @@
 - content_for :email_title do
-  = "#{ @structure.name } veut vous parrainer !"
+  = "#{ @structure.name } vous offre 1 mois gratuit sur CoursAvenue"
 
-- if @message.present?
-  .gray-box.soft-half
-    %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
-      %tr{ valign: 'top' }
-        %td.text--center.v-top.content-block{ width: 125 }
-          = link_to structure_url(@structure, subdomain: 'www'), class: 'block' do
-            = image_tag @structure.logo.url(:thumb), class: 'message__avatar rounded--circle bordered', width: 50, height: 50, alt: "Logo de #{ @structure.name }"
-          .p.text--center.milli
-            %strong= @structure.name
-
-        %td.soft-half--left.v-top.content-block{ width: 475 }
-          .p
-          = simple_format(@message).gsub('<p>', '<div class="p">').gsub('</p>', '</div>').html_safe
+.p Bonjour,
 
 .p
-  #{ @structure.name } veut vous parrainer à l'abonnement Pro CoursAvenue !
+  %strong Félicitations !
+  Grâce à l'invitation de #{@structure.name}, vous bénéficiez
+  %strong d'1 mois gratuit
+  sur l'une de nos offres CoursAvenue, qui ont pour objectif d'augmenter vos inscriptions grâce à Internet.
 
-  Pour commenecer votre essai gratuit et accepter ce parrainage, veuillez cliquer sur le lien suivant:
+.p
+  Pour bénéficier de l'offre de parrainage, choisissez puis activez votre abonnement :
 
 .p.action
-  = link_to "Accepeter le parrainage", pro_subscriptions_sponsorship_url(@sponsorship)
+  = link_to "Bénéficier d'1 mois gratuit", pro_subscriptions_sponsorship_url(@sponsorship), class: 'btn btn--green'
+
+.p
+  Ou, utilisez ce code promo lors du paiement de votre abonnement :
+
+.p
+  .gray-box.soft-half.text--center
+    %strong= @sponsorship.token
+
+.p
+  CoursAvenue vous permet de développer vos activités sur Internet qui est de loin le 1er canal d'acquisition de nouveaux inscrits. Accédez au
+  = link_to 'détail de nos offres', pro_pages_price_url(subdomain: 'pro')
+  ainsi qu'à
+  = link_to 'tous nos conseils', pro_blog_articles_url(subdomain: 'pro')
+  utiles pour communiquer efficacement.
+
+.p
+  Si vous avez des questions, n'hésitez pas !
 
 = render 'shared/mailers/footer'
+
+- if @message.present?
+  - content_for :under_content do
+    .title Message de #{@structure.name}
+    .gray-box.soft-half
+      %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+        %tr{ valign: 'top' }
+          %td.text--center.v-top.content-block{ width: 125 }
+            = link_to structure_url(@structure, subdomain: 'www'), class: 'block' do
+              = image_tag @structure.logo.url(:thumb), class: 'message__avatar rounded--circle bordered', width: 50, height: 50, alt: "Logo de #{ @structure.name }"
+            .p.text--center.milli
+              %strong= @structure.name
+
+          %td.soft-half--left.v-top.content-block{ width: 475 }
+            .p
+            = simple_format(@message).gsub('<p>', '<div class="p">').gsub('</p>', '</div>').html_safe
+

@@ -84,11 +84,79 @@
                     <textarea name="message[body]" id="" cols="30" rows="12" class="one-whole input--large" style='height: 185px;' data-behavior='autoresize'>{{#unless errors.body}}{{ participation_request.message.body }}{{/unless}}</textarea>
                 </div>
                 <div data-error="message_body" class="soft--sides {{#unless errors.body}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.body}}</div>
+                {{#if in_two_steps}}
+                <div class="soft--sides">
+                  <a data-behavior="show-third-step-form" class="hidden btn btn--green btn--full">
+                    Payer
+                  </a>
+                </div>
+
+                <div class="soft--sides">
+                  <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi..." data-behavior='skip-third-step-form'>
+                    Enregistrer
+                  </button>
+                </div>
+                {{/if}}
+            </div>
+            <div data-element="third-step-form-wrapper" class="hidden">
+                {{#if in_two_steps}}
+                  <div class="soft--sides soft-half--top push-half--bottom">
+                    <div class="soft-half--bottom"><a href="#" data-behavior="show-second-step-form">← Changer le message</a></div>
+                    <div class="epsilon f-weight-500">
+                      Le paiement ne sera effectué que lorsque votre demande sera acceptée.
+                    </div>
+                  </div>
+                {{/if}}
+
+                <div class="push-half--bottom soft--sides">
+                    <div class="input-addon">
+                        <div class="input-prefix">
+                            <i class="fa-credit-card"></i>
+                        </div>
+                        <input type="text" class="input--large one-whole hard--right" name='card[number]' type='text' placeholder='Votre numéro de carte' data-toggle="popover" data-content="" data-trigger="hover" data-placement="left" data-stripe='number'>
+                    </div>
+                </div>
+
+                <div class="push-half--bottom soft--sides">
+
+                  <div class='one-half inline-block v-top'>
+                    <div class="input-addon">
+                      <div class="input-prefix">
+                        <i class="fa-calendar"></i>
+                      </div>
+                      <input type="text" class="input--large one-whole hard--right" name='card[exp_month]' type='text' placeholder="Mois d'expiration" data-toggle="popover" data-content="" data-trigger="hover" data-placement="left" data-stripe='exp_month'>
+                    </div>
+                  </div>{{!--
+
+                  --}}<div class='one-half inline-block v-top'>
+                    <input type="text" class="input--large one-whole hard--right" name='card[exp_year]' type='text' placeholder="Année d'expiration" data-toggle="popover" data-content="" data-trigger="hover" data-placement="left" data-stripe='exp_year'>
+                  </div>
+
+                </div>
+
+                <div class="push-half--bottom soft--sides">
+                  <div class="input-addon">
+                    <div class="input-prefix">
+                      <i class="fa-lock"></i>
+                    </div>
+                    <input type="text" class="input--large one-whole hard--right" name='card[cvc]' type='text' placeholder='Votre code de sécurité' data-toggle="popover" data-content="" data-trigger="hover" data-placement="left" data-stripe='cvc'>
+                  </div>
+
+                  <div data-error="stripe-error" class="hidden input_field_error red f-weight-bold text--right"></div>
+                </div>
+
+                <input type='hidden' class='hidden' name='card[token]' data-stripe='token'>
+
                 <div class="soft--sides">
                     <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
-                        Envoyer ma demande d'inscription
+                        Enregistrer
                     </button>
                 </div>
+            </div>
+            <div class="soft--sides hidden" data-element='form-submit'>
+                <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
+                    Enregistrer
+                </button>
             </div>
         </form>
     </article>

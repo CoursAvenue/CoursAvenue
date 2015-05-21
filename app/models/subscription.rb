@@ -7,14 +7,17 @@ class Subscription < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  CURRENCY = 'EUR'
+  CURRENCY        = 'EUR'
+
+  # TODO: Add a setting in the backend.
+  APPLICATION_FEE = 200 # The application fee in cents.
 
   ######################################################################
   # Macros                                                             #
   ######################################################################
 
-  attr_accessor :stripe_token
-  attr_accessible :structure, :coupon, :plan, :stripe_subscription_id, :trial_end,
+  attr_accessor :stripe_token, :promo_code, :stripe_bank_token, :bank_account_number
+  attr_accessible :structure, :coupon, :plan, :stripe_subscription_id, :trial_end, :coupon_ends_at,
     :cancelation_reason_dont_want_more_students,
     :cancelation_reason_stopping_activity,
     :cancelation_reason_didnt_have_return_on_investment,
@@ -27,7 +30,7 @@ class Subscription < ActiveRecord::Base
   has_many   :invoices,     class_name: 'Subscriptions::Invoice'
   has_many   :sponsorships, class_name: 'Subscriptions::Sponsorship'
 
-  store_accessor :metadata, :sponsorship_token,
+  store_accessor :metadata,
     :cancelation_reason_dont_want_more_students,
     :cancelation_reason_dont_want_more_students,
     :cancelation_reason_stopping_activity,
@@ -91,7 +94,7 @@ class Subscription < ActiveRecord::Base
   # @param token The Stripe token for when we create a new user.
   #
   # @return nil or error_code_value: nil = success
-  def charge!(token = nil)
+  def charge!(token = nil, coupon = nil)
     error_code_value = nil
     begin
       customer = structure.stripe_customer || structure.create_stripe_customer(token)
@@ -102,8 +105,9 @@ class Subscription < ActiveRecord::Base
         trial_end: trial_end.to_i
       }
 
-      if self.coupon.present? and coupon.valid?
+      if coupon.present? and coupon.valid?
         options.merge!({ coupon: coupon.stripe_coupon_id })
+        self.coupon = coupon
       end
 
       _subscription = customer.subscriptions.create(options, { api_key: Stripe.api_key })
@@ -111,8 +115,8 @@ class Subscription < ActiveRecord::Base
       self.stripe_subscription_id = _subscription.id
       save
 
-      if self.sponsorship_token.present?
-        sponsorship = Subscriptions::Sponsorship.where(token: self.sponsorship_token).first
+      if self.structure.sponsorship_token.present?
+        sponsorship = Subscriptions::Sponsorship.where(token: self.structure.sponsorship_token).first
         sponsorship.redeem!(self) unless sponsorship.nil?
       end
 
@@ -193,7 +197,8 @@ class Subscription < ActiveRecord::Base
   def current_period_end
     return nil if stripe_subscription_id.nil? or canceled?
 
-    Time.at(stripe_subscription.current_period_end)
+    @current_period_end ||= Time.at(stripe_subscription.current_period_end)
+    @current_period_end
   end
 
   # Return the next amount to be payed.
@@ -202,10 +207,23 @@ class Subscription < ActiveRecord::Base
   def next_amount
     return nil if stripe_subscription_id.nil? or canceled?
 
-    amount = plan.amount
-    amount -= coupon.amount if has_coupon?
+    expiration_delay = current_period_end - Time.now
+    Rails.cache.fetch ["Subscription#next_amount", self], expires_in: expiration_delay.to_i do
+      Stripe::Invoice.upcoming(customer: structure.stripe_customer_id).amount_due / 100.0
+    end
+  end
 
-    amount
+  # Return the next amount to be payed.
+  #
+  # @return Integer or nil
+  def coupon_end_date
+    return nil if !coupon
+    return coupon_ends_at if coupon_ends_at.present?
+    if (discount = Stripe::Invoice.upcoming(customer: structure.stripe_customer_id).discount)
+      coupon_ends_at = Time.at(discount.end || discount.start)
+      save
+    end
+    coupon_ends_at
   end
 
   # Apply a coupon to the next invoice.
@@ -213,6 +231,11 @@ class Subscription < ActiveRecord::Base
   # @return the new amount or nil
   def apply_coupon(coupon)
     return nil if stripe_subscription_id.nil? or canceled? or coupon.nil? or !coupon.valid?
+
+    # Update current customer with coupon
+    stripe_customer        = structure.stripe_customer
+    stripe_customer.coupon = coupon.stripe_coupon_id
+    stripe_customer.save
 
     self.coupon = coupon
     save

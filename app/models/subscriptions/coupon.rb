@@ -5,8 +5,6 @@ class Subscriptions::Coupon < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  CURRENCY  = 'EUR'
-
   DURATIONS = {
     once:      'Une fois',
     forever:   'Pour toujours',
@@ -17,7 +15,9 @@ class Subscriptions::Coupon < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :name, :amount, :duration
+  attr_accessible :name, :amount, :duration, :max_redemptions, :duration_in_months,
+                  :stripe_coupon_id, :redeem_by
+
   has_many :subscriptions, foreign_key: 'subscriptions_coupon_id'
 
   ######################################################################
@@ -83,11 +83,21 @@ class Subscriptions::Coupon < ActiveRecord::Base
   private
 
   def create_stripe_coupon
-    stripe_coupon = Stripe::Coupon.create({
-      duration:   duration,
-      currency:   CURRENCY,
-      amount_off: (amount * 100).to_i
-    })
+    options = {
+      duration:           duration,
+      duration_in_months: duration_in_months,
+      currency:           Subscription::CURRENCY,
+      amount_off:         (amount * 100).to_i,
+      redeem_by:          redeem_by.to_i,
+      metadata: {
+        name: name
+      }
+    }
+
+    options[:max_redemptions] = 1 if max_redemptions.present?
+    options[:id]              = stripe_coupon_id if stripe_coupon_id.present?
+
+    stripe_coupon = Stripe::Coupon.create(options)
     self.stripe_coupon_id = stripe_coupon.id
 
     save

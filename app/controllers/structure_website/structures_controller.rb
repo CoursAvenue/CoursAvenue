@@ -9,7 +9,7 @@ class StructureWebsite::StructuresController < StructureWebsiteController
   def planning
     @structure = Structure.find request.subdomain
     @structure_decorator = @structure.decorate
-    @place_ids           = @structure.places.map(&:id)
+    @place_ids           = @structure.places.includes(:city).map(&:id)
     @city                = @structure.city
 
     @similar_profiles = @structure.similar_profiles(18)
