@@ -1,6 +1,8 @@
 class GiftCertificate < ActiveRecord::Base
   MIN_AMOUNT = 0
 
+  attr_accessible :name, :amount, :description
+
   belongs_to :structure
   # has_many :vouchers, class_name: 'GiftCertificate::Voucher'
 
