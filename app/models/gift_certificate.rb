@@ -1,4 +1,6 @@
 class GiftCertificate < ActiveRecord::Base
+  acts_as_paranoid
+
   MIN_AMOUNT = 0
 
   attr_accessible :name, :amount, :description
