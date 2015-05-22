@@ -86,6 +86,13 @@ class Subscription < ActiveRecord::Base
     (in_trial? or (!canceled? and stripe_subscription_id.present?))
   end
 
+  # Wether the subscription is active and not in trial
+  #
+  # @return a Boolean.
+  def active_and_paying?
+    (!canceled? and stripe_subscription_id.present?)
+  end
+
   # Charge the subscription. Usually after the trial period.
   #
   # @param token The Stripe token for when we create a new user.

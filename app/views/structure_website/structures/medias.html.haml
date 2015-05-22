@@ -1,3 +1,9 @@
+= content_for :title do
+  Galerie photos & vidéos | #{@structure.name}
+
+= content_for :meta_description do
+  #{@structure.name} | Découvrez toutes les photos et vidéos de mes cours
+
 .main-container
   .relative{ data: { el: 'loading-indicator' } }
     .absolute.push--top{ style: 'left: 50%; margin-left: -16px;' }
