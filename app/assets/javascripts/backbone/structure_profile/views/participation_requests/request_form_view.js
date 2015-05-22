@@ -28,6 +28,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             Backbone.Validation.bind(this);
             _.bindAll(this, 'showPopupMessageDidntSend');
             this.on('participation_request:total', function(data) {
+                this.model.total_price = data.total_price;
                 this.$('[data-pr-total]').text(data.total);
             }.bind(this));
         },
@@ -200,6 +201,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
                 structure: structure_json,
                 today: moment().format(COURSAVENUE.constants.MOMENT_DATE_FORMAT),
                 in_two_steps: this.in_two_steps,
+                is_free: this.model.isFree(),
                 user: {
                     phone_number: CoursAvenue.currentUser().get('phone_number') || $.cookie('user_phone_number')
                 }

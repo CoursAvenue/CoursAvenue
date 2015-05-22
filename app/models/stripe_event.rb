@@ -1,4 +1,8 @@
 class StripeEvent < ActiveRecord::Base
+  extend FriendlyId
+
+  acts_as_paranoid
+  friendly_id :stripe_event_id, use: [:finders]
 
   ######################################################################
   # Constants                                                          #
@@ -14,6 +18,9 @@ class StripeEvent < ActiveRecord::Base
     'charge.dispute.funds_reinstated',
 
     'customer.deleted',
+    'customer.subscription.created',
+
+    'account.updated',
 
     'ping'
   ]
@@ -31,6 +38,15 @@ class StripeEvent < ActiveRecord::Base
   validates :stripe_event_id, presence: true
   validates :stripe_event_id, uniqueness: true
   validates :event_type,      presence: true
+
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
+
+  scope :processed,             -> { where(processed: true) }
+  scope :not_processed,         -> { where(processed: false) }
+
+  scope :not_in_the_last_month, -> { where( arel_table[:created_at].lt(1.month.ago) ) }
 
   ######################################################################
   # Methods                                                            #
@@ -51,7 +67,9 @@ class StripeEvent < ActiveRecord::Base
   #
   # @return a boolean
   def self.processed?(stripe_event_object)
-    where(stripe_event_id: stripe_event_object.id).any?
+    event = where(stripe_event_id: stripe_event_object.id).first
+
+    event.present? and event.processed?
   end
 
   # Save and process an event.
@@ -71,18 +89,26 @@ class StripeEvent < ActiveRecord::Base
   #
   # @return a Boolean
   def process!
-    case event_type
-    when 'invoice.payment_succeeded'            then payment_succeeded
-    when 'invoice.payment_failed'               then payment_failed
+    self.processed =
+      case event_type
+      when 'invoice.payment_succeeded'            then payment_succeeded
+      when 'invoice.payment_failed'               then payment_failed
 
-    when 'charge.dispute.created'               then dispute_created
-    when 'charge.dispute.funds_withdrawn'       then dispute_funds_withdrawn
-    when 'charge.dispute.funds_reinstated'      then dispute_funds_reinstated
+      when 'charge.dispute.created'               then dispute_created
+      when 'charge.dispute.funds_withdrawn'       then dispute_funds_withdrawn
+      when 'charge.dispute.funds_reinstated'      then dispute_funds_reinstated
 
-    when 'customer.deleted'                     then delete_stripe_customer
-    when 'ping'                                 then no_op
-    else false
-    end
+      when 'customer.deleted'                     then delete_stripe_customer
+      when 'customer.subscription.created'        then customer_subscription_created
+
+      when 'account.updated'                      then account_updated
+
+      when 'ping'                                 then no_op
+      else false
+      end
+    save
+
+    self.processed
   end
 
   private
@@ -93,8 +119,9 @@ class StripeEvent < ActiveRecord::Base
   def payment_succeeded
     stripe_invoice = stripe_event.data.object
     invoice = Subscriptions::Invoice.create_from_stripe_invoice(stripe_invoice)
-    invoice.subscription.resume! if invoice.subscription.paused?
+    return false if invoice.nil?
 
+    invoice.subscription.resume! if invoice.subscription.paused?
     SubscriptionMailer.delay.invoice_creation_notification(invoice)
 
     true
@@ -207,6 +234,30 @@ class StripeEvent < ActiveRecord::Base
     else
       false
     end
+  end
+
+  # Process for the `customer.subscription.created` event.
+  #
+  # @return a Boolean
+  def customer_subscription_created
+    stripe_customer = stripe_event.data.object
+    structure = Structure.where(stripe_customer_id: stripe_customer.id).first
+    return false if structure.nil?
+
+    customer_id = structure.stripe_customer_id
+    invoice = Stripe::Invoice.upcoming(customer: customer_id) ||
+      Stripe::Invoice.all(customer: customer_id, limit: 1).first
+    return false if invoice.nil?
+
+    Subscriptions::Invoice.create_from_stripe_invoice(invoice)
+    true
+  end
+
+  # Process for the `account.updated` event.
+  #
+  # @return a Boolean
+  def account_updated
+    true
   end
 
   # No operation process.

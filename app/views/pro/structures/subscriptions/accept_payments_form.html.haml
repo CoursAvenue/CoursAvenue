@@ -1,0 +1,165 @@
+.panel
+  .panel__body.soft
+    = simple_form_for [:pro, @structure, ManagedAccountForm.new], url: accept_payments_pro_structure_subscription_path(@structure, @structure.subscription), method: :patch, html: { id: 'managed_account_form' } do |f|
+      = f.input :stripe_bank_token, as: :hidden
+
+      %hr.push--ends
+      %h3 Informations votre structure
+      = f.input :business_type, as: :hidden, input_html: { value: 'company' }
+
+      = f.input :business_name, label: "Nom de la structure", label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.name,
+        data: { required: true, error_el: '#business_name_error' } }, required: true
+      .hidden
+        #business_name_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+        = f.input :business_url, label: "Site Web", label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.website }
+      = f.input :business_address_line1, label: 'Adresse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', value: @structure.street, data: { required: true, error_el: '#business_address_line1_error' } }, required: true
+
+      .input>
+        .control-label.v-middle>
+          %label.label--large Code Postal
+        .input-container.v-middle>
+          = f.input :business_address_postal_code, label: false, input_html: { class: 'input--large', placeholder: 'Ex. 75014', value: @structure.zip_code, style: 'width: 5em', data: { behavior: 'city-autocomplete', el: '#subscription_business_address_city' } }, required: true, wrapper_html: { class: 'inline-block v-middle flush '}
+          = f.input :business_address_city, collection: [@structure.city], label: false, input_html: { class: 'input--large' }, required: true, wrapper_html: { class: 'inline-block v-middle flush '}, selected: @structure.city
+          #business_address_postal_code_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+          #business_address_city_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+          = f.input :business_address_state, as: :hidden, input_html: { value: 'France' }
+
+      %hr.push--ends
+      %h3 Informations bancaires
+      = f.input :bank_account_number, label: 'Numéro IBAN', label_html: { class: 'label--large' }, input_html: { class: 'input--large', data: { stripe: true } }, required: true
+      #bank_account_number_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+
+      %div{ data: { behavior: 'show-more-on-demand' } }
+        %div{ data: { el: true, hidden: false } }
+          %hr.push--ends
+          %h3 Informations personnelles
+          .input.flush>
+            .control-label.v-middle>
+              %label.label--large Prénom
+            .input-container.v-middle>
+              = f.input :owner_first_name, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large one-whole' }, required: true, data: { required: true }
+              %label.label--large.soft-half--right Nom
+              = f.input :owner_last_name, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large one-whole' }, required: true, data: { required: true }
+
+          .input>
+            .control-label.v-middle>
+              %label.label--large Date de naissance
+            .input-container.v-middle>
+              = f.input :owner_dob_day, as: :select, collection: (0..31).to_a, required: true, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
+              = f.input :owner_dob_month, as: :select, collection: (0..12).to_a, required: true, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
+              = f.input :owner_dob_year, as: :select, collection: (1900..(Date.today.year - 18)).to_a, required: true, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
+
+          = f.input :owner_address_line1, label: "Adresse", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true, data: { required: true }
+
+          .input>
+            .control-label.v-middle>
+              %label.label--large Code Postal
+            .input-container.v-middle>
+              = f.input :owner_address_postal_code, label: false, input_html: { class: 'input--large', placeholder: 'Ex. 75014', value: @structure.zip_code, style: 'width: 5em', data: { behavior: 'city-autocomplete', el: '#subscription_owner_address_city' } }, required: true, wrapper_html: { class: 'inline-block v-middle flush '}
+              = f.input :owner_address_city, collection: [@structure.city], label: false, input_html: { class: 'input--large' }, required: true, wrapper_html: { class: 'inline-block v-middle flush '}
+              #owner_address_city_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+              #owner_address_postal_code_error.hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right
+          = f.input :owner_address_state, as: :hidden, input_html: { value: 'France' }
+
+        %hr.push--ends
+
+        %p
+          Dans le cas où vous n'êtes pas la seule personne en charge de la structure, vous devez renseigner ci-dessous les informations de chaques personnes détenant plus de 25% de la structure.
+
+        - 3.times do |i|
+          %div{ data: { el: true, hidden: true } }
+            %hr.push--ends
+            %h3 Informations supplémentaire
+
+            .input.flush>
+              .control-label.v-middle>
+                %label.label--large Prénom
+              .input-container.v-middle>
+                = f.input "additional_owner_#{i}_first_name".to_sym, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }
+                %label.label--large.soft-half--right Nom
+                = f.input "additional_owner_#{i}_last_name".to_sym, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }
+
+            .input>
+              .control-label.v-middle>
+                %label.label--large Date de naissance
+              .input-container.v-middle>
+                = f.input "additional_owner_#{i}_dob_day", as: :select, collection: (1..31).to_a, required: true, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
+                = f.input "additional_owner_#{i}_dob_month", as: :select, collection: (1..12).to_a, required: true, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
+                = f.input "additional_owner_#{i}_dob_year", as: :select, collection: (1900..(Date.today.year - 18)).to_a, required: true, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
+
+            = f.input "additional_owner_#{i}_address_line1".to_sym, label: "Adresse", label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, required: true
+
+            .input>
+              .control-label.v-middle>
+                %label.label--large Code Postal
+              .input-container.v-middle>
+                .hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right{ id: "additional_owner_#{i}_address_postal_code_error"}
+                = f.input "additional_owner_#{i}_address_postal_code".to_sym, label: false, input_html: { class: 'input--large', placeholder: 'Ex. 75014', value: @structure.zip_code, style: 'width: 5em', data: { behavior: 'city-autocomplete', el: "#additional_owner_#{i}_address_city" } }, required: true, wrapper_html: { class: 'inline-block v-middle flush '}
+                .hidden.input_field_error.red.input_field_error.red.f-weight-bold.text--right{ id: "additional_owner_#{i}_address_city_error"}
+                = f.input "additional_owner_#{i}_address_city".to_sym, collection: [@structure.city], label: false, input_html: { class: 'input--large', id: "additional_owner_#{i}_address_city" }, required: true, wrapper_html: { class: 'inline-block v-middle flush '}
+
+            -# = f.input :additional_owner_0_address_country, label: 'Code Postal', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+            .input.text--right
+              %a{ data: { clear: true }, href: 'javascript:void(0)' }
+                %i.fa-trash-o
+                Supprimer
+
+        %a.btn.btn--full{ data: { trigger: true }, href: 'javascript:void(0)' }
+          %i.fa.fa-plus
+          Ajouter une personne
+
+      .grid.push--top
+        .grid__item.three-twelfths>
+          = link_to 'Annuler', '#', class: 'btn btn--full btn--gray'
+        .grid__item.nine-twelfths>
+          = link_to 'Enregistrer', 'javascript:void(0)', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement", form: 'submit' }
+          %div
+            En cliquant sur ce boutton, vous acceptez nos
+            = link_to 'CGV', '#'
+            et l'
+            = link_to "l'Accord Stripe Connected Account", "https://stripe.com/connect/account-terms", target: :_blank
+            \.
+
+
+:javascript
+  var stripe_error_codes = #{ I18n.t('stripe.error_codes').to_json };
+  Stripe.setPublishableKey("#{ Rails.configuration.stripe[:publishable_key] }");
+
+  function stripeResponseHandler(status, response) {
+      var form = $('#managed_account_form');
+      var textErrorEl = '';
+
+      $('[data-required]').each(function(index, element) {
+          if ($(element).val() == '') {
+              textErrorEl = $($(element).data('error-el'));
+              textErrorEl.text('Ce champ est obligatoire, veuillez le remplir.').show();;
+          }
+      });
+
+      if (response.error) {
+          var errorText = stripe_error_codes[response.error.type] || 'Votre IBAN est incorrect';
+          $('#bank_account_number_error').text(errorText).show();
+          this.$('form').trigger('ajax:complete');
+      } else {
+          var stripeBankToken = response.id;
+          $("[name='managed_account_form[stripe_bank_token]']").val(stripeBankToken);
+          form.submit();
+      }
+  }
+
+  $('[data-form=submit]').click(function(event) {
+      event.preventDefault();
+
+      $('[data-required]').each(function(index, element) {
+          errorEl = $($(element).data('error-el'))
+          errorEl.hide();
+      });
+
+      Stripe.bankAccount.createToken({
+          country:        'FR',
+          currency:       'EUR',
+          account_number: $('[data-stripe]').val()
+      }, stripeResponseHandler);
+
+  });
+  $('[data-behavior=show-more-on-demand]').showMoreOnDemand();

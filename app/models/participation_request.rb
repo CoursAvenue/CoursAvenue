@@ -4,14 +4,15 @@ class ParticipationRequest < ActiveRecord::Base
 
   acts_as_paranoid
 
-  STATE = %w(accepted pending canceled)
+  STATE                 = %w(accepted pending canceled)
   PARAMS_THAT_MODIFY_PR = %w(date start_time end_time planning_id course_id)
 
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
-                  :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
-                  :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
-                  :old_course_id, :structure_responded, :street, :zip_code, :city_id,
-                  :participants_attributes, :structure_id, :from_personal_website, :token
+    :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
+    :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
+    :old_course_id, :structure_responded, :street, :zip_code, :city_id,
+    :participants_attributes, :structure_id, :from_personal_website, :token, :charged_at,
+    :stripe_fee
 
   ######################################################################
   # Relations                                                          #
@@ -36,10 +37,11 @@ class ParticipationRequest < ActiveRecord::Base
 
   has_many :participants, class_name: 'ParticipationRequest::Participant'
   has_many :prices, through: :participants
+  has_one :invoice, class_name: 'ParticipationRequest::Invoice'
 
   accepts_nested_attributes_for :participants,
-                                 reject_if: :reject_participants,
-                                 allow_destroy: false
+    reject_if: :reject_participants,
+    allow_destroy: false
 
   ######################################################################
   # Callbacks                                                          #
@@ -48,7 +50,7 @@ class ParticipationRequest < ActiveRecord::Base
   before_save       :update_times
   before_create     :set_default_attributes
   after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher,
-                    :send_sms_to_user, :touch_user
+    :send_sms_to_user, :touch_user
   after_destroy     :destroy_conversation_attached, :touch_user
 
   ######################################################################
@@ -63,12 +65,13 @@ class ParticipationRequest < ActiveRecord::Base
   scope :accepted,                -> { where( state: 'accepted') }
   scope :pending,                 -> { where( state: 'pending') }
   scope :upcoming,                -> { where( arel_table[:date].gteq(Date.today) )
-                                      .order("state='pending' DESC, state='canceled' ASC,
+    .order("state='pending' DESC, state='canceled' ASC,
                                               updated_at DESC, date ASC") }
   scope :past,                    -> { where( arel_table[:date].lt(Date.today) ).order("date ASC") }
   scope :canceled,                -> { where( arel_table[:state].eq('canceled') ) }
   scope :tomorrow,                -> { where( state: 'accepted', date: Date.tomorrow ) }
   scope :structure_not_responded, -> { where.not( structure_responded: true ) }
+  scope :charged,                 -> { where.not( charged_at: nil ) }
 
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
   #
@@ -131,11 +134,24 @@ class ParticipationRequest < ActiveRecord::Base
     message                  = reply_to_conversation(message_body, last_modified_by)
     self.structure_responded = true if last_modified_by == 'Structure'
     save
+
+    if chargeable?
+      charge!
+    end
+
     if self.last_modified_by == 'Structure'
       mailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
       mailer.delay.request_has_been_accepted_by_user_to_teacher(self, message)
     end
+  end
+
+  #
+  # Tells wether or not we should charge the PR
+  #
+  # @return Boolean
+  def chargeable?
+    (price != 0 and structure.can_receive_payments? and course.accepts_payment?)
   end
 
   # Modify request and inform user about it
@@ -189,13 +205,17 @@ class ParticipationRequest < ActiveRecord::Base
     message                    = reply_to_conversation(message_body, last_modified_by)
     self.structure_responded   = true if last_modified_by == 'Structure'
     save
+
+    if self.invoice.present?
+      refund!
+    end
+
     if self.last_modified_by == 'Structure'
       mailer.delay.request_has_been_canceled_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
       mailer.delay.request_has_been_canceled_by_user_to_teacher(self, message)
     end
   end
-
 
   # Tell wether the course will happen at student place
   #
@@ -237,6 +257,77 @@ class ParticipationRequest < ActiveRecord::Base
     return (accepted? || from_personal_website)
   end
 
+  # The cost of this Participation Request in Euros.
+  #
+  # @return an integer
+  def price
+    participants.map(&:total_price).reduce(0, :+).to_i
+  end
+
+  # Whether the Participation Request has been charged to the user.
+  #
+  # @return a Boolean
+  def charged?
+    charged_at.present?
+  end
+
+  # Retrieve the `Stripe::Charge` associated with the participation request.
+  #
+  # @return nil or Stripe::Charge
+  def stripe_charge
+    return nil if self.stripe_charge_id.nil?
+
+    Stripe::Charge.retrieve(stripe_charge_id)
+  end
+
+  # Charge the amount of the participation request to the user.
+  #
+  # @param token The token needed to create the stripe customer, if it doesn't already exists.
+  #
+  # @return the charge or nil
+  def charge!(token = nil)
+    return nil if ! structure.can_receive_payments?
+
+    customer = user.stripe_customer || user.create_stripe_customer(token)
+    return nil if customer.nil?
+
+    charge = Stripe::Charge.create({
+      amount:          price * 100,
+      currency:        Subscription::CURRENCY,
+      customer:        customer.id,
+      destination:     structure.stripe_managed_account,
+      application_fee: Subscription::APPLICATION_FEE
+    })
+    balance_transaction = Stripe::BalanceTransaction.retrieve charge.balance_transaction
+
+    self.delay.create_and_send_invoice
+
+    self.stripe_charge_id = charge.id
+    self.charged_at       = Time.now
+    self.stripe_fee       = balance_transaction.fee / 100.0 # Because fee are in cents
+    self.save
+
+    charge
+  end
+
+  # Refund the amount of the participation request to the user.
+  #
+  # @return
+  def refund!
+    return nil if stripe_charge_id.nil? or stripe_charge.refunded or refunded?
+
+    charge = stripe_charge
+    refund = charge.refunds.create
+
+    # ParticipationRequestMailer.delay.send_charge_refunded_to_teacher(self)
+    # ParticipationRequestMailer.delay.send_charge_refunded_to_user(self)
+
+    self.refunded_at =  Time.now
+    save
+
+    refund
+  end
+
   def course_address
     if !at_student_home?
       if planning and planning.place
@@ -245,6 +336,10 @@ class ParticipationRequest < ActiveRecord::Base
         course.place.address
       end
     end
+  end
+
+  def refunded?
+    refunded_at.present?
   end
 
   private
@@ -274,16 +369,15 @@ class ParticipationRequest < ActiveRecord::Base
     nil
   end
 
-
   # Check if the request is duplicate or not
   #
   # @return Boolean
   def request_is_not_duplicate
     if self.user.participation_requests.where(ParticipationRequest.arel_table[:created_at].gt(Date.today - 1.week)
-                                                 .and(ParticipationRequest.arel_table[:planning_id].eq(self.planning_id))
-                                                 .and(ParticipationRequest.arel_table[:date].eq(self.date))).any?
-      self.errors[:base] << "duplicate"
-      return false
+      .and(ParticipationRequest.arel_table[:planning_id].eq(self.planning_id))
+      .and(ParticipationRequest.arel_table[:date].eq(self.date))).any?
+    self.errors[:base] << "duplicate"
+    return false
     end
     true
   end
@@ -354,21 +448,44 @@ class ParticipationRequest < ActiveRecord::Base
     self.date ||= self.planning.start_date if self.planning
   end
 
-  def mailer
-    if from_personal_website?
-      StructureWebsiteParticipationRequestMailer
-    else
-      ParticipationRequestMailer
-    end
+  # Create and send the invoice.
+  #
+  # @return
+  def create_and_send_invoice
+    self.invoice = ParticipationRequest::Invoice.create(participation_request: self,
+                                                        payed_at:              Time.now)
+    save
+
+    # ParticipationRequestMailer.delay.send_invoice_to_user(self)
   end
 
-  # If participation request is from personal website, send a SMS to user
-  def send_sms_to_user
-    if from_personal_website?
-      if user.phone_number and user.sms_opt_in?
-        message = self.decorate.sms_message_for_new_request
+  # Creates an unique token.
+  #
+  # @return self
+  def create_token
+    if self.token.nil?
+      self.token = loop do
+        random_token = SecureRandom.urlsafe_base64
+        break random_token unless ParticipationRequest.exists?(token: random_token)
+      end
+    end
 
-        user.delay.send_sms(message, user.phone_number)
+    def mailer
+      if from_personal_website?
+        StructureWebsiteParticipationRequestMailer
+      else
+        ParticipationRequestMailer
+      end
+    end
+
+    # If participation request is from personal website, send a SMS to user
+    def send_sms_to_user
+      if from_personal_website?
+        if user.phone_number and user.sms_opt_in?
+          message = self.decorate.sms_message_for_new_request
+
+          user.delay.send_sms(message, user.phone_number)
+        end
       end
     end
   end

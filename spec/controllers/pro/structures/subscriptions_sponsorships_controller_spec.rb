@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-describe Pro::Structures::SubscriptionsSponsorshipsController do
+describe Pro::Structures::SubscriptionsSponsorshipsController, with_stripe: true do
   include Devise::TestHelpers
 
   before(:all) { StripeMock.start }

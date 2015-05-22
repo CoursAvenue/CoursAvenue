@@ -8,10 +8,14 @@ class StructureWebsite::ParticipationRequestsController < StructureWebsiteContro
   # For an example of a message controller see:
   # https://github.com/ging/social_stream/blob/master/base/app/controllers/messages_controller.rb
   def create
-    @user              = User.where(email: request_params[:user][:email]).first_or_initialize(validate: false)
+    @user              = User.where(email: request_params[:user][:email].downcase).first_or_initialize(validate: false)
     @user.phone_number = request_params[:user][:phone_number]
     @user.first_name   = request_params[:user][:name]
     @user.save(validate: false)
+
+    if request_params[:stripe_token].present?
+      @user.create_stripe_customer(request_params[:stripe_token])
+    end
 
     @structure.create_or_update_user_profile_for_user(@user, UserProfile::DEFAULT_TAGS[:contacts])
     @participation_request = ParticipationRequest.create_and_send_message request_params.merge(from_personal_website: true), @user
@@ -45,6 +49,7 @@ class StructureWebsite::ParticipationRequestsController < StructureWebsiteContro
                                                   :planning_id,
                                                   :date,
                                                   :structure_id,
+                                                  :stripe_token,
                                                   participants_attributes: [ :price_id, :number ],
                                                   user: [ :phone_number, :email, :name ],
                                                   message: [ :body ])

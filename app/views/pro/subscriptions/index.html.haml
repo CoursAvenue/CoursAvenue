@@ -1,0 +1,12 @@
+= side_menu_currently_at 'subscription_plans'
+
+= render partial: 'pro/shared/subscriptions_tabs', locals: { current: 'subscriptions' }
+
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Abonnements
+
+- if @subscriptions.any?
+  = render 'subscriptions_list'
+- else
+  = render 'subscriptions_empty'

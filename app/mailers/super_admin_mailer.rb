@@ -85,14 +85,26 @@ class SuperAdminMailer < ActionMailer::Base
   end
 
   def alert_charge_disputed(structure, reason, status)
+    @structure = structure
+    @reason    = reason
+    @status    = status
+
     mail subject: 'Un professeur a contesté un paiement'
   end
 
   def alert_charge_withdrawn(structure, reason, status)
+    @structure = structure
+    @reason    = reason
+    @status    = status
+
     mail subject: 'Un retrait a eu lieu suite a une contestation de paiement'
   end
 
   def alert_charge_reinstated(structure, reason, status)
+    @structure = structure
+    @reason    = reason
+    @status    = status
+
     mail subject: ''
   end
 

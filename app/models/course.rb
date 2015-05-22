@@ -72,7 +72,8 @@ class Course < ActiveRecord::Base
                   :start_date, :end_date,
                   :subject_ids, :level_ids, :audience_ids, :place_id,
                   :price_group_id, :on_appointment,
-                  :is_open_for_trial, :has_promotion, :prices_attributes
+                  :is_open_for_trial, :has_promotion, :prices_attributes,
+                  :accepts_payment
 
   accepts_nested_attributes_for :prices,
                                  reject_if: :reject_price,
@@ -412,6 +413,7 @@ class Course < ActiveRecord::Base
   def reindex_plannings
     self.plannings.map{ |p| p.delay.index }
   end
+  handle_asynchronously :reindex_plannings
 
   # If the user sets the `open_for_trial` flag to true or false on the course itself,
   # we change all the plannings flag

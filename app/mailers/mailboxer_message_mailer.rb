@@ -95,6 +95,8 @@ class MailboxerMessageMailer < ActionMailer::Base
     @message   = message
     @admin     = receiver
     @user      = message.sender
+    @structure = @admin.structure
+
     mail to: @admin.email,
          subject: t('mailboxer.message_mailer.subject_reply', sender: @user.name),
          template_name: 'reply_message_email_to_admin',

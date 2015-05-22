@@ -61,7 +61,10 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             }
             if (this.ui.$price_rows.length > 0) {
                 this.ui.$grand_total.text(COURSAVENUE.helperMethods.readableAmount(grand_total));
-                this.trigger('participation_request:total', { total: COURSAVENUE.helperMethods.readableAmount(grand_total) });
+                this.trigger('participation_request:total', {
+                    total:       COURSAVENUE.helperMethods.readableAmount(grand_total),
+                    total_price: grand_total
+                });
             }
         },
 

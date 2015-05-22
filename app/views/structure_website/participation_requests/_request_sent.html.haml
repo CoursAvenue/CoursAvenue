@@ -12,3 +12,6 @@
       Merci, à très bientôt !
       %br
       = @structure.name
+    %hr.push--ends
+    .text--center
+      = link_to "Voir ma demande d'inscription", structure_website_participation_request_url(@participation_request.token), class: 'btn btn--green', target: :_blank

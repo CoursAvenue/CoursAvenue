@@ -1,5 +1,7 @@
 = side_menu_currently_at 'subscription_plans'
 
+= render partial: 'pro/shared/subscriptions_tabs', locals: { current: 'plans' }
+
 - any_plans = @plans.any?
 
 .flexbox.push--bottom

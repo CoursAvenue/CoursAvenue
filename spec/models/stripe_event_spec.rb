@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-RSpec.describe StripeEvent, type: :model do
+RSpec.describe StripeEvent, type: :model, with_stripe: true do
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 
@@ -155,9 +155,9 @@ RSpec.describe StripeEvent, type: :model do
           FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
         end
 
-        it 'sends an email to the admins and to the teacher', with_mail: true # do
-          # expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(2)
-        #end
+        it 'sends an email to the admins', with_mail: true do
+          expect { subject.process! }.to change{ ActionMailer::Base.deliveries.count }.by(1)
+        end
 
         it 'cancels the subscription' do
           subject.process!
@@ -177,11 +177,7 @@ RSpec.describe StripeEvent, type: :model do
           })
         end
 
-        let(:stripe_event) do
-          StripeMock.mock_webhook_event(event_type, {
-            charge: charge.id
-          })
-        end
+        let(:stripe_event) { StripeMock.mock_webhook_event(event_type, { charge: charge.id }) }
 
         subject do
           FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
@@ -196,6 +192,20 @@ RSpec.describe StripeEvent, type: :model do
           subscription.reload
 
           expect(subscription.paused?).to be_falsy
+        end
+      end
+
+      context 'customer.subscription.created' do
+        let(:event_type)   { 'customer.subscription.created' }
+        let(:customer)     { structure.stripe_customer }
+        let(:stripe_event) { StripeMock.mock_webhook_event(event_type, customer.as_json) }
+
+        subject do
+          FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
+        end
+
+        it 'creates a new invoice' do
+          expect { subject.process! }.to change { Subscriptions::Invoice.count }.by(1)
         end
       end
 
@@ -216,6 +226,23 @@ RSpec.describe StripeEvent, type: :model do
           expect(structure.stripe_customer).to be_nil
           expect(structure.stripe_customer_id).to be_nil
         end
+      end
+
+      context 'account.updated' do
+        let(:event_type)   { 'account.updated' }
+        let(:account)      { structure.stripe_managed_account }
+        let(:stripe_event) { StripeMock.mock_webhook_event(event_type, account.as_json) }
+
+        before do
+          structure.create_managed_account
+          structure.reload
+        end
+
+        subject do
+          FactoryGirl.create(:stripe_event, stripe_event_id: stripe_event.id, event_type: event_type)
+        end
+
+        it 'updates the managed account'
       end
     end
   end

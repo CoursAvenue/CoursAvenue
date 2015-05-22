@@ -7,12 +7,14 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   def index
     if @structure.subscription.present?
       @subscription = @structure.subscription.decorate
-      @sponsorship  = Subscriptions::Sponsorship.where(token: @subscription.sponsorship_token).first
+      @sponsorship  = Subscriptions::Sponsorship.where(token: @structure.sponsorship_token).first
     else
+      token = session[:sponsorship_token] || params[:sponsorship_token] ||
+        @structure.sponsorship_token
+
       @monthly_plans = ::Subscriptions::Plan.monthly.order('amount ASC').decorate
       @yearly_plans  = ::Subscriptions::Plan.yearly.order('amount ASC').decorate
-      @sponsorship   = Subscriptions::Sponsorship.where(token: session[:sponsorship_token] ||
-                                                        params[:sponsorship_token]).first
+      @sponsorship   = Subscriptions::Sponsorship.where(token: token).first
     end
 
     @sponsorship_token = @sponsorship.present? ? @sponsorship.token : nil
@@ -20,13 +22,12 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
 
   def create
     plan              = Subscriptions::Plan.find(subscription_plan_id_params[:plan_id])
-    coupon_code       = subscription_plan_id_params[:coupon_code]
     sponsorship_token = subscription_plan_id_params[:sponsorship_token]
 
-    @subscription = plan.create_subscription!(@structure, coupon_code)
+    @subscription = plan.create_subscription!(@structure)
 
     if sponsorship_token.present?
-      @subscription.sponsorship_token = sponsorship_token
+      @structure.sponsorship_token = sponsorship_token
       @subscription.save
     end
 
@@ -48,6 +49,10 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     else
       @plan = @structure.subscription.plan
     end
+
+    @sponsorship = Subscriptions::Sponsorship.where(
+      token: @structure.sponsorship_token).first
+
     if request.xhr?
       render layout: false
     end
@@ -93,7 +98,9 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     @subscription.plan = plan
     @subscription.save
 
-    error_code_value = @subscription.charge!(stripe_token_params[:stripe_token])
+    error_code_value = @subscription.charge!(stripe_token_params[:stripe_token],
+            Subscriptions::Coupon.where(stripe_coupon_id: stripe_token_params[:promo_code]).first)
+
     respond_to do |format|
       if error_code_value.nil?
         format.html { redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant abonné !' }
@@ -128,6 +135,32 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant réabonné'
   end
 
+  # PATCH :id/accept_payments
+  def accept_payments
+    @subscription                      = @structure.subscription
+    @managed_account_form              = ManagedAccountForm.new(params[:managed_account_form])
+
+    @managed_account_form.structure_id      = @structure.id
+    @managed_account_form.tos_acceptance_ip = request.ip
+
+    if @managed_account_form.save
+      redirect_to website_planning_parameters_pro_structure_path(@structure),
+        notice: 'Vos informations ont été reçus avec succès'
+    else
+      redirect_to website_planning_parameters_pro_structure_path(@structure),
+        error: 'Une erreur est survenue, veuillez rééssayer.'
+    end
+  end
+
+  # GET /pro/structures/subscriptions/:id/accept_payments_form
+  def accept_payments_form
+    @subscription = @structure.subscription.decorate
+
+    if request.xhr?
+      render layout: false
+    end
+  end
+
   private
 
   def set_structure
@@ -135,7 +168,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
   end
 
   def stripe_token_params
-    params.require(:subscription).permit(:stripe_token)
+    params.require(:subscription).permit(:stripe_token, :sponsorship_token, :promo_code)
   end
 
   def subscription_plan_id_params

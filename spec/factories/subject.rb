@@ -2,7 +2,7 @@
 FactoryGirl.define do
 
   factory :subject do
-    name { Faker::Name.name }
+    name { Faker::Name.name + ' child'}
 
     factory :subject_children do
       name { Faker::Name.name + ' child' }
@@ -18,11 +18,15 @@ FactoryGirl.define do
     end
 
     factory :subject_with_parent do
+      name { Faker::Name.name + ' parent' }
       association :parent, factory: :subject
+      ancestry_depth 1
     end
 
     factory :subject_with_grand_parent do
+      name { Faker::Name.name + ' grand parent' }
       association :parent, factory: :subject_with_parent
+      ancestry_depth 2
     end
 
     trait :with_good_to_know do

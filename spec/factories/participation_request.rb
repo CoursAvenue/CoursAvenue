@@ -23,6 +23,14 @@ FactoryGirl.define do
       state 'pending'
     end
 
+    trait :with_participants do
+      after(:build) do |pr|
+        3.times do
+          pr.participants << FactoryGirl.create(:participation_request_participant, participation_request: pr)
+        end
+      end
+    end
+
     after(:build) do |participation_request|
       participation_request.conversation = FactoryGirl.create(:conversation_with_messages)
     end
