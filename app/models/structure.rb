@@ -95,6 +95,8 @@ class Structure < ActiveRecord::Base
 
   has_many :website_pages
 
+  has_many :gift_certificates
+
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name,
