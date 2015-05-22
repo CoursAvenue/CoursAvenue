@@ -4,6 +4,6 @@ FactoryGirl.define do
 
     name        { Faker::Name.name }
     amount      { (1..20).to_a.sample.to_f }
-    description { Faker::Lorem.setence }
+    description { Faker::Lorem.sentence }
   end
 end
