@@ -7,6 +7,11 @@ FactoryGirl.define do
     plan_type      { Subscriptions::Plan::PLAN_TYPES.sample }
     public_name    { Faker::Name.name }
 
+    trait :empty do
+      name nil
+      stripe_plan_id nil
+    end
+
     trait :monthly do
       interval 'month'
     end
