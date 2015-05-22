@@ -18,27 +18,29 @@
 
   :javascript
     $(function () {
-      Stripe.setPublishableKey("#{ Rails.configuration.stripe[:publishable_key] }");
+        $(document.body).on('coursavenue:started', function() {
+            CoursAvenue.statistic.logView(#{@structure.id}, 'website/planning');
+        });
+        Stripe.setPublishableKey("#{ Rails.configuration.stripe[:publishable_key] }");
 
-      if ($('#header-map').length == 1) {
-          google_map_handler = Gmaps.build('Google');
-          google_map_handler.buildMap({ provider: { scrollwheel: false }, internal: { id: 'header-map' }}, function(){
-              markers = google_map_handler.addMarkers(#{@structure_locations.to_json});
-              google_map_handler.bounds.extendWith(markers);
-              google_map_handler.fitMapToBounds();
-              google_map_handler.getMap().setZoom(15);
-          });
-      }
-      window.coursavenue = window.coursavenue || {};
-      window.coursavenue.bootstrap = {
-          current_pro_admin: #{(current_pro_admin ? true : false)},
-          structure: #{ @model.to_json },
-          stripe_errors: #{ I18n.t('stripe.error_codes').to_json },
-          meta: {
-              have_upcoming_plannings: #{ @structure.plannings.future.any? },
-              structure_id: #{ @structure.id }
-          }
-      };
-        CoursAvenue.statistic.logView(#{@structure.id}, 'website/planning');
+        if ($('#header-map').length == 1) {
+            google_map_handler = Gmaps.build('Google');
+            google_map_handler.buildMap({ provider: { scrollwheel: false }, internal: { id: 'header-map' }}, function(){
+                markers = google_map_handler.addMarkers(#{@structure_locations.to_json});
+                google_map_handler.bounds.extendWith(markers);
+                google_map_handler.fitMapToBounds();
+                google_map_handler.getMap().setZoom(15);
+            });
+        }
+        window.coursavenue = window.coursavenue || {};
+        window.coursavenue.bootstrap = {
+            current_pro_admin: #{(current_pro_admin ? true : false)},
+            structure: #{ @model.to_json },
+            stripe_errors: #{ I18n.t('stripe.error_codes').to_json },
+            meta: {
+                have_upcoming_plannings: #{ @structure.plannings.future.any? },
+                structure_id: #{ @structure.id }
+            }
+        };
     }());
 
