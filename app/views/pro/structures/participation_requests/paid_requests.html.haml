@@ -16,7 +16,7 @@
     - @participation_requests.each do |participation_request|
       - if participation_request.refunded?
         %tr
-          %td= l(participation_request.charged_at.to_date, format: :long)
+          %td= l(participation_request.refunded_at.to_date, format: :long)
           %td
             = participation_request.user.name
             - if participation_request.participants.length > 1
