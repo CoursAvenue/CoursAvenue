@@ -441,7 +441,11 @@ CoursAvenue::Application.routes.draw do
             patch :report
           end
         end
-        resources :gift_certificates, only: [:index, :edit, :new, :create, :destroy, :update], controller: 'structures/gift_certificates', path: 'bons-cadeaux'
+        resources :gift_certificates, only: [:index, :edit, :new, :create, :destroy, :update], controller: 'structures/gift_certificates', path: 'bons-cadeaux' do
+          collection do
+            get :install_guide
+          end
+        end
       end
       resources :visitors, only: [:index, :show]
       resources :users, only: [:index] do

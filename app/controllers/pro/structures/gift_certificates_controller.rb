@@ -68,6 +68,12 @@ class Pro::Structures::GiftCertificatesController < ApplicationController
     end
   end
 
+  def install_guide
+    if request.xhr?
+      render layout: false
+    end
+  end
+
   private
 
   def set_structure

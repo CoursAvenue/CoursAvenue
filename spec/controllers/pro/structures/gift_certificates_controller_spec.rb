@@ -190,4 +190,22 @@ describe Pro::Structures::GiftCertificatesController, type: :controller do
       expect(gift_certificate.deleted_at).to_not be_nil
     end
   end
+
+  describe '#install_guide' do
+    render_views
+
+    it 'renders the install_guide template' do
+      get :install_guide, structure_id: structure.slug
+
+      expect(response).to render_template('install_guide')
+    end
+
+    context 'when xhr request' do
+      it "doens't render the layout" do
+        xhr :get, :install_guide, structure_id: structure.id
+
+        expect(response).to_not render_with_layout('admin')
+      end
+    end
+  end
 end
