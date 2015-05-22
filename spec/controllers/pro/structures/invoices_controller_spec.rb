@@ -24,7 +24,7 @@ RSpec.describe Pro::Structures::InvoicesController, type: :controller, with_stri
     render_views
 
     it 'renders the index template' do
-      get :index, structure_id: structure.id
+      get :index, structure_id: structure.slug
 
       expect(response).to render_template('index')
     end

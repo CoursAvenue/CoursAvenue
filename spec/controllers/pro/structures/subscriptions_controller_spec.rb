@@ -377,7 +377,7 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller, with
 
         structure.reload
 
-        expect(response).to redirect_to(action: :index, structure_id: structure.slug)
+        expect(response).to redirect_to(website_planning_parameters_pro_structure_path(structure))
       end
     end
 
@@ -398,7 +398,7 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller, with
         patch :accept_payments, structure_id: structure.id, id: subscription.id,
           managed_account_form: { stripe_bank_token: bank_token, legal_entity: legal_entity }
 
-        expect(response).to redirect_to(action: :index, structure_id: structure.slug)
+        expect(response).to redirect_to(website_planning_parameters_pro_structure_path(structure))
       end
     end
 
