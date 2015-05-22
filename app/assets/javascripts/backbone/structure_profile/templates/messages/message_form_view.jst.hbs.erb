@@ -12,7 +12,7 @@
       {{/if}}
       {{#if structure.phone_numbers}}
           {{#if structure.phone_numbers}}
-              <div class="">
+              <div>
                   {{#each structure.phone_numbers}}
                       {{#ifCond @index '>' 0}}<br>{{/ifCond}}
                       <strong class="epsilon v-middle" itemprop="telephone">{{this}}</strong>
@@ -23,6 +23,11 @@
                   {{/each}}
               </div>
           {{/if}}
+      {{/if}}
+      {{#if structure.website}}
+          <div>
+              <a class="f-weight-bold epsilon v-middle" href="{{ structure.website }}" target="_blank" itemprop="website"><strong>{{ structure.website }}</strong></a>
+          </div>
       {{/if}}
       </div>
   </div>

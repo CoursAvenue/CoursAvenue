@@ -103,7 +103,7 @@ class Newsletter < ActiveRecord::Base
     self.metric = Newsletter::Metric.create(newsletter: self)
 
     sending_informations.each do |message_information|
-      recipient = self.recipients.select { |recipient| recipient.email == message_information[:email] }.first
+      recipient = self.recipients.select { |recipient| recipient.email == message_information['email'] }.first
       if recipient
         recipient.mandrill_message_id = message_information['_id']
         recipient.save
