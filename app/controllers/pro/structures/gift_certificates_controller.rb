@@ -4,6 +4,10 @@ class Pro::Structures::GiftCertificatesController < ApplicationController
 
   layout 'admin'
 
+  def index
+    @gift_certificates = @structure.gift_certificates.decorate
+  end
+
   private
 
   def set_structure
