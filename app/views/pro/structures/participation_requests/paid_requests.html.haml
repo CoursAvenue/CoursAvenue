@@ -1,0 +1,22 @@
+= side_menu_currently_at 'inscriptions'
+
+= render partial: 'pro/structures/participation_requests/tabs', locals: { current: 'index' }
+
+%h1 Inscriptions par carte bleu
+
+%table.table--data.table--striped
+  %thead
+    %tr
+      %th Date
+      %th Prix
+      %th Status
+  %tbody
+    - @participation_requests.each do |participation_request|
+      %tr
+        %td= l(participation_request.date, format: :long)
+        %td= participation_request.price
+        %td
+          - if participation_request.refunded?
+            Remboursé
+          - elsif participation_request.charged?
+            Payé

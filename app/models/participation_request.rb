@@ -70,6 +70,7 @@ class ParticipationRequest < ActiveRecord::Base
   scope :canceled,                -> { where( arel_table[:state].eq('canceled') ) }
   scope :tomorrow,                -> { where( state: 'accepted', date: Date.tomorrow ) }
   scope :structure_not_responded, -> { where.not( structure_responded: true ) }
+  scope :charged,                 -> { where.not( stripe_charge_id: nil ) }
 
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
   #

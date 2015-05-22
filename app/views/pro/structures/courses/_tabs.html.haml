@@ -9,3 +9,7 @@
     %li{ class: current == 'website_planning' ? 'active' : '' }
       = link_to website_planning_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
         Planning sur mon site Internet
+    - if @structure.premium?
+      %li{ class: current == 'website_planning_parameters' ? 'active' : '' }
+        = link_to website_planning_parameters_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+          Paramètres

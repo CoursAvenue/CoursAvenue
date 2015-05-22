@@ -215,6 +215,7 @@ CoursAvenue::Application.routes.draw do
           post  :recommend_friends
           post  :update
           get   :website_planning, path: 'planning-sur-mon-site'
+          get   :website_planning_parameters, path: 'parametre-de-mon-planning-sur-mon-site'
           get   :premium # redirect to subscriptions
         end
         collection do
@@ -249,6 +250,7 @@ CoursAvenue::Application.routes.draw do
             patch :reactivate
             get   :stripe_payment_form
             patch :accept_payments
+            get   :accept_payments_form
           end
           collection do
             get :confirm_choice
@@ -439,6 +441,9 @@ CoursAvenue::Application.routes.draw do
             patch :modify_date
             patch :cancel
             patch :report
+          end
+          collection do
+            get :paid_requests, path: 'inscriptions-via-carte-bleu'
           end
         end
       end

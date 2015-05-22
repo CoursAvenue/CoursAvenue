@@ -96,6 +96,6 @@ fr:
           ask_more_info: Envoyer un message
           decline: Refuser
           accept: Accepter
-          refund: Rembourser
+          refund: 'Annuler & Rembourser'
         table_recap:
           see_on_map: Voir sur la carte

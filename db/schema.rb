@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150521145121) do
+ActiveRecord::Schema.define(version: 20150521164710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -297,6 +297,7 @@ ActiveRecord::Schema.define(version: 20150521145121) do
     t.boolean  "is_open_for_trial"
     t.boolean  "has_promotion"
     t.datetime "deleted_at"
+    t.boolean  "accepts_payment"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
@@ -653,7 +654,6 @@ ActiveRecord::Schema.define(version: 20150521145121) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
-    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_request_invoices", force: true do |t|
@@ -701,9 +701,9 @@ ActiveRecord::Schema.define(version: 20150521145121) do
     t.string   "street"
     t.string   "zip_code"
     t.integer  "city_id"
-    t.string   "stripe_charge_id"
     t.boolean  "from_personal_website",     default: false
     t.string   "token"
+    t.string   "stripe_charge_id"
     t.boolean  "refunded",                  default: false
   end
 
@@ -829,9 +829,6 @@ ActiveRecord::Schema.define(version: 20150521145121) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
-    t.string   "address"
-    t.float    "latitude"
-    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
@@ -1060,8 +1057,8 @@ ActiveRecord::Schema.define(version: 20150521145121) do
     t.boolean  "sms_opt_in",                             default: false
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
-    t.string   "stripe_customer_id"
     t.boolean  "pure_player",                            default: false
+    t.string   "stripe_customer_id"
     t.string   "stripe_managed_account_id"
     t.string   "stripe_managed_account_secret_key"
     t.string   "stripe_managed_account_publishable_key"
@@ -1429,6 +1426,8 @@ ActiveRecord::Schema.define(version: 20150521145121) do
     t.datetime "updated_at"
     t.text     "presentation_text"
   end
+
+  add_index "website_parameters", ["structure_id"], name: "index_website_parameters_on_structure_id", using: :btree
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
 
