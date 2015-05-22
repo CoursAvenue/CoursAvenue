@@ -443,7 +443,7 @@ CoursAvenue::Application.routes.draw do
             patch :report
           end
           collection do
-            get :paid_requests, path: 'inscriptions-via-carte-bleu'
+            get :paid_requests, path: 'transactions-cb'
           end
         end
       end

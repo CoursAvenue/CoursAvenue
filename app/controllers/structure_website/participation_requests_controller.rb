@@ -8,7 +8,7 @@ class StructureWebsite::ParticipationRequestsController < StructureWebsiteContro
   # For an example of a message controller see:
   # https://github.com/ging/social_stream/blob/master/base/app/controllers/messages_controller.rb
   def create
-    @user              = User.where(email: request_params[:user][:email]).first_or_initialize(validate: false)
+    @user              = User.where(email: request_params[:user][:email].downcase).first_or_initialize(validate: false)
     @user.phone_number = request_params[:user][:phone_number]
     @user.first_name   = request_params[:user][:name]
     @user.save(validate: false)

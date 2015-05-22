@@ -1,22 +1,35 @@
 = side_menu_currently_at 'inscriptions'
 
-= render partial: 'pro/structures/participation_requests/tabs', locals: { current: 'index' }
+= render partial: 'pro/structures/participation_requests/tabs', locals: { current: 'transactions' }
 
-%h1 Inscriptions par carte bleu
+%h1 Transactions CB
 
 %table.table--data.table--striped
   %thead
     %tr
-      %th Date
-      %th Prix
-      %th Status
+      %th Date du paiement
+      %th Participant
+      %th Activité
+      %th Frais CB
+      %th Montant reçu
   %tbody
     - @participation_requests.each do |participation_request|
+      - if participation_request.refunded?
+        %tr
+          %td= l(participation_request.charged_at.to_date, format: :long)
+          %td
+            = participation_request.user.name
+            - if participation_request.participants.length > 1
+              = "(#{participation_request.participants.length} participants)"
+          %td= participation_request.course.name
+          %td 0€
+          %td= "-#{readable_amount(participation_request.price - participation_request.stripe_fee)}"
       %tr
-        %td= l(participation_request.date, format: :long)
-        %td= participation_request.price
+        %td= l(participation_request.charged_at.to_date, format: :long)
         %td
-          - if participation_request.refunded?
-            Remboursé
-          - elsif participation_request.charged?
-            Payé
+          = participation_request.user.name
+          - if participation_request.participants.length > 1
+            = "(#{participation_request.participants.length} participants)"
+        %td= participation_request.course.name
+        %td= readable_amount participation_request.stripe_fee
+        %td= readable_amount(participation_request.price - participation_request.stripe_fee)

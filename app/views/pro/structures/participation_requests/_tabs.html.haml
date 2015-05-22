@@ -2,5 +2,5 @@
   %ul.nav.flush
     %li{ class: current == 'index' ? 'active' : '' }
       = link_to "Inscriptions", pro_structure_participation_requests_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends'
-    %li{ class: current == 'paid' ? 'active' : '' }
-      = link_to "Liste des paiements", paid_requests_pro_structure_participation_requests_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends'
+    %li{ class: current == 'transactions' ? 'active' : '' }
+      = link_to "Transactions CB", paid_requests_pro_structure_participation_requests_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends'

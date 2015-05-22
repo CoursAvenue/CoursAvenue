@@ -1,0 +1,25 @@
+= side_menu_currently_at 'plannings'
+
+= render partial: 'pro/structures/courses/tabs', locals: { current: 'website_planning_parameters' }
+
+%h1 Paramètre du planning sur votre site web
+
+%h3 Inscription par carte bleue
+
+- if @structure.stripe_managed_account_id.blank?
+  %p.epsilon
+    Grace à votre abonnement <strong>#{ @structure.subscription.plan.public_name }</strong>, vous pouvez accepter les paiement de vos élèves depuis la platforme CoursAvenue.
+    %br
+    Pour cela, vous devez nous renseigner vos informations bancaire pour recevoir les paiements.
+
+  .text--center
+    = link_to 'Activer la reception des paiements par carte bleu', accept_payments_form_pro_structure_subscription_path(@structure, @structure.subscription), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 700 }
+
+  - content_for :scripts do
+    = javascript_include_tag 'https://js.stripe.com/v2/'
+- else
+  %p.epsilon Cochez les cours pour lesquels vous acceptez le paiement par carte bleue :
+  .soft--left
+    - @structure.courses.without_open_courses.each do |course|
+      = simple_form_for [:pro, @structure, course], url: pro_structure_course_path(@structure, course), as: :course, remote: true, data: { behavior: 'live-form' }do |f|
+        = f.input :accepts_payment, as: :boolean, label: course.name, wrapper_html: { class: 'checkbox-at-left' }, input_html: { id: "accepts_payment_#{course.id}", value: course.accepts_payment }

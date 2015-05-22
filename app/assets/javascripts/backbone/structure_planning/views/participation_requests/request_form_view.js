@@ -21,6 +21,17 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             '$second_step_form_wrapper'               : '[data-element=second-step-form-wrapper]',
             '$third_step_form_wrapper'                : '[data-element=third-step-form-wrapper]',
             '$form_submit'                            : '[data-element=form-submit]',
+            '$input_exp'                              : '[name="card[exp]"]',
+            '$hidden_input_exp_month'                 : '[name="card[exp_month]"]',
+            '$hidden_input_exp_year'                  : '[name="card[exp_year]"]',
+            '$input_cvc'                              : '[name="card[cvc]"]',
+            '$input_card_number'                      : '[name="card[number]"]'
+        },
+
+        onShow: function onShow () {
+            this.ui.$input_card_number.payment('formatCardNumber');
+            this.ui.$input_exp.payment('formatCardExpiry');
+            this.ui.$input_cvc.payment('formatCardCVC');
         },
 
         /*
@@ -50,6 +61,9 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             if (this.model.isFree()) {
                 return this.submitForm();
             } else {
+                var expiry_date = $.payment.cardExpiryVal(this.ui.$input_exp.val());
+                this.ui.$hidden_input_exp_month.val(expiry_date.month)
+                this.ui.$hidden_input_exp_year.val(expiry_date.year)
                 Stripe.card.createToken(this.$('form'), this.stripeResponseHandler);
                 return false;
             }
@@ -161,7 +175,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             if (errors.length == 0) {
                 this.ui.$first_step_form_wrapper.slideUp();
 
-                if (!this.model.isFree()) {
+                if (!this.model.isFree() && this.selectedCourseAcceptsPayment()) {
                     this.addThirdStepForm();
                     this.ui.$third_step_form_wrapper.slideUp();
                 }
@@ -209,24 +223,22 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
          * payment
          */
         togglePaymentForm: function togglePaymentForm (data) {
-            if (data) {
-                var hasPayment = _.any(data.prices, function(price) {
-                    return (parseFloat(price.amount) > 0)
-                });
-
-                if (hasPayment) {
-                    this.ui.$third_step_form_wrapper.slideDown();
-                    this.ui.$form_submit.slideUp();
-                } else  {
-                    this.ui.$third_step_form_wrapper.slideUp()
-                    this.ui.$form_submit.slideDown();
-                }
-
-            } else {
-                this.ui.$third_step_form_wrapper.slideUp()
+            if (data.total_price > 0) {
+                this.ui.$third_step_form_wrapper.slideDown();
                 this.ui.$form_submit.slideUp();
+            } else  {
+                this.ui.$third_step_form_wrapper.slideUp()
+                this.ui.$form_submit.slideDown();
             }
         },
+
+        getCourse: function getCourse() {
+            return this.pr_content_view_courses_collection.findWhere({ id: parseInt(this.model.get('course_id'), 10) });
+        },
+
+        selectedCourseAcceptsPayment: function selectedCourseAcceptsPayment() {
+            return this.getCourse().get('accepts_payment');
+        }
 
     });
 

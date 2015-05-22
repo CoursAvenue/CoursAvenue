@@ -6,8 +6,10 @@
 
 
 .soft--sides
-  - if !participation_request.charged?
-    %p Lorsque votre demande d'inscription sera accepté, votre paiement sera effecté.
+  - if !participation_request.charged? and participation_request.chargeable?
+    %p.epsilon
+      %strong Important :
+      vous ne serez débité uniquement quand votre réservation aura été confirmée.
   %table.table--striped.table--striped-reversed.bordered.f-weight-500
     %tbody
       %tr.bordered--bottom

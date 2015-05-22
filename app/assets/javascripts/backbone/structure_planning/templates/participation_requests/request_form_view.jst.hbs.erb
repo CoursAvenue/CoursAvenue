@@ -109,47 +109,47 @@
                 {{/if}}
 
                 <div class="push-half--bottom soft--sides">
+                    <label class="label--large block">Numéro de carte</label>
                     <div class="input-addon">
                         <div class="input-prefix">
                             <i class="fa-credit-card"></i>
                         </div>
-                        <input type="text" class="input--large one-whole hard--right" name='card[number]' type='text' placeholder='Votre numéro de carte' data-toggle="popover" data-content="" data-trigger="hover" data-placement="left" data-stripe='number'>
+                        <input type="tel" class="input--large one-whole hard--right" name='card[number]' data-stripe='number' autocomplete="cc-number" placeholder="•••• •••• •••• ••••">
                     </div>
                 </div>
 
                 <div class="push-half--bottom soft--sides">
-
-                  <div class='one-half inline-block v-top'>
-                    <div class="input-addon">
-                      <div class="input-prefix">
-                        <i class="fa-calendar"></i>
-                      </div>
-                      <input type="text" class="input--large one-whole hard--right" name='card[exp_month]' type='text' placeholder="Mois d'expiration" data-toggle="popover" data-content="" data-trigger="hover" data-placement="left" data-stripe='exp_month'>
+                    <div class="grid">
+                        <div class='grid__item one-half v-top'>
+                            <label class="label--large block">Date d'expiration</label>
+                            <div class="input-addon">
+                                <div class="input-prefix">
+                                  <i class="fa-calendar"></i>
+                                </div>
+                                <input type="tel" class="input--large one-whole hard--right" name='card[exp]' data-stripe='exp' placeholder="MM / AAAA">
+                                <input type="hidden" name='card[exp_month]' type='text' data-stripe='exp_month'>
+                                <input type="hidden" name='card[exp_year]' type='text' data-stripe='exp_year'>
+                            </div>
+                        </div>{{!--
+                     --}}<div class='grid__item one-half v-top'>
+                            <label class="label--large block">Code de sécurité</label>
+                            <div class="input-addon">
+                              <div class="input-prefix">
+                                <i class="fa-lock"></i>
+                              </div>
+                              <input type="tel" class="input--large one-whole hard--right" name='card[cvc]' data-stripe='cvc'>
+                            </div>
+                        </div>
                     </div>
-                  </div>{{!--
-
-                  --}}<div class='one-half inline-block v-top'>
-                    <input type="text" class="input--large one-whole hard--right" name='card[exp_year]' type='text' placeholder="Année d'expiration" data-toggle="popover" data-content="" data-trigger="hover" data-placement="left" data-stripe='exp_year'>
-                  </div>
-
+                    <div data-error="stripe-error" class="hidden input_field_error red f-weight-bold"></div>
                 </div>
 
-                <div class="push-half--bottom soft--sides">
-                  <div class="input-addon">
-                    <div class="input-prefix">
-                      <i class="fa-lock"></i>
-                    </div>
-                    <input type="text" class="input--large one-whole hard--right" name='card[cvc]' type='text' placeholder='Votre code de sécurité' data-toggle="popover" data-content="" data-trigger="hover" data-placement="left" data-stripe='cvc'>
-                  </div>
-
-                  <div data-error="stripe-error" class="hidden input_field_error red f-weight-bold text--right"></div>
-                </div>
 
                 <input type='hidden' class='hidden' name='card[token]' data-stripe='token'>
 
                 <div class="soft--sides">
-                    <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
-                        Enregistrer
+                    <button type="submit" class="btn btn--green btn--full" data-disable-with="Inscription en cours...">
+                        Valider
                     </button>
                 </div>
             </div>

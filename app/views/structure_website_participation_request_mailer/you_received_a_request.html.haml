@@ -15,6 +15,11 @@
   pour votre cours "#{@participation_request.course.name}"
   - if @participation_request.place
     au #{@participation_request.place.address} (#{@participation_request.place.name}).
+- if @participation_request.chargeable?
+  .p
+    %strong Important :
+    le participant a déjà réglé la séance par carte bleue, il vous suffit de l'accepter pour recevoir le montant de la transaction.
+.p
   Connectez-vous à votre profil pour répondre à sa demande :
 
 .p.action

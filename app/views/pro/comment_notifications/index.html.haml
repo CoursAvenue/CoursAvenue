@@ -1,6 +1,7 @@
 = side_menu_currently_at 'invitations'
 
 = render partial: 'pro/shared/invitation_tabs', locals: { current: 'comment_notifications' }
+
 %h1 Invitations d'élèves
 .text--center.push-half--ends= paginate @comment_notifications, window: 1, outer_window: 3
 %table.table--striped.table--data#comment-notification-table

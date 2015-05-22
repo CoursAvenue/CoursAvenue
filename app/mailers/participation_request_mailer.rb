@@ -198,23 +198,6 @@ class ParticipationRequestMailer < ActionMailer::Base
       subject: "Votre facture du cours du #{ @participation_request.day_and_hour } avec #{ @structure.name }"
   end
 
-  # Send the invoice to the teacher.
-  #
-  # @param teacher               The teacher to send the invoice to
-  # @param user                  The user of the course
-  # @param participation_request The related participation request
-  #
-  # @return
-  def send_invoice_to_teacher(participation_request)
-    @user                  = participation_request.user
-    @structure             = participation_request.structure
-    @invoice               = participation_request.invoice
-    @participation_request = participation_request.decorate
-
-    mail to: @structure.email,
-      subject: "Votre facture du cours du #{ @participation_request.day_and_hour } avec #{ @user.name }"
-  end
-
   def send_charge_refunded_to_user(participation_request)
     @user                  = participation_request.user
     @structure             = participation_request.structure
