@@ -1,0 +1,37 @@
+-# According to: http://stackoverflow.com/questions/11616697/how-to-use-og-meta-tag-for-facebook-share
+%meta{ name: 'fragment', content: "!" }
+
+- if Rails.env.staging?
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
+
+%meta{ 'http-equiv' => 'Content-Type', content: 'text/html; charset=utf-8' }
+%meta{ name: 'viewport',               content: 'width=device-width, initial-scale=1.0'  }
+
+%meta{ property: 'og:site_name',       content: @structure.name }
+%meta{ property: 'og:type',            content: 'website' }
+
+%meta{ property: 'og:url', content: "#{request.protocol + request.host_with_port + request.fullpath}" }
+
+- #----------------------- TITLE
+- if content_for? :title
+  %title= yield(:title).try(:squish)
+  %meta{ property: "og:title", content: yield(:title).try(:squish) }
+  %meta{ name: 'twitter:title', content: yield(:title).try(:squish) }
+- elsif request.subdomain == 'pro'
+  %title= @structure.name
+  %meta{ property: "og:title", content: @structure.name }
+  %meta{ name: 'twitter:title', content: @structure.name }
+
+- #----------------------- Description
+- if content_for? :meta_description
+  %meta{ name: 'description', content: "#{yield(:meta_description).try(:squish)}" }
+  %meta{ property: 'og:description', content: "#{yield(:meta_description).try(:squish)}" }
+  %meta{ name: 'twitter:description', content: "#{yield(:meta_description).try(:squish)}" }
+  %meta{ name: "twitter:card", content: "#{yield(:meta_description).try(:squish)}" }
+
+- #----------------------- Image
+- if content_for?(:meta_image) and @structure.logo.present?
+  %meta{ property: "og:image", content: @structure.logo.url }
+  %meta{ name: "twitter:image", content: @structure.logo.url }
+
+%meta{ name: 'keywords', content: @structure.subjects.map(&:name).join(',') }

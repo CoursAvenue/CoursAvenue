@@ -4,7 +4,7 @@
     %tr{ valign: 'top' }
       - if bloc.image?
         %td.text--center.content-block.soft-half--sides{ width: '600' }
-          = image_tag bloc.image.url, alt: @newsletter.title, width: "600"
+          = image_tag bloc.image.url(:newsletter_body), alt: @newsletter.title, width: "600"
       - elsif bloc.content.present?
         %td.content-block.soft-half--sides{ width: '600' }
           = bloc.content.html_safe
