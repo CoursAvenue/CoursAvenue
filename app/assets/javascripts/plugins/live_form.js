@@ -30,12 +30,12 @@
         this.init();
     }
 
-    var template = '<p data-type="live-form-flash" class="bg-site-background hidden green nowrap absolute"><strong>{{text}}</strong></p>';
+    var template = '<p data-type="live-form-flash" class="soft-half--left bg-site-background hidden green nowrap absolute"><strong>{{text}}</strong></p>';
     Plugin.prototype = {
 
         template: Handlebars.compile(template),
 
-        init: function() {
+        init: function init () {
             this.$form = this.$element;
             if (typeof(this.$element.data('live-form-attribute')) != 'undefined') { this.options.live_form_attribute = this.$element.data('live-form-attribute'); }
             if (this.options.live_form_attribute) {
@@ -49,7 +49,7 @@
         /*
          * Create a flash in the wizard container telling 'Saving...'
          */
-        flashSaving: function() {
+        flashSaving: function flashSaving () {
             this.$flash = $(this.template({ text: 'Enregistrement en cours...' }));
             this.offset_top = this.$element.offset().top - this.$wizard_container.offset().top;
             if (this.offset_top < 0) { this.offset_top = 0; }
@@ -62,7 +62,7 @@
         /*
          * Removes the first flash that said 'Saving...' and replace it by 'Saved'
          */
-        flashSaved: function() {
+        flashSaved: function flashSaved () {
             this.$flash.fadeOut();
             var $finished_flash = $(this.template({ text: 'Enregistré' }));
             $finished_flash.css({ top:  this.offset_top });
@@ -72,10 +72,10 @@
                 $finished_flash.fadeOut();
             }, 2500);
         },
-        submitForm: function(event) {
+        submitForm: function submitForm (event) {
             if (this.previous_value == event.currentTarget.value) { return; }
             this.flashSaving();
-            this.$form.submit().on('ajax:success', function() {
+            this.$form.submit().on('ajax:complete', function() {
                 this.flashSaved();
                 this.previous_value = event.currentTarget.value;
             }.bind(this));
