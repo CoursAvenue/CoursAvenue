@@ -43,7 +43,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             _events = {
                 'click [data-behavior=show-third-step-form]': 'showThirdStepForm',
                 'submit form':                                'preSubmitForm'
-            }
+            };
 
             return _.extend(StructureProfile.Views.ParticipationRequests.RequestFormView.prototype.events, _events);
         },
@@ -62,8 +62,8 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
                 return this.submitForm();
             } else {
                 var expiry_date = $.payment.cardExpiryVal(this.ui.$input_exp.val());
-                this.ui.$hidden_input_exp_month.val(expiry_date.month)
-                this.ui.$hidden_input_exp_year.val(expiry_date.year)
+                this.ui.$hidden_input_exp_month.val(expiry_date.month);
+                this.ui.$hidden_input_exp_year.val(expiry_date.year);
                 Stripe.card.createToken(this.$('form'), this.stripeResponseHandler);
                 return false;
             }
@@ -209,8 +209,8 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
 
         stripeResponseHandler: function stripeResponseHandler (status, response) {
             if (status == 200) {
-                this.model.set('stripe_token', response.id)
-                this.ui.$participation_request_card_token.val(response.id)
+                this.model.set('stripe_token', response.id);
+                this.ui.$participation_request_card_token.val(response.id);
                 this.submitForm();
             } else {
                 var errorMessage = window.coursavenue.bootstrap.stripe_errors[response.error.code];
@@ -227,7 +227,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
                 this.ui.$third_step_form_wrapper.slideDown();
                 this.ui.$form_submit.slideUp();
             } else  {
-                this.ui.$third_step_form_wrapper.slideUp()
+                this.ui.$third_step_form_wrapper.slideUp();
                 this.ui.$form_submit.slideDown();
             }
         },
