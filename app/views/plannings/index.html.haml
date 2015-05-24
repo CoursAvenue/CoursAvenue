@@ -1,6 +1,6 @@
 = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'
-= javascript_include_tag 'https//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js'
+= javascript_include_tag 'https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js'
 = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css'
 
-
-#search-page{ :data => { :type => "search-page-root" } }
+- @city = City.find('paris')
+= react_component('SearchPageApp', map_center: [@city.latitude, @city.longitude], plannings: @plannings.to_json)

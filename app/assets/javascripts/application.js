@@ -80,6 +80,11 @@
 //= require libs/Backbone.CollectionBinder.js
 //= require backbone/cours_avenue
 
+// ---------------------------------- React
+//= require react
+//= require react_ujs
+require('./react/components');
+
 // Default magnificpopup style
 // http://codepen.io/dimsemenov/pen/GAIkt
 $.magnificPopup.defaults.callbacks = {
