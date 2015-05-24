@@ -769,6 +769,7 @@ ActiveRecord::Schema.define(version: 20150513155126) do
     t.string   "callable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "info"
   end
 
   add_index "phone_numbers", ["callable_id", "callable_type"], name: "index_phone_numbers_on_callable_id_and_callable_type", using: :btree

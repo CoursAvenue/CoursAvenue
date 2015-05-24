@@ -21,6 +21,7 @@
               %label.control-label.label--large{ for: "phone_number_number_#{i}" }> Téléphone
               .input-container>
                 = phone_number_form.input :number, label: false, input_html: { class: 'input--large one-whole', id: "phone_number_number_#{i}" }, wrapper_html: { class: 'inline-block v-middle flush' }
+                = phone_number_form.input :info, label: false, input_html: { placeholder: 'Ajoutez toute info utile', class: 'input--large one-whole' }, wrapper_html: { class: 'inline-block v-middle flush' }
                 %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
                   %i.fa-trash-o
                   Supprimer
