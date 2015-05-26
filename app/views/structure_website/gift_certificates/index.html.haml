@@ -1,0 +1,69 @@
+.main-container
+  %h2 Choissisez votre bon cadeau
+  .grid
+    .grid__item.eight-twelfths.palm-one-whole>
+      .soft.bg-white.bordered--left.bordered--right{ data: { step: 'certificates' } }
+        - @gift_certificates.each do |certificate|
+          .grid--full.gray-box.push--bottom.cursor-pointer{ data: { behavior: 'follow-inside-link' } }
+            .grid__item.v-middle.nine-twelfths.soft-half--ends.soft-half--right.soft--left>
+              .push--bottom.rounded--top
+                = link_to '', 'javascript:void(0)', data: { behavior: 'select-certificate', certificate: certificate.id }
+                %h6.line-height-1-3.gamma.push-half--bottom= "#{ certificate.name }"
+                .line-height-1-7.epsilon= "#{ certificate.description }"
+            .grid__item.v-middle.three-twelfths.soft-half.text--center>
+              .f-weight-600.gamma= readable_amount(certificate.amount)
+
+      .soft.bg-white.bordered--left.bordered--right.hidden{ data: { step: 'payment' } }
+        .push--bottom
+          = link_to '← Changer le Bon Cadeau', 'javascript:void(0)', data: { behavior: 'previous-step' }
+        = simple_form_for @voucher, url: structure_website_gift_certificates_path do |f|
+          = f.input :gift_certificate_id, as: :hidden
+          .push-half--bottom
+            .input-addon
+              .input-prefix
+                %i.fa.fa-user
+              = f.input :name, required: true, input_html: { class: 'input--large one-whole' }, placeholder: 'Vos Nom et Prénom', label: false
+          .push-half--bottom
+            .input-addon
+              .input-prefix
+                %i.fa.fa-envelope-o
+              = f.input :email, required: true, input_html: { class: 'input--large one-whole' }, placeholder: 'Votre e-mail', label: false
+          .text--center
+            = f.submit 'Régler ma commande',  class: 'btn btn--green'
+
+    .grid__item.four-twelfths.palm-one-whole>
+      %h3.soft-half--bottom
+        %i.fa.fa-lightbulb-o
+        Comment ça marche ?
+      %ol.epsilon
+        %li Choisissez votre bon cadeau
+        %li Payez-le en ligne par carte bleu
+        %li Offrez le bon que vous recevrez par e-mail
+      %h3.soft-half--bottom Simple et sans mauvaise surprise
+      %ul.epsilon
+        %li Il n’a pas de date de validité !
+        %li Il n’est pas nominatif mais est numéroté : conservez-le donc précieusement
+        %li Il est ni remboursable ni échangeable
+        %li Le détendeur du bon pourra réserver l’atelier de son choix directement sur notre site Internet ou par téléphone. Le jour de l’atelier, il n’aura qu’à présenter son bon à son arrivée.
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('[data-behavior=follow-inside-link]').click(function(event) {
+            var element = $(this).find('a');
+            selectCertificate($(this).find('a'));
+        })
+
+        $('[data-behavior=previous-step]').click(function(event) {
+            $('[data-step=payment]').slideUp();
+            $('[data-step=certificates]').slideDown();
+        })
+
+        function selectCertificate(element) {
+            var certificate_id = $(element).data('certificate')
+            $('[name="gift_certificate_voucher[gift_certificate_id]"]').val(certificate_id);
+
+            $('[data-step=certificates]').slideUp();
+            $('[data-step=payment]').slideDown();
+        }
+    });

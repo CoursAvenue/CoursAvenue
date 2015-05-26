@@ -1,4 +1,6 @@
 class GiftCertificate::Voucher < ActiveRecord::Base
+  attr_accessor :name, :email
+
   belongs_to :gift_certificate
   belongs_to :user
 
