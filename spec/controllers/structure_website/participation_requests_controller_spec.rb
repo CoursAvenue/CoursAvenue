@@ -18,7 +18,7 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller, w
     allow_any_instance_of(Structure).to receive(:premium?).and_return(true)
   end
 
-  describe '#create', with_mail: true do
+  describe '#create' do
     before(:each) do
       request.env["HTTP_ACCEPT"] = 'application/json'
     end
