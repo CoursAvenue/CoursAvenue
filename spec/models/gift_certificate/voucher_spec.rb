@@ -14,7 +14,6 @@ RSpec.describe GiftCertificate::Voucher, type: :model, with_stripe: true do
   let(:structure)        { subject.structure }
 
   context 'validations' do
-    it { should validate_presence_of(:gifted_to) }
   end
 
   context 'associations' do
@@ -115,7 +114,7 @@ RSpec.describe GiftCertificate::Voucher, type: :model, with_stripe: true do
           expect(subject.stripe_charge).to_not be_nil
         end
 
-        it 'sends an email to the gifted user and to the teacher' do
+        it 'sends an email to the user and to the teacher' do
           expect { subject.charge! }.to change { ActionMailer::Base.deliveries.count }.by(2)
         end
 

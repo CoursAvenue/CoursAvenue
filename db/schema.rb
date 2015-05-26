@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150522142144) do
+ActiveRecord::Schema.define(version: 20150526092141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -454,7 +454,6 @@ ActiveRecord::Schema.define(version: 20150522142144) do
     t.integer  "gift_certificate_id"
     t.string   "stripe_charge_id"
     t.integer  "user_id"
-    t.string   "gifted_to"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

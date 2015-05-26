@@ -2,8 +2,6 @@ class GiftCertificate::Voucher < ActiveRecord::Base
   belongs_to :gift_certificate
   belongs_to :user
 
-  validates :gifted_to, presence: true
-
   delegate :amount, :structure, to: :gift_certificate
 
   # Retrieve the `Stripe::Charge` associated with the voucher.
