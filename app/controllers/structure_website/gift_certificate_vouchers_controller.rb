@@ -1,11 +1,12 @@
-class StructureWebsite::GiftCertificatesController < StructureWebsiteController
+class StructureWebsite::GiftCertificateVouchersController < StructureWebsiteController
   def index
     @gift_certificates = @structure.gift_certificates.decorate
     @voucher           = GiftCertificate::Voucher.new
   end
 
   def show
-    @voucher = GiftCertificate::Voucher.find(params[:id])
+    @voucher      = GiftCertificate::Voucher.find(params[:id])
+    @just_created = params[:just_created].present?
   end
 
   def create
@@ -16,9 +17,11 @@ class StructureWebsite::GiftCertificatesController < StructureWebsiteController
 
     respond_to do |format|
       if @voucher.save
-        format.hmtl { redirect_to structure_website_gift_certificates_path, notice: 'Votr' }
+        format.html { redirect_to structure_website_gift_certificate_voucher_path(@voucher),
+                      notice: 'Votre Bon cadeau a été créé avec succés.' }
       else
-        format.hmtl { redirect_to structure_website_gift_certificates_path, error: '' }
+        format.html { redirect_to structure_website_gift_certificate_vouchers_path,
+                      error: 'Une erreur est survenue lors de la création de votre bon cadeau, veuillez rééssayer.' }
       end
     end
   end

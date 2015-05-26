@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe StructureWebsite::GiftCertificatesController, with_stripe: true do
+describe StructureWebsite::GiftCertificateVouchersController, with_stripe: true do
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 
@@ -37,19 +37,39 @@ describe StructureWebsite::GiftCertificatesController, with_stripe: true do
   end
 
   describe 'GET #show' do
-    it 'assign the voucher'
-    it 'renders the show template'
+    render_views
+
+    let(:voucher) { FactoryGirl.create(:gift_certificate_voucher) }
+
+    it 'assign the voucher' do
+      get :show, id: voucher.id
+      expect(assigns(:voucher)).to be_a(GiftCertificate::Voucher)
+    end
+
+    it 'renders the show template' do
+      get :show, id: voucher.id
+      expect(response).to render_template('show')
+    end
+
+    context 'right after the creation' do
+      it 'renders the creation message partial' do
+        get :show, id: voucher.id, just_created: true
+        expect(response).to render_template(partial: '_just_created')
+      end
+    end
   end
 
   describe 'POST #create' do
+    render_views
+
     let(:gifter)           { FactoryGirl.create(:user) }
     let(:gifted_to)        { Faker::Internet.email }
     let(:gift_certificate) { structure.gift_certificates.sample }
     let(:valid_params) do
       { gift_certificate_voucher:
-        { user_id: gifter.id,
-          gifted_to: gifted_to,
-          gift_certificate_id: gift_certificate.id }
+        { gift_certificate_id: gift_certificate.id,
+          name: Faker::Name.name,
+          email: Faker::Internet.email }
       }
     end
 
@@ -58,10 +78,11 @@ describe StructureWebsite::GiftCertificatesController, with_stripe: true do
         to change { GiftCertificate::Voucher.count }.by(1)
     end
 
-    it 'redirects to the index page' do
+    it 'redirects to the show page' do
       post :create, valid_params
-
-      expect(response).to redirect_to(action: :index)
+      created_voucher = GiftCertificate::Voucher.last
+      expect(response)
+        .to redirect_to(structure_website_gift_certificate_voucher_path(created_voucher))
     end
 
     it 'sends an email to theacher', with_mail: true do

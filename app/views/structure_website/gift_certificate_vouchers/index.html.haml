@@ -16,7 +16,7 @@
       .soft.bg-white.bordered--left.bordered--right.hidden{ data: { step: 'payment' } }
         .push--bottom
           = link_to '← Changer le Bon Cadeau', 'javascript:void(0)', data: { behavior: 'previous-step' }
-        = simple_form_for @voucher, url: structure_website_gift_certificates_path do |f|
+        = simple_form_for @voucher, url: structure_website_gift_certificate_vouchers_path do |f|
           = f.input :gift_certificate_id, as: :hidden
           .push-half--bottom
             .input-addon

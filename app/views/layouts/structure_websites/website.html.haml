@@ -33,7 +33,7 @@
       - @structure.website_pages.each do |page|
         %li= link_to page.title, structure_website_website_page_path(page), class: ['delta soft-half--sides soft-half--bottom', (@page and @page.slug == page.slug ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
       %li= link_to 'Contact', structure_website_contact_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'contact' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
-    %li= link_to 'Bons Cadeaux', structure_website_gift_certificates_path, class: ['delta soft-half--sides soft-half--bottom', (controller_name == 'gift_certificates' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+    %li= link_to 'Bons Cadeaux', structure_website_gift_certificate_vouchers_path, class: ['delta soft-half--sides soft-half--bottom', (controller_name == 'gift_certificates' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
 
 = content_for :content do
   = yield
