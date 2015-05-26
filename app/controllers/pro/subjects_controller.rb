@@ -41,6 +41,8 @@ class Pro::SubjectsController < Pro::ProController
 
   def create
     @subject = Subject.create params[:subject]
+    Rails.cache.delete "Pro::SubjectsController#descendants::#{@subject.parent.try(:id)}"
+    Rails.cache.delete "Pro::SubjectsController#descendants::#{@subject.root.id}"
     respond_to do |format|
       format.html { redirect_to all_pro_subjects_path }
     end
