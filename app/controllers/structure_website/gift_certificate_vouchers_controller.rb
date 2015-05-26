@@ -4,11 +4,6 @@ class StructureWebsite::GiftCertificateVouchersController < StructureWebsiteCont
     @voucher           = GiftCertificate::Voucher.new
   end
 
-  def show
-    @voucher      = GiftCertificate::Voucher.find(params[:id])
-    @just_created = params[:just_created].present?
-  end
-
   def create
     gift_certificate = @structure.gift_certificates.find(voucher_params[:gift_certificate_id])
 

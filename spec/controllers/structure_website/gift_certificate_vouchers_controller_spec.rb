@@ -50,13 +50,6 @@ describe StructureWebsite::GiftCertificateVouchersController, with_stripe: true 
       get :show, id: voucher.id
       expect(response).to render_template('show')
     end
-
-    context 'right after the creation' do
-      it 'renders the creation message partial' do
-        get :show, id: voucher.id, just_created: true
-        expect(response).to render_template(partial: '_just_created')
-      end
-    end
   end
 
   describe 'POST #create' do
@@ -78,11 +71,11 @@ describe StructureWebsite::GiftCertificateVouchersController, with_stripe: true 
         to change { GiftCertificate::Voucher.count }.by(1)
     end
 
-    it 'redirects to the show page' do
+    it 'redirects to the index page' do
       post :create, valid_params
       created_voucher = GiftCertificate::Voucher.last
       expect(response)
-        .to redirect_to(structure_website_gift_certificate_voucher_path(created_voucher))
+        .to redirect_to(structure_website_gift_certificate_vouchers_path)
     end
 
     it 'sends an email to theacher', with_mail: true do
