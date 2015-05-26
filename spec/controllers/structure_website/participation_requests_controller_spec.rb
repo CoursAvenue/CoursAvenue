@@ -2,7 +2,7 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-describe StructureWebsite::ParticipationRequestsController, type: :controller do
+describe StructureWebsite::ParticipationRequestsController, type: :controller, with_stripe: true do
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 
