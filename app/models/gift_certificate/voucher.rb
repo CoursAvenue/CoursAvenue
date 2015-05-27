@@ -1,4 +1,6 @@
 class GiftCertificate::Voucher < ActiveRecord::Base
+  include Concerns::HasRandomToken
+
   attr_accessor :name, :email, :stripe_token
 
   belongs_to :gift_certificate
@@ -53,5 +55,19 @@ class GiftCertificate::Voucher < ActiveRecord::Base
   def send_emails
     GiftCertificateMailer.delay.voucher_confirmation_to_user(self)
     GiftCertificateMailer.delay.voucher_created_to_teacher(self)
+  end
+
+  # Create a uniq random token.
+  # We generate a UUID like: `2d931510-d99f-494a-8c67-87feb05e1594` and then split it to make it
+  # friendlier than generating purely random string.
+  #
+  # @return
+  def create_token
+    if self.token.nil?
+      self.token = loop do
+        random_token = "PARRAIN-#{SecureRandom.uuid.split('-').first}"
+        break random_token unless self.class.exists?(token: random_token)
+      end
+    end
   end
 end
