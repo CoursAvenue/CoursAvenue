@@ -37,7 +37,7 @@ class PDFGenerator
     content = WickedPdf.new.pdf_from_string(voucher_str)
 
     # TODO: Change the id by the token.
-    file = Tempfile.new(["voucher-#{ voucher.id }", ".pdf"])
+    file = Tempfile.new(["voucher-#{ voucher.token }", ".pdf"])
     file.write(content.force_encoding("UTF-8"))
     file.close
 
