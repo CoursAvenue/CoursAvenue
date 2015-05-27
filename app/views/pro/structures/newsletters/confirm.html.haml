@@ -8,7 +8,7 @@
         = pluralize @newsletter.recipient_count, 'élève'
       .input.epsilon.push--bottom
         %input.delta#send-me-a-copy{ type: 'checkbox', name: 'send_me_a_copy', checked: true }
-        %label{ for: 'send-me-a-copy' } Envoyer la newsletter à mon adresse e-mail
+        %label{ for: 'send-me-a-copy' } Envoyer une copie de la newsletter à mon adresse e-mail
       .text--center
         %a{ onclick: '$.fancybox.close();', href: 'javascript:void(0)', class: 'one-third soft-half--ends btn btn--gray' }>
           %i.fa-times
