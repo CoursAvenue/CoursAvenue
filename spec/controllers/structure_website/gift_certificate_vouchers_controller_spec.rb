@@ -36,22 +36,6 @@ describe StructureWebsite::GiftCertificateVouchersController, with_stripe: true 
     end
   end
 
-  describe 'GET #show' do
-    render_views
-
-    let(:voucher) { FactoryGirl.create(:gift_certificate_voucher) }
-
-    it 'assign the voucher' do
-      get :show, id: voucher.id
-      expect(assigns(:voucher)).to be_a(GiftCertificate::Voucher)
-    end
-
-    it 'renders the show template' do
-      get :show, id: voucher.id
-      expect(response).to render_template('show')
-    end
-  end
-
   describe 'POST #create' do
     render_views
 
