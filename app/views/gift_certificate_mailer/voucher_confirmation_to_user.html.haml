@@ -1,0 +1,15 @@
+%p
+  Bonjour #{ @voucher.user.name },
+
+%p
+  Merci pour l'achat de votre bon cadeau "#{ @voucher.name }" dont voici la description :
+
+.text--center
+  .inline-block.soft.delta.bordered= @voucher.description
+
+%p
+  Total réglé : #{ readable_amount(@voucher.amount) }
+
+%h4.push-half--bottom.push--top Comment ça marche ?
+%p
+  Prenez rendez-vous avec le professeur en lui indiquant le détail de votre bon cadeau (type d'activité et numéro du bon).

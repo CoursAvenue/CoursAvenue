@@ -1,0 +1,11 @@
+%p
+  Félicitations !
+
+%p
+  #{ @user.name } vient d'acheter un bon cadeau d'une valeur de #{ readable_amount(@voucher.amount) }.
+
+%p
+  Retrouvez tous les détails dans votre onglet "Bons Cadeaux" :
+
+.text--center
+  = link_to 'Suivi de mes bons cadeaux', pro_structure_gift_certificates_url(@structure), class: 'btn btn--green'
