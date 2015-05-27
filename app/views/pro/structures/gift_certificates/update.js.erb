@@ -1,0 +1,8 @@
+<% if @gift_certificate.persisted? %>
+    COURSAVENUE.helperMethods.flash("Votre bon cadeau a été mis a jour avec succés.", 'success');
+    $.fancybox.close()
+    location.reload();
+<% else %>
+    COURSAVENUE.helperMethods.flash("Erreur lors de la mise a jour du bon cadeau, veuillez rééssayer.", 'error');
+<% end %>
+

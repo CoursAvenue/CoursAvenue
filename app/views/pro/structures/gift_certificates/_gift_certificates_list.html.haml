@@ -1,0 +1,20 @@
+.push--top
+  %table.table--striped.table--data.table-responsive
+    %thead
+      %tr
+        %th Nom du bon cadeau
+        %th Tarif
+        %th Description
+        %th
+    %tbody
+      - @gift_certificates.each do |certificate|
+        %tr
+          %td= certificate.name
+          %td= readable_amount(certificate.amount)
+          %td= certificate.description
+          %td
+            = link_to 'Modifier', edit_pro_structure_gift_certificate_path(@structure, certificate),
+              class: 'fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
+            \/
+            = link_to 'Supprimer', pro_structure_gift_certificate_path(@structure, certificate),
+              method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette newsletter ?' }

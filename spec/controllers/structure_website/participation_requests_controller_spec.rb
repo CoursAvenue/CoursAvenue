@@ -2,7 +2,7 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-describe StructureWebsite::ParticipationRequestsController, type: :controller do
+describe StructureWebsite::ParticipationRequestsController, type: :controller, with_stripe: true do
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 
@@ -18,7 +18,7 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
     allow_any_instance_of(Structure).to receive(:premium?).and_return(true)
   end
 
-  describe '#create', with_mail: true do
+  describe '#create' do
     before(:each) do
       request.env["HTTP_ACCEPT"] = 'application/json'
     end

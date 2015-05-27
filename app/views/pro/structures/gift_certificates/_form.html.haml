@@ -1,0 +1,12 @@
+= simple_form_for [:pro, @structure, @gift_certificate], remote: true do |form|
+  .panel
+    .panel__body.soft
+      = form.input :name, placeholder: 'Ex. Saint Valentin', label: 'Nom du bon cadeau', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+      = form.input :amount, placeholder: 'Ex. 5€', label: 'Tarif', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+      = form.input :description, placeholder: 'Ex. Cadeau de Saint Valentin :)', label: 'Description', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+
+      .grid.push--top
+        .grid__item.two-tenths>
+          %a.btn.btn--gray.btn--full{ onclick: '$.fancybox.close()' } Annuler
+        .grid__item.eight-tenths>
+          = form.submit 'Enregister', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }

@@ -1,0 +1,10 @@
+.bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.text--center
+  %p.delta.line-height-1-7
+    Paramétrez vos bons cadeaux pour pouvoir les proposer
+    %br
+    sur votre site Internet :
+  %div
+    = link_to new_pro_structure_gift_certificate_path(@structure), class: 'btn btn--green fancybox.ajax',
+      data: { behavior: 'modal', width: '600', padding: '0' }  do
+      %i.fa.fa-plus
+      Proposer des bons cadeaux

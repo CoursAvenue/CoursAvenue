@@ -7,6 +7,7 @@ describe Structure do
   after(:all)  { StripeMock.stop }
 
   it { should have_many(:newsletters) }
+  it { should have_many(:gift_certificates) }
 
   subject {structure}
   let(:structure) { FactoryGirl.create(:structure) }
