@@ -105,9 +105,9 @@ class Subscriptions::Plan < ActiveRecord::Base
     end
 
     self.subscriptions.create({
-      structure: structure,
-      coupon:    coupon,
-      trial_end: TRIAL_LENGTH.days.from_now
+      structure:     structure,
+      coupon:        coupon,
+      trial_ends_at: TRIAL_LENGTH.days.from_now
     })
   end
 
