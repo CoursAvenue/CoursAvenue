@@ -1,1 +1,29 @@
-= "Bon cadeau - #{ @voucher.structure.name }"
+.bg-white.soft
+  .text--center
+    %h1 BON CADEAU
+    %h2= @voucher.structure.name
+
+  %h4.push-half--bottom= @voucher.name
+  %p= @voucher.description
+
+  .text--center
+    .inline-block.soft.delta.bordered
+      -# TODO: Change id by token.
+      %strong aaaaaaaaaaaaaaa
+
+  %h4.push-half--bottom Contact
+  %p
+    - if @voucher.structure.phone_numbers.any?
+      Tél :
+      - @voucher.structure.phone_numbers.each do |phone_number|
+        %span.soft-half--right= phone_number.decorate.formatted_number
+        %br
+    E-mail :
+    = @voucher.structure.email
+
+  %h4.push-half--bottom.push--top Comment ça marche ?
+  %p
+    Prenez rendez-vous avec le professeur en lui indiquant le détail de votre bon cadeau (type d'activité et numéro du bon).
+
+  %p
+    Très belle séance !
