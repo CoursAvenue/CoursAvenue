@@ -31,6 +31,13 @@ class StructureWebsite::ParticipationRequestsController < StructureWebsiteContro
                                      status: :unprocessable_entity }
       end
     end
+  rescue Stripe::CardError => exception
+    stripe_error_message = I18n.t('stripe.error_codes')[exception.code.to_sym]
+    respond_to do |format|
+      format.json { render json: { success: false,
+                                   stripe_error_message: stripe_error_message },
+                                   status: :unprocessable_entity }
+    end
   end
 
   def show
