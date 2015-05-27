@@ -62,7 +62,7 @@ describe StructureWebsite::GiftCertificateVouchersController, with_stripe: true 
         .to redirect_to(structure_website_gift_certificate_vouchers_path)
     end
 
-    it 'sends an email to theacher', with_mail: true do
+    it 'sends an email to theacher and the gifter', with_mail: true do
       expect { post :create, valid_params }.
         to change { ActionMailer::Base.deliveries.count }.by(2)
     end

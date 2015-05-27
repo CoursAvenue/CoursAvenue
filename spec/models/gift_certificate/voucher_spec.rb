@@ -116,7 +116,7 @@ RSpec.describe GiftCertificate::Voucher, type: :model, with_stripe: true do
           expect(subject.stripe_charge).to_not be_nil
         end
 
-        it 'sends an email to the user and to the teacher' do
+        it 'sends an email to the user and to the teacher', with_mail: true do
           expect { subject.charge! }.to change { ActionMailer::Base.deliveries.count }.by(2)
         end
 
