@@ -107,11 +107,11 @@
 @import "libs/redactor";
 @import "libs/masonry";
 
-//= require libs/bootstrap/bootstrap.animation-component
-//= require libs/bootstrap/bootstrap.datepicker
-//= require libs/bootstrap/bootstrap.tooltip
-//= require libs/bootstrap/bootstrap.popover
-//= require libs/bootstrap/bootstrap.collapse
+@import "libs/bootstrap/bootstrap.animation-component";
+@import "libs/bootstrap/bootstrap.datepicker";
+@import "libs/bootstrap/bootstrap.tooltip";
+@import "libs/bootstrap/bootstrap.popover";
+@import "libs/bootstrap/bootstrap.collapse";
 
 html, body {
   height: 100%;
