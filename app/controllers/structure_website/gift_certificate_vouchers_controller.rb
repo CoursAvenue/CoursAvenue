@@ -24,6 +24,6 @@ class StructureWebsite::GiftCertificateVouchersController < StructureWebsiteCont
   private
 
   def voucher_params
-    params.require(:gift_certificate_voucher).permit(:gift_certificate_id, :name, :email)
+    params.require(:gift_certificate_voucher).permit(:gift_certificate_id, :name, :email, :stripe_token)
   end
 end
