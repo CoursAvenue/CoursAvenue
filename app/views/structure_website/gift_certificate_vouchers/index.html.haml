@@ -16,7 +16,8 @@
       .soft.bg-white.bordered--left.bordered--right.hidden{ data: { step: 'payment' } }
         .push--bottom
           = link_to '← Changer le Bon Cadeau', 'javascript:void(0)', data: { behavior: 'previous-step' }
-        = simple_form_for @voucher, url: structure_website_gift_certificate_vouchers_path do |f|
+        = simple_form_for @voucher, url: structure_website_gift_certificate_vouchers_path, html: { id: 'gift_certificate_voucher_form' } do |f|
+          = f.input :stripe_token, as: :hidden
           = f.input :gift_certificate_id, as: :hidden
           .push-half--bottom
             .input-addon
@@ -29,7 +30,7 @@
                 %i.fa.fa-envelope-o
               = f.input :email, required: true, input_html: { class: 'input--large one-whole' }, placeholder: 'Votre e-mail', label: false
           .text--center
-            = f.submit 'Régler ma commande',  class: 'btn btn--green'
+            = link_to 'Régler ma commande', 'javascript:void(0)', class: 'btn btn--green', data: { stripe: true }
 
     .grid__item.four-twelfths.palm-one-whole>
       %h3.soft-half--bottom
@@ -47,6 +48,7 @@
         %li Le détendeur du bon pourra réserver l’atelier de son choix directement sur notre site Internet ou par téléphone. Le jour de l’atelier, il n’aura qu’à présenter son bon à son arrivée.
 
 = content_for :scripts do
+  = javascript_include_tag 'https://checkout.stripe.com/checkout.js'
   :javascript
     var gift_certificate = {};
     $(function() {
@@ -74,4 +76,26 @@
             $('[data-step=certificates]').slideUp();
             $('[data-step=payment]').slideDown();
         }
+
+        var stripeHandler = StripeCheckout.configure({
+            key: "#{ Rails.configuration.stripe[:publishable_key] }",
+            token: function token(token) {
+                $('[name="gift_certificate_voucher[stripe_token]"]').val(token.id)
+                CoursAvenue.showFullPageLoader('Paiement en cours...');
+                $('#gift_certificate_voucher_form').submit();
+            }
+        });
+
+        $('[data-stripe]').click(function(event) {
+            event.preventDefault();
+            stripeHandler.open({
+                email: $('[name="gift_certificate_voucher[email]"]').val(),
+                name: 'CoursAvenue',
+                panelLabel: 'Payer {{amount}}',
+                image: 'https://coursavenue-public.s3.amazonaws.com/logos/logo_stripe.jpg',
+                description: 'Bon Cadeau "' + gift_certificate['name'] + '"',
+                currency: "#{Subscription::CURRENCY}",
+                amount: gift_certificate['amount']
+            });
+        });
     });

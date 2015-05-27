@@ -9,10 +9,17 @@ class StructureWebsite::GiftCertificateVouchersController < StructureWebsiteCont
 
     @voucher = gift_certificate.vouchers.build(voucher_params)
     @voucher.user = User.create_or_find_from_email(voucher_params[:email], voucher_params[:name])
+    @voucher.save
+
+    token = voucher_params[:stripe_token]
+
+    if @voucher.persisted?
+      @voucher.charge!(token)
+    end
 
     respond_to do |format|
-      if @voucher.save
-        format.html { redirect_to structure_website_gift_certificate_voucher_path(@voucher),
+      if @voucher.persisted? and @voucher.charged?
+        format.html { redirect_to structure_website_gift_certificate_vouchers_path,
                       notice: 'Votre Bon cadeau a été créé avec succés.' }
       else
         format.html { redirect_to structure_website_gift_certificate_vouchers_path,
