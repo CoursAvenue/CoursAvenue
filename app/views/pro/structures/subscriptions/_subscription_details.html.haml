@@ -5,5 +5,7 @@
   = render 'subscription_canceled'
 - elsif @subscription.in_trial? and @subscription.stripe_subscription_id.nil?
   = render 'subscription_in_trial'
-- else
+- elsif @subscription.stripe_subscription_id
   = render 'subscription_running'
+- else
+  = render 'subscription_trial_ended'
