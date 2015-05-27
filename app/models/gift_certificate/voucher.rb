@@ -36,6 +36,8 @@ class GiftCertificate::Voucher < ActiveRecord::Base
     self.stripe_charge_id = charge.id
     self.save
 
+    send_emails
+
     charge
   end
 
@@ -44,5 +46,12 @@ class GiftCertificate::Voucher < ActiveRecord::Base
   # @return a Boolean
   def charged?
     stripe_charge_id.present?
+  end
+
+  private
+
+  def send_emails
+    GiftCertificateMailer.delay.voucher_confirmation_to_user(self)
+    GiftCertificateMailer.delay.voucher_created_to_teacher(self)
   end
 end

@@ -64,7 +64,7 @@ describe StructureWebsite::GiftCertificateVouchersController, with_stripe: true 
 
     it 'sends an email to theacher', with_mail: true do
       expect { post :create, valid_params }.
-        to change { ActionMailer::Base.deliveries.count }.by(1)
+        to change { ActionMailer::Base.deliveries.count }.by(2)
     end
   end
 end
