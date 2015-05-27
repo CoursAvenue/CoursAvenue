@@ -3,7 +3,6 @@ module Concerns
     extend ActiveSupport::Concern
 
     included do
-      # TODO: DRY this method in a StripeCustomer concern.
       # Retrieve the Stripe customer associated with this user.
       #
       # @return a Stripe::Customer or nil
