@@ -12,8 +12,8 @@ namespace :scheduler do
     # $ rake scheduler:participation_requests:remind_admin_for_participation_requests_1
     desc 'Send email to admins who have user requests not answered'
     task :remind_admin_for_participation_requests_1 => :environment do |t, args|
-      participation_requests = ParticipationRequest.upcoming.pending.where( ParticipationRequest.arel_table[:created_at].gteq(Date.today - 1.day).and(
-                                                                   ParticipationRequest.arel_table[:created_at].lt(Date.today).and(
+      participation_requests = ParticipationRequest.upcoming.pending.where( ParticipationRequest.arel_table[:created_at].gteq(1.day.ago.beginning_of_day).and(
+                                                                   ParticipationRequest.arel_table[:created_at].lt(1.day.ago.end_of_day).and(
                                                                    ParticipationRequest.arel_table[:last_modified_by].eq('User'))) )
       participation_requests.each do |participation_request|
         ParticipationRequestMailer.delay.you_received_a_request_stage_1(participation_request)
@@ -24,8 +24,8 @@ namespace :scheduler do
     # $ rake scheduler:participation_requests:remind_admin_for_participation_requests_2
     desc 'Send email to admins who have user requests not answered'
     task :remind_admin_for_participation_requests_2 => :environment do |t, args|
-      participation_requests = ParticipationRequest.upcoming.pending.where( ParticipationRequest.arel_table[:created_at].gteq(Date.today - 2.days).and(
-                                                                   ParticipationRequest.arel_table[:created_at].lt(Date.today - 1.day).and(
+      participation_requests = ParticipationRequest.upcoming.pending.where( ParticipationRequest.arel_table[:created_at].gteq(2.days.ago.beginning_of_day).and(
+                                                                   ParticipationRequest.arel_table[:created_at].lt(2.days.ago.end_of_day).and(
                                                                    ParticipationRequest.arel_table[:last_modified_by].eq('User'))) )
       participation_requests.each do |participation_request|
         ParticipationRequestMailer.delay.you_received_a_request_stage_2(participation_request)
@@ -137,8 +137,8 @@ namespace :scheduler do
     # $ rake scheduler:participation_requests:suggest_other_structures
     desc 'Send email to admins who have user requests not answered'
     task :suggest_other_structures => :environment do |t, args|
-      participation_requests = ParticipationRequest.pending.structure_not_responded.where( ParticipationRequest.arel_table[:created_at].gteq(Date.today - 2.days).and(
-                                                                   ParticipationRequest.arel_table[:created_at].lt(Date.today - 1.day).and(
+      participation_requests = ParticipationRequest.pending.structure_not_responded.where( ParticipationRequest.arel_table[:created_at].gteq(2.days.ago.beginning_of_day).and(
+                                                                   ParticipationRequest.arel_table[:created_at].lt(2.days.ago.end_of_day).and(
                                                                    ParticipationRequest.arel_table[:last_modified_by].eq('User'))) )
 
       participation_requests.each do |participation_request|
@@ -154,8 +154,14 @@ namespace :scheduler do
     task :alert_intercom_for_non_answered_requests => :environment do |t, args|
       participation_requests = ParticipationRequest.upcoming
                                                    .pending
-                                                   .where( ParticipationRequest.arel_table[:created_at].gteq(Date.today - 1.day).and(
-                                                           ParticipationRequest.arel_table[:created_at].lt(Date.today)) )
+                                                   .where( ParticipationRequest.arel_table[:created_at].gteq(Date.yesterday.beginning_of_day).and(
+                                                           ParticipationRequest.arel_table[:created_at].lt(Date.yesterday.end_of_day).and(
+                                                           ParticipationRequest.arel_table[:date].lteq(2.days.from_now.end_of_day))) ).to_a
+      participation_requests += ParticipationRequest.upcoming
+                                                   .pending
+                                                   .where( ParticipationRequest.arel_table[:created_at].gteq(3.days.ago.beginning_of_day).and(
+                                                           ParticipationRequest.arel_table[:created_at].lt(3.days.ago.end_of_day).and(
+                                                           ParticipationRequest.arel_table[:date].gt(2.days.from_now.end_of_day))) ).to_a
       participation_requests.each do |participation_request|
         SuperAdminMailer.delay.alert_for_non_answered_participation_request(participation_request)
       end
@@ -163,4 +169,3 @@ namespace :scheduler do
 
   end
 end
-

@@ -1,5 +1,8 @@
-.p
+= content_for :email_title do
   Demande d'inscription à traiter :
+
+= content_for :email_logo do
+  https://dqggv9zcmarb3.cloudfront.net/assets/logos/logo_white-40a44b022e95a716f674eec45596012d.png
 - if @participation_request.last_modified_by == 'Structure'
   .p
     %strong A contacter :

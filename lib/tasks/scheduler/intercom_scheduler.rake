@@ -28,7 +28,7 @@ namespace :scheduler do
     desc 'Updates Intercom status of admins'
     task :subscription_on_second_day_activation => :environment do |t, args|
       Subscription.where(charged_at: 2.days.ago.beginning_of_day..2.days.ago.end_of_day).each do |subscription|
-        SuperAdminMailer.delay.alert_for_seven_days_trial(subscription)
+        SuperAdminMailer.delay.alert_for_second_day_after_charged(subscription)
       end
     end
   end
