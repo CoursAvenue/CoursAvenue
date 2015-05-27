@@ -14,7 +14,7 @@ class Subscription < ActiveRecord::Base
   ######################################################################
 
   attr_accessor :stripe_token
-  attr_accessible :structure, :coupon, :plan, :stripe_subscription_id, :trial_end,
+  attr_accessible :structure, :coupon, :plan, :stripe_subscription_id, :trial_ends_at, :charged_at,
     :cancelation_reason_dont_want_more_students,
     :cancelation_reason_stopping_activity,
     :cancelation_reason_didnt_have_return_on_investment,
@@ -106,7 +106,7 @@ class Subscription < ActiveRecord::Base
 
       options = {
         plan:      self.plan.stripe_plan_id,
-        trial_end: trial_end.to_i
+        trial_end: trial_ends_at.to_i
       }
 
       if self.coupon.present? and coupon.valid?
@@ -116,6 +116,7 @@ class Subscription < ActiveRecord::Base
       _subscription = customer.subscriptions.create(options, { api_key: Stripe.api_key })
 
       self.stripe_subscription_id = _subscription.id
+      self.charged_at             = DateTime.now
       save
 
       if self.sponsorship_token.present?
@@ -236,8 +237,8 @@ class Subscription < ActiveRecord::Base
   #
   # @return a boolean
   def in_trial?
-    return false if trial_end.nil?
+    return false if trial_ends_at.nil?
 
-    trial_end > DateTime.current
+    trial_ends_at > DateTime.current
   end
 end

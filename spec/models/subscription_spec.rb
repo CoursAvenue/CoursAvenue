@@ -78,13 +78,13 @@ RSpec.describe Subscription, type: :model do
     end
 
     context 'when in trial' do
-      subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.from_now) }
+      subject { FactoryGirl.create(:subscription, structure: structure, trial_ends_at: 1.day.from_now) }
 
       it { expect(subject.active?).to be_truthy }
     end
 
     context 'when in trial ends' do
-      subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.ago) }
+      subject { FactoryGirl.create(:subscription, structure: structure, trial_ends_at: 1.day.ago) }
 
       it { expect(subject.active?).to be_falsy }
     end
@@ -395,11 +395,11 @@ RSpec.describe Subscription, type: :model do
   end
 
   describe 'in_trial?' do
-    context 'when there is no `trial_end`' do
+    context 'when there is no `trial_ends_at`' do
       subject { FactoryGirl.create(:subscription) }
 
       before do
-        subject.trial_end = nil
+        subject.trial_ends_at = nil
         subject.save
       end
 
@@ -408,14 +408,14 @@ RSpec.describe Subscription, type: :model do
 
     context 'when the trial end is in the past or current' do
       let(:structure) { FactoryGirl.create(:structure) }
-      subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.ago) }
+      subject { FactoryGirl.create(:subscription, structure: structure, trial_ends_at: 1.day.ago) }
 
       it { expect(subject.in_trial?).to be_falsy }
     end
 
     context 'when the trial end is in the future' do
       let(:structure) { FactoryGirl.create(:structure) }
-      subject { FactoryGirl.create(:subscription, structure: structure, trial_end: 1.day.from_now) }
+      subject { FactoryGirl.create(:subscription, structure: structure, trial_ends_at: 1.day.from_now) }
 
       it { expect(subject.in_trial?).to be_truthy }
     end

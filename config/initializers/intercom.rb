@@ -81,7 +81,7 @@ IntercomRails.config do |config|
     end,
     "trial_ends_at"             => Proc.new do |user|
       if (s = user.structure) and s.subscription
-        s.subscription.trial_end
+        s.subscription.trial_ends_at
       else
         nil
       end

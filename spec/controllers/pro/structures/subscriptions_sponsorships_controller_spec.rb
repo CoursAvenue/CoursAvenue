@@ -55,7 +55,7 @@ describe Pro::Structures::SubscriptionsSponsorshipsController do
 
     context 'when the subscription is not active' do
       before do
-        subscription.trial_end              = 1.day.ago
+        subscription.trial_ends_at          = 1.day.ago
         subscription.canceled_at            = 1.day.ago
         subscription.stripe_subscription_id = Faker::Number.digit
         subscription.save
