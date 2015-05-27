@@ -237,7 +237,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
         },
 
         selectedCourseAcceptsPayment: function selectedCourseAcceptsPayment() {
-            return this.getCourse().get('accepts_payment');
+            return this.getCourse().get('accepts_payment') == true;
         }
 
     });
