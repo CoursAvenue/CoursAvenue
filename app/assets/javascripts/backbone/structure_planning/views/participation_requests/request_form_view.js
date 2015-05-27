@@ -159,9 +159,11 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             this.model.set('course_id', planning_data.course_id);
             this.model.set('planning_id', planning_data.id);
             var request_form_view = new Module.RequestFormView( { structure: this.model.get('structure'), model: this.model, in_two_steps: true } ).render();
+            var request_form_view_el = $(request_form_view.$el);
+            request_form_view_el.find('[data-pr-total]').addClass('soft--right');
             $.magnificPopup.open({
                   items: {
-                      src: $(request_form_view.$el),
+                      src: request_form_view_el,
                       type: 'inline'
                   }
             });
