@@ -28,7 +28,8 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             '$input_card_number'                      : '[name="card[number]"]'
         },
 
-        onShow: function onShow () {
+        onRender: function onRender () {
+            StructureProfile.Views.ParticipationRequests.RequestFormView.prototype.onRender.call(this);
             this.ui.$input_card_number.payment('formatCardNumber');
             this.ui.$input_exp.payment('formatCardExpiry');
             this.ui.$input_cvc.payment('formatCardCVC');
