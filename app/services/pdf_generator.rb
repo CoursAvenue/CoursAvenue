@@ -1,4 +1,6 @@
 class PDFGenerator
+  LAYOUT = 'layouts/pdf.html.haml'
+
   # Generate the invoice in a PDF format and uploads it to S3.
   #
   # @param invoice The invoice to generate
@@ -10,7 +12,7 @@ class PDFGenerator
 
     file        = CoursAvenue::Application::S3_BUCKET.objects[invoice.file_path]
     invoice_str = ApplicationController.new.render_to_string(template,
-                                                             layout: 'layouts/pdf.html.haml',
+                                                             layout: PDFGenerator::LAYOUT,
                                                              locals: locals)
 
 
