@@ -64,9 +64,12 @@
           %th.v-middle.soft--sides.bordered--right.one-third.nowrap Contact
           %td.v-middle.soft--sides.one-whole.line-height-1-5
             - if @structure.phone_numbers.any?
-              = "Tél : #{@structure.phone_numbers.map(&:number).join(', ')}"
+              Tél :
+              - @structure.phone_numbers.each do |phone_number|
+                %span.soft-half--right= phone_number.decorate.formatted_number
               %br
-            = "E-mail : #{@structure.email}"
+            E-mail :
+            = link_to @structure.email, @structure.email
       %tr.bordered--bottom
         %th.v-middle.soft--sides.bordered--right.one-third.nowrap Jour et heure
         %td.v-middle.soft--sides.one-whole
