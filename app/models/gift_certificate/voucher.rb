@@ -65,7 +65,7 @@ class GiftCertificate::Voucher < ActiveRecord::Base
   def create_token
     if self.token.nil?
       self.token = loop do
-        random_token = "PARRAIN-#{SecureRandom.uuid.split('-').first}"
+        random_token = "BON-#{SecureRandom.uuid.split('-').first}"
         break random_token unless self.class.exists?(token: random_token)
       end
     end
