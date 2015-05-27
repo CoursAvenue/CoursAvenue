@@ -151,7 +151,11 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def chargeable?
-    (price != 0 and structure.can_receive_payments? and course.accepts_payment?)
+    (price != 0 and
+      structure.can_receive_payments? and
+      course.accepts_payment? and
+      from_personal_website? and
+      user.stripe_customer_id)
   end
 
   # Modify request and inform user about it
