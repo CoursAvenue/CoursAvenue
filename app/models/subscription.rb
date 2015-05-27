@@ -10,7 +10,7 @@ class Subscription < ActiveRecord::Base
   CURRENCY        = 'EUR'
 
   # TODO: Add a setting in the backend.
-  APPLICATION_FEE = 200 # The application fee in cents.
+  APPLICATION_FEE = 0 # The application fee in cents.
 
   ######################################################################
   # Macros                                                             #

@@ -44,7 +44,9 @@
 = content_for :scripts do
   :javascript
       $(function() {
-          CoursAvenue.statistic.logView(#{@structure.id}, 'website');
+          $(document.body).on('coursavenue:started', function() {
+              CoursAvenue.statistic.logView(#{@structure.id}, 'website');
+          });
       });
 = render template: '/layouts/structure_websites/application'
 

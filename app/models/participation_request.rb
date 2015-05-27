@@ -11,7 +11,8 @@ class ParticipationRequest < ActiveRecord::Base
     :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
     :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
     :old_course_id, :structure_responded, :street, :zip_code, :city_id,
-    :participants_attributes, :structure_id, :from_personal_website, :token
+    :participants_attributes, :structure_id, :from_personal_website, :token, :charged_at,
+    :stripe_fee
 
   ######################################################################
   # Relations                                                          #
@@ -70,6 +71,7 @@ class ParticipationRequest < ActiveRecord::Base
   scope :canceled,                -> { where( arel_table[:state].eq('canceled') ) }
   scope :tomorrow,                -> { where( state: 'accepted', date: Date.tomorrow ) }
   scope :structure_not_responded, -> { where.not( structure_responded: true ) }
+  scope :charged,                 -> { where.not( charged_at: nil ) }
 
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
   #
@@ -133,7 +135,7 @@ class ParticipationRequest < ActiveRecord::Base
     self.structure_responded = true if last_modified_by == 'Structure'
     save
 
-    if price != 0 and structure.can_receive_payments?
+    if chargeable?
       charge!
     end
 
@@ -142,6 +144,14 @@ class ParticipationRequest < ActiveRecord::Base
     elsif self.last_modified_by == 'User'
       mailer.delay.request_has_been_accepted_by_user_to_teacher(self, message)
     end
+  end
+
+  #
+  # Tells wether or not we should charge the PR
+  #
+  # @return Boolean
+  def chargeable?
+    (price != 0 and structure.can_receive_payments? and course.accepts_payment?)
   end
 
   # Modify request and inform user about it
@@ -258,7 +268,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return a Boolean
   def charged?
-    stripe_charge_id.present?
+    charged_at.present?
   end
 
   # Retrieve the `Stripe::Charge` associated with the participation request.
@@ -288,10 +298,13 @@ class ParticipationRequest < ActiveRecord::Base
       destination:     structure.stripe_managed_account,
       application_fee: Subscription::APPLICATION_FEE
     })
+    balance_transaction = Stripe::BalanceTransaction.retrieve charge.balance_transaction
 
     self.delay.create_and_send_invoice
 
     self.stripe_charge_id = charge.id
+    self.charged_at       = Time.now
+    self.stripe_fee       = balance_transaction.fee / 100.0 # Because fee are in cents
     self.save
 
     charge
@@ -306,10 +319,10 @@ class ParticipationRequest < ActiveRecord::Base
     charge = stripe_charge
     refund = charge.refunds.create
 
-    ParticipationRequestMailer.delay.send_charge_refunded_to_teacher(self)
-    ParticipationRequestMailer.delay.send_charge_refunded_to_user(self)
+    # ParticipationRequestMailer.delay.send_charge_refunded_to_teacher(self)
+    # ParticipationRequestMailer.delay.send_charge_refunded_to_user(self)
 
-    self.refunded = true
+    self.refunded_at =  Time.now
     save
 
     refund
@@ -323,6 +336,10 @@ class ParticipationRequest < ActiveRecord::Base
         course.place.address
       end
     end
+  end
+
+  def refunded?
+    refunded_at.present?
   end
 
   private
@@ -439,8 +456,7 @@ class ParticipationRequest < ActiveRecord::Base
                                                         payed_at:              Time.now)
     save
 
-    ParticipationRequestMailer.delay.send_invoice_to_user(self)
-    ParticipationRequestMailer.delay.send_invoice_to_teacher(self)
+    # ParticipationRequestMailer.delay.send_invoice_to_user(self)
   end
 
   # Creates an unique token.

@@ -43,20 +43,5 @@
 %p
   = link_to 'Résilier mon abonnement', confirm_cancellation_pro_structure_subscription_path(@structure, @subscription), class: 'red fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
 
-%hr.push--ends
-%h3 Accepter des paiemnts
-%p
-  Grace à votre abonnement <strong>#{ @subscription.plan_name }</strong>, vous pouvez accepter les paiement de vos élèves depuis la platforme CoursAvenue.
-
-- if @structure.stripe_managed_account_id.blank?
-  .text--center
-    = link_to 'Activer la reception des paiements', 'javascript:void(0)', class: 'btn btn--green', data: { behavior: 'toggle-form' }
-  = render 'accept_payments'
-
-- content_for :scripts do
-  = javascript_include_tag '//checkout.stripe.com/checkout.js'
-  :javascript
-
-    $('[data-behavior=toggle-form]').click(function() {
-        $('#managed_account').slideToggle();
-    });
+= content_for :scripts do
+  = javascript_include_tag 'https://checkout.stripe.com/checkout.js'

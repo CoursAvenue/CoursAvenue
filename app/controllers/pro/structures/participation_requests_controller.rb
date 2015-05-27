@@ -14,6 +14,11 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @past_participation_requests     = @participation_requests.order('date DESC').past
   end
 
+  # GET pro/etablissements/:structure_id/inscriptions-via-carte-bleu
+  def paid_requests
+    @participation_requests = @structure.participation_requests.charged
+  end
+
   # GET pro/etablissements/:structure_id/participation_request/:id/edit
   def edit
     @participation_request = @structure.participation_requests.find(params[:id])

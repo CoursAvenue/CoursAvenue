@@ -1,10 +1,15 @@
 = render 'shared/include_addthisevent'
 
-- participation_request_decorator = @participation_request.decorate
-- course_decorator                = @participation_request.course.decorate
+- participation_request_decorator = participation_request.decorate
+- course_decorator                = participation_request.course.decorate
 - place                           = participation_request.place
 
+
 .soft--sides
+  - if !participation_request.charged? and participation_request.chargeable?
+    %p.epsilon
+      %strong Important :
+      vous ne serez débité uniquement quand votre réservation aura été confirmée.
   %table.table--striped.table--striped-reversed.bordered.f-weight-500
     %tbody
       %tr.bordered--bottom
@@ -20,7 +25,15 @@
             = render partial: 'participation_requests/actions'
       %tr.bordered--bottom
         %th.v-middle.soft--sides.bordered--right.one-third Demande d'inscription
-        %td.v-middle.text--left.soft--sides= participation_request_decorator.details
+        %td.v-middle.text--left.soft--sides
+          = participation_request_decorator.details
+          - if participation_request.refunded?
+            %strong.green
+              %i= '— Remboursé'
+          - elsif participation_request.charged?
+            %strong.green
+              %i= '— Payé'
+
       %tr.bordered--bottom
         %th.v-middle.soft--sides.bordered--right.one-third.nowrap Cours
         %td.v-middle.soft--sides.one-whole

@@ -36,8 +36,7 @@ StructurePlanning.addInitializer(function(options) {
                 'planning:register':                       'showRegistrationForm',
                 'lessons:collection:reset':                'resetCourseCollection',
                 'privates:collection:reset':               'resetCourseCollection',
-                'participation_request:course:selected':   'togglePaymentForm',
-                'participation_request:course:deselected': 'togglePaymentForm'
+                'participation_request:total':             'togglePaymentForm'
             }
         });
     } else {

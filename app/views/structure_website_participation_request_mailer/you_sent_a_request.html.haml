@@ -16,6 +16,11 @@
 .p
   Et si finalement vous souhaitez modifier ou annuler votre séance, accédez à votre page dédiée :
 
+- if @participation_request.chargeable?
+  .p
+    %strong Important :
+    vous ne serez débité uniquement quand votre réservation aura été confirmée.
+
 .p.action
   = link_to "Envoyer un message / Modifier / Annuler", structure_website_participation_request_url(@participation_request.token, subdomain: @structure.subdomain_slug), class: 'btn btn--green'
 

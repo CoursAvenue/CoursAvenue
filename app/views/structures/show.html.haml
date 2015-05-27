@@ -181,5 +181,7 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        CoursAvenue.statistic.logView(#{@structure.id});
+        $(document.body).on('coursavenue:started', function() {
+            CoursAvenue.statistic.logView(#{@structure.id});
+        });
     });

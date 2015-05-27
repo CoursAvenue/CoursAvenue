@@ -26,4 +26,7 @@
   - if !@participation_request.canceled?
     .flexbox__item.one-third>
       = link_to cancel_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full btn--red btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
-        = @participation_request.charged? ? t('.refund') : t('.decline')
+        - if @participation_request.charged? and ! @participation_request.refunded?
+          = t('.refund')
+        - else
+          = t('.decline')
