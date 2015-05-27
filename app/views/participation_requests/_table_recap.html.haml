@@ -16,13 +16,20 @@
         %th.v-middle.soft--sides.bordered--right.one-third
           Statut
         %td.v-middle.soft--sides
-          = participation_request_decorator.long_status_name('User')
-      - unless participation_request.canceled?
-        %tr.bordered--bottom
-          %th.v-middle.soft--sides.bordered--right.one-third
-            Gérez l'inscription :
-          %td.v-middle.soft--sides
-            = render partial: 'participation_requests/actions'
+          .flexbox.palm-block
+            .flexbox__item.one-whole.palm-block
+              = participation_request_decorator.long_status_name('User')
+            .flexbox__item.v-middle.nowrap.nowrap.text--right.visuallyhidden--palm
+              - if !@participation_request.canceled?
+                - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
+                  = link_to accept_form_participation_request_path(@participation_request), class: 'soft--sides push--right btn--green btn--small btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+                    = t('.accept')
+                = link_to cancel_form_participation_request_path(@participation_request), class: 'red fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+                  - if @participation_request.charged?
+                    = t('.refund')
+                  - else
+                    = t('.decline')
+
       %tr.bordered--bottom
         %th.v-middle.soft--sides.bordered--right.one-third Demande d'inscription
         %td.v-middle.text--left.soft--sides
@@ -76,22 +83,18 @@
             .flexbox.palm-block
               .flexbox__item.one-whole.palm-block
                 = "#{place.name}, #{place.address}"
+                .soft-half--top
+                  - if place.info.present?
+                    = place.info
+                  - else
+                    %i.gray Pas d'info pratique concernant l'accès.
+                  %br
+                  - if place.private_info.present?
+                    = place.private_info
+                  - else
+                    %i.gray Pas de digicode ni d'info privée concernant l'accès.
               .flexbox__item.v-middle.nowrap.nowrap.text--right.visuallyhidden--palm
                 = link_to t('.see_on_map'), URI.encode("http://maps.google.com/?q=#{place.address}"), target: :_blank
-
-        %tr.bordered--bottom
-          %th.v-middle.soft--sides.bordered--right.one-third.nowrap Infos sur le lieu
-          %td.v-middle.soft--sides.one-whole
-            %div
-              - if place.info.present?
-                = place.info
-              - else
-                %i.gray Pas d'info pratique concernant l'accès.
-            %div
-              - if place.private_info.present?
-                = place.private_info
-              - else
-                %i.gray Pas de digicode ni d'info privée concernant l'accès.
         %tr.bordered--bottom.visuallyhidden--palm
           %th.v-middle.soft--sides.bordered--right.one-third.nowrap Ajouter au calendrier
           %td.v-middle.soft--sides.one-whole
