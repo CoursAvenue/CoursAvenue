@@ -10,9 +10,10 @@ describe Pro::Structures::GiftCertificatesController, type: :controller do
   it { should use_before_action(:authenticate_pro_admin!) }
   it { should use_before_action(:set_structure) }
 
-  let!(:structure) { FactoryGirl.create(:structure_with_admin, :with_contact_email) }
-  let!(:admin)     { structure.main_contact }
-  let!(:plan)      { FactoryGirl.create(:subscriptions_plan, :monthly, :module) }
+  let!(:structure)    { FactoryGirl.create(:structure_with_admin, :with_contact_email) }
+  let!(:subscription) { FactoryGirl.create(:subscription, :canceled, structure: structure) }
+  let!(:admin)        { structure.main_contact }
+  let!(:plan)         { FactoryGirl.create(:subscriptions_plan, :monthly, :module) }
 
   describe '#index' do
     render_views
@@ -26,7 +27,6 @@ describe Pro::Structures::GiftCertificatesController, type: :controller do
     context "when the structure is not premium" do
       it 'renders the subscription partial' do
         get :index, structure_id: structure.slug
-
         expect(response).to render_template(partial: '_subscribe')
       end
     end
