@@ -87,7 +87,7 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
 
   # Create a uniq random token.
   # We generate a UUID like: `2d931510-d99f-494a-8c67-87feb05e1594` and then split it to make it
-  # friendlier than genereting a purely random string.
+  # friendlier than generating a purely random string.
   #
   # @return
   def create_token
