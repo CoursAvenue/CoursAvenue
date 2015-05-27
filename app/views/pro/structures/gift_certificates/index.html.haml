@@ -2,7 +2,7 @@
 
 = render partial: 'pro/structures/courses/tabs', locals: { current: 'gift_certificates' }
 
-- module_plan = @structure.subscription.plan.plan_type != 'module'
+- module_plan = @structure.premium? and @structure.subscription.plan.plan_type != 'module'
 
 .flexbox.push--bottom
   .flexbox__item.v-middle
