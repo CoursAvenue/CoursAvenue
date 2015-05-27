@@ -1,7 +1,6 @@
 = side_menu_currently_at 'inscriptions'
 
-- if @structure.premium?
-  = render partial: 'pro/structures/participation_requests/tabs', locals: { current: 'index' }
+= render partial: 'pro/structures/participation_requests/tabs', locals: { current: 'index' }
 
 %h1 Inscriptions
 - if @structure.participation_requests.any?
