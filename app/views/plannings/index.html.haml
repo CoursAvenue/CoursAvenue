@@ -3,4 +3,4 @@
 = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css'
 
 - @city = City.find('paris')
-= react_component('SearchPageApp', map_center: [@city.latitude, @city.longitude], plannings: @plannings.to_json)
+= react_component('SearchPageApp', map_center: [@city.latitude, @city.longitude])

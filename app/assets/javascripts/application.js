@@ -1,3 +1,4 @@
+//= require dot-env
 //= require libs/underscore
 //= require underscore_extend
 //= require global

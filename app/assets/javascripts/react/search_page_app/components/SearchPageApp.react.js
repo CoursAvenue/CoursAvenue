@@ -1,6 +1,7 @@
-var Map                      = require('./Map.react'),
-    ResultSearch             = require('./ResultSearch.react'),
-    PlanningsCollectionStore = require('../stores/PlanningsCollectionStore');
+var Map                  = require('./Map.react'),
+    ResultList           = require('./ResultList.react'),
+    ServerActionCreators = require('../actions/ServerActionCreators'),
+    PlanningStore        = require('../stores/PlanningStore');
 
 var SearchPageApp = React.createClass({
     propTypes: {
@@ -8,20 +9,14 @@ var SearchPageApp = React.createClass({
         plannings: React.PropTypes.array
     },
 
-
     getInitialState: function getInitialState() {
-        return {};
+        return { planning_store: PlanningStore };
     },
 
     componentDidMount: function componentDidMount() {
-      // TodoStore.addChangeListener(this._onChange);
-        debugger
+        ServerActionCreators.fetchData({});
     },
-
-    componentWillUnmount: function componentWillUnmount() {
-      // TodoStore.removeChangeListener(this._onChange);
-        debugger
-    },
+    // componentWillUnmount: function componentWillUnmount() { },
 
     /**
      * @return {object}
@@ -30,9 +25,11 @@ var SearchPageApp = React.createClass({
         return (
           <div>
             <Map
-              center={this.props.map_center} />
-            <ResultSearch
-              collection={this.props.plannings}
+              center={this.props.map_center}
+              planning_store={this.state.planning_store}
+              />
+            <ResultList
+              planning_store={this.state.planning_store}
             />
           </div>
         );
