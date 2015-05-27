@@ -1019,8 +1019,8 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # @return Subject at depth 1
-  def dominant_parent_subject
+  # @return Subject at depth 2
+  def dominant_subject
     if courses.active.any? and (_subjects = courses.active.flat_map{ |c| c.subjects }).any?
       _subjects.group_by(&:name).values.max_by(&:size).first
     else
@@ -1232,6 +1232,10 @@ class Structure < ActiveRecord::Base
   # Here in case we want to have a specific column to store the `subdomain_slug`
   def subdomain_slug
     slug
+  end
+
+  def company?
+    return (structure_type == 'structures.company')
   end
 
   private

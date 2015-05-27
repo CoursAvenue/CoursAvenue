@@ -56,12 +56,6 @@ StructurePlanning.module('Models', function(Module, App, Backbone, Marionette, $
 
         url: function url () {
             return Routes.structure_website_participation_requests_path({ structure_id: this.get('structure').get('id') });
-        },
-
-        // Whether the course of the participation request is free or not.
-        // NOTE: This will be free until a course is selected.
-        isFree: function isFree () {
-            return ! (this.total_price && this.total_price != 0);
-        },
+        }
     });
 });

@@ -208,9 +208,7 @@ CoursAvenue::Application.routes.draw do
           patch :return_to_sleeping_mode
           get   :widget
           get   :wizard
-          get   :widget_jpo
           match :widget_ext, controller: 'structures', via: [:options, :get], as: 'widget_ext'
-          match :widget_jpo_ext, controller: 'structures', via: [:options, :get], as: 'widget_jpo_ext'
           patch :update_and_delete
           post  :recommend_friends
           post  :update

@@ -1,12 +1,51 @@
 <form method='POST' action='{{ formAction }}'>
-  <input type='hidden' name='layout_id' value="{{ layout_id }}" />
-  <input type="hidden" name="{{ csrfName }}" value="{{ csrfToken }}">
+    <h1>Informations de base</h1>
+    <div class="grid">
+        <div class="grid__item one-half">
+            <div class="input flush">
+                <label for="sender_name" class="delta f-weight-600 block push-half--bottom">
+                    <abbr title="Champ obligatoire">*</abbr>
+                    Nom de l'expéditeur
+                </label>
+                <input id="title" class='input--large one-whole' name="sender_name" type="text" placeholder=" {{ structure_id }}" value="{{ sender_name }}" required />
+                <p class="flush line-height-2 f-style-italic flush">Le nom apparaissant dans la boîte e-mail des élèves</p>
+            </div>
+        </div>{{!--
+    --}}<div class="grid__item one-half">
+            <div class="input flush">
+                <label for="reply_to" class="delta f-weight-600 block push-half--bottom">
+                    <abbr title="Champ obligatoire">*</abbr>
+                    E-mail de réponse
+                </label>
+                <input id="title" class='input--large one-whole' name="reply_to" type="text" placeholder="Prochains stages à venir !" value="{{ reply_to }}" required />
+                <p class="flush line-height-2 f-style-italic flush">L'e-mail sur lequel l'élève pourra vous répondre</p>
+            </div>
+        </div>
+    </div>
 
-  <label for="title" class="delta f-weight-600 block push-half--bottom">Titre de votre newsletter</label>
-  <input id="title" class='input--large one-whole' name="title" type="text" placeholder="Prochains stages à venir !" value="{{ title }}" required/>
-  <p class="flush line-height-2 f-style-italic flush">Pensez à être clair dans sa formulation. Ex. : « Découvrez nos stages d'été »</p>
+    <div class='input'>
+        <label for="email_object" class="delta f-weight-600 block push-half--bottom">
+            <abbr title="Champ obligatoire">*</abbr>
+            Objet de l'e-mail
+        </label>
+        <input id="title" class='input--large one-whole' name="email_object" type="text" placeholder="Prochains stages à venir !" value="{{ email_object }}" required />
+        <p class="flush line-height-2 f-style-italic flush">Ce qui s'affichera dans la boîte de réception de l'élève</p>
+    </div>
 
-  <hr class="push--ends">
+    <hr class="push--ends">
 
-  <div data-type='bloc'></div>
+    <h1>Personnalisation</h1>
+    <input type='hidden' name='layout_id' value="{{ layout_id }}" />
+    <input type="hidden" name="{{ csrfName }}" value="{{ csrfToken }}">
+
+    <div class="push--bottom">
+        <label for="title" class="delta f-weight-600 block push-half--bottom">
+            <abbr title="Champ obligatoire">*</abbr>
+            Titre de votre newsletter
+        </label>
+        <input id="title" class='input--large one-whole' name="title" type="text" placeholder="Prochains stages à venir !" value="{{ title }}" required/>
+        <p class="flush line-height-2 f-style-italic flush">Le titre qui s'affichera en haut du contenu de votre e-mail. Pensez à être clair dans sa formulation. Ex. : « Découvrez nos stages d'été »</p>
+    </div>
+
+    <div data-type='bloc'></div>
 </form>

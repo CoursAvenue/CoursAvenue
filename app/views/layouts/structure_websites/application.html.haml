@@ -4,7 +4,7 @@
     %link{ href: 'https://fonts.googleapis.com/css?family=Raleway:500,400,300,600,700', rel: 'stylesheet', type: 'text/css' }
     = yield :right_after_head
 
-    = render 'shared/meta_information'
+    = render 'layouts/structure_websites/meta_information'
 
     - if Rails.env.production?
       - if request.subdomain == 'pro'

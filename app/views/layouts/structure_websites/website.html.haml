@@ -1,5 +1,6 @@
-= content_for :right_after_head do
-  %meta{ name: 'robots', content: 'noindex, nofollow' }
+- unless @structure.subscription.plan.website_plan? and @structure.subscription.active_and_paying?
+  = content_for :right_after_head do
+    %meta{ name: 'robots', content: 'noindex, nofollow' }
 
 = content_for :header do
   %header.bg-dark-gray

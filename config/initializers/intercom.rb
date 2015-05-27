@@ -83,7 +83,7 @@ IntercomRails.config do |config|
     # 2 si sa CB a un problème de validité (date expiration, coordonnées...)
     'CB B2B'                   => Proc.new do |user|
       if (s = user.structure) and s.subscription
-        if s.subscription.active?
+        if s.subscription.stripe_subscription_id.present?
           1
         else
           0

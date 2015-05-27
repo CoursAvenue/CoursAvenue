@@ -4,17 +4,43 @@
 
 %h1 Transactions CB
 
-%table.table--data.table--striped
-  %thead
-    %tr
-      %th Date du paiement
-      %th Participant
-      %th Activité
-      %th Frais CB
-      %th Montant reçu
-  %tbody
-    - @participation_requests.each do |participation_request|
-      - if participation_request.refunded?
+- if @participation_requests.empty?
+  .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.text--center
+    - if @structure.premium?
+      %p.delta.line-height-1-5
+        Vous n'avez aucune transaction par carte bleue.
+        %br
+        Accédez à la rubrique Planning pour paramétrer vos inscriptions par CB
+      .text--center
+        = link_to 'Paramètres inscriptions par CB', website_planning_parameters_pro_structure_path(@structure), class: 'btn btn--green'
+    - else
+      %p.delta.line-height-1-5
+        Vous n'avez aucune transaction par carte bleue.
+        %br
+        Accédez à la rubrique Planning pour proposer l'inscription en ligne par carte bleue sur votre propre site Internet :
+      .text--center
+        = link_to 'Paramètres inscriptions par CB', website_planning_pro_structure_path(@structure), class: 'btn btn--green'
+- else
+  %table.table--data.table--striped
+    %thead
+      %tr
+        %th Date du paiement
+        %th Participant
+        %th Activité
+        %th Frais CB
+        %th Montant reçu
+    %tbody
+      - @participation_requests.each do |participation_request|
+        - if participation_request.refunded?
+          %tr
+            %td= l(participation_request.refunded_at.to_date, format: :long)
+            %td
+              = participation_request.user.name
+              - if participation_request.participants.length > 1
+                = "(#{participation_request.participants.length} participants)"
+            %td= participation_request.course.name
+            %td 0€
+            %td= "-#{readable_amount(participation_request.price - participation_request.stripe_fee)}"
         %tr
           %td= l(participation_request.charged_at.to_date, format: :long)
           %td
@@ -22,14 +48,5 @@
             - if participation_request.participants.length > 1
               = "(#{participation_request.participants.length} participants)"
           %td= participation_request.course.name
-          %td 0€
-          %td= "-#{readable_amount(participation_request.price - participation_request.stripe_fee)}"
-      %tr
-        %td= l(participation_request.charged_at.to_date, format: :long)
-        %td
-          = participation_request.user.name
-          - if participation_request.participants.length > 1
-            = "(#{participation_request.participants.length} participants)"
-        %td= participation_request.course.name
-        %td= readable_amount participation_request.stripe_fee
-        %td= readable_amount(participation_request.price - participation_request.stripe_fee)
+          %td= readable_amount participation_request.stripe_fee
+          %td= readable_amount(participation_request.price - participation_request.stripe_fee)

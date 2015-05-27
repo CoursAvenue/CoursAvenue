@@ -57,7 +57,6 @@ class ParticipationRequest < ActiveRecord::Base
   # Validation                                                         #
   ######################################################################
   validates :date, presence: true
-  validate :request_is_not_duplicate, on: [:create]
 
   ######################################################################
   # Scopes                                                             #
@@ -151,7 +150,11 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def chargeable?
-    (price != 0 and structure.can_receive_payments? and course.accepts_payment?)
+    (price != 0 and
+      structure.can_receive_payments? and
+      course.accepts_payment? and
+      from_personal_website? and
+      user.stripe_customer_id)
   end
 
   # Modify request and inform user about it
@@ -367,19 +370,6 @@ class ParticipationRequest < ActiveRecord::Base
       self.end_time   ||= self.start_time + 1.hour if self.start_time
     end
     nil
-  end
-
-  # Check if the request is duplicate or not
-  #
-  # @return Boolean
-  def request_is_not_duplicate
-    if self.user.participation_requests.where(ParticipationRequest.arel_table[:created_at].gt(Date.today - 1.week)
-      .and(ParticipationRequest.arel_table[:planning_id].eq(self.planning_id))
-      .and(ParticipationRequest.arel_table[:date].eq(self.date))).any?
-    self.errors[:base] << "duplicate"
-    return false
-    end
-    true
   end
 
   # When a request is created (always by user), we alert the teacher

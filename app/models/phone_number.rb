@@ -5,12 +5,13 @@ class PhoneNumber < ActiveRecord::Base
   ######################################################################
 
   MOBILE_PREFIXES = ['+336', '+337', '00336', '00337', '336', '337', '06', '07', '+33(0)6', '+33(0)7']
+  FRANCE_PREFIXES = ['+33', '0033', '33', '0', '+33(0)']
 
   ######################################################################
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :number, :phone_type
+  attr_accessible :number, :phone_type, :info
 
   belongs_to :callable, polymorphic: true, touch: true
 

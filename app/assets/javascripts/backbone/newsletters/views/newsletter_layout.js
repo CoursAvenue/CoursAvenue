@@ -6,7 +6,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             'choose-layout' : "[data-page=choose-layout]",
             'edit'          : "[data-page=edit]",
             'mailing-list'  : "[data-page=mailing-list]",
-            'metadata'      : "[data-page=metadata]",
             'preview'       : "[data-page=preview]"
         },
 
@@ -38,7 +37,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 case 'choose-layout' : this.initializeOrShowChooseLayoutPage(); break;
                 case 'edit'          : this.initializeOrShowEditPage(); break;
                 case 'mailing-list'  : this.initializeOrShowMailingListPage(); break;
-                case 'metadata'      : this.initializeOrShowMetadataPage(); break;
                 case 'preview'       : this.initializeOrShowPreviewPage(); break;
             }
         },
@@ -123,23 +121,6 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.getRegion('mailing-list').show(mailing_list_collection_view);
             this.getRegion('mailing-list').$el.show();
             this.getRegion('mailing-list').initialized = true;
-        },
-
-        initializeOrShowMetadataPage: function initializeOrShowMetadataPage (page_name) {
-            this.currentStep = ':id/recapitulatif';
-            if (this.getRegion('metadata').initialized) { this.getRegion('metadata').$el.show(); return; }
-
-            var bootstrap = window.coursavenue.bootstrap;
-            var metadata_view = new Newsletter.Views.MetadataView({
-                model: this.newsletter
-            });
-
-            metadata_view.on('edited',   this.finishEdition.bind(this));
-            metadata_view.on('previous', this.previousStep.bind(this));
-
-            this.getRegion('metadata').show(metadata_view);
-            this.getRegion('metadata').$el.show();
-            this.getRegion('metadata').initialized = true;
         },
 
         initializeOrShowPreviewPage: function initializeOrShowPreviewPage (page_name) {

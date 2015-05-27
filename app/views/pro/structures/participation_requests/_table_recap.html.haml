@@ -6,13 +6,21 @@
       %th.v-middle.soft--sides.nowrap.bordered--right.one-third
         Statut
       %td.v-middle.soft--sides
-        = participation_request_decorator.long_status_name('Structure')
-    - if !participation_request.canceled?
-      %tr.bordered--bottom
-        %th.v-middle.soft--sides.nowrap.bordered--right.one-third
-          Gérez l'inscription :
-        %td.v-middle.soft--sides
-          = render partial: 'pro/structures/participation_requests/actions'
+        .flexbox
+          .flexbox__item.one-whole
+            = participation_request_decorator.long_status_name('Structure')
+          .flexbox__item.v-middle.nowrap.nowrap.text--right
+            - if !@participation_request.canceled?
+              - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and !@participation_request.past?
+                = link_to accept_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--small push-half--right soft--sides btn--green btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+                  = t('.accept')
+              = link_to cancel_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+                - if @participation_request.charged? and ! @participation_request.refunded?
+                  = t('.refund')
+                - else
+                  = t('.decline')
+
+
     %tr.bordered--bottom
       %th.v-middle.soft--sides.bordered--right.one-third Demande d'inscription
       %td.v-middle.text--left.soft--sides

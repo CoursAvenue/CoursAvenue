@@ -1,10 +1,10 @@
 = side_menu_currently_at 'messages'
 
 = render partial: 'pro/structures/conversations/tabs', locals: { current: 'newsletter' }
-
-%h1.flush Statistiques d'envoi
 .push--bottom
   = link_to '← Retour', pro_structure_newsletters_path(@structure)
+
+%h1 Statistiques d'envoi
 
 - if @newsletter.sent? and @metric
   = render 'metrics_detail'

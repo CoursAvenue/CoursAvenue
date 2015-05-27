@@ -7,10 +7,12 @@ class Pro::StructuresController < Pro::ProController
                                                    :dont_want_to_take_control_of_my_sleeping_account,
                                                    :someone_already_took_control]
 
-  load_and_authorize_resource :structure, except: [:new, :new_sleeping, :create,
-                                                   :widget_ext, :best, :payment_confirmation_be2_bill,
-                                                   :dont_want_to_take_control_of_my_sleeping_account,
-                                                   :someone_already_took_control], find_by: :slug
+  before_action :load_structure
+
+  authorize_resource :structure, except: [:new, :new_sleeping, :create,
+                                          :widget_ext, :best, :payment_confirmation_be2_bill,
+                                          :dont_want_to_take_control_of_my_sleeping_account,
+                                          :someone_already_took_control]
 
   # We add update in case the update fails and we need the variable in the view
   before_action :retrieve_facebook_pages, only: [:edit_contact, :update]
@@ -23,13 +25,11 @@ class Pro::StructuresController < Pro::ProController
   # GET etablissements/:id/quelqu-un-a-deja-le-control
   # When somebody try to register to a structure that already has an admin
   def someone_already_took_control
-    @structure = Structure.friendly.find params[:id]
   end
 
   # GET etablissements/:id/dont_want_to_take_control_of_my_sleeping_account
   # No login required
   def dont_want_to_take_control_of_my_sleeping_account
-    @structure = Structure.friendly.find params[:id]
     @structure.sleeping_email_opt_in = false
     @structure.sleeping_email_opt_out_reason = params[:reason]
     @structure.save
@@ -50,7 +50,6 @@ class Pro::StructuresController < Pro::ProController
   # PUT etablissements/:id/wake_up
   # Changed is_sleeping from true to false
   def wake_up
-    @structure = Structure.friendly.find params[:id]
     @structure.wake_up!
     redirect_to request.referrer, notice: 'Le profil est réveillé !'
   end
@@ -58,7 +57,6 @@ class Pro::StructuresController < Pro::ProController
   # PUT etablissements/:id/return_to_sleeping_mode
   # Rollback to sleeping attributes
   def return_to_sleeping_mode
-    @structure = Structure.friendly.find params[:id]
     @structure.return_to_sleeping_mode!
     redirect_to pro_structure_path(@structure), notice: 'Rollback du profil effectué !'
   end
@@ -87,7 +85,6 @@ class Pro::StructuresController < Pro::ProController
 
   # GET member
   def widget
-    @structure = Structure.friendly.find params[:id]
     respond_to do |format|
       format.html
     end
@@ -97,7 +94,6 @@ class Pro::StructuresController < Pro::ProController
   #   format :json
   # Method called from external sites by the widget
   def widget_ext
-    @structure = Structure.friendly.find params[:id]
     headers['Access-Control-Allow-Origin']  = '*'
     headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
     headers['Access-Control-Max-Age']       = '1728000'
@@ -107,35 +103,10 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
-  # :nocov:
-  # GET member
-  def widget_jpo
-    @structure = Structure.friendly.find params[:id]
-    respond_to do |format|
-      format.html
-    end
-  end
-
-  # GET member
-  #   format :json
-  # Method called from external sites by the widget
-  def widget_jpo_ext
-    @structure = Structure.friendly.find params[:id]
-    headers['Access-Control-Allow-Origin']  = '*'
-    headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
-    headers['Access-Control-Max-Age']       = '1728000'
-    headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-Prototype-Version, X-CSRF-Token'
-    respond_to do |format|
-      format.json { render text: render_to_string(partial: 'pro/structures/widget_jpo', layout: false) }
-    end
-  end
-  # :nocov:
-
   # GET member
   #   format :json
   def wizard
     @wizard = get_next_wizard
-    @structure = Structure.friendly.find params[:id]
     respond_to do |format|
       if @wizard
         format.json { render json: { form: render_to_string(partial: @wizard.partial, layout: false, formats: [:html]), done: false }  }
@@ -147,7 +118,6 @@ class Pro::StructuresController < Pro::ProController
 
   # GET member
   def dashboard
-    @structure           = Structure.friendly.find params[:id]
     @structure_decorator = @structure.decorate
     @wizard              = get_next_wizard
     commentable_ids      = @structure.courses.map(&:id)
@@ -208,7 +178,6 @@ class Pro::StructuresController < Pro::ProController
 
   # GET member
   def show
-    @structure = Structure.friendly.find params[:id]
     retrieve_home_places
     render action: :edit
   end
@@ -226,12 +195,10 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def edit
-    @structure = Structure.friendly.find(params[:id])
     retrieve_home_places
   end
 
   def edit_order_recipient
-    @structure = Structure.friendly.find(params[:id])
     @default_text =  <<-eos
 #{@structure.name}
 #{@structure.street}
@@ -242,7 +209,6 @@ France
   end
 
   def edit_contact
-    @structure      = Structure.friendly.find(params[:id])
     @admin          = @structure.main_contact
     5.times { @structure.phone_numbers.build }
   end
@@ -263,7 +229,6 @@ France
   end
 
   def update
-    @structure = Structure.friendly.find params[:id]
     @admin     = @structure.main_contact
     if params[:structure] && params[:structure].delete(:delete_logo) == '1'
       @structure.remove_logo!
@@ -294,8 +259,6 @@ France
   end
 
   def crop_logo
-    @structure = Structure.friendly.find(params[:id])
-
     if !@structure.logo.present?
       redirect_to edit_pro_structure_path(@structure), alert: "Vous n'avez pas de logo"
     end
@@ -344,7 +307,6 @@ France
   end
 
   def destroy
-    @structure = Structure.friendly.find params[:id]
     CrmSync.delay.destroy(@structure.email) if @structure.is_sleeping
     SuperAdminMailer.delay.has_destroyed(@structure)
     AdminMailer.delay.structure_has_been_destroy(@structure)
@@ -474,5 +436,9 @@ France
     else
       @facebook_pages = []
     end
+  end
+
+  def load_structure
+    @structure = Structure.friendly.find(params[:id]) if params[:id].present?
   end
 end

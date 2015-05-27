@@ -9,7 +9,7 @@
     - if @newsletters.any? and @structure.premium?
       = link_to new_pro_structure_newsletter_path(@structure), class: 'btn btn--green' do
         %i.fa.fa-plus
-        Envoyer une newsletter
+        Créer une newsletter
 
 - if @structure.premium?
   - if @newsletters.any?

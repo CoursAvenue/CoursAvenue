@@ -183,6 +183,7 @@ describe ParticipationRequest do
           context "when there's a token" do
             before do
               allow_any_instance_of(Structure).to receive(:can_receive_payments?).and_return(true)
+              allow_any_instance_of(Stripe::BalanceTransaction).to receive(:fee).and_return(0)
             end
 
             it 'creates a Stripe customer for the user' do
@@ -198,6 +199,7 @@ describe ParticipationRequest do
           context 'all of the above' do
             before do
               allow_any_instance_of(Structure).to receive(:can_receive_payments?).and_return(true)
+              allow_any_instance_of(Stripe::BalanceTransaction).to receive(:fee).and_return(0)
 
               user.create_stripe_customer(token)
               user.reload
@@ -213,10 +215,6 @@ describe ParticipationRequest do
               expect { subject.charge! }.to change { ParticipationRequest::Invoice.count }.by(1)
             end
 
-            it 'sends the invoice via mail', with_mail: true do
-              expect { subject.charge! }.to change { ActionMailer::Base.deliveries.count }.by(2)
-            end
-
             it 'returns the charge' do
               expect(subject.charge!).to_not be_nil
               expect(subject.charge!).to be_a(Stripe::Charge)
@@ -227,11 +225,11 @@ describe ParticipationRequest do
     end
 
     describe 'charged?' do
-      context "when there isn't a stripe_charge_id" do
+      context "when there isn't a charged_at set" do
         it { expect(subject.charged?).to be_falsy }
       end
 
-      context 'when there is a stripe_charge_id' do
+      context 'when there is a stripe_charge_id and charged_at set' do
         before do
           source        = stripe_helper.generate_card_token
           stripe_charge = Stripe::Charge.create({
@@ -240,6 +238,7 @@ describe ParticipationRequest do
             source:   source
           })
           subject.stripe_charge_id = stripe_charge.id
+          subject.charged_at       = Time.now
 
           subject.save
         end
@@ -272,10 +271,6 @@ describe ParticipationRequest do
           subject.refund!
 
           expect(subject.stripe_charge.refunded).to be_truthy
-        end
-
-        it 'sends an email to both the teacher and the studend', with_mail: true do
-          expect{ subject.refund! }.to change { ActionMailer::Base.deliveries.count }.by(2)
         end
 
         it 'returns the refund' do
@@ -320,6 +315,8 @@ describe ParticipationRequest do
         user.create_stripe_customer(token)
 
         allow_any_instance_of(Structure).to receive(:can_receive_payments?).and_return(true)
+        allow_any_instance_of(Stripe::BalanceTransaction).to receive(:fee).and_return(0)
+        allow(subject.course).to receive(:accepts_payment?).and_return(true)
       end
 
       it 'charges the customer' do

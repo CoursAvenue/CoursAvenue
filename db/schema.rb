@@ -796,6 +796,7 @@ ActiveRecord::Schema.define(version: 20150526092141) do
     t.string   "callable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "info"
   end
 
   add_index "phone_numbers", ["callable_id", "callable_type"], name: "index_phone_numbers_on_callable_id_and_callable_type", using: :btree
@@ -823,6 +824,13 @@ ActiveRecord::Schema.define(version: 20150526092141) do
   end
 
   add_index "places", ["structure_id"], name: "index_places_on_structure_id", using: :btree
+
+  create_table "places_subjects", id: false, force: true do |t|
+    t.integer "subject_id"
+    t.integer "place_id"
+  end
+
+  add_index "places_subjects", ["subject_id", "place_id"], name: "index_places_subjects_on_subject_id_and_place_id", using: :btree
 
   create_table "places_users", id: false, force: true do |t|
     t.integer "place_id"

@@ -6,7 +6,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
 
         initialize: function initialize (options) {
             StructureProfile.Views.ParticipationRequests.RequestFormView.prototype.initialize.apply(this, arguments);
-            _.bindAll(this, 'stripeResponseHandler');
+            _.bindAll(this, 'stripeResponseHandler', 'showSubmitError');
         },
 
         ui: {
@@ -28,7 +28,8 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             '$input_card_number'                      : '[name="card[number]"]'
         },
 
-        onShow: function onShow () {
+        onRender: function onRender () {
+            StructureProfile.Views.ParticipationRequests.RequestFormView.prototype.onRender.call(this);
             this.ui.$input_card_number.payment('formatCardNumber');
             this.ui.$input_exp.payment('formatCardExpiry');
             this.ui.$input_cvc.payment('formatCardCVC');
@@ -43,7 +44,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             _events = {
                 'click [data-behavior=show-third-step-form]': 'showThirdStepForm',
                 'submit form':                                'preSubmitForm'
-            }
+            };
 
             return _.extend(StructureProfile.Views.ParticipationRequests.RequestFormView.prototype.events, _events);
         },
@@ -62,8 +63,8 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
                 return this.submitForm();
             } else {
                 var expiry_date = $.payment.cardExpiryVal(this.ui.$input_exp.val());
-                this.ui.$hidden_input_exp_month.val(expiry_date.month)
-                this.ui.$hidden_input_exp_year.val(expiry_date.year)
+                this.ui.$hidden_input_exp_month.val(expiry_date.month);
+                this.ui.$hidden_input_exp_year.val(expiry_date.year);
                 Stripe.card.createToken(this.$('form'), this.stripeResponseHandler);
                 return false;
             }
@@ -127,7 +128,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
         },
 
         saveMessage: function saveMessage () {
-            this.$('.input_field_error').remove();
+            this.$('.input_field_error').hide();
             this.model.save(null, {
                 success: function success (model, response) {
                     // We disable the submit button
@@ -140,7 +141,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
                     });
                     this.ui.$message_sent.slideDown();
                 }.bind(this),
-                error: this.showPopupMessageDidntSend
+                error: this.showSubmitError.bind(this)
             });
         },
 
@@ -159,9 +160,11 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
             this.model.set('course_id', planning_data.course_id);
             this.model.set('planning_id', planning_data.id);
             var request_form_view = new Module.RequestFormView( { structure: this.model.get('structure'), model: this.model, in_two_steps: true } ).render();
+            var request_form_view_el = $(request_form_view.$el);
+            request_form_view_el.find('[data-pr-total]').addClass('soft--right');
             $.magnificPopup.open({
                   items: {
-                      src: $(request_form_view.$el),
+                      src: request_form_view_el,
                       type: 'inline'
                   }
             });
@@ -209,8 +212,8 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
 
         stripeResponseHandler: function stripeResponseHandler (status, response) {
             if (status == 200) {
-                this.model.set('stripe_token', response.id)
-                this.ui.$participation_request_card_token.val(response.id)
+                this.model.set('stripe_token', response.id);
+                this.ui.$participation_request_card_token.val(response.id);
                 this.submitForm();
             } else {
                 var errorMessage = window.coursavenue.bootstrap.stripe_errors[response.error.code];
@@ -227,18 +230,31 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
                 this.ui.$third_step_form_wrapper.slideDown();
                 this.ui.$form_submit.slideUp();
             } else  {
-                this.ui.$third_step_form_wrapper.slideUp()
+                this.ui.$third_step_form_wrapper.slideUp();
                 this.ui.$form_submit.slideDown();
             }
         },
 
         getCourse: function getCourse() {
-            return this.pr_content_view_courses_collection.findWhere({ id: parseInt(this.model.get('course_id'), 10) });
+            var course = this.pr_content_view.courses_collection.findWhere({ id: parseInt(this.model.get('course_id'), 10) });
+            if (course) { return course; }
+            return this.pr_content_view.trainings_collection.findWhere({ id: parseInt(this.model.get('course_id'), 10) });
         },
 
         selectedCourseAcceptsPayment: function selectedCourseAcceptsPayment() {
-            return this.getCourse().get('accepts_payment');
-        }
+            return this.getCourse().get('accepts_payment') == true;
+        },
+
+        showSubmitError: function showSubmitError (model, response) {
+            if (response.responseJSON.stripe_error_message) {
+                var errorMessage = response.responseJSON.stripe_error_message;
+
+                this.$('form').trigger('ajax:complete');
+                this.$('[data-error=stripe-error]').text(errorMessage).show();
+            } else {
+                return this.showPopupMessageDidntSend(model, response);
+            }
+        },
 
     });
 
