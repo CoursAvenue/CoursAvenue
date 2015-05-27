@@ -10,7 +10,7 @@ class PhoneNumber < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :number, :phone_type
+  attr_accessible :number, :phone_type, :info
 
   belongs_to :callable, polymorphic: true, touch: true
 
