@@ -86,12 +86,6 @@ describe Pro::SubscriptionsSponsorshipsController do
           pro_structure_subscriptions_path('__STRUCTURE_ID__', sponsorship_token: sponsorship.token)
         )
       end
-
-      it 'shows the connection / login partial' do
-        get :show, id: sponsorship.token
-
-        expect(response).to render_template(partial: '_connection')
-      end
     end
   end
 end

@@ -431,7 +431,7 @@ RSpec.describe Subscription, type: :model do
         subject.charge!(token)
       end
 
-      it { expect(subject.in_trial?).to be_falsy }
+      it { expect(subject.in_trial?).to be_truthy }
     end
   end
 end
