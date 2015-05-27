@@ -35,6 +35,8 @@ fr:
       trimester: Abonnement trimestriel
       trimester_short: Trimestriel
       month: Abonnement mensuel
+      other: Autre
+      other_short: Autre
       month_short: Mensuel
     discount:
       student: Étudiant
