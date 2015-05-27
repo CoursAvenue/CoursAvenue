@@ -9,7 +9,7 @@
     .alert.alert-error.flush= f.object.errors.messages[:start_date].to_sentence
 
 :javascript
-  $('#end-date').tooltip()
+  $('#end-date').tooltip();
   $('#start-date').change(function() {
       if ($('#start-date').val().length > 0) {
           $('#end-date').attr('placeholder', $('#start-date').val());
