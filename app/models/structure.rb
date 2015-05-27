@@ -1232,6 +1232,10 @@ class Structure < ActiveRecord::Base
     slug
   end
 
+  def company?
+    return (structure_type == 'structures.company')
+  end
+
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons
