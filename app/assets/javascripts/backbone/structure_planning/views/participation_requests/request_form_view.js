@@ -127,7 +127,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
         },
 
         saveMessage: function saveMessage () {
-            this.$('.input_field_error').remove();
+            this.$('.input_field_error').hide();
             this.model.save(null, {
                 success: function success (model, response) {
                     // We disable the submit button
