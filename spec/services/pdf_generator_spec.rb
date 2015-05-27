@@ -20,4 +20,20 @@ describe PDFGenerator do
       expect(generated).to be_truthy
     end
   end
+
+  describe '.generate_gift_certificate_voucher' do
+    let(:voucher) { FactoryGirl.create(:gift_certificate_voucher) }
+
+    it 'does nothing if the voucher is not defined' do
+      expect(PDFGenerator.generate_gift_certificate_voucher(nil)).to be_nil
+    end
+
+    it 'generates the voucher as a PDF' do
+      expect(PDFGenerator.generate_gift_certificate_voucher(voucher)).to_not be_nil
+    end
+
+    it 'saves the voucher in a temporary file' do
+      expect(PDFGenerator.generate_gift_certificate_voucher(voucher)).to be_a(Tempfile)
+    end
+  end
 end
