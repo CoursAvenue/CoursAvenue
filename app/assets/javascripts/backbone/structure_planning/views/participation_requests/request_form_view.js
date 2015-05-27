@@ -236,7 +236,9 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
         },
 
         getCourse: function getCourse() {
-            return this.pr_content_view_courses_collection.findWhere({ id: parseInt(this.model.get('course_id'), 10) });
+            var course = this.pr_content_view.courses_collection.findWhere({ id: parseInt(this.model.get('course_id'), 10) });
+            if (course) { return course; }
+            return this.pr_content_view.trainings_collection.findWhere({ id: parseInt(this.model.get('course_id'), 10) });
         },
 
         selectedCourseAcceptsPayment: function selectedCourseAcceptsPayment() {
