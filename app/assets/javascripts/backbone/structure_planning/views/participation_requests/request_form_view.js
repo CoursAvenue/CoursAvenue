@@ -6,7 +6,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
 
         initialize: function initialize (options) {
             StructureProfile.Views.ParticipationRequests.RequestFormView.prototype.initialize.apply(this, arguments);
-            _.bindAll(this, 'stripeResponseHandler');
+            _.bindAll(this, 'stripeResponseHandler', 'showSubmitError');
         },
 
         ui: {
@@ -127,7 +127,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
         },
 
         saveMessage: function saveMessage () {
-            this.$('.input_field_error').remove();
+            this.$('.input_field_error').hide();
             this.model.save(null, {
                 success: function success (model, response) {
                     // We disable the submit button
@@ -140,7 +140,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
                     });
                     this.ui.$message_sent.slideDown();
                 }.bind(this),
-                error: this.showPopupMessageDidntSend
+                error: this.showSubmitError.bind(this)
             });
         },
 
@@ -237,8 +237,19 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
         },
 
         selectedCourseAcceptsPayment: function selectedCourseAcceptsPayment() {
-            return this.getCourse().get('accepts_payment');
-        }
+            return this.getCourse().get('accepts_payment') == true;
+        },
+
+        showSubmitError: function showSubmitError (model, response) {
+            if (response.responseJSON.stripe_error_message) {
+                var errorMessage = response.responseJSON.stripe_error_message;
+
+                this.$('form').trigger('ajax:complete');
+                this.$('[data-error=stripe-error]').text(errorMessage).show();
+            } else {
+                return this.showPopupMessageDidntSend(model, response);
+            }
+        },
 
     });
 
