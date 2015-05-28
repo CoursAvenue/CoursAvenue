@@ -13,9 +13,6 @@ RSpec.describe GiftCertificate::Voucher, type: :model, with_stripe: true do
   let(:user)             { subject.user }
   let(:structure)        { subject.structure }
 
-  context 'validations' do
-  end
-
   context 'associations' do
     it { should belong_to(:gift_certificate) }
   end
