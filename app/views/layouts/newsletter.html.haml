@@ -60,7 +60,7 @@
                       = "© #{@structure.name}"
                       = @structure.address
                   %div
-                    Envoyé avec ♥ depuis le siège de CoursAvenue
+                    Envoyé avec ♥ par #{@structure.name}
                   - if content_for? :footer
                     = yield :footer
                   - if @structure
