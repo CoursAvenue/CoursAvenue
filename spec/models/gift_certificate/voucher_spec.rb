@@ -123,6 +123,16 @@ RSpec.describe GiftCertificate::Voucher, type: :model, with_stripe: true do
           expect(charge).to_not be_nil
           expect(charge).to be_a(Stripe::Charge)
         end
+
+        # Pending test before the stripe mocking library doens't support it yet.
+        # https://github.com/rebelidealist/stripe-ruby-mock/issues/158
+        xit 'sets the fees' do
+          charge = subject.charge!
+          subject.reload
+
+          expect(subject.fee).to_not be_nil
+          expect(subject.received_amount).to_not be_nil
+        end
       end
     end
   end

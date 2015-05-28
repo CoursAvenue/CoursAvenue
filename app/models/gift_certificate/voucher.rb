@@ -40,6 +40,8 @@ class GiftCertificate::Voucher < ActiveRecord::Base
     self.save
 
     send_emails
+    self.delay.retrieve_fees
+
     charge
   end
 
@@ -69,5 +71,19 @@ class GiftCertificate::Voucher < ActiveRecord::Base
         break random_token unless self.class.exists?(token: random_token)
       end
     end
+  end
+
+  # Retrieve the different fees from Stripe after the charge.
+  #
+  # @return
+  def retrieve_fees
+    return if stripe_charge_id.nil?
+
+    transaction = Stripe::BalanceTransaction.retrieve(stripe_charge.balance_transaction)
+    return if transaction.nil?
+
+    self.fee             = transaction.fee / 100.0
+    self.received_amount = transaction.net / 100.0
+    save
   end
 end
