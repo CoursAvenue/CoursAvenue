@@ -23,8 +23,8 @@ RSpec.describe GiftCertificate::Voucher, type: :model, with_stripe: true do
   context 'delegates' do
     it { should delegate_method(:amount).to(:gift_certificate) }
     it { should delegate_method(:structure).to(:gift_certificate) }
-    it { should delegate_method(:name).to(:gift_certificate) }
     it { should delegate_method(:description).to(:gift_certificate) }
+    it { should delegate_method(:name).to(:gift_certificate).with_prefix(true) }
   end
 
   describe 'stripe_charge' do
