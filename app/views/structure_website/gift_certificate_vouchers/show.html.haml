@@ -1,9 +1,15 @@
 .main-container.main-container--medium
-  %h1 Votre bon cadeau
+  %h1.print--hidden Votre bon cadeau
   .bg-white.soft.bordered.push--bottom
-
-    %h2.push-half--bottom= @voucher.gift_certificate_name
+    .text--center
+      = link_to 'javascript:window.print()', class: 'btn btn--green soft--sides print--hidden' do
+        %i.fa.fa-print
+        Imprimer
+    %h2.push-half--bottom
+      = @voucher.gift_certificate_name
     %p.epsilon= @voucher.description
+    %p.epsilon.print--hidden
+      %strong= "Total réglé : #{readable_amount(@voucher.amount)}"
 
     %h2 Votre code unique
     .inline-block.soft.delta.bordered

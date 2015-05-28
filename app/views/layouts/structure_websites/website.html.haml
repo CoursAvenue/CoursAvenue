@@ -3,7 +3,7 @@
     %meta{ name: 'robots', content: 'noindex, nofollow' }
 
 = content_for :header do
-  %header.bg-dark-gray
+  %header.bg-dark-gray.print--hidden
     .main-container.soft-half--ends.flexbox
       .flexbox__item.one-whole
         .inline-block.v-middle
@@ -24,7 +24,7 @@
           = link_to @structure.facebook_url, target: :_blank, class: 'white' do
             %i.fa.fa-facebook
 
-  %ul.text--center.nav.flush.soft--top.soft-half--bottom
+  %ul.text--center.nav.flush.soft--top.soft-half--bottom.print--hidden
     - if @structure.subscription.plan.website_plan?
       %li= link_to 'Présentation', structure_website_presentation_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'index' and controller_name == 'structures' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
     %li= link_to 'Planning', structure_website_planning_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'planning' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
