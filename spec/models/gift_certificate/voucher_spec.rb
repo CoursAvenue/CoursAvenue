@@ -158,4 +158,10 @@ RSpec.describe GiftCertificate::Voucher, type: :model, with_stripe: true do
       it { expect(subject.charged?).to be_truthy }
     end
   end
+
+  describe '#use!' do
+    it 'changes the used flag to true' do
+      expect { subject.use! }.to change { subject.used? }.from(false).to(true)
+    end
+  end
 end

@@ -52,6 +52,11 @@ class GiftCertificate::Voucher < ActiveRecord::Base
     stripe_charge_id.present?
   end
 
+  def use!
+    self.used = true
+    save
+  end
+
   private
 
   def send_emails
