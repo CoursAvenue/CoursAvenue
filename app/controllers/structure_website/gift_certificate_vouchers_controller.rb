@@ -1,7 +1,13 @@
 class StructureWebsite::GiftCertificateVouchersController < StructureWebsiteController
+
   def index
     @gift_certificates = @structure.gift_certificates.decorate
     @voucher           = GiftCertificate::Voucher.new
+  end
+
+  def show
+    @voucher          = GiftCertificate::Voucher.find(params[:id])
+    @gift_certificate = @voucher.gift_certificate
   end
 
   def create
@@ -12,14 +18,13 @@ class StructureWebsite::GiftCertificateVouchersController < StructureWebsiteCont
     @voucher.save
 
     token = voucher_params[:stripe_token]
-
     if @voucher.persisted?
       @voucher.charge!(token)
     end
 
     respond_to do |format|
       if @voucher.persisted? and @voucher.charged?
-        format.html { redirect_to structure_website_gift_certificate_vouchers_path,
+        format.html { redirect_to structure_website_gift_certificate_voucher_path(@voucher),
                       notice: 'Votre Bon cadeau a été créé avec succés.' }
       else
         format.html { redirect_to structure_website_gift_certificate_vouchers_path,

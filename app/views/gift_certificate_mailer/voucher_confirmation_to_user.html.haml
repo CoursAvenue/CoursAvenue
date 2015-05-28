@@ -1,15 +1,30 @@
-%p
+.p
   Bonjour #{ @voucher.user.name },
 
-%p
-  Merci pour l'achat de votre bon cadeau "#{ @voucher.gift_certificate_name }" dont voici la description :
+.p
+  Merci pour l'achat de votre bon cadeau "#{ @voucher.gift_certificate_name }"
+  %br
+  = @voucher.description
+.p
+  Vous trouverez ci-joint à ce mail votre bon cadeau que vous pourrez imprimer.
 
-.text--center
-  .inline-block.soft.delta.bordered= @voucher.description
-
-%p
+.p
   Total réglé : #{ readable_amount(@voucher.amount) }
 
-%h4.push-half--bottom.push--top Comment ça marche ?
-%p
+.p.text--center
+  .inline-block.soft.delta.bordered
+    %strong= @voucher.token
+
+.title Comment ça marche ?
+.p
   Prenez rendez-vous avec le professeur en lui indiquant le détail de votre bon cadeau (type d'activité et numéro du bon).
+
+.title Contact
+.p
+  - if @voucher.structure.phone_numbers.any?
+    Tél :
+    - @voucher.structure.phone_numbers.each do |phone_number|
+      %span.soft-half--right= phone_number.decorate.formatted_number
+    %br
+  E-mail :
+  = @voucher.structure.email

@@ -2,7 +2,8 @@
     COURSAVENUE.helperMethods.flash("Votre bon cadeau a été mis a jour avec succés.", 'success');
     $.fancybox.close()
     location.reload();
+    CoursAvenue.showFullPageLoader();
 <% else %>
-    COURSAVENUE.helperMethods.flash("Erreur lors de la mise a jour du bon cadeau, veuillez rééssayer.", 'error');
+    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/gift_certificates/form') %>", { width: 700, minWidth: 700, maxWidth: 700, padding: 0 });
 <% end %>
 

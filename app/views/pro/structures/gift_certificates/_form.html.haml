@@ -1,9 +1,14 @@
 = simple_form_for [:pro, @structure, @gift_certificate], remote: true do |form|
   .panel
     .panel__body.soft
-      = form.input :name, placeholder: 'Ex. Saint Valentin', label: 'Nom du bon cadeau', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-      = form.input :amount, placeholder: 'Ex. 5€', label: 'Tarif', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-      = form.input :description, placeholder: 'Ex. Cadeau de Saint Valentin :)', label: 'Description', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+      = form.input :name, placeholder: 'Ex. : Saint Valentin', label: 'Nom du bon cadeau', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+      .input
+        .control-label.v-middle>
+          = form.label :amount, 'Tarif', class: 'label--large'
+        .input-container.v-middle>
+          = form.input :amount, placeholder: 'Ex. : 5', label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'inline-block v-middle' }, required: true
+          .inline-block.v-middle.epsilon €
+      = form.input :description, placeholder: 'Ex. : Cadeau de Saint Valentin :)', label: 'Description', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
 
       .grid.push--top
         .grid__item.two-tenths>

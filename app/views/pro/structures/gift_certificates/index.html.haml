@@ -9,11 +9,11 @@
     %h1.flush Bon Cadeaux
     - if @structure.premium? and module_plan
       .epsilon
-        = link_to "Guide d'installation de votre page \"Bons Cadeaux\"", install_guide_pro_structure_gift_certificates_path(@structure), class: 'fancybox.ajax', data: { behavior: 'modal', width: '600', padding: '0' }
+        = link_to "Guide d'installation de votre page \"Bons Cadeaux\"", install_guide_pro_structure_gift_certificates_path(@structure), class: 'fancybox.ajax', data: { behavior: 'modal', width: '550', padding: '0' }
   .flexbox__item.v-middle.text--right
     - if @gift_certificates.any?
       = link_to new_pro_structure_gift_certificate_path(@structure), class: 'btn btn--green fancybox.ajax',
-        data: { behavior: 'modal', width: '600', padding: '0' }  do
+        data: { behavior: 'modal', width: '700', padding: '0' }  do
         %i.fa.fa-plus
         Ajouter un bon cadeau
       - if ! module_plan

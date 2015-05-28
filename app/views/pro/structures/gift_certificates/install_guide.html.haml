@@ -1,11 +1,20 @@
 .panel
   .panel__body.soft.epsilon
-    Equipez votre site Internet d'une page "Bons cadeaux" et augmentez votre nombre d'inscrits :
-    %ol
-      %li Créez un bouton ou une rubrique "Bons cadeaux" sur votre site Internet
-      %li Copiez et associez le lien suivant à votre rubrique "Bons cadeaux" : www.coursavenue.com/#{@structure.slug}/bons cadeaux
+    %p.line-height-1-5
+      Equipez votre site Internet d'une page
+      %strong "Bons cadeaux"
+      et augmentez votre nombre d'inscrits :
+    %ol.line-height-1-5
+      %li
+        Créez un bouton ou une rubrique
+        %strong "Bons cadeaux"
+        sur votre site Internet
+      %li
+        Copiez et associez le lien suivant à votre rubrique "Bons cadeaux" :
+        %strong.bg-gray-light.very-soft.inline-block
+          = link_to structure_website_gift_certificate_vouchers_url(subdomain: @structure.subdomain_slug), structure_website_gift_certificate_vouchers_url(subdomain: @structure.subdomain_slug), target: :_blank
       %li C'est fait ! Vous recevrez une notification à chaque achat de bon cadeau
     .grid.push--top
       .grid__item
         .text--center
-          %a.btn.btn--green.btn--full{ onclick: '$.fancybox.close()' } Fermer
+          %a.btn.btn--full{ onclick: '$.fancybox.close()' } Fermer

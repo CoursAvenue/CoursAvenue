@@ -751,7 +751,7 @@ CoursAvenue::Application.routes.draw do
       resources :participation_requests, only: [:create, :update, :show], path: 'inscriptions' do
         resources :conversations, controller: 'participation_requests/conversations'
       end
-      resources :gift_certificate_vouchers, only: [:index, :create], path: 'bons-cadeaux'
+      resources :gift_certificate_vouchers, only: [:index, :create, :show], path: 'bons-cadeaux'
     end
     # Use shared participation request controller
     # That's why it is out of the namespace

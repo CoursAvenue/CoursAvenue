@@ -1,0 +1,29 @@
+.main-container.main-container--medium
+  %h1 Votre bon cadeau
+  .bg-white.soft.bordered.push--bottom
+
+    %h2.push-half--bottom= @voucher.gift_certificate_name
+    %p.epsilon= @voucher.description
+
+    %h2 Votre code unique
+    .inline-block.soft.delta.bordered
+      %strong= @voucher.token
+
+    %hr.push--ends
+    %h4.push-half--bottom Contact
+    %p.epsilon
+      - if @voucher.structure.phone_numbers.any?
+        Tél :
+        - @voucher.structure.phone_numbers.each do |phone_number|
+          %span.soft-half--right= phone_number.decorate.formatted_number
+        %br
+      E-mail :
+      = @voucher.structure.email
+
+    %hr.push--ends
+    %h4.push-half--bottom.push--top Comment ça marche ?
+    %p.epsilon
+      Prenez rendez-vous avec le professeur en lui indiquant le détail de votre bon cadeau (type d'activité et numéro du bon).
+
+    %p.epsilon
+      Très belle séance !

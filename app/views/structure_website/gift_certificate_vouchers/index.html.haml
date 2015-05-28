@@ -1,21 +1,25 @@
 .main-container
-  %h2 Choissisez votre bon cadeau
+  %h1 Choissisez votre bon cadeau
   .grid
     .grid__item.eight-twelfths.palm-one-whole>
-      .soft.bg-white.bordered--left.bordered--right{ data: { step: 'certificates' } }
+      .soft.bg-white.bordered{ data: { step: 'certificates' } }
         - @gift_certificates.each do |certificate|
-          .grid--full.gray-box.push--bottom.cursor-pointer{ data: { behavior: 'follow-inside-link' } }
+          %a.block.muted-link.grid--full.gray-box.push--bottom.cursor-pointer{ data: { behavior: 'select-certificate', certificate: certificate.id, name: certificate.name, amount: certificate.amount, description: certificate.description } }
             .grid__item.v-middle.nine-twelfths.soft-half--ends.soft-half--right.soft--left>
-              .push--bottom.rounded--top
-                = link_to '', 'javascript:void(0)', data: { behavior: 'select-certificate', certificate: certificate.id, name: certificate.name, amount: certificate.amount  }
+              .push--ends.rounded--top
                 %h6.line-height-1-3.gamma.push-half--bottom= "#{ certificate.name }"
                 .line-height-1-7.epsilon= "#{ certificate.description }"
             .grid__item.v-middle.three-twelfths.soft-half.text--center>
               .f-weight-600.gamma= readable_amount(certificate.amount)
 
-      .soft.bg-white.bordered--left.bordered--right.hidden{ data: { step: 'payment' } }
+      .soft.bg-white.bordered.hidden{ data: { step: 'payment' } }
         .push--bottom
-          = link_to '← Changer le Bon Cadeau', 'javascript:void(0)', data: { behavior: 'previous-step' }
+          = link_to '← Choisir un autre bon cadeau', 'javascript:void(0)', data: { behavior: 'previous-step' }
+        .float--right.f-weight-600.gamma
+          %span{ data: { type: 'gift-amount' } }
+          €
+        %h2{ data: { type: 'gift-name' } }
+        %p{ data: { type: 'gift-description' } }
         = simple_form_for @voucher, url: structure_website_gift_certificate_vouchers_path, html: { id: 'gift_certificate_voucher_form' } do |f|
           = f.input :stripe_token, as: :hidden
           = f.input :gift_certificate_id, as: :hidden
@@ -53,18 +57,15 @@
     var gift_certificate = {};
     $(function() {
 
-        $('[data-behavior=follow-inside-link]').click(function(event) {
-            var element = $(this).find('a');
-            selectCertificate($(this).find('a'));
-        });
-
         $('[data-behavior=previous-step]').click(function(event) {
             $('[data-step=payment]').slideUp();
             $('[data-step=certificates]').slideDown();
         });
-
-        function selectCertificate(element) {
-            var $element       = $(element);
+        $('[data-behavior=select-certificate]').click(function () {
+            var $element       = $(this);
+            $('[data-type=gift-name]').text($element.data('name'));
+            $('[data-type=gift-amount]').text(parseInt($element.data('amount'), 10));
+            $('[data-type=gift-description]').text($element.data('description'));
 
             gift_certificate['id']     = $element.data('certificate');
             gift_certificate['name']   = $element.data('name');
@@ -75,7 +76,7 @@
 
             $('[data-step=certificates]').slideUp();
             $('[data-step=payment]').slideDown();
-        }
+        })
 
         var stripeHandler = StripeCheckout.configure({
             key: "#{ Rails.configuration.stripe[:publishable_key] }",

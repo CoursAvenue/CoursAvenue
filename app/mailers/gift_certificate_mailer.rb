@@ -13,7 +13,7 @@ class GiftCertificateMailer < ActionMailer::Base
     @structure = voucher.structure
     @user      = voucher.user
 
-    attachments['bon-cadeau.pdf'] = {
+    attachments["Bon cadeau #{@voucher.gift_certificate.name} - #{@structure.name}.pdf"] = {
       content:   File.read(PDFGenerator.generate_gift_certificate_voucher(voucher)),
       mime_type: 'application/pdf'
     }

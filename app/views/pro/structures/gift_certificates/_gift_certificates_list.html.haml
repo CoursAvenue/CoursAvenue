@@ -2,9 +2,9 @@
   %table.table--striped.table--data.table-responsive
     %thead
       %tr
-        %th Nom du bon cadeau
-        %th Tarif
-        %th Description
+        %th.three-twelfths Nom du bon cadeau
+        %th.two-twelfths Tarif
+        %th.five-twelfths Description
         %th
     %tbody
       - @gift_certificates.each do |certificate|
@@ -12,9 +12,9 @@
           %td= certificate.name
           %td= readable_amount(certificate.amount)
           %td= certificate.description
-          %td
+          %td.text--right.nowrap
             = link_to 'Modifier', edit_pro_structure_gift_certificate_path(@structure, certificate),
               class: 'fancybox.ajax', data: { behavior: 'modal', width: '700', padding: 0 }
             \/
             = link_to 'Supprimer', pro_structure_gift_certificate_path(@structure, certificate),
-              method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette newsletter ?' }
+              method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette newsletter ?' }, class: 'red'

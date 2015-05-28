@@ -24,7 +24,7 @@ class GiftCertificate::Voucher < ActiveRecord::Base
   #
   # @return the charge or nil
   def charge!(token = nil)
-    return nil if structure.can_receive_payments?
+    return nil if !structure.can_receive_payments?
 
     customer = user.stripe_customer || user.create_stripe_customer(token)
     return nil if customer.nil?
@@ -40,7 +40,6 @@ class GiftCertificate::Voucher < ActiveRecord::Base
     self.save
 
     send_emails
-
     charge
   end
 

@@ -26,15 +26,16 @@
 
   %ul.text--center.nav.flush.soft--top.soft-half--bottom
     - if @structure.subscription.plan.website_plan?
-      %li= link_to 'Présentation', structure_website_presentation_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'index' and controller_name != 'gift_certificates' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+      %li= link_to 'Présentation', structure_website_presentation_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'index' and controller_name == 'structures' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
     %li= link_to 'Planning', structure_website_planning_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'planning' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
     %li= link_to "Livre d'Or", structure_website_reviews_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'reviews' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
     - if @structure.subscription.plan.website_plan?
       %li= link_to 'Photos / Vidéos', structure_website_medias_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'medias' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
       - @structure.website_pages.each do |page|
         %li= link_to page.title, structure_website_website_page_path(page), class: ['delta soft-half--sides soft-half--bottom', (@page and @page.slug == page.slug ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+    %li= link_to 'Bons Cadeaux', structure_website_gift_certificate_vouchers_path, class: ['delta soft-half--sides soft-half--bottom', (controller_name == 'gift_certificate_vouchers' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
+    - if @structure.subscription.plan.website_plan?
       %li= link_to 'Contact', structure_website_contact_path, class: ['delta soft-half--sides soft-half--bottom', (action_name == 'contact' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
-    %li= link_to 'Bons Cadeaux', structure_website_gift_certificate_vouchers_path, class: ['delta soft-half--sides soft-half--bottom', (controller_name == 'gift_certificates' ? 'f-weight-bold bordered--bottom bordered--larger border-color-orange' : '')]
 
 = content_for :content do
   = yield
