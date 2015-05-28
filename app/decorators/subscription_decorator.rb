@@ -22,6 +22,6 @@ class SubscriptionDecorator < Draper::Decorator
   end
 
   def remaining_trial_days
-    (object.trial_end.to_date - Date.today).to_i
+    (object.trial_ends_at.to_date - Date.today).to_i
   end
 end

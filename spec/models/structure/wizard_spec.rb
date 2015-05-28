@@ -67,9 +67,8 @@ describe Structure::Wizard do
 
     context :has_filled_more_than_one_places? do
       it 'is completed' do
-        structure.save
-        structure.places << FactoryGirl.create(:place)
-        structure.places << FactoryGirl.create(:place)
+        structure.places << FactoryGirl.create(:place, structure: structure)
+        structure.places << FactoryGirl.create(:place, structure: structure)
         expect(places_wizard.completed?.call(structure)).to be(true)
       end
     end

@@ -155,6 +155,7 @@ class Pro::Structures::CoursesController < Pro::ProController
                                    :cant_be_joined_during_year, :no_class_during_holidays,
                                    :place_id, :on_appointment, :max_age_for_kid, :min_age_for_kid,
                                    :accepts_payment,
+                                   :accepts_payment, :price_group_id,
                                    audience_ids: [], level_ids: [], subject_ids: [],
                                    prices_attributes: [:id, :number, :type, :amount, :promo_amount, :info])
   end

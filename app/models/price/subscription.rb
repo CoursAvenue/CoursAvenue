@@ -13,9 +13,11 @@ class Price::Subscription < Price
   TYPES = ['prices.subscription.annual',    # Abonnement annuel
            'prices.subscription.semester',  # Abonnement semestriel
            'prices.subscription.trimester', # Abonnement trimestriel
-           'prices.subscription.month']     # Abonnement mensuel
+           'prices.subscription.month',     # Abonnement mensuel
+           'prices.subscription.other']     # Autre
 
-  TYPES_ORDER = { 'prices.subscription.annual'    => 4,
+  TYPES_ORDER = { 'prices.subscription.other'    => 5,
+                  'prices.subscription.annual'    => 4,
                   'prices.subscription.semester'  => 3,
                   'prices.subscription.trimester' => 2,
                   'prices.subscription.month'     => 1

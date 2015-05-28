@@ -16,23 +16,6 @@ describe User do
     end
   end
 
-  # describe '#participate_to?' do
-  #   let (:participation) { FactoryGirl.create(:participation) }
-  #
-  #   it 'does not' do
-  #     expect(subject.participate_to?(Planning.new)).to be(false)
-  #   end
-  #
-  #   it 'participates' do
-  #     expect(participation.user.participate_to?(participation.planning)).to be(true)
-  #   end
-  #
-  #   it 'has canceled his participations' do
-  #     participation.update_column :canceled_at, Time.now
-  #     expect(participation.user.participate_to?(participation.planning)).to be(false)
-  #   end
-  # end
-
   describe '#merge' do
     before do
       User.delete_all
@@ -69,20 +52,6 @@ describe User do
     end
   end
 
-  describe '#participate_to?' do
-    let(:user)     { FactoryGirl.create(:user) }
-    let(:planning) { FactoryGirl.create(:planning) }
-
-    it 'returns true' do
-      user.participations.create(planning: planning)
-      expect(user.participate_to?(planning)).to be(true)
-    end
-
-    it 'returns false' do
-      expect(user.participate_to?(planning)).to be(false)
-    end
-  end
-
   describe '#subscription_slug' do
     let (:user) { FactoryGirl.create(:user) }
 
@@ -97,15 +66,6 @@ describe User do
       expect(user.sponsorship_slug).to equal(slug)
     end
   end
-
-  # describe '#update_email_status' do
-  #   let(:user) { FactoryGirl.create(:user) }
-
-  #   it 'is passions_incomplete' do
-  #     user.update_email_status
-  #     expect(user.email_status).to eq 'passions_incomplete'
-  #   end
-  # end
 
   context :sponsorship do
     describe '#update_sponsorship_status' do
@@ -221,24 +181,6 @@ describe User do
         expect(user.avatar_url).to eq(user.fb_avatar)
       end
     end
-
-    # context 'User from the website' do
-    #   before do
-    #     UserAvatarUploader.enable_processing = true
-    #   end
-    #
-    #   after do
-    #     UserAvatarUploader.enable_processing = false
-    #   end
-    #
-    #   let(:image_url) { 'http://placehold.it/500' }
-    #   let(:user)      { FactoryGirl.create(:user, remote_avatar_url: image_url) }
-    #
-    #   it 'returns the url from the uploader' do
-    #     expect(user.avatar.wide).to have_dimensions(800, 800)
-    #   end
-    # end
-
   end
 end
 
