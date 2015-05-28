@@ -36,8 +36,9 @@
 
 %hr.push--ends
 %h3 Gestion de votre abonnement
-%p
-  = link_to 'Changer mon abonnement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: @subscription.plan.other_plan.id), class: 'fancybox.ajax',  data: { behavior: 'modal', width: '800', padding: 0 }
+- if @subscription.plan.other_plan
+  %p
+    = link_to 'Changer mon abonnement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: @subscription.plan.other_plan.id), class: 'fancybox.ajax',  data: { behavior: 'modal', width: '800', padding: 0 }
 %p
   -# = link_to 'Mettre à jour mes informations bancaires', '#' # , class: 'fancybox.ajax', data: { behavior: 'modal', width: '600', padding: 0 }
 %p

@@ -1,5 +1,5 @@
 %p.epsilon
-  Vous profitez actuellement de l'offre d'essai gratuite (offre <strong>#{ @subscription.plan.public_name }</strong>) jusqu'au #{l(@subscription.trial_end.to_date)}. Il ne vous reste
+  Vous profitez actuellement de l'offre d'essai gratuite (offre <strong>#{ @subscription.plan.public_name }</strong>) jusqu'au #{l(@subscription.trial_ends_at.to_date)}. Il ne vous reste
   %strong plus que #{ @subscription.remaining_trial_days } jours
   avant la fin de votre période d'essai : pour ne pas interrompre vos services,
   = link_to 'activez à tout moment votre abonnement.', confirm_choice_pro_structure_subscriptions_path(@structure), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }

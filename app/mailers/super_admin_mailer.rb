@@ -122,6 +122,28 @@ class SuperAdminMailer < ActionMailer::Base
          subject: subject
   end
 
+  def alert_for_seven_days_trial(subscription)
+    @structure = subscription.structure
+    if subscription.plan.website_plan?
+      subject = "J+7 période d'essai Site Internet"
+    else
+      subject = "J+7 période d'essai Modules"
+    end
+    mail to: 'kryqhl33@incoming.intercom.io',
+         subject: subject
+  end
+
+  def alert_for_second_day_after_charged(subscription)
+    @structure = subscription.structure
+    if subscription.plan.website_plan?
+      subject = "J+2 activation Site Internet"
+    else
+      subject = "J+2 activation Modules"
+    end
+    mail to: 'kryqhl33@incoming.intercom.io',
+         subject: subject
+  end
+
   def new_call_reminder_arrived(call_reminder)
     @call_reminder = call_reminder
     mail to: 'kryqhl33@incoming.intercom.io',

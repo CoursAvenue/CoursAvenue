@@ -954,9 +954,23 @@ class Structure < ActiveRecord::Base
   def wake_up!
     self.is_sleeping = false
     self.active      = true
+
+    if sleeping_structure
+      sleeping_slug           = sleeping_structure.slug
+      sleeping_structure.slug = sleeping_structure.slug + "-old"
+      sleeping_structure.save
+
+      friendly_id_slug = FriendlyId::Slug.where(slug: sleeping_structure.slug,
+                                                sluggable_type: 'Structure').first_or_initialize
+      friendly_id_slug.sluggable_id = self.id
+      friendly_id_slug.save
+
+      sleeping_structure.destroy
+    end
+
     save(validate: false)
     delay.index
-    sleeping_structure.destroy if sleeping_structure
+
     AdminMailer.delay.you_have_control_of_your_account(self)
     true
   end
