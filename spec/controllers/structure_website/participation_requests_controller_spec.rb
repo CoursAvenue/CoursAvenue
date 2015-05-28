@@ -27,7 +27,7 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
       it 'creates a participation_request' do
         post :create, { participation_request: {
                           planning_id: planning.id,
-                          date: Date.tomorrow.to_s,
+                          # date: Date.tomorrow.to_s,
                           structure_id: structure.id,
                           message: {
                             body: 'Lorem'
@@ -38,7 +38,7 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
                             email: 'lorem@ipsum.com'
                           }
                         }
-                    }
+                      }
         expect(assigns(:participation_request)).to be_persisted
       end
 
