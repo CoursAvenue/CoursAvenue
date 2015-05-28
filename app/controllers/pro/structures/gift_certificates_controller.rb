@@ -1,6 +1,6 @@
 class Pro::Structures::GiftCertificatesController < ApplicationController
   before_action :authenticate_pro_admin!, :set_structure
-  load_and_authorize_resource :structure, find_by: :slug
+  authorize_resource :structure
 
   layout 'admin'
 
