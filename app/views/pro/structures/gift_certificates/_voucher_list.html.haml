@@ -1,0 +1,20 @@
+.push--top
+  %h3 Suivi des bons cadeaux
+  %table.table--striped.table--data.table-responsive
+    %thead
+      %tr
+        %th Nom de l'acheteur
+        %th Date d'achat
+        %th Bon Cadeau
+        %th Code
+        %th Frais CB
+        %th Montant Reçu
+    %tbody
+      - @vouchers.each do |voucher|
+        %tr
+          %td= "#{ voucher.user.name }, (#{ voucher.user.email })"
+          %td= I18n.l(voucher.created_at, format: :date_short)
+          %td= voucher.name
+          %td= voucher.token
+          %td= readable_amount(voucher.fee)
+          %td= readable_amount(voucher.received_amount)

@@ -5,7 +5,8 @@ class Pro::Structures::GiftCertificatesController < ApplicationController
   layout 'admin'
 
   def index
-    @gift_certificates = @structure.gift_certificates.decorate
+    @gift_certificates = @structure.gift_certificates.includes(:vouchers).decorate
+    @vouchers = @gift_certificates.flat_map(&:vouchers)
   end
 
   def new

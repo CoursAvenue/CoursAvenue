@@ -18,3 +18,6 @@
             \/
             = link_to 'Supprimer', pro_structure_gift_certificate_path(@structure, certificate),
               method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette newsletter ?' }, class: 'red'
+
+- if @vouchers.any?
+  = render "voucher_list"

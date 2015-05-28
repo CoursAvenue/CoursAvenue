@@ -62,6 +62,28 @@ describe Pro::Structures::GiftCertificatesController, type: :controller do
 
           expect(response).to render_template(partial: '_gift_certificates_list')
         end
+
+        context 'when there are created vouchers' do
+          let(:certificate) { structure.gift_certificates.sample }
+          let(:user) { User.create_or_find_from_email(Faker::Internet.email, Faker::Name.name) }
+          let!(:vouchers) do
+            voucher = FactoryGirl.build(:gift_certificate_voucher, gift_certificate: certificate)
+            voucher.user = user
+            voucher.save
+
+            voucher
+          end
+
+          it 'assigns the vouchers' do
+            get :index, structure_id: structure.slug
+            expect(assigns(:vouchers)).to match_array(vouchers)
+          end
+
+          it 'renders the voucher list' do
+            get :index, structure_id: structure.slug
+            expect(response).to render_template(partial: '_voucher_list')
+          end
+        end
       end
     end
   end
