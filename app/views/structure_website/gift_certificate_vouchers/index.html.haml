@@ -71,7 +71,7 @@
 
             gift_certificate['id']     = $element.data('certificate');
             gift_certificate['name']   = $element.data('name');
-            gift_certificate['amount'] = parseInt($element.data('amount'), 10) * 1000;
+            gift_certificate['amount'] = parseInt($element.data('amount'), 10) * 100;
 
             var certificate_id = gift_certificate['id'];
             $('[name="gift_certificate_voucher[gift_certificate_id]"]').val(certificate_id);
