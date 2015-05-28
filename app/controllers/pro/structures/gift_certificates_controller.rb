@@ -6,7 +6,7 @@ class Pro::Structures::GiftCertificatesController < ApplicationController
 
   def index
     @gift_certificates = @structure.gift_certificates.includes(:vouchers).decorate
-    @vouchers = @gift_certificates.flat_map(&:vouchers)
+    @vouchers = @gift_certificates.flat_map(&:vouchers).sort_by(&:created_at).reverse
   end
 
   def new

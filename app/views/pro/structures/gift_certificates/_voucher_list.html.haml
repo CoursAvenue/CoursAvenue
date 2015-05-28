@@ -9,12 +9,14 @@
         %th Code
         %th Frais CB
         %th Montant Reçu
+        %th
     %tbody
       - @vouchers.each do |voucher|
         %tr
-          %td= "#{ voucher.user.name }, (#{ voucher.user.email })"
+          %td= "#{ voucher.user.name } (#{ voucher.user.email })"
           %td= I18n.l(voucher.created_at, format: :date_short)
-          %td= voucher.name
+          %td= voucher.gift_certificate_name
           %td= voucher.token
           %td= readable_amount(voucher.fee)
           %td= readable_amount(voucher.received_amount)
+          %td
