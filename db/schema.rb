@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527155848) do
+ActiveRecord::Schema.define(version: 20150528090633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -458,6 +458,8 @@ ActiveRecord::Schema.define(version: 20150527155848) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "token"
+    t.float    "fee"
+    t.float    "received_amount"
   end
 
   add_index "gift_certificate_vouchers", ["gift_certificate_id"], name: "index_gift_certificate_vouchers_on_gift_certificate_id", using: :btree
