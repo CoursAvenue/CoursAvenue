@@ -24,6 +24,11 @@ describe PDFGenerator do
   describe '.generate_gift_certificate_voucher' do
     let(:voucher) { FactoryGirl.create(:gift_certificate_voucher) }
 
+    before do
+      allow_any_instance_of(WickedPdf).to receive(:pdf_from_string).
+        and_return(Faker::Lorem.sentence)
+    end
+
     it 'does nothing if the voucher is not defined' do
       expect(PDFGenerator.generate_gift_certificate_voucher(nil)).to be_nil
     end
