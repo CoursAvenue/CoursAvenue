@@ -8,7 +8,7 @@
         .input-container.v-middle>
           = form.input :amount, placeholder: 'Ex. : 5', label: false, input_html: { class: 'one-whole input--large' }, wrapper_html: { class: 'inline-block v-middle' }, required: true
           .inline-block.v-middle.epsilon €
-      = form.input :description, placeholder: 'Ex. : Cadeau de Saint Valentin :)', label: 'Description', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+      = form.input :description, as: :text, placeholder: 'Ex. : Cadeau de Saint Valentin :)', label: 'Description', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
 
       .grid.push--top
         .grid__item.two-tenths>
