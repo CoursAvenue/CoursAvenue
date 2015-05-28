@@ -320,6 +320,7 @@ describe ParticipationRequest do
       end
 
       it 'charges the customer' do
+        allow(subject).to receive(:from_personal_website?).and_return(true)
         subject.accept!(message)
         subject.reload
 
