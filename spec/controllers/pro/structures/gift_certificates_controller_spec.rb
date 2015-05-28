@@ -230,4 +230,37 @@ describe Pro::Structures::GiftCertificatesController, type: :controller do
       end
     end
   end
+
+  describe '#confirm_use_voucher' do
+    render_views
+
+    it 'renders the confirm_use_voucher template' do
+      get :confirm_use_voucher, structure_id: structure.slug
+
+      expect(response).to render_template('confirm_use_voucher')
+    end
+
+    context 'when xhr request' do
+      it "doens't render the layout" do
+        xhr :get, :confirm_use_voucher, structure_id: structure.id
+
+        expect(response).to_not render_with_layout('admin')
+      end
+    end
+  end
+
+  describe '#use_voucher' do
+    let(:voucher) { FactoryGirl.create(:gift_certificate_voucher) }
+
+    it 'sets the voucher as used' do
+      post :use_voucher, structure_id: structure.slug, voucher_id: voucher.id
+      voucher.reload
+      expect(voucher.used?).to be_truthy
+    end
+
+    it 'redirects to the index' do
+      post :use_voucher, structure_id: structure.slug, voucher_id: voucher.id
+      expect(response).to redirect_to(action: :index, structure_id: structure.slug)
+    end
+  end
 end

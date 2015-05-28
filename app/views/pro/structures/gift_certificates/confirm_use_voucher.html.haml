@@ -1,0 +1,11 @@
+.panel
+  .panel__body.soft.text--center.delta
+    Cliquez sur "Confirmer' si la prestation a été honorée.
+    .grid.push--top
+      .grid__item.two-tenths>
+        .text--center
+          %a.btn.btn--full{ onclick: '$.fancybox.close()' } Fermer
+      .grid__item.eight-tenths>
+        .text--center
+          = link_to 'Confirmer', use_voucher_pro_structure_gift_certificates_path(@structure, voucher_id: @voucher.id),
+            method: :post, class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }

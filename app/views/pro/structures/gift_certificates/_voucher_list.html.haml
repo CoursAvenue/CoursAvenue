@@ -19,4 +19,10 @@
           %td= voucher.token
           %td= readable_amount(voucher.fee)
           %td= readable_amount(voucher.received_amount)
-          %td
+          - if voucher.used?
+            %td
+              .btn.btn--small.btn--disabled Utilisé
+          - else
+            %td
+              = link_to confirm_use_voucher_pro_structure_gift_certificates_path(@structure, voucher_id: voucher.id), class: 'btn btn--green btn--small fancybox.ajax', data: { behavior: 'modal', width: '500', padding: 0 } do
+                Valider

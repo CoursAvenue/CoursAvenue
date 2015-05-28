@@ -75,6 +75,26 @@ class Pro::Structures::GiftCertificatesController < ApplicationController
     end
   end
 
+  def confirm_use_voucher
+    @voucher = GiftCertificate::Voucher.find(params[:voucher_id])
+    if request.xhr?
+      render layout: false
+    end
+  end
+
+  def use_voucher
+    @voucher = GiftCertificate::Voucher.find(params[:voucher_id])
+    respond_to do |format|
+      if ! @voucher.used? and @voucher.use!
+        format.html { redirect_to pro_structure_gift_certificates_path(@structure),
+                      notice: 'Bien enregistré.' }
+      else
+        format.html { redirect_to pro_structure_gift_certificates_path(@structure),
+                      error: 'Une erreur est survenue, veuillez rééssayer.' }
+      end
+    end
+  end
+
   private
 
   def set_structure

@@ -447,6 +447,8 @@ CoursAvenue::Application.routes.draw do
         resources :gift_certificates, only: [:index, :edit, :new, :create, :destroy, :update], controller: 'structures/gift_certificates', path: 'bons-cadeaux' do
           collection do
             get :install_guide
+            get :confirm_use_voucher
+            post :use_voucher
           end
         end
       end
