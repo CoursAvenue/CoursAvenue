@@ -7,8 +7,12 @@ module.exports = {
     searchPlannings: function searchPlannings (data) {
         data = data || {}
         // Serialize boundingBox as Algolia wants
-        if (data.insideBoundingBox) { data.insideBoundingBox = data.insideBoundingBox.toString(); }
-        return planning_index.search('', data);
+        // if (data.insideBoundingBox) { data.insideBoundingBox = data.insideBoundingBox.toString(); }
+        return planning_index.search('', _.extend({
+            hitsPerPage: 100,
+            facets: this.toFacets(data),
+            facetFilters: this.toFacetFilters(data),
+        }, { insideBoundingBox: data.insideBoundingBox }));
     },
 
     /*
@@ -16,17 +20,28 @@ module.exports = {
      */
     searchSubjects: function searchSubjects (data) {
         data = data || {};
-        facets = [];
-        // Transforming data into facet filters ie:
-        // ['depth:0']
-        var facet_filters = _.map(data, function(value, key) {
+        return subject_index.search('', {
+            hitsPerPage: 100,
+            facets: this.toFacets(data),
+            facetFilters: this.toFacetFilters(data)
+        });
+    },
+
+    // Transforming data into facet filters ie:
+    // ['depth:0']
+    toFacetFilters: function toFacetFilters (data) {
+        return _.map(data, function(value, key) {
             facets.push(key);
             return key + ':' + value;
         });
-        return subject_index.search('', {
-            hitsPerPage: 100,
-            facets: (facets.length > 0 ? facets.join(',') : '*'),
-            facetFilters: facet_filters
+    },
+
+    // Transforming data into facets
+    // return * if there is no data
+    toFacets: function toFacets (data) {
+        facets = _.map(data, function(value, key) {
+            return key;
         });
+        return (facets.length > 0 ? facets.join(',') : '*')
     }
 }

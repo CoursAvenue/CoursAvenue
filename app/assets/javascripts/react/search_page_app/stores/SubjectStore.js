@@ -1,5 +1,6 @@
 var Backbone             = require('Backbone'),
     AlgoliaSearchUtils   = require('../utils/AlgoliaSearchUtils'),
+    FilterStore          = require('../stores/FilterStore'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants');
 
@@ -9,7 +10,7 @@ var SubjectModel = Backbone.Model.extend({});
 
 var SubjectCollection = Backbone.Collection.extend({
     model: SubjectModel,
-
+    selected: false,
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback');
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
@@ -22,8 +23,12 @@ var SubjectCollection = Backbone.Collection.extend({
                 SearchPageDispatcher.waitFor([FilterStore.dispatchToken]);
                 this.fetchDataFromServer();
                 break;
-            case ActionTypes.SELECT_SUBJECT:
-                this.fetchDataFromServer({ parent: payload.data });
+            case ActionTypes.SELECT_ROOT_SUBJECT:
+                this.fetchDataFromServer({ root: payload.data });
+                break;
+            case ActionTypes.TOGGLE_SUBJECT_FILTERS:
+                this.selected = !this.selected;
+                this.trigger('change');
                 break;
         }
     },

@@ -6,6 +6,14 @@ var ActionTypes = SearchPageConstants.ActionTypes;
 
 var FilterStore = Backbone.Model.extend({
 
+    toJSON: function toJSON () {
+        var attributes = _.clone(this.attributes);
+        if (attributes.insideBoundingBox) {
+            attributes.insideBoundingBox = attributes.insideBoundingBox.toString();
+        }
+        return attributes;
+    },
+
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback');
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
@@ -13,16 +21,16 @@ var FilterStore = Backbone.Model.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
-            case ActionTypes.SELECT_SUBJECT:
+            case ActionTypes.SELECT_ROOT_SUBJECT:
                 this.set({ subject_slug: payload.data });
                 break;
             case ActionTypes.UPDATE_FILTERS:
-                this.set(payload);
+                this.set(payload.data);
                 break;
         }
     },
     getPlanningFilters: function getPlanningFilters () {
-        return {};
+        return this.toJSON();
     },
 });
 

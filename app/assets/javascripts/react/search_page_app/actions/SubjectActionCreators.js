@@ -3,9 +3,9 @@ var SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     ActionTypes          = SearchPageConstants.ActionTypes;
 
 module.exports = {
-    selectSubject: function selectSubject (subject_slug) {
+    selectRootSubject: function selectRootSubject (subject_slug) {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.SELECT_SUBJECT,
+            actionType: ActionTypes.SELECT_ROOT_SUBJECT,
             data: subject_slug
         });
     }

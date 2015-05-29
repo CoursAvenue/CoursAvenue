@@ -73,8 +73,11 @@ var MapComponent = React.createClass({
         });
     },
     render: function render () {
+        var map_style = {
+            // minHeight: '500px'
+        };
         return (
-          <div className="height-35vh one-whole"></div>
+          <div className="height-35vh" style={map_style}></div>
         );
     }
 });

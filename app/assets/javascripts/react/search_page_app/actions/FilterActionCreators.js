@@ -7,7 +7,13 @@ module.exports = {
     updateFilters: function updateFilters (data) {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.UPDATE_FILTERS,
-            payload: data
+            data: data
+        });
+    },
+
+    toggleSubjectFilter: function toggleSubjectFilter (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.TOGGLE_SUBJECT_FILTERS
         });
     }
 };

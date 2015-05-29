@@ -1,6 +1,7 @@
 var Map                  = require('./Map.react'),
     ResultList           = require('./ResultList.react'),
-    SubjectList          = require('./SubjectList.react'),
+    SubjectFilter        = require('./SubjectFilter.react'),
+    FilterBar            = require('./FilterBar.react'),
     PlanningStore        = require('../stores/PlanningStore');
 
 var SearchPageApp = React.createClass({
@@ -10,9 +11,10 @@ var SearchPageApp = React.createClass({
 
     render: function render() {
         return (
-          <div>
+          <div className="relative">
             <Map center={this.props.map_center} />
-            <SubjectList />
+            <SubjectFilter />
+            <FilterBar />
             <ResultList />
           </div>
         );

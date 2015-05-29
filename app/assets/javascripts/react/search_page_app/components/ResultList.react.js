@@ -1,6 +1,5 @@
 var PlanningStore        = require('../stores/PlanningStore'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
-    FullPageLoading      = require('./FullPageLoading.react'),
     FluxBoneMixin        = require("../../mixins/FluxBoneMixin");
 
 var ResultList = React.createClass({
@@ -17,7 +16,7 @@ var ResultList = React.createClass({
     render: function render () {
         var header_message;
         if (this.state.planning_store.loading) {
-            header_message = (<FullPageLoading text="Loading..."></FullPageLoading>);
+            header_message = (<div>Chargement</div>);
         }
         var planning_views = this.state.planning_store.map(function(planning) {
             return (

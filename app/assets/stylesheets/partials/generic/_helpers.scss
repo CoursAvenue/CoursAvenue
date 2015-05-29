@@ -161,6 +161,7 @@
 .west              { left       : 0 !important; }
 .east              { right      : 0 !important; }
 .north             { top        : 0 !important; }
+.up-north          { top        : -100% !important; }
 .south             { bottom     : 0 !important; }
 
 .bg-transparent {
@@ -562,6 +563,9 @@
     @include media-query(palm) { top: 20vh; }
 }
 
+.top-15vh {
+    top: 15vh;
+}
 
 /*------------------------------------*\
     TRANSITIONS
