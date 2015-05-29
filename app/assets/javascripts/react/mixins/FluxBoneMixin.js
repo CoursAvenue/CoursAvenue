@@ -1,12 +1,12 @@
-module.exports = function (prop_name) {
+module.exports = function (state_name) {
     return {
         componentDidMount: function componentDidMount () {
-            this.props[prop_name].on('all', function() {
+            this.state[state_name].on('all', function() {
                 this.forceUpdate();
             }.bind(this));
         },
         componentWillUnmount: function componentWillUnmount () {
-            this.props[prop_name].off('all', function() {
+            this.state[state_name].off('all', function() {
                 this.forceUpdate();
             }.bind(this))
         }

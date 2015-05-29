@@ -1,7 +1,12 @@
 var FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
-    ServerActionCreators = require("../actions/ServerActionCreators");
+    PlanningStore        = require("../stores/PlanningStore");
+    FilterActionCreators = require("../actions/FilterActionCreators");
 
 var MapComponent = React.createClass({
+
+    getInitialState: function getInitialState() {
+        return { planning_store: PlanningStore };
+    },
 
     componentDidMount: function componentDidMount () {
         // Provide your access token
@@ -12,7 +17,7 @@ var MapComponent = React.createClass({
                           .setView(this.props.center, 9)
                           .addLayer(this.marker_layer);
         this.map.on('moveend', this.handleMoveend);
-        this.props.planning_store.on('all', function() {
+        this.state.planning_store.on('all', function() {
             this.updateMarkerLayer();
         }.bind(this));
         this.locateUser();
@@ -32,7 +37,7 @@ var MapComponent = React.createClass({
     },
 
     handleMoveend: function handleMoveend (leaflet_data) {
-        ServerActionCreators.fetchData({
+        FilterActionCreators.updateFilters({
             insideBoundingBox: [
                 [this.map.getBounds()._southWest.lat, this.map.getBounds()._southWest.lng],
                 [this.map.getBounds()._northEast.lat, this.map.getBounds()._northEast.lng]
@@ -41,12 +46,12 @@ var MapComponent = React.createClass({
     },
 
     updateMarkerLayer: function updateMarkerLayer () {
-        if (this.props.planning_store.loading) { return; }
+        if (this.state.planning_store.loading) { return; }
         _.each(this.marker_layer.getLayers(), function(marker) {
             this.marker_layer.removeLayer(marker);
         }, this);
 
-        this.props.planning_store.map(function(planning) {
+        this.state.planning_store.map(function(planning) {
             var marker = L.marker([planning.get('_geoloc').lat, planning.get('_geoloc').lng], {
                 icon: this.getIconForPlanning(planning)
             });

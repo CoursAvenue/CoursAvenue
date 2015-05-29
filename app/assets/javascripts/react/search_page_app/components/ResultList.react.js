@@ -8,12 +8,18 @@ var ResultList = React.createClass({
         FluxBoneMixin('planning_store')
     ],
 
+    getInitialState: function getInitialState() {
+        return { planning_store: PlanningStore };
+    },
+
+    componentDidMount: function componentDidMount() {},
+
     render: function render () {
         var header_message;
-        if (this.props.planning_store.loading) {
+        if (this.state.planning_store.loading) {
             header_message = (<FullPageLoading text="Loading..."></FullPageLoading>);
         }
-        var planning_views = this.props.planning_store.map(function(planning) {
+        var planning_views = this.state.planning_store.map(function(planning) {
             return (
               <div className="soft push-half--right inline-block bg-white bordered" style={{width: '300px'}}>
                   <h4>{planning.get('course_name')}</h4>
@@ -21,7 +27,7 @@ var ResultList = React.createClass({
               </div>
             )
         })
-        // {this.props.planning_store}
+        // {this.state.planning_store}
         return (
           <div style={{ minHeight: '500px'}}>
             <h1>Resultats</h1>

@@ -61,6 +61,7 @@ class Subject < ActiveRecord::Base
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
+    attributesForFaceting [:depth, :parent, :root]
     attribute :slug, :depth
     add_attribute :name do
       self.name.gsub(' de ', ' ').gsub("d'", '')
