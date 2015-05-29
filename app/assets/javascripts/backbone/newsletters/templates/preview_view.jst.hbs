@@ -1,4 +1,4 @@
-<div class='panel__body soft text--center'>
+<div class='panel__body soft'>
   <div class='soft text--center'>
     <a href="{{ confirmation_url }}" class='btn btn--green btn--large fancybox.ajax' data-behavior='modal' data-width='500' data-padding='0'>
       <i class='fa fa-paper-plane-o'></i>
@@ -10,7 +10,22 @@
       Enregistrer et envoyer plus tard
     </a>
   </div>
-
+  <div>
+      <div>
+          <div class="inline-block delta soft-half--ends soft--sides bordered border-none--bottom">
+              <i class="fa fa-inbox fa-2x soft-half--right v-middle"></i>
+              <span class="v-middle">Boîte de réception</span>
+          </div>
+      </div>
+      <div class="f-weight-600 border-color-green bordered--left bordered--thick">
+          <div class="soft-half bordered--right bordered--top">
+              <div class="epsilon">
+                  <span class="soft--right">{{ sender_name }}</span>
+                  {{ email_object }}
+              </div>
+          </div>
+      </div>
+  </div>
   <iframe data-preview='true' src="about:blank" width="700" height="500" class="one-whole"></iframe>
 
   <div class='soft text--center'>

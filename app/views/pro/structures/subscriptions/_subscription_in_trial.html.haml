@@ -1,26 +1,19 @@
 %p.epsilon
-  Vous profitez actuellement de l'offre d'essai gratuite (offre <strong>#{ @subscription.plan.public_name }</strong>) jusqu'au #{l(@subscription.trial_end.to_date)}. Il ne vous reste
+  Vous profitez actuellement de l'offre d'essai gratuite (offre <strong>#{ @subscription.plan.public_name }</strong>) jusqu'au #{l(@subscription.trial_ends_at.to_date)}. Il ne vous reste
   %strong plus que #{ @subscription.remaining_trial_days } jours
   avant la fin de votre période d'essai : pour ne pas interrompre vos services,
   = link_to 'activez à tout moment votre abonnement.', confirm_choice_pro_structure_subscriptions_path(@structure), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
   Vous ne serez débité une fois la période d'essai terminée, et vous pouvez suspendre votre abonnement à tout moment (même avant la fin de la période d'essai).
 
-  %br
-  - if @sponsorship.present?
+
+- if @sponsorship.present?
+  %hr.push--ends
+  %h3 Promotions
+  %p
     - sponsor = @sponsorship.subscription.structure
-    De plus, vous bénéficier de 50% de réduction sur votre premier mois d'abonnement grâce au parrainage de
-    = link_to sponsor.name, structure_url(sponsor, subdomain: 'www'), target: :_blank
-    \.
+    Pous bénéficier de 50% de réduction sur votre premier mois d'abonnement grâce au parrainage de #{sponsor.name}.
 
 %hr.push--ends
-
--# %h3 Offre parrainage - 1 mois offert à chaque invitation
--# %p.epsilon
--#   Parrainez autant de professeurs, associations ou écoles que vous le souhaitez : pour chaque nouvel abonnement souscrit par l'un de vos parrainé, vous bénéficiez d'un mois offert sur votre abonnement. Parrainez autant de personnes que vous le souhaitez, l'offre est cumulable à l'infini !
--# %div
--#   = link_to 'Parrainer', '#', class: 'btn btn--green'
-
--# %hr.push--ends
 
 %h3 Gestion de votre abonnement
 %p

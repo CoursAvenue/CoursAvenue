@@ -11,7 +11,7 @@ class CourseSerializer < ActiveModel::Serializer
              :course_location, :min_age_for_kid, :max_age_for_kid, :audiences,
              :levels, :details, :prices, :has_price_group,
              :is_open_for_trial, :has_promotion, :trial_courses_policy_popover, :min_price,
-             :teaches_at_home
+             :teaches_at_home, :accepts_payment
 
   has_one  :home_place,          serializer: PlaceSerializer
   has_one  :place,               serializer: PlaceSerializer

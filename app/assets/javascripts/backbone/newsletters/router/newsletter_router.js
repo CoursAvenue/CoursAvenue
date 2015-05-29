@@ -4,7 +4,6 @@ Newsletter.module('Router', function(Module, App, Backbone, Marionette, $, _) {
             'mise-en-page':           'chooseLayout',
             ':id/remplissage':        'edit',
             ':id/liste-de-diffusion': 'setMailingList',
-            ':id/recapitulatif':      'setMetadata',
             ':id/previsualisation':   'showPreview',
             '*path':                  'defaultRoute'
         },
@@ -44,12 +43,6 @@ Newsletter.module('Router', function(Module, App, Backbone, Marionette, $, _) {
         setMailingList: function setMailingList () {
             this.layout.showOrCreatePage('mailing-list');
             this.layout.enableNavItemsBefore('mailing-list');
-        },
-
-        // Route: /metadata
-        setMetadata: function setMetadata () {
-            this.layout.showOrCreatePage('metadata');
-            this.layout.enableNavItemsBefore('metadata');
         },
 
         // Route: /preview

@@ -4,26 +4,20 @@
 = render layout: 'pro/home/header_layout', locals: { hide_menu: true, bg_center: true } do
   .main-container.soft--sides.mega-soft--ends.text--center
     %h1.white.soft-black-text-shadow.f-size-big.relative.flush
-      L'outil tout-en-un pour votre communication sur Internet
-    %h3.line-height-1-7.white.relative
-      Parrainage
-
-.main-container.mega-soft--ends
-  .text--center
-    %p.push--bottom.gamma.line-height-1-7
       #{ @structure.name } vous a parrainé à l'offre CoursAvenue Premium
-      %br
+    %h3.line-height-1-7.white.relative
       Connectez-vous ou inscrivez vous pour continuer.
 
+.main-container.mega-soft--ends
   .grid.white
     .grid__item.one-half.palm-one-whole.text--center>
-      %a.muted-link{ href: '/connexion', data: { behavior: 'modal' }, class: 'fancybox.ajax' }>
+      %a.muted-link{ href: '/connexion', data: { behavior: 'modal', padding: 0 }, class: 'fancybox.ajax' }>
         .opacity-hidden-on-hover__wrapper
           .transparant-white-box.rounded.soft.green-box--on-hover
             %h2.alpha.push--top.flush Se connecter
 
     .grid__item.one-half.palm-one-whole.text--center>
-      %a.muted-link{ href: new_pro_structure_path }>
+      %a.muted-link{ href: new_pro_structure_path(sponsorship_token: @token) }>
         .opacity-hidden-on-hover__wrapper
           .transparant-white-box.rounded.soft.green-box--on-hover
             %h2.alpha.push--top.flush S'inscrire

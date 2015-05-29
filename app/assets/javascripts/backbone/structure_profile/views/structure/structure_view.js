@@ -116,7 +116,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             }
         },
         serializeData: function serializeData () {
-            var attributes = this.model.toJSON()
+            var attributes = this.model.toJSON();
             return _.extend(attributes, { have_upcoming_plannings: coursavenue.bootstrap.meta.have_upcoming_plannings });
         }
 

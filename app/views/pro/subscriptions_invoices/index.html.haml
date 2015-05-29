@@ -1,0 +1,12 @@
+= side_menu_currently_at 'subscription_plans'
+
+= render partial: 'pro/shared/subscriptions_tabs', locals: { current: 'invoices' }
+
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Factures
+
+- if @user_invoices.any? or @pro_invoices.any?
+  = render 'invoices_list'
+- else
+  = render 'invoices_empty'

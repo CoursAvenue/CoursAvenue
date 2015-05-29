@@ -84,11 +84,79 @@
                     <textarea name="message[body]" id="" cols="30" rows="12" class="one-whole input--large" style='height: 185px;' data-behavior='autoresize'>{{#unless errors.body}}{{ participation_request.message.body }}{{/unless}}</textarea>
                 </div>
                 <div data-error="message_body" class="soft--sides {{#unless errors.body}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.body}}</div>
+                {{#if in_two_steps}}
                 <div class="soft--sides">
-                    <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
-                        Envoyer ma demande d'inscription
+                  <a data-behavior="show-third-step-form" class="hidden btn btn--green btn--full">
+                    Payer
+                  </a>
+                </div>
+
+                <div class="soft--sides">
+                  <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi..." data-behavior='skip-third-step-form'>
+                    Enregistrer
+                  </button>
+                </div>
+                {{/if}}
+            </div>
+            <div data-element="third-step-form-wrapper" class="hidden">
+                {{#if in_two_steps}}
+                  <div class="soft--sides soft-half--top push-half--bottom">
+                    <div class="soft-half--bottom"><a href="#" data-behavior="show-second-step-form">← Changer le message</a></div>
+                    <div class="epsilon f-weight-500">
+                      Le paiement ne sera effectué que lorsque votre demande sera acceptée.
+                    </div>
+                  </div>
+                {{/if}}
+
+                <div data-error="stripe-error" class="text--center hidden input_field_error red f-weight-bold"></div>
+                <div class="push-half--bottom soft--sides">
+                    <label class="label--large block">Numéro de carte</label>
+                    <div class="input-addon">
+                        <div class="input-prefix">
+                            <i class="fa-credit-card"></i>
+                        </div>
+                        <input type="tel" class="input--large one-whole hard--right" name='card[number]' data-stripe='number' autocomplete="cc-number" placeholder="•••• •••• •••• ••••">
+                    </div>
+                </div>
+
+                <div class="push-half--bottom soft--sides">
+                    <div class="grid">
+                        <div class='grid__item one-half v-top'>
+                            <label class="label--large block">Date d'expiration</label>
+                            <div class="input-addon">
+                                <div class="input-prefix">
+                                  <i class="fa-calendar"></i>
+                                </div>
+                                <input type="tel" class="input--large one-whole hard--right" name='card[exp]' data-stripe='exp' placeholder="MM / AAAA">
+                                <input type="hidden" name='card[exp_month]' type='text' data-stripe='exp_month'>
+                                <input type="hidden" name='card[exp_year]' type='text' data-stripe='exp_year'>
+                            </div>
+                        </div>{{!--
+                     --}}<div class='grid__item one-half v-top'>
+                            <label class="label--large block">Code de sécurité</label>
+                            <div class="input-addon">
+                              <div class="input-prefix">
+                                <i class="fa-lock"></i>
+                              </div>
+                              <input type="tel" class="input--large one-whole hard--right" name='card[cvc]' data-stripe='cvc'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <input type='hidden' class='hidden' name='card[token]' data-stripe='token'>
+
+                <div class="soft--sides">
+                    <button type="submit" class="btn btn--green btn--full" data-disable-with="Inscription en cours...">
+                        Valider
                     </button>
                 </div>
+            </div>
+            <div class="soft--sides hidden" data-element='form-submit'>
+                <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
+                    Enregistrer
+                </button>
             </div>
         </form>
     </article>

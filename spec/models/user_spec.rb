@@ -1,9 +1,12 @@
 # -*- encoding : utf-8 -*-
 require 'rails_helper'
 require 'carrierwave/test/matchers'
+require 'stripe_mock'
 
 describe User do
   include CarrierWave::Test::Matchers
+
+  it_behaves_like 'StripeCustomer'
 
   context :active do
     it 'should not have password' do
@@ -12,23 +15,6 @@ describe User do
       expect(user.active?).to eq false
     end
   end
-
-  # describe '#participate_to?' do
-  #   let (:participation) { FactoryGirl.create(:participation) }
-  #
-  #   it 'does not' do
-  #     expect(subject.participate_to?(Planning.new)).to be(false)
-  #   end
-  #
-  #   it 'participates' do
-  #     expect(participation.user.participate_to?(participation.planning)).to be(true)
-  #   end
-  #
-  #   it 'has canceled his participations' do
-  #     participation.update_column :canceled_at, Time.now
-  #     expect(participation.user.participate_to?(participation.planning)).to be(false)
-  #   end
-  # end
 
   describe '#merge' do
     before do
@@ -66,20 +52,6 @@ describe User do
     end
   end
 
-  describe '#participate_to?' do
-    let(:user)     { FactoryGirl.create(:user) }
-    let(:planning) { FactoryGirl.create(:planning) }
-
-    it 'returns true' do
-      user.participations.create(planning: planning)
-      expect(user.participate_to?(planning)).to be(true)
-    end
-
-    it 'returns false' do
-      expect(user.participate_to?(planning)).to be(false)
-    end
-  end
-
   describe '#subscription_slug' do
     let (:user) { FactoryGirl.create(:user) }
 
@@ -94,15 +66,6 @@ describe User do
       expect(user.sponsorship_slug).to equal(slug)
     end
   end
-
-  # describe '#update_email_status' do
-  #   let(:user) { FactoryGirl.create(:user) }
-
-  #   it 'is passions_incomplete' do
-  #     user.update_email_status
-  #     expect(user.email_status).to eq 'passions_incomplete'
-  #   end
-  # end
 
   context :sponsorship do
     describe '#update_sponsorship_status' do
@@ -209,34 +172,16 @@ describe User do
       end
     end
   end
-end
 
-describe '#avatar_url' do
-  context 'User from Facebook' do
-    let(:user) { FactoryGirl.create(:user_from_facebook) }
+  describe '#avatar_url' do
+    context 'User from Facebook' do
+      let(:user) { FactoryGirl.create(:user_from_facebook) }
 
-    it 'returns the url from facebook' do
-      expect(user.avatar_url).to eq(user.fb_avatar)
+      it 'returns the url from facebook' do
+        expect(user.avatar_url).to eq(user.fb_avatar)
+      end
     end
   end
-
-  # context 'User from the website' do
-  #   before do
-  #     UserAvatarUploader.enable_processing = true
-  #   end
-  #
-  #   after do
-  #     UserAvatarUploader.enable_processing = false
-  #   end
-  #
-  #   let(:image_url) { 'http://placehold.it/500' }
-  #   let(:user)      { FactoryGirl.create(:user, remote_avatar_url: image_url) }
-  #
-  #   it 'returns the url from the uploader' do
-  #     expect(user.avatar.wide).to have_dimensions(800, 800)
-  #   end
-  # end
-
 end
 
 def create_oauth(options = { uid: Faker::Number.number(6) })

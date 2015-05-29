@@ -151,7 +151,13 @@ CoursAvenue::Application.routes.draw do
       resources :participations, only: [:index], controller: 'participations'
       resources :promotion_codes, path: 'code-promos'
 
-      resources :subscriptions_coupons, only: [:index, :new, :create, :destroy, :show]
+      resources :subscriptions,          only: [:index]
+      resources :subscriptions_invoices, only: [:index]
+      resources :subscriptions_coupons, only: [:index, :new, :create, :destroy, :show] do
+        member do
+          get :check
+        end
+      end
       resources :subscriptions_plans do
         member do
           get :subscriptions
@@ -202,13 +208,12 @@ CoursAvenue::Application.routes.draw do
           patch :return_to_sleeping_mode
           get   :widget
           get   :wizard
-          get   :widget_jpo
           match :widget_ext, controller: 'structures', via: [:options, :get], as: 'widget_ext'
-          match :widget_jpo_ext, controller: 'structures', via: [:options, :get], as: 'widget_jpo_ext'
           patch :update_and_delete
           post  :recommend_friends
           post  :update
           get   :website_planning, path: 'planning-sur-mon-site'
+          get   :website_planning_parameters, path: 'parametre-de-mon-planning-sur-mon-site'
           get   :premium # redirect to subscriptions
         end
         collection do
@@ -242,6 +247,8 @@ CoursAvenue::Application.routes.draw do
             get   :confirm_cancellation
             patch :reactivate
             get   :stripe_payment_form
+            patch :accept_payments
+            get   :accept_payments_form
           end
           collection do
             get :confirm_choice
@@ -432,6 +439,9 @@ CoursAvenue::Application.routes.draw do
             patch :modify_date
             patch :cancel
             patch :report
+          end
+          collection do
+            get :paid_requests, path: 'transactions-cb'
           end
         end
       end

@@ -1,0 +1,15 @@
+.p
+  #{@structure.name}
+.p
+  = @structure.subscription.plan.public_name
+
+.p
+  = link_to 'URL profil privé', edit_pro_structure_url(@structure, subdomain: 'pro')
+
+- if @structure.website.present?
+  .p
+    = link_to 'Site web', @structure.website
+
+- if @structure.subscription.plan.website_plan?
+  .p
+    = link_to 'Site web CoursAvenue', structure_website_planning_url(subdomain: @structure.subdomain_slug)

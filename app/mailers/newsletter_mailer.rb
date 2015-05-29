@@ -19,7 +19,7 @@ class NewsletterMailer < ActionMailer::Base
     @structure  = newsletter.structure
     @blocs      = @newsletter.blocs.includes(:sub_blocs).order('position ASC')
 
-    mail subject: @newsletter.email_object,
+    mail subject: (@newsletter.email_object || @newsletter.title),
          to: recipient,
          from: "\"#{@newsletter.sender_name}\" <noreply@coursavenue.com>",
          reply_to: @newsletter.reply_to

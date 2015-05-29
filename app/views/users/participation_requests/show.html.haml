@@ -29,3 +29,9 @@
     - if !@participation_request.pending?
       = render partial: 'users/conversations/form', locals: { conversation: @participation_request.conversation }
     = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
+    - if @participation_request.pending?
+      .grid--full
+        .grid__item.two-twelfths.v-top.palm-one-whole>
+        .grid__item.ten-twelfths.v-top.palm-one-whole>
+          = link_to edit_participation_request_path(@participation_request, discuss_only: true), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+            = t('.ask_more_info')

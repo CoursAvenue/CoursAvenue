@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150512143527) do
+ActiveRecord::Schema.define(version: 20150527152827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -297,6 +297,7 @@ ActiveRecord::Schema.define(version: 20150512143527) do
     t.boolean  "is_open_for_trial"
     t.boolean  "has_promotion"
     t.datetime "deleted_at"
+    t.boolean  "accepts_payment"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
@@ -703,7 +704,9 @@ ActiveRecord::Schema.define(version: 20150512143527) do
     t.boolean  "from_personal_website",     default: false
     t.string   "token"
     t.string   "stripe_charge_id"
-    t.boolean  "refunded",                  default: false
+    t.datetime "charged_at"
+    t.datetime "refunded_at"
+    t.float    "stripe_fee"
   end
 
   add_index "participation_requests", ["stripe_charge_id"], name: "index_participation_requests_on_stripe_charge_id", unique: true, using: :btree
@@ -769,6 +772,7 @@ ActiveRecord::Schema.define(version: 20150512143527) do
     t.string   "callable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "info"
   end
 
   add_index "phone_numbers", ["callable_id", "callable_type"], name: "index_phone_numbers_on_callable_id_and_callable_type", using: :btree
@@ -796,6 +800,13 @@ ActiveRecord::Schema.define(version: 20150512143527) do
   end
 
   add_index "places", ["structure_id"], name: "index_places_on_structure_id", using: :btree
+
+  create_table "places_subjects", id: false, force: true do |t|
+    t.integer "subject_id"
+    t.integer "place_id"
+  end
+
+  add_index "places_subjects", ["subject_id", "place_id"], name: "index_places_subjects_on_subject_id_and_place_id", using: :btree
 
   create_table "places_users", id: false, force: true do |t|
     t.integer "place_id"
@@ -996,6 +1007,8 @@ ActiveRecord::Schema.define(version: 20150512143527) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "event_type"
+    t.datetime "deleted_at"
+    t.boolean  "processed",       default: false
   end
 
   add_index "stripe_events", ["stripe_event_id"], name: "index_stripe_events_on_stripe_event_id", unique: true, using: :btree
@@ -1163,7 +1176,9 @@ ActiveRecord::Schema.define(version: 20150512143527) do
     t.hstore   "metadata"
     t.integer  "subscriptions_coupon_id"
     t.boolean  "paused",                  default: false
-    t.datetime "trial_end"
+    t.datetime "trial_ends_at"
+    t.datetime "coupon_ends_at"
+    t.datetime "charged_at"
   end
 
   add_index "subscriptions", ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true, using: :btree
@@ -1179,6 +1194,9 @@ ActiveRecord::Schema.define(version: 20150512143527) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "amount"
+    t.integer  "max_redemptions"
+    t.integer  "duration_in_months"
+    t.datetime "redeem_by"
   end
 
   create_table "subscriptions_invoices", force: true do |t|
@@ -1212,12 +1230,13 @@ ActiveRecord::Schema.define(version: 20150512143527) do
 
   create_table "subscriptions_sponsorships", force: true do |t|
     t.integer  "subscription_id"
-    t.string   "sponsored_email",                 null: false
-    t.boolean  "redeemed",        default: false
+    t.string   "sponsored_email",                        null: false
+    t.boolean  "redeemed",               default: false
     t.datetime "deleted_at"
     t.string   "token"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "redeeming_structure_id"
   end
 
   add_index "subscriptions_sponsorships", ["subscription_id"], name: "index_subscriptions_sponsorships_on_subscription_id", using: :btree
@@ -1412,11 +1431,11 @@ ActiveRecord::Schema.define(version: 20150512143527) do
 
   create_table "website_parameters", force: true do |t|
     t.string   "slug"
-    t.text     "presentation_text"
     t.string   "title"
     t.integer  "structure_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "presentation_text"
   end
 
   add_index "website_parameters", ["structure_id"], name: "index_website_parameters_on_structure_id", using: :btree

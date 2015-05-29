@@ -39,6 +39,13 @@
             = f.input :radius, label: false, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
             %span.v-middle.label--large km
 
+      .soft--sides
+        %hr.push--ends
+        .input
+          .control-label.label--large> Discplines
+          .input-container>
+            = f.association :subjects, as: :select, collection: @structure.subjects, input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush' }, selected: (@place.subjects.any? ? @place.subjects.map(&:id) : @structure.subjects.map(&:id))
+
       - unless @place.is_home?
         .soft--sides
           %hr.push--ends

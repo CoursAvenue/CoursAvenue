@@ -1,0 +1,17 @@
+%p.epsilon
+  La période d'essai de votre abonnement (offre <strong>#{ @subscription.plan.public_name }</strong>) est terminée.
+  %br
+  - if @sponsorship.present?
+    - sponsor = @sponsorship.subscription.structure
+    De plus, vous bénéficier de 50% de réduction sur votre premier mois d'abonnement grâce au parrainage de
+    = link_to sponsor.name, structure_url(sponsor, subdomain: 'www'), target: :_blank
+    \.
+
+%hr.push--ends
+
+%h3 Gestion de votre abonnement
+%p
+  = link_to 'Activer mon abonnement', confirm_choice_pro_structure_subscriptions_path(@structure), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+
+= content_for :scripts do
+  = javascript_include_tag 'https://checkout.stripe.com/checkout.js'

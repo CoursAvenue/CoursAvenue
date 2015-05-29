@@ -12,7 +12,8 @@ describe InvitedUser do
       invited_user.inform_proposer
       expect(invited_user.registered).to be(true)
     end
-    it 'sends an email in queue' do
+
+    it 'sends an email in queue', with_mail: true do
       expect {
         invited_user.inform_proposer
       }.to change { ActionMailer::Base.deliveries.count }.by(1)
@@ -25,7 +26,7 @@ describe InvitedUser do
       expect(invited_user.email_status).to eq 'resend_stage_1'
     end
 
-    it 'sends an email in queue' do
+    it 'sends an email in queue', with_mail: true do
       expect {
         invited_user.send_invitation_stage_1
       }.to change { ActionMailer::Base.deliveries.count }.by(1)
@@ -38,7 +39,7 @@ describe InvitedUser do
       expect(invited_user.email_status).to eq 'resend_stage_2'
     end
 
-    it 'sends an email in queue' do
+    it 'sends an email in queue', with_mail: true do
       expect {
         invited_user.send_invitation_stage_2
       }.to change { ActionMailer::Base.deliveries.count }.by(1)

@@ -1,0 +1,15 @@
+fr:
+  stripe:
+    error_codes:
+      incorrect_number: Le numéro de carte est incorrect.
+      invalid_number: Le numéro de carte n'est pas un numéro de carte valide.
+      invalid_expiry_month: Le mois d’expiration de la carte n'est pas valide.
+      invalid_expiry_year: L'année d’expiration de la carte n'est pas valide.
+      invalid_cvc: Le code de sécurité de la carte n’est pas valide.
+      expired_card: La carte a expiré.
+      incorrect_cvc: Le code de sécurité de la carte est incorrecte.
+      incorrect_zip: La validation du code postale de la carte a échoué.
+      card_declined: La carte a été déclinée.
+      missing: Il n’y a pas de carte associée avec le client en cours de débit.
+      processing_error: Une erreur s’est produite lors du traitement de la carte.
+      rate_limit: An error occurred due to requests hitting the API too quickly. Please let us know if you're consistently running into this error.

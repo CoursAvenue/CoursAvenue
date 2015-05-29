@@ -1,0 +1,21 @@
+%ul.nav.tabs--link.flush.btn-group
+  %li.active>
+    %a.btn.rounded-right--none{ href: '.monthly-details', data: { toggle: 'tab' } } Mensuel
+  %li>
+    %a.btn.rounded-left--none{ href: '.annual-details', data: { toggle: 'tab' } } Annuel
+
+.tab-pane.monthly-details.active.grid--full
+  .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+    = render partial: 'pro/subscriptions/plans/free'
+  .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+    = render partial: 'pro/subscriptions/plans/pro', locals: { plan: @monthly_plans.first }
+  .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+    = render partial: 'pro/subscriptions/plans/pro_plus', locals: { plan: @monthly_plans.last }
+
+.tab-pane.annual-details.hidden.grid--full
+  .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+    = render partial: 'pro/subscriptions/plans/free'
+  .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+    = render partial: 'pro/subscriptions/plans/pro', locals: { plan: @yearly_plans.first }
+  .grid__item.palm-hard.soft--right.one-third.palm-one-whole>
+    = render partial: 'pro/subscriptions/plans/pro_plus', locals: { plan: @yearly_plans.last }

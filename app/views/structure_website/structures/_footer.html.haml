@@ -20,9 +20,9 @@
         = link_to @structure.facebook_url, target: :_blank do
           %i.fa.fa-facebook.fa-2x
       .f-weight-600.epsilon.push--top
-        Site Internet généré par
-        = link_to 'https://www.coursavenue.com' do
-          = image_tag 'logos/coursavenue_1_ligne_com.png', alt: 'CoursAvenue', height: 20, class: 'v-middle'
+        .inline-block.v-bottom Site Internet généré par
+        = link_to 'https://www.coursavenue.com', class: 'inline-block v-bottom' do
+          = image_tag 'logos/logo_white.png', alt: 'CoursAvenue', height: 20, class: 'block'
 
 - @place_locations = Gmaps4rails.build_markers(@structure.places) do |place, marker|
   - marker.lat place.latitude

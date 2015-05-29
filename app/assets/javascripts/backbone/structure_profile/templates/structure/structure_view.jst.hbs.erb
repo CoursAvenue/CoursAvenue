@@ -8,19 +8,19 @@
                     </div>
                 </div><!--
           -->{{/if}}<!--
-          --><div class="grid__item soft--left palm-hard palm-one-whole {{#if logo_thumb_url}}nine-twelfths{{else}}one-whole{{/if}} v-top">
+          --><div class="grid__item soft--left palm-hard palm-one-whole {{#if logo_thumb_url}}nine-twelfths{{else}}one-whole hard{{/if}} v-top">
                 <h1 class="beta gray push-half--bottom">{{ name }}</h1>
                 <div class="delta f-weight-500 push-half--bottom gray">
-                    {{ structure_type }} - {{ cities_text }}
+                    {{ structure_type }}{{#if structure_type}} - {{/if}}{{ cities_text }}
                 </div>
                 {{#each subjects}}
-                <div class="{{#ifCond @index '>' 1}}description-more-long hidden{{/ifCond}}">
+                <div>
                     <h3 class="flush very-soft--bottom f-weight-normal f-size-13 text-ellipsis">
                         {{#if_string_length_is_more_than this.child_names 60 }}
                             <a class="relative float--right cursor-pointer" onclick="$(this).parent().removeClass('text-ellipsis'); $(this).remove();">+ Plus</a>
                         {{/if_string_length_is_more_than}}
                         <i class="fa-{{ this.icon }}"></i>
-                        <strong>{{this.root_name}} : </strong> {{this.child_names}}
+                        <strong>{{this.root_name}}{{#if this.child_names}} : {{/if}}</strong> {{this.child_names}}
                     </h3>
                 </div>
                 {{/each}}

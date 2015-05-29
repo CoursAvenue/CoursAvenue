@@ -1,0 +1,15 @@
+.soft--sides.soft--top
+  - @subscriptions.each do |subscription|
+    .flexbox.push--bottom
+      .flexbox__item.v-middle
+        %h4.flush--bottom
+          = subscription.structure_name
+          %span.caps.bg-green.white.smaller-print active
+
+        = link_to 'Voir sur Stripe', "#{ stripe_dashboard_url }/customers/#{ subscription.structure.stripe_customer_id }", target: :_blank
+
+      .flexbox__item.v-middle.text--right
+        = succeed ' ' do
+          = link_to '#', class: 'btn btn--bigger btn--red', method: :delete, data: { confirm: 'Êtes sûr de vouloir de supprimer cette offre ? Elle sera aussi supprimée de Stripe.' } do
+            %i.fa-trash-o
+    %hr

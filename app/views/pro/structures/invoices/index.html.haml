@@ -18,7 +18,7 @@
       - @structure.invoices.order('payed_at ASC').each do |invoice|
         %tr
           %td= "Offre #{invoice.subscription.plan.public_name}"
-          %td= l(invoice.payed_at, format: :date_short)
+          %td= invoice.payed_at.present? ? l(invoice.payed_at, format: :date_short) : 'En Cours'
           %td Carte bancaire
           %td= number_to_currency(invoice.subscription.plan.amount)
           %td= invoice.stripe_invoice_id

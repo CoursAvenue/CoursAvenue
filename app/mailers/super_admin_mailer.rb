@@ -85,14 +85,26 @@ class SuperAdminMailer < ActionMailer::Base
   end
 
   def alert_charge_disputed(structure, reason, status)
+    @structure = structure
+    @reason    = reason
+    @status    = status
+
     mail subject: 'Un professeur a contesté un paiement'
   end
 
   def alert_charge_withdrawn(structure, reason, status)
+    @structure = structure
+    @reason    = reason
+    @status    = status
+
     mail subject: 'Un retrait a eu lieu suite a une contestation de paiement'
   end
 
   def alert_charge_reinstated(structure, reason, status)
+    @structure = structure
+    @reason    = reason
+    @status    = status
+
     mail subject: ''
   end
 
@@ -105,6 +117,28 @@ class SuperAdminMailer < ActionMailer::Base
       subject =  "L'élève #{@user.full_name} n'a pas répondu"
     else
       subject = "Le prof #{@structure.name} n'a pas répondu"
+    end
+    mail to: 'kryqhl33@incoming.intercom.io',
+         subject: subject
+  end
+
+  def alert_for_seven_days_trial(subscription)
+    @structure = subscription.structure
+    if subscription.plan.website_plan?
+      subject = "J+7 période d'essai Site Internet"
+    else
+      subject = "J+7 période d'essai Modules"
+    end
+    mail to: 'kryqhl33@incoming.intercom.io',
+         subject: subject
+  end
+
+  def alert_for_second_day_after_charged(subscription)
+    @structure = subscription.structure
+    if subscription.plan.website_plan?
+      subject = "J+2 activation Site Internet"
+    else
+      subject = "J+2 activation Modules"
     end
     mail to: 'kryqhl33@incoming.intercom.io',
          subject: subject

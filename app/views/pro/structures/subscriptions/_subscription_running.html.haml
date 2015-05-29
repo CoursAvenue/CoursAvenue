@@ -1,17 +1,33 @@
-%p.epsilon
-  Votre abonnement <strong>à l'offre #{@subscription.plan.public_name}</strong> sera automatiquement renouvelé le
-  %strong= l(@subscription.current_period_end, format: :date_short)
-  et nous prélèverons
-  %strong= "#{@subscription.next_amount}€"
-  = "#{@subscription.frequency},"
-  sauf si vous l'annulez avant cette date. Vous pouvez annuler votre abonnement à tout moment en accédant à l'espace « Gestion de votre abonnement ».
+%table.table--data.table--striped.bordered{ style: 'max-width: 500px;'}
+  %tbody
+    %tr
+      %td Offre actuel
+      %td
+        = "#{@subscription.plan.public_name.capitalize} (#{@subscription.plan.decorate.price})"
+    %tr
+      %td Prochain prélèvement
+      %td
+        = "#{l(@subscription.current_period_end, format: :date_short)} (#{readable_amount(@subscription.next_amount)})"
+    - if @subscription.coupon and @subscription.coupon_end_date
+      %tr
+        %td Code promo utilisé
+        %td
+          = @subscription.coupon.name
+          - if @subscription.coupon_end_date > Date.today
+            s'applique jusqu'au #{l(@subscription.coupon_end_date.to_date)}
+          - else
+            s'est appliqué jusqu'au #{l(@subscription.coupon_end_date.to_date)}
 
--# %hr.push--ends
--# %h3 Offre parrainage - 1 mois offert à chaque invitation
 -# %p.epsilon
--#   Parrainez autant de professeurs, associations ou écoles que vous le souhaitez : pour chaque nouvel abonnement souscrit par l'un de vos parrainé, vous bénéficiez d'un mois offert sur votre abonnement. Parrainez autant de personnes que vous le souhaitez, l'offre est cumulable à l'infini !
--# %div
--#   = link_to 'Parrainer', '#', class: 'btn btn--green'
+-#   Votre abonnement <strong>à l'offre #{@subscription.plan.public_name}</strong> sera automatiquement renouvelé le
+-#   sauf si vous l'annulez avant cette date. Vous pouvez annuler votre abonnement à tout moment en accédant à l'espace « Gestion de votre abonnement ».
+
+%hr.push--ends
+%h3 Offre parrainage - 1 mois offert à chaque invitation
+%p.epsilon
+  Parrainez autant de professeurs, associations ou écoles que vous le souhaitez : pour chaque nouvel abonnement souscrit par l'un de vos parrainé, vous bénéficiez d'un mois offert sur votre abonnement. Parrainez autant de personnes que vous le souhaitez, l'offre est cumulable à l'infini !
+%div
+  = link_to 'Parrainer', pro_structure_subscriptions_sponsorships_path(@structure), class: 'btn btn--green'
 
 %hr.push--ends
 
@@ -20,11 +36,13 @@
 
 %hr.push--ends
 %h3 Gestion de votre abonnement
+- if @subscription.plan.other_plan
+  %p
+    = link_to 'Changer mon abonnement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: @subscription.plan.other_plan.id), class: 'fancybox.ajax',  data: { behavior: 'modal', width: '800', padding: 0 }
 %p
-  = link_to 'Changer mon abonnement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: @subscription.plan.other_plan.id), class: 'fancybox.ajax',  data: { behavior: 'modal', width: '800', padding: 0 }
-
+  -# = link_to 'Mettre à jour mes informations bancaires', '#' # , class: 'fancybox.ajax', data: { behavior: 'modal', width: '600', padding: 0 }
 %p
   = link_to 'Résilier mon abonnement', confirm_cancellation_pro_structure_subscription_path(@structure, @subscription), class: 'red fancybox.ajax',  data: { behavior: 'modal', width: '600', padding: 0 }
 
 = content_for :scripts do
-  = javascript_include_tag '//checkout.stripe.com/checkout.js'
+  = javascript_include_tag 'https://checkout.stripe.com/checkout.js'

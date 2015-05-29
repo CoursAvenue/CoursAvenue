@@ -1,4 +1,5 @@
 class Pro::Structures::InvoicesController < Pro::ProController
+  load_and_authorize_resource :structure, find_by: :slug
   before_action :authenticate_pro_admin!, :set_structure, :set_subscription
 
   def index

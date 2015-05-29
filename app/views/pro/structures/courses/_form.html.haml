@@ -83,6 +83,11 @@
               - if @course.prices.length > 1
                 %a.cursor-pointer.v-middle.inline-block{ data: { clear: true } }
                   %i.fa-times
+          - if @course.errors[:prices].any?
+            .input
+              .control-label>
+              .input-container>
+                .red.f-weight-600.field_with_errors Vous devez renseigner un tarif
 
 
           - if @course.prices.length > 1
