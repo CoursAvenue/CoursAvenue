@@ -107,6 +107,12 @@ class Planning < ActiveRecord::Base
     add_attribute :course_name do
       course.name
     end
+
+    add_attribute :root_subject_slug do
+      roots = course.subjects.map{ |s| s.root.slug }.uniq
+      (roots.length == 1 ? roots.first : 'multi')
+    end
+
     add_attribute :structure_name do
       structure.name
     end
@@ -420,15 +426,20 @@ class Planning < ActiveRecord::Base
   def latitude
     if course.teaches_at_home and structure.places.homes.any?
       structure.places.homes.first.latitude
-    else
-      (place ? place.latitude : course.place.latitude)
+    elsif place
+      place.latitude
+    elsif course.place
+      course.place.latitude
     end
   end
+
   def longitude
     if course.teaches_at_home and structure.places.homes.any?
       structure.places.homes.first.longitude
-    else
-      (place ? place.longitude : course.place.longitude)
+    elsif place
+      place.longitude
+    elsif course.place
+      course.place.longitude
     end
   end
 

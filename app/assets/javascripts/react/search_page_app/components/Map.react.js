@@ -19,13 +19,10 @@ var MapComponent = React.createClass({
     },
 
     setLocationOnMap: function setLocationOnMap (location) {
-        var marker = L.marker([location.coords.latitude, location.coords.longitude]);
+        var marker = L.marker([location.coords.latitude, location.coords.longitude],
+                              { icon: L.divIcon({className: 'map-box-marker__user'}) });
         this.map.addLayer(marker);
         marker.bindPopup('Je suis là !');
-        marker.setIcon(L.mapbox.marker.icon({
-            'marker-color': '#ff8888',
-            'marker-size': 'small'
-        }));
     },
 
     locateUser: function locateUser () {
@@ -51,22 +48,25 @@ var MapComponent = React.createClass({
 
         this.props.planning_store.map(function(planning) {
             var marker = L.marker([planning.get('_geoloc').lat, planning.get('_geoloc').lng], {
-                icon: L.icon({
-                    iconUrl: 'assets/icons/svg/danse.svg',
-                    // iconRetinaUrl: 'assets/logos/logo.png',
-                    iconSize: [38, 95],
-                    iconAnchor: [22, 94],
-                    popupAnchor: [-3, -76],
-                    shadowSize: [68, 95],
-                    shadowAnchor: [22, 94]
-                })
+                icon: this.getIconForPlanning(planning)
             });
-            // debugger
             this.marker_layer.addLayer(marker);
             marker.bindPopup(planning.get('course_name'));
         }.bind(this));
     },
 
+    getIconForPlanning: function getIconForPlanning (planning) {
+        return L.divIcon({
+            className: 'map-box-marker map-box-marker__' + planning.get('root_subject_slug')
+            // iconUrl: CoursAvenue.MAP_ICONS[planning.get('root_subject_slug')]
+            // iconRetinaUrl: 'assets/logos/logo.png',
+            // iconSize: [38, 95],
+            // iconAnchor: [22, 94],
+            // popupAnchor: [-3, -76],
+            // shadowSize: [68, 95],
+            // shadowAnchor: [22, 94]
+        });
+    },
     render: function render () {
         return (
           <div className="height-35vh one-whole"></div>
@@ -75,16 +75,3 @@ var MapComponent = React.createClass({
 });
 
 module.exports = MapComponent;
-// {
-//                     "properties": {
-//                         "title": "Big astronaut",
-//                         "icon": {
-//                           // 'icon-url': 'assets/images/icons/svg/danse.svg'
-//                             'iconUrl': 'https://www.mapbox.com/mapbox.js/assets/images/astronaut1.png',
-//                             "iconSize": [100, 100],
-//                             "iconAnchor": [50, 50],
-//                             "popupAnchor": [0, -55],
-//                             "className": "dot"
-
-//                         }
-//                     }
