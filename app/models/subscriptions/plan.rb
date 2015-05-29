@@ -95,7 +95,6 @@ class Subscriptions::Plan < ActiveRecord::Base
   def create_subscription!(structure)
     self.subscriptions.create({
       structure:     structure,
-      coupon:        coupon,
       trial_ends_at: TRIAL_LENGTH.days.from_now
     })
   end
