@@ -304,3 +304,4 @@ gem 'virtus', '~> 1.0.5'
 
 # Javscript Next
 gem 'sprockets-commonjs'
+gem 'react-rails', '~> 1.0'
