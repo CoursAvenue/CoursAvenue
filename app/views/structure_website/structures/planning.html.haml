@@ -1,3 +1,9 @@
+= content_for :title do
+  Planning des cours & stages | #{@structure.name}
+
+= content_for :meta_description do
+  #{@structure.name} | Tout le planning des cours. Réservation en ligne.
+
 .main-container
   .grid
     .grid__item.eight-twelfths.palm-one-whole>
@@ -14,17 +20,15 @@
       - marker.lng structure.longitude
 
 = content_for :scripts do
+  = javascript_include_tag 'https://js.stripe.com/v2/'
+
   :javascript
-    window.coursavenue = window.coursavenue || {};
-    window.coursavenue.bootstrap = {
-        current_pro_admin: #{(current_pro_admin ? true : false)},
-        structure: #{ @model.to_json },
-        meta: {
-            have_upcoming_plannings: #{ @structure.plannings.future.any? },
-            structure_id: #{ @structure.id }
-        }
-    };
     $(function () {
+        $(document.body).on('coursavenue:started', function() {
+            CoursAvenue.statistic.logView(#{@structure.id}, 'website/planning');
+        });
+        Stripe.setPublishableKey("#{ Rails.configuration.stripe[:publishable_key] }");
+
         if ($('#header-map').length == 1) {
             google_map_handler = Gmaps.build('Google');
             google_map_handler.buildMap({ provider: { scrollwheel: false }, internal: { id: 'header-map' }}, function(){
@@ -34,5 +38,15 @@
                 google_map_handler.getMap().setZoom(15);
             });
         }
-        CoursAvenue.statistic.logView(#{@structure.id}, 'website/planning');
-    });
+        window.coursavenue = window.coursavenue || {};
+        window.coursavenue.bootstrap = {
+            current_pro_admin: #{(current_pro_admin ? true : false)},
+            structure: #{ @model.to_json },
+            stripe_errors: #{ I18n.t('stripe.error_codes').to_json },
+            meta: {
+                have_upcoming_plannings: #{ @structure.plannings.future.any? },
+                structure_id: #{ @structure.id }
+            }
+        };
+    }());
+

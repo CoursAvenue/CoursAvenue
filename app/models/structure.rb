@@ -6,6 +6,7 @@ class Structure < ActiveRecord::Base
   include Concerns::IdentityCacheFetchHelper
   include Concerns::SMSSender
   include Concerns::ReminderEmailStatus
+  include Concerns::StripeCustomer
   include StructuresHelper
   include HasSubjects
   include ActsAsCommentable
@@ -144,7 +145,7 @@ class Structure < ActiveRecord::Base
                              :search_score_updated_at, :is_sleeping, :sleeping_email_opt_in,
                              :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient,
                              :status, :vertical_pages_breadcrumb, :is_parisian,
-                             :close_io_lead_id
+                             :close_io_lead_id, :sponsorship_token
 
   define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
                                           :has_free_trial_course, :has_promotion, :gives_non_professional_courses,
@@ -951,9 +952,23 @@ class Structure < ActiveRecord::Base
   def wake_up!
     self.is_sleeping = false
     self.active      = true
+
+    if sleeping_structure
+      sleeping_slug           = sleeping_structure.slug
+      sleeping_structure.slug = sleeping_structure.slug + "-old"
+      sleeping_structure.save
+
+      friendly_id_slug = FriendlyId::Slug.where(slug: sleeping_structure.slug,
+                                                sluggable_type: 'Structure').first_or_initialize
+      friendly_id_slug.sluggable_id = self.id
+      friendly_id_slug.save
+
+      sleeping_structure.destroy
+    end
+
     save(validate: false)
     delay.index
-    sleeping_structure.destroy if sleeping_structure
+
     AdminMailer.delay.you_have_control_of_your_account(self)
     true
   end
@@ -1016,8 +1031,8 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # @return Subject at depth 1
-  def dominant_parent_subject
+  # @return Subject at depth 2
+  def dominant_subject
     if courses.active.any? and (_subjects = courses.active.flat_map{ |c| c.subjects }).any?
       _subjects.group_by(&:name).values.max_by(&:size).first
     else
@@ -1125,39 +1140,103 @@ class Structure < ActiveRecord::Base
     articles
   end
 
-  # Retrieve the Stripe customer associated with this structure.
-  # The stripe customer is the stripe account used for the subscription with CoursAvenue.
-  #
-  # @return a Stripe::Customer or nil
-  def stripe_customer
-    return nil if self.stripe_customer_id.nil?
-
-    Stripe::Customer.retrieve(self.stripe_customer_id)
-  end
-
-  # Create a new Stripe customer.
-  # The stripe customer is the stripe account used for the subscription with CoursAvenue.
-  #
-  # @param token The card token gotten from the Stripe.js.
-  #
-  # @return a Stripe::Customer or nil
-  def create_stripe_customer(token)
-    return nil if token.nil?
-
-    stripe_customer = Stripe::Customer.create({
-      description: "Compte client pour la structure #{name} (id = #{id})",
-      source: token
-    })
-
-    self.stripe_customer_id = stripe_customer.id
-    self.save
-
-    stripe_customer
-  end
-
   # Whether the Structure is subscribed (with stripe) or not.
   #
   # @return a Boolean
+  def premium?
+    stripe_customer.present?
+  end
+
+  # Retrieve the Stripe managed account.
+  #
+  # @return nil or a Stripe::Account
+  def stripe_managed_account
+    return nil if self.stripe_managed_account_id.nil?
+
+    Stripe::Account.retrieve(self.stripe_managed_account_id)
+  end
+
+  # Create the stripe manged account.
+  # More information: <https://stripe.com/docs/api/ruby#account_object>
+  #
+  # @param options The option for the creation of the managed account.
+  # In the options, we are waiting for:
+  #  * legal_entity: a hash
+  #
+  #  * bank_account: either a Stripe token or a hash with
+  #    - The country of the bank account (country),
+  #    - The currency of the bank account (currency) (Must be in the supported currencies
+  #      <https://support.stripe.com/questions/which-currencies-does-stripe-support>
+  #    - The account number of the bank account (account_number).
+  #
+  #  * tos_acceptance: a hash with the details on Stripe's TOS acceptance:
+  #    - The date as a UNIX timestamp (date).
+  #    - The ip address from which Stripe’s TOS were agreed (ip).
+  #
+  # @return nil or a Stripe::Account
+  def create_managed_account(options = {})
+    return stripe_managed_account if self.stripe_managed_account_id.present?
+    return false                  if options[:bank_account].nil?
+
+    default_options = {
+      managed:  true,
+      country:  'FR',
+
+      email: self.contact_email,
+
+      business_name: self.name,
+      # business_url:  self.website,
+      metadata: {
+        structure: id
+      }
+    }
+
+    managed_account = Stripe::Account.create(options.merge(default_options))
+
+    self.stripe_managed_account_id              = managed_account.id
+    self.stripe_managed_account_secret_key      = managed_account.keys.secret
+    self.stripe_managed_account_publishable_key = managed_account.keys.publishable
+    self.save
+
+    managed_account
+  end
+
+  # Update the managed account.
+  #
+  # This uses `[]` to access and update the managed account attributes. Hopefully, this doesn't
+  # break in the future /shrug.
+  #
+  # Furthermore, if this method is called while the managed_account is still in cache from its
+  # creation, the `keys` accessor corresponds to the `keys` attributes, containing the secret and
+  # publishable keys (https://stripe.com/docs/api/ruby#create_account) for this account instead
+  # of the `keys` methods.
+  #
+  # @param options The attributes to update.
+  #
+  # @return the Stripe::Account or nil
+  def update_managed_account(options)
+    return nil if self.stripe_managed_account_id.nil? or options.nil? or options.empty?
+    managed_account = self.stripe_managed_account
+
+    options.keys.each do |key|
+      if managed_account.keys.include?(key) or managed_account.methods.include?(key)
+        managed_account[key] = options[key]
+      end
+    end
+
+    managed_account.save
+  end
+
+  # Whether the structure can receive payments through its Stripe managed account.
+  #
+  # @return a Boolean
+  def can_receive_payments?
+    return false if self.stripe_managed_account_id.nil?
+    managed_account = self.stripe_managed_account
+
+    managed_account.charges_enabled and managed_account.transfers_enabled
+  end
+
   def premium?
     (subscription and subscription.active?)
   end
@@ -1165,6 +1244,10 @@ class Structure < ActiveRecord::Base
   # Here in case we want to have a specific column to store the `subdomain_slug`
   def subdomain_slug
     slug
+  end
+
+  def company?
+    return (structure_type == 'structures.company')
   end
 
   private

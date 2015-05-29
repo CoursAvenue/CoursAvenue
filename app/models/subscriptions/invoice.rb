@@ -5,7 +5,7 @@ class Subscriptions::Invoice < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :stripe_invoice_id, :structure, :subscription
+  attr_accessible :stripe_invoice_id, :structure, :subscription, :payed_at
 
   belongs_to :structure
   belongs_to :subscription
@@ -26,12 +26,15 @@ class Subscriptions::Invoice < ActiveRecord::Base
     return invoice unless invoice.nil?
 
     subscription = Subscription.where(stripe_subscription_id: stripe_invoice.subscription).first
-    structure    = subscription.structure
+    return nil if subscription.nil?
 
-    create!(structure: structure, subscription: subscription, stripe_invoice_id: stripe_invoice.id)
+    structure    = subscription.structure
+    create!(structure:         structure,
+            payed_at:          Time.at(stripe_invoice.date.to_i),
+            subscription:      subscription,
+            stripe_invoice_id: stripe_invoice.id)
   end
 
-  # TODO: Memoize object.
   # Retrieve the Stripe::Invoice.
   #
   # @return nil or a Stripe::Invoice.
@@ -56,11 +59,27 @@ class Subscriptions::Invoice < ActiveRecord::Base
   #
   # @return a String.
   def file_path
-    "invoices/#{self.structure.slug}/#{self.id}.pdf"
+    "invoices/#{ self.structure.slug }/subscriptions/#{ self.id }.pdf"
   end
 
+  # The amount of the invoice.
+  # If the invoice exists but doesn't have a stripe invoice id (unlikely), it returns the plan
+  # amount. It return the amount on the stripe invoice otherwise.
+  #
+  # @return a Float.
   def amount
-    subscription.plan.amount
+    return subscription.plan.amount if stripe_invoice_id.nil?
+
+    stripe_invoice.amount_due / 100.0
+  end
+
+  # The amount of the coupon applied to the charge
+  #
+  # @return a Float.
+  def coupon_amount
+    return 0.0 unless subscription.has_coupon? and subscription.coupon.still_valid?
+
+    subscription.coupon.amount
   end
 
   private
@@ -69,7 +88,7 @@ class Subscriptions::Invoice < ActiveRecord::Base
   #
   # @return nil or a String
   def generate_pdf!
-    PDFGenerator.generate_invoice(self, pdf_template)
+    PDFGenerator.generate_invoice(self, pdf_template, pdf_template_locals)
     self.generated = true
     save
   end
@@ -79,5 +98,12 @@ class Subscriptions::Invoice < ActiveRecord::Base
   # @return a String.
   def pdf_template
     'pro/subscriptions/invoices.pdf.haml'
+  end
+
+  # The locals used in the pdf template.
+  #
+  # @return a hash.
+  def pdf_template_locals
+    { :@invoice => self, :@structure => structure }
   end
 end

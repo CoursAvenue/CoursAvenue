@@ -90,37 +90,39 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Subscribe a structure to the current plan.
   #
   # @param structure    The structure that subscribes to the plan.
-  # @param coupon_code  The coupon code to apply to the subscription
-  # @param trial_period The trial period, by default 15 days.
   #
   # @return nil or the new Subscription
-  def create_subscription!(structure, coupon_code = nil, trial_period = 15.days.ago)
-    options = {
-      plan: self.stripe_plan_id
-    }
-
-    coupon = Subscriptions::Coupon.where(stripe_coupon_id: coupon_code).first
-    if coupon.present? and coupon.valid?
-      options.merge!({ coupon: coupon.stripe_coupon_id })
-    end
-
+  def create_subscription!(structure)
     self.subscriptions.create({
-      structure: structure,
-      coupon:    coupon,
-      trial_end: TRIAL_LENGTH.days.from_now
+      structure:     structure,
+      coupon:        coupon,
+      trial_ends_at: TRIAL_LENGTH.days.from_now
     })
+  end
+
+  # Return the plan URL on Stripe.
+  #
+  # @return nil or a String.
+  def stripe_plan_url
+    return nil if stripe_plan_id.nil?
+
+    "https://dashboard.stripe.com/#{ Rails.env.production? ? '' : 'test/' }plans/#{ stripe_plan_id }"
   end
 
   def website_plan?
     plan_type == 'website'
   end
 
-  # Return plan that is monthyl. If self, then will return self
+  # Return the plan that has the same type but a monthly interval.
+  #
+  # @return a Plan or self
   def monthly_sibling
     Subscriptions::Plan.where(plan_type: plan_type, interval: 'month').first
   end
 
-  # Return plan that is yearly. If self, then will return self
+  # Return the plan that has the same type but a yearly interval.
+  #
+  # @return a Plan or self
   def yearly_sibling
     Subscriptions::Plan.where(plan_type: plan_type, interval: 'year').first
   end
@@ -128,6 +130,31 @@ class Subscriptions::Plan < ActiveRecord::Base
   # Return other plan that has the same interval
   def other_plan
     Subscriptions::Plan.where.not(plan_type: plan_type).where(interval: interval).first
+  end
+
+  # The amount of the current plan if the plan is monthly, or the amount of the sibling plan.
+  #
+  # @return integer
+  def monthly_amount
+    if monthly?
+      amount
+    else
+      monthly_sibling.amount
+    end
+  end
+
+  # Whether a plan is monthly or not.
+  #
+  # @return Boolean
+  def monthly?
+    interval == 'month'
+  end
+
+  # Whether a plan is yearly or not.
+  #
+  # @return Boolean
+  def yearly?
+    !monthly?
   end
 
   private

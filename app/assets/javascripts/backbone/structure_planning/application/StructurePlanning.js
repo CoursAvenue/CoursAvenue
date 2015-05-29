@@ -33,9 +33,10 @@ StructurePlanning.addInitializer(function(options) {
         layout.showWidget(participation_request_view, {
             selector: '[data-type=contact-form]',
             events: {
-                'planning:register'         : 'showRegistrationForm',
-                'lessons:collection:reset'  : 'resetCourseCollection',
-                'privates:collection:reset' : 'resetCourseCollection'
+                'planning:register':                       'showRegistrationForm',
+                'lessons:collection:reset':                'resetCourseCollection',
+                'privates:collection:reset':               'resetCourseCollection',
+                'participation_request:total':             'togglePaymentForm'
             }
         });
     } else {

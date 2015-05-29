@@ -253,7 +253,8 @@ group :development, :test do
   gem 'rspec-core',            '~> 3.2.0'
   gem 'rspec-support',         '~> 3.2.0'
   gem 'rspec-rails',           '~> 3.2.1'
-  gem 'stripe-ruby-mock',      '~> 2.1.0', :require => 'stripe_mock'
+  # gem 'stripe-ruby-mock',      '~> 2.1.0', :require => 'stripe_mock'
+  gem 'stripe-ruby-mock', github: 'wanelo/stripe-ruby-mock', ref: '5ec5dda994975a95653ce9f0a15f7f3316a185d8', require: 'stripe_mock'
 end
 
 gem 'dotenv-rails', '~> 2.0.0'
@@ -299,4 +300,6 @@ gem 'legato', '~> 0.4.0'
 
 gem 'replicate', '~> 1.5.1'
 
-gem 'stripe', '~> 1.20.4'
+gem 'stripe', '~> 1.20.1'
+
+gem 'virtus', '~> 1.0.5'

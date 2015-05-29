@@ -177,6 +177,45 @@ class ParticipationRequestMailer < ActionMailer::Base
     mail to: @user.email, subject: "Alternatives à #{structure.name}"
   end
 
+  ######################################################################
+  # Payments                                                           #
+  ######################################################################
+
+  # Send the invoice to the user.
+  #
+  # @param user                  The user to send the invoice to
+  # @param teacher               The teacher of the course
+  # @param participation_request The related participation request
+  #
+  # @return
+  def send_invoice_to_user(participation_request)
+    @user                  = participation_request.user
+    @structure             = participation_request.structure
+    @invoice               = participation_request.invoice
+    @participation_request = participation_request.decorate
+
+    mail to: @user.email,
+      subject: "Votre facture du cours du #{ @participation_request.day_and_hour } avec #{ @structure.name }"
+  end
+
+  def send_charge_refunded_to_user(participation_request)
+    @user                  = participation_request.user
+    @structure             = participation_request.structure
+    @participation_request = participation_request.decorate
+
+    mail to: @user.email,
+      subject: ""
+  end
+
+  def send_charge_refunded_to_teacher(participation_request)
+    @user                  = participation_request.user
+    @structure             = participation_request.structure
+    @participation_request = participation_request.decorate
+
+    mail to: @structure.email,
+      subject: ""
+  end
+
   private
 
   def retrieve_participation_request_variables(participation_request)

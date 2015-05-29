@@ -34,7 +34,7 @@ class UserDecorator < Draper::Decorator
     if crypted
       "XX XX XX XX #{object.phone_number[-2..-1]}" if object.phone_number
     else
-      object.phone_number if object.phone_number
+      PhoneNumberDecorator.new(PhoneNumber.new(number: object.phone_number)).formatted_number if object.phone_number
     end
   end
 

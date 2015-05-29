@@ -38,7 +38,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         updateButtonsVisibility: function updateButtonsVisibility (route) {
             this.ui.$next_link.fadeIn();
             this.ui.$previous_link.fadeIn();
-            this.ui.$preview.fadeIn();
+            this.ui.$preview.addClass('visibility-hidden');
             switch(route) {
                 case 'chooseLayout':
                     // If a layout is set, we just hide previous_link
@@ -53,16 +53,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     break;
                 case 'edit':
                     this.$el.slideDown();
+                    this.ui.$preview.removeClass('visibility-hidden');
                     break;
                 case 'setMailingList':
                     this.$el.slideDown();
                     break;
-                case 'setMetadata':
-                    this.$el.slideDown();
-                    break;
                 case 'showPreview':
                     this.$el.slideDown();
-                    this.ui.$preview.fadeOut();
                     this.ui.$next_link.fadeOut();
                     break;
             }

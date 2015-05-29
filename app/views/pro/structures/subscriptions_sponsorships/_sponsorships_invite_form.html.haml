@@ -1,12 +1,10 @@
-%h5.text--center
-  Invitez d'autres professeurs, associations ou écoles à découvrir les offres CoursAvenue
-  %br
-  Gagnez et cumulez 1 mois gratuit à chaque parrainage
+%h1 Gagnez et cumulez 1 mois gratuit à chaque parrainage
 
-.text--center
+%p.epsilon
   Pour chaque personne parrainée souscrivant à l'offre Modules ou Site Internet, vous recevrez 1 mois d'abonnement offert et votre ami bénéficiera d'une réduction de 50% sur son 1er mois.
 
-%h5 Vous disposez de #{ @remaining_monthly_credits } mois de crédit parrainage automatiquement déduit de vos prochains paiements.
+- if @remaining_monthly_credits > 0
+  %h5 Vous disposez de #{ @remaining_monthly_credits } mois de crédit parrainage automatiquement déduit de vos prochains paiements.
 
 %h5.push--top Entrez les emails de vos amis et envoyez-leur votre parrainage :
 

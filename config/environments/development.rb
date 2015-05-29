@@ -28,8 +28,8 @@ CoursAvenue::Application.configure do
     :address => "smtp.gmail.com",
     :port => 587,
     :domain => 'gmail.com',
-    :user_name => 'v2r.test@gmail.com',
-    :password => 'xnnc8cesJO',
+    :user_name => ENV.fetch('SMTP_USERNAME') { 'v2r.test@gmail.com' },
+    :password => ENV.fetch('SMTP_PASSWORD') { 'xnnc8cesJO' },
     :authentication => 'plain',
     :enable_starttls_auto => true
   }

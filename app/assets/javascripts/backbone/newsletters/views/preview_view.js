@@ -8,17 +8,20 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         templateHelpers: function templateHelpers () {
-            var structure = window.coursavenue.bootstrap.structure;
-            var newsletter = this.model.get('id');
-
+            var structure  = window.coursavenue.bootstrap.structure;
             return {
-                confirmation_url: function () {
-                    return Routes.confirm_pro_structure_newsletter_path(structure, newsletter);
-                },
-
-                save_url: function () {
+                confirmation_url: function confirmation_url () {
+                    return Routes.confirm_pro_structure_newsletter_path(structure, this.model.get('id'));
+                }.bind(this),
+                save_url: function save_url () {
                     return Routes.pro_structure_newsletters_path(structure);
-                },
+                }.bind(this),
+                email_object: function email_object () {
+                    return this.model.get('email_object');
+                }.bind(this),
+                sender_name: function sender_name () {
+                    return this.model.get('sender_name');
+                }.bind(this)
             };
         },
 

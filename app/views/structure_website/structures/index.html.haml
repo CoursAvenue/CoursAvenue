@@ -1,4 +1,12 @@
+= content_for :title do
+  = "#{@structure.name} | #{@website_parameter.title}"
+
+= content_for :meta_description do
+  = truncate @structure.description, length: 150
+
+
 = render partial: 'structure_website/structures/header'
+
 .main-container.main-container--medium.push--top
   - if @structure.medias.any?
     = render partial: 'gallery', locals: { medias: @structure.medias, structure: @structure }

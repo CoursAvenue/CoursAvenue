@@ -13,5 +13,10 @@ FactoryGirl.define do
     trait :not_parisian do
       zip_code '89100'
     end
+
+    # after(:build) do |place|
+    #   place.subjects << FactoryGirl.build(:subject)
+    #   place.save
+    # end
   end
 end

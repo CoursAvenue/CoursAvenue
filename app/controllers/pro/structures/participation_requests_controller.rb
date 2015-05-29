@@ -14,6 +14,11 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @past_participation_requests     = @participation_requests.order('date DESC').past
   end
 
+  # GET pro/etablissements/:structure_id/inscriptions-via-carte-bleu
+  def paid_requests
+    @participation_requests = @structure.participation_requests.charged
+  end
+
   # GET pro/etablissements/:structure_id/participation_request/:id/edit
   def edit
     @participation_request = @structure.participation_requests.find(params[:id])
@@ -76,8 +81,10 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   def cancel
     @participation_request = @structure.participation_requests.find(params[:id])
     @participation_request.cancel!(params[:participation_request][:message][:body], params[:participation_request][:cancelation_reason_id], 'Structure')
+
+    action_performed = @participation_request.charged? and @participation_request.refunded? ? 'remboursée' : 'refusée'
     respond_to do |format|
-      format.html { redirect_to pro_structure_participation_requests_path(@structure), notice: "La demande d'inscription a bien été refusée" }
+      format.html { redirect_to pro_structure_participation_requests_path(@structure), notice: "La demande d'inscription a bien été #{ action_performed }" }
     end
   end
 

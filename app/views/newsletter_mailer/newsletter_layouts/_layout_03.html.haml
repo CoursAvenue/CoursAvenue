@@ -14,7 +14,7 @@
               - proportion_in_px = NewsletterMailer::LAYOUT_WIDTH if !has_two_sub_blocs
               - if sub_bloc.image?
                 %td.text--center.soft-half--sides.v-top{ width: proportion_in_px }
-                  = image_tag sub_bloc.image.url, alt: @newsletter.title, style: "max-width: #{proportion_in_px}px";
+                  = image_tag sub_bloc.image.url(:newsletter_body_half), alt: @newsletter.title, style: "max-width: #{proportion_in_px}px", width: proportion_in_px
               - elsif sub_bloc.content.present?
                 %td.soft-half--sides.v-top{ width: proportion_in_px }
                   = sub_bloc.content.html_safe

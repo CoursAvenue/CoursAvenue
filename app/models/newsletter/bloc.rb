@@ -22,7 +22,6 @@ class Newsletter::Bloc < ActiveRecord::Base
 
   validates :type, presence: true
 
-  before_save :remove_image_if_remote_image_url_blank
   before_create :set_default_position
 
   mount_uploader :image, NewsletterImageUploader
@@ -62,9 +61,4 @@ class Newsletter::Bloc < ActiveRecord::Base
     end
   end
 
-  def remove_image_if_remote_image_url_blank
-    if remote_image_url.blank?
-      remove_image!
-    end
-  end
 end

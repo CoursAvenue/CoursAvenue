@@ -4,7 +4,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         template: Module.templateDirname() + 'request_form_view',
         message_failed_to_send_template: Module.templateDirname() + 'message_failed_to_send',
 
-        className: 'panel center-block',
+        className: 'panel center-block relative',
 
         ui: {
             '$message_sent'                           : '[data-type=message-sent]',
@@ -28,6 +28,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             Backbone.Validation.bind(this);
             _.bindAll(this, 'showPopupMessageDidntSend');
             this.on('participation_request:total', function(data) {
+                this.model.total_price = data.total_price;
                 this.$('[data-pr-total]').text(data.total);
             }.bind(this));
         },
@@ -88,9 +89,11 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             this.model.set('course_id', planning_data.course_id);
             this.model.set('planning_id', planning_data.id);
             var request_form_view = new Module.RequestFormView( { structure: this.model.get('structure'), model: this.model, in_two_steps: true } ).render();
+            var request_form_view_el = $(request_form_view.$el);
+            request_form_view_el.find('[data-pr-total]').addClass('soft--right');
             $.magnificPopup.open({
                   items: {
-                      src: $(request_form_view.$el),
+                      src: request_form_view_el,
                       type: 'inline'
                   }
             });
@@ -200,6 +203,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
                 structure: structure_json,
                 today: moment().format(COURSAVENUE.constants.MOMENT_DATE_FORMAT),
                 in_two_steps: this.in_two_steps,
+                is_free: this.model.isFree(),
                 user: {
                     phone_number: CoursAvenue.currentUser().get('phone_number') || $.cookie('user_phone_number')
                 }
