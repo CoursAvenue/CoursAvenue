@@ -20,7 +20,7 @@
                             <a class="relative float--right cursor-pointer" onclick="$(this).parent().removeClass('text-ellipsis'); $(this).remove();">+ Plus</a>
                         {{/if_string_length_is_more_than}}
                         <i class="fa-{{ this.icon }}"></i>
-                        <strong>{{this.root_name}} : </strong> {{this.child_names}}
+                        <strong>{{this.root_name}}{{#if this.child_names}} : {{/if}}</strong> {{this.child_names}}
                     </h3>
                 </div>
                 {{/each}}
