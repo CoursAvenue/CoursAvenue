@@ -48,7 +48,7 @@
   .grid--full
     .grid__item.two-twelfths.v-top.palm-one-whole>
     .grid__item.ten-twelfths.v-top.palm-one-whole>
-      = link_to edit_participation_request_path(@participation_request, discuss_only: true), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+      = link_to edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request, discuss_only: true), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
         = t('.ask_more_info')
 
 
