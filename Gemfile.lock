@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/maccman/sprockets-commonjs.git
+  revision: 586da11ebf55ea41dbde03bf868a1e21636d75bc
+  specs:
+    sprockets-commonjs (0.0.5)
+      sprockets (~> 2.1)
+
+GIT
   remote: git://github.com/rails/activerecord-session_store.git
   revision: 2d9517d0f26281e76e80e63ca202fb7dafbe27cb
   specs:
@@ -772,8 +779,6 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-commonjs (0.0.5)
-      sprockets (~> 2.1)
     sprockets-rails (2.2.4)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
@@ -959,7 +964,7 @@ DEPENDENCIES
   simple_form (~> 3.1.0)
   simplecov (~> 0.9.1)
   sitemap_generator (~> 5.0.5)
-  sprockets-commonjs
+  sprockets-commonjs!
   stripe (~> 1.20.1)
   stripe-ruby-mock!
   sunspot (~> 2.2.0)
