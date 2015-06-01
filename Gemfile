@@ -301,3 +301,7 @@ gem 'replicate', '~> 1.5.1'
 gem 'stripe', '~> 1.20.1'
 
 gem 'virtus', '~> 1.0.5'
+
+# Javscript Next
+gem 'sprockets-commonjs', github: 'maccman/sprockets-commonjs'
+gem 'react-rails', '~> 1.0'
