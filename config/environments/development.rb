@@ -83,4 +83,7 @@ CoursAvenue::Application.configure do
   # if ENV['PRERENDER_SERVICE_URL'].present?
   #   config.middleware.use Rack::Prerender, prerender_service_url: ENV['PRERENDER_SERVICE_URL']
   # end
+
+  # Use the right React build.
+  config.react.variant = :development
 end

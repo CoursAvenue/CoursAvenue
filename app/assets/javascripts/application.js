@@ -39,6 +39,9 @@
 //= require libs/redactor/redactor.imagemanager
 //= require libs/redactor/redactor.video
 
+//= require react
+//= require react_ujs
+//= require components
 //= require_tree ./libs/fancybox/helpers/
 
 //---- Bootstrap plugins

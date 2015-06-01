@@ -157,4 +157,7 @@ CoursAvenue::Application.configure do
   # config.middleware.use Rack::Prerender, prerender_service_url: ENV['PRERENDER_SERVICE_URL']
   # For Prerender.io
   config.middleware.use Rack::Prerender, prerender_token: ENV['PRERENDER_TOKEN'], protocol: 'https'
+
+  # Use the right React build.
+  config.react.variant = :production
 end
