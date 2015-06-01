@@ -67,23 +67,13 @@ class ParticipationRequestsController < ApplicationController
   private
 
   def set_participation_request
-    if on_teacher_subdomain?
-      @structure             = Structure.find request.subdomain
-      @participation_request = @structure.participation_requests.where(token: params[:id]).first
-      if @participation_request.nil?
-        redirect_to(root_path)
-        return
-      end
-      @user                  = @participation_request.user
-    else
-      if current_user.nil?
-        redirect_to(root_path)
-        return
-      end
-      @user                  = current_user
-      @participation_request = @user.participation_requests.find(params[:id])
-      @structure             = @participation_request.structure
+    @participation_request = ParticipationRequest.where(token: params[:id]).first
+    if @participation_request.nil?
+      redirect_to(root_path)
+      return
     end
+    @user                  = @participation_request.user
+    @structure             = @participation_request.structure
   end
 
   def set_participation_request_url
