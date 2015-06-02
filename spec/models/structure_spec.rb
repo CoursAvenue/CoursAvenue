@@ -6,7 +6,10 @@ describe Structure do
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 
-  it { should have_many(:newsletters) }
+  context 'associations' do
+    it { should have_many(:newsletters) }
+    it { should have_many(:indexable_cards) }
+  end
 
   subject {structure}
   let(:structure) { FactoryGirl.create(:structure) }
