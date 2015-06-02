@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe IndexableCard, type: :model do
   context 'associations' do
     it { should belong_to(:structure) }
-    it { should belong_to(:subject) }
     it { should belong_to(:place) }
     it { should belong_to(:planning) }
     it { should belong_to(:course) }
