@@ -8,10 +8,11 @@ class IndexableCard < ActiveRecord::Base
   belongs_to :planning
   belongs_to :course
 
-  attr_accessible :structure, :subject, :place, :planning, :course
+  attr_accessible :structure, :place, :planning, :course
 
-  delegate :name, :price,          to: :course,    prefix: true
-  delegate :name, :comments_count, to: :structure, prefix: true
+  delegate :name, :price,                 to: :course,    prefix: true
+  delegate :name, :comments_count,        to: :structure, prefix: true
+  delegate :place, :latitude, :longitude, to: :place,     prefix: true
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
@@ -43,7 +44,7 @@ class IndexableCard < ActiveRecord::Base
       self.course_id
     end
 
-    geoloc(self.place.latitude, self.place.longitude)
+    geoloc(:place_latitude, :place_longitude)
   end
   # :nocov:
 
