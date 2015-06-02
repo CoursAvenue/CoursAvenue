@@ -37,50 +37,8 @@
       %h6.flush dont #{number_with_delimiter User.where(User.arel_table[:created_at].gt(Date.today).and(User.arel_table[:delivery_email_status].eq(nil))).count} aujourd'hui
       %div et #{number_with_delimiter User.where(User.arel_table[:created_at].gt(7.days.ago).and(User.arel_table[:delivery_email_status].eq(nil))).count} les 7 derniers jours
 
-
-%hr.push--ends
-%h3.text--center Cours d'essai
-- cache ["pro/structures/trial_courses/#{Course.open_for_trial.count}"] do
-  .grid
-    .grid__item.palm-one-whole.one-third.text--center>
-      %h3.flush= Course.open_for_trial.group_by(&:structure_id).count
-      %h6 profs
-    .grid__item.palm-one-whole.one-third.text--center>
-      %h3.flush= Course.open_for_trial.count
-      %h6 cours
-    .grid__item.palm-one-whole.one-third.text--center>
-      %h3.flush= Course.open_for_trial.flat_map(&:plannings).count
-      %h6 créneaux
-
 #admins-cumul
 #comments-cumul
-
-%h5.text--center Répartition / disciplines
-- subjects_count = {}
-- max_value = 1
-- Subject.stars.each do |subject|
-  - structure_count = PlanningSearch.search(subject_id: subject.slug, is_open_for_trial: true).total
-  - subjects_count[subject.name] = structure_count
-  - max_value = structure_count if structure_count > max_value
-
-- subjects_count.each do |key, value|
-  .grid.push-half--bottom
-    .grid__item.palm-one-whole.one-quarter.text--right.palm-text--left>= key
-    .grid__item.palm-one-whole.three-quarters>
-      .progress
-        .bar.text--left.soft--left{ style: "width: #{value * 100 / max_value}%"}= value
-%h5.text--center # de cours d'essai offert
-.grid
-  .grid__item.palm-one-whole.one-third.text--center>
-    - trial_courses_policy = Course.open_for_trial.map(&:structure).uniq.group_by(&:trial_courses_policy)
-    %h3.flush= trial_courses_policy['1_trial'].try(:count)
-    %h6 1 cours
-  .grid__item.palm-one-whole.one-third.text--center>
-    %h3.flush= trial_courses_policy['2_trials'].try(:count)
-    %h6 2 cours
-  .grid__item.palm-one-whole.one-third.text--center>
-    %h3.flush= trial_courses_policy['3_trials'].try(:count)
-    %h6 3 cours
 
 %hr.push--ends
 .text--center
