@@ -54,9 +54,10 @@ class IndexableCard < ActiveRecord::Base
   #
   # @return the new card.
   def self.create_from_subject_and_place(subject, place)
-    create(subject:   subject,
-           place:     place,
-           structure: place.structure)
+    create(
+      # subject:   subject,
+      place:     place,
+      structure: place.structure)
   end
 
   private
