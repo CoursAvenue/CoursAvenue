@@ -32,6 +32,16 @@ class IndexableCard < ActiveRecord::Base
     add_attribute :type do
       'indexable_card'
     end
+
+    add_attribute :structure_id do
+      self.structure_id
+    end
+
+    add_attribute :course_id do
+      self.course_id
+    end
+
+    geoloc(self.place.latitude, self.place.longitude)
   end
   # :nocov:
 

@@ -37,7 +37,6 @@ RSpec.describe IndexableCard, type: :model do
     it 'sets the other associations' do
       card = IndexableCard.create_from_planning(planning)
       expect(card.structure).to eq(structure)
-      expect(card.subject).to eq(_subject)
       expect(card.place).to eq(place)
       expect(card.course).to eq(course)
       expect(card.planning).to eq(planning)
