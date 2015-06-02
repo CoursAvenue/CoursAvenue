@@ -1434,12 +1434,12 @@ class Structure < ActiveRecord::Base
   end
 
   def lock_cards!
-    self.card_lock = true
+    self.card_locked = true
     save
   end
 
   def unlock_cards!
-    self.card_lock = false
+    self.card_locked= false
     save
   end
 
