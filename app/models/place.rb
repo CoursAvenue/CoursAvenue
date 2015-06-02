@@ -105,6 +105,7 @@ class Place < ActiveRecord::Base
 
   def touch_relations
     self.plannings.map(&:touch)
+    self.indexable_cards.map(&:touch)
   end
   handle_asynchronously :touch_relations
 

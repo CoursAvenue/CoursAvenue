@@ -189,6 +189,8 @@ class Structure < ActiveRecord::Base
   after_touch   :update_cities_text
   after_touch   :update_vertical_pages_breadcrumb
 
+  after_touch   :generate_cards
+
   before_destroy :unsubscribe_to_crm
 
   ######################################################################
@@ -1252,6 +1254,16 @@ class Structure < ActiveRecord::Base
     return (structure_type == 'structures.company')
   end
 
+  # Add the generation of the cards in the delayed job queue.
+  #
+  # @return whether the generation was added to the queue or not.
+  def generate_cards
+    return if card_locked?
+    lock_cards!
+
+    delayed_generate_cards
+  end
+
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons
@@ -1430,4 +1442,11 @@ class Structure < ActiveRecord::Base
     self.card_lock = false
     save
   end
+
+  def delayed_generate_cards
+    creator = IndexableCard::Creator.new(self)
+    creator.update_cards
+    unlock_cards!
+  end
+  handle_asynchronously :delayed_generate_cards, run_at: Proc.new { 10.minutes.from_now }
 end
