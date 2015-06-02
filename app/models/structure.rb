@@ -1420,4 +1420,14 @@ class Structure < ActiveRecord::Base
       self.crop_x, self.crop_y, self.crop_width = nil, nil, nil
     end
   end
+
+  def lock_cards!
+    self.card_lock = true
+    save
+  end
+
+  def unlock_cards!
+    self.card_lock = false
+    save
+  end
 end
