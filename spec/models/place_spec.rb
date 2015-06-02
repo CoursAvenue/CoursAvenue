@@ -4,6 +4,8 @@ require 'rails_helper'
 describe Place do
   subject { FactoryGirl.create(:place) }
 
+  it { should have_many(:indexable_cards) }
+
   it { should be_valid }
 
   describe '#main_contact' do
