@@ -10,8 +10,10 @@ RSpec.describe IndexableCard, type: :model do
   end
 
   context 'delegations' do
-    it { should delegate_method(:name, :price).to(:course).with_prefix }
-    it { should delegate_method(:name, :comments_count).to(:structure).with_prefix }
+    it { should delegate_method(:name).to(:course).with_prefix }
+    it { should delegate_method(:price).to(:course).with_prefix }
+    it { should delegate_method(:name).to(:structure).with_prefix }
+    it { should delegate_method(:comments_count).to(:structure).with_prefix }
   end
 
   let!(:structure) { FactoryGirl.create(:structure) }
