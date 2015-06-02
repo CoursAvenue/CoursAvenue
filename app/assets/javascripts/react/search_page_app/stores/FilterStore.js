@@ -1,4 +1,5 @@
-var Backbone             = require('Backbone'),
+var _                    = require('underscore')
+    Backbone             = require('Backbone'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants');
 
@@ -29,8 +30,23 @@ var FilterStore = Backbone.Model.extend({
                 break;
         }
     },
+
     getPlanningFilters: function getPlanningFilters () {
         return this.toJSON();
+    },
+
+    getPlanningFiltersForAlgolia: function getPlanningFiltersForAlgolia () {
+        var data = {};
+        if (this.get('subject')) { data.subject = this.get('subject').slug }
+        if (this.get('insideBoundingBox')) {
+            data.insideBoundingBox = this.get('insideBoundingBox').toString();
+        }
+        if (this.get('user_position')) {
+            data.aroundLatLng = this.get('user_position').latitude + ',' + this.get('user_position').longitude;
+        } else if (this.get('city')) {
+            data.aroundLatLng = this.get('city').latitude + ',' + this.get('city').longitude;
+        }
+        return data;
     },
 });
 

@@ -1,5 +1,5 @@
 var FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
-    PlanningStore        = require("../stores/PlanningStore");
+    PlanningStore        = require("../stores/PlanningStore"),
     FilterActionCreators = require("../actions/FilterActionCreators");
 
 var MapComponent = React.createClass({
@@ -14,19 +14,22 @@ var MapComponent = React.createClass({
         // Create a map in the div #map
         this.marker_layer = L.layerGroup();
         this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets')
-                          .setView(this.props.center, 9)
+                          .setView(this.props.center, 13)
                           .addLayer(this.marker_layer);
         this.map.on('moveend', this.handleMoveend);
         this.state.planning_store.on('all', function() {
             this.updateMarkerLayer();
         }.bind(this));
         this.locateUser();
+        this.handleMoveend(); // Trigger map bounds
     },
 
     setLocationOnMap: function setLocationOnMap (location) {
         var marker = L.marker([location.coords.latitude, location.coords.longitude],
                               { icon: L.divIcon({className: 'map-box-marker__user'}) });
         this.map.addLayer(marker);
+        FilterActionCreators.updateFilters({ user_position: location.coords });
+        this.map.setView([location.coords.latitude, location.coords.longitude]);
         marker.bindPopup('Je suis là !');
     },
 
@@ -62,7 +65,7 @@ var MapComponent = React.createClass({
 
     getIconForPlanning: function getIconForPlanning (planning) {
         return L.divIcon({
-            className: 'map-box-marker map-box-marker__' + planning.get('root_subject_slug')
+            className: 'map-box-marker map-box-marker__' + planning.get('root_subject')
             // iconUrl: CoursAvenue.MAP_ICONS[planning.get('root_subject_slug')]
             // iconRetinaUrl: 'assets/logos/logo.png',
             // iconSize: [38, 95],

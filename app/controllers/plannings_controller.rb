@@ -4,15 +4,10 @@ class PlanningsController < ApplicationController
   layout 'home'
 
   def index
-    search_params = { lat:48.8592, lng: 2.3417, order_by: :start_date,
-                      start_date: Date.today, per_page: 20, page: (params[:page] || 1) }
-    if params[:sort] == 'week-end'
-      plannings = PlanningSearch.search(search_params.merge(week_days: [0, 6],
-                                                             start_date: Date.today.beginning_of_week(:sunday) + 1.week ))
-    else
-      plannings = PlanningSearch.search(search_params)
+    @city = City.find(params[:city_id]) rescue City.find('paris')
+    if params[:subject_id].present? or params[:root_subject_id].present?
+      @subject      = Subject.find(params[:subject_id] || params[:root_subject_id])
+      @root_subject = @subject.root
     end
-    @plannings_total = plannings.total
-    @plannings       = plannings.results
   end
 end

@@ -1,6 +1,21 @@
+- @prerender_not_ready = true
+
+- if @subject
+  - title = "#{@subject.name.gsub('&', 'et')} à #{@city.name} (#{@city.department_code})"
+- else
+  - title = "Tous les cours de loisirs à #{@city.name || 'Paris'} (#{@city.department_code}) "
+
+- if params[:page] and params[:page].to_i > 3
+  = content_for :right_after_head do
+    %meta{ name: 'robots', content: 'noindex,follow' }
+
+= content_for :title do
+  = "#{title} | CoursAvenue.com".html_safe
+
+= content_for :meta_description do
+  #{title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com. Consultez #{number_with_delimiter Comment::Review.count} avis d'élèves, #{number_with_delimiter Media.count} photos.
+
 = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'
 = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css'
 
-- @city    = City.find('nice')
-- @subject = Subject.find('danse')
-= react_component('SearchPageApp', map_center: [@city.latitude, @city.longitude], selected_subject_slug: @subject.slug)
+= react_component('SearchPageApp', { map_center: [@city.latitude, @city.longitude], filters: { subject: (@subject ? @subject.to_json : nil), root_subject: (@root_subject ? @root_subject.to_json : nil), city: @city.to_json } }, { prerender: false })

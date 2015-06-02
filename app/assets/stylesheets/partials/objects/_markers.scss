@@ -92,12 +92,13 @@
     @include box-shadow(0 0 30px lighten($old_blue, 10%), 0 0 20px lighten($old_blue, 10%), 0 0 10px lighten($old_blue, 10%));
 }
 .map-box-marker {
-    width     : 30px !important;
-    height    : 43px !important;
-    color     : white;
-    text-align: center;
-    font-size : 14px;
-    padding-top: 5px;
+    width          : 30px !important;
+    height         : 43px !important;
+    color          : white;
+    text-align     : center;
+    font-size      : 14px;
+    padding-top    : 5px;
+    background-size: 100%;
     @include background-image-retina('icons/map-marker-empty.png', 'icons/map-marker-empty@2x.png');
 }
 .map-box-marker__danse {

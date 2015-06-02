@@ -12,10 +12,11 @@
         "keymirror"             : "~0.1.0",
         "react-leaflet"         : "~0.6.1",
         "algoliasearch"         : "~3.4.0",
-        "classnames"            : "~2.1.2"
+        "algoliasearch-helper"  : "~2.0.4",
+        "classnames"            : "~>2.1.2"
     },
     "license": "MIT",
     "engines": {
-        "node": ">= 0.10"
+        "node": ">= 0.12.4"
     }
 }

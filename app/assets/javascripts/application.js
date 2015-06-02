@@ -84,8 +84,8 @@
 
 // ---------------------------------- React
 //= require react
+//= require react/components
 //= require react_ujs
-require('./react/components');
 
 // Default magnificpopup style
 // http://codepen.io/dimsemenov/pen/GAIkt

@@ -9,4 +9,5 @@ module.exports = {
         SELECT_ROOT_SUBJECT:         null,
         UPDATE_FILTERS:              null
     })
+
 };

@@ -1,4 +1,5 @@
-var Backbone             = require('Backbone'),
+var _                    = require('underscore')
+    Backbone             = require('Backbone'),
     AlgoliaSearchUtils   = require('../utils/AlgoliaSearchUtils'),
     FilterStore          = require('../stores/FilterStore'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),

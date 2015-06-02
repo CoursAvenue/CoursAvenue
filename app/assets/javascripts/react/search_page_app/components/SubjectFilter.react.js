@@ -20,18 +20,11 @@ var SubjectFilter = React.createClass({
             );
         });
         var classes = classNames({
-            'north': this.state.subject_store.selected,
-            'up-north': !this.state.subject_store.selected,
-            'transition-all-300': true,
-            'absolute': true,
-            'west': true,
-            'one-whole': true,
-            'bg-white': true,
-            'height-35vh': true,
-            'text--center': true
+            'north'             : this.state.subject_store.selected,
+            'up-north'          : !this.state.subject_store.selected
         });
         return (
-          <div className={classes}>
+          <div className={classes + ' transition-all-300 absolute west one-whole bg-white height-35vh text--center'}>
               <h2>Dans quelle discipline ?</h2>
               <div className="main-container">{root_subject_items}</div>
           </div>

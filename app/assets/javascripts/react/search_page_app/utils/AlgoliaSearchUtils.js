@@ -1,18 +1,32 @@
-var algoliasearch  = require('algoliasearch'),
-    client         = algoliasearch(ENV['ALGOLIA_APPLICATION_ID'], ENV['ALGOLIA_SEARCH_API_KEY']),
-    planning_index = client.initIndex('Planning_' + ENV.SERVER_ENVIRONMENT),
-    subject_index  = client.initIndex('Subject_' + ENV.SERVER_ENVIRONMENT);
+var _                   = require('underscore'),
+    algoliasearch       = require('algoliasearch'),
+    algoliasearchHelper = require('algoliasearch-helper'),
+    client              = algoliasearch(ENV['ALGOLIA_APPLICATION_ID'], ENV['ALGOLIA_SEARCH_API_KEY']),
+    planning_index      = client.initIndex('Planning_' + ENV.SERVER_ENVIRONMENT),
+    subject_index       = client.initIndex('Subject_' + ENV.SERVER_ENVIRONMENT);
 
+var planning_search_state = {
+      facets     : ['subjects'],
+      distinct   : 1,
+      hitsPerPage: 100,
+      aroundRadius: 10000 // 10km
+};
+var planning_search_helper = algoliasearchHelper( client, 'Planning_' + ENV.SERVER_ENVIRONMENT);
 module.exports = {
+    planning_search_helper: planning_search_helper,
+
     searchPlannings: function searchPlannings (data) {
-        data = data || {}
+        data = data || {};
+        planning_search_helper.clearRefinements();
         // Serialize boundingBox as Algolia wants
-        // if (data.insideBoundingBox) { data.insideBoundingBox = data.insideBoundingBox.toString(); }
-        return planning_index.search('', _.extend({
-            hitsPerPage: 100,
-            facets: this.toFacets(data),
-            facetFilters: this.toFacetFilters(data),
-        }, { insideBoundingBox: data.insideBoundingBox }));
+        if (data.insideBoundingBox) {
+            planning_search_state.insideBoundingBox = data.insideBoundingBox.toString();
+            delete data.insideBoundingBox;
+        }
+        if (data.aroundLatLng) { planning_search_state.aroundLatLng = data.aroundLatLng; }
+        planning_search_helper.setState(planning_search_state);
+        planning_search_helper.addRefine('subjects', data.subject);
+        return planning_search_helper.search();
     },
 
     /*
@@ -31,8 +45,7 @@ module.exports = {
     // ['depth:0']
     toFacetFilters: function toFacetFilters (data) {
         return _.map(data, function(value, key) {
-            facets.push(key);
-            return key + ':' + value;
+            return (value ? key + ':' + value : '');
         });
     },
 
