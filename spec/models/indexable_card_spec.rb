@@ -6,6 +6,12 @@ RSpec.describe IndexableCard, type: :model do
     it { should belong_to(:place) }
     it { should belong_to(:planning) }
     it { should belong_to(:course) }
+    # it { should have_and_belong_to_many(:subjects) }
+  end
+
+  context 'delegations' do
+    it { should delegate_method(:name, :price).to(:course).with_prefix }
+    it { should delegate_method(:name, :comments_count).to(:structure).with_prefix }
   end
 
   let!(:structure) { FactoryGirl.create(:structure) }
