@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150602085415) do
+ActiveRecord::Schema.define(version: 20150602131949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -458,6 +458,7 @@ ActiveRecord::Schema.define(version: 20150602085415) do
     t.integer  "course_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "indexable_cards", ["course_id"], name: "index_indexable_cards_on_course_id", using: :btree

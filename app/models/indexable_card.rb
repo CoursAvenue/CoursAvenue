@@ -1,4 +1,6 @@
 class IndexableCard < ActiveRecord::Base
+  acts_as_paranoid
+
   include AlgoliaSearch
 
   belongs_to :structure
