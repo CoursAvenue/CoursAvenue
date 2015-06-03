@@ -39,13 +39,9 @@ class IndexableCard::Creator
       @structure.indexable_cards.create_from_planning(planning)
     end
 
-    # We then get the new subjects and places but remove any of them if it is already in one of the
-    # newly created card.
-    _new_subjects = new_subjects - new_cards.map(&:planning).uniq
-    _new_places   = new_places - new_cards.map(&:place).uniq
-
-    new_cards += _new_subjects.flat_map do |subject|
-      _new_places.map do |place|
+    # We then create the new cards for the places and subjects not associated with a planning.
+    new_cards += new_subjects.flat_map do |subject|
+      new_places.map do |place|
         @structure.indexable_cards.create_from_subject_and_place(subject, place)
       end
     end

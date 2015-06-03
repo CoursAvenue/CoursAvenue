@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe IndexableCard::Creator do
-  let(:structure) { FactoryGirl.create(:structure) }
+  let(:structure) { FactoryGirl.create(:structure_with_place) }
 
   describe '#initialize' do
     it do
