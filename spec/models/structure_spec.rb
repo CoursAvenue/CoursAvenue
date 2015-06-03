@@ -667,7 +667,7 @@ describe Structure do
 
     it 'locks the generation' do
       subject.generate_cards
-      expect(subject.card_locked?).to be_truthy
+      expect(subject.indexable_lock.locked?).to be_truthy
     end
 
     it 'starts the generation' do
