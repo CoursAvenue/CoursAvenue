@@ -9,6 +9,7 @@ describe Structure do
   context 'associations' do
     it { should have_many(:newsletters) }
     it { should have_many(:indexable_cards) }
+    it { should have_one(:indexable_lock).class_name('Structure::IndexableLock') }
   end
 
   subject {structure}

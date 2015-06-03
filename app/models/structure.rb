@@ -96,6 +96,7 @@ class Structure < ActiveRecord::Base
   has_many :website_pages
 
   has_many :indexable_cards, dependent: :destroy
+  has_one :indexable_lock, class_name: 'Structure::IndexableLock', dependent: :destroy
 
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,
