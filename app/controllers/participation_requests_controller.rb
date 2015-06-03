@@ -1,5 +1,6 @@
 class ParticipationRequestsController < ApplicationController
 
+  before_action :redirect_if_needs_to
   before_action :set_participation_request
   before_action :set_participation_request_url
 
@@ -66,6 +67,13 @@ class ParticipationRequestsController < ApplicationController
 
   private
 
+  def redirect_if_needs_to
+    if !on_teacher_subdomain? and current_user.nil? and !(current_pro_admin and current_pro_admin.super_admin?)
+      redirect_to(root_path)
+      return
+    end
+  end
+
   def set_participation_request
     if on_teacher_subdomain?
       @structure             = Structure.find request.subdomain
@@ -76,12 +84,8 @@ class ParticipationRequestsController < ApplicationController
       end
       @user                  = @participation_request.user
     else
-      if current_user.nil?
-        redirect_to(root_path)
-        return
-      end
-      @user                  = current_user
-      @participation_request = @user.participation_requests.find(params[:id])
+      @participation_request = ParticipationRequest.friendly.find(params[:id])
+      @user                  = @participation_request.user
       @structure             = @participation_request.structure
     end
   end

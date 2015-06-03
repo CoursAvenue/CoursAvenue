@@ -13,7 +13,7 @@
     - @medias.each_with_index do |media, index|
       %a.masonry__item.bg-cover.bg-fixed{ rel: 'gallery', href: media.url, title: media.caption, data: { behavior: 'fancy', el: 'masonry-item' } }>
         = image_tag media.image.url(:gallery), class: 'very-soft block one-whole'
-        .very-soft.absolute.south.west
+        .very-soft.absolute.south.west.one-whole
           .one-whole.soft-half.white.gradient-black-to-transparent-bottom-up.f-weight-600
             = media.caption
 
