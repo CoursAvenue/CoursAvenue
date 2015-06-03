@@ -60,7 +60,7 @@ startup.
 ### NodeJS
 
 We are using [Browserify][browserify] to take advantage of modules in JavaScript. This means
-you need to install [`node`][node], either using the official installer or
+that you need to install [`node`][node], either using the official installer or
 Homebrew[brew]. After installing you need to install the JavaScript
 dependencies:
 
