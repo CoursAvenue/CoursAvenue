@@ -189,7 +189,7 @@ class Structure < ActiveRecord::Base
   after_touch   :update_cities_text
   after_touch   :update_vertical_pages_breadcrumb
 
-  after_touch   :generate_cards
+  after_touch   :generate_cards unless Rails.env.test?
 
   before_destroy :unsubscribe_to_crm
 

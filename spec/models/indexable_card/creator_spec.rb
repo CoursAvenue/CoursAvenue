@@ -56,9 +56,10 @@ describe IndexableCard::Creator do
         end
       end
 
-      context "when there's a new subject" do
+      context "when there are new subjects and places" do
         before do
           structure.subjects << new_subject
+          structure.places << new_place
           structure.reload
         end
 
@@ -70,18 +71,6 @@ describe IndexableCard::Creator do
         it 'associates the new card with the subject' do
           cards = subject.update_cards
           expect(cards.first.subjects).to include(new_subject)
-        end
-      end
-
-      context "when there's a new place" do
-        before do
-          structure.places << new_place
-          structure.reload
-        end
-
-        it 'creates a new card' do
-          expect { subject.update_cards }.
-            to change { structure.indexable_cards.count }.by(1)
         end
 
         it 'associates the new card with the place' do
