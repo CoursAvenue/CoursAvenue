@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603144325) do
+ActiveRecord::Schema.define(version: 20150603152052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1105,7 +1105,6 @@ ActiveRecord::Schema.define(version: 20150603144325) do
     t.string   "stripe_managed_account_id"
     t.string   "stripe_managed_account_secret_key"
     t.string   "stripe_managed_account_publishable_key"
-    t.boolean  "card_locked",                            default: false
   end
 
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree

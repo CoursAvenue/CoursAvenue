@@ -656,7 +656,8 @@ describe Structure do
   describe '#generate_cards' do
     context "when the generation is locked" do
       before do
-        subject.card_locked = true
+        subject.create_indexable_lock
+        subject.indexable_lock.lock!
       end
 
       it 'does nothing' do

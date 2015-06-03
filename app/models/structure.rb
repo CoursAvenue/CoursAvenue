@@ -1259,7 +1259,7 @@ class Structure < ActiveRecord::Base
   #
   # @return whether the generation was added to the queue or not.
   def generate_cards
-    return if card_locked?
+    return if indexable_lock.locked?
     lock_cards!
 
     delayed_generate_cards
@@ -1435,13 +1435,13 @@ class Structure < ActiveRecord::Base
   end
 
   def lock_cards!
-    self.card_locked = true
-    save
+    self.create_indexable_lock if self.indexable_lock.nil?
+    indexable_lock.lock!
   end
 
   def unlock_cards!
-    self.card_locked= false
-    save
+    self.create_indexable_lock if self.indexable_lock.nil?
+    indexable_lock.unlock!
   end
 
   def delayed_generate_cards
