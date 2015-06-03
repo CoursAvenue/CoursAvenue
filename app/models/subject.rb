@@ -16,6 +16,7 @@ class Subject < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_and_belongs_to_many :comments
   has_and_belongs_to_many :medias
+  has_and_belongs_to_many :indexable_cards
 
   has_many :vertical_pages
   has_many :passions
