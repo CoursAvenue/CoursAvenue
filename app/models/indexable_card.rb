@@ -19,11 +19,11 @@ class IndexableCard < ActiveRecord::Base
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
     add_attribute :name do
-      self.course_name || self.subject_name
+      self.course ? self.course_name : self.subject_name
     end
 
     add_attribute :price do
-      self.course_price
+      self.course ? self.course_price : 0
     end
 
     add_attribute :structure_name do
