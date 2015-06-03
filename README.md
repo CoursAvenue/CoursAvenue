@@ -9,6 +9,7 @@ The old readme is available [here](doc/README.md).
 - [Local environment](#local-environment)
   - [Ruby](#ruby)
   - [Dependencies](#dependecies)
+  - [NodeJS](#nodejs)
   - [Install Java](#install-java)
   - [Environment Variables](#environment-variables)
   - [Pow](#pow)
@@ -47,14 +48,32 @@ in the [Gemfile][gemfile].
 
 ### Dependencies
 
-Install Postgres, Mongo and Memcached using [Homebrew][brew]:
+Install Postgres and Memcached using [Homebrew][brew]:
 
 ```sh
-brew install postgresql mongodb memcached
+brew install postgresql memcached
 ```
 
 Follow the post-install instructions to make sure they automagically launch at
 startup.
+
+### NodeJS
+
+We are using [Browserify][browserify] to take advantage of modules in JavaScript. This means
+you need to install [`node`][node], either using the official installer or
+Homebrew[brew]. After installing you need to install the JavaScript
+dependencies:
+
+```sh
+# Install node.
+brew install node # Or double click on that installer
+
+# Install JavaScript deps.
+npm install
+```
+
+Make sure to install dependencies on a regular interval, after changing branch,
+etc.
 
 ### Install Java
 
@@ -311,7 +330,6 @@ Command to regenerate fonts:
 bundle exec fontcustom compile app/assets/images/icons/svg/
 ```
 
----
 [ci]: https://circleci.com
 [ci-config]: circle.yml
 [ci-env-vars]: https://circleci.com/gh/CoursAvenue/CoursAvenue/edit#env-vars
@@ -325,3 +343,5 @@ bundle exec fontcustom compile app/assets/images/icons/svg/
 [prerender]: https://github.com/CoursAvenue/coursavenue-prerender
 [sunspot]: http://sunspot.github.io
 [brew]: http://brew.sh
+[node]: https://nodejs.org/
+[Browserify]: http://browserify.org/
