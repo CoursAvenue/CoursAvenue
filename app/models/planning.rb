@@ -44,7 +44,7 @@ class Planning < ActiveRecord::Base
   has_many :participations, dependent: :destroy
   has_many :users, through: :participations
 
-  has_many :indexable_cards, dependent: :destroy
+  has_one :indexable_card, dependent: :destroy
 
   ######################################################################
   # Callbacks                                                          #

@@ -5,7 +5,7 @@ describe Planning do
 
   subject { Planning.new }
 
-  it { should have_many(:indexable_cards) }
+  it { should have_one(:indexable_card) }
 
   it_behaves_like 'HasAudiencesAndLevels'
 
