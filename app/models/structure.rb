@@ -1259,6 +1259,10 @@ class Structure < ActiveRecord::Base
   #
   # @return whether the generation was added to the queue or not.
   def generate_cards
+    if indexable_lock.nil?
+      create_indexable_lock
+    end
+
     return if indexable_lock.locked?
     lock_cards!
 
@@ -1435,12 +1439,16 @@ class Structure < ActiveRecord::Base
   end
 
   def lock_cards!
-    self.create_indexable_lock if self.indexable_lock.nil?
+    if indexable_lock.nil?
+      create_indexable_lock
+    end
     indexable_lock.lock!
   end
 
   def unlock_cards!
-    self.create_indexable_lock if self.indexable_lock.nil?
+    if indexable_lock.nil?
+      create_indexable_lock
+    end
     indexable_lock.unlock!
   end
 
