@@ -14,6 +14,7 @@ class Place < ActiveRecord::Base
 
   has_many :contacts, as: :contactable, dependent: :destroy
   has_many :plannings, dependent: :destroy
+  has_many :indexable_cards, dependent: :destroy
   has_and_belongs_to_many :subjects
 
   ######################################################################
@@ -104,6 +105,7 @@ class Place < ActiveRecord::Base
 
   def touch_relations
     self.plannings.map(&:touch)
+    self.indexable_cards.map(&:touch)
   end
   handle_asynchronously :touch_relations
 

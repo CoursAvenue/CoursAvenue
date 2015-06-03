@@ -5,6 +5,7 @@ describe Course do
   subject(:course) { FactoryGirl.create(:course) }
 
   it { should be_valid }
+  it { should have_many(:indexable_cards) }
 
   describe '#has_promotion?' do
     it { expect(subject.has_promotion?).to eq false }

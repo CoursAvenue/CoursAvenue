@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527152827) do
+ActiveRecord::Schema.define(version: 20150603073518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -450,6 +450,29 @@ ActiveRecord::Schema.define(version: 20150527152827) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", unique: true, using: :btree
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "indexable_cards", force: true do |t|
+    t.integer  "structure_id"
+    t.integer  "place_id"
+    t.integer  "planning_id"
+    t.integer  "course_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  add_index "indexable_cards", ["course_id"], name: "index_indexable_cards_on_course_id", using: :btree
+  add_index "indexable_cards", ["place_id"], name: "index_indexable_cards_on_place_id", using: :btree
+  add_index "indexable_cards", ["planning_id"], name: "index_indexable_cards_on_planning_id", using: :btree
+  add_index "indexable_cards", ["structure_id"], name: "index_indexable_cards_on_structure_id", using: :btree
+
+  create_table "indexable_cards_subjects", id: false, force: true do |t|
+    t.integer "indexable_card_id", null: false
+    t.integer "subject_id",        null: false
+  end
+
+  add_index "indexable_cards_subjects", ["indexable_card_id"], name: "index_indexable_cards_subjects_on_indexable_card_id", using: :btree
+  add_index "indexable_cards_subjects", ["subject_id"], name: "index_indexable_cards_subjects_on_subject_id", using: :btree
 
   create_table "invited_users", force: true do |t|
     t.string   "email",                          null: false
@@ -1072,6 +1095,7 @@ ActiveRecord::Schema.define(version: 20150527152827) do
     t.string   "stripe_managed_account_id"
     t.string   "stripe_managed_account_secret_key"
     t.string   "stripe_managed_account_publishable_key"
+    t.boolean  "card_locked",                            default: false
   end
 
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree

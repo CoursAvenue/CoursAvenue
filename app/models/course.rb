@@ -27,8 +27,9 @@ class Course < ActiveRecord::Base
   has_many :places              , -> { uniq }, through: :plannings
   belongs_to :price_group
   has_many :prices
-  has_many :price_group_prices  , through: :price_group, source: :prices
-  has_many :reservation_loggers , dependent: :destroy
+  has_many :price_group_prices,  through: :price_group, source: :prices
+  has_many :reservation_loggers, dependent: :destroy
+  has_many :indexable_cards,     dependent: :destroy
 
   has_and_belongs_to_many :subjects, -> { uniq }
 
