@@ -56,10 +56,18 @@ class IndexableCard < ActiveRecord::Base
   #
   # @return the new card.
   def self.create_from_planning(planning)
-    card = create(planning:  planning,
-                  structure: planning.structure,
-                  place:     planning.place,
-                  course:    planning.course)
+    attributes = {
+      planning:  planning,
+      structure: planning.structure,
+      place:     planning.place,
+      course:    planning.course
+    }
+
+    if (existing_cards = where(attributes)).any?
+      return existing_cards.first
+    end
+
+    card = create(attributes)
 
     planning.subjects.each do |subject|
       card.subjects << subject
@@ -75,7 +83,14 @@ class IndexableCard < ActiveRecord::Base
   #
   # @return the new card.
   def self.create_from_subject_and_place(subject, place)
-    card = create(place: place, structure: place.structure)
+    attributes = { place: place, structure: place.structure }
+    existing_cards = where(attributes)
+
+    if existing_cards.any? and existing_cards.flat_map(&:subjects).include?(subject)
+      return existing_cards.first
+    end
+
+    card = create(attributes)
     card.subjects << subject
 
     card

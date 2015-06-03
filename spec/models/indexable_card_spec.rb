@@ -42,10 +42,23 @@ RSpec.describe IndexableCard, type: :model do
       expect(card.planning).to eq(planning)
       expect(card.subjects).to match_array(planning.subjects)
     end
+
+    context 'when the card already exists' do
+      it "doesn't create a new card" do
+        IndexableCard.create_from_planning(planning)
+        expect { IndexableCard.create_from_planning(planning) }.
+          to_not change { IndexableCard.count }
+      end
+
+      it 'returns the existing card' do
+        original_card = IndexableCard.create_from_planning(planning)
+        expect(IndexableCard.create_from_planning(planning)).to eq(original_card)
+      end
+    end
   end
 
   describe '.create_from_subject_and_place' do
-    let(:_subject) { structure.subjects.sample }
+    let(:_subject) { FactoryGirl.create(:subject) }
     let(:place)    { structure.places.sample }
 
     it 'creates a new IndexableCard' do
@@ -62,6 +75,19 @@ RSpec.describe IndexableCard, type: :model do
       card = IndexableCard.create_from_subject_and_place(_subject, place)
       expect(card.subjects).to include(_subject)
       expect(card.place).to eq(place)
+    end
+
+    context 'when the card already exists' do
+      it "doesn't create a new card" do
+        IndexableCard.create_from_subject_and_place(_subject, place)
+        expect { IndexableCard.create_from_subject_and_place(_subject, place) }.
+          to_not change { IndexableCard.count }
+      end
+
+      it 'returns the existing card' do
+        original_card = IndexableCard.create_from_subject_and_place(_subject, place)
+        expect(IndexableCard.create_from_subject_and_place(_subject, place)).to eq(original_card)
+      end
     end
   end
 end
