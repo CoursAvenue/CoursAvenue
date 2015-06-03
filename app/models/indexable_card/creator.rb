@@ -59,20 +59,20 @@ class IndexableCard::Creator
   #
   # @return Array of plannings
   def new_plannings
-    (@structure.plannings - @structure.indexable_cards.flat_map(&:planning)).compact
+    (@structure.plannings - @structure.indexable_cards.flat_map(&:planning).uniq).compact
   end
 
   # The subjects not represented in the cards.
   #
   # @return nil or Array of subjects
   def new_subjects
-    (@structure.subjects - @structure.indexable_cards.flat_map(&:subjects)).compact
+    (@structure.subjects - @structure.indexable_cards.flat_map(&:subjects).uniq).compact
   end
 
   # The places not represented in the cards.
   #
   # @return nil or Array of places
   def new_places
-    (@structure.places - @structure.indexable_cards.flat_map(&:place)).compact
+    (@structure.places - @structure.indexable_cards.flat_map(&:place).uniq).compact
   end
 end
