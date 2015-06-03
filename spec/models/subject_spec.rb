@@ -2,6 +2,10 @@ require 'rails_helper'
 
 describe Subject do
 
+  context 'associations' do
+    it { should have_and_belong_to_many(:indexable_cards) }
+  end
+
   describe '#descendant_of?' do
     context 'by default' do
       subject { FactoryGirl.create(:subject) }

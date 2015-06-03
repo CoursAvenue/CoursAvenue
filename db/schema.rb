@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150602131949) do
+ActiveRecord::Schema.define(version: 20150603073518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -465,6 +465,14 @@ ActiveRecord::Schema.define(version: 20150602131949) do
   add_index "indexable_cards", ["place_id"], name: "index_indexable_cards_on_place_id", using: :btree
   add_index "indexable_cards", ["planning_id"], name: "index_indexable_cards_on_planning_id", using: :btree
   add_index "indexable_cards", ["structure_id"], name: "index_indexable_cards_on_structure_id", using: :btree
+
+  create_table "indexable_cards_subjects", id: false, force: true do |t|
+    t.integer "indexable_card_id", null: false
+    t.integer "subject_id",        null: false
+  end
+
+  add_index "indexable_cards_subjects", ["indexable_card_id"], name: "index_indexable_cards_subjects_on_indexable_card_id", using: :btree
+  add_index "indexable_cards_subjects", ["subject_id"], name: "index_indexable_cards_subjects_on_subject_id", using: :btree
 
   create_table "invited_users", force: true do |t|
     t.string   "email",                          null: false
