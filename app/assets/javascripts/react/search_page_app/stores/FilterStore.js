@@ -1,5 +1,5 @@
-var _                    = require('underscore')
-    Backbone             = require('Backbone'),
+var _                    = require('underscore'),
+    Backbone             = require('backbone'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants');
 
