@@ -56,10 +56,16 @@ class IndexableCard < ActiveRecord::Base
   #
   # @return the new card.
   def self.create_from_planning(planning)
-    create(planning:  planning,
-           structure: planning.structure,
-           place:     planning.place,
-           course:    planning.course)
+    card = create(planning:  planning,
+                  structure: planning.structure,
+                  place:     planning.place,
+                  course:    planning.course)
+
+    planning.subjects.each do |subject|
+      card.subjects << subject
+    end
+
+    card
   end
 
   # Create a card from a Subject and a Place
@@ -69,10 +75,10 @@ class IndexableCard < ActiveRecord::Base
   #
   # @return the new card.
   def self.create_from_subject_and_place(subject, place)
-    create(
-      # subject:   subject,
-      place:     place,
-      structure: place.structure)
+    card = create(place: place, structure: place.structure)
+    card.subjects << subject
+
+    card
   end
 
   private

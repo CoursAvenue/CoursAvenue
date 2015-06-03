@@ -40,6 +40,7 @@ RSpec.describe IndexableCard, type: :model do
       expect(card.place).to eq(place)
       expect(card.course).to eq(course)
       expect(card.planning).to eq(planning)
+      expect(card.subjects).to match_array(planning.subjects)
     end
   end
 
@@ -55,6 +56,12 @@ RSpec.describe IndexableCard, type: :model do
     it 'associates with the structure' do
       card = IndexableCard.create_from_subject_and_place(_subject, place)
       expect(card.structure).to eq(structure)
+    end
+
+    it 'sets the other association' do
+      card = IndexableCard.create_from_subject_and_place(_subject, place)
+      expect(card.subjects).to include(_subject)
+      expect(card.place).to eq(place)
     end
   end
 end
