@@ -654,8 +654,11 @@ describe Structure do
 
   describe '#generate_cards' do
     context "when the generation is locked" do
+      before do
+        subject.card_locked = true
+      end
+
       it 'does nothing' do
-        subject.lock_cards!
         expect { subject.generate_cards }.to_not change { Delayed::Job.count }
       end
     end
