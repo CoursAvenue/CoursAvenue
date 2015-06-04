@@ -111,8 +111,6 @@ class IndexableCard < ActiveRecord::Base
     card
   end
 
-  private
-
   # The subject name. This should only occur when the card has been created with a place and a
   # subject instead of a planning.
   #

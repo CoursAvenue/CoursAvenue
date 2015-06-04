@@ -90,4 +90,13 @@ RSpec.describe IndexableCard, type: :model do
       end
     end
   end
+
+  describe '#subject_name' do
+    let!(:planning) { FactoryGirl.create(:planning) }
+    subject! { IndexableCard.create_from_planning(planning) }
+
+    it 'returns the name of the first subject' do
+      expect(subject.subject_name).to eq(subject.subjects.first.name)
+    end
+  end
 end
