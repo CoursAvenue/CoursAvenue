@@ -1,11 +1,11 @@
 var FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
-    PlanningStore        = require("../stores/PlanningStore"),
+    CardStore        = require("../stores/CardStore"),
     FilterActionCreators = require("../actions/FilterActionCreators");
 
 var MapComponent = React.createClass({
 
     getInitialState: function getInitialState() {
-        return { planning_store: PlanningStore };
+        return { card_store: CardStore };
     },
 
     componentDidMount: function componentDidMount () {
@@ -17,7 +17,7 @@ var MapComponent = React.createClass({
                           .setView(this.props.center, 13)
                           .addLayer(this.marker_layer);
         this.map.on('moveend', this.handleMoveend);
-        this.state.planning_store.on('all', function() {
+        this.state.card_store.on('all', function() {
             this.updateMarkerLayer();
         }.bind(this));
         this.locateUser();
@@ -49,23 +49,23 @@ var MapComponent = React.createClass({
     },
 
     updateMarkerLayer: function updateMarkerLayer () {
-        if (this.state.planning_store.loading) { return; }
+        if (this.state.card_store.loading) { return; }
         _.each(this.marker_layer.getLayers(), function(marker) {
             this.marker_layer.removeLayer(marker);
         }, this);
 
-        this.state.planning_store.map(function(planning) {
-            var marker = L.marker([planning.get('_geoloc').lat, planning.get('_geoloc').lng], {
-                icon: this.getIconForPlanning(planning)
+        this.state.card_store.map(function(card) {
+            var marker = L.marker([card.get('_geoloc').lat, card.get('_geoloc').lng], {
+                icon: this.getIconForCard(card)
             });
             this.marker_layer.addLayer(marker);
-            marker.bindPopup(planning.get('course_name'));
+            marker.bindPopup(card.get('course_name'));
         }.bind(this));
     },
 
-    getIconForPlanning: function getIconForPlanning (planning) {
+    getIconForCard: function getIconForCard (card) {
         return L.divIcon({
-            className: 'map-box-marker map-box-marker__' + planning.get('root_subject')
+            className: 'map-box-marker map-box-marker__' + card.get('root_subject')
             // iconUrl: CoursAvenue.MAP_ICONS[planning.get('root_subject_slug')]
             // iconRetinaUrl: 'assets/logos/logo.png',
             // iconSize: [38, 95],

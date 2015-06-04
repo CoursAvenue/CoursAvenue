@@ -14,16 +14,16 @@ var SearchPageAppRouter = Backbone.Router.extend({
     },
 
     updateUrl: function updateUrl () {
-        var planning_filters = FilterStore.getPlanningFilters();
+        var card_filters = FilterStore.cardFilters();
 
         // /:city_id | /paris-12
-        if (_.isEmpty(planning_filters.subject)) {
-            this.navigate(planning_filters.city.slug);
+        if (_.isEmpty(card_filters.subject)) {
+            this.navigate(card_filters.city.slug);
         //  /:root_subject_id--:city_id | /danse--paris-12
-        } else if (planning_filters.subject.slug == planning_filters.root_subject.slug) {
-            this.navigate(planning_filters.subject.slug + '--' + planning_filters.city.slug);
+        } else if (card_filters.subject.slug == card_filters.root_subject.slug) {
+            this.navigate(card_filters.subject.slug + '--' + card_filters.city.slug);
         } else {
-            this.navigate(planning_filters.root_subject.slug + '/' + planning_filters.subject.slug + '--' + planning_filters.city.slug);
+            this.navigate(card_filters.root_subject.slug + '/' + card_filters.subject.slug + '--' + card_filters.city.slug);
         }
     }
 

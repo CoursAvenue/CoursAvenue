@@ -46,10 +46,10 @@ var PlanningCollection = Backbone.Collection.extend({
         this.error   = false;
         this.loading = true;
         this.trigger('change');
-        AlgoliaSearchUtils.searchPlannings(FilterStore.getPlanningFiltersForAlgolia());
+        // AlgoliaSearchUtils.searchPlannings(FilterStore.getPlanningFiltersForAlgolia());
     }
 
 });
 
 // the Store is an instantiated Collection; a singleton.
-module.exports = new PlanningCollection();
+// module.exports = new PlanningCollection();
