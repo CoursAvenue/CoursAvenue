@@ -14,9 +14,9 @@ var SubjectFilter = React.createClass({
     },
 
     render: function render () {
-        var root_subject_items = this.state.subject_store.map(function(subject) {
+        var root_subject_items = this.state.subject_store.map(function(subject, index) {
             return (
-              <RootSubjectItem subject={subject} />
+              <RootSubjectItem subject={subject} key={ index } />
             );
         });
         var classes = classNames({
