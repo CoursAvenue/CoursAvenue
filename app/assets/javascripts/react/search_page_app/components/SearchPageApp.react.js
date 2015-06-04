@@ -4,6 +4,7 @@ var Map                  = require('./Map.react'),
     FilterBar            = require('./FilterBar.react'),
     SearchPageAppRouter  = require('../SearchPageAppRouter'),
     PlanningStore        = require('../stores/PlanningStore'),
+    FilterStore          = require('../stores/FilterStore'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants'),
     FilterActionCreators = require('../actions/FilterActionCreators');
