@@ -752,7 +752,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   constraints DomainConstraint.new do
     namespace :structure_website, path: '' do
-      get '/'       , to: 'structures#planning', as: :planning
+      get '/'       , to: 'structures#show'
       get 'planning' => redirect('/')
       get 'reviews' , to: 'structures#reviews' , as: :reviews, path: 'livre-d-or'
       # get 'medias'  , to: 'structures#medias'  , as: :medias
