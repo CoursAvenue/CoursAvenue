@@ -1,4 +1,6 @@
-class StructureWebsite::GiftCertificateVouchersController < StructureWebsiteController
+class StructureWebsite::Structures::GiftCertificateVouchersController < StructureWebsiteController
+
+  before_filter :load_structure
 
   def index
     @gift_certificates = @structure.gift_certificates.decorate
@@ -24,16 +26,20 @@ class StructureWebsite::GiftCertificateVouchersController < StructureWebsiteCont
 
     respond_to do |format|
       if @voucher.persisted? and @voucher.charged?
-        format.html { redirect_to structure_website_gift_certificate_voucher_path(@voucher),
+        format.html { redirect_to structure_website_structure_gift_certificate_voucher_path(@structure, @voucher),
                       notice: 'Votre Bon cadeau a été créé avec succés.' }
       else
-        format.html { redirect_to structure_website_gift_certificate_vouchers_path,
+        format.html { redirect_to structure_website_structure_gift_certificate_vouchers_path(@structure),
                       error: 'Une erreur est survenue lors de la création de votre bon cadeau, veuillez rééssayer.' }
       end
     end
   end
 
   private
+
+  def load_structure
+    @structure = Structure.friendly.find(params[:structure_id])
+  end
 
   def voucher_params
     params.require(:gift_certificate_voucher).permit(:gift_certificate_id, :name, :email, :stripe_token)

@@ -1,10 +1,9 @@
-= side_menu_currently_at 'newsletters'
+= side_menu_currently_at 'messages'
 
 #newsletter{ data: { type: 'newsletters-root' } }
 
 - content_for :scripts do
   = filepicker_js_include_tag
-
   :javascript
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
@@ -15,6 +14,6 @@
               layouts:  #{ @layouts_json.to_json },
               newsletter: #{ @newsletter.nil? ? {}.to_json : NewsletterSerializer.new(@newsletter).to_json },
               mailingLists: #{ ActiveModel::ArraySerializer.new(@mailing_lists, each_serializer: NewsletterMailingListSerializer).to_json },
-              structure: #{ { name: @structure.name, url: structure_website_presentation_url(subdomain: @structure.subdomain_slug) }.to_json }
+              structure: #{ { name: @structure.name, url: (@structure.website || structure_url(@structure, subdomain: 'www')) }.to_json }
           }
       };

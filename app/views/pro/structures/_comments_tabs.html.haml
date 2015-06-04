@@ -3,9 +3,6 @@
     %li{ class: current == 'comments' ? 'active' : '' }
       = link_to pro_structure_comments_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
         Avis
-    %li{ class: current == 'comments_on_website' ? 'active' : '' }
-      = link_to comments_on_website_pro_structure_comments_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
-        Livre d'Or sur mon site internet
     %li{ class: current == 'recommandation' ? 'active' : '' }
       = link_to recommendations_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
         Demander des recommandations

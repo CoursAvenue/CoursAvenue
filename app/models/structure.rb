@@ -960,7 +960,7 @@ class Structure < ActiveRecord::Base
       sleeping_structure.slug = sleeping_structure.slug + "-old"
       sleeping_structure.save
 
-      friendly_id_slug = FriendlyId::Slug.where(slug: sleeping_structure.slug,
+      friendly_id_slug = FriendlyId::Slug.where(slug: sleeping_slug,
                                                 sluggable_type: 'Structure').first_or_initialize
       friendly_id_slug.sluggable_id = self.id
       friendly_id_slug.save

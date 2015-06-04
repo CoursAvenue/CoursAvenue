@@ -5,6 +5,8 @@
   #{@structure.name} | Tout le planning des cours. Réservation en ligne.
 
 .main-container
+  %h1.soft--top.text--center.flush= @structure.name
+  -# .text--center.push--bottom avec CoursAvenue.com
   .grid
     .grid__item.eight-twelfths.palm-one-whole>
       #structure-planning.push--bottom.bg-white.bordered--left.bordered--right{ data: { type: 'structure-planning-root' } }
@@ -13,11 +15,6 @@
       %div{ data: { type: 'contact-form' } }
       .on-top.transition-all-300{ data: { type: 'sticky-map-container' } }>
         .soft--top{ data: { type: 'sticky-map', offset_top: '0' } }>
-
-  - if @structure.medias.empty?
-    - @structure_locations = Gmaps4rails.build_markers([@structure]) do |structure, marker|
-      - marker.lat structure.latitude
-      - marker.lng structure.longitude
 
 = content_for :scripts do
   = javascript_include_tag 'https://js.stripe.com/v2/'
@@ -29,15 +26,6 @@
         });
         Stripe.setPublishableKey("#{ Rails.configuration.stripe[:publishable_key] }");
 
-        if ($('#header-map').length == 1) {
-            google_map_handler = Gmaps.build('Google');
-            google_map_handler.buildMap({ provider: { scrollwheel: false }, internal: { id: 'header-map' }}, function(){
-                markers = google_map_handler.addMarkers(#{@structure_locations.to_json});
-                google_map_handler.bounds.extendWith(markers);
-                google_map_handler.fitMapToBounds();
-                google_map_handler.getMap().setZoom(15);
-            });
-        }
         window.coursavenue = window.coursavenue || {};
         window.coursavenue.bootstrap = {
             current_pro_admin: #{(current_pro_admin ? true : false)},

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe StructureWebsite::GiftCertificateVouchersController, with_stripe: true do
+describe StructureWebsite::Structures::GiftCertificateVouchersController, with_stripe: true do
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 
@@ -59,7 +59,7 @@ describe StructureWebsite::GiftCertificateVouchersController, with_stripe: true 
       post :create, valid_params
       created_voucher = GiftCertificate::Voucher.last
       expect(response)
-        .to redirect_to(structure_website_gift_certificate_vouchers_path)
+        .to redirect_to(structure_website_structure_gift_certificate_vouchers_path(structure))
     end
 
     it 'sends an email to theacher and the gifter', with_mail: true do

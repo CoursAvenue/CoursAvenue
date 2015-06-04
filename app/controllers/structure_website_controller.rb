@@ -2,16 +2,14 @@ class StructureWebsiteController < ApplicationController
 
   layout 'structure_websites/website'
 
-  before_action :load_structure
+  before_action :redirect_if_subdomain
 
   private
 
-  def load_structure
-    @structure         = Structure.find request.subdomain
-    @website_parameter = @structure.website_parameter
-    @website_parameter ||= WebsiteParameter.create_for_structure(@structure)
-    if !@structure.premium?
-      redirect_to root_url(subdomain: 'www'), notice: "Cette page n'existe pas"
+  def redirect_if_subdomain
+    if request.subdomain != 'www'
+      redirect_to structure_website_structure_url(request.subdomain, subdomain: 'www')
+      return
     end
   end
 

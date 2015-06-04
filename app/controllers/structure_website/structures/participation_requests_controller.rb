@@ -1,9 +1,10 @@
-class StructureWebsite::ParticipationRequestsController < StructureWebsiteController
+class StructureWebsite::Structures::ParticipationRequestsController < StructureWebsiteController
   include ConversationsHelper
 
   layout 'structure_websites/empty'
 
-  skip_before_filter  :verify_authenticity_token, only: [:create]
+  skip_before_filter :verify_authenticity_token, only: [:create]
+  before_filter      :load_structure
 
   # For an example of a message controller see:
   # https://github.com/ging/social_stream/blob/master/base/app/controllers/messages_controller.rb
@@ -16,17 +17,16 @@ class StructureWebsite::ParticipationRequestsController < StructureWebsiteContro
     if request_params[:stripe_token].present?
       @user.create_stripe_customer(request_params[:stripe_token])
     end
-
     @structure.create_or_update_user_profile_for_user(@user, UserProfile::DEFAULT_TAGS[:contacts])
     @participation_request = ParticipationRequest.create_and_send_message request_params.merge(from_personal_website: true), @user
     respond_to do |format|
       if @participation_request.persisted?
         format.json { render json: { succes: true,
-                                     popup_to_show: render_to_string(partial: 'structure_website/participation_requests/request_sent',
+                                     popup_to_show: render_to_string(partial: 'structure_website/structures/participation_requests/request_sent',
                                      formats: [:html]) } }
       else
         format.json { render json: { succes: false,
-                                     popup_to_show: render_to_string(partial: 'structure_website/participation_requests/request_already_sent',
+                                     popup_to_show: render_to_string(partial: 'structure_website/structures/participation_requests/request_already_sent',
                                      formats: [:html]) },
                                      status: :unprocessable_entity }
       end
@@ -43,7 +43,7 @@ class StructureWebsite::ParticipationRequestsController < StructureWebsiteContro
   def show
     @participation_request = @structure.participation_requests.where(token: params[:id]).first
     if @participation_request.nil?
-      redirect_to structure_website_presentation_path
+      redirect_to structure_path(@structure)
       return
     end
     @user = @participation_request.user
@@ -60,5 +60,11 @@ class StructureWebsite::ParticipationRequestsController < StructureWebsiteContro
                                                   participants_attributes: [ :price_id, :number ],
                                                   user: [ :phone_number, :email, :name ],
                                                   message: [ :body ])
+  end
+
+  private
+
+  def load_structure
+    @structure = Structure.friendly.find(params[:structure_id])
   end
 end

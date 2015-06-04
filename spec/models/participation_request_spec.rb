@@ -320,15 +320,11 @@ describe ParticipationRequest do
       end
 
       it 'charges the customer' do
+        allow(subject).to receive(:from_personal_website?).and_return(true)
         subject.accept!(message)
         subject.reload
 
         expect(subject.stripe_charge).to_not be_nil
-      end
-
-      it 'creates an invoice' do
-        expect { subject.accept!(message); subject.reload }.
-          to change { ParticipationRequest::Invoice.count }.by(1)
       end
     end
   end
