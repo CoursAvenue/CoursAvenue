@@ -666,6 +666,7 @@ describe Structure do
     end
 
     it 'locks the generation' do
+      allow(subject).to receive(:delayed_generate_cards).and_return(true)
       subject.generate_cards
       expect(subject.indexable_lock.locked?).to be_truthy
     end
