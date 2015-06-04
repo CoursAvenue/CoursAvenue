@@ -7,7 +7,10 @@ module.exports = {
 
         TOGGLE_SUBJECT_FILTERS:      null,
         SELECT_ROOT_SUBJECT:         null,
-        UPDATE_FILTERS:              null
+        UPDATE_FILTERS:              null,
+
+        HIGHLIGHT_MARKER:            null,
+        UNHIGHLIGHT_MARKER:          null
     })
 
 };
