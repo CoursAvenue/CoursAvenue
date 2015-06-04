@@ -30,7 +30,7 @@ var CardCollection = Backbone.Collection.extend({
 
     // The function called everytime there's a new action dispatched.
     dispatchCallback: function dispatchCallback (payload) {
-        switch(payload.ActionTypes) {
+        switch(payload.actionType) {
             // When the filters are updated, refetch the cards.
             case ActionTypes.UPDATE_FILTERS:
                 // Make sure the Filter store has finish everything he needs to do.
