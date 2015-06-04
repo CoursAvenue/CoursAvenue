@@ -42,6 +42,7 @@ var FilterStore = Backbone.Model.extend({
         } else if (this.get('city')) {
             data.aroundLatLng = this.get('city').latitude + ',' + this.get('city').longitude;
         }
+
         return data;
     },
 

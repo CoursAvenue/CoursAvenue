@@ -49,6 +49,7 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :course_name do
+      self.course.present? ? course_name : nil
     end
 
     add_attribute :structure_slug do
@@ -65,10 +66,15 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :place_name do
-      place_name
+      self.place.present? ? place_name : nil
     end
 
-    geoloc(:place_latitude, :place_longitude)
+    add_attribute :_geoloc do
+      if self.place.present?
+        { lat: self.place.latitude, lng: self.place.longitude }
+      end
+    end
+    # geoloc(:place_latitude, :place_longitude) if self.place.present?
   end
   # :nocov:
 
