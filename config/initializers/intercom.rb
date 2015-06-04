@@ -64,39 +64,8 @@ IntercomRails.config do |config|
     'Code postal'              => Proc.new { |user| ((s = user.structure) ?  s.zip_code : nil) },
     'last_comment_at'          => Proc.new { |user| ((s = user.structure) and s.comments.any? ?  s.comments.order('created_at DESC').first.created_at : nil) },
     'Email Opt-in'             => Proc.new { |user| user.monday_email_opt_in },
-    'Type Offre'               => Proc.new { |user| ((s = user.structure) and s.premium? ?  (s.subscription.plan.website_plan? ? 'Site Internet' : 'Modules') : nil) },
     'Offre Premium'            => Proc.new { |user| ((s = user.structure) and s.subscription_plan.try(:active?) ?  s.subscription_plan.plan_type : nil) },
     'premium_ends_at'          => Proc.new { |user| ((s = user.structure) and s.subscription_plan.try(:active?) ?  s.subscription_plan.expires_at : nil) },
-    'Est parraine'             => Proc.new { |user| ((s = user.structure) and s.sponsorship_token.present? ? true : false )},
-    'Code parrainage'          => Proc.new { |user| ((s = user.structure) and s.sponsorship_token.present? ? s.sponsorship_token : nil) },
-    'A accepte le parrainage'  => Proc.new do |user|
-      if (s = user.structure) and s.sponsorship_token.present?
-        sponsorship = Subscriptions::Sponsorship.where(token: s.sponsorship_token).first
-        (sponsorship.present? ? sponsorship.redeemed? : false)
-      else
-        false
-      end
-    end,
-
-    # 0 s'il n'a pas mis sa CB,
-    # 1 s'il a mis sa CB,
-    # 2 si sa CB a un problème de validité (date expiration, coordonnées...)
-    'CB B2B'                   => Proc.new do |user|
-      if (s = user.structure) and s.subscription
-        if s.subscription.stripe_subscription_id.present?
-          1
-        else
-          0
-        end
-      end
-    end,
-    "trial_ends_at"             => Proc.new do |user|
-      if (s = user.structure) and s.subscription
-        s.subscription.trial_ends_at
-      else
-        nil
-      end
-    end,
     # 1 Si un prof a envoyé au moins 1 newsletter,
     # 2 s'il a au moins un brouillon mettre
     # 0 s'il n'a rien fait mettre

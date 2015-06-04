@@ -59,7 +59,7 @@
 .p
   En cas d'annulation, de modification ou si vous souhaitez tout simplement envoyer un message à #{@structure.name}, cliquez sur le bouton suivant :
 .p.action
-  = link_to "Voir mes inscriptions", structure_website_participation_request_url(@participation_request.token, subdomain: @structure.subdomain_slug), class: 'btn btn--green'
+  = link_to "Voir mes inscriptions", structure_website_structure_participation_request_url(@participation_request.structure, @participation_request.token, subdomain: 'www'), class: 'btn btn--green'
 .p
   Nous vous souhaitons une très belle séance !
 

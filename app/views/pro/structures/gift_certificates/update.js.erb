@@ -1,0 +1,9 @@
+<% if @gift_certificate.persisted? %>
+    COURSAVENUE.helperMethods.flash("Votre bon cadeau a été mis a jour avec succés.", 'success');
+    $.fancybox.close()
+    location.reload();
+    CoursAvenue.showFullPageLoader();
+<% else %>
+    $.fancybox("<%= escape_javascript(render partial: 'pro/structures/gift_certificates/form') %>", { width: 700, minWidth: 700, maxWidth: 700, padding: 0 });
+<% end %>
+

@@ -1,0 +1,11 @@
+.bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides
+  %p.delta.line-height-1-3
+    Les bons cadeaux représentent un moyen simple et peu coûteux pour augmenter vos inscriptions. Proposez à toutes les personnes qui vous connaissent d'offrir vos activités à leurs proches : en période de fêtes ou d'anniversaire, les bons cadeaux vont plaire !
+
+  .text--center.push--bottom
+    = link_to 'Essayer gratuitement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.module.first.id), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+
+  %ul.delta.line-height-1-3
+    %li Proposez à tous les Internautes d'offrir vos activités en bons cadeaux
+    %li Fixez et mettez à jour vos bons cadeaux en toute simplicité
+    %li Ne gérez plus les règlements : tout se fait par carte bleue et vous recevez l'argent en temps réel

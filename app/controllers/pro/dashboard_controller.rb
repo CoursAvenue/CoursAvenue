@@ -22,19 +22,21 @@ class Pro::DashboardController < Pro::ProController
     @users          = User.order("DATE_TRUNC('week', sign_up_at) ASC").group("DATE_TRUNC('week', sign_up_at)").count
 
     @messages_per_months = {}
-    current_month = Date.today.month
-    (Date.new(2014, 1)..(Date.today + 1.month)).select{ |d| d.day == 1 }.map {|d| d - 1}.drop(1).each do |last_day_of_month|
-      is_running_month = (current_month == last_day_of_month.month)
-      if is_running_month # DO NOT Take from cache
-        conv_count = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((last_day_of_month.beginning_of_month)..last_day_of_month)).and(
+    weeks = []
+    20.times do |i|
+      weeks << Date.today - (i * 7).days
+    end
+    weeks.reverse.each do |beginning_of_week|
+      if (beginning_of_week - Date.today).to_i == 0
+        conv_count = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week)).and(
                                       Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])) ).count
       else
-        conv_count = Rails.cache.fetch "pro/dashboard/conv_count/#{((last_day_of_month.beginning_of_month)..last_day_of_month).to_s}" do
-          Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((last_day_of_month.beginning_of_month)..last_day_of_month)).and(
+        conv_count = Rails.cache.fetch "pro/dashboard/conv_count/#{((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week).to_s}" do
+          Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week)).and(
                                         Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])) ).count
         end
       end
-      @messages_per_months["#{I18n.t('date.month_names')[last_day_of_month.month]} #{last_day_of_month.year}"] = conv_count
+      @messages_per_months[I18n.l(beginning_of_week)] = conv_count
     end
 
     if params[:more].present?

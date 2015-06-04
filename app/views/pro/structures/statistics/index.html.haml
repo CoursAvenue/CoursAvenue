@@ -1,87 +1,34 @@
-= side_menu_currently_at 'general'
-
-= render partial: 'pro/structures/general_tabs', locals: { current: 'statistics' }
+= side_menu_currently_at 'statistics'
 
 %h1 Statistiques
 
-%h3 Statistiques de votre site Internet
-- if @structure.premium?
-  %div{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.premium_infos') } }
-    .grid.push--bottom
-      .grid__item.one-third.text--center.v-middle>
-        .inline-block.cursor-pointer{ data: { behavior: 'toggle-premium-serie' } }
-          .v-middle.lbl.lbl--red.v-middle.lbl--chip
-          .v-middle.inline-block.text--left
-            - if @structure.subscription.plan.website_plan?
-              %h5.flush
-                Visiteurs site Internet :
-                = @website_views_total_count
-            - else
-              %h5.flush
-                Visiteurs site Internet :
-              %div
-                %i
-                  Statistiques de l'offre
-                  = link_to 'Site Internet', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.website.first.id), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-      .grid__item.one-third.text--center.v-middle>
-        .inline-block.cursor-pointer.nowrap{ data: { behavior: 'toggle-premium-serie' } }
-          .v-middle.lbl.lbl--blue.v-middle.lbl--chip
-          %h5.flush.v-middle.inline-block
-            Visiteurs page Planning :
-            = @website_planning_views_count
-      .grid__item.one-third.text--center.v-middle>
-        .inline-block.cursor-pointer{ data: { behavior: 'toggle-premium-serie' } }
-          .v-middle.lbl.lbl--green.v-middle.lbl--chip
-          %h5.flush.v-middle.inline-block
-            Inscription :
-            = @website_inscriptions_total_count
-
-    #premium-statistics
-- else
-  .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides
-    %p.delta.line-height-1-5
-      Accédez aux statistiques de votre propre site Internet après avoir souscrit à l'une des offres suivantes :
-
-    %p.delta.line-height-1-5.soft-half--left
-      \- L'offre
-      = link_to 'Modules', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.module.first.id), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-      pour suivre le nombre d'Internautes qui visualisent la page planning de votre site Internet ainsi que le nombre de demandes d'inscriptions ;
-      %br
-      \- L'offre
-      = link_to 'Site Internet', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.website.first.id), class: 'fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-      qui vous permet de suivre en plus les visites uniques de votre site web.
-    .text--center
-      = link_to 'Essayer gratuitement', pro_structure_subscriptions_path(@structure), class: 'btn btn--green'
-
-%hr.push--ends
-%h3 Statistiques de votre profil CoursAvenue
-
-%div{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.infos') } }
+%div{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.premium_infos') } }
   .grid.push--bottom
     .grid__item.one-third.text--center.v-middle>
-      .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
+      .inline-block.cursor-pointer{ data: { behavior: 'toggle-premium-serie' } }
         .v-middle.lbl.lbl--red.v-middle.lbl--chip
-        %h5.flush.v-middle.inline-block
-          Affichages :
-          = @impressions_total_count
+        .v-middle.inline-block.text--left
+          %h5.flush
+            Visiteurs page planning :
+            = @website_planning_views_count
+          %div Sur votre site web
     .grid__item.one-third.text--center.v-middle>
-      .inline-block.cursor-pointer.nowrap{ data: { behavior: 'toggle-serie' } }
+      .inline-block.cursor-pointer.nowrap{ data: { behavior: 'toggle-premium-serie' } }
         .v-middle.lbl.lbl--blue.v-middle.lbl--chip
         %h5.flush.v-middle.inline-block
-          Consultations :
+          Visiteurs profil CoursAvenue :
           = @views_total_count
     .grid__item.one-third.text--center.v-middle>
-      .inline-block.cursor-pointer{ data: { behavior: 'toggle-serie' } }
+      .inline-block.cursor-pointer{ data: { behavior: 'toggle-premium-serie' } }
         .v-middle.lbl.lbl--green.v-middle.lbl--chip
         %h5.flush.v-middle.inline-block
-          Actions :
+          Inscription :
           = @actions_total_count
-
   #statistics
 
 :javascript
   window.coursavenue = {};
-  window.coursavenue.series = [ { data: #{ @impressions.values },
+  window.coursavenue.series = [ { data: #{ @website_planning_views.values },
                                   name: 'Affichages',
                                   stack: 'Affichages'
                                  },
@@ -148,74 +95,3 @@
             });
         });
     });
-
-- if @structure.premium?
-  :javascript
-    window.coursavenue.premium_series = [ { data: #{ @website_views.values },
-                                            name: 'Visiteurs site Internet',
-                                            stack: 'Visiteurs site Internet'
-                                           },
-                                          { data: #{ @website_planning_views.values },
-                                            name: 'Visiteurs page Planning',
-                                            stack: 'Visiteurs page Planning'
-                                          },
-                                          { data: #{ @website_inscription.values },
-                                            name: 'Inscriptions',
-                                            stack: 'Inscriptions'
-                                          }
-                                        ]
-
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          var premium_statistic_chart = new Highcharts.Chart({
-              chart: { renderTo: 'premium-statistics', type: 'column' },
-              title: { text: null },
-              legend: { enabled: false },
-              xAxis: {
-                  categories: #{@empty_hash_of_days.map{|date| l(Date.parse(date.to_s), format: :short)}},
-                  showEmpty: true
-              },
-              yAxis: {
-                  title: { text: ''},
-                  showEmpty: true,
-                  minTickInterval: 1
-              },
-              colors: ['#e2493c', '#3ab8ae', '#47b442', '#62bc62', '#A0D468', '#B9DF90', '#71BB21'],
-              plotOptions: {
-                  series: {
-                      pointPadding: 0,
-                      groupPadding: 0.1,
-                      borderWidth: 0,
-                      shadow: false
-                  },
-                  column: {
-                      stacking: 'normal'
-                  }
-              },
-              series: window.coursavenue.premium_series
-          });
-          $("[data-behavior='toggle-premium-serie']").each(function(index) {
-              var serie = premium_statistic_chart.series[index];
-              $(this).click(function() {
-                  if (serie.visible) {
-                      $(this).addClass('muted');
-                      serie.hide();
-                      if (index == 2) {
-                          statistic_chart.series[3].hide();
-                          statistic_chart.series[4].hide();
-                      }
-                  } else {
-                      $(this).removeClass('muted');
-                      serie.show();
-                      if (index == 2) {
-                          statistic_chart.series[3].show();
-                          statistic_chart.series[4].show();
-                      }
-                  }
-              });
-          });
-      });
-
-= content_for :scripts do
-  = javascript_include_tag 'https://checkout.stripe.com/checkout.js'

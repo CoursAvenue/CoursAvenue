@@ -56,17 +56,20 @@
                 .alert.alert--error.push-half--bottom
                   = @comment.errors[:email].first
               .btn-group{ data: { toggle: 'buttons' } }
-                %label.text--center.soft-half.btn.button{ class: (@comment.rating == 5 ? 'active' : ''), data: { toggle: 'popover', content: 'Super content', placement: 'top', trigger: 'hover' }}>
-                  %i.fa-face-happy{ style: 'font-size: 3em;' }
-                  %input{ type: 'radio', name: 'comment[rating]', value: 5, checked: @comment.rating == 5 }
+                .btn
+                  %label.block.text--center{ class: (@comment.rating == 5 ? 'active' : ''), data: { toggle: 'popover', content: '<div class="black">Super content</div>', placement: 'top', trigger: 'hover', html: 'true' }}>
+                    %i.fa-face-happy{ style: 'font-size: 3em;' }
+                    %input{ type: 'radio', name: 'comment[rating]', value: 5, checked: @comment.rating == 5 }
 
-                %label.text--center.soft-half.btn.button{ class: (@comment.rating == 3 ? 'active' : ''), data: { toggle: 'popover', content: 'Neutre', placement: 'top', trigger: 'hover' }}>
-                  %i.fa-face-neutral{ style: 'font-size: 3em;' }
-                  %input{ type: 'radio', name: 'comment[rating]', value: 3, checked: @comment.rating == 3 }
+                .btn
+                  %label.block.text--center{ class: (@comment.rating == 3 ? 'active' : ''), data: { toggle: 'popover', content: '<div class="black">Neutre</div>', placement: 'top', trigger: 'hover', html: 'true' }}>
+                    %i.fa-face-neutral{ style: 'font-size: 3em;' }
+                    %input{ type: 'radio', name: 'comment[rating]', value: 3, checked: @comment.rating == 3 }
 
-                %label.text--center.soft-half.btn.button{ class: (@comment.rating == 1 ? 'active' : ''), data: { toggle: 'popover', content: 'Pas content', placement: 'top', trigger: 'hover' }}>
-                  %i.fa-face-sad{ style: 'font-size: 3em;' }
-                  %input{ type: 'radio', name: 'comment[rating]', value: 1, checked: @comment.rating == 1 }
+                .btn
+                  %label.block.text--center{ class: (@comment.rating == 1 ? 'active' : ''), data: { toggle: 'popover', content: '<div class="black">Pas content</div>', placement: 'top', trigger: 'hover', html: 'true' }}>
+                    %i.fa-face-sad{ style: 'font-size: 3em;' }
+                    %input{ type: 'radio', name: 'comment[rating]', value: 1, checked: @comment.rating == 1 }
               - if @comment.errors[:rating].any?
                 %p.input_field_error.red
                   Vous devez choisir une humeur

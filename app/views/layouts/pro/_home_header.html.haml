@@ -1,6 +1,6 @@
 .visuallyhidden--lap-and-up
   = image_tag 'logos/logo-pro-white.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo-pro-white@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute ', style: 'left: 3px; top: 3px;'
-  = image_tag 'logos/logo-pro.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo-pro@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute hidden', id: 'home-logo-dark'
+  = image_tag 'logos/logo-pro.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo-pro@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute hidden'
 = link_to root_path, class: 'block visuallyhidden--palm' do
   = image_tag 'logos/logo-pro-white.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo-pro-white@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute ', style: 'left: 3px; top: 3px;'
   = image_tag 'logos/logo-pro.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo-pro@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute hidden', id: 'home-logo-dark'
@@ -8,12 +8,6 @@
 %ul.nav.flush.epsilon.f-weight-600.palm-push
   %li.visuallyhidden--lap-and-up.palm-block.palm-text--center.line-height-1-7.soft--right.push-half--ends.soft-half--top
     = link_to 'Connexion', new_pro_admin_session_path, class: 'white-transparent header--pro__link'
-  %li.palm-hidden.palm-block.palm-text--center.line-height-1-7.soft--right
-    = link_to 'Bienvenue', root_path, class: ['white-transparent', 'header--pro__link', (current == 'home' ? 'active bordered--bottom bordered--larger' : '')]
-  %li.palm-block.palm-text--center.line-height-1-7.soft--right
-    = link_to 'Fonctionnalités', pro_pages_features_path, class: ['white-transparent', 'header--pro__link', (current == 'features' ? 'active bordered--bottom bordered--larger' : '')]
-  %li.palm-block.palm-text--center.line-height-1-7.soft--right
-    = link_to 'Tarifs', pro_pages_price_path, class: ['white-transparent', 'header--pro__link', (current == 'tarif' ? 'active bordered--bottom bordered--larger' : '')]
   %li.palm-block.palm-text--center.line-height-1-7.soft--right
     = link_to 'Blog', pro_blog_articles_path, class: ['white-transparent', 'header--pro__link', (current == 'blog' ? 'active bordered--bottom bordered--larger' : '')]
   %li.visuallyhidden--palm.soft--right
