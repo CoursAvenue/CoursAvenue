@@ -14,7 +14,11 @@ module NavigationHelper
     options[:class] << ((current_tab == title) ? ' active bordered--left bordered--top bordered--bottom relative' : '')
     if options[:icon].include?('group') and @structure
       pending_requests = @structure.participation_requests.upcoming.pending.count
-      html_title = "<i class='relative #{options[:icon]}'><span style='padding: 3px; top: -8px; right: -8px;' class='rounded--double f-size-9 absolute bg-red white'>#{pending_requests}</span></i>"
+      if pending_requests > 0
+        html_title = "<i class='relative #{options[:icon]}'><span style='padding: 3px; top: -8px; right: -8px;' class='rounded--double f-size-9 absolute bg-red white'>#{pending_requests}</span></i>"
+      else
+        html_title = "<i class='relative #{options[:icon]}'></i>"
+      end
       html_title += "<div class='very-soft--top'>#{I18n.t('pro.structures.side_menu.' + title)}</div>"
     else
       html_title = "<i class='#{options[:icon]}'></i><div class='very-soft--top'>#{I18n.t('pro.structures.side_menu.' + title)}</div>"
