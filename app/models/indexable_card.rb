@@ -13,11 +13,13 @@ class IndexableCard < ActiveRecord::Base
   attr_accessible :structure, :place, :planning, :course
 
   delegate :name, :price,                 to: :course,    prefix: true
-  delegate :name, :comments_count,        to: :structure, prefix: true
+  delegate :name, :comments_count, :slug, to: :structure, prefix: true
   delegate :place, :latitude, :longitude, to: :place,     prefix: true
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
+    attribute :id
+
     add_attribute :name do
       self.course ? self.course_name : self.subject_name
     end
@@ -44,6 +46,19 @@ class IndexableCard < ActiveRecord::Base
 
     add_attribute :course_id do
       self.course_id
+    end
+
+    add_attribute :structure_slug do
+      self.structure_slug
+    end
+
+    add_attribute :root_subject do
+      roots = course.subjects.map{ |s| s.root.slug }.uniq
+      (roots.length == 1 ? roots.first : 'multi')
+    end
+
+    add_attribute :subjects do
+      course.subjects.map(&:slug).uniq
     end
 
     geoloc(:place_latitude, :place_longitude)
