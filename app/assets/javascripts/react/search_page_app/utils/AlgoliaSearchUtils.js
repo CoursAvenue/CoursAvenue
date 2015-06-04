@@ -2,18 +2,19 @@ var _                   = require('underscore'),
     algoliasearch       = require('algoliasearch'),
     algoliasearchHelper = require('algoliasearch-helper'),
     client              = algoliasearch(ENV['ALGOLIA_APPLICATION_ID'], ENV['ALGOLIA_SEARCH_API_KEY']),
-    planning_index      = client.initIndex('Planning_' + ENV.SERVER_ENVIRONMENT),
+    card_index          = client.initIndex('IndexableCard_' + ENV.SERVER_ENVIRONMENT),
     subject_index       = client.initIndex('Subject_' + ENV.SERVER_ENVIRONMENT);
 
-var planning_search_state = {
+var card_search_state = {
       facets     : ['subjects'],
       distinct   : 1,
       hitsPerPage: 100,
       aroundRadius: 10000 // 10km
 };
-var planning_search_helper = algoliasearchHelper( client, 'Planning_' + ENV.SERVER_ENVIRONMENT);
+
+var card_search_helper     = algoliasearchHelper(client, 'IndexableCard_' + ENV.SERVER_ENVIRONMENT);
 module.exports = {
-    planning_search_helper: planning_search_helper,
+    card_search_helper:     card_search_helper,
 
     searchPlannings: function searchPlannings (data) {
         data = data || {};
@@ -39,6 +40,25 @@ module.exports = {
             facets: this.toFacets(data),
             facetFilters: this.toFacetFilters(data)
         });
+    },
+
+    searchCards: function searchCards (data) {
+        data = data || {};
+        card_search_helper.clearRefinements();
+
+        if (data.insideBoundingBox) {
+            card_search_state.insideBoundingBox = data.insideBoundingBox.toString();
+            delete data.insideBoundingBox;
+        }
+
+        if (data.aroundLatLng) {
+            card_search_state.aroundLatLng = data.aroundLatLng;
+        }
+
+        card_search_helper.setState(card_search_state);
+        card_search_helper.addRefine('subjects', data.subject);
+
+        return card_search_helper.search();
     },
 
     // Transforming data into facet filters ie:

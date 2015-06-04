@@ -1,28 +1,28 @@
 Card = React.createClass({
 
     render: function render () {
-        var gift_classes = { gray: this.props.planning.get('is_open_for_trial')}
+        var gift_classes = { gray: this.props.card.get('is_open_for_trial')}
         return (
           <div className="soft-half one-quarter palm-one-whole lap-one-half inline-block v-top">
               <div className="bg-white bordered">
                   <div className="bordered--bottom">
                       <img className="block one-whole"
-                           src={this.props.planning.get('header_image')}
+                           src={this.props.card.get('header_image')}
                            height="100"/>
                   </div>
                   <div className="soft-half">
                       <img className="rounded--circle center-block push-half--bottom"
                             style={{ marginTop: '-35px' }}
                             width="50"
-                           src={this.props.planning.get('structure_logo_url')} />
+                           src={this.props.card.get('structure_logo_url')} />
                       <div className="text--center">
                           <div className="push-half--bottom gray">
-                              <a href={Routes.structure_path(this.props.planning.get('structure_slug'))}
+                              <a href={Routes.structure_path(this.props.card.get('structure_slug'))}
                                  className="semi-muted-link">
-                                  {this.props.planning.get('structure_name')}
+                                  {this.props.card.get('structure_name')}
                               </a>
                           </div>
-                          <h4>{this.props.planning.get('course_name')}</h4>
+                          <h4>{this.props.card.get('course_name')}</h4>
                       </div>
                       <div>
                           <i className="fa fa-star"></i>
@@ -30,7 +30,7 @@ Card = React.createClass({
                           <i className="fa fa-star"></i>
                           <i className="fa fa-star"></i>
                           <i className="fa fa-star"></i>
-                          ({this.props.planning.get('comments_count')} avis)
+                          ({this.props.card.get('comments_count')} avis)
                       </div>
                   </div>
                   <div className="flexbox bordered--top">

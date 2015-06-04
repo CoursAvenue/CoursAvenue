@@ -1,30 +1,29 @@
-var PlanningStore        = require('../stores/PlanningStore'),
+var CardStore            = require('../stores/CardStore'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
     Card                 = require("./Card");
 
 ResultList = React.createClass({
     mixins: [
-        FluxBoneMixin('planning_store')
+        FluxBoneMixin('card_store')
     ],
 
     getInitialState: function getInitialState() {
-        return { planning_store: PlanningStore };
+        return { card_store: CardStore };
     },
 
     componentDidMount: function componentDidMount() {},
 
     render: function render () {
         var header_message;
-        if (this.state.planning_store.loading) {
+        if (this.state.card_store.loading) {
             header_message = (<div>Chargement</div>);
         }
-        var cards = this.state.planning_store.map(function(planning) {
+        var cards = this.state.card_store.map(function(card) {
             return (
-              <Card planning={planning}/>
+              <Card card={card}/>
             )
         })
-        // {this.state.planning_store}
         return (
           <div className="main-container" style={{ minHeight: '500px'}}>
             <h1>Resultats</h1>

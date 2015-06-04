@@ -15,12 +15,14 @@ var CardCollection = Backbone.Collection.extend({
     error:   false,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback');
+        _.bindAll(this, 'dispatchCallback', 'searchSuccess', 'searchError');
 
         // Register the store to the dispatcher, so it calls our callback on new actions.
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
 
         // Bind search events to the store, so it updates.
+        AlgoliaSearchUtils.card_search_helper.on("result",  this.searchSuccess);
+        AlgoliaSearchUtils.card_search_helper.on("error",  this.searchError);
 
         // Initial data fetching.
         if (this.isEmpty()) { this.fetchDataFromServer(); }
@@ -44,10 +46,12 @@ var CardCollection = Backbone.Collection.extend({
         this.loading = true;
 
         this.trigger('change');
+
         // Call the algolia search.
+        AlgoliaSearchUtils.searchCards(FilterStore.algoliaFilters());
     },
 
-    cardSearchSuccess: function cardSearchSuccess (data) {
+    searchSuccess: function searchSuccess (data) {
         this.loading = false;
         this.error   = false;
 
@@ -55,9 +59,10 @@ var CardCollection = Backbone.Collection.extend({
         this.reset(data.hits);
     },
 
-    cardSearchError: function cardSearchError (data) {
+    searchError: function searchError (data) {
         this.loading = false;
         this.error   = true;
-        AlgoliaSearchUtils.searchCards(FilterStore.algoliaCardFilters());
     },
 });
+
+module.exports = new CardCollection();

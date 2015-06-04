@@ -31,11 +31,7 @@ var FilterStore = Backbone.Model.extend({
         }
     },
 
-    getPlanningFilters: function getPlanningFilters () {
-        return this.toJSON();
-    },
-
-    getPlanningFiltersForAlgolia: function getPlanningFiltersForAlgolia () {
+    algoliaFilters: function algoliaFilters () {
         var data = {};
         if (this.get('subject')) { data.subject = this.get('subject').slug }
         if (this.get('insideBoundingBox')) {
@@ -47,6 +43,10 @@ var FilterStore = Backbone.Model.extend({
             data.aroundLatLng = this.get('city').latitude + ',' + this.get('city').longitude;
         }
         return data;
+    },
+
+    cardFilters: function cardFilters () {
+        return this.toJSON();
     },
 });
 
