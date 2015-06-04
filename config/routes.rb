@@ -211,6 +211,7 @@ CoursAvenue::Application.routes.draw do
           match :widget_ext, controller: 'structures', via: [:options, :get], as: 'widget_ext'
           patch :update_and_delete
           post  :recommend_friends
+          post  :ask_webmaster_for_planning
           post  :update
           get   :website_planning, path: 'planning-sur-mon-site'
           get   :website_planning_parameters, path: 'parametre-de-mon-planning-sur-mon-site'
@@ -719,6 +720,18 @@ CoursAvenue::Application.routes.draw do
 
     # Needed to catch 404 requests in ApplicationController
     # match "*path", to: "application#routing_error", via: :get
+    namespace :structure_website, path: '' do
+      resources :structures, path: 'reservation', only: [:show] do
+        resources :participation_requests, only: [:create, :update, :show], path: 'inscriptions', controller: 'structures/participation_requests' do
+          resources :conversations, controller: 'structures/participation_requests/conversations'
+        end
+      end
+      resources :newsletters, only: [] do
+        collection do
+          get :unsubscribe
+        end
+      end
+    end
   end
 
   # ---------------------------------------------
@@ -731,21 +744,12 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   constraints DomainConstraint.new do
     namespace :structure_website, path: '' do
-      get '/'       , to: 'structures#index'   , as: :presentation
-      get 'planning', to: 'structures#planning', as: :planning
+      get '/'       , to: 'structures#planning', as: :planning
+      get 'planning' => redirect('/')
       get 'reviews' , to: 'structures#reviews' , as: :reviews, path: 'livre-d-or'
-      get 'medias'  , to: 'structures#medias'  , as: :medias
-      get 'contact' , to: 'structures#contact' , as: :contact
+      # get 'medias'  , to: 'structures#medias'  , as: :medias
+      # get 'contact' , to: 'structures#contact' , as: :contact
       resources :website_pages, only: [:show], path: 'pages'
-      resources :courses, controller: '/structures/courses', path: 'cours'
-      resources :newsletters, only: [] do
-        collection do
-          get :unsubscribe
-        end
-      end
-      resources :participation_requests, only: [:create, :update, :show], path: 'inscriptions' do
-        resources :conversations, controller: 'participation_requests/conversations'
-      end
     end
     # Use shared participation request controller
     # That's why it is out of the namespace

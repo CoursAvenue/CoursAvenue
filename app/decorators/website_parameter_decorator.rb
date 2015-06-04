@@ -2,7 +2,7 @@ class WebsiteParameterDecorator < Draper::Decorator
   delegate_all
 
   def website_url
-    h.structure_website_presentation_url(subdomain: slug)
+    object.website || h.structure_url(object, subdomain: 'www')
   end
 
 end

@@ -2,7 +2,7 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-describe StructureWebsite::ParticipationRequestsController, type: :controller do
+describe StructureWebsite::Structures::ParticipationRequestsController, type: :controller do
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 
@@ -14,8 +14,8 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
   let(:token)                  { stripe_helper.generate_card_token }
 
   before(:each) do
-    @request.host = "#{participation_request.structure.slug}.example.com"
-    allow_any_instance_of(Structure).to receive(:premium?).and_return(true)
+    # Have to be on www subdomain to work
+    @request.host = "www.example.com"
   end
 
   describe '#create', with_mail: true do
@@ -44,7 +44,8 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
       # end
 
       it 'creates a user' do
-        post :create, { participation_request: {
+        post :create, { structure_id: structure.id,
+                        participation_request: {
                           structure_id: structure.id,
                           message: {
                             body: 'Lorem'
@@ -63,7 +64,8 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
       end
 
       it 'creates a stripe customer for the user' do
-        post :create, { participation_request: {
+        post :create, { structure_id: structure.id,
+                        participation_request: {
                           structure_id: structure.id,
                           stripe_token: token,
                           message: {
@@ -81,7 +83,8 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
       end
 
       it 'updates existing user' do
-        post :create, { participation_request: {
+        post :create, { structure_id: structure.id,
+                        participation_request: {
                           structure_id: structure.id,
                           message: {
                             body: 'Lorem'
@@ -102,12 +105,12 @@ describe StructureWebsite::ParticipationRequestsController, type: :controller do
 
   describe '#show' do
     it 'finds the participation_request' do
-      get :show, id: participation_request.token
+      get :show, id: participation_request.token, structure_id: participation_request.structure.id
       expect(response.status).to eq 200
     end
 
     it 'redirects because only ID was given' do
-      get :show, id: participation_request.id
+      get :show, id: participation_request.id, structure_id: participation_request.structure.id
       expect(response.status).to eq 302
     end
   end

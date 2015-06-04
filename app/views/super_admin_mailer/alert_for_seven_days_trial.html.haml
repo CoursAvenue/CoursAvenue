@@ -12,4 +12,4 @@
 
 - if @structure.subscription.plan.website_plan?
   .p
-    = link_to 'Site web CoursAvenue', structure_website_planning_url(subdomain: @structure.subdomain_slug)
+    = link_to 'Site web CoursAvenue', structure_reservation_url(@structure, subdomain: 'www')

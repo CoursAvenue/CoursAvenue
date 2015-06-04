@@ -8,12 +8,6 @@
 %ul.nav.flush.epsilon.f-weight-600.palm-push
   %li.visuallyhidden--lap-and-up.palm-block.palm-text--center.line-height-1-7.soft--right.push-half--ends.soft-half--top
     = link_to 'Connexion', new_pro_admin_session_path, class: 'white-transparent header--pro__link'
-  %li.palm-hidden.palm-block.palm-text--center.line-height-1-7.soft--right
-    = link_to 'Bienvenue', root_path, class: ['white-transparent', 'header--pro__link', (current == 'home' ? 'active bordered--bottom bordered--larger' : '')]
-  %li.palm-block.palm-text--center.line-height-1-7.soft--right
-    = link_to 'Fonctionnalités', pro_pages_features_path, class: ['white-transparent', 'header--pro__link', (current == 'features' ? 'active bordered--bottom bordered--larger' : '')]
-  %li.palm-block.palm-text--center.line-height-1-7.soft--right
-    = link_to 'Tarifs', pro_pages_price_path, class: ['white-transparent', 'header--pro__link', (current == 'tarif' ? 'active bordered--bottom bordered--larger' : '')]
   %li.palm-block.palm-text--center.line-height-1-7.soft--right
     = link_to 'Blog', pro_blog_articles_path, class: ['white-transparent', 'header--pro__link', (current == 'blog' ? 'active bordered--bottom bordered--larger' : '')]
   %li.visuallyhidden--palm.soft--right

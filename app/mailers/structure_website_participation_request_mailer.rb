@@ -55,6 +55,13 @@ class StructureWebsiteParticipationRequestMailer < ActionMailer::Base
          reply_to: generate_reply_to('admin')
   end
 
+  def request_has_been_discussed_by_teacher_to_user(participation_request, message)
+    @message = message
+    retrieve_participation_request_variables(participation_request)
+    mail to: @admin.email, subject: "Nouveau message - #{@user.name}",
+         reply_to: generate_reply_to('admin')
+  end
+
   ######################################################################
   # Request has been modified                                          #
   ######################################################################
