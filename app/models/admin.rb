@@ -120,7 +120,7 @@ class ::Admin < ActiveRecord::Base
 
     if admin.nil?
       admin           = Admin.new
-      admin.email     = auth.info.email
+      admin.email     = auth.info.email if auth.info.email.present?
       admin.password  = Devise.friendly_token[0, 20] if admin.password.blank?
       admin.structure = structure
       admin.confirm!
