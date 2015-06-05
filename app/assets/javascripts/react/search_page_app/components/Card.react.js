@@ -1,10 +1,6 @@
-var SearchPageConstants  = require('../constants/SearchPageConstants'),
-    CardActionCreators   = require('../actions/CardActionCreators');
-
-var ActionTypes = SearchPageConstants.ActionTypes;
+var CardActionCreators = require('../actions/CardActionCreators');
 
 Card = React.createClass({
-
     highlightMaker: function highlightMaker (event) {
         CardActionCreators.highlightMaker({ event: event, card: this.props.card });
     },

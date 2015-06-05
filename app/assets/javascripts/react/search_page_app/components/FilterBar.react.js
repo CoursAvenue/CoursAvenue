@@ -4,7 +4,6 @@ var FilterStore           = require('../stores/FilterStore'),
     FilterActionCreators  = require('../actions/FilterActionCreators'),
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
 
-
 var FilterBar = React.createClass({
     mixins: [
         FluxBoneMixin('filter_store')
