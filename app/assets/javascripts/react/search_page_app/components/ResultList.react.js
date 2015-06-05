@@ -19,9 +19,9 @@ ResultList = React.createClass({
         if (this.state.card_store.loading) {
             header_message = (<div>Chargement</div>);
         }
-        var cards = this.state.card_store.map(function(card) {
+        var cards = this.state.card_store.map(function(card, index) {
             return (
-              <Card card={card}/>
+              <Card card={ card } key={ index }/>
             )
         })
         return (
