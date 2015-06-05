@@ -2,11 +2,11 @@ var CardActionCreators = require('../actions/CardActionCreators');
 
 Card = React.createClass({
     highlightMaker: function highlightMaker (event) {
-        CardActionCreators.highlightMaker({ event: event, card: this.props.card });
+        CardActionCreators.highlightMarker({ event: event, card: this.props.card });
     },
 
     unHighlightMaker: function unHighlightMaker (event) {
-        CardActionCreators.unHighlightMaker({ event: event, card: this.props.card });
+        CardActionCreators.unHighlightMarker({ event: event, card: this.props.card });
     },
 
     render: function render () {
