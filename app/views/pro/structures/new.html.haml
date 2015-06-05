@@ -41,7 +41,7 @@
           .grid__item.one-third.text--right.v-middle>
             .gamma.white.smooth-black-text-shadow> Disciplines générales pratiquées
           .grid__item.v-middle.two-thirds>
-            = f.association :subjects, as: :select, collection: Subject.roots.order('position ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+            = f.association :subjects, as: :select, collection: Subject.roots.order('position ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
         #descendants-subject.grid.push--bottom
           .grid__item.one-third.text--right.v-middle>
             .gamma.white.smooth-black-text-shadow> Sous disciplines
@@ -55,7 +55,7 @@
         .grid__item.one-third.text--right.v-middle>
           %label.gamma.white.smooth-black-text-shadow{ for: 'structure_name' }> Nom de votre structure
         .grid__item.v-middle.two-thirds>
-          = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole' }
+          = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: "false" }
 
       - if @structure.places.empty?
         - @structure.places << @structure.places.publics.build
@@ -68,15 +68,15 @@
           .grid__item.one-third.text--right.v-middle>
             %label.gamma.white.smooth-black-text-shadow{ for: 'structure_places_attributes_0_name' }> Nom de votre lieu
           .grid__item.v-middle.two-thirds>
-            = place_form.input :name, label: false, input_html: {  placeholder: "Ex. : Bastille, Gymnase municipal, etc.", class: 'input--large one-whole', data: { behavior: 'tooltip' }, title: "Si pas de nom : métro ou arrêt de bus le plus proche, nom de quartier / rue, nom d'un parc à proximité" }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+            = place_form.input :name, label: false, input_html: {  placeholder: "Ex. : Bastille, Gymnase municipal, etc.", class: 'input--large one-whole', data: { behavior: 'tooltip' }, title: "Si pas de nom : métro ou arrêt de bus le plus proche, nom de quartier / rue, nom d'un parc à proximité", autocomplete: "false" }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
         .grid.push--bottom
           .grid__item.one-third.text--right.v-middle>
             %label.gamma.white.smooth-black-text-shadow{ for: 'structure_places_attributes_0_street' }> Adresse de votre lieu principal
           .grid__item.v-middle.two-thirds>
-            = place_form.input :street, input_html: { placeholder: 'N° + rue', class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'inline-block flush v-top', style: 'width: 20em;' }
+            = place_form.input :street, input_html: { placeholder: 'N° + rue', class: 'input--large one-whole', autocomplete: "false" }, label: false, wrapper_html: { class: 'inline-block flush v-top', style: 'width: 20em;' }
             .input.flush.city-autocomplete-wrapper.inline-block.v-top<
-              = place_form.input :zip_code, input_html: { placeholder: 'Code postal', class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#structure_places_attributes_0_city_id' } }, label: false, wrapper_html: { style: 'width: 8em;', class: 'flush' }
-              = place_form.association :city, collection: [@structure.city], label: false, wrapper_html: { style: 'width: 10em;' }, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush' }
+              = place_form.input :zip_code, input_html: { placeholder: 'Code postal', class: 'input--large one-whole', data: { behavior: 'city-autocomplete', el: '#structure_places_attributes_0_city_id' }, autocomplete: "false" }, label: false, wrapper_html: { style: 'width: 8em;', class: 'flush' }
+              = place_form.association :city, collection: [@structure.city], label: false, wrapper_html: { style: 'width: 10em;' }, input_html: { class: 'input--large one-whole', autocomplete: "false" }, wrapper_html: { class: 'flush' }
 
       = f.input :contact_email, as: :hidden
       .grid.push--bottom
