@@ -12,7 +12,7 @@ module.exports = {
 
     unHighlightMarker: function highlightMarker (data) {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.UNHIGHLIGHT_MARKER
+            actionType: ActionTypes.UNHIGHLIGHT_MARKER,
             data: data
         });
     },

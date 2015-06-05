@@ -17,7 +17,7 @@ Card = React.createClass({
         var gift_classes = { gray: this.props.card.get('is_open_for_trial')}
         return (
           <div className="soft-half one-quarter palm-one-whole lap-one-half inline-block v-top"
-              onMouseEnter={ highlightMaker } onMouseLeave={ unHighlightMaker }>
+              onMouseEnter={ this.highlightMaker } onMouseLeave={ this.unHighlightMaker }>
               <div className="bg-white bordered">
                   <div className="bordered--bottom">
                       <img className="block one-whole"
