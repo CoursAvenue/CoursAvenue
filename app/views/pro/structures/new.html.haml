@@ -12,7 +12,7 @@
 
 .soft.panel-background-blue-radial
   .main-container
-    = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post, html: { class: 'push--ends' } do |f|
+    = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post, html: { class: 'push--ends', autocomplete: "false"} do |f|
       .grid.push--bottom
         .grid__item.one-third.text--right.v-middle>
           .gamma.white.smooth-black-text-shadow> Type de structure
