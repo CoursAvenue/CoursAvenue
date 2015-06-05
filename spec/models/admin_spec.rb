@@ -68,6 +68,16 @@ describe Admin do
       it 'creates a new admin' do
         expect { Admin.from_omniauth(auth, structure) }.to change { Admin.count }.by(1)
       end
+
+      context 'when there are no emails in the oauth infos' do
+        let(:auth) { create_oauth }
+
+        it 'creates the admin without an email' do
+          auth.info.email = nil
+          admin = Admin.from_omniauth(auth, structure)
+          expect(admin.email).to be_empty
+        end
+      end
     end
   end
 
