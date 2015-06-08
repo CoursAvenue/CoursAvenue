@@ -233,10 +233,10 @@ describe Pro::Structures::GiftCertificatesController, type: :controller do
 
   describe '#confirm_use_voucher' do
     render_views
+    let(:voucher) { FactoryGirl.create(:gift_certificate_voucher) }
 
     it 'renders the confirm_use_voucher template' do
-      get :confirm_use_voucher, structure_id: structure.slug
-
+      xhr :get, :confirm_use_voucher, structure_id: structure.slug, voucher_id: voucher.id
       expect(response).to render_template('confirm_use_voucher')
     end
 
