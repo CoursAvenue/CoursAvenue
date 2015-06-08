@@ -16,49 +16,6 @@
           - if @structure.is_sleeping?
             %span.v-middle.lbl.lbl--red{ data: { toggle: 'popover', content: "Vous venez de prendre le contrôle de votre profil : complétez-le pendant que l'équipe CoursAvenue vérifie votre identité. Vous recevrez un e-mail dès que c'est validé !  Les modifications que vous avez apportées deviendront alors directement visibles sur votre profil public.", trigger: 'hover' } } En attente de validation
 
-          - if @structure.mailbox
-            - unread_conversations       = @structure.mailbox.inbox(read: false)
-            - unread_conversations      += @structure.unanswered_information_message
-            - unread_conversations       = unread_conversations.uniq.sort_by(&:created_at).reverse
-            - unread_conversations_count = unread_conversations.count
-            .inline-block.v-middle.drop-down__wrapper
-              = link_to pro_structure_conversations_url(@structure, subdomain: 'pro'), class: 'white block soft-half--ends muted-link f-weight-bold' do
-                %i.fa-envelope-o
-                = pluralize @structure.mailbox.inbox.count, 'message'
-                - if unread_conversations_count > 0
-                  %span.push--left.lbl.lbl--orange.lbl--small= unread_conversations_count
-              .drop-down__el.drop-down__el--left
-                %ul.drop-down__el-inner-box.overflow-auto.no-bullet-list.flush.text--left{ style: 'width: 400px; max-height: 60vh;' }
-                  - if unread_conversations_count == 0
-                    %li.text--center
-                      %a.not-hoverable.f-weight-normal Pas de nouveau message
-                  - else
-                    %li.text--center
-                      %a.not-hoverable.f-weight-normal= "#{unread_conversations_count} #{(unread_conversations_count == 1 ? 'nouveau message' : 'nouveaux messages')}"
-                  - unread_conversations.each do |conversation|
-                    - cache [conversation, 'pro/structures/layout/unread_conversations'] do
-                      %li
-                        = link_to pro_structure_conversation_path(@structure, conversation), class: 'flexbox' do
-                          .flexbox__item.two-twelfths.v-middle.soft-half--right>
-                            - last_sender = conversation.messages.order('created_at DESC').first.sender
-                            = image_tag last_sender.avatar_url(:thumb), class: 'block bordered rounded--circle', width: 50, height: 50
-                          .flexbox__item.six-twelfths.v-middle.text--left.f-weight-normal>
-                            %strong= conversation.subject
-                            %br
-                            = last_sender.name
-                          .flexbox__item.four-twelfths.v-middle.text--right.f-weight-normal>
-                            .flexbox
-                              .flexbox__item.v-middle.one-whole>
-                                = conversation_label_name conversation
-                              .flexbox__item.v-middle.soft-half--left>
-                                = conversation_label conversation, class: 'lbl--small'
-                  %li.text--center= link_to 'Voir tous les messages', pro_structure_conversations_url(@structure, subdomain: 'pro')
-          %span.v-middle.push-half--sides= '|'
-          .inline-block.v-middle.drop-down__wrapper
-            = link_to pro_structure_comments_url(@structure, subdomain: 'pro'), class: 'white block soft-half--ends muted-link f-weight-bold' do
-              %i.fa-comment.v-middle
-              %span.v-middle= "#{@structure.comments.accepted.count} avis"
-          %span.v-middle.push-half--sides= '|'
           .inline-block.v-middle.drop-down__wrapper
             = link_to structure_url(@structure, subdomain: 'www'), target: :_blank, class: 'white block soft-half--ends muted-link f-weight-bold', title: 'Voir&nbsp;mon&nbsp;profil&nbsp;public', data: { toggle: 'tooltip', placement: 'right', html: true } do
               %i.fa-eye.v-middle.epsilon
@@ -75,12 +32,8 @@
                   = link_to new_pro_structure_invited_teacher_path(@structure, @structure.main_contact) do
                     %i.fa-gift.soft-half--right
                     = t('pro.structures.side_menu.share')
-                - if @structure.comments_count >= 5
-                  - communcate_url = widget_pro_structure_path(@structure)
-                - else
-                  - communcate_url = signature_pro_structure_path(@structure)
                 %li.nowrap.text--left
-                  = link_to communcate_url do
+                  = link_to communication_pro_structure_path(@structure) do
                     %i.fa-bullhorn.soft-half--right
                     = t('pro.structures.side_menu.communicate')
                 %li.nowrap.text--left

@@ -1,0 +1,37 @@
+.main-container
+  %h1.print--hidden.soft--top.text--center.flush= @structure.name
+  %hr.print--hidden.push--ends
+  %h2.print--hidden Votre bon cadeau
+  .bg-white.soft.bordered.push--bottom
+    .text--center
+      = link_to 'javascript:window.print()', class: 'btn btn--green soft--sides print--hidden' do
+        %i.fa.fa-print
+        Imprimer
+    %h2.push-half--bottom
+      = @voucher.gift_certificate_name
+    %p.epsilon= @voucher.description
+    %p.epsilon.print--hidden
+      %strong= "Total réglé : #{readable_amount(@voucher.amount)}"
+
+    %h2 Votre code unique
+    .inline-block.soft.delta.bordered
+      %strong= @voucher.token
+
+    %hr.push--ends
+    %h4.push-half--bottom Contact
+    %p.epsilon
+      - if @voucher.structure.phone_numbers.any?
+        Tél :
+        - @voucher.structure.phone_numbers.each do |phone_number|
+          %span.soft-half--right= phone_number.decorate.formatted_number
+        %br
+      E-mail :
+      = @voucher.structure.email
+
+    %hr.push--ends
+    %h4.push-half--bottom.push--top Comment ça marche ?
+    %p.epsilon
+      Prenez rendez-vous avec le professeur en lui indiquant le détail de votre bon cadeau (type d'activité et numéro du bon).
+
+    %p.epsilon
+      Très belle séance !

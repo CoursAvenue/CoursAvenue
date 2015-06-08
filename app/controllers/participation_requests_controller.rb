@@ -92,7 +92,7 @@ class ParticipationRequestsController < ApplicationController
 
   def set_participation_request_url
     if @participation_request.from_personal_website?
-      @participation_request_url = structure_website_participation_request_path(@participation_request)
+      @participation_request_url = structure_website_structure_participation_request_path(@participation_request.structure, @participation_request)
     else
       @participation_request_url = user_participation_requests_path(@user)
     end

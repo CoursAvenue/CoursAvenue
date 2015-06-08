@@ -11,11 +11,7 @@ StructurePlanning.module('Models', function(Module, App, Backbone, Marionette, $
             // relation will be "places", "courses", etc.
             // And will be transformed in PlacesCollection
             _.map(relations, function(relation) {
-                if (relation == 'places') {
-                    var collection = new StructureProfile.Models[_.capitalize(relation) + 'Collection'](bootstrap[relation], bootstrap_meta);
-                } else {
-                    var collection = new Module[_.capitalize(relation) + 'Collection'](bootstrap[relation], bootstrap_meta);
-                }
+                var collection = new StructureProfile.Models[_.capitalize(relation) + 'Collection'](bootstrap[relation], bootstrap_meta);
                 collection.structure = this;
                 this.set(relation, collection);
             }, this);

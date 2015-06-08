@@ -55,7 +55,7 @@ StructurePlanning.module('Models', function(Module, App, Backbone, Marionette, $
         },
 
         url: function url () {
-            return Routes.structure_website_participation_requests_path({ structure_id: this.get('structure').get('id') });
+            return Routes.structure_website_structure_participation_requests_path({ structure_id: this.get('structure').get('id') });
         }
     });
 });

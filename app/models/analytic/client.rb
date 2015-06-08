@@ -68,9 +68,6 @@ class Analytic::Client
 
   # Retrieve the impression count in the given interval for the supplied structure.
   #
-  # TODO: Cache results for the three functions bellow, since they will probably be called in
-  # succession.
-  #
   # @param structure_id The structure id
   # @param start_date   The start date, by default 15 days ago.
   # @param end_date     The end date, by defautl yesterday.

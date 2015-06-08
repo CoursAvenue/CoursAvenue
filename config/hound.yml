@@ -23,3 +23,7 @@ LineLength:
   Style/ExtraSpacing:
     Description: Do not use unnecessary spacing.
     Enabled: false
+
+Style/ExtraSpacing:
+  Description: Do not use unnecessary spacing.
+  Enabled: false

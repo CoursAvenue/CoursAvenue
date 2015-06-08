@@ -12,10 +12,14 @@ module NavigationHelper
     current_tab = options.delete(:current)
     options[:class] ||= 'nowrap rounded--left--double'
     options[:class] << ((current_tab == title) ? ' active bordered--left bordered--top bordered--bottom relative' : '')
-    if options[:icon].present?
-      html_title = "<i class='#{options[:icon]}'></i><div class='very-soft--top'>#{I18n.t('pro.structures.side_menu.' + title)}</div>".html_safe
+    if options[:icon].include?('group') and @structure
+      pending_requests = @structure.participation_requests.upcoming.pending.count
+      html_title = "<i class='relative #{options[:icon]}'><span style='padding: 3px; top: -8px; right: -8px;' class='rounded--double f-size-9 absolute bg-red white'>#{pending_requests}</span></i>"
+      html_title += "<div class='very-soft--top'>#{I18n.t('pro.structures.side_menu.' + title)}</div>"
+    else
+      html_title = "<i class='#{options[:icon]}'></i><div class='very-soft--top'>#{I18n.t('pro.structures.side_menu.' + title)}</div>"
     end
-    content_tag(:li, link_to(html_title, url, class: 'side-menu-link block muted-link relative text--center soft-half'), options)
+    content_tag(:li, link_to(html_title.html_safe, url, class: 'side-menu-link block muted-link relative text--center soft-half'), options)
   end
 
   def pro_submenu_link(title, url, options = {})

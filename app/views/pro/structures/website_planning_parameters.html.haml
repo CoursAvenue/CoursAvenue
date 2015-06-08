@@ -4,54 +4,39 @@
 
 %h1 Inscriptions en ligne par CB
 
-- if @structure.premium?
-  %h3 Inscription par carte bleue
+%h3 Inscription par carte bleue
 
-  - if @structure.stripe_managed_account_id.blank?
-    %p.epsilon
-      Pour pouvoir proposer l'inscription en ligne par carte bleue sur votre propre site Internet, paramétrez votre compte :
+- if @structure.stripe_managed_account_id.blank?
+  %p.epsilon
+    Pour pouvoir proposer l'inscription en ligne par carte bleue sur votre propre site Internet, paramétrez votre compte :
 
-    .text--center
-      = link_to 'Paramétrages des paiements par carte bleue', accept_payments_form_pro_structure_subscription_path(@structure, @structure.subscription), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 700 }
+  .text--center
+    = link_to 'Paramétrages des paiements par carte bleue', accept_payments_form_pro_structure_subscription_path(@structure, @structure.subscription), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 700 }
 
-    - content_for :scripts do
-      = javascript_include_tag 'https://js.stripe.com/v2/'
-  - else
-    - if @structure.courses.without_open_courses.empty?
-      %p.epsilon Vous n'avez pas d'activité sur votre planning :
-      .text--center= link_to 'Ajouter une activité', pro_structure_courses_path(@structure), class: 'btn btn--green'
-    - else
-      %p.epsilon Cochez les activités pour lesquelles vous souhaitez ouvrir l'inscription par carte bleue :
-      .soft--left
-        - if @structure.courses.trainings.any?
-          %h4.push--top.push-half--bottom Stages et ateliers
-          .soft--left
-            - @structure.courses.trainings.each do |course|
-              = simple_form_for [:pro, @structure, course], url: pro_structure_course_path(@structure, course), as: :course, remote: true, data: { behavior: 'live-form' }do |f|
-                = f.input :accepts_payment, as: :boolean, label: course.name, wrapper_html: { class: 'checkbox-at-left' }, input_html: { id: "accepts_payment_#{course.id}", value: course.accepts_payment }
-        - if @structure.courses.lessons.any?
-          %h4.push--top.push-half--bottom Cours collectifs
-          .soft--left
-            - @structure.courses.lessons.each do |course|
-              = simple_form_for [:pro, @structure, course], url: pro_structure_course_path(@structure, course), as: :course, remote: true, data: { behavior: 'live-form' }do |f|
-                = f.input :accepts_payment, as: :boolean, label: course.name, wrapper_html: { class: 'checkbox-at-left' }, input_html: { id: "accepts_payment_#{course.id}", value: course.accepts_payment }
-        - if @structure.courses.privates.any?
-          %h4.push--top.push-half--bottom Cours particuliers
-          .soft--left
-            - @structure.courses.privates.each do |course|
-              = simple_form_for [:pro, @structure, course], url: pro_structure_course_path(@structure, course), as: :course, remote: true, data: { behavior: 'live-form' }do |f|
-                = f.input :accepts_payment, as: :boolean, label: course.name, wrapper_html: { class: 'checkbox-at-left' }, input_html: { id: "accepts_payment_#{course.id}", value: course.accepts_payment }
+  - content_for :scripts do
+    = javascript_include_tag 'https://js.stripe.com/v2/'
 - else
-  .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides
-    %p.delta.line-height-1-5
-      Augmentez votre nombre d'inscrits et ne perder plus de temps à gérer les paiements en proposant la réservation en ligne par carte bleue pour vos cours réguliers ou vos ateliers.
-    %p.delta.line-height-1-5
-      %strong Le saviez-vous ?
-      %br
-      En ouvrant vos cours à la réservation en ligne par carte bleue, la gestion des paiements devient plus simple, vous n'avez plus d'absentéisme et vous offrez un service supplémentaire à vos inscrits.
-    .text--center.push--bottom
-      = link_to 'Essayer gratuitement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.module.first.id), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
-    %ul.delta.line-height-1-3
-      %li Offrez la possibilité à chaque Internaute de s'inscrire à vos activités par carte bleue
-      %li Recevez les sommes directement sur votre compte bancaire, déduites des frais bancaires (1,8% + 0,25€ par transaction, soit 1€ pour un stage à 40€)
-      %li Remboursez en un clic les personnes souhaitant annuler leur présence
+  - if @structure.courses.without_open_courses.empty?
+    %p.epsilon Vous n'avez pas d'activité sur votre planning :
+    .text--center= link_to 'Ajouter une activité', pro_structure_courses_path(@structure), class: 'btn btn--green'
+  - else
+    %p.epsilon Cochez les activités pour lesquelles vous souhaitez ouvrir l'inscription par carte bleue :
+    .soft--left
+      - if @structure.courses.trainings.any?
+        %h4.push--top.push-half--bottom Stages et ateliers
+        .soft--left
+          - @structure.courses.trainings.each do |course|
+            = simple_form_for [:pro, @structure, course], url: pro_structure_course_path(@structure, course), as: :course, remote: true, data: { behavior: 'live-form' }do |f|
+              = f.input :accepts_payment, as: :boolean, label: course.name, wrapper_html: { class: 'checkbox-at-left' }, input_html: { id: "accepts_payment_#{course.id}", value: course.accepts_payment }
+      - if @structure.courses.lessons.any?
+        %h4.push--top.push-half--bottom Cours collectifs
+        .soft--left
+          - @structure.courses.lessons.each do |course|
+            = simple_form_for [:pro, @structure, course], url: pro_structure_course_path(@structure, course), as: :course, remote: true, data: { behavior: 'live-form' }do |f|
+              = f.input :accepts_payment, as: :boolean, label: course.name, wrapper_html: { class: 'checkbox-at-left' }, input_html: { id: "accepts_payment_#{course.id}", value: course.accepts_payment }
+      - if @structure.courses.privates.any?
+        %h4.push--top.push-half--bottom Cours particuliers
+        .soft--left
+          - @structure.courses.privates.each do |course|
+            = simple_form_for [:pro, @structure, course], url: pro_structure_course_path(@structure, course), as: :course, remote: true, data: { behavior: 'live-form' }do |f|
+              = f.input :accepts_payment, as: :boolean, label: course.name, wrapper_html: { class: 'checkbox-at-left' }, input_html: { id: "accepts_payment_#{course.id}", value: course.accepts_payment }

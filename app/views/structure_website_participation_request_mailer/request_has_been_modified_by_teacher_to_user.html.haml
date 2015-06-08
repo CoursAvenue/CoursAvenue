@@ -19,7 +19,7 @@
   Accédez à votre page d'inscription pour envoyer votre confirmation :
 
 .p.action
-  = link_to "Accepter / Proposer une autre date / Refuser", structure_website_participation_request_url(@participation_request.token, subdomain: @structure.subdomain_slug), class: 'btn btn--green'
+  = link_to "Accepter / Proposer une autre date / Refuser", structure_website_structure_participation_request_url(@participation_request.structure, @participation_request.token, subdomain: 'www'), class: 'btn btn--green'
 
 - if @message
   .soft--bottom
