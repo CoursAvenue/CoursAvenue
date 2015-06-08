@@ -197,5 +197,5 @@ Handlebars.registerHelper('ifBlank', function (content, options) {
 
 // usage: {{#unlessBlank description}}/*...*/{{/unlessBlank}}
 Handlebars.registerHelper('unlessBlank', function (content, options) {
-    return (_.isUndefined(content) || content.trim().length == 0) ? options.inverse(this) : options.fn(this);
+    return (_.isUndefined(content) || _.isNull(content) || content.trim().length == 0) ? options.inverse(this) : options.fn(this);
 });
