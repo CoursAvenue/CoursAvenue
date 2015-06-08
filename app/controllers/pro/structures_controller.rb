@@ -375,6 +375,20 @@ France
     respond_to do |format|
       format.html { redirect_to website_planning_pro_structure_path(@structure), notice: 'Message envoyé à votre webmaster'}
     end
+
+  # POST structure/import
+  def import
+    importer = StructureImporter.new(import_params)
+
+    respond_to do |format|
+      if importer.import!
+        format.html { redirect_to pro_structures_path,
+                      notice: 'Le fichier a été importé avec succés.' }
+      else
+        format.html { redirect_to pro_structures_path,
+                      error: "Une erreur est survenue lors de l'import du fichier, veuillez rééssayer." }
+      end
+    end
   end
 
   private
@@ -453,5 +467,9 @@ France
 
   def load_structure
     @structure = Structure.friendly.find(params[:id]) if params[:id].present?
+  end
+
+  def import_params
+    params.require(:structure_import).permit(:file)
   end
 end

@@ -222,6 +222,7 @@ CoursAvenue::Application.routes.draw do
           get :stars
           get :best
           get :inscription, to: :new
+          post :import
         end
         resources :website_parameters, except: [:destroy], path: 'site-internet', controller: 'structures/website_parameters'
         resources :website_pages, path: 'pages-personnalisees', controller: 'structures/website_pages' do
