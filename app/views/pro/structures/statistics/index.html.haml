@@ -26,9 +26,10 @@
           = @actions_total_count
   #statistics
 
+- website_planning_views = @website_planning_views.present? ? @website_planning_views.value : 0
 :javascript
   window.coursavenue = {};
-  window.coursavenue.series = [ { data: #{ @website_planning_views.values },
+  window.coursavenue.series = [ { data: #{ website_planning_views },
                                   name: 'Affichages',
                                   stack: 'Affichages'
                                  },
