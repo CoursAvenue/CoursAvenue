@@ -16,36 +16,36 @@
   3. C'est fait ! Suivez ensuite le nombre de visites et de demandes d'inscriptions depuis l'onglet
   = link_to 'Statistiques', pro_structure_statistics_path(@structure)
 
-%hr.push--ends
-%h2.text--center Demandez à votre webmaster
-.gray-box.soft.relative
-  = simple_form_for [:pro, @structure], method: :post, url: ask_webmaster_for_planning_pro_structure_path(@structure) do |f|
-    .grid.push-half--bottom
-      .grid__item.v-middle.three-twelfths.text--right.palm-one-whole>
-        %h4.flush Email du webmaster
-      .grid__item.v-middle.nine-twelfths.palm-one-whole>
-        .grid
-          .grid__item.three-quarters.v-middle.palm-one-whole>
-            %input.input--large.one-whole{ name: 'email' }
-      %hr.push-half--ends
-    .grid
-      .grid__item.three-twelfths.text--right.palm-one-whole>
-        %h4 Message
-      .grid__item.nine-twelfths.palm-one-whole>
-        %textarea.input--large#recommendation-user-content.one-whole{ name: 'text', rows: 8, data: { behavior: 'autoresize' } }
-          Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques secondes pour laisser un avis sur mon profil ?
-        %p.gray-light.push-half--top.flush--bottom
-          = link_to 'Lien que recevront mes élèves', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), target: '_blank'
-        %p.gray-light.flush
-          Merci et à très bientôt,
-          %br
-          = @structure.name
-        .push-half--top.grid
-          .grid__item.one-fifth.palm-one-whole>
-            %a.btn.btn--full#recommendation-overview Aperçu
-          .grid__item.four-fifths.palm-one-whole>
-            = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
-          .text--center= link_to 'Envoyer un email depuis ma boîte perso', '#hidden-send', data: { behavior: 'modal', width: 550, padding: 0 }
+-# %hr.push--ends
+-# %h2.text--center Demandez à votre webmaster
+-# .gray-box.soft.relative
+-#   = simple_form_for [:pro, @structure], method: :post, url: ask_webmaster_for_planning_pro_structure_path(@structure) do |f|
+-#     .grid.push-half--bottom
+-#       .grid__item.v-middle.three-twelfths.text--right.palm-one-whole>
+-#         %h4.flush Email du webmaster
+-#       .grid__item.v-middle.nine-twelfths.palm-one-whole>
+-#         .grid
+-#           .grid__item.three-quarters.v-middle.palm-one-whole>
+-#             %input.input--large.one-whole{ name: 'email' }
+-#       %hr.push-half--ends
+-#     .grid
+-#       .grid__item.three-twelfths.text--right.palm-one-whole>
+-#         %h4 Message
+-#       .grid__item.nine-twelfths.palm-one-whole>
+-#         %textarea.input--large#recommendation-user-content.one-whole{ name: 'text', rows: 8, data: { behavior: 'autoresize' } }
+-#           Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques secondes pour laisser un avis sur mon profil ?
+-#         %p.gray-light.push-half--top.flush--bottom
+-#           = link_to 'Lien que recevront mes élèves', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), target: '_blank'
+-#         %p.gray-light.flush
+-#           Merci et à très bientôt,
+-#           %br
+-#           = @structure.name
+-#         .push-half--top.grid
+-#           .grid__item.one-fifth.palm-one-whole>
+-#             %a.btn.btn--full#recommendation-overview Aperçu
+-#           .grid__item.four-fifths.palm-one-whole>
+-#             = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
+-#           .text--center= link_to 'Envoyer un email depuis ma boîte perso', '#hidden-send', data: { behavior: 'modal', width: 550, padding: 0 }
 = content_for :scripts do
   :javascript
       $('#link-input').change(function() {
