@@ -736,7 +736,7 @@ class Structure < ActiveRecord::Base
     number_of_conversations = conversations.length
     if number_of_conversations == 0
       self.response_rate = nil
-      save
+      save(validate: false)
       return nil
     else
       # Select conversations that have :
@@ -751,7 +751,7 @@ class Structure < ActiveRecord::Base
         end
       end
       self.response_rate = ((number_of_conversations_with_answers.to_f / number_of_conversations.to_f) * 100).round
-      save
+      save(validate: false)
       return response_rate
     end
   end
@@ -764,7 +764,7 @@ class Structure < ActiveRecord::Base
     conversations      = main_contact.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
     if conversations.length == 0
       self.response_time = nil
-      save
+      save(validate: false)
       return nil
     else
       # Select conversations that have :
@@ -788,7 +788,7 @@ class Structure < ActiveRecord::Base
         delta_hours << delta if delta
       end
       self.response_time = (delta_hours.reduce(&:+).to_f / (delta_hours.length.to_f)).round if delta_hours.any?
-      save
+      save(validate: false)
       return response_time
     end
   end
