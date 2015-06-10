@@ -12,9 +12,9 @@ class IndexableCard < ActiveRecord::Base
 
   attr_accessible :structure, :place, :planning, :course
 
-  delegate :name, :price, :type,          to: :course,    prefix: true
-  delegate :name, :comments_count, :slug, to: :structure, prefix: true
-  delegate :name, :latitude, :longitude,  to: :place,     prefix: true
+  delegate :name, :price, :type,          to: :course,    prefix: true, allow_nil: true
+  delegate :name, :comments_count, :slug, to: :structure, prefix: true, allow_nil: true
+  delegate :name, :latitude, :longitude,  to: :place,     prefix: true, allow_nil: true
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
