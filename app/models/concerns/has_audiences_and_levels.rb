@@ -52,7 +52,7 @@ module Concerns
     #
     # @return levels
     def set_level_if_empty
-      self.levels    = [Level::ALL]      if self.levels.empty?
+      self.levels = [Level::ALL] if self.levels.empty?
     end
 
     ######################################################################

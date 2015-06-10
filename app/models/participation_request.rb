@@ -1,6 +1,9 @@
 class ParticipationRequest < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
+  extend FriendlyId
   include Concerns::HasRandomToken
+
+  friendly_id :token, use: [:finders]
 
   acts_as_paranoid
 

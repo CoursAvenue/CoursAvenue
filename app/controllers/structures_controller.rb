@@ -11,7 +11,7 @@ class StructuresController < ApplicationController
 
   respond_to :json
 
-  layout :choose_layout
+  layout :get_layout
 
   def toggle_pure_player
     @structure.pure_player = (@structure.pure_player? ? false : true)
@@ -152,7 +152,7 @@ class StructuresController < ApplicationController
 
   private
 
-  def choose_layout
+  def get_layout
     if action_name == 'index'
       'search'
     else

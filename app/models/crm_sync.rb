@@ -28,6 +28,7 @@ class CrmSync
       structure_hash_info = { structure_slug: structure.slug, structure_name: structure.name }
       Bugsnag.notify(RuntimeError.new("CrmSync error"), results.merge(structure_hash_info))
     end
+    structure.unlock_crm!
     results
   end
 

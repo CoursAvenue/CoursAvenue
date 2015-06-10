@@ -42,7 +42,7 @@
       .soft--sides
         %hr.push--ends
         .input
-          .control-label.label--large> Discplines
+          .control-label.label--large> Disciplines
           .input-container>
             = f.association :subjects, as: :select, collection: @structure.subjects, input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush' }, selected: (@place.subjects.any? ? @place.subjects.map(&:id) : @structure.subjects.map(&:id))
 

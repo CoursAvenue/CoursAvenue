@@ -9,9 +9,9 @@ class StructureWebsite::ParticipationRequests::ConversationsController < Structu
     @user.reply_to_conversation(@conversation, params[:conversation][:message][:body]) if params[:conversation][:message][:body].present?
     respond_to do |format|
       if params[:conversation][:message][:body].blank?
-        format.html { redirect_to structure_website_participation_request_path(@participation_request.token), alert: 'Vous ne pouvez pas envoyer de message vide' }
+        format.html { redirect_to structure_website_structure_participation_request_path(@participation_request.structure, @participation_request.token), alert: 'Vous ne pouvez pas envoyer de message vide' }
       else
-        format.html { redirect_to structure_website_participation_request_path(@participation_request.token), notice: 'Message envoyé' }
+        format.html { redirect_to structure_website_structure_participation_request_path(@participation_request.structure, @participation_request.token), notice: 'Message envoyé' }
       end
     end
   end

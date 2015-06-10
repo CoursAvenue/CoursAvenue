@@ -37,7 +37,7 @@ class Planning < ActiveRecord::Base
   belongs_to :course    , touch: true
   belongs_to :teacher   , touch: true
   belongs_to :place     , touch: true
-  belongs_to :structure , touch: true
+  belongs_to :structure
 
   has_many :prices,         through: :course
   has_many :subjects,       through: :course

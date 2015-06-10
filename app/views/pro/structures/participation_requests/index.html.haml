@@ -20,7 +20,7 @@
   - else
     = render partial: 'pro/structures/improve_your_stats', locals: { message: "Vous n'avez pas d'inscriptions à venir. Quelques conseils pour améliorer vos statistiques : "}
   - if @past_participation_requests.any?
-    %hr
+    %hr.push--ends
     %p.flush
       = link_to "Voir tout l'historique des inscriptions", '#', data: { behavior: 'show-long-version', 'long-version' => '#previous-subscriptions'}
     .hidden#previous-subscriptions

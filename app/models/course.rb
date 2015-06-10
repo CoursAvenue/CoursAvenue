@@ -198,8 +198,6 @@ class Course < ActiveRecord::Base
       self.structure.admins.any? if self.structure
     end
 
-    double :approximate_price_per_course
-
     integer :nb_comments do
       comments.count
     end
@@ -284,20 +282,6 @@ class Course < ActiveRecord::Base
 
   def is_open?
     false
-  end
-
-  def approximate_price_per_course
-    one_class_price = prices.where( nb_courses: 1 )
-    if one_class_price.any?
-      return one_class_price.first.amount
-    else
-      price = prices.where.not( amount: nil ).order('nb_courses DESC').first
-      if price and price.amount and price.nb_courses
-        return price.amount / price.nb_courses
-      else
-        return 0
-      end
-    end
   end
 
   def type_name

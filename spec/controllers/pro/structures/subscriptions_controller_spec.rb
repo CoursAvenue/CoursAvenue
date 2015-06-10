@@ -404,3 +404,34 @@ RSpec.describe Pro::Structures::SubscriptionsController, type: :controller, with
 
   end
 end
+
+def create_legal_entity(structure)
+  dob = 35.years.ago
+  {
+    address: {
+      line1:       Faker::Address.street_address,
+      line2:       Faker::Address.secondary_address,
+      city:        Faker::Address.city,
+      state:       Faker::Address.state,
+      postal_code: Faker::Address.zip,
+      country:     'FR',
+    },
+    dob: {
+      day:   dob.day,
+      month: dob.month,
+      year:  dob.year,
+    },
+    personal_address: {
+      line1:       Faker::Address.street_address,
+      city:        Faker::Address.city,
+      state:       Faker::Address.state,
+      postal_code: Faker::Address.zip,
+      country:     'FR',
+    },
+    business_name: structure.name,
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    type: ['individual', 'company'].sample,
+    additional_owners: nil
+  }
+end

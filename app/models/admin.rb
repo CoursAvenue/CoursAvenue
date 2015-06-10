@@ -120,7 +120,7 @@ class ::Admin < ActiveRecord::Base
 
     if admin.nil?
       admin           = Admin.new
-      admin.email     = auth.info.email
+      admin.email     = auth.info.email if auth.info.email.present?
       admin.password  = Devise.friendly_token[0, 20] if admin.password.blank?
       admin.structure = structure
       admin.confirm!
@@ -173,7 +173,8 @@ class ::Admin < ActiveRecord::Base
   handle_asynchronously :notify_intercom_event, run_at: Proc.new { 15.minutes.from_now }
 
   def subscribe_to_crm
-    CrmSync.delay.update(self.structure) if self.structure
+    CrmSync.delay.update(self.structure) if self.structure and !self.structure.crm_locked?
+    structure.lock_crm!
   end
 
   def check_if_was_invited
