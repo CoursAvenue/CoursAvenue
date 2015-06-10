@@ -38,6 +38,12 @@ var CardCollection = Backbone.Collection.extend({
                 // Fetch the new cards.
                 this.fetchDataFromServer();
                 break;
+            case ActionTypes.HIGHLIGHT_MARKER:
+                console.log('highlight maker');
+                break;
+            case ActionTypes.UNHIGHLIGHT_MARKER:
+                console.log('unhighlight maker');
+                break;
         }
     },
 

@@ -1,23 +1,19 @@
-var SearchPageConstants  = require('../constants/SearchPageConstants'),
-    CardActionCreators   = require('../actions/CardActionCreators');
-
-var ActionTypes = SearchPageConstants.ActionTypes;
+var CardActionCreators = require('../actions/CardActionCreators');
 
 Card = React.createClass({
-
     highlightMaker: function highlightMaker (event) {
-        CardActionCreators.highlightMaker({ event: event, card: this.props.card });
+        CardActionCreators.highlightMarker({ event: event, card: this.props.card });
     },
 
     unHighlightMaker: function unHighlightMaker (event) {
-        CardActionCreators.unHighlightMaker({ event: event, card: this.props.card });
+        CardActionCreators.unHighlightMarker({ event: event, card: this.props.card });
     },
 
     render: function render () {
         var gift_classes = { gray: this.props.card.get('is_open_for_trial')}
         return (
           <div className="soft-half one-quarter palm-one-whole lap-one-half inline-block v-top"
-              onMouseEnter={ highlightMaker } onMouseLeave={ unHighlightMaker }>
+              onMouseEnter={ this.highlightMaker } onMouseLeave={ this.unHighlightMaker }>
               <div className="bg-white bordered">
                   <div className="bordered--bottom">
                       <img className="block one-whole"

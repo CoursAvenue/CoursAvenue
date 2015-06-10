@@ -12,9 +12,9 @@ class IndexableCard < ActiveRecord::Base
 
   attr_accessible :structure, :place, :planning, :course
 
-  delegate :name, :price, to: :course, prefix: true
-  delegate :name, :comments_count, :slug, to: :structure, prefix: true
-  delegate :place, :name, :latitude, :longitude, to: :place, prefix: true
+  delegate :name, :price, :type,          to: :course,    prefix: true, allow_nil: true
+  delegate :name, :comments_count, :slug, to: :structure, prefix: true, allow_nil: true
+  delegate :name, :latitude, :longitude,  to: :place,     prefix: true, allow_nil: true
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
@@ -25,12 +25,10 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :price do
-      self.course ? self.course_price : 0
+      self.course_price
     end
 
-    add_attribute :structure_name do
-      self.structure_name
-    end
+    attributes :structure_name
 
     add_attribute :reviews_count do
       self.structure_comments_count
@@ -40,21 +38,12 @@ class IndexableCard < ActiveRecord::Base
       'indexable_card'
     end
 
-    add_attribute :structure_id do
-      self.structure_id
-    end
-
-    add_attribute :course_id do
-      self.course_id
-    end
-
-    add_attribute :course_name do
-      self.course.present? ? course_name : nil
-    end
-
-    add_attribute :structure_slug do
-      self.structure_slug
-    end
+    attribute :structure_id
+    attribute :course_id
+    attribute :course_name
+    attribute :course_type
+    attribute :structure_slug
+    attribute :place_name
 
     add_attribute :root_subject do
       roots = subjects.map { |s| s.root.slug }.uniq
@@ -62,11 +51,15 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :subjects do
-      subjects.map(&:slug).uniq
+      self.subjects.map(&:slug).uniq
     end
 
-    add_attribute :place_name do
-      self.place.present? ? place_name : nil
+    add_attribute :has_free_trial do
+      if self.course.present?
+        self.course.prices.any?(&:free?)
+      else
+        false
+      end
     end
 
     add_attribute :_geoloc do
@@ -74,7 +67,8 @@ class IndexableCard < ActiveRecord::Base
         { lat: self.place.latitude, lng: self.place.longitude }
       end
     end
-    # geoloc(:place_latitude, :place_longitude) if self.place.present?
+
+    attribute :weekly_availability
   end
   # :nocov:
 
@@ -130,5 +124,29 @@ class IndexableCard < ActiveRecord::Base
   # @return String, the subject name.
   def subject_name
     subjects.any? ? subjects.first.name : nil
+  end
+
+  # Returns the availability of the course during the week.
+  #
+  # @return an array.
+  def weekly_availability
+    return [] if course.nil?
+
+    availability = {
+      sunday:    0,
+      monday:    0,
+      tuesday:   0,
+      wednesday: 0,
+      thursday:  0,
+      friday:    0,
+      saturday:  0,
+    }
+
+    course.plannings.each do |course|
+      day = Date::DAYNAMES[course.week_day].downcase.to_sym
+      availability[day] += 1
+    end
+
+    availability
   end
 end

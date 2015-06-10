@@ -56,7 +56,9 @@ module.exports = {
         }
 
         card_search_helper.setState(card_search_state);
-        card_search_helper.addRefine('subjects', data.subject);
+        if (data.subjects) {
+            card_search_helper.addRefine('subjects', data.subject);
+        }
 
         return card_search_helper.search();
     },
