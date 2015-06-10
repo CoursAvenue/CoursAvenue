@@ -184,7 +184,6 @@ class Structure < ActiveRecord::Base
   after_save    :geocode_if_needs_to    unless Rails.env.test?
   after_save    :subscribe_to_crm_with_delay
 
-  # after_touch   :set_premium
   after_touch   :update_meta_datas
   after_touch   :update_cities_text
   after_touch   :update_vertical_pages_breadcrumb
@@ -1274,14 +1273,6 @@ class Structure < ActiveRecord::Base
     update_column :cities_text, places.map(&:city).map(&:name).uniq.join(', ')
   end
   handle_asynchronously :update_cities_text
-
-  def set_premium
-    if subscription_plan.nil?
-      update_column :premium, false
-    else
-      update_column :premium, subscription_plan.active?
-    end
-  end
 
   # Strip name if exists to prevent from name starting by a space
   #
