@@ -69,6 +69,8 @@ RSpec.describe GiftCertificate::Voucher, type: :model, with_stripe: true do
     context 'when the structure can receive payments' do
       before do
         structure.create_managed_account
+        allow_any_instance_of(Structure).to receive(:can_receive_payments?).and_return(:false)
+        allow(Stripe::BalanceTransaction).to receive(:retrieve).and_return( nil )
       end
 
       context "when the user doesn't have a customer account" do
@@ -96,6 +98,7 @@ RSpec.describe GiftCertificate::Voucher, type: :model, with_stripe: true do
             subject.charge!(token)
 
             user.reload
+
             expect(user.stripe_customer).to_not be_nil
           end
         end
