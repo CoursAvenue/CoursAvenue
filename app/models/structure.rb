@@ -184,7 +184,7 @@ class Structure < ActiveRecord::Base
   after_save    :geocode_if_needs_to    unless Rails.env.test?
   after_save    :subscribe_to_crm_with_delay
 
-  after_touch   :set_premium
+  # after_touch   :set_premium
   after_touch   :update_meta_datas
   after_touch   :update_cities_text
   after_touch   :update_vertical_pages_breadcrumb
@@ -641,7 +641,7 @@ class Structure < ActiveRecord::Base
   # TODO: use cache?
   # @return Boolean
   def parisian?
-    return places.map(&:parisian?).include? true
+    places.any?(&:parisian?)
   end
 
 
