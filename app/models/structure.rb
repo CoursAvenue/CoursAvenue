@@ -97,6 +97,8 @@ class Structure < ActiveRecord::Base
 
   has_many :gift_certificates
 
+  has_one :crm_lock, dependent: :destroy
+
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name,
@@ -184,7 +186,6 @@ class Structure < ActiveRecord::Base
   after_save    :geocode_if_needs_to    unless Rails.env.test?
   after_save    :subscribe_to_crm_with_delay
 
-  after_touch   :set_premium
   after_touch   :update_meta_datas
   after_touch   :update_cities_text
   after_touch   :update_vertical_pages_breadcrumb
@@ -641,7 +642,7 @@ class Structure < ActiveRecord::Base
   # TODO: use cache?
   # @return Boolean
   def parisian?
-    return places.map(&:parisian?).include? true
+    places.any?(&:parisian?)
   end
 
 
@@ -737,7 +738,7 @@ class Structure < ActiveRecord::Base
     number_of_conversations = conversations.length
     if number_of_conversations == 0
       self.response_rate = nil
-      save
+      save(validate: false)
       return nil
     else
       # Select conversations that have :
@@ -752,7 +753,7 @@ class Structure < ActiveRecord::Base
         end
       end
       self.response_rate = ((number_of_conversations_with_answers.to_f / number_of_conversations.to_f) * 100).round
-      save
+      save(validate: false)
       return response_rate
     end
   end
@@ -765,7 +766,7 @@ class Structure < ActiveRecord::Base
     conversations      = main_contact.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
     if conversations.length == 0
       self.response_time = nil
-      save
+      save(validate: false)
       return nil
     else
       # Select conversations that have :
@@ -789,7 +790,7 @@ class Structure < ActiveRecord::Base
         delta_hours << delta if delta
       end
       self.response_time = (delta_hours.reduce(&:+).to_f / (delta_hours.length.to_f)).round if delta_hours.any?
-      save
+      save(validate: false)
       return response_time
     end
   end
@@ -1252,6 +1253,22 @@ class Structure < ActiveRecord::Base
     return (structure_type == 'structures.company')
   end
 
+  def lock_crm!
+    if self.crm_lock.nil?
+      self.create_crm_lock
+    end
+
+    crm_lock.lock!
+  end
+
+  def unlock_crm!
+    if self.crm_lock.nil?
+      self.create_crm_lock
+    end
+
+    crm_lock.unlock!
+  end
+
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons
@@ -1275,14 +1292,6 @@ class Structure < ActiveRecord::Base
   end
   handle_asynchronously :update_cities_text
 
-  def set_premium
-    if subscription_plan.nil?
-      update_column :premium, false
-    else
-      update_column :premium, subscription_plan.active?
-    end
-  end
-
   # Strip name if exists to prevent from name starting by a space
   #
   # @return name
@@ -1304,10 +1313,16 @@ class Structure < ActiveRecord::Base
   end
 
   def subscribe_to_crm
+    return if crm_locked?
+    lock_crm!
+
     CrmSync.delay.update(self)
   end
 
   def subscribe_to_crm_with_delay
+    return if crm_locked?
+    lock_crm!
+
     CrmSync.delay(run_at: 5.minutes.from_now).update(self)
   end
 
@@ -1419,5 +1434,13 @@ class Structure < ActiveRecord::Base
     if self.remote_logo_url
       self.crop_x, self.crop_y, self.crop_width = nil, nil, nil
     end
+  end
+
+  def crm_locked?
+    if self.crm_lock.nil?
+      self.create_crm_lock
+    end
+
+    self.crm_lock.locked?
   end
 end
