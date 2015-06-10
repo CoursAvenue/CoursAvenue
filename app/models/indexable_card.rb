@@ -25,12 +25,10 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :price do
-      self.course ? self.course_price : 0
+      self.course_price
     end
 
-    add_attribute :structure_name do
-      self.structure_name
-    end
+    attributes :structure_name
 
     add_attribute :reviews_count do
       self.structure_comments_count
@@ -40,25 +38,12 @@ class IndexableCard < ActiveRecord::Base
       'indexable_card'
     end
 
-    add_attribute :structure_id do
-      self.structure_id
-    end
-
-    add_attribute :course_id do
-      self.course_id
-    end
-
-    add_attribute :course_name do
-      self.course.present? ? course_name : nil
-    end
-
-    add_attribute :course_type do
-      self.course.present? ? self.course_type : nil
-    end
-
-    add_attribute :structure_slug do
-      self.structure_slug
-    end
+    attribute :structure_id
+    attribute :course_id
+    attribute :course_name
+    attribute :course_type
+    attribute :structure_slug
+    attribute :place_name
 
     add_attribute :root_subject do
       roots = subjects.map { |s| s.root.slug }.uniq
@@ -66,11 +51,7 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :subjects do
-      subjects.map(&:slug).uniq
-    end
-
-    add_attribute :place_name do
-      self.place.present? ? place_name : nil
+      self.subjects.map(&:slug).uniq
     end
 
     add_attribute :has_free_trial do
