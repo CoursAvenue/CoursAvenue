@@ -1313,6 +1313,9 @@ class Structure < ActiveRecord::Base
   end
 
   def subscribe_to_crm
+    return if crm_locked?
+    lock_crm!
+
     CrmSync.delay.update(self)
   end
 
