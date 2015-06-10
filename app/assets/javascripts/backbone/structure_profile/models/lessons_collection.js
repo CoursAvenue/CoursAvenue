@@ -8,7 +8,7 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
         initialize: function initialize(collection, bootstrap_meta) {
             this.structure_id = bootstrap_meta.structure_id;
             this.fetch({
-                success: function(courses_collection, response) {
+                success: function success(courses_collection, response) {
                     courses_collection.reset(response.courses)
                 }
             });

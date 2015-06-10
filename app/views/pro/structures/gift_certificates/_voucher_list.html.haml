@@ -1,0 +1,30 @@
+- if @vouchers.any?
+  %hr.push--ends
+  .push--top
+    %h3 Suivi des bons cadeaux
+    %table.table--striped.table--data.table-responsive
+      %thead
+        %tr
+          %th Nom de l'acheteur
+          %th Date d'achat
+          %th Bon Cadeau
+          %th Code
+          %th Frais CB
+          %th Montant Reçu
+          %th
+      %tbody
+        - @vouchers.each do |voucher|
+          %tr
+            %td= "#{ voucher.user.name } (#{ voucher.user.email })"
+            %td= I18n.l(voucher.created_at, format: :date_short)
+            %td= voucher.gift_certificate_name
+            %td.nowrap= voucher.token
+            %td.text--right= readable_amount(voucher.fee)
+            %td.text--right= readable_amount(voucher.received_amount)
+            - if voucher.used?
+              %td
+                .btn.btn--small.btn--disabled Utilisé
+            - else
+              %td
+                = link_to confirm_use_voucher_pro_structure_gift_certificates_path(@structure, voucher_id: voucher.id), class: 'btn btn--green btn--small fancybox.ajax', data: { behavior: 'modal', width: '500', padding: 0 } do
+                  Valider

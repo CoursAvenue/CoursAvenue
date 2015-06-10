@@ -7,7 +7,7 @@
         %a#delete-image.red{href: 'javascript:void(0)'} Supprimer la photo
     .input
       .control-label.label--large Photo du professeur
-      = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
+      = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: { trigger: true } do
         %i.fa.fa-picture-o
         Choisir l'image
       .visuallyhidden= f.input :image, label: false

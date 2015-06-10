@@ -364,6 +364,19 @@ France
   def website_planning
   end
 
+  # GET structure/:id/ask_webmaster_for_planning
+  def ask_webmaster_for_planning
+    @website_parameter = @structure.website_parameter || structure.create_website_parameter(slug: structure.slug)
+    @website_parameter.webmaster_email         = params[:email]
+    @website_parameter.webmaster_email_sent_at = DateTime.now
+    @website_parameter.save
+    email_content = '<div class="p">' + params[:text].gsub(/\r\n\r\n/, '</div><div class="p">').gsub(/\r\n/, '<br>') + '</div>'
+    AdminMailer.delay.ask_webmaster_for_planning(params[:email], email_content, @structure)
+    respond_to do |format|
+      format.html { redirect_to website_planning_pro_structure_path(@structure), notice: 'Message envoyé à votre webmaster'}
+    end
+  end
+
   private
 
   # Return the next wizard regarding the params passed (skip: true)

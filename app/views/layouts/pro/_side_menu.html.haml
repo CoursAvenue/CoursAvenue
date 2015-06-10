@@ -14,10 +14,10 @@
         = pro_side_menu_link 'pro_dashboard',      pro_dashboard_url(subdomain: 'pro'),            current: current_tab, icon: 'fa fa-2x fa-dashboard'
 
     - if @structure
-      = pro_side_menu_link 'general',
-                            dashboard_pro_structure_url(@structure, subdomain: 'pro'),
+      = pro_side_menu_link 'statistics',
+                            pro_structure_statistics_path(@structure, subdomain: 'pro'),
                             current: current_tab,
-                            icon: 'fa-2x fa-house'
+                            icon: 'fa-2x fa-bar-chart-o'
 
       = pro_side_menu_link 'presentation',
                             edit_pro_structure_url(@structure, subdomain: 'pro'),
@@ -43,13 +43,3 @@
                             pro_structure_conversations_url(@structure, subdomain: 'pro'),
                             current: current_tab,
                             icon: 'fa fa-2x fa-envelope-o'
-
-      = pro_side_menu_link 'website',
-                           pro_structure_website_parameters_url(@structure, subdomain: 'pro'),
-                           current: current_tab,
-                           icon: 'fa fa-2x fa-laptop'
-
-      = pro_side_menu_link 'premium',
-                           pro_structure_subscriptions_url(@structure, subdomain: 'pro'),
-                           current: current_tab,
-                           icon: 'fa-2x fa-star'

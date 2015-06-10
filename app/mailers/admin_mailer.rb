@@ -38,24 +38,6 @@ class AdminMailer < ActionMailer::Base
          from: 'CoursAvenue Premium <premium@coursavenue.com>'
   end
 
-  def fifteen_days_to_end_of_subscription(subscription_plan)
-    @structure         = subscription_plan.structure
-    @subscription_plan = subscription_plan
-    @similar_profiles  = @structure.similar_profiles(2)
-    mail to: @structure.main_contact.email,
-         subject: 'Votre profil Premium renouvelé dans 15 jours',
-         from: 'CoursAvenue Premium <premium@coursavenue.com>'
-  end
-
-  def five_days_to_end_of_subscription(subscription_plan)
-    @structure         = subscription_plan.structure
-    @subscription_plan = subscription_plan
-    @similar_profiles  = @structure.similar_profiles(2)
-    mail to: @structure.main_contact.email,
-         subject: 'Votre profil Premium sera renouvelé dans 5 jours',
-         from: 'CoursAvenue Premium <premium@coursavenue.com>'
-  end
-
   def subscription_has_been_renewed(subscription_plan)
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
@@ -225,6 +207,7 @@ class AdminMailer < ActionMailer::Base
     @newsletter   = newsletter
     mail to: @structure.main_contact.email, subject: 'Votre import est terminé.'
   end
+
   ######################################################################
   # Blog                                                               #
   ######################################################################
@@ -232,6 +215,17 @@ class AdminMailer < ActionMailer::Base
   # When a user subscribe to newsletter blog
   def subscribed_to_blog(user_email)
     mail to: user_email, subject: "Bienvenue sur la newsletter CoursAvenuePro"
+  end
+
+  # ######################################################################
+  # # Send mail to webmaster                                             #
+  # ######################################################################
+
+  # When a user subscribe to newsletter blog
+  def ask_webmaster_for_planning(webmaster_email, content, structure)
+    @content   = content
+    @structure = structure
+    mail to: webmaster_email, subject: "#{@structure.name} souhaite mettre à jour son site"
   end
 
   private

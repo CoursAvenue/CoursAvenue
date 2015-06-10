@@ -10,6 +10,8 @@ describe Structure do
     it { should have_many(:newsletters) }
     it { should have_many(:indexable_cards) }
     it { should have_one(:indexable_lock).class_name('Structure::IndexableLock') }
+    it { should have_many(:gift_certificates) }
+    it { should have_one(:crm_lock) }
   end
 
   subject {structure}
@@ -673,6 +675,44 @@ describe Structure do
 
     it 'starts the generation' do
       expect { subject.generate_cards }.to change { Delayed::Job.count }
+    end
+  end
+
+  describe '#lock_crm!' do
+    before { structure.create_crm_lock }
+
+    context 'when the crm is locked' do
+      before { structure.lock_crm! }
+
+      it 'does nothing' do
+        expect { subject.lock_crm! }.
+          to_not change { subject.crm_lock.locked? }
+      end
+    end
+
+    context 'when the crm is unlocked' do
+      it 'locks the crm' do
+        expect { subject.lock_crm! }.
+          to change { subject.crm_lock.locked? }.from(false).to(true)
+      end
+    end
+  end
+
+  describe '#unlock_crm!' do
+    context 'when the crm is unlocked' do
+      it 'does nothing' do
+        expect { subject.unlock_crm! }.
+          to_not change { subject.crm_lock.locked? }
+      end
+    end
+
+    context 'when the crm is locked' do
+      before { structure.lock_crm! }
+
+      it 'unlocks the crm' do
+        expect { subject.unlock_crm! }.
+          to change { subject.crm_lock.locked? }.from(true).to(false)
+      end
     end
   end
 end

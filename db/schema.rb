@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603152052) do
+ActiveRecord::Schema.define(version: 20150610085309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -322,6 +322,14 @@ ActiveRecord::Schema.define(version: 20150603152052) do
 
   add_index "courses_users", ["course_id", "user_id"], name: "index_courses_users_on_course_id_and_user_id", using: :btree
 
+  create_table "crm_locks", force: true do |t|
+    t.boolean  "locked",       default: false
+    t.datetime "locked_at"
+    t.integer  "structure_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
     t.integer  "attempts",   default: 0
@@ -473,6 +481,35 @@ ActiveRecord::Schema.define(version: 20150603152052) do
 
   add_index "indexable_cards_subjects", ["indexable_card_id"], name: "index_indexable_cards_subjects_on_indexable_card_id", using: :btree
   add_index "indexable_cards_subjects", ["subject_id"], name: "index_indexable_cards_subjects_on_subject_id", using: :btree
+
+  create_table "gift_certificate_vouchers", force: true do |t|
+    t.integer  "gift_certificate_id"
+    t.string   "stripe_charge_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "token"
+    t.float    "fee"
+    t.float    "received_amount"
+    t.boolean  "used",                default: false
+  end
+
+  add_index "gift_certificate_vouchers", ["gift_certificate_id"], name: "index_gift_certificate_vouchers_on_gift_certificate_id", using: :btree
+  add_index "gift_certificate_vouchers", ["stripe_charge_id"], name: "index_gift_certificate_vouchers_on_stripe_charge_id", unique: true, using: :btree
+  add_index "gift_certificate_vouchers", ["token"], name: "index_gift_certificate_vouchers_on_token", unique: true, using: :btree
+  add_index "gift_certificate_vouchers", ["user_id"], name: "index_gift_certificate_vouchers_on_user_id", using: :btree
+
+  create_table "gift_certificates", force: true do |t|
+    t.integer  "structure_id"
+    t.string   "name"
+    t.float    "amount"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  add_index "gift_certificates", ["structure_id"], name: "index_gift_certificates_on_structure_id", using: :btree
 
   create_table "invited_users", force: true do |t|
     t.string   "email",                          null: false
@@ -1469,6 +1506,8 @@ ActiveRecord::Schema.define(version: 20150603152052) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "presentation_text"
+    t.string   "webmaster_email"
+    t.datetime "webmaster_email_sent_at"
   end
 
   add_index "website_parameters", ["structure_id"], name: "index_website_parameters_on_structure_id", using: :btree

@@ -1,118 +1,116 @@
-.grid
-  .grid__item.one-fifth.text--center.palm-one-whole>
-    = link_to '#wordpress-guide', class: 'btn btn--blue btn--full', data: {toggle: 'tab'} do
-      = image_tag 'logos/wordpress.png', height: 50
-      %br
-      .soft-half--top J'utilise wordpress
-  .grid__item.one-fifth.text--center.palm-one-whole>
-    = link_to '#overblog-guide', class: 'btn btn--blue btn--full', data: {toggle: 'tab'} do
-      = image_tag 'logos/overblog.png', height: 50
-      %br
-      .soft-half--top J'utilise Overblog
-  .grid__item.one-fifth.text--center.palm-one-whole>
-    = link_to '#blogger-guide', class: 'btn btn--blue btn--full', data: {toggle: 'tab'} do
-      = image_tag 'logos/blogger.png', height: 50
-      %br
-      .soft-half--top J'utilise Blogger
-  .grid__item.one-fifth.text--center.palm-one-whole>
-    = link_to '#wix-guide', class: 'btn btn--blue btn--full', data: {toggle: 'tab'} do
-      = image_tag 'logos/wix.png', height: 25, style:'margin-top: 13px; margin-bottom: 12px;'
-      %br
-      .soft-half--top J'utilise WIX
-  .grid__item.one-fifth.text--center.palm-one-whole>
-    = link_to "J'ai un site perso / autre blog", '#webmaster-code', class: 'btn btn--large btn--blue btn--full soft-half--sides', data: { toggle: 'tab' }, style:'padding: 33px; font-size: 14px;'
+- show_button = true if show_button.nil?
+- if show_button
+  .grid
+    .grid__item.one-fifth.text--center.palm-one-whole>
+      = link_to '#wordpress-guide', class: 'btn btn--blue btn--full', data: { toggle: 'tab' } do
+        = image_tag 'logos/wordpress.png', height: 50
+        %br
+        .soft-half--top J'utilise wordpress
+    .grid__item.one-fifth.text--center.palm-one-whole>
+      = link_to '#overblog-guide', class: 'btn btn--blue btn--full', data: { toggle: 'tab' } do
+        = image_tag 'logos/overblog.png', height: 50
+        %br
+        .soft-half--top J'utilise Overblog
+    .grid__item.one-fifth.text--center.palm-one-whole>
+      = link_to '#blogger-guide', class: 'btn btn--blue btn--full', data: { toggle: 'tab' } do
+        = image_tag 'logos/blogger.png', height: 50
+        %br
+        .soft-half--top J'utilise Blogger
+    .grid__item.one-fifth.text--center.palm-one-whole>
+      = link_to '#wix-guide', class: 'btn btn--blue btn--full', data: { toggle: 'tab' } do
+        = image_tag 'logos/wix.png', height: 25, style:'margin-top: 13px; margin-bottom: 12px;'
+        %br
+        .soft-half--top J'utilise WIX
+    .grid__item.one-fifth.text--center.palm-one-whole>
+      = link_to "J'ai un site perso / autre blog", '#webmaster-guide', class: 'btn btn--large btn--blue btn--full soft-half--sides', data: { toggle: 'tab' }, style:'padding: 33px; font-size: 14px;'
 
 .tab-content
   #wordpress-guide.tab-pane
     %h4.text--center.push--top Où voulez-vous l'affichez ?
     .grid
       .grid__item.one-half.palm-one-whole.text--center.v-middle>
-        = link_to "Sur une nouvelle page", '#wordpress-new-page', class: 'btn btn--large', data: {toggle: 'tab'}
+        = link_to "Sur une nouvelle page", '#wordpress-new-page', class: 'btn btn--large', data: { toggle: 'tab' }
       .grid__item.one-half.palm-one-whole.text--center.v-middle>
-        = link_to "Sur la barre latérale", '#wordpress-lateral', class: 'btn btn--large', data: {toggle: 'tab'}
+        = link_to "Sur la barre latérale", '#wordpress-lateral', class: 'btn btn--large', data: { toggle: 'tab' }
 
     #wordpress-new-page.tab-pane
       .push--top
-        %h3.text--center Guide d'installation
-        %h5.push--top Étape 1 : Accédez à votre espace admin
-        %p
+        %h4.push--top Étape 1 : Accédez à votre espace admin
+        %p.f-size-14
           Connectez-vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
           = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php', target: '_blank', rel: 'nofollow', class: 'btn btn--blue btn--small'
 
-        %h5.push--top Étape 2 : Créez une nouvelle page
-        %p Dans la barre latérale de gauche cliquez sur <strong>« Pages »</strong> / <strong>« Ajouter »</strong>.
+        %h4.push--top Étape 2 : Créez une nouvelle page
+        %p.f-size-14 Dans la barre latérale de gauche cliquez sur <strong>« Pages »</strong> / <strong>« Ajouter »</strong>.
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/wordpress-guide/page-step-1.png'
 
-        %h5.push--top Étape 3 : Cliquez sur « Texte »
-        %p Donnez un nom à votre page puis cliquez sur l'onglet <strong>« Texte »</strong> en haut à droite.
+        %h4.push--top Étape 3 : Cliquez sur « Texte »
+        %p.f-size-14 Donnez un nom à votre page puis cliquez sur l'onglet <strong>« Texte »</strong> en haut à droite.
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/wordpress-guide/page-step-2.png'
 
-        %h5.push--top Étape 4 : Copiez le code
-        %p Copiez et collez le texte suivant, publiez et c'est fini !
-        %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
+        %h4.push--top Étape 4 : Copiez le code
+        %p.f-size-14 Copiez et collez le texte suivant, publiez et c'est fini !
+        %textarea.bg-gray-light.input--large.html-code.one-whole.push--bottom{ rows: 3 }
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/wordpress-guide/page-step-3.png'
         %h4.text--center.push--ends Et voilà, c'est fini !
 
     #wordpress-lateral.tab-pane
       .push--top
-        %h3.text--center Guide d'installation
-        %h5.push--top Étape 1 : Accédez à votre espace admin
-        %p
+        %h4.push--top Étape 1 : Accédez à votre espace admin
+        %p.f-size-14
           Connectez-vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
           = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php', target: '_blank', rel: 'nofollow', class: 'btn btn--blue btn--small'
 
-        %h5.push--top Étape 2 : Allez dans la section « Widgets »
-        %p Dans la barre latérale de gauche cliquez sur <strong>« Apparence »</strong> / <strong>« Widgets »</strong>.
+        %h4.push--top Étape 2 : Allez dans la section « Widgets »
+        %p.f-size-14 Dans la barre latérale de gauche cliquez sur <strong>« Apparence »</strong> / <strong>« Widgets »</strong>.
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/wordpress-guide/side-step-1.png', class: 'center-block'
 
-        %h5.push--top Étape 3 : Choisissez le widget « Texte »
-        %p Dans la liste des widgets disponibles, choisissez le widget « Texte » et glissez le en haut à droite de l'écran dans la <strong>« Zone de Sidebar »</strong>.
+        %h4.push--top Étape 3 : Choisissez le widget « Texte »
+        %p.f-size-14 Dans la liste des widgets disponibles, choisissez le widget « Texte » et glissez le en haut à droite de l'écran dans la <strong>« Zone de Sidebar »</strong>.
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/wordpress-guide/side-step-2.png'
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/wordpress-guide/side-step-3.png'
 
-        %h5.push--top Étape 4 : Copiez le code
-        %p Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
-        %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
+        %h4.push--top Étape 4 : Copiez le code
+        %p.f-size-14 Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
+        %textarea.bg-gray-light.input--large.html-code.one-whole.push--bottom{rows: 3, style: 'font-size: 12px'}}
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/wordpress-guide/side-step-4.jpg'
         %h4.text--center.push--ends Et voilà, c'est fini !
 
   #blogger-guide.tab-pane
     .push--top
-      %h3.text--center Guide d'installation
       %hr
-      %h5.push--top Étape 1 : Allez dans la section « Mise en page »
+      %h4.push--top Étape 1 : Allez dans la section « Mise en page »
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/blogger-guide/page-step-1.png', class: 'center-block'
       %hr
-      %h5.push--top Étape 2 : « Ajoutez un gadget »
+      %h4.push--top Étape 2 : « Ajoutez un gadget »
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/blogger-guide/page-step-2.png', class: 'center-block'
       %hr
-      %h5.push--top Étape 3 : Sélectionnez « HTML / JavaScript »
+      %h4.push--top Étape 3 : Sélectionnez « HTML / JavaScript »
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/blogger-guide/page-step-3.png', class: 'center-block'
       %hr
-      %h5.push--top Étape 4 : Copiez le code
-      %p Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
+      %h4.push--top Étape 4 : Copiez le code
+      %p.f-size-14 Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/blogger-guide/page-step-4.png', class: 'center-block'
-      %textarea.ajax-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
+      %textarea.bg-gray-light.input--large.html-code.one-whole.push--bottom{rows: 3, style: 'font-size: 12px'}}
       %h4.text--center.push--ends Enregistrez et c'est fini !
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/blogger-guide/page-step-5.png', class: 'center-block'
 
   #wix-guide.tab-pane
     .push--top
-      %h3.text--center Guide d'installation
       %hr
-      %h5.push--top Étape 1 : Ajoutez une « Apps »
+      %h4.push--top Étape 1 : Ajoutez une « Apps »
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/wix-guide/page-step-1.png', class: 'center-block'
       %hr
-      %h5.push--top Étape 2 : Choissez « HTML »
+      %h4.push--top Étape 2 : Choissez « HTML »
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/wix-guide/page-step-2.png', class: 'center-block'
       %hr
-      %h5.push--top Étape 3 : Configurez votre « Apps »
+      %h4.push--top Étape 3 : Configurez votre « Apps »
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/wix-guide/page-step-3.png', class: 'center-block'
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/wix-guide/page-step-4.png', class: 'center-block'
       %hr
-      %h5.push--top Étape 4 : Copiez le code
-      %p Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
-      %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
+      %h4.push--top Étape 4 : Copiez le code
+      %p.f-size-14 Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
+      %textarea.bg-gray-light.input--large.html-code.one-whole.push--bottom{rows: 3, style: 'font-size: 12px'}}
       %h4.text--center.push--ends Et voilà, c'est fini !
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/wix-guide/page-step-5.png', class: 'center-block'
 
@@ -128,61 +126,59 @@
 
     #overblog-new.tab-pane
       .push--top
-        %h3.text--center Guide d'installation
-        %h5.push--top Étape 1 : Accédez à votre espace admin
-        %p
+        %h4.push--top Étape 1 : Accédez à votre espace admin
+        %p.f-size-14
           Connectez-vous à votre espace personnel Overblog en cliquant sur le lien suivant :
           = link_to 'Me connecter à mon espace Overblog', 'https://connect.over-blog-kiwi.com/en/login', target: '_blank', rel: 'nofollow'
 
-        %h5.push--top Étape 2 : Allez dans la « Liste de vos pages »
-        %p Dans le menu du haut, passez la souris sur <strong>« Publier »</strong>, puis cliquez sur <strong>« Liste des pages »</strong>.
+        %h4.push--top Étape 2 : Allez dans la « Liste de vos pages »
+        %p.f-size-14 Dans le menu du haut, passez la souris sur <strong>« Publier »</strong>, puis cliquez sur <strong>« Liste des pages »</strong>.
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/overblog-guide/page-old-step-1.jpg', class: 'center-block'
 
-        %h5.push--top Étape 3 : Créez une nouvelle page
-        %p Dans la barre de gauche, cliquez sur le bouton <strong>« Écrire une nouvelle page »</strong>.
+        %h4.push--top Étape 3 : Créez une nouvelle page
+        %p.f-size-14 Dans la barre de gauche, cliquez sur le bouton <strong>« Écrire une nouvelle page »</strong>.
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/overblog-guide/page-old-step-2.jpg', class: 'center-block'
 
-        %h5.push--top Étape 4 : Copiez le code
-        %p Choisissez un titre, sélectionnez le mode <strong>« Avancé »</strong>, puis cliquez sur le bouton <strong>« HTML »</strong> et enfin, collez le code suivant.
+        %h4.push--top Étape 4 : Copiez le code
+        %p.f-size-14 Choisissez un titre, sélectionnez le mode <strong>« Avancé »</strong>, puis cliquez sur le bouton <strong>« HTML »</strong> et enfin, collez le code suivant.
 
-        %textarea.ajax-code.one-whole.push--bottom{rows: 7, style: 'font-size: 12px'}}
+        %textarea.bg-gray-light.input--large.html-code.one-whole.push--bottom{rows: 7, style: 'font-size: 12px'}}
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/overblog-guide/page-old-step-3.jpg'
         %hr
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/overblog-guide/page-old-step-4.jpg'
 
-        %h5.push--top Allez en bas de la page, publiez et c'est fini !
+        %h4.push--top Allez en bas de la page, publiez et c'est fini !
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/overblog-guide/page-old-step-5.jpg'
         %h4.text--center.push--ends Et voilà, c'est fini !
 
     #overblog-old.tab-pane
       .push--top
-        %h3.text--center Guide d'installation
-        %h5.push--top Étape 1 : Accédez à votre espace admin
-        %p
+        %h4.push--top Étape 1 : Accédez à votre espace admin
+        %p.f-size-14
           Connectez-vous à votre espace personnel Overblog en cliquant sur le lien suivant :
           = link_to 'Me connecter à mon espace Overblog', 'https://connect.over-blog-kiwi.com/en/login', target: '_blank', rel: 'nofollow', class: 'btn btn--blue btn--small'
 
-        %h5.push--top Étape 2 : Créez une nouvelle page
-        %p Dans le menu du haut, cliquez sur <strong>« Publier »</strong>.
+        %h4.push--top Étape 2 : Créez une nouvelle page
+        %p.f-size-14 Dans le menu du haut, cliquez sur <strong>« Publier »</strong>.
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/overblog-guide/page-new-step-1.jpg', class: 'center-block'
 
-        %h5.push--top Étape 3 : Ajoutez une section « HTML »
-        %p Choisissez un titre, ajoutez une section <strong>« HTML »</strong>.
+        %h4.push--top Étape 3 : Ajoutez une section « HTML »
+        %p.f-size-14 Choisissez un titre, ajoutez une section <strong>« HTML »</strong>.
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/overblog-guide/page-new-step-2.jpg'
 
-        %h5.push--top Étape 4 : Copiez le code
-        %textarea.ajax-code.one-whole.push--bottom{rows: 7, style: 'font-size: 12px'}}
+        %h4.push--top Étape 4 : Copiez le code
+        %textarea.bg-gray-light.input--large.html-code.one-whole.push--bottom{rows: 7, style: 'font-size: 12px'}}
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/overblog-guide/page-new-step-3.jpg'
 
-        %h5.push--top Publiez et c'est fini !
+        %h4.push--top Publiez et c'est fini !
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/overblog-guide/page-new-step-4.jpg'
         %h4.text--center.push--ends Et voilà, c'est fini !
 
-  #webmaster-code.tab-pane
+  #webmaster-guide.tab-pane
     .push--top
       .grid
         .grid__item.one-half.palm-one-whole.v-middle>
-          %p
+          %p.f-size-14
             Pour le faire sans votre webmaster, lors de l'édition de vos pages / articles, cherchez à éditer votre text en
             %strong « HTML »
             ou cherchez un bouton qui ressemble à :
@@ -190,16 +186,6 @@
         .grid__item.one-half.palm-one-whole.v-middle>
           .text--center= image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/other/other.jpg'
     .push--top
-      .grid
-        .grid__item.one-half.palm-one-whole.text--center.v-middle>
-          %p.text--left
-            Copiez le code ci-dessous à envoyer à votre webmaster :
-          %textarea.one-whole.ajax-code{rows: 7, style: 'font-size: 12px'}
-        .grid__item.one-half.palm-one-whole.text--center.v-middle>
-          %p.push-half--top
-            = link_to 'Envoyer le code à votre webmaster par email', 'mailto:?subject=Code widget CoursAvenue à mettre sur mon site Internet&body=', class: 'btn btn--blue', id: 'send-link-by-email'
-
-    .push--top
-      %h5 Si le code ci-dessus ne marche pas, essayez le suivant :
-      %p Copiez et collez le texte suivant :
-      %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
+      %p.f-size-14.text--left
+        Copiez le code ci-dessous à envoyer à votre webmaster :
+      %textarea.bg-gray-light.input--large.html-code.one-whole.push--bottom{ rows: 3 }

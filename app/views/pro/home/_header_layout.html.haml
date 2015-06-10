@@ -10,15 +10,8 @@
       %a.inline-block.soft--right.soft-half--ends.muted-link.white-faded{ href: 'tel:09 82 24 27 74' }
         %i.fa.fa-phone
         09 82 24 27 74
-    - if current_pro_admin
-      - if current_pro_admin.super_admin?
-        = link_to 'Espace super admin', pro_dashboard_path, class: 'white muted-link'
-      - elsif current_pro_admin.structure.present?
-        = link_to 'Mon profil', dashboard_pro_structure_path(current_pro_admin.structure), class: 'white muted-link'
-    - else
-      = link_to 'Connexion', new_pro_admin_session_path, class: 'white muted-link fancybox.ajax', data: { behavior: 'modal', width: '320', padding: 0 }
 
-.one-whole.relative.overflow-hidden{ class: (full ? 'full-screen-item' : '')}
+.one-whole.relative.overflow-hidden{ class: (full ? 'height-three-quarters' : '')}
   %div.home-page-fullscreen-video.bg-cover.bg-position-top.header--pro__background{ class: (bg_center ? 'bg-position-center' : '') }
     .black-curtain.north.west.one-whole.absolute
   .push--top.soft--ends.hard--bottom.palm-hard
@@ -27,7 +20,7 @@
         = render partial: 'layouts/pro/home_header', locals: { current: current }
     = yield
   - if full
-    .text--center.absolute.one-whole{ style: ' top: 85%;' }
+    .text--center.absolute.one-whole
       %a.block.not-outlined.white{ href: '#en-savoir-plus', data: { behavior: 'scroll-to', duration: 900, offset_top: '-50'} }
         %i.fa-chevron-down.fa-3x.smooth-black-text-shadow.animated-arrow-1.block
         %i.fa-chevron-down.fa-3x.smooth-black-text-shadow.animated-arrow-2.block
@@ -42,12 +35,14 @@
                   $element.find('a').addClass('white-transparent');
                   $element.find('[data-try]').removeClass('btn--green');
                   $element.find('[data-try]').addClass('btn--white-transparent');
+                  $element.find('.header--pro__link.btn').addClass('btn--white-transparent');
                   $element.removeClass('bg-white bordered--bottom');
                   $('#home-logo-dark').fadeOut();
               },
               onStick: function onStick ($element) {
                   $element.find('a').removeClass('white-transparent');
                   $element.find('.header--pro__link').addClass('border-color-orange orange');
+                  $element.find('.header--pro__link.btn--white-transparent').removeClass('btn--white-transparent');
                   $element.find('[data-try]').removeClass('btn--white-transparent');
                   $element.find('[data-try]').addClass('btn btn--green');
                   $element.addClass('bg-white bordered--bottom');
