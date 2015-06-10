@@ -21,17 +21,17 @@ describe StructureWebsite::Structures::GiftCertificateVouchersController, with_s
     render_views
 
     it 'assigns all of the gift certificates' do
-      get :index
+      get :index, structure_id: structure.id
       expect(assigns(:gift_certificates)).to eq(structure.gift_certificates)
     end
 
     it 'builds a new voucher' do
-      get :index
+      get :index, structure_id: structure.id
       expect(assigns(:voucher)).to be_a_new(GiftCertificate::Voucher)
     end
 
     it 'renders the index template' do
-      get :index
+      get :index, structure_id: structure.id
       expect(response).to render_template('index')
     end
   end
@@ -43,10 +43,11 @@ describe StructureWebsite::Structures::GiftCertificateVouchersController, with_s
     let(:gifted_to)        { Faker::Internet.email }
     let(:gift_certificate) { structure.gift_certificates.sample }
     let(:valid_params) do
-      { gift_certificate_voucher:
-        { gift_certificate_id: gift_certificate.id,
-          name: Faker::Name.name,
-          email: Faker::Internet.email }
+      { structure_id: structure.id,
+        gift_certificate_voucher:
+          { gift_certificate_id: gift_certificate.id,
+            name: Faker::Name.name,
+            email: Faker::Internet.email }
       }
     end
 

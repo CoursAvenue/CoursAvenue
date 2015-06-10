@@ -136,7 +136,7 @@ class Structure < ActiveRecord::Base
 
   # To store hashes into hstore
   store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
-                             :plannings_count, :has_promotion, :has_free_trial_course, :has_promotion,
+                             :has_promotion, :has_free_trial_course, :has_promotion,
                              :course_names, :open_course_names, :open_course_subjects,
                              :highlighted_comment_title, :min_price_amount,
                              :max_price_libelle, :level_ids, :audience_ids, :busy,
@@ -619,7 +619,6 @@ class Structure < ActiveRecord::Base
   # Meta data update                                                   #
   ######################################################################
   def update_meta_datas
-    self.plannings_count          = plannings.visible.future.count
     self.gives_group_courses      = courses.select{|course| !course.is_individual? }.any?
     self.gives_individual_courses = courses.select(&:is_individual?).any?
     self.has_promotion            = courses.detect(&:has_promotion?).present?

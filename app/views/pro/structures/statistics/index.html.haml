@@ -11,19 +11,26 @@
           %h5.flush
             Visiteurs page planning :
             = @website_planning_views_count
-          %div Sur votre site web
+          %div.f-weight-500
+            %i Sur votre site Internet
     .grid__item.one-third.text--center.v-middle>
       .inline-block.cursor-pointer.nowrap{ data: { behavior: 'toggle-premium-serie' } }
         .v-middle.lbl.lbl--blue.v-middle.lbl--chip
-        %h5.flush.v-middle.inline-block
-          Visiteurs profil CoursAvenue :
-          = @views_total_count
+        .v-middle.inline-block.text--left
+          %h5.flush.v-middle.inline-block
+            Visiteurs profil :
+            = @views_total_count
+          %div.f-weight-500
+            %i Sur le moteur de recherche CoursAvenue
     .grid__item.one-third.text--center.v-middle>
       .inline-block.cursor-pointer{ data: { behavior: 'toggle-premium-serie' } }
         .v-middle.lbl.lbl--green.v-middle.lbl--chip
-        %h5.flush.v-middle.inline-block
-          Inscription :
-          = @actions_total_count
+        .v-middle.inline-block.text--left
+          %h5.flush.v-middle.inline-block
+            Demandes d'inscriptions
+            = @actions_total_count
+          %div.f-weight-500
+            %i Via votre site Internet et CoursAvenue
   #statistics
 
 - website_planning_views = @website_planning_views.present? ? @website_planning_views.values : 0

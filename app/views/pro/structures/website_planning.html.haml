@@ -2,52 +2,106 @@
 
 = render partial: 'pro/structures/courses/tabs', locals: { current: 'website_planning' }
 
-%h1 Planning sur votre site web
+%h1 Planning sur votre site Internet
 
-%p.delta.line-height-1-3 Equipez votre site Internet d'une page planning optimisée et augmentez votre nombre d'inscrits :
+%p.delta.line-height-1-3 Equipez votre site Internet d'une page planning optimisée et augmentez votre nombre d'inscrits.
 
-%p.delta.line-height-1-3 1. Créez un bouton ou une rubrique «&nbsp;Planning&nbsp;» sur votre site Internet
+%h2 Installer le bouton planning & inscriptions
 
-%p.delta.line-height-1-3
-  2. Copiez et associez le lien suivant à votre rubrique «&nbsp;Planning&nbsp;» :
-  %input.f-weight-bold.bg-gray-light.push-half--top#link-input.text--center.one-whole.input--large{ value: structure_website_structure_url(@structure) }
+#planning-button-wrapper.hidden
+  <a style='display: block; text-align: center; margin: 0 auto;' href="#{structure_website_structure_url(@structure, subdomain: 'www')}">
+  <img alt="Planning et inscriptions" height="65", width="229" style="height: 65px; width: 229px; margin: 0 auto; display: inline-block" src="https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button--large.png">
+  </a>
+.text--center
+  = link_to structure_website_structure_url(@structure), target: :_blank, class: 'inline-block center-block' do
+    = image_tag 'https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button--large.png', height: 65, width: 229, class: 'center-block', alt: 'Planning et inscriptions'
 
-%p.delta.line-height-1-3
-  3. C'est fait ! Suivez ensuite le nombre de visites et de demandes d'inscriptions depuis l'onglet
-  = link_to 'Statistiques', pro_structure_statistics_path(@structure)
+%h3 Guide d'installation
+= render 'pro/structures/widget_installation_guides'
 
--# %hr.push--ends
--# %h2.text--center Demandez à votre webmaster
--# .gray-box.soft.relative
--#   = simple_form_for [:pro, @structure], method: :post, url: ask_webmaster_for_planning_pro_structure_path(@structure) do |f|
--#     .grid.push-half--bottom
--#       .grid__item.v-middle.three-twelfths.text--right.palm-one-whole>
--#         %h4.flush Email du webmaster
--#       .grid__item.v-middle.nine-twelfths.palm-one-whole>
--#         .grid
--#           .grid__item.three-quarters.v-middle.palm-one-whole>
--#             %input.input--large.one-whole{ name: 'email' }
--#       %hr.push-half--ends
--#     .grid
--#       .grid__item.three-twelfths.text--right.palm-one-whole>
--#         %h4 Message
--#       .grid__item.nine-twelfths.palm-one-whole>
--#         %textarea.input--large#recommendation-user-content.one-whole{ name: 'text', rows: 8, data: { behavior: 'autoresize' } }
--#           Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques secondes pour laisser un avis sur mon profil ?
--#         %p.gray-light.push-half--top.flush--bottom
--#           = link_to 'Lien que recevront mes élèves', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), target: '_blank'
--#         %p.gray-light.flush
--#           Merci et à très bientôt,
--#           %br
--#           = @structure.name
--#         .push-half--top.grid
--#           .grid__item.one-fifth.palm-one-whole>
--#             %a.btn.btn--full#recommendation-overview Aperçu
--#           .grid__item.four-fifths.palm-one-whole>
--#             = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
--#           .text--center= link_to 'Envoyer un email depuis ma boîte perso', '#hidden-send', data: { behavior: 'modal', width: 550, padding: 0 }
+-# .grid.push--bottom
+-#   .grid__item.v-middle.one-twelfth.text--center>
+-#     .soft.bordered.bordered--larger.rounded--circle.delta.inline-block{ style: 'width: 60px;' } 1
+-#   .grid__item.v-middle.eleven-twelfths>
+-#     %div.delta.line-height-1-3.flush
+-#       Créez un bouton ou une rubrique «&nbsp;Planning&nbsp;» sur votre site Internet.
+-#       %br
+-#       Cliquez ici pour récupérer le code et installer le bouton suivant :
+-#     = link_to structure_website_structure_url(@structure), target: :_blank, class: 'block' do
+-#       = image_tag 'https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button--large.png', height: 65, class: 'block'
+
+-# .grid.push--bottom
+-#   .grid__item.v-middle.one-twelfth.text--center>
+-#     .soft.bordered.bordered--larger.rounded--circle.delta.inline-block{ style: 'width: 60px;' } 2
+-#   .grid__item.v-middle.eleven-twelfths>
+-#     %p.delta.line-height-1-3.flush
+-#       Copiez et associez le lien suivant à votre rubrique «&nbsp;Planning & Inscriptions&nbsp;»
+-#       = link_to '(voir la page)', structure_website_structure_url(@structure), target: :_blank
+-#       \:
+-#       %input.f-weight-bold.bg-gray-light.push-half--top#link-input.text--center.one-whole.input--large{ value: structure_website_structure_url(@structure) }
+
+-# .grid.push--bottom
+-#   .grid__item.v-middle.one-twelfth.text--center>
+-#     .soft.bordered.bordered--larger.rounded--circle.delta.inline-block{ style: 'width: 60px;' } 2
+-#   .grid__item.v-middle.eleven-twelfths>
+-#     %p.delta.line-height-1-3.flush
+-#       C'est fait !
+-#       Continuez à mettre à jour vos activités dans la rubrique
+-#       = link_to '« Mon planning »', pro_structure_courses_path(@structure)
+-#       et suivez le nombre de visites et de demandes d'inscriptions depuis l'onglet
+-#       = link_to '« Statistiques »', pro_structure_statistics_path(@structure)
+
+%hr.push--ends
+%h3 Vous avez un webmaster ?
+- if @structure.website_parameter and @structure.website_parameter.webmaster_email_sent_at
+  .epsilon.push--bottom
+    Vous avez envoyé un email à
+    %strong= @structure.website_parameter.webmaster_email
+    le
+    %strong= "#{l(@structure.website_parameter.webmaster_email_sent_at.to_date, format: :semi_long)}."
+    %br
+    = link_to "Envoyer un autre e-mail", 'javascript:void(0)', data: { behavior: 'show-webmaster-form-wrapper' }
+- else
+  .epsilon.push--bottom
+    = link_to "Demander à mon webmaster d'installer ma page Planning optimisée", 'javascript:void(0)', data: { behavior: 'show-webmaster-form-wrapper' }
+
+.gray-box.soft.relative.hidden#webmaster-form-wrapper
+  = simple_form_for [:pro, @structure], method: :post, url: ask_webmaster_for_planning_pro_structure_path(@structure) do |f|
+    .grid.push-half--bottom
+      .grid__item.v-middle.three-twelfths.text--right.palm-one-whole>
+        %h4.flush Email du webmaster
+      .grid__item.v-middle.nine-twelfths.palm-one-whole>
+        .grid
+          .grid__item.three-quarters.v-middle.palm-one-whole>
+            %input.input--large.one-whole{ name: 'email' }
+      %hr.push-half--ends
+    .grid
+      .grid__item.three-twelfths.text--right.palm-one-whole>
+        %h4 Message
+      .grid__item.nine-twelfths.palm-one-whole>
+        %textarea.input--large#webmaster-email-content.one-whole{ name: 'text', rows: 8, data: { behavior: 'autoresize' } }
+          Bonjour,&#x000A;&#x000A;Je souhaiterais ajouter à mon site Internet la page planning de mes activités que j'ai générée grâce à CoursAvenue.com : pouvez-vous l'installer pour moi ?&#x000A;&#x000A;Je vous transmets toutes les informations nécessaires :&#x000A;&#x000A;Voici le code pour ajouter le bouton "Planning & inscriptions" dans ma rubrique planning :&#x000A;&#x000A;<div class="bg-gray-light soft-half bordered text--center push--bottom">__CODE__</div>&#x000A;&#x000A; Merci pour votre aide, à bientôt ! &#x000A;&#x000A;#{@structure.name}
+        .push-half--top
+          = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
+
 = content_for :scripts do
   :javascript
-      $('#link-input').change(function() {
-          $(this).val('#{structure_website_structure_url(@structure)}')
+      $(function() {
+          $('#link-input').change(function() {
+              $(this).val('#{structure_website_structure_url(@structure)}')
+          });
+          var button_code = $('#planning-button-wrapper').html().trim().replace(/\n/g, '').replace(/  /g, '');
+          $('#webmaster-email-content').val($('#webmaster-email-content').val().replace('__CODE__', button_code.replace(/</g, '&lt;').replace(/>/g, '&gt;')));
+          $('[data-behavior=show-webmaster-form-wrapper]').click(function() {
+              $('#webmaster-form-wrapper').slideDown();
+              $('#webmaster-form-wrapper textarea').trigger('autoresize:update');
+          });
+          $('.html-code').val(button_code);
       });
+
+-# CSS Code for button image
+-# .rounded.f-weight-600.white.bordered.inline-block.text--center.bg-orange{ style: 'margin: 0 auto; font-size: 16px; padding: 10px 30px; border-color: #D05C36' }
+-#   Planning & Inscriptions
+-#   %div{ style: 'margin-top: 2px;' }
+-#     %div.inline-block.v-middle{ style: 'font-size: 12px; padding-top: 3px;' } avec
+-#     = image_tag 'logos/logo_white.png', height: 15, class: 'v-middle'

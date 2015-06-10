@@ -221,10 +221,12 @@ class AdminMailer < ActionMailer::Base
   # # Send mail to webmaster                                             #
   # ######################################################################
 
-  # # When a user subscribe to newsletter blog
-  # def subscribed_to_blog(user_email)
-  #   mail to: user_email, subject: "Bienvenue sur la newsletter CoursAvenuePro"
-  # end
+  # When a user subscribe to newsletter blog
+  def ask_webmaster_for_planning(webmaster_email, content, structure)
+    @content   = content
+    @structure = structure
+    mail to: webmaster_email, subject: "#{@structure.name} souhaite mettre à jour son site"
+  end
 
   private
 

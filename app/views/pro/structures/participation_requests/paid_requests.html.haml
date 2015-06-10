@@ -6,20 +6,12 @@
 
 - if @participation_requests.empty?
   .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.text--center
-    - if @structure.premium?
-      %p.delta.line-height-1-5
-        Vous n'avez aucune transaction par carte bleue.
-        %br
-        Accédez à la rubrique Planning pour paramétrer vos inscriptions par CB
-      .text--center
-        = link_to 'Paramètres inscriptions par CB', website_planning_parameters_pro_structure_path(@structure), class: 'btn btn--green'
-    - else
-      %p.delta.line-height-1-5
-        Vous n'avez aucune transaction par carte bleue.
-        %br
-        Accédez à la rubrique Planning pour proposer l'inscription en ligne par carte bleue sur votre propre site Internet :
-      .text--center
-        = link_to 'Paramètres inscriptions par CB', website_planning_pro_structure_path(@structure), class: 'btn btn--green'
+    %p.delta.line-height-1-5
+      Vous n'avez aucune transaction par carte bleue.
+      %br
+      Accédez à la rubrique Planning pour paramétrer vos inscriptions par CB
+    .text--center
+      = link_to 'Paramètres inscriptions par CB', website_planning_parameters_pro_structure_path(@structure), class: 'btn btn--green'
 - else
   %table.table--data.table--striped
     %thead

@@ -6,15 +6,67 @@
 
 
 = render layout: 'pro/home/header_layout', locals: { current: 'home', full: true } do
-  .main-container.soft--sides.mega-soft--top
+  .main-container.soft--sides.mega-soft--top.text--center
     %h1.white.soft-black-text-shadow.f-size-big.relative.mega-soft--top.palm-flush.palm-hard
-      Rejoignez la 1ère communauté de professionnels
+      Recevez plus d'inscrits à vos activités de loisirs
       %br
-      des loisirs et développez vos activités
+      grâce à votre site Internet et à CoursAvenue
     .inline-block.text--center.relative
-      = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'btn btn--bigger soft--sides btn--green'
+      = link_to 'Commencer', inscription_pro_structures_path, class: 'btn btn--bigger btn--small btn--green', style: 'padding-left: 3.7em; padding-right: 3.7em;'
+      .delta.f-weight-500.white.push-half--top
+        Gratuit et sans engagement
 
-.home-screen-promotion-wrapper#en-savoir-plus
+.main-container.mega-soft--ends#en-savoir-plus
+  .text--center
+    %h2.push-half--bottom.f-size-big.f-weight-300
+      Planning optimisé sur votre site Internet
+    %p.push--bottom.line-height-1-7.gamma
+      Page planning à ajouter à votre site Internet
+      %br
+      Conçue pour convertir plus d'inscrits qu'un planning classique
+      %br
+      Inscriptions ouvertes 24h/24 avec ou sans paiement en ligne
+
+.home-screen-promotion-wrapper
+  .main-container.mega-soft--ends
+    .text--center
+      %h2.push-half--bottom.f-size-big.f-weight-300
+        Gestion simple de vos demandes d'inscriptions
+      %p.push--bottom.line-height-1-7.gamma
+        Ergonomique et intuitive
+        %br
+        Conçue par des spécialistes des loisirs
+        %br
+        Accès aux coordonnées complètes des inscrits
+
+.main-container.mega-soft--ends
+  .text--center
+    %h2.push-half--bottom.f-size-big.f-weight-300
+      Notifications d'inscriptions en temps réel
+    %p.push--bottom.line-height-1-7.gamma
+      Source supplémentaire de nouveaux inscrits
+      %br
+      Même gestion des inscrits que celle de votre page planning
+      %br
+      Mise en relation gratuite et sans engagement
+
+.home-screen-promotion-wrapper
+  .main-container.mega-soft--ends
+    .text--center
+      %h2.push-half--bottom.f-size-big.f-weight-300
+        Vos activités visibles sur CoursAvenue.com
+      %p.push--bottom.line-height-1-7.gamma
+        Un SMS et un email pour vous prévenir de chaque nouvel inscrit
+        %br
+        Un outil simple pour gérer chaque nouvelle demande
+        %br
+        Un SMS de rappel la veille de la séance à chaque inscrit
+
+.main-container.mega-soft--ends
+  .text--center
+    = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'btn btn--bigger soft--sides btn--green push--right palm-flush'
+
+.home-screen-promotion-wrapper
   .main-container.soft--ends.text--center
     .inline-block.grayscale.v-middle.push--sides.soft--sides>
       = image_tag 'presses/logos/elle.png', height: 40, data: { src2x: asset_path('presses/logos/elle@2x.png') }
@@ -22,29 +74,5 @@
       = image_tag 'presses/logos/leparisien.jpg', height: 40, data: { src2x: asset_path('presses/logos/leparisien.jpg') }
     .inline-block.grayscale.v-middle.push--sides.soft--sides>
       = image_tag 'presses/logos/au-feminin.png', height: 40, data: { src2x: asset_path('presses/logos/au-feminin@2x.png') }
-
-.main-container.mega-soft--ends
-  .grid
-    .grid__item.palm-one-whole.one-half.text--right>
-      = image_tag 'pro/homepage/computer.png', class: 'block margin-left-auto', class: 'one-whole'
-    .grid__item.palm-one-whole.one-half>
-      %h3.push-half--bottom Un outil simple et intuitif pour gagner et fidéliser de nouveaux élèves
-      %p.push--bottom.epsilon.line-height-1-7
-        Votre quotidien ne se résume pas à proposer des activités de loisirs. Chaque jour, vous rencontrez de nouvelles personnes et inventez de nouveaux projets, et c'est ce qui vous motive. Pour continuer à vous développer, vous devez également gérer votre communication, et cela vous prend beaucoup de temps et d'énergie : s'assurer d'être visible sur Internet, maintenir son site à jour, gérer les nouvelles demandes d'inscription, suivre les règlements pour les stages, envoyer des newsletters... CoursAvenue vous accompagne et se charge de l'essentiel : avec notre outil, améliorez votre visibilité sur Internet, augmentez votre nombre d'inscrits et fidélisez vos membres. Il n'y a rien à installer, vous pouvez l'essayez dès maintenant.
-
-.home-screen-promotion-wrapper
-  .main-container.mega-soft--ends
-    .text--center
-      %h2.push-half--bottom.f-size-big.f-weight-300
-        L'outil tout-en-un pour votre communication sur Internet
-      %p.push--bottom.epsilon.line-height-1-7
-        En un minimum de temps et sans compétence technique, vos activités deviennent
-        %br
-        plus visibles, votre site Internet plus efficace et vous fidélisez plus d'élèves.
-
-      = render partial: 'pro/home/advantages'
-      .text--center
-        = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'btn btn--bigger soft--sides btn--green push--right palm-flush'
-        = link_to 'En savoir plus', pro_pages_features_path, class: 'btn btn--bigger soft--sides'
 
 = render partial: 'testimonies_banner', locals: { profile: 'emilie' }
