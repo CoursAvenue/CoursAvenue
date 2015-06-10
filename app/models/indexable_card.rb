@@ -67,7 +67,8 @@ class IndexableCard < ActiveRecord::Base
         { lat: self.place.latitude, lng: self.place.longitude }
       end
     end
-    # geoloc(:place_latitude, :place_longitude) if self.place.present?
+
+    attribute :weekly_availability
   end
   # :nocov:
 
@@ -123,5 +124,29 @@ class IndexableCard < ActiveRecord::Base
   # @return String, the subject name.
   def subject_name
     subjects.any? ? subjects.first.name : nil
+  end
+
+  # Returns the availability of the course during the week.
+  #
+  # @return an array.
+  def weekly_availability
+    return [] if course.nil?
+
+    availability = {
+      sunday:    0,
+      monday:    0,
+      tuesday:   0,
+      wednesday: 0,
+      thursday:  0,
+      friday:    0,
+      saturday:  0,
+    }
+
+    course.plannings.each do |course|
+      day = Date::DAYNAMES[course.week_day].downcase.to_sym
+      availability[day] += 1
+    end
+
+    availability
   end
 end

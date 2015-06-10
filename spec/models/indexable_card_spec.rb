@@ -106,4 +106,41 @@ RSpec.describe IndexableCard, type: :model do
       expect(subject.subject_name).to eq(subject.subjects.first.name)
     end
   end
+
+  describe '#weekly_availability' do
+    context 'when there is no course' do
+      let!(:_subject) { structure.subjects.sample }
+      let!(:place) { structure.places.sample }
+      subject { IndexableCard.create_from_subject_and_place(_subject, place) }
+
+      it 'returns an empty array' do
+        expect(subject.weekly_availability).to be_empty
+      end
+    end
+
+    context 'when there is a course' do
+      let!(:place) { structure.places.sample }
+      let!(:course) { FactoryGirl.create(:course, structure: structure) }
+      let!(:planning)  { FactoryGirl.create(:planning, course: course, place: place, week_day: 1) }
+      let!(:planning2) { FactoryGirl.create(:planning, course: course, place: place, week_day: 2) }
+      let!(:planning3) { FactoryGirl.create(:planning, course: course, place: place, week_day: 3) }
+      let!(:planning4) { FactoryGirl.create(:planning, course: course, place: place, week_day: 4) }
+      subject! { IndexableCard.create_from_planning(planning) }
+
+      it 'returns the daily count of the plannings' do
+        course.reload
+        expected_aval = {
+          sunday:    0,
+          monday:    1,
+          tuesday:   1,
+          wednesday: 1,
+          thursday:  1,
+          friday:    0,
+          saturday:  0,
+        }
+
+        expect(subject.weekly_availability).to eq(expected_aval)
+      end
+    end
+  end
 end
