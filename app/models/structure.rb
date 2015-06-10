@@ -97,6 +97,8 @@ class Structure < ActiveRecord::Base
 
   has_many :gift_certificates
 
+  has_one :crm_lock, dependent: :destroy
+
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name,
@@ -1251,6 +1253,22 @@ class Structure < ActiveRecord::Base
     return (structure_type == 'structures.company')
   end
 
+  def lock_crm!
+    if self.crm_lock.nil?
+      self.create_crm_lock
+    end
+
+    crm_lock.lock!
+  end
+
+  def unlock_crm!
+    if self.crm_lock.nil?
+      self.create_crm_lock
+    end
+
+    crm_lock.unlock!
+  end
+
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons
@@ -1299,6 +1317,9 @@ class Structure < ActiveRecord::Base
   end
 
   def subscribe_to_crm_with_delay
+    return if crm_locked?
+    lock_crm!
+
     CrmSync.delay(run_at: 5.minutes.from_now).update(self)
   end
 
@@ -1410,5 +1431,13 @@ class Structure < ActiveRecord::Base
     if self.remote_logo_url
       self.crop_x, self.crop_y, self.crop_width = nil, nil, nil
     end
+  end
+
+  def crm_locked?
+    if self.crm_lock.nil?
+      self.create_crm_lock
+    end
+
+    self.crm_lock.locked?
   end
 end
