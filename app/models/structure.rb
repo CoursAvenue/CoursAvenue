@@ -1252,6 +1252,14 @@ class Structure < ActiveRecord::Base
     return (structure_type == 'structures.company')
   end
 
+  def crm_locked?
+    if self.crm_lock.nil?
+      self.create_crm_lock
+    end
+
+    crm_lock.locked?
+  end
+
   def lock_crm!
     if self.crm_lock.nil?
       self.create_crm_lock
@@ -1433,13 +1441,5 @@ class Structure < ActiveRecord::Base
     if self.remote_logo_url
       self.crop_x, self.crop_y, self.crop_width = nil, nil, nil
     end
-  end
-
-  def crm_locked?
-    if self.crm_lock.nil?
-      self.create_crm_lock
-    end
-
-    self.crm_lock.locked?
   end
 end
