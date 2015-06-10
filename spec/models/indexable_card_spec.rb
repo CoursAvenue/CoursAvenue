@@ -12,9 +12,15 @@ RSpec.describe IndexableCard, type: :model do
   context 'delegations' do
     it { should delegate_method(:name).to(:course).with_prefix }
     it { should delegate_method(:price).to(:course).with_prefix }
+    it { should delegate_method(:type).to(:course).with_prefix }
+
     it { should delegate_method(:name).to(:structure).with_prefix }
     it { should delegate_method(:comments_count).to(:structure).with_prefix }
     it { should delegate_method(:slug).to(:structure).with_prefix }
+
+    it { should delegate_method(:name).to(:place).with_prefix }
+    it { should delegate_method(:latitude).to(:place).with_prefix }
+    it { should delegate_method(:longitude).to(:place).with_prefix }
   end
 
   let!(:structure) { FactoryGirl.create(:structure) }

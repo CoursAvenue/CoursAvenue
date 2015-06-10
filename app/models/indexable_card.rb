@@ -12,9 +12,9 @@ class IndexableCard < ActiveRecord::Base
 
   attr_accessible :structure, :place, :planning, :course
 
-  delegate :name, :price, to: :course, prefix: true
+  delegate :name, :price, :type,          to: :course,    prefix: true
   delegate :name, :comments_count, :slug, to: :structure, prefix: true
-  delegate :place, :name, :latitude, :longitude, to: :place, prefix: true
+  delegate :name, :latitude, :longitude,  to: :place,     prefix: true
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
@@ -52,6 +52,10 @@ class IndexableCard < ActiveRecord::Base
       self.course.present? ? course_name : nil
     end
 
+    add_attribute :course_type do
+      self.course.present? ? self.course_type : nil
+    end
+
     add_attribute :structure_slug do
       self.structure_slug
     end
@@ -67,6 +71,14 @@ class IndexableCard < ActiveRecord::Base
 
     add_attribute :place_name do
       self.place.present? ? place_name : nil
+    end
+
+    add_attribute :has_free_trial do
+      if self.course.present?
+        self.course.prices.any?(&:free?)
+      else
+        false
+      end
     end
 
     add_attribute :_geoloc do
