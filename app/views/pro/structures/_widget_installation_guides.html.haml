@@ -1,35 +1,37 @@
-.grid
-  .grid__item.one-fifth.text--center.palm-one-whole>
-    = link_to '#wordpress-guide', class: 'btn btn--blue btn--full', data: {toggle: 'tab'} do
-      = image_tag 'logos/wordpress.png', height: 50
-      %br
-      .soft-half--top J'utilise wordpress
-  .grid__item.one-fifth.text--center.palm-one-whole>
-    = link_to '#overblog-guide', class: 'btn btn--blue btn--full', data: {toggle: 'tab'} do
-      = image_tag 'logos/overblog.png', height: 50
-      %br
-      .soft-half--top J'utilise Overblog
-  .grid__item.one-fifth.text--center.palm-one-whole>
-    = link_to '#blogger-guide', class: 'btn btn--blue btn--full', data: {toggle: 'tab'} do
-      = image_tag 'logos/blogger.png', height: 50
-      %br
-      .soft-half--top J'utilise Blogger
-  .grid__item.one-fifth.text--center.palm-one-whole>
-    = link_to '#wix-guide', class: 'btn btn--blue btn--full', data: {toggle: 'tab'} do
-      = image_tag 'logos/wix.png', height: 25, style:'margin-top: 13px; margin-bottom: 12px;'
-      %br
-      .soft-half--top J'utilise WIX
-  .grid__item.one-fifth.text--center.palm-one-whole>
-    = link_to "J'ai un site perso / autre blog", '#webmaster-code', class: 'btn btn--large btn--blue btn--full soft-half--sides', data: { toggle: 'tab' }, style:'padding: 33px; font-size: 14px;'
+- show_button = true if show_button.nil?
+- if show_button
+  .grid
+    .grid__item.one-fifth.text--center.palm-one-whole>
+      = link_to '#wordpress-guide', class: 'btn btn--blue btn--full', data: { toggle: 'tab' } do
+        = image_tag 'logos/wordpress.png', height: 50
+        %br
+        .soft-half--top J'utilise wordpress
+    .grid__item.one-fifth.text--center.palm-one-whole>
+      = link_to '#overblog-guide', class: 'btn btn--blue btn--full', data: { toggle: 'tab' } do
+        = image_tag 'logos/overblog.png', height: 50
+        %br
+        .soft-half--top J'utilise Overblog
+    .grid__item.one-fifth.text--center.palm-one-whole>
+      = link_to '#blogger-guide', class: 'btn btn--blue btn--full', data: { toggle: 'tab' } do
+        = image_tag 'logos/blogger.png', height: 50
+        %br
+        .soft-half--top J'utilise Blogger
+    .grid__item.one-fifth.text--center.palm-one-whole>
+      = link_to '#wix-guide', class: 'btn btn--blue btn--full', data: { toggle: 'tab' } do
+        = image_tag 'logos/wix.png', height: 25, style:'margin-top: 13px; margin-bottom: 12px;'
+        %br
+        .soft-half--top J'utilise WIX
+    .grid__item.one-fifth.text--center.palm-one-whole>
+      = link_to "J'ai un site perso / autre blog", '#webmaster-guide', class: 'btn btn--large btn--blue btn--full soft-half--sides', data: { toggle: 'tab' }, style:'padding: 33px; font-size: 14px;'
 
 .tab-content
   #wordpress-guide.tab-pane
     %h4.text--center.push--top Où voulez-vous l'affichez ?
     .grid
       .grid__item.one-half.palm-one-whole.text--center.v-middle>
-        = link_to "Sur une nouvelle page", '#wordpress-new-page', class: 'btn btn--large', data: {toggle: 'tab'}
+        = link_to "Sur une nouvelle page", '#wordpress-new-page', class: 'btn btn--large', data: { toggle: 'tab' }
       .grid__item.one-half.palm-one-whole.text--center.v-middle>
-        = link_to "Sur la barre latérale", '#wordpress-lateral', class: 'btn btn--large', data: {toggle: 'tab'}
+        = link_to "Sur la barre latérale", '#wordpress-lateral', class: 'btn btn--large', data: { toggle: 'tab' }
 
     #wordpress-new-page.tab-pane
       .push--top
@@ -172,7 +174,7 @@
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/pro/overblog-guide/page-new-step-4.jpg'
         %h4.text--center.push--ends Et voilà, c'est fini !
 
-  #webmaster-code.tab-pane
+  #webmaster-guide.tab-pane
     .push--top
       .grid
         .grid__item.one-half.palm-one-whole.v-middle>

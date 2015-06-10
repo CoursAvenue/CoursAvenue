@@ -4,20 +4,50 @@
 
 %h1 Planning sur votre site Internet
 
-%p.delta.line-height-1-3 Equipez votre site Internet d'une page planning optimisée et augmentez votre nombre d'inscrits.
+%p.delta.line-height-1-3 Equipez votre site Internet d'une page planning optimisée qui a plusieurs avantages :
 
-%h2 Installer le bouton planning & inscriptions
+%ul.delta.line-height-1-5
+  %li Elle convertit plus d'élèves qu'une page classique ;
+  %li Elle est optimisée mobiles et tablettes et participe à votre référencement naturel ;
+  %li Elle propose l'inscription en ligne, avec ou sans carte bleue, et vous envoie un SMS à chaque demande de réservation incluant les coordonnées complètes du participant.
+
 
 #planning-button-wrapper.hidden
   <a style='display: block; text-align: center; margin: 0 auto;' href="#{structure_website_structure_url(@structure, subdomain: 'www')}">
-  <img alt="Planning et inscriptions" height="65", width="229" style="height: 65px; width: 229px; margin: 0 auto; display: inline-block" src="https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button--large.png">
+  <img alt="Planning et inscription" height="65", width="229" style="height: 65px; width: 229px; margin: 0 auto; display: inline-block" src="https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button.png">
   </a>
-.text--center
+.text--center.push--bottom
   = link_to structure_website_structure_url(@structure), target: :_blank, class: 'inline-block center-block' do
-    = image_tag 'https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button--large.png', height: 65, width: 229, class: 'center-block', alt: 'Planning et inscriptions'
+    = image_tag 'https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button.png', height: 65, width: 229, class: 'center-block', alt: 'Planning et inscription'
 
-%h3 Guide d'installation
-= render 'pro/structures/widget_installation_guides'
+%h2 Comment l'installer ?
+-# %p.delta.line-height-1-3 Voici comment l'installer, c'est simple et rapide :
+
+%ul.delta.line-height-1-3.flush--bottom
+  %li Pour associer votre nouvelle page planning à une rubrique ou un bouton déjà existant sur votre site, associez le lien suivant :
+
+.push--bottom.soft--left
+  %input.f-weight-bold.bg-gray-light.push-half--top#link-input.text--center.one-whole.input--large{ value: structure_website_structure_url(@structure) }
+
+%ul.delta.line-height-1-3
+  %li
+    Pour installer le bouton
+    %strong « Planning & Inscription »
+    CoursAvenue sur votre site Internet, choisissez votre guide :
+
+.text--center.push--bottom
+  %select.input--large#select-install
+    %option{ value: '#empty' } Choisir mon guide d'installation
+    %optgroup{ label: "Je souhaite demander à mon webmaster" }
+      %option{ value: '#webmaster-form-wrapper' } Envoyer le code par e-mail
+    %optgroup{ label: "Je souhaite l'installer moi-même" }
+      %option{ value: '#webmaster-guide' } Mon site a été développé par un webmaster / Autre
+      %option{ value: '#wordpress-guide' } J'utilise Wordpress
+      %option{ value: '#overblog-guide' } J'utilise Overblog
+      %option{ value: '#blogger-guide' } J'utilise Blogger
+      %option{ value: '#wix-guide' } J'utilise Wix
+
+= render partial: 'pro/structures/widget_installation_guides', locals: { show_button: false }
 
 -# .grid.push--bottom
 -#   .grid__item.v-middle.one-twelfth.text--center>
@@ -28,14 +58,14 @@
 -#       %br
 -#       Cliquez ici pour récupérer le code et installer le bouton suivant :
 -#     = link_to structure_website_structure_url(@structure), target: :_blank, class: 'block' do
--#       = image_tag 'https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button--large.png', height: 65, class: 'block'
+-#       = image_tag 'https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button.png', height: 65, class: 'block'
 
 -# .grid.push--bottom
 -#   .grid__item.v-middle.one-twelfth.text--center>
 -#     .soft.bordered.bordered--larger.rounded--circle.delta.inline-block{ style: 'width: 60px;' } 2
 -#   .grid__item.v-middle.eleven-twelfths>
 -#     %p.delta.line-height-1-3.flush
--#       Copiez et associez le lien suivant à votre rubrique «&nbsp;Planning & Inscriptions&nbsp;»
+-#       Copiez et associez le lien suivant à votre rubrique «&nbsp;Planning & Inscription&nbsp;»
 -#       = link_to '(voir la page)', structure_website_structure_url(@structure), target: :_blank
 -#       \:
 -#       %input.f-weight-bold.bg-gray-light.push-half--top#link-input.text--center.one-whole.input--large{ value: structure_website_structure_url(@structure) }
@@ -51,25 +81,12 @@
 -#       et suivez le nombre de visites et de demandes d'inscriptions depuis l'onglet
 -#       = link_to '« Statistiques »', pro_structure_statistics_path(@structure)
 
-%hr.push--ends
-%h3 Vous avez un webmaster ?
-- if @structure.website_parameter and @structure.website_parameter.webmaster_email_sent_at
-  .epsilon.push--bottom
-    Vous avez envoyé un email à
-    %strong= @structure.website_parameter.webmaster_email
-    le
-    %strong= "#{l(@structure.website_parameter.webmaster_email_sent_at.to_date, format: :semi_long)}."
-    %br
-    = link_to "Envoyer un autre e-mail", 'javascript:void(0)', data: { behavior: 'show-webmaster-form-wrapper' }
-- else
-  .epsilon.push--bottom
-    = link_to "Demander à mon webmaster d'installer ma page Planning optimisée", 'javascript:void(0)', data: { behavior: 'show-webmaster-form-wrapper' }
 
-.gray-box.soft.relative.hidden#webmaster-form-wrapper
+.gray-box.soft.relative.tab-pane#webmaster-form-wrapper
   = simple_form_for [:pro, @structure], method: :post, url: ask_webmaster_for_planning_pro_structure_path(@structure) do |f|
     .grid.push-half--bottom
       .grid__item.v-middle.three-twelfths.text--right.palm-one-whole>
-        %h4.flush Email du webmaster
+        %h4.flush Email de votre webmaster
       .grid__item.v-middle.nine-twelfths.palm-one-whole>
         .grid
           .grid__item.three-quarters.v-middle.palm-one-whole>
@@ -80,7 +97,7 @@
         %h4 Message
       .grid__item.nine-twelfths.palm-one-whole>
         %textarea.input--large#webmaster-email-content.one-whole{ name: 'text', rows: 8, data: { behavior: 'autoresize' } }
-          Bonjour,&#x000A;&#x000A;Je souhaiterais ajouter à mon site Internet la page planning de mes activités que j'ai générée grâce à CoursAvenue.com : pouvez-vous l'installer pour moi ?&#x000A;&#x000A;Je vous transmets toutes les informations nécessaires :&#x000A;&#x000A;Voici le code pour ajouter le bouton "Planning & inscriptions" dans ma rubrique planning :&#x000A;&#x000A;<div class="bg-gray-light soft-half bordered text--center push--bottom">__CODE__</div>&#x000A;&#x000A; Merci pour votre aide, à bientôt ! &#x000A;&#x000A;#{@structure.name}
+          Bonjour,&#x000A;&#x000A;Je souhaiterais ajouter à mon site Internet la page planning de mes activités que j'ai générée grâce à CoursAvenue.com : pouvez-vous l'installer pour moi ?&#x000A;&#x000A;Je vous transmets toutes les informations nécessaires :&#x000A;&#x000A;Voici le code pour ajouter le bouton "Planning & inscription" dans ma rubrique planning :&#x000A;&#x000A;<div class="bg-gray-light soft-half bordered text--center push--bottom">__CODE__</div>&#x000A;&#x000A; Merci pour votre aide, à bientôt ! &#x000A;&#x000A;#{@structure.name}
         .push-half--top
           = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
 
@@ -92,16 +109,17 @@
           });
           var button_code = $('#planning-button-wrapper').html().trim().replace(/\n/g, '').replace(/  /g, '');
           $('#webmaster-email-content').val($('#webmaster-email-content').val().replace('__CODE__', button_code.replace(/</g, '&lt;').replace(/>/g, '&gt;')));
-          $('[data-behavior=show-webmaster-form-wrapper]').click(function() {
-              $('#webmaster-form-wrapper').slideDown();
+          $('.html-code').val(button_code);
+          $('#select-install').change(function() {
+              $('.tab-pane').removeClass('active');
+              $($(this).val()).addClass('active');
               $('#webmaster-form-wrapper textarea').trigger('autoresize:update');
           });
-          $('.html-code').val(button_code);
       });
 
 -# CSS Code for button image
--# .rounded.f-weight-600.white.bordered.inline-block.text--center.bg-orange{ style: 'margin: 0 auto; font-size: 16px; padding: 10px 30px; border-color: #D05C36' }
--#   Planning & Inscriptions
+-# .rounded.f-weight-600.white.bordered.inline-block.text--center.bg-orange{ style: 'margin: 0 auto; font-size: 22px; padding: 10px 30px; border-color: #D05C36' }
+-#   Planning & Inscription
 -#   %div{ style: 'margin-top: 2px;' }
 -#     %div.inline-block.v-middle{ style: 'font-size: 12px; padding-top: 3px;' } avec
 -#     = image_tag 'logos/logo_white.png', height: 15, class: 'v-middle'
