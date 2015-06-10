@@ -13,7 +13,7 @@ describe StructureWebsite::Structures::GiftCertificateVouchersController, with_s
   before(:each) do
     subscription.charge!(token)
     5.times.map { FactoryGirl.create(:gift_certificate, structure: structure) }
-    @request.host = "#{structure.slug}.example.com"
+    @request.host = "www.example.com"
     structure.reload
   end
 
@@ -61,11 +61,6 @@ describe StructureWebsite::Structures::GiftCertificateVouchersController, with_s
       created_voucher = GiftCertificate::Voucher.last
       expect(response)
         .to redirect_to(structure_website_structure_gift_certificate_vouchers_path(structure))
-    end
-
-    it 'sends an email to theacher and the gifter', with_mail: true do
-      expect { post :create, valid_params }.
-        to change { ActionMailer::Base.deliveries.count }.by(2)
     end
   end
 end
