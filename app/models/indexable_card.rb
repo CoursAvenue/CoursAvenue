@@ -69,6 +69,7 @@ class IndexableCard < ActiveRecord::Base
     end
 
     attribute :weekly_availability
+    attribute :starting_price
   end
   # :nocov:
 
@@ -148,5 +149,15 @@ class IndexableCard < ActiveRecord::Base
     end
 
     availability
+  end
+
+  # The starting price of the card.
+  #
+  # @return the lowest price for this course.
+  def starting_price
+    return 0.0 if course.nil?
+
+    price = course.prices.order('amount ASC').first
+    price.present? ? price.amount.to_f : 0.0
   end
 end

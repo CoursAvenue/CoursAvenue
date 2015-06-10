@@ -143,4 +143,28 @@ RSpec.describe IndexableCard, type: :model do
       end
     end
   end
+
+  describe '#starting_price' do
+    context 'when there are prices' do
+      let!(:place) { structure.places.sample }
+      let!(:course) { FactoryGirl.create(:course, structure: structure) }
+      let!(:planning) { FactoryGirl.create(:planning, course: course, place: place) }
+      subject! { IndexableCard.create_from_planning(planning) }
+
+      it 'returns the lowest price of the course' do
+        expected_starting_price = course.prices.order('amount ASC').first.amount.to_f
+        expect(subject.starting_price).to eq(expected_starting_price)
+      end
+    end
+
+    context 'when there are no prices' do
+      let!(:_subject) { structure.subjects.sample }
+      let!(:place) { structure.places.sample }
+      subject { IndexableCard.create_from_subject_and_place(_subject, place) }
+
+      it 'returns 0' do
+        expect(subject.starting_price).to eq(0)
+      end
+    end
+  end
 end
