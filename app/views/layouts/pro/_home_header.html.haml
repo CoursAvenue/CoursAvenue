@@ -17,5 +17,5 @@
     - else
       = link_to 'Connexion', new_pro_admin_session_path, class: 'white-transparent header--pro__link f-weight-bold fancybox.ajax', data: { behavior: 'modal', width: '320', padding: 0 }
   %li.visuallyhidden--palm.soft--right
-    - if current_pro_admin
+    - if !current_pro_admin
       = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'muted-link white btn btn--white-transparent', data: { try: true }
