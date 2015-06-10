@@ -8,6 +8,7 @@ describe Structure do
 
   it { should have_many(:newsletters) }
   it { should have_many(:gift_certificates) }
+  it { should have_one(:crm_lock) }
 
   subject {structure}
   let(:structure) { FactoryGirl.create(:structure) }
@@ -646,6 +647,44 @@ describe Structure do
             expect(subject.can_receive_payments?).to be_truthy
           end
         end
+      end
+    end
+  end
+
+  describe '#lock_crm!' do
+    before { structure.create_crm_lock }
+
+    context 'when the crm is locked' do
+      before { structure.lock_crm! }
+
+      it 'does nothing' do
+        expect { subject.lock_crm! }.
+          to_not change { subject.crm_lock.locked? }
+      end
+    end
+
+    context 'when the crm is unlocked' do
+      it 'locks the crm' do
+        expect { subject.lock_crm! }.
+          to change { subject.crm_lock.locked? }.from(false).to(true)
+      end
+    end
+  end
+
+  describe '#unlock_crm!' do
+    context 'when the crm is unlocked' do
+      it 'does nothing' do
+        expect { subject.unlock_crm! }.
+          to_not change { subject.crm_lock.locked? }
+      end
+    end
+
+    context 'when the crm is locked' do
+      before { structure.lock_crm! }
+
+      it 'unlocks the crm' do
+        expect { subject.unlock_crm! }.
+          to change { subject.crm_lock.locked? }.from(true).to(false)
       end
     end
   end
