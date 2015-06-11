@@ -1,5 +1,6 @@
 var CardActionCreators = require('../actions/CardActionCreators'),
-    SubjectList        = require('./cards/SubjectList.react');
+    SubjectList        = require('./cards/SubjectList.react'),
+    Rating             = require('./cards/Rating.react');
 
 Card = React.createClass({
     highlightMaker: function highlightMaker (event) {
@@ -33,15 +34,8 @@ Card = React.createClass({
                           </div>
                           <h4>{this.props.card.get('course_name')}</h4>
                       </div>
-                      <SubjectList subjectList={ this.props.card.get('subjects') }/>
-                      <div>
-                          <i className="fa fa-star"></i>
-                          <i className="fa fa-star"></i>
-                          <i className="fa fa-star"></i>
-                          <i className="fa fa-star"></i>
-                          <i className="fa fa-star"></i>
-                          ({this.props.card.get('comments_count')} avis)
-                      </div>
+                      <SubjectList subjectList={ this.props.card.get('subjects') } />
+                      <Rating comment_count={ this.props.card.get('comments_count') } />
                   </div>
               </div>
           </div>
