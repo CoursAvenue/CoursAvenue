@@ -10,8 +10,8 @@ Subject = React.createClass({
         return { selected: false };
     },
 
+    // TODO: Send action.
     toggleSelection: function toggleSelection () {
-        console.log('clicked!');
         this.setState({ selected: !this.state.selected });
     },
 
@@ -21,8 +21,6 @@ Subject = React.createClass({
             'white': true,
             'selected': this.state.selected,
         });
-
-        console.log(classes);
 
         return (
             <a className={ classes } onClick={ this.toggleSelection }>

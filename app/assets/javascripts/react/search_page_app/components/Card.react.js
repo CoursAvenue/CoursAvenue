@@ -17,9 +17,7 @@ Card = React.createClass({
               onMouseEnter={ this.highlightMaker } onMouseLeave={ this.unHighlightMaker }>
               <div className="bg-white bordered">
                   <div className="bordered--bottom">
-                      <img className="block one-whole"
-                           src={this.props.card.get('header_image')}
-                           height="100"/>
+                      <img className="block one-whole" src={this.props.card.get('header_image')} height="100"/>
                   </div>
                   <div className="soft-half">
                       <img className="rounded--circle center-block push-half--bottom"
