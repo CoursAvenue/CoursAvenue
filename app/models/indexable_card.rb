@@ -21,7 +21,7 @@ class IndexableCard < ActiveRecord::Base
     attribute :id
 
     add_attribute :name do
-      self.course ? self.course_name : self.subject_name
+      self.course_name or self.subject_name
     end
 
     add_attribute :price do
@@ -80,6 +80,10 @@ class IndexableCard < ActiveRecord::Base
 
     add_attribute :is_sleeping do
       self.structure.is_sleeping?
+    end
+
+    add_attribute :structure_logo_url do
+      structure.logo.url(:small_thumb_85) if structure.logo?
     end
   end
   # :nocov:
