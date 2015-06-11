@@ -18,8 +18,8 @@ var PlanningCollection = Backbone.Collection.extend({
         _.bindAll(this, 'dispatchCallback', 'planningSearchSuccess', 'planningSearchError');
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
         if (this.isEmpty()) { this.fetchDataFromServer(); }
-        AlgoliaSearchUtils.planning_search_helper.on( "result", this.planningSearchSuccess);
-        AlgoliaSearchUtils.planning_search_helper.on( "error", this.planningSearchError);
+        AlgoliaSearchUtils.cards_search_helper.on( "result", this.planningSearchSuccess);
+        AlgoliaSearchUtils.cards_search_helper.on( "error", this.planningSearchError);
     },
 
     dispatchCallback: function dispatchCallback (payload) {
@@ -36,7 +36,7 @@ var PlanningCollection = Backbone.Collection.extend({
         this.reset(data.hits);
     },
 
-    planningSearchError: function planningSearchError (payload) {
+    planningSearchError: function planningSearchError () {
         this.loading = false;
         this.error   = true;
         this.trigger('change');

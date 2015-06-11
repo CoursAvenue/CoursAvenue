@@ -23,18 +23,14 @@ var FilterBar = React.createClass({
         return (
           <div className="text--center bordered--top bordered--bottom">
               <div className="main-container grid">
-                  <div className="grid__item one-third bordered soft-half cursor-pointer">
-                    Où ?
-                    {this.state.filter_store.get('location_filter')}
-                  </div>
                   <div className="grid__item one-third bordered soft-half cursor-pointer" onClick={this.toggleSubjectFilter}>
                     Quoi ?
-                    <br />
-                    {subject_name}
+                  </div>
+                  <div className="grid__item one-third bordered soft-half cursor-pointer">
+                    Où ?
                   </div>
                   <div className="grid__item one-third bordered soft-half cursor-pointer">
                     Quand ?
-                    {this.state.filter_store.get('time')}
                   </div>
               </div>
           </div>

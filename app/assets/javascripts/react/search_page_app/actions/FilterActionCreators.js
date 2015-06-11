@@ -10,9 +10,21 @@ module.exports = {
         });
     },
 
-    toggleSubjectFilter: function toggleSubjectFilter (data) {
+    toggleSubjectFilter: function toggleSubjectFilter () {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.TOGGLE_SUBJECT_FILTERS
+        });
+    },
+
+    showGroupPanel: function showGroupPanel () {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SHOW_GROUP_PANEL
+        });
+    },
+
+    showRootPanel: function showRootPanel () {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SHOW_ROOT_PANEL
         });
     }
 };

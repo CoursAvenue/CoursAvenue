@@ -2,6 +2,7 @@ var Map                  = require('./Map.react'),
     ResultList           = require('./ResultList.react'),
     SubjectFilter        = require('./SubjectFilter.react'),
     FilterBar            = require('./FilterBar.react'),
+    FilterBreadcrumb     = require('./FilterBreadcrumb.react'),
     SearchPageAppRouter  = require('../SearchPageAppRouter'),
     PlanningStore        = require('../stores/PlanningStore'),
     FilterStore          = require('../stores/FilterStore'),
@@ -36,6 +37,7 @@ SearchPageApp = React.createClass({
             <Map center={this.props.map_center} />
             <SubjectFilter />
             <FilterBar />
+            <FilterBreadcrumb />
             <ResultList />
           </div>
         );

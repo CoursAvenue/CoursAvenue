@@ -7,14 +7,14 @@ var RootSubjectItem = React.createClass({
         subject: ReactPropTypes.object
     },
 
-    selectRootSubject: function selectRootSubject () {
-        SubjectActionCreators.selectRootSubject(this.props.subject);
+    selectSubject: function selectSubject () {
+        SubjectActionCreators.selectSubject(this.props.subject);
     },
 
     render: function render () {
         return (
           <div className="one-sixth very-softf inline-block">
-              <div className="bg-white bordered cursor-pointer soft-halff" onClick={this.selectRootSubject}>
+              <div className="bg-white bordered cursor-pointer soft-halff" onClick={this.selectSubject}>
                   { this.props.subject.name }
               </div>
           </div>
