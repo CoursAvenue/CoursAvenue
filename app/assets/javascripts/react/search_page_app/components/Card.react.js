@@ -1,6 +1,7 @@
 var CardActionCreators = require('../actions/CardActionCreators'),
     SubjectList        = require('./cards/SubjectList.react'),
     CourseInformation  = require('./cards/CourseInformation.react'),
+    CourseDistance     = require('./cards/CourseDistance.react'),
     Rating             = require('./cards/Rating.react');
 
 Card = React.createClass({
@@ -38,6 +39,7 @@ Card = React.createClass({
                       <SubjectList subjectList={ this.props.card.get('subjects') } />
                       <Rating commentCount={ this.props.card.get('comments_count') } />
                       <CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') } />
+                      <CourseDistance />
                   </div>
               </div>
           </div>
