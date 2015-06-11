@@ -70,6 +70,17 @@ class IndexableCard < ActiveRecord::Base
 
     attribute :weekly_availability
     attribute :starting_price
+
+    add_attribute :header_image do
+      if structure.medias.any?
+        image = structure.medias.cover_first.images_first.first.image
+        image.url(:search_thumbnail)
+      end
+    end
+
+    add_attribute :is_sleeping do
+      self.structure.is_sleeping?
+    end
   end
   # :nocov:
 
