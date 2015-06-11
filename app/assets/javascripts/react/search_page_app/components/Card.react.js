@@ -1,4 +1,5 @@
-var CardActionCreators = require('../actions/CardActionCreators');
+var CardActionCreators = require('../actions/CardActionCreators'),
+    SubjectList        = require('./cards/SubjectList.react');
 
 Card = React.createClass({
     highlightMaker: function highlightMaker (event) {
@@ -34,6 +35,7 @@ Card = React.createClass({
                           </div>
                           <h4>{this.props.card.get('course_name')}</h4>
                       </div>
+                      <SubjectList subjectList={ this.props.card.get('subjects') }/>
                       <div>
                           <i className="fa fa-star"></i>
                           <i className="fa fa-star"></i>
