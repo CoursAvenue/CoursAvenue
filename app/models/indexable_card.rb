@@ -145,6 +145,9 @@ class IndexableCard < ActiveRecord::Base
   end
 
   # Returns the availability of the course during the week.
+  # TODO: Improve this. The letter shouldn't have to be set here, but set on the frontend.
+  # The representation of the information should be as general here are possible and leave the
+  # actual presentation to the frontend.
   #
   # @return an array.
   def weekly_availability

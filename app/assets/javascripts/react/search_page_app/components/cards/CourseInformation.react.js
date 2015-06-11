@@ -6,6 +6,7 @@ CourseInformation = React.createClass({
         weeklyAvailability: React.PropTypes.array.isRequired
     },
 
+    // TODO: See IndexableCard model.
     render: function render () {
         var courseTypeString = this.props.courseType == '' ? 'Stage / Atelier' : 'Cours';
         var weeklyAvailability = this.props.weeklyAvailability.map(function(day, index) {
