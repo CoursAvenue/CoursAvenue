@@ -129,15 +129,15 @@ RSpec.describe IndexableCard, type: :model do
 
       it 'returns the daily count of the plannings' do
         course.reload
-        expected_aval = {
-          sunday:    0,
-          monday:    1,
-          tuesday:   1,
-          wednesday: 1,
-          thursday:  1,
-          friday:    0,
-          saturday:  0,
-        }
+        expected_aval = [
+          { day: 'monday',    count: 1, letter: 'L' },
+          { day: 'tuesday',   count: 1, letter: 'M' },
+          { day: 'wednesday', count: 1, letter: 'M' },
+          { day: 'thursday',  count: 1, letter: 'J' },
+          { day: 'friday',    count: 0, letter: 'V' },
+          { day: 'saturday',  count: 0, letter: 'S' },
+          { day: 'sunday',    count: 0, letter: 'D' }
+        ]
 
         expect(subject.weekly_availability).to eq(expected_aval)
       end

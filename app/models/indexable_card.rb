@@ -145,24 +145,29 @@ class IndexableCard < ActiveRecord::Base
   end
 
   # Returns the availability of the course during the week.
+  # TODO: Improve this. The letter shouldn't have to be set here, but set on the frontend.
+  # The representation of the information should be as general here are possible and leave the
+  # actual presentation to the frontend.
   #
   # @return an array.
   def weekly_availability
     return [] if course.nil?
 
-    availability = {
-      sunday:    0,
-      monday:    0,
-      tuesday:   0,
-      wednesday: 0,
-      thursday:  0,
-      friday:    0,
-      saturday:  0,
-    }
+    availability = [
+      { day: 'monday',    count: 0, letter: 'L' },
+      { day: 'tuesday',   count: 0, letter: 'M' },
+      { day: 'wednesday', count: 0, letter: 'M' },
+      { day: 'thursday',  count: 0, letter: 'J' },
+      { day: 'friday',    count: 0, letter: 'V' },
+      { day: 'saturday',  count: 0, letter: 'S' },
+      { day: 'sunday',    count: 0, letter: 'D' }
+    ]
 
     course.plannings.each do |course|
-      day = Date::DAYNAMES[course.week_day].downcase.to_sym
-      availability[day] += 1
+      course_day = Date::DAYNAMES[course.week_day].downcase
+      day_availability = availability.detect { |d| d[:day] == course_day }
+
+      day_availability[:count] += 1
     end
 
     availability

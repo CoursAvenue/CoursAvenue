@@ -1,4 +1,8 @@
-var CardActionCreators = require('../actions/CardActionCreators');
+var CardActionCreators = require('../actions/CardActionCreators'),
+    SubjectList        = require('./cards/SubjectList.react'),
+    CourseInformation  = require('./cards/CourseInformation.react'),
+    CourseDistance     = require('./cards/CourseDistance.react'),
+    Rating             = require('./cards/Rating.react');
 
 Card = React.createClass({
     highlightMaker: function highlightMaker (event) {
@@ -16,9 +20,7 @@ Card = React.createClass({
               onMouseEnter={ this.highlightMaker } onMouseLeave={ this.unHighlightMaker }>
               <div className="bg-white bordered">
                   <div className="bordered--bottom">
-                      <img className="block one-whole"
-                           src={this.props.card.get('header_image')}
-                           height="100"/>
+                      <img className="block one-whole" src={this.props.card.get('header_image')} height="100"/>
                   </div>
                   <div className="soft-half">
                       <img className="rounded--circle center-block push-half--bottom"
@@ -34,14 +36,10 @@ Card = React.createClass({
                           </div>
                           <h4>{this.props.card.get('course_name')}</h4>
                       </div>
-                      <div>
-                          <i className="fa fa-star"></i>
-                          <i className="fa fa-star"></i>
-                          <i className="fa fa-star"></i>
-                          <i className="fa fa-star"></i>
-                          <i className="fa fa-star"></i>
-                          ({this.props.card.get('comments_count')} avis)
-                      </div>
+                      <SubjectList subjectList={ this.props.card.get('subjects') } />
+                      <Rating commentCount={ this.props.card.get('comments_count') } />
+                      <CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') } />
+                      <CourseDistance />
                   </div>
               </div>
           </div>
