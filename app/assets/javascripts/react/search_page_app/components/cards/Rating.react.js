@@ -1,6 +1,6 @@
 Rating = React.createClass({
     propTypes: {
-        comment_count: React.PropTypes.number.isRequired,
+        commentCount: React.PropTypes.number.isRequired,
     },
 
     render: function render () {
