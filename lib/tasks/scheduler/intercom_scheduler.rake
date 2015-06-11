@@ -4,13 +4,17 @@ require 'rake/clean'
 namespace :scheduler do
   namespace :intercom do
 
-    # Send email if account expires in 5 days
-    # $ rake scheduler:intercom:update_intercom_status
+    # $ rake scheduler:intercom:update_intercom_page_view_attribute
     desc 'Updates Intercom status of admins'
-    task :update_intercom_status => :environment do |t, args|
-      Admin.find_each do |admin|
+    task :update_intercom_page_view_attribute => :environment do |t, args|
+      intercom = Intercom::Client.new(app_id: ENV['INTERCOM_APP_ID'], api_key: ENV['INTERCOM_API_KEY'])
+      # Less than a day ago because Intercom data will update itself when user logs in
+      Admin.where(Admin.arel_table[:current_sign_in_at].gt(1.month.ago).and(
+                  Admin.arel_table[:current_sign_in_at].lt(1.day.ago))).find_each do |admin|
         next if admin.structure.nil?
-        admin.structure.update_intercom_status
+        intercom_user = intercom.users.find(:user_id => "Admin_#{admin.id}")
+        intercom_user.custom_attributes['# vue planning'] = admin.structure.planning_page_views_nb
+        intercom.users.save(intercom_user)
       end
     end
 

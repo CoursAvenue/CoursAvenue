@@ -468,7 +468,7 @@ GEM
       has_scope (~> 0.6.0.rc)
       railties (>= 3.2, < 5)
       responders
-    intercom (2.4.4)
+    intercom (3.0.2)
       json (~> 1.8)
     intercom-rails (0.2.28)
       activesupport (> 3.0)
@@ -891,7 +891,7 @@ DEPENDENCIES
   image_optim (~> 0.20.2)
   image_optim_pack (~> 0.2.1.20150310)
   inherited_resources (~> 1.6.0)
-  intercom (~> 2.4.4)
+  intercom (~> 3.0.2)
   intercom-rails (~> 0.2.28)
   jquery-rails (~> 3.1.2)
   js-routes (~> 1.0.0)

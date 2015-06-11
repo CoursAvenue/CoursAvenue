@@ -1276,6 +1276,14 @@ class Structure < ActiveRecord::Base
     crm_lock.unlock!
   end
 
+  def planning_page_views_nb
+    Rails.cache.fetch ["Structure#planning_page_views_nb", self], expires_in: 23.hours.from_now do
+      client = ::Analytic.client
+      website_planning_page_view_data = client.page_views(self.id, 'website/planning', 2.months.ago)
+      website_planning_page_view_data.map(&:pageviews).reduce(&:+)
+    end
+  end
+
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons
