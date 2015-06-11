@@ -51,7 +51,9 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :subjects do
-      self.subjects.map(&:slug).uniq
+      self.subjects.map do |subject|
+        { name: subject.name, slug: subject.slug }
+      end
     end
 
     add_attribute :has_free_trial do
