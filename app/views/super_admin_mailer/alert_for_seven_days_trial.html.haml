@@ -9,7 +9,3 @@
 - if @structure.website.present?
   .p
     = link_to 'Site web', @structure.website
-
-- if @structure.subscription.plan.website_plan?
-  .p
-    = link_to 'Site web CoursAvenue', structure_reservation_url(@structure, subdomain: 'www')
