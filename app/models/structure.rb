@@ -1270,6 +1270,14 @@ class Structure < ActiveRecord::Base
     delayed_generate_cards
   end
 
+  def crm_locked?
+    if self.crm_lock.nil?
+      self.create_crm_lock
+    end
+
+    crm_lock.locked?
+  end
+
   def lock_crm!
     if self.crm_lock.nil?
       self.create_crm_lock
@@ -1474,11 +1482,4 @@ class Structure < ActiveRecord::Base
   end
   handle_asynchronously :delayed_generate_cards, run_at: Proc.new { 10.minutes.from_now }
 
-  def crm_locked?
-    if self.crm_lock.nil?
-      self.create_crm_lock
-    end
-
-    self.crm_lock.locked?
-  end
 end

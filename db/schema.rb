@@ -510,6 +510,32 @@ ActiveRecord::Schema.define(version: 20150610085309) do
   end
 
   add_index "gift_certificates", ["structure_id"], name: "index_gift_certificates_on_structure_id", using: :btree
+<<<<<<< HEAD
+=======
+
+  create_table "indexable_cards", force: true do |t|
+    t.integer  "structure_id"
+    t.integer  "place_id"
+    t.integer  "planning_id"
+    t.integer  "course_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  add_index "indexable_cards", ["course_id"], name: "index_indexable_cards_on_course_id", using: :btree
+  add_index "indexable_cards", ["place_id"], name: "index_indexable_cards_on_place_id", using: :btree
+  add_index "indexable_cards", ["planning_id"], name: "index_indexable_cards_on_planning_id", using: :btree
+  add_index "indexable_cards", ["structure_id"], name: "index_indexable_cards_on_structure_id", using: :btree
+
+  create_table "indexable_cards_subjects", id: false, force: true do |t|
+    t.integer "indexable_card_id", null: false
+    t.integer "subject_id",        null: false
+  end
+
+  add_index "indexable_cards_subjects", ["indexable_card_id"], name: "index_indexable_cards_subjects_on_indexable_card_id", using: :btree
+  add_index "indexable_cards_subjects", ["subject_id"], name: "index_indexable_cards_subjects_on_subject_id", using: :btree
+>>>>>>> e7a3b7059ef66fee682f20e2fe182f4000b55b33
 
   create_table "invited_users", force: true do |t|
     t.string   "email",                          null: false
@@ -714,6 +740,7 @@ ActiveRecord::Schema.define(version: 20150610085309) do
     t.integer  "promotion_code_id"
     t.string   "type"
     t.integer  "user_id"
+    t.boolean  "on_dropbox",           default: false
   end
 
   create_table "participation_request_invoices", force: true do |t|
@@ -761,9 +788,9 @@ ActiveRecord::Schema.define(version: 20150610085309) do
     t.string   "street"
     t.string   "zip_code"
     t.integer  "city_id"
+    t.string   "stripe_charge_id"
     t.boolean  "from_personal_website",     default: false
     t.string   "token"
-    t.string   "stripe_charge_id"
     t.datetime "charged_at"
     t.datetime "refunded_at"
     t.float    "stripe_fee"
@@ -899,6 +926,9 @@ ActiveRecord::Schema.define(version: 20150610085309) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
     t.datetime "deleted_at"
   end
 
@@ -1137,8 +1167,8 @@ ActiveRecord::Schema.define(version: 20150610085309) do
     t.boolean  "sms_opt_in",                             default: false
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
-    t.boolean  "pure_player",                            default: false
     t.string   "stripe_customer_id"
+    t.boolean  "pure_player",                            default: false
     t.string   "stripe_managed_account_id"
     t.string   "stripe_managed_account_secret_key"
     t.string   "stripe_managed_account_publishable_key"
@@ -1509,8 +1539,6 @@ ActiveRecord::Schema.define(version: 20150610085309) do
     t.string   "webmaster_email"
     t.datetime "webmaster_email_sent_at"
   end
-
-  add_index "website_parameters", ["structure_id"], name: "index_website_parameters_on_structure_id", using: :btree
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
 
