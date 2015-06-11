@@ -59,7 +59,7 @@ var MapComponent = React.createClass({
                 icon: this.getIconForCard(card)
             });
             this.marker_layer.addLayer(marker);
-            marker.bindPopup(card.get('course_name'));
+            marker.bindPopup(card.get('name'));
         }.bind(this));
     },
 

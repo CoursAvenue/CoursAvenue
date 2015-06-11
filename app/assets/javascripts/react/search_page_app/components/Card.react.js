@@ -43,20 +43,6 @@ Card = React.createClass({
                           ({this.props.card.get('comments_count')} avis)
                       </div>
                   </div>
-                  <div className="flexbox bordered--top">
-                      <div className="flexbox__item text--center very-soft one-quarter bordered--right">
-                          <i className="fa fa-2x fa-map-marker"></i>
-                      </div>
-                      <div className="flexbox__item text--center very-soft one-quarter bordered--right">
-                          <i className="fa fa-2x fa-clock"></i>
-                      </div>
-                      <div className="flexbox__item text--center very-soft one-quarter bordered--right">
-                          <i className="fa fa-2x fa-trophy"></i>
-                      </div>
-                      <div className={gift_classes + " flexbox__item text--center very-soft one-quarter"}>
-                          <i className="fa fa-2x fa-gift"></i>
-                      </div>
-                  </div>
               </div>
           </div>
         );

@@ -21,7 +21,7 @@ class IndexableCard < ActiveRecord::Base
     attribute :id
 
     add_attribute :name do
-      self.course ? self.course_name : self.subject_name
+      self.course_name or self.subject_name
     end
 
     add_attribute :price do
@@ -30,7 +30,7 @@ class IndexableCard < ActiveRecord::Base
 
     attributes :structure_name
 
-    add_attribute :reviews_count do
+    add_attribute :comments_count do
       self.structure_comments_count
     end
 
@@ -51,7 +51,9 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :subjects do
-      self.subjects.map(&:slug).uniq
+      self.subjects.map do |subject|
+        { name: subject.name, slug: subject.slug }
+      end
     end
 
     add_attribute :has_free_trial do
@@ -63,13 +65,28 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :_geoloc do
-      if self.place.present?
-        { lat: self.place.latitude, lng: self.place.longitude }
+      if self.place_latitude.present? and self.place_longitude.present?
+        { lat: self.place_latitude, lng: self.place_longitude }
       end
     end
 
     attribute :weekly_availability
     attribute :starting_price
+
+    add_attribute :header_image do
+      if structure.medias.any?
+        image = structure.medias.cover_first.images_first.first.image
+        image.url(:search_thumbnail)
+      end
+    end
+
+    add_attribute :is_sleeping do
+      self.structure.is_sleeping?
+    end
+
+    add_attribute :structure_logo_url do
+      structure.logo.url(:small_thumb_85) if structure.logo?
+    end
   end
   # :nocov:
 
