@@ -1363,9 +1363,9 @@ class Structure < ActiveRecord::Base
 
   # Only geocode if  lat and lng are nil
   def geocode_if_needs_to
-    # Don't try to geocode if it has failed less than 5 seconds earlier.
+    # Don't try to geocode if it has failed less than 10 minutes earlier.
     # It might be because of Google query limit
-    return nil if last_geocode_try and (Time.now - last_geocode_try) < 5 # 5 seconds
+    return nil if last_geocode_try and (Time.now - last_geocode_try) < 10.minutes
     if latitude.nil? or longitude.nil?
       update_column :last_geocode_try, Time.now
       geocode
