@@ -510,8 +510,6 @@ ActiveRecord::Schema.define(version: 20150610085309) do
   end
 
   add_index "gift_certificates", ["structure_id"], name: "index_gift_certificates_on_structure_id", using: :btree
-<<<<<<< HEAD
-=======
 
   create_table "indexable_cards", force: true do |t|
     t.integer  "structure_id"
@@ -535,7 +533,6 @@ ActiveRecord::Schema.define(version: 20150610085309) do
 
   add_index "indexable_cards_subjects", ["indexable_card_id"], name: "index_indexable_cards_subjects_on_indexable_card_id", using: :btree
   add_index "indexable_cards_subjects", ["subject_id"], name: "index_indexable_cards_subjects_on_subject_id", using: :btree
->>>>>>> e7a3b7059ef66fee682f20e2fe182f4000b55b33
 
   create_table "invited_users", force: true do |t|
     t.string   "email",                          null: false
