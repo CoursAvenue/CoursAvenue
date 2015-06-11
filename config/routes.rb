@@ -248,12 +248,12 @@ CoursAvenue::Application.routes.draw do
             get   :confirm_cancellation
             patch :reactivate
             get   :stripe_payment_form
-            patch :accept_payments
-            get   :accept_payments_form
           end
           collection do
-            get :confirm_choice
-            get :choose_plan_and_pay
+            get   :confirm_choice
+            patch :accept_payments
+            get   :accept_payments_form
+            get   :choose_plan_and_pay
             resources :subscriptions_sponsorships, only: [:index, :create], controller: 'structures/subscriptions_sponsorships', path: 'parrainage'
           end
         end

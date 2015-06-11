@@ -135,10 +135,9 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     redirect_to pro_structure_subscriptions_path(@structure), notice: 'Vous êtes maintenant réabonné'
   end
 
-  # PATCH :id/accept_payments
+  # PATCH accept_payments
   def accept_payments
-    @subscription                      = @structure.subscription
-    @managed_account_form              = ManagedAccountForm.new(params[:managed_account_form])
+    @managed_account_form = ManagedAccountForm.new(params[:managed_account_form])
 
     @managed_account_form.structure_id      = @structure.id
     @managed_account_form.tos_acceptance_ip = request.ip
@@ -152,9 +151,8 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     end
   end
 
-  # GET /pro/structures/subscriptions/:id/accept_payments_form
+  # GET /pro/structures/subscriptions/accept_payments_form
   def accept_payments_form
-    @subscription = @structure.subscription.decorate
 
     if request.xhr?
       render layout: false

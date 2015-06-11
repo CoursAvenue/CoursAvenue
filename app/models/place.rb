@@ -86,7 +86,7 @@ class Place < ActiveRecord::Base
   #     - lat and lng didn't change but address changed
   def geocode_if_needs_to
     # Prevents from infinite loop
-    return nil if self.last_geocode_try and (Time.now - self.last_geocode_try) < 1 # 1 seconds
+    return nil if self.last_geocode_try and (Time.now - self.last_geocode_try) < 10.minutes
     # Geocode only if...
     if (latitude.nil? and longitude.nil?) or street_changed? or zip_code_changed?
       self.update_column :last_geocode_try, Time.now
@@ -95,7 +95,6 @@ class Place < ActiveRecord::Base
     end
     return nil
   end
-  handle_asynchronously :geocode_if_needs_to
 
   def reindex_structure_and_places
     self.structure.delay.index if self.structure

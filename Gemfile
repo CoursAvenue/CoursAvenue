@@ -17,7 +17,7 @@ gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
 gem 'rack-ssl-enforcer'   , '~> 0.2.8'
 gem 'lograge'             , '~> 0.3.1'
 
-gem 'intercom'            , '~> 2.4.4'
+gem 'intercom'            , '~> 3.0.2'
 gem 'intercom-rails'      , '~> 0.2.28'
 gem 'closeio'             , '~> 2.0.6'
 

@@ -1294,6 +1294,14 @@ class Structure < ActiveRecord::Base
     crm_lock.unlock!
   end
 
+  def planning_page_views_nb
+    Rails.cache.fetch ["Structure#planning_page_views_nb", self], expires_in: 23.hours.from_now do
+      client = ::Analytic.client
+      website_planning_page_view_data = client.page_views(self.id, 'website/planning', 2.months.ago)
+      website_planning_page_view_data.map(&:pageviews).reduce(&:+)
+    end
+  end
+
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons
@@ -1381,9 +1389,9 @@ class Structure < ActiveRecord::Base
 
   # Only geocode if  lat and lng are nil
   def geocode_if_needs_to
-    # Don't try to geocode if it has failed less than 5 seconds earlier.
+    # Don't try to geocode if it has failed less than 10 minutes earlier.
     # It might be because of Google query limit
-    return nil if last_geocode_try and (Time.now - last_geocode_try) < 5 # 5 seconds
+    return nil if last_geocode_try and (Time.now - last_geocode_try) < 10.minutes
     if latitude.nil? or longitude.nil?
       update_column :last_geocode_try, Time.now
       geocode
