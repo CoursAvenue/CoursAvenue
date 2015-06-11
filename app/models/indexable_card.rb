@@ -30,7 +30,7 @@ class IndexableCard < ActiveRecord::Base
 
     attributes :structure_name
 
-    add_attribute :reviews_count do
+    add_attribute :comments_count do
       self.structure_comments_count
     end
 
@@ -63,8 +63,8 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :_geoloc do
-      if self.place.present?
-        { lat: self.place.latitude, lng: self.place.longitude }
+      if self.place_latitude.present? and self.place_longitude.present?
+        { lat: self.place_latitude, lng: self.place_longitude }
       end
     end
 
