@@ -94,7 +94,6 @@ class Place < ActiveRecord::Base
     end
     return nil
   end
-  handle_asynchronously :geocode_if_needs_to
 
   def reindex_structure_and_places
     self.structure.delay.index if self.structure
