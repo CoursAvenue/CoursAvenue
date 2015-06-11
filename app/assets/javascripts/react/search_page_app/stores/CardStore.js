@@ -62,6 +62,7 @@ var CardCollection = Backbone.Collection.extend({
         this.error   = false;
 
         // This triggers the change event.
+        this.facets = data.facets;
         this.reset(data.hits);
     },
 

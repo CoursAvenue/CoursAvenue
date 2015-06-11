@@ -25,7 +25,7 @@ ResultList = React.createClass({
             )
         })
         return (
-          <div className="relative z-index-1 main-container" style={{ minHeight: '500px'}}>
+          <div className="bg-white relative z-index-1 main-container" style={{ minHeight: '500px'}}>
             <h1>Resultats</h1>
             {header_message}
             {cards}

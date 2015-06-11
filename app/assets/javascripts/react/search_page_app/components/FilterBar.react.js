@@ -21,7 +21,7 @@ var FilterBar = React.createClass({
         var subject = this.state.filter_store.get('subject');
         var subject_name = (subject ? subject.name : '');
         return (
-          <div className="text--center bordered--top bordered--bottom">
+          <div className="text--center bordered--top bordered--bottom bg-white">
               <div className="main-container grid">
                   <div className="grid__item one-third bordered soft-half cursor-pointer" onClick={this.toggleSubjectFilter}>
                     Quoi ?
