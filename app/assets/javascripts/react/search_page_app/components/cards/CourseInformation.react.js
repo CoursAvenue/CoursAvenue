@@ -1,4 +1,4 @@
-var cx = = require('classnames/dedupe');
+var cx = require('classnames/dedupe');
 
 CourseInformation = React.createClass({
     propTypes: {
