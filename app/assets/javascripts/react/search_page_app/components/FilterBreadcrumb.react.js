@@ -19,7 +19,7 @@ var RootSubjectItem = React.createClass({
             return ( <FilterBreadcrumbItem filter={filter} key={index} /> )
         });
         return (
-          <div>
+          <div className="very-soft main-container">
               {filters}
           </div>
         );

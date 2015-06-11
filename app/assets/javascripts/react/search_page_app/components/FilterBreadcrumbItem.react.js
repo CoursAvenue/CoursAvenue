@@ -5,14 +5,20 @@ var ReactPropTypes        = React.PropTypes,
 
 var RootSubjectItem = React.createClass({
 
+    propTypes: {
+        title:    React.PropTypes.string,
+        key_name: React.PropTypes.string
+    },
+
     unFilter: function unFilter () {
         // TODO
     },
 
     render: function render () {
         return (
-          <div onClick={this.unFilter}>
-              {this.props.name}
+          <div className="inline-block bordered push-half--right very-soft bg-gray-light">
+              {this.props.filter.title}
+              <i className="fa fa-times" onClick={this.unFilter}></i>
           </div>
         );
     }
