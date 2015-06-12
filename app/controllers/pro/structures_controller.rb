@@ -174,6 +174,7 @@ class Pro::StructuresController < Pro::ProController
   # GET collection
   def index
     @structures = Structure.order('structures.created_at DESC').where(sleeping_structure_id: nil).page(params[:page] || 1).per(50)
+    @importer = StructureImporter.new
   end
 
   # GET member
