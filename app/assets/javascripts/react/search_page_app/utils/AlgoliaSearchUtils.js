@@ -57,7 +57,8 @@ module.exports = {
         }
 
         if (data.aroundLatLng) {
-            card_search_state.aroundLatLng = data.aroundLatLng;
+            card_search_state.aroundLatLng   = data.aroundLatLng;
+            card_search_state.getRankingInfo = 1
         }
 
         card_search_helper.setState(card_search_state);
