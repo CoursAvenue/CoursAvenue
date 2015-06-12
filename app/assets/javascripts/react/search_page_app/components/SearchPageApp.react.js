@@ -34,7 +34,6 @@ SearchPageApp = React.createClass({
         if (this.props.subject) {
             SubjectActionCreators.selectSubject($.parseJSON(this.props.subject));
         }
-        debugger
         if (this.props.root_subject) {
             SubjectActionCreators.selectRootSubject($.parseJSON(this.props.root_subject));
         }
