@@ -380,15 +380,23 @@ France
   # POST structure/import
   def import
     importer = StructureImporter.new(import_params)
+    imported_structures = importer.import!
+    ids = imported_structures.map(&:id)
 
     respond_to do |format|
-      if importer.import!
-        format.html { redirect_to pro_structures_path,
+      if imported_structures.any?
+        format.html { redirect_to imported_structures_pro_structures_path(structures: ids),
                       notice: 'Le fichier a été importé avec succés.' }
       else
         format.html { redirect_to pro_structures_path,
                       error: "Une erreur est survenue lors de l'import du fichier, veuillez rééssayer." }
       end
+    end
+  end
+
+  def imported_structures
+    @structures = params[:structures].map do |id|
+      Structure.find(id)
     end
   end
 
