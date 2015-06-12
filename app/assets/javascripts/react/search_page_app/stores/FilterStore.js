@@ -59,6 +59,9 @@ var FilterStore = Backbone.Model.extend({
                 this.current_panel = (this.current_panel == 'subjects' ? null : 'subjects');
                 this.trigger('change');
                 break;
+            case ActionTypes.UNSET_FILTER:
+                this.unset(payload.data);
+                break;
         }
     },
 
@@ -69,7 +72,7 @@ var FilterStore = Backbone.Model.extend({
 
     algoliaFilters: function algoliaFilters () {
         var data = {};
-        if (this.get('group_subject'))     { data.root_subject     = this.get('group_subject') }
+        if (this.get('group_subject'))     { data.group_subject    = this.get('group_subject') }
         if (this.get('root_subject'))      { data.root_subject     = this.get('root_subject') }
         if (this.get('subject'))           { data.subject          = this.get('subject') }
         if (this.get('full_text_search'))  { data.full_text_search = this.get('full_text_search') }

@@ -34,6 +34,7 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.SELECT_ROOT_SUBJECT:
             case ActionTypes.SELECT_SUBJECT:
             case ActionTypes.SEARCH_FULL_TEXT:
+            case ActionTypes.UNSET_FILTER:
                 // Make sure the Filter store has finish everything he needs to do.
                 SearchPageDispatcher.waitFor([FilterStore.dispatchToken]);
                 // Fetch the new cards.
@@ -56,7 +57,7 @@ var CardCollection = Backbone.Collection.extend({
 
         // Call the algolia search.
         AlgoliaSearchUtils.searchCards(FilterStore.algoliaFilters());
-    }.debounce(500),
+    }.debounce(150),
 
     searchSuccess: function searchSuccess (data) {
         this.loading = false;

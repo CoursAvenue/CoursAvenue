@@ -40,7 +40,8 @@ var SubjectFilter = React.createClass({
             'down-north': !(this.state.filter_store.current_panel == 'subjects')
         });
         return (
-          <div className={classes + ' transition-all-300 absolute west one-whole bg-white height-35vh text--center'}>
+          <div className={classes + ' transition-all-300 absolute west one-whole bg-white height-35vh text--center'}
+               style={{ minHeight: '230px'}}>
               { this.panelToShow() }
           </div>
         );

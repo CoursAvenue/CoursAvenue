@@ -33,5 +33,12 @@ module.exports = {
             actionType: ActionTypes.SEARCH_FULL_TEXT,
             data: data
         });
+    },
+
+    unsetFilter: function unsetFilter (filter_key) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.UNSET_FILTER,
+            data: filter_key
+        });
     }
 };

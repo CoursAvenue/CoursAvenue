@@ -17,7 +17,8 @@ Subject = React.createClass({
 
     render: function render () {
         return (
-            <a onClick={ this.toggleSelection }>
+            <a className="very-soft bg-gray-light black bordered rounded"
+               onClick={ this.toggleSelection }>
                 { this.props.subject.name }
             </a>
         )

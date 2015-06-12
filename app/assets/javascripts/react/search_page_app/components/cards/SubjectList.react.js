@@ -18,7 +18,7 @@ SubjectList = React.createClass({
         });
 
         return (
-            <div>
+            <div className="text--center">
                 { subjectNodes }
             </div>
         )

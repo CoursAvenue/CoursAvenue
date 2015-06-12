@@ -61,6 +61,11 @@ module.exports = {
         }
 
         card_search_helper.setState(card_search_state);
+        if (data.group_subject)    {
+            _.each(data.group_subject.root_slugs, function(root_subject) {
+                card_search_helper.addDisjunctiveRefine('root_subject', root_subject)
+            });
+        }
         if (data.root_subject)     { card_search_helper.addRefine('root_subject', data.root_subject.slug); }
         if (data.subject)          { card_search_helper.addRefine('subjects.slug', data.subject.slug); }
         if (data.full_text_search) { card_search_helper.setQuery(data.full_text_search); }

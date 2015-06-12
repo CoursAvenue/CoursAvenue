@@ -12,6 +12,8 @@ module.exports = {
         SELECT_CITY:                 null,
         SEARCH_FULL_TEXT:            null,
 
+        UNSET_FILTER:                null,
+
         SHOW_GROUP_PANEL:            null,
         SHOW_ROOT_PANEL:             null,
 

@@ -24,7 +24,7 @@ CourseInformation = React.createClass({
         });
         return (
                 <div>
-                    <i className="fa fa-calendar-o"></i>
+                    <i className="fa fa-calendar-o soft-half--right"></i>
                     { courseTypeString }
                     { weeklyAvailability }
                 </div>
