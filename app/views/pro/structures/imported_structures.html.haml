@@ -1,2 +1,28 @@
-%pre
-  = @structure
+
+%h3 Structure importées
+
+%table.table--data.table--striped
+  %thead
+    %tr
+      %th Nom
+      %th Date de création
+      %th Activé
+      %th Profil
+  %tbody
+    - @structures.each do |structure|
+      %tr
+        %td
+          = link_to structure.name, dashboard_pro_structure_path(structure)
+        %td
+          = l(structure.created_at.to_date)
+        %td.text--center
+          - if structure.main_contact.present?
+            %i.fa.fa-check.green
+        %td.nowrap
+          = link_to 'Public', structure_url(structure, subdomain: 'www')
+          \/
+          = link_to 'Privé', pro_structure_path(structure)
+          \/
+          = link_to "Lien d'inscription", new_pro_admin_structure_registration_path(structure)
+          \/
+          = link_to "Supprimer", pro_structure_path(structure), method: :delete, class: 'red'
