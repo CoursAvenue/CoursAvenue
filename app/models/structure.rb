@@ -1319,6 +1319,7 @@ class Structure < ActiveRecord::Base
       :name,
       [:name, :zip_code],
       [:name, :zip_code, :street],
+      [:name, :id],
     ]
   end
 
