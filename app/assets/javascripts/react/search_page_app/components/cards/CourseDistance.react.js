@@ -8,7 +8,7 @@ CourseDistance = React.createClass({
     render: function render () {
         return (
             <div className='bordered--top very-soft--top very-soft--bottom'>
-                <i className='fa fa-map-marker'></i>
+                <i className='fa fa-map-marker very-soft--right'></i>
                 { this.distanceStr() }
             </div>
         );
