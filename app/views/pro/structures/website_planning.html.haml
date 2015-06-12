@@ -15,7 +15,7 @@
 %h2 A quoi ressemble ma page planning ?
 %p.delta.line-height-1-3 Cliquez sur ce bouton pour visualiser votre page planning :
 #planning-button-wrapper.hidden
-  <a style='display: block; text-align: center; margin: 0 auto;' href="#{structure_website_structure_url(@structure, subdomain: 'www')}">
+  <a target="_blank" style='display: block; text-align: center; margin: 0 auto;' href="#{structure_website_structure_url(@structure, subdomain: 'www')}">
   <img alt="Planning et inscription" height="65", width="229" style="height: 65px; width: 229px; margin: 0 auto; display: inline-block" src="https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button.png">
   </a>
 .text--center.push--bottom
@@ -116,11 +116,17 @@
               $('.tab-pane').removeClass('active');
               $($(this).val()).addClass('active');
               $('#webmaster-form-wrapper textarea').trigger('autoresize:update');
+              $.scrollTo($(window).scrollTop() + 100, { easing: 'easeOutCubic', duration: 200 })
           });
+          $('[data-toggle=tab]').click(function() {
+              setTimeout(function() {
+                  $.scrollTo($($(this).attr('href')), { easing: 'easeOutCubic', duration: 500, offset: { top: -200 } });
+              }.bind(this));
+          })
       });
 
 -# CSS Code for button image
--# .rounded.f-weight-600.white.bordered.inline-block.text--center.bg-orange{ style: 'margin: 0 auto; font-size: 22px; padding: 10px 30px; border-color: #D05C36' }
+-# .f-weight-600.white.bordered.inline-block.text--center{ style: 'margin: 0 auto; font-size: 22px; padding: 10px 30px; border-color: #D05C36; background: linear-gradient(to bottom, #FD7649 0%, #D05C36 100%); border-radius: 5px;' }
 -#   Planning & Inscription
 -#   %div{ style: 'margin-top: 2px;' }
 -#     %div.inline-block.v-middle{ style: 'font-size: 12px; padding-top: 3px;' } avec
