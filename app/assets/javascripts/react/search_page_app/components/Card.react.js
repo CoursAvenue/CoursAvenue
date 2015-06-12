@@ -41,7 +41,7 @@ Card = React.createClass({
                       <hr className="push-half--ends" />
                       <CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') } />
                       <hr className="push-half--ends" />
-                      <CourseDistance />
+                      <CourseDistance rankingInfo={ this.props.card.get('_rankingInfo') } />
                   </div>
               </div>
           </div>
