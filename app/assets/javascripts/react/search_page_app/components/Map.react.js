@@ -1,11 +1,15 @@
 var FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
-    CardStore        = require("../stores/CardStore"),
+    CardStore            = require("../stores/CardStore"),
+    CityStore            = require("../stores/CityStore"),
     FilterActionCreators = require("../actions/FilterActionCreators");
 
 var MapComponent = React.createClass({
 
     getInitialState: function getInitialState() {
-        return { card_store: CardStore };
+        return {
+            card_store: CardStore,
+            city_store: CityStore
+        };
     },
 
     componentDidMount: function componentDidMount () {

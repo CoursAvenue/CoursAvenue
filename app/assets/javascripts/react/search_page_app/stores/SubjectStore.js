@@ -59,6 +59,12 @@ var SubjectCollection = Backbone.Collection.extend({
         }, this);
     },
 
+    getGroupSubjectFromRootSubjectSlug: function getGroupSubjectFromRootSubjectSlug (root_subject_slug) {
+        return _.find(this.group_subjects, function(group_subject) {
+            return (group_subject.root_slugs.indexOf(root_subject_slug) != -1)
+        });
+    },
+
     /*
      * Will load root subjects associated with selected group subject
      */

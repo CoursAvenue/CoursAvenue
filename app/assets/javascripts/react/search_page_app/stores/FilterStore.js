@@ -42,6 +42,7 @@ var FilterStore = Backbone.Model.extend({
                 break;
             case ActionTypes.SELECT_ROOT_SUBJECT:
                 this.set({ root_subject: payload.data });
+                if (!this.get('group_subject')) { this.setGroupSubject(); }
                 this.set({ subject_panel: 'child' });
                 this.fetchDataFromServer();
                 break;
@@ -50,6 +51,9 @@ var FilterStore = Backbone.Model.extend({
                 this.fetchDataFromServer();
                 this.trigger('change');
                 break;
+            case ActionTypes.CityStore:
+                this.set({ city: payload.data });
+                break;
             case ActionTypes.TOGGLE_SUBJECT_FILTERS:
                 this.current_panel = (this.current_panel == 'subjects' ? null : 'subjects');
                 this.trigger('change');
@@ -57,12 +61,9 @@ var FilterStore = Backbone.Model.extend({
         }
     },
 
-    getSelectedRootSubject: function getSelectedRootSubject () {
-        return null;
-    },
-
-    getSelectedSubject: function getSelectedSubject () {
-        return null;
+    setGroupSubject: function setGroupSubject () {
+        var group_subject = SubjectStore.getGroupSubjectFromRootSubjectSlug(this.get('root_subject').slug);
+        this.set({ group_subject: group_subject});
     },
 
     algoliaFilters: function algoliaFilters () {

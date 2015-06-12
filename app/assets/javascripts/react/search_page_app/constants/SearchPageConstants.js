@@ -16,7 +16,8 @@ module.exports = {
         UPDATE_FILTERS:              null,
 
         HIGHLIGHT_MARKER:            null,
-        UNHIGHLIGHT_MARKER:          null
+        UNHIGHLIGHT_MARKER:          null,
+        SELECT_CITY:                 null
     })
 
 };
