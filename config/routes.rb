@@ -187,6 +187,14 @@ CoursAvenue::Application.routes.draw do
 
       get 'nouveau-dormant', to: 'structures#new_sleeping', as: :add_sleeping_structure
       resources :structures, path: 'etablissements' do
+        collection do
+          get :sleepings
+          get :stars
+          get :best
+          get :inscription, to: :new
+          post :import
+          get :imported_structures
+        end
         member do
           get   :edit_order_recipient
           get   :someone_already_took_control, path: 'quelqu-un-a-deja-le-control'
@@ -216,14 +224,6 @@ CoursAvenue::Application.routes.draw do
           get   :website_planning, path: 'planning-sur-mon-site'
           get   :website_planning_parameters, path: 'parametre-de-mon-planning-sur-mon-site'
           get   :premium # redirect to subscriptions
-        end
-        collection do
-          get :sleepings
-          get :stars
-          get :best
-          get :inscription, to: :new
-          post :import
-          get :imported_structures
         end
         resources :website_parameters, except: [:destroy], path: 'site-internet', controller: 'structures/website_parameters'
         resources :website_pages, path: 'pages-personnalisees', controller: 'structures/website_pages' do
