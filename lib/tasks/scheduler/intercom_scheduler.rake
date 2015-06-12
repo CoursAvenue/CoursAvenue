@@ -8,12 +8,16 @@ namespace :scheduler do
     desc 'Updates Intercom status of admins'
     task :update_intercom_page_view_attribute => :environment do |t, args|
       intercom = Intercom::Client.new(app_id: ENV['INTERCOM_APP_ID'], api_key: ENV['INTERCOM_API_KEY'])
-      # Less than a day ago because Intercom data will update itself when user logs in
-      Admin.where(Admin.arel_table[:current_sign_in_at].gt(1.month.ago).and(
-                  Admin.arel_table[:current_sign_in_at].lt(1.day.ago))).find_each do |admin|
-        next if admin.structure.nil?
+      Admin.find_each do |admin|
+        structure = admin.structure
+        next if structure.nil?
+        has_updated_plannings_recently = structure.plannings.where(Planning.arel_table[:updated_at].gt(1.month.ago)).any?
+        has_signed_in_since_a_month = (admin.current_sign_in_at and admin.current_sign_in_at > 1.month.ago)
+        next if structure.plannings.future.any? and !has_updated_plannings_recently and !has_signed_in_since_a_month
         intercom_user = intercom.users.find(:user_id => "Admin_#{admin.id}")
-        intercom_user.custom_attributes['# vue planning'] = admin.structure.planning_page_views_nb
+        intercom_user.custom_attributes['Stage à venir']   = structure.plannings.future.count
+        intercom_user.custom_attributes['Màj Cours < 30j'] = has_updated_plannings_recently
+        intercom_user.custom_attributes['# vue planning']  = admin.structure.planning_page_views_nb
         intercom.users.save(intercom_user)
       end
     end
