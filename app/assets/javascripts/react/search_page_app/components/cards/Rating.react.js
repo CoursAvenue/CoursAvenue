@@ -5,7 +5,7 @@ Rating = React.createClass({
 
     render: function render () {
         return (
-          <div>
+          <div className='bordered--top very-soft--top very-soft--bottom'>
               <i className="fa fa-star"></i>
               <i className="fa fa-star"></i>
               <i className="fa fa-star"></i>
