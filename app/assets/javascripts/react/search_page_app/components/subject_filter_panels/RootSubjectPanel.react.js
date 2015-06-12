@@ -1,6 +1,7 @@
 var SubjectStore          = require('../../stores/SubjectStore'),
     FilterStore           = require('../../stores/FilterStore'),
     RootSubjectItem       = require('../../components/RootSubjectItem.react'),
+    SubjectSearchInput    = require('../../components/SubjectSearchInput.react'),
     SearchPageDispatcher  = require('../../dispatcher/SearchPageDispatcher'),
     FluxBoneMixin         = require("../../../mixins/FluxBoneMixin"),
     FilterActionCreators  = require('../../actions/FilterActionCreators'),
@@ -37,6 +38,8 @@ var SubjectFilter = React.createClass({
               <div className="main-container">
                   { root_subject_items }
               </div>
+              <hr className="push--ends" />
+              <SubjectSearchInput />
           </div>
         );
     }

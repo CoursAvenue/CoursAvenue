@@ -9,6 +9,8 @@ module.exports = {
         SELECT_GROUP_SUBJECT:        null,
         SELECT_ROOT_SUBJECT:         null,
         SELECT_SUBJECT:              null,
+        SELECT_CITY:                 null,
+        SEARCH_FULL_TEXT:            null,
 
         SHOW_GROUP_PANEL:            null,
         SHOW_ROOT_PANEL:             null,
@@ -16,8 +18,7 @@ module.exports = {
         UPDATE_FILTERS:              null,
 
         HIGHLIGHT_MARKER:            null,
-        UNHIGHLIGHT_MARKER:          null,
-        SELECT_CITY:                 null
+        UNHIGHLIGHT_MARKER:          null
     })
 
 };

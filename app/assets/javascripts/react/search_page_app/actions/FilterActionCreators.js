@@ -26,5 +26,12 @@ module.exports = {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.SHOW_ROOT_PANEL
         });
+    },
+
+    searchFullText: function searchFullText (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SEARCH_FULL_TEXT,
+            data: data
+        });
     }
 };

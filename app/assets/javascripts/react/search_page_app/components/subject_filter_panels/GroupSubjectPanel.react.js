@@ -1,5 +1,6 @@
 var SubjectStore          = require('../../stores/SubjectStore'),
     GroupSubjectItem      = require('../../components/GroupSubjectItem.react'),
+    SubjectSearchInput    = require('../../components/SubjectSearchInput.react'),
     SearchPageDispatcher  = require('../../dispatcher/SearchPageDispatcher'),
     FluxBoneMixin         = require("../../../mixins/FluxBoneMixin"),
     classNames            = require('classnames');
@@ -24,6 +25,8 @@ var SubjectFilter = React.createClass({
           <div>
               <h2>Quoi ?</h2>
               <div className="main-container">{group_subject_items}</div>
+              <hr className="push--ends" />
+              <SubjectSearchInput />
           </div>
         );
     }

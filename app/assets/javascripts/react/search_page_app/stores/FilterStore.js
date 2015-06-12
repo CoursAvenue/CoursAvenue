@@ -51,8 +51,11 @@ var FilterStore = Backbone.Model.extend({
                 this.fetchDataFromServer();
                 this.trigger('change');
                 break;
-            case ActionTypes.CityStore:
+            case ActionTypes.SELECT_CITY:
                 this.set({ city: payload.data });
+                break;
+            case ActionTypes.SEARCH_FULL_TEXT:
+                this.set({ full_text_search: payload.data });
                 break;
             case ActionTypes.TOGGLE_SUBJECT_FILTERS:
                 this.current_panel = (this.current_panel == 'subjects' ? null : 'subjects');

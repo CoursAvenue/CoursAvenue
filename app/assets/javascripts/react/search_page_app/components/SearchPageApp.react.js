@@ -30,7 +30,7 @@ SearchPageApp = React.createClass({
 
     // Bootstraping data
     bootsrapData: function bootsrapData() {
-        CityActionCreators.selectCity(this.props.city);
+        CityActionCreators.selectCity($.parseJSON(this.props.city));
         if (this.props.subject) {
             SubjectActionCreators.selectSubject($.parseJSON(this.props.subject));
         }

@@ -17,8 +17,7 @@ var SubjectFilter = React.createClass({
     getInitialState: function getInitialState() {
         return {
             filter_store:  FilterStore,
-            subject_store: SubjectStore,
-            panel_shown: 'group'
+            subject_store: SubjectStore
         };
     },
 
