@@ -1,6 +1,8 @@
 require 'csv'
 
 class StructureImporter
+  include ActiveModel::Model
+
   attr_accessor :file
 
   def initialize(file = nil)
