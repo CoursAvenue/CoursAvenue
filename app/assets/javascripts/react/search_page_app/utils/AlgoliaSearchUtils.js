@@ -38,6 +38,15 @@ module.exports = {
         return subject_index.search('', data);
     },
 
+
+    /*
+     * Data: Hash like
+          group_subject
+          root_subject
+          subject
+          full_text_search
+          insideBoundingBox
+     */
     searchCards: function searchCards (data) {
         data = data || {};
         card_search_helper.clearRefinements();
@@ -52,10 +61,9 @@ module.exports = {
         }
 
         card_search_helper.setState(card_search_state);
-        if (data.subjects) {
-            card_search_helper.addRefine('subjects', data.subject);
-        }
-
+        if (data.root_subject)     { card_search_helper.addRefine('root_subject', data.root_subject.slug); }
+        if (data.subject)          { card_search_helper.addRefine('subjects.slug', data.subject.slug); }
+        if (data.full_text_search) { card_search_helper.setQuery(data.full_text_search); }
         return card_search_helper.search();
     },
 

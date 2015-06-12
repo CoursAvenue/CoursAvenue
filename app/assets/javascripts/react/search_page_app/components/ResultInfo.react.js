@@ -14,15 +14,16 @@ var RootSubjectItem = React.createClass({
     },
 
     render: function render () {
+        var total_results = this.state.card_store.total_results || 0;
         var facets = [];
-        if (this.state.card_store.facets) {
+        if (this.state.card_store.facets && this.state.card_store.facets[0]) {
             facets = _.map(this.state.card_store.facets[0].data, function(value, key) {
                 return key + '(' + value + ')';
             });
         }
         return (
-          <div className="inline-block bordered push-half--right very-soft bg-gray-light">
-              {this.state.card_store.count} Résultats : {facets.join(', ')}
+          <div className="main-container">
+              {total_results} Résultats : {facets.join(', ')}
           </div>
         );
     }

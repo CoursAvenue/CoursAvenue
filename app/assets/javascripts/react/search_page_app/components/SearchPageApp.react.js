@@ -31,11 +31,11 @@ SearchPageApp = React.createClass({
     // Bootstraping data
     bootsrapData: function bootsrapData() {
         CityActionCreators.selectCity($.parseJSON(this.props.city));
-        if (this.props.subject) {
-            SubjectActionCreators.selectSubject($.parseJSON(this.props.subject));
-        }
         if (this.props.root_subject) {
             SubjectActionCreators.selectRootSubject($.parseJSON(this.props.root_subject));
+        }
+        if (this.props.subject) {
+            SubjectActionCreators.selectSubject($.parseJSON(this.props.subject));
         }
     },
 

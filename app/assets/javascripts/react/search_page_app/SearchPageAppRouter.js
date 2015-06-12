@@ -23,7 +23,7 @@ var SearchPageAppRouter = Backbone.Router.extend({
         } else if (FilterStore.get('city') && FilterStore.get('subject')) {
             this.navigate(FilterStore.get('subject').slug + '--' + FilterStore.get('city').slug);
         }
-    }
+    }.debounce(500)
 
 });
 

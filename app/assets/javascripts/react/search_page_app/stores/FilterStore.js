@@ -44,11 +44,9 @@ var FilterStore = Backbone.Model.extend({
                 this.set({ root_subject: payload.data });
                 if (!this.get('group_subject')) { this.setGroupSubject(); }
                 this.set({ subject_panel: 'child' });
-                this.fetchDataFromServer();
                 break;
             case ActionTypes.SELECT_SUBJECT:
                 this.set({ subject: payload.data });
-                this.fetchDataFromServer();
                 this.trigger('change');
                 break;
             case ActionTypes.SELECT_CITY:
@@ -71,7 +69,10 @@ var FilterStore = Backbone.Model.extend({
 
     algoliaFilters: function algoliaFilters () {
         var data = {};
-        if (this.get('subject')) { data.subject = this.get('subject').slug }
+        if (this.get('group_subject'))     { data.root_subject     = this.get('group_subject') }
+        if (this.get('root_subject'))      { data.root_subject     = this.get('root_subject') }
+        if (this.get('subject'))           { data.subject          = this.get('subject') }
+        if (this.get('full_text_search'))  { data.full_text_search = this.get('full_text_search') }
         if (this.get('insideBoundingBox')) {
             data.insideBoundingBox = this.get('insideBoundingBox').toString();
         }
@@ -86,10 +87,6 @@ var FilterStore = Backbone.Model.extend({
 
     cardFilters: function cardFilters () {
         return this.toJSON();
-    },
-
-    fetchDataFromServer: function fetchDataFromServer () {
-
     },
 
     getFilters: function getFilters () {

@@ -1,14 +1,14 @@
 var _                    = require('underscore'),
     Backbone             = require('backbone'),
     AlgoliaSearchUtils   = require('../utils/AlgoliaSearchUtils'),
-    FilterStore          = require('../stores/FilterStore'),
+    FilterStore          = require('./FilterStore'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants'),
     ActionTypes          = SearchPageConstants.ActionTypes;
 
 var SubjectModel = Backbone.Model.extend({});
 
-var SubjectCollection = Backbone.Collection.extend({
+var SubjectStore = Backbone.Collection.extend({
     model: SubjectModel,
     selected: false,
     initialize: function initialize () {
@@ -17,8 +17,21 @@ var SubjectCollection = Backbone.Collection.extend({
         this.initializeGroupSubjects();
     },
 
-    getGroupSubjects: function getGroupSubjects () {
-        return this.group_subjects;
+    dispatchCallback: function dispatchCallback (payload) {
+        switch(payload.actionType) {
+            case ActionTypes.SELECT_GROUP_SUBJECT:
+                this.loadRootSubjects(payload.data);
+                break;
+            case ActionTypes.SELECT_ROOT_SUBJECT:
+                //SearchPageDispatcher.waitFor([FilterStore.dispatchToken]);
+                var associated_group_subject = this.getGroupSubjectFromRootSubjectSlug(payload.data.slug);
+                // If root subjects are not loaded, we load them.
+                if (!associated_group_subject.root_subjects) {
+                    this.loadRootSubjects(associated_group_subject);
+                }
+                this.loadChildSubjects(payload.data);
+                break;
+        }
     },
 
     initializeGroupSubjects: function initializeGroupSubjects () {
@@ -42,15 +55,8 @@ var SubjectCollection = Backbone.Collection.extend({
         ]
     },
 
-    dispatchCallback: function dispatchCallback (payload) {
-        switch(payload.actionType) {
-            case ActionTypes.SELECT_GROUP_SUBJECT:
-                this.loadRootSubjects(payload.data);
-                break;
-            case ActionTypes.SELECT_ROOT_SUBJECT:
-                this.loadChildSubjects(payload.data);
-                break;
-        }
+    getGroupSubjects: function getGroupSubjects () {
+        return this.group_subjects;
     },
 
     getGroupSubject: function getGroupSubject (group_subject_id) {
@@ -86,7 +92,10 @@ var SubjectCollection = Backbone.Collection.extend({
      * Will load root subjects associated with selected group subject
      */
     loadChildSubjects: function loadChildSubjects (root_subject) {
-        var data = { hitsPerPage: 6, facets: '*', facetFilters: 'root:' + root_subject.slug}
+        var data = { hitsPerPage: 6,
+                     facets: '*',
+                     facetFilters: 'root:' + root_subject.slug,
+                     numericFilters: 'depth>0' }
         AlgoliaSearchUtils.searchSubjects(data).then(function(content){
             this.reset(content.hits);
             this.trigger('change');
@@ -99,4 +108,4 @@ var SubjectCollection = Backbone.Collection.extend({
 });
 
 // the Store is an instantiated Collection; a singleton.
-module.exports = new SubjectCollection();
+module.exports = new SubjectStore();

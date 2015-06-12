@@ -23,9 +23,6 @@ var CardCollection = Backbone.Collection.extend({
         // Bind search events to the store, so it updates.
         AlgoliaSearchUtils.card_search_helper.on("result",  this.searchSuccess);
         AlgoliaSearchUtils.card_search_helper.on("error",  this.searchError);
-
-        // Initial data fetching.
-        if (this.isEmpty()) { this.fetchDataFromServer(); }
     },
 
     // The function called everytime there's a new action dispatched.
@@ -33,6 +30,10 @@ var CardCollection = Backbone.Collection.extend({
         switch(payload.actionType) {
             // When the filters are updated, refetch the cards.
             case ActionTypes.UPDATE_FILTERS:
+            case ActionTypes.SELECT_GROUP_SUBJECT:
+            case ActionTypes.SELECT_ROOT_SUBJECT:
+            case ActionTypes.SELECT_SUBJECT:
+            case ActionTypes.SEARCH_FULL_TEXT:
                 // Make sure the Filter store has finish everything he needs to do.
                 SearchPageDispatcher.waitFor([FilterStore.dispatchToken]);
                 // Fetch the new cards.
@@ -55,14 +56,15 @@ var CardCollection = Backbone.Collection.extend({
 
         // Call the algolia search.
         AlgoliaSearchUtils.searchCards(FilterStore.algoliaFilters());
-    },
+    }.debounce(500),
 
     searchSuccess: function searchSuccess (data) {
         this.loading = false;
         this.error   = false;
 
         // This triggers the change event.
-        this.facets = data.facets;
+        this.facets        = data.facets;
+        this.total_results = data.nbHits;
         this.reset(data.hits);
     },
 
