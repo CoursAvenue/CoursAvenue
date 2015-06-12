@@ -114,9 +114,11 @@ class StructureImporter
       end
     end
 
-    slug = structure[:name].parameterize
-    if Structure.where(slug: slug).any?
-      return true
+    if structure[:name].present?
+      slug = structure[:name].parameterize
+      if Structure.where(slug: slug).any?
+        return true
+      end
     end
 
     false
