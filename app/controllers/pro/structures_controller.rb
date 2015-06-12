@@ -379,9 +379,10 @@ France
 
   # POST structure/import
   def import
-    importer = StructureImporter.new(import_params)
+    file = import_params[:file].tempfile
+    importer = StructureImporter.new(file)
     imported_structures = importer.import!
-    ids = imported_structures.map(&:id)
+    ids = imported_structures.compact.map(&:id).compact
 
     respond_to do |format|
       if imported_structures.any?
@@ -479,6 +480,6 @@ France
   end
 
   def import_params
-    params.require(:structure_import).permit(:file)
+    params.require(:structure_importer).permit(:file)
   end
 end
