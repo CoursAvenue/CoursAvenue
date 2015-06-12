@@ -110,6 +110,12 @@ class StructureImporter
   def already_exists?(structure)
     structure[:emails].each do |email|
       if Admin.where(email: email).any? or Structure.where(contact_email: email).any?
+        Bugsnag.notify(RuntimeError.new("Imported Structure already exists") {
+          structure: {
+            name: structure[:name],
+            emails: structure[:emails]
+          }
+        })
         return true
       end
     end
@@ -117,6 +123,12 @@ class StructureImporter
     if structure[:name].present?
       slug = structure[:name].parameterize
       if Structure.where(slug: slug).any?
+        Bugsnag.notify(RuntimeError.new("Imported Structure already exists") {
+          structure: {
+            name: structure[:name],
+            emails: structure[:emails]
+          }
+        })
         return true
       end
     end
