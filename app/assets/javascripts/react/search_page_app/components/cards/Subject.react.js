@@ -4,10 +4,15 @@ var SubjectActionCreators = require('../../actions/SubjectActionCreators'),
 Subject = React.createClass({
     propTypes: {
         subject: React.PropTypes.object.isRequired,
+        selected: React.PropTypes.boolean
+    },
+
+    getDefaultProps: function () {
+        return { selected: false };
     },
 
     getInitialState: function getInitialState () {
-        return { selected: false };
+        return { selected: this.props.selected };
     },
 
     // TODO: Send action.
