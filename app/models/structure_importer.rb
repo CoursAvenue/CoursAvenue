@@ -12,14 +12,14 @@ class StructureImporter
   # @return An array of structures
   def import!
     raw_structures = CSV.read(@file)
-    byebug
-    raw_structures.from(1).each do |row|
+    raw_structures.from(1).map do |row|
       structure = structure_hash_from_row(row)
-      case structure[:status]
-      when 'C' then create(structure)
-      when 'M' then update(structure)
-      when 'S' then destroy(structure)
-      end
+      create(structure)
+      # case structure[:status]
+      # when 'C' then create(structure)
+      # when 'M' then update(structure)
+      # when 'S' then destroy(structure)
+      # end
     end
   end
 
@@ -40,7 +40,8 @@ class StructureImporter
       contact_email:            attributes[:emails].first,
       is_sleeping:              true,
       sleeping_email_opt_in:    true,
-      other_emails:             (attributes[:emails][1..-1] || []).join(';')
+      other_emails:             (attributes[:emails][1..-1] || []).join(';'),
+      description:              attributes[:description]
     )
   end
 
@@ -69,14 +70,15 @@ class StructureImporter
   end
 
   def structure_hash_from_row(structure)
-    {
+    attributes = {
       status:         structure[0],
-      subjects:       [structure[1], structure[6].split('|'),
-                       structure[21].split('|'),
-                       structure[25].split('|'),
-                       structure[29].split('|'),
-                       structure[33].split('|'),
-                       structure[37].split('|')].flatten.compact,
+      subjects:       [structure[1],
+                       structure[21],
+                       structure[6],
+                       structure[25],
+                       structure[29],
+                       structure[33],
+                       structure[37]],
       parisian:       structure[2],
       vip:            structure[3],
       kids:           structure[4],
@@ -86,11 +88,20 @@ class StructureImporter
       profile_url:    structure[9],
       website:        structure[10],
       phones:         [structure[11], structure[13], structure[15]].compact,
-      emails:         structure[17].split('|').compact,
+      emails:         structure[17],
       streets:        [structure[19], structure[23], structure[27], structure[35]].compact,
       zip_codes:      [structure[20], structure[24], structure[28], structure[36]].compact,
       name_places:    [structure[18], structure[22], structure[26], structure[34]].compact
     }
+
+    pattern = /\||;/ # Splitting on `|` and `;`
+    attributes[:subjects] = attributes[:subjects].flatten.compact.flat_map do |subjects|
+      subjects.split(pattern)
+    end.uniq
+
+    attributes[:emails] = attributes[:emails].present? ? attributes[:emails].split(pattern).compact : []
+
+    attributes
   end
 
   def already_exists?(structure)
@@ -117,14 +128,14 @@ class StructureImporter
 
   def get_places(structure)
     places_attributes = []
-    structures[:zip_codes].each_with_index do |code, index|
+    structure[:zip_codes].each_with_index do |zip_code, index|
       city = City.where(City.arel_table[:zip_code].matches("%#{zip_code}%")).first
       next if city.nil?
 
       places_attributes << {
         name:     city.name,
         street:   structure[:streets][index],
-        zip_code: code,
+        zip_code: zip_code,
         city_id:  city.id
       }
     end
