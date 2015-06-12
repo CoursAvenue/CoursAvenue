@@ -3,7 +3,7 @@ require 'csv'
 class StructureImporter
   attr_accessor :file
 
-  def initialize(file)
+  def initialize(file = nil)
     @file = file
   end
 
@@ -11,6 +11,7 @@ class StructureImporter
   #
   # @return An array of structures
   def import!
+    return if @file.nil?
     raw_structures = CSV.read(@file)
     raw_structures.from(1).map do |row|
       structure = structure_hash_from_row(row)
