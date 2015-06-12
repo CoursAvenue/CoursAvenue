@@ -34,7 +34,7 @@ class StructureImporter
       return
     end
 
-    structure = Structure.create(
+    structure = Structure.delay.create(
       name:                     attributes[:name],
       subject_ids:              get_subjects(attributes),
       website:                  attributes[:website],
