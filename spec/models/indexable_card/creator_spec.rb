@@ -30,7 +30,7 @@ describe IndexableCard::Creator do
     end
 
     context 'when there are cards' do
-      let(:new_subject)  { FactoryGirl.create(:subject) }
+      let(:new_subject)  { FactoryGirl.create(:subject_with_grand_parent) }
       let(:new_course)   { FactoryGirl.create(:course, structure: structure) }
       let(:new_planning) { FactoryGirl.create(:planning, course: new_course) }
       let(:new_place)    { FactoryGirl.create(:place, structure: structure) }
@@ -47,7 +47,7 @@ describe IndexableCard::Creator do
 
         it 'creates a new card' do
           expect { subject.update_cards }.
-            to change { structure.indexable_cards.count }.by(1)
+            to change { structure.indexable_cards.with_plannings.count }.by(1)
         end
 
         it 'associates the new card with the planning' do

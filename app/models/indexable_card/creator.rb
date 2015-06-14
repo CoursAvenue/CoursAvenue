@@ -10,18 +10,19 @@ class IndexableCard::Creator
   # @return the cards.
   def create_cards
     plannings = @structure.plannings.includes(:course, :subjects)
-    subjects  = (@structure.subjects - plannings.flat_map(&:subjects)).compact
+    subjects  = (@structure.subjects.at_depth(2) - plannings.flat_map(&:subjects)).compact
     places    = (@structure.places - plannings.flat_map(&:course).flat_map(&:place)).compact
 
     # We loop on each plannings and create a card from there.
     plannings.each do |planning|
       @structure.indexable_cards.create_from_planning(planning)
     end
-
-    # We loop on each subjects and places not in the plannings above and create a card from there.
-    subjects.each do |subject|
-      places.each do |place|
-        @structure.indexable_cards.create_from_subject_and_place(subject, place)
+    if plannings.empty?
+      # We loop on each subjects and places not in the plannings above and create a card from there.
+      subjects.each do |subject|
+        places.each do |place|
+          @structure.indexable_cards.create_from_subject_and_place(subject, place)
+        end
       end
     end
   end
@@ -33,16 +34,23 @@ class IndexableCard::Creator
     return create_cards if @structure.indexable_cards.empty?
     new_cards = []
 
+    # If structure did not have plannings we delete all cards only associate to subjects
+    # If a structure has plannings, we want to have cards only for his courses
+    if @structure.indexable_cards.with_plannings.empty? and new_plannings.any?
+      @structure.indexable_cards.map(&:destroy)
+    end
     # We start by creating the cards from plannings since the associated subjects and places will
     # also be in the `new_subjects` and `new_places`.
     new_cards += new_plannings.map do |planning|
       @structure.indexable_cards.create_from_planning(planning)
     end
 
-    # We then create the new cards for the places and subjects not associated with a planning.
-    new_cards += new_subjects.flat_map do |subject|
-      new_places.map do |place|
-        @structure.indexable_cards.create_from_subject_and_place(subject, place)
+    if @structure.plannings.empty?
+      # We then create the new cards for the places and subjects not associated with a planning.
+      new_cards += new_subjects.flat_map do |subject|
+        new_places.map do |place|
+          @structure.indexable_cards.create_from_subject_and_place(subject, place)
+        end
       end
     end
 
@@ -62,7 +70,7 @@ class IndexableCard::Creator
   #
   # @return nil or Array of subjects
   def new_subjects
-    (@structure.subjects - @structure.indexable_cards.flat_map(&:subjects).uniq).compact
+    (@structure.subjects.at_depth(2) - @structure.indexable_cards.flat_map(&:subjects).uniq).compact
   end
 
   # The places not represented in the cards.
