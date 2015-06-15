@@ -1,4 +1,5 @@
-var _ = require('underscore');
+var _           = require('underscore'),
+    FilterStore = require('../../stores/FilterStore');
 
 CourseDistance = React.createClass({
     propTypes: {
@@ -6,18 +7,30 @@ CourseDistance = React.createClass({
         address: React.PropTypes.string.isRequired
     },
 
+    getInitialState: function getInitialState () {
+        return { aroundLocation: FilterStore.isFilteringAroundLocation() };
+    },
+
     render: function render () {
         return (
             <div className='very-soft--top very-soft--bottom'>
                 <i className='fa fa-map-marker very-soft--right'></i>
-                { this.distanceStr() }
+                { this.location() }
             </div>
         );
     },
 
+    location: function location () {
+        if (this.aroundLocation) {
+            return this.distanceStr();
+        } else {
+            reutrn this.addressStr();
+        }
+    },
+
     distanceStr: function distanceStr () {
         if (_.isUndefined(this.props.rankingInfo) || _.isEmpty(this.props.rankingInfo)) {
-            return this.addressStr();
+            return ""
         }
 
         var distance = this.props.rankingInfo.geoDistance;
