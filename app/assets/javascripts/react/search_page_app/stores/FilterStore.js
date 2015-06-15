@@ -131,7 +131,7 @@ var FilterStore = Backbone.Model.extend({
 
     // Checks if we are filtering around a place (e.g. User location, Around a subway stop, etc.)
     // TODO: Add metro stop check.
-    isFilteringAroundPlace: function isFilteringAroundLocation () {
+    isFilteringAroundLocation: function isFilteringAroundLocation () {
         return ! (_.isUndefined(this.get('user_position')) || _.isEmpty(this.get('user_position')));
     }
 });
