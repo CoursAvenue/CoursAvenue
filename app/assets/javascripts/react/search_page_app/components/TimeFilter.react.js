@@ -2,7 +2,10 @@ var FilterStore                    = require('../stores/FilterStore'),
     SearchPageDispatcher           = require('../dispatcher/SearchPageDispatcher'),
     FluxBoneMixin                  = require("../../mixins/FluxBoneMixin"),
     classNames                     = require('classnames'),
-    FilterActionCreators           = require('../actions/FilterActionCreators');
+    FilterActionCreators           = require('../actions/FilterActionCreators'),
+    FilterPanelConstants           = require('../constants/FilterPanelConstants'),
+    LessonPanel                    = require('./time_filter_panels/LessonPanel'),
+    TrainingPanel                  = require('./time_filter_panels/TrainingPanel');
 
 var TimeFilter = React.createClass({
 
@@ -17,26 +20,23 @@ var TimeFilter = React.createClass({
     },
 
     panelToShow: function panelToShow () {
-        return (<div> Coucou ! </div>)
-    //     switch(this.state.filter_store.get('subject_panel')) {
-    //       case 'group':
-    //         return ( <TimeFilterGroupSubjectPanel key='group' /> );
-    //       case 'root':
-    //         return ( <TimeFilterRootSubjectPanel key='root' /> );
-    //       case 'child':
-    //         return ( <TimeFilterChildSubjectPanel key='child' /> );
-    //       default:
-    //         return ( <TimeFilterGroupSubjectPanel key='group' /> );
-    //     }
+        switch(this.state.filter_store.get('time_panel')) {
+          case FilterPanelConstants.TIME_PANELS.TRAINING:
+              return (<TrainingPanel />);
+          default:
+          case FilterPanelConstants.TIME_PANELS.LESSON:
+              return (<LessonPanel />);
+        }
     },
 
     render: function render () {
+        var isCurrentPanel = this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.TIME;
         var classes = classNames({
-            'north'     : (this.state.filter_store.current_panel == 'time'),
-            'down-north': !(this.state.filter_store.current_panel == 'time')
+            'north'     : isCurrentPanel,
+            'down-north': !isCurrentPanel
         });
         return (
-          <div className={classes + ' transition-all-300 absolute west one-whole bg-white height-35vh text--center'}
+          <div className={ classes + ' transition-all-300 absolute west one-whole bg-white height-35vh text--center' }
                style={{ minHeight: '230px'}}>
               { this.panelToShow() }
           </div>

@@ -10,5 +10,9 @@ module.exports = {
         GROUP: null,
         ROOT:  null,
         CHILD: null
+    }),
+    TIME_PANELS: keyMirror({
+        LESSON:   null,
+        TRAINING: null,
     })
 };
