@@ -366,7 +366,7 @@ France
 
   # GET structure/:id/ask_webmaster_for_planning
   def ask_webmaster_for_planning
-    @website_parameter = @structure.website_parameter || structure.create_website_parameter(slug: structure.slug)
+    @website_parameter = @structure.website_parameter || @structure.create_website_parameter(slug: structure.slug)
     @website_parameter.webmaster_email         = params[:email]
     @website_parameter.webmaster_email_sent_at = DateTime.now
     @website_parameter.save
