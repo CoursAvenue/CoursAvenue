@@ -11,15 +11,23 @@ describe StructureImporter do
   end
 
   describe '#import' do
-    subject         { StructureImporter.new(file) }
     let(:structure) { FactoryGirl.create(:structure) }
 
     before do
       stub_csv
     end
 
-    it 'updates the existing structure' do
-      subject.import!
+    context "when there's no file" do
+      subject { StructureImporter.new }
+
+      it "doesn't import"
+    end
+
+    context "when there's a valid file" do
+      subject { StructureImporter.new(file) }
+
+      it 'creates the new structures'
+      it "doesn't do anything if the structure exists"
     end
   end
 
