@@ -12,9 +12,9 @@ class IndexableCard < ActiveRecord::Base
 
   attr_accessible :structure, :place, :planning, :course
 
-  delegate :name, :price, :type,          to: :course,    prefix: true, allow_nil: true
-  delegate :name, :comments_count, :slug, to: :structure, prefix: true, allow_nil: true
-  delegate :name, :latitude, :longitude,  to: :place,     prefix: true, allow_nil: true
+  delegate :name, :price, :type,                   to: :course,    prefix: true, allow_nil: true
+  delegate :name, :comments_count, :slug,          to: :structure, prefix: true, allow_nil: true
+  delegate :name, :latitude, :longitude, :address, to: :place,     prefix: true, allow_nil: true
 
   scope :with_plannings, -> { where.not(planning_id: nil) }
 
@@ -46,6 +46,7 @@ class IndexableCard < ActiveRecord::Base
     attribute :course_type
     attribute :structure_slug
     attribute :place_name
+    attribute :place_address
 
     add_attribute :root_subject do
       roots = subjects.map { |s| s.root.slug }.uniq

@@ -21,6 +21,7 @@ RSpec.describe IndexableCard, type: :model do
     it { should delegate_method(:name).to(:place).with_prefix }
     it { should delegate_method(:latitude).to(:place).with_prefix }
     it { should delegate_method(:longitude).to(:place).with_prefix }
+    it { should delegate_method(:address).to(:place).with_prefix }
   end
 
   let!(:structure) { FactoryGirl.create(:structure) }
