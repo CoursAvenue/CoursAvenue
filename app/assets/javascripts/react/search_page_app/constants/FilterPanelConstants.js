@@ -1,0 +1,14 @@
+var keyMirror = require('keymirror');
+
+module.exports = {
+    FILTER_PANELS: keyMirror({
+        SUBJECTS: null,
+        LOCATION: null,
+        TIME:     null,
+    }),
+    SUBJECT_PANELS: keyMirror({
+        GROUP: null,
+        ROOT:  null,
+        CHILD: null
+    })
+};

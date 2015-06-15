@@ -16,6 +16,18 @@ module.exports = {
         });
     },
 
+    toggleLocationFilter: function toggleLocationFilter () {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.TOGGLE_LOCATION_FILTERS
+        });
+    },
+
+    toggleTimeFilter: function toggleTimeFilter () {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.TOGGLE_TIME_FILTERS
+        });
+    },
+
     showGroupPanel: function showGroupPanel () {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.SHOW_GROUP_PANEL

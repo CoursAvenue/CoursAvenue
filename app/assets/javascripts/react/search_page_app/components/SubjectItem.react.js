@@ -13,11 +13,11 @@ var RootSubjectItem = React.createClass({
 
     render: function render () {
         return (
-          <div className="one-sixth very-softf inline-block">
-              <div className="bg-white bordered cursor-pointer soft-halff" onClick={this.selectSubject}>
-                  { this.props.subject.name }
-              </div>
-          </div>
+            <div className="one-sixth very-softf inline-block">
+                <div className="bg-white bordered cursor-pointer soft-halff" onClick={this.selectSubject}>
+                    { this.props.subject.name }
+                </div>
+            </div>
         );
     }
 });

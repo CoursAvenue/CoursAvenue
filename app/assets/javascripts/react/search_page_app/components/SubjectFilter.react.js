@@ -6,7 +6,8 @@ var SubjectStore                   = require('../stores/SubjectStore'),
     SearchPageDispatcher           = require('../dispatcher/SearchPageDispatcher'),
     FluxBoneMixin                  = require("../../mixins/FluxBoneMixin"),
     classNames                     = require('classnames'),
-    FilterActionCreators           = require('../actions/FilterActionCreators');
+    FilterActionCreators           = require('../actions/FilterActionCreators'),
+    FilterPanelConstants           = require('../constants/FilterPanelConstants');
 
 var SubjectFilter = React.createClass({
 
@@ -23,11 +24,11 @@ var SubjectFilter = React.createClass({
 
     panelToShow: function panelToShow () {
         switch(this.state.filter_store.get('subject_panel')) {
-          case 'group':
+          case FilterPanelConstants.SUBJECT_PANELS.GROUP:
             return ( <SubjectFilterGroupSubjectPanel key='group' /> );
-          case 'root':
+          case FilterPanelConstants.SUBJECT_PANELS.ROOT:
             return ( <SubjectFilterRootSubjectPanel key='root' /> );
-          case 'child':
+          case FilterPanelConstants.SUBJECT_PANELS.CHILD:
             return ( <SubjectFilterChildSubjectPanel key='child' /> );
           default:
             return ( <SubjectFilterGroupSubjectPanel key='group' /> );
@@ -36,8 +37,8 @@ var SubjectFilter = React.createClass({
 
     render: function render () {
         var classes = classNames({
-            'north'     : (this.state.filter_store.current_panel == 'subjects'),
-            'down-north': !(this.state.filter_store.current_panel == 'subjects')
+            'north'     : (this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS),
+            'down-north': !(this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS)
         });
         return (
           <div className={classes + ' transition-all-300 absolute west one-whole bg-white height-35vh text--center'}

@@ -17,6 +17,14 @@ var FilterBar = React.createClass({
         FilterActionCreators.toggleSubjectFilter();
     },
 
+    toggleLocationFilter: function toggleLocationFilter () {
+        FilterActionCreators.toggleLocationFilter();
+    },
+
+    toggleTimeFilter: function toggleTimeFilter () {
+        FilterActionCreators.toggleTimeFilter();
+    },
+
     render: function render () {
         var subject = this.state.filter_store.get('subject');
         var subject_name = (subject ? subject.name : '');
@@ -26,10 +34,10 @@ var FilterBar = React.createClass({
                   <div className="grid__item one-third bordered soft-half cursor-pointer" onClick={this.toggleSubjectFilter}>
                     Quoi ?
                   </div>
-                  <div className="grid__item one-third bordered soft-half cursor-pointer">
+                  <div className="grid__item one-third bordered soft-half cursor-pointer" onClick={this.toggleLocationFilter}>
                     Où ?
                   </div>
-                  <div className="grid__item one-third bordered soft-half cursor-pointer">
+                  <div className="grid__item one-third bordered soft-half cursor-pointer" onClick={this.toggleTimeFilter}>
                     Quand ?
                   </div>
               </div>

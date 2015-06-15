@@ -3,7 +3,8 @@ var _                    = require('underscore'),
     SubjectStore         = require('../stores/SubjectStore'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
-    SearchPageConstants  = require('../constants/SearchPageConstants');
+    SearchPageConstants  = require('../constants/SearchPageConstants'),
+    FilterPanelConstants = require('../constants/FilterPanelConstants');
 
 var ActionTypes = SearchPageConstants.ActionTypes;
 
@@ -28,22 +29,22 @@ var FilterStore = Backbone.Model.extend({
                 this.set(payload.data);
                 break;
             case ActionTypes.SHOW_GROUP_PANEL:
-                this.set({ subject_panel: 'group' });
+                this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.GROUP });
                 break;
             case ActionTypes.SHOW_ROOT_PANEL:
-                this.set({ subject_panel: 'root' });
+                this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.ROOT });
                 break;
             case ActionTypes.SELECT_GROUP_SUBJECT:
                 this.set({ group_subject: payload.data });
                 this.set({ root_subject: null });
                 this.set({ subject: null });
-                this.set({ subject_panel: 'root' });
+                this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.ROOT });
                 this.set({ group_subject: payload.data });
                 break;
             case ActionTypes.SELECT_ROOT_SUBJECT:
                 this.set({ root_subject: payload.data });
                 if (!this.get('group_subject')) { this.setGroupSubject(); }
-                this.set({ subject_panel: 'child' });
+                this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.CHILD });
                 break;
             case ActionTypes.SELECT_SUBJECT:
                 this.set({ subject: payload.data });
@@ -56,8 +57,13 @@ var FilterStore = Backbone.Model.extend({
                 this.set({ full_text_search: payload.data });
                 break;
             case ActionTypes.TOGGLE_SUBJECT_FILTERS:
-                this.current_panel = (this.current_panel == 'subjects' ? null : 'subjects');
-                this.trigger('change');
+                this.set({ current_panel: (this.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS ? null : FilterPanelConstants.FILTER_PANELS.SUBJECTS) });
+                break;
+            case ActionTypes.TOGGLE_LOCATION_FILTERS:
+                this.set({ current_panel: (this.get('current_panel') == FilterPanelConstants.FILTER_PANELS.LOCATION ? null : FilterPanelConstants.FILTER_PANELS.LOCATION) });
+                break;
+            case ActionTypes.TOGGLE_TIME_FILTERS:
+                this.set({ current_panel: (this.get('current_panel') == FilterPanelConstants.FILTER_PANELS.TIME ? null : FilterPanelConstants.FILTER_PANELS.TIME) });
                 break;
             case ActionTypes.UNSET_FILTER:
                 this.unsetFilter(payload.data);
@@ -71,13 +77,13 @@ var FilterStore = Backbone.Model.extend({
         // root subject information
         switch(filter_to_unset) {
             case 'group_subject':
-                this.set({ subject_panel: 'group' });
+                this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.GROUP });
                 break;
             case 'root_subject':
-                this.set({ subject_panel: 'root' });
+                this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.ROOT });
                 break;
             case 'subject':
-                this.set({ subject_panel: 'child' });
+                this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.CHILD });
                 break;
         }
         this.unset(filter_to_unset);

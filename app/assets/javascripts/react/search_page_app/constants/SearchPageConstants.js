@@ -6,6 +6,9 @@ module.exports = {
         FILTERS__MAP_BOUNDS_CHANGED: null,
 
         TOGGLE_SUBJECT_FILTERS:      null,
+        TOGGLE_LOCATION_FILTERS:     null,
+        TOGGLE_TIME_FILTERS:         null,
+
         SELECT_GROUP_SUBJECT:        null,
         SELECT_ROOT_SUBJECT:         null,
         SELECT_SUBJECT:              null,
