@@ -1,7 +1,7 @@
 var CardActionCreators = require('../actions/CardActionCreators'),
     SubjectList        = require('./cards/SubjectList.react'),
     CourseInformation  = require('./cards/CourseInformation.react'),
-    CourseDistance     = require('./cards/CourseDistance.react'),
+    CourseLocation     = require('./cards/CourseLocation.react'),
     Rating             = require('./cards/Rating.react');
 
 Card = React.createClass({
@@ -41,7 +41,7 @@ Card = React.createClass({
                       <hr className="push-half--ends" />
                       <CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') } />
                       <hr className="push-half--ends" />
-                      <CourseDistance rankingInfo={ this.props.card.get('_rankingInfo') } address={ this.props.card.get('place_address') } />
+                      <CourseLocation rankingInfo={ this.props.card.get('_rankingInfo') } address={ this.props.card.get('place_address') } />
                   </div>
               </div>
           </div>
