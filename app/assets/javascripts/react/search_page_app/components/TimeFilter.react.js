@@ -4,6 +4,7 @@ var FilterStore                    = require('../stores/FilterStore'),
     classNames                     = require('classnames'),
     FilterActionCreators           = require('../actions/FilterActionCreators'),
     FilterPanelConstants           = require('../constants/FilterPanelConstants'),
+    TimeDefaultPanel               = require('./time_filter_panels/TimeDefaultPanel'),
     LessonPanel                    = require('./time_filter_panels/LessonPanel'),
     TrainingPanel                  = require('./time_filter_panels/TrainingPanel');
 
@@ -23,9 +24,11 @@ var TimeFilter = React.createClass({
         switch(this.state.filter_store.get('time_panel')) {
           case FilterPanelConstants.TIME_PANELS.TRAINING:
               return (<TrainingPanel />);
-          default:
           case FilterPanelConstants.TIME_PANELS.LESSON:
               return (<LessonPanel />);
+          case FilterPanelConstants.TIME_PANELS.DEFAULT:
+          default:
+              return (<TimeDefaultPanel />);
         }
     },
 
