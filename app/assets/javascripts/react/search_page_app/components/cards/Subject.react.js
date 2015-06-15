@@ -4,7 +4,7 @@ var SubjectActionCreators = require('../../actions/SubjectActionCreators'),
 Subject = React.createClass({
     propTypes: {
         subject: React.PropTypes.object.isRequired,
-        selected: React.PropTypes.boolean
+        selected: React.PropTypes.bool
     },
 
     getDefaultProps: function () {
