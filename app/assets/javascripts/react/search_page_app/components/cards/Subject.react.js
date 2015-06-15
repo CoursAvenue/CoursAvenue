@@ -21,8 +21,11 @@ Subject = React.createClass({
     },
 
     render: function render () {
+        var classes = cx("inline-block very-soft bg-gray-light black bordered rounded", {
+            selected: this.state.selected
+        });
         return (
-            <a className="inline-block very-soft bg-gray-light black bordered rounded"
+            <a className={ classes }
                onClick={ this.toggleSelection }>
                 { this.props.subject.name }
             </a>
