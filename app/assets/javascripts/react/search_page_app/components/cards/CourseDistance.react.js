@@ -24,7 +24,7 @@ CourseDistance = React.createClass({
         if (this.aroundLocation) {
             return this.distanceStr();
         } else {
-            reutrn this.addressStr();
+            return this.addressStr();
         }
     },
 
