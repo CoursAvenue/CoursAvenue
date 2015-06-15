@@ -7,7 +7,7 @@ class PhoneNumberDecorator < Draper::Decorator
 
     PhoneNumber::FRANCE_PREFIXES.each do |prefix|
       if number.starts_with? prefix
-        number = number.gsub prefix, '0' #.last because last is 6 or 7
+        number = number.gsub prefix, '0'
         break
       end
     end
