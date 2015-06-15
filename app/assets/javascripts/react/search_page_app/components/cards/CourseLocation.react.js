@@ -1,14 +1,22 @@
-var _           = require('underscore'),
-    FilterStore = require('../../stores/FilterStore');
+var _             = require('underscore'),
+    FluxBoneMixin = require('../../../mixins/FluxBoneMixin'),
+    FilterStore   = require('../../stores/FilterStore');
 
 CourseDistance = React.createClass({
+    mixins: [
+        FluxBoneMixin('filter_store')
+    ],
+
     propTypes: {
         rankingInfo: React.PropTypes.object.isRequired,
         address: React.PropTypes.string.isRequired
     },
 
     getInitialState: function getInitialState () {
-        return { aroundLocation: FilterStore.isFilteringAroundLocation() };
+        return {
+            filter_store:   FilterStore,
+            aroundLocation: FilterStore.isFilteringAroundLocation()
+        };
     },
 
     render: function render () {
@@ -21,7 +29,7 @@ CourseDistance = React.createClass({
     },
 
     location: function location () {
-        if (this.aroundLocation) {
+        if (this.state.aroundLocation) {
             return this.distanceStr();
         } else {
             return this.addressStr();
