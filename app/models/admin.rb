@@ -161,10 +161,11 @@ class ::Admin < ActiveRecord::Base
   def notify_intercom_event
     if Rails.env.production?
       begin
-        Intercom::Event.create(event_name: "Confirmed account",
-                               created_at: Time.now.to_i,
-                               email: self.email,
-                               user_id: "Admin_#{self.id}")
+        intercom_client = IntercomClientFactory.client
+        intercom_client.users.create(event_name: "Confirmed account",
+                                     created_at: Time.now.to_i,
+                                     email: self.email,
+                                     user_id: "Admin_#{self.id}")
       rescue
         Bugsnag.notify(RuntimeError.new("Can't sync with Intercom after confirmation"), {email: self.email})
       end
@@ -202,10 +203,11 @@ class ::Admin < ActiveRecord::Base
   end
 
   def create_in_intercom
-    user = Intercom::User.create(email:                     self.email,
-                                 name:                      self.structure.name,
-                                 signed_up_at:              Time.now.to_i,
-                                 user_id:                   "Admin_#{self.id}")
+    intercom_client = IntercomClientFactory.client
+    user = intercom_client.users.create(email:        self.email,
+                                        name:         self.structure.name,
+                                        signed_up_at: Time.now.to_i,
+                                        user_id:      "Admin_#{self.id}")
     user.custom_attributes['Villes']                = structure.places.map(&:city).map(&:name).join(', ')
     user.custom_attributes['A confirmé son compte'] = false
     user.custom_attributes['Disciplines_1']         =  structure.subjects.at_depth(0).uniq.map(&:name).join(', ')
@@ -218,7 +220,8 @@ class ::Admin < ActiveRecord::Base
 
   def delete_from_intercom
     begin
-      Intercom::User.find(user_id: "Admin_#{self.id}").delete
+      intercom_client = IntercomClientFactory.client
+      intercom_client.users.find(user_id: "Admin_#{self.id}").delete
     rescue
     end
   end

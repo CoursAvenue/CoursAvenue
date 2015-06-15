@@ -1117,7 +1117,8 @@ class Structure < ActiveRecord::Base
     if self.status != new_status
       if self.main_contact
         begin
-          Intercom::Event.create(
+          intercom_client = IntercomClientFactory.client
+          intercom_client.events.create(
           event_name: "#{self.status} -> #{new_status}", created_at: Time.now.to_i,
           email: self.main_contact.email,
           user_id: "Admin_#{self.main_contact.id}"

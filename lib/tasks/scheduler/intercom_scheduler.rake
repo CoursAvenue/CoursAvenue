@@ -7,7 +7,7 @@ namespace :scheduler do
     # $ rake scheduler:intercom:update_intercom_page_view_attribute
     desc 'Updates Intercom status of admins'
     task :update_intercom_page_view_attribute => :environment do |t, args|
-      intercom = Intercom::Client.new(app_id: ENV['INTERCOM_APP_ID'], api_key: ENV['INTERCOM_API_KEY'])
+      intercom = IntercomClientFactory.client
       Admin.find_each do |admin|
         structure = admin.structure
         next if structure.nil?
