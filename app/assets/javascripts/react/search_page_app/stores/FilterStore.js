@@ -60,11 +60,28 @@ var FilterStore = Backbone.Model.extend({
                 this.trigger('change');
                 break;
             case ActionTypes.UNSET_FILTER:
-                this.unset(payload.data);
+                this.unsetFilter(payload.data);
                 break;
         }
     },
 
+    unsetFilter: function unsetFilter (filter_to_unset) {
+        // Change subject_panel_to show regarding the filter we unset
+        // If we unset root subject, we can't show child subject panel because we don't have
+        // root subject information
+        switch(filter_to_unset) {
+            case 'group_subject':
+                this.set({ subject_panel: 'group' });
+                break;
+            case 'root_subject':
+                this.set({ subject_panel: 'root' });
+                break;
+            case 'subject':
+                this.set({ subject_panel: 'child' });
+                break;
+        }
+        this.unset(filter_to_unset);
+    },
     setGroupSubject: function setGroupSubject () {
         var group_subject = SubjectStore.getGroupSubjectFromRootSubjectSlug(this.get('root_subject').slug);
         this.set({ group_subject: group_subject});
