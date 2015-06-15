@@ -115,6 +115,11 @@ var FilterStore = Backbone.Model.extend({
         return this.toJSON();
     },
 
+    // Filters used to build the TimeTable.
+    timeFilters: function timeFilters () {
+        return {};
+    },
+
     getFilters: function getFilters () {
         var filters = [];
         if (this.get('group_subject')) {
