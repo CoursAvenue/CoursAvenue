@@ -2,11 +2,7 @@
 
 = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'structures' }
 
-.text--center
-  = simple_form_for @importer, url: import_pro_structures_path do |f|
-    = f.input :file, as: :file, label: 'Importer un fichier', input_html: { id: 'import_file_input', class: 'visuallyhidden' }, label_html: { class: 'btn btn--green text--center' }
-
-.push-half--bottom= paginate @structures, window: 2, outer_window: 1
+%h3 Structure importées
 
 %table.table--data.table--striped
   %thead
@@ -33,12 +29,3 @@
           = link_to "Lien d'inscription", new_pro_admin_structure_registration_path(structure)
           \/
           = link_to "Supprimer", pro_structure_path(structure), method: :delete, class: 'red'
-
-.push-half--bottom= paginate @structures, window: 2, outer_window: 1
-
-- content_for :scripts do
-  :javascript
-
-    $("#import_file_input").on('change', function () {
-        $(this).parents("form").submit();
-    });

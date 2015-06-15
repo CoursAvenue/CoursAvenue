@@ -174,6 +174,7 @@ class Pro::StructuresController < Pro::ProController
   # GET collection
   def index
     @structures = Structure.order('structures.created_at DESC').where(sleeping_structure_id: nil).page(params[:page] || 1).per(50)
+    @importer = StructureImporter.new
   end
 
   # GET member
@@ -375,6 +376,30 @@ France
     respond_to do |format|
       format.html { redirect_to website_planning_pro_structure_path(@structure), notice: 'Message envoyé à votre webmaster'}
     end
+
+  # POST structure/import
+  def import
+    file = import_params[:file].tempfile
+    importer = StructureImporter.new(file)
+    imported_structures = importer.import!
+
+    respond_to do |format|
+      if imported_structures.any?
+        format.html { redirect_to pro_structures_path,
+                      notice: "Le fichier est en cours d'importation." }
+      else
+        format.html { redirect_to pro_structures_path,
+                      error: "Une erreur est survenue lors de l'import du fichier, veuillez rééssayer." }
+      end
+    end
+  end
+
+  def imported_structures
+    redirect_to pro_structures_path if params[:structures].nil?
+
+    @structures = params[:structures].map do |id|
+      Structure.find(id)
+    end
   end
 
   private
@@ -453,5 +478,9 @@ France
 
   def load_structure
     @structure = Structure.friendly.find(params[:id]) if params[:id].present?
+  end
+
+  def import_params
+    params.require(:structure_importer).permit(:file)
   end
 end

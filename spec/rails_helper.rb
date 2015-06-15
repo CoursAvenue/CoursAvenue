@@ -34,4 +34,7 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.include Delorean
+
+  config.include ActionDispatch::TestProcess
+  config.fixture_path = "#{::Rails.root}/spec/fixtures"
 end
