@@ -217,6 +217,7 @@ class ::Admin < ActiveRecord::Base
     user.custom_attributes['Code postal']           =   structure.zip_code
     intercom_client.users.save(user)
   end
+  handle_asynchronously :create_in_intercom
 
   def delete_from_intercom
     begin
