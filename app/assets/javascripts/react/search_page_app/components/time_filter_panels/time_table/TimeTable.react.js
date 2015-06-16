@@ -1,6 +1,44 @@
+var Column = require('./Column');
+
 var TimeTable = React.createClass({
+
+    propTypes: {
+        timeTable: React.PropTypes.object.isRequired,
+    },
+
+    setFilters: function setFilters () {
+        console.log('TODO: Get filters from TimeStore');
+        console.log('TODO: Send action with filter');
+    },
+
     render: function render () {
-        return false;
+        var columns = this.props.timeTable.map(function(day, index) {
+            return (
+                <Column day={ day } key={ index } />
+            )
+        });
+
+        return (
+            <div className='main-container'>
+                <div className='grid'>
+                    <div className='grid__item one-third'>
+                        <div className=''>Empty</div>
+                        <div className=''>Matin (avant 12h)</div>
+                        <div className=''>Midi (12h-14h)</div>
+                        <div className=''>Après Midi (14h-18h)</div>
+                        <div className=''>Soirée (après 18h)</div>
+                        <div className=''>Toute la journée</div>
+                    </div>
+                    <div className='grid__item two-thirds'>
+                        <div className='grid'>
+                            { columns }
+                        </div>
+                    </div>
+                </div>
+
+                <a onClick={ this.setFilters } className='btn'>Valider</a>
+            </div>
+        );
     }
 });
 

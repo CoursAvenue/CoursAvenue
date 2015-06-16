@@ -1,10 +1,15 @@
-var TimeTable = require('./time_table/TimeTable'),
-    FilterStore = require('../../stores/FilterStore');
+var TimeTable     = require('./time_table/TimeTable'),
+    TimeStore     = require('../../stores/TimeStore'),
+    FluxBoneMixin = require('../../../mixins/FluxBoneMixin');
 
 var LessonPanel = React.createClass({
 
+    mixins: [
+        FluxBoneMixin('time_table')
+    ],
+
     getInitialState: function getInitialState () {
-        return { timeTable: FilterStore.timeFilters() };
+        return { time_table: TimeStore };
     },
 
     render: function render () {
@@ -13,7 +18,7 @@ var LessonPanel = React.createClass({
               <h2>Quand &gt; Cours Réguliers</h2>
               <h3>Sélectionnez vos disponibilités</h3>
 
-              <TimeTable timeTable={ this.props.timeTable } />
+              <TimeTable timeTable={ this.state.time_table } />
           </div>
         );
     },
