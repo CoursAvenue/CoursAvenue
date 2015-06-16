@@ -1,13 +1,13 @@
 {
   "checksum": {
-    "previous": "1a1c675de107461ce198b551e5b97f825eac40876a46058cd42aab86fae67234",
-    "current": "1a1c675de107461ce198b551e5b97f825eac40876a46058cd42aab86fae67234"
+    "previous": "47e47bd2894c64ab52049a8475412ff05f908f43873903e53f46b373f8c5e829",
+    "current": "47e47bd2894c64ab52049a8475412ff05f908f43873903e53f46b373f8c5e829"
   },
   "fonts": [
-    "app/assets/fonts/CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.ttf",
-    "app/assets/fonts/CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.svg",
-    "app/assets/fonts/CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.woff",
-    "app/assets/fonts/CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.eot"
+    "app/assets/fonts/CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.ttf",
+    "app/assets/fonts/CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.svg",
+    "app/assets/fonts/CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.woff",
+    "app/assets/fonts/CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.eot"
   ],
   "glyphs": {
     "audiences": {
@@ -333,6 +333,10 @@
     "user": {
       "codepoint": 61775,
       "source": "app/assets/images/icons/svg/user.svg"
+    },
+    "walk": {
+      "codepoint": 61779,
+      "source": "app/assets/images/icons/svg/walk.svg"
     },
     "yoga-bien-etre-sante": {
       "codepoint": 61776,
