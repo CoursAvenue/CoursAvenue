@@ -23,7 +23,10 @@ module.exports = {
         UPDATE_FILTERS:              null,
 
         HIGHLIGHT_MARKER:            null,
-        UNHIGHLIGHT_MARKER:          null
+        UNHIGHLIGHT_MARKER:          null,
+
+        TOGGLE_DAY_SELECTION:        null,
+        TOGGLE_PERIOD_SELECTION:     null,
     })
 
 };
