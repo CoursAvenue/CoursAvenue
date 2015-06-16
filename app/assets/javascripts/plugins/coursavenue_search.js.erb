@@ -36,20 +36,20 @@
             // Check if the element has already been initialized before doing the stuff
             if (this.$address_input.length > 0) { this.$address_input.addressPicker(); }
             if (this.$element.hasClass('tt-hint')) { return; }
-            var input_subject_filter = new CoursAvenue.Views.InputSubjectFilterView({ el: '[data-type=subjects]' });
+            // var input_subject_filter = new CoursAvenue.Views.InputSubjectFilterView({ el: '[data-type=subjects]' });
             this.$element.submit(function(event) {
                 var city = this.$city_input.val() || $.cookie('city') || 'paris';
                 _.extend(this.data, { city: city });
                 new_action = CoursAvenue.searchPath(this.data);
-                input_subject_filter.ui.$subjects_input.removeAttr('name');
+                // input_subject_filter.ui.$subjects_input.removeAttr('name');
                 this.$element.attr('action', new_action);
                 return true;
             }.bind(this));
-            input_subject_filter.render();
-            input_subject_filter.on('filter:subject_input', function(data) {
-                _.extend(this.data, data);
-                if (this.$address_input.length == 0) { this.$element.submit(); }
-            }.bind(this));
+            // input_subject_filter.render();
+            // input_subject_filter.on('filter:subject_input', function(data) {
+            //     _.extend(this.data, data);
+            //     if (this.$address_input.length == 0) { this.$element.submit(); }
+            // }.bind(this));
         }
     };
 
