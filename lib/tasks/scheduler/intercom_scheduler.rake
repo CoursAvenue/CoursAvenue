@@ -7,7 +7,7 @@ namespace :scheduler do
     # $ rake scheduler:intercom:update_intercom_page_view_attribute
     desc 'Updates Intercom status of admins'
     task :update_intercom_page_view_attribute => :environment do |t, args|
-      intercom = Intercom::Client.new(app_id: ENV['INTERCOM_APP_ID'], api_key: ENV['INTERCOM_API_KEY'])
+      intercom = IntercomClientFactory.client
       Admin.find_each do |admin|
         structure = admin.structure
         next if structure.nil?
@@ -15,7 +15,8 @@ namespace :scheduler do
         has_signed_in_since_a_month = (admin.current_sign_in_at and admin.current_sign_in_at > 1.month.ago)
         next if structure.plannings.future.any? and !has_updated_plannings_recently and !has_signed_in_since_a_month
         intercom_user = intercom.users.find(:user_id => "Admin_#{admin.id}")
-        intercom_user.custom_attributes['Stage à venir']   = structure.plannings.future.count
+        # TODO
+        intercom_user.custom_attributes['Stage à venir']   = structure.courses.trainings.flat_map{ |c| c.plannings.future }.length
         intercom_user.custom_attributes['Màj Cours < 30j'] = has_updated_plannings_recently
         intercom_user.custom_attributes['# vue planning']  = admin.structure.planning_page_views_nb
         intercom.users.save(intercom_user)

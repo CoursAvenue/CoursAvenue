@@ -174,6 +174,7 @@ class Pro::StructuresController < Pro::ProController
   # GET collection
   def index
     @structures = Structure.order('structures.created_at DESC').where(sleeping_structure_id: nil).page(params[:page] || 1).per(50)
+    @importer = StructureImporter.new
   end
 
   # GET member
@@ -366,14 +367,39 @@ France
 
   # GET structure/:id/ask_webmaster_for_planning
   def ask_webmaster_for_planning
-    @website_parameter = @structure.website_parameter || @structure.create_website_parameter(slug: structure.slug)
+    @website_parameter = @structure.website_parameter || @structure.create_website_parameter(slug: @structure.slug)
     @website_parameter.webmaster_email         = params[:email]
     @website_parameter.webmaster_email_sent_at = DateTime.now
     @website_parameter.save
     email_content = '<div class="p">' + params[:text].gsub(/\r\n\r\n/, '</div><div class="p">').gsub(/\r\n/, '<br>') + '</div>'
     AdminMailer.delay.ask_webmaster_for_planning(params[:email], email_content, @structure)
     respond_to do |format|
-      format.html { redirect_to website_planning_pro_structure_path(@structure), notice: 'Message envoyé à votre webmaster'}
+      format.html { redirect_to website_planning_pro_structure_path(@structure), notice: 'Message envoyé à votre webmaster' }
+    end
+  end
+
+  # POST structure/import
+  def import
+    file = import_params[:file].tempfile
+    importer = StructureImporter.new(file)
+    imported_structures = importer.import!
+
+    respond_to do |format|
+      if imported_structures.any?
+        format.html { redirect_to pro_structures_path,
+                      notice: "Le fichier est en cours d'importation." }
+      else
+        format.html { redirect_to pro_structures_path,
+                      error: "Une erreur est survenue lors de l'import du fichier, veuillez rééssayer." }
+      end
+    end
+  end
+
+  def imported_structures
+    redirect_to pro_structures_path if params[:structures].nil?
+
+    @structures = params[:structures].map do |id|
+      Structure.find(id)
     end
   end
 
@@ -453,5 +479,9 @@ France
 
   def load_structure
     @structure = Structure.friendly.find(params[:id]) if params[:id].present?
+  end
+
+  def import_params
+    params.require(:structure_importer).permit(:file)
   end
 end

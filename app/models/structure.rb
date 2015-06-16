@@ -1085,10 +1085,11 @@ class Structure < ActiveRecord::Base
         sleeping_structure.phone_numbers.build(number: phone.number, phone_type: phone.phone_type)
       end
 
-      sleeping_structure.places        = places.map(&:dup)
-      sleeping_structure.subjects      = root_subjects_from_string(self) + child_subjects_from_string(self)
+      sleeping_structure.stripe_customer_id = nil
+      sleeping_structure.places             = places.map(&:dup)
+      sleeping_structure.subjects           = root_subjects_from_string(self) + child_subjects_from_string(self)
 
-      sleeping_structure.is_sleeping   = true
+      sleeping_structure.is_sleeping        = true
       sleeping_structure.save
       sleeping_structure.delay.index
 
@@ -1121,7 +1122,8 @@ class Structure < ActiveRecord::Base
     if self.status != new_status
       if self.main_contact
         begin
-          Intercom::Event.create(
+          intercom_client = IntercomClientFactory.client
+          intercom_client.events.create(
           event_name: "#{self.status} -> #{new_status}", created_at: Time.now.to_i,
           email: self.main_contact.email,
           user_id: "Admin_#{self.main_contact.id}"
@@ -1337,6 +1339,7 @@ class Structure < ActiveRecord::Base
       :name,
       [:name, :zip_code],
       [:name, :zip_code, :street],
+      [:name, :id],
     ]
   end
 
