@@ -145,6 +145,39 @@ RSpec.describe IndexableCard, type: :model do
     end
   end
 
+  describe '#planning_periods' do
+    context 'when there is no course' do
+      let!(:_subject) { structure.subjects.sample }
+      let!(:place) { structure.places.sample }
+      subject { IndexableCard.create_from_subject_and_place(_subject, place) }
+
+      it 'returns an empty array' do
+        expect(subject.planning_periods).to be_empty
+      end
+    end
+
+    context 'when there is a course' do
+      let!(:place) { structure.places.sample }
+      let!(:course) { FactoryGirl.create(:course, structure: structure) }
+      let(:start_time) { DateTime.now.change({ hour: 9 }) }
+      let(:end_time)   { DateTime.now.change({ hour: 11 }) }
+      let!(:planning)  { FactoryGirl.create(:planning, course: course, place: place, week_day: 1, start_time: start_time, end_time: end_time) }
+      let!(:planning2) { FactoryGirl.create(:planning, course: course, place: place, week_day: 2, start_time: start_time, end_time: end_time) }
+      let!(:planning3) { FactoryGirl.create(:planning, course: course, place: place, week_day: 3, start_time: start_time, end_time: end_time) }
+      let!(:planning4) { FactoryGirl.create(:planning, course: course, place: place, week_day: 4, start_time: start_time, end_time: end_time) }
+      subject! { IndexableCard.create_from_planning(planning) }
+
+      it 'returns the daily count of the plannings' do
+        course.reload
+        expected_aval = [ "monday-morning", "tuesday-morning", "wednesday-morning",
+                          "thursday-morning" ]
+
+        expect(subject.planning_periods).to match_array(expected_aval)
+      end
+    end
+
+  end
+
   describe '#starting_price' do
     context 'when there are prices' do
       let!(:place) { structure.places.sample }

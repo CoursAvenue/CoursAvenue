@@ -102,6 +102,8 @@ class IndexableCard < ActiveRecord::Base
     add_attribute :identity do
       [card_type, structure_id, place_id, course_id].compact.join(':')
     end
+
+    add_attribute :planning_periods
   end
   # :nocov:
 
@@ -188,6 +190,22 @@ class IndexableCard < ActiveRecord::Base
     end
 
     availability
+  end
+
+  # Returns the periods during the courses take place in the following format:
+  # `DAY-PERIOD`. Example: `monday-0` for a course taking place at 8AM on a monday.
+  #
+  # @return an array of string.
+  def planning_periods
+    return [] if planning.nil?
+
+    periods = []
+    course.plannings.each do |planning|
+      course_day = Date::DAYNAMES[planning.week_day].downcase
+      periods += planning.periods.map { |period| "#{course_day}-#{period}" }
+    end
+
+    periods
   end
 
   # The starting price of the card.
