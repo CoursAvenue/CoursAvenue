@@ -16,7 +16,7 @@ var Cell = React.createClass({
     },
 
     render: function render () {
-        var classes = cx('bordered cursor-pointer', { selected: this.state.selected });
+        var classes = cx('bordered cursor-pointer', { 'bg-gray': this.props.selected });
         return (
             <div onClick={ this.toggleSelected } className={ classes } style={ { height: '15px' } }></div>
         );
