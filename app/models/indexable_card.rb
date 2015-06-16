@@ -110,11 +110,13 @@ class IndexableCard < ActiveRecord::Base
       return existing_cards.first
     end
 
-    card = create(attributes)
+    card = new(attributes)
 
     planning.subjects.each do |subject|
       card.subjects << subject
     end
+
+    card.save
 
     card
   end
