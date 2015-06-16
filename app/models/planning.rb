@@ -11,21 +11,25 @@ class Planning < ActiveRecord::Base
   TIME_SLOTS = {
     morning: {
       name:       'planning.timeslots.morning',
+      short_name: 'morning',
       start_time: 0,
       end_time:   12,
     },
     noon: {
       name:       'planning.timeslots.noon',
+      short_name: 'noon',
       start_time: 12,
       end_time:   14
     },
     afternoon: {
       name:       'planning.timeslots.afternoon',
+      short_name: 'afternoon',
       start_time: 14,
       end_time:   18
     },
     evening: {
       name:       'planning.timeslots.evening',
+      short_name: 'evening',
       start_time: 18,
       end_time:   24
     }
@@ -475,6 +479,29 @@ class Planning < ActiveRecord::Base
     elsif course.place
       course.place.longitude
     end
+  end
+
+  # The periods in which the planning is in. We are inclusing with these periods, meaning that we
+  # take slots in which the start_time and the end_time are in.
+  #
+  # @return an Array of string.
+  def periods
+    periods = []
+    _start_time = start_time.in_time_zone('Paris')
+    _end_time   = end_time.in_time_zone('Paris')
+
+    TIME_SLOTS.keys.each do |key|
+      slot = TIME_SLOTS[key]
+      if _start_time.hour.in?(slot[:start_time]..slot[:end_time])
+        periods << slot[:short_name]
+      end
+
+      if _end_time.hour.in?(slot[:start_time]..slot[:end_time])
+        periods << slot[:short_name]
+      end
+    end
+
+    periods.uniq
   end
 
   private

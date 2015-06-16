@@ -224,6 +224,34 @@ describe Planning do
     end
   end
 
+  describe '#period' do
+    context 'when both ends are in the same slot' do
+      let(:start_time) { DateTime.now.change({ hour: 9 }) }
+      let(:end_time)   { DateTime.now.change({ hour: 11 }) }
+      subject { FactoryGirl.create(:planning, start_time: start_time, end_time: end_time) }
+
+      it 'returns one unique slot' do
+        periods = subject.periods
+
+        expect(periods).to_not be_empty
+        expect(periods).to match_array(['morning'])
+      end
+    end
+
+    context 'when both ends are not in the same slot' do
+      let(:start_time) { DateTime.now.change({ hour: 11 }) }
+      let(:end_time)   { DateTime.now.change({ hour: 13 }) }
+      subject { FactoryGirl.create(:planning, start_time: start_time, end_time: end_time) }
+
+      it 'returns the two slots' do
+        periods = subject.periods
+
+        expect(periods).to_not be_empty
+        expect(periods).to match_array(['morning', 'noon'])
+      end
+    end
+  end
+
   # context 'participations' do
   #   let(:user) { FactoryGirl.create(:user) }
 
