@@ -63,7 +63,7 @@ class IndexableCard < ActiveRecord::Base
 
     add_attribute :subjects do
       self.subjects.map do |subject|
-        { name: subject.name, slug: subject.slug }
+        { name: subject.name, slug: subject.slug, slug_name: "#{subject.slug}:#{subject.name}" }
       end
     end
 

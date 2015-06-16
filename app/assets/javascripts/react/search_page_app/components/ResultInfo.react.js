@@ -1,9 +1,9 @@
 var ReactPropTypes        = React.PropTypes,
-    SubjectActionCreators = require('../actions/SubjectActionCreators'),
+    ResultInfoItem        = require('./ResultInfoItem'),
     CardStore             = require('../stores/CardStore'),
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
 
-var RootSubjectItem = React.createClass({
+var ResultInfo = React.createClass({
 
     mixins: [
         FluxBoneMixin('card_store')
@@ -15,18 +15,24 @@ var RootSubjectItem = React.createClass({
 
     render: function render () {
         var total_results = this.state.card_store.total_results || 0;
-        var facets = [];
+        var facets = []
         if (this.state.card_store.facets && this.state.card_store.facets[0]) {
+            var index = 0;
             facets = _.map(this.state.card_store.facets[0].data, function(value, key) {
-                return key + '(' + value + ')';
+                index += 1;
+                return (<ResultInfoItem number={value}
+                                        subject_name={key.split(':')[1]}
+                                        subject_slug={key.split(':')[0]}
+                                        show_dash={(index > 1)}/>);
             });
         }
+        var result_string = (total_results > 1 ? 'résultats' : 'résultat');
         return (
-          <div className="main-container epsilon soft--ends soft-half--sides bg-white">
-              {total_results} Résultats : {facets.join(' - ')}
+          <div className="main-container delta soft--ends soft-half--sides bg-white text-ellipsis">
+              <strong>{total_results} {result_string} :</strong> {facets}
           </div>
         );
     }
 });
 
-module.exports = RootSubjectItem;
+module.exports = ResultInfo;
