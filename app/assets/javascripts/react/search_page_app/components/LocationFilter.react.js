@@ -2,6 +2,7 @@ var FilterStore                    = require('../stores/FilterStore'),
     SearchPageDispatcher           = require('../dispatcher/SearchPageDispatcher'),
     FluxBoneMixin                  = require("../../mixins/FluxBoneMixin"),
     classNames                     = require('classnames'),
+    FilterPanelConstants           = require('../constants/FilterPanelConstants'),
     FilterActionCreators           = require('../actions/FilterActionCreators');
 
 var LocationFilter = React.createClass({
@@ -31,9 +32,10 @@ var LocationFilter = React.createClass({
     },
 
     render: function render () {
+        var isCurrentPanel = this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.LOCATION;
         var classes = classNames({
-            'north'     : (this.state.filter_store.current_panel == 'locations'),
-            'down-north': !(this.state.filter_store.current_panel == 'locations')
+            'north'     : isCurrentPanel,
+            'down-north': !isCurrentPanel
         });
         return (
           <div className={classes + ' transition-all-300 absolute west one-whole bg-white height-35vh text--center'}

@@ -131,13 +131,16 @@ var FilterStore = Backbone.Model.extend({
         if (this.get('subject')) {
             filters.push({ title: this.get('subject').name, filter_key: 'subject' });
         }
+        if (this.get('full_text_search')) {
+            filters.push({ title: "Activité : " + this.get('full_text_search'), filter_key: 'full_text_search' });
+        }
         return filters;
     },
 
     // Checks if we are filtering around a place (e.g. User location, Around a subway stop, etc.)
     // TODO: Add metro stop check.
     isFilteringAroundLocation: function isFilteringAroundLocation () {
-        return ! (_.isUndefined(this.get('user_position')) || _.isEmpty(this.get('user_position')));
+        return ! (_.isUndefined(this.get('user_position')) || _.isNull(this.get('user_position')));
     }
 });
 

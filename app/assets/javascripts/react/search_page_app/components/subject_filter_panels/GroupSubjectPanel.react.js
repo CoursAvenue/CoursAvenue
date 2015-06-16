@@ -22,8 +22,11 @@ var SubjectFilter = React.createClass({
             );
         });
         return (
-          <div>
-              <h2>Quoi ?</h2>
+          <div className="text--center">
+              <h2 className="push-half--bottom soft-half--bottom bordered--bottom inline-block">
+                  Quoi ?
+              </h2>
+              <h3>Dans quelle discipline ?</h3>
               <div className="main-container">{group_subject_items}</div>
               <hr className="push--ends" />
               <SubjectSearchInput />

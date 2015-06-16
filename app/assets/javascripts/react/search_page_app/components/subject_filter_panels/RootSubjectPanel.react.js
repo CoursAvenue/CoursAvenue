@@ -34,7 +34,10 @@ var SubjectFilter = React.createClass({
               <div className="main-container">
                   <a onClick={this.showGroupPanel} className="block text--left">Retour</a>
               </div>
-              <h2>Quoi ? &gt; {this.state.filter_store.get('group_subject').name}</h2>
+              <h2 className="push-half--bottom soft-half--bottom bordered--bottom inline-block">
+                  Quoi ? : {this.state.filter_store.get('group_subject').name}
+              </h2>
+              <h3>Choisissez une famille de discipline</h3>
               <div className="main-container">
                   { root_subject_items }
               </div>

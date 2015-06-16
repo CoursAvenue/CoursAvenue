@@ -22,7 +22,7 @@ var GroupSubjectItem = React.createClass({
         var subject = this.props.subject;
         return (
             <div className="one-sixth very-softf inline-block">
-              <div className="bg-white bordered cursor-pointer soft-halff" onClick={this.filterByGroupSubject}>
+              <div className="soft delta bg-white bordered cursor-pointer" onClick={this.filterByGroupSubject}>
                   {subject.name}
               </div>
           </div>

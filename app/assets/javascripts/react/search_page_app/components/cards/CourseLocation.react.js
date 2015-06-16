@@ -14,25 +14,23 @@ CourseDistance = React.createClass({
 
     getInitialState: function getInitialState () {
         return {
-            filter_store:   FilterStore,
-            aroundLocation: FilterStore.isFilteringAroundLocation()
+            filter_store:   FilterStore
         };
     },
 
     render: function render () {
         return (
             <div className='very-soft--top very-soft--bottom'>
-                <i className='fa fa-map-marker very-soft--right'></i>
-                { this.location() }
+                <div dangerouslySetInnerHTML={{__html: this.location() }} />
             </div>
         );
     },
 
     location: function location () {
-        if (this.state.aroundLocation) {
-            return this.distanceStr();
+        if (this.state.filter_store.isFilteringAroundLocation()) {
+            return "<i className='fa fa-map-marker very-soft--right'></i> " + this.distanceStr();
         } else {
-            return this.addressStr();
+            return "<i className='fa fa-map-marker very-soft--right'></i> " + this.addressStr();
         }
     },
 
@@ -43,12 +41,14 @@ CourseDistance = React.createClass({
 
         var distance = this.props.rankingInfo.geoDistance;
         var string = "À ";
+        var minutes_by_walk = (distance / 100)
         if (distance > 1000) {
             distance /= 1000.0
-            string += distance + " km"
+            string += distance + "km"
         } else {
-            string += distance + " mettres"
+            string += distance + "m"
         }
+        string += ' (~' + minutes_by_walk + 'min <i class="fa-walk"></i>)'
 
         return string;
     },
