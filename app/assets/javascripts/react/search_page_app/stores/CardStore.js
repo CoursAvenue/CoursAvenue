@@ -29,6 +29,7 @@ var CardCollection = Backbone.Collection.extend({
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
             // When the filters are updated, refetch the cards.
+            case ActionTypes.UPDATE_BOUNDS:
             case ActionTypes.UPDATE_FILTERS:
             case ActionTypes.SELECT_GROUP_SUBJECT:
             case ActionTypes.SELECT_ROOT_SUBJECT:

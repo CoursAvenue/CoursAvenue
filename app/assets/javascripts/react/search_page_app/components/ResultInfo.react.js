@@ -22,8 +22,8 @@ var RootSubjectItem = React.createClass({
             });
         }
         return (
-          <div className="main-container">
-              {total_results} Résultats : {facets.join(', ')}
+          <div className="main-container epsilon soft--ends soft-half--sides bg-white">
+              {total_results} Résultats : {facets.join(' - ')}
           </div>
         );
     }

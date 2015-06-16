@@ -11,6 +11,10 @@ module.exports = {
         ROOT:  null,
         CHILD: null
     }),
+    LOCATION_PANELS: keyMirror({
+        ADDRESS: null,
+        METRO:  null
+    }),
     TIME_PANELS: keyMirror({
         LESSON:   null,
         TRAINING: null,

@@ -1,9 +1,12 @@
-var FilterStore                    = require('../stores/FilterStore'),
-    SearchPageDispatcher           = require('../dispatcher/SearchPageDispatcher'),
-    FluxBoneMixin                  = require("../../mixins/FluxBoneMixin"),
-    classNames                     = require('classnames'),
-    FilterPanelConstants           = require('../constants/FilterPanelConstants'),
-    FilterActionCreators           = require('../actions/FilterActionCreators');
+var FilterStore                = require('../stores/FilterStore'),
+    SearchPageDispatcher       = require('../dispatcher/SearchPageDispatcher'),
+    FluxBoneMixin              = require("../../mixins/FluxBoneMixin"),
+    LocationFilterAddressPanel = require('./location_filter_panels/LocationFilterAddressPanel'),
+    LocationFilterChoicePanel  = require('./location_filter_panels/LocationFilterChoicePanel'),
+    classNames                 = require('classnames'),
+    FilterPanelConstants       = require('../constants/FilterPanelConstants'),
+    FilterActionCreators       = require('../actions/FilterActionCreators'),
+    FilterPanelConstants       = require('../constants/FilterPanelConstants');
 
 var LocationFilter = React.createClass({
 
@@ -13,22 +16,19 @@ var LocationFilter = React.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            filter_store:  FilterStore
+            filter_store: FilterStore
         };
     },
 
     panelToShow: function panelToShow () {
-        return (<div> Coucou ! </div>)
-    //     switch(this.state.filter_store.get('subject_panel')) {
-    //       case 'group':
-    //         return ( <LocationFilterGroupSubjectPanel key='group' /> );
-    //       case 'root':
-    //         return ( <LocationFilterRootSubjectPanel key='root' /> );
-    //       case 'child':
-    //         return ( <LocationFilterChildSubjectPanel key='child' /> );
-    //       default:
-    //         return ( <LocationFilterGroupSubjectPanel key='group' /> );
-    //     }
+        switch(this.state.filter_store.get('location_panel')) {
+          case FilterPanelConstants.LOCATION_PANELS.ADDRESS:
+            return ( <LocationFilterAddressPanel/> );
+          // case FilterPanelConstants.LOCATION_PANELS.METRO:
+          //   return ( <LocationFilterMetroPanel key='root' /> );
+          default:
+            return ( <LocationFilterChoicePanel/> );
+        }
     },
 
     render: function render () {

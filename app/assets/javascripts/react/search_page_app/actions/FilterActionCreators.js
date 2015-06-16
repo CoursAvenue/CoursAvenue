@@ -28,6 +28,7 @@ module.exports = {
         });
     },
 
+    //----------- Subject panels
     showGroupPanel: function showGroupPanel () {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.SHOW_GROUP_PANEL
@@ -37,6 +38,19 @@ module.exports = {
     showRootPanel: function showRootPanel () {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.SHOW_ROOT_PANEL
+        });
+    },
+
+    //----------- Location panels
+    showAddressPanel: function showAddressPanel () {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SHOW_ADDRESS_PANEL
+        });
+    },
+
+    showLocationChoicePanel: function showLocationChoicePanel () {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SHOW_LOCATION_CHOICE_PANEL
         });
     },
 

@@ -12,7 +12,7 @@ module.exports = {
         SELECT_GROUP_SUBJECT:        null,
         SELECT_ROOT_SUBJECT:         null,
         SELECT_SUBJECT:              null,
-        SELECT_CITY:                 null,
+        SELECT_ADDRESS:              null,
         SEARCH_FULL_TEXT:            null,
 
         UNSET_FILTER:                null,
@@ -20,7 +20,13 @@ module.exports = {
         SHOW_GROUP_PANEL:            null,
         SHOW_ROOT_PANEL:             null,
 
+        SHOW_ADDRESS_PANEL:          null,
+        SHOW_LOCATION_CHOICE_PANEL:  null,
+
         UPDATE_FILTERS:              null,
+        UPDATE_BOUNDS:               null,
+
+        LOCATE_USER:                 null,
 
         HIGHLIGHT_MARKER:            null,
         UNHIGHLIGHT_MARKER:          null

@@ -40,6 +40,14 @@ class IndexableCard < ActiveRecord::Base
       'indexable_card'
     end
 
+    add_attribute :end_date do
+      if planning and planning.end_date
+        planning.end_date
+      else
+        100.years.from_now
+      end
+    end
+
     attribute :structure_id
     attribute :course_id
     attribute :course_name

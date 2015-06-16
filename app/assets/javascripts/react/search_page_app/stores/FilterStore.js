@@ -1,5 +1,7 @@
 var _                    = require('underscore'),
     Backbone             = require('backbone'),
+    LocationStore        = require('../stores/LocationStore'),
+    LocationStore        = require('../stores/LocationStore'),
     SubjectStore         = require('../stores/SubjectStore'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
@@ -34,6 +36,12 @@ var FilterStore = Backbone.Model.extend({
             case ActionTypes.SHOW_ROOT_PANEL:
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.ROOT });
                 break;
+            case ActionTypes.SHOW_ADDRESS_PANEL:
+                this.set({ location_panel: FilterPanelConstants.LOCATION_PANELS.ADDRESS });
+                break;
+            case ActionTypes.SHOW_LOCATION_CHOICE_PANEL:
+                this.unset('location_panel');
+                break;
             case ActionTypes.SELECT_GROUP_SUBJECT:
                 this.set({ group_subject: payload.data });
                 this.set({ root_subject: null });
@@ -49,9 +57,6 @@ var FilterStore = Backbone.Model.extend({
             case ActionTypes.SELECT_SUBJECT:
                 this.set({ subject: payload.data });
                 this.trigger('change');
-                break;
-            case ActionTypes.SELECT_CITY:
-                this.set({ city: payload.data });
                 break;
             case ActionTypes.SEARCH_FULL_TEXT:
                 this.set({ full_text_search: payload.data });
@@ -78,8 +83,11 @@ var FilterStore = Backbone.Model.extend({
         switch(filter_to_unset) {
             case 'group_subject':
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.GROUP });
+                this.unset('root_subject');
+                this.unset('subject');
                 break;
             case 'root_subject':
+                this.unset('subject');
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.ROOT });
                 break;
             case 'subject':
@@ -99,13 +107,13 @@ var FilterStore = Backbone.Model.extend({
         if (this.get('root_subject'))      { data.root_subject     = this.get('root_subject') }
         if (this.get('subject'))           { data.subject          = this.get('subject') }
         if (this.get('full_text_search'))  { data.full_text_search = this.get('full_text_search') }
-        if (this.get('insideBoundingBox')) {
-            data.insideBoundingBox = this.get('insideBoundingBox').toString();
+        if (LocationStore.get('bounds')) {
+            data.insideBoundingBox = LocationStore.get('bounds').toString();
         }
-        if (this.get('user_position')) {
-            data.aroundLatLng = this.get('user_position').latitude + ',' + this.get('user_position').longitude;
-        } else if (this.get('city')) {
-            data.aroundLatLng = this.get('city').latitude + ',' + this.get('city').longitude;
+        if (LocationStore.get('user_location')) {
+            data.aroundLatLng = LocationStore.get('user_location').latitude + ',' + LocationStore.get('user_location').longitude;
+        } else if (LocationStore.get('address')) {
+            data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
         }
 
         return data;
@@ -140,7 +148,7 @@ var FilterStore = Backbone.Model.extend({
     // Checks if we are filtering around a place (e.g. User location, Around a subway stop, etc.)
     // TODO: Add metro stop check.
     isFilteringAroundLocation: function isFilteringAroundLocation () {
-        return ! (_.isUndefined(this.get('user_position')) || _.isNull(this.get('user_position')));
+        return ! (_.isUndefined(this.get('user_location')) || _.isNull(this.get('user_location')));
     }
 });
 

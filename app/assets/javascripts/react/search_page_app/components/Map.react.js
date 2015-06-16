@@ -1,59 +1,74 @@
-var FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
-    CardStore            = require("../stores/CardStore"),
-    CityStore            = require("../stores/CityStore"),
-    FilterActionCreators = require("../actions/FilterActionCreators");
+var FluxBoneMixin          = require("../../mixins/FluxBoneMixin"),
+    CardStore              = require("../stores/CardStore"),
+    LocationStore          = require("../stores/LocationStore"),
+    SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
+    LocationActionCreators = require("../actions/LocationActionCreators"),
+    FilterActionCreators   = require("../actions/FilterActionCreators");
 
 var MapComponent = React.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            card_store: CardStore,
-            city_store: CityStore
+            card_store    : CardStore,
+            location_store: LocationStore
         };
     },
 
     componentDidMount: function componentDidMount () {
         // Provide your access token
         L.mapbox.accessToken = ENV.MAPBOX_ACCESS_TOKEN;
-        // Create a map in the div #map
+        this.createMap();
+        this.setEventsListeners()
+        this.handleMoveend(); // Trigger map bounds
+    },
+
+    createMap: function createMap () {
         this.marker_layer = L.layerGroup();
         this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets')
                           .setView(this.props.center, 13)
                           .addLayer(this.marker_layer);
+    },
+
+    setEventsListeners: function setEventsListeners () {
         this.map.on('moveend', this.handleMoveend);
         this.state.card_store.on('all', function() {
             this.updateMarkerLayer();
         }.bind(this));
-        this.locateUser();
-        this.handleMoveend(); // Trigger map bounds
+
+        this.state.location_store.on('all', function() {
+            // Move Map ONLY IF we just changed address
+            if (this.state.location_store.changed.address) {       this.moveMapToNewAddress(); }
+            if (this.state.location_store.changed.user_location) { this.setLocationOnMap(); }
+        }.bind(this));
     },
 
-    setLocationOnMap: function setLocationOnMap (location) {
-        var marker = L.marker([location.coords.latitude, location.coords.longitude],
+    moveMapToNewAddress: function moveMapToNewAddress (location) {
+        if (!this.state.location_store.get('address')) { return; }
+        this.map.setView([this.state.location_store.get('address').latitude, this.state.location_store.get('address').longitude]);
+    },
+
+    setLocationOnMap: function setLocationOnMap () {
+        var marker = L.marker([this.state.location_store.get('user_location').latitude, this.state.location_store.get('user_location').longitude],
                               { icon: L.divIcon({className: 'map-box-marker__user'}) });
         this.map.addLayer(marker);
-        FilterActionCreators.updateFilters({ user_position: location.coords });
-        this.map.setView([location.coords.latitude, location.coords.longitude]);
+        this.map.setView([this.state.location_store.get('user_location').latitude, this.state.location_store.get('user_location').longitude]);
         marker.bindPopup('Je suis là !');
     },
 
-    locateUser: function locateUser () {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(this.setLocationOnMap, function() {});
-        }
-    },
-
     handleMoveend: function handleMoveend (leaflet_data) {
-        FilterActionCreators.updateFilters({
-            insideBoundingBox: [
-                [this.map.getBounds()._southWest.lat, this.map.getBounds()._southWest.lng],
-                [this.map.getBounds()._northEast.lat, this.map.getBounds()._northEast.lng]
-            ]
-        });
+        if (SearchPageDispatcher.isDispatching()) {
+            _.defer(this.handleMoveend, leaflet_data);
+            return;
+        }
+        LocationActionCreators.updateBounds([
+            [this.map.getBounds()._southWest.lat, this.map.getBounds()._southWest.lng],
+            [this.map.getBounds()._northEast.lat, this.map.getBounds()._northEast.lng]
+        ]);
     },
 
     updateMarkerLayer: function updateMarkerLayer () {
         if (this.state.card_store.loading) { return; }
+
         _.each(this.marker_layer.getLayers(), function(marker) {
             this.marker_layer.removeLayer(marker);
         }, this);

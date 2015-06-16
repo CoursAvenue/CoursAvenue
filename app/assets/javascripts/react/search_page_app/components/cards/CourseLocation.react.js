@@ -48,7 +48,9 @@ CourseDistance = React.createClass({
         } else {
             string += distance + "m"
         }
-        string += ' (~' + minutes_by_walk + 'min <i class="fa-walk"></i>)'
+        if (minutes_by_walk < 20) {
+            string += ' (~' + minutes_by_walk + 'min <i class="fa-walk"></i>)'
+        }
 
         return string;
     },

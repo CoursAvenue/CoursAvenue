@@ -1,18 +1,18 @@
-var Map                   = require('./Map.react'),
-    ResultList            = require('./ResultList.react'),
-    SubjectFilter         = require('./SubjectFilter.react'),
-    LocationFilter        = require('./LocationFilter.react'),
-    TimeFilter            = require('./TimeFilter.react'),
-    FilterBar             = require('./FilterBar.react'),
-    FilterBreadcrumb      = require('./FilterBreadcrumb.react'),
-    ResultInfo            = require('./ResultInfo.react'),
-    SearchPageAppRouter   = require('../SearchPageAppRouter'),
-    PlanningStore         = require('../stores/PlanningStore'),
-    FilterStore           = require('../stores/FilterStore'),
-    SearchPageDispatcher  = require('../dispatcher/SearchPageDispatcher'),
-    SearchPageConstants   = require('../constants/SearchPageConstants'),
-    SubjectActionCreators = require('../actions/SubjectActionCreators'),
-    CityActionCreators    = require('../actions/CityActionCreators');
+var Map                    = require('./Map.react'),
+    ResultList             = require('./ResultList.react'),
+    SubjectFilter          = require('./SubjectFilter.react'),
+    LocationFilter         = require('./LocationFilter.react'),
+    TimeFilter             = require('./TimeFilter.react'),
+    FilterBar              = require('./FilterBar.react'),
+    FilterBreadcrumb       = require('./FilterBreadcrumb.react'),
+    ResultInfo             = require('./ResultInfo.react'),
+    SearchPageAppRouter    = require('../SearchPageAppRouter'),
+    PlanningStore          = require('../stores/PlanningStore'),
+    FilterStore            = require('../stores/FilterStore'),
+    SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
+    SearchPageConstants    = require('../constants/SearchPageConstants'),
+    SubjectActionCreators  = require('../actions/SubjectActionCreators'),
+    LocationActionCreators = require('../actions/LocationActionCreators');
 
 SearchPageApp = React.createClass({
     propTypes: {
@@ -32,7 +32,7 @@ SearchPageApp = React.createClass({
 
     // Bootstraping data
     bootsrapData: function bootsrapData() {
-        CityActionCreators.selectCity($.parseJSON(this.props.city));
+        LocationActionCreators.filterByAddress($.parseJSON(this.props.address));
         if (this.props.root_subject) {
             SubjectActionCreators.selectRootSubject($.parseJSON(this.props.root_subject));
         }
