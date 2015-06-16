@@ -7,6 +7,7 @@ var TimeTable = React.createClass({
     },
 
     setFilters: function setFilters () {
+        console.log('TODO: Get filters from TimeStore');
         console.log('TODO: Send action with filter');
     },
 

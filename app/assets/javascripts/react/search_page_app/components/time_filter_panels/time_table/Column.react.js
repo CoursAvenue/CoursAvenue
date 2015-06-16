@@ -1,4 +1,5 @@
-var Cell = require('./Cell');
+var Cell = require('./Cell'),
+    TimeActionCreators = require('../../../actions/TimeActionCreators');
 
 var Column = React.createClass({
     propTypes: {
@@ -7,21 +8,23 @@ var Column = React.createClass({
     },
 
     toggleSelected: function toggleSelected () {
-        console.log('ACTION: toggledayselection');
+        TimeActionCreators.toggleDaySelection(this.props.day);
     },
 
     render: function render () {
         var day = this.props.day;
-        var cells = this.props.day.get('periods').map(function(selected, index) {
+        var periods = this.props.day.get('periods');
+        var cells = periods.map(function(selected, index) {
             return (
-                <Cell selected={ selected } key={ index } day={ day } />
+                <Cell selected={ selected } index={ index } key={ index } day={ day } />
             )
         });
+        var checked = _.every(periods, _.identity);
         return (
             <div className='grid__item one-seventh'>
                 <div className=''>{ this.props.day.get('title') }</div>
                 { cells }
-                <input type='checkbox' onClick={ this.toggleSelected } />
+                <input type='checkbox' onChange={ this.toggleSelected } checked={ checked } />
             </div>
         )
     },

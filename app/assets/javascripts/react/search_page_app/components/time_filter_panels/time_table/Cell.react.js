@@ -1,18 +1,16 @@
-var cx = require('classnames/dedupe');
+var cx                 = require('classnames/dedupe'),
+    TimeActionCreators = require('../../../actions/TimeActionCreators');
 
 var Cell = React.createClass({
     propTypes: {
         day: React.PropTypes.object.isRequired,
         selected: React.PropTypes.bool.isRequired,
-    },
-
-    getInitialState: function getInitialState () {
-        return { selected: this.props.selected };
+        index: React.PropTypes.number.isRequired,
     },
 
     toggleSelected: function toggleSelected () {
-        console.log('ACTION: toggleCell');
-        this.setState({ selected: !this.state.selected });
+        var data = { day: this.props.day, period: this.props.index };
+        TimeActionCreators.togglePeriodSelection(data);
     },
 
     render: function render () {
