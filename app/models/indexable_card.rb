@@ -98,6 +98,10 @@ class IndexableCard < ActiveRecord::Base
     add_attribute :structure_logo_url do
       structure.logo.url(:small_thumb_85) if structure.logo?
     end
+
+    add_attribute :identity do
+      [card_type, structure_id, place_id, course_id].compact.join(':')
+    end
   end
   # :nocov:
 
@@ -194,5 +198,14 @@ class IndexableCard < ActiveRecord::Base
 
     price = course.prices.order('amount ASC').first
     price.present? ? price.amount.to_f : 0.0
+  end
+
+  private
+
+  # The type of the card.
+  #
+  # @return a string.
+  def card_type
+    planning.present? ? 'planning_card' : 'subject_card'
   end
 end
