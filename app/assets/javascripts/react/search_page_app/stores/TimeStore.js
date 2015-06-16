@@ -7,9 +7,9 @@ var ActionTypes = SearchPageConstants.ActionTypes;
 
 // A day in the time table.
 var DayColumn = Backbone.Model.extend({
-    defaults: {
-        periods: [false, false, false, false],
-    },
+    defaults: function defaults() {
+        return { periods: [false, false, false, false] }
+    }
 });
 
 var TimeStore = Backbone.Collection.extend({
