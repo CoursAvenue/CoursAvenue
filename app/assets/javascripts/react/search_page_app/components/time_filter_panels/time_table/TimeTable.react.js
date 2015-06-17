@@ -6,11 +6,6 @@ var TimeTable = React.createClass({
         timeTable: React.PropTypes.object.isRequired,
     },
 
-    setFilters: function setFilters () {
-        console.log('TODO: Get filters from TimeStore');
-        console.log('TODO: Send action with filter');
-    },
-
     render: function render () {
         var columns = this.props.timeTable.map(function(day, index) {
             return (
@@ -35,8 +30,6 @@ var TimeTable = React.createClass({
                         </div>
                     </div>
                 </div>
-
-                <a onClick={ this.setFilters } className='btn'>Valider</a>
             </div>
         );
     }
