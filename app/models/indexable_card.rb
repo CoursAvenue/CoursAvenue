@@ -103,7 +103,7 @@ class IndexableCard < ActiveRecord::Base
       [card_type, structure_id, place_id, course_id].compact.join(':')
     end
 
-    add_attribute :planning_periods
+    attribute :planning_periods
   end
   # :nocov:
 
