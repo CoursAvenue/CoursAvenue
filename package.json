@@ -12,7 +12,8 @@
         "keymirror"             : "~0.1.0",
         "react-leaflet"         : "~0.6.1",
         "algoliasearch"         : "~3.4.0",
-        "algoliasearch-helper"  : "~2.0.4",
+        "algoliasearch-helper"  : "~2.1.0",
+        "envify"                : "~3.4.0",
         "classnames"            : "~>2.1.2"
     },
     "license": "MIT",
