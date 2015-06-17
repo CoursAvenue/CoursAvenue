@@ -37,7 +37,7 @@ var TimeStore = Backbone.Collection.extend({
         this.allSelected = !this.allSelected;
 
         var day = this.get(data);
-        day.set('periods', [ this.allSelected, this.allSelected, this.allSelected, this.allSelected ]);
+        day.set('periods', [this.allSelected, this.allSelected, this.allSelected, this.allSelected]);
         this.trigger('change');
     },
 
@@ -61,6 +61,11 @@ var TimeStore = Backbone.Collection.extend({
 });
 
 module.exports = new TimeStore([
-    { title: 'Lun.' }, { title: 'Mar.' }, { title: 'Mer.' }, { title: 'Jeu.' },
-    { title: 'Ven.' }, { title: 'Sam.' }, { title: 'Dim.' }
+    { title: 'Lun.', name: 'monday' },
+    { title: 'Mar.', name: 'tuesday' },
+    { title: 'Mer.', name: 'wednesday' },
+    { title: 'Jeu.', name: 'thursday' },
+    { title: 'Ven.', name: 'friday' },
+    { title: 'Sam.', name: 'saturday' },
+    { title: 'Dim.', name: 'sunday' }
 ]);
