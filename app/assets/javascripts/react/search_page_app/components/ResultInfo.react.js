@@ -23,6 +23,7 @@ var ResultInfo = React.createClass({
                 return (<ResultInfoItem number={value}
                                         subject_name={key.split(':')[1]}
                                         subject_slug={key.split(':')[0]}
+                                        key={key}
                                         show_dash={(index > 1)}/>);
             });
         }
