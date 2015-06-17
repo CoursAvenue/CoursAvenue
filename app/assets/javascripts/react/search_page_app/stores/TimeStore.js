@@ -81,6 +81,29 @@ var TimeStore = Backbone.Collection.extend({
 
         this.trigger('change');
     },
+
+    toAlgoliaFilter: function toAlgoliaFilter () {
+        var filters = this.models.map(function(model) {
+            return model.toAlgolia();
+        });
+        filters = _.chain(filters).flatten().compact().value();
+
+        return filters;
+    },
+
+    setFilters: function setFilters (filters) {
+        filters.each(function(filter) {
+            var attributes = filter.split('-');
+            var day = this.findWhere({ name: attributes[0] });
+            var periodIndex = PERIODS.indexOf(attributes[1]);
+
+            if (day && periodIndex != -1) {
+                day.setPeriod(periodIndex);
+            }
+        }.bind(this));
+
+        this.trigger('change');
+    },
 });
 
 module.exports = new TimeStore([
