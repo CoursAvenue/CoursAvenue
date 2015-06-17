@@ -158,10 +158,6 @@ var SubjectStore = Backbone.Collection.extend({
             this.error   = true;
             this.trigger('change');
         }.bind(this));
-
-        // root_subject = _.find(this.group_subjects, function(group_subject) {
-        //     return (group_subject.root_slugs.indexOf(root_subject_slug) != -1)
-        // });
     }
 
 });

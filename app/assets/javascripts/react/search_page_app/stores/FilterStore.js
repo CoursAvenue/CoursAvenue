@@ -47,8 +47,11 @@ var FilterStore = Backbone.Model.extend({
             case ActionTypes.SELECT_ROOT_SUBJECT:
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.CHILD });
                 break;
+            case ActionTypes.CLOSE_FILTER_PANEL:
+                this.unset('current_panel');
+                break;
             case ActionTypes.SELECT_SUBJECT:
-                // SearchPageDispatcher.waitFor([SubjectStore.dispatchToken]);
+                this.unset('current_panel');
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.CHILD });
                 break;
             case ActionTypes.TOGGLE_SUBJECT_FILTERS:

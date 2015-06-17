@@ -17,6 +17,10 @@ var SubjectFilter = React.createClass({
         };
     },
 
+    showGroupPanel: function showGroupPanel() {
+        FilterActionCreators.showGroupPanel();
+    },
+
     showRootPanel: function showRootPanel() {
         FilterActionCreators.showRootPanel();
     },
@@ -32,17 +36,21 @@ var SubjectFilter = React.createClass({
         return (
           <div>
               <div className="main-container">
-                  <a onClick={this.showRootPanel} className="block text--left">Retour</a>
+                  <ol className="nav breadcrumb text--left">
+                      <li>
+                          <a onClick={this.showGroupPanel} className="block text--left">Catégorie</a>
+                      </li>
+                      <li>
+                          <a onClick={this.showRootPanel} className="block text--left">Discipline</a>
+                      </li>
+                      <li>Pratique</li>
+                  </ol>
               </div>
-              <h2>
-                  Quoi ?
-                  &gt; {group_subject_name}
-                  &gt; {root_subject_name}
-              </h2>
+              <h2 className="flush">Choisissez la pratique qui vous plaît</h2>
+              <h3 className="gray-light">parmi les plus populaires</h3>
               <div className="main-container">
                   { subject_items }
               </div>
-              <hr className="push--ends" />
               <SubjectSearchInput />
           </div>
         );

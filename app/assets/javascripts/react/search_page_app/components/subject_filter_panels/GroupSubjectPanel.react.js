@@ -22,13 +22,14 @@ var SubjectFilter = React.createClass({
             );
         });
         return (
-          <div className="text--center">
-              <h2 className="push-half--bottom soft-half--bottom bordered--bottom inline-block">
-                  Quoi ?
+          <div>
+              <ol className="nav breadcrumb text--left">
+                  <li>Catégorie</li>
+              </ol>
+              <h2 className="text--center push-half--bottom soft-half--bottom bordered--bottom inline-block">
+                  Choisissez une catégorie de disciplines
               </h2>
-              <h3>Dans quelle discipline ?</h3>
               <div className="main-container">{group_subject_items}</div>
-              <hr className="push--ends" />
               <SubjectSearchInput />
           </div>
         );

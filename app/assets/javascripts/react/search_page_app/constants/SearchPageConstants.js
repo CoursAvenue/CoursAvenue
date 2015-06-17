@@ -8,6 +8,7 @@ module.exports = {
         TOGGLE_SUBJECT_FILTERS:      null,
         TOGGLE_LOCATION_FILTERS:     null,
         TOGGLE_TIME_FILTERS:         null,
+        CLOSE_FILTER_PANEL:          null,
 
         SELECT_GROUP_SUBJECT:        null,
         SELECT_ROOT_SUBJECT:         null,

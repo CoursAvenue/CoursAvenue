@@ -30,16 +30,17 @@ var SubjectFilter = React.createClass({
         return (
           <div>
               <div className="main-container">
-                  <a onClick={this.showGroupPanel} className="block text--left">Retour</a>
+                  <ol className="nav breadcrumb text--left">
+                      <li><a onClick={this.showGroupPanel} className="block text--left">Catégorie</a></li>
+                      <li>Discipline</li>
+                  </ol>
               </div>
-              <h2 className="push-half--bottom soft-half--bottom bordered--bottom inline-block">
-                  Quoi ? : {this.state.subject_store.selected_group_subject.name}
+              <h2 className="text--center push-half--bottom soft-half--bottom bordered--bottom inline-block">
+                  Quelle discipline vous fait envie ?
               </h2>
-              <h3>Choisissez une famille de discipline</h3>
               <div className="main-container">
                   { root_subject_items }
               </div>
-              <hr className="push--ends" />
               <SubjectSearchInput />
           </div>
         );

@@ -10,6 +10,12 @@ module.exports = {
         });
     },
 
+    closeFilterPanel: function closeFilterPanel () {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.CLOSE_FILTER_PANEL
+        });
+    },
+
     toggleSubjectFilter: function toggleSubjectFilter () {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.TOGGLE_SUBJECT_FILTERS
