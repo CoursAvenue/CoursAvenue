@@ -1,7 +1,6 @@
 var _                    = require('underscore'),
     Backbone             = require('backbone'),
     LocationStore        = require('../stores/LocationStore'),
-    LocationStore        = require('../stores/LocationStore'),
     SubjectStore         = require('../stores/SubjectStore'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
@@ -46,6 +45,10 @@ var FilterStore = Backbone.Model.extend({
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.ROOT });
                 break;
             case ActionTypes.SELECT_ROOT_SUBJECT:
+                this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.CHILD });
+                break;
+            case ActionTypes.SELECT_SUBJECT:
+                // SearchPageDispatcher.waitFor([SubjectStore.dispatchToken]);
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.CHILD });
                 break;
             case ActionTypes.TOGGLE_SUBJECT_FILTERS:

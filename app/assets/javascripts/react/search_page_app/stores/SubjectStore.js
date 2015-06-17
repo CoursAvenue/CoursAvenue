@@ -38,7 +38,7 @@ var SubjectStore = Backbone.Collection.extend({
                 break;
             case ActionTypes.SELECT_SUBJECT:
                 this.selected_subject = payload.data;
-                if (!this.selected_root_subject) { this.setSelectedRootSubject(); }
+                this.setSelectedRootSubject();
                 break;
             case ActionTypes.SEARCH_FULL_TEXT:
                 this.full_text_search = payload.data;
@@ -151,6 +151,8 @@ var SubjectStore = Backbone.Collection.extend({
         AlgoliaSearchUtils.searchSubjects(data).then(function(content){
             this.selected_root_subject = { slug: content.hits[0].root, name: content.hits[0].root_name };
             this.setSelectedGroupSubject();
+            this.loadRootSubjects(this.selected_group_subject);
+            this.loadChildSubjects(this.selected_root_subject);
             this.trigger('change');
         }.bind(this)).catch(function(error) {
             this.error   = true;

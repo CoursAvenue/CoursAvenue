@@ -27,6 +27,8 @@ var SubjectFilter = React.createClass({
                 <SubjectItem subject={ subject.toJSON() } key={index}/>
             );
         });
+        var group_subject_name = (this.state.subject_store.selected_group_subject ? this.state.subject_store.selected_group_subject.name : '');
+        var root_subject_name = (this.state.subject_store.selected_root_subject ? this.state.subject_store.selected_root_subject.name : '');
         return (
           <div>
               <div className="main-container">
@@ -34,8 +36,8 @@ var SubjectFilter = React.createClass({
               </div>
               <h2>
                   Quoi ?
-                  &gt; {this.state.subject_store.selected_group_subject.name}
-                  &gt; {this.state.subject_store.selected_root_subject.name}
+                  &gt; {group_subject_name}
+                  &gt; {root_subject_name}
               </h2>
               <div className="main-container">
                   { subject_items }
