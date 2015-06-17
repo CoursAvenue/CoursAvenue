@@ -3,6 +3,7 @@ var _                    = require('underscore'),
     SubjectStore         = require('../stores/SubjectStore'),
     FilterStore          = require('../stores/FilterStore'),
     LocationStore        = require('../stores/LocationStore'),
+    TimeStore            = require('../stores/TimeStore'),
     AlgoliaSearchUtils   = require('../utils/AlgoliaSearchUtils'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants');
@@ -38,8 +39,10 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.SELECT_SUBJECT:
             case ActionTypes.SEARCH_FULL_TEXT:
             case ActionTypes.UNSET_FILTER:
+            case ActionTypes.TOGGLE_DAY_SELECTION:
+            case ActionTypes.TOGGLE_PERIOD_SELECTION:
                 // Make sure the Filter store has finish everything he needs to do.
-                SearchPageDispatcher.waitFor([FilterStore.dispatchToken]);
+                SearchPageDispatcher.waitFor([FilterStore.dispatchToken, TimeStore.dispatchToken]);
                 // Fetch the new cards.
                 this.fetchDataFromServer();
                 break;
@@ -83,6 +86,7 @@ var CardCollection = Backbone.Collection.extend({
         if (SubjectStore.selected_root_subject)   { data.root_subject     = SubjectStore.selected_root_subject }
         if (SubjectStore.selected_subject)        { data.subject          = SubjectStore.selected_subject }
         if (SubjectStore.full_text_search)        { data.full_text_search = SubjectStore.full_text_search }
+        if (TimeStore.algoliaFilters())           { data.planning_periods = TimeStore.algoliaFilters() }
         if (LocationStore.get('bounds')) {
             data.insideBoundingBox = LocationStore.get('bounds').toString();
         }

@@ -102,7 +102,7 @@ class IndexableCard < ActiveRecord::Base
 
     add_attribute :identity
 
-    add_attribute :planning_periods
+    attribute :planning_periods
   end
   # :nocov:
 
@@ -207,7 +207,7 @@ class IndexableCard < ActiveRecord::Base
       periods += planning.periods.map { |period| "#{course_day}-#{period}" }
     end
 
-    periods
+    periods.uniq
   end
 
   # The starting price of the card.

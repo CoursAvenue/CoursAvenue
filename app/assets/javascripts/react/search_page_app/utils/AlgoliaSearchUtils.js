@@ -6,7 +6,7 @@ var _                   = require('underscore'),
     subject_index       = client.initIndex('Subject_' + ENV.SERVER_ENVIRONMENT);
 
 var card_search_state = {
-    facets     : ['subjects.slug_name'],
+    facets     : ['subjects.slug_name', 'planning_periods'],
     distinct   : 1,
     hitsPerPage: 100,
     aroundRadius: 10000 // 10km
@@ -70,6 +70,11 @@ module.exports = {
         if (data.root_subject)     { card_search_helper.addRefine('root_subject', data.root_subject.slug); }
         if (data.subject)          { card_search_helper.addRefine('subjects.slug', data.subject.slug); }
         if (data.full_text_search) { card_search_helper.setQuery(data.full_text_search); }
+        if (data.planning_periods) {
+            data.planning_periods.map(function(period) {
+                card_search_helper.addDisjunctiveRefine('planning_periods', period)
+            });
+        }
         return card_search_helper.search();
     },
 
