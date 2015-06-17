@@ -165,6 +165,7 @@ RSpec.describe IndexableCard, type: :model do
       let!(:planning2) { FactoryGirl.create(:planning, course: course, place: place, week_day: 2, start_time: start_time, end_time: end_time) }
       let!(:planning3) { FactoryGirl.create(:planning, course: course, place: place, week_day: 3, start_time: start_time, end_time: end_time) }
       let!(:planning4) { FactoryGirl.create(:planning, course: course, place: place, week_day: 4, start_time: start_time, end_time: end_time) }
+      let!(:planning5) { FactoryGirl.create(:planning, course: course, place: place, week_day: 4, start_time: start_time, end_time: end_time) }
       subject! { IndexableCard.create_from_planning(planning) }
 
       it 'returns the daily count of the plannings' do

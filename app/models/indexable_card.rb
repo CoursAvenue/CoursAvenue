@@ -205,7 +205,7 @@ class IndexableCard < ActiveRecord::Base
       periods += planning.periods.map { |period| "#{course_day}-#{period}" }
     end
 
-    periods
+    periods.uniq
   end
 
   # The starting price of the card.
