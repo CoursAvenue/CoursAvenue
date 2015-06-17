@@ -5,18 +5,19 @@ class IndexableCard < ActiveRecord::Base
 
   belongs_to :structure
   belongs_to :place
-  belongs_to :planning
   belongs_to :course
+
+  has_many :plannings
 
   has_and_belongs_to_many :subjects
 
-  attr_accessible :structure, :place, :planning, :course
+  attr_accessible :structure, :place, :plannings, :course
 
   delegate :name, :price, :type,                   to: :course,    prefix: true, allow_nil: true
   delegate :name, :comments_count, :slug,          to: :structure, prefix: true, allow_nil: true
   delegate :name, :latitude, :longitude, :address, to: :place,     prefix: true, allow_nil: true
 
-  scope :with_plannings, -> { where.not(planning_id: nil) }
+  scope :with_plannings, -> { where.not(course_id: nil) }
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
@@ -99,40 +100,41 @@ class IndexableCard < ActiveRecord::Base
       structure.logo.url(:small_thumb_85) if structure.logo?
     end
 
-    add_attribute :identity do
-      [card_type, structure_id, place_id, course_id].compact.join(':')
-    end
+    add_attribute :identity
 
     add_attribute :planning_periods
   end
   # :nocov:
 
-  # Create a card from a Planning
+  # Create cards from a Course
   #
-  # @param planning the planning
+  # @param course the course
   #
-  # @return the new card.
-  def self.create_from_planning(planning)
-    attributes = {
-      planning:  planning,
-      structure: planning.structure,
-      place:     planning.place,
-      course:    planning.course
-    }
+  # @return the new cards.
+  def self.create_from_course(course)
+    cards = []
+    course.plannings.group_by(&:place_id).each do |place, plannings| do
+      attributes = {
+        plannings: plannings,
+        structure: planning.structure,
+        place:     planning.place,
+        course:    planning.course
+      }
 
-    if (existing_cards = where(attributes)).any?
-      return existing_cards.first
+      if (existing_cards = where(attributes)).any?
+        return existing_cards.first
+      end
+
+      card = new(attributes)
+
+      planning.subjects.each do |subject|
+        card.subjects << subject
+      end
+
+      card.save
     end
 
-    card = new(attributes)
-
-    planning.subjects.each do |subject|
-      card.subjects << subject
-    end
-
-    card.save
-
-    card
+    cards
   end
 
   # Create a card from a Subject and a Place
@@ -219,6 +221,10 @@ class IndexableCard < ActiveRecord::Base
   end
 
   private
+
+  def identity
+    [card_type, structure_id, place_id, course_id].compact.join(':')
+  end
 
   # The type of the card.
   #

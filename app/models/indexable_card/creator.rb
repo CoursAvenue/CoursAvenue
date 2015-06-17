@@ -9,18 +9,17 @@ class IndexableCard::Creator
   #
   # @return the cards.
   def create_cards
-    plannings = @structure.plannings.includes(:course, :subjects)
-    subjects  = (@structure.subjects.at_depth(2) - plannings.flat_map(&:subjects)).compact
+    courses   = @structure.course.includes(:subjects)
     places    = (@structure.places - plannings.flat_map(&:course).flat_map(&:place)).compact
 
     # We loop on each plannings and create a card from there.
-    plannings.each do |planning|
-      @structure.indexable_cards.create_from_planning(planning)
+    courses.each do |course|
+      @structure.indexable_cards.create_from_course(course)
     end
-    if plannings.empty?
-      # We loop on each subjects and places not in the plannings above and create a card from there.
-      subjects.each do |subject|
-        places.each do |place|
+    if courses.empty?
+      # We loop on each subjects and places not in the courses above and create a card from there.
+      places.each do |place|
+        place.subjects.each do |subject|
           @structure.indexable_cards.create_from_subject_and_place(subject, place)
         end
       end

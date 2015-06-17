@@ -49,7 +49,7 @@ class Planning < ActiveRecord::Base
   has_many :participations, dependent: :destroy
   has_many :users, through: :participations
 
-  has_one :indexable_card, dependent: :destroy
+  belongs_to :indexable_card
 
   ######################################################################
   # Callbacks                                                          #
@@ -63,6 +63,8 @@ class Planning < ActiveRecord::Base
 
   before_save :set_structure_if_blank
   before_save :update_start_and_end_date
+
+  before_destroy :destroy_indexable_cards
 
   # before_destroy :remove_from_jobs
 
@@ -634,5 +636,12 @@ class Planning < ActiveRecord::Base
   def remove_from_jobs
     jobs = Delayed::Job.select { |job| YAML.load(job.handler).object == self }
     jobs.each(&:destroy)
+  end
+
+  # Destroy card if it was the only planning attached to it
+  # @return nil
+  def destroy_indexable_cards
+    indexable_card.destroy if indexable_card.plannings.count == 1
+    nil
   end
 end

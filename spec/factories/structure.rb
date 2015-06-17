@@ -31,6 +31,15 @@ FactoryGirl.define do
         structure.index
       end
     end
+
+    factory :structure_with_multiple_place do
+      after(:create) do |structure|
+        structure.places << FactoryGirl.build(:place)
+        structure.places << FactoryGirl.build(:place)
+        structure.save
+        structure.index
+      end
+    end
     factory :structure_with_user_profiles do
       after(:create) do |structure|
         3.times { structure.user_profiles << FactoryGirl.build(:user_profile) }
