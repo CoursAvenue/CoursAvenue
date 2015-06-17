@@ -29,7 +29,9 @@ var SubjectFilter = React.createClass({
               <h2 className="text--center push-half--bottom soft-half--bottom bordered--bottom inline-block">
                   Choisissez une catégorie de disciplines
               </h2>
-              <div className="main-container">{group_subject_items}</div>
+              <div className="main-container soft--bottom">
+                  {group_subject_items}
+              </div>
               <SubjectSearchInput />
           </div>
         );

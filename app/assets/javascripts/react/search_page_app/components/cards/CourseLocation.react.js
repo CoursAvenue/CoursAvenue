@@ -28,9 +28,9 @@ CourseDistance = React.createClass({
 
     location: function location () {
         if (this.state.filter_store.isFilteringAroundLocation()) {
-            return "<i className='fa fa-map-marker very-soft--right'></i> " + this.distanceStr();
+            return "<i class='fa fa-map-marker very-soft--right'></i> " + this.distanceStr();
         } else {
-            return "<i className='fa fa-map-marker very-soft--right'></i> " + this.addressStr();
+            return "<i class='fa fa-map-marker very-soft--right'></i> " + this.addressStr();
         }
     },
 

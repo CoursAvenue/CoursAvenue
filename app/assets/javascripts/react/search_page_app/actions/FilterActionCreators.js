@@ -34,6 +34,12 @@ module.exports = {
         });
     },
 
+    toggleMoreFilter: function toggleMoreFilter () {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.TOGGLE_MORE_FILTERS
+        });
+    },
+
     //----------- Subject panels
     showGroupPanel: function showGroupPanel () {
         SearchPageDispatcher.dispatch({

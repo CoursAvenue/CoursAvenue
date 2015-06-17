@@ -1,5 +1,4 @@
-var SubjectActionCreators = require('../../actions/SubjectActionCreators'),
-    cx                    = require('classnames/dedupe');
+var SubjectActionCreators = require('../../actions/SubjectActionCreators');
 
 Subject = React.createClass({
     propTypes: {
@@ -15,18 +14,15 @@ Subject = React.createClass({
         return { selected: this.props.selected };
     },
 
-    // TODO: Send action.
     toggleSelection: function toggleSelection () {
-        this.setState({ selected: !this.state.selected });
+        SubjectActionCreators.selectSubject(this.props.subject);
     },
 
     render: function render () {
-        var classes = cx("inline-block very-soft bg-gray-light black bordered rounded", {
-            selected: this.state.selected
-        });
         return (
-            <a className={ classes }
-               onClick={ this.toggleSelection }>
+            <a className="inline-block very-soft bg-gray-light black bordered rounded"
+               onClick={ this.toggleSelection }
+               href="javascript:void(0)">
                 { this.props.subject.name }
             </a>
         )

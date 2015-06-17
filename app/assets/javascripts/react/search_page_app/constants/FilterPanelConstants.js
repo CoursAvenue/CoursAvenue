@@ -5,6 +5,7 @@ module.exports = {
         SUBJECTS: null,
         LOCATION: null,
         TIME:     null,
+        MORE:     null
     }),
     SUBJECT_PANELS: keyMirror({
         GROUP: null,
@@ -17,6 +18,6 @@ module.exports = {
     }),
     TIME_PANELS: keyMirror({
         LESSON:   null,
-        TRAINING: null,
+        TRAINING: null
     })
 };

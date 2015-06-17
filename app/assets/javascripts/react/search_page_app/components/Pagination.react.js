@@ -80,10 +80,11 @@ var Pagination = React.createClass({
     render: function render () {
         var back_class = classNames({ disabled: this.state.card_store.isFirstPage() });
         var next_class = classNames({ disabled: this.state.card_store.isLastPage() });
-        var buttons = _.map(this.buildPaginationButtons(), function(button) {
+        var buttons = _.map(this.buildPaginationButtons(), function(button, index) {
+            console.log(index)
             var button_classes = classNames({ 'disabled': (this.state.card_store.current_page == button.page),
                                        'btn': true });
-            return (<div className='inline-block'>
+            return (<div className='inline-block' key={index}>
                         <a className={button_classes}
                             href="javascript:void(0)"
                             onClick={this.goToPage(button.page)}>
