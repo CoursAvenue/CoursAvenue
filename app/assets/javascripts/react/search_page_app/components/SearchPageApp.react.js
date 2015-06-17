@@ -6,6 +6,7 @@ var Map                    = require('./Map.react'),
     FilterBar              = require('./FilterBar.react'),
     FilterBreadcrumb       = require('./FilterBreadcrumb.react'),
     ResultInfo             = require('./ResultInfo.react'),
+    Pagination             = require('./Pagination.react'),
     SearchPageAppRouter    = require('../SearchPageAppRouter'),
     FilterStore            = require('../stores/FilterStore'),
     SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
@@ -51,6 +52,7 @@ SearchPageApp = React.createClass({
             <FilterBreadcrumb />
             <ResultInfo />
             <ResultList />
+            <Pagination />
           </div>
         );
     }

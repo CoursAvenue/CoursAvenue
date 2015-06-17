@@ -7,29 +7,14 @@ var _                   = require('underscore'),
 
 var card_search_state = {
     facets     : ['subjects.slug_name', 'planning_periods'],
-    distinct   : 1,
-    hitsPerPage: 100,
+    hitsPerPage: 8,
+    distinct:    true,
     aroundRadius: 10000 // 10km
 };
 
-
-var card_search_helper    = algoliasearchHelper(client, 'IndexableCard_' + ENV.SERVER_ENVIRONMENT);
+var card_search_helper = algoliasearchHelper(client, 'IndexableCard_' + ENV.SERVER_ENVIRONMENT);
 module.exports = {
-    card_search_helper   :     card_search_helper,
-
-    searchPlannings: function searchPlannings (data) {
-        data = data || {};
-        card_search_helper.clearRefinements();
-        // Serialize boundingBox as Algolia wants
-        if (data.insideBoundingBox) {
-            planning_search_state.insideBoundingBox = data.insideBoundingBox.toString();
-            delete data.insideBoundingBox;
-        }
-        if (data.aroundLatLng) { planning_search_state.aroundLatLng = data.aroundLatLng; }
-        card_search_helper.setState(planning_search_state);
-        card_search_helper.addRefine('subjects', data.subject);
-        return card_search_helper.search();
-    },
+    card_search_helper: card_search_helper,
 
     /*
      * @params data [{ depth: 0 }] Array of key value
@@ -50,7 +35,7 @@ module.exports = {
     searchCards: function searchCards (data) {
         data = data || {};
         card_search_helper.clearRefinements();
-
+        card_search_state.page = data.page || 1;
         if (data.insideBoundingBox) {
             card_search_state.insideBoundingBox = data.insideBoundingBox.toString();
             delete data.insideBoundingBox;
@@ -58,7 +43,7 @@ module.exports = {
 
         if (data.aroundLatLng) {
             card_search_state.aroundLatLng   = data.aroundLatLng;
-            card_search_state.getRankingInfo = 1
+            card_search_state.getRankingInfo = true;
         }
 
         card_search_helper.setState(card_search_state);

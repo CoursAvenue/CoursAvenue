@@ -22,7 +22,8 @@ var CardCollection = Backbone.Collection.extend({
 
         // Register the store to the dispatcher, so it calls our callback on new actions.
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
-
+        this.current_page = 1;
+        this.total_pages  = 1;
         // Bind search events to the store, so it updates.
         AlgoliaSearchUtils.card_search_helper.on("result",  this.searchSuccess);
         AlgoliaSearchUtils.card_search_helper.on("error",  this.searchError);
@@ -44,6 +45,16 @@ var CardCollection = Backbone.Collection.extend({
                 // Make sure the Filter store has finish everything he needs to do.
                 SearchPageDispatcher.waitFor([FilterStore.dispatchToken, TimeStore.dispatchToken]);
                 // Fetch the new cards.
+                this.fetchDataFromServer();
+                break;
+            case ActionTypes.GO_TO_PAGE:
+                this.current_page = payload.data;
+                this.fetchDataFromServer();
+            case ActionTypes.GO_TO_PREVIOUS_PAGE:
+                this.current_page = this.current_page - 1;
+                this.fetchDataFromServer();
+            case ActionTypes.GO_TO_NEXT_PAGE:
+                this.current_page = this.current_page + 1;
                 this.fetchDataFromServer();
                 break;
             case ActionTypes.HIGHLIGHT_MARKER:
@@ -72,6 +83,7 @@ var CardCollection = Backbone.Collection.extend({
         // This triggers the change event.
         this.facets        = data.facets;
         this.total_results = data.nbHits;
+        this.total_pages   = data.nbPages;
         this.reset(data.hits);
     },
 
@@ -81,7 +93,9 @@ var CardCollection = Backbone.Collection.extend({
     },
 
     algoliaFilters: function algoliaFilters () {
-        var data = {};
+        var data = {
+            page: this.current_page
+        };
         if (SubjectStore.selected_group_subject)  { data.group_subject    = SubjectStore.selected_group_subject }
         if (SubjectStore.selected_root_subject)   { data.root_subject     = SubjectStore.selected_root_subject }
         if (SubjectStore.selected_subject)        { data.subject          = SubjectStore.selected_subject }
@@ -114,6 +128,14 @@ var CardCollection = Backbone.Collection.extend({
             filters.push({ title: "Activité : " + this.get('full_text_search'), filter_key: 'full_text_search' });
         }
         return filters;
+    },
+
+    isFirstPage: function isFirstPage () {
+        return (this.current_page == 1);
+    },
+
+    isLastPage: function isLastPage () {
+        return (this.current_page == this.total_pages)
     }
 });
 

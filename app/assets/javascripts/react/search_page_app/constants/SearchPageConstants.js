@@ -33,6 +33,10 @@ module.exports = {
 
         TOGGLE_DAY_SELECTION:        null,
         TOGGLE_PERIOD_SELECTION:     null,
+
+        GO_TO_PREVIOUS_PAGE:         null,
+        GO_TO_NEXT_PAGE:             null,
+        GO_TO_PAGE:                  null
     })
 
 };
