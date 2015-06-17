@@ -18,7 +18,9 @@ ResultList = React.createClass({
     render: function render () {
         var header_message, no_results;
         if (this.state.card_store.loading) {
-            header_message = (<div className="text--center delta">Chargement...</div>);
+            header_message = (<div className="text--center delta absolute one-whole north west">
+                                  Chargement...
+                              </div>);
         }
         var cards = this.state.card_store.map(function(card, index) {
             return (

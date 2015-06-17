@@ -40,7 +40,6 @@ var TimeStore = Backbone.Collection.extend({
 
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback', 'toggleDaySelection');
-        this.allSelected = false;
 
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
     },
@@ -56,16 +55,14 @@ var TimeStore = Backbone.Collection.extend({
         }
     },
 
-    toggleDaySelection: function toggleDaySelection (data) {
-        this.allSelected = !this.allSelected;
-
-        var day = this.get(data);
-        day.set('periods', [this.allSelected, this.allSelected, this.allSelected, this.allSelected]);
+    toggleDaySelection: function toggleDaySelection (day) {
+        day.set({ selected: !day.get('selected')})
+        day.set('periods', [day.get('selected'), day.get('selected'), day.get('selected'), day.get('selected')]);
         this.trigger('change');
     },
 
     togglePeriodSelection: function toggleDaySelection (data) {
-        var day         = this.get(data.day);
+        var day         = data.day;
         var periodIndex = data.period;
         var periods     = day.get('periods');
 
@@ -74,9 +71,9 @@ var TimeStore = Backbone.Collection.extend({
 
         // Checking if every period is set to true.
         if (_.every(periods, _.identity)) {
-            this.allSelected = true;
+            day.set({ selected: true });
         } else {
-            this.allSelected = false;
+            day.set({ selected: false });
         }
 
         this.trigger('change');
@@ -111,11 +108,11 @@ var TimeStore = Backbone.Collection.extend({
 });
 
 module.exports = new TimeStore([
-    { title: 'Lun.', name: 'monday' },
-    { title: 'Mar.', name: 'tuesday' },
-    { title: 'Mer.', name: 'wednesday' },
-    { title: 'Jeu.', name: 'thursday' },
-    { title: 'Ven.', name: 'friday' },
-    { title: 'Sam.', name: 'saturday' },
-    { title: 'Dim.', name: 'sunday' }
+    { title: 'Lun.', name: 'monday'   , selected: false },
+    { title: 'Mar.', name: 'tuesday'  , selected: false },
+    { title: 'Mer.', name: 'wednesday', selected: false },
+    { title: 'Jeu.', name: 'thursday' , selected: false },
+    { title: 'Ven.', name: 'friday'   , selected: false },
+    { title: 'Sam.', name: 'saturday' , selected: false },
+    { title: 'Dim.', name: 'sunday'   , selected: false }
 ]);

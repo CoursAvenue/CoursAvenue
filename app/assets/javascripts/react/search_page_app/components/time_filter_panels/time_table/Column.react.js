@@ -12,9 +12,9 @@ var Column = React.createClass({
     },
 
     render: function render () {
-        var day = this.props.day;
+        var day     = this.props.day;
         var periods = this.props.day.get('periods');
-        var cells = periods.map(function(selected, index) {
+        var cells   = periods.map(function(selected, index) {
             return (
                 <Cell selected={ selected } index={ index } key={ index } day={ day } />
             )
@@ -24,7 +24,10 @@ var Column = React.createClass({
             <div className='grid__item one-seventh'>
                 <div className=''>{ this.props.day.get('title') }</div>
                 { cells }
-                <input type='checkbox' onChange={ this.toggleSelected } checked={ checked } />
+                <input name={this.props.day.get('name')}
+                       type='checkbox'
+                       onChange={ this.toggleSelected }
+                       checked={ checked } />
             </div>
         )
     },
