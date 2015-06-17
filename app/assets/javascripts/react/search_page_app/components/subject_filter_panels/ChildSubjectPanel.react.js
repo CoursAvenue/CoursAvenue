@@ -1,5 +1,4 @@
 var SubjectStore          = require('../../stores/SubjectStore'),
-    FilterStore           = require('../../stores/FilterStore'),
     SearchPageDispatcher  = require('../../dispatcher/SearchPageDispatcher'),
     FluxBoneMixin         = require("../../../mixins/FluxBoneMixin"),
     SubjectItem           = require('../../components/SubjectItem.react'),
@@ -14,8 +13,7 @@ var SubjectFilter = React.createClass({
 
     getInitialState: function getInitialState() {
         return {
-          subject_store: SubjectStore,
-          filter_store: FilterStore,
+          subject_store: SubjectStore
         };
     },
 
@@ -36,8 +34,8 @@ var SubjectFilter = React.createClass({
               </div>
               <h2>
                   Quoi ?
-                  &gt; {this.state.filter_store.get('group_subject').name}
-                  &gt; {this.state.filter_store.get('root_subject').name}
+                  &gt; {this.state.subject_store.selected_group_subject.name}
+                  &gt; {this.state.subject_store.selected_root_subject.name}
               </h2>
               <div className="main-container">
                   { subject_items }

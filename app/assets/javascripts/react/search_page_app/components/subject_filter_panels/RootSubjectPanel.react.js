@@ -1,5 +1,4 @@
 var SubjectStore          = require('../../stores/SubjectStore'),
-    FilterStore           = require('../../stores/FilterStore'),
     RootSubjectItem       = require('../../components/RootSubjectItem.react'),
     SubjectSearchInput    = require('../../components/SubjectSearchInput.react'),
     SearchPageDispatcher  = require('../../dispatcher/SearchPageDispatcher'),
@@ -14,8 +13,7 @@ var SubjectFilter = React.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            subject_store: SubjectStore,
-            filter_store: FilterStore
+            subject_store: SubjectStore
         };
     },
 
@@ -24,7 +22,7 @@ var SubjectFilter = React.createClass({
     },
 
     render: function render () {
-        var root_subject_items = _.map(SubjectStore.getGroupSubject(this.state.filter_store.get('group_subject').group_id).root_subjects, function(subject, index) {
+        var root_subject_items = _.map(this.state.subject_store.getGroupSubject(this.state.subject_store.selected_group_subject.group_id).root_subjects, function(subject, index) {
             return (
                 <RootSubjectItem subject={ subject } key={index}/>
             );
@@ -35,7 +33,7 @@ var SubjectFilter = React.createClass({
                   <a onClick={this.showGroupPanel} className="block text--left">Retour</a>
               </div>
               <h2 className="push-half--bottom soft-half--bottom bordered--bottom inline-block">
-                  Quoi ? : {this.state.filter_store.get('group_subject').name}
+                  Quoi ? : {this.state.subject_store.selected_group_subject.name}
               </h2>
               <h3>Choisissez une famille de discipline</h3>
               <div className="main-container">

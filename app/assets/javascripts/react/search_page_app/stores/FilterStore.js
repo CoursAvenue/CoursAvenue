@@ -43,23 +43,10 @@ var FilterStore = Backbone.Model.extend({
                 this.unset('location_panel');
                 break;
             case ActionTypes.SELECT_GROUP_SUBJECT:
-                this.set({ group_subject: payload.data });
-                this.set({ root_subject: null });
-                this.set({ subject: null });
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.ROOT });
-                this.set({ group_subject: payload.data });
                 break;
             case ActionTypes.SELECT_ROOT_SUBJECT:
-                this.set({ root_subject: payload.data });
-                if (!this.get('group_subject')) { this.setGroupSubject(); }
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.CHILD });
-                break;
-            case ActionTypes.SELECT_SUBJECT:
-                this.set({ subject: payload.data });
-                this.trigger('change');
-                break;
-            case ActionTypes.SEARCH_FULL_TEXT:
-                this.set({ full_text_search: payload.data });
                 break;
             case ActionTypes.TOGGLE_SUBJECT_FILTERS:
                 this.set({ current_panel: (this.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS ? null : FilterPanelConstants.FILTER_PANELS.SUBJECTS) });
@@ -83,11 +70,8 @@ var FilterStore = Backbone.Model.extend({
         switch(filter_to_unset) {
             case 'group_subject':
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.GROUP });
-                this.unset('root_subject');
-                this.unset('subject');
                 break;
             case 'root_subject':
-                this.unset('subject');
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.ROOT });
                 break;
             case 'subject':
@@ -95,54 +79,6 @@ var FilterStore = Backbone.Model.extend({
                 break;
         }
         this.unset(filter_to_unset);
-    },
-    setGroupSubject: function setGroupSubject () {
-        var group_subject = SubjectStore.getGroupSubjectFromRootSubjectSlug(this.get('root_subject').slug);
-        this.set({ group_subject: group_subject});
-    },
-
-    algoliaFilters: function algoliaFilters () {
-        var data = {};
-        if (this.get('group_subject'))     { data.group_subject    = this.get('group_subject') }
-        if (this.get('root_subject'))      { data.root_subject     = this.get('root_subject') }
-        if (this.get('subject'))           { data.subject          = this.get('subject') }
-        if (this.get('full_text_search'))  { data.full_text_search = this.get('full_text_search') }
-        if (LocationStore.get('bounds')) {
-            data.insideBoundingBox = LocationStore.get('bounds').toString();
-        }
-        if (LocationStore.get('user_location')) {
-            data.aroundLatLng = LocationStore.get('user_location').latitude + ',' + LocationStore.get('user_location').longitude;
-        } else if (LocationStore.get('address')) {
-            data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
-        }
-
-        return data;
-    },
-
-    cardFilters: function cardFilters () {
-        return this.toJSON();
-    },
-
-    // Filters used to build the TimeTable.
-    timeFilters: function timeFilters () {
-        return {};
-    },
-
-    getFilters: function getFilters () {
-        var filters = [];
-        if (this.get('group_subject')) {
-            filters.push({ title: this.get('group_subject').name, filter_key: 'group_subject' });
-        }
-        if (this.get('root_subject')) {
-            filters.push({ title: this.get('root_subject').name, filter_key: 'root_subject' });
-        }
-        if (this.get('subject')) {
-            filters.push({ title: this.get('subject').name, filter_key: 'subject' });
-        }
-        if (this.get('full_text_search')) {
-            filters.push({ title: "Activité : " + this.get('full_text_search'), filter_key: 'full_text_search' });
-        }
-        return filters;
     },
 
     // Checks if we are filtering around a place (e.g. User location, Around a subway stop, etc.)

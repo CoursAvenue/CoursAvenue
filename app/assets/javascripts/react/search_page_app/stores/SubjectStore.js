@@ -21,8 +21,13 @@ var SubjectStore = Backbone.Collection.extend({
         switch(payload.actionType) {
             case ActionTypes.SELECT_GROUP_SUBJECT:
                 this.loadRootSubjects(payload.data);
+                this.selected_group_subject = payload.data;
+                this.selected_root_subject  = null;
+                this.selected_subject       = null;
                 break;
             case ActionTypes.SELECT_ROOT_SUBJECT:
+                this.selected_root_subject = payload.data;
+                if (!this.selected_group_subject) { this.setSelectedGroupSubject(); }
                 //SearchPageDispatcher.waitFor([FilterStore.dispatchToken]);
                 var associated_group_subject = this.getGroupSubjectFromRootSubjectSlug(payload.data.slug);
                 // If root subjects are not loaded, we load them.
@@ -31,7 +36,38 @@ var SubjectStore = Backbone.Collection.extend({
                 }
                 this.loadChildSubjects(payload.data);
                 break;
+            case ActionTypes.SELECT_SUBJECT:
+                this.selected_subject = payload.data;
+                if (!this.selected_root_subject) { this.setSelectedRootSubject(); }
+                break;
+            case ActionTypes.SEARCH_FULL_TEXT:
+                this.full_text_search = payload.data;
+                break;
+            case ActionTypes.UNSET_FILTER:
+                this.unsetFilter(payload.data);
+                break;
         }
+    },
+
+    unsetFilter: function unsetFilter (filter_to_unset) {
+        // Change subject_panel_to show regarding the filter we unset
+        // If we unset root subject, we can't show child subject panel because we don't have
+        // root subject information
+        switch(filter_to_unset) {
+            case 'group_subject':
+                this.selected_group_subject = null;
+                this.selected_root_subject  = null;
+                this.selected_subject       = null;
+                break;
+            case 'root_subject':
+                this.selected_root_subject = null;
+                this.selected_subject = null;
+                break;
+            case 'subject':
+                this.selected_subject = null;
+                break;
+        }
+        this.trigger('change');
     },
 
     initializeGroupSubjects: function initializeGroupSubjects () {
@@ -103,6 +139,27 @@ var SubjectStore = Backbone.Collection.extend({
             this.error   = true;
             this.trigger('change');
         }.bind(this));
+    },
+
+    setSelectedGroupSubject: function setSelectedGroupSubject () {
+        var group_subject = this.getGroupSubjectFromRootSubjectSlug(this.selected_root_subject.slug);
+        this.selected_group_subject = group_subject;
+    },
+
+    setSelectedRootSubject: function setSelectedRootSubject () {
+        var data = { hitsPerPage: 5, facets: '*', facetFilters: 'slug:' + this.selected_subject.slug }
+        AlgoliaSearchUtils.searchSubjects(data).then(function(content){
+            this.selected_root_subject = { slug: content.hits[0].root, name: content.hits[0].root_name };
+            this.setSelectedGroupSubject();
+            this.trigger('change');
+        }.bind(this)).catch(function(error) {
+            this.error   = true;
+            this.trigger('change');
+        }.bind(this));
+
+        // root_subject = _.find(this.group_subjects, function(group_subject) {
+        //     return (group_subject.root_slugs.indexOf(root_subject_slug) != -1)
+        // });
     }
 
 });

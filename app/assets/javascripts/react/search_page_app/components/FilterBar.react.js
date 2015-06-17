@@ -1,17 +1,9 @@
-var FilterStore           = require('../stores/FilterStore'),
-    RootSubjectItem       = require('./RootSubjectItem.react'),
+var RootSubjectItem       = require('./RootSubjectItem.react'),
     SearchPageDispatcher  = require('../dispatcher/SearchPageDispatcher'),
     FilterActionCreators  = require('../actions/FilterActionCreators'),
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
 
 var FilterBar = React.createClass({
-    mixins: [
-        FluxBoneMixin('filter_store')
-    ],
-
-    getInitialState: function getInitialState() {
-        return { filter_store: FilterStore };
-    },
 
     toggleSubjectFilter: function toggleSubjectFilter () {
         FilterActionCreators.toggleSubjectFilter();
@@ -26,8 +18,6 @@ var FilterBar = React.createClass({
     },
 
     render: function render () {
-        var subject = this.state.filter_store.get('subject');
-        var subject_name = (subject ? subject.name : '');
         return (
           <div className="text--center bordered--top bordered--bottom bg-white">
               <div className="main-container grid">

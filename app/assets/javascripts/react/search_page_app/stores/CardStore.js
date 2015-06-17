@@ -1,6 +1,8 @@
 var _                    = require('underscore'),
     Backbone             = require('backbone'),
+    SubjectStore         = require('../stores/SubjectStore'),
     FilterStore          = require('../stores/FilterStore'),
+    LocationStore        = require('../stores/LocationStore'),
     AlgoliaSearchUtils   = require('../utils/AlgoliaSearchUtils'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants');
@@ -57,7 +59,7 @@ var CardCollection = Backbone.Collection.extend({
         this.trigger('change');
 
         // Call the algolia search.
-        AlgoliaSearchUtils.searchCards(FilterStore.algoliaFilters());
+        AlgoliaSearchUtils.searchCards(this.algoliaFilters());
     }.debounce(150),
 
     searchSuccess: function searchSuccess (data) {
@@ -74,6 +76,41 @@ var CardCollection = Backbone.Collection.extend({
         this.loading = false;
         this.error   = true;
     },
+
+    algoliaFilters: function algoliaFilters () {
+        var data = {};
+        if (SubjectStore.selected_group_subject)  { data.group_subject    = SubjectStore.selected_group_subject }
+        if (SubjectStore.selected_root_subject)   { data.root_subject     = SubjectStore.selected_root_subject }
+        if (SubjectStore.selected_subject)        { data.subject          = SubjectStore.selected_subject }
+        if (SubjectStore.full_text_search)        { data.full_text_search = SubjectStore.full_text_search }
+        if (LocationStore.get('bounds')) {
+            data.insideBoundingBox = LocationStore.get('bounds').toString();
+        }
+        if (LocationStore.get('user_location')) {
+            data.aroundLatLng = LocationStore.get('user_location').latitude + ',' + LocationStore.get('user_location').longitude;
+        } else if (LocationStore.get('address')) {
+            data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
+        }
+
+        return data;
+    },
+
+    getFilters: function getFilters () {
+        var filters = [];
+        if (SubjectStore.selected_group_subject) {
+            filters.push({ title: SubjectStore.selected_group_subject.name, filter_key: 'group_subject' });
+        }
+        if (SubjectStore.selected_root_subject) {
+            filters.push({ title: SubjectStore.selected_root_subject.name, filter_key: 'root_subject' });
+        }
+        if (SubjectStore.selected_subject) {
+            filters.push({ title: SubjectStore.selected_subject.name, filter_key: 'subject' });
+        }
+        if (SubjectStore.full_text_search) {
+            filters.push({ title: "Activité : " + this.get('full_text_search'), filter_key: 'full_text_search' });
+        }
+        return filters;
+    }
 });
 
 module.exports = new CardCollection();
