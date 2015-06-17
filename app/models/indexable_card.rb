@@ -107,6 +107,7 @@ class IndexableCard < ActiveRecord::Base
   # :nocov:
 
   # Create cards from a Course
+  # TODO: Refactor this so we only create one card instead of several.
   #
   # @param course the course
   #
@@ -122,10 +123,6 @@ class IndexableCard < ActiveRecord::Base
         course:    course,
         place:     place,
       }
-
-      # if (existing_cards = where(attributes)).any?
-      #   return existing_cards.first
-      # end
 
       card = new(attributes)
       card.plannings = plannings
