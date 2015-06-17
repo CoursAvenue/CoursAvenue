@@ -82,11 +82,15 @@ var TimeStore = Backbone.Collection.extend({
         this.trigger('change');
     },
 
-    toAlgoliaFilter: function toAlgoliaFilter () {
+    algoliaFilters: function algoliaFilters () {
         var filters = this.models.map(function(model) {
             return model.toAlgolia();
         });
         filters = _.chain(filters).flatten().compact().value();
+
+        if (_.isEmpty(filters)) {
+            return false;
+        }
 
         return filters;
     },
