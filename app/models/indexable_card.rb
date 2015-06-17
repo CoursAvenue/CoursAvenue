@@ -17,7 +17,7 @@ class IndexableCard < ActiveRecord::Base
   delegate :name, :comments_count, :slug,          to: :structure, prefix: true, allow_nil: true
   delegate :name, :latitude, :longitude, :address, to: :place,     prefix: true, allow_nil: true
 
-  scope :with_plannings, -> { where.not(course_id: nil) }
+  scope :with_courses, -> { where.not(course_id: nil) }
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
@@ -42,8 +42,8 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :end_date do
-      if planning and planning.end_date
-        planning.end_date
+      if plannings and (end_dates = plannings.map(&:end_date)).any?
+        end_dates.max
       else
         100.years.from_now
       end
@@ -107,31 +107,32 @@ class IndexableCard < ActiveRecord::Base
   # :nocov:
 
   # Create cards from a Course
+  # TODO: Refactor this so we only create one card instead of several.
   #
   # @param course the course
   #
   # @return the new cards.
   def self.create_from_course(course)
-    cards = []
-    course.plannings.group_by(&:place_id).each do |place, plannings| do
+    if (existing_cards = where(course: course)).any?
+      return existing_cards
+    end
+
+    cards = course.plannings.group_by(&:place).map do |place, plannings|
       attributes = {
-        plannings: plannings,
-        structure: planning.structure,
-        place:     planning.place,
-        course:    planning.course
+        structure: course.structure,
+        course:    course,
+        place:     place,
       }
 
-      if (existing_cards = where(attributes)).any?
-        return existing_cards.first
-      end
-
       card = new(attributes)
+      card.plannings = plannings
 
-      planning.subjects.each do |subject|
+      plannings.flat_map(&:subjects).uniq.compact.each do |subject|
         card.subjects << subject
       end
-
       card.save
+
+      card
     end
 
     cards
@@ -158,7 +159,7 @@ class IndexableCard < ActiveRecord::Base
   end
 
   # The subject name. This should only occur when the card has been created with a place and a
-  # subject instead of a planning.
+  # subject instead of a course.
   #
   # @return String, the subject name.
   def subject_name
@@ -199,7 +200,7 @@ class IndexableCard < ActiveRecord::Base
   #
   # @return an array of string.
   def planning_periods
-    return [] if planning.nil?
+    return [] if plannings.empty?
 
     periods = []
     course.plannings.each do |planning|
@@ -230,6 +231,6 @@ class IndexableCard < ActiveRecord::Base
   #
   # @return a string.
   def card_type
-    planning.present? ? 'planning_card' : 'subject_card'
+    course.present? ? 'course_card' : 'subject_card'
   end
 end

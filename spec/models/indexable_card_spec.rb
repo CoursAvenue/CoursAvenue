@@ -4,8 +4,8 @@ RSpec.describe IndexableCard, type: :model do
   context 'associations' do
     it { should belong_to(:structure) }
     it { should belong_to(:place) }
-    it { should belong_to(:planning) }
     it { should belong_to(:course) }
+    it { should have_many(:plannings) }
     it { should have_and_belong_to_many(:subjects) }
   end
 
@@ -35,36 +35,41 @@ RSpec.describe IndexableCard, type: :model do
     let!(:planning_place_2)   { FactoryGirl.create(:planning, course: course, place: place_2) }
     let!(:planning_2_place_2) { FactoryGirl.create(:planning, course: course, place: place_2) }
 
+    before do
+      course.plannings.reload
+    end
+
     it 'creates two new IndexableCard' do
       expect { IndexableCard.create_from_course(course) }.
         to change { IndexableCard.count }.by(2)
     end
 
-    it 'associates it with the planning' do
-      card = IndexableCard.create_from_course(course)
-      expect(card.course).to eq(course)
+    it 'associates it with the course' do
+      cards = IndexableCard.create_from_course(course)
+      expect(cards.map(&:course).uniq).to include(course)
     end
 
     it 'sets the other associations' do
       card = IndexableCard.create_from_course(course).first
       expect(card.structure).to eq(structure)
-      expect(card.place).to eq(place)
+      expect([place_1, place_2]).to include(card.place)
       expect(card.course).to eq(course)
       expect(card.subjects).to match_array(course.subjects)
     end
 
-    context 'when a planning is destroyed' do
-      it 'destroys the card if there is no other plannings attached to it' do
-        card = planning_place_1.indexable_card
-        planning_place_1.destroy
-        expect(card.persisted).to be_falsy
-      end
-    end
+    # TODO: Move this test to Planning
+    # context 'when a planning is destroyed' do
+    #   it 'destroys the card if there is no other plannings attached to it' do
+    #     card = planning_place_1.indexable_card
+    #     planning_place_1.destroy
+    #     expect(card.persisted?).to be_falsy
+    #   end
+    # end
 
     context 'when the card already exists' do
       it "doesn't create a new card" do
         IndexableCard.create_from_course(course)
-        expect { IndexableCard.create_from_course(planning) }.
+        expect { IndexableCard.create_from_course(course) }.
           to_not change { IndexableCard.count }
       end
 
@@ -111,9 +116,11 @@ RSpec.describe IndexableCard, type: :model do
 
   describe '#subject_name' do
     let!(:planning) { FactoryGirl.create(:planning) }
-    subject! { IndexableCard.create_from_planning(planning) }
+    let!(:course)    { planning.course }
+    subject { IndexableCard.create_from_course(course).first }
 
     it 'returns the name of the first subject' do
+      course.reload
       expect(subject.subject_name).to eq(subject.subjects.first.name)
     end
   end
@@ -136,7 +143,7 @@ RSpec.describe IndexableCard, type: :model do
       let!(:planning2) { FactoryGirl.create(:planning, course: course, place: place, week_day: 2) }
       let!(:planning3) { FactoryGirl.create(:planning, course: course, place: place, week_day: 3) }
       let!(:planning4) { FactoryGirl.create(:planning, course: course, place: place, week_day: 4) }
-      subject! { IndexableCard.create_from_planning(planning) }
+      subject { IndexableCard.create_from_course(course).first }
 
       it 'returns the daily count of the plannings' do
         course.reload
@@ -176,7 +183,7 @@ RSpec.describe IndexableCard, type: :model do
       let!(:planning3) { FactoryGirl.create(:planning, course: course, place: place, week_day: 3, start_time: start_time, end_time: end_time) }
       let!(:planning4) { FactoryGirl.create(:planning, course: course, place: place, week_day: 4, start_time: start_time, end_time: end_time) }
       let!(:planning5) { FactoryGirl.create(:planning, course: course, place: place, week_day: 4, start_time: start_time, end_time: end_time) }
-      subject! { IndexableCard.create_from_planning(planning) }
+      subject { IndexableCard.create_from_course(course).first }
 
       it 'returns the daily count of the plannings' do
         course.reload
@@ -194,9 +201,10 @@ RSpec.describe IndexableCard, type: :model do
       let!(:place) { structure.places.sample }
       let!(:course) { FactoryGirl.create(:course, structure: structure) }
       let!(:planning) { FactoryGirl.create(:planning, course: course, place: place) }
-      subject! { IndexableCard.create_from_planning(planning) }
+      subject { IndexableCard.create_from_course(course).first }
 
       it 'returns the lowest price of the course' do
+        course.reload
         expected_starting_price = course.prices.order('amount ASC').first.amount.to_f
         expect(subject.starting_price).to eq(expected_starting_price)
       end

@@ -32,45 +32,35 @@ describe IndexableCard::Creator do
     context 'when there are cards' do
       let(:new_subject)  { FactoryGirl.create(:subject_with_grand_parent) }
       let(:new_course)   { FactoryGirl.create(:course, structure: structure) }
-      let(:new_planning) { FactoryGirl.create(:planning, course: new_course) }
       let(:new_place)    { FactoryGirl.create(:place, structure: structure) }
+      let(:new_planning) { FactoryGirl.create(:planning, course: new_course, place: new_place) }
 
       before do
         subject.create_cards
       end
 
-      context "when there's a new planning" do
-        before do
+      context "when there's a new course" do
+        it 'creates a new card' do
           new_planning
           structure.reload
-        end
 
-        it 'creates a new card' do
           expect { subject.update_cards }.
-            to change { structure.indexable_cards.with_plannings.count }.by(1)
+            to change { structure.indexable_cards.with_courses.count }.by(1)
         end
 
-        it 'associates the new card with the planning' do
-          cards = subject.update_cards
-          expect(cards.first.planning).to eq(new_planning)
-        end
+        it 'associates the new card with the course plannings'
       end
 
       context "when there are new subjects and places" do
         before do
-          structure.subjects << new_subject
           structure.places << new_place
           structure.reload
         end
 
         it 'creates a new card' do
+          debugger
           expect { subject.update_cards; structure.reload }.
             to change { structure.indexable_cards.count }.by(1)
-        end
-
-        it 'associates the new card with the subject' do
-          cards = subject.update_cards
-          expect(cards.first.subjects).to include(new_subject)
         end
 
         it 'associates the new card with the place' do
