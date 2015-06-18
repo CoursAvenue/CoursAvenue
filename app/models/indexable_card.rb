@@ -17,7 +17,7 @@ class IndexableCard < ActiveRecord::Base
   delegate :name, :comments_count, :slug,          to: :structure, prefix: true, allow_nil: true
   delegate :name, :latitude, :longitude, :address, to: :place,     prefix: true, allow_nil: true
 
-  scope :with_courses, -> { where.not(course_id: nil) }
+  scope :with_course, -> { where.not(course_id: nil) }
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
