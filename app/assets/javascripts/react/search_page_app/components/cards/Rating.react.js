@@ -13,7 +13,7 @@ Rating = React.createClass({
         }
         var comments = (this.props.comment_count ? '(' + this.props.comment_count + ' avis)' : '');
         return (
-          <div className='very-soft--top very-soft bordered--top'>
+          <div className='very-soft--top very-soft'>
               {registration_count}
               {comments}
           </div>

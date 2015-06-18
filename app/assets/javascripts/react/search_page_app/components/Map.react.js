@@ -4,6 +4,7 @@ var FluxBoneMixin          = require("../../mixins/FluxBoneMixin"),
     SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
     LocationActionCreators = require("../actions/LocationActionCreators"),
     MarkerPopup            = require("./MarkerPopup.react"),
+    CardActionCreators     = require("../actions/CardActionCreators"),
     FilterActionCreators   = require("../actions/FilterActionCreators");
 
 var MapComponent = React.createClass({
@@ -32,10 +33,13 @@ var MapComponent = React.createClass({
 
     setEventsListeners: function setEventsListeners () {
         this.map.on('moveend', this.handleMoveend);
+        this.map.on('popupclose', function(location) {
+            _.defer(CardActionCreators.unhighlightMarkers);
+        });
         this.map.on('locationfound', function(location) {
             FilterActionCreators.updateFilters({ user_location: location });
         });
-        this.map.on('locationerror', function(data) { debugger });
+        this.map.on('locationerror', function(data) { console.warn("Location couldn't be found") });
         this.state.card_store.on('all', function() {
             this.updateMarkerLayer();
         }.bind(this));
@@ -104,6 +108,9 @@ var MapComponent = React.createClass({
             this.marker_layer.addLayer(marker);
             var string_popup = React.renderToString(<MarkerPopup card={card} />);
             marker.bindPopup(string_popup, { className: 'ca-leaflet-popup' });
+            if (card.get('highlighted')) {
+                marker.openPopup()
+            }
         }.bind(this));
     },
 

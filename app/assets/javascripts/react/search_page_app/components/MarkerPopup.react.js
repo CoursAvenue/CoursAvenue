@@ -15,7 +15,7 @@ var MarkerPopup = React.createClass({
                         style={{ marginTop: '-35px' }}
                         width="50"
                        src={this.props.card.get('structure_logo_url')} />
-                  <div>
+                  <div className="bordered--bottom">
                       <div className="push-half--bottom gray">
                           <a href={Routes.structure_path(this.props.card.get('structure_slug'))}
                              className="semi-muted-link">

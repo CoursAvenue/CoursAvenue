@@ -31,7 +31,7 @@ module.exports = {
         LOCATE_USER:                 null,
 
         HIGHLIGHT_MARKER:            null,
-        UNHIGHLIGHT_MARKER:          null,
+        UNHIGHLIGHT_MARKERS:         null,
 
         TOGGLE_DAY_SELECTION:        null,
         TOGGLE_PERIOD_SELECTION:     null,

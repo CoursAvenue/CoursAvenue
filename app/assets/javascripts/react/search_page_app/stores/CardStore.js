@@ -64,10 +64,11 @@ var CardCollection = Backbone.Collection.extend({
                 this.fetchDataFromServer();
                 break;
             case ActionTypes.HIGHLIGHT_MARKER:
-                // console.log('highlight maker');
+                _.invoke(this.models, 'set', { highlighted: false }, { silent: true })
+                payload.data.card.set({ highlighted: true });
                 break;
             case ActionTypes.UNHIGHLIGHT_MARKER:
-                // console.log('unhighlight maker');
+                _.invoke(this.models, 'set', { highlighted: false }, { silent: true })
                 break;
         }
     },

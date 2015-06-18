@@ -6,19 +6,10 @@ var CardActionCreators = require('../actions/CardActionCreators'),
 
 Card = React.createClass({
 
-    highlightMaker: function highlightMaker (event) {
-        CardActionCreators.highlightMarker({ event: event, card: this.props.card });
-    },
-
-    unHighlightMaker: function unHighlightMaker (event) {
-        CardActionCreators.unHighlightMarker({ event: event, card: this.props.card });
-    },
-
     render: function render () {
         var gift_classes = { gray: this.props.card.get('is_open_for_trial')}
         return (
-          <div className="soft-half one-quarter palm-one-whole lap-one-half inline-block v-top"
-              onMouseEnter={ this.highlightMaker } onMouseLeave={ this.unHighlightMaker }>
+          <div className="soft-half one-quarter palm-one-whole lap-one-half inline-block v-top">
               <div className="bg-white bordered">
                   <div className="bordered--bottom">
                       <img className="block one-whole" src={this.props.card.get('header_image')} height="100"/>
@@ -43,7 +34,7 @@ Card = React.createClass({
                       <hr className="push-half--ends" />
                       <CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') } />
                       <hr className="push-half--ends" />
-                      <CourseLocation rankingInfo={ this.props.card.get('_rankingInfo') } address={ this.props.card.get('place_address') } />
+                      <CourseLocation card={this.props.card} rankingInfo={ this.props.card.get('_rankingInfo') } address={ this.props.card.get('place_address') } />
                   </div>
               </div>
           </div>
