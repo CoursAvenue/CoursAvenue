@@ -59,14 +59,14 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
                 this.showErrors();
                 return false;
             }
-            if (this.model.isFree()) {
-                return this.submitForm();
-            } else {
+            if (!this.model.isFree() && this.selectedCourseAcceptsPayment()) {
                 var expiry_date = $.payment.cardExpiryVal(this.ui.$input_exp.val());
                 this.ui.$hidden_input_exp_month.val(expiry_date.month);
                 this.ui.$hidden_input_exp_year.val(expiry_date.year);
                 Stripe.card.createToken(this.$('form'), this.stripeResponseHandler);
                 return false;
+            } else {
+                return this.submitForm();
             }
         },
 
@@ -246,7 +246,7 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
         },
 
         showSubmitError: function showSubmitError (model, response) {
-            if (response.responseJSON.stripe_error_message) {
+            if (response.responseJSON && response.responseJSON.stripe_error_message) {
                 var errorMessage = response.responseJSON.stripe_error_message;
 
                 this.$('form').trigger('ajax:complete');

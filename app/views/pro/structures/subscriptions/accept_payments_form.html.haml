@@ -3,7 +3,6 @@
     = simple_form_for [:pro, @structure, ManagedAccountForm.new], url: accept_payments_pro_structure_subscriptions_path(@structure), method: :patch, html: { id: 'managed_account_form' } do |f|
       = f.input :stripe_bank_token, as: :hidden
 
-      %hr.push--ends
       %h3 Informations votre structure
       = f.input :business_type, as: :hidden, input_html: { value: 'company' }
 
