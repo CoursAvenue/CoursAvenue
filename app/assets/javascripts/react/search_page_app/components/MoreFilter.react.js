@@ -1,18 +1,20 @@
 var FilterActionCreators = require('../actions/FilterActionCreators'),
     FilterPanelConstants = require('../constants/FilterPanelConstants'),
     FilterStore          = require('../stores/FilterStore'),
+    AudienceStore        = require('../stores/AudienceStore'),
     FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
     AudienceList         = require('./more_filter/AudienceList'),
     classNames           = require('classnames');
 
 var MoreFilter = React.createClass({
     mixins: [
-        FluxBoneMixin('filter_store')
+        FluxBoneMixin([ 'filter_store', 'audience_store' ]),
     ],
 
     getInitialState: function getInitialState () {
         return {
-            filter_store: FilterStore
+            filter_store: FilterStore,
+            audience_store: AudienceStore
         };
     },
 
