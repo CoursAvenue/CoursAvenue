@@ -32,6 +32,10 @@ var MapComponent = React.createClass({
 
     setEventsListeners: function setEventsListeners () {
         this.map.on('moveend', this.handleMoveend);
+        this.map.on('locationfound', function(location) {
+            FilterActionCreators.updateFilters({ user_location: location });
+        });
+        this.map.on('locationerror', function(data) { debugger });
         this.state.card_store.on('all', function() {
             this.updateMarkerLayer();
         }.bind(this));
@@ -39,21 +43,34 @@ var MapComponent = React.createClass({
         this.state.location_store.on('all', function() {
             // Move Map ONLY IF we just changed address
             if (this.state.location_store.changed.address) {       this.moveMapToNewAddress(); }
-            if (this.state.location_store.changed.user_location) { this.setLocationOnMap(); }
+            if (this.state.location_store.changed.user_location) {
+                if (this.state.location_store.changed.user_location == true) {
+                    this.locateUser();
+                } else {
+                    this.setLocationOnMap();
+                }
+            }
         }.bind(this));
+    },
+
+    locateUser: function locateUser (location) {
+        this.map.locate({ setView: true, maxZoom: 15 });
     },
 
     moveMapToNewAddress: function moveMapToNewAddress (location) {
         if (!this.state.location_store.get('address')) { return; }
         this.map.setView([this.state.location_store.get('address').latitude, this.state.location_store.get('address').longitude]);
+        if (this.state.location_store.isFilteredByAddress()) { this.setLocationOnMap(); }
     },
 
     setLocationOnMap: function setLocationOnMap () {
-        var marker = L.marker([this.state.location_store.get('user_location').latitude, this.state.location_store.get('user_location').longitude],
+        var location = this.state.location_store.get('user_location') || this.state.location_store.get('address');
+        if (this.location_marker) { this.map.removeLayer(this.location_marker); }
+        this.location_marker = L.marker([location.latitude, location.longitude],
                               { icon: L.divIcon({className: 'map-box-marker__user'}) });
-        this.map.addLayer(marker);
-        this.map.setView([this.state.location_store.get('user_location').latitude, this.state.location_store.get('user_location').longitude]);
-        marker.bindPopup('Je suis là !');
+        this.map.addLayer(this.location_marker);
+        this.map.setView([location.latitude, location.longitude]);
+        this.location_marker.bindPopup('Je suis là !');
     },
 
     handleMoveend: function handleMoveend (leaflet_data) {

@@ -18,7 +18,7 @@ ResultList = React.createClass({
     render: function render () {
         var header_message, no_results;
         if (this.state.card_store.loading) {
-            header_message = (<div className="f-weight-bold bg-white on-top opacity-75 height-100-percent flex-center delta absolute one-whole north west">
+            header_message = (<div className="f-weight-bold bg-white on-top opacity-75 height-100-percent flex-center alpha absolute one-whole north west">
                                   Chargement...
                               </div>);
         }

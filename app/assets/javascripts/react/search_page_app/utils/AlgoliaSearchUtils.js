@@ -6,7 +6,7 @@ var _                   = require('underscore'),
     subject_index       = client.initIndex('Subject_' + ENV.SERVER_ENVIRONMENT);
 
 var card_search_state = {
-    facets     : ['subjects.slug_name', 'planning_periods'],
+    facets     : ['subjects.slug_name'],
     hitsPerPage: 8,
     distinct:    true,
     aroundRadius: 10000 // 10km

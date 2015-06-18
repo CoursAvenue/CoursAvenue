@@ -52,6 +52,7 @@ var LocationFilterChoicePanel = React.createClass({
     },
 
     filterByAddress: function filterByAddress (event, address) {
+        address.is_address = true;
         LocationActionCreators.filterByAddress(address);
     },
 
@@ -59,23 +60,32 @@ var LocationFilterChoicePanel = React.createClass({
         FilterActionCreators.showLocationChoicePanel();
     },
 
+    closeFilterPanel: function closeFilterPanel () {
+        FilterActionCreators.closeFilterPanel();
+    },
+
     render: function render () {
         return (
           <div>
               <div className="main-container">
-                  <a onClick={this.showLocationChoicePanel} className="block text--left">Retour</a>
+                  <ol className="nav breadcrumb text--left">
+                      <li>
+                          <a onClick={this.showLocationChoicePanel} className="block text--left">Où</a>
+                      </li>
+                      <li>{"Autour d'une adresse"}</li>
+                  </ol>
               </div>
               <h2 className="text--center push-half--bottom soft-half--bottom bordered--bottom inline-block">
-                  {"Où ? > Autour d'une adresse"}
+                  Indiquez une adresse
               </h2>
-              <h3 className="text--center">Vous cherchez une activité dans un secteur précis ?</h3>
               <div>
-                  <div className="inline-block relative center-block text--left">
+                  <div className="inline-block v-middle relative center-block text--left">
                       <input className="input--large inline-block"
                              size="50"
                              onChange={this.searchFullText}
                              placeholder="Entrez le nom de la localité" />
                   </div>
+                  <div className="btn v-middle" onClick={this.closeFilterPanel}>OK</div>
               </div>
           </div>
         );

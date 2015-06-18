@@ -52,6 +52,11 @@ var TimeStore = Backbone.Collection.extend({
             case ActionTypes.TOGGLE_PERIOD_SELECTION:
                 this.togglePeriodSelection(payload.data);
                 break;
+            case ActionTypes.UNSET_FILTER:
+                if (payload.data == 'time_store') {
+                    debugger
+                }
+                break;
         }
     },
 
@@ -105,6 +110,17 @@ var TimeStore = Backbone.Collection.extend({
 
         this.trigger('change');
     },
+
+    /*
+     * Tell wether there is active filters
+     */
+    isFiltered: function isFiltered() {
+        return this.some(function(day) {
+            return _.some(day.get('periods'), function(period) {
+                return period;
+            });
+        });
+    }
 });
 
 module.exports = new TimeStore([

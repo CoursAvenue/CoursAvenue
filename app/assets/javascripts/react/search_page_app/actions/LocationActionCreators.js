@@ -14,6 +14,7 @@ module.exports = {
      *      latitude:
      *      longitude:
      *      name:
+     *      is_address: Boolean // Tells wether it's an address or just a bootstraped city
      */
     filterByAddress: function filterByAddress (address) {
         SearchPageDispatcher.dispatch({
@@ -21,6 +22,7 @@ module.exports = {
             data: address
         });
     },
+
     locateUser: function locateUser () {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.LOCATE_USER

@@ -2,7 +2,6 @@ var _                    = require('underscore'),
     Backbone             = require('backbone'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants'),
-    FilterActionCreators = require('../actions/FilterActionCreators'),
     ActionTypes          = SearchPageConstants.ActionTypes;
 
 var LocationStore = Backbone.Model.extend({
@@ -24,15 +23,27 @@ var LocationStore = Backbone.Model.extend({
             case ActionTypes.UPDATE_BOUNDS:
                 this.set('bounds', payload.data);
                 break;
+            case ActionTypes.UPDATE_FILTERS:
+                if (payload.data.user_location) {
+                    this.set(payload.data);
+                }
+            case ActionTypes.UNSET_FILTER:
+                if      (payload.data == 'user_location') { this.unset('user_location'); }
+                else if (payload.data == 'address') { this.unset('address'); }
+                break;
         }
     },
+
     locateUser: function locateUser (payload) {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(location) {
-                this.set('user_location', { latitude: location.coords.latitude, longitude: location.coords.longitude });
-                FilterActionCreators.updateFilters({ user_location: this.get('user_location') });
-            }.bind(this), function() {});
-        }
+        this.set({ user_location: true });
+    },
+
+    isUserLocated: function isUserLocated (payload) {
+        return !_.isUndefined(this.get('user_location'));
+    },
+
+    isFilteredByAddress: function isFilteredByAddress (payload) {
+        return !_.isUndefined(this.get('address')) && this.get('address').is_address;
     }
 
 });

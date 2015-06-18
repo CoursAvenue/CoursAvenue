@@ -113,7 +113,7 @@ var CardCollection = Backbone.Collection.extend({
         return data;
     },
 
-    getFilters: function getFilters () {
+    getBreadcrumbFilters: function getBreadcrumbFilters () {
         var filters = [];
         if (SubjectStore.selected_group_subject) {
             filters.push({ title: SubjectStore.selected_group_subject.name, filter_key: 'group_subject' });
@@ -124,8 +124,13 @@ var CardCollection = Backbone.Collection.extend({
         if (SubjectStore.selected_subject) {
             filters.push({ title: SubjectStore.selected_subject.name, filter_key: 'subject' });
         }
-        if (SubjectStore.full_text_search) {
-            filters.push({ title: "Activité : " + this.get('full_text_search'), filter_key: 'full_text_search' });
+        if (LocationStore.isUserLocated()) {
+            filters.push({ title: "Autour de moi", filter_key: 'user_location' });
+        } else if (LocationStore.isFilteredByAddress()) {
+            filters.push({ title: "Adresse", filter_key: 'address' });
+        }
+        if (TimeStore.isFiltered()) {
+            filters.push({ title: "Planning", filter_key: 'time_store' });
         }
         return filters;
     },
