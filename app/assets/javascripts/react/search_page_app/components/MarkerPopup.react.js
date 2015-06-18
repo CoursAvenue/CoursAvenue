@@ -6,7 +6,7 @@ var MarkerPopup = React.createClass({
 
     render: function render () {
         return (
-          <div className="bg-white bordered" style={{ maxHeight: '300px;', width: '300px' }}>
+          <div className="bg-white bordered" style={{ maxHeight: '300px', width: '300px' }}>
               <div className="bordered--bottom">
                   <img className="block one-whole" src={this.props.card.get('header_image')} height="100"/>
               </div>
