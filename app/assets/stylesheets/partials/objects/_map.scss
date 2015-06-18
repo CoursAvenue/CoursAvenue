@@ -70,7 +70,10 @@
         font-size   : 30px;
         margin-right: 5px;
         font-weight : bold;
-        opacity     : 1
+        opacity     : 1;
+        &:hover {
+            background: none;
+        }
     }
         .leaflet-popup-content {
             padding: 0 !important;
