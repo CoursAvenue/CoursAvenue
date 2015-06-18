@@ -11,6 +11,7 @@ RSpec.describe IndexableCard, type: :model do
 
   context 'delegations' do
     it { should delegate_method(:name).to(:course).with_prefix }
+    it { should delegate_method(:audiences).to(:course).with_prefix }
     it { should delegate_method(:price).to(:course).with_prefix }
     it { should delegate_method(:type).to(:course).with_prefix }
 

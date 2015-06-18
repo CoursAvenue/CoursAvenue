@@ -103,6 +103,7 @@ var CardCollection = Backbone.Collection.extend({
         if (SubjectStore.selected_subject)        { data.subject          = SubjectStore.selected_subject }
         if (SubjectStore.full_text_search)        { data.full_text_search = SubjectStore.full_text_search }
         if (TimeStore.algoliaFilters())           { data.planning_periods = TimeStore.algoliaFilters() }
+        if (AudienceStore.algoliaFilters())       { data.audiences        = AudienceStore.algoliaFilters() }
         if (LocationStore.get('bounds')) {
             data.insideBoundingBox = LocationStore.get('bounds').toString();
         }

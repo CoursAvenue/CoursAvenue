@@ -58,6 +58,13 @@ module.exports = {
                 card_search_helper.addDisjunctiveRefine('planning_periods', period)
             });
         }
+
+        if (data.audiences) {
+            _.each(data.audiences, function(audience) {
+                card_search_helper.addDisjunctiveRefine('audiences', audience)
+            });
+        }
+
         return card_search_helper.search();
     },
 

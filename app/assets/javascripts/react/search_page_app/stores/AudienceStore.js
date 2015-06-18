@@ -39,6 +39,21 @@ var AudienceStore = Backbone.Collection.extend({
         audience.set('selected', !audience.get('selected'));
         this.trigger('change');
     },
+
+    algoliaFilters: function algoliaFilters () {
+        var filters = this.models.map(function(model) {
+            if (model.get('selected')) {
+                return (model.get('id'));
+            }
+        });
+        filters = _.compact(filters);
+
+        if (_.isEmpty(filters)) {
+            return false;
+        }
+
+        return filters;
+    },
 });
 
 module.exports = new AudienceStore([
