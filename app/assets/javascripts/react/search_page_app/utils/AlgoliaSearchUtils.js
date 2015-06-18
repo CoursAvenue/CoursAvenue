@@ -65,6 +65,11 @@ module.exports = {
             });
         }
 
+        if (data.prices) {
+            card_search_helper.addNumericRefinement('starting_price', '>=', data.prices[0]);
+            card_search_helper.addNumericRefinement('starting_price', '<=', data.prices[1]);
+        }
+
         card_search_helper.setState(_.extend(card_search_helper.state, card_search_state));
 
         return card_search_helper.search();

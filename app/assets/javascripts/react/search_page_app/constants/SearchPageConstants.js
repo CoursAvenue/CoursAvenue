@@ -37,6 +37,7 @@ module.exports = {
         TOGGLE_PERIOD_SELECTION:     null,
 
         TOGGLE_AUDIENCE:             null,
+        SET_PRICE_BOUNDS:            null,
 
         GO_TO_PREVIOUS_PAGE:         null,
         GO_TO_NEXT_PAGE:             null,
