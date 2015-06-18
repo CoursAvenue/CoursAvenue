@@ -7,7 +7,7 @@ var Audience = React.createClass({
     },
 
     toggleSelected: function toggleSelected () {
-        AudienceActionCreators.toggleAudience(this.props.card);
+        AudienceActionCreators.toggleAudience(this.props.audience);
     },
 
     render: function render () {
