@@ -58,7 +58,6 @@ describe IndexableCard::Creator do
         end
 
         it 'creates a new card' do
-          debugger
           expect { subject.update_cards; structure.reload }.
             to change { structure.indexable_cards.count }.by(1)
         end

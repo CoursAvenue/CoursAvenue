@@ -63,6 +63,9 @@ var FilterStore = Backbone.Model.extend({
             case ActionTypes.TOGGLE_TIME_FILTERS:
                 this.set({ current_panel: (this.get('current_panel') == FilterPanelConstants.FILTER_PANELS.TIME ? null : FilterPanelConstants.FILTER_PANELS.TIME) });
                 break;
+            case ActionTypes.TOGGLE_MORE_FILTERS:
+                this.set({ current_panel: (this.get('current_panel') == FilterPanelConstants.FILTER_PANELS.MORE ? null : FilterPanelConstants.FILTER_PANELS.MORE) });
+                break;
             case ActionTypes.UNSET_FILTER:
                 this.unsetFilter(payload.data);
                 break;
