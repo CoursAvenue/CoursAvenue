@@ -55,7 +55,7 @@ module.exports = {
         if (data.subject)          { card_search_helper.addRefine('subjects.slug', data.subject.slug); }
         if (data.full_text_search) { card_search_helper.setQuery(data.full_text_search); }
         if (data.planning_periods) {
-            data.planning_periods.map(function(period) {
+            _.each(data.planning_periods, function(period) {
                 card_search_helper.addDisjunctiveRefine('planning_periods', period)
             });
         }
