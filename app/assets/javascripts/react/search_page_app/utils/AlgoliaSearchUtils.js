@@ -8,11 +8,10 @@ var _                   = require('underscore'),
 var card_search_state = {
     facets     : ['subjects.slug_name'],
     hitsPerPage: 8,
-    distinct:    true,
     aroundRadius: 10000 // 10km
 };
 
-var card_search_helper = algoliasearchHelper(client, 'IndexableCard_' + ENV.SERVER_ENVIRONMENT);
+var card_search_helper = algoliasearchHelper(client, 'IndexableCard_' + ENV.SERVER_ENVIRONMENT, card_search_state);
 module.exports = {
     card_search_helper: card_search_helper,
 
@@ -59,7 +58,6 @@ module.exports = {
                 card_search_helper.addDisjunctiveRefine('planning_periods', period)
             });
         }
-        card_search_helper.setState(card_search_state);
         return card_search_helper.search();
     },
 
