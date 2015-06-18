@@ -43,7 +43,7 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.TOGGLE_DAY_SELECTION:
             case ActionTypes.TOGGLE_PERIOD_SELECTION:
                 // Make sure the Filter store has finish everything he needs to do.
-                SearchPageDispatcher.waitFor([FilterStore.dispatchToken, TimeStore.dispatchToken]);
+                SearchPageDispatcher.waitFor([ FilterStore.dispatchToken, TimeStore.dispatchToken, AudienceStore.dispatchToken ]);
                 // Fetch the new cards.
                 this.fetchDataFromServer();
                 break;
