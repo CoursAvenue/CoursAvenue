@@ -34,6 +34,7 @@ module.exports = {
     searchCards: function searchCards (data) {
         data = data || {};
         card_search_helper.clearRefinements();
+        var card_search_state = {}
         card_search_state.page = data.page || 1;
         if (data.insideBoundingBox) {
             card_search_state.insideBoundingBox = data.insideBoundingBox.toString();
@@ -58,6 +59,7 @@ module.exports = {
                 card_search_helper.addDisjunctiveRefine('planning_periods', period)
             });
         }
+        card_search_helper.setState(_.extend(card_search_helper.state, card_search_state));
         return card_search_helper.search();
     },
 

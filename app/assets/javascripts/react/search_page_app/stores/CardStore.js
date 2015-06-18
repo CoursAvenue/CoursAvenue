@@ -24,6 +24,7 @@ var CardCollection = Backbone.Collection.extend({
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
         this.current_page = 1;
         this.total_pages  = 1;
+        this.sort_by      = 'distance';
         // Bind search events to the store, so it updates.
         AlgoliaSearchUtils.card_search_helper.on("result",  this.searchSuccess);
         AlgoliaSearchUtils.card_search_helper.on("error",  this.searchError);
@@ -47,6 +48,9 @@ var CardCollection = Backbone.Collection.extend({
                 // Fetch the new cards.
                 this.fetchDataFromServer();
                 break;
+            case ActionTypes.UPDATE_SORTING:
+                this.sort_by = payload.data;
+                this.fetchDataFromServer();
             case ActionTypes.GO_TO_PAGE:
                 this.current_page = payload.data;
                 this.fetchDataFromServer();
@@ -94,7 +98,8 @@ var CardCollection = Backbone.Collection.extend({
 
     algoliaFilters: function algoliaFilters () {
         var data = {
-            page: this.current_page
+            page   : this.current_page,
+            sort_by: this.sort_by
         };
         if (SubjectStore.selected_group_subject)  { data.group_subject    = SubjectStore.selected_group_subject }
         if (SubjectStore.selected_root_subject)   { data.root_subject     = SubjectStore.selected_root_subject }

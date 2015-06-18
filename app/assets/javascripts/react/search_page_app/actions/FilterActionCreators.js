@@ -10,6 +10,13 @@ module.exports = {
         });
     },
 
+    updateSorting: function updateSorting (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.UPDATE_SORTING,
+            data: data
+        });
+    },
+
     closeFilterPanel: function closeFilterPanel () {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.CLOSE_FILTER_PANEL
