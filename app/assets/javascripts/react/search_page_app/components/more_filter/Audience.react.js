@@ -1,0 +1,26 @@
+var cx                     = require('classnames'),
+    AudienceActionCreators = require('../../actions/AudienceActionCreators');
+
+var Audience = React.createClass({
+    propTypes: {
+        audience: React.PropTypes.object.isRequired,
+    },
+
+    toggleSelected: function toggleSelected () {
+        AudienceActionCreators.toggleAudience(this.props.card);
+    },
+
+    render: function render () {
+        var classes = cx('cursor-pointer', {
+            'bg-gray': this.props.audience.get('selected'),
+        });
+
+        return (
+            <div className={ classes }>
+                { this.props.audience.get('name') }
+            </div>
+        )
+    },
+});
+
+module.exports = Audience;
