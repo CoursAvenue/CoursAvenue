@@ -16,7 +16,7 @@ var Audience = React.createClass({
         });
 
         return (
-            <div className={ classes }>
+            <div onClick={ this.toggleSelected } className={ classes }>
                 { this.props.audience.get('name') }
             </div>
         )
