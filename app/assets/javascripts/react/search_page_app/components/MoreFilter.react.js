@@ -4,6 +4,7 @@ var FilterActionCreators = require('../actions/FilterActionCreators'),
     AudienceStore        = require('../stores/AudienceStore'),
     FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
     AudienceList         = require('./more_filter/AudienceList'),
+    PriceSlider          = require('./more_filter/PriceSlider'),
     classNames           = require('classnames');
 
 var MoreFilter = React.createClass({
@@ -33,7 +34,14 @@ var MoreFilter = React.createClass({
             <div className={ classes } style={ { minHeight: '230px' } }>
               <div>
                   <h2>Filtres supplémentaires</h2>
-                  <AudienceList />
+                  <div className='grid'>
+                      <div className='grid__item one-third'>
+                          <AudienceList />
+                      </div>
+                      <div className='grid__item one-third'>
+                          <PriceSlider />
+                      </div>
+                  </div>
                   <a onClick={ this.closePanel } className='btn'>Valider</a>
               </div>
             </div>
