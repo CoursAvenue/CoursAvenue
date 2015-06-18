@@ -4,6 +4,7 @@ var _                    = require('underscore'),
     FilterStore          = require('../stores/FilterStore'),
     LocationStore        = require('../stores/LocationStore'),
     TimeStore            = require('../stores/TimeStore'),
+    AudienceStore        = require('../stores/AudienceStore'),
     AlgoliaSearchUtils   = require('../utils/AlgoliaSearchUtils'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants');
@@ -42,6 +43,7 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.UNSET_FILTER:
             case ActionTypes.TOGGLE_DAY_SELECTION:
             case ActionTypes.TOGGLE_PERIOD_SELECTION:
+            case ActionTypes.TOGGLE_AUDIENCE:
                 // Make sure the Filter store has finish everything he needs to do.
                 SearchPageDispatcher.waitFor([ FilterStore.dispatchToken, TimeStore.dispatchToken, AudienceStore.dispatchToken ]);
                 // Fetch the new cards.
