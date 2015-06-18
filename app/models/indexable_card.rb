@@ -103,6 +103,10 @@ class IndexableCard < ActiveRecord::Base
     add_attribute :identity
 
     attribute :planning_periods
+
+    attribute :registration_count do
+      structure.participation_requests.count
+    end
   end
   # :nocov:
 
