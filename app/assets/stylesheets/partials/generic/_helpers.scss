@@ -597,3 +597,9 @@
     0%   { transform:rotate(-175deg) scale(0.2);  }
     100% { transform:rotate(0deg) scale(1);   }
 }
+
+.flex-center {
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+}

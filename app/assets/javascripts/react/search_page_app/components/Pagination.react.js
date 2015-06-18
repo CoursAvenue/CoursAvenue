@@ -78,8 +78,8 @@ var Pagination = React.createClass({
     },
 
     render: function render () {
-        var back_class = classNames({ disabled: this.state.card_store.isFirstPage() });
-        var next_class = classNames({ disabled: this.state.card_store.isLastPage() });
+        var back_class = classNames({ 'visibility-hidden': this.state.card_store.isFirstPage() });
+        var next_class = classNames({ 'visibility-hidden': this.state.card_store.isLastPage() });
         var buttons = _.map(this.buildPaginationButtons(), function(button, index) {
             var button_classes = classNames({ 'disabled': (this.state.card_store.current_page == button.page),
                                        'btn': true });
@@ -92,17 +92,17 @@ var Pagination = React.createClass({
                     </div>);
         }.bind(this));
         return (
-          <div className="bordered--top bordered--bottom bg-white main-container">
+          <div className="soft bordered--top bordered--bottom bg-white main-container">
               <div className="flexbox">
-                  <div className="flexbox__item">
+                  <div className="flexbox__item one-third">
                       <a className={back_class}
                          href="javascript:void(0)"
                          onClick={this.goToPreviousPage}>Précédent</a>
                   </div>
-                  <div className="flexbox__item text--center">
+                  <div className="flexbox__item one-third text--center">
                       {buttons}
                   </div>
-                  <div className="flexbox__item text--right">
+                  <div className="flexbox__item one-third text--right">
                       <a className={next_class}
                          href="javascript:void(0)"
                          onClick={this.goToNextPage}>Suivant</a>
