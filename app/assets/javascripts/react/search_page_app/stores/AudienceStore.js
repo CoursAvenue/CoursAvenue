@@ -3,6 +3,8 @@ var _                    = require('underscore'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants');
 
+var ActionTypes = SearchPageConstants.ActionTypes;
+
 var Audience = Backbone.Model.extend({
     defaults: function defaults () {
         return { selected: false };

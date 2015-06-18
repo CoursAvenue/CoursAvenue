@@ -2,6 +2,7 @@ var FilterActionCreators = require('../actions/FilterActionCreators'),
     FilterPanelConstants = require('../constants/FilterPanelConstants'),
     FilterStore          = require('../stores/FilterStore'),
     FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
+    AudienceList         = require('./more_filter/AudienceList'),
     classNames           = require('classnames');
 
 var MoreFilter = React.createClass({
@@ -25,10 +26,12 @@ var MoreFilter = React.createClass({
             'north'     : isCurrentPanel,
             'down-north': !isCurrentPanel
         });
+
         return (
             <div className={ classes } style={ { minHeight: '230px' } }>
               <div>
                   <h2>Filtres supplémentaires</h2>
+                  <AudienceList />
                   <a onClick={ this.closePanel } className='btn'>Valider</a>
               </div>
             </div>
