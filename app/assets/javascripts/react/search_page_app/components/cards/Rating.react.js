@@ -7,9 +7,9 @@ Rating = React.createClass({
     render: function render () {
         var registration_count = '';
         if (this.props.registration_count > 0) {
-            registration_count = (<div>
+            registration_count = (<span>
                                       <i className='fa fa-user'>{this.props.registration_count}</i>
-                                  </div>);
+                                  </span>);
         }
         var comments = (this.props.comment_count ? '(' + this.props.comment_count + ' avis)' : '');
         return (

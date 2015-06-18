@@ -22,9 +22,10 @@ var Column = React.createClass({
         var checked = _.every(periods, _.identity);
         return (
             <div className='grid__item one-seventh'>
-                <div className=''>{ this.props.day.get('title') }</div>
+                <div className='soft-half'>{ this.props.day.get('title') }</div>
                 { cells }
                 <input name={this.props.day.get('name')}
+                       className='push-half'
                        type='checkbox'
                        onChange={ this.toggleSelected }
                        checked={ checked } />
