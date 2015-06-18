@@ -13,11 +13,11 @@ class IndexableCard < ActiveRecord::Base
 
   attr_accessible :structure, :place, :plannings, :course
 
-  delegate :name, :price, :type,                   to: :course,    prefix: true, allow_nil: true
+  delegate :name, :price, :type, :audiences,        to: :course,    prefix: true, allow_nil: true
   delegate :name, :comments_count, :slug,          to: :structure, prefix: true, allow_nil: true
   delegate :name, :latitude, :longitude, :address, to: :place,     prefix: true, allow_nil: true
 
-  scope :with_courses, -> { where.not(course_id: nil) }
+  scope :with_course, -> { where.not(course_id: nil) }
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
@@ -100,12 +100,15 @@ class IndexableCard < ActiveRecord::Base
       structure.logo.url(:small_thumb_85) if structure.logo?
     end
 
-    add_attribute :identity
-
+    attribute :identity
     attribute :planning_periods
 
     attribute :registration_count do
       structure.participation_requests.count
+    end
+
+    add_attribute :audiences do
+      self.course_audiences.map(&:name) if self.course_audiences
     end
   end
   # :nocov:

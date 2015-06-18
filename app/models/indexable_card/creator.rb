@@ -37,7 +37,7 @@ class IndexableCard::Creator
 
     # If structure did not have courses we delete all cards only associate to subjects
     # If a structure has courses, we want to have cards only for his courses
-    if @structure.indexable_cards.with_courses.empty? and new_courses.any?
+    if @structure.indexable_cards.with_course.empty? and new_courses.any?
       @structure.indexable_cards.map(&:destroy)
     end
 

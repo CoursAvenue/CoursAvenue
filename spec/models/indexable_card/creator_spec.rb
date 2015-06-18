@@ -45,7 +45,7 @@ describe IndexableCard::Creator do
           structure.reload
 
           expect { subject.update_cards }.
-            to change { structure.indexable_cards.with_courses.count }.by(1)
+            to change { structure.indexable_cards.with_course.count }.by(1)
         end
 
         it 'associates the new card with the course plannings'
