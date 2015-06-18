@@ -3,6 +3,7 @@ var Map                    = require('./Map.react'),
     SubjectFilter          = require('./SubjectFilter.react'),
     LocationFilter         = require('./LocationFilter.react'),
     TimeFilter             = require('./TimeFilter.react'),
+    MoreFilter             = require('./MoreFilter.react'),
     FilterBar              = require('./FilterBar.react'),
     FilterBreadcrumb       = require('./FilterBreadcrumb.react'),
     ResultInfo             = require('./ResultInfo.react'),
@@ -48,6 +49,7 @@ SearchPageApp = React.createClass({
             <SubjectFilter />
             <LocationFilter />
             <TimeFilter />
+            <MoreFilter />
             <FilterBar />
             <FilterBreadcrumb />
             <ResultInfo />
