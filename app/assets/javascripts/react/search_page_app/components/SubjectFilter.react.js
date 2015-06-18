@@ -41,7 +41,7 @@ var SubjectFilter = React.createClass({
             'down-north': !(this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS)
         });
         return (
-          <div className={classes + ' delta soft transition-all-300 absolute west one-whole bg-white height-35vh text--center'}
+          <div className={classes + ' delta soft on-top transition-all-300 absolute west one-whole bg-white height-35vh text--center'}
                style={{ minHeight: '230px'}}>
               { this.panelToShow() }
           </div>

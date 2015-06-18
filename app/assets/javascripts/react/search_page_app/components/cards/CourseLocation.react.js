@@ -9,7 +9,7 @@ CourseDistance = React.createClass({
     ],
 
     propTypes: {
-        rankingInfo: React.PropTypes.object.isRequired,
+        rankingInfo: React.PropTypes.object,
         address: React.PropTypes.string.isRequired
     },
 

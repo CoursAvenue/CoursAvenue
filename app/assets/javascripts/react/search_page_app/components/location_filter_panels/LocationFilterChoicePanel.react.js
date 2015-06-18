@@ -16,9 +16,8 @@ var LocationFilterChoicePanel = React.createClass({
         return (
           <div className="text--center soft">
               <h2 className="push-half--bottom soft-half--bottom bordered--bottom inline-block">
-                  Où ?
+                  Où souhaitez-vous trouver un cours ?
               </h2>
-              <h3>Où souhaitez vous pratiquer cette activité ?</h3>
               <div className="bordered soft delta cursor-pointer inline-block v-middle push--right"
                    onClick={this.locateUser}>
                   Autour de moi

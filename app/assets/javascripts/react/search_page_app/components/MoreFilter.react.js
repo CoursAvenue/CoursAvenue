@@ -24,7 +24,7 @@ var MoreFilter = React.createClass({
 
     render: function render () {
         var isCurrentPanel = this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.MORE;
-        var classes = classNames('transition-all-300 absolute west one-whole bg-white height-35vh text--center', {
+        var classes = classNames('on-top transition-all-300 absolute west one-whole bg-white height-35vh text--center', {
             'north'     : isCurrentPanel,
             'down-north': !isCurrentPanel
         });
