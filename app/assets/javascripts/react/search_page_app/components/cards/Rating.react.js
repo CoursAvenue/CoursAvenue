@@ -1,17 +1,21 @@
 Rating = React.createClass({
     propTypes: {
-        commentCount: React.PropTypes.number.isRequired,
+        comment_count: React.PropTypes.number.isRequired,
+        registration_count: React.PropTypes.number.isRequired
     },
 
     render: function render () {
+        var registration_count = '';
+        if (this.props.registration_count > 0) {
+            registration_count = (<div>
+                                      <i className='fa fa-user'>{this.props.registration_count}</i>
+                                  </div>);
+        }
+        var comments = (this.props.comment_count ? '(' + this.props.comment_count + ' avis)' : '');
         return (
-          <div className='very-soft--top very-soft--bottom'>
-              <i className="fa fa-star"></i>
-              <i className="fa fa-star"></i>
-              <i className="fa fa-star"></i>
-              <i className="fa fa-star"></i>
-              <i className="fa fa-star"></i>
-              ({this.props.comment_count} avis)
+          <div className='very-soft--top very-soft bordered--top'>
+              {registration_count}
+              {comments}
           </div>
         );
     },

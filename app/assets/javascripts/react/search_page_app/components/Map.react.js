@@ -3,6 +3,7 @@ var FluxBoneMixin          = require("../../mixins/FluxBoneMixin"),
     LocationStore          = require("../stores/LocationStore"),
     SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
     LocationActionCreators = require("../actions/LocationActionCreators"),
+    MarkerPopup            = require("./MarkerPopup.react"),
     FilterActionCreators   = require("../actions/FilterActionCreators");
 
 var MapComponent = React.createClass({
@@ -56,6 +57,12 @@ var MapComponent = React.createClass({
     },
 
     handleMoveend: function handleMoveend (leaflet_data) {
+        // ----- We add guard to prevent from updating bounds when a popup is opened
+        var popup_is_opened = _.some(this.marker_layer._layers, function(marker_layer) {
+            return marker_layer._popup._isOpen;
+        });
+        if (popup_is_opened) { return; }
+
         if (SearchPageDispatcher.isDispatching()) {
             _.defer(this.handleMoveend, leaflet_data);
             return;
@@ -78,7 +85,8 @@ var MapComponent = React.createClass({
                 icon: this.getIconForCard(card)
             });
             this.marker_layer.addLayer(marker);
-            marker.bindPopup(card.get('name'));
+            var string_popup = React.renderToString(<MarkerPopup card={card} />);
+            marker.bindPopup(string_popup, { className: 'ca-leaflet-popup' });
         }.bind(this));
     },
 

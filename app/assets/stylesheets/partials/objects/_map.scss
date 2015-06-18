@@ -56,3 +56,23 @@
     left            : 50%;
     margin-left     : -5px;
 }
+
+
+.ca-leaflet-popup {
+    .leaflet-popup-content-wrapper {
+        border : none;
+        padding: 0;
+    }
+    .leaflet-popup-close-button {
+        color       : white;
+        background  : none;
+        text-indent : 0;
+        font-size   : 30px;
+        margin-right: 5px;
+        font-weight : bold;
+        opacity     : 1
+    }
+        .leaflet-popup-content {
+            padding: 0 !important;
+        }
+}

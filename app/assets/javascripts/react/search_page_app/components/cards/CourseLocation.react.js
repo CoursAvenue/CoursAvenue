@@ -1,6 +1,7 @@
-var _             = require('underscore'),
-    FluxBoneMixin = require('../../../mixins/FluxBoneMixin'),
-    FilterStore   = require('../../stores/FilterStore');
+var _                  = require('underscore'),
+    FluxBoneMixin      = require('../../../mixins/FluxBoneMixin'),
+    CardActionCreators = require('../../actions/CardActionCreators'),
+    FilterStore        = require('../../stores/FilterStore');
 
 CourseDistance = React.createClass({
     mixins: [
@@ -18,10 +19,14 @@ CourseDistance = React.createClass({
         };
     },
 
+    highlightMaker: function highlightMaker (event) {
+        CardActionCreators.highlightMarker({ event: event, card: this.props.card });
+    },
+
     render: function render () {
         return (
             <div className='very-soft--top very-soft--bottom'>
-                <div dangerouslySetInnerHTML={{__html: this.location() }} />
+                <div onClick={this.highlightMaker} dangerouslySetInnerHTML={{__html: this.location() }} />
             </div>
         );
     },

@@ -5,6 +5,7 @@ var CardActionCreators = require('../actions/CardActionCreators'),
     Rating             = require('./cards/Rating.react');
 
 Card = React.createClass({
+
     highlightMaker: function highlightMaker (event) {
         CardActionCreators.highlightMarker({ event: event, card: this.props.card });
     },
@@ -37,7 +38,8 @@ Card = React.createClass({
                           <h4>{this.props.card.get('course_name')}</h4>
                       </div>
                       <SubjectList subjectList={ this.props.card.get('subjects') } />
-                      <Rating commentCount={ this.props.card.get('comments_count') } />
+                      <Rating comment_count={ this.props.card.get('comments_count') }
+                              registration_count={ this.props.card.get('registration_count') } />
                       <hr className="push-half--ends" />
                       <CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') } />
                       <hr className="push-half--ends" />
