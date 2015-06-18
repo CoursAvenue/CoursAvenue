@@ -28,9 +28,15 @@ var AudienceStore = Backbone.Collection.extend({
     },
 
     dispatchCallback: function dispatchCallback (payload) {
+        switch(payload.actionType) {
+            case ActionTypes.TOGGLE_AUDIENCE:
+                this.toggleAudienceSelection(payload.data);
+                break;
+        }
     },
 
     toggleAudienceSelection: function toggleAudienceSelection (audience) {
+        audience.set('selected', !audience.get('selected'));
         this.trigger('change');
     },
 });
