@@ -6,6 +6,9 @@
 
 .main-container
   %h1.soft--top.text--center.flush= @structure.name
+  - if @structure.website.present?
+    .text--center
+      = link_to 'Revenir au site Internet', @structure.website
   %hr.push--ends
   -# .text--center.push--bottom avec CoursAvenue.com
   .grid

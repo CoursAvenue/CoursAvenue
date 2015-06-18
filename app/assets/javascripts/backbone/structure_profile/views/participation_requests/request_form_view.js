@@ -102,7 +102,7 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
 
         trackEvent: function trackEvent () {
             if (CoursAvenue.isProduction()) {
-              mixpanel.track('Structures/show: interacts with the form');
+                mixpanel.track('Structures/show: interacts with the form');
             }
         },
         /*

@@ -161,6 +161,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             } else {
                 this.ui.$datepicker_wrapper.slideDown();
             }
+            this.model.set('course_type', this.getCurrentCourse().get('db_type'));
             // TODO: Refactor this
             // This is ugly, I know.
             // Delay trigger in order to be sure that the participation request participants receive the event.

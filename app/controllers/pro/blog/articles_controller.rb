@@ -27,8 +27,10 @@ class Pro::Blog::ArticlesController < Pro::ProController
   end
 
   def load_article
-    @article = ::Blog::Article::ProArticle.friendly.find(params[:id])
-    if @article.slug != params[:id]
+    @article = ::Blog::Article.friendly.find(params[:id])
+    if @article.type == 'Blog::Article::UserArticle'
+      redirect_to blog_article_path(@article, subdomain: 'www'), status: 301
+    elsif @article.slug != params[:id]
       redirect_to pro_blog_article_path(@article.slug), status: 301
     end
   end
