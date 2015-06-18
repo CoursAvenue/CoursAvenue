@@ -46,7 +46,6 @@ module.exports = {
             card_search_state.getRankingInfo = true;
         }
 
-        card_search_helper.setState(card_search_state);
         if (data.group_subject)    {
             _.each(data.group_subject.root_slugs, function(root_subject) {
                 card_search_helper.addDisjunctiveRefine('root_subject', root_subject)
@@ -60,6 +59,7 @@ module.exports = {
                 card_search_helper.addDisjunctiveRefine('planning_periods', period)
             });
         }
+        card_search_helper.setState(card_search_state);
         return card_search_helper.search();
     },
 
