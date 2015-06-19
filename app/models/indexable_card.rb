@@ -114,6 +114,8 @@ class IndexableCard < ActiveRecord::Base
     add_attribute :levels do
       self.course_levels.map(&:name) if self.course_levels
     end
+
+    attribute :card_type
   end
   # :nocov:
 
@@ -232,16 +234,16 @@ class IndexableCard < ActiveRecord::Base
     price.present? ? price.amount.to_f : 0.0
   end
 
-  private
-
-  def identity
-    [card_type, structure_id, place_id, course_id].compact.join(':')
-  end
-
   # The type of the card.
   #
   # @return a string.
   def card_type
     course.present? ? 'course_card' : 'subject_card'
+  end
+
+  private
+
+  def identity
+    [card_type, structure_id, place_id, course_id].compact.join(':')
   end
 end
