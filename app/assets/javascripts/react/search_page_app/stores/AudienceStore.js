@@ -32,6 +32,14 @@ var AudienceStore = Backbone.Collection.extend({
             case ActionTypes.TOGGLE_AUDIENCE:
                 this.toggleAudienceSelection(payload.data);
                 break;
+            case ActionTypes.UNSET_FILTER:
+                if (payload.data == 'audiences') {
+                    this.map(function(audience) {
+                        audience.set({ selected: false }, { silent: true });
+                    });
+                    this.trigger('change');
+                }
+                break;
         }
     },
 
@@ -41,7 +49,7 @@ var AudienceStore = Backbone.Collection.extend({
     },
 
     algoliaFilters: function algoliaFilters () {
-        var filters = this.models.map(function(model) {
+        var filters = this.map(function(model) {
             if (model.get('selected')) {
                 return (model.get('id'));
             }

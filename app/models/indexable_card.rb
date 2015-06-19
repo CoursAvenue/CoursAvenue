@@ -118,7 +118,7 @@ class IndexableCard < ActiveRecord::Base
     attribute :card_type
 
     add_attribute :trainings do
-      if course.is_training?
+      if course and course.is_training?
         course.plannings('start_date ASC, start_time ASC').map do |p|
           DateTime.new(p.start_date.year, p.start_date.month, p.start_date.day,
                        p.start_time.hour, p.start_time.min, p.start_time.sec).to_i

@@ -16,14 +16,19 @@ Rating = React.createClass({
                                         data-trigger="hover"
                                         data-placement="top"
                                         data-title={tooltip_content}>
-                                      <i className='fa fa-user'>{this.props.registration_count}</i>
+                                      <i className='v-middle fa fa-user'></i>
+                                      <span className="v-middle">&nbsp;{this.props.registration_count}&nbsp;</span>
                                   </span>);
         }
-        var comments = (this.props.comment_count ? '(' + this.props.comment_count + ' avis)' : '');
+        if (this.props.comment_count && this.props.comment_count > 0) {
+            var comments = (<i className="v-middle">Aucun avis pour le moment</i>);
+        } else {
+            var comments = (<span className="v-middle">({this.props.comment_count + ' avis'})</span>);
+        }
         return (
           <div className='very-soft--top very-soft'>
               {registration_count}
-              {comments}
+              <span className="v-middle">{comments}</span>
           </div>
         );
     },

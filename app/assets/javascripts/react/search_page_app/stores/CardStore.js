@@ -155,6 +155,15 @@ var CardCollection = Backbone.Collection.extend({
         if (TimeStore.isFiltered()) {
             filters.push({ title: "Planning", filter_key: 'time_store' });
         }
+        if (AudienceStore.algoliaFilters()) {
+            filters.push({ title: "Public", filter_key: 'audiences' });
+        }
+        if (LevelStore.algoliaFilters()) {
+            filters.push({ title: "Niveau", filter_key: 'levels' });
+        }
+        if (PriceStore.algoliaFilters()) {
+            filters.push({ title: "Prix", filter_key: 'price' });
+        }
         return filters;
     },
 

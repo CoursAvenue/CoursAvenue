@@ -54,7 +54,11 @@ var TimeStore = Backbone.Collection.extend({
                 break;
             case ActionTypes.UNSET_FILTER:
                 if (payload.data == 'time_store') {
-                    debugger
+                    this.map(function(day) {
+                        day.set({ selected: false, periods: [false, false, false, false] },
+                                { silent: true });
+                    });
+                    this.trigger('change');
                 }
                 break;
         }

@@ -16,6 +16,11 @@ var PriceStore = Backbone.Model.extend({
             case ActionTypes.SET_PRICE_BOUNDS:
                 this.setBounds(payload.data);
                 break;
+            case ActionTypes.UNSET_FILTER:
+                if (payload.data == 'price') {
+                    this.unset('bounds');
+                }
+                break;
         }
     },
 
