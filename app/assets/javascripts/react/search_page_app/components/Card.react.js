@@ -8,10 +8,13 @@ Card = React.createClass({
 
     render: function render () {
         var gift_classes = { gray: this.props.card.get('is_open_for_trial')}
+        var starting_price = (this.props.card.get('starting_price') == 0 ? 'Essai gratuit' : 'À partir de ' + this.props.card.get('starting_price') + '€');
         return (
           <div className="soft-half one-quarter palm-one-whole lap-one-half inline-block v-top">
               <div className="bg-white bordered">
-                  <div className="bordered--bottom">
+                  <div className="bordered--bottom relative">
+                      <div className="bg-white rounded very-soft push-half--left push-half--top absolute">{starting_price}</div>
+
                       <img className="block one-whole" src={this.props.card.get('header_image')} height="100"/>
                   </div>
                   <div className="soft-half">
@@ -26,7 +29,7 @@ Card = React.createClass({
                                   {this.props.card.get('structure_name')}
                               </a>
                           </div>
-                          <h4>{this.props.card.get('course_name')}</h4>
+                          <h3 className="push-half--bottom">{this.props.card.get('course_name')}</h3>
                       </div>
                       <SubjectList subjectList={ this.props.card.get('subjects') } />
                       <Rating comment_count={ this.props.card.get('comments_count') }

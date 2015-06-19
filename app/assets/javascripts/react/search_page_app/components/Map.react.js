@@ -102,6 +102,7 @@ var MapComponent = React.createClass({
         }, this);
 
         this.state.card_store.map(function(card) {
+            if (!card.get('_geoloc')) { return; }
             var marker = L.marker([card.get('_geoloc').lat, card.get('_geoloc').lng], {
                 icon: this.getIconForCard(card)
             });

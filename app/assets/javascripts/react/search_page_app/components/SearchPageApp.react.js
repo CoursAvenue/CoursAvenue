@@ -45,7 +45,7 @@ SearchPageApp = React.createClass({
 
     render: function render() {
         return (
-          <div className="relative">
+          <div className="relative overflow-hidden">
             <Map center={this.props.map_center} />
             <SubjectFilter />
             <LocationFilter />

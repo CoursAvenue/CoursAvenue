@@ -5,9 +5,17 @@ Rating = React.createClass({
     },
 
     render: function render () {
+        if (this.props.registration_count > 1) {
+            var tooltip_content = this.props.registration_count + " utilisateurs se sont inscrits à ce cours";
+        } else {
+            var tooltip_content = this.props.registration_count + " utilisateur s'est inscrit à ce cours";
+        }
         var registration_count = '';
         if (this.props.registration_count > 0) {
-            registration_count = (<span>
+            registration_count = (<span data-toggle='tooltip'
+                                        data-trigger="hover"
+                                        data-placement="top"
+                                        data-title={tooltip_content}>
                                       <i className='fa fa-user'>{this.props.registration_count}</i>
                                   </span>);
         }

@@ -104,7 +104,7 @@ class IndexableCard < ActiveRecord::Base
     attribute :planning_periods
 
     attribute :registration_count do
-      structure.participation_requests.count
+      (course ? course.participation_requests.count : 0)
     end
 
     add_attribute :audiences do
@@ -187,20 +187,21 @@ class IndexableCard < ActiveRecord::Base
     return [] if course.nil?
 
     availability = [
-      { day: 'monday',    count: 0, letter: 'L' },
-      { day: 'tuesday',   count: 0, letter: 'M' },
-      { day: 'wednesday', count: 0, letter: 'M' },
-      { day: 'thursday',  count: 0, letter: 'J' },
-      { day: 'friday',    count: 0, letter: 'V' },
-      { day: 'saturday',  count: 0, letter: 'S' },
-      { day: 'sunday',    count: 0, letter: 'D' }
+      { day: 'monday',    count: 0, letter: 'L', start_times: [] },
+      { day: 'tuesday',   count: 0, letter: 'M', start_times: [] },
+      { day: 'wednesday', count: 0, letter: 'M', start_times: [] },
+      { day: 'thursday',  count: 0, letter: 'J', start_times: [] },
+      { day: 'friday',    count: 0, letter: 'V', start_times: [] },
+      { day: 'saturday',  count: 0, letter: 'S', start_times: [] },
+      { day: 'sunday',    count: 0, letter: 'D', start_times: [] }
     ]
 
-    course.plannings.each do |course|
-      course_day = Date::DAYNAMES[course.week_day].downcase
+    course.plannings.each do |planning|
+      course_day = Date::DAYNAMES[planning.week_day].downcase
       day_availability = availability.detect { |d| d[:day] == course_day }
 
       day_availability[:count] += 1
+      day_availability[:start_times] << I18n.l(planning.start_time, format: :short)
     end
 
     availability
