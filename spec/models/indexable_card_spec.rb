@@ -222,4 +222,18 @@ RSpec.describe IndexableCard, type: :model do
       end
     end
   end
+
+  describe '#card_type' do
+    context 'when the course is a training' do
+      it 'returns training'
+    end
+
+    context 'when the course is not a training' do
+      it 'returns course'
+    end
+
+    context 'when there are no courses' do
+      it 'returns course'
+    end
+  end
 end

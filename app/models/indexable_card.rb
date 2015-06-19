@@ -235,11 +235,15 @@ class IndexableCard < ActiveRecord::Base
     price.present? ? price.amount.to_f : 0.0
   end
 
-  # The type of the card.
+  # The type of the card. Used for the identity and the search context.
   #
   # @return a string.
   def card_type
-    course.present? ? 'course_card' : 'subject_card'
+    if course.present? and course_type == 'Course::Training'
+      'training'
+    else
+      'course'
+    end
   end
 
   private
