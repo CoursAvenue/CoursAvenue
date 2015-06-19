@@ -57,6 +57,7 @@ class Planning < ActiveRecord::Base
   before_save :set_structure_if_blank
   before_save :update_start_and_end_date
 
+  after_save :update_structure_meta_datas
   # before_destroy :remove_from_jobs
 
   ######################################################################
@@ -525,5 +526,9 @@ class Planning < ActiveRecord::Base
   def remove_from_jobs
     jobs = Delayed::Job.select { |job| YAML.load(job.handler).object == self }
     jobs.each(&:destroy)
+  end
+
+  def update_structure_meta_datas
+    structure.delay.update_planning_meta_datas
   end
 end

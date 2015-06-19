@@ -18,6 +18,7 @@ class Course < ActiveRecord::Base
   friendly_id :friendly_name, use: [:slugged, :finders]
 
   belongs_to :structure, touch: true
+  belongs_to :price_group
 
   has_many :comments            , through: :structure
   has_many :participations      , through: :plannings
@@ -25,7 +26,6 @@ class Course < ActiveRecord::Base
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , -> { uniq }, through: :plannings
   has_many :places              , -> { uniq }, through: :plannings
-  belongs_to :price_group
   has_many :prices
   has_many :price_group_prices  , through: :price_group, source: :prices
   has_many :reservation_loggers , dependent: :destroy
@@ -34,11 +34,12 @@ class Course < ActiveRecord::Base
 
   before_save :sanatize_description
   before_save :update_open_for_trial
+  before_save :set_has_promotion
+  before_save :update_structure_meta_datas
+  before_save :update_structure_vertical_pages_breadcrumb
 
   after_save  :update_plannings_dates_if_needs_to
   after_save  :reindex_plannings unless Rails.env.test?
-  after_save  :set_has_promotion
-  after_touch :set_has_promotion
 
   ######################################################################
   # Scopes                                                             #
@@ -349,14 +350,15 @@ class Course < ActiveRecord::Base
   #
   # @return nil
   def set_has_promotion
-    if (self.prices + self.price_group_prices).empty?
-      self.update_column :has_promotion, false
-    elsif (self.prices + self.price_group_prices).detect(&:promo_amount)
-      self.update_column :has_promotion, true
+    if self.prices.any?(&:changed?)
+      if (self.prices + self.price_group_prices).empty?
+        self.update_column :has_promotion, false
+      elsif (self.prices + self.price_group_prices).detect(&:promo_amount)
+        self.update_column :has_promotion, true
+      end
     end
     nil
   end
-  handle_asynchronously :set_has_promotion
 
   # Attributes used to create the slug for Friendly ID
   #
@@ -425,5 +427,13 @@ class Course < ActiveRecord::Base
     attributes.merge!({:_destroy => 1}) if exists and price_has_to_be_rejected
     # Reject if price does't not exist yet and amount is nil
     return (!exists and price_has_to_be_rejected)
+  end
+
+  def update_structure_vertical_pages_breadcrumb
+    self.structure.delay.update_vertical_pages_breadcrumb
+  end
+
+  def update_structure_meta_datas
+    structure.delay.update_course_meta_datas
   end
 end

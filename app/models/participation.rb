@@ -41,7 +41,6 @@ class Participation < ActiveRecord::Base
   after_save   :index_planning
 
   before_save  :set_waiting_list, unless: :canceled?
-  before_save  :update_structure_meta_datas
 
   attr_accessible :user, :planning, :participation_for, :nb_adults, :nb_kids
 
@@ -268,15 +267,6 @@ class Participation < ActiveRecord::Base
       end
       return if places_left == 0
     end
-    nil
-  end
-
-  # Update structure meta datas when participation change to update the number of "Places left"
-  #
-  # @return nil
-  def update_structure_meta_datas
-    # If statement is here for tests
-    planning.structure.update_meta_datas if planning.structure
     nil
   end
 

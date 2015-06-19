@@ -10,7 +10,7 @@ class Place < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   belongs_to :city
-  belongs_to :structure, touch: true
+  belongs_to :structure
 
   has_many :contacts, as: :contactable, dependent: :destroy
   has_many :plannings, dependent: :destroy
@@ -20,7 +20,9 @@ class Place < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   after_create :affect_subjects
-  after_save   :reindex_structure_and_places
+
+  before_save  :reindex_structure_and_places
+
   after_save   :geocode_if_needs_to unless Rails.env.test?
   after_save   :touch_relations
   after_destroy :update_structure_meta_datas
@@ -96,17 +98,19 @@ class Place < ActiveRecord::Base
   end
 
   def reindex_structure_and_places
-    self.structure.delay.index if self.structure
+    if self.latitude_changed? or self.longitude_changed?
+      self.structure.delay.index  if self.structure
+    end
     self.plannings.map{ |planning| planning.delay.index }
   end
-  handle_asynchronously :reindex_structure_and_places
 
   def touch_relations
+    self.structure.update_place_meta_datas
     self.plannings.map(&:touch)
   end
   handle_asynchronously :touch_relations
 
   def update_structure_meta_datas
-    self.structure.try(:update_meta_datas)
+    self.structure.update_place_meta_datas
   end
 end
