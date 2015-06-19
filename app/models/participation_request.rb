@@ -50,10 +50,13 @@ class ParticipationRequest < ActiveRecord::Base
   # Callbacks                                                          #
   ######################################################################
   before_validation :set_date_if_empty
-  before_save       :update_times
   before_create     :set_default_attributes
   after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher,
     :send_sms_to_user, :touch_user
+
+  before_save       :update_times
+  after_save        :update_structure_response_rate
+
   after_destroy     :destroy_conversation_attached, :touch_user
 
   ######################################################################
@@ -481,5 +484,9 @@ class ParticipationRequest < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def update_structure_response_rate
+    structure.delay.compute_response_rate
   end
 end

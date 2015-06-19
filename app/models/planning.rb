@@ -64,6 +64,8 @@ class Planning < ActiveRecord::Base
   before_save :set_structure_if_blank
   before_save :update_start_and_end_date
 
+  after_save :update_structure_meta_datas
+
   before_destroy :destroy_indexable_cards
 
   # before_destroy :remove_from_jobs
@@ -643,5 +645,9 @@ class Planning < ActiveRecord::Base
   def destroy_indexable_cards
     indexable_card.destroy if indexable_card.plannings.count == 1
     nil
+  end
+
+  def update_structure_meta_datas
+    structure.delay.update_planning_meta_datas
   end
 end

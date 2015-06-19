@@ -188,12 +188,7 @@ class Structure < ActiveRecord::Base
   after_save    :geocode_if_needs_to    unless Rails.env.test?
   after_save    :subscribe_to_crm_with_delay
 
-  after_touch   :update_meta_datas
-  after_touch   :update_cities_text
-  after_touch   :update_vertical_pages_breadcrumb
-
   after_touch   :generate_cards unless Rails.env.test?
-
   before_destroy :unsubscribe_to_crm
 
   ######################################################################
@@ -623,22 +618,28 @@ class Structure < ActiveRecord::Base
   ######################################################################
   # Meta data update                                                   #
   ######################################################################
-  def update_meta_datas
+  def update_course_meta_datas
     self.gives_group_courses      = courses.select{|course| !course.is_individual? }.any?
     self.gives_individual_courses = courses.select(&:is_individual?).any?
     self.has_promotion            = courses.detect(&:has_promotion?).present?
     self.has_free_trial_course    = courses.detect(&:has_free_trial_lesson?).present?
     self.course_names             = courses.map(&:name).uniq.join(', ')
+    best_price = course_prices.where(Price.arel_table[:amount].gt(0)).order('amount ASC').first
+    self.min_price_amount = best_price.amount if best_price
+    save(validate: false)
+  end
+
+  def update_planning_meta_datas
     # Store level and audiences ids as coma separated string values: "1,3,5"
     self.level_ids                = (plannings.collect(&:level_ids) + courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
     self.audience_ids             = (plannings.collect(&:audience_ids) + courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
-    self.is_parisian              = self.parisian?
-    best_price = course_prices.where(Price.arel_table[:amount].gt(0)).order('amount ASC').first
-    self.min_price_amount = best_price.amount if best_price
-    compute_response_rate
     save(validate: false)
   end
-  handle_asynchronously :update_meta_datas
+
+  def update_place_meta_datas
+    self.is_parisian = self.parisian?
+    update_cities_text
+  end
 
   # Tells if the structure is based in Paris and around
   #
@@ -1304,6 +1305,10 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  def update_cities_text
+    update_column :cities_text, places.map(&:city).map(&:name).uniq.join(', ')
+  end
+
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons
@@ -1320,12 +1325,6 @@ class Structure < ActiveRecord::Base
     save
     nil
   end
-  handle_asynchronously :update_vertical_pages_breadcrumb
-
-  def update_cities_text
-    update_column :cities_text, places.map(&:city).map(&:name).uniq.join(', ')
-  end
-  handle_asynchronously :update_cities_text
 
   # Strip name if exists to prevent from name starting by a space
   #

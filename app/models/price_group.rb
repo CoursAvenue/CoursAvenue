@@ -29,8 +29,7 @@ class PriceGroup < ActiveRecord::Base
   ######################################################################
   after_initialize :default_name
   before_save      :update_course_open_for_trial
-  after_save       :touch_relations
-  after_touch      :touch_courses
+  after_save       :update_relations
 
   ######################################################################
   # Scopes                                                             #
@@ -141,16 +140,12 @@ class PriceGroup < ActiveRecord::Base
 
   # Touches has_many relations
   # @return nil
-  def touch_relations
-    touch_courses
-    prices.map(&:touch)
+  def update_relations
+    self.courses.map do |c|
+      c.send(:set_has_promotion)
+    end
     nil
   end
+  handle_asynchronously :update_relations
 
-  # Touches courses
-  # @return nil
-  def touch_courses
-    self.courses.map(&:touch)
-    nil
-  end
 end
