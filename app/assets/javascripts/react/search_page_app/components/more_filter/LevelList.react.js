@@ -1,11 +1,12 @@
-var Level      = require('./Level'),
-    LevelStore = require('../../stores/LevelStore');
+var Selectable          = require('./Selectable'),
+    LevelStore          = require('../../stores/LevelStore'),
+    LevelActionCreators = require('../../actions/LevelActionCreators');
 
 var LevelList = React.createClass({
     render: function render () {
         var levels = LevelStore.map(function(level, index) {
             return (
-                <Level level={ level } key={ index } />
+                <Selectable model={ level } toggleSelectionFunc={ LevelActionCreators.toggleLevel } key={ index } />
             );
         });
 
