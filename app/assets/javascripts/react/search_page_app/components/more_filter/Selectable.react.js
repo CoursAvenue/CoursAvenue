@@ -11,8 +11,8 @@ var Selectable = React.createClass({
     },
 
     render: function render () {
-        var classes = cx('bordered cursor-pointer', {
-            'bg-gray': this.props.model.get('selected'),
+        var classes = cx('btn', {
+            'btn--gray': this.props.model.get('selected'),
         });
 
         return (
