@@ -35,7 +35,8 @@ Card = React.createClass({
                       <Rating comment_count={ this.props.card.get('comments_count') }
                               registration_count={ this.props.card.get('registration_count') } />
                       <hr className="push-half--ends" />
-                      <CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') } />
+                      <CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') }
+                          trainings={ this.props.card.get('trainings') } />
                       <hr className="push-half--ends" />
                       <CourseLocation card={this.props.card} rankingInfo={ this.props.card.get('_rankingInfo') } address={ this.props.card.get('place_address') } />
                   </div>
