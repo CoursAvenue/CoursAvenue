@@ -21,7 +21,7 @@ class Course < ActiveRecord::Base
   belongs_to :price_group
 
   has_many :comments            , through: :structure
-  has_many :participations      , through: :plannings
+  has_many :participation_requests
   has_many :reservations        , as: :reservable
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , -> { uniq }, through: :plannings
