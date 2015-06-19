@@ -36,7 +36,7 @@ var AudienceStore = Backbone.Collection.extend({
     },
 
     toggleAudienceSelection: function toggleAudienceSelection (audience) {
-        audience.set('selected', !audience.get('selected'));
+        audience.toggleSelection();
         this.trigger('change');
     },
 
