@@ -40,6 +40,8 @@
 .text--center.push--bottom
   %select.input--large#select-install
     %option{ value: '#empty' } Choisir mon guide d'installation
+    %optgroup{ label: "Je souhaite que l'équipe CoursAvenue l'installe pour moi" }
+      %option{ value: '#coursavenue-form-wrapper' } Envoyer les identifiants de mon site à l'équipe CoursAvenue
     %optgroup{ label: "Je souhaite demander à mon webmaster" }
       %option{ value: '#webmaster-form-wrapper' } Envoyer le code par e-mail
     %optgroup{ label: "Je souhaite l'installer moi-même" }
@@ -103,6 +105,18 @@
         .push-half--top
           = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
 
+.gray-box.soft.relative.tab-pane#coursavenue-form-wrapper
+  = simple_form_for [:pro, @structure], method: :post, url: ask_webmaster_for_planning_pro_structure_path(@structure) do |f|
+    %input{ type:'hidden', name: 'email', value: 'contact@coursavenue.com' }
+    .grid
+      .grid__item.three-twelfths.text--right.palm-one-whole>
+        %h4 Message
+      .grid__item.nine-twelfths.palm-one-whole>
+        %textarea.input--large#webmaster-email-content.one-whole{ name: 'text', rows: 8, data: { behavior: 'autoresize' } }
+          Bonjour,&#x000A;&#x000A;Je souhaiterais ajouter à mon site Internet la page planning de mes activités que j'ai générée grâce à CoursAvenue.com : pouvez-vous l'installer pour moi ?&#x000A;&#x000A;Pour pouvoir vous connecter à mon site web et ajouter le planning, voici les informations :&#x000A;&#x000A;- Lien de mon site internet :&#x000A;- Prestataire de mon site web (ex. : Wordpress) :&#x000A;- Identifiant :&#x000A;- Mot de passe :&#x000A;- Informations sur l'endroit où installer le bouton "Planning & Inscription" :&#x000A;&#x000A;Merci pour votre aide, à bientôt !&#x000A;&#x000A;#{@structure.name}
+        .push-half--top
+          = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
+
 = content_for :scripts do
   :javascript
       $(function() {
@@ -115,7 +129,7 @@
           $('#select-install').change(function() {
               $('.tab-pane').removeClass('active');
               $($(this).val()).addClass('active');
-              $('#webmaster-form-wrapper textarea').trigger('autoresize:update');
+              $('textarea').trigger('autoresize:update');
               $.scrollTo($(window).scrollTop() + 100, { easing: 'easeOutCubic', duration: 200 })
           });
           $('[data-toggle=tab]').click(function() {

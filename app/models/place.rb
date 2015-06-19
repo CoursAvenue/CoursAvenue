@@ -26,7 +26,7 @@ class Place < ActiveRecord::Base
 
   after_save   :geocode_if_needs_to unless Rails.env.test?
   after_save   :touch_relations
-  after_destroy :update_structure_meta_datas
+  before_destroy :update_structure_meta_datas
 
   ######################################################################
   # Scopes                                                             #
@@ -113,6 +113,6 @@ class Place < ActiveRecord::Base
   handle_asynchronously :touch_relations
 
   def update_structure_meta_datas
-    self.structure.update_place_meta_datas
+    structure.delay.update_place_meta_datas
   end
 end

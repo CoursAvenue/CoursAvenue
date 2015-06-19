@@ -18,7 +18,7 @@
         %br
       %div
         %strong.label--large.v-middle.soft-half--right Nombre souhaité :
-        = f.input :round_number, as: :select, collection: (0..10), label: false, include_blank: false, wrapper_html: { class: 'input--large inline-block v-middle'}
+        = f.input :round_number, as: :select, collection: (0..5), label: false, include_blank: false, wrapper_html: { class: 'input--large inline-block v-middle'}
     .grid__item.one-half.palm-one-wholes.soft-half--left>
       .flexbox{style: 'height: 300px'}
         .flexbox__item.v-middle
@@ -29,7 +29,7 @@
         %i Plus petit que le format rond, il est moins visible mais a l’avantage de pouvoir être collé plus facilement, comme par exemple sur vos feuilles de planning affichées dans des lieux publics.
       %div
         %strong.label--large.v-middle.soft-half--right Nombre souhaité :
-        = f.input :square_number, as: :select, collection: ((0..20).to_a + 30.step(100,10).to_a), label: false, include_blank: false, wrapper_html: { class: 'input--large inline-block v-middle'}
+        = f.input :square_number, as: :select, collection: (0..10), label: false, include_blank: false, wrapper_html: { class: 'input--large inline-block v-middle'}
   = f.label :address, class: 'text--left bold label--large'
   %p.blue.flush
     %i Nous vous enverrons le courrier contenant vos autocollants à cette adresse.

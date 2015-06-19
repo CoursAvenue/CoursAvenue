@@ -351,7 +351,7 @@ class Course < ActiveRecord::Base
   #
   # @return nil
   def set_has_promotion
-    if self.prices.any?(&:changed?)
+    if self.price_group_id_changed? or self.prices.any?(&:changed?)
       if (self.prices + self.price_group_prices).empty?
         self.update_column :has_promotion, false
       elsif (self.prices + self.price_group_prices).detect(&:promo_amount)

@@ -77,6 +77,8 @@ class ParticipationRequest < ActiveRecord::Base
   scope :tomorrow,                -> { where( state: 'accepted', date: Date.tomorrow ) }
   scope :structure_not_responded, -> { where.not( structure_responded: true ) }
   scope :charged,                 -> { where.not( charged_at: nil ) }
+  scope :from_personal_website,   -> { where( from_personal_website: true ) }
+  scope :from_personal_ca,        -> { where.not( from_personal_website: true ) }
 
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
   #
