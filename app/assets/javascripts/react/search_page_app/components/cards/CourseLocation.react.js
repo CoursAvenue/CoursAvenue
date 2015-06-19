@@ -27,16 +27,18 @@ CourseDistance = React.createClass({
     render: function render () {
         return (
             <div className='very-soft--top very-soft--bottom'>
-                <div onClick={this.highlightMaker} dangerouslySetInnerHTML={{__html: this.location() }} />
+                <a href="javascript:void(0)"
+                   className="semi-muted-link"
+                   onClick={this.highlightMaker} dangerouslySetInnerHTML={{__html: this.location() }} />
             </div>
         );
     },
 
     location: function location () {
         if (this.state.filter_store.isFilteringAroundLocation()) {
-            return "<i class='fa fa-map-marker very-soft--right'></i> " + this.distanceStr();
+            return "<i class='fa fa-map-marker'></i>&nbsp;" + this.distanceStr();
         } else {
-            return "<i class='fa fa-map-marker very-soft--right'></i> " + this.addressStr();
+            return "<i class='fa fa-map-marker'></i>&nbsp;" + this.addressStr();
         }
     },
 

@@ -13,32 +13,32 @@ CourseInformation = React.createClass({
             var tooltip_content = '';
             var classes = classNames({
                 'white':   day.count > 0,
-                'caps':    true,
-                'square':  true,
+                'text--center letter-square inline-block v-middle': true,
                 'bg-gray': day.count > 0
             });
             if (day.count > 0 && day.start_times && day.start_times.length > 0) {
                 tooltip_content = 'Le ' + I18n.t('day_names_from_english.' + day.day) + ' à ' + day.start_times.join(', ');
                 tooltip_content = tooltip_content.replace(/,\s([^,]+)$/, ' et $1')
             }
+            var letter = I18n.t('day_names_from_english.' + day.day)[0].toUpperCase();
             return (
-                <span style={{ marginLeft: '1px', marginRight: '1px', paddingLeft: '1px', paddingRight: '1px' }}
+                <div style={{ marginLeft: '1px', marginRight: '1px', padding: '2px 0' }}
                       data-toggle='tooltip'
                       data-trigger="hover"
                       data-placement="top"
                       data-title={tooltip_content}
                       className={ classes } key={ index }>
-                    { day.letter }
-                </span>
+                    { letter }
+                </div>
             )
         });
         return (
-                <div className='very-soft--top very-soft--bottom grid'>
-                    <div className='grid__item one-half'>
+                <div className='very-soft--top very-soft--bottom flexbox'>
+                    <div className='flexbox__item v-middle nowrap'>
                         <i className="fa fa-calendar-o very-soft--right"></i>
                         { courseTypeString }
                     </div>
-                    <div className='grid__item one-half text--right'>
+                    <div className='flexbox__item v-middle one-whole text--right'>
                         { weeklyAvailability }
                     </div>
                 </div>
