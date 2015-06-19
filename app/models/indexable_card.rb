@@ -116,6 +116,16 @@ class IndexableCard < ActiveRecord::Base
     end
 
     attribute :card_type
+
+    add_attribute :trainings do
+      if course.is_training?
+        course.plannings('start_date ASC, start_time ASC').map do |p|
+          DateTime.new(p.start_date.year, p.start_date.month, p.start_date.day,
+                       p.start_time.hour, p.start_time.min, p.start_time.sec).to_i
+        end
+      end
+    end
+
   end
   # :nocov:
 
@@ -198,7 +208,7 @@ class IndexableCard < ActiveRecord::Base
       { day: 'sunday',    count: 0, start_times: [] }
     ]
 
-    course.plannings.order('start_time ASC').each do |planning|
+    course.plannings.order('start_time ASC, end_time ASC').each do |planning|
       course_day = Date::DAYNAMES[planning.week_day].downcase
       day_availability = availability.detect { |d| d[:day] == course_day }
 
