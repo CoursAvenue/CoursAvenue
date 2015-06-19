@@ -48,7 +48,11 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.TOGGLE_AUDIENCE:
             case ActionTypes.SET_PRICE_BOUNDS:
                 // Make sure the Filter store has finish everything he needs to do.
-                SearchPageDispatcher.waitFor([ FilterStore.dispatchToken, TimeStore.dispatchToken, AudienceStore.dispatchToken, PriceStore.dispatchToken ]);
+                SearchPageDispatcher.waitFor([ FilterStore.dispatchToken,
+                                               TimeStore.dispatchToken,
+                                               AudienceStore.dispatchToken,
+                                               SubjectStore.dispatchToken,
+                                               PriceStore.dispatchToken ]);
                 // Fetch the new cards.
                 this.fetchDataFromServer();
                 break;
@@ -109,10 +113,10 @@ var CardCollection = Backbone.Collection.extend({
         if (SubjectStore.selected_group_subject)  { data.group_subject    = SubjectStore.selected_group_subject }
         if (SubjectStore.selected_root_subject)   { data.root_subject     = SubjectStore.selected_root_subject }
         if (SubjectStore.selected_subject)        { data.subject          = SubjectStore.selected_subject }
-        if (SubjectStore.full_text_search)        { data.full_text_search = SubjectStore.full_text_search }
         if (TimeStore.algoliaFilters())           { data.planning_periods = TimeStore.algoliaFilters() }
         if (AudienceStore.algoliaFilters())       { data.audiences        = AudienceStore.algoliaFilters() }
         if (PriceStore.algoliaFilters())          { data.prices           = PriceStore.algoliaFilters() }
+        if (!_.isUndefined(SubjectStore.full_text_search)) { data.full_text_search = SubjectStore.full_text_search }
         if (LocationStore.get('bounds')) {
             data.insideBoundingBox = LocationStore.get('bounds').toString();
         }
