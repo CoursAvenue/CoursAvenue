@@ -8,7 +8,6 @@ var Menubar = React.createClass({
     changeContext: function changeContext (event) {
         var context = event.target.value;
         this.setState({ context: context });
-        debugger
         FilterActionCreators.changeContext(context);
     },
 

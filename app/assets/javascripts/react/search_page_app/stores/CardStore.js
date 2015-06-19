@@ -78,7 +78,7 @@ var CardCollection = Backbone.Collection.extend({
                 _.invoke(this.models, 'set', { highlighted: false }, { silent: true })
                 payload.data.card.set({ highlighted: true });
                 break;
-            case ActionTypes.UNHIGHLIGHT_MARKER:
+            case ActionTypes.UNHIGHLIGHT_MARKERS:
                 _.invoke(this.models, 'set', { highlighted: false }, { silent: true })
                 break;
         }

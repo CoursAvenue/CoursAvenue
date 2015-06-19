@@ -8,7 +8,7 @@ CourseInformation = React.createClass({
 
     // TODO: See IndexableCard model.
     render: function render () {
-        var courseTypeString = this.props.courseType == '' ? 'Stage / Atelier' : 'Cours';
+        var courseTypeString = (this.props.courseType == 'Course::Training' ? 'Stage / Atelier' : 'Cours');
         var weeklyAvailability = this.props.weeklyAvailability.map(function(day, index) {
             var tooltip_content = '';
             var classes = classNames({

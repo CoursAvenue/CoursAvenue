@@ -15,7 +15,7 @@ module.exports = {
 
     unhighlightMarkers: function unhighlightMarkers () {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.UNHIGHLIGHT_MARKER
+            actionType: ActionTypes.UNHIGHLIGHT_MARKERS
         });
     },
 
