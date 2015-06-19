@@ -64,6 +64,11 @@ module.exports = {
                 card_search_helper.addDisjunctiveRefine('audiences', audience)
             });
         }
+        if (data.levels) {
+            _.each(data.levels, function(level) {
+                card_search_helper.addDisjunctiveRefine('levels', level)
+            });
+        }
 
         if (data.prices) {
             card_search_helper.addNumericRefinement('starting_price', '>=', data.prices[0]);

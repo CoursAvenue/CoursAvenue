@@ -6,6 +6,7 @@ var _                    = require('underscore'),
     TimeStore            = require('../stores/TimeStore'),
     PriceStore           = require('../stores/PriceStore'),
     AudienceStore        = require('../stores/AudienceStore'),
+    LevelStore           = require('../stores/LevelStore'),
     AlgoliaSearchUtils   = require('../utils/AlgoliaSearchUtils'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants');
@@ -47,8 +48,12 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.TOGGLE_PERIOD_SELECTION:
             case ActionTypes.TOGGLE_AUDIENCE:
             case ActionTypes.SET_PRICE_BOUNDS:
+            case ActionTypes.TOGGLE_LEVEL:
                 // Make sure the Filter store has finish everything he needs to do.
-                SearchPageDispatcher.waitFor([ FilterStore.dispatchToken, TimeStore.dispatchToken, AudienceStore.dispatchToken, PriceStore.dispatchToken ]);
+                SearchPageDispatcher.waitFor([
+                    FilterStore.dispatchToken, TimeStore.dispatchToken, AudienceStore.dispatchToken,
+                    PriceStore.dispatchToken, LevelStore.dispatchToken
+                ]);
                 // Fetch the new cards.
                 this.fetchDataFromServer();
                 break;
@@ -113,6 +118,7 @@ var CardCollection = Backbone.Collection.extend({
         if (TimeStore.algoliaFilters())           { data.planning_periods = TimeStore.algoliaFilters() }
         if (AudienceStore.algoliaFilters())       { data.audiences        = AudienceStore.algoliaFilters() }
         if (PriceStore.algoliaFilters())          { data.prices           = PriceStore.algoliaFilters() }
+        if (LevelStore.algoliaFilters())          { data.levels           = LevelStore.algoliaFilters() }
         if (LocationStore.get('bounds')) {
             data.insideBoundingBox = LocationStore.get('bounds').toString();
         }
