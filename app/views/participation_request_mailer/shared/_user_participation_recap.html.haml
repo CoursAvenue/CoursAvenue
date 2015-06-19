@@ -3,6 +3,7 @@
 - show_header                     = true if show_header.nil?
 - show_access                     = false if show_access.nil?
 - place                           = participation_request.place
+- structure                       = participation_request.structure
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
   - if show_header
     %tr{ valign: 'top' }
@@ -24,9 +25,9 @@
           %strong Contact
       %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
         .p.hard
-          - if @structure.phone_numbers.any?
-            Tél. : #{@structure.phone_numbers.map(&:number).join(', ')} /
-          E-mail : #{@structure.main_contact.email}
+          - if structure.phone_numbers.any?
+            Tél. : #{structure.phone_numbers.map(&:number).join(', ')} /
+          E-mail : #{structure.main_contact.email}
 
   %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
