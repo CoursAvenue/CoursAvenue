@@ -11,6 +11,10 @@ var PriceSlider = React.createClass({
         return { min: 0, max: 1000, step: 1 };
     },
 
+    getInitialState: function getInitialState () {
+        return { min: this.props.min, max: this.props.max };
+    },
+
     componentDidMount: function componentDidMount () {
         var range   = [this.props.min, this.props.max];
         var $slider = $('[data-behavior=slider]');
@@ -18,7 +22,7 @@ var PriceSlider = React.createClass({
         $slider.noUiSlider({
             range: range,
             start: range,
-            step: 1
+            step: this.props.step
         });
 
         $slider.on('change', this.sliderChange);
@@ -28,6 +32,7 @@ var PriceSlider = React.createClass({
         var bounds = _.map($('[data-behavior=slider]').val(), function(value) {
             return parseFloat(value, 10);
         });
+        this.setState({ min: bounds[0], max: bounds[1] });
         SliderActionCreators.setPriceBounds(bounds);
     },
 
@@ -36,6 +41,18 @@ var PriceSlider = React.createClass({
             <div>
                 <div>Prix</div>
                 <div data-behavior='slider'></div>
+                <div className="grid soft-half--top">
+                    <div className="grid__item one-half nowrap">
+                        Min. :
+                        <strong data-behavior="slider-min-value">{ this.state.min }</strong>
+                        €
+                    </div>
+                    <div className="grid__item one-half text--right nowrap">
+                        Max. :
+                        <strong data-behavior="slider-max-value">{ this.state.max }</strong>
+                        €
+                    </div>
+                </div>
             </div>
         );
     },

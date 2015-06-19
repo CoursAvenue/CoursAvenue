@@ -11,7 +11,10 @@ var AudienceList = React.createClass({
         });
 
         return (
-            <div> { audiences } </div>
+            <div>
+                <div>Âge</div>
+                <div> { audiences } </div>
+            </div>
         )
     },
 });

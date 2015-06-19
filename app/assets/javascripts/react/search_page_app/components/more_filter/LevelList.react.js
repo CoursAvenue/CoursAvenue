@@ -11,7 +11,10 @@ var LevelList = React.createClass({
         });
 
         return (
-            <div> { levels } </div>
+            <div>
+                <div>Niveau</div>
+                <div> { levels } </div>
+            </div>
         );
     },
 });
