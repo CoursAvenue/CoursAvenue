@@ -9,6 +9,7 @@ var Map                    = require('./Map.react'),
     ResultInfo             = require('./ResultInfo.react'),
     ResultSorting          = require('./ResultSorting.react'),
     Pagination             = require('./Pagination.react'),
+    Menubar                = require('./Menubar.react'),
     SearchPageAppRouter    = require('../SearchPageAppRouter'),
     FilterStore            = require('../stores/FilterStore'),
     SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
@@ -46,6 +47,7 @@ SearchPageApp = React.createClass({
     render: function render() {
         return (
           <div className="relative overflow-hidden">
+            <Menubar />
             <Map center={this.props.map_center} />
             <SubjectFilter />
             <LocationFilter />
