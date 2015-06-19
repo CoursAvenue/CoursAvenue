@@ -60,8 +60,8 @@ class Pro::Structures::Courses::PlanningsController < InheritedResources::Base
 
   def destroy
     @course   = Course.find(params[:course_id])
-    @planning = @course.plannings.find(params[:id])
-    @planning.destroy
+    @planning = @course.plannings.where(params[:id]).first
+    @planning.destroy if @planning.present?
     respond_to do |format|
       format.js
       format.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le créneau a bien été supprimé' }
