@@ -3,6 +3,14 @@ var SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     ActionTypes          = SearchPageConstants.ActionTypes;
 
 module.exports = {
+
+    changeContext: function changeContext (context) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.CHANGE_CONTEXT,
+            data: context
+        });
+    },
+
     updateFilters: function updateFilters (data) {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.UPDATE_FILTERS,

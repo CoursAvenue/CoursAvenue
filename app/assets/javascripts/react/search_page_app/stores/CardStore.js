@@ -28,6 +28,7 @@ var CardCollection = Backbone.Collection.extend({
         this.current_page = 1;
         this.total_pages  = 1;
         this.sort_by      = 'distance';
+        this.context      = 'course';
         // Bind search events to the store, so it updates.
         AlgoliaSearchUtils.card_search_helper.on("result",  this.searchSuccess);
         AlgoliaSearchUtils.card_search_helper.on("error",  this.searchError);
@@ -69,6 +70,10 @@ var CardCollection = Backbone.Collection.extend({
                 this.current_page = this.current_page + 1;
                 this.fetchDataFromServer();
                 break;
+            case ActionTypes.CHANGE_CONTEXT:
+                this.context = payload.data;
+                this.fetchDataFromServer();
+                break;
             case ActionTypes.HIGHLIGHT_MARKER:
                 _.invoke(this.models, 'set', { highlighted: false }, { silent: true })
                 payload.data.card.set({ highlighted: true });
@@ -108,7 +113,8 @@ var CardCollection = Backbone.Collection.extend({
     algoliaFilters: function algoliaFilters () {
         var data = {
             page   : this.current_page,
-            sort_by: this.sort_by
+            sort_by: this.sort_by,
+            context: this.context
         };
         if (SubjectStore.selected_group_subject)  { data.group_subject    = SubjectStore.selected_group_subject }
         if (SubjectStore.selected_root_subject)   { data.root_subject     = SubjectStore.selected_root_subject }

@@ -53,6 +53,7 @@ module.exports = {
         }
         if (data.root_subject)     { card_search_helper.addRefine('root_subject', data.root_subject.slug); }
         if (data.subject)          { card_search_helper.addRefine('subjects.slug', data.subject.slug); }
+        if (data.context)          { card_search_helper.addRefine('card_type', data.context); }
         if (!_.isUndefined(data.full_text_search)) { card_search_helper.setQuery(data.full_text_search); }
         if (data.planning_periods) {
             _.each(data.planning_periods, function(period) {
