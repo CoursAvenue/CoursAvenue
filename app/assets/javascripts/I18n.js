@@ -7,13 +7,12 @@ I18n = {
         }, I18n);
     },
     day_names_from_english: {
-        monday: 'lundi',
-        tuesday: 'mardi',
+        monday   : 'lundi',
+        tuesday  : 'mardi',
         wednesday: 'mercredi',
-        thursday: 'jeudi',
-        friday: 'vendredi',
-        saturday: 'samedi',
-        sunday: 'dimanche'
-    }
+        thursday : 'jeudi',
+        friday   : 'vendredi',
+        saturday : 'samedi',
+        sunday   : 'dimanche'
+    },
 }
-
