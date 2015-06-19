@@ -189,16 +189,16 @@ class IndexableCard < ActiveRecord::Base
     return [] if course.nil?
 
     availability = [
-      { day: 'monday',    count: 0, letter: 'L', start_times: [] },
-      { day: 'tuesday',   count: 0, letter: 'M', start_times: [] },
-      { day: 'wednesday', count: 0, letter: 'M', start_times: [] },
-      { day: 'thursday',  count: 0, letter: 'J', start_times: [] },
-      { day: 'friday',    count: 0, letter: 'V', start_times: [] },
-      { day: 'saturday',  count: 0, letter: 'S', start_times: [] },
-      { day: 'sunday',    count: 0, letter: 'D', start_times: [] }
+      { day: 'monday',    count: 0, start_times: [] },
+      { day: 'tuesday',   count: 0, start_times: [] },
+      { day: 'wednesday', count: 0, start_times: [] },
+      { day: 'thursday',  count: 0, start_times: [] },
+      { day: 'friday',    count: 0, start_times: [] },
+      { day: 'saturday',  count: 0, start_times: [] },
+      { day: 'sunday',    count: 0, start_times: [] }
     ]
 
-    course.plannings.each do |planning|
+    course.plannings.order('start_time ASC').each do |planning|
       course_day = Date::DAYNAMES[planning.week_day].downcase
       day_availability = availability.detect { |d| d[:day] == course_day }
 
