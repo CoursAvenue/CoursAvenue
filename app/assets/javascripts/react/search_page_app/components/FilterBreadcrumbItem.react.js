@@ -12,8 +12,8 @@ var RootSubjectItem = React.createClass({
     render: function render () {
         return (
           <div className="inline-block bordered push-half--right very-soft bg-gray-light">
-              {this.props.filter.title}
-              <i className="fa fa-times cursor-pointer" onClick={this.unsetFilter}></i>
+              <span className="v-middle">{this.props.filter.title}</span>
+              <i className="fa fa-times cursor-pointer v-middle" onClick={this.unsetFilter}></i>
           </div>
         );
     }

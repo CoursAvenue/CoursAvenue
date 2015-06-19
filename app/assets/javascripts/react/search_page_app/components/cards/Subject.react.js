@@ -20,7 +20,8 @@ Subject = React.createClass({
 
     render: function render () {
         return (
-            <a className="inline-block very-soft bg-gray-light black bordered rounded"
+            <a className="inline-block bg-gray-light black bordered rounded--double f-size-11"
+               style={{ padding: '1px 4px' }}
                onClick={ this.toggleSelection }
                href="javascript:void(0)">
                 { this.props.subject.name }
