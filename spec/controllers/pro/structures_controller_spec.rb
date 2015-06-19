@@ -22,7 +22,7 @@ describe Pro::StructuresController do
 
       it 'creates new structures' do
         expect { post :import, valid_params }.
-          to change { Structure.count }.by(1)
+          to change { Delayed::Job.count }.by(1)
       end
     end
 

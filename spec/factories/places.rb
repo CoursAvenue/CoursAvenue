@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :place do
     city
+    structure
     latitude          48.8592
     longitude         2.3417
 

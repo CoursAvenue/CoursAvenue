@@ -374,7 +374,7 @@ France
     email_content = '<div class="p">' + params[:text].gsub(/\r\n\r\n/, '</div><div class="p">').gsub(/\r\n/, '<br>') + '</div>'
     AdminMailer.delay.ask_webmaster_for_planning(params[:email], email_content, @structure)
     respond_to do |format|
-      format.html { redirect_to website_planning_pro_structure_path(@structure), notice: 'Message envoyé à votre webmaster' }
+      format.html { redirect_to website_planning_pro_structure_path(@structure), notice: 'Message envoyé' }
     end
   end
 
@@ -482,6 +482,6 @@ France
   end
 
   def import_params
-    params.require(:structure_importer).permit(:file)
+    params.require(:structure_import).permit(:file)
   end
 end
