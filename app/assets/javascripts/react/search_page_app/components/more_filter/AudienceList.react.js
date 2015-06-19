@@ -6,7 +6,7 @@ var AudienceList = React.createClass({
         var audiences = AudienceStore.map(function(audience, index) {
             return (
                 <Audience audience={ audience } key={ index } />
-            )
+            );
         });
 
         return (
