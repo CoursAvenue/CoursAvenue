@@ -5,7 +5,7 @@ var _                    = require('underscore'),
 
 var ActionTypes = SearchPageConstants.ActionTypes;
 
-var Audience = Backbone.Model.extend({
+var Level = Backbone.Model.extend({
     defaults: function defaults () {
         return { selected: false };
     },
@@ -19,8 +19,8 @@ var Audience = Backbone.Model.extend({
     },
 });
 
-var AudienceStore = Backbone.Collection.extend({
-    model: Audience,
+var LevelStore = Backbone.Collection.extend({
+    model: Level,
 
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback');
@@ -29,14 +29,14 @@ var AudienceStore = Backbone.Collection.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
-            case ActionTypes.TOGGLE_AUDIENCE:
-                this.toggleAudienceSelection(payload.data);
+            case ActionTypes.TOGGLE_LEVEL:
+                this.toggleLevelSelection(payload.data);
                 break;
         }
     },
 
-    toggleAudienceSelection: function toggleAudienceSelection (audience) {
-        audience.toggleSelection();
+    toggleLevelSelection: function toggleLevelSelection (level) {
+        level.toggleSelection();
         this.trigger('change');
     },
 
@@ -54,10 +54,13 @@ var AudienceStore = Backbone.Collection.extend({
 
         return filters;
     },
+
 });
 
-module.exports = new AudienceStore([
-    { id: 'audience.kid',    name: 'Enfants' },
-    { id: 'audience.adult',  name: 'Adultes' },
-    { id: 'audience.senior', name: 'Séniors' },
+module.exports = new LevelStore([
+    { id: 'level.all',          name: 'All' },
+    { id: 'level.beginner',     name: 'Beginner' },
+    { id: 'level.intermediate', name: 'Intermediate' },
+    { id: 'level.confirmed',    name: 'Confirmed' },
+    { id: 'level.professional', name: 'Professional' }
 ]);

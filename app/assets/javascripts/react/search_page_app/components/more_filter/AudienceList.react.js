@@ -1,12 +1,13 @@
-var Audience      = require('./Audience'),
-    AudienceStore = require('../../stores/AudienceStore');
+var Selectable             = require('./Selectable'),
+    AudienceStore          = require('../../stores/AudienceStore'),
+    AudienceActionCreators = require('../../actions/AudienceActionCreators');
 
 var AudienceList = React.createClass({
     render: function render () {
         var audiences = AudienceStore.map(function(audience, index) {
             return (
-                <Audience audience={ audience } key={ index } />
-            )
+                <Selectable model={ audience } toggleSelectionFunc={ AudienceActionCreators.toggleAudience } key={ index } />
+            );
         });
 
         return (

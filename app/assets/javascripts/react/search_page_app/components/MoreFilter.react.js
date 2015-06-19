@@ -2,20 +2,23 @@ var FilterActionCreators = require('../actions/FilterActionCreators'),
     FilterPanelConstants = require('../constants/FilterPanelConstants'),
     FilterStore          = require('../stores/FilterStore'),
     AudienceStore        = require('../stores/AudienceStore'),
+    LevelStore           = require('../stores/LevelStore'),
     FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
     AudienceList         = require('./more_filter/AudienceList'),
     PriceSlider          = require('./more_filter/PriceSlider'),
+    LevelList            = require('./more_filter/LevelList'),
     classNames           = require('classnames');
 
 var MoreFilter = React.createClass({
     mixins: [
-        FluxBoneMixin([ 'filter_store', 'audience_store' ]),
+        FluxBoneMixin(['filter_store', 'audience_store', 'level_store']),
     ],
 
     getInitialState: function getInitialState () {
         return {
-            filter_store: FilterStore,
-            audience_store: AudienceStore
+            filter_store:   FilterStore,
+            audience_store: AudienceStore,
+            level_store:    LevelStore,
         };
     },
 
@@ -40,6 +43,9 @@ var MoreFilter = React.createClass({
                       </div>
                       <div className='grid__item one-third'>
                           <PriceSlider />
+                      </div>
+                      <div className='grid__item one-third'>
+                          <LevelList />
                       </div>
                   </div>
                   <a onClick={ this.closePanel } className='btn'>Valider</a>
