@@ -13,9 +13,9 @@ class IndexableCard < ActiveRecord::Base
 
   attr_accessible :structure, :place, :plannings, :course
 
-  delegate :name, :price, :type, :audiences,        to: :course,    prefix: true, allow_nil: true
-  delegate :name, :comments_count, :slug,          to: :structure, prefix: true, allow_nil: true
-  delegate :name, :latitude, :longitude, :address, to: :place,     prefix: true, allow_nil: true
+  delegate :name, :price, :type, :audiences, :levels, to: :course,    prefix: true, allow_nil: true
+  delegate :name, :comments_count, :slug,             to: :structure, prefix: true, allow_nil: true
+  delegate :name, :latitude, :longitude, :address,    to: :place,     prefix: true, allow_nil: true
 
   scope :with_course, -> { where.not(course_id: nil) }
 
@@ -109,6 +109,10 @@ class IndexableCard < ActiveRecord::Base
 
     add_attribute :audiences do
       self.course_audiences.map(&:name) if self.course_audiences
+    end
+
+    add_attribute :levels do
+      self.course_levels.map(&:name) if self.course_levels
     end
   end
   # :nocov:
