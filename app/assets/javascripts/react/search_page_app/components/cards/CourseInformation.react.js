@@ -1,4 +1,5 @@
-var classNames = require('classnames');
+var classNames = require('classnames'),
+    TimeStore  = require('../../stores/TimeStore');
 
 CourseInformation = React.createClass({
     propTypes: {
@@ -33,7 +34,12 @@ CourseInformation = React.createClass({
                 )
             });
         } else {
-            var currentDate = new Date();
+            debugger
+            if (TimeStore.training_start_date) {
+                var currentDate = new Date(TimeStore.training_start_date * 1000);
+            } else {
+                var currentDate = new Date();
+            }
             var next_plannings = _.select(this.props.trainings, function(date) {
                 var nextDate = new Date(date * 1000);
                 return nextDate > currentDate;
@@ -41,11 +47,11 @@ CourseInformation = React.createClass({
 
             if (next_plannings.length == 0) { return '' };
             var plannings_to_string = _.map(next_plannings, function (date) {
-                return moment(new Date(date * 1000)).format('dddd DD MMMM');
+                return _.capitalize(moment(new Date(date * 1000)).format('dddd DD MMMM'));
             });
             var other_dates = plannings_to_string.splice(1);
-            var next_date   = _.capitalize(plannings_to_string[0]);
-            var tooltip_content = other_dates.join(', ').replace(/,\s([^,]+)$/, ' et $1');
+            var next_date   = plannings_to_string[0];
+            var tooltip_content = 'Autres dates : ' + other_dates.join(', ').replace(/,\s([^,]+)$/, ' et $1');
             return (<div data-toggle='tooltip'
                          data-trigger="hover"
                          data-placement="top"
