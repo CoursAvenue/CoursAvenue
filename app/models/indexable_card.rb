@@ -43,9 +43,9 @@ class IndexableCard < ActiveRecord::Base
 
     add_attribute :end_date do
       if plannings and (end_dates = plannings.map(&:end_date)).any?
-        end_dates.max
+        end_dates.max.to_time.to_i
       else
-        100.years.from_now
+        100.years.from_now.to_time.to_i
       end
     end
 
