@@ -28,7 +28,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     resource.after_sign_up_url = session['user_return_to'] || params[:user_return_to]
     ## end of changes
     if resource.save
-      resource.send_confirmation_instructions
+      # resource.send_confirmation_instructions
       resource.after_registration
       yield resource if block_given?
       if resource.active_for_authentication?
