@@ -132,11 +132,11 @@ var CardCollection = Backbone.Collection.extend({
         } else if (LocationStore.get('address')) {
             data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
         }
-        if (TimeStore.algoliaFilters()) {
+        if (TimeStore.isFiltered()) {
             if (data.context == 'course') {
-                data.training_dates = TimeStore.trainingDates();
-            } else {
                 data.planning_periods = TimeStore.algoliaFilters()
+            } else {
+                data.training_dates = TimeStore.trainingDates();
             }
         }
 
