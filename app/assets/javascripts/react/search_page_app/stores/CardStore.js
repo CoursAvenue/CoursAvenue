@@ -47,6 +47,7 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.UNSET_FILTER:
             case ActionTypes.TOGGLE_DAY_SELECTION:
             case ActionTypes.TOGGLE_PERIOD_SELECTION:
+            case ActionTypes.SET_TRAINING_DATE:
             case ActionTypes.TOGGLE_AUDIENCE:
             case ActionTypes.SET_PRICE_BOUNDS:
             case ActionTypes.TOGGLE_LEVEL:
@@ -119,7 +120,6 @@ var CardCollection = Backbone.Collection.extend({
         if (SubjectStore.selected_group_subject)  { data.group_subject    = SubjectStore.selected_group_subject }
         if (SubjectStore.selected_root_subject)   { data.root_subject     = SubjectStore.selected_root_subject }
         if (SubjectStore.selected_subject)        { data.subject          = SubjectStore.selected_subject }
-        if (TimeStore.algoliaFilters())           { data.planning_periods = TimeStore.algoliaFilters() }
         if (AudienceStore.algoliaFilters())       { data.audiences        = AudienceStore.algoliaFilters() }
         if (PriceStore.algoliaFilters())          { data.prices           = PriceStore.algoliaFilters() }
         if (LevelStore.algoliaFilters())          { data.levels           = LevelStore.algoliaFilters() }
@@ -131,6 +131,13 @@ var CardCollection = Backbone.Collection.extend({
             data.aroundLatLng = LocationStore.get('user_location').latitude + ',' + LocationStore.get('user_location').longitude;
         } else if (LocationStore.get('address')) {
             data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
+        }
+        if (TimeStore.algoliaFilters()) {
+            if (data.context == 'course') {
+                data.training_dates = TimeStore.trainingDates();
+            } else {
+                data.planning_periods = TimeStore.algoliaFilters()
+            }
         }
 
         return data;
