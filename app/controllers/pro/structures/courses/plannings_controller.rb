@@ -60,7 +60,7 @@ class Pro::Structures::Courses::PlanningsController < InheritedResources::Base
 
   def destroy
     @course   = Course.find(params[:course_id])
-    @planning = @course.plannings.where(params[:id]).first
+    @planning = @course.plannings.where(id: params[:id]).first
     @planning.destroy if @planning.present?
     respond_to do |format|
       format.js
