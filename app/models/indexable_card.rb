@@ -126,6 +126,15 @@ class IndexableCard < ActiveRecord::Base
       end
     end
 
+    add_attribute :trainings_end_date do
+      if course and course.is_training?
+        course.plannings('end_date ASC, end_time ASC').map do |p|
+          DateTime.new(p.end_date.year, p.end_date.month, p.end_date.day,
+                       p.end_time.hour, p.end_time.min, p.end_time.sec).to_i
+        end
+      end
+    end
+
   end
   # :nocov:
 
