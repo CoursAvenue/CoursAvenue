@@ -5,6 +5,7 @@ var _                    = require('underscore'),
 
 var ActionTypes = SearchPageConstants.ActionTypes;
 var PERIODS = ['morning', 'noon', 'afternoon', 'evening'];
+var ONE_DAY = 60 * 60 * 24;
 
 // A day in the time table.
 var DayColumn = Backbone.Model.extend({
@@ -141,7 +142,7 @@ var TimeStore = Backbone.Collection.extend({
         if (date.attribute == 'start_date') {
             this.training_start_date = date.value;
         } else {
-            this.training_end_date = date.value;
+            this.training_end_date = date.value + ONE_DAY;
         }
         this.trigger('change');
     },
