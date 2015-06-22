@@ -39,7 +39,7 @@ var TimeStore = Backbone.Collection.extend({
     model: DayColumn,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'toggleDaySelection');
+        _.bindAll(this, 'dispatchCallback', 'toggleDaySelection', 'unsetFilter');
 
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
     },
@@ -53,13 +53,7 @@ var TimeStore = Backbone.Collection.extend({
                 this.togglePeriodSelection(payload.data);
                 break;
             case ActionTypes.UNSET_FILTER:
-                if (payload.data == 'time_store') {
-                    this.map(function(day) {
-                        day.set({ selected: false, periods: [false, false, false, false] },
-                                { silent: true });
-                    });
-                    this.trigger('change');
-                }
+                this.unsetFilter(payload.data);
                 break;
         }
     },
@@ -114,6 +108,16 @@ var TimeStore = Backbone.Collection.extend({
 
         this.trigger('change');
     },
+
+     unsetFilter: function unsetFilter(store) {
+         if (store == 'time_store') {
+             this.map(function(day) {
+                 day.set({ selected: false, periods: [false, false, false, false] },
+                         { silent: true });
+             });
+             this.trigger('change');
+         }
+     },
 
     /*
      * Tell wether there is active filters
