@@ -55,10 +55,19 @@ module.exports = {
         if (data.subject)          { card_search_helper.addRefine('subjects.slug', data.subject.slug); }
         if (data.context)          { card_search_helper.addRefine('card_type', data.context); }
         if (!_.isUndefined(data.full_text_search)) { card_search_helper.setQuery(data.full_text_search); }
-        if (data.planning_periods) {
+        if (data.planning_periods && data.context == 'course') {
             _.each(data.planning_periods, function(period) {
                 card_search_helper.addDisjunctiveRefine('planning_periods', period)
             });
+        }
+        if (data.training_dates && data.context == 'training') {
+            if (data.training_dates.start) {
+                card_search_helper.addNumericRefinement('trainings', '>=', data.training_dates.start);
+            }
+
+            if (data.training_dates.end) {
+                card_search_helper.addNumericRefinement('trainings_end_date', '<=', data.training_dates.end);
+            }
         }
         if (data.audiences) {
             _.each(data.audiences, function(audience) {
