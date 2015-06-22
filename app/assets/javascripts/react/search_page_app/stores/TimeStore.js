@@ -39,9 +39,13 @@ var TimeStore = Backbone.Collection.extend({
     model: DayColumn,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'toggleDaySelection', 'unsetFilter');
+        _.bindAll(this, 'dispatchCallback', 'toggleDaySelection', 'unsetFilter',
+                        'setTrainingDates', 'trainingDates');
 
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
+
+        this.training_start_date = null;
+        this.training_end_date   = null;
     },
 
     dispatchCallback: function dispatchCallback (payload) {
@@ -51,6 +55,9 @@ var TimeStore = Backbone.Collection.extend({
                 break;
             case ActionTypes.TOGGLE_PERIOD_SELECTION:
                 this.togglePeriodSelection(payload.data);
+                break;
+            case ActionTypes.SET_TRAINING_DATE:
+                this.setTrainingDates(payload.data);
                 break;
             case ActionTypes.UNSET_FILTER:
                 this.unsetFilter(payload.data);
@@ -123,12 +130,26 @@ var TimeStore = Backbone.Collection.extend({
      * Tell wether there is active filters
      */
     isFiltered: function isFiltered() {
-        return this.some(function(day) {
-            return _.some(day.get('periods'), function(period) {
-                return period;
-            });
+        var filteredByPeriods = this.some(function(day) {
+            return _.some(day.get('periods'), _.identity);
         });
-    }
+
+        return filteredByPeriods || !!this.training_start_date || !!this.training_end_date;
+    },
+
+    setTrainingDates: function setTrainingDates (date) {
+        if (date.attribute == 'start_date') {
+            this.training_start_date = date.value;
+        } else {
+            this.training_end_date = date.value;
+        }
+        this.trigger('change');
+    },
+
+    trainingDates: function trainingDates () {
+        return { start: this.training_start_date, end: this.training_end_date };
+    },
+
 });
 
 module.exports = new TimeStore([
