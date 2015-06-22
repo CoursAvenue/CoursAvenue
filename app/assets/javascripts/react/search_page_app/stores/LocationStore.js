@@ -18,6 +18,7 @@ var LocationStore = Backbone.Model.extend({
                 this.set('user_location');
                 break;
             case ActionTypes.SELECT_ADDRESS:
+                this.unset('user_location');
                 this.set('address', payload.data);
                 break;
             case ActionTypes.UPDATE_BOUNDS:

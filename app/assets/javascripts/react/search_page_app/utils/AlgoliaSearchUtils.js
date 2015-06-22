@@ -5,16 +5,7 @@ var _                   = require('underscore'),
     card_index          = client.initIndex('IndexableCard_' + ENV.SERVER_ENVIRONMENT),
     subject_index       = client.initIndex('Subject_' + ENV.SERVER_ENVIRONMENT);
 
-var card_search_state = {
-    facets      : ['subjects.slug_name'],
-    hitsPerPage : 8,
-    distinct    : false,
-    aroundRadius: 10000 // 10km
-};
-
-var card_search_helper = algoliasearchHelper(client, 'IndexableCard_' + ENV.SERVER_ENVIRONMENT, card_search_state);
 module.exports = {
-    card_search_helper: card_search_helper,
 
     /*
      * @params data [{ depth: 0 }] Array of key value
@@ -32,20 +23,24 @@ module.exports = {
           full_text_search
           insideBoundingBox
      */
-    searchCards: function searchCards (data) {
+    searchCards: function searchCards (data, successCallback, errorCallback) {
         data = data || {};
-        card_search_helper.clearRefinements();
-        var card_search_state = {}
-        card_search_state.page = data.page || 1;
+        var card_search_state = {
+            facets      : ['subjects.slug_name'],
+            hitsPerPage : 8,
+            distinct    : false,
+            aroundRadius: 10000, // 10km
+            page        : data.page || 1
+        };
         if (data.insideBoundingBox) {
             card_search_state.insideBoundingBox = data.insideBoundingBox.toString();
-            delete data.insideBoundingBox;
         }
 
         if (data.aroundLatLng) {
             card_search_state.aroundLatLng   = data.aroundLatLng;
             card_search_state.getRankingInfo = true;
         }
+        var card_search_helper = algoliasearchHelper(client, 'IndexableCard_' + ENV.SERVER_ENVIRONMENT, card_search_state);
 
         if (data.group_subject)    {
             _.each(data.group_subject.root_slugs, function(root_subject) {
@@ -88,8 +83,9 @@ module.exports = {
         // By default, we want only upcoming courses | trainings
         // We have to divide per 1 000 because dates are in ms in JS.
         card_search_helper.addNumericRefinement('end_date', '>=', (new Date()).getTime() / 1000);
-        card_search_helper.setState(_.extend(card_search_helper.state, card_search_state));
 
+        card_search_helper.on("result",  successCallback);
+        card_search_helper.on("error",  errorCallback);
         return card_search_helper.search();
     },
 

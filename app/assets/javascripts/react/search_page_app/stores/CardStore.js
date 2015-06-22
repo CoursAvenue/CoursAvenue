@@ -29,9 +29,6 @@ var CardCollection = Backbone.Collection.extend({
         this.total_pages  = 1;
         this.sort_by      = 'distance';
         this.context      = 'course';
-        // Bind search events to the store, so it updates.
-        AlgoliaSearchUtils.card_search_helper.on("result",  this.searchSuccess);
-        AlgoliaSearchUtils.card_search_helper.on("error",  this.searchError);
     },
 
     // The function called everytime there's a new action dispatched.
@@ -92,7 +89,7 @@ var CardCollection = Backbone.Collection.extend({
         this.trigger('change');
 
         // Call the algolia search.
-        AlgoliaSearchUtils.searchCards(this.algoliaFilters());
+        AlgoliaSearchUtils.searchCards(this.algoliaFilters(), this.searchSuccess, this.searchError);
     }.debounce(150),
 
     searchSuccess: function searchSuccess (data) {
