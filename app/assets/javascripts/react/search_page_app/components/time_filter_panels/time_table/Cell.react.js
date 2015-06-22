@@ -14,7 +14,7 @@ var Cell = React.createClass({
     },
 
     render: function render () {
-        var classes = cx('bordered soft-half cursor-pointer', { 'bg-gray': this.props.selected });
+        var classes = cx('bordered very-soft cursor-pointer', { 'bg-gray': this.props.selected });
         return (
             <div onClick={ this.toggleSelected }
                  className={ classes }>&nbsp;</div>

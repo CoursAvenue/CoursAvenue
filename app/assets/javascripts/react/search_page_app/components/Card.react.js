@@ -8,17 +8,16 @@ Card = React.createClass({
 
     render: function render () {
         var gift_classes = { gray: this.props.card.get('is_open_for_trial')}
-        var starting_price = (this.props.card.get('starting_price') == 0 ? 'Essai gratuit' : 'À partir de ' + this.props.card.get('starting_price') + '€');
+        var starting_price = (this.props.card.get('starting_price') == 0 ? 'Essai gratuit' : 'Essai à ' + this.props.card.get('starting_price') + '€');
         return (
           <div className="soft-half one-quarter palm-one-whole lap-one-half inline-block v-top">
               <div className="bg-white bordered">
                   <div className="bordered--bottom relative">
                       <div className="bg-white rounded very-soft push-half--left push-half--top absolute">{starting_price}</div>
-
                       <img className="block one-whole" src={this.props.card.get('header_image')} height="100"/>
                   </div>
                   <div className="soft-half">
-                      <img className="rounded--circle center-block push-half--bottom"
+                      <img className="rounded--circle center-block push-half--bottom relative"
                             style={{ marginTop: '-35px' }}
                             width="50"
                            src={this.props.card.get('structure_logo_url')} />

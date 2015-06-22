@@ -48,11 +48,13 @@ SearchPageApp = React.createClass({
         return (
           <div className="relative overflow-hidden">
             <Menubar />
-            <Map center={this.props.map_center} />
-            <SubjectFilter />
-            <LocationFilter />
-            <TimeFilter />
-            <MoreFilter />
+            <div className="relative">
+              <Map center={this.props.map_center} />
+              <SubjectFilter />
+              <LocationFilter />
+              <TimeFilter />
+              <MoreFilter />
+            </div>
             <FilterBar />
             <FilterBreadcrumb />
             <ResultInfo />

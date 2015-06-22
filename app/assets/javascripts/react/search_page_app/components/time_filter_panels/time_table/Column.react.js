@@ -22,7 +22,7 @@ var Column = React.createClass({
         var checked = _.every(periods, _.identity);
         return (
             <div className='grid__item one-seventh'>
-                <div className='soft-half'>{ this.props.day.get('title') }</div>
+                <div className='very-soft'>{ this.props.day.get('title') }</div>
                 { cells }
                 <input name={this.props.day.get('name')}
                        className='push-half'
