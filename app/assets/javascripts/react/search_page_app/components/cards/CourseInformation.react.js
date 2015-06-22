@@ -33,17 +33,25 @@ CourseInformation = React.createClass({
                 )
             });
         } else {
-            var nextPlanning = _.detect(this.props.trainings, function(date) {
+            var currentDate = new Date();
+            var next_plannings = _.select(this.props.trainings, function(date) {
                 var nextDate = new Date(date * 1000);
-                var currentDate = new Date();
-
                 return nextDate > currentDate;
             });
 
-            if (!nextPlanning) { return '' };
-            nextPlanning = new Date(nextPlanning * 1000);
-
-            return "Prochain stage : " + moment(nextPlanning).format('DD/MM/YYYY');
+            if (next_plannings.length == 0) { return '' };
+            var plannings_to_string = _.map(next_plannings, function (date) {
+                return moment(new Date(date * 1000)).format('dddd DD MMMM');
+            });
+            var other_dates = plannings_to_string.splice(1);
+            var next_date   = _.capitalize(plannings_to_string[0]);
+            var tooltip_content = other_dates.join(', ').replace(/,\s([^,]+)$/, ' et $1');
+            return (<div data-toggle='tooltip'
+                         data-trigger="hover"
+                         data-placement="top"
+                         data-title={tooltip_content}>
+                          {next_date}
+                    </div>);
         }
     },
 
