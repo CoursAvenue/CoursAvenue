@@ -8,8 +8,13 @@ var TimePicker = React.createClass({
     },
 
     setDate: function setDate (event) {
+        if (event.date) {
+        var date = moment(event.date).unix();
+        } else {
+            date = null;
+        }
         TimeActionCreators.setTrainingDate({
-            value:     moment(event.date).unix(),
+            value:     date,
             attribute: this.props.attribute,
         });
     },
