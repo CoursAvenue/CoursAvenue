@@ -15,7 +15,7 @@ var LocationFilterChoicePanel = React.createClass({
     render: function render () {
         return (
           <div className="text--center soft">
-              <h2 className="push-half--bottom soft-half--bottom bordered--bottom">
+              <h2 className="push-half--bottom soft-half--bottom">
                   Où souhaitez-vous trouver un cours ?
               </h2>
               <div className="bordered soft delta cursor-pointer inline-block v-middle push--right"
