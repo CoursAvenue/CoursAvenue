@@ -75,7 +75,9 @@ module.exports = {
             card_search_helper.addNumericRefinement('starting_price', '>=', data.prices[0]);
             card_search_helper.addNumericRefinement('starting_price', '<=', data.prices[1]);
         }
-
+        // By default, we want only upcoming courses | trainings
+        // We have to divide per 1 000 because dates are in ms in JS.
+        card_search_helper.addNumericRefinement('end_date', '>=', (new Date()).getTime() / 1000);
         card_search_helper.setState(_.extend(card_search_helper.state, card_search_state));
 
         return card_search_helper.search();
