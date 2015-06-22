@@ -15,7 +15,7 @@ var TimeFilter = React.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            filter_store:  FilterStore
+            filter_store: FilterStore
         };
     },
 

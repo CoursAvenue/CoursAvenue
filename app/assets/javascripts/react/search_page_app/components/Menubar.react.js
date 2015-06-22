@@ -2,7 +2,7 @@ var FilterActionCreators = require('../actions/FilterActionCreators');
 
 var Menubar = React.createClass({
     getInitialState: function getInitialState () {
-        return { context: 'lesson' };
+        return { context: 'course' };
     },
 
     changeContext: function changeContext (event) {
@@ -20,7 +20,7 @@ var Menubar = React.createClass({
                     </div>
                     <div className='grid__item v-middle two-twelfths'>
                         <select value={ this.state.context } onChange={ this.changeContext } >
-                            <option value="lesson">Cours</option>
+                            <option value="course">Cours</option>
                             <option value="training">Stages</option>
                         </select>
                     </div>
