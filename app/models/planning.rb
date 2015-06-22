@@ -89,7 +89,7 @@ class Planning < ActiveRecord::Base
                                   .and(Course.arel_table[:type].eq('Course::Training')) ) }
   scope :future,            -> { where( arel_table[:end_date].gteq(Date.today) ) }
   scope :past,              -> { where( arel_table[:end_date].lteq(Date.today) ) }
-  scope :ordered_by_day,    -> { order('week_day=0, week_day ASC, start_date ASC, start_time ASC') }
+  scope :ordered_by_day,    -> { order('week_day=0, week_day ASC, start_time ASC, start_date ASC') }
   scope :visible,           -> { where(visible: true) }
 
   ######################################################################
