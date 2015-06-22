@@ -69,6 +69,9 @@ var FilterStore = Backbone.Model.extend({
             case ActionTypes.UNSET_FILTER:
                 this.unsetFilter(payload.data);
                 break;
+            case ActionTypes.CHANGE_CONTEXT:
+                this.changeContext(payload.data);
+                break;
         }
     },
 
@@ -94,7 +97,15 @@ var FilterStore = Backbone.Model.extend({
     // TODO: Add metro stop check.
     isFilteringAroundLocation: function isFilteringAroundLocation () {
         return ! (_.isUndefined(this.get('user_location')) || _.isNull(this.get('user_location')));
-    }
+    },
+
+    changeContext: function changeContext (new_context) {
+        if (new_context == 'training') {
+            this.set('time_panel', FilterPanelConstants.TIME_PANELS.TRAINING);
+        } else {
+            this.set('time_panel', FilterPanelConstants.TIME_PANELS.LESSON);
+        }
+    },
 });
 
 // the Store is an instantiated Collection; a singleton.
