@@ -55,6 +55,7 @@
 //= require libs/bootstrap/bootstrap.scrollspy
 //= require libs/bootstrap/datepicker-locales/bootstrap.datepicker.fr
 //= require libs/moment
+//= require libs/momentjs_locales/fr
 //= require libs/retina
 //= require libs/masonry.pkgd
 

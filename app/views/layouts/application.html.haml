@@ -84,6 +84,9 @@
         Bugsnag.notifyReleaseStages = ["staging", "production"]
     :javascript
         window.prerenderReady = false;
+        $(function() {
+            moment.locale('#{I18n.locale.to_s}')
+        })
     - if !@prerender_not_ready
       :javascript
           $(function() {
