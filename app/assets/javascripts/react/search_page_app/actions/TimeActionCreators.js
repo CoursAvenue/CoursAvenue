@@ -16,4 +16,11 @@ module.exports = {
             data: data
         });
     },
+
+    setTrainingDate: function setTrainingDate (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SET_TRAINING_DATE,
+            data: data
+        });
+    },
 };
