@@ -3,6 +3,7 @@ var FilterStore                = require('../stores/FilterStore'),
     FluxBoneMixin              = require("../../mixins/FluxBoneMixin"),
     LocationFilterAddressPanel = require('./location_filter_panels/LocationFilterAddressPanel'),
     LocationFilterChoicePanel  = require('./location_filter_panels/LocationFilterChoicePanel'),
+    LocationFilterMetroPanel   = require('./location_filter_panels/LocationFilterMetroPanel'),
     classNames                 = require('classnames'),
     FilterPanelConstants       = require('../constants/FilterPanelConstants'),
     FilterActionCreators       = require('../actions/FilterActionCreators'),
@@ -24,8 +25,8 @@ var LocationFilter = React.createClass({
         switch(this.state.filter_store.get('location_panel')) {
           case FilterPanelConstants.LOCATION_PANELS.ADDRESS:
             return ( <LocationFilterAddressPanel/> );
-          // case FilterPanelConstants.LOCATION_PANELS.METRO:
-          //   return ( <LocationFilterMetroPanel key='root' /> );
+          case FilterPanelConstants.LOCATION_PANELS.METRO:
+            return ( <LocationFilterMetroPanel key='root' /> );
           default:
             return ( <LocationFilterChoicePanel/> );
         }

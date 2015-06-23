@@ -24,6 +24,7 @@ module.exports = {
 
         SHOW_ADDRESS_PANEL:          null,
         SHOW_LOCATION_CHOICE_PANEL:  null,
+        SHOW_METRO_PANEL:            null,
 
         UPDATE_FILTERS:              null,
         UPDATE_BOUNDS:               null,

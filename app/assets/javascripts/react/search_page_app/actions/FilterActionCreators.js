@@ -81,6 +81,12 @@ module.exports = {
         });
     },
 
+    showMetroPanel: function showMetroPanel () {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SHOW_METRO_PANEL
+        });
+    },
+
     searchFullText: function searchFullText (data) {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.SEARCH_FULL_TEXT,
