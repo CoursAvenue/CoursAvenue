@@ -8,7 +8,11 @@ Card = React.createClass({
 
     render: function render () {
         var gift_classes = { gray: this.props.card.get('is_open_for_trial')}
-        var starting_price = (this.props.card.get('starting_price') == 0 ? 'Essai gratuit' : 'Essai à ' + this.props.card.get('starting_price') + '€');
+        if (this.props.card.get('card_type') == 'course') {
+            var starting_price = (this.props.card.get('starting_price') == 0 ? 'Essai gratuit' : 'Essai à ' + this.props.card.get('starting_price') + '€');
+        } else {
+            var starting_price = (this.props.card.get('starting_price') == 0 ? 'Essai gratuit' : 'Atelier à ' + this.props.card.get('starting_price') + '€');
+        }
         return (
           <div className="soft-half one-quarter palm-one-whole lap-one-half inline-block v-top">
               <div className="bg-white bordered">

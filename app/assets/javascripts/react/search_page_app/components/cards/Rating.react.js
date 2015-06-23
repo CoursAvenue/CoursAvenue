@@ -5,6 +5,7 @@ Rating = React.createClass({
     },
 
     render: function render () {
+        var dash = '';
         if (this.props.registration_count > 1) {
             var tooltip_content = this.props.registration_count + " utilisateurs se sont inscrits à ce cours";
         } else {
@@ -21,13 +22,17 @@ Rating = React.createClass({
                                   </span>);
         }
         if (this.props.comment_count && this.props.comment_count > 0) {
-            var comments = (<i className="v-middle">Aucun avis pour le moment</i>);
+            var comments = (<span className="v-middle">{this.props.comment_count + ' avis'}</span>);
         } else {
-            var comments = (<span className="v-middle">({this.props.comment_count + ' avis'})</span>);
+            var comments = (<i className="v-middle">Aucun avis pour le moment</i>);
+        }
+        if (registration_count.length > 0) {
+            dash = '—';
         }
         return (
           <div className='very-soft--top very-soft'>
               {registration_count}
+              {dash}
               <span className="v-middle">{comments}</span>
           </div>
         );

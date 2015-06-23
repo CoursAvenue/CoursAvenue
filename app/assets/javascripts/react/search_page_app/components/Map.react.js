@@ -46,6 +46,9 @@ var MapComponent = React.createClass({
 
         this.state.location_store.on('all', function() {
             // Move Map ONLY IF we just changed address
+            if (this.state.location_store.get('finding_user_position')) {
+                COURSAVENUE.helperMethods.flash('Localisation en cours...', 'success')
+            }
             if (this.state.location_store.changed.address) {       this.moveMapToNewAddress(); }
             if (this.state.location_store.changed.user_location) {
                 if (this.state.location_store.changed.user_location == true) {

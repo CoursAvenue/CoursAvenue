@@ -47,6 +47,8 @@ var FilterStore = Backbone.Model.extend({
             case ActionTypes.SELECT_ROOT_SUBJECT:
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.CHILD });
                 break;
+            case ActionTypes.SELECT_ADDRESS:
+            case ActionTypes.LOCATE_USER:
             case ActionTypes.CLOSE_FILTER_PANEL:
                 this.unset('current_panel');
                 break;

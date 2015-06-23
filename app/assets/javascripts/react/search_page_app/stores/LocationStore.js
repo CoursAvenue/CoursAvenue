@@ -26,6 +26,7 @@ var LocationStore = Backbone.Model.extend({
                 break;
             case ActionTypes.UPDATE_FILTERS:
                 if (payload.data.user_location) {
+                    this.set({ finding_user_position: false });
                     this.set(payload.data);
                 }
             case ActionTypes.UNSET_FILTER:
@@ -36,6 +37,7 @@ var LocationStore = Backbone.Model.extend({
     },
 
     locateUser: function locateUser (payload) {
+        this.set({ finding_user_position: true });
         this.set({ user_location: true });
     },
 
