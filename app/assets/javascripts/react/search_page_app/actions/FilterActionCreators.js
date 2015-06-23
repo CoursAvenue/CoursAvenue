@@ -94,6 +94,20 @@ module.exports = {
         });
     },
 
+    selectMetroLine: function selectMetroLine (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SELECT_METRO_LINE,
+            data: data
+        });
+    },
+
+    selectMetroStop: function selectMetroStop (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SELECT_METRO_STOP,
+            data: data
+        });
+    },
+
     unsetFilter: function unsetFilter (filter_key) {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.UNSET_FILTER,
