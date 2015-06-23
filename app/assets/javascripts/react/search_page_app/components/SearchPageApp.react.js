@@ -1,4 +1,4 @@
-var Map                    = require('./Map.react'),
+var MapContainer           = require('./MapContainer.react'),
     ResultList             = require('./ResultList.react'),
     SubjectFilter          = require('./SubjectFilter.react'),
     LocationFilter         = require('./LocationFilter.react'),
@@ -49,7 +49,7 @@ SearchPageApp = React.createClass({
           <div className="relative overflow-hidden">
             <Menubar />
             <div className="relative">
-              <Map center={this.props.map_center} />
+              <MapContainer center={this.props.map_center} />
               <SubjectFilter />
               <LocationFilter />
               <TimeFilter />

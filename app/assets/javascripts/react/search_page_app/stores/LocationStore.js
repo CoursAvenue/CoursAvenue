@@ -9,6 +9,7 @@ var LocationStore = Backbone.Model.extend({
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback');
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
+        this.set({ fullscreen: false });
     },
 
     dispatchCallback: function dispatchCallback (payload) {
@@ -32,6 +33,9 @@ var LocationStore = Backbone.Model.extend({
             case ActionTypes.UNSET_FILTER:
                 if      (payload.data == 'user_location') { this.unset('user_location'); }
                 else if (payload.data == 'address') { this.unset('address'); }
+                break;
+            case ActionTypes.TOGGLE_MAP_FULLSCREEN:
+                this.set({ fullscreen: !this.get('fullscreen') });
                 break;
         }
     },

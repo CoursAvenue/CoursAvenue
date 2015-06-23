@@ -1,5 +1,4 @@
-var CardActionCreators = require('../actions/CardActionCreators'),
-    SubjectList        = require('./cards/SubjectList.react'),
+var SubjectList        = require('./cards/SubjectList.react'),
     CourseInformation  = require('./cards/CourseInformation.react'),
     CourseLocation     = require('./cards/CourseLocation.react'),
     Rating             = require('./cards/Rating.react');

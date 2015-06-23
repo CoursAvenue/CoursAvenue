@@ -49,8 +49,11 @@ var MapComponent = React.createClass({
             if (this.state.location_store.get('finding_user_position')) {
                 COURSAVENUE.helperMethods.flash('Localisation en cours...', 'success')
             }
-            if (this.state.location_store.changed.address) {       this.moveMapToNewAddress(); }
-            if (this.state.location_store.changed.user_location) {
+            if (this.state.location_store.changed.hasOwnProperty('fullscreen')) {
+                setTimeout(function() { this.map.invalidateSize(); }.bind(this), 10);
+            }
+            if (this.state.location_store.changed.hasOwnProperty('address')) { this.moveMapToNewAddress(); }
+            if (this.state.location_store.changed.hasOwnProperty('user_location')) {
                 if (this.state.location_store.changed.user_location == true) {
                     this.locateUser();
                 } else {
@@ -130,12 +133,14 @@ var MapComponent = React.createClass({
             // shadowAnchor: [22, 94]
         });
     },
+
     render: function render () {
         var map_style = {
-            minHeight: '230px'
+            minHeight: '230px',
+            height: '100%'
         };
         return (
-          <div className="height-35vh" style={map_style}></div>
+          <div style={map_style}></div>
         );
     }
 });

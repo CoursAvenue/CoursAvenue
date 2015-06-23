@@ -27,5 +27,11 @@ module.exports = {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.LOCATE_USER
         });
-    }
+    },
+
+    toggleFullScreen: function toggleFullScreen () {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.TOGGLE_MAP_FULLSCREEN
+        });
+    },
 };

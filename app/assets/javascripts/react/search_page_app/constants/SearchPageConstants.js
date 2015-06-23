@@ -28,6 +28,8 @@ module.exports = {
         SHOW_LOCATION_CHOICE_PANEL:  null,
         SHOW_METRO_PANEL:            null,
 
+        TOGGLE_MAP_FULLSCREEN:       null,
+
         UPDATE_FILTERS:              null,
         UPDATE_BOUNDS:               null,
 
