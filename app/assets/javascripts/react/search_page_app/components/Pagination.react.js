@@ -65,7 +65,7 @@ var Pagination = React.createClass({
 
                 buttons.push({ // push the current page
                     label: current_page,
-                    page:  (skipped ? null : current_page),
+                    page:  current_page,
                     active: (current_page == current_page)
                     //query: (data.query_strings ? data.query_strings[current_page] : '')
                 });
