@@ -75,6 +75,10 @@ var MetroStopStore = Backbone.Collection.extend({
         if (metro_stop)   { metro_stop.toggleSelection(); }
         this.trigger('change');
     },
+
+    getSelectedStop: function getSelectedStop () {
+        return this.findWhere({ selected: true });
+    },
 });
 
 module.exports = new MetroStopStore();
