@@ -34,7 +34,6 @@ CourseInformation = React.createClass({
                 )
             });
         } else {
-            debugger
             if (TimeStore.training_start_date) {
                 var currentDate = new Date(TimeStore.training_start_date * 1000);
             } else {
