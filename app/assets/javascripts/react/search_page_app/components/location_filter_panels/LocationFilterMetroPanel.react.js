@@ -18,16 +18,35 @@ var LocationFilterMetroPanel = React.createClass({
     },
 
     closeFilterPanel: function closeFilterPanel () {
+        FilterActionCreators.closeFilterPanel();
     },
 
-    changeLine: function changeLine () {
-        debugger
+    selectLine: function selectLine (event) {
+        var line = event.target.value;
+        FilterActionCreators.selectMetroLine(line);
+    },
+
+    selectStop: function selectStop (event) {
+        var stop = event.target.value;
+        FilterActionCreators.selectMetroStop(stop);
+    },
+
+    componentDidMount: function componentDidMount () {
+        // TODO: Remove this.
+        FilterActionCreators.selectMetroLine('ligne-8');
     },
 
     render: function render () {
-        var metro_stops = _.map([], function(stop, index) {
+        var metro_stops = this.state.metro_stop_store.map(function(stop, index) {
             return (
-                <div>stop.name</div>
+                <option key={ index } value={ stop.get('slug') }>{ stop.get('name') }</option>
+            );
+        });
+
+        // TODO: Temporary, store in a MetroLineStore ?
+        var metro_lines = _.map(this.state.metro_stop_store.metroLines(), function(line, index) {
+            return (
+                <option key={ index } value={ line.slug }>{ line.name }</option>
             );
         });
 
@@ -46,16 +65,18 @@ var LocationFilterMetroPanel = React.createClass({
               </h2>
               <div>
                 <div className="inline-block v-middle relative center-block text--left">
-                  <select onChange={ this.changeLine }>
-                      { metro_stops }
+                  <select onChange={ this.selectLine }>
+                      { metro_lines }
                   </select>
                 </div>
 
                 <div className="inline-block v-middle relative center-block text--left">
-                  <input className="input--large inline-block"
-                         size="50"
-                         placeholder="Entrez le nom de la localité" />
+                  <select onChange={ this.selectStop }>
+                  <option disabled selected></option>
+                      { metro_stops }
+                  </select>
                 </div>
+
                 <div className="btn v-middle" onClick={this.closeFilterPanel}>OK</div>
               </div>
             </div>
