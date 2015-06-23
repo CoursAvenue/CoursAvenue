@@ -5,12 +5,20 @@ var _                    = require('underscore'),
     FluxBoneMixin        = require('../../mixins/FluxBoneMixin');
 
 var MetroStop = Backbone.Model.extend({
+    defaults: function defaults () {
+        return { selected: false };
+    },
+
     initialize: function initialize () {
-        _.bindAll(this, 'coordinates');
+        _.bindAll(this, 'coordinates', 'toggleSelection');
     },
 
     coordinates: function coordinates () {
         return [ this.get('latitude'), this.get('longitude') ];
+    },
+
+    toggleSelection: function toggleSelection () {
+        this.set('selected', !this.get('selected'));
     },
 });
 
