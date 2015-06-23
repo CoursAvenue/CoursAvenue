@@ -7,6 +7,7 @@ var _                    = require('underscore'),
     PriceStore           = require('../stores/PriceStore'),
     AudienceStore        = require('../stores/AudienceStore'),
     LevelStore           = require('../stores/LevelStore'),
+    MetroStopStore       = require('../stores/MetroStopStore'),
     AlgoliaSearchUtils   = require('../utils/AlgoliaSearchUtils'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants');
@@ -48,10 +49,12 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.TOGGLE_AUDIENCE:
             case ActionTypes.SET_PRICE_BOUNDS:
             case ActionTypes.TOGGLE_LEVEL:
+            case ActionTypes.SELECT_METRO_STOP:
                 // Make sure the Filter store has finish everything he needs to do.
                 SearchPageDispatcher.waitFor([ FilterStore.dispatchToken, TimeStore.dispatchToken,
                                                AudienceStore.dispatchToken, SubjectStore.dispatchToken,
-                                               LevelStore.dispatchToken, PriceStore.dispatchToken ]);
+                                               LevelStore.dispatchToken, PriceStore.dispatchToken,
+                                               MetroStopStore.dispatchToken ]);
                 // Fetch the new cards.
                 this.fetchDataFromServer();
                 break;
@@ -128,6 +131,9 @@ var CardCollection = Backbone.Collection.extend({
             data.aroundLatLng = LocationStore.get('user_location').latitude + ',' + LocationStore.get('user_location').longitude;
         } else if (LocationStore.get('address')) {
             data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
+        }
+        if ((metro_stop = MetroStopStore.getSelectedStop())) {
+            data.aroundLatLng = metro_stop.get('latitude') + ',' + metro_stop.get('longitude');
         }
         if (TimeStore.isFiltered()) {
             if (data.context == 'course') {

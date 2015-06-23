@@ -81,9 +81,29 @@ module.exports = {
         });
     },
 
+    showMetroPanel: function showMetroPanel () {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SHOW_METRO_PANEL
+        });
+    },
+
     searchFullText: function searchFullText (data) {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.SEARCH_FULL_TEXT,
+            data: data
+        });
+    },
+
+    selectMetroLine: function selectMetroLine (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SELECT_METRO_LINE,
+            data: data
+        });
+    },
+
+    selectMetroStop: function selectMetroStop (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SELECT_METRO_STOP,
             data: data
         });
     },

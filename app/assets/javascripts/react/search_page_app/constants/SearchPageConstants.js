@@ -16,6 +16,8 @@ module.exports = {
         SELECT_SUBJECT:              null,
         SELECT_ADDRESS:              null,
         SEARCH_FULL_TEXT:            null,
+        SELECT_METRO_LINE:           null,
+        SELECT_METRO_STOP:           null,
 
         UNSET_FILTER:                null,
 
@@ -24,6 +26,7 @@ module.exports = {
 
         SHOW_ADDRESS_PANEL:          null,
         SHOW_LOCATION_CHOICE_PANEL:  null,
+        SHOW_METRO_PANEL:            null,
 
         UPDATE_FILTERS:              null,
         UPDATE_BOUNDS:               null,

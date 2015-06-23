@@ -12,6 +12,10 @@ var LocationFilterChoicePanel = React.createClass({
         FilterActionCreators.showAddressPanel();
     },
 
+    showMetroPanel: function showMetroPanel () {
+        FilterActionCreators.showMetroPanel();
+    },
+
     render: function render () {
         return (
           <div className="text--center soft">
@@ -25,6 +29,10 @@ var LocationFilterChoicePanel = React.createClass({
               <div className="bordered soft delta cursor-pointer inline-block v-middle"
                    onClick={this.showAddressPanel}>
                   {"Autour d'une adresse"}
+              </div>
+              <div className="bordered soft delta cursor-pointer inline-block v-middle push--left"
+                   onClick={ this.showMetroPanel }>
+                  {"Proche d'un métro"}
               </div>
           </div>
         );

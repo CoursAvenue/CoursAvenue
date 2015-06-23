@@ -38,6 +38,9 @@ var FilterStore = Backbone.Model.extend({
             case ActionTypes.SHOW_ADDRESS_PANEL:
                 this.set({ location_panel: FilterPanelConstants.LOCATION_PANELS.ADDRESS });
                 break;
+            case ActionTypes.SHOW_METRO_PANEL:
+                this.set({ location_panel: FilterPanelConstants.LOCATION_PANELS.METRO });
+                break;
             case ActionTypes.SHOW_LOCATION_CHOICE_PANEL:
                 this.unset('location_panel');
                 break;
