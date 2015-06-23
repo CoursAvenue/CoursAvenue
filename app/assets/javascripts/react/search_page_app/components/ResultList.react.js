@@ -22,7 +22,7 @@ ResultList = React.createClass({
                                   Chargement...
                               </div>);
         }
-        var cards = this.state.card_store.map(function(card, index) {
+        var cards = this.state.card_store.where({ visible: true }).map(function(card, index) {
             return (
               <Card card={ card } key={ index }/>
             )

@@ -15,6 +15,7 @@ var _                    = require('underscore'),
 var ActionTypes = SearchPageConstants.ActionTypes;
 
 var CardModel = Backbone.Model.extend({});
+var HITS_PER_PAGES = 16;
 
 var CardCollection = Backbone.Collection.extend({
     model:   CardModel,
@@ -63,13 +64,13 @@ var CardCollection = Backbone.Collection.extend({
                 this.fetchDataFromServer();
             case ActionTypes.GO_TO_PAGE:
                 this.current_page = payload.data;
-                this.fetchDataFromServer();
+                this.updateCardsShownRegardingPages();
             case ActionTypes.GO_TO_PREVIOUS_PAGE:
                 this.current_page = this.current_page - 1;
-                this.fetchDataFromServer();
+                this.updateCardsShownRegardingPages();
             case ActionTypes.GO_TO_NEXT_PAGE:
                 this.current_page = this.current_page + 1;
-                this.fetchDataFromServer();
+                this.updateCardsShownRegardingPages();
                 break;
             case ActionTypes.CHANGE_CONTEXT:
                 this.context = payload.data;
@@ -102,8 +103,10 @@ var CardCollection = Backbone.Collection.extend({
         // This triggers the change event.
         this.facets        = data.facets;
         this.total_results = data.nbHits;
-        this.total_pages   = data.nbPages;
+        this.total_pages   = Math.ceil(this.total_results / HITS_PER_PAGES);
         this.reset(data.hits);
+        this.current_page = 1;
+        this.updateCardsShownRegardingPages();
     },
 
     searchError: function searchError (data) {
@@ -183,6 +186,20 @@ var CardCollection = Backbone.Collection.extend({
 
     isLastPage: function isLastPage () {
         return (this.current_page == this.total_pages)
+    },
+
+    updateCardsShownRegardingPages: function updateCardsShownRegardingPages () {
+        // Unselect all models
+        this.map(function(card) {
+            card.set({ visible: false }, { silent: true });
+        });
+        var selected_models_range = _.range((this.current_page - 1) * HITS_PER_PAGES, this.current_page * HITS_PER_PAGES);
+        _.each(selected_models_range, function(card_index) {
+            // Don't select not existing models, of course.
+            if (card_index > (this.length - 1)) { return; }
+            this.models[card_index].set({ visible: true }, { silent: true });
+        }.bind(this));
+        this.trigger('change');
     }
 });
 
