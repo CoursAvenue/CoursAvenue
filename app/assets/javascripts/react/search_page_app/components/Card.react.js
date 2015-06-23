@@ -15,7 +15,7 @@ Card = React.createClass({
         }
         return (
           <div className="soft-half one-quarter palm-one-whole lap-one-half inline-block v-top">
-              <div className="bg-white bordered">
+              <div className="bg-white bordered" style={ { minHeight: '450px'} }>
                   <div className="bordered--bottom relative">
                       <div className="bg-white rounded very-soft push-half--left push-half--top absolute">{starting_price}</div>
                       <img className="block one-whole" src={this.props.card.get('header_image')} height="100"/>
