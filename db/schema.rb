@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150623080640) do
+ActiveRecord::Schema.define(version: 20150623083237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -624,6 +624,14 @@ ActiveRecord::Schema.define(version: 20150623080640) do
   create_table "medias_subjects", id: false, force: true do |t|
     t.integer "subject_id"
     t.integer "media_id"
+  end
+
+  create_table "metro_lines", force: true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.integer  "line_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "metro_stops", force: true do |t|

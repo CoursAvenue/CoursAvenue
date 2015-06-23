@@ -8,7 +8,7 @@ RSpec.describe Metro::Stop, type: :model do
   end
 
   context 'association' do
-    it { should have_many(:lines).class_name('Metro::Line') }
+    it { should have_and_belong_to_many(:lines).class_name('Metro::Line') }
   end
 
   subject { FactoryGirl.create(:metro_stop) }
