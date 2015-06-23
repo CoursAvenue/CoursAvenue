@@ -1,8 +1,7 @@
 FactoryGirl.define do
   factory :metro_line, :class => 'Metro::Line' do
-    name "MyString"
-slug "MyString"
-line_number 1
+    name 'Ligne 8'
+    line_number 8
   end
 
 end
