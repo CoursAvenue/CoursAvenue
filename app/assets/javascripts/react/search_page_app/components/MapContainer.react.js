@@ -1,11 +1,7 @@
 var FluxBoneMixin          = require("../../mixins/FluxBoneMixin"),
-    CardStore              = require("../stores/CardStore"),
     LocationStore          = require("../stores/LocationStore"),
-    SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
     LocationActionCreators = require("../actions/LocationActionCreators"),
     Map                    = require("./Map.react"),
-    CardActionCreators     = require("../actions/CardActionCreators"),
-    FilterActionCreators   = require("../actions/FilterActionCreators"),
     FluxBoneMixin          = require("../../mixins/FluxBoneMixin");
 
 var MapComponent = React.createClass({
