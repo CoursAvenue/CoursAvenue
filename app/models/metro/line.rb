@@ -16,7 +16,7 @@ class Metro::Line < ActiveRecord::Base
     attribute :name
 
     add_attribute :metro_stops do
-      self.lines.map(&:slug)
+      self.stops.map(&:slug)
     end
   end
   # :nocov:
