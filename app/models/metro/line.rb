@@ -5,9 +5,10 @@ class Metro::Line < ActiveRecord::Base
 
   has_and_belongs_to_many :stops, class_name: 'Metro::Stop'
 
-  attr_accessible :name, :line_number
+  attr_accessible :name, :route_name, :line_number
 
-  validates :name, presence: true
+  validates :name,       presence: true
+  validates :route_name, presence: true
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: true do
