@@ -14,8 +14,9 @@ class Metro::Stop < ActiveRecord::Base
 
   # TODO: Enable indexing when it will be needed.
   # :nocov:
-  algoliasearch per_environment: true, disable_indexing: true do
+  algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
     attribute :id
+    attribute :slug
     attribute :name
 
     add_attribute :_geoloc do
