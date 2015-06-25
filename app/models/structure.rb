@@ -1232,6 +1232,12 @@ class Structure < ActiveRecord::Base
       end
     end
 
+    if options.any? and options.include?('owner_dob_day')
+      managed_account.legal_entity.dob.day   = options['owner_dob_day'].to_i
+      managed_account.legal_entity.dob.month = options['owner_dob_month'].to_i
+      managed_account.legal_entity.dob.year  = options['owner_dob_year'].to_i
+    end
+
     managed_account.save
   end
 
