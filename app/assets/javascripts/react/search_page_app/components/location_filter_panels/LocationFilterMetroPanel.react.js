@@ -32,8 +32,7 @@ var LocationFilterMetroPanel = React.createClass({
     },
 
     componentDidMount: function componentDidMount () {
-        // TODO: Remove this.
-        FilterActionCreators.selectMetroLine('ligne-8');
+        FilterActionCreators.selectMetroLine('ligne-1');
     },
 
     render: function render () {
