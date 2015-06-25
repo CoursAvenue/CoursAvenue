@@ -155,7 +155,7 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     @options = update_managed_account_params
     @structure.update_managed_account(@options)
 
-    redirect_to website_planning_parameters_pro_structure_path(@structure),
+    redirect_to paid_requests_pro_structure_participation_requests_path(@structure),
       notice: 'Vos informations ont été reçus avec succès'
   end
 
