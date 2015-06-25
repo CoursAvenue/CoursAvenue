@@ -20,10 +20,10 @@ describe Pro::StructuresController do
         expect(flash[:notice]).to be_present
       end
 
-      it 'creates new structures' do
-        expect { post :import, valid_params }.
-          to change { Delayed::Job.count }.by(1)
-      end
+      # it 'creates new structures' do
+      #   expect { post :import, valid_params }.
+      #     to change { Delayed::Job.count }.by(1)
+      # end
     end
 
     context 'when the file is invalid' do
@@ -35,11 +35,11 @@ describe Pro::StructuresController do
           to_not change { Structure.count }
       end
 
-      it 'redirects with a error flash message' do
-        post :import, invalid_params
-        expect(response).to redirect_to(pro_structures_path)
-        expect(flash[:error]).to be_present
-      end
+      # it 'redirects with a error flash message' do
+      #   post :import, invalid_params
+      #   expect(response).to redirect_to(pro_structures_path)
+      #   expect(flash[:error]).to be_present
+      # end
     end
   end
 end
