@@ -4,7 +4,7 @@
 
 = simple_form_for [:pro, @section], url: url, as: :faq_section do |f|
   = f.input :title, label: 'Titre de la section', placeholder: 'Guide de démarage', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-  = f.input :type, label: 'Type de la section', as: :select, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }, collection: Faq::Section::TYPES, label_method: lambda { |section| section[:title] }, value_method: lambda { |section| section[:type] }, selected: (params[:type] == 'pro' ? 'Faq::Section::Pro' : 'Faq::Section::User')
+  = f.input :type, label: 'Type de la section', as: :select, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }, collection: Faq::Section::TYPES, label_method: lambda { |section| section[:title] }, value_method: lambda { |section| section[:type] }, selected: (@section.pro? ? 'Faq::Section::Pro' : 'Faq::Section::User')
   = f.input :position, label: 'Position de la section', as: :select, collection: position_collection, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }, include_blank: false
 
   %hr

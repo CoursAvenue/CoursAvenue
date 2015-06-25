@@ -10,10 +10,10 @@ class Pro::FaqsController < Pro::ProController
   end
 
   def new
-    if params[:type]
-      @section = ::Faq::Section.new type: 'Faq::Section::User'
-    else
+    if params[:type] == 'pro'
       @section = ::Faq::Section.new type: 'Faq::Section::Pro'
+    else
+      @section = ::Faq::Section.new type: 'Faq::Section::User'
     end
 
     10.times { @section.questions.build }

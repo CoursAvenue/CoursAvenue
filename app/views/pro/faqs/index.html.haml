@@ -2,16 +2,16 @@
 
 = render partial: 'pro/shared/pages_tabs', locals: { current: 'faqs' }
 
-.flexbox.push--bottom
-  .flexbox__item.v-middle
-    %h1.flush Articles de presse
-  .flexbox__item.v-middle.text--right
-    = link_to new_pro_faq_path(type: 'pro'), class: 'btn btn--green' do
-      %i.fa.fa-plus
-      Ajouter une section
-    = link_to preview_pro_faqs_path(type: 'pro'), class: 'btn', target: :_blank do
-      %i.fa-eye
-      Voir la FAQ Prof
+%h1 FAQs
+
+.float--right
+  = link_to new_pro_faq_path(type: 'pro'), class: 'btn btn--green' do
+    %i.fa.fa-plus
+    Ajouter une section
+  = link_to preview_pro_faqs_path(type: 'pro'), class: 'btn', target: :_blank do
+    %i.fa-eye
+    Voir la FAQ Prof
+%h2.flush FAQ Profs
 %table.table--data.table--striped
   %thead
     %tr
@@ -29,7 +29,7 @@
         = link_to 'Supprimer', pro_faq_path(section), method: :delete, data: { confirm: "Êtes-vous sûr de vouloir supprimer cette section d'FAQ ?" }, class: 'red'
 
 %hr.push--ends
-.text--right
+.float--right
   = link_to new_pro_faq_path(type: 'user'), class: 'btn btn--green' do
     %i.fa.fa-plus
     Ajouter une section
@@ -37,6 +37,7 @@
     %i.fa-eye
     Voir la FAQ élèves
 
+%h2.flush FAQ Élèves
 %table.table--data.table--striped
   %thead
     %tr

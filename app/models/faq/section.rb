@@ -35,6 +35,10 @@ class Faq::Section < ActiveRecord::Base
   # Methods                                                            #
   ######################################################################
 
+  def pro?
+    type == 'Faq::Section::Pro'
+  end
+
   private
 
   # Check if we should reject the Faq::Question.
