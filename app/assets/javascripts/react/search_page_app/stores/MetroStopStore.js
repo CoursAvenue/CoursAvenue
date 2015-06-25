@@ -4,6 +4,25 @@ var _                    = require('underscore'),
     SearchPageConstants  = require('../constants/SearchPageConstants'),
     FluxBoneMixin        = require('../../mixins/FluxBoneMixin');
 
+var METRO_LINES = [
+    { name: 'Ligne 1',     slug: 'ligne-1' },
+    { name: 'Ligne 2',     slug: 'ligne-2' },
+    { name: 'Ligne 3',     slug: 'ligne-3' },
+    { name: 'Ligne 3 Bis', slug: 'ligne-3-bis' },
+    { name: 'Ligne 4',     slug: 'ligne-4' },
+    { name: 'Ligne 5',     slug: 'ligne-5' },
+    { name: 'Ligne 6',     slug: 'ligne-6' },
+    { name: 'Ligne 7',     slug: 'ligne-7' },
+    { name: 'Ligne 7 Bis', slug: 'ligne-7-bis' },
+    { name: 'Ligne 8',     slug: 'ligne-8' },
+    { name: 'Ligne 9',     slug: 'ligne-9' },
+    { name: 'Ligne 10',    slug: 'ligne-10' },
+    { name: 'Ligne 11',    slug: 'ligne-11' },
+    { name: 'Ligne 12',    slug: 'ligne-12' },
+    { name: 'Ligne 13',    slug: 'ligne-13' },
+    { name: 'Ligne 14',    slug: 'ligne-14' },
+];
+
 var MetroStop = Backbone.Model.extend({
     defaults: function defaults () {
         return { selected: false };
@@ -45,24 +64,14 @@ var MetroStopStore = Backbone.Collection.extend({
     },
 
     metroLines: function metroLines () {
-        return [
-            { name: 'Ligne 1', slug: 'ligne-1' },
-            { name: 'Ligne 2', slug: 'ligne-2' },
-            { name: 'Ligne 3', slug: 'ligne-3' },
-            { name: 'Ligne 4', slug: 'ligne-4' },
-            { name: 'Ligne 5', slug: 'ligne-5' }
-        ];
+        return METRO_LINES;
     },
 
     // When receiving the metro line to filter the stops by, we refetch the results if needed.
     fetchMetroStops: function fetchMetroStops (metro_line) {
-        if (this.metro_line == metro_line) {
-            return ;
-        }
+        if (this.metro_line == metro_line) { return ; }
 
-        this.metro_line = metro_line;
-        // TODO: Fetch the metro stops and store them in the collection.
-        this.set([ { name: 'Faidherbe-Chaligny', slug: 'faidherbe-chaligny' } ]);
+        this.metro_line = _.findWhere(METRO_LINES, { slug: metro_line });
 
         this.trigger('change');
     },
