@@ -1,15 +1,17 @@
 var FluxBoneMixin        = require("../../../mixins/FluxBoneMixin"),
+    MetroLineStore       = require('../../stores/MetroLineStore'),
     MetroStopStore       = require('../../stores/MetroStopStore'),
     FilterActionCreators = require("../../actions/FilterActionCreators");
 
 var LocationFilterMetroPanel = React.createClass({
     mixins: [
-        FluxBoneMixin('metro_stop_store')
+        FluxBoneMixin(['metro_stop_store', 'metro_line_store'])
     ],
 
     getInitialState: function getInitialState () {
         return {
             metro_stop_store: MetroStopStore,
+            metro_line_store: MetroLineStore,
         };
     },
 
@@ -43,9 +45,9 @@ var LocationFilterMetroPanel = React.createClass({
         });
 
         // TODO: Temporary, store in a MetroLineStore ?
-        var metro_lines = _.map(this.state.metro_stop_store.metroLines(), function(line, index) {
+        var metro_lines = this.state.metro_line_store.map(function(line, index) {
             return (
-                <option key={ index } value={ line.slug }>{ line.name }</option>
+                <option key={ index } value={ line.get('slug') }>{ line.get('name') }</option>
             );
         });
 
