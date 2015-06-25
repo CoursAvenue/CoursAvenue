@@ -5,7 +5,8 @@ class Metro::Stop < ActiveRecord::Base
 
   reverse_geocoded_by :latitude, :longitude
 
-  has_and_belongs_to_many :lines, class_name: 'Metro::Line'
+  has_many :positions, class_name: 'Metro::Position', foreign_key: 'metro_stop_id'
+  has_many :lines, through: :positions, class_name: 'Metro::Line'
 
   attr_accessible :name, :description, :latitude, :longitude
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150626090242) do
+ActiveRecord::Schema.define(version: 20150625152448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -606,14 +606,17 @@ ActiveRecord::Schema.define(version: 20150626090242) do
     t.string   "route_name"
   end
 
-  create_table "metro_lines_stops", id: false, force: true do |t|
-    t.integer "line_id"
-    t.integer "stop_id"
-    t.integer "id"
+  create_table "metro_positions", force: true do |t|
+    t.integer  "metro_line_id"
+    t.integer  "metro_stop_id"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "metro_lines_stops", ["id"], name: "index_metro_lines_stops_on_id", unique: true, using: :btree
-  add_index "metro_lines_stops", ["line_id", "stop_id"], name: "index_metro_lines_stops_on_line_id_and_stop_id", unique: true, using: :btree
+  add_index "metro_positions", ["metro_line_id", "metro_stop_id"], name: "index_metro_positions_on_metro_line_id_and_metro_stop_id", unique: true, using: :btree
+  add_index "metro_positions", ["metro_line_id"], name: "index_metro_positions_on_metro_line_id", using: :btree
+  add_index "metro_positions", ["metro_stop_id"], name: "index_metro_positions_on_metro_stop_id", using: :btree
 
   create_table "metro_stops", force: true do |t|
     t.string   "name"
