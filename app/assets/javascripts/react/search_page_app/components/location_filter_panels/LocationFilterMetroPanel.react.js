@@ -61,7 +61,7 @@ var LocationFilterMetroPanel = React.createClass({
                 </ol>
               </div>
               <h2 className="text--center push-half--bottom soft-half--bottom bordered--bottom inline-block">
-                Choisissez une ligne et une station
+                Choisissez une ligne et/ou une station
               </h2>
               <div>
                 <div className="inline-block v-middle relative center-block text--left">

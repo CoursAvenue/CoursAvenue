@@ -86,6 +86,7 @@ class Place < ActiveRecord::Base
   # Only geocode if :
   #     - lat and lng are nil
   #     - lat and lng didn't change but address changed
+  #     - last geocode was more than 10 minutes ago
   def geocode_if_needs_to
     # Prevents from infinite loop
     return nil if self.last_geocode_try and (Time.now - self.last_geocode_try) < 10.minutes
