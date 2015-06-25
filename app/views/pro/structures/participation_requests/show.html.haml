@@ -21,10 +21,10 @@
 - user_decorator = user.decorate
 %h3 À propos de l'élève
 .grid--full.push--bottom.message
-  .grid__item.two-twelfths.v-top.v-top>
+  .grid__item.palm-one-whole.palm-block.palm-text--center.two-twelfths.v-top.v-top>
     - if user.has_avatar?
       = image_tag user.avatar_url(:normal), class: 'center-block push-half--bottom rounded--circle', width: 100
-  .grid__item.ten-twelfths.v-top>
+  .grid__item.palm-one-whole.palm-block.palm-text--center.ten-twelfths.v-top>
     %h4.line-height-1-7.flush= user.name
     %div.line-height-1-7
       Profil : #{user_decorator.age_and_city}

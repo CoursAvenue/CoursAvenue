@@ -19,7 +19,7 @@
           .flexbox.palm-block
             .flexbox__item.one-whole.palm-block
               = participation_request_decorator.long_status_name('User')
-            .flexbox__item.v-middle.nowrap.nowrap.text--right
+            .flexbox__item.v-middle.nowrap.text--right
               - if !@participation_request.canceled?
                 - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
                   = link_to accept_form_participation_request_path(@participation_request), class: 'soft--sides push--right btn--green btn--small btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
@@ -49,7 +49,7 @@
               - course = participation_request.course
               %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
                 = course.name
-            .flexbox__item.v-middle.nowrap.nowrap.text--right
+            .flexbox__item.v-middle.nowrap.text--right
               - if !participation_request.canceled?
                 = link_to t('.propose_another_course'), edit_participation_request_path(participation_request, show_course_select: true), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
@@ -75,7 +75,7 @@
         %td.v-middle.soft--sides.one-whole
           .flexbox.palm-block
             .flexbox__item.one-whole.palm-block= participation_request_decorator.day_and_hour.capitalize
-            .flexbox__item.v-middle.nowrap.nowrap.text--right
+            .flexbox__item.v-middle.nowrap.text--right
               - if !participation_request.canceled?
                 = link_to t('.propose_another_date'), edit_participation_request_path(participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
@@ -96,7 +96,7 @@
                     = place.private_info
                   - else
                     %i.gray Pas de digicode ni d'info privée concernant l'accès.
-              .flexbox__item.v-middle.nowrap.nowrap.text--right
+              .flexbox__item.v-middle.nowrap.text--right
                 = link_to t('.see_on_map'), URI.encode("http://maps.google.com/?q=#{place.address}"), target: :_blank
         %tr.bordered--bottom.visuallyhidden--palm
           %th.v-middle.soft--sides.bordered--right.one-third.nowrap Ajouter au calendrier

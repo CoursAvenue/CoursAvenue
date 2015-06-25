@@ -1,7 +1,8 @@
 class Pro::Structures::ParticipationRequestsController < ApplicationController
 
-  before_action :authenticate_pro_admin!
-  load_and_authorize_resource :structure
+  before_action :authenticate_pro_admin!, except: [:show]
+  before_action :load_structure
+  authorize_resource :structure, except: [:show]
 
   layout 'admin'
 
@@ -97,4 +98,9 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     end
   end
 
+  private
+
+  def load_structure
+    @structure = Structure.friendly.find(params[:structure_id])
+  end
 end

@@ -50,4 +50,4 @@ fr:
     structures:
       new_participation_request: >
         Bonne nouvelle ! %{user_name} souhaite venir à une séance le %{date} à %{start_time}.
-        Connectez-vous à votre profil CoursAvenue pour lui répondre directement.
+        Vous avez 24h pour lui répondre : grâce au lien %{url} ou en vous connectant sur Pro.CoursAvenue.com

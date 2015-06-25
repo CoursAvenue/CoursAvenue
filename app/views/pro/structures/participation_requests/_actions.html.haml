@@ -1,12 +1,12 @@
 - position = 'right' if position.nil?
-.flexbox
+.flexbox.palm-block
   - if !@participation_request.canceled?
     - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and !@participation_request.past?
-      .flexbox__item.one-third.soft-half--right>
+      .flexbox__item.palm-push--bottom.palm-block.palm-one-whole.one-third.soft-half--right>
         = link_to accept_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full btn--green btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
           = t('.accept')
 
-    .flexbox__item.one-third.soft-half--right>
+    .flexbox__item.palm-push--bottom.palm-block.palm-one-whole.one-third.soft-half--right>
       .drop-down__wrapper{ data: { behavior: 'drop-down', el: '> .drop-down__el', position: position } }
         .btn--full.btn--orange.nowrap.btn
           %i.fa.fa-caret-down.float--right
@@ -24,7 +24,7 @@
                 = t('.ask_more_info')
 
   - if !@participation_request.canceled?
-    .flexbox__item.one-third>
+    .flexbox__item.palm-push--bottom.palm-block.palm-one-whole.one-third>
       = link_to cancel_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full btn--red btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
         - if @participation_request.charged? and ! @participation_request.refunded?
           = t('.refund')
