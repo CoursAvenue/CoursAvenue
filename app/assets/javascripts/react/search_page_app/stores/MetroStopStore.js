@@ -1,27 +1,14 @@
 var _                    = require('underscore'),
+    algoliasearch        = require('algoliasearch'),
     Backbone             = require('backbone'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants'),
+    MetroLineStore       = require('./MetroLineStore'),
     FluxBoneMixin        = require('../../mixins/FluxBoneMixin');
 
-var METRO_LINES = [
-    { name: 'Ligne 1',     slug: 'ligne-1' },
-    { name: 'Ligne 2',     slug: 'ligne-2' },
-    { name: 'Ligne 3',     slug: 'ligne-3' },
-    { name: 'Ligne 3 Bis', slug: 'ligne-3-bis' },
-    { name: 'Ligne 4',     slug: 'ligne-4' },
-    { name: 'Ligne 5',     slug: 'ligne-5' },
-    { name: 'Ligne 6',     slug: 'ligne-6' },
-    { name: 'Ligne 7',     slug: 'ligne-7' },
-    { name: 'Ligne 7 Bis', slug: 'ligne-7-bis' },
-    { name: 'Ligne 8',     slug: 'ligne-8' },
-    { name: 'Ligne 9',     slug: 'ligne-9' },
-    { name: 'Ligne 10',    slug: 'ligne-10' },
-    { name: 'Ligne 11',    slug: 'ligne-11' },
-    { name: 'Ligne 12',    slug: 'ligne-12' },
-    { name: 'Ligne 13',    slug: 'ligne-13' },
-    { name: 'Ligne 14',    slug: 'ligne-14' },
-];
+var client = algoliasearch(ENV['ALGOLIA_APPLICATION_ID'], ENV['ALGOLIA_SEARCH_API_KEY']),
+    index  = client.initIndex('Metro_Stop_' + ENV.SERVER_ENVIRONMENT);
+
 
 var MetroStop = Backbone.Model.extend({
     defaults: function defaults () {
@@ -46,7 +33,7 @@ var MetroStopStore = Backbone.Collection.extend({
     model: MetroStop,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'metroLines', 'fetchMetroStops', 'selectMetroStop');
+        _.bindAll(this, 'dispatchCallback', 'fetchMetroStops', 'selectMetroStop');
 
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
         this.metro_line = null;
@@ -55,6 +42,7 @@ var MetroStopStore = Backbone.Collection.extend({
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
             case ActionTypes.SELECT_METRO_LINE:
+                SearchPageDispatcher.waitFor([MetroLineStore.dispatchToken]);
                 this.fetchMetroStops(payload.data);
                 break;
             case ActionTypes.SELECT_METRO_STOP:
@@ -63,17 +51,19 @@ var MetroStopStore = Backbone.Collection.extend({
         }
     },
 
-    metroLines: function metroLines () {
-        return METRO_LINES;
-    },
-
     // When receiving the metro line to filter the stops by, we refetch the results if needed.
     fetchMetroStops: function fetchMetroStops (metro_line) {
-        if (this.metro_line == metro_line) { return ; }
+        this.metro_line = MetroLineStore.getSelectedLine();
 
-        this.metro_line = _.findWhere(METRO_LINES, { slug: metro_line });
+        index.search('', {
+            facets:      '*',
+            facetFilters: ['metro_lines:' + this.metro_line.get('slug')],
+            hitsPerPage: 100,
+        }, function(err, results) {
+            this.reset(results.hits);
+            this.trigger('change');
+        }.bind(this));
 
-        this.trigger('change');
     },
 
     selectMetroStop: function selectMetroStop (metro_stop_slug) {
