@@ -9,7 +9,7 @@ class ManagedAccountForm
     :business_address_line2, :business_address_city, :business_address_state,
     :business_address_postal_code,
 
-    :owner_first_name, :owner_last_name, :owner_dob, :owner_dob_day, :owner_dob_month,
+    :owner_first_name, :owner_last_name, :owner_dob_day, :owner_dob_month,
     :owner_dob_year, :owner_address_line1, :owner_address_line2, :owner_address_city,
     :owner_address_state, :owner_address_postal_code, :owner_address_country,
 
@@ -70,10 +70,6 @@ class ManagedAccountForm
   #
   # @return a Hash.
   def legal_entity
-    if owner_dob.present?
-      owner_dob_day, owner_dob_month, owner_dob_year = owner_dob.split('/').map(&:to_i)
-    end
-
     {
       address: {
         line1:       business_address_line1,
