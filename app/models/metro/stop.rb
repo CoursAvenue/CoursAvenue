@@ -1,6 +1,3 @@
-# TODO: Import metro stops.
-# http://data.ratp.fr/fr/les-donnees.html
-# https://raw.githubusercontent.com/vied12/timereader/master/data/stations.json
 class Metro::Stop < ActiveRecord::Base
   include AlgoliaSearch
   extend FriendlyId

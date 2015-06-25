@@ -15,6 +15,8 @@ class Metro::Line < ActiveRecord::Base
     attribute :id
     attribute :slug
     attribute :name
+    attribute :number
+    attribute :route_name
 
     add_attribute :metro_stops do
       self.stops.map(&:slug)
