@@ -135,6 +135,9 @@ class IndexableCard < ActiveRecord::Base
       end
     end
 
+    add_attribute :metro_stops do
+      place.nearby_metro_stops.map(&:slug) if place.present?
+    end
   end
   # :nocov:
 
