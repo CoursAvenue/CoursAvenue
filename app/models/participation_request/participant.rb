@@ -15,6 +15,6 @@ class ParticipationRequest::Participant < ActiveRecord::Base
   end
 
   def total_price
-    price.final_amount * number
+    price.present? ? price.final_amount * number : 0
   end
 end

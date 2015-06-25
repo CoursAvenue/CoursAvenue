@@ -1,0 +1,26 @@
+.panel
+  .panel__body.soft
+    = simple_form_for [:pro, @structure, ManagedAccountForm.new], url: update_payments_pro_structure_subscriptions_path(@structure), method: :patch, html: { id: 'managed_account_form' } do |f|
+      %div{ data: { behavior: 'show-more-on-demand' } }
+        %div{ data: { el: true, hidden: false } }
+          %h3 Informations personnelles
+
+          .input>
+            .control-label.v-middle>
+              %label.label--large Date de naissance
+            .input-container.v-middle>
+              = f.input :owner_dob_day, as: :select, include_blank: false, collection: (1..31).to_a, required: true, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
+              = f.input :owner_dob_month, as: :select, include_blank: false, collection: (1..12).to_a, required: true, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
+              = f.input :owner_dob_year, as: :select, include_blank: false, collection: (1900..(Date.today.year - 18)).to_a, required: true, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
+
+      .grid.push--top
+        .grid__item.three-twelfths>
+          = link_to 'Annuler', '#', class: 'btn btn--full btn--gray'
+        .grid__item.nine-twelfths>
+          = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
+          %div
+            En cliquant sur ce bouton, vous acceptez nos
+            = link_to 'CGV', '#'
+            CGV et celles de
+            = link_to "Stripe", "https://stripe.com/connect/account-terms", target: :_blank
+            \.

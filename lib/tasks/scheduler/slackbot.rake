@@ -6,9 +6,11 @@ namespace :scheduler do
 
     # Sends a message every monday morning to tell number of partcipation requests
     # $ rake scheduler:slackbot:presents_requests_metrics
+    # About the `next`:
+    # http://stackoverflow.com/questions/2316475/how-do-i-return-early-from-a-rake-task
     desc 'Send email to admins who have user requests not answered'
     task :presents_requests_metrics => :environment do |t, args|
-      return if !Date.today.monday?
+      next if !Date.today.monday?
       pr_count        = ParticipationRequest.where(created_at:(7.days.ago..Date.tomorrow)).count
       past_pr_count   = ParticipationRequest.where(created_at:(14.days.ago..7.days.ago)).count
       pr_count_growth = ((pr_count.to_f - past_pr_count.to_f) / past_pr_count.to_f) * 100
