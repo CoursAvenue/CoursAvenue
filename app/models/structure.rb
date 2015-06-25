@@ -1225,8 +1225,10 @@ class Structure < ActiveRecord::Base
     managed_account = self.stripe_managed_account
 
     options.keys.each do |key|
-      if managed_account.keys.include?(key) or managed_account.methods.include?(key)
-        managed_account[key] = options[key]
+      sym_key = key.to_sym
+      if managed_account.keys.include?(sym_key) or managed_account.methods.include?(sym_key)
+        managed_account[sym_key] = options[key]
+        options.delete(key)
       end
     end
 
