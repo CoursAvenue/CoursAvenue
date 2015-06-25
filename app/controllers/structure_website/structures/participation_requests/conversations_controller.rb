@@ -1,4 +1,4 @@
-class StructureWebsite::ParticipationRequests::ConversationsController < StructureWebsiteController
+class StructureWebsite::Structures::ParticipationRequests::ConversationsController < StructureWebsiteController
   include ConversationsHelper
 
   load_resource :participation_request, find_by: :token
