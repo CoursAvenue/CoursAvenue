@@ -8,6 +8,8 @@ class Metro::Stop < ActiveRecord::Base
 
   has_and_belongs_to_many :lines, class_name: 'Metro::Line'
 
+  attr_accessible :name, :description, :latitude, :longitude
+
   validates :name,      presence: true
   validates :latitude,  presence: true
   validates :longitude, presence: true
@@ -18,6 +20,7 @@ class Metro::Stop < ActiveRecord::Base
     attribute :id
     attribute :slug
     attribute :name
+    attribute :description
 
     add_attribute :_geoloc do
       { lat: self.latitude, lng: self.longitude }
