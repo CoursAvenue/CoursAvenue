@@ -1,5 +1,7 @@
 fr:
   stripe:
+    verification:
+      dob: Date de naissance
     error_codes:
       incorrect_number: Le numéro de carte est incorrect.
       invalid_number: Le numéro de carte n'est pas un numéro de carte valide.

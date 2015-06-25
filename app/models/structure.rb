@@ -1227,9 +1227,17 @@ class Structure < ActiveRecord::Base
     managed_account = self.stripe_managed_account
 
     options.keys.each do |key|
-      if managed_account.keys.include?(key) or managed_account.methods.include?(key)
-        managed_account[key] = options[key]
+      sym_key = key.to_sym
+      if managed_account.keys.include?(sym_key) or managed_account.methods.include?(sym_key)
+        managed_account[sym_key] = options[key]
+        options.delete(key)
       end
+    end
+
+    if options.any? and options.include?('owner_dob_day')
+      managed_account.legal_entity.dob.day   = options['owner_dob_day'].to_i
+      managed_account.legal_entity.dob.month = options['owner_dob_month'].to_i
+      managed_account.legal_entity.dob.year  = options['owner_dob_year'].to_i
     end
 
     managed_account.save

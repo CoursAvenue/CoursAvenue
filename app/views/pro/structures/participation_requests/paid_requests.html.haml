@@ -4,6 +4,9 @@
 
 %h1 Transactions CB
 
+- if @needed_informations.present?
+  = render 'needed_informations'
+
 - if @participation_requests.empty?
   .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.text--center
     %p.delta.line-height-1-5
@@ -42,3 +45,6 @@
           %td= participation_request.course.name
           %td= readable_amount participation_request.stripe_fee
           %td= readable_amount(participation_request.price - participation_request.stripe_fee)
+
+- content_for :scripts do
+  = javascript_include_tag 'https://js.stripe.com/v2/'

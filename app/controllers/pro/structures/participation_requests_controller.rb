@@ -18,6 +18,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   # GET pro/etablissements/:structure_id/inscriptions-via-carte-bleu
   def paid_requests
     @participation_requests = @structure.participation_requests.charged
+    @needed_informations    = managed_account_missing_informations
   end
 
   # GET pro/etablissements/:structure_id/participation_request/:id/edit
@@ -102,5 +103,21 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
 
   def load_structure
     @structure = Structure.friendly.find(params[:structure_id])
+  end
+
+  # The missing informations for the Stripe managed account.
+  #
+  # @return the fields.
+  def managed_account_missing_informations
+    return nil if (managed_account = @structure.stripe_managed_account).nil? or
+      managed_account.verification.fields_needed.empty?
+
+    fields = managed_account.verification.fields_needed
+    if fields.include?('legal_entity.dob.day')
+      fields.delete('legal_entity.dob.day')
+      fields.delete('legal_entity.dob.month')
+      fields.delete('legal_entity.dob.year')
+      fields << 'dob'
+    end
   end
 end

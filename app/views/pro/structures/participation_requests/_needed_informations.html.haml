@@ -1,0 +1,9 @@
+.text--center.push--bottom
+  .alert.alert--warning.soft.one-whole.delta
+    Certaines informations nécessaires au transferts des fonds lors des paiements sont manquantes :
+    %ul
+    - @needed_informations.each do |field|
+      %li #{ t('stripe.verification.' + field) }
+
+    Vous pouvez renseigner ces informations en
+    = link_to 'cliquant ici', update_payments_form_pro_structure_subscriptions_path(@structure, update: true ), class: 'fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 700 }
