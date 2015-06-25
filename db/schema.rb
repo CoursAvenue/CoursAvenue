@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150624100328) do
+ActiveRecord::Schema.define(version: 20150625143117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -638,8 +638,10 @@ ActiveRecord::Schema.define(version: 20150624100328) do
   create_table "metro_lines_stops", id: false, force: true do |t|
     t.integer "line_id"
     t.integer "stop_id"
+    t.integer "id"
   end
 
+  add_index "metro_lines_stops", ["id"], name: "index_metro_lines_stops_on_id", unique: true, using: :btree
   add_index "metro_lines_stops", ["line_id", "stop_id"], name: "index_metro_lines_stops_on_line_id_and_stop_id", unique: true, using: :btree
 
   create_table "metro_stops", force: true do |t|
