@@ -1,5 +1,6 @@
-var _           = require('underscore'),
-    FilterStore = require('./stores/FilterStore');
+var _             = require('underscore'),
+    LocationStore = require('./stores/LocationStore');
+    SubjectStore  = require('./stores/SubjectStore');
 
 var SearchPageAppRouter = Backbone.Router.extend({
 
@@ -15,13 +16,13 @@ var SearchPageAppRouter = Backbone.Router.extend({
 
     updateUrl: function updateUrl () {
         // /:city_id | /paris-12
-        if (_.isEmpty(FilterStore.get('subject')) && FilterStore.get('city')) {
-            this.navigate(FilterStore.get('city').slug);
+        if (!SubjectStore.selected_subject && !SubjectStore.selected_root_subject && LocationStore.get('address')) {
+            this.navigate(LocationStore.getCitySlug());
         //  /:root_subject_id--:city_id | /danse--paris-12
-        } else if (FilterStore.get('root_subject') && FilterStore.get('subject') && FilterStore.get('city')) {
-            this.navigate(FilterStore.get('root_subject').slug + '/' + FilterStore.get('subject').slug + '--' + FilterStore.get('city').slug);
-        } else if (FilterStore.get('city') && FilterStore.get('subject')) {
-            this.navigate(FilterStore.get('subject').slug + '--' + FilterStore.get('city').slug);
+        } else if (SubjectStore.selected_root_subject && SubjectStore.selected_subject && LocationStore.get('address')) {
+            this.navigate(SubjectStore.selected_root_subject.slug + '/' + SubjectStore.selected_subject.slug + '--' + LocationStore.getCitySlug());
+        } else if (LocationStore.get('address') && SubjectStore.selected_root_subject) {
+            this.navigate(SubjectStore.selected_root_subject.slug + '--' + LocationStore.getCitySlug());
         }
     }.debounce(500)
 

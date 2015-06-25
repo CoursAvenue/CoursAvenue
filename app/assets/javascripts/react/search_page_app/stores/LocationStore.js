@@ -51,6 +51,10 @@ var LocationStore = Backbone.Model.extend({
 
     isFilteredByAddress: function isFilteredByAddress (payload) {
         return !_.isUndefined(this.get('address')) && this.get('address').is_address;
+    },
+
+    getCitySlug: function getCitySlug () {
+        return this.get('address').name.toLowerCase().replace(/ /g,'-');
     }
 
 });
