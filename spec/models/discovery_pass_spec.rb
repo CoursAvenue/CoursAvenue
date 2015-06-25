@@ -11,11 +11,6 @@ describe DiscoveryPass, :type => :model do
       }
       let (:sponsorship)    { sponsor.sponsorships.create(sponsored_user: sponsored_user) }
 
-      before(:each) do
-        sponsored_user.confirm!
-        sponsorship.reload
-      end
-
       # TODO: I shouldn't have to reload the sponsoship twice.
       it 'applies the sponsorship promo' do
         sponsored_user.discovery_passes.create

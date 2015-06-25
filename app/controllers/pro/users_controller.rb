@@ -43,9 +43,4 @@ class Pro::UsersController < Pro::ProController
     end
   end
 
-  def activate
-    @user = User.find params[:id]
-    @user.confirm!
-    redirect_to pro_users_path
-  end
 end
