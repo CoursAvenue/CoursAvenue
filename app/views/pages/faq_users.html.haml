@@ -20,12 +20,12 @@
 .main-container.soft--ends
   .grid
     .grid__item.four-twelfths.soft--right>
-      %nav.white-box.side-menu.one-whole
-        %ul
+      %nav.bg-white.one-whole
+        %ul.no-bullet-list.flush.bordered--left.bordered--top.bordered--right
           - @sections.each_with_index do |section, index|
             - cache [section, 'faq/sidebar'] do
-              %li.omega.orange{ class: index == 0 ? 'active' : ''}
-                = link_to section.title, "##{section.slug}", class: 'side-menu-link', data: { toggle: 'tab' }
+              %li.faq-menu-link.omega.orange{ class: index == 0 ? 'active' : ''}
+                = link_to section.title, "##{section.slug}", class: 'not-outlined f-weight-600 gray bordered--bottom soft--sides soft-half--ends block', data: { toggle: 'tab' }
 
     .grid__item.eight-twelfths.white-box.soft>
       - @sections.each_with_index do |section, index|
