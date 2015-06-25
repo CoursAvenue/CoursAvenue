@@ -77,11 +77,11 @@ var CardCollection = Backbone.Collection.extend({
                 this.fetchDataFromServer();
                 break;
             case ActionTypes.HIGHLIGHT_MARKER:
-                _.invoke(this.models, 'set', { highlighted: false }, { silent: true })
+                _.invoke(this.models, 'set', { highlighted: false }, { silent: true });
                 payload.data.card.set({ highlighted: true });
                 break;
             case ActionTypes.UNHIGHLIGHT_MARKERS:
-                _.invoke(this.models, 'set', { highlighted: false }, { silent: true })
+                _.invoke(this.models, 'set', { highlighted: false }, { silent: true });
                 break;
         }
     },
@@ -104,7 +104,7 @@ var CardCollection = Backbone.Collection.extend({
         this.facets        = data.facets;
         this.total_results = data.nbHits;
         this.total_pages   = Math.ceil(this.total_results / HITS_PER_PAGES);
-        this.reset(data.hits);
+        this.reset(data.hits, { silent: true });
         this.current_page = 1;
         this.updateCardsShownRegardingPages();
     },
@@ -190,10 +190,8 @@ var CardCollection = Backbone.Collection.extend({
 
     updateCardsShownRegardingPages: function updateCardsShownRegardingPages () {
         // Unselect all models
-        this.map(function(card) {
-            card.set({ visible: false }, { silent: true });
-        });
         var selected_models_range = _.range((this.current_page - 1) * HITS_PER_PAGES, this.current_page * HITS_PER_PAGES);
+        _.invoke(this.models, 'set', { visible: false }, { silent: true });
         _.each(selected_models_range, function(card_index) {
             // Don't select not existing models, of course.
             if (card_index > (this.length - 1)) { return; }

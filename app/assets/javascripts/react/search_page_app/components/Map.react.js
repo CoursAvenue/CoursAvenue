@@ -86,7 +86,7 @@ var MapComponent = React.createClass({
     handleMoveend: function handleMoveend (leaflet_data) {
         // ----- We add guard to prevent from updating bounds when a popup is opened
         var popup_is_opened = _.some(this.marker_layer._layers, function(marker_layer) {
-            return marker_layer._popup._isOpen;
+            return marker_layer._popup && marker_layer._popup._isOpen;
         });
         if (popup_is_opened) { return; }
 
@@ -112,15 +112,27 @@ var MapComponent = React.createClass({
             var marker = L.marker([card.get('_geoloc').lat, card.get('_geoloc').lng], {
                 icon: this.getIconForCard(card)
             });
+            marker.card = card;
             this.marker_layer.addLayer(marker);
-            var string_popup = React.renderToString(<MarkerPopup card={card} />);
-            marker.bindPopup(string_popup, { className: 'ca-leaflet-popup' });
+            marker.on('click', this.showMarkerPopup(marker, card));
             if (card.get('highlighted')) {
-                marker.openPopup()
+                var string_popup = React.renderToString(<MarkerPopup card={card} />);
+                marker.bindPopup(string_popup, { className: 'ca-leaflet-popup' });
+                marker.openPopup();
             }
         }.bind(this));
     },
 
+    /*
+     * Encapsulate marker and card to the function
+     */
+    showMarkerPopup: function showMarkerPopup (marker, card) {
+        return function(event) {
+            var string_popup = React.renderToString(<MarkerPopup card={card} />);
+            marker.bindPopup(string_popup, { className: 'ca-leaflet-popup' });
+            marker.openPopup();
+        }
+    },
     getIconForCard: function getIconForCard (card) {
         return L.divIcon({
             className: 'map-box-marker map-box-marker__' + card.get('root_subject')
