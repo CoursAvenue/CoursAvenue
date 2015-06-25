@@ -98,13 +98,13 @@ fr:
           discuss: Discuter
           propose_another_date: Proposer une autre date
           ask_more_info: Envoyer un message
-          decline: Refuser l'inscription
+          decline: Refuser
           accept: Accepter
           refund: 'Annuler & Rembourser'
         table_recap:
           discuss: Discuter
           propose_another_date: Proposer une autre date
-          decline: Refuser l'inscription
+          decline: Refuser
           accept: Accepter
           refund: 'Annuler & Rembourser'
           see_on_map: Voir sur la carte
