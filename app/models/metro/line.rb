@@ -11,10 +11,12 @@ class Metro::Line < ActiveRecord::Base
   validates :route_name, presence: true
 
   # :nocov:
-  algoliasearch per_environment: true, disable_indexing: true do
+  algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
     attribute :id
     attribute :slug
     attribute :name
+    attribute :number
+    attribute :route_name
 
     add_attribute :metro_stops do
       self.stops.map(&:slug)
