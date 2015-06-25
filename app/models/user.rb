@@ -91,6 +91,7 @@ class User < ActiveRecord::Base
   # Called from Registration Controller when user registers for first time
   def after_registration
     send_pending_messages
+    update_sponsorship_status
   end
 
   # Not after create because user creation is made when teachers invite their students to post a comment
@@ -376,17 +377,6 @@ class User < ActiveRecord::Base
     return 0 unless self.city
     return 0 if around_courses_search.facet(:has_free_trial_lesson).rows.last.nil?
     around_courses_search.facet(:has_free_trial_lesson).rows.last.count
-  end
-
-  # Method called when a user confirm his registration
-  #
-  # @return nil
-  def confirm!
-    super
-    check_if_was_invited
-    send_welcome_email
-    update_sponsorship_status
-    nil
   end
 
   def send_welcome_email

@@ -78,7 +78,7 @@ describe User do
 
       it 'should update the sponsorship on confirmation' do
         sponsorship = user.sponsorships.create(sponsored_user: sponsored_user)
-        sponsored_user.confirm!
+        sponsored_user.after_registration
 
         sponsorship.reload
         expect(sponsorship.state).to eq("registered")
