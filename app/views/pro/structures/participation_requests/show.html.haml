@@ -1,19 +1,24 @@
-= side_menu_currently_at 'inscriptions'
-
 - participation_request_decorator = @participation_request.decorate
-= content_for :top_menu do
-  .flexbox
-    .flexbox__item.v-middle
-      %ol.nav.flush.breadcrumb{ itemprop: 'breadcrumb' }
-        %li.active-without-caret= link_to 'Mes inscriptions', pro_structure_participation_requests_path(@structure), class: 'semi-muted-link epsilon f-weight-600 soft--left soft-half--ends white'
-        %li.epsilon.f-weight-500.white.soft-half--ends= @user.name
-    - if !@participation_request.from_personal_website?
-      - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
-        .flexbox__item.v-middle.text--right.white.soft--right
-          %i.fa-clock-o.epsilon
-          %strong.epsilon Expire dans
-          %strong.epsilon{ data: { 'expires-in' => true } }
 
+- if current_pro_admin
+  = side_menu_currently_at 'inscriptions'
+
+-# Because this page can be accesed throught bitly as non connected user.
+- if current_pro_admin
+  = content_for :top_menu do
+    .flexbox
+      .flexbox__item.v-middle
+        %ol.nav.flush.breadcrumb{ itemprop: 'breadcrumb' }
+          %li.active-without-caret= link_to 'Mes inscriptions', pro_structure_participation_requests_path(@structure), class: 'semi-muted-link epsilon f-weight-600 soft--left soft-half--ends white'
+          %li.epsilon.f-weight-500.white.soft-half--ends= @user.name
+      - if !@participation_request.from_personal_website?
+        - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
+          .flexbox__item.v-middle.text--right.white.soft--right
+            %i.fa-clock-o.epsilon
+            %strong.epsilon Expire dans
+            %strong.epsilon{ data: { 'expires-in' => true } }
+- else
+  %h1 Demande d'inscription de #{@user.name}
 .push--bottom
   = render partial: 'pro/structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 

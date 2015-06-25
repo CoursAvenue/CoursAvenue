@@ -8,7 +8,7 @@
       %li.f-weight-600.delta= link_to 'Mes inscriptions', user_participation_requests_path(@user)
       %li.f-weight-600.delta= @structure.name
   .panel__body.soft--top
-    = render partial: 'participation_requests/table_recap', locals: { participation_request: @participation_request }
+    = render partial: 'structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
 .panel.push--bottom
   .panel__header.soft
@@ -33,5 +33,5 @@
       .grid--full
         .grid__item.two-twelfths.v-top.palm-one-whole>
         .grid__item.ten-twelfths.v-top.palm-one-whole>
-          = link_to edit_participation_request_path(@participation_request, discuss_only: true), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+          = link_to edit_structure_participation_request_path(@structure, @participation_request, discuss_only: true), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
             = t('.ask_more_info')

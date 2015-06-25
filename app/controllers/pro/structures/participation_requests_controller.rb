@@ -1,8 +1,13 @@
 class Pro::Structures::ParticipationRequestsController < ApplicationController
 
-  before_action :authenticate_pro_admin!, except: [:show]
+  # We authorize member actions if user is not logged in because we use tokens
+  before_action :authenticate_pro_admin!, except: [:show, :edit, :cancel_form, :report_form, :accept,
+                                                  :accept_form, :modify_date, :discuss, :cancel,
+                                                  :report]
+  authorize_resource :structure, except: [:show, :edit, :cancel_form, :report_form, :accept,
+                                                  :accept_form, :modify_date, :discuss, :cancel,
+                                                  :report]
   before_action :load_structure
-  authorize_resource :structure, except: [:show]
 
   layout 'admin'
 
@@ -51,7 +56,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     message_body = params[:participation_request][:message][:body] if params[:participation_request] and params[:participation_request][:message]
     @participation_request.accept!(message_body, 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_participation_requests_path(@structure), notice: "Votre confirmation vient d'être envoyée" }
+      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: "Votre confirmation vient d'être envoyée" }
     end
   end
 
@@ -66,7 +71,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_request = @structure.participation_requests.find(params[:id])
     @participation_request.modify_date!(params[:participation_request][:message][:body], params[:participation_request], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_participation_requests_path(@structure), notice: 'Le changement a bien été pris en compte' }
+      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: 'Le changement a bien été pris en compte' }
     end
   end
 
@@ -75,7 +80,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_request = @structure.participation_requests.find(params[:id])
     @participation_request.discuss!(params[:participation_request][:message][:body], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_participation_requests_path(@structure), notice: 'Le changement a bien été pris en compte' }
+      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: 'Le changement a bien été pris en compte' }
     end
   end
 
@@ -86,7 +91,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
 
     action_performed = @participation_request.charged? and @participation_request.refunded? ? 'remboursée' : 'refusée'
     respond_to do |format|
-      format.html { redirect_to pro_structure_participation_requests_path(@structure), notice: "La demande d'inscription a bien été #{ action_performed }" }
+      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: "La demande d'inscription a bien été #{ action_performed }" }
     end
   end
 
@@ -95,7 +100,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_request = @structure.participation_requests.find(params[:id])
     @participation_request.update_attributes params[:participation_request]
     respond_to do |format|
-      format.html { redirect_to pro_structure_participation_requests_path(@structure), notice: "Nous avons bien pris en compte votre signalement" }
+      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: "Nous avons bien pris en compte votre signalement" }
     end
   end
 

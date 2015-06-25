@@ -22,9 +22,9 @@
             .flexbox__item.v-middle.nowrap.text--right
               - if !@participation_request.canceled?
                 - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
-                  = link_to accept_form_participation_request_path(@participation_request), class: 'soft--sides push--right btn--green btn--small btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+                  = link_to accept_form_structure_participation_request_path(@structure, @participation_request), class: 'soft--sides push--right btn--green btn--small btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
                     = t('.accept')
-                = link_to cancel_form_participation_request_path(@participation_request), class: 'red fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+                = link_to cancel_form_structure_participation_request_path(@structure, @participation_request), class: 'red fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
                   - if @participation_request.charged?
                     = t('.refund')
                   - else
@@ -51,7 +51,7 @@
                 = course.name
             .flexbox__item.v-middle.nowrap.text--right
               - if !participation_request.canceled?
-                = link_to t('.propose_another_course'), edit_participation_request_path(participation_request, show_course_select: true), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+                = link_to t('.propose_another_course'), edit_structure_participation_request_path(@structure, participation_request, show_course_select: true), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
       - if @participation_request.from_personal_website?
         %tr.bordered--bottom
@@ -77,7 +77,7 @@
             .flexbox__item.one-whole.palm-block= participation_request_decorator.day_and_hour.capitalize
             .flexbox__item.v-middle.nowrap.text--right
               - if !participation_request.canceled?
-                = link_to t('.propose_another_date'), edit_participation_request_path(participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+                = link_to t('.propose_another_date'), edit_structure_participation_request_path(@structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
       - if place
         %tr.bordered--bottom

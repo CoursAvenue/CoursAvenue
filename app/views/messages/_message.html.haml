@@ -1,7 +1,7 @@
 .grid--full.push--bottom.message
   .grid__item.two-twelfths.v-top.v-top.palm-one-whole>
     = image_tag message.sender.avatar_url(:thumb), class: 'message__avatar rounded--circle block center-block bordered visuallyhidden--palm' if message.sender
-    %p.text--center.palm-text--left.push-half--bottom
+    %p.text--center.palm-text--left.push-half--bottom.line-height-1-7
       - if message.sender.is_a? Admin
         %strong= link_to message.sender.name, structure_url(message.sender.structure, subdomain: 'www'), class: 'semi-muted-link'
       - else

@@ -479,7 +479,7 @@ class ParticipationRequest < ActiveRecord::Base
     # If participation request is from personal website, send a SMS to user
     def send_sms_to_user
       if user.phone_number and user.sms_opt_in?
-        message = self.decorate.sms_message_for_new_request
+        message = self.decorate.sms_message_for_new_request_to_user
 
         user.delay.send_sms(message, user.phone_number)
       end

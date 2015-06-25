@@ -560,18 +560,6 @@ CoursAvenue::Application.routes.draw do
       resources :sponsorships, only: [:index, :new, :create], controller: 'users/sponsorships', path: 'mes-parrainages'
       resources :participation_requests, only: [:index, :show], controller: 'users/participation_requests', path: 'mes-inscriptions'
     end
-    resources :participation_requests, only: [:edit] do
-      member do
-        get   :report_form
-        get   :cancel_form
-        get   :accept_form
-        patch :accept
-        patch :discuss
-        patch :modify_date
-        patch :cancel
-        patch :report
-      end
-    end
     resources :sponsorships, only: [:show], path: 'obtenir-mon-pass-decouverte'
     resources :emails, only: [:create]
 
@@ -598,7 +586,18 @@ CoursAvenue::Application.routes.draw do
         get :search
         get :typeahead
       end
-      resources :participation_requests, only: [:create]                                    , controller: 'structures/participation_requests'
+      resources :participation_requests, only: [:create, :edit]                             , controller: 'structures/participation_requests' do
+        member do
+          get   :report_form
+          get   :cancel_form
+          get   :accept_form
+          patch :accept
+          patch :discuss
+          patch :modify_date
+          patch :cancel
+          patch :report
+        end
+      end
       resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'
       resources :messages              , only: [:create]                                    , controller: 'structures/messages'
       resources :places                , only: [:index]                                     , controller: 'structures/places'

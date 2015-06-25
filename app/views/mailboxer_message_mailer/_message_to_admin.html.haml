@@ -3,7 +3,7 @@
     %tr{ valign: 'top' }
       %td.text--center.v-top.content-block{ width: 125 }
         = image_tag user.avatar_url(:thumb), class: 'message__avatar rounded--circle bordered', width: 50, height: 50, alt: "Photo de #{user.name}"
-        .p.text--center.milli
+        .p.text--center.milli.line-height-1-7
           %strong= user.name
           %br
           = "#{l(message.created_at.to_date, format: :short)} à #{l(message.created_at, format: :short)}"

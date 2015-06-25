@@ -447,15 +447,8 @@ class Structure < ActiveRecord::Base
   # @return a Boolean, whether the sms was sent or not.
   def notify_new_participation_request_via_sms(participation_request)
     number = principal_mobile
-    pr_url = h.pro_structure_participation_request_url(self, participation_request, subdomain: 'pro')
-    bitly  = Bitly.client.shorten(pr_url)
     if number and sms_opt_in?
-      message = I18n.t('sms.structures.new_participation_request',
-                       user_name: participation_request.user.name,
-                       date: I18n.l(participation_request.date, format: :short),
-                       start_time: I18n.l(participation_request.start_time, format: :short),
-                       url: bitly.short_url)
-
+      message = participation_request.decorate.sms_message_for_new_request_to_teacher
       delay.send_sms(message, number.number)
     end
   end

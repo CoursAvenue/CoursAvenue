@@ -20,26 +20,28 @@
             = link_to structure_url(@structure, subdomain: 'www'), target: :_blank, class: 'white block soft-half--ends muted-link f-weight-bold', title: 'Voir&nbsp;mon&nbsp;profil&nbsp;public', data: { toggle: 'tooltip', placement: 'right', html: true } do
               %i.fa-eye.v-middle.epsilon
               = truncate(@structure.name, length: 80)
-              .fa.fa-caret-down.very-soft--left
-            .drop-down__el.drop-down__el--left
-              %ul.drop-down__el-inner-box.text--left
-                - if @structure.main_contact
+              - if current_pro_admin
+                .fa.fa-caret-down.very-soft--left
+            - if current_pro_admin
+              .drop-down__el.drop-down__el--left
+                %ul.drop-down__el-inner-box.text--left
+                  - if @structure.main_contact
+                    %li.nowrap.text--left
+                      = link_to edit_pro_structure_admin_path(@structure, @structure.main_contact) do
+                        %i.fa-cogs.soft-half--right
+                        = t('pro.structures.side_menu.account')
                   %li.nowrap.text--left
-                    = link_to edit_pro_structure_admin_path(@structure, @structure.main_contact) do
-                      %i.fa-cogs.soft-half--right
-                      = t('pro.structures.side_menu.account')
-                %li.nowrap.text--left
-                  = link_to new_pro_structure_invited_teacher_path(@structure, @structure.main_contact) do
-                    %i.fa-gift.soft-half--right
-                    = t('pro.structures.side_menu.share')
-                %li.nowrap.text--left
-                  = link_to communication_pro_structure_path(@structure) do
-                    %i.fa-bullhorn.soft-half--right
-                    = t('pro.structures.side_menu.communicate')
-                %li.nowrap.text--left
-                  = link_to destroy_pro_admin_session_path, method: :delete do
-                    %i.fa-sign-out.soft-half--right
-                    Déconnexion
+                    = link_to new_pro_structure_invited_teacher_path(@structure, @structure.main_contact) do
+                      %i.fa-gift.soft-half--right
+                      = t('pro.structures.side_menu.share')
+                  %li.nowrap.text--left
+                    = link_to communication_pro_structure_path(@structure) do
+                      %i.fa-bullhorn.soft-half--right
+                      = t('pro.structures.side_menu.communicate')
+                  %li.nowrap.text--left
+                    = link_to destroy_pro_admin_session_path, method: :delete do
+                      %i.fa-sign-out.soft-half--right
+                      Déconnexion
 
         .flexbox__item.wizard-container-width.visuallyhidden--palm
 

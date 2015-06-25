@@ -1,6 +1,0 @@
-- if params[:discuss_only].present?
-  - simple_form_url = discuss_participation_request_path(@participation_request)
-- else
-  - simple_form_url = modify_date_participation_request_path(@participation_request)
-
-= render partial: 'pro/participation_requests/modify_date', locals: { simple_form_array: [@participation_request], simple_form_url: simple_form_url, discuss_only: params[:discuss_only], show_course_select: params[:show_course_select] }

@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   layout 'users'
 
-  helper_method :mobile_device?, :layout_locals, :on_pro_subdomain?, :on_teacher_subdomain?
+  helper_method :mobile_device?, :layout_locals, :on_pro_subdomain?
 
   before_filter :update_sanitized_params, if: :devise_controller?
 
@@ -110,10 +110,6 @@ class ApplicationController < ActionController::Base
 
   def on_pro_subdomain?
     request.subdomain == 'pro'
-  end
-
-  def on_teacher_subdomain?
-    (request.subdomain.present? and request.subdomain != 'pro' and request.subdomain != 'www')
   end
 
   def robots

@@ -43,7 +43,7 @@
           %td.text--center.v-top.content-block{ width: 125 }
             = link_to structure_url(@structure, subdomain: 'www'), class: 'block' do
               = image_tag @structure.logo.url(:thumb), class: 'message__avatar rounded--circle bordered', width: 50, height: 50, alt: "Logo de #{ @structure.name }"
-            .p.text--center.milli
+            .p.text--center.milli.line-height-1-7
               %strong= @structure.name
 
           %td.soft-half--left.v-top.content-block{ width: 475 }

@@ -79,14 +79,15 @@ fr:
     participation_requests:
       show:
         ask_more_info: Envoyer un message
-  participation_requests:
-    table_recap:
-      see_on_map: Voir sur la carte
-      propose_another_date: Choisir une autre date
-      propose_another_course: Choisir un autre cours
-      decline: Annuler l'inscription
-      accept: Accepter
-      refund: Annuler et se faire rembourser
+  structures:
+    participation_requests:
+      table_recap:
+        see_on_map: Voir sur la carte
+        propose_another_date: Choisir une autre date
+        propose_another_course: Choisir un autre cours
+        decline: Annuler l'inscription
+        accept: Accepter
+        refund: Annuler et se faire rembourser
 
   pro:
     structures:

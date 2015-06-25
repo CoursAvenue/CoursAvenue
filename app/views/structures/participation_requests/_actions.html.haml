@@ -2,7 +2,7 @@
   - if !@participation_request.canceled?
     - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
       .flexbox__item.one-third.soft-half--right.palm-block.palm-one-whole>
-        = link_to accept_form_participation_request_path(@participation_request), class: 'btn--full btn--green btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+        = link_to accept_form_structure_participation_request_path(@structure, @participation_request), class: 'btn--full btn--green btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
           = t('.accept')
 
     .flexbox__item.one-third.soft-half--right.palm-block.palm-one-whole>
@@ -13,19 +13,19 @@
         .drop-down__el
           %ul.drop-down__el-inner-box
             %li.nowrap
-              = link_to edit_participation_request_path(@participation_request, show_course_select: true), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+              = link_to edit_structure_participation_request_path(@structure, @participation_request, show_course_select: true), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
                 Proposer un autre cours
             %li.nowrap
-              = link_to edit_participation_request_path(@participation_request), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+              = link_to edit_structure_participation_request_path(@structure, @participation_request), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
                 = t('.propose_another_date')
 
             %li.nowrap
-              = link_to edit_participation_request_path(@participation_request, discuss_only: true), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+              = link_to edit_structure_participation_request_path(@structure, @participation_request, discuss_only: true), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
                 = t('.ask_more_info')
 
   - if !@participation_request.canceled?
     .flexbox__item.one-third.palm-block.palm-one-whole>
-      = link_to cancel_form_participation_request_path(@participation_request), class: 'btn--full btn--red btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
+      = link_to cancel_form_structure_participation_request_path(@structure, @participation_request), class: 'btn--full btn--red btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
         - if @participation_request.charged?
           = t('.refund')
         - else
