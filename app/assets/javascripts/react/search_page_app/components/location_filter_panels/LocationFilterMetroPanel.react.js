@@ -72,8 +72,8 @@ var LocationFilterMetroPanel = React.createClass({
                 </div>
 
                 <div className="inline-block v-middle relative center-block text--left">
-                  <select onChange={ this.selectStop }>
-                  <option disabled selected></option>
+                  <select defaultValue='none' onChange={ this.selectStop }>
+                  <option disabled value='none'></option>
                       { metro_stops }
                   </select>
                 </div>
