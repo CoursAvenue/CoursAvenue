@@ -24,14 +24,14 @@ class ::Admin < ActiveRecord::Base
                   :structure_id,
                   :email_opt_in,
                   :student_action_email_opt_in, :newsletter_email_opt_in,
-                  :monday_email_opt_in, :jpo_email_opt_in, :stats_email, :delivery_email_status,
+                  :monday_email_opt_in, :stats_email, :delivery_email_status,
                   :sms_opt_in, :structure_attributes
 
   store_accessor :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in,
-                                       :monday_email_opt_in, :jpo_email_opt_in, :stats_email
+                                       :monday_email_opt_in, :stats_email
 
   define_boolean_accessor_for :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in, :monday_email_opt_in,
-                              :jpo_email_opt_in, :stats_email
+                              :stats_email
 
   ######################################################################
   # Relations                                                          #
@@ -189,7 +189,6 @@ class ::Admin < ActiveRecord::Base
     self.student_action_email_opt_in = true
     self.newsletter_email_opt_in     = true
     self.monday_email_opt_in         = true
-    self.jpo_email_opt_in            = true
     self.stats_email                 = true
     self.save(validate: false)
   end

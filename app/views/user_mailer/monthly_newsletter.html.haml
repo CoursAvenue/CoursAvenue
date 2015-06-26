@@ -43,7 +43,7 @@
                         - if similar_profile.courses.detect(&:is_published?)
                           %strong= truncate similar_profile.courses.select(&:is_published?).map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 24
                         - else
-                          %strong= truncate similar_profile.courses.active.map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 24
+                          %strong= truncate similar_profile.courses.map(&:subjects).flatten.uniq.map(&:name).map(&:capitalize).join(', '), length: 24
                         %br
                         = truncate similar_profile.name, length: 22
                         - if similar_profile.premium? and header_promotion_title_for_structure(similar_profile).present?

@@ -6,7 +6,6 @@ class UserProfile < ActiveRecord::Base
   DEFAULT_TAGS = {
     :comments              => 'Avis',
     :contacts              => "Demande d'info",
-    :jpo_2014              => 'JPO 2014',
     :following             => 'Favori',
     :participation_request => "Demande d'inscription"
   }

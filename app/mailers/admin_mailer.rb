@@ -100,14 +100,6 @@ class AdminMailer < ActionMailer::Base
   end
 
   ######################################################################
-  # JPOs                                                               #
-  ######################################################################
-  def your_jpo_courses_are_visible(structure)
-    @structure = structure
-    mail to: @structure.main_contact.email, subject: 'Vos ateliers pour les Portes Ouvertes sont maintenant visibles'
-  end
-
-  ######################################################################
   # Stickers                                                           #
   ######################################################################
   def stickers_has_been_ordered(sticker_demand)
@@ -142,18 +134,6 @@ class AdminMailer < ActionMailer::Base
     @email_text         = I18n.t("comments.recover_email_texts.#{deletion_reason_key}")
     mail to: @structure.main_contact.email, subject: "Votre demande de modification d'avis a bien été prise en compte"
   end
-
-  ######################################################################
-  # The End                                                            #
-  ######################################################################
-
-  ######################################################################
-  # Monday email / based on email_status                               #
-  ######################################################################
-  # def monday_jpo(structure)
-  #   @structure  = structure
-  #   mail to: structure.main_contact.email, subject: "J-5 avant vos Portes Ouvertes : annoncez la dernière ligne droite !"
-  # end
 
   ######################################################################
   # The End                                                            #

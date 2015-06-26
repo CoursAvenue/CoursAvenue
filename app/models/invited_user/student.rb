@@ -21,18 +21,6 @@ class InvitedUser::Student < InvitedUser
     User.where(email: _email).first
   end
 
-  def registered?
-    if self.invitation_for == 'jpo'
-      if referrer_type == 'Structure'
-        false
-      else
-        User.active.where(email: email).any?
-      end
-    else
-      registered
-    end
-  end
-
   private
 
   def create_user_if_doesnt_exist

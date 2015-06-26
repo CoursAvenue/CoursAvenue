@@ -416,8 +416,6 @@ class Structure < ActiveRecord::Base
     string :zip_codes, multiple: true do
       (self.places.map(&:zip_code) << self.zip_code).uniq
     end
-
-    double :jpo_score
   end
   # :nocov:
 
@@ -984,7 +982,7 @@ class Structure < ActiveRecord::Base
   # @return Subject at depth 0
   def dominant_root_subject
     Rails.cache.fetch ["Structure#dominant_root_subject", self] do
-      active_courses = courses.includes(:subjects).active
+      active_courses = courses.includes(:subjects)
       if active_courses.any? and (_subjects = active_courses.flat_map{ |c| c.subjects }).any?
         _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
       else
@@ -995,7 +993,7 @@ class Structure < ActiveRecord::Base
 
   # @return Subject at depth 2
   def dominant_subject
-    if courses.active.any? and (_subjects = courses.active.flat_map{ |c| c.subjects }).any?
+    if courses.any? and (_subjects = courses.flat_map{ |c| c.subjects }).any?
       _subjects.group_by(&:name).values.max_by(&:size).first
     else
       subjects.at_depth(2).group_by(&:root).values.max_by(&:size).first
