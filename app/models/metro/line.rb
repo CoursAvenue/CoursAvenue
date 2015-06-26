@@ -4,7 +4,7 @@ class Metro::Line < ActiveRecord::Base
   friendly_id :name, use: [:slugged, :finders]
 
   has_many :positions, -> { order(position: :asc) },
-    class_name: 'Metro::Position', foreign_key: 'metro_line_id'
+    class_name: 'Metro::Position', foreign_key: 'metro_line_id', dependent: :destroy
 
   has_many :stops, -> { order 'metro_positions.position ASC' },
     through: :positions, class_name: 'Metro::Stop'

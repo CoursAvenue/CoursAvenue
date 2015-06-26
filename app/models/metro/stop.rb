@@ -6,7 +6,7 @@ class Metro::Stop < ActiveRecord::Base
   reverse_geocoded_by :latitude, :longitude
 
   has_many :positions, -> { order(position: :asc) },
-    class_name: 'Metro::Position', foreign_key: 'metro_stop_id'
+    class_name: 'Metro::Position', foreign_key: 'metro_stop_id', dependent: :destroy
 
   has_many :lines, -> { order 'metro_lines.number ASC' },
     through: :positions, class_name: 'Metro::Line'
