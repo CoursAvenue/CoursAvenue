@@ -32,7 +32,8 @@ var MetroStopStore = Backbone.Collection.extend({
     model: MetroStop,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'fetchMetroStops', 'selectMetroStop', 'unsetStop');
+        _.bindAll(this, 'dispatchCallback', 'fetchMetroStops',
+                        'selectMetroStop', 'unsetStop', 'getSelectedStop');
 
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
         this.metro_line = null;
@@ -46,6 +47,7 @@ var MetroStopStore = Backbone.Collection.extend({
                 break;
             case ActionTypes.SELECT_METRO_STOP:
                 this.selectMetroStop(payload.data);
+                break;
             case ActionTypes.LOCATE_USER:
             case ActionTypes.SELECT_ADDRESS:
                 this.unsetStop();
@@ -71,6 +73,8 @@ var MetroStopStore = Backbone.Collection.extend({
         var current_stop = this.findWhere({ selected: true });
         var metro_stop   = this.findWhere({ slug: metro_stop_slug });
 
+        if (metro_stop == current_stop) { return ; }
+
         if (current_stop) { current_stop.toggleSelection(); }
         if (metro_stop)   { metro_stop.toggleSelection(); }
         this.trigger('change');
@@ -81,6 +85,7 @@ var MetroStopStore = Backbone.Collection.extend({
     },
 
     unsetStop: function unsetStop () {
+        if (!this.getSelectedStop()) { return ; }
         var current_stop = this.findWhere({ selected: true });
 
         if (current_stop) { current_stop.toggleSelection(); }
