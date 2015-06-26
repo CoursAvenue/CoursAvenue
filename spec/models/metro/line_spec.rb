@@ -7,8 +7,8 @@ RSpec.describe Metro::Line, type: :model do
   end
 
   context 'association' do
-    # TODO: Find why this fails when it shouldn't.
-    it { should have_and_belong_to_many(:stops).class_name('Metro::Stop') }
+    it { should have_many(:stops).class_name('Metro::Stop').through(:positions) }
+    it { should have_many(:positions).class_name('Metro::Position') }
   end
 
   subject { FactoryGirl.create(:metro_line) }

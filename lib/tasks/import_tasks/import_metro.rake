@@ -6,7 +6,7 @@ namespace :import do
   namespace :metro do
     desc 'Import Metro Lines'
     task :lines => :environment do
-      METRO_LINES = 'https://gist.githubusercontent.com/aliou/065689914b6677cfb06c/raw/ede73e485175b80a6bdb27f9ebf5aba8be038ed9/metro-lines.json'
+      METRO_LINES = 'https://gist.githubusercontent.com/aliou/065689914b6677cfb06c/raw/56d4a91ba9e314f00dd4b4345db69f4bf775d3b2/metro-lines.json'
       lines_data = JSON.parse(open(METRO_LINES).read)
 
       lines = Metro::Line.create(lines_data)
@@ -20,7 +20,7 @@ namespace :import do
         next
       end
 
-      METRO_STOPS = 'https://gist.githubusercontent.com/aliou/065689914b6677cfb06c/raw/0b1b742e3860f63daeb5c1f179774f8b8a43f271/metro-stops.json'
+      METRO_STOPS = 'https://gist.githubusercontent.com/aliou/065689914b6677cfb06c/raw/054f02f40ddcbfb09c138b4f6dda29cdbda20cd4/metro-stops.json'
       stops_data = JSON.parse(open(METRO_STOPS).read)
       bar = ProgressBar.new(302)
 
@@ -29,10 +29,10 @@ namespace :import do
         s = Metro::Stop.create(name: stop['name'], latitude: stop['latitude'], longitude: stop['longitude'], description: stop['description'])
 
         # Adding the stop to its lines.
-        stop['lines'].each do |line|
-          l = Metro::Line.where(slug: line).first
+        stop['lines'].each do |position|
+          l = Metro::Line.where(slug: position['line']).first
           if l.present?
-            l.stops << s
+            l.positions.create(line: l, stop: s, position: position['position'])
           end
         end
 
