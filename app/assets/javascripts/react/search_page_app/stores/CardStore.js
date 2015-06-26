@@ -52,6 +52,7 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.SET_PRICE_BOUNDS:
             case ActionTypes.TOGGLE_LEVEL:
             case ActionTypes.SELECT_METRO_STOP:
+            case ActionTypes.SELECT_METRO_LINE:
                 // Make sure the Filter store has finish everything he needs to do.
                 SearchPageDispatcher.waitFor([ FilterStore.dispatchToken, TimeStore.dispatchToken,
                                                AudienceStore.dispatchToken, SubjectStore.dispatchToken,
@@ -135,6 +136,13 @@ var CardCollection = Backbone.Collection.extend({
             data.aroundLatLng = LocationStore.get('user_location').latitude + ',' + LocationStore.get('user_location').longitude;
         } else if (LocationStore.get('address')) {
             data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
+        }
+        if (MetroLineStore.getSelectedLine()) {
+            data.metro_line = {
+                stops: MetroStopStore.map(function(stop) {
+                    return stop.get('slug')
+                })
+            };
         }
         if (MetroStopStore.getSelectedStop()) {
             data.metro_stop = MetroStopStore.getSelectedStop();

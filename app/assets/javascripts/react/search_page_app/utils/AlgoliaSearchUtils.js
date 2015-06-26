@@ -79,6 +79,13 @@ module.exports = {
             card_search_helper.addNumericRefinement('starting_price', '>=', data.prices[0]);
             card_search_helper.addNumericRefinement('starting_price', '<=', data.prices[1]);
         }
+
+        if (data.metro_line && !data.metro_stop) {
+            _.each(data.metro_line.stops, function(stop) {
+                card_search_helper.addDisjunctiveRefine('metro_stops', stop);
+            });
+        }
+
         if (data.metro_stop) {
             card_search_helper.addRefine('metro_stops', data.metro_stop.get('slug'));
         }
