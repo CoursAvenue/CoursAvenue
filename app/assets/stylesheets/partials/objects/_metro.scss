@@ -6,8 +6,8 @@ $metro_line_3_bis_color: #8BD3DE;
 $metro_line_4_color    : #B94D9A;
 $metro_line_5_color    : #F58F53;
 $metro_line_6_color    : #7AC597;
-$metro_line_7_color    : #7AC597;
-$metro_line_7_bis_color: #F39FB2;
+$metro_line_7_color    : #F39FB2;
+$metro_line_7_bis_color: #7AC597;
 $metro_line_8_color    : #C4A4CC;
 $metro_line_9_color    : #CEC83D;
 $metro_line_10_color   : #DFAF47;
@@ -28,9 +28,13 @@ $metro_line_14_color   : #65318F;
     font-weight   : bold;
     white-space   : nowrap;
 }
-.metro-line-bis {
+.metro-line--bis {
+    line-height: 1.1em;
+}
+.metro-line__bis {
     vertical-align: bottom;
     font-size     : 0.5em !important;
+    line-height   : 1em;
 }
 
 .metro-line-station-name {

@@ -86,9 +86,6 @@ module.exports = {
             });
         }
 
-        if (data.metro_stop) {
-            card_search_helper.addRefine('metro_stops', data.metro_stop.get('slug'));
-        }
         // By default, we want only upcoming courses | trainings
         // We have to divide per 1 000 because dates are in ms in JS.
         card_search_helper.addNumericRefinement('end_date', '>=', (new Date()).getTime() / 1000);

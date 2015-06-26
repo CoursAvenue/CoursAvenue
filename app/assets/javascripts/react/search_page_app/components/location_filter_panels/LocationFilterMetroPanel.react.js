@@ -1,6 +1,7 @@
 var FluxBoneMixin        = require("../../../mixins/FluxBoneMixin"),
     MetroLineStore       = require('../../stores/MetroLineStore'),
     MetroStopStore       = require('../../stores/MetroStopStore'),
+    MetroLineChip        = require('../../../components/MetroLineChip.react'),
     FilterActionCreators = require("../../actions/FilterActionCreators");
 
 var LocationFilterMetroPanel = React.createClass({
@@ -23,9 +24,10 @@ var LocationFilterMetroPanel = React.createClass({
         FilterActionCreators.closeFilterPanel();
     },
 
-    selectLine: function selectLine (event) {
-        var line = event.target.value;
-        FilterActionCreators.selectMetroLine(line);
+    selectLine: function selectLine (line) {
+        return function() {
+            FilterActionCreators.selectMetroLine(line);
+        }
     },
 
     selectStop: function selectStop (event) {
@@ -47,9 +49,13 @@ var LocationFilterMetroPanel = React.createClass({
         // TODO: Temporary, store in a MetroLineStore ?
         var metro_lines = this.state.metro_line_store.map(function(line, index) {
             return (
-                <option key={ index } value={ line.get('slug') }>{ line.get('name') }</option>
+                <div onClick={ this.selectLine(line.get('slug')) } key={ index }
+                      className="inline-block v-middle"
+                      style={ { paddingRight: '4px' } }>
+                      <MetroLineChip line={line.toJSON()}/>
+                </div>
             );
-        });
+        }.bind(this));
 
         return (
             <div>
@@ -65,15 +71,13 @@ var LocationFilterMetroPanel = React.createClass({
                 Choisissez une ligne et/ou une station
               </h2>
               <div>
-                <div className="inline-block v-middle relative center-block text--left">
-                  <select onChange={ this.selectLine }>
-                      { metro_lines }
-                  </select>
+                <div className="push-half--bottom center-block text--center">
+                  { metro_lines }
                 </div>
 
                 <div className="inline-block v-middle relative center-block text--left">
                   <select defaultValue='none' onChange={ this.selectStop }>
-                  <option disabled value='none'></option>
+                  <option value='none'></option>
                       { metro_stops }
                   </select>
                 </div>

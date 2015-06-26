@@ -108,8 +108,7 @@
             - @place.nearby_metro_stops.each do |stop|
               %div.push-half--bottom
                 - stop.lines.each do |line|
-                  .metro-line{ class: "metro-line-#{line.number}" }
-                    = line.number
+                  = MetroLineDecorator.new(line).chip
                 %strong.v-middle= stop.name
           - unless @structure.is_sleeping?
             %hr

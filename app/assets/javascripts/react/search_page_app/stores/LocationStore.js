@@ -18,6 +18,10 @@ var LocationStore = Backbone.Model.extend({
                 this.locateUser();
                 this.set('user_location');
                 break;
+            case ActionTypes.SELECT_METRO_LINE:
+            case ActionTypes.SELECT_METRO_STOP:
+                this.unset('user_location');
+                break;
             case ActionTypes.SELECT_ADDRESS:
                 this.unset('user_location');
                 this.set('address', payload.data);

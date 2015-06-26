@@ -134,19 +134,22 @@ var CardCollection = Backbone.Collection.extend({
         }
         if (LocationStore.get('user_location')) {
             data.aroundLatLng = LocationStore.get('user_location').latitude + ',' + LocationStore.get('user_location').longitude;
+        } else if (MetroStopStore.getSelectedStop()) {
+            data.aroundLatLng = MetroStopStore.getSelectedStop().coordinates().toString();
         } else if (LocationStore.get('address')) {
             data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
         }
-        if (MetroLineStore.getSelectedLine()) {
+
+        // Do not filter by line if a stop is selected, because if a stop is selected,
+        // we'll filter around a location
+        if (MetroLineStore.getSelectedLine() && !MetroStopStore.getSelectedStop()) {
             data.metro_line = {
                 stops: MetroStopStore.map(function(stop) {
                     return stop.get('slug')
                 })
             };
         }
-        if (MetroStopStore.getSelectedStop()) {
-            data.metro_stop = MetroStopStore.getSelectedStop();
-        }
+
         if (TimeStore.isFiltered()) {
             if (data.context == 'course') {
                 data.planning_periods = TimeStore.algoliaFilters()
@@ -185,6 +188,9 @@ var CardCollection = Backbone.Collection.extend({
         }
         if (PriceStore.algoliaFilters()) {
             filters.push({ title: "Prix", filter_key: 'price' });
+        }
+        if (MetroStopStore.getSelectedStop() || MetroLineStore.getSelectedLine()) {
+            filters.push({ title: "Metro", filter_key: 'metro' });
         }
         return filters;
     },

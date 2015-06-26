@@ -1,6 +1,7 @@
 var FluxBoneMixin          = require("../../mixins/FluxBoneMixin"),
     CardStore              = require("../stores/CardStore"),
     LocationStore          = require("../stores/LocationStore"),
+    MetroStopStore         = require("../stores/MetroStopStore"),
     SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
     LocationActionCreators = require("../actions/LocationActionCreators"),
     MarkerPopup            = require("./MarkerPopup.react"),
@@ -11,8 +12,9 @@ var MapComponent = React.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            card_store    : CardStore,
-            location_store: LocationStore
+            card_store      : CardStore,
+            location_store  : LocationStore,
+            metro_stop_store: MetroStopStore
         };
     },
 
@@ -44,6 +46,11 @@ var MapComponent = React.createClass({
             this.updateMarkerLayer();
         }.bind(this));
 
+        this.state.metro_stop_store.on('change', function() {
+            if (this.state.metro_stop_store.getSelectedStop()) {
+                this.map.setView(this.state.metro_stop_store.getSelectedStop().coordinates(), 15);
+            }
+        }.bind(this));
         this.state.location_store.on('all', function() {
             // Move Map ONLY IF we just changed address
             if (this.state.location_store.get('finding_user_position')) {

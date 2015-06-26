@@ -20,7 +20,7 @@ var MetroStop = Backbone.Model.extend({
     },
 
     coordinates: function coordinates () {
-        return [ this.get('latitude'), this.get('longitude') ];
+        return [ this.get('_geoloc').lat, this.get('_geoloc').lng ];
     },
 
     toggleSelection: function toggleSelection () {
@@ -47,6 +47,11 @@ var MetroStopStore = Backbone.Collection.extend({
                 break;
             case ActionTypes.SELECT_METRO_STOP:
                 this.selectMetroStop(payload.data);
+                break;
+            case ActionTypes.UNSET_FILTER:
+                if (payload.data == 'metro') {
+                    this.unsetStop();
+                }
                 break;
             case ActionTypes.LOCATE_USER:
             case ActionTypes.SELECT_ADDRESS:
