@@ -22,7 +22,7 @@ var MetroLineStore = Backbone.Collection.extend({
     model: MetroLine,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'selectLine');
+        _.bindAll(this, 'dispatchCallback', 'selectLine', 'unsetLine');
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
     },
 
@@ -30,6 +30,10 @@ var MetroLineStore = Backbone.Collection.extend({
         switch(payload.actionType) {
             case ActionTypes.SELECT_METRO_LINE:
                 this.selectLine(payload.data);
+                break;
+            case ActionTypes.LOCATE_USER:
+            case ActionTypes.SELECT_ADDRESS:
+                this.unsetLine()
                 break;
         }
     },
@@ -44,7 +48,13 @@ var MetroLineStore = Backbone.Collection.extend({
     },
 
     getSelectedLine: function getSelectedLine () {
-        return (this.findWhere({ selected: true }) || this.models[0]);
+        return this.findWhere({ selected: true });
+    },
+
+    unsetLine: function unsetLine () {
+        var current_line = this.findWhere({ selected: true });
+        if (current_line) { current_line.toggleSelection(); }
+        this.trigger('change');
     },
 });
 

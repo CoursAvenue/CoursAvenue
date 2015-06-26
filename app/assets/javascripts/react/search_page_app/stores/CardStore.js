@@ -8,6 +8,7 @@ var _                    = require('underscore'),
     AudienceStore        = require('../stores/AudienceStore'),
     LevelStore           = require('../stores/LevelStore'),
     MetroStopStore       = require('../stores/MetroStopStore'),
+    MetroLineStore       = require('../stores/MetroLineStore'),
     AlgoliaSearchUtils   = require('../utils/AlgoliaSearchUtils'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants');
@@ -51,11 +52,12 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.SET_PRICE_BOUNDS:
             case ActionTypes.TOGGLE_LEVEL:
             case ActionTypes.SELECT_METRO_STOP:
+            case ActionTypes.SELECT_METRO_LINE:
                 // Make sure the Filter store has finish everything he needs to do.
                 SearchPageDispatcher.waitFor([ FilterStore.dispatchToken, TimeStore.dispatchToken,
                                                AudienceStore.dispatchToken, SubjectStore.dispatchToken,
                                                LevelStore.dispatchToken, PriceStore.dispatchToken,
-                                               MetroStopStore.dispatchToken ]);
+                                               MetroStopStore.dispatchToken, MetroLineStore.dispatchToken]);
                 // Fetch the new cards.
                 this.fetchDataFromServer();
                 break;
@@ -135,8 +137,15 @@ var CardCollection = Backbone.Collection.extend({
         } else if (LocationStore.get('address')) {
             data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
         }
-        if ((metro_stop = MetroStopStore.getSelectedStop())) {
-            data.aroundLatLng = metro_stop.get('latitude') + ',' + metro_stop.get('longitude');
+        if (MetroLineStore.getSelectedLine()) {
+            data.metro_line = {
+                stops: MetroStopStore.map(function(stop) {
+                    return stop.get('slug')
+                })
+            };
+        }
+        if (MetroStopStore.getSelectedStop()) {
+            data.metro_stop = MetroStopStore.getSelectedStop();
         }
         if (TimeStore.isFiltered()) {
             if (data.context == 'course') {
