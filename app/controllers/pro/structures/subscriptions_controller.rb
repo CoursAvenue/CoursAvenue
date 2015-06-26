@@ -151,9 +151,23 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
     end
   end
 
+  def update_payments
+    @options = update_managed_account_params
+    @structure.update_managed_account(@options)
+
+    redirect_to paid_requests_pro_structure_participation_requests_path(@structure),
+      notice: 'Vos informations ont été reçus avec succès'
+  end
+
   # GET /pro/structures/subscriptions/accept_payments_form
   def accept_payments_form
+    if request.xhr?
+      render layout: false
+    end
+  end
 
+  # GET /pro/structures/subscriptions/update_payments_form
+  def update_payments_form
     if request.xhr?
       render layout: false
     end
@@ -171,5 +185,10 @@ class Pro::Structures::SubscriptionsController < Pro::ProController
 
   def subscription_plan_id_params
     params.permit(:plan_id, :coupon_code, :sponsorship_token)
+  end
+
+  def update_managed_account_params
+    params.require(:managed_account_form).
+      permit(:owner_dob_day, :owner_dob_month, :owner_dob_year)
   end
 end

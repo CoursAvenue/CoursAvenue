@@ -13,9 +13,9 @@
     \-
     = planning_decorator.join_levels
 
-  .flexbox__item.nowrap.text--right
+  .flexbox__item.text--right.nowrap
     = link_to edit_pro_structure_course_planning_path(structure, course, planning), title: 'Modifier le créneau', data: { toggle: 'tooltip', behavior: 'modal', width: '800', padding: '0', planning_id: planning.id, action: 'edit', lock_overlay: true }, class: 'fancybox.ajax muted-link orange very-soft--right' do
       %i.fa-pencil.epsilon
 
-    = link_to pro_structure_course_planning_path(structure, course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer le créneau', class: 'red muted-link', remote: true, data: { toggle: 'tooltip' } do
+    = link_to pro_structure_course_planning_path(structure, course, planning), method: 'delete', title: 'Supprimer le créneau', class: 'red muted-link', remote: true, data: { toggle: 'tooltip', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?' } do
       %i.fa-trash-o.epsilon

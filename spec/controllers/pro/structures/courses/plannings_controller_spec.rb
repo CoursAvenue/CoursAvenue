@@ -55,14 +55,6 @@ describe Pro::Structures::Courses::PlanningsController do
   end
 
   describe 'create' do
-    context 'open_course' do
-      let(:open_course) { FactoryGirl.create(:open_course, structure: @admin.structure) }
-      it 'redirects to open courses path' do
-        post :create, course_id: open_course.id, planning: {  }, structure_id: @admin.structure.slug, format: :js
-        expect(response).to be_success
-      end
-    end
-
     context 'lesson' do
       let(:lesson) { FactoryGirl.create(:lesson, structure: @admin.structure) }
       it 'redirects to open courses path' do

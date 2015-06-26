@@ -46,7 +46,7 @@ class HomeController < ApplicationController
 
   def layout_locals
     locals = { }
-    locals[:hide_top_menu_search] = true if action_name == 'discovery_pass' or action_name == 'index'
+    locals[:hide_top_menu_search] = true if action_name == 'index'
     locals[:hide_header] = true if action_name == 'resolutions' or action_name == 'resolutions_results'
     locals
   end

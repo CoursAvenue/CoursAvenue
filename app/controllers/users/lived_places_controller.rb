@@ -1,6 +1,6 @@
 class Users::LivedPlacesController < ApplicationController
-  before_action :authenticate_user!, except: [:bulk_create_jpo]
-  load_and_authorize_resource :user, except: [:bulk_create_jpo]
+  before_action :authenticate_user!
+  load_and_authorize_resource :user
 
   def destroy
     lived_place = @user.lived_places.find params[:id]

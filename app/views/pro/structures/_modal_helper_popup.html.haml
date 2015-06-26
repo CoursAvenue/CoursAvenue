@@ -26,7 +26,7 @@
         = link_to pro_structure_medias_path(@structure), class: 'semi-muted-link' do
           %i.fa.fa-plus.orange
           %span.soft-black-text-shadow Ajouter mes photos et vidéos
-    - if @structure.courses.without_open_courses.detect(&:is_published?).nil?
+    - if @structure.courses.detect(&:is_published?).nil?
       .line-height-1-5.delta.f-weight-bold.soft--left{ data: { behavior: 'side-menu-todo', url: regular_pro_structure_courses_path(@structure), name: 'Mettre à jour mon planning' } }
         = link_to regular_pro_structure_courses_path(@structure), class: 'semi-muted-link' do
           %i.fa.fa-plus.orange

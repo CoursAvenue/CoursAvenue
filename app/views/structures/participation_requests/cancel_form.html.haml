@@ -1,0 +1,26 @@
+- prefilled_message = "Bonjour #{@participation_request.structure.name},\n\r\n\rMalheureusement, je suis dans l'obligation d'annuler ma séance d'essai qui était prévue le #{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}.\n\r\n\rJe vous prie de bien vouloir m'excuser et vous remercie d'avance pour votre compréhension,\n\r\n\r#{@participation_request.user.name}"
+
+.panel
+  .panel__header.soft
+    %h4.flush
+      Annuler la demande d'inscription
+  .panel__body.soft
+    = simple_form_for [@participation_request], url: cancel_participation_request_path(@participation_request), html: { id: 'participation-request-form' } do |f|
+      = f.error_notification
+      = f.input :cancelation_reason_id, as: :select, collection: ParticipationRequest::CancelationReason.find_all_by_type('user'), label_method: lambda{|reason| t(reason.name)}, label: false, include_blank: t('participation_request.cancelation_reason.include_blank'), input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush--top' }
+      = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
+        = message_form.input :body, input_html: { value: prefilled_message, placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+
+
+      - if !@participation_request.from_personal_website?
+        = render partial: 'pro/structures/participation_requests/dont_contact_information'
+
+      .grid
+        .grid__item.two-tenths.palm-one-whole.palm-push--bottom>
+          %a.btn.btn--full{ href: '#', onclick: '$.fancybox.close();' } Fermer
+        .grid__item.eight-tenths.palm-one-whole>
+          = f.submit 'Envoyer', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
+
+- if !@participation_request.from_personal_website?
+  :javascript
+    $('#participation-request-message').preventFromContact();

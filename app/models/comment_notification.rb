@@ -31,12 +31,7 @@ class CommentNotification < ActiveRecord::Base
   end
 
   def complete?
-    case notification_for
-    when 'jpo'
-      (self.user.participations.not_canceled.not_in_waiting_list.map(&:structure) - self.user.comments.map(&:structure)).empty?
-    else
-      self.status == 'completed'
-    end
+    self.status == 'completed'
   end
 
   def ask_for_recommandations_stage_1

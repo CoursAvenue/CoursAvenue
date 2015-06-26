@@ -1,0 +1,21 @@
+.panel
+  .panel__header.soft
+    %h4.flush
+      Accepter la demande d'inscription
+  .panel__body.soft
+
+    = simple_form_for [@participation_request], url: accept_participation_request_path(@participation_request) do |f|
+      = f.error_notification
+      = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
+        = message_form.input :body, input_html: { placeholder: "Ajouter un message facultatif pour le professeur...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+
+      = render partial: 'pro/structures/participation_requests/dont_contact_information'
+
+      .grid
+        .grid__item.one-third.palm-one-whole.palm-push--bottom>
+          %a.btn.btn--gray.btn--full{ onclick: '$.fancybox.close()' } Fermer
+        .grid__item.two-thirds.palm-one-whole>
+          = f.submit 'Accepter', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
+
+:javascript
+  $('#participation-request-message').preventFromContact();

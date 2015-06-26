@@ -15,9 +15,9 @@
         = render partial: 'pro/structures/participation_requests/dont_contact_information'
 
       .grid
-        .grid__item.one-third>
+        .grid__item.one-third.palm-one-whole.palm-push--bottom>
           %a.btn.btn--gray.btn--full{ onclick: '$.fancybox.close()' } Fermer
-        .grid__item.two-thirds>
+        .grid__item.two-thirds.palm-one-whole>
           = f.submit 'Accepter', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
 
 - if !@participation_request.from_personal_website?

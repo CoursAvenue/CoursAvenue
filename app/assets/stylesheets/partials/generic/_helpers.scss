@@ -218,8 +218,12 @@
 .soft-double--sides {
     padding-left: $base-spacing-unit * 2; padding-right: $base-spacing-unit * 2;
     @include media-query(palm) {
-        // We can't use @extend .soft--sides here because of the media query
-        padding-left: $base-spacing-unit; padding-right: $base-spacing-unit;
+        padding-left: $base-spacing-unit / 2; padding-right: $base-spacing-unit / 2;
+    }
+}
+.soft--sides {
+    @include media-query(palm) {
+        padding-left: $base-spacing-unit / 2!important; padding-right: $base-spacing-unit / 2!important;
     }
 }
 .push-double--top   {
@@ -257,13 +261,16 @@
     padding-top   : $base-spacing-unit * 3 !important;
     padding-bottom: $base-spacing-unit * 3 !important;
 }
-.palm-push--bottom  { @include media-query(palm) { margin-bottom : $base-spacing-unit !important; } }
-.palm-push--top     { @include media-query(palm) { margin-top : $base-spacing-unit !important; } }
-.palm-push          { @include media-query(palm) { margin : $base-spacing-unit !important; } }
-.palm-flush         { @include media-query(palm) { margin : 0                  !important; } }
-.palm-hard          { @include media-query(palm) { padding: 0                  !important; } }
-.palm-block         { @include media-query(palm) { display: block              !important; } }
-.palm-float-none    { @include media-query(palm) { float  : none              !important; } }
+.palm-soft-half--ends   { @include media-query(palm) { padding-bottom : $base-spacing-unit / 2 !important; padding-top : $base-spacing-unit / 2 !important; } }
+.palm-soft-half--top    { @include media-query(palm) { padding-top : $base-spacing-unit / 2 !important; } }
+.palm-soft-half--bottom { @include media-query(palm) { padding-bottom : $base-spacing-unit / 2 !important; } }
+.palm-push--bottom      { @include media-query(palm) { margin-bottom : $base-spacing-unit !important; } }
+.palm-push--top         { @include media-query(palm) { margin-top : $base-spacing-unit !important; } }
+.palm-push              { @include media-query(palm) { margin : $base-spacing-unit !important; } }
+.palm-flush             { @include media-query(palm) { margin : 0                  !important; } }
+.palm-hard              { @include media-query(palm) { padding: 0                  !important; } }
+.palm-block             { @include media-query(palm) { display: block              !important; } }
+.palm-float-none        { @include media-query(palm) { float  : none              !important; } }
 .palm-center-block {
     @include media-query(palm) {
         margin-left: auto !important;

@@ -52,7 +52,6 @@ class Structure < ActiveRecord::Base
   has_many :courses                   , dependent: :destroy
   has_many :plannings                 , through: :courses
   has_many :cities                    , through: :places
-  has_many :participations            , through: :plannings
   has_many :reservations,         as: :reservable
   has_many :comment_notifications     , dependent: :destroy
   has_many :sticker_demands           , dependent: :destroy
@@ -141,12 +140,10 @@ class Structure < ActiveRecord::Base
   # To store hashes into hstore
   store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
                              :has_promotion, :has_free_trial_course, :has_promotion,
-                             :course_names, :open_course_names, :open_course_subjects,
-                             :highlighted_comment_title, :min_price_amount,
+                             :course_names, :highlighted_comment_title, :min_price_amount,
                              :max_price_libelle, :level_ids, :audience_ids, :busy,
-                             :open_courses_open_places, :open_course_nb, :jpo_email_status,
-                             :open_course_plannings_nb, :response_rate, :response_time,
-                             :gives_non_professional_courses, :gives_professional_courses,
+                             :response_rate, :response_time, :gives_non_professional_courses,
+                             :gives_professional_courses,
                              :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score,
                              :search_score_updated_at, :is_sleeping, :sleeping_email_opt_in,
                              :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient,
@@ -241,7 +238,7 @@ class Structure < ActiveRecord::Base
 
     integer :search_score_danse do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'danse'
+      if self.courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'danse'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -249,7 +246,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_theatre_scene do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'theatre-scene'
+      if self.courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'theatre-scene'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -257,7 +254,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_yoga_bien_etre_sante do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'yoga-sante-bien_etre'
+      if self.courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'yoga-sante-bien_etre'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -265,7 +262,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_musique_chant do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'musique-chant'
+      if self.courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'musique-chant'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -273,7 +270,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_deco_mode_bricolage do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'deco-mode-bricolage'
+      if self.courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'deco-mode-bricolage'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -281,7 +278,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_dessin_peinture_arts_plastiques do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'dessin-peinture-arts'
+      if self.courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'dessin-peinture-arts'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -289,7 +286,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_sports_arts_martiaux do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'sports-arts-martiaux'
+      if self.courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'sports-arts-martiaux'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -297,7 +294,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_cuisine_vins do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'cuisine-vins'
+      if self.courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'cuisine-vins'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -305,7 +302,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_photo_video do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'photo-video'
+      if self.courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'photo-video'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -313,7 +310,7 @@ class Structure < ActiveRecord::Base
     end
     integer :search_score_other do
       compute_search_score if search_score.blank?
-      if self.courses.without_open_courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'other'
+      if self.courses.flat_map(&:subjects).map(&:root).uniq.map(&:slug).include? 'other'
         self.search_score.to_i + 20
       else
         self.search_score
@@ -450,13 +447,8 @@ class Structure < ActiveRecord::Base
   # @return a Boolean, whether the sms was sent or not.
   def notify_new_participation_request_via_sms(participation_request)
     number = principal_mobile
-
     if number and sms_opt_in?
-      message = I18n.t('sms.structures.new_participation_request',
-                       user_name: participation_request.user.name,
-                       date: I18n.l(participation_request.date, format: :short),
-                       start_time: I18n.l(participation_request.start_time, format: :short))
-
+      message = participation_request.decorate.sms_message_for_new_request_to_teacher
       delay.send_sms(message, number.number)
     end
   end
@@ -543,10 +535,6 @@ class Structure < ActiveRecord::Base
   def disable!
     self.active = false
     save
-    courses.each do |course|
-      course.active = false
-      course.save
-    end
   end
 
   def ratio_from_original_from_large
@@ -650,16 +638,6 @@ class Structure < ActiveRecord::Base
   end
 
 
-  # Tells if the structure has open courses plannings
-  #
-  # @return Boolean
-  def has_open_course_plannings?
-    courses.open_courses.each do |course|
-      return true if course.plannings.any?
-    end
-    return false
-  end
-
   # TODO this method doesn't actually work:
   # according to the rspec tests, the resulting
   # change to the user_profile leaves it with
@@ -700,29 +678,6 @@ class Structure < ActiveRecord::Base
     user_profile.last_name  = user.last_name    if user_profile.last_name.nil?
     user_profile.phone      = user.phone_number if user_profile.phone.nil?
     add_tags_on(user_profile, tag) if tag
-  end
-
-  # Total nb JPO places given by the structure
-  #
-  # @return Integer nb_place
-  def total_jpo_places
-    courses.open_courses.map do |course|
-      course.nb_participants_max * course.plannings.count
-    end.reduce(&:+)
-  end
-
-  # Total nb places left by the structure
-  #
-  # @return Integer nb_place
-  def total_jpo_places_left
-    courses.open_courses.map do |course|
-      course.plannings.map(&:places_left).reduce(&:+) || 0
-    end.reduce(&:+)
-  end
-
-  def jpo_score
-    return 0 if total_jpo_places.nil? or total_jpo_places == 0
-    participations.not_canceled.count.to_f / total_jpo_places.to_f
   end
 
   def email_opt_in
@@ -1228,9 +1183,17 @@ class Structure < ActiveRecord::Base
     managed_account = self.stripe_managed_account
 
     options.keys.each do |key|
-      if managed_account.keys.include?(key) or managed_account.methods.include?(key)
-        managed_account[key] = options[key]
+      sym_key = key.to_sym
+      if managed_account.keys.include?(sym_key) or managed_account.methods.include?(sym_key)
+        managed_account[sym_key] = options[key]
+        options.delete(key)
       end
+    end
+
+    if options.any? and options.include?('owner_dob_day')
+      managed_account.legal_entity.dob.day   = options['owner_dob_day'].to_i
+      managed_account.legal_entity.dob.month = options['owner_dob_month'].to_i
+      managed_account.legal_entity.dob.year  = options['owner_dob_year'].to_i
     end
 
     managed_account.save

@@ -5,7 +5,7 @@
 .grid.push--bottom
   .grid__item.one-half.palm-one-whole.v-middle>
     %h1.flush Mon planning
-  .grid__item.one-half.palm-one-whole.palm-text--left.v-middle.text--right{ class: (@structure.courses.without_open_courses.any? ? '' : 'hidden'), data: { add_course: true } }>
+  .grid__item.one-half.palm-one-whole.palm-text--left.v-middle.text--right{ class: (@structure.courses.any? ? '' : 'hidden'), data: { add_course: true } }>
     = render partial: 'pro/structures/courses/add_activity_button'
 
 #trainings-header.bg-white.soft--top.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 35, z: 500, old_width: 'true' } }
@@ -26,7 +26,7 @@
   - @privates.each do |course|
     = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
-.bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.text--center{ class: (@structure.courses.without_open_courses.empty? ? '' : 'hidden'), data: { empty: 'courses'} }
+.bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.text--center{ class: (@structure.courses.empty? ? '' : 'hidden'), data: { empty: 'courses'} }
   %p.delta
     Vous n'avez pas encore d'activité à votre planning.
   = render partial: 'pro/structures/courses/add_activity_button'

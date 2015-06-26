@@ -45,15 +45,11 @@ class Course < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :active,                      -> { where( active: true ) }
-  scope :disabled,                    -> { where( active: false ) }
   scope :lessons,                     -> { where( type: "Course::Lesson" ) }
   scope :trainings,                   -> { where( type: "Course::Training" ) }
   scope :privates,                    -> { where( type: "Course::Private" ) }
   scope :regulars,                    -> { where(arel_table[:type].eq('Course::Private').or(arel_table[:type].eq('Course::Lesson')) ) }
   scope :collective,                  -> { where(arel_table[:type].eq('Course::Lesson').or(arel_table[:type].eq('Course::Training')) ) }
-  scope :without_open_courses,        -> { where.not( type: 'Course::Open' ) }
-  scope :open_courses,                -> { where( type: 'Course::Open' ) }
   scope :open_for_trial,              -> { where( is_open_for_trial: true ) }
   scope :not_open_for_trial,          -> { where( arel_table[:is_open_for_trial].eq(false).or(arel_table[:is_open_for_trial].eq(nil)) ) }
 
@@ -66,10 +62,9 @@ class Course < ActiveRecord::Base
   validates :name, length: { maximum: 255 }
 
   attr_accessible :name, :type, :description,
-                  :active, :info, :is_promoted,
+                  :active, :info,
                   :frequency, :is_individual,
                   :cant_be_joined_during_year,
-                  :nb_participants,
                   :no_class_during_holidays,
                   :start_date, :end_date,
                   :subject_ids, :level_ids, :audience_ids, :place_id,
@@ -203,9 +198,6 @@ class Course < ActiveRecord::Base
       comments.count
     end
 
-    boolean :active
-
-    boolean :is_promoted
     boolean :has_promotion
 
     boolean :has_package_price
@@ -293,17 +285,6 @@ class Course < ActiveRecord::Base
     self.description.gsub(/\r\n\r\n/, ' ').html_safe if self.description
   end
 
-  def activate!
-    if price_group and plannings.any?
-      self.active = true
-      return save
-    else
-      errors.add(:price_group, "Le cours n'a pas de tarifs")    unless price_group
-      errors.add(:plannings,   "Le cours n'a pas de plannings") if plannings.empty?
-      return false
-    end
-  end
-
   def contact_email
     self.structure.contact_email
   end
@@ -353,9 +334,9 @@ class Course < ActiveRecord::Base
   def set_has_promotion
     if self.price_group_id_changed? or self.prices.any?(&:changed?)
       if (self.prices + self.price_group_prices).empty?
-        self.update_column :has_promotion, false
+        self.has_promotion = false
       elsif (self.prices + self.price_group_prices).detect(&:promo_amount)
-        self.update_column :has_promotion, true
+        self.has_promotion = true
       end
     end
     nil

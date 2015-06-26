@@ -134,8 +134,18 @@ class ParticipationRequestDecorator < Draper::Decorator
     _details.html_safe
   end
 
-  def sms_message_for_new_request
-    pr_url = h.structure_website_structure_participation_request_url(object.structure, object, subdomain: object.structure.subdomain_slug)
+  def sms_message_for_new_request_to_teacher
+    pr_url = h.pro_structure_participation_request_url(object.structure, participation_request, subdomain: 'pro')
+    bitly  = Bitly.client.shorten(pr_url)
+    message = I18n.t('sms.structures.new_participation_request',
+                     user_name: participation_request.user.name,
+                     date: I18n.l(participation_request.date, format: :short),
+                     start_time: I18n.l(participation_request.start_time, format: :short),
+                     url: bitly.short_url)
+  end
+
+  def sms_message_for_new_request_to_user
+    pr_url = h.structure_website_structure_participation_request_url(object.structure, object, subdomain: 'www')
     bitly  = Bitly.client.shorten(pr_url)
     course = object.course
     default_attributes = { day:            I18n.l(object.date),

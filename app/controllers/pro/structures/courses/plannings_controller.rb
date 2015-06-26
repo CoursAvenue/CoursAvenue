@@ -37,12 +37,7 @@ class Pro::Structures::Courses::PlanningsController < InheritedResources::Base
     @planning.course    = @course
     set_dates_and_times
     respond_to do |format|
-      if @planning.save
-        @course.activate! unless @course.active?
-        format.js
-      else
-        format.js
-      end
+      format.js
     end
   end
 
@@ -60,7 +55,7 @@ class Pro::Structures::Courses::PlanningsController < InheritedResources::Base
 
   def destroy
     @course   = Course.find(params[:course_id])
-    @planning = @course.plannings.where(params[:id]).first
+    @planning = @course.plannings.where(id: params[:id]).first
     @planning.destroy if @planning.present?
     respond_to do |format|
       format.js

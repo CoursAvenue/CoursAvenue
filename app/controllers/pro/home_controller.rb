@@ -31,14 +31,6 @@ class Pro::HomeController < Pro::ProController
     @email = ::Email.new
   end
 
-  def jpo
-    redirect_to root_url(subdomain: 'pro'), status: 301
-  end
-
-  def july_offer
-    redirect_to root_url(subdomain: 'pro', notice: "L'offre spécial été n'est plus valable"), status: 301
-  end
-
   def convictions
     redirect_to pro_pages_why_be_recommended_url(subdomain: 'pro'), status: 301
   end

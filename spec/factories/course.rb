@@ -9,7 +9,6 @@ FactoryGirl.define do
       course.prices.build type: 'Price::Trial', amount: 0
     end
 
-    active                      true
     type                        'Course::Lesson'
     start_date                  { Date.today }
     end_date                    { Date.tomorrow }
@@ -23,12 +22,6 @@ FactoryGirl.define do
     end
     factory :training, class: 'Course::Training' do
       type 'Course::Training'
-    end
-    factory :open_course, class: 'Course::Open' do
-      type                'Course::Open'
-      event_type          'lorem'
-      nb_participants_min  3
-      nb_participants_max  10
     end
 
     factory :course_for_kid do

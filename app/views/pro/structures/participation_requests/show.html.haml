@@ -1,30 +1,35 @@
-= side_menu_currently_at 'inscriptions'
-
 - participation_request_decorator = @participation_request.decorate
-= content_for :top_menu do
-  .flexbox
-    .flexbox__item.v-middle
-      %ol.nav.flush.breadcrumb{ itemprop: 'breadcrumb' }
-        %li.active-without-caret= link_to 'Mes inscriptions', pro_structure_participation_requests_path(@structure), class: 'semi-muted-link epsilon f-weight-600 soft--left soft-half--ends white'
-        %li.epsilon.f-weight-500.white.soft-half--ends= @user.name
-    - if !@participation_request.from_personal_website?
-      - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
-        .flexbox__item.v-middle.text--right.white.soft--right
-          %i.fa-clock-o.epsilon
-          %strong.epsilon Expire dans
-          %strong.epsilon{ data: { 'expires-in' => true } }
 
+- if current_pro_admin
+  = side_menu_currently_at 'inscriptions'
+
+-# Because this page can be accesed throught bitly as non connected user.
+- if current_pro_admin
+  = content_for :top_menu do
+    .flexbox
+      .flexbox__item.v-middle
+        %ol.nav.flush.breadcrumb{ itemprop: 'breadcrumb' }
+          %li.active-without-caret= link_to 'Mes inscriptions', pro_structure_participation_requests_path(@structure), class: 'semi-muted-link epsilon f-weight-600 soft--left soft-half--ends white'
+          %li.epsilon.f-weight-500.white.soft-half--ends= @user.name
+      - if !@participation_request.from_personal_website?
+        - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
+          .flexbox__item.v-middle.text--right.white.soft--right
+            %i.fa-clock-o.epsilon
+            %strong.epsilon Expire dans
+            %strong.epsilon{ data: { 'expires-in' => true } }
+- else
+  %h1.palm-text--center Demande d'inscription de #{@user.name}
 .push--bottom
   = render partial: 'pro/structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
 - user           = @participation_request.user
 - user_decorator = user.decorate
-%h3 À propos de l'élève
+%h3.palm-text--center À propos de l'élève
 .grid--full.push--bottom.message
-  .grid__item.two-twelfths.v-top.v-top>
+  .grid__item.palm-one-whole.palm-block.palm-text--center.two-twelfths.v-top.v-top>
     - if user.has_avatar?
       = image_tag user.avatar_url(:normal), class: 'center-block push-half--bottom rounded--circle', width: 100
-  .grid__item.ten-twelfths.v-top>
+  .grid__item.palm-one-whole.palm-block.palm-text--center.ten-twelfths.v-top>
     %h4.line-height-1-7.flush= user.name
     %div.line-height-1-7
       Profil : #{user_decorator.age_and_city}
@@ -44,22 +49,15 @@
 - if !@participation_request.pending?
   = render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation }
 = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
-- if @participation_request.pending?
-  .grid--full
-    .grid__item.two-twelfths.v-top.palm-one-whole>
-    .grid__item.ten-twelfths.v-top.palm-one-whole>
-      = link_to edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request, discuss_only: true), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
-        = t('.ask_more_info')
-
 
 - if !@participation_request.canceled? and @participation_request.last_modified_by == 'User'
   %hr.push--ends
-  .flexbox
-    .flexbox__item.v-middle
-      %h3 Acceptez la demande
+  .flexbox.palm-block
+    .flexbox__item.v-middle.palm-block
+      %h3.palm-text--center Acceptez la demande
     - if !@participation_request.from_personal_website?
       - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
-        .flexbox__item.v-middle.text--right.blue
+        .flexbox__item.v-middle.text--right.blue.palm-block.palm-text--center.palm-push--bottom
           %i.fa-clock-o.delta
           %strong.delta Expire dans
           %strong.delta{ data: { 'expires-in' => true } }

@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+         :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
@@ -29,16 +29,14 @@ class User < ActiveRecord::Base
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :lived_places_attributes, :delivery_email_status, :sign_up_at,
-                  :sponsorships, :sponsorship_slug, :interested_in_discovery_pass,
                   :test_name, :interested_at,
                   :subscription_from
 
   # To store hashes into hstore
-  store_accessor :meta_data, :after_sign_up_url, :have_seen_first_jpo_popup,
-                             :interested_in_discovery_pass, :test_name, :interested_at,
-                             :subscription_from
+  store_accessor :meta_data, :after_sign_up_url,
+                             :test_name, :interested_at, :subscription_from
 
-  define_boolean_accessor_for :meta_data, :have_seen_first_jpo_popup
+  define_boolean_accessor_for :meta_data
 
   mount_uploader :avatar, UserAvatarUploader
 
@@ -52,14 +50,11 @@ class User < ActiveRecord::Base
   has_many :invited_users, foreign_key: :referrer_id, dependent: :destroy
   has_many :user_profiles
   has_many :structures, through: :user_profiles
-  has_many :participations
-  has_many :plannings, through: :participations
 
   has_many :lived_places
   has_many :cities, through: :lived_places
   has_many :followings
 
-  has_many :discovery_passes
   has_many :orders, class_name: 'Order::Pass'
   has_many :participation_requests
 
@@ -69,7 +64,6 @@ class User < ActiveRecord::Base
   has_many :sponsors, class_name: 'Sponsorship', foreign_key: 'sponsored_user_id'
 
   has_and_belongs_to_many :subjects
-  has_and_belongs_to_many :invited_participations, class_name: 'Participation'
 
   belongs_to :city
   belongs_to :passion_city, class_name: 'City'
@@ -91,6 +85,7 @@ class User < ActiveRecord::Base
   # Called from Registration Controller when user registers for first time
   def after_registration
     send_pending_messages
+    update_sponsorship_status
   end
 
   # Not after create because user creation is made when teachers invite their students to post a comment
@@ -138,9 +133,6 @@ class User < ActiveRecord::Base
       comments.any?
     end
 
-    boolean :has_confirmed do
-      confirmed?
-    end
     time :created_at
 
   end
@@ -221,11 +213,6 @@ class User < ActiveRecord::Base
   # Update the email status regarding info completion
   def update_email_status
     email_status = nil
-    if participations.empty?
-      email_status = 'monday_jpo'
-      # elsif self.passions.empty?
-      #   email_status = 'passions_incomplete'
-    end
     self.update_column :email_status, email_status
     return email_status
   end
@@ -381,31 +368,8 @@ class User < ActiveRecord::Base
     around_courses_search.facet(:has_free_trial_lesson).rows.last.count
   end
 
-  # Method called when a user confirm his registration
-  #
-  # @return nil
-  def confirm!
-    super
-    check_if_was_invited
-    send_welcome_email
-    update_sponsorship_status
-    nil
-  end
-
   def send_welcome_email
     UserMailer.delay.welcome(self)
-  end
-
-  def participate_to?(planning)
-    self.participations.not_canceled.map(&:planning).include? planning
-  end
-
-  # Tells if the user is allowed to participate
-  # He won't be allowed if he has a current participation
-  #
-  # @return Boolean
-  def can_participate_to_jpo_2014?
-    self.participations.not_canceled.length < 6
   end
 
   # Get the user profile associated to the given structure
@@ -464,16 +428,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def send_jpo_recap(participation = nil)
-    ParticipationMailer.delay.recap(self)
-    if participation
-      invited_friends = participation.invited_friends.uniq
-    else
-      invited_friends = self.participations.map(&:invited_friends).flatten.uniq
-    end
-    invited_friends.map{ |invited_friend| ParticipationMailer.delay.recap_from_friend(invited_friend, self)}
-  end
-
   def follows?(structure)
     self.followings.map(&:structure_id).include? structure.id
   end
@@ -513,35 +467,11 @@ class User < ActiveRecord::Base
     return @structures[0..(limit - 1)]
   end
 
-
-  # Return current (last) discovery_pass
-  #
-  # @return DiscoveryPass or nil if there is no current DiscoveryPass
-  def discovery_pass
-    discovery_pass = self.discovery_passes.order('created_at DESC').first
-    return discovery_pass
-  end
-
   # Tells if the user is based in Paris and around
   #
   # @return Boolean
   def parisian?
     return self.zip_code.starts_with? '75','77','78','91','92','93','94','95'
-  end
-
-  # Retuns the sponsorship slug or the slug if it is not defined
-  #
-  # @return String
-  def sponsorship_slug
-    if read_attribute(:sponsorship_slug).nil?
-      self.sponsorship_slug = self.slug
-      write_attribute(:sponsorship_slug, self.slug)
-      self.save
-
-      self.slug
-    else
-      read_attribute(:sponsorship_slug)
-    end
   end
 
   # Tells wether the user left a review on a specific Structure

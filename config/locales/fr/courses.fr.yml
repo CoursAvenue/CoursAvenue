@@ -24,7 +24,6 @@ fr:
         no_class_during_holidays: Pas de cours pendant les vacances scolaires
         subjects: Étiquettes disciplines
         teaches_at_home: Je me déplace à domicile
-        common_price: Tarif habituellement appliqué
         on_appointment: "Pas de créneau précis, uniquement sur demande."
 
   simple_form:
@@ -116,16 +115,3 @@ fr:
             sur votre profil public. Une fois toutes ces informations complétées, ils apparaitront automatiquement.</p>
             <p><strong> Important :</strong> si un même cours possède plusieurs lieux, plusieurs niveaux, pour des publics
             différents, renseignez-le à chaque créneau, mais n'ajoutez pas de nouveau cours.</p>
-          discovery_pass:
-            step_1: >
-              <p><strong>Optimisez vos chances de les convertir en élèves réguliers</strong></p>
-              <p>Les cours d'essai représentent le meilleur moyen de rencontrer de nouveaux élèves intéressés par vos cours. Nous avons remarqué qu'en proposant
-              plus d'un cours par personne, les chances de convertir les élèves qui viennent essayer vos cours en élèves réguliers (souscription à un abonnement annuel ou à un
-              carnet de plusieurs cours) augmentent considérablement. Voici les statistiques moyennes constatées :</p>
-              <ul><li><strong>20%</strong> des élèves (1 élève sur 5) qui assistent à *1 cours d'essai* deviennent ensuite des élèves réguliers ;
-              <li><strong>40%</strong> des élèves (plus d'1 élève sur 3) qui assistent à *2 cours d'essai* deviennent ensuite des élèves réguliers ;
-              <li><strong>60%</strong> des élèves (plus d'1 élève sur 2) qui assistent à *3 cours d'essai* deviennent ensuite des élèves réguliers.</ul>
-              <p>C'est pour cette raison que pour chacun de vos cours d'essai, vous pouvez choisir d'offrir 1, 2 ou 3 cours d'essai par personne.</p>
-            step_2: >
-              <p><strong>Choisissez vos cours d'essai</strong></p>
-              <p>C'est très simple : cochez chaque case située à gauche d'un cours que vous souhaitez proposer en cours d'essai gratuit. A tout moment, vous pouvez décider de les retirer : il vous suffit alors de décocher chaque case.</p>
