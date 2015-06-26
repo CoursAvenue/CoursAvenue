@@ -12,6 +12,10 @@ Card = React.createClass({
         } else {
             var starting_price = (this.props.card.get('starting_price') == 0 ? 'Essai gratuit' : 'Atelier à ' + this.props.card.get('starting_price') + '€');
         }
+        var course_url =  '';
+        if (this.props.card.get('slug')) {
+            course_url = Routes.structure_indexable_card_path(this.props.card.get('structure_slug'), this.props.card.get('slug'));
+        }
         return (
           <div className="soft-half one-quarter palm-one-whole lap-one-half inline-block v-top">
               <div className="bg-white bordered" style={ { minHeight: '450px'} }>
@@ -31,11 +35,14 @@ Card = React.createClass({
                                   {this.props.card.get('structure_name')}
                               </a>
                           </div>
-                          <h3 className="push-half--bottom">{this.props.card.get('course_name')}</h3>
+                          <h3 className="push-half--bottom">
+                              <a className="semi-muted-link" href={course_url}>
+                                  {this.props.card.get('course_name')}
+                              </a>
+                          </h3>
                       </div>
                       <SubjectList subjectList={ this.props.card.get('subjects') } />
-                      <Rating comment_count={ this.props.card.get('comments_count') }
-                              registration_count={ this.props.card.get('registration_count') } />
+                      <Rating comment_count={ this.props.card.get('comments_count') } />
                       <hr className="push-half--ends" />
                       <CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') }
                           trainings={ this.props.card.get('trainings') } />

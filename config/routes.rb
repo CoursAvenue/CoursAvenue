@@ -544,8 +544,9 @@ CoursAvenue::Application.routes.draw do
       resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'
       resources :messages              , only: [:create]                                    , controller: 'structures/messages'
       resources :places                , only: [:index]                                     , controller: 'structures/places'
-      resources :courses               , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
-      resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'   , path: 'avis' do
+      resources :courses               , only: [:index]                                     , controller: 'structures/courses'        , path: 'cours'
+      resources :indexable_cards       , only: [:show]                                      , controller: 'structures/indexable_cards', path: 'cours'
+      resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'       , path: 'avis' do
         collection do
           get :create_from_email
         end

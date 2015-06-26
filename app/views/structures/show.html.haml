@@ -67,27 +67,9 @@
         .on-top.bg-site-background-on-stick.transition-all-300{ data: { type: 'sticky-map-container' } }>
           .soft--top{ data: { type: 'sticky-map' } }>
       - unless @is_sleeping
-        - if @structure.response_rate or @structure.response_time or (@structure.main_contact and @structure.main_contact.current_sign_in_at)
-          .panel.push--ends
-            .panel__body.soft.epsilon
-              - if @structure.response_rate
-                .grid--full.soft-half--bottom
-                  .grid__item.v-middle.one-half.gray>
-                    Taux de réponse
-                  .grid__item.v-middle.one-half>
-                    %strong= "#{@structure.response_rate}%"
-              - if @structure.response_time
-                .grid--full.soft-half--bottom
-                  .grid__item.v-middle.one-half.gray>
-                    Temps de réponse
-                  .grid__item.v-middle.one-half>
-                    %strong= response_time_in_words @structure
-              - if @structure.main_contact and @structure.main_contact.current_sign_in_at
-                .grid--full
-                  .grid__item.v-middle.one-half.gray>
-                    Dernière activité
-                  .grid__item.v-middle.one-half>
-                    %strong= l(@structure.main_contact.current_sign_in_at, format: :date).capitalize
+        .panel.push--ends
+          .panel__body.soft.epsilon
+            = render 'structures/response_stats'
 
         %a.btn.btn--full{ data: { behavior: 'add-to-favorite', added_text: 'Retirer de mes favoris', not_added_text: 'Ajouter en favori' } }
           %i.fa.fa-heart

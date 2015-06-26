@@ -466,6 +466,7 @@ ActiveRecord::Schema.define(version: 20150626124025) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.string   "slug"
   end
 
   add_index "indexable_cards", ["course_id"], name: "index_indexable_cards_on_course_id", using: :btree

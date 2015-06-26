@@ -28,4 +28,12 @@ class Metro::Line < ActiveRecord::Base
     end
   end
   # :nocov:
+
+  def bis?
+    name.include?('Bis')
+  end
+
+  def number_without_bis
+    number.gsub(' Bis', '')
+  end
 end

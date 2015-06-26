@@ -45,6 +45,9 @@
     = yield :layout_scripts
     = render 'layouts/social_sdks'
 
+    = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'
+    = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css'
+
     :javascript
       if (!$.cookie('fingerprint')) { $.cookie('fingerprint', new Fingerprint().get()); }
     - if current_user

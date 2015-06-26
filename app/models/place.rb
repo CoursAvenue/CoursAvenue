@@ -87,7 +87,7 @@ class Place < ActiveRecord::Base
   #
   # @return an Array of Metro::Stop.
   def nearby_metro_stops
-    return [] if not parisian? or !latitude.present? or !longitude.present?
+    return [] if !latitude.present? or !longitude.present?
 
     Rails.cache.fetch ['Place#nearby_metro_stops', self] do
       Metro::Stop.near([latitude, longitude], METRO_STOP_MAX_DISTANCE, units: :km)

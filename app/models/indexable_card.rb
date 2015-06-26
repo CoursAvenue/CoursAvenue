@@ -1,7 +1,10 @@
 class IndexableCard < ActiveRecord::Base
-  acts_as_paranoid
+  extend FriendlyId
+  friendly_id :friendly_name, use: [:slugged, :finders]
 
   include AlgoliaSearch
+
+  acts_as_paranoid
 
   belongs_to :structure
   belongs_to :place
@@ -11,7 +14,7 @@ class IndexableCard < ActiveRecord::Base
 
   has_and_belongs_to_many :subjects
 
-  attr_accessible :structure, :place, :plannings, :course
+  attr_accessible :structure, :place, :plannings, :course, :slug
 
   delegate :name, :price, :type, :audiences, :levels, to: :course,    prefix: true, allow_nil: true
   delegate :name, :comments_count, :slug,             to: :structure, prefix: true, allow_nil: true
@@ -21,7 +24,7 @@ class IndexableCard < ActiveRecord::Base
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
-    attribute :id
+    attribute :id, :slug
 
     add_attribute :name do
       self.course_name or self.subject_name
@@ -102,10 +105,6 @@ class IndexableCard < ActiveRecord::Base
 
     attribute :identity
     attribute :planning_periods
-
-    attribute :registration_count do
-      (course ? course.participation_requests.count : 0)
-    end
 
     add_attribute :audiences do
       self.course_audiences.map(&:name) if self.course_audiences
@@ -193,6 +192,10 @@ class IndexableCard < ActiveRecord::Base
     card
   end
 
+  def name
+    course_name || subject_name
+  end
+
   # The subject name. This should only occur when the card has been created with a place and a
   # subject instead of a course.
   #
@@ -236,7 +239,7 @@ class IndexableCard < ActiveRecord::Base
   #
   # @return an array of string.
   def planning_periods
-    return [] if plannings.empty?
+    return [] if plannings.empty? or course.nil?
 
     periods = []
     course.plannings.each do |planning|
@@ -272,5 +275,12 @@ class IndexableCard < ActiveRecord::Base
 
   def identity
     [card_type, structure_id, place_id, course_id].compact.join(':')
+  end
+
+  def friendly_name
+    [
+      [:course_name, :place_name],
+      [:structure_name, :subject_name, :place_name]
+    ]
   end
 end

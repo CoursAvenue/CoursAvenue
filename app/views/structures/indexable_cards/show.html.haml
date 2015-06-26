@@ -1,0 +1,116 @@
+.soft
+  .grid
+    .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
+      .soft.bordered.bg-white
+        %h1.flush= @indexable_card.name
+        %h2.delta
+          Par
+          = link_to @structure.name, structure_path(@structure)
+        - if @course and @course.is_open_for_trial
+          %p.green.nowrap.v-middle
+            %strong Essai gratuit
+        - if @course
+          - if @course.teaches_at_home?
+            .push-half--right.push-half--bottom.inline-block.v-middle
+              %i.delta.fa.fa-house.v-middle
+              .inline-block.v-middle
+                Se déplace à domicile
+          - if @course.on_appointment?
+            .push-half--right.push-half--bottom.inline-block.v-middle
+              %i.delta.fa.fa-phone-o.v-middle
+              .inline-block.v-middle
+                Pas de créneau précis, uniquement sur demande
+          - if @course.is_lesson?
+            .push-half--right.push-half--bottom.inline-block.v-middle
+              %i.delta.fa.fa-calendar.v-middle
+              .inline-block.v-middle
+                = I18n.t(@course.frequency)
+          - if @course.is_lesson? and @course.cant_be_joined_during_year?
+            .push-half--right.push-half--bottom.inline-block.v-middle
+              %i.delta.fa.fa-forbidden
+              .inline-block.v-middle
+                Pas d'inscription en cours d'année",
+          - elsif @course.is_lesson?
+            .push-half--right.push-half--bottom.inline-block.v-middle
+              %i.delta.fa.fa-repeat.v-middle
+              .inline-block.v-middle
+                Inscriptions tout au long de l'année
+          - if @course.no_class_during_holidays
+            .push-half--right.push-half--bottom.inline-block.v-middle
+              %i.delta.fa.fa-forbidden.v-middle
+              .inline-block.v-middle
+                Pas de cours pendant les vacances scolaires
+          - if @course.is_private? and @course.on_appointment?
+            .push-half--right.push-half--bottom.inline-block.v-middle
+              %i.delta.fa.fa-audiences.v-middle
+              = join_audiences(@course)
+            .push-half--right.push-half--bottom.inline-block.v-middle
+              %i.delta.fa.fa-levels.v-middle
+              = join_levels_text(@course)
+
+        - if @course
+          %h4 Description du cours
+          .read-more{ data: { behavior: 'read-more' } }
+            = simple_format @course.description
+        %hr.push--ends
+        %h4 Planning
+        %table.table--striped.table--data.table--data-small.table-responsive
+          %thead.gray-light
+            %tr
+              %th.one-tenths Jour
+              %th.two-tenths Horaires
+              %th.two-tenths Niveau
+              %th.two-tenths Public
+              %th
+                %i.fa-info
+          %tbody
+            - @indexable_card.plannings.each do |planning|
+              %tr
+                - planning = planning.decorate
+                %td{ itemscope: true, itemtype: 'http://data-vocabulary.org/Event', data: { th: "Jour" } }
+                  %div
+                    %span{ itemprop: 'url', content: structure_indexable_card_url(@structure, @indexable_card) }
+                    %meta{ itemprop: "summary", content: @indexable_card.name }
+                    = planning.dates
+                %td{ data: { th: "Horaire" } }
+                  %div
+                    %time{ itemprop: "startDate", datetime: planning.start_date_datetime }
+                      = planning.time_slot
+                    %time{ itemprop: "endDate", datetime: planning.end_date_datetime }
+                %td{ data: { th: "Niveau" } }
+                  %div=planning.join_levels
+                %td{ data: { th: "Public" } }
+                  %div=planning.join_audiences
+                %td{ data: { th: "Infos" } }
+                  - if planning.info
+                    %div{ data: { content: planning.info, toggle: "popover", trigger: "hover", html: "true" } }
+                      %i.fa-info
+
+    .grid__item.four-twelfths.palm-one-whole.soft-half--right.palm-hard>
+      .bordered.bg-white
+        = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
+                                          metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) },
+                                         { prerender: false })
+
+        .soft
+          %div.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
+            %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos } }
+              %i.fa.fa-map-marker
+              = "#{@place.address} (#{@place.name})"
+            %span{ itemprop: 'address', itemscope: true, itemtype: 'http://data-vocabulary.org/Address'}
+              %meta{ itemprop: 'street-address', content: @place.address }
+              %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }
+                %meta{ itemprop: 'latitude', content: @place.latitude }
+                %meta{ itemprop: 'longitude', content: @place.longitude }
+
+          - if @place.nearby_metro_stops.any?
+            %h4.push-half--bottom Transports
+            - @place.nearby_metro_stops.each do |stop|
+              %div.push-half--bottom
+                - stop.lines.each do |line|
+                  .metro-line{ class: "metro-line-#{line.number}" }
+                    = line.number
+                %strong.v-middle= stop.name
+          - unless @structure.is_sleeping?
+            %hr
+            = render 'structures/response_stats'

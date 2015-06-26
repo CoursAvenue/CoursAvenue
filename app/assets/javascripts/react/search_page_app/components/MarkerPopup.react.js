@@ -24,8 +24,7 @@ var MarkerPopup = React.createClass({
                       </div>
                       <h4 className="flush">{this.props.card.get('course_name')}</h4>
                   </div>
-                  <Rating comment_count={ this.props.card.get('comments_count') }
-                          registration_count={ this.props.card.get('registration_count') } />
+                  <Rating comment_count={ this.props.card.get('comments_count') } />
               </div>
           </div>
         );

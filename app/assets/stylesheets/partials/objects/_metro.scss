@@ -1,29 +1,59 @@
-$metro_line_1_color: #FECC2F;
-$metro_line_2_color: #106FB6;
-$metro_line_3_color: #9B9842;
+$metro_line_m_color    : #101C8B;
+$metro_line_1_color    : #FECC2F;
+$metro_line_2_color    : #106FB6;
+$metro_line_3_color    : #9B9842;
 $metro_line_3_bis_color: #8BD3DE;
-$metro_line_4_color: #B94D9A;
-$metro_line_5_color: #F58F53;
-$metro_line_6_color: #7AC597;
-$metro_line_7_color: #7AC597;
+$metro_line_4_color    : #B94D9A;
+$metro_line_5_color    : #F58F53;
+$metro_line_6_color    : #7AC597;
+$metro_line_7_color    : #7AC597;
 $metro_line_7_bis_color: #F39FB2;
-$metro_line_8_color: #C4A4CC;
-$metro_line_9_color: #CEC83D;
-$metro_line_10_color: #DFAF47;
-$metro_line_11_color: #8C653D;
-$metro_line_12_color: #128B5B;
-$metro_line_13_color: #8BD3DE;
-$metro_line_14_color: #65318F;
+$metro_line_8_color    : #C4A4CC;
+$metro_line_9_color    : #CEC83D;
+$metro_line_10_color   : #DFAF47;
+$metro_line_11_color   : #8C653D;
+$metro_line_12_color   : #128B5B;
+$metro_line_13_color   : #8BD3DE;
+$metro_line_14_color   : #65318F;
 
 .metro-line {
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
-    border: 2px solid black;
+    width         : 1.7em;
+    height        : 1.7em;
+    border-radius : 1.7em;
+    font-size     : 1.4em;
+    border        : 2px solid black;
+    text-align    : center;
+    display       : inline-block;
+    vertical-align: middle;
+    font-weight   : bold;
+    white-space   : nowrap;
 }
+.metro-line-bis {
+    vertical-align: bottom;
+    font-size     : 0.5em !important;
+}
+
+.metro-line-station-name {
+    color       : $metro_line_m_color;
+    font-weight : bold;
+    padding-left: 5px;
+    @include text-shadow(0 0 2px white, 0 0 2px white, 0 0 2px white);
+}
+.metro-line-m {
+    background-color: white;
+    border-color    : $metro_line_m_color;
+    color           : $metro_line_m_color;
+    font-size       : 0.7em !important;
+    line-height     : 1.5em;
+    border-width    : 1px;
+    width           : 1.6em;
+    height          : 1.7em;
+}
+
 .metro-line-1 {
-    border-color: $metro_line_1_color;
-    color       : $metro_line_1_color;
+    background-color: $metro_line_1_color;
+    border-color    : $metro_line_1_color;
+    color           : black;
 }
 .metro-line-2 {
     background-color: $metro_line_2_color;
@@ -35,7 +65,11 @@ $metro_line_14_color: #65318F;
     border-color    : $metro_line_3_color;
     color           : white;
 }
-.metro-line-3-bis {}
+.metro-line-3-bis {
+    background-color: $metro_line_3_bis_color;
+    border-color    : $metro_line_3_bis_color;
+    color           : black;
+}
 .metro-line-4 {
     background-color: $metro_line_4_color;
     border-color    : $metro_line_4_color;
