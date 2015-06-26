@@ -9,7 +9,7 @@ class Metro::Line < ActiveRecord::Base
   has_many :stops, -> { order 'metro_positions.position ASC' },
     through: :positions, class_name: 'Metro::Stop'
 
-  attr_accessible :name, :route_name, :number
+  attr_accessible :name, :route_name, :number, :color
 
   validates :name,       presence: true
   validates :route_name, presence: true
