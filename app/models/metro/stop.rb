@@ -30,7 +30,9 @@ class Metro::Stop < ActiveRecord::Base
     end
 
     add_attribute :metro_lines do
-      self.lines.map(&:slug)
+      self.positions.includes(:line).map do |p|
+        { line: p.line.slug, position: p.position }
+      end
     end
   end
   # :nocov:
