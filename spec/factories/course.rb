@@ -9,7 +9,6 @@ FactoryGirl.define do
       course.prices.build type: 'Price::Trial', amount: 0
     end
 
-    active                      true
     type                        'Course::Lesson'
     start_date                  { Date.today }
     end_date                    { Date.tomorrow }

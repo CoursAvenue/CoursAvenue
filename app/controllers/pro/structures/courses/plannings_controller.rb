@@ -37,12 +37,7 @@ class Pro::Structures::Courses::PlanningsController < InheritedResources::Base
     @planning.course    = @course
     set_dates_and_times
     respond_to do |format|
-      if @planning.save
-        @course.activate! unless @course.active?
-        format.js
-      else
-        format.js
-      end
+      format.js
     end
   end
 

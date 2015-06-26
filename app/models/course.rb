@@ -43,8 +43,6 @@ class Course < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :active,                      -> { where( active: true ) }
-  scope :disabled,                    -> { where( active: false ) }
   scope :lessons,                     -> { where( type: "Course::Lesson" ) }
   scope :trainings,                   -> { where( type: "Course::Training" ) }
   scope :privates,                    -> { where( type: "Course::Private" ) }
@@ -199,8 +197,6 @@ class Course < ActiveRecord::Base
       comments.count
     end
 
-    boolean :active
-
     boolean :has_promotion
 
     boolean :has_package_price
@@ -286,17 +282,6 @@ class Course < ActiveRecord::Base
 
   def description_for_meta
     self.description.gsub(/\r\n\r\n/, ' ').html_safe if self.description
-  end
-
-  def activate!
-    if price_group and plannings.any?
-      self.active = true
-      return save
-    else
-      errors.add(:price_group, "Le cours n'a pas de tarifs")    unless price_group
-      errors.add(:plannings,   "Le cours n'a pas de plannings") if plannings.empty?
-      return false
-    end
   end
 
   def contact_email

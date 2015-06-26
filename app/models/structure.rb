@@ -532,10 +532,6 @@ class Structure < ActiveRecord::Base
   def disable!
     self.active = false
     save
-    courses.each do |course|
-      course.active = false
-      course.save
-    end
   end
 
   def ratio_from_original_from_large
