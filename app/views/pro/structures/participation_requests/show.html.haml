@@ -18,13 +18,13 @@
             %strong.epsilon Expire dans
             %strong.epsilon{ data: { 'expires-in' => true } }
 - else
-  %h1 Demande d'inscription de #{@user.name}
+  %h1.palm-text--center Demande d'inscription de #{@user.name}
 .push--bottom
   = render partial: 'pro/structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
 - user           = @participation_request.user
 - user_decorator = user.decorate
-%h3 À propos de l'élève
+%h3.palm-text--center À propos de l'élève
 .grid--full.push--bottom.message
   .grid__item.palm-one-whole.palm-block.palm-text--center.two-twelfths.v-top.v-top>
     - if user.has_avatar?
