@@ -3,17 +3,17 @@ fr:
     users:
       new_participation_request:
         with_address_and_phone: >
-          Félicitations ! Votre demande d'inscription vient d'être transmise : "%{course_name}" - %{day} à %{start_time} - %{address} - %{phone_number}.
-          A bientôt ! %{structure_name}. PS : pour modifier/annuler : %{url}
+          Félicitations ! Votre demande d'inscription vient d'etre transmise : "%{course_name}" - le %{day} à %{start_time} - %{address} - %{phone_number}.
+          A bientot ! %{structure_name}. PS : pour modifier/annuler : %{url}
         with_address: >
-          Félicitations ! Votre demande d'inscription vient d'être transmise : "%{course_name}" - %{day} à %{start_time} - %{address}.
-          A bientôt ! %{structure_name}. PS : pour modifier/annuler : %{url}
+          Félicitations ! Votre demande d'inscription vient d'etre transmise : "%{course_name}" - le %{day} à %{start_time} - %{address}.
+          A bientot ! %{structure_name}. PS : pour modifier/annuler : %{url}
         with_phone: >
-          Félicitations ! Votre demande d'inscription vient d'être transmise : "%{course_name}" - %{day} à %{start_time} - %{phone_number}.
-          A bientôt ! %{structure_name}. PS : pour modifier/annuler : %{url}
+          Félicitations ! Votre demande d'inscription vient d'etre transmise : "%{course_name}" - le %{day} à %{start_time} - %{phone_number}.
+          A bientot ! %{structure_name}. PS : pour modifier/annuler : %{url}
         without_phone_and_address: >
-          Félicitations ! Votre demande d'inscription vient d'être transmise : "%{course_name}" - %{day} à %{start_time}.
-          A bientôt ! %{structure_name}. PS : pour modifier/annuler : %{url}
+          Félicitations ! Votre demande d'inscription vient d'etre transmise : "%{course_name}" - le %{day} à %{start_time}.
+          A bientot ! %{structure_name}. PS : pour modifier/annuler : %{url}
       day_before_reminder:
         multiple_course: >
           Rappel : vous avez #{nb_courses} cours demain et le premier commence à %{start_time}.
@@ -50,4 +50,4 @@ fr:
     structures:
       new_participation_request: >
         Bonne nouvelle ! %{user_name} souhaite venir à une séance le %{date} à %{start_time}.
-        Vous avez 24h pour lui répondre : grâce au lien %{url} ou en vous connectant sur Pro.CoursAvenue.com
+        Vous avez 24h pour lui répondre : grace au lien %{url} ou en vous connectant sur Pro.CoursAvenue.com
