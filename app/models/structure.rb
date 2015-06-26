@@ -413,8 +413,6 @@ class Structure < ActiveRecord::Base
     string :zip_codes, multiple: true do
       (self.places.map(&:zip_code) << self.zip_code).uniq
     end
-
-    double :jpo_score
   end
   # :nocov:
 
