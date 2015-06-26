@@ -45,9 +45,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 _.extend(data, {
                     dashboard_user_path               : Routes.dashboard_user_path({ id: this.model.get('slug') }),
                     edit_user_path                    : Routes.edit_user_path({ id: this.model.get('slug') }),
-                    new_user_sponsorship_path         : Routes.new_user_sponsorship_path({ id: this.model.get('slug') }),
                     user_participation_requests_path  : Routes.user_participation_requests_path({ id: this.model.get('slug') }),
-                    new_user_sponsorship_path         : Routes.new_user_sponsorship_path({ id: this.model.get('slug') }),
                     user_comments_path                : Routes.user_comments_path({ id: this.model.get('slug') }),
                     user_passions_path                : Routes.user_passions_path({ id: this.model.get('slug') }),
                     user_followings_path              : Routes.user_followings_path({ id: this.model.get('slug') }),
