@@ -41,8 +41,6 @@ class Planning < ActiveRecord::Base
   has_many :prices,         through: :course
   has_many :subjects,       through: :course
   has_many :reservations,   as: :reservable
-  has_many :participations, dependent: :destroy
-  has_many :users, through: :participations
 
   ######################################################################
   # Callbacks                                                          #
@@ -74,7 +72,7 @@ class Planning < ActiveRecord::Base
                   :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
                   :week_day, # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
                   :class_during_holidays,
-                  :nb_participants_max, :promotion, :info,
+                  :promotion, :info,
                   :min_age_for_kid, :max_age_for_kid, :teacher, :teacher_id, :level_ids, :audience_ids, :place_id, :is_in_foreign_country,
                   :visible # True by default, will be false only for plannings of
                            # private courses that are on demand
@@ -329,54 +327,6 @@ class Planning < ActiveRecord::Base
       end
     end
   end
-
-  def nb_participants_max
-    read_attribute(:nb_participants_max) || self.course.nb_participants_max || 0
-  end
-
-  # :nocov:
-  # Returns the participations on waiting list
-  #
-  # @return Array of Participation
-  def waiting_list
-    self.participations.not_canceled.waiting_list
-  end
-
-  # Number of places left
-  #
-  # @return Integer
-  def places_left
-    nb_participants_max - nb_jpo_participants
-  end
-
-  # Does the planning still have places open?
-  #
-  # @return [type] [description]
-  def places_left?
-    places_left > 0
-  end
-
-  # Number of participants of this planning. Including children
-  #
-  # @return Integer
-  def nb_jpo_participants
-    participations.not_canceled.not_in_waiting_list.map(&:size).reduce(&:+) || 0
-  end
-
-  # Number of participants with people in waiting list of this planning. Including children
-  #
-  # @return Integer
-  def nb_jpo_participants_with_waiting_list
-    participations.not_canceled.map(&:size).reduce(&:+) || 0
-  end
-
-  # Number of participants who are waiting list of this planning. Including children
-  #
-  # @return Integer
-  def nb_jpo_participants_only_waiting_list
-    participations.not_canceled.waiting_list.map(&:size).reduce(&:+) || 0
-  end
-  # :nocov:
 
   #
   # Return the next date depending on the week_day if it is a lesson

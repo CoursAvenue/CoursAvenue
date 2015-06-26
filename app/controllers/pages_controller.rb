@@ -7,10 +7,6 @@ class PagesController < ApplicationController
     redirect_to pro_pages_questions_url(subdomain: 'pro'), status: 301
   end
 
-  def jpo
-    redirect_to root_url(subdomain: 'www'), status: 301
-  end
-
   def send_message
     @errors = []
     @errors << :name    if params[:name].blank?

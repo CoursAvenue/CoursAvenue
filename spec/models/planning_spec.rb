@@ -178,24 +178,6 @@ describe Planning do
     end
   end
 
-  describe '#nb_participants_max' do
-    context 'nb_participants_max is not set' do
-      it 'returns nb_participants_max' do
-        subject.nb_participants_max = nil
-        course                      = Course.new
-        course.nb_participants_max  = 4
-        subject.course              = course
-        expect(subject.nb_participants_max).to eq 4
-      end
-    end
-    context 'nb_participants_max is set' do
-      it 'returns nb_participants_max' do
-        subject.nb_participants_max = 12
-        expect(subject.nb_participants_max).to eq 12
-      end
-    end
-  end
-
   describe '#length' do
     it 'returns the week_day of the start_date' do
       start_date         = Date.today
@@ -221,47 +203,4 @@ describe Planning do
       end
     end
   end
-
-  # context 'participations' do
-  #   let(:user) { FactoryGirl.create(:user) }
-
-  #   describe '#waiting_list' do
-  #     it 'shows no one' do
-  #       subject.nb_participants_max = 1
-  #       subject.participations.build
-  #       expect(subject.waiting_list).to be_empty
-  #     end
-  #   end
-  #   describe '#places_left' do
-  #     it 'returns number of participations left open' do
-  #       planning = FactoryGirl.create(:planning, nb_participants_max: 10)
-  #       Participation.create(waiting_list: true, user: user, planning: planning)
-  #       expect(planning.places_left).to eq 9
-  #     end
-  #   end
-  # end
-
-  # TODO: Get it to work again
-  # context 'indexation' do
-  #   describe '#remove_from_jobs' do
-  #     subject { FactoryGirl.create(:planning) }
-
-  #     before do
-  #       subject.delay.index.save
-  #     end
-
-  #     it 'has the object in the DelayJob queue' do
-  #       jobs = Delayed::Job.select { |job| YAML.load(job.handler).object == subject }
-  #       expect(jobs).to_not be_empty
-  #     end
-
-  #     it 'deletes all the jobs related to the Planning' do
-  #       subject.destroy
-  #       jobs = Delayed::Job.select { |job| YAML.load(job.handler).object == subject }
-
-  #       expect(jobs).to be_empty
-  #     end
-
-  #   end
-  # end
 end

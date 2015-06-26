@@ -13,8 +13,7 @@ class MailchimpUpdater
                                    :EMAILSTAT  => user.delivery_email_status,
                                    :ID         => user.id,
                                    :GROUP      => user.id.modulo(6),
-                                   :SLEEPING   => (user.active? ? 'Oui' : 'Non'),
-                                   :HAS_PASS   => (user.discovery_pass ? 'Oui' : 'Non')
+                                   :SLEEPING   => (user.active? ? 'Oui' : 'Non')
                                  },
                                    double_optin: false,
                                    update_existing: true
@@ -28,7 +27,6 @@ class MailchimpUpdater
                                  merge_vars: {
                                    :NAME      => structure.name,
                                    :PARISIAN  => (structure.parisian? ? 'Oui' : 'Non'),
-                                   :JPO       => (structure.courses.open_courses.any? ? 'Oui' : 'Non'),
                                    :SLEEPING  => (structure.is_sleeping? ? 'Oui' : 'Non'),
                                    :SLUG      => structure.slug
                                  },

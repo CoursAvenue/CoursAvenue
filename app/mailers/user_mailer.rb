@@ -19,11 +19,6 @@ class UserMailer < ActionMailer::Base
   ######################################################################
   # Email reminder                                                     #
   ######################################################################
-  # Monday email to push the user to fill passions
-  def monday_jpo(user)
-    @user    = user
-    mail to: @user.email, subject: "Vous êtes sur Paris les 5-6 avril ? Participez à l'un des 5 000 cours gratuits"
-  end
 
   # Monday email to push the user to fill passions
   def passions_incomplete(user)
@@ -143,11 +138,6 @@ class UserMailer < ActionMailer::Base
     @user      = comment_notification.user
     @comment   = @structure.comments.build
     mail to: @email, subject: get_comment_notification_subject(comment_notification), template_name: get_comment_notification_template(comment_notification)
-  end
-
-  def five_days_to_come_for_jpo(user)
-    @user = user
-    mail to: @user.email, subject: "Plus que 4 jours avant les Portes Ouvertes : n’attendez pas pour vous inscrire"
   end
 
   # Send an email with a sponsorship link.

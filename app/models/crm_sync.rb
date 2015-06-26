@@ -122,7 +122,6 @@ class CrmSync
     custom_datas["Dernière connexion à son profil"] = I18n.l(admin.current_sign_in_at, format: :date_short_en) if admin and admin.current_sign_in_at
     custom_datas["Disciplines 1"]                   = structure.subjects.at_depth(0).uniq.map(&:name).join('; ') if structure.subjects.at_depth(0).any?
     custom_datas["Disciplines 3"]                   = structure.subjects.at_depth(2).uniq.map(&:name).join('; ') if structure.subjects.at_depth(2).any?
-    custom_datas["JPO"]                             = (structure.courses.open_courses.any? ? 'Oui' : 'Non')
     custom_datas["Premium ?"]                       = (structure.premium? ? 'Oui' : 'Non')
     custom_datas
   end

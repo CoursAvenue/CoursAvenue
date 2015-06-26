@@ -1,7 +1,0 @@
-%ul.no-bullet-list.text--right.delta.line-height-2.soft--right
-  %li
-    = link_to user_participation_requests_path(@user), { class: current == 'subscriptions' ? 'active' : '' } do
-      Mes inscriptions
-  %li
-    = link_to new_user_sponsorship_path(@user), { class: current == 'sponsorships' ? 'active' : '' } do
-      Mes parrainages

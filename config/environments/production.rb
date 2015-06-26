@@ -96,7 +96,7 @@ CoursAvenue::Application.configure do
   config.action_controller.asset_host = "dqggv9zcmarb3.cloudfront.net"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( pro_email.css email.css discovery_pass.css )
+  config.assets.precompile += %w( pro_email.css email.css )
   config.assets.precompile += %w( modernizr.js libs/jquery.Jcrop.js )
   config.assets.precompile += %w( libs/highcharts/highcharts.js libs/highcharts/modules/exporting.js )
   config.assets.precompile += %w( libs/filepicker.js )

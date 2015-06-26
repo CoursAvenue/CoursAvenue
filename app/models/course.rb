@@ -21,7 +21,6 @@ class Course < ActiveRecord::Base
   belongs_to :price_group
 
   has_many :comments            , through: :structure
-  has_many :participations      , through: :plannings
   has_many :reservations        , as: :reservable
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , -> { uniq }, through: :plannings
@@ -51,8 +50,6 @@ class Course < ActiveRecord::Base
   scope :privates,                    -> { where( type: "Course::Private" ) }
   scope :regulars,                    -> { where(arel_table[:type].eq('Course::Private').or(arel_table[:type].eq('Course::Lesson')) ) }
   scope :collective,                  -> { where(arel_table[:type].eq('Course::Lesson').or(arel_table[:type].eq('Course::Training')) ) }
-  scope :without_open_courses,        -> { where.not( type: 'Course::Open' ) }
-  scope :open_courses,                -> { where( type: 'Course::Open' ) }
   scope :open_for_trial,              -> { where( is_open_for_trial: true ) }
   scope :not_open_for_trial,          -> { where( arel_table[:is_open_for_trial].eq(false).or(arel_table[:is_open_for_trial].eq(nil)) ) }
 
@@ -65,7 +62,7 @@ class Course < ActiveRecord::Base
   validates :name, length: { maximum: 255 }
 
   attr_accessible :name, :type, :description,
-                  :active, :info, :is_promoted,
+                  :active, :info,
                   :frequency, :is_individual,
                   :cant_be_joined_during_year,
                   :nb_participants,
@@ -204,7 +201,6 @@ class Course < ActiveRecord::Base
 
     boolean :active
 
-    boolean :is_promoted
     boolean :has_promotion
 
     boolean :has_package_price

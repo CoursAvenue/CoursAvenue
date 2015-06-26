@@ -24,12 +24,6 @@ FactoryGirl.define do
     factory :training, class: 'Course::Training' do
       type 'Course::Training'
     end
-    factory :open_course, class: 'Course::Open' do
-      type                'Course::Open'
-      event_type          'lorem'
-      nb_participants_min  3
-      nb_participants_max  10
-    end
 
     factory :course_for_kid do
       min_age_for_kid  10

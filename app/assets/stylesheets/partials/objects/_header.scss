@@ -13,13 +13,6 @@
         margin-bottom: 0;
         margin-left  : 1em;
     }
-    .jpo-header-logo {
-        @include background-image-retina('jpo_2014/logo_1_line_without_coursavenue.png', 'jpo_2014/logo_1_line_without_coursavenue@2x.png');
-        @include background-size(100%);
-        height: 40px;
-        width : 146px;
-        background-repeat: no-repeat;
-    }
 }
     .coursavenue-header-logo {
         @include background-image-retina('logos/logo.png', 'logos/logo@2x.png');

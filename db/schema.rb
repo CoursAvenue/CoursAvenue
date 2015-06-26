@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150610085309) do
+ActiveRecord::Schema.define(version: 20150626090242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -262,7 +262,6 @@ ActiveRecord::Schema.define(version: 20150610085309) do
     t.string   "name"
     t.string   "frequency"
     t.text     "description"
-    t.boolean  "is_promoted",                default: false
     t.text     "info"
     t.boolean  "is_individual"
     t.boolean  "cant_be_joined_during_year"
@@ -271,23 +270,14 @@ ActiveRecord::Schema.define(version: 20150610085309) do
     t.datetime "updated_at",                                 null: false
     t.string   "slug"
     t.integer  "place_id"
-    t.integer  "nb_participants_max"
     t.date     "start_date"
     t.date     "end_date"
-    t.integer  "room_id"
-    t.boolean  "active",                     default: false
     t.decimal  "rating"
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
     t.boolean  "no_class_during_holidays"
     t.boolean  "teaches_at_home"
-    t.string   "event_type"
-    t.string   "event_type_description"
     t.float    "price"
-    t.integer  "nb_participants_min"
-    t.text     "ca_follow_up"
-    t.float    "common_price"
-    t.boolean  "ok_nico",                    default: false
     t.integer  "price_group_id"
     t.string   "audience_ids"
     t.string   "level_ids"
@@ -300,7 +290,6 @@ ActiveRecord::Schema.define(version: 20150610085309) do
     t.boolean  "accepts_payment"
   end
 
-  add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
   add_index "courses", ["is_open_for_trial"], name: "index_courses_on_is_open_for_trial", using: :btree
   add_index "courses", ["place_id"], name: "index_courses_on_place_id", using: :btree
   add_index "courses", ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
@@ -345,24 +334,6 @@ ActiveRecord::Schema.define(version: 20150610085309) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
-
-  create_table "discovery_passes", force: true do |t|
-    t.integer  "user_id"
-    t.date     "expires_at"
-    t.date     "renewed_at"
-    t.datetime "last_renewal_failed_at"
-    t.datetime "canceled_at"
-    t.string   "credit_card_number"
-    t.string   "be2bill_alias"
-    t.string   "client_ip"
-    t.string   "card_validity_date"
-    t.datetime "deleted_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.hstore   "meta_data"
-    t.integer  "sponsorship_id"
-    t.decimal  "remaining_credit",       default: 38.0
-  end
 
   create_table "emailing_section_bridges", force: true do |t|
     t.integer "emailing_section_id"
@@ -488,6 +459,27 @@ ActiveRecord::Schema.define(version: 20150610085309) do
 
   add_index "gift_certificates", ["structure_id"], name: "index_gift_certificates_on_structure_id", using: :btree
 
+  create_table "indexable_cards", force: true do |t|
+    t.integer  "structure_id"
+    t.integer  "place_id"
+    t.integer  "course_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  add_index "indexable_cards", ["course_id"], name: "index_indexable_cards_on_course_id", using: :btree
+  add_index "indexable_cards", ["place_id"], name: "index_indexable_cards_on_place_id", using: :btree
+  add_index "indexable_cards", ["structure_id"], name: "index_indexable_cards_on_structure_id", using: :btree
+
+  create_table "indexable_cards_subjects", id: false, force: true do |t|
+    t.integer "indexable_card_id", null: false
+    t.integer "subject_id",        null: false
+  end
+
+  add_index "indexable_cards_subjects", ["indexable_card_id"], name: "index_indexable_cards_subjects_on_indexable_card_id", using: :btree
+  add_index "indexable_cards_subjects", ["subject_id"], name: "index_indexable_cards_subjects_on_subject_id", using: :btree
+
   create_table "invited_users", force: true do |t|
     t.string   "email",                          null: false
     t.integer  "referrer_id"
@@ -603,6 +595,32 @@ ActiveRecord::Schema.define(version: 20150610085309) do
   create_table "medias_subjects", id: false, force: true do |t|
     t.integer "subject_id"
     t.integer "media_id"
+  end
+
+  create_table "metro_lines", force: true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.string   "number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "route_name"
+  end
+
+  create_table "metro_lines_stops", id: false, force: true do |t|
+    t.integer "line_id"
+    t.integer "stop_id"
+  end
+
+  add_index "metro_lines_stops", ["line_id", "stop_id"], name: "index_metro_lines_stops_on_line_id_and_stop_id", unique: true, using: :btree
+
+  create_table "metro_stops", force: true do |t|
+    t.string   "name"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "description"
   end
 
   create_table "newsletter_bloc_ownerships", id: false, force: true do |t|
@@ -748,21 +766,6 @@ ActiveRecord::Schema.define(version: 20150610085309) do
 
   add_index "participation_requests", ["stripe_charge_id"], name: "index_participation_requests_on_stripe_charge_id", unique: true, using: :btree
 
-  create_table "participations", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "planning_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "waiting_list",      default: false
-    t.datetime "canceled_at"
-    t.string   "participation_for"
-    t.integer  "nb_adults",         default: 1
-    t.integer  "nb_kids",           default: 0
-    t.datetime "deleted_at"
-  end
-
-  add_index "participations", ["planning_id", "user_id"], name: "index_participations_on_planning_id_and_user_id", using: :btree
-
   create_table "participations_users", id: false, force: true do |t|
     t.integer "participation_id"
     t.integer "user_id"
@@ -866,9 +869,7 @@ ActiveRecord::Schema.define(version: 20150610085309) do
     t.integer  "course_id"
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
-    t.integer  "room_id"
     t.integer  "teacher_id"
-    t.integer  "nb_participants_max"
     t.integer  "duration"
     t.string   "audience_ids"
     t.string   "level_ids"
@@ -877,10 +878,12 @@ ActiveRecord::Schema.define(version: 20150610085309) do
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
     t.datetime "deleted_at"
+    t.integer  "indexable_card_id"
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
   add_index "plannings", ["course_id"], name: "index_plannings_on_course_id", using: :btree
+  add_index "plannings", ["indexable_card_id"], name: "index_plannings_on_indexable_card_id", using: :btree
   add_index "plannings", ["level_ids"], name: "index_plannings_on_level_ids", using: :btree
   add_index "plannings", ["week_day"], name: "index_plannings_on_week_day", using: :btree
 
@@ -1020,15 +1023,6 @@ ActiveRecord::Schema.define(version: 20150610085309) do
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
-  create_table "sponsorships", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "sponsored_user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "promo_code"
-    t.string   "state",             default: "pending"
-  end
-
   create_table "sticker_demands", force: true do |t|
     t.integer  "round_number"
     t.integer  "square_number"
@@ -1049,6 +1043,16 @@ ActiveRecord::Schema.define(version: 20150610085309) do
   end
 
   add_index "stripe_events", ["stripe_event_id"], name: "index_stripe_events_on_stripe_event_id", unique: true, using: :btree
+
+  create_table "structure_indexable_locks", force: true do |t|
+    t.integer  "structure_id"
+    t.datetime "locked_at"
+    t.boolean  "locked",       default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "structure_indexable_locks", ["structure_id"], name: "index_structure_indexable_locks_on_structure_id", using: :btree
 
   create_table "structures", force: true do |t|
     t.string   "structure_type"
@@ -1401,8 +1405,6 @@ ActiveRecord::Schema.define(version: 20150610085309) do
     t.integer  "passion_city_id"
     t.string   "passion_zip_code"
     t.string   "delivery_email_status"
-    t.integer  "sponsorship_id"
-    t.string   "sponsorship_slug"
     t.datetime "sign_up_at"
     t.string   "avatar"
     t.datetime "deleted_at"

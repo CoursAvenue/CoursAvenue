@@ -2,7 +2,7 @@ class PaymentNotification < ActiveRecord::Base
 
   attr_accessible :params, :structure_id, :order_id, :type, :user_id, :product_type
 
-  PRODUCT_TYPES = %w(premium_account discovery_pass)
+  PRODUCT_TYPES = %w(premium_account)
 
   serialize :params
 

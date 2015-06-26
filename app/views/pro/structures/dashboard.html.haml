@@ -174,7 +174,7 @@
         %i.fa-list
         Cours & Stages
       %p
-        %span.beta{class: (@structure.courses.without_open_courses.count > 0 ? 'green' : 'red')}= @structure.courses.without_open_courses.count
+        %span.beta{class: (@structure.courses.count > 0 ? 'green' : 'red')}= @structure.courses.count
         %br
         = link_to 'Ajouter des cours / stages', pro_structure_courses_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des cours')", class: 'btn btn--blue btn--small'
   .grid__item.palm-one-whole.one-third>
