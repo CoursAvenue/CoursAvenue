@@ -52,12 +52,12 @@
 
 - if !@participation_request.canceled? and @participation_request.last_modified_by == 'User'
   %hr.push--ends
-  .flexbox
-    .flexbox__item.v-middle
-      %h3 Acceptez la demande
+  .flexbox.palm-block
+    .flexbox__item.v-middle.palm-block
+      %h3.palm-text--center Acceptez la demande
     - if !@participation_request.from_personal_website?
       - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
-        .flexbox__item.v-middle.text--right.blue
+        .flexbox__item.v-middle.text--right.blue.palm-block.palm-text--center.palm-push--bottom
           %i.fa-clock-o.delta
           %strong.delta Expire dans
           %strong.delta{ data: { 'expires-in' => true } }

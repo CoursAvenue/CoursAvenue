@@ -5,8 +5,9 @@
       .main-container.flexbox
         .flexbox__item.v-middle.soft--left.palm-text--center.relative
           .visuallyhidden--lap-and-up
-            %a.cursor-pointer.west.absolute.white{ data: { behavior: 'toggle-responsive-menu' } }
-              %i.fa-menu.fa-2x
+            - if current_pro_admin
+              %a.cursor-pointer.west.absolute.white{ data: { behavior: 'toggle-responsive-menu' } }
+                %i.fa-menu.fa-2x
             .coursavenue-header-logo.coursavenue-header-logo--pro.coursavenue-header-logo--white
           = link_to '', root_path, class: 'visuallyhidden--palm v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
         .flexbox__item.visuallyhidden--palm.v-middle.text--right.soft--right

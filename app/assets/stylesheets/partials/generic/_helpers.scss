@@ -216,8 +216,12 @@
 .soft-double--sides {
     padding-left: $base-spacing-unit * 2; padding-right: $base-spacing-unit * 2;
     @include media-query(palm) {
-        // We can't use @extend .soft--sides here because of the media query
         padding-left: $base-spacing-unit / 2; padding-right: $base-spacing-unit / 2;
+    }
+}
+.soft--sides {
+    @include media-query(palm) {
+        padding-left: $base-spacing-unit / 2!important; padding-right: $base-spacing-unit / 2!important;
     }
 }
 .push-double--top   {

@@ -16,9 +16,9 @@
         = render partial: 'pro/structures/participation_requests/dont_contact_information'
 
       .grid
-        .grid__item.two-tenths>
+        .grid__item.two-tenths.palm-one-whole.palm-push--bottom>
           %a.btn.btn--full{ href: '#', onclick: '$.fancybox.close();' } Fermer
-        .grid__item.eight-tenths>
+        .grid__item.eight-tenths.palm-one-whole>
           = f.submit 'Envoyer', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
 
 - if !@participation_request.from_personal_website?
