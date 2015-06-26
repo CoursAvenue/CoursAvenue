@@ -63,7 +63,6 @@ class Course < ActiveRecord::Base
                   :active, :info,
                   :frequency, :is_individual,
                   :cant_be_joined_during_year,
-                  :nb_participants,
                   :no_class_during_holidays,
                   :start_date, :end_date,
                   :subject_ids, :level_ids, :audience_ids, :place_id,
