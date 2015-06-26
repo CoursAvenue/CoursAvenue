@@ -31,7 +31,7 @@
         = paginate @conversations, window: 1, outer_window: 3
 
     - @conversations.each do |conversation|
-      - if conversations.recipients.detect{ |r| r.is_a?(Admin) }.present?
+      - if conversation.recipients.detect{ |r| r.is_a?(Admin) }.present?
         = link_to user_conversation_path(@user, conversation), class: 'muted-link' do
           = render partial: 'conversations/conversation', locals: { conversation: conversation }
     - if @conversations.empty?
