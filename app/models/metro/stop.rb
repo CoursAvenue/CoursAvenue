@@ -5,7 +5,11 @@ class Metro::Stop < ActiveRecord::Base
 
   reverse_geocoded_by :latitude, :longitude
 
-  has_and_belongs_to_many :lines, class_name: 'Metro::Line'
+  has_many :positions, -> { order(position: :asc) },
+    class_name: 'Metro::Position', foreign_key: 'metro_stop_id', dependent: :destroy
+
+  has_many :lines, -> { order 'metro_lines.number ASC' },
+    through: :positions, class_name: 'Metro::Line'
 
   attr_accessible :name, :description, :latitude, :longitude
 
@@ -26,7 +30,9 @@ class Metro::Stop < ActiveRecord::Base
     end
 
     add_attribute :metro_lines do
-      self.lines.map(&:slug)
+      self.positions.includes(:line).map do |p|
+        { line: p.line.slug, position: p.position }
+      end
     end
   end
   # :nocov:

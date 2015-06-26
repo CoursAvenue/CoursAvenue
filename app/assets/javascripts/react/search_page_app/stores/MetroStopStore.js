@@ -57,7 +57,7 @@ var MetroStopStore = Backbone.Collection.extend({
 
         index.search('', {
             facets:      '*',
-            facetFilters: ['metro_lines:' + this.metro_line.get('slug')],
+            facetFilters: ['metro_lines.line:' + this.metro_line.get('slug')],
             hitsPerPage: 100,
         }, function(err, results) {
             this.reset(results.hits);
