@@ -28,12 +28,11 @@ var MetroStop = Backbone.Model.extend({
     },
 });
 
-// http://mattjmcnaughton.com/aloglia-and-backbone-js
 var MetroStopStore = Backbone.Collection.extend({
     model: MetroStop,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'fetchMetroStops', 'selectMetroStop');
+        _.bindAll(this, 'dispatchCallback', 'fetchMetroStops', 'selectMetroStop', 'unsetStop');
 
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
         this.metro_line = null;
@@ -47,6 +46,9 @@ var MetroStopStore = Backbone.Collection.extend({
                 break;
             case ActionTypes.SELECT_METRO_STOP:
                 this.selectMetroStop(payload.data);
+            case ActionTypes.LOCATE_USER:
+            case ActionTypes.SELECT_ADDRESS:
+                this.unsetStop();
                 break;
         }
     },
@@ -63,7 +65,6 @@ var MetroStopStore = Backbone.Collection.extend({
             this.reset(results.hits);
             this.trigger('change');
         }.bind(this));
-
     },
 
     selectMetroStop: function selectMetroStop (metro_stop_slug) {
@@ -77,6 +78,13 @@ var MetroStopStore = Backbone.Collection.extend({
 
     getSelectedStop: function getSelectedStop () {
         return this.findWhere({ selected: true });
+    },
+
+    unsetStop: function unsetStop () {
+        var current_stop = this.findWhere({ selected: true });
+
+        if (current_stop) { current_stop.toggleSelection(); }
+        this.trigger('change');
     },
 });
 
