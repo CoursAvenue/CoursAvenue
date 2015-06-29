@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150629095306) do
+ActiveRecord::Schema.define(version: 20150629101905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -965,6 +965,7 @@ ActiveRecord::Schema.define(version: 20150629095306) do
     t.datetime "updated_at"
     t.string   "route_name"
     t.string   "color"
+    t.string   "line_type"
   end
 
   create_table "ratp_positions", force: true do |t|

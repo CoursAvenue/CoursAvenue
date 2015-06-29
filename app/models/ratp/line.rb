@@ -1,4 +1,6 @@
 class Ratp::Line < ActiveRecord::Base
+  LINE_TYPE = %w(metro rer tramway)
+
   include AlgoliaSearch
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
@@ -9,7 +11,7 @@ class Ratp::Line < ActiveRecord::Base
   has_many :stops, -> { order 'ratp_positions.position ASC' },
     through: :positions, class_name: 'Ratp::Stop'
 
-  attr_accessible :name, :route_name, :number, :color
+  attr_accessible :name, :route_name, :number, :color, :line_type
 
   validates :name,       presence: true
   validates :route_name, presence: true
@@ -22,6 +24,7 @@ class Ratp::Line < ActiveRecord::Base
     attribute :number
     attribute :route_name
     attribute :color
+    attribute :line_type
 
     add_attribute :ratp_stops do
       self.stops.map(&:slug)
