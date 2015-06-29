@@ -31,9 +31,14 @@ var MetroStop = Backbone.Model.extend({
 var MetroStopStore = Backbone.Collection.extend({
     model: MetroStop,
 
+    comparator: function comparator (stop) {
+        var line = _.findWhere(stop.get('metro_lines'), { line: this.metro_line.get('slug') });
+        return (line.position);
+    },
+
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'fetchMetroStops',
-                        'selectMetroStop', 'unsetStop', 'getSelectedStop');
+        _.bindAll(this, 'comparator', 'dispatchCallback',
+                  'fetchMetroStops', 'selectMetroStop', 'unsetStop', 'getSelectedStop');
 
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
         this.metro_line = null;
