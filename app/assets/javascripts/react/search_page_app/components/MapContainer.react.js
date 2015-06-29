@@ -2,6 +2,7 @@ var FluxBoneMixin          = require("../../mixins/FluxBoneMixin"),
     LocationStore          = require("../stores/LocationStore"),
     LocationActionCreators = require("../actions/LocationActionCreators"),
     Map                    = require("./Map.react"),
+    cx                     = require('classnames/dedupe'),
     FluxBoneMixin          = require("../../mixins/FluxBoneMixin");
 
 var MapComponent = React.createClass({
@@ -20,18 +21,15 @@ var MapComponent = React.createClass({
 
     render: function render () {
         var map_style, height_class, expand_button;
-        map_style = {
-            minHeight: '230px'
-        };
-        height_class = (LocationStore.get('fullscreen') ? 'height-70-vh' : 'height-35vh')
         if (LocationStore.get('fullscreen')) {
-            expand_button = (<span><i className="fa fa-compress"></i>&nbsp;Réduire la carte</span>)
+            expand_button = (<span><i className="fa fa-compress"></i>&nbsp;Réduire</span>)
         } else {
-            expand_button = (<span><i className="fa fa-expand"></i>&nbsp;Plein écran</span>)
+            expand_button = (<span><i className="fa fa-expand"></i>&nbsp;Agrandir</span>)
         }
         return (
-          <div className={height_class + " relative overflow-hidden"}>
-              <div onClick={this.toggleFullScreen} className="btn btn--small push absolute north east on-top">
+          <div className={cx("relative overflow-hidden search-page-filters-wrapper",
+                             { 'search-page-filters-wrapper--full': LocationStore.get('fullscreen')}) }>
+              <div onClick={this.toggleFullScreen} className="lbl soft-half--sides push absolute south east on-top">
                   {expand_button}
               </div>
               <Map center={this.props.center} />

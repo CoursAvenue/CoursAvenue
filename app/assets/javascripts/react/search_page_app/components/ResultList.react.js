@@ -18,7 +18,7 @@ ResultList = React.createClass({
     render: function render () {
         var header_message, no_results;
         if (this.state.card_store.loading) {
-            header_message = (<div className="f-weight-bold bg-white on-top opacity-75 height-100-percent flex-center alpha absolute one-whole north west">
+            header_message = (<div className="f-weight-bold on-top opacity-75 height-100-percent flex-center alpha absolute one-whole north west">
                                   Chargement...
                               </div>);
         }
@@ -31,7 +31,7 @@ ResultList = React.createClass({
             no_results = (<Suggestions />);
         }
         return (
-          <div className="bg-white relative z-index-1 main-container" style={{ minHeight: '500px'}}>
+          <div className="relative z-index-1 main-container main-container--1000" style={{ minHeight: '500px'}}>
             {header_message}
             {cards}
             {no_results}

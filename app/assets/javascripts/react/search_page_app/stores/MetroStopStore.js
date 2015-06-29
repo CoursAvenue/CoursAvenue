@@ -3,6 +3,7 @@ var _                    = require('underscore'),
     Backbone             = require('backbone'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants'),
+    ActionTypes          = SearchPageConstants.ActionTypes,
     MetroLineStore       = require('./MetroLineStore'),
     FluxBoneMixin        = require('../../mixins/FluxBoneMixin');
 

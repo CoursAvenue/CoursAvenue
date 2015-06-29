@@ -2,6 +2,7 @@ var _                    = require('underscore'),
     Backbone             = require('backbone'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants'),
+    ActionTypes          = SearchPageConstants.ActionTypes,
     FluxBoneMixin        = require('../../mixins/FluxBoneMixin');
 
 var MetroLine = Backbone.Model.extend({

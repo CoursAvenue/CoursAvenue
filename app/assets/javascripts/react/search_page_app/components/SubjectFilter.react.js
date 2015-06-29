@@ -1,5 +1,6 @@
 var SubjectStore                   = require('../stores/SubjectStore'),
     FilterStore                    = require('../stores/FilterStore'),
+    LocationStore                  = require('../stores/LocationStore'),
     SubjectFilterGroupSubjectPanel = require('../components/subject_filter_panels/GroupSubjectPanel.react'),
     SubjectFilterRootSubjectPanel  = require('../components/subject_filter_panels/RootSubjectPanel.react'),
     SubjectFilterChildSubjectPanel = require('../components/subject_filter_panels/ChildSubjectPanel.react'),
@@ -18,7 +19,8 @@ var SubjectFilter = React.createClass({
     getInitialState: function getInitialState() {
         return {
             filter_store:  FilterStore,
-            subject_store: SubjectStore
+            subject_store: SubjectStore,
+            location_store: LocationStore
         };
     },
 
@@ -38,11 +40,11 @@ var SubjectFilter = React.createClass({
     render: function render () {
         var classes = classNames({
             'north'     : (this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS),
-            'down-north': !(this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS)
+            'down-north': !(this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS),
+            'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
         return (
-          <div className={classes + ' delta soft on-top transition-all-300 absolute west one-whole bg-white height-35vh text--center'}
-               style={{ minHeight: '230px'}}>
+          <div className={classes + ' search-page-filters-wrapper delta soft on-top transition-all-300 absolute west one-whole bg-white text--center'}>
               { this.panelToShow() }
           </div>
         );

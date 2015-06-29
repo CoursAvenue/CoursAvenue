@@ -34,30 +34,28 @@ var FilterBar = React.createClass({
 
     render: function render () {
         return (
-          <div className="text--center bordered--top bordered--bottom bg-white">
-              <div className="main-container grid">
-                  <div className={cx("grid__item v-middle two-twelfths soft-half cursor-pointer delta f-weight-bold",
+          <div className="text--center relative on-top"
+                style={{ marginTop: '-3em' }}>
+              <div className="main-container main-container--1000 grid bg-white">
+                  <div className={cx("grid__item v-middle three-tenths soft cursor-pointer gamma f-weight-500",
                                     { 'bordered--top bordered--thick': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS})}
                        onClick={this.toggleSubjectFilter}>
-                    Quoi ?
+                    <i className="fa fa-lightbulb-o"></i>&nbsp;Quoi
                   </div>
-                  <div className="grid__item v-middle one-twelfth text--center">•</div>
-                  <div className={cx("grid__item v-middle two-twelfths soft-half cursor-pointer delta f-weight-bold",
+                  <div className={cx("grid__item v-middle three-tenths soft cursor-pointer gamma f-weight-500",
                                     { 'bordered--top bordered--thick': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.LOCATION})}
                        onClick={this.toggleLocationFilter}>
-                    Où ?
+                    <i className="fa fa-map-marker"></i>&nbsp;Où
                   </div>
-                  <div className="grid__item v-middle one-twelfth text--center">•</div>
-                  <div className={cx("grid__item v-middle two-twelfths soft-half cursor-pointer delta f-weight-bold",
+                  <div className={cx("grid__item v-middle three-tenths soft cursor-pointer gamma f-weight-500",
                                     { 'bordered--top bordered--thick': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.TIME})}
                        onClick={this.toggleTimeFilter}>
-                    Quand ?
+                    <i className="fa fa-map-clock"></i>&nbsp;Quand ?
                   </div>
-                  <div className="grid__item v-middle one-twelfth text--center">•</div>
-                  <div className={cx("grid__item v-middle two-twelfths soft-half cursor-pointer delta f-weight-bold",
+                  <div className={cx("grid__item v-middle one-tenth soft-half cursor-pointer gamma f-weight-500",
                                     { 'bordered--top bordered--thick': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.MORE})}
                        onClick={this.toggleMoreFilter}>
-                    <i className="fa fa-plus"></i> de filtres
+                    <i className="fa fa-filter"></i>
                   </div>
               </div>
           </div>

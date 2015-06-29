@@ -1,13 +1,23 @@
 var RootSubjectItem       = require('./RootSubjectItem.react'),
     SubjectStore          = require('../stores/SubjectStore'),
+    FilterStore           = require('../stores/FilterStore'),
     SearchPageDispatcher  = require('../dispatcher/SearchPageDispatcher'),
     FilterActionCreators  = require('../actions/FilterActionCreators'),
+    FilterPanelConstants  = require('../constants/FilterPanelConstants'),
+    cx                    = require('classnames/dedupe');
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
 
 var FilterBar = React.createClass({
 
+    mixins: [
+        FluxBoneMixin('filter_store')
+    ],
+
     getInitialState: function getInitialState() {
-        return { subject_store: SubjectStore }
+        return {
+            subject_store: SubjectStore,
+            filter_store:  FilterStore
+        }
     },
 
     searchFullText: function searchFullText (event) {
@@ -20,14 +30,21 @@ var FilterBar = React.createClass({
 
     render: function render () {
         return (
-          <div className="bg-gray-light soft">
-              <div className="inline-block soft-half--right">Ou</div>
-              <input className="input--large"
-                     size="50"
-                     onChange={this.searchFullText}
-                     value={this.state.subject_store.full_text_search}
-                     placeholder="Recherchez une pratique précise" />
-              <div className="btn" onClick={this.closeFilterPanel}>OK</div>
+          <div className={cx("flexbox one-whole absolute north west bg-white",
+                            { hidden: (this.state.filter_store.get('current_panel') != FilterPanelConstants.FILTER_PANELS.SUBJECTS) })}>
+              <div className="flexbox__item soft-half">
+                  <i className="fa fa-search beta"></i>
+              </div>
+              <div className="flexbox__item soft-half--ends one-whole">
+                  <input className="input--large one-whole"
+                         size="50"
+                         onChange={this.searchFullText}
+                         value={this.state.subject_store.full_text_search}
+                         placeholder="Cherchez une activité..." />
+              </div>
+              <div className="flexbox__item soft-half text--center" onClick={this.closeFilterPanel}>
+                  <i className="fa fa-times beta"></i>
+              </div>
           </div>
         );
     }

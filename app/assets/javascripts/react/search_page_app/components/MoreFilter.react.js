@@ -1,6 +1,7 @@
 var FilterActionCreators = require('../actions/FilterActionCreators'),
     FilterPanelConstants = require('../constants/FilterPanelConstants'),
     FilterStore          = require('../stores/FilterStore'),
+    LocationStore        = require('../stores/LocationStore'),
     AudienceStore        = require('../stores/AudienceStore'),
     LevelStore           = require('../stores/LevelStore'),
     FluxBoneMixin        = require("../../mixins/FluxBoneMixin"),
@@ -16,9 +17,10 @@ var MoreFilter = React.createClass({
 
     getInitialState: function getInitialState () {
         return {
-            filter_store:   FilterStore,
+            filter_store  : FilterStore,
             audience_store: AudienceStore,
-            level_store:    LevelStore,
+            level_store   : LevelStore,
+            location_store: LocationStore,
         };
     },
 
@@ -28,13 +30,14 @@ var MoreFilter = React.createClass({
 
     render: function render () {
         var isCurrentPanel = this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.MORE;
-        var classes = classNames('on-top transition-all-300 absolute west one-whole bg-white height-35vh text--center', {
+        var classes = classNames('on-top transition-all-300 absolute west one-whole bg-white search-page-filters-wrapper text--center', {
             'north'     : isCurrentPanel,
-            'down-north': !isCurrentPanel
+            'down-north': !isCurrentPanel,
+            'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
 
         return (
-            <div className={ classes } style={ { minHeight: '230px' } }>
+            <div className={ classes }>
               <div>
                   <h2>Filtres supplémentaires</h2>
                   <div className='grid'>

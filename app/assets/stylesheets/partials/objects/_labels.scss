@@ -5,9 +5,8 @@
 .lbl {
     display         : inline-block;
     font-weight     : 500;
-    padding         : 0.2em 0.7em;
+    padding         : 0.5em 0.7em;
     background-color: #FFF;
-    border          : 1px solid #CCC;
     @include text-shadow(none);
     @include border-radius(30px);
     @include box-shadow(none);

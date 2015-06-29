@@ -79,3 +79,6 @@
             padding: 0 !important;
         }
 }
+.leaflet-control-zoom {
+    @include border-radius(15px);
+}

@@ -1,4 +1,5 @@
 var FilterStore                    = require('../stores/FilterStore'),
+    LocationStore                  = require('../stores/LocationStore'),
     SearchPageDispatcher           = require('../dispatcher/SearchPageDispatcher'),
     FluxBoneMixin                  = require("../../mixins/FluxBoneMixin"),
     classNames                     = require('classnames'),
@@ -15,7 +16,8 @@ var TimeFilter = React.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            filter_store: FilterStore
+            filter_store: FilterStore,
+            location_store: LocationStore
         };
     },
 
@@ -32,12 +34,12 @@ var TimeFilter = React.createClass({
     render: function render () {
         var isCurrentPanel = this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.TIME;
         var classes = classNames({
-            'north'     : isCurrentPanel,
-            'down-north': !isCurrentPanel
+            'north'                            : isCurrentPanel,
+            'down-north'                       : !isCurrentPanel,
+            'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
         return (
-          <div className={ classes + ' on-top transition-all-300 absolute west one-whole bg-white height-35vh text--center' }
-               style={{ minHeight: '230px'}}>
+          <div className={ classes + ' on-top transition-all-300 absolute west one-whole bg-white search-page-filters-wrapper text--center'}>
               { this.panelToShow() }
           </div>
         );

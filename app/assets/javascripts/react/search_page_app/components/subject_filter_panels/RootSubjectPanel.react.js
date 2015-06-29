@@ -41,7 +41,6 @@ var SubjectFilter = React.createClass({
               <div className="main-container soft--bottom">
                   { root_subject_items }
               </div>
-              <SubjectSearchInput />
           </div>
         );
     }

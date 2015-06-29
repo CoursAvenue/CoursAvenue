@@ -10,7 +10,7 @@ var ResultInfoItem = React.createClass({
       var dash = (this.props.show_dash ? ' - ' : '');
       return (<span>
                   {dash}
-                  <a className="semi-muted-link"
+                  <a className="semi-muted-link lbl v-middle"
                      href='javascript:void(0)'
                      onClick={this.filterSubject}>
                       {this.props.subject_name} ({this.props.number})

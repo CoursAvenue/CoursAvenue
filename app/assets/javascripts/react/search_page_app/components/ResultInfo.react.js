@@ -27,10 +27,10 @@ var ResultInfo = React.createClass({
                                         show_dash={(index > 1)}/>);
             });
         }
-        var result_string = (total_results > 1 ? 'résultats' : 'résultat');
+        var result_string = (total_results > 1 ? 'cours trouvé' : 'cours trouvés');
         return (
-          <div className="main-container delta soft--ends soft-half--sides bg-white text-ellipsis">
-              <strong>{total_results} {result_string} :</strong> {facets}
+          <div className="main-container main-container--1000 soft--ends soft-half--sides text-ellipsis">
+              <span className="beta v-middle">{total_results} {result_string}</span>&nbsp;{facets}
           </div>
         );
     }

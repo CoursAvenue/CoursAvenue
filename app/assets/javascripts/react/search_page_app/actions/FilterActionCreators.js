@@ -1,116 +1,115 @@
 var SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants');
-    ActionTypes          = SearchPageConstants.ActionTypes;
 
 module.exports = {
 
     changeContext: function changeContext (context) {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.CHANGE_CONTEXT,
+            actionType: SearchPageConstants.ActionTypes.CHANGE_CONTEXT,
             data: context
         });
     },
 
     updateFilters: function updateFilters (data) {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.UPDATE_FILTERS,
+            actionType: SearchPageConstants.ActionTypes.UPDATE_FILTERS,
             data: data
         });
     },
 
     updateSorting: function updateSorting (data) {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.UPDATE_SORTING,
+            actionType: SearchPageConstants.ActionTypes.UPDATE_SORTING,
             data: data
         });
     },
 
     closeFilterPanel: function closeFilterPanel () {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.CLOSE_FILTER_PANEL
+            actionType: SearchPageConstants.ActionTypes.CLOSE_FILTER_PANEL
         });
     },
 
     toggleSubjectFilter: function toggleSubjectFilter () {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.TOGGLE_SUBJECT_FILTERS
+            actionType: SearchPageConstants.ActionTypes.TOGGLE_SUBJECT_FILTERS
         });
     },
 
     toggleLocationFilter: function toggleLocationFilter () {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.TOGGLE_LOCATION_FILTERS
+            actionType: SearchPageConstants.ActionTypes.TOGGLE_LOCATION_FILTERS
         });
     },
 
     toggleTimeFilter: function toggleTimeFilter () {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.TOGGLE_TIME_FILTERS
+            actionType: SearchPageConstants.ActionTypes.TOGGLE_TIME_FILTERS
         });
     },
 
     toggleMoreFilter: function toggleMoreFilter () {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.TOGGLE_MORE_FILTERS
+            actionType: SearchPageConstants.ActionTypes.TOGGLE_MORE_FILTERS
         });
     },
 
     //----------- Subject panels
     showGroupPanel: function showGroupPanel () {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.SHOW_GROUP_PANEL
+            actionType: SearchPageConstants.ActionTypes.SHOW_GROUP_PANEL
         });
     },
 
     showRootPanel: function showRootPanel () {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.SHOW_ROOT_PANEL
+            actionType: SearchPageConstants.ActionTypes.SHOW_ROOT_PANEL
         });
     },
 
     //----------- Location panels
     showAddressPanel: function showAddressPanel () {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.SHOW_ADDRESS_PANEL
+            actionType: SearchPageConstants.ActionTypes.SHOW_ADDRESS_PANEL
         });
     },
 
     showLocationChoicePanel: function showLocationChoicePanel () {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.SHOW_LOCATION_CHOICE_PANEL
+            actionType: SearchPageConstants.ActionTypes.SHOW_LOCATION_CHOICE_PANEL
         });
     },
 
     showMetroPanel: function showMetroPanel () {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.SHOW_METRO_PANEL
+            actionType: SearchPageConstants.ActionTypes.SHOW_METRO_PANEL
         });
     },
 
     searchFullText: function searchFullText (data) {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.SEARCH_FULL_TEXT,
+            actionType: SearchPageConstants.ActionTypes.SEARCH_FULL_TEXT,
             data: data
         });
     },
 
     selectMetroLine: function selectMetroLine (data) {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.SELECT_METRO_LINE,
+            actionType: SearchPageConstants.ActionTypes.SELECT_METRO_LINE,
             data: data
         });
     },
 
     selectMetroStop: function selectMetroStop (data) {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.SELECT_METRO_STOP,
+            actionType: SearchPageConstants.ActionTypes.SELECT_METRO_STOP,
             data: data
         });
     },
 
     unsetFilter: function unsetFilter (filter_key) {
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.UNSET_FILTER,
+            actionType: SearchPageConstants.ActionTypes.UNSET_FILTER,
             data: filter_key
         });
     }

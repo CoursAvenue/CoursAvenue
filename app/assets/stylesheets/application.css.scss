@@ -76,6 +76,7 @@
 @import "partials/objects/progress-bar";
 @import "partials/objects/read_more";
 @import "partials/objects/search";
+@import "partials/objects/search_page_filters";
 @import "partials/objects/share_buttons";
 @import "partials/objects/sliders";
 @import "partials/objects/slideshow";
@@ -122,7 +123,9 @@ html, pre {
   font-family : $brand-face;
   font-weight : 400;
   background  : $site-background-color;
-  color       : #393C3D;
+  // color       : #393C3D;
+  // color       : #5F7981;
+  color       : #7E7E7E;
   overflow    : auto;
   -webkit-font-smoothing: antialiased;
 }

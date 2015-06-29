@@ -155,7 +155,7 @@ var MapComponent = React.createClass({
 
     render: function render () {
         var map_style = {
-            minHeight: '230px',
+            minHeight: '500px',
             height: '100%'
         };
         return (

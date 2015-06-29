@@ -1,0 +1,7 @@
+.search-page-filters-wrapper {
+    min-height: 500px;
+    height: 35vh;
+    &.search-page-filters-wrapper--full {
+        height: 80vh;
+    }
+}
