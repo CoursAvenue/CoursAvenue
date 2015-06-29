@@ -1,5 +1,5 @@
-module Metro
+module Ratp
   def self.table_name_prefix
-    'metro_'
+    'ratp_'
   end
 end

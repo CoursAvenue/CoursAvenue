@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :metro_stop, class: 'Metro::Stop' do
+  factory :ratp_stop, class: 'Ratp::Stop' do
     name      'Faidherbe-Chaligny'
     latitude  2.3842745805324
     longitude 48.8502384503522

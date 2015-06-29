@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150626124025) do
+ActiveRecord::Schema.define(version: 20150629101905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -598,38 +598,6 @@ ActiveRecord::Schema.define(version: 20150626124025) do
     t.integer "media_id"
   end
 
-  create_table "metro_lines", force: true do |t|
-    t.string   "name"
-    t.string   "slug"
-    t.string   "number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "route_name"
-    t.string   "color"
-  end
-
-  create_table "metro_positions", force: true do |t|
-    t.integer  "metro_line_id"
-    t.integer  "metro_stop_id"
-    t.integer  "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "metro_positions", ["metro_line_id", "metro_stop_id"], name: "index_metro_positions_on_metro_line_id_and_metro_stop_id", unique: true, using: :btree
-  add_index "metro_positions", ["metro_line_id"], name: "index_metro_positions_on_metro_line_id", using: :btree
-  add_index "metro_positions", ["metro_stop_id"], name: "index_metro_positions_on_metro_stop_id", using: :btree
-
-  create_table "metro_stops", force: true do |t|
-    t.string   "name"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.string   "slug"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "description"
-  end
-
   create_table "newsletter_bloc_ownerships", id: false, force: true do |t|
     t.integer "bloc_id"
     t.integer "sub_bloc_id"
@@ -987,6 +955,39 @@ ActiveRecord::Schema.define(version: 20150626124025) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "apply_until"
+  end
+
+  create_table "ratp_lines", force: true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.string   "number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "route_name"
+    t.string   "color"
+    t.string   "line_type"
+  end
+
+  create_table "ratp_positions", force: true do |t|
+    t.integer  "ratp_line_id"
+    t.integer  "ratp_stop_id"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ratp_positions", ["ratp_line_id", "ratp_stop_id"], name: "index_ratp_positions_on_ratp_line_id_and_ratp_stop_id", unique: true, using: :btree
+  add_index "ratp_positions", ["ratp_line_id"], name: "index_ratp_positions_on_ratp_line_id", using: :btree
+  add_index "ratp_positions", ["ratp_stop_id"], name: "index_ratp_positions_on_ratp_stop_id", using: :btree
+
+  create_table "ratp_stops", force: true do |t|
+    t.string   "name"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "description"
   end
 
   create_table "reply_tokens", force: true do |t|
