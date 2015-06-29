@@ -1,4 +1,4 @@
-class Metro::Stop < ActiveRecord::Base
+class Ratp::Stop < ActiveRecord::Base
   include AlgoliaSearch
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
@@ -6,10 +6,10 @@ class Metro::Stop < ActiveRecord::Base
   reverse_geocoded_by :latitude, :longitude
 
   has_many :positions, -> { order(position: :asc) },
-    class_name: 'Metro::Position', foreign_key: 'metro_stop_id', dependent: :destroy
+    class_name: 'Ratp::Position', foreign_key: 'ratp_stop_id', dependent: :destroy
 
-  has_many :lines, -> { order 'metro_lines.number ASC' },
-    through: :positions, class_name: 'Metro::Line'
+  has_many :lines, -> { order 'ratp_lines.number ASC' },
+    through: :positions, class_name: 'Ratp::Line'
 
   attr_accessible :name, :description, :latitude, :longitude
 
