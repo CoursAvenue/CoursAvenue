@@ -1,12 +1,20 @@
-var PlanningActionCreators = require('../../actions/PlanningActionCreators');
+var BookPopup = require('../BookPopup');
 var LessonPlanning = React.createClass({
 
     propTypes: {
         planning: React.PropTypes.object.isRequired,
+        course: React.PropTypes.object.isRequired
     },
 
     bookPlanning: function bookPlanning () {
-        PlanningActionCreators.bookPlanning(this.props.planning);
+        var popup = (<BookPopup planning={this.props.planning} course={this.props.course}/>);
+        var rendered_popup = React.render(popup, $('#mfp-hide')[0]);
+        $.magnificPopup.open({
+              items: {
+                  src: rendered_popup.getDOMNode().parentElement,
+                  type: 'inline'
+              }
+        });
     },
 
     render: function render () {
@@ -23,16 +31,16 @@ var LessonPlanning = React.createClass({
             <tr className="cursor-pointer" onClick={this.bookPlanning}>
                 <td data-th="Jour" itemScope="" itemType="http://data-vocabulary.org/Event">
                     <div>
-                        <meta content={this.props.course_name} itemprop="summary" />
+                        <meta content={this.props.course.name} itemprop="summary" />
                         {this.props.planning.date}
                     </div>
                 </td>
                 <td data-th="Horaire">
                     <div>
-                      <time dateTime={this.props.planning.start_date_datetime} itemprop="startDate">
+                        <time dateTime={this.props.planning.start_date_datetime} itemprop="startDate">
                             {this.props.planning.time_slot}
-                      </time>
-                      <time dateTime={this.props.planning.end_date_datetime} itemprop="endDate"></time>
+                        </time>
+                        <time dateTime={this.props.planning.end_date_datetime} itemprop="endDate"></time>
                     </div>
                 </td>
                 <td data-th="Niveau">

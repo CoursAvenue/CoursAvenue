@@ -4,12 +4,14 @@ var Lesson = React.createClass({
 
     propTypes: {
         plannings: React.PropTypes.array.isRequired,
+        course: React.PropTypes.array.isRequired,
     },
 
     render: function render () {
-        var plannings = _.map(this.props.plannings, function(planning) {
-            return (<LessonPlanning planning={planning} />);
-        });
+        var plannings = _.map(this.props.plannings, function(planning, index) {
+            return (<LessonPlanning planning={planning} course={this.props.course} key={index} />);
+        }.bind(this));
+
         var infos = [];
         if (this.props.course.teaches_at_home) {
             infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
@@ -65,7 +67,7 @@ var Lesson = React.createClass({
                         <tr>
                             <th className="one-tenths">Jour</th>
                             <th className="two-tenths">Horaires</th>
-                            <th className="two-tenths">Niveau</th>
+                            <th className="three-tenths">Niveau</th>
                             <th className="two-tenths">Public</th>
                             <th><i className="fa-info"></i></th>
                         </tr>

@@ -29,6 +29,7 @@
 
     .grid__item.four-twelfths.palm-one-whole.soft-half--right.palm-hard>
       .bordered.bg-white
+        #mfp-hide.center-block.relative{ style: 'max-width:500px; '}
         = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
                                           metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) },
                                          { prerender: false })

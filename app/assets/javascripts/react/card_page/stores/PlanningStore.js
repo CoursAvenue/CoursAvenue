@@ -14,12 +14,6 @@ var PlanningStore = Backbone.Collection.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
-            case ActionTypes.BOOK_PLANNING:
-                this.map(function(planning) {
-                    planning.set({ selected: false });
-                });
-                this.get(payload.data).set({ selected: true });
-                break;
             case ActionTypes.POPULATE_PLANNINGS:
                 this.reset(payload.data);
                 break;

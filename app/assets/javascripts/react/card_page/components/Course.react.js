@@ -35,12 +35,7 @@ var Course = React.createClass({
                 break;
         }
         this.props.course
-        return (
-                <div>
-                    <BookPopup />
-                    {course}
-                </div>
-        );
+        return course;
     }
 });
 

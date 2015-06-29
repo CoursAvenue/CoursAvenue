@@ -6,7 +6,7 @@ module.exports = {
         POPULATE_COURSE   : null,
         POPULATE_PLANNINGS: null,
 
-        BOOK_PLANNING     : null
+        SUBMIT_REQUEST    : null
     })
 
 };

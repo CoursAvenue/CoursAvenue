@@ -3,10 +3,10 @@ var CardPageDispatcher = require('../dispatcher/CardPageDispatcher'),
     ActionTypes        = CardPageConstants.ActionTypes;
 
 module.exports = {
-    populatePlannings: function populatePlannings (planning) {
+    submitRequest: function submitRequest (data) {
         CardPageDispatcher.dispatch({
-            actionType: ActionTypes.POPULATE_PLANNINGS,
-            data: planning
+            actionType: ActionTypes.SUBMIT_REQUEST,
+            data: data
         });
-    }
+    },
 };
