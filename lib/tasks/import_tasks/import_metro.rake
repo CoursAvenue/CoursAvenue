@@ -9,13 +9,13 @@ namespace :import do
       METRO_LINES = 'https://gist.githubusercontent.com/aliou/065689914b6677cfb06c/raw/56d4a91ba9e314f00dd4b4345db69f4bf775d3b2/metro-lines.json'
       lines_data = JSON.parse(open(METRO_LINES).read)
 
-      lines = Metro::Line.create(lines_data)
+      lines = Ratp::Line.create(lines_data)
       puts 'Metro lines successfully created.'
     end
 
     desc 'Import Metro Stops'
     task :stops => :environment do
-      if Metro::Line.count == 0
+      if Ratp::Line.count == 0
         puts 'No Metro lines found. Make sure to run `rake import:metro:lines` and rerun this.'
         next
       end
@@ -26,11 +26,11 @@ namespace :import do
 
       stops = stops_data.each do |stop|
         # Create the stop.
-        s = Metro::Stop.create(name: stop['name'], latitude: stop['latitude'], longitude: stop['longitude'], description: stop['description'])
+        s = Ratp::Stop.create(name: stop['name'], latitude: stop['latitude'], longitude: stop['longitude'], description: stop['description'])
 
         # Adding the stop to its lines.
         stop['lines'].each do |position|
-          l = Metro::Line.where(slug: position['line']).first
+          l = Ratp::Line.where(slug: position['line']).first
           if l.present?
             l.positions.create(line: l, stop: s, position: position['position'])
           end
