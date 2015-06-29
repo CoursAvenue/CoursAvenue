@@ -85,7 +85,6 @@ class User < ActiveRecord::Base
   # Called from Registration Controller when user registers for first time
   def after_registration
     send_pending_messages
-    update_sponsorship_status
   end
 
   # Not after create because user creation is made when teachers invite their students to post a comment
@@ -550,17 +549,5 @@ class User < ActiveRecord::Base
 
   def subscribe_to_mailchimp
     MailchimpUpdater.delay.update_user(self)
-  end
-
-  # Set the user as registered in the sponsorships the user belongs to.
-  #
-  # @return nil
-  def update_sponsorship_status
-    if self.sponsors.any?
-      self.sponsors.each do |sponsorship|
-        sponsorship.update_state
-      end
-    end
-    nil
   end
 end
