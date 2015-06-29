@@ -6,7 +6,7 @@ namespace :import do
   namespace :metro do
     desc 'Import Metro Lines'
     task :lines => :environment do
-      METRO_LINES = 'https://gist.githubusercontent.com/aliou/065689914b6677cfb06c/raw/56d4a91ba9e314f00dd4b4345db69f4bf775d3b2/metro-lines.json'
+      METRO_LINES = 'https://gist.githubusercontent.com/aliou/065689914b6677cfb06c/raw/eef788637d686fed98e59ab3a58964f6c8894908/metro-lines.json'
       lines_data = JSON.parse(open(METRO_LINES).read)
 
       lines = Ratp::Line.create(lines_data)
@@ -20,7 +20,7 @@ namespace :import do
         next
       end
 
-      METRO_STOPS = 'https://gist.githubusercontent.com/aliou/065689914b6677cfb06c/raw/054f02f40ddcbfb09c138b4f6dda29cdbda20cd4/metro-stops.json'
+      METRO_STOPS = 'https://gist.githubusercontent.com/aliou/065689914b6677cfb06c/raw/5016b510772f9ec82ecd86c0ea7dff1b724e6a86/metro-stops.json'
       stops_data = JSON.parse(open(METRO_STOPS).read)
       bar = ProgressBar.new(302)
 
