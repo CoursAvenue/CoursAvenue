@@ -8,7 +8,7 @@ var _                    = require('underscore'),
     FluxBoneMixin        = require('../../mixins/FluxBoneMixin');
 
 var client = algoliasearch(ENV['ALGOLIA_APPLICATION_ID'], ENV['ALGOLIA_SEARCH_API_KEY']),
-    index  = client.initIndex('Metro_Stop_' + ENV.SERVER_ENVIRONMENT);
+    index  = client.initIndex('Ratp_Stop_' + ENV.SERVER_ENVIRONMENT);
 
 
 var MetroStop = Backbone.Model.extend({

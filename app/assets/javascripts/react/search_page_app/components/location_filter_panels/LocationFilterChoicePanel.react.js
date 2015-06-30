@@ -22,15 +22,15 @@ var LocationFilterChoicePanel = React.createClass({
               <div className="search-page-filters__title">
                   Où souhaitez-vous trouver un cours ?
               </div>
-              <div className="bordered soft delta cursor-pointer inline-block v-middle push--right"
+              <div className="bordered bg-white soft delta cursor-pointer inline-block v-middle push--right"
                    onClick={this.locateUser}>
                   Autour de moi
               </div>
-              <div className="bordered soft delta cursor-pointer inline-block v-middle"
+              <div className="bordered bg-white soft delta cursor-pointer inline-block v-middle"
                    onClick={this.showAddressPanel}>
                   {"Autour d'une adresse"}
               </div>
-              <div className="bordered soft delta cursor-pointer inline-block v-middle push--left"
+              <div className="bordered bg-white soft delta cursor-pointer inline-block v-middle push--left"
                    onClick={ this.showMetroPanel }>
                   {"Proche d'un métro"}
               </div>

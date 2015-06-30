@@ -47,11 +47,29 @@ var LocationFilterMetroPanel = React.createClass({
         });
 
         // TODO: Temporary, store in a MetroLineStore ?
-        var metro_lines = this.state.metro_line_store.map(function(line, index) {
+        var metro_lines = this.state.metro_line_store.where({ type: 'metro' }).map(function(line, index) {
             return (
                 <div onClick={ this.selectLine(line.get('slug')) } key={ index }
                       className="inline-block v-middle"
-                      style={ { paddingRight: '4px' } }>
+                      style={ { marginRight: '4px' } }>
+                      <MetroLineChip line={line.toJSON()}/>
+                </div>
+            );
+        }.bind(this));
+        var tramway_lines = this.state.metro_line_store.where({ type: 'tramway' }).map(function(line, index) {
+            return (
+                <div onClick={ this.selectLine(line.get('slug')) } key={ index }
+                      className="inline-block v-middle"
+                      style={ { marginRight: '4px' } }>
+                      <MetroLineChip line={line.toJSON()}/>
+                </div>
+            );
+        }.bind(this));
+        var rer_lines = this.state.metro_line_store.where({ type: 'rer' }).map(function(line, index) {
+            return (
+                <div onClick={ this.selectLine(line.get('slug')) } key={ index }
+                      className="inline-block v-middle"
+                      style={ { marginRight: '4px' } }>
                       <MetroLineChip line={line.toJSON()}/>
                 </div>
             );
@@ -59,31 +77,43 @@ var LocationFilterMetroPanel = React.createClass({
 
         return (
             <div>
-              <div className='main-container'>
-                <ol className="nav breadcrumb text--left">
-                  <li>
-                    <a onClick={ this.showLocationChoicePanel } className="block text--left">Où</a>
-                  </li>
-                  <li>{"Proche d'un Métro"}</li>
-                </ol>
-              </div>
-              <div className="search-page-filters__title">
-                Choisissez une ligne et/ou une station
-              </div>
-              <div>
-                <div className="push-half--bottom center-block text--center">
-                  { metro_lines }
-                </div>
+                <div className='main-container main-container--1000'>
+                    <ol className="nav breadcrumb">
+                        <li>
+                            <a onClick={ this.showLocationChoicePanel } className="block">Où</a>
+                        </li>
+                        <li>{"Proche d'un Métro"}</li>
+                    </ol>
+                    <div className="search-page-filters__title">
+                        Choisissez une ligne et/ou une station
+                    </div>
+                    <div>
+                        <div className="push-half--bottom">
+                            <div className="metro-line metro-line-m"
+                                 style={ { marginRight: '8px' } }>M</div>
+                            { metro_lines }
+                        </div>
+                        <div className="push-half--bottom">
+                            <div className="metro-line rer-line-rer"
+                                 style={ { marginRight: '8px' } }>RER</div>
+                            { rer_lines }
+                        </div>
+                        <div className="push-half--bottom">
+                            <div className="metro-line tramway-line-t"
+                                 style={ { marginRight: '8px' } }>T</div>
+                            { tramway_lines }
+                        </div>
 
-                <div className="inline-block v-middle relative center-block text--left">
-                  <select defaultValue='none' onChange={ this.selectStop }>
-                  <option value='none'></option>
-                      { metro_stops }
-                  </select>
-                </div>
+                        <div className="inline-block v-middle relative center-block">
+                          <select defaultValue='none' onChange={ this.selectStop }>
+                              <option value='none'></option>
+                              { metro_stops }
+                          </select>
+                        </div>
 
-                <div className="btn v-middle" onClick={this.closeFilterPanel}>OK</div>
-              </div>
+                        <div className="btn v-middle" onClick={this.closeFilterPanel}>OK</div>
+                    </div>
+                </div>
             </div>
         );
     },

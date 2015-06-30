@@ -24,7 +24,7 @@ var MapComponent = React.createClass({
     addMetros: function addMetros () {
         _.each(this.props.metro_stops, function(metro_stop) {
             var marker = L.marker([metro_stop.latitude, metro_stop.longitude], {
-                icon: L.divIcon({ className: 'nowrap', html: '<div class="metro-line metro-line-m v-middle">M</div><span class="v-middle metro-line-station-name">' + metro_stop.name + '</span>' })
+                icon: L.divIcon({ className: 'nowrap', html: '<div class="metro-line metro-line-m-for-map v-middle">M</div><span class="v-middle metro-line-station-name">' + metro_stop.name + '</span>' })
             });
             var string_popup = React.renderToString(<MetroMarkerPopup metro_stop={metro_stop} />);
             marker.bindPopup(string_popup, { className: 'ca-leaflet-popup' });

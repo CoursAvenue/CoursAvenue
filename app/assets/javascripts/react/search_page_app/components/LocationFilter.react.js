@@ -42,7 +42,7 @@ var LocationFilter = React.createClass({
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
         return (
-          <div className={classes + ' on-top search-page-filters__location-panel transition-all-300 absolute west one-whole text--center search-page-filters-wrapper'}>
+          <div className={classes + ' on-top search-page-filters__location-panel transition-all-300 absolute west one-whole search-page-filters-wrapper'}>
               { this.panelToShow() }
           </div>
         );

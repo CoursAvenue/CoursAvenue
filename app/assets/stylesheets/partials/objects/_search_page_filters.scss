@@ -16,5 +16,9 @@
         background-color: transparentize($blue, 0.10);
     }
     .search-page-filters__title {
-        color: white;
+        @extend .text--center;
+        color        : white;
+        font-size    : 2em;
+        font-weight  : bold;
+        margin-bottom: 0.5em;
     }
