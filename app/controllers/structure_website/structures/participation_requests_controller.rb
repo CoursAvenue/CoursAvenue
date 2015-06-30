@@ -42,11 +42,16 @@ class StructureWebsite::Structures::ParticipationRequestsController < StructureW
 
   def show
     @participation_request = @structure.participation_requests.where(token: params[:id]).first
-    if @participation_request.nil?
-      redirect_to structure_path(@structure)
+    if current_user
+      redirect_to user_participation_request_path(current_user, @participation_request)
       return
+    else
+      if @participation_request.nil?
+        redirect_to structure_path(@structure)
+        return
+      end
+      @user = @participation_request.user
     end
-    @user = @participation_request.user
   end
 
   private
