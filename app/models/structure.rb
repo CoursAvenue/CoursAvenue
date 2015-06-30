@@ -1253,6 +1253,20 @@ class Structure < ActiveRecord::Base
     update_column :cities_text, places.map(&:city).map(&:name).uniq.join(', ')
   end
 
+  def disable!
+    return if !enabled?
+
+    self.enabled = false
+    save
+  end
+
+  def enable!
+    return if enabled?
+
+    self.enabled = true
+    save
+  end
+
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons

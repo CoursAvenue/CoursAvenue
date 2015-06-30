@@ -687,4 +687,36 @@ describe Structure do
       end
     end
   end
+
+  describe '#disable!' do
+    context 'when it is enabled' do
+      subject { FactoryGirl.create(:structure, :enabled) }
+      it do
+        expect { subject.disable! }.to change { subject.enabled? }.from(true).to(false)
+      end
+    end
+
+    context 'when it is not enabled' do
+      subject { FactoryGirl.create(:structure, :disabled) }
+      it do
+        expect { subject.disable! }.to_not change { subject.enabled? }
+      end
+    end
+  end
+
+  describe '#enable!' do
+    context 'when it is enabled' do
+      subject { FactoryGirl.create(:structure, :enabled) }
+      it do
+        expect { subject.enable! }.to_not change { subject.enabled? }
+      end
+    end
+
+    context 'when it is not enabled' do
+      subject { FactoryGirl.create(:structure, :disabled) }
+      it do
+        expect { subject.enable! }.to change { subject.enabled? }.from(false).to(true)
+      end
+    end
+  end
 end
