@@ -141,16 +141,15 @@ var MapComponent = React.createClass({
         }
     },
     getIconForCard: function getIconForCard (card) {
-        return L.divIcon({
-            className: 'map-box-marker map-box-marker__' + card.get('root_subject')
-            // iconUrl: CoursAvenue.MAP_ICONS[planning.get('root_subject_slug')]
-            // iconRetinaUrl: 'assets/logos/logo.png',
-            // iconSize: [38, 95],
-            // iconAnchor: [22, 94],
-            // popupAnchor: [-3, -76],
-            // shadowSize: [68, 95],
-            // shadowAnchor: [22, 94]
-        });
+        if (card.get('visible')) {
+            return L.divIcon({
+                className: 'map-box-marker map-box-marker__' + card.get('root_subject')
+            });
+        } else {
+            return L.divIcon({
+                className: 'map-box-marker--circle'
+            });
+        }
     },
 
     render: function render () {

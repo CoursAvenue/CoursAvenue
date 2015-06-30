@@ -13,16 +13,20 @@ var Menubar = React.createClass({
 
     render: function render () {
         return (
-            <div className='text--center soft-half bordered--top bordered--bottom bg-white'>
-                <div className='main-container grid'>
-                    <div className='grid__item v-middle two-twelfths'>
-                        <a href="/">CoursAvenue</a>
+            <div className='bg-white'>
+                <div className='grid'>
+                    <div className='grid__item one-half v-middle'>
+                        <div className="coursavenue-header-logo-wrapper v-middle">
+                            <a className="coursavenue-header-logo" href="/"></a>
+                        </div>
+                        <div className="soft--left v-middle inline-block">
+                            <select value={ this.state.context } onChange={ this.changeContext } >
+                                <option value="course">Cours</option>
+                                <option value="training">Stages</option>
+                            </select>
+                        </div>
                     </div>
-                    <div className='grid__item v-middle two-twelfths'>
-                        <select value={ this.state.context } onChange={ this.changeContext } >
-                            <option value="course">Cours</option>
-                            <option value="training">Stages</option>
-                        </select>
+                    <div className='grid__item one-half v-middle text--right'>
                     </div>
                 </div>
             </div>

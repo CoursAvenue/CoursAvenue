@@ -7,10 +7,8 @@ var ResultInfoItem = React.createClass({
     },
 
     render: function render () {
-      var dash = (this.props.show_dash ? ' - ' : '');
       return (<span>
-                  {dash}
-                  <a className="semi-muted-link lbl v-middle"
+                  <a className="semi-muted-link lbl v-middle push-half--right"
                      href='javascript:void(0)'
                      onClick={this.filterSubject}>
                       {this.props.subject_name} ({this.props.number})

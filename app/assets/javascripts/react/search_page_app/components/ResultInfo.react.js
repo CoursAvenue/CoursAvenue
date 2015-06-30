@@ -23,8 +23,7 @@ var ResultInfo = React.createClass({
                 return (<ResultInfoItem number={value}
                                         subject_name={key.split(':')[1]}
                                         subject_slug={key.split(':')[0]}
-                                        key={key}
-                                        show_dash={(index > 1)}/>);
+                                        key={key} />);
             });
         }
         var result_string = (total_results > 1 ? 'cours trouvé' : 'cours trouvés');

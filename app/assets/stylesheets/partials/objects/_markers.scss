@@ -91,6 +91,12 @@
     @include border-radius(10px);
     @include box-shadow(0 0 30px lighten($old_blue, 10%), 0 0 20px lighten($old_blue, 10%), 0 0 10px lighten($old_blue, 10%));
 }
+.map-box-marker--circle {
+    width          : 13px !important;
+    height         : 13px !important;
+    background-size: 100%;
+    @include background-image-retina('icons/map-marker-small.png', 'icons/map-marker-small@2x.png');
+}
 .map-box-marker {
     width          : 30px !important;
     height         : 43px !important;
