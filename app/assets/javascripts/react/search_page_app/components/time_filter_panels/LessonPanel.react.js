@@ -20,7 +20,7 @@ var LessonPanel = React.createClass({
     render: function render () {
         return (
           <div>
-              <h2>Indiquez vos disponibilités</h2>
+              <div className="search-page-filters__title">Indiquez vos disponibilités</div>
 
               <TimeTable timeTable={ this.state.time_table } />
               <a onClick={ this.closePanel } className='btn'>Valider</a>

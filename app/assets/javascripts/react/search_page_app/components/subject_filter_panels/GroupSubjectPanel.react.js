@@ -26,9 +26,9 @@ var SubjectFilter = React.createClass({
               <ol className="nav breadcrumb text--left">
                   <li>Catégorie</li>
               </ol>
-              <h2 className="text--center push-half--bottom soft-half--bottom bordered--bottom inline-block">
+              <div className="search-page-filters__title">
                   {"Choisissez la catégorie d'activité qui vous fait envie"}
-              </h2>
+              </div>
               <div className="main-container soft--bottom">
                   {group_subject_items}
               </div>

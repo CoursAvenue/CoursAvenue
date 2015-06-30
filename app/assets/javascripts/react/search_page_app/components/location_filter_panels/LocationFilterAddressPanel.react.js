@@ -75,9 +75,9 @@ var LocationFilterChoicePanel = React.createClass({
                       <li>{"Autour d'une adresse"}</li>
                   </ol>
               </div>
-              <h2 className="text--center push-half--bottom soft-half--bottom bordered--bottom inline-block">
+              <div className="search-page-filters__title">
                   Indiquez une adresse
-              </h2>
+              </div>
               <div>
                   <div className="inline-block v-middle relative center-block text--left">
                       <input className="input--large inline-block"

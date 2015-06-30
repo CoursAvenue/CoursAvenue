@@ -39,7 +39,7 @@ var TimeFilter = React.createClass({
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
         return (
-          <div className={ classes + ' on-top transition-all-300 absolute west one-whole bg-white search-page-filters-wrapper text--center'}>
+          <div className={ classes + ' on-top transition-all-300 absolute west one-whole search-page-filters__time-panel search-page-filters-wrapper text--center'}>
               { this.panelToShow() }
           </div>
         );

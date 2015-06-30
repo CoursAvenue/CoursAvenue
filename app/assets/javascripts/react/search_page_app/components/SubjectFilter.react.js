@@ -44,7 +44,7 @@ var SubjectFilter = React.createClass({
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
         return (
-          <div className={classes + ' search-page-filters-wrapper delta soft on-top transition-all-300 absolute west one-whole bg-white text--center'}>
+          <div className={classes + ' search-page-filters-wrapper delta soft on-top transition-all-300 absolute west one-whole text--center search-page-filters__subject-panel'}>
               { this.panelToShow() }
           </div>
         );

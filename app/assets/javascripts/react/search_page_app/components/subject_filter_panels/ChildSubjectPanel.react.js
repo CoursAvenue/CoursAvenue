@@ -46,8 +46,7 @@ var SubjectFilter = React.createClass({
                       <li>Pratique</li>
                   </ol>
               </div>
-              <h2 className="flush">Choisissez la pratique qui vous plaît</h2>
-              <h3 className="gray-light">parmi les plus populaires</h3>
+              <div className="search-page-filters__title">Choisissez la pratique qui vous plaît</div>
               <div className="main-container soft--bottom">
                   { subject_items }
               </div>

@@ -35,9 +35,9 @@ var SubjectFilter = React.createClass({
                       <li>Discipline</li>
                   </ol>
               </div>
-              <h2 className="text--center push-half--bottom soft-half--bottom bordered--bottom inline-block">
+              <div className="search-page-filters__title">
                   Quelle discipline vous fait envie ?
-              </h2>
+              </div>
               <div className="main-container soft--bottom">
                   { root_subject_items }
               </div>

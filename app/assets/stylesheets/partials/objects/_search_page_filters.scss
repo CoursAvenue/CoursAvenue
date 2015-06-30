@@ -5,3 +5,16 @@
         height: 80vh;
     }
 }
+
+    .search-page-filters__subject-panel {
+        background-color: transparentize($blue-green, 0.10);
+    }
+    .search-page-filters__location-panel {
+        background-color: transparentize($yellow, 0.10);
+    }
+    .search-page-filters__time-panel {
+        background-color: transparentize($blue, 0.10);
+    }
+    .search-page-filters__title {
+        color: white;
+    }

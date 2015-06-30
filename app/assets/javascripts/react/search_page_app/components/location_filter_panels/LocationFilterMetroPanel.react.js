@@ -67,9 +67,9 @@ var LocationFilterMetroPanel = React.createClass({
                   <li>{"Proche d'un Métro"}</li>
                 </ol>
               </div>
-              <h2 className="text--center push-half--bottom soft-half--bottom bordered--bottom inline-block">
+              <div className="search-page-filters__title">
                 Choisissez une ligne et/ou une station
-              </h2>
+              </div>
               <div>
                 <div className="push-half--bottom center-block text--center">
                   { metro_lines }
