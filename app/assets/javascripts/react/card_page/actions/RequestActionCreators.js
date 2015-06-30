@@ -1,5 +1,5 @@
 var CardPageDispatcher = require('../dispatcher/CardPageDispatcher'),
-    CardPageConstants  = require('../constants/CardPageConstants');
+    CardPageConstants  = require('../constants/CardPageConstants'),
     ActionTypes        = CardPageConstants.ActionTypes;
 
 module.exports = {
