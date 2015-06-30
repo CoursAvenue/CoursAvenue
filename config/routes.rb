@@ -704,20 +704,6 @@ CoursAvenue::Application.routes.draw do
       # get 'contact' , to: 'structures#contact' , as: :contact
       resources :website_pages, only: [:show], path: 'pages'
     end
-    # Use shared participation request controller
-    # That's why it is out of the namespace
-    resources :participation_requests, only: [:edit], controller: 'participation_requests' do
-      member do
-        get   :report_form
-        get   :cancel_form
-        get   :accept_form
-        patch :accept
-        patch :discuss
-        patch :modify_date
-        patch :cancel
-        patch :report
-      end
-    end
   end
 
   get '/', to: 'redirect#www_root'
