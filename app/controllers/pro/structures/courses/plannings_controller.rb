@@ -35,6 +35,7 @@ class Pro::Structures::Courses::PlanningsController < InheritedResources::Base
   def create
     @planning           = Planning.new(params[:planning])
     @planning.course    = @course
+    @planning.save
     set_dates_and_times
     respond_to do |format|
       format.js
