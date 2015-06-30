@@ -210,6 +210,8 @@ CoursAvenue::Application.routes.draw do
           get   :website_planning, path: 'planning-sur-mon-site'
           get   :website_planning_parameters, path: 'parametre-de-mon-planning-sur-mon-site'
           get   :premium # redirect to subscriptions
+          get   :enabling_confirmation
+          patch :enable
         end
         resources :website_parameters, except: [:destroy], path: 'site-internet', controller: 'structures/website_parameters'
         resources :website_pages, path: 'pages-personnalisees', controller: 'structures/website_pages' do

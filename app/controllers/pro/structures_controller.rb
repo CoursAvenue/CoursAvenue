@@ -403,6 +403,18 @@ France
     end
   end
 
+  def enabling_confirmation
+    if request.xhr?
+      render layout: false
+    end
+  end
+
+  def enable
+    dsadsad?
+    @structure.enable!
+    redirect_to pro_structure_path(@structure), notice: 'Profil réactivé avec succès'
+  end
+
   private
 
   # Return the next wizard regarding the params passed (skip: true)
