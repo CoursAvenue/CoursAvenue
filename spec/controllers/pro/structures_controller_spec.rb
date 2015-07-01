@@ -3,13 +3,14 @@ require 'rails_helper'
 describe Pro::StructuresController do
   include Devise::TestHelpers
 
-  let!(:admin) { FactoryGirl.create(:super_admin) }
-
-  before do
-    sign_in admin
-  end
-
   describe 'POST #import' do
+
+    let!(:admin) { FactoryGirl.create(:super_admin) }
+
+    before do
+      sign_in admin
+    end
+
     context 'when the file is valid' do
       let(:file)         { fixture_file_upload('files/structures.csv', 'text/csv')}
       let(:valid_params) { { structure_import: { file: file } } }
