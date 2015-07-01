@@ -80,5 +80,8 @@
         }
 }
 .leaflet-control-zoom {
-    @include border-radius(15px);
+    @include border-radius(15px !important);
 }
+    .leaflet-control-zoom-in { @include border-top-radius(13px !important); }
+    .leaflet-control-zoom-out { @include border-bottom-radius(13px !important); }
+
