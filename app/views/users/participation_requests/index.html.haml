@@ -1,38 +1,40 @@
 = user_menu_currently_at 'inscriptions'
 = render 'shared/include_addthisevent'
 
-%h3 Mes inscriptions
-- if @user.participation_requests.upcoming.any?
-  %table.table--data.table--striped.table-not-bordered
-    %thead
-      %tr
-        %th Statut
-        %th.three-twelfths Cours et date
-        %th.four-twelfths Adresse
-        %th Professeur
-        %th.one-twelfth
-          Ajouter au
-          %br
-          calendrier
-    %tbody
-      - @user.participation_requests.upcoming.order('date ASC').each do |participation_request|
-        = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request}
-- else
-  %p Vous n'avez pas d'inscription en cours.
-  = link_to "Réserver mes cours d'essai", root_search_page_without_subject_path('paris'), class: 'btn btn--green'
+.panel
+  .panel__body.soft
+    %h3 Mes inscriptions
+    - if @user.participation_requests.upcoming.any?
+      %table.table--data.table--striped.table-not-bordered
+        %thead
+          %tr
+            %th Statut
+            %th.three-twelfths Cours et date
+            %th.four-twelfths Adresse
+            %th Professeur
+            %th.one-twelfth
+              Ajouter au
+              %br
+              calendrier
+        %tbody
+          - @user.participation_requests.upcoming.order('date ASC').each do |participation_request|
+            = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request}
+    - else
+      %p Vous n'avez pas d'inscription en cours.
+      = link_to "Réserver mes cours d'essai", root_search_page_without_subject_path('paris'), class: 'btn btn--green'
 
-- if @user.participation_requests.past.any?
-  %hr.push--ends
-    %p.flush
-      = link_to "Voir l'historique des inscriptions", '#', data: { behavior: 'show-long-version', 'long-version' => '#previous-subscriptions'}
-  .hidden#previous-subscriptions
-    %table.table--data.table--striped.table-not-bordered
-      %thead
-        %tr
-          %th Statut
-          %th.three-twelfths Cours et date
-          %th Adresse
-          %th Professeur
-      %tbody
-        - @user.participation_requests.past.each do |participation_request|
-          = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request, calendar: false }
+    - if @user.participation_requests.past.any?
+      %hr.push--ends
+        %p.flush
+          = link_to "Voir l'historique des inscriptions", '#', data: { behavior: 'show-long-version', 'long-version' => '#previous-subscriptions'}
+      .hidden#previous-subscriptions
+        %table.table--data.table--striped.table-not-bordered
+          %thead
+            %tr
+              %th Statut
+              %th.three-twelfths Cours et date
+              %th Adresse
+              %th Professeur
+          %tbody
+            - @user.participation_requests.past.each do |participation_request|
+              = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request, calendar: false }
