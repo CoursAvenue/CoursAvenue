@@ -29,7 +29,8 @@ var MapComponent = React.createClass({
         return (
           <div className={cx("relative overflow-hidden search-page-filters-wrapper",
                              { 'search-page-filters-wrapper--full': LocationStore.get('fullscreen')}) }>
-              <div onClick={this.toggleFullScreen} className="lbl soft-half--sides push absolute south east on-top">
+              <div onClick={this.toggleFullScreen} className="lbl soft-half--sides push absolute east on-top"
+                   style={ { bottom: '25px'} }>
                   {expand_button}
               </div>
               <Map center={this.props.center} />

@@ -29,7 +29,7 @@ var ResultInfo = React.createClass({
         var result_string = (total_results > 1 ? 'cours trouvé' : 'cours trouvés');
         return (
           <div className="main-container main-container--1000 soft--ends soft-half--sides text-ellipsis">
-              <span className="beta v-middle">{total_results} {result_string}</span>&nbsp;{facets}
+              <span className="beta v-middle push--right">{total_results} {result_string}</span>&nbsp;{facets}
           </div>
         );
     }

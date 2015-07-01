@@ -6,6 +6,22 @@ SubjectList = React.createClass({
         subjectList: React.PropTypes.array.isRequired
     },
 
+    componentDidMount: function componentDidMount () {
+        $(this.getDOMNode()).dotdotdot({
+            ellipsis : '... ',
+            wrap     : 'children',
+            tolerance: 3,
+            callback : function callback (isTruncated, orgContent) {
+                if (isTruncated) {
+                    var $dot_node = $('<div>...</div>').addClass('search-page-card__subject');
+                    $dot_node.attr('data-toggle', 'popover')
+                             .attr('data-placement', 'top')
+                             .attr('data-content', _.map(orgContent, function(a) {return $(a).text()}).join(', '));
+                    $(this).append($dot_node);
+                }
+            }
+        });
+    },
     render: function render () {
         if (_.isEmpty(this.props.subjectList)) {
             return false;
@@ -18,7 +34,7 @@ SubjectList = React.createClass({
         });
 
         return (
-            <div className="text--center">
+            <div className="search-page-card__subjects-wrapper">
                 { subjectNodes }
             </div>
         )

@@ -6,7 +6,21 @@ Subject = React.createClass({
         selected: React.PropTypes.bool
     },
 
-    getDefaultProps: function () {
+    componentDidMount: function componentDidMount () {
+        $(this.getDOMNode()).dotdotdot({
+            ellipsis: '... ',
+            wrap    : 'letter',
+            callback: function callback (isTruncated, orgContent) {
+                if (isTruncated) {
+                    $(this).attr('data-toggle', 'popover')
+                           .attr('data-placement', 'top')
+                           .attr('data-content', orgContent.text());
+                }
+            }
+        });
+    },
+
+    getDefaultProps: function getDefaultProps () {
         return { selected: false };
     },
 
@@ -20,8 +34,7 @@ Subject = React.createClass({
 
     render: function render () {
         return (
-            <a className="inline-block bg-gray-light black bordered rounded--double f-size-11"
-               style={{ padding: '1px 4px' }}
+            <a className="search-page-card__subject"
                onClick={ this.toggleSelection }
                href="javascript:void(0)">
                 { this.props.subject.name }

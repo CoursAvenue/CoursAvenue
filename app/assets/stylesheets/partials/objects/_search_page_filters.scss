@@ -22,3 +22,58 @@
         font-weight  : bold;
         margin-bottom: 0.5em;
     }
+
+.search-page-card {
+
+}
+
+    .search-page-card__structure-logo {
+        width   : 50px;
+        height  : 50px;
+        border  : 2px solid white;
+        margin  : -40px auto 5px auto;
+        position: relative;
+        display : block;
+        @include border-radius(25px);
+    }
+    .search-page-card__structure-name {
+        font-size  : 12px;
+        line-height: 1;
+        height     : 12px;
+        overflow   : hidden;
+        display    : block;
+    }
+    $font-size    : 22px;
+    $line-height  : 1.3;
+    $lines-to-show: 2;
+    .search-page-card__course-title {
+        color        : black;
+        font-weight  : bold;
+        display      : block;
+        height       : ($font-size * $line-height * $lines-to-show);
+        font-size    : $font-size;
+        line-height  : $line-height;
+        margin-bottom: 15px;
+        overflow     : hidden;
+    }
+    .search-page-card__subjects-wrapper {
+        overflow        : hidden;
+        height          : 48px;
+        text-align      : center;
+    }
+        .search-page-card__subject {
+            background-color: whitesmoke;
+            color           : #909090;
+            font-size       : 11px;
+            max-width       : 80%;
+            line-height     : 1.8;
+            height          : 22px;
+            padding         : 0 10px;
+            display         : inline-block;
+            vertical-align  : middle;
+            border          : 1px solid #E5E5E5;
+            overflow        : hidden;
+            margin          : 0 3px 3px 0;
+            font-weight     : 500;
+            @include border-radius(10px);
+        }
