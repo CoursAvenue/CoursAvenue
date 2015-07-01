@@ -36,6 +36,9 @@ $rer_line_b_color      : #468FCC;
     vertical-align: middle;
     font-weight   : bold;
     white-space   : nowrap;
+    &.metro-line--selected {
+        zoom: 1.8;
+    }
 }
 .metro-line--bis {
     line-height: 1.1em;

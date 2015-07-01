@@ -33,7 +33,7 @@ var MetroStopStore = Backbone.Collection.extend({
     model: MetroStop,
 
     comparator: function comparator (stop) {
-        var line = _.findWhere(stop.get('metro_lines'), { line: this.metro_line.get('slug') });
+        var line = _.findWhere(stop.get('metro_lines'), { line: this.metro_lines[0].get('slug') });
         return (line.position);
     },
 
@@ -68,11 +68,12 @@ var MetroStopStore = Backbone.Collection.extend({
 
     // When receiving the metro line to filter the stops by, we refetch the results if needed.
     fetchMetroStops: function fetchMetroStops (metro_line) {
-        this.metro_line = MetroLineStore.getSelectedLine();
-
+        this.metro_lines = MetroLineStore.getSelectedLines();
+        // Don't fetch stops if there is more than 1 selected line
+        if (this.metro_lines.length != 1) { return; }
         index.search('', {
             facets:      '*',
-            facetFilters: ['metro_lines.line:' + this.metro_line.get('slug')],
+            facetFilters: ['metro_lines.line:' + this.metro_lines[0].get('slug')],
             hitsPerPage: 100,
         }, function(err, results) {
             this.reset(results.hits);

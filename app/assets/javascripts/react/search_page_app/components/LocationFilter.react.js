@@ -26,11 +26,11 @@ var LocationFilter = React.createClass({
     panelToShow: function panelToShow () {
         switch(this.state.filter_store.get('location_panel')) {
           case FilterPanelConstants.LOCATION_PANELS.ADDRESS:
-            return ( <LocationFilterAddressPanel/> );
+            return ( <LocationFilterAddressPanel key='location-metro' /> );
           case FilterPanelConstants.LOCATION_PANELS.METRO:
-            return ( <LocationFilterMetroPanel key='root' /> );
+            return ( <LocationFilterMetroPanel key='location-metro' /> );
           default:
-            return ( <LocationFilterChoicePanel/> );
+            return ( <LocationFilterChoicePanel key='location-choice' /> );
         }
     },
 

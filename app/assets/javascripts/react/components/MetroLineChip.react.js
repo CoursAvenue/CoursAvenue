@@ -4,8 +4,9 @@ var MetroLineChip = React.createClass({
     render: function render () {
         var number;
         var metro_classes = classNames({
-            'cursor-pointer metro-line': true,
-            'metro-line--bis': this.props.line.is_bis
+            'cursor-pointer metro-line transition-all-300': true,
+            'metro-line--bis': this.props.line.is_bis,
+            'metro-line--selected': this.props.line.selected
         });
         metro_classes += (' ' + this.props.line.type + '-line-' + this.props.line.number.replace(' ', '-').toLowerCase());
         if (this.props.line.is_bis) {

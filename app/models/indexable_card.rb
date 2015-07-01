@@ -137,6 +137,10 @@ class IndexableCard < ActiveRecord::Base
     add_attribute :metro_stops do
       place.nearby_metro_stops.map(&:slug) if place.present?
     end
+
+    add_attribute :metro_lines do
+      place.nearby_metro_stops.flat_map(&:lines).uniq.map(&:slug) if place.present?
+    end
   end
   # :nocov:
 

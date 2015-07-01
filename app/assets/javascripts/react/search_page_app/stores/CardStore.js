@@ -142,12 +142,10 @@ var CardCollection = Backbone.Collection.extend({
 
         // Do not filter by line if a stop is selected, because if a stop is selected,
         // we'll filter around a location
-        if (MetroLineStore.getSelectedLine() && !MetroStopStore.getSelectedStop()) {
-            data.metro_line = {
-                stops: MetroStopStore.map(function(stop) {
-                    return stop.get('slug')
-                })
-            };
+        if (MetroLineStore.getSelectedLines().length > 0 && !MetroStopStore.getSelectedStop()) {
+            data.metro_lines =_.map(MetroLineStore.getSelectedLines(), function(line) {
+                return line.get('slug')
+            });
         }
 
         if (TimeStore.isFiltered()) {
@@ -189,7 +187,7 @@ var CardCollection = Backbone.Collection.extend({
         if (PriceStore.algoliaFilters()) {
             filters.push({ title: "Prix", filter_key: 'price' });
         }
-        if (MetroStopStore.getSelectedStop() || MetroLineStore.getSelectedLine()) {
+        if (MetroStopStore.getSelectedStop() || MetroLineStore.getSelectedLines().length > 0 ) {
             filters.push({ title: "Metro", filter_key: 'metro' });
         }
         return filters;

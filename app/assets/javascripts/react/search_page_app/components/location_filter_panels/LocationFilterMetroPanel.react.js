@@ -35,10 +35,6 @@ var LocationFilterMetroPanel = React.createClass({
         FilterActionCreators.selectMetroStop(stop);
     },
 
-    componentDidMount: function componentDidMount () {
-        FilterActionCreators.selectMetroLine('ligne-1');
-    },
-
     render: function render () {
         var metro_stops = this.state.metro_stop_store.map(function(stop, index) {
             return (

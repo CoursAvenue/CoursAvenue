@@ -48,13 +48,12 @@ var MetroLineStore = Backbone.Collection.extend({
         var current_line = this.findWhere({ selected: true });
         var metro_line   = this.findWhere({ slug: metro_line_slug });
 
-        if (current_line) { current_line.toggleSelection(); }
         if (metro_line)   { metro_line.toggleSelection(); }
         this.trigger('change');
     },
 
-    getSelectedLine: function getSelectedLine () {
-        return this.findWhere({ selected: true });
+    getSelectedLines: function getSelectedLines () {
+        return this.where({ selected: true });
     },
 
     unsetLine: function unsetLine () {
