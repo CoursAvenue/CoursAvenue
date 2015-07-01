@@ -28,14 +28,6 @@ describe Structure do
     end
   end
 
-  context 'activate' do
-    it 'activates' do
-      structure.active = false
-      structure.activate!
-      expect(structure.active).to be true
-    end
-  end
-
   context 'disable' do
     it 'disables' do
       FactoryGirl.create(:course, structure: structure)
@@ -684,6 +676,133 @@ describe Structure do
       it 'unlocks the crm' do
         expect { subject.unlock_crm! }.
           to change { subject.crm_lock.locked? }.from(true).to(false)
+      end
+    end
+  end
+
+  describe '#should_be_disabled?' do
+    let(:structure) { FactoryGirl.create(:structure_with_admin) }
+    context 'when there are no participation requests' do
+      it { expect(subject.should_be_disabled?).to be_falsy }
+    end
+
+    context 'when there are participations requests that have been accepted' do
+      let!(:pr)  { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+      let!(:pr1) { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+      let!(:pr2) { FactoryGirl.create(:participation_request, :accepted_state, structure: structure) }
+
+      before do
+        pr.date = 10.days.ago
+        pr.save
+
+        pr1.date = 10.days.ago
+        pr1.save
+
+        pr2.date = 10.days.ago
+        pr2.save
+      end
+
+      it { expect(subject.should_be_disabled?).to be_falsy }
+    end
+
+    context 'when there are participations requests that have been replied to' do
+      let!(:pr)  { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+      let!(:pr1) { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+      let!(:pr2) { FactoryGirl.create(:participation_request, :accepted_state, structure: structure) }
+
+      before do
+        pr.date = 10.days.ago
+        pr.save
+
+        pr1.date = 10.days.ago
+        pr1.save
+
+        pr2.date = 10.days.ago
+        pr2.save
+        pr2.discuss!(Faker::Lorem.paragraph)
+      end
+
+      it { expect(subject.should_be_disabled?).to be_falsy }
+    end
+
+    context 'when the last 3 participation requests have expired and not been replied' do
+      let!(:pr)  { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+      let!(:pr1) { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+      let!(:pr2) { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+
+      before do
+        pr.date = 10.days.ago
+        pr.save
+
+        pr1.date = 10.days.ago
+        pr1.save
+
+        pr2.date = 10.days.ago
+        pr2.save
+      end
+
+      it { expect(subject.should_be_disabled?).to be_truthy }
+    end
+  end
+
+  describe '#disable!' do
+    context 'when it is enabled' do
+      subject { FactoryGirl.create(:structure, :enabled) }
+      it do
+        expect { subject.disable! }.to change { subject.enabled? }.from(true).to(false)
+      end
+    end
+
+    context 'when it is not enabled' do
+      subject { FactoryGirl.create(:structure, :disabled) }
+      it do
+        expect { subject.disable! }.to_not change { subject.enabled? }
+      end
+    end
+  end
+
+  describe '#enable!' do
+    context 'when it is enabled' do
+      subject { FactoryGirl.create(:structure, :enabled) }
+      it do
+        expect { subject.enable! }.to_not change { subject.enabled? }
+      end
+    end
+
+    context 'when it is not enabled' do
+      subject { FactoryGirl.create(:structure, :disabled) }
+      it do
+        expect { subject.enable! }.to change { subject.enabled? }.from(false).to(true)
+      end
+    end
+  end
+
+  describe 'check_for_disable' do
+    let(:structure) { FactoryGirl.create(:structure_with_admin) }
+    let!(:pr)  { FactoryGirl.create(:participation_request, :pending_state, date: 3.days.ago, structure: structure) }
+    let!(:pr1) { FactoryGirl.create(:participation_request, :pending_state, date: 3.days.ago, structure: structure) }
+
+    context "when the last participation request hasn't been replied to" do
+      let!(:pr2) { FactoryGirl.create(:participation_request, :pending_state, date: 3.days.ago, structure: structure) }
+
+      it 'disables the structure' do
+        subject.check_for_disable
+        subject.reload
+        expect(subject.enabled?).to be_falsy
+      end
+    end
+
+    context 'when the last participation request has been replied' do
+      let!(:pr2) { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+
+      before do
+        pr2.discuss!(Faker::Lorem.paragraph)
+      end
+
+      it 'keeps the structure enabled' do
+        subject.check_for_disable
+        subject.reload
+        expect(subject.enabled?).to be_truthy
       end
     end
   end

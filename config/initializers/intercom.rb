@@ -62,6 +62,7 @@ IntercomRails.config do |config|
     'Offre Premium'            => Proc.new { |user| ((s = user.structure) and s.subscription_plan.try(:active?) ?  s.subscription_plan.plan_type : nil) },
     'premium_ends_at'          => Proc.new { |user| ((s = user.structure) and s.subscription_plan.try(:active?) ?  s.subscription_plan.expires_at : nil) },
     '# vue planning'           => Proc.new { |user| ((s = user.structure) ?  s.planning_page_views_nb : nil) },
+    'Inactive'                 => Proc.new { |user| ((s = user.structure) ? !s.enabled : false) },
     # 1 Si un prof a envoyé au moins 1 newsletter,
     # 2 s'il a au moins un brouillon mettre
     # 0 s'il n'a rien fait mettre
