@@ -29,6 +29,7 @@
 //= require libs/jquery.placeholder
 //= require libs/imagesloaded.pkgd
 //= require libs/jquery.payment
+//= require libs/dotdotdot
 
 //= require libs/jquery.magnific-popup
 //= require libs/jquery.lazyload
