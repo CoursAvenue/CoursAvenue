@@ -566,22 +566,22 @@ describe Structure do
               options = { email: Faker::Internet.email, lorem: 'ipsum' }
               managed_account = subject.update_managed_account(options.dup)
 
-              expect(managed_account.email).to eq(options[:email])
-              expect(managed_account.lorem).to be_nil
+              expect(managed_account[:email]).to eq(options[:email])
+              expect(managed_account[:lorem]).to be_nil
             end
           end
 
           it 'returns the managed account' do
             subject.reload
             options = { email: Faker::Internet.email }
-            managed_account = subject.update_managed_account(options)
+            managed_account = subject.update_managed_account(options.dup)
 
             expect(managed_account).to be_a(Stripe::Account)
           end
 
           it 'updates the managed account' do
             options = { email: Faker::Internet.email }
-            managed_account = subject.update_managed_account(options)
+            managed_account = subject.update_managed_account(options.dup)
 
             expect(managed_account.email).to eq(options[:email])
           end
