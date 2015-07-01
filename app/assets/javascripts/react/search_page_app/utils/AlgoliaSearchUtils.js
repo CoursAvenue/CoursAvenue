@@ -32,6 +32,7 @@ module.exports = {
             aroundRadius: 10000, // 10km
             page        : data.page || 1
         };
+
         if (data.insideBoundingBox) {
             card_search_state.insideBoundingBox = data.insideBoundingBox.toString();
         }
@@ -41,10 +42,11 @@ module.exports = {
             card_search_state.getRankingInfo = true;
         }
         var card_search_helper = algoliasearchHelper(client, 'IndexableCard_' + ENV.SERVER_ENVIRONMENT, card_search_state);
+        card_search_helper.addRefine('active', true);
 
         if (data.group_subject)    {
             _.each(data.group_subject.root_slugs, function(root_subject) {
-                card_search_helper.addDisjunctiveRefine('root_subject', root_subject)
+                card_search_helper.addDisjunctiveRefine('root_subject', root_subject);
             });
         }
         if (data.root_subject)     { card_search_helper.addRefine('root_subject', data.root_subject.slug); }
