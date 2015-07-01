@@ -1264,10 +1264,7 @@ class Structure < ActiveRecord::Base
     requests = participation_requests.last(3)
     return false if requests.empty?
 
-    requests.all? do |request|
-      request.date < 2.days.ago and request.state == 'pending' and
-        request.conversation.messages.length < 2
-    end
+    requests.all?(&:unanswered?)
   end
 
   def disable!

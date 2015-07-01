@@ -345,4 +345,31 @@ describe ParticipationRequest do
       expect(participation_request.date).to eq Date.tomorrow
     end
   end
+
+  describe '#unanswered?' do
+    context 'when the date is in the last two days' do
+      subject { FactoryGirl.create(:participation_request, date: 1.day.ago) }
+      it { expect(subject.unanswered?).to be_falsy }
+    end
+
+    context 'when the request is no longer pending' do
+      subject { FactoryGirl.create(:participation_request, :accepted_state) }
+    end
+
+    context 'when the request has been answered by the teacher' do
+      subject { FactoryGirl.create(:participation_request) }
+
+      before do
+        subject.discuss!(Faker::Lorem.paragraph)
+        subject.reload
+      end
+
+      it { expect(subject.unanswered?).to be_falsy }
+    end
+
+    context '' do
+      subject { FactoryGirl.create(:participation_request, date: 3.days.ago) }
+      it { expect(subject.unanswered?).to be_truthy }
+    end
+  end
 end

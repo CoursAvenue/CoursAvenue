@@ -353,6 +353,10 @@ class ParticipationRequest < ActiveRecord::Base
     refunded_at.present?
   end
 
+  def unanswered?
+    self.date < 2.days.ago and self.state == 'pending' and self.conversation.messages.length < 2
+  end
+
   private
 
   # Set state to pending by default when creating
