@@ -356,7 +356,7 @@ describe ParticipationRequest do
       subject { FactoryGirl.create(:participation_request, :accepted_state) }
     end
 
-    context 'when the request has been answered by the teacher' do
+    context 'when the request has last been answered by the teacher' do
       subject { FactoryGirl.create(:participation_request) }
 
       before do
