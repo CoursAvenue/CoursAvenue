@@ -7,7 +7,7 @@
       - if !participation_request.canceled?
         %li.nowrap
           - if participation_request.pending? and participation_request.last_modified_by == 'Structure'
-            = link_to "Accepter le nouveau créneau", accept_participation_request_path(participation_request), method: :patch, class: 'green nowrap'
+            = link_to "Accepter le nouveau créneau", accept_structure_participation_request_path(participation_request.structure, participation_request), method: :patch, class: 'green nowrap'
         %li.nowrap
           = link_to 'Proposer une autre date', edit_structure_participation_request_path(@structure, participation_request, return_to: user_participation_requests_path(@user)), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
       - if !participation_request.canceled?
