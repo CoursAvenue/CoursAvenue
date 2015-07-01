@@ -39,7 +39,6 @@ var FilterBar = React.createClass({
                   <input className="input--large one-whole"
                          size="50"
                          onChange={this.searchFullText}
-                         value={this.state.subject_store.full_text_search}
                          placeholder="Cherchez une activité..." />
               </div>
               <div className="flexbox__item soft-half text--center" onClick={this.closeFilterPanel}>
