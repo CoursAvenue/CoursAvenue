@@ -28,14 +28,6 @@ describe Structure do
     end
   end
 
-  context 'activate' do
-    it 'activates' do
-      structure.active = false
-      structure.activate!
-      expect(structure.active).to be true
-    end
-  end
-
   context 'disable' do
     it 'disables' do
       FactoryGirl.create(:course, structure: structure)

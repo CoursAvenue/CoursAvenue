@@ -466,6 +466,7 @@ ActiveRecord::Schema.define(version: 20150630135638) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.string   "slug"
   end
 
   add_index "indexable_cards", ["course_id"], name: "index_indexable_cards_on_course_id", using: :btree
@@ -595,32 +596,6 @@ ActiveRecord::Schema.define(version: 20150630135638) do
   create_table "medias_subjects", id: false, force: true do |t|
     t.integer "subject_id"
     t.integer "media_id"
-  end
-
-  create_table "metro_lines", force: true do |t|
-    t.string   "name"
-    t.string   "slug"
-    t.string   "number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "route_name"
-  end
-
-  create_table "metro_lines_stops", id: false, force: true do |t|
-    t.integer "line_id"
-    t.integer "stop_id"
-  end
-
-  add_index "metro_lines_stops", ["line_id", "stop_id"], name: "index_metro_lines_stops_on_line_id_and_stop_id", unique: true, using: :btree
-
-  create_table "metro_stops", force: true do |t|
-    t.string   "name"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.string   "slug"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "description"
   end
 
   create_table "newsletter_bloc_ownerships", id: false, force: true do |t|
@@ -980,6 +955,39 @@ ActiveRecord::Schema.define(version: 20150630135638) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "apply_until"
+  end
+
+  create_table "ratp_lines", force: true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.string   "number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "route_name"
+    t.string   "color"
+    t.string   "line_type"
+  end
+
+  create_table "ratp_positions", force: true do |t|
+    t.integer  "ratp_line_id"
+    t.integer  "ratp_stop_id"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ratp_positions", ["ratp_line_id", "ratp_stop_id"], name: "index_ratp_positions_on_ratp_line_id_and_ratp_stop_id", unique: true, using: :btree
+  add_index "ratp_positions", ["ratp_line_id"], name: "index_ratp_positions_on_ratp_line_id", using: :btree
+  add_index "ratp_positions", ["ratp_stop_id"], name: "index_ratp_positions_on_ratp_stop_id", using: :btree
+
+  create_table "ratp_stops", force: true do |t|
+    t.string   "name"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "description"
   end
 
   create_table "reply_tokens", force: true do |t|

@@ -522,16 +522,6 @@ class Structure < ActiveRecord::Base
     structure_type == 'structures.independant'
   end
 
-  def activate!
-    self.active = true
-    save
-  end
-
-  def disable!
-    self.active = false
-    save
-  end
-
   def ratio_from_original_from_large
     600.0 / 450.0
   end
