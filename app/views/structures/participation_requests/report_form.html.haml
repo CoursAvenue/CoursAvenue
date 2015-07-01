@@ -8,7 +8,7 @@
     %p.epsilon
       Malgré tous nos soins, certains professeurs oublient de prévenir quand un cours est annulé ou renseignent sur leur profil des informations peu fidèles à la réalité. Signalez-nous tout dysfonctionnement, cela nous aidera à nous améliorer et éviter qu'une telle situation se reproduise :
 
-    = simple_form_for [@participation_request], url: report_participation_request_path(@participation_request), html: { id: 'participation-request-form' } do |f|
+    = simple_form_for [@participation_request], url: report_structure_participation_request_path(@participation_request.structure, @participation_request), html: { id: 'participation-request-form' } do |f|
       = f.error_notification
       = f.input :report_reason_id, as: :select, collection: ParticipationRequest::ReportReason.find_all_by_type('user'), label_method: lambda{|reason| t(reason.name)}, label: false, include_blank: t('participation_request.report_reason.include_blank'), input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush--top' }
       = f.input :report_reason_text, input_html: { style: 'height: 100px', class: 'input--large one-whole', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
