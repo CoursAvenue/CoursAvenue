@@ -404,7 +404,9 @@ class Structure < ActiveRecord::Base
     end
 
     boolean :sleeping_email_opt_in
-    boolean :active
+    boolean :active do
+      (active && enabled)
+    end
 
     boolean :has_admin do
       self.has_admin?
