@@ -688,6 +688,71 @@ describe Structure do
     end
   end
 
+  describe '#should_disable?' do
+    let(:structure) { FactoryGirl.create(:structure_with_admin) }
+    context 'when there are no participation requests' do
+      it { expect(subject.should_disable?).to be_falsy }
+    end
+
+    context 'when there are participations requests that have been accepted' do
+      let!(:pr)  { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+      let!(:pr1) { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+      let!(:pr2) { FactoryGirl.create(:participation_request, :accepted_state, structure: structure) }
+
+      before do
+        pr.date = 10.days.ago
+        pr.save
+
+        pr1.date = 10.days.ago
+        pr1.save
+
+        pr2.date = 10.days.ago
+        pr2.save
+      end
+
+      it { expect(subject.should_disable?).to be_falsy }
+    end
+
+    context 'when there are participations requests that have been replied to' do
+      let!(:pr)  { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+      let!(:pr1) { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+      let!(:pr2) { FactoryGirl.create(:participation_request, :accepted_state, structure: structure) }
+
+      before do
+        pr.date = 10.days.ago
+        pr.save
+
+        pr1.date = 10.days.ago
+        pr1.save
+
+        pr2.date = 10.days.ago
+        pr2.save
+        pr2.discuss!(Faker::Lorem.paragraph)
+      end
+
+      it { expect(subject.should_disable?).to be_falsy }
+    end
+
+    context 'when the last 3 participation requests have expired and not been replied' do
+      let!(:pr)  { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+      let!(:pr1) { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+      let!(:pr2) { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+
+      before do
+        pr.date = 10.days.ago
+        pr.save
+
+        pr1.date = 10.days.ago
+        pr1.save
+
+        pr2.date = 10.days.ago
+        pr2.save
+      end
+
+      it { expect(subject.should_disable?).to be_truthy }
+    end
+  end
+
   describe '#disable!' do
     context 'when it is enabled' do
       subject { FactoryGirl.create(:structure, :enabled) }

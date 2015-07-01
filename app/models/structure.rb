@@ -1253,6 +1253,23 @@ class Structure < ActiveRecord::Base
     update_column :cities_text, places.map(&:city).map(&:name).uniq.join(', ')
   end
 
+  # Whether or not we should disable the current structure.
+  # We disable the structure if the last three participation requests
+  #  - Are older than 2 days
+  #  - Are still pending
+  #  - Don't have any answers from the teacher
+  #
+  # @return a boolean.
+  def should_disable?
+    requests = participation_requests.last(3)
+    return false if requests.empty?
+
+    requests.all? do |request|
+      request.date < 2.days.ago and request.state == 'pending' and
+        request.conversation.messages.length < 2
+    end
+  end
+
   def disable!
     return if !enabled?
 
