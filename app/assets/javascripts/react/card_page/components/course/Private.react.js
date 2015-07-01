@@ -1,4 +1,4 @@
-var PrivatePlanning = require('../plannings/Private.react');
+var Planning = require('../Planning.react');
 
 var Private = React.createClass({
 
@@ -7,11 +7,11 @@ var Private = React.createClass({
     },
 
     render: function render () {
-        var plannings = _.map(this.props.plannings, function(planning) {
-            return (<PrivatePlanning planning={planning} />);
-        });
+        var plannings = _.map(this.props.plannings, function(planning, index) {
+            return (<Planning planning={planning} course={this.props.course} key={index} />);
+        }.bind(this))
         return (
-            <table className="table--striped table--data table--data-small table-responsive">
+            <table className="table--striped table--data table--data-small table-responsive table--hoverable">
                 <thead className="gray-light">
                     <tr>
                         <th className="one-tenths">Jour</th>

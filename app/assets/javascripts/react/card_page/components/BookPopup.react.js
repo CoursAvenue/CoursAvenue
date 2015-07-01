@@ -28,6 +28,7 @@ var BookPopup = React.createClass({
                       type: 'inline'
                   }
             });
+            this.state.request_store.unset('response_popup');
         }
     },
 
@@ -66,7 +67,8 @@ var BookPopup = React.createClass({
             RequestActionCreators.submitRequest({
                 structure_id           : this.props.course.structure_id,
                 course                 : this.props.course,
-                planning               : this.props.planning,
+                date                   : $(this.getDOMNode()).find('[name="participation_request[date]"]').val(),
+                planning_id            : this.props.planning.id,
                 message                : { body: $(this.getDOMNode()).find('[name="message[body]"]').val() },
                 user                   : { phone_number: $(this.getDOMNode()).find('[name="user[phone_number]"]').val() },
                 participants_attributes: [ {
@@ -88,6 +90,23 @@ var BookPopup = React.createClass({
     },
 
     render: function render () {
+        var price_libelle, datepicker = '';
+        if (this.props.course.db_type == 'Course::Training') {
+            price_libelle = 'Prix du stage :';
+        } else {
+            price_libelle = this.props.course.min_price.libelle;
+            datepicker = (<div className="grid--full bordered--bottom">
+                              <label className="grid__item f-weight-bold v-middle one-half soft-half--ends line-height-2">
+                                  Quel {this.props.planning.date.toLowerCase()} voulez-vous venir ?&nbsp;
+                              </label>
+                              <div className="grid__item v-middle one-half">
+                                  <input type="text"
+                                         data-behavior="datepicker"
+                                         name="participation_request[date]"
+                                         className="datepicker-input very-soft v-middle" />
+                              </div>
+                          </div>);
+        }
         return (<div className="bg-white">
                     <div className="soft bordered--bottom bg-gray-light">
                         <div className="delta f-weight-bold">
@@ -97,23 +116,13 @@ var BookPopup = React.createClass({
                             {this.props.planning.date}&nbsp;{this.props.planning.time_slot}
                         </div>
                         <div className="epsilon green f-weight-bold line-height-1-5">
-                            {this.props.course.min_price.libelle}&nbsp;:&nbsp;
+                            {price_libelle}&nbsp;:&nbsp;
                             {COURSAVENUE.helperMethods.readableAmount(this.props.course.min_price.amount)}
                         </div>
                     </div>
                     <div className="soft--sides">
-                        <div className="grid--full">
-                            <label className="grid__item f-weight-bold v-middle one-half soft-half--ends line-height-2">
-                                Quel {this.props.planning.date.toLowerCase()} voulez-vous venir ?&nbsp;
-                            </label>
-                            <div className="grid__item v-middle one-half">
-                                <input type="text"
-                                       data-behavior="datepicker"
-                                       name="participation_request[date]"
-                                       className="datepicker-input very-soft v-middle" />
-                            </div>
-                        </div>
-                        <div className="grid--full bordered--top">
+                        {datepicker}
+                        <div className="grid--full bordered--bottom">
                             <label className="grid__item f-weight-bold v-middle one-half soft-half--ends line-height-2">
                                 Combien serez-vous ?
                             </label>
@@ -129,7 +138,7 @@ var BookPopup = React.createClass({
                                 </select>
                             </div>
                         </div>
-                        <div className="grid--full bordered--top">
+                        <div className="grid--full bordered--bottom">
                             <label className="grid__item f-weight-bold v-middle one-half soft-half--ends line-height-2">
                                 Comment peut-on vous joindre ?
                             </label>
@@ -150,7 +159,7 @@ var BookPopup = React.createClass({
                                 </div>
                             </div>
                         </div>
-                        <div className="input flush--top push-half--bottom soft-half--top bordered--top">
+                        <div className="input flush--top push-half--bottom soft-half--top">
                             <div style={{ display: 'none' }}
                                 className="soft-half alert alert--warning one-whole push-half--bottom">
                                 Pas besoin d'envoyer vos coordonnées de contact par message : une fois l'inscription confirmée, elles seront automatiquement partagées.

@@ -1,9 +1,9 @@
-var BookPopup = require('../BookPopup');
+var BookPopup = require('./BookPopup');
 var LessonPlanning = React.createClass({
 
     propTypes: {
         planning: React.PropTypes.object.isRequired,
-        course: React.PropTypes.object.isRequired
+        course  : React.PropTypes.object.isRequired
     },
 
     bookPlanning: function bookPlanning () {

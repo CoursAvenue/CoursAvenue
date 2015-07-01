@@ -37,8 +37,9 @@
         .soft
           %div.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
             %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos } }
-              %i.fa.fa-map-marker
-              = "#{@place.address} (#{@place.name})"
+              %strong= @place.name
+              %br
+              %span.f-weight-500= @place.address
             %span{ itemprop: 'address', itemscope: true, itemtype: 'http://data-vocabulary.org/Address'}
               %meta{ itemprop: 'street-address', content: @place.address }
               %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }

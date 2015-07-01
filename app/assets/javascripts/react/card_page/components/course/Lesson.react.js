@@ -1,4 +1,4 @@
-var LessonPlanning = require('../plannings/Lesson.react');
+var Planning = require('../Planning.react');
 
 var Lesson = React.createClass({
 
@@ -9,7 +9,7 @@ var Lesson = React.createClass({
 
     render: function render () {
         var plannings = _.map(this.props.plannings, function(planning, index) {
-            return (<LessonPlanning planning={planning} course={this.props.course} key={index} />);
+            return (<Planning planning={planning} course={this.props.course} key={index} />);
         }.bind(this));
 
         var infos = [];

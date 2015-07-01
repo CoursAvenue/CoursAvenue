@@ -1,4 +1,4 @@
-var TrainingPlanning = require('../plannings/Training.react');
+var Planning = require('../Planning.react');
 
 var Training = React.createClass({
 
@@ -7,11 +7,11 @@ var Training = React.createClass({
     },
 
     render: function render () {
-        var plannings = _.map(this.props.plannings, function(planning) {
-            return (<TrainingPlanning planning={planning} />);
-        });
+        var plannings = _.map(this.props.plannings, function(planning, index) {
+            return (<Planning planning={planning} course={this.props.course} key={index} />);
+        }.bind(this))
         return (
-            <table className="table--striped table--data table--data-small table-responsive">
+            <table className="table--striped table--data table--data-small table-responsive table--hoverable">
                 <thead className="gray-light">
                     <tr>
                         <th className="one-tenths">Jour</th>

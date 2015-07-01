@@ -3,7 +3,8 @@ var _                  = require('underscore'),
     PlanningStore      = require('../stores/PlanningStore'),
     CourseStore        = require('../stores/CourseStore'),
     CardPageDispatcher = require('../dispatcher/CardPageDispatcher'),
-    CardPageConstants  = require('../constants/CardPageConstants');
+    CardPageConstants  = require('../constants/CardPageConstants'),
+    ActionTypes        = CardPageConstants.ActionTypes;
 
 var RequestStore = Backbone.Model.extend({
     initialize: function initialize () {
