@@ -52,7 +52,7 @@ class ParticipationRequest < ActiveRecord::Base
   before_validation :set_date_if_empty
   before_create     :set_default_attributes
   after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher,
-    :send_sms_to_user, :touch_user, :set_check_for_disable
+    :send_sms_to_user, :touch_user, :set_check_for_disable_later
 
   before_save       :update_times
   after_save        :update_structure_response_rate
