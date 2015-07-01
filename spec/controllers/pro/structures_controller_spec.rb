@@ -3,13 +3,14 @@ require 'rails_helper'
 describe Pro::StructuresController do
   include Devise::TestHelpers
 
-  let!(:admin) { FactoryGirl.create(:super_admin) }
-
-  before do
-    sign_in admin
-  end
-
   describe 'POST #import' do
+
+    let!(:admin) { FactoryGirl.create(:super_admin) }
+
+    before do
+      sign_in admin
+    end
+
     context 'when the file is valid' do
       let(:file)         { fixture_file_upload('files/structures.csv', 'text/csv')}
       let(:valid_params) { { structure_import: { file: file } } }
@@ -40,6 +41,31 @@ describe Pro::StructuresController do
       #   expect(response).to redirect_to(pro_structures_path)
       #   expect(flash[:error]).to be_present
       # end
+    end
+  end
+
+  describe 'PATCH #enable' do
+    let(:structure) { FactoryGirl.create(:structure, :disabled) }
+    let!(:admin) { FactoryGirl.create(:admin, structure: structure) }
+
+    before do
+      sign_in admin
+    end
+
+    it 'enables the structure' do
+      patch :enable, id: structure.slug
+      structure.reload
+      expect(structure.enabled?).to be_truthy
+    end
+
+    it 'redirects to the structure' do
+      patch :enable, id: structure.slug
+      expect(response).to redirect_to(pro_structure_path(structure))
+    end
+
+    it 'shows a notice' do
+      patch :enable, id: structure.slug
+      expect(flash[:notice]).to be_present
     end
   end
 end

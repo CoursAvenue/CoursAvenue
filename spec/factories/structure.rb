@@ -78,5 +78,13 @@ FactoryGirl.define do
     trait :with_contact_phone do
       contact_phone '0101928374'
     end
+
+    trait :enabled do
+      enabled true
+    end
+
+    trait :disabled do
+      enabled false
+    end
   end
 end

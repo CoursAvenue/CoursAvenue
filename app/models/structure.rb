@@ -407,7 +407,9 @@ class Structure < ActiveRecord::Base
     end
 
     boolean :sleeping_email_opt_in
-    boolean :active
+    boolean :active do
+      (active && enabled)
+    end
 
     boolean :has_admin do
       self.has_admin?
@@ -523,16 +525,6 @@ class Structure < ActiveRecord::Base
 
   def independant?
     structure_type == 'structures.independant'
-  end
-
-  def activate!
-    self.active = true
-    save
-  end
-
-  def disable!
-    self.active = false
-    save
   end
 
   def ratio_from_original_from_large
@@ -1268,6 +1260,40 @@ class Structure < ActiveRecord::Base
 
   def update_cities_text
     update_column :cities_text, places.map(&:city).map(&:name).uniq.join(', ')
+  end
+
+  # Whether or not we should disable the current structure.
+  # We disable the structure if the last three participation requests
+  #  - Are older than 2 days
+  #  - Are still pending
+  #  - Don't have any answers from the teacher
+  #
+  # @return a boolean.
+  def should_be_disabled?
+    requests = participation_requests.last(3)
+    return false if requests.empty?
+
+    requests.all?(&:unanswered?)
+  end
+
+  def disable!
+    return if !enabled?
+
+    self.enabled = false
+    save
+  end
+
+  def enable!
+    return if enabled?
+
+    self.enabled = true
+    save
+  end
+
+  def check_for_disable
+    if should_be_disabled?
+      disable!
+    end
   end
 
   private
