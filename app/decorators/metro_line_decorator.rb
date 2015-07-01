@@ -16,7 +16,7 @@ class MetroLineDecorator < Draper::Decorator
   end
 
   def line_class_name
-    "metro-line-#{number.downcase.gsub(' ', '-')}"
+    "#{line_type}-line-#{number.downcase.gsub(' ', '-')}"
   end
 
 end
