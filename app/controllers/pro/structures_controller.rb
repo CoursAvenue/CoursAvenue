@@ -410,7 +410,6 @@ France
   end
 
   def enable
-    dsadsad?
     @structure.enable!
     redirect_to pro_structure_path(@structure), notice: 'Profil réactivé avec succès'
   end
