@@ -26,6 +26,10 @@ class IndexableCard < ActiveRecord::Base
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
     attribute :id, :slug
 
+    add_attribute :active do
+      (self.structure.active && self.structure.enabled)
+    end
+
     add_attribute :name do
       self.course_name or self.subject_name
     end
