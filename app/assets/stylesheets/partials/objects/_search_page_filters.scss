@@ -57,9 +57,10 @@
         overflow     : hidden;
     }
     .search-page-card__subjects-wrapper {
-        overflow        : hidden;
-        height          : 48px;
-        text-align      : center;
+        overflow     : hidden;
+        height       : 48px;
+        text-align   : center;
+        margin-bottom: 10px;
     }
         .search-page-card__subject {
             background-color: whitesmoke;
@@ -77,3 +78,16 @@
             font-weight     : 500;
             @include border-radius(10px);
         }
+
+.search-page-card__day-badge {
+    padding     : 1px 4px;
+    margin-right: -1px;
+    text-align  : center;
+    display     : inline-block;
+    font-weight : 500;
+    @include border-radius(2px);
+    &.search-page-card__day-badge--active{
+        background-color: #9AAAB7;
+        color           : white;
+    }
+}

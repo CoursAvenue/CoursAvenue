@@ -10,8 +10,8 @@ Rating = React.createClass({
             var comments = (<i className="v-middle">Aucun avis pour le moment</i>);
         }
         return (
-          <div className='very-soft--top very-soft'>
-              <span className="v-middle">{comments}</span>
+          <div className="very-soft--bottom">
+              <i className="fa fa-user v-middle"></i>&nbsp;{comments}
           </div>
         );
     },

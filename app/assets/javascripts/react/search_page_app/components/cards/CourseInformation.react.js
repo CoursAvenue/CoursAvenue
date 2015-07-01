@@ -13,9 +13,8 @@ CourseInformation = React.createClass({
             return this.props.weeklyAvailability.map(function(day, index) {
                 var tooltip_content = '';
                 var classes = classNames({
-                    'white':   day.count > 0,
-                    'text--center letter-square inline-block v-middle': true,
-                    'bg-gray': day.count > 0
+                    'search-page-card__day-badge--active':   day.count > 0,
+                    'search-page-card__day-badge'        : true
                 });
                 if (day.count > 0 && day.start_times && day.start_times.length > 0) {
                     tooltip_content = 'Le ' + I18n.t('day_names_from_english.' + day.day) + ' à ' + day.start_times.join(', ');
@@ -23,12 +22,11 @@ CourseInformation = React.createClass({
                 }
                 var letter = I18n.t('day_names_from_english.' + day.day)[0].toUpperCase();
                 return (
-                    <div style={{ marginLeft: '1px', marginRight: '1px', padding: '2px 0' }}
-                    data-toggle='tooltip'
-                    data-trigger="hover"
-                    data-placement="top"
-                    data-title={tooltip_content}
-                    className={ classes } key={ index }>
+                    <div className={ classes } key={ index }
+                         data-toggle='tooltip'
+                         data-trigger="hover"
+                         data-placement="top"
+                         data-title={tooltip_content}>
                     { letter }
                     </div>
                 )

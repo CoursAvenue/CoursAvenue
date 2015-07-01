@@ -13,8 +13,9 @@ Card = React.createClass({
             callback : function callback (isTruncated, orgContent) {
                 if (isTruncated) {
                     $(this).attr('data-toggle', 'popover')
+                           .attr('data-html', 'true')
                            .attr('data-placement', 'top')
-                           .attr('data-content', orgContent.text());
+                           .attr('data-content', '<div class="f-weight-normal f-size-12">' + orgContent.text() + '<div>');
                 }
             }
         });
