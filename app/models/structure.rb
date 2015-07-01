@@ -1281,6 +1281,12 @@ class Structure < ActiveRecord::Base
     save
   end
 
+  def check_for_disable
+    if should_be_disabled?
+      disable!
+    end
+  end
+
   private
 
   # Will save slugs of vertical pages as breadcrumb separated by semi colons

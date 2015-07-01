@@ -784,4 +784,34 @@ describe Structure do
       end
     end
   end
+
+  describe 'check_for_disable' do
+    let(:structure) { FactoryGirl.create(:structure_with_admin) }
+    let!(:pr)  { FactoryGirl.create(:participation_request, :pending_state, date: 3.days.ago, structure: structure) }
+    let!(:pr1) { FactoryGirl.create(:participation_request, :pending_state, date: 3.days.ago, structure: structure) }
+
+    context "when the last participation request hasn't been replied to" do
+      let!(:pr2) { FactoryGirl.create(:participation_request, :pending_state, date: 3.days.ago, structure: structure) }
+
+      it 'disables the structure' do
+        subject.check_for_disable
+        subject.reload
+        expect(subject.enabled?).to be_falsy
+      end
+    end
+
+    context 'when the last participation request has been replied' do
+      let!(:pr2) { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+
+      before do
+        pr2.discuss!(Faker::Lorem.paragraph)
+      end
+
+      it 'keeps the structure enabled' do
+        subject.check_for_disable
+        subject.reload
+        expect(subject.enabled?).to be_truthy
+      end
+    end
+  end
 end
