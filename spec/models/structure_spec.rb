@@ -688,10 +688,10 @@ describe Structure do
     end
   end
 
-  describe '#should_disable?' do
+  describe '#should_be_disabled?' do
     let(:structure) { FactoryGirl.create(:structure_with_admin) }
     context 'when there are no participation requests' do
-      it { expect(subject.should_disable?).to be_falsy }
+      it { expect(subject.should_be_disabled?).to be_falsy }
     end
 
     context 'when there are participations requests that have been accepted' do
@@ -710,7 +710,7 @@ describe Structure do
         pr2.save
       end
 
-      it { expect(subject.should_disable?).to be_falsy }
+      it { expect(subject.should_be_disabled?).to be_falsy }
     end
 
     context 'when there are participations requests that have been replied to' do
@@ -730,7 +730,7 @@ describe Structure do
         pr2.discuss!(Faker::Lorem.paragraph)
       end
 
-      it { expect(subject.should_disable?).to be_falsy }
+      it { expect(subject.should_be_disabled?).to be_falsy }
     end
 
     context 'when the last 3 participation requests have expired and not been replied' do
@@ -749,7 +749,7 @@ describe Structure do
         pr2.save
       end
 
-      it { expect(subject.should_disable?).to be_truthy }
+      it { expect(subject.should_be_disabled?).to be_truthy }
     end
   end
 

@@ -1260,7 +1260,7 @@ class Structure < ActiveRecord::Base
   #  - Don't have any answers from the teacher
   #
   # @return a boolean.
-  def should_disable?
+  def should_be_disabled?
     requests = participation_requests.last(3)
     return false if requests.empty?
 
