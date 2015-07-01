@@ -497,7 +497,7 @@ class ParticipationRequest < ActiveRecord::Base
   def set_check_for_disable_later
     last_two = structure.participation_requests.last(3) - self
     if last_two.all?(&:unanswered?)
-      structure.delay(run_at: 5.days.from_now).check_for_disable
+      structure.delay(run_at: self.date + 3.days).check_for_disable
     end
   end
   handle_asynchronously :set_check_for_disable_later
