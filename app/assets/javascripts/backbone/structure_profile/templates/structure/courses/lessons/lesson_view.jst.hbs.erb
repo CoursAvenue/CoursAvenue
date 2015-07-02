@@ -1,5 +1,8 @@
 <div class="push--bottom {{#unless is_last}}bordered--bottom{{/unless}}">
-    <div class="float--right palm-float-none push-half--bottom">
+    <div class="push-half--bottom">
+        <h3 class="v-middle flush--bottom push-half--right delta">{{ name }}</h3>
+    </div>
+    <div class="float--right palm-float-none palm-flush push-half--bottom" style="margin-top: -30px;">
         {{#if min_price}}
             <div class="text--center push-half--bottom f-weight-500">
                 {{#if min_price.is_free}}
@@ -26,10 +29,7 @@
             </div>
         {{/unless}}
     </div>
-    <div class="push-half--bottom">
-        <h3 class="v-middle flush--bottom push-half--right inline-block delta">{{ name }}</h3>
-    </div>
-    <div class="line-height-2"><!--
+    <div class="line-height-2 visuallyhidden--palm"><!--
      -->{{#each details}}<!--
      --><div class="inline-block v-middle push-half--bottom soft-half--right">
             <div class="flexbox push-half--right">
@@ -44,13 +44,13 @@
      -->{{/each}}<!--
   --></div>
     <div class="push--bottom">
-        <table class="push-half--bottom table--striped table--data table--data-small table-responsive">
+        <table class="push-half--bottom table--striped table--data table--data-small table-responsive table-responsive--without-th">
             <thead class="gray-light">
                 <tr>
                     <th class="one-tenths">Jour</th>
-                    <th class="two-tenths">Horaires</th>
+                    <th class="two-tenths visuallyhidden--palm">Horaires</th>
                     <th class="two-tenths">Niveau</th>
-                    <th class="two-tenths">Public</th>
+                    <th class="two-tenths visuallyhidden--palm">Public</th>
                     <th class="three-tenths">Lieu</th>
                     <th><i class="fa-info"></i></th>
                 </tr>
@@ -65,6 +65,20 @@
     </div>
     {{#unlessBlank description}}
         <div class="flexbox push--bottom course-{{id}}-know-more hidden">
+          <div class="line-height-2 visuallyhidden--lap-and-up"><!--
+           -->{{#each details}}<!--
+           --><div class="inline-block v-middle push-half--bottom soft-half--right">
+                  <div class="flexbox push-half--right">
+                      <div class="flexbox__item v-middle text--center">
+                          <i class="fa {{this.icon}} v-middle" title="{{this.alt}}"></i>
+                      </div>
+                      <div class="flexbox__item soft-half--left v-middle">
+                          {{this.text}}
+                      </div>
+                  </div>
+              </div><!--
+           -->{{/each}}<!--
+        --></div>
             <div class="flexbox__item v-top one-fifth">
                 <strong class="gray-light">Description</strong>
             </div>

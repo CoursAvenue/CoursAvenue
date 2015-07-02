@@ -1,5 +1,5 @@
-%h1.soft--top.text--center= @structure.name
-%hr.push--ends
+%h1.visuallyhidden--palm.soft--top.text--center= @structure.name
+%hr.push--ends.visuallyhidden--palm
 
 = render 'shared/include_addthisevent'
 - structure_decorator = @structure.decorate
@@ -7,10 +7,11 @@
 .main-container.main-container--medium.soft--top
   .panel.push--bottom
     .panel__body.soft--top
-      %h1.text--center.soft--sides Votre demande d'inscription
+      %h1.palm-flush.text--center.soft--sides Votre inscription
+      %h4.visuallyhidden--lap-and-up.text--center= @structure.name
       = render partial: 'structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
       %hr
-      %h2.soft--sides Conversation avec le professeur
+      %h2.soft--sides.palm-text--center Conversation avec le professeur
       .soft
         .grid--full.push-half--bottom.message
           .grid__item.two-twelfths.v-top.v-top.visuallyhidden--palm>

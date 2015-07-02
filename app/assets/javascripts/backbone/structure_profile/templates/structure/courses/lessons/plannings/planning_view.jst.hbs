@@ -1,4 +1,4 @@
-<td data-th="Jour">
+<td>
     <div>
         <meta itemprop="summary" content="{{course.name}}">
         {{#if is_open_for_trial}}
@@ -7,22 +7,30 @@
         </div>
         {{/if}}
         {{ date }}
+        <span class="visuallyhidden--lap-and-up">{{ time_slot }}</span>
     </div>
 </td>
-<td data-th="Horaire" class="nowrap text--center">
+<td class="nowrap text--center visuallyhidden--palm">
     <div>
         <time itemprop="startDate" datetime="{{start_date_datetime}}">{{ time_slot }}</time>
         <time itemprop="endDate" datetime="{{end_date_datetime}}"></time>
     </div>
 </td>
-<td data-th="Niveau"><div>{{ levels }}</div></td>
-<td data-th="Public">
+<td>
+    <div>
+        {{ levels }}
+        <span class="visuallyhidden--lap-and-up">, {{ audiences }}</span>
+    </div>
+</td>
+<td class="visuallyhidden--palm">
     <div>{{ audiences }}</div>
 </td>
-<td data-th="Lieu" style="min-width: 80px;" itemprop="location" itemscope itemtype="http://data-vocabulary.org/Organization">
+<td style="min-width: 80px;" itemprop="location" itemscope itemtype="http://data-vocabulary.org/Organization">
     <div>
         {{#if address_name }}
-            <div itemprop="name" class="gray" data-toggle="popover" data-html="true" data-trigger="hover" data-content="{{ hide_contacts_and_escape address_with_info }}">{{address_name}}</div>{{!--
+            <div itemprop="name" class="gray" data-toggle="popover" data-html="true" data-trigger="hover" data-content="{{ hide_contacts_and_escape address_with_info }}">
+                <i class="visuallyhidden--lap-and-up fa fa-map-marker"></i>{{address_name}}
+            </div>{{!--
          --}}<span itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">{{!--
              --}}<meta itemprop="street-address" content="{{address}}">
              </span>{{!--
@@ -32,9 +40,12 @@
      --}}{{/if}}
     </div>
 </td>
-<td data-th="Infos">
+<td>
     {{#if info}}
-    <div data-content="{{ hide_contacts_and_escape info }}" data-toggle="popover" data-trigger="hover" data-html="true">
+    <div class="visuallyhidden--lap-and-up">
+        <i>{{ hide_contacts_and_escape info }}</i>
+    </div>
+    <div class="visuallyhidden--palm" data-content="{{ hide_contacts_and_escape info }}" data-toggle="popover" data-trigger="hover" data-html="true">
         <i class='fa-info'></i>
     </div>
     {{/if}}
