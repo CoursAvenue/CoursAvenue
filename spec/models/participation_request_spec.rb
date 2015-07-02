@@ -348,7 +348,7 @@ describe ParticipationRequest do
 
   describe '#unanswered?' do
     context 'when the date is in the last two days' do
-      subject { FactoryGirl.create(:participation_request, date: 1.day.ago) }
+      subject { FactoryGirl.create(:participation_request, created_at: 1.day.ago) }
       it { expect(subject.unanswered?).to be_falsy }
     end
 
@@ -368,7 +368,7 @@ describe ParticipationRequest do
     end
 
     context '' do
-      subject { FactoryGirl.create(:participation_request, date: 3.days.ago) }
+      subject { FactoryGirl.create(:participation_request, created_at: 3.days.ago) }
       it { expect(subject.unanswered?).to be_truthy }
     end
   end

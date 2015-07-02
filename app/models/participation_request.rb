@@ -354,7 +354,7 @@ class ParticipationRequest < ActiveRecord::Base
   end
 
   def unanswered?
-    self.date < 2.days.ago and self.state == 'pending' and
+    self.created_at < 2.days.ago and self.state == 'pending' and
       self.conversation.messages.length < 2 and self.last_modified_by == 'User'
   end
 

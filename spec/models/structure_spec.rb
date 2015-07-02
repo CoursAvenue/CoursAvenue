@@ -779,11 +779,11 @@ describe Structure do
 
   describe 'check_for_disable' do
     let(:structure) { FactoryGirl.create(:structure_with_admin) }
-    let!(:pr)  { FactoryGirl.create(:participation_request, :pending_state, date: 3.days.ago, structure: structure) }
-    let!(:pr1) { FactoryGirl.create(:participation_request, :pending_state, date: 3.days.ago, structure: structure) }
+    let!(:pr)  { FactoryGirl.create(:participation_request, :pending_state, created_at: 3.days.ago, structure: structure) }
+    let!(:pr1) { FactoryGirl.create(:participation_request, :pending_state, created_at: 3.days.ago, structure: structure) }
 
     context "when the last participation request hasn't been replied to" do
-      let!(:pr2) { FactoryGirl.create(:participation_request, :pending_state, date: 3.days.ago, structure: structure) }
+      let!(:pr2) { FactoryGirl.create(:participation_request, :pending_state, created_at: 3.days.ago, structure: structure) }
 
       it 'disables the structure' do
         subject.check_for_disable
