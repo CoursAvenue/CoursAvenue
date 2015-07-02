@@ -96,7 +96,7 @@ var BookPopup = React.createClass({
         } else {
             price_libelle = this.props.course.min_price.libelle;
             datepicker = (<div className="grid--full bordered--bottom">
-                              <label className="grid__item f-weight-bold v-middle one-half soft-half--ends line-height-2">
+                              <label className="grid__item f-weight-600 v-middle one-half soft-half--ends line-height-2">
                                   Quel {this.props.planning.date.toLowerCase()} voulez-vous venir ?&nbsp;
                               </label>
                               <div className="grid__item v-middle one-half">
@@ -123,7 +123,7 @@ var BookPopup = React.createClass({
                     <div className="soft--sides">
                         {datepicker}
                         <div className="grid--full bordered--bottom">
-                            <label className="grid__item f-weight-bold v-middle one-half soft-half--ends line-height-2">
+                            <label className="grid__item f-weight-600 v-middle one-half soft-half--ends line-height-2">
                                 Combien serez-vous ?
                             </label>
                             <div className="grid__item v-middle one-half">
@@ -139,7 +139,7 @@ var BookPopup = React.createClass({
                             </div>
                         </div>
                         <div className="grid--full bordered--bottom">
-                            <label className="grid__item f-weight-bold v-middle one-half soft-half--ends line-height-2">
+                            <label className="grid__item f-weight-600 v-middle one-half soft-half--ends line-height-2">
                                 Comment peut-on vous joindre ?
                             </label>
                             <div className="grid__item v-middle one-half">
