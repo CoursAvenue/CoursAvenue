@@ -7,6 +7,7 @@ describe Structure::RegistrationForm do
     it { should validate_presence_of(:structure_subject_descendants_ids) }
     it { should validate_presence_of(:admin_email) }
     it { should validate_presence_of(:admin_password) }
+    it { should validate_presence_of(:course_type) }
   end
 
   describe '#save' do

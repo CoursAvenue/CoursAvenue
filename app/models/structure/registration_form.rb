@@ -20,6 +20,9 @@ class Structure::RegistrationForm
   attribute :admin_password, String
   validates :admin_password, presence: true
 
+  attribute :course_type, String
+  validates :course_type, presence: true
+
   # "Save" the managed account form.
   # We don't really save the object, but persist the attributes of the object in the related Models,
   # here the Structure and Admin models.
@@ -36,11 +39,9 @@ class Structure::RegistrationForm
   #
   # @return Boolean, whether the Structure and The admin have been created or not.
   def persist!
-    ddsdsadsdsadsa
-
     @structure = Structure.create(
       name: @structure_name,
-      subject_ids: subjects,
+      subject_ids: @structure_subjects_ids + @structure_subject_descendants_ids,
     )
     return false if !@structure.persisted?
 

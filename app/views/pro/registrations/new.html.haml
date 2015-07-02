@@ -35,6 +35,21 @@
 
       .grid.push--bottom
         .grid__item.one-third.text--right.v-middle>
+          %label.gamma.white.smooth-black-text-shadow{ for: 'structure_registration_form[course_type]' }> Type d'activité à promouvoir en priorité
+        .grid__item.v-middle.two-thirds>
+          .btn-group{ data: { toggle: 'buttons' } }
+            %label.text--center.soft-half.one-third.btn.button{ class: (@registration_form.course_type == 'lesson' ? 'active' : '')}>
+              Cours Collectif
+              %input{ type: 'radio', name: 'structure_registration_form[course_type]', value: 'lesson', checked: @registration_form.course_type == 'lesson' }
+            %label.text--center.soft-half.one-third.btn.button{ class: (@registration_form.course_type == 'training' ? 'active' : '')}>
+              Stage ou atelier
+              %input{ type: 'radio', name: 'structure_registration_form[course_type]', value: 'training', checked: @registration_form.course_type == 'training' }
+            %label.text--center.soft-half.one-third.btn.button{ class: (@registration_form.course_type == 'private' ? 'active' : '')}>
+              Cours particulier
+              %input{ type: 'radio', name: 'structure_registration_form[course_type]', value: 'private', checked: @registration_form.course_type == 'private' }
+
+      .grid.push--bottom
+        .grid__item.one-third.text--right.v-middle>
           %label.gamma.white.smooth-black-text-shadow{ for: 'structure_registration_form[admin_email]' }> E-Mail
         .grid__item.v-middle.two-thirds>
           = f.input :admin_email, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
