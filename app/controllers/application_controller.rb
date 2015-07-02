@@ -64,7 +64,8 @@ class ApplicationController < ActionController::Base
   # Redirect users if there is a not found resource
   # @param  exception
   def render_not_found(exception)
-    if params[:id] and (s = Structure.only_deleted.where(id: params[:id]).first)
+    if params[:id] and ((s = Structure.only_deleted.where(id: params[:id]).first) or
+        (s = Structure.only_deleted.where(slug: params[:id])))
       redirect_to structures_path_for_city_and_subject(s.city, s.dominant_root_subject), status: 301, notice: "Cette page n'existe plus."
     else
       Bugsnag.notify(exception)
