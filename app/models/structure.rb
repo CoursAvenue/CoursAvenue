@@ -1264,6 +1264,8 @@ class Structure < ActiveRecord::Base
 
     self.enabled = false
     save
+
+    create_intercom_event('Active <-> Inactive')
   end
 
   def enable!
@@ -1271,6 +1273,8 @@ class Structure < ActiveRecord::Base
 
     self.enabled = true
     save
+
+    create_intercom_event('Inactive <-> Active')
   end
 
   def check_for_disable
@@ -1438,6 +1442,19 @@ class Structure < ActiveRecord::Base
   def reset_crop_if_changed_logo
     if self.remote_logo_url
       self.crop_x, self.crop_y, self.crop_width = nil, nil, nil
+    end
+  end
+
+  def create_intercom_event(event_name)
+    begin
+      intercom_client = IntercomClientFactory.client
+      intercom_client.events.create(
+        event_name: event_name, created_at: Time.now.to_i,
+        email: self.main_contact.email,
+        user_id: "Admin_#{self.main_contact.id}"
+      )
+    rescue Exception => exception
+      Bugsnag.notify(exception, { name: name, slug: slug, id: id })
     end
   end
 end
