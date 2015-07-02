@@ -1,5 +1,4 @@
-var FluxBoneMixin          = require("../../mixins/FluxBoneMixin"),
-    CardStore              = require("../stores/CardStore"),
+var CardStore              = require("../stores/CardStore"),
     LocationStore          = require("../stores/LocationStore"),
     MetroStopStore         = require("../stores/MetroStopStore"),
     SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
@@ -27,7 +26,22 @@ var MapComponent = React.createClass({
     },
 
     createMap: function createMap () {
-        this.marker_layer = L.layerGroup();
+        this.marker_layer = new L.MarkerClusterGroup({
+            maxClusterRadius: 1,
+            spiderfyOnMaxZoom: false,
+            // The iconCreateFunction takes the cluster as an argument and returns
+            // an icon that represents it. We use L.mapbox.marker.icon in this
+            // example, but you could also use L.icon or L.divIcon.
+            iconCreateFunction: function(cluster) {
+                return L.mapbox.marker.icon({
+                    // show the number of markers in the cluster on the icon.
+                    'marker-symbol': cluster.getChildCount(),
+                    'marker-color': '#422'
+                });
+            }
+        });
+
+        // this.marker_layer = L.layerGroup();
         this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets', { scrollWheelZoom: false })
                           .setView(this.props.center, 13)
                           .addLayer(this.marker_layer);
@@ -153,13 +167,7 @@ var MapComponent = React.createClass({
     },
 
     render: function render () {
-        var map_style = {
-            minHeight: '500px',
-            height: '100%'
-        };
-        return (
-          <div style={map_style}></div>
-        );
+        return (<div style={{ height: '100%' }}></div>);
     }
 });
 

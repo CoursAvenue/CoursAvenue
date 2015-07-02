@@ -46,7 +46,10 @@
     = render 'layouts/social_sdks'
 
     = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'
+    = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'
     = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css'
+    = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css'
+    = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css'
 
     :javascript
       if (!$.cookie('fingerprint')) { $.cookie('fingerprint', new Fingerprint().get()); }
