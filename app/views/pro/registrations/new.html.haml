@@ -16,32 +16,32 @@
 
       .grid.push--bottom
         .grid__item.one-third.text--right.v-middle>
-          %label.gamma.white.smooth-black-text-shadow{ for: 'structure_name' }> Nom de votre structure
+          %label.gamma.white.smooth-black-text-shadow{ for: 'structure_registration_form[structure_name]' }> Nom de votre structure
         .grid__item.v-middle.two-thirds>
           = f.input :structure_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
 
       %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
         .grid.push--bottom
           .grid__item.one-third.text--right.v-middle>
-            .gamma.white.smooth-black-text-shadow> Disciplines générales pratiquées
+            %label.gamma.white.smooth-black-text-shadow{ for: 'structure_registration_form[structure_subjects_ids]' }> Disciplines générales pratiquées
           .grid__item.v-middle.two-thirds>
             = f.input :structure_subjects_ids, as: :select, collection: Subject.roots.order('position ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
         #descendants-subject.grid.push--bottom
           .grid__item.one-third.text--right.v-middle>
-            .gamma.white.smooth-black-text-shadow> Sous disciplines
+            %label.gamma.white.smooth-black-text-shadow{ for: 'structure_registration_form[structure_subject_descendants_ids]' }> Sous disciplines
           .grid__item.v-middle.two-thirds{ title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: { behavior: 'tooltip' } }>
             %div{ style: 'max-width: 600px;'}
               %select.input--large.one-whole.hard#subject-descendants-select{ name: 'structure_registration_form[structure_subject_descendants_ids][]', multiple: true, data: { behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @registration_form.structure_subject_descendants_ids.map{|id| Subject.find(id)}.select{|subj| subj.depth == 2}.map(&:id).join(',')}}>
 
       .grid.push--bottom
         .grid__item.one-third.text--right.v-middle>
-          %label.gamma.white.smooth-black-text-shadow{ for: 'structure_name' }> E-Mail
+          %label.gamma.white.smooth-black-text-shadow{ for: 'structure_registration_form[admin_email]' }> E-Mail
         .grid__item.v-middle.two-thirds>
           = f.input :admin_email, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
 
       .grid.push--bottom
         .grid__item.one-third.text--right.v-middle>
-          %label.gamma.white.smooth-black-text-shadow{ for: 'structure_name' }> Mot de passe
+          %label.gamma.white.smooth-black-text-shadow{ for: 'structure_registration_form[admin_password]' }> Mot de passe
         .grid__item.v-middle.two-thirds>
           = f.input :admin_password, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
 
