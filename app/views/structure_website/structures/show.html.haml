@@ -6,7 +6,7 @@
 
 .main-container.relative
   - if @structure.website.present?
-    .absolute.north.west.push--top
+    .absolute.north.west.push-half--top.soft-half--left
       = link_to '< Revenir au site', @structure.website
   %h1.soft--top.text--center.flush= @structure.name
   %h5.text--center Planning avec demande d'inscription en ligne
