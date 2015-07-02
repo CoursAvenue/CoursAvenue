@@ -23,8 +23,13 @@
                     </div>
                 {{/if}}
                 {{#unless is_sleeping}}
-                    <div>
-                        <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full">M'inscrire</a>
+                    <div class="text--center">
+                        {{#if accepts_payment}}
+                            <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full block">Payer par <i class="fa-credit-card"></i></a>
+                            <i>Annulation gratuite</i>
+                        {{else}}
+                            <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full">M'inscrire</a>
+                        {{/if}}
                     </div>
                 {{/unless}}
             </div>
@@ -36,9 +41,6 @@
             <div class="very-soft--left">
               <a href="#" data-behavior="show-long-version" data-long-version=".course-{{id}}-know-more">
                   Plus de détails <i class="fa fa-caret-down"></i>
-                  {{#if has_promotion}}
-                    <span class="push-half--left v-middle lbl lbl--yellow"><i class="fa-star"></i> Promotions</span>
-                  {{/if}}
               </a>
             </div>
         </div>

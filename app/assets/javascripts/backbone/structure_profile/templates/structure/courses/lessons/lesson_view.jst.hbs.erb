@@ -16,12 +16,18 @@
             </div>
         {{/if}}
         {{#unless is_sleeping}}
-            <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full">M'inscrire</a>
+            <div class="text--center">
+                {{#if accepts_payment}}
+                    <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full block">Payer par <i class="fa-credit-card"></i></a>
+                    <i>Annulation gratuite</i>
+                {{else}}
+                    <a data-behavior="register-to-course" class="btn btn--green soft--sides btn--full">M'inscrire</a>
+                {{/if}}
+            </div>
         {{/unless}}
     </div>
     <div class="push-half--bottom">
         <h3 class="v-middle flush--bottom push-half--right inline-block delta">{{ name }}</h3>
-        {{#if has_promotion}}<span class="v-middle lbl lbl--yellow"><i class="fa-star"></i> Promotions</span>{{/if}}
     </div>
     <div class="line-height-2"><!--
      -->{{#each details}}<!--
