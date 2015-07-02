@@ -1,0 +1,42 @@
+= content_for :title do
+  Publiez vos cours gratuitement et recruter de nouveaux élèves.
+
+= render layout: 'pro/home/header_layout', locals: { hide_menu: true, bg_center: true } do
+  .main-container.soft--sides.mega-soft--ends.text--center
+    %h1.white.soft-black-text-shadow.f-size-big.relative.flush
+      L'outil tout-en-un
+      %br
+      pour votre communication sur Internet
+    %h3.line-height-1-7.white.relative
+      Commencez avec CoursAvenue
+
+.soft.panel-background-blue-radial
+  .main-container
+    = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post, html: { class: 'push--ends', autocomplete: "false"} do |f|
+
+      .grid.push--bottom
+        .grid__item.one-third.text--right.v-middle>
+          %label.gamma.white.smooth-black-text-shadow{ for: 'structure_name' }> Nom de votre structure
+        .grid__item.v-middle.two-thirds>
+          = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+
+      %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
+        .grid.push--bottom
+          .grid__item.one-third.text--right.v-middle>
+            .gamma.white.smooth-black-text-shadow> Disciplines générales pratiquées
+          .grid__item.v-middle.two-thirds>
+            = f.association :subjects, as: :select, collection: Subject.roots.order('position ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+        #descendants-subject.grid.push--bottom
+          .grid__item.one-third.text--right.v-middle>
+            .gamma.white.smooth-black-text-shadow> Sous disciplines
+          .grid__item.v-middle.two-thirds{ title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: { behavior: 'tooltip' } }>
+            %div{ style: 'max-width: 600px;'}
+              %select.input--large.one-whole.hard#subject-descendants-select{ name: 'structure[subject_descendants_ids][]', multiple: true, data: { behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.select{|subj| subj.depth == 2}.map(&:id).join(',')}}>
+              - if @structure.errors[:children_subjects].present?
+                .input_field_error.red.text--right= @structure.errors[:children_subjects].to_sentence
+
+      = f.input :contact_email, as: :hidden
+      .grid.push--bottom
+        .grid__item.one-third.text--right.v-middle>
+        .grid__item.v-middle.two-thirds>
+          = f.submit 'Continuer', class: 'btn--large btn btn--full btn--green', data: { disable_with: "Profil en cours de création" }, style: 'max-width: 600px;'
