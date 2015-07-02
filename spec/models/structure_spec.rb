@@ -28,17 +28,6 @@ describe Structure do
     end
   end
 
-  context 'disable' do
-    it 'disables' do
-      FactoryGirl.create(:course, structure: structure)
-      courses = structure.courses
-      structure.active = true
-      structure.disable!
-      expect(structure.active).to be false
-      courses.each{ |c| expect(c.active).to be false }
-    end
-  end
-
   context 'destroy' do
     it 'destroys everything' do
       places = structure.places
@@ -686,6 +675,16 @@ describe Structure do
       it { expect(subject.should_be_disabled?).to be_falsy }
     end
 
+    context 'when there have one participation request' do
+      let!(:pr)  { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
+      before do
+        pr.date = 10.days.ago
+        pr.save
+      end
+
+      it { expect(subject.should_be_disabled?).to be_falsy }
+    end
+
     context 'when there are participations requests that have been accepted' do
       let!(:pr)  { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
       let!(:pr1) { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
@@ -731,14 +730,9 @@ describe Structure do
       let!(:pr2) { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
 
       before do
-        pr.date = 10.days.ago
-        pr.save
-
-        pr1.date = 10.days.ago
-        pr1.save
-
-        pr2.date = 10.days.ago
-        pr2.save
+        pr.update_column :created_at, 10.days.ago
+        pr1.update_column :created_at, 10.days.ago
+        pr2.update_column :created_at, 10.days.ago
       end
 
       it { expect(subject.should_be_disabled?).to be_truthy }

@@ -1244,6 +1244,7 @@ class Structure < ActiveRecord::Base
   #
   # @return a boolean.
   def should_be_disabled?
+    return false if participation_requests.count < 3
     requests = participation_requests.last(3)
     return false if requests.empty?
 
