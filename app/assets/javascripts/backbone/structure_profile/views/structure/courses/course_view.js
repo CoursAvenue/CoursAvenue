@@ -22,6 +22,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             this.model.set('is_last', options.is_last);
             this.model.set('about', options.about);
             this.model.set('about_genre', options.about_genre);
+            this.model.set('is_sleeping', window.coursavenue.bootstrap.meta.is_sleeping);
         },
 
         onRender: function onRender (options) {

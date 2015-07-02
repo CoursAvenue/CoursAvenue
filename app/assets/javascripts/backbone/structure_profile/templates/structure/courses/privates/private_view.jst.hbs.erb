@@ -2,7 +2,7 @@
     <div class="grid soft--ends">
         <div class="grid__item v-top four-twelfths palm-one-whole">
             <h3 data-behavior="excite-markers" class="bg-gray-light text--center bordered line-height-1-7 v-middle flush delta">
-                <a data-behavior="register-to-course" class="block muted-link cursor-pointer hoverable soft-half transition-all-300">{{ name }}</a>
+                <a data-behavior="register-to-course" class="block muted-link {{#unless is_sleeping}}cursor-pointer{{/unless}} hoverable soft-half transition-all-300">{{ name }}</a>
             </h3>
         </div><!--
      --><div class="grid__item v-top eight-twelfths palm-one-whole">
@@ -33,7 +33,7 @@
                     </div>
                 {{/unless}}
             </div>
-            <div data-behavior="register-to-course" data-behavior="excite-markers" class="cursor-pointer hoverable transition-all-300 very-soft f-weight-600 line-height-1-7">
+            <div data-behavior="register-to-course" data-behavior="excite-markers" class="{{#unless is_sleeping}}cursor-pointer{{/unless}} hoverable transition-all-300 very-soft f-weight-600 line-height-1-7">
                 <div class="epsilon f-weight-600 line-height-1-7">{{{ course_location }}}</div>
                 <div class="gray-light f-weight-500">{{ levels }}, {{ audiences }}</div>
                 <div data-type="plannings-container" class="hidden"></div>

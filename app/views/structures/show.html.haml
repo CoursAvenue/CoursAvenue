@@ -143,7 +143,7 @@
           structure: #{ @model.to_json },
           meta: {
               have_upcoming_plannings: #{ @structure.plannings.future.any? },
-              is_sleeping: #{ @structure.is_sleeping? },
+              is_sleeping: #{ @structure.is_sleeping? || !@structure.enabled? },
               structure_id: #{ @structure.id }
           }
       };
