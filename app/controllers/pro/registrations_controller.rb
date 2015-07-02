@@ -17,6 +17,15 @@ class Pro::RegistrationsController < Pro::ProController
     end
   end
 
+  def new_course
+    @structure   = Structure.find(params[:id])
+    @course_type = params[:course_type]
+    @course      = @structure.courses.new
+  end
+
+  def create_course
+  end
+
   private
 
   def registration_params

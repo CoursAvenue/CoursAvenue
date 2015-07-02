@@ -1,0 +1,69 @@
+= simple_form_for [:pro, @course], url: create_course_pro_registrations_path, method: :post, html: { class: 'push--ends', autocomplete: "false"} do |f|
+  = f.hidden_field :type, value: 'Course::Lesson'
+
+  .grid.push--bottom
+    .grid__item.one-third.text--right.v-middle>
+      %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
+    .grid__item.v-middle.two-thirds>
+      = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+
+  .grid.push--bottom
+    .grid__item.one-third.text--right.v-middle>
+      %label.white.smooth-black-text-shadow{ for: 'course[subjects]' }> Étiquette disciplines
+    .grid__item.v-middle.two-thirds>
+      = f.input :subjects, as: :select, collection: @structure.subjects.flat_map(&:little_children).uniq, input_html: { id: 'subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+      -# = f.input :subjects, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+
+  -# .grid.push--bottom
+  -#   .grid__item.one-third.text--right.v-middle>
+  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
+  -#   .grid__item.v-middle.two-thirds>
+  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+  -#
+  -# .grid.push--bottom
+  -#   .grid__item.one-third.text--right.v-middle>
+  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
+  -#   .grid__item.v-middle.two-thirds>
+  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+  -#
+  -# .grid.push--bottom
+  -#   .grid__item.one-third.text--right.v-middle>
+  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
+  -#   .grid__item.v-middle.two-thirds>
+  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+  -#
+  -# .grid.push--bottom
+  -#   .grid__item.one-third.text--right.v-middle>
+  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
+  -#   .grid__item.v-middle.two-thirds>
+  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+  -#
+  -# .grid.push--bottom
+  -#   .grid__item.one-third.text--right.v-middle>
+  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
+  -#   .grid__item.v-middle.two-thirds>
+  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+  -#
+  -# .grid.push--bottom
+  -#   .grid__item.one-third.text--right.v-middle>
+  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
+  -#   .grid__item.v-middle.two-thirds>
+  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+  -#
+  -# .grid.push--bottom
+  -#   .grid__item.one-third.text--right.v-middle>
+  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
+  -#   .grid__item.v-middle.two-thirds>
+  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+  -#
+  -# .grid.push--bottom
+  -#   .grid__item.one-third.text--right.v-middle>
+  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
+  -#   .grid__item.v-middle.two-thirds>
+  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+  -#
+  -# .grid.push--bottom
+  -#   .grid__item.one-third.text--right.v-middle>
+  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
+  -#   .grid__item.v-middle.two-thirds>
+  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }

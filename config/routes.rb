@@ -172,7 +172,12 @@ CoursAvenue::Application.routes.draw do
       end
 
       get 'nouveau-dormant', to: 'structures#new_sleeping', as: :add_sleeping_structure
-      resources :registrations, only: [:new, :create], path: 'inscriptions'
+      resources :registrations, only: [:new, :create], path: 'inscriptions' do
+        collection do
+          get :new_course
+          post :create_course
+        end
+      end
       resources :structures, path: 'etablissements' do
         collection do
           get :sleepings

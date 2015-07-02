@@ -37,8 +37,46 @@ describe Pro::RegistrationsController do
       it 'redirects to the second part of the registration' do
         post :create, params
         structure = Structure.last
-        expect(response).to redirect_to(new_course_pro_registrations_path(id: structure.slug))
+        expect(response).to redirect_to(new_course_pro_registrations_path(id: structure.slug,
+                                                                          course_type: 'lesson'))
       end
     end
+  end
+
+  describe 'GET #new_course' do
+    let(:structure) { FactoryGirl.create(:structure) }
+    it 'assigns a course' do
+      get :new_course, { id: structure.slug }
+      expect(assigns(:course)).to be_a_new(Course)
+    end
+
+    it 'renders the right partial depending on the course type'
+  end
+
+  describe 'POST #create_course' do
+    context 'when the params are not valid' do
+      it "doesn't create a new course"
+      it "renders the course creation form"
+    end
+
+    context 'when the params are valid' do
+      it 'creates a new course'
+      it 'redirects to the user dashboard'
+    end
+  end
+
+  def valid_registration_params
+    structure_subject = FactoryGirl.create(:subject_children)
+    root_subject = structure_subject.root
+    {
+      structure_name: Faker::Name.name + ' Institute',
+      structure_subjects_ids: [root_subject.id],
+      structure_subject_descendants_ids: [structure_subject.id],
+
+      admin_email: Faker::Internet.email,
+      admin_password: Faker::Internet.password,
+
+      course_type: 'lesson'
+    }
   end
 end
