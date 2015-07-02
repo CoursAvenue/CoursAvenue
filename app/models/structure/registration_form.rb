@@ -26,6 +26,7 @@ class Structure::RegistrationForm
   #
   # @return Boolean, whether the object has been "saved".
   def save
+    remove_invalid_subjects!
     valid? ? persist! : false
   end
 
@@ -35,9 +36,11 @@ class Structure::RegistrationForm
   #
   # @return Boolean, whether the Structure and The admin have been created or not.
   def persist!
+    ddsdsadsdsadsa
+
     @structure = Structure.create(
       name: @structure_name,
-      subject_ids: @structure_subjects_ids + @structure_subject_descendants_ids,
+      subject_ids: subjects,
     )
     return false if !@structure.persisted?
 
@@ -47,7 +50,18 @@ class Structure::RegistrationForm
     )
     return false if !@admin.persisted?
 
+    @admin.send_confirmation_instructions
+    @structure.delay.index
+
     true
   end
 
+  def remove_invalid_subjects!
+    should_reject = lambda do |subject|
+      Subject.where(id: subject.to_i).any?
+    end
+
+    @structure_subjects_ids.select!(&should_reject)
+    @structure_subject_descendants_ids.select!(&should_reject)
+  end
 end
