@@ -2,12 +2,12 @@
 StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.CourseView = Marionette.CompositeView.extend({
-        template: Module.templateDirname() + 'course_view',
-        childView: Module.Plannings.PlanningView,
-        childViewContainer: '[data-type=plannings-container]',
-        priceCollectionViewContainer: '[data-type=prices-collection-container]',
+        template                       : Module.templateDirname() + 'course_view',
+        childView                      : Module.Plannings.PlanningView,
+        childViewContainer             : '[data-type=plannings-container]',
+        priceCollectionViewContainer   : '[data-type=prices-collection-container]',
         subjectsCollectionViewContainer: '[data-type=subjects-collection-container]',
-        emptyView: Module.EmptyView,
+        emptyView                      : Module.EmptyView,
 
         modelEvents: {
             'change': 'updatePlannings'
@@ -96,9 +96,16 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             };
         },
         serializeData: function serializeData () {
-            var attributes         = this.model.toJSON()
-            attributes.min_price   = new CoursAvenue.Models.Price(attributes.min_price).toJSON()
-            attributes.is_sleeping = window.coursavenue.bootstrap.meta.is_sleeping;
+            var attributes             = this.model.toJSON()
+            attributes.min_price       = new CoursAvenue.Models.Price(attributes.min_price).toJSON()
+            attributes.is_sleeping     = window.coursavenue.bootstrap.meta.is_sleeping;
+
+            // If on structure planning page
+            attributes.accepts_payment = false;
+            if (window.coursavenue.bootstrap.structure.can_receive_payments &&
+                location.pathname.match(Routes.structure_website_structure_path(window.coursavenue.bootstrap.structure.slug)).length > 0) {
+                attributes.accepts_payment = (this.model.get('accepts_payment') && !attributes.min_price.is_free);
+            }
             return attributes;
         },
 

@@ -2,8 +2,11 @@
 
 = render partial: 'pro/structures/courses/tabs', locals: { current: 'website_planning' }
 
-%h1 Planning sur votre site Internet
-
+.flexbox
+  .flexbox__item.v-top
+    %h1 Planning sur votre site Internet
+  .flexbox__item.v-top.text--right
+    = link_to 'Paramètres', website_planning_parameters_pro_structure_path(@structure), class: 'btn btn--green btn--small'
 %p.delta.line-height-1-3 Equipez votre site Internet d'une page planning optimisée qui a plusieurs avantages :
 
 %ul.delta.line-height-1-5

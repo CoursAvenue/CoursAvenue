@@ -4,21 +4,61 @@
 = content_for :meta_description do
   #{@structure.name} | Tout le planning des cours. Réservation en ligne.
 
-.main-container
-  %h1.soft--top.text--center.flush= @structure.name
+.main-container.relative
   - if @structure.website.present?
-    .text--center
-      = link_to 'Revenir au site Internet', @structure.website
+    .absolute.north.west.push-half--top.soft-half--left
+      = link_to '< Revenir au site', @structure.website
+  %h1.soft--top.text--center.flush= @structure.name
+  %h5.text--center Planning avec demande d'inscription en ligne
   %hr.push--ends
-  -# .text--center.push--bottom avec CoursAvenue.com
   .grid
     .grid__item.eight-twelfths.palm-one-whole>
-      #structure-planning.push--bottom.bg-white.bordered--left.bordered--right{ data: { type: 'structure-planning-root' } }
+      #structure-planning.push-half--bottom.bg-white.bordered--left.bordered--right{ data: { type: 'structure-planning-root' } }
         #structure-region
+      -# We have to keep this div here.
+      .hidden{ data: { type: 'contact-form' } }
+
     .grid__item.four-twelfths.palm-one-whole>
-      %div{ data: { type: 'contact-form' } }
+      .visuallyhidden--lap-and-up
+        %h3.push--top Lieux des activités :
       .on-top.transition-all-300{ data: { type: 'sticky-map-container' } }>
-        .soft--top{ data: { type: 'sticky-map', offset_top: '0' } }>
+        %div{ data: { type: 'sticky-map', offset_top: '0' } }>
+      .visuallyhidden--lap-and-up
+        %h3.push-half--top= 'Adresse'.pluralize(@structure.places.length)
+        - @structure.places.each do |place|
+          .push--bottom
+            .line-height-1-5
+              %strong= place.name
+              %br
+              = place.address
+            - if place.info.present?
+              %div
+                %i= place.info
+
+      - if @structure.comments_count > 0
+        %hr.push--ends
+        %h3.text--center
+          = "#{@structure.comments_count} avis"
+        - @structure.comments.order('created_at DESC').first(3).each do |comment|
+          .gray-box.soft.push--bottom
+            %h6.quoted.inline-block.push-half--bottom
+              = comment.title
+            .read-more{ itemprop: 'reviewBody', data: { behavior: 'read-more' } }
+              = simple_format comment.content
+            .text--right.flush
+              Il y a #{distance_of_time_in_words_to_now comment.created_at} par #{comment.author_name}
+        .text--center.push--bottom
+          = link_to 'Voir tous les avis', structure_path(@structure), class: 'epsilon'
+
+  .grid
+    .grid__item.eight-twelfths.palm-one-whole>
+      .text--right.f-weight-600
+        Planning offert avec plaisir par
+        = link_to root_url(subdomain: 'pro'), class: 'inline-block v-bottom' do
+          = image_tag 'logos/logo.png', alt: 'CoursAvenue', height: 20, class: 'block'
+      .text--right.f-weight-600.line-height-2.push--bottom
+        Pour le modifier :
+        = link_to 'Connexion', pro_structure_courses_url(@structure, subdomain: 'pro')
 
 = content_for :scripts do
   = javascript_include_tag 'https://js.stripe.com/v2/'

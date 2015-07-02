@@ -57,6 +57,10 @@
 /*------------------------------------*\
     BORDERS
 \*------------------------------------*/
+.bordered-top--palm {
+    @include media-query(palm) { border-top: 1px solid $gray-smooth;  }
+}
+.bordered               { border        : 1px solid $gray-smooth; }
 .bordered--dash         { border-style: dashed !important; }
 .bordered--ends         { border-top: 1px solid $gray-smooth; border-bottom: 1px solid $gray-smooth; }
 .bordered--right        { border-right  : 1px solid $gray-smooth !important; }
@@ -64,7 +68,6 @@
 .bordered--right        { border-right   : 1px solid $gray-smooth !important; }
 .bordered--bottom       { border-bottom : 1px solid $gray-smooth !important; }
 .bordered--top          { border-top    : 1px solid $gray-smooth !important; }
-.bordered               { border        : 1px solid $gray-smooth; }
 .bordered--blue         { border        : 1px solid $blue !important; }
 .bordered--red          { border        : 1px solid $red !important; }
 .border-none            { border        : none !important; }
@@ -424,6 +427,15 @@
     }
 }
 .sticky.bordered--bottom-on-stick    { border-bottom : 1px solid $gray-lighter; }
+.sticky {
+    position: fixed !important;
+    top     : 0;
+    @include media-query(palm) {
+        position: static !important;
+    }
+}
+[data-sticky-placeholder] { @include media-query(palm) { display: none; } }
+
 
 .has-tooltip {
     border-bottom  : dotted 1px #333;

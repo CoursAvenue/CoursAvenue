@@ -1067,16 +1067,7 @@ class Structure < ActiveRecord::Base
     new_status = CrmSync.structure_status_for_intercom(self)
     if self.status != new_status
       if self.main_contact
-        begin
-          intercom_client = IntercomClientFactory.client
-          intercom_client.events.create(
-          event_name: "#{self.status} -> #{new_status}", created_at: Time.now.to_i,
-          email: self.main_contact.email,
-          user_id: "Admin_#{self.main_contact.id}"
-        )
-        rescue Exception => exception
-          Bugsnag.notify(exception, { name: name, slug: slug, id: id })
-        end
+        create_intercom_event("#{self.status} -> #{new_status}")
       end
       self.update_columns meta_data: self.meta_data.merge('status' => new_status)
     end
@@ -1270,6 +1261,7 @@ class Structure < ActiveRecord::Base
   #
   # @return a boolean.
   def should_be_disabled?
+    return false if participation_requests.count < 3
     requests = participation_requests.last(3)
     return false if requests.empty?
 
@@ -1281,6 +1273,8 @@ class Structure < ActiveRecord::Base
 
     self.enabled = false
     save
+
+    create_intercom_event('Active <-> Inactive')
   end
 
   def enable!
@@ -1288,6 +1282,8 @@ class Structure < ActiveRecord::Base
 
     self.enabled = true
     save
+
+    create_intercom_event('Inactive <-> Active')
   end
 
   def check_for_disable
@@ -1479,4 +1475,16 @@ class Structure < ActiveRecord::Base
   end
   handle_asynchronously :delayed_generate_cards, run_at: Proc.new { 10.minutes.from_now }
 
+  def create_intercom_event(event_name)
+    begin
+      intercom_client = IntercomClientFactory.client
+      intercom_client.events.create(
+        event_name: event_name, created_at: Time.now.to_i,
+        email: self.main_contact.email,
+        user_id: "Admin_#{self.main_contact.id}"
+      )
+    rescue Exception => exception
+      Bugsnag.notify(exception, { name: name, slug: slug, id: id })
+    end
+  end
 end

@@ -38,6 +38,7 @@ and also iPads specifically.
                 border-right: 1px solid #CCCCCC;
             }
         }
+        &.table-responsive--without-th td:before{ display: none; }
         th, td {
             &, &.text--center, &.text--right {
                 text-align: left !important;
