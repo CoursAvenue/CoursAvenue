@@ -14,13 +14,15 @@ describe Structure::RegistrationForm do
     context 'when not valid' do
       subject { Structure::RegistrationForm.new }
 
-      it "doesn't create the Structure or the admin" do
-        expect { subject.save }.to_not change { Structure.count }
-        expect { subject.save }.to_not change { Admin.count }
-      end
-
       it { expect(subject.save).to be_falsy }
 
+      it "doesn't create the Structure" do
+        expect { subject.save }.to_not change { Structure.count }
+      end
+
+      it "doesn't create the admin" do
+        expect { subject.save }.to_not change { Admin.count }
+      end
     end
 
     context 'when valid' do
