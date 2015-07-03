@@ -104,7 +104,7 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
             // If on structure planning page
             attributes.accepts_payment = false;
             if (window.coursavenue.bootstrap.structure.can_receive_payments &&
-                location.pathname.match(Routes.structure_website_structure_path(window.coursavenue.bootstrap.structure.slug)).length > 0) {
+                location.pathname.match(Routes.structure_website_structure_path(window.coursavenue.bootstrap.structure.slug))) {
                 attributes.accepts_payment = (this.model.get('accepts_payment') && !attributes.min_price.is_free);
             }
             return attributes;
