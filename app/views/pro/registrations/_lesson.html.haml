@@ -1,69 +1,74 @@
+- @course.prices.build(type: 'Price::Trial', amount: 0) if @course.prices.empty?
 = simple_form_for [:pro, @course], url: create_course_pro_registrations_path, method: :post, html: { class: 'push--ends', autocomplete: "false"} do |f|
   = f.hidden_field :type, value: 'Course::Lesson'
 
   .grid.push--bottom
     .grid__item.one-third.text--right.v-middle>
-      %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
+      %label.gamma{ for: 'course[name]' }> Nom du cours collectif
     .grid__item.v-middle.two-thirds>
       = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+      %p.flush
+        %i.blue
+          Un bon nom doit être court et explicite : aucune information sur le lieu, l'âge ou le niveau.
 
   .grid.push--bottom
     .grid__item.one-third.text--right.v-middle>
-      %label.white.smooth-black-text-shadow{ for: 'course[subjects]' }> Étiquette disciplines
+      %label{ for: 'course[subjects]' }> Étiquette disciplines
     .grid__item.v-middle.two-thirds>
-      = f.input :subjects, as: :select, collection: @structure.subjects.flat_map(&:little_children).uniq, input_html: { id: 'subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
-      -# = f.input :subjects, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+      = f.input :subjects, as: :select, collection: little_children_subjects(@structure), input_html: { id: 'subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
 
-  -# .grid.push--bottom
-  -#   .grid__item.one-third.text--right.v-middle>
-  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
-  -#   .grid__item.v-middle.two-thirds>
-  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
-  -#
-  -# .grid.push--bottom
-  -#   .grid__item.one-third.text--right.v-middle>
-  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
-  -#   .grid__item.v-middle.two-thirds>
-  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
-  -#
-  -# .grid.push--bottom
-  -#   .grid__item.one-third.text--right.v-middle>
-  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
-  -#   .grid__item.v-middle.two-thirds>
-  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
-  -#
-  -# .grid.push--bottom
-  -#   .grid__item.one-third.text--right.v-middle>
-  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
-  -#   .grid__item.v-middle.two-thirds>
-  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
-  -#
-  -# .grid.push--bottom
-  -#   .grid__item.one-third.text--right.v-middle>
-  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
-  -#   .grid__item.v-middle.two-thirds>
-  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
-  -#
-  -# .grid.push--bottom
-  -#   .grid__item.one-third.text--right.v-middle>
-  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
-  -#   .grid__item.v-middle.two-thirds>
-  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
-  -#
-  -# .grid.push--bottom
-  -#   .grid__item.one-third.text--right.v-middle>
-  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
-  -#   .grid__item.v-middle.two-thirds>
-  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
-  -#
-  -# .grid.push--bottom
-  -#   .grid__item.one-third.text--right.v-middle>
-  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
-  -#   .grid__item.v-middle.two-thirds>
-  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
-  -#
-  -# .grid.push--bottom
-  -#   .grid__item.one-third.text--right.v-middle>
-  -#     %label.gamma.white.smooth-black-text-shadow{ for: 'course[name]' }> Nom du cours collectif
-  -#   .grid__item.v-middle.two-thirds>
-  -#     = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+  .grid.push--bottom
+    .grid__item.one-third.text--right.v-middle>
+      %label.gamma{ for: 'course[name]' }> Prix séance d'essai
+    .grid__item.v-middle.two-thirds>
+      - @course.prices.each_with_index do |price, index|
+        - price = price.localized
+        .input{ data: { el: true, hidden: (!price.persisted? and index > 0) } }
+          = f.simple_fields_for :prices, price, child_index: index do |price_form|
+            = price_form.input :type, as: :hidden
+            %select.push-half--right.input--large.inline-block.v-middle{ data: { trial_select: true } }
+              %option{ value: 'free'    , selected: price.free? } Gratuit
+              %option{ value: 'not-free', selected: !price.free? } Payante
+            %div.v-middle{ class: (price.free? ? 'hidden' : ''), data: { trial_price_input: true } }
+              %span.label--large.v-middle Tarif :
+              = price_form.input :amount, label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large flush text--center', style: 'width: 5em;', type: 'string', value: (price.amount ? price.amount.gsub(',00', '') : '' ), data: { amount: true } }, wrapper_html: { class: 'flush v-middle inline-block' }
+              %span.push-half--right.label--large.v-middle €
+        - if @course.errors[:prices].any?
+          .input
+            .control-label>
+            .input-container>
+              .red.f-weight-600.field_with_errors Vous devez renseigner un tarif
+
+  .grid.push--bottom
+    .grid__item.one-third.text--right.v-middle>
+      %label.gamma{ for: 'course[name]' }> Fréquence des cours
+    .grid__item.v-middle.two-thirds>
+      = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first,
+        label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+
+  .grid.push--bottom
+    .grid__item.one-third.text--right.v-middle>
+      %label.gamma{ for: 'course[name]' }> Infos
+    .grid__item.v-middle.two-thirds>
+      .input.flush
+        .input-container>
+          %div
+            = f.input :cant_be_joined_during_year, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
+            %label.inline-block.v-middle.label--large{ for: 'course_cant_be_joined_during_year' }= Course.human_attribute_name :cant_be_joined_during_year
+
+          %div
+            = f.input :no_class_during_holidays, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
+            %label.inline-block.v-middle.label--large{ for: 'course_no_class_during_holidays' }= Course.human_attribute_name :no_class_during_holidays
+
+- content_for :scripts do
+  :javascript
+    $(document).ready(function() {
+        $('[data-trial-select]').change(function() {
+            if ($(this).val() == 'free') {
+                $('[data-amount]').val(0);
+                $('[data-trial-price-input]').addClass('hidden');
+            } else {
+                $('[data-trial-price-input]').removeClass('hidden');
+            }
+        });
+    });

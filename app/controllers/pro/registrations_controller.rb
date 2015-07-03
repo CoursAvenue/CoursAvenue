@@ -19,7 +19,7 @@ class Pro::RegistrationsController < Pro::ProController
   end
 
   def new_course
-    @structure   = Structure.find(params[:id])
+    @structure   = Structure.includes(:subjects).find(params[:id])
     @course_type = params[:course_type]
     @course      = @structure.courses.new
   end
