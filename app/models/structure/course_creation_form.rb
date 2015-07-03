@@ -43,10 +43,8 @@ class Structure::CourseCreationForm
   validates :place_city_id, presence: true
 
   attribute :place_latitude, Float
-  validates :place_latitude, presence: true
 
   attribute :place_longitude, Float
-  validates :place_longitude, presence: true
 
   # "Save" the Course Creation form.
   # We don't really save the object, but persist the attributes of the object in the related Models,
