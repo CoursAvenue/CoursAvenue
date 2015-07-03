@@ -4,8 +4,8 @@ class PlanningSerializer < ActiveModel::Serializer
 
   attributes :id, :date, :duration, :time_slot, :levels, :audiences, :place_id,
              :course_id, :info, :address, :address_with_info, :address_name, :home_place_id,
-             :next_date, :week_day, :address_lat, :address_lng, :start_date_datetime,
-             :end_date_datetime, :teaches_at_home
+             :next_date, :week_day, :address_lat, :address_lng, :start_date, :start_hour,
+             :start_min, :end_date, :end_hour, :end_min, :teaches_at_home
 
   def teaches_at_home
     if (object.course.is_private? and object.course.teaches_at_home?) or
@@ -119,18 +119,19 @@ class PlanningSerializer < ActiveModel::Serializer
     city.longitude if city
   end
 
-  def start_date_datetime
-    start_time      = object.start_time
-    next_start_time = DateTime.new(object.next_date.year, object.next_date.month, object.next_date.day, start_time.hour, start_time.min)
-    # −06:00 is the french Timezone in ISO format
-    I18n.l(next_start_time, format: :iso_date_8601).gsub(/Z$/, '') + '−06:00'
+  def start_hour
+    object.start_time.hour
   end
 
-  def end_date_datetime
-    end_time      = object.end_time
-    next_end_time = DateTime.new(object.next_date.year, object.next_date.month, object.next_date.day, end_time.hour, end_time.min)
-    # −06:00 is the french Timezone in ISO format
-    I18n.l(next_end_time, format: :iso_date_8601).gsub(/Z$/, '') + '−06:00'
+  def start_min
+    object.start_time.min
   end
 
+  def end_hour
+    object.end_time.hour
+  end
+
+  def end_min
+    object.end_time.min
+  end
 end

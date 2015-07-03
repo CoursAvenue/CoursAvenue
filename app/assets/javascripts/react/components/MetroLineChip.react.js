@@ -8,7 +8,7 @@ var MetroLineChip = React.createClass({
             'metro-line--bis': this.props.line.is_bis,
             'metro-line--selected': this.props.line.selected
         });
-        metro_classes += (' ' + this.props.line.type + '-line-' + this.props.line.number.replace(' ', '-').toLowerCase());
+        metro_classes += (' ' + this.props.line.line_type + '-line-' + this.props.line.number.replace(' ', '-').toLowerCase());
         if (this.props.line.is_bis) {
             number = (<div>
                           <span className="v-middle">{this.props.line.number.split(' ')[0]}</span>

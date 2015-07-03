@@ -11,7 +11,7 @@ var Private = React.createClass({
             return (<Planning planning={planning} course={this.props.course} key={index} />);
         }.bind(this))
         return (
-            <table className="table--striped table--data table--data-small table-responsive table--hoverable">
+            <table className="table--striped table--data table--data-small table-responsive table-responsive--without-th table--hoverable">
                 <thead className="gray-light">
                     <tr>
                         <th className="one-tenths">Jour</th>

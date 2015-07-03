@@ -248,11 +248,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 this.ui.$datepicker_input.datepicker('setDaysOfWeekDisabled', []);
                 return;
             }
-            var days_to_add = 0;
-            // If the week_day of the planning is earlier in the week, we show same week_day of next week
-            // Eg. we are tuesday, moment().day(1) will give you monday of the current week wich is in the past.
-            if (this.getCurrentPlanning().week_day < moment().day()) { days_to_add = 7 }
-            var formatted_date = moment().day(this.getCurrentPlanning().week_day + days_to_add);
+            var formatted_date = COURSAVENUE.helperMethods.nextWeekDay(this.getCurrentPlanning().week_day)
             this.ui.$datepicker_input.datepicker('update', formatted_date.toDate());
             // Disable days of week
             var days_of_week = [0,1,2,3,4,5,6];

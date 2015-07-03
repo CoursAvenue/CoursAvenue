@@ -28,12 +28,11 @@
             = simple_format @course.description
           - if @course.price_group
             %h4 Grille tarifaire
-            - @course.price_group.prices.each do |price|
-              = price
+            = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
 
     .grid__item.four-twelfths.palm-one-whole.soft-half--right.palm-hard>
       .bordered.bg-white
-        #mfp-hide.center-block.relative{ style: 'max-width:500px; '}
+        #mfp-hide.center-block.relative{ style: 'max-width:500px;' }
         = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
                                           metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) },
                                          { prerender: false })
