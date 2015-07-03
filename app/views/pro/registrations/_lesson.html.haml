@@ -1,4 +1,5 @@
 = simple_form_for [:pro, @course_creation_form], url: create_course_pro_registrations_path, method: :post, html: { class: 'push--ends', autocomplete: "false"} do |f|
+  = f.hidden_field :structure_slug, value: @structure.slug
   = f.hidden_field :course_type, value: 'Course::Lesson'
 
   .grid.push--bottom
@@ -82,6 +83,9 @@
 
       = f.input :place_latitude, as: :hidden
       = f.input :place_longitude, as: :hidden
+
+  .text--center
+    = f.submit 'Commencer avec CoursAvenue', class: 'btn--large btn btn--full btn--green one-whole', data: { disable_with: "Enregistrement en cours" }, style: 'max-width: 900px;'
 
 - content_for :scripts do
   :javascript
