@@ -6,6 +6,8 @@ class Structure::CourseCreationForm
   attr_reader :course
   attr_reader :place
 
+  attr_accessor :prices_attributes
+
   attribute :structure_slug, String
   validates :structure_slug, presence: true
 
@@ -19,10 +21,13 @@ class Structure::CourseCreationForm
   attribute :course_subject_ids, Array[Integer]
   validates :course_subject_ids, presence: true
 
-  # attribute :course_prices, Array
-  # validates :course_prices, presence: true
+  attribute :course_prices, Array[Price]
+  validates :course_prices, presence: true
 
   attribute :course_frequency, String
+
+  attribute :course_cant_be_joined_during_year, Boolean
+  attribute :course_no_class_during_holidays, Boolean
 
   # Place attributes
   attribute :place_name, String
@@ -36,6 +41,12 @@ class Structure::CourseCreationForm
 
   attribute :place_city_id, Integer
   validates :place_city_id, presence: true
+
+  attribute :place_latitude, Float
+  validates :place_latitude, presence: true
+
+  attribute :place_longitude, Float
+  validates :place_longitude, presence: true
 
   # "Save" the Course Creation form.
   # We don't really save the object, but persist the attributes of the object in the related Models,

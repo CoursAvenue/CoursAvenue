@@ -45,9 +45,9 @@ describe Pro::RegistrationsController do
 
   describe 'GET #new_course' do
     let(:structure) { FactoryGirl.create(:structure) }
-    it 'assigns a course' do
+    it 'assigns a course creation form' do
       get :new_course, { id: structure.slug }
-      expect(assigns(:course)).to be_a_new(Course)
+      expect(assigns(:course_creation_form)).to be_a(Structure::CourseCreationForm)
     end
 
     it 'renders the right partial depending on the course type'

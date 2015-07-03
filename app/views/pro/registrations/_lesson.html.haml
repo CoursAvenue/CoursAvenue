@@ -1,64 +1,87 @@
-- @course.prices.build(type: 'Price::Trial', amount: 0) if @course.prices.empty?
-= simple_form_for [:pro, @course], url: create_course_pro_registrations_path, method: :post, html: { class: 'push--ends', autocomplete: "false"} do |f|
-  = f.hidden_field :type, value: 'Course::Lesson'
+= simple_form_for [:pro, @course_creation_form], url: create_course_pro_registrations_path, method: :post, html: { class: 'push--ends', autocomplete: "false"} do |f|
+  = f.hidden_field :course_type, value: 'Course::Lesson'
 
   .grid.push--bottom
     .grid__item.one-third.text--right.v-middle>
-      %label.gamma{ for: 'course[name]' }> Nom du cours collectif
+      %label.gamma{ for: 'structure_course_creation_form[course_name]' }> Nom du cours collectif
     .grid__item.v-middle.two-thirds>
-      = f.input :name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+      = f.input :course_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
       %p.flush
         %i.blue
           Un bon nom doit être court et explicite : aucune information sur le lieu, l'âge ou le niveau.
 
   .grid.push--bottom
     .grid__item.one-third.text--right.v-middle>
-      %label{ for: 'course[subjects]' }> Étiquette disciplines
+      %label{ for: 'structure_course_creation_form[course_subject_ids]' }> Étiquette disciplines
     .grid__item.v-middle.two-thirds>
-      = f.input :subjects, as: :select, collection: little_children_subjects(@structure), input_html: { id: 'subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+      = f.input :course_subject_ids, as: :select, collection: little_children_subjects(@structure), input_html: { id: 'subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
 
   .grid.push--bottom
     .grid__item.one-third.text--right.v-middle>
-      %label.gamma{ for: 'course[name]' }> Prix séance d'essai
+      %label.gamma> Prix séance d'essai
     .grid__item.v-middle.two-thirds>
-      - @course.prices.each_with_index do |price, index|
-        - price = price.localized
-        .input{ data: { el: true, hidden: (!price.persisted? and index > 0) } }
-          = f.simple_fields_for :prices, price, child_index: index do |price_form|
-            = price_form.input :type, as: :hidden
-            %select.push-half--right.input--large.inline-block.v-middle{ data: { trial_select: true } }
-              %option{ value: 'free'    , selected: price.free? } Gratuit
-              %option{ value: 'not-free', selected: !price.free? } Payante
-            %div.v-middle{ class: (price.free? ? 'hidden' : ''), data: { trial_price_input: true } }
-              %span.label--large.v-middle Tarif :
-              = price_form.input :amount, label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large flush text--center', style: 'width: 5em;', type: 'string', value: (price.amount ? price.amount.gsub(',00', '') : '' ), data: { amount: true } }, wrapper_html: { class: 'flush v-middle inline-block' }
-              %span.push-half--right.label--large.v-middle €
-        - if @course.errors[:prices].any?
-          .input
-            .control-label>
-            .input-container>
-              .red.f-weight-600.field_with_errors Vous devez renseigner un tarif
+      - price = @structure.prices.build
+      - price_free = !price.persisted? ? true : price.free?
+      .input
+        = f.simple_fields_for :course_prices, price do |price_form|
+          = price_form.input :type, as: :hidden
+          %select.push-half--right.input--large.inline-block.v-middle{ data: { trial_select: true } }
+            %option{ value: 'free'    , selected: price_free } Gratuit
+            %option{ value: 'not-free', selected: !price_free } Payante
+          %div.v-middle{ class: (price_free ? 'hidden' : ''), data: { trial_price_input: true } }
+            %span.label--large.v-middle Tarif :
+            = price_form.input :amount, label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large flush text--center', style: 'width: 5em;', type: 'string', value: (price.amount ? price.amount.gsub(',00', '') : '' ), data: { amount: true } }, wrapper_html: { class: 'flush v-middle inline-block' }
+            %span.push-half--right.label--large.v-middle €
+      -# - if @course.errors[:prices].any?
+      -#   .input
+      -#     .control-label>
+      -#     .input-container>
+      -#       .red.f-weight-600.field_with_errors Vous devez renseigner un tarif
 
   .grid.push--bottom
     .grid__item.one-third.text--right.v-middle>
-      %label.gamma{ for: 'course[name]' }> Fréquence des cours
+      %label.gamma{ for: 'structure_course_creation_form[course_frequency]' }> Fréquence des cours
     .grid__item.v-middle.two-thirds>
-      = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first,
+      = f.input :course_frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first,
         label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
   .grid.push--bottom
     .grid__item.one-third.text--right.v-middle>
-      %label.gamma{ for: 'course[name]' }> Infos
+      %label.gamma> Infos
     .grid__item.v-middle.two-thirds>
       .input.flush
         .input-container>
           %div
-            = f.input :cant_be_joined_during_year, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
-            %label.inline-block.v-middle.label--large{ for: 'course_cant_be_joined_during_year' }= Course.human_attribute_name :cant_be_joined_during_year
+            = f.input :course_cant_be_joined_during_year, as: :boolean, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
+            %label.inline-block.v-middle.label--large{ for: 'structure_course_creation_form[course_cant_be_joined_during_year]' }= Course.human_attribute_name :cant_be_joined_during_year
 
           %div
-            = f.input :no_class_during_holidays, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
-            %label.inline-block.v-middle.label--large{ for: 'course_no_class_during_holidays' }= Course.human_attribute_name :no_class_during_holidays
+            = f.input :course_no_class_during_holidays, as: :boolean, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
+            %label.inline-block.v-middle.label--large{ for: 'structure_course_creation_form[course_no_class_during_holidays]' }= Course.human_attribute_name :no_class_during_holidays
+
+  .grid.push--bottom
+    .grid__item.one-third.text--right.v-middle>
+      %label.gamma{ for: 'structure_course_creation_form[place_name]' }> Nom du lieu
+    .grid__item.v-middle.two-thirds>
+      = f.input :place_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+
+  .grid.push--bottom
+    .grid__item.one-third.text--right.v-middle>
+      %label.gamma{ for: 'structure_course_creation_form[place_street]' }> Adresse
+    .grid__item.v-middle.two-thirds>
+      = f.input :place_street, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+
+  .grid.push--bottom
+    .grid__item.one-third.text--right.v-middle>
+      %label.gamma{ for: 'structure_course_creation_form[place_zip_code]' }> Code postal et ville
+    .grid__item.v-middle.two-thirds>
+      - place = @course_creation_form.place.present? ? @course_creation_form.place : Place.new
+      = f.input :place_zip_code, input_html: { class: 'input--large', style: 'width: 7em;', data: { behavior: 'city-autocomplete', el: '#place_city_id' } }, label: false, wrapper_html: { class: 'flush v-middle inline-block' }
+      = f.input :place_city_id, as: :select, collection: [place.city], label: false, selected: place.city, wrapper_html: { class: 'flush v-middle inline-block' },
+        input_html: { class: 'input--large', id: 'place_city_id' }
+
+      = f.input :place_latitude, as: :hidden
+      = f.input :place_longitude, as: :hidden
 
 - content_for :scripts do
   :javascript
