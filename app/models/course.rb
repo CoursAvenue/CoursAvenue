@@ -37,7 +37,6 @@ class Course < ActiveRecord::Base
   before_save :update_structure_meta_datas
   before_save :update_structure_vertical_pages_breadcrumb
 
-  after_save  :update_plannings_dates_if_needs_to
   after_save  :reindex_plannings unless Rails.env.test?
 
   ######################################################################
@@ -358,23 +357,6 @@ class Course < ActiveRecord::Base
     self.description = StringHelper.sanatize(self.description) if self.description.present?
     nil
   end
-
-
-  # If start or end_date has changed AND it is a lesson, then
-  # plannings dates should be updated
-  #
-  # @return nil
-  def update_plannings_dates_if_needs_to
-    if self.is_lesson? and (self.start_date_changed? or self.end_date_changed?)
-      self.plannings.each do |planning|
-        planning.start_date = self.start_date if self.start_date_changed?
-        planning.end_date   = self.end_date if self.end_date_changed?
-        planning.save
-      end
-    end
-    nil
-  end
-  handle_asynchronously :update_plannings_dates_if_needs_to
 
   def reindex_plannings
     self.plannings.map{ |p| p.delay.index }

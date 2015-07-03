@@ -75,7 +75,6 @@ $(function() {
                 days_of_week.splice(days_of_week.indexOf($(this).data('only-week-day')), 1);
                 $(this).datepicker('setDaysOfWeekDisabled', days_of_week);
             }
-
         });
     };
     COURSAVENUE.initialize_callbacks.push(COURSAVENUE.datepicker_initializer);
