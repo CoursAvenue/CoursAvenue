@@ -48,6 +48,8 @@ def valid_params
     structure_subjects_ids: [root_subject.id],
     structure_subject_descendants_ids: [structure_subject.id],
 
+    course_type: 'lesson',
+
     admin_email: Faker::Internet.email,
     admin_password: Faker::Internet.password
   }
