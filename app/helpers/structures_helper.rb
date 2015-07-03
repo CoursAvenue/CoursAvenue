@@ -87,4 +87,16 @@ module StructuresHelper
       search_page_path(subject.root, subject, city)
     end
   end
+
+  # The little children of the structure.
+  #
+  # @return an Array of subjects.
+  def little_children_subjects(structure)
+    subjects = structure.subjects.little_children.uniq
+    if subjects.empty?
+      subjects = structure.subjects.roots.flat_map(&:little_children)
+    end
+
+    subjects
+  end
 end

@@ -1,4 +1,5 @@
 class Pro::RegistrationsController < Pro::ProController
+  helper StructuresHelper
   layout 'home'
 
   def new
