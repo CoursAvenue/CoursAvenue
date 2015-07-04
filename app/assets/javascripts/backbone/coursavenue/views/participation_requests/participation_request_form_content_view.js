@@ -53,13 +53,20 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
 
         onRender: function onRender () {
             this.initializeStartHourSelect();
+            this.datepicker_start_date = new Date();
+            if (this.getCurrentCourse() && this.getCurrentCourse().get('start_date')) {
+                new_start_date = moment(this.getCurrentCourse().get('start_date'), 'YYYY-MM-DD').toDate();
+                if (this.datepicker_start_date < new_start_date) {
+                    this.datepicker_start_date = new_start_date;
+                }
+            }
             var datepicker_options = {
                 format: COURSAVENUE.constants.DATE_FORMAT,
                 weekStart: 1,
                 language: 'fr',
                 autoclose: true,
                 todayHighlight: true,
-                startDate: new Date()
+                startDate: this.datepicker_start_date
             };
             this.ui.$datepicker_input.datepicker(datepicker_options);
             if (this.model.get('course_id')) { this.selectCourse(); }
@@ -253,6 +260,10 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             // Eg. we are tuesday, moment().day(1) will give you monday of the current week wich is in the past.
             if (this.getCurrentPlanning().week_day < moment().day()) { days_to_add = 7 }
             var formatted_date = moment().day(this.getCurrentPlanning().week_day + days_to_add);
+            // We check wether the formatted date is not before the datepicker start date
+            if (formatted_date.toDate() < this.datepicker_start_date) {
+                formatted_date = moment(this.datepicker_start_date).day(this.getCurrentPlanning().week_day + days_to_add);
+            }
             this.ui.$datepicker_input.datepicker('update', formatted_date.toDate());
             // Disable days of week
             var days_of_week = [0,1,2,3,4,5,6];
