@@ -12,12 +12,16 @@ StructureProfile.module('Views.Structure.Courses.Plannings', function(Module, Ap
         },
 
         initialize: function initialize (options) {
-            this.options = options;
+            this.options = options || {};
+            this.options.is_sleeping = window.coursavenue.bootstrap.meta.is_sleeping;
         },
 
         onRender: function onRender (argument) {
-          this.$el.attr('itemscope', true);
-          this.$el.attr('itemtype', 'http://data-vocabulary.org/Event');
+            this.$el.attr('itemscope', true);
+            this.$el.attr('itemtype', 'http://data-vocabulary.org/Event');
+            if (window.coursavenue.bootstrap.meta.is_sleeping) {
+                this.$el.removeClass('cursor-pointer');
+            }
         },
 
         showRegistrationForm: function showRegistrationForm (argument) {

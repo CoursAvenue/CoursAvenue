@@ -1,6 +1,6 @@
 {{#if structure.is_sleeping}}
     <div class="panel__header soft-half--ends soft--sides">
-        <h5 class="flush">Cet établissement n'a pas encore activé son compte</h5>
+        <h5 class="flush">Cet établissement n'a pas la réservation en ligne</h5>
     </div>
 
     <div class="panel__body soft">
@@ -16,10 +16,6 @@
                   {{#each structure.phone_numbers}}
                       {{#ifCond @index '>' 0}}<br>{{/ifCond}}
                       <strong class="epsilon v-middle" itemprop="telephone">{{this}}</strong>
-                      {{#if structure.premium }}
-                          <i class="soft-half--left v-middle fa-check-circle green"></i>
-                          <i class="v-middle green milli">vérifié</i>
-                      {{/if}}
                   {{/each}}
               </div>
           {{/if}}

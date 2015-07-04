@@ -4,9 +4,9 @@ class Structures::CoursesController < ApplicationController
   def index
     @structure = Structure.friendly.find params[:structure_id]
     if params[:course_type].present?
-      @courses = @structure.courses.send(params[:course_type])
+      @courses = @structure.courses.send(params[:course_type]).order('name ASC')
     else
-      @courses = @structure.courses
+      @courses = @structure.courses.order('name ASC')
     end
     # Reject courses that does not have upcoming plannings if it is a training
     # if params[:course_type] == 'trainings'

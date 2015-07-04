@@ -1,0 +1,38 @@
+%h4.soft--sides.soft--top.push-half--bottom Vos cours réguliers ferment-ils l'été ?
+= form_tag update_openings_pro_structure_courses_path(@structure), { method: :patch } do
+  - @courses.each_with_index do |course, index|
+    %input{ type: 'hidden', name: "courses[#{index}][id]", value: course.id }
+    .grid--full.very-soft.hard--sides{ class: (index % 2 == 0 ? '' : 'bg-gray-light')}
+      .grid__item.one-half.v-middle.soft--left>
+        = course.name
+      .grid__item.one-half.v-middle.soft--right>
+        %span.v-middle Fermé du
+        %input{ type: 'hidden', name: "courses[#{index}][end_date_unix]", value: course.id }
+        %input{ type: 'hidden', name: "courses[#{index}][start_date_unix]", value: course.id }
+        %input.v-middle.text--center{ name: "courses[#{index}][end_date]", type: 'string', value: l(course.end_date, format: :semi_short).titleize, style: 'width: 100px;', data: { behavior: 'datepicker' } }
+        %span.v-middle au
+        %input.v-middle.text--center{ name: "courses[#{index}][start_date]", type: 'string', value: l(course.start_date, format: :semi_short).titleize, style: 'width: 100px;', data: { behavior: 'datepicker' } }
+  .soft-half
+    = submit_tag 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
+
+:javascript
+    $('[data-behavior=datepicker]').each(function() {
+        $(this).datepicker({
+            format: 'd MM',
+            weekStart: 1,
+            language: 'fr',
+            autoclose: true,
+            todayHighlight: true,
+            startDate: '1 Juin',
+            endDate: '30 Septembre'
+        });
+    });
+    var setUnixTimestamps = function setUnixTimestamps () {
+      setUnixTimestamps
+      $('[data-behavior=datepicker]').each(function () {
+          unix_date = moment($(this).datepicker('getDate')).unix();
+          $('[name="' + $(this).attr('name').replace('_date]', '_date_unix]') + '"]').val(unix_date)
+      });
+    };
+    $('[data-behavior=datepicker]').change(setUnixTimestamps);
+    setUnixTimestamps();

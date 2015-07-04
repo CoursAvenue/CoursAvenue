@@ -60,7 +60,6 @@ class Planning < ActiveRecord::Base
   before_validation :update_duration
 
   before_save :set_structure_if_blank
-  before_save :update_start_and_end_date
 
   after_save :update_structure_meta_datas
 
@@ -76,8 +75,7 @@ class Planning < ActiveRecord::Base
   validate  :end_date_in_future
 
   attr_accessible :duration, # In minutes
-                  :end_date,
-                  :start_date,
+                  :end_date, :start_date,
                   :start_time, # Format: Time.parse("2000-01-01 #{value} UTC")
                   :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
                   :week_day, # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
@@ -95,7 +93,8 @@ class Planning < ActiveRecord::Base
   # is through `:courses` which make the join
   scope :trainings_future,  -> { where( Planning.arel_table[:end_date].gt(Date.today)
                                   .and(Course.arel_table[:type].eq('Course::Training')) ) }
-  scope :future,            -> { where( arel_table[:end_date].gteq(Date.today) ) }
+  scope :future,            -> { where( arel_table[:end_date].gteq(Date.today).or(
+                                        arel_table[:end_date].eq(nil)) ) }
   scope :past,              -> { where( arel_table[:end_date].lteq(Date.today) ) }
   scope :ordered_by_day,    -> { order('week_day=0, week_day ASC, start_time ASC, start_date ASC') }
   scope :visible,           -> { where(visible: true) }
@@ -264,10 +263,10 @@ class Planning < ActiveRecord::Base
     end
 
     time :end_date do
-      if self.course.is_private? # Because private courses doesn't have start and end_date
+      if self.course.is_training?
+        self.end_date
+      else # Because regular courses doesn't have start and end_date
         Date.today + 100.year
-      else
-        self.end_date || self.course.end_date
       end
     end
 
@@ -523,23 +522,7 @@ class Planning < ActiveRecord::Base
     if end_date.blank? or end_date < Date.today
       if course.try(:is_training?)
         self.end_date = self.start_date
-      else
-        self.end_date = 100.years.from_now
       end
-    end
-  end
-
-  # Set start and end_date regarding course if it is lesson
-  #
-  # @return nil
-  def update_start_and_end_date
-    return if course.nil? # Statement here for tests
-    case course.type
-    when 'Course::Open'
-      self.end_date = start_date
-    when 'Course::Lesson'
-      self.start_date = 1.year.ago
-      self.end_date   = 100.years.from_now
     end
   end
 

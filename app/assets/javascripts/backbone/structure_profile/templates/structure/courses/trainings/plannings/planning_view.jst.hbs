@@ -1,5 +1,5 @@
 {{#unless is_first}}<hr class="flush--ends two-thirds">{{/unless}}
-<div class="cursor-pointer hoverable transition-all-300 very-soft f-weight-600 line-height-1-7">
+<div class="{{#unless is_sleeping}}cursor-pointer{{/unless}} hoverable transition-all-300 very-soft f-weight-600 line-height-1-7">
     <div class="epsilon f-weight-600 line-height-1-7">
         <meta itemprop="summary" content="{{course.name}}">
         {{ date }}

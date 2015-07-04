@@ -28,6 +28,23 @@ class Pro::Structures::CoursesController < Pro::ProController
     redirect_to pro_structure_courses_path(@structure)
   end
 
+  def configure_openings
+    @courses = @structure.courses.regulars.order('name ASC')
+    if request.xhr?
+      render layout: false
+    end
+  end
+
+  def update_openings
+    courses_openings.each do |index, course_param|
+      course            = @structure.courses.find(course_param[:id])
+      course.start_date = Time.at(course_param[:start_date_unix].to_i).to_date
+      course.end_date   = Time.at(course_param[:end_date_unix].to_i).to_date
+      course.save
+    end
+    redirect_to pro_structure_courses_path(@structure), notice: 'Vos dates de fermetures ont été mises à jour'
+  end
+
   def edit
     @course = Course.friendly.find params[:id]
     if request.xhr?
@@ -90,6 +107,10 @@ class Pro::Structures::CoursesController < Pro::ProController
 
   def load_structure
     @structure = Structure.friendly.find(params[:structure_id])
+  end
+
+  def courses_openings
+    params.permit(courses: [:id, :start_date, :end_date, :start_date_unix, :end_date_unix])[:courses]
   end
 
   def course_attributes

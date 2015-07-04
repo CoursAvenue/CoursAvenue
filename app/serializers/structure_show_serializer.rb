@@ -138,4 +138,8 @@ class StructureShowSerializer < ActiveModel::Serializer
   def can_receive_payments
     object.can_receive_payments?
   end
+
+  def is_sleeping
+    object.is_sleeping || !object.enabled?
+  end
 end
