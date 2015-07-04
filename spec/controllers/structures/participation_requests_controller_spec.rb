@@ -18,9 +18,11 @@ describe Structures::ParticipationRequestsController, type: :controller do
       before(:each) do
         request.env["HTTP_ACCEPT"] = 'application/json'
       end
+
       context 'when resource is found' do
         it 'creates a participation_request' do
-          post :create, { structure_id: participation_request.structure.slug,
+          post :create, { format: :json,
+                          structure_id: participation_request.structure.slug,
                           participation_request: {
                             planning_id: planning.id,
                             date: Date.tomorrow.to_s,
