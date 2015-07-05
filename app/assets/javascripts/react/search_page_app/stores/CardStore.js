@@ -190,6 +190,11 @@ var CardCollection = Backbone.Collection.extend({
                            type      : 'location',
                            filter_key: 'address' });
         }
+        if (MetroStopStore.getSelectedStop() || MetroLineStore.getSelectedLines().length > 0 ) {
+            filters.push({ title     : "Metro",
+                           type      : 'location',
+                           filter_key: 'metro' });
+        }
         if (TimeStore.isFiltered()) {
             filters.push({ title     : "Planning",
                            type      : 'time',
@@ -209,11 +214,6 @@ var CardCollection = Backbone.Collection.extend({
             filters.push({ title     : "Prix",
                            type      : 'more',
                            filter_key: 'price' });
-        }
-        if (MetroStopStore.getSelectedStop() || MetroLineStore.getSelectedLines().length > 0 ) {
-            filters.push({ title     : "Metro",
-                           type      : 'more',
-                           filter_key: 'metro' });
         }
         return filters;
     },

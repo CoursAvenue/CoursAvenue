@@ -43,7 +43,7 @@ var LocationFilterMetroPanel = React.createClass({
         });
 
         // TODO: Temporary, store in a MetroLineStore ?
-        var metro_lines = this.state.metro_line_store.where({ type: 'metro' }).map(function(line, index) {
+        var metro_lines = this.state.metro_line_store.where({ line_type: 'metro' }).map(function(line, index) {
             return (
                 <div onClick={ this.selectLine(line.get('slug')) } key={ index }
                       className="inline-block v-middle"
@@ -52,7 +52,7 @@ var LocationFilterMetroPanel = React.createClass({
                 </div>
             );
         }.bind(this));
-        var tramway_lines = this.state.metro_line_store.where({ type: 'tramway' }).map(function(line, index) {
+        var tramway_lines = this.state.metro_line_store.where({ line_type: 'tramway' }).map(function(line, index) {
             return (
                 <div onClick={ this.selectLine(line.get('slug')) } key={ index }
                       className="inline-block v-middle"
@@ -61,7 +61,7 @@ var LocationFilterMetroPanel = React.createClass({
                 </div>
             );
         }.bind(this));
-        var rer_lines = this.state.metro_line_store.where({ type: 'rer' }).map(function(line, index) {
+        var rer_lines = this.state.metro_line_store.where({ line_type: 'rer' }).map(function(line, index) {
             return (
                 <div onClick={ this.selectLine(line.get('slug')) } key={ index }
                       className="inline-block v-middle"
