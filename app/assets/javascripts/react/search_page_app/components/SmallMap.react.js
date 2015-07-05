@@ -104,7 +104,7 @@ var MapComponent = React.createClass({
     },
 
     render: function render () {
-        return (<div className="search-page-small-map on-top fixed south push">
+        return (<div className="search-page-small-map on-top fixed south">
                 </div>);
     }
 });

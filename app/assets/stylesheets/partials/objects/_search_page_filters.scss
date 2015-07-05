@@ -93,10 +93,12 @@
 }
 
 .search-page-small-map {
-    height: 200px;
-    width : 300px;
-    border: 2px solid white;
-    right : -350px;
+    height       : 225px;
+    width        : 300px;
+    border       : 2px solid white;
+    right        : -350px;
+    margin-right : 15px;
+    margin-bottom: 15px;
     @include transition(all 250ms linear);
     &.search-page-small-map--visible {
         right: 0;
