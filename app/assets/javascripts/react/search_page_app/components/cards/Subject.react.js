@@ -7,17 +7,18 @@ Subject = React.createClass({
     },
 
     componentDidMount: function componentDidMount () {
-        $(this.getDOMNode()).dotdotdot({
-            ellipsis: '... ',
-            wrap    : 'letter',
-            callback: function callback (isTruncated, orgContent) {
-                if (isTruncated) {
-                    $(this).attr('data-toggle', 'popover')
-                           .attr('data-placement', 'top')
-                           .attr('data-content', orgContent.text());
-                }
-            }
-        });
+        // TODO: Fix this
+        // $(this.getDOMNode()).dotdotdot({
+        //     ellipsis: '... ',
+        //     wrap    : 'letter',
+        //     callback: function callback (isTruncated, orgContent) {
+        //         if (isTruncated) {
+        //             $(this).attr('data-toggle', 'popover')
+        //                    .attr('data-placement', 'top')
+        //                    .attr('data-content', orgContent.text());
+        //         }
+        //     }
+        // });
     },
 
     getDefaultProps: function getDefaultProps () {

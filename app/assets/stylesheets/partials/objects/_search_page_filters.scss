@@ -112,6 +112,102 @@
     }
 }
 
+.search-page-filter-wrapper {
+    margin-top: -25px;
+    position  : relative;
+    z-index   : 10000;
+}
+    .search-page-filter {
+        vertical-align: middle;
+        padding       : 1em !important; // Important, because of the .grid__item default padding
+        font-size     : 1.7em;
+        text-align    : center;
+        cursor        : pointer;
+        position      : relative;
+        border-top    : 2px solid white;
+        &:hover {
+            color: white !important;
+            i { @extend .fa-chevron-up; }
+        }
+        &.search-page-filter--subject::after:hover, &.search-page-filter--location::after:hover {
+            display: none;
+        }
+        &.search-page-filter--subject::after, &.search-page-filter--location::after {
+            content     : '';
+            display     : block;
+            border-right: 2px solid #EEEEEE;
+            position    : absolute;
+            right       : -1px;
+            height      : 33px;
+            top         : 17px;
+        }
+        &.search-page-filter--subject {
+            i { color: $blue_green; }
+            &.search-page-filter--has-filters {
+                border-color: $blue_green;
+                color       : $blue_green;
+                font-weight : bold;
+            }
+            &:hover {
+                border-color    : $blue_green;
+                background-color: $blue_green;
+                i { color: white; }
+            }
+        }
+        &.search-page-filter--location {
+            i { color: $yellow; }
+            &.search-page-filter--has-filters {
+                border-color: $yellow;
+                color       : $yellow;
+                font-weight : bold;
+            }
+            &:hover {
+                border-color    : $yellow;
+                background-color: $yellow;
+                i { color: white; }
+            }
+        }
+        &.search-page-filter--time {
+            i { color: $blue; }
+            &.search-page-filter--has-filters {
+                border-color: $blue;
+                color       : $blue;
+                font-weight : bold;
+            }
+            &:hover {
+                border-color    : $blue;
+                background-color: $blue;
+                i { color: white; }
+            }
+        }
+        &.search-page-filter--more {
+            border-color    : $dark_blue;
+            background-color: $dark_blue;
+            i { color: white; }
+            &.search-page-filter--active {
+                border-top: 2px solid white;
+            }
+        }
+    }
+
+.search-page-filter-breadcrumb {
+    display       : inline-block;
+    text-transform: uppercase;
+    border-bottom : 2px solid black;
+    padding       : 0.3em 0.7em;
+    font-weight   : bold;
+    color         : #7F7F7F;
+    &.search-page-filter-breadcrumb--subject  { border-color: $blue_green; }
+    &.search-page-filter-breadcrumb--location { border-color: $yellow; }
+    &.search-page-filter-breadcrumb--time     { border-color: $blue; }
+    &.search-page-filter-breadcrumb--more     { border-color: $dark_blue; }
+    span { cursor: pointer; }
+    i {
+        margin-left: 0.5em;
+        color      : #AAAAAA;
+    }
+}
+
 .search-page-card {}
     .search-page-card__image {
         display: block;

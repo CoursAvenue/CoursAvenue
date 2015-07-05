@@ -167,35 +167,61 @@ var CardCollection = Backbone.Collection.extend({
     getBreadcrumbFilters: function getBreadcrumbFilters () {
         var filters = [];
         if (SubjectStore.selected_group_subject) {
-            filters.push({ title: SubjectStore.selected_group_subject.name, filter_key: 'group_subject' });
+            filters.push({ title     : SubjectStore.selected_group_subject.name,
+                           type      : 'subject',
+                           filter_key: 'group_subject' });
         }
         if (SubjectStore.selected_root_subject) {
-            filters.push({ title: SubjectStore.selected_root_subject.name, filter_key: 'root_subject' });
+            filters.push({ title     : SubjectStore.selected_root_subject.name,
+                           type      : 'subject',
+                           filter_key: 'root_subject' });
         }
         if (SubjectStore.selected_subject) {
-            filters.push({ title: SubjectStore.selected_subject.name, filter_key: 'subject' });
+            filters.push({ title     : SubjectStore.selected_subject.name,
+                           type      : 'subject',
+                           filter_key: 'subject' });
         }
         if (LocationStore.isUserLocated()) {
-            filters.push({ title: "Autour de moi", filter_key: 'user_location' });
+            filters.push({ title     : "Autour de moi",
+                           type      : 'location',
+                           filter_key: 'user_location' });
         } else if (LocationStore.isFilteredByAddress()) {
-            filters.push({ title: "Adresse", filter_key: 'address' });
+            filters.push({ title     : "Adresse",
+                           type      : 'location',
+                           filter_key: 'address' });
         }
         if (TimeStore.isFiltered()) {
-            filters.push({ title: "Planning", filter_key: 'time_store' });
+            filters.push({ title     : "Planning",
+                           type      : 'time',
+                           filter_key: 'time_store' });
         }
         if (AudienceStore.algoliaFilters()) {
-            filters.push({ title: "Public", filter_key: 'audiences' });
+            filters.push({ title     : "Public",
+                           type      : 'more',
+                           filter_key: 'audiences' });
         }
         if (LevelStore.algoliaFilters()) {
-            filters.push({ title: "Niveau", filter_key: 'levels' });
+            filters.push({ title     : "Niveau",
+                           type      : 'more',
+                           filter_key: 'levels' });
         }
         if (PriceStore.algoliaFilters()) {
-            filters.push({ title: "Prix", filter_key: 'price' });
+            filters.push({ title     : "Prix",
+                           type      : 'more',
+                           filter_key: 'price' });
         }
         if (MetroStopStore.getSelectedStop() || MetroLineStore.getSelectedLines().length > 0 ) {
-            filters.push({ title: "Metro", filter_key: 'metro' });
+            filters.push({ title     : "Metro",
+                           type      : 'more',
+                           filter_key: 'metro' });
         }
         return filters;
+    },
+
+    hasActiveFilters: function hasActiveFilters (filter_type) {
+        return _.detect(this.getBreadcrumbFilters(), function(breadcrumb) {
+            return breadcrumb.type == filter_type;
+        });
     },
 
     isFirstPage: function isFirstPage () {

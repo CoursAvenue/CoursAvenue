@@ -31,7 +31,6 @@ var MapComponent = React.createClass({
     createMap: function createMap () {
         this.marker_layer = new L.layerGroup();
 
-        // this.marker_layer = L.layerGroup();
         this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets', { scrollWheelZoom: false })
                           .setView(this.props.center, 13)
                           .addLayer(this.marker_layer);

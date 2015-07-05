@@ -7,19 +7,20 @@ var SubjectList        = require('./cards/SubjectList.react'),
 Card = React.createClass({
 
     componentDidMount: function componentDidMount () {
-        $(this.getDOMNode()).find('.search-page-card__course-title, .search-page-card__structure-name').dotdotdot({
-            ellipsis : '... ',
-            wrap     : 'letter',
-            tolerance: 3,
-            callback : function callback (isTruncated, orgContent) {
-                if (isTruncated) {
-                    $(this).attr('data-toggle', 'popover')
-                           .attr('data-html', 'true')
-                           .attr('data-placement', 'top')
-                           .attr('data-content', '<div class="f-weight-normal f-size-12">' + orgContent.text() + '<div>');
-                }
-            }
-        });
+        // TODO: Fix this...
+        // $(this.getDOMNode()).find('.search-page-card__course-title, .search-page-card__structure-name').dotdotdot({
+        //     ellipsis : '... ',
+        //     wrap     : 'letter',
+        //     tolerance: 3,
+        //     callback : function callback (isTruncated, orgContent) {
+        //         if (isTruncated) {
+        //             $(this).attr('data-toggle', 'popover')
+        //                    .attr('data-html', 'true')
+        //                    .attr('data-placement', 'top')
+        //                    .attr('data-content', '<div class="f-weight-normal f-size-12">' + orgContent.text() + '<div>');
+        //         }
+        //     }
+        // });
     },
 
     onMouseEnter: function onMouseEnter () {

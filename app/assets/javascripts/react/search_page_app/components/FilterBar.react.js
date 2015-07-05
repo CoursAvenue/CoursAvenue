@@ -2,6 +2,7 @@ var RootSubjectItem       = require('./RootSubjectItem.react'),
     SearchPageDispatcher  = require('../dispatcher/SearchPageDispatcher'),
     FilterActionCreators  = require('../actions/FilterActionCreators'),
     FilterStore           = require('../stores/FilterStore'),
+    CardStore             = require('../stores/CardStore'),
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin"),
     cx                    = require('classnames/dedupe'),
     FilterPanelConstants  = require('../constants/FilterPanelConstants');
@@ -13,7 +14,10 @@ var FilterBar = React.createClass({
     ],
 
     getInitialState: function getInitialState() {
-        return { filter_store: FilterStore };
+        return {
+            filter_store: FilterStore,
+            card_store: CardStore
+        };
     },
 
     toggleSubjectFilter: function toggleSubjectFilter () {
@@ -34,25 +38,27 @@ var FilterBar = React.createClass({
 
     render: function render () {
         return (
-          <div className="text--center relative on-top"
-                style={{ marginTop: '-3em' }}>
-              <div className="main-container main-container--1000 grid bg-white hard">
-                  <div className={cx("grid__item v-middle three-tenths soft cursor-pointer gamma f-weight-500",
-                                    { 'blue-green': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS})}
+          <div className="search-page-filter-wrapper">
+              <div className="main-container main-container--1000 grid--full bg-white hard">
+                  <div className={ cx("grid__item search-page-filter search-page-filter--subject three-tenths",
+                                    { 'search-page-filter--active': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS,
+                                      'search-page-filter--has-filters': this.state.card_store.hasActiveFilters('subject') }) }
                        onClick={this.toggleSubjectFilter}>
-                    <i className="fa fa-lightbulb-o blue-green"></i>&nbsp;Quoi
+                    <i className="fa fa-lightbulb-o"></i>&nbsp;Quoi
                   </div>
-                  <div className={cx("grid__item v-middle three-tenths soft cursor-pointer gamma f-weight-500",
-                                    { 'yellow': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.LOCATION})}
+                  <div className={cx("grid__item search-page-filter search-page-filter--location three-tenths",
+                                    { 'search-page-filter--active': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.LOCATION,
+                                      'search-page-filter--has-filters': this.state.card_store.hasActiveFilters('location') }) }
                        onClick={this.toggleLocationFilter}>
-                    <i className="fa fa-map-marker yellow"></i>&nbsp;Où
+                    <i className="fa fa-map-marker"></i>&nbsp;Où
                   </div>
-                  <div className={cx("grid__item v-middle three-tenths soft cursor-pointer gamma f-weight-500",
-                                    { 'blue': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.TIME})}
+                  <div className={cx("grid__item search-page-filter search-page-filter--time three-tenths",
+                                    { 'search-page-filter--active': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.TIME,
+                                      'search-page-filter--has-filters': this.state.card_store.hasActiveFilters('time') }) }
                        onClick={this.toggleTimeFilter}>
-                    <i className="fa fa-clock blue"></i>&nbsp;Quand
+                    <i className="fa fa-clock"></i>&nbsp;Quand
                   </div>
-                  <div className={cx("grid__item v-middle one-tenth soft-half cursor-pointer gamma f-weight-500",
+                  <div className={cx("grid__item one-tenth search-page-filter search-page-filter--more",
                                     { 'bordered--top bordered--thick': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.MORE})}
                        onClick={this.toggleMoreFilter}>
                     <i className="fa fa-filter"></i>
