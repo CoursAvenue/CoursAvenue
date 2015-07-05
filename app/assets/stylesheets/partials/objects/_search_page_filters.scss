@@ -222,7 +222,7 @@
         position: relative;
         border  : 1px solid white;
         @include border-radius(2px);
-        @include transition(all 150ms ease-in-out);
+        @include transition(all 250ms cubic-bezier(0.15, 1.01, 0.65, 0.85));
         &:hover {
             margin-top: -12px;
             @include box-shadow(0px 7px 15px #DDD);
