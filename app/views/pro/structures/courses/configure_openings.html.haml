@@ -9,9 +9,9 @@
         %span.v-middle Fermé du
         %input{ type: 'hidden', name: "courses[#{index}][end_date_unix]", value: course.id }
         %input{ type: 'hidden', name: "courses[#{index}][start_date_unix]", value: course.id }
-        %input.v-middle.text--center{ name: "courses[#{index}][end_date]", type: 'string', value: l(course.end_date, format: :semi_short).titleize, style: 'width: 100px;', data: { behavior: 'datepicker' } }
+        %input.v-middle.text--center{ name: "courses[#{index}][end_date]", type: 'string', value: l(course.end_date || Date.parse('01 july 2015'), format: :semi_short).titleize, style: 'width: 100px;', data: { behavior: 'datepicker' } }
         %span.v-middle au
-        %input.v-middle.text--center{ name: "courses[#{index}][start_date]", type: 'string', value: l(course.start_date, format: :semi_short).titleize, style: 'width: 100px;', data: { behavior: 'datepicker' } }
+        %input.v-middle.text--center{ name: "courses[#{index}][start_date]", type: 'string', value: l(course.start_date || Date.parse('31 august 2015'), format: :semi_short).titleize, style: 'width: 100px;', data: { behavior: 'datepicker' } }
   .soft-half
     = submit_tag 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
 
