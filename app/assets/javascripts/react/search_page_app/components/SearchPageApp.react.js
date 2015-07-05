@@ -1,4 +1,5 @@
 var MapContainer           = require('./MapContainer.react'),
+    SmallMap               = require("./SmallMap.react"),
     ResultList             = require('./ResultList.react'),
     SubjectFilter          = require('./SubjectFilter.react'),
     LocationFilter         = require('./LocationFilter.react'),
@@ -65,6 +66,7 @@ SearchPageApp = React.createClass({
             <ResultInfo />
             <ResultList />
             <Pagination />
+            <SmallMap center={this.props.map_center} />
           </div>
         );
     }

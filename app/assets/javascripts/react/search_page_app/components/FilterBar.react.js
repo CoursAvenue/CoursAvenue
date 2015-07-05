@@ -36,7 +36,7 @@ var FilterBar = React.createClass({
         return (
           <div className="text--center relative on-top"
                 style={{ marginTop: '-3em' }}>
-              <div className="main-container main-container--1000 grid bg-white">
+              <div className="main-container main-container--1000 grid bg-white hard">
                   <div className={cx("grid__item v-middle three-tenths soft cursor-pointer gamma f-weight-500",
                                     { 'blue-green': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS})}
                        onClick={this.toggleSubjectFilter}>

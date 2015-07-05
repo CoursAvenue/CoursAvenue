@@ -1,6 +1,7 @@
 var SubjectList        = require('./cards/SubjectList.react'),
     CourseInformation  = require('./cards/CourseInformation.react'),
     CourseLocation     = require('./cards/CourseLocation.react'),
+    CardActionCreators = require("../actions/CardActionCreators"),
     Rating             = require('./cards/Rating.react');
 
 Card = React.createClass({
@@ -21,6 +22,14 @@ Card = React.createClass({
         });
     },
 
+    onMouseEnter: function onMouseEnter () {
+        CardActionCreators.cardHovered({ card: this.props.card, hovered: true });
+    },
+
+    onMouseLeave: function onMouseLeave () {
+        CardActionCreators.cardHovered({ card: this.props.card, hovered: false });
+    },
+
     render: function render () {
         var gift_classes = { gray: this.props.card.get('is_open_for_trial')}
         if (this.props.card.get('card_type') == 'course') {
@@ -33,11 +42,12 @@ Card = React.createClass({
             course_url = Routes.structure_indexable_card_path(this.props.card.get('structure_slug'), this.props.card.get('slug'));
         }
         return (
-          <div className="soft-half one-quarter palm-one-whole lap-one-half inline-block v-top">
-              <div className="bg-white bordered">
+          <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} className="search-page-card soft-half one-quarter palm-one-whole lap-one-half inline-block v-top">
+              <div className="search-page-card__number">{this.props.index}.</div>
+              <div className="bg-white bordered search-page-card__content">
                   <div className="bordered--bottom relative">
                       <div className="bg-white rounded very-soft push-half--left push-half--top absolute">{starting_price}</div>
-                      <img className="block one-whole" src={this.props.card.get('header_image')} height="100"/>
+                      <img className="search-page-card__image" src={this.props.card.get('header_image')} />
                   </div>
                   <div className="soft-half">
                       <img className="search-page-card__structure-logo"

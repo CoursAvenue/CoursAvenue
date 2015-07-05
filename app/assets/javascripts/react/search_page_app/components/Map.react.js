@@ -56,9 +56,8 @@ var MapComponent = React.createClass({
             FilterActionCreators.updateFilters({ user_location: location });
         });
         this.map.on('locationerror', function(data) { console.warn("Location couldn't be found") });
-        this.state.card_store.on('all', function() {
-            this.updateMarkerLayer();
-        }.bind(this));
+        this.state.card_store.on('reset', this.updateMarkerLayer);
+        this.state.card_store.on('change:highlighted', this.highlightMarker);
 
         this.state.metro_stop_store.on('change', function() {
             if (this.state.metro_stop_store.getSelectedStop()) {
@@ -106,10 +105,7 @@ var MapComponent = React.createClass({
 
     handleMoveend: function handleMoveend (leaflet_data) {
         // ----- We add guard to prevent from updating bounds when a popup is opened
-        var popup_is_opened = _.some(this.marker_layer._layers, function(marker_layer) {
-            return marker_layer._popup && marker_layer._popup._isOpen;
-        });
-        if (popup_is_opened) { return; }
+        if (this.popup && this.popup._isOpen) { return; }
 
         if (SearchPageDispatcher.isDispatching()) {
             _.defer(this.handleMoveend, leaflet_data);
@@ -119,6 +115,14 @@ var MapComponent = React.createClass({
             [this.map.getBounds()._southWest.lat, this.map.getBounds()._southWest.lng],
             [this.map.getBounds()._northEast.lat, this.map.getBounds()._northEast.lng]
         ]);
+    },
+
+    highlightMarker: function highlightMarker (card) {
+        var card_id = card.get('id');
+        highlighted_marker = _.detect(this.marker_layer.getLayers(), function(layer) {
+            return layer.card_id == card_id;
+        });
+        this.showMarkerPopup(highlighted_marker, card)();
     },
 
     updateMarkerLayer: function updateMarkerLayer () {
@@ -133,14 +137,9 @@ var MapComponent = React.createClass({
             var marker = L.marker([card.get('_geoloc').lat, card.get('_geoloc').lng], {
                 icon: this.getIconForCard(card)
             });
-            marker.card = card;
+            marker.card_id = card.get('id');
             this.marker_layer.addLayer(marker);
             marker.on('click', this.showMarkerPopup(marker, card));
-            if (card.get('highlighted')) {
-                var string_popup = React.renderToString(<MarkerPopup card={card} />);
-                marker.bindPopup(string_popup, { className: 'ca-leaflet-popup' });
-                marker.openPopup();
-            }
         }.bind(this));
     },
 
@@ -148,16 +147,20 @@ var MapComponent = React.createClass({
      * Encapsulate marker and card to the function
      */
     showMarkerPopup: function showMarkerPopup (marker, card) {
-        return function(event) {
+        return function() {
             var string_popup = React.renderToString(<MarkerPopup card={card} />);
-            marker.bindPopup(string_popup, { className: 'ca-leaflet-popup' });
-            marker.openPopup();
-        }
+            this.popup = L.popup({ className: 'ca-leaflet-popup' })
+                .setLatLng(marker.getLatLng())
+                .setContent(string_popup)
+                .openOn(this.map);
+            marker.openPopup(this.popup);
+        }.bind(this)
     },
     getIconForCard: function getIconForCard (card) {
         if (card.get('visible')) {
             return L.divIcon({
-                className: 'map-box-marker map-box-marker__' + card.get('root_subject')
+                className: 'map-box-marker map-box-marker__' + card.get('root_subject'),
+                html: '<div>' + (this.state.card_store.indexOf(card) + 1) + '</div>'
             });
         } else {
             return L.divIcon({

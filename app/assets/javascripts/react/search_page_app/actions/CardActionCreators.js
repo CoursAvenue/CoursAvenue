@@ -6,6 +6,16 @@ module.exports = {
     /*
      * @params data: { card: CardModel }
      */
+    cardHovered: function cardHovered (hovered) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.CARD_HOVERED,
+            data: hovered
+        });
+    },
+
+    /*
+     * @params data: { card: CardModel }
+     */
     highlightMarker: function highlightMarker (data) {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.HIGHLIGHT_MARKER,

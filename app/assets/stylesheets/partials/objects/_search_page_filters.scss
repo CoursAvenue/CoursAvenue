@@ -91,3 +91,44 @@
         color           : white;
     }
 }
+
+.search-page-small-map {
+    height: 200px;
+    width : 300px;
+    border: 2px solid white;
+    right : -350px;
+    @include transition(all 250ms linear);
+    &.search-page-small-map--visible {
+        right: 0;
+    }
+    .leaflet-control-zoom {
+        opacity: 0.5;
+        @include transition(all 150ms linear);
+        &:hover { opacity: 1; }
+    }
+    .leaflet-control-zoom-in, .leaflet-control-zoom-out {
+        width: 24px;
+        @include background-size(24px 260px);
+    }
+}
+
+.search-page-card {}
+    .search-page-card__image {
+        display: block;
+        height : 110px;
+        @include border-radius(2px);
+    }
+    .search-page-card__number{
+        color      : #ABABAB;
+        font-weight: bold;
+    }
+    .search-page-card__content {
+        position: relative;
+        border  : 1px solid white;
+        @include border-radius(2px);
+        @include transition(all 150ms ease-in-out);
+        &:hover {
+            margin-top: -12px;
+            @include box-shadow(0px 7px 15px #DDD);
+        }
+    }

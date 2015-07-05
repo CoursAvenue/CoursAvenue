@@ -78,6 +78,10 @@ var CardCollection = Backbone.Collection.extend({
                 this.context = payload.data;
                 this.fetchDataFromServer();
                 break;
+            case ActionTypes.CARD_HOVERED:
+                this.a_card_is_hovered = payload.data.hovered;
+                payload.data.card.set({ hovered: payload.data.hovered });
+                break;
             case ActionTypes.HIGHLIGHT_MARKER:
                 _.invoke(this.models, 'set', { highlighted: false }, { silent: true });
                 payload.data.card.set({ highlighted: true });
@@ -109,6 +113,7 @@ var CardCollection = Backbone.Collection.extend({
         this.reset(data.hits, { silent: true });
         this.current_page = 1;
         this.updateCardsShownRegardingPages();
+        this.trigger('reset');
     },
 
     searchError: function searchError (data) {

@@ -35,6 +35,7 @@ module.exports = {
 
         LOCATE_USER:                 null,
 
+        CARD_HOVERED:                null,
         HIGHLIGHT_MARKER:            null,
         UNHIGHLIGHT_MARKERS:         null,
 
