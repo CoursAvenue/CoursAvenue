@@ -42,6 +42,8 @@ class Structure::CourseCreationForm
   attribute :place_latitude, Float
   attribute :place_longitude, Float
 
+  attribute :place_radius, Integer
+
   attribute :level_ids, Array[Integer]
   validates :level_ids, presence: true
 
@@ -55,6 +57,9 @@ class Structure::CourseCreationForm
   attribute :planning_start_time, Time
   attribute :planning_end_time, Time
   attribute :planning_duration, Time
+
+  attribute :teaches_at_home, Boolean
+  attribute :teaches_at_place, Boolean
 
   # "Save" the Course Creation form.
   # We don't really save the object, but persist the attributes of the object in the related Models,
