@@ -30,10 +30,8 @@ class Structure::CourseCreationForm
 
   # Place attributes
   attribute :place_name, String
-  validates :place_name, presence: true
 
   attribute :place_street, String
-  validates :place_street, presence: true
 
   attribute :place_zip_code, String
   validates :place_zip_code, presence: true

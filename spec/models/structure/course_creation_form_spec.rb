@@ -8,8 +8,6 @@ describe Structure::CourseCreationForm do
     it { should validate_presence_of(:course_type) }
     it { should validate_presence_of(:course_subject_ids) }
 
-    it { should validate_presence_of(:place_name) }
-    it { should validate_presence_of(:place_street) }
     it { should validate_presence_of(:place_zip_code) }
     it { should validate_presence_of(:place_city_id) }
   end
