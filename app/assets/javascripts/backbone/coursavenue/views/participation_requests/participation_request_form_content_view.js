@@ -51,24 +51,29 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             }, this);
         },
 
-        onRender: function onRender () {
-            this.initializeStartHourSelect();
+        setDatepickerStartDate: function setDatepickerStartDate () {
             this.datepicker_start_date = new Date();
             if (this.getCurrentCourse() && this.getCurrentCourse().get('start_date')) {
                 new_start_date = moment(this.getCurrentCourse().get('start_date'), 'YYYY-MM-DD').toDate();
                 if (this.datepicker_start_date < new_start_date) {
                     this.datepicker_start_date = new_start_date;
+                    this.ui.$datepicker_input.datepicker('setStartDate', this.datepicker_start_date);
                 }
             }
+        },
+
+        onRender: function onRender () {
+            this.initializeStartHourSelect();
             var datepicker_options = {
                 format: COURSAVENUE.constants.DATE_FORMAT,
                 weekStart: 1,
                 language: 'fr',
                 autoclose: true,
                 todayHighlight: true,
-                startDate: this.datepicker_start_date
+                startDate: new Date()
             };
             this.ui.$datepicker_input.datepicker(datepicker_options);
+            this.setDatepickerStartDate();
             if (this.model.get('course_id')) { this.selectCourse(); }
             if (this.model.get('planning_id')) { this.selectPlanning(); }
             // Wait in order that everything is in the dom
@@ -249,6 +254,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
          * Set the datepicker to the next possible date
          */
         updateDatePicker: function updateDatePicker () {
+            this.setDatepickerStartDate();
             this.model.set('planning_id', parseInt(this.ui.$planning_select_input.val()));
             if (!this.getCurrentPlanning()) {
                 this.ui.$datepicker_input.datepicker('update', moment().add(7, 'days').toDate());
