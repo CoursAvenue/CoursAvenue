@@ -25,6 +25,16 @@ class Pro::RegistrationsController < Pro::ProController
   end
 
   def create_course
+    @course_creation_form = Structure::CourseCreationForm.new(course_params)
+    @structure = Structure.find(course_params[:structure_id])
+    @course_type = @course_creation_form.course_type.split('::').last.downcase
+
+    if @course_creation_form.save
+      redirect_to pro_structure_path(@course_creation_form.structure),
+        notice: 'Activité créé avec succés.'
+    else
+      render :new_course
+    end
   end
 
   private
@@ -39,6 +49,28 @@ class Pro::RegistrationsController < Pro::ProController
 
       structure_subjects_ids: [],
       structure_subject_descendants_ids: []
+    )
+  end
+
+  def course_params
+    params.require(:structure_course_creation_form).permit(
+      :structure_id,
+
+      :course_type,
+      :course_name,
+      :course_frequency,
+      :course_cant_be_joined_during_year,
+      :course_no_class_during_holidays,
+
+      :place_name,
+      :place_street,
+      :place_zip_code,
+      :place_city_id,
+      :place_latitude,
+      :place_longitude,
+
+      course_subject_ids: [],
+      :course_prices_attributes => [:type, :amount]
     )
   end
 end

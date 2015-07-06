@@ -16,7 +16,7 @@ describe Pro::RegistrationsController do
         expect{ post :create, params }.to_not change { Structure.count }
       end
 
-      it "creates a new admin" do
+      it "doesn't creates a new admin" do
         expect { post :create, params }.to_not change { Admin.count }
       end
 
@@ -55,14 +55,44 @@ describe Pro::RegistrationsController do
   end
 
   describe 'POST #create_course' do
+    let!(:structure) { structure = FactoryGirl.create(:structure) }
     context 'when the params are not valid' do
-      it "doesn't create a new course"
-      it "renders the course creation form"
+      # render_views
+
+      let(:params) { { structure_course_creation_form:
+                       { foo: 'bar',
+                         course_type: 'Course::Lesson',
+                         structure_id: structure.slug } } }
+
+      it "doesn't create a new place" do
+        expect { post :create_course, params }.to_not change { Place.count }
+      end
+
+      it "doesn't create a new course" do
+        expect { post :create_course, params }.to_not change { Course.count }
+      end
+
+      # it "renders the course creation form" do
+      #   post :create_course, params
+      #   expect(response).to render_template('new')
+      # end
     end
 
     context 'when the params are valid' do
-      it 'creates a new course'
-      it 'redirects to the user dashboard'
+      let(:params) { { structure_course_creation_form: valid_course_params(structure) } }
+
+      it 'creates a new place' do
+        expect { post :create_course, params }.to change { Place.count }.by(1)
+      end
+
+      it 'creates a new course' do
+        expect { post :create_course, params }.to change { Course.count }.by(1)
+      end
+
+      it 'redirects to the user dashboard' do
+        post :create_course, params
+        expect(response).to redirect_to(pro_structure_path(structure))
+      end
     end
   end
 
@@ -78,6 +108,28 @@ describe Pro::RegistrationsController do
       admin_password: Faker::Internet.password,
 
       course_type: 'lesson'
+    }
+  end
+
+  def valid_course_params(structure)
+    city = FactoryGirl.create(:city)
+    subject_ = FactoryGirl.create(:subject_children)
+
+    {
+      structure_id: structure.slug,
+
+      course_type: 'Course::Lesson',
+      course_name: Faker::Name.name,
+      course_subject_ids: [subject_.id],
+      course_prices_attributes: [{ type:'Price::Trial', amount: 0 }],
+      course_frequency: Course::COURSE_FREQUENCIES.sample,
+      course_cant_be_joined_during_year: [true, false].sample,
+      course_no_class_during_holidays: [true, false].sample,
+
+      place_name: Faker::Name.name,
+      place_street: Faker::Address.street_address,
+      place_zip_code: Faker::Address.zip_code,
+      place_city_id: city.id
     }
   end
 end
