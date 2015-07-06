@@ -24,9 +24,9 @@ ResultList = React.createClass({
         }
         var cards = this.state.card_store.where({ visible: true }).map(function(card, index) {
             return (
-              <Card card={ card } index={index + 1} key={ index }/>
+              <Card card={ card } index={this.state.card_store.indexOf(card) + 1} key={ index }/>
             )
-        })
+        }.bind(this));
         if (cards.length == 0) {
             no_results = (<Suggestions />);
         }

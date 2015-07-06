@@ -37,7 +37,7 @@ var MapComponent = React.createClass({
     },
 
     setEventsListeners: function setEventsListeners () {
-        this.state.card_store.on('reset', this.updateMarkerLayer);
+        this.state.card_store.on('reset change:visible', this.updateMarkerLayer);
         this.state.card_store.on('change:hovered', this.highlightMarker);
 
         this.state.location_store.on('all', function() {
@@ -68,9 +68,11 @@ var MapComponent = React.createClass({
 
 
     highlightMarker: function highlightMarker (card) {
+        var card_is_hovered = card.get('hovered');
+        var card_id = card.get('id');
         _.each(this.marker_layer.getLayers(), function(marker) {
             if (!this.state.card_store.a_card_is_hovered ||
-                (card.get('hovered') && marker.card.get('id') == card.get('id'))) {
+                (card_is_hovered && marker.card.get('id') == card_id)) {
                 marker.setIcon(L.divIcon({
                     className: 'relative on-top map-box-marker map-box-marker__' + marker.card.get('root_subject'),
                     html: '<div>' + (this.state.card_store.indexOf(marker.card) + 1) + '</div>'

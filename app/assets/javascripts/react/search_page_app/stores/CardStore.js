@@ -241,7 +241,7 @@ var CardCollection = Backbone.Collection.extend({
             if (card_index > (this.length - 1)) { return; }
             this.models[card_index].set({ visible: true }, { silent: true });
         }.bind(this));
-        this.trigger('change');
+        this.trigger('change:visible');
     }
 });
 

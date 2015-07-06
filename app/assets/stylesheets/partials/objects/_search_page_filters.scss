@@ -131,7 +131,7 @@
             color: white !important;
             i { @extend .fa-chevron-up; }
         }
-        &.search-page-filter--subject::after:hover, &.search-page-filter--location::after:hover {
+        &.search-page-filter--subject:hover::after, &.search-page-filter--location:hover::after {
             display: none;
         }
         &.search-page-filter--subject::after, &.search-page-filter--location::after {

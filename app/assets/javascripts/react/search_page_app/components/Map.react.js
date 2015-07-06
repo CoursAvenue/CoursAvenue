@@ -27,12 +27,13 @@ var MapComponent = React.createClass({
 
     createMap: function createMap () {
         this.marker_layer = new L.MarkerClusterGroup({
-            maxClusterRadius: 1,
-            spiderfyOnMaxZoom: false,
+            disableClusteringAtZoom: 14,
+            maxClusterRadius: 10,
+            spiderfyOnMaxZoom: true,
             // The iconCreateFunction takes the cluster as an argument and returns
             // an icon that represents it. We use L.mapbox.marker.icon in this
             // example, but you could also use L.icon or L.divIcon.
-            iconCreateFunction: function(cluster) {
+            iconCreateFunction: function iconCreateFunction (cluster) {
                 return L.mapbox.marker.icon({
                     // show the number of markers in the cluster on the icon.
                     'marker-symbol': cluster.getChildCount(),
@@ -56,8 +57,9 @@ var MapComponent = React.createClass({
             FilterActionCreators.updateFilters({ user_location: location });
         });
         this.map.on('locationerror', function(data) { console.warn("Location couldn't be found") });
-        this.state.card_store.on('reset', this.updateMarkerLayer);
-        this.state.card_store.on('change:highlighted', this.highlightMarker);
+        this.state.card_store.on('reset change:visible', this.updateMarkerLayer);
+        this.state.card_store.on('change:highlighted', this.showHighlightedMarkerPopup);
+        this.state.card_store.on('change:hovered', this.highlightMarker);
 
         this.state.metro_stop_store.on('change', function() {
             if (this.state.metro_stop_store.getSelectedStop()) {
@@ -117,12 +119,27 @@ var MapComponent = React.createClass({
         ]);
     },
 
+    // Make all marker a little transparent but not highlighted one.
     highlightMarker: function highlightMarker (card) {
+        var card_id         = card.get('id');
+        var card_is_hovered = card.get('hovered');
+        if (card_is_hovered) {
+            _.each(this.marker_layer.getLayers(), function(marker) {
+                if (marker.card_id != card_id) { marker.setOpacity(0.3); }
+            }, this);
+        } else {
+            _.each(this.marker_layer.getLayers(), function(marker) {
+                marker.setOpacity(1);
+            });
+        }
+    },
+
+    showHighlightedMarkerPopup: function showHighlightedMarkerPopup (card) {
         var card_id = card.get('id');
         highlighted_marker = _.detect(this.marker_layer.getLayers(), function(layer) {
             return layer.card_id == card_id;
         });
-        this.showMarkerPopup(highlighted_marker, card)();
+        this.openMarkerPopup(highlighted_marker, card)();
     },
 
     updateMarkerLayer: function updateMarkerLayer () {
@@ -139,14 +156,14 @@ var MapComponent = React.createClass({
             });
             marker.card_id = card.get('id');
             this.marker_layer.addLayer(marker);
-            marker.on('click', this.showMarkerPopup(marker, card));
+            marker.on('click', this.openMarkerPopup(marker, card));
         }.bind(this));
     },
 
     /*
      * Encapsulate marker and card to the function
      */
-    showMarkerPopup: function showMarkerPopup (marker, card) {
+    openMarkerPopup: function openMarkerPopup (marker, card) {
         return function() {
             var string_popup = React.renderToString(<MarkerPopup card={card} />);
             this.popup = L.popup({ className: 'ca-leaflet-popup' })
