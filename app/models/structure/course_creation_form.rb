@@ -8,8 +8,8 @@ class Structure::CourseCreationForm
 
   attr_accessor :prices_attributes
 
-  attribute :structure_slug, String
-  validates :structure_slug, presence: true
+  attribute :structure_id, String
+  validates :structure_id, presence: true
 
   # Course attributes
   attribute :course_name, String
@@ -52,7 +52,7 @@ class Structure::CourseCreationForm
   #
   # @return Boolean, whether the object has been "saved".
   def save
-    @structure = Structure.find(@structure_slug)
+    @structure = Structure.find(@structure_id)
     valid? ? persist! : false
   end
 

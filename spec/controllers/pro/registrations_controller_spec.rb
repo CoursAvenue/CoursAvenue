@@ -37,8 +37,9 @@ describe Pro::RegistrationsController do
       it 'redirects to the second part of the registration' do
         post :create, params
         structure = Structure.last
-        expect(response).to redirect_to(new_course_pro_registrations_path(id: structure.slug,
-                                                                          course_type: 'lesson'))
+        expect(response).to redirect_to(
+          new_course_pro_registrations_path(id: structure.slug, course_type: 'lesson')
+        )
       end
     end
   end

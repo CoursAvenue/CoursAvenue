@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Structure::CourseCreationForm do
   context 'validations' do
-    it { should validate_presence_of(:structure_slug) }
+    it { should validate_presence_of(:structure_id) }
 
     it { should validate_presence_of(:course_name) }
     it { should validate_presence_of(:course_type) }
@@ -19,7 +19,7 @@ describe Structure::CourseCreationForm do
 
   describe '#save' do
     context 'when not valid' do
-      subject { Structure::CourseCreationForm.new(structure_slug: structure.slug) }
+      subject { Structure::CourseCreationForm.new(structure_id: structure.slug) }
 
       it { expect(subject.save).to be_falsy }
 
@@ -51,7 +51,7 @@ describe Structure::CourseCreationForm do
     city = FactoryGirl.create(:city)
 
     {
-      structure_slug: structure.slug,
+      structure_id: structure.slug,
 
       course_name: Faker::Name.name + ' course',
       course_type: ["Course::Lesson", "Course::Training", "Course::Private"].sample,

@@ -1,5 +1,5 @@
 = simple_form_for [:pro, @course_creation_form], url: create_course_pro_registrations_path, method: :post, html: { class: 'push--ends', autocomplete: "false"} do |f|
-  = f.hidden_field :structure_slug, value: @structure.slug
+  = f.hidden_field :structure_id, value: @structure.slug
   = f.hidden_field :course_type, value: 'Course::Lesson'
 
   .grid.push--bottom

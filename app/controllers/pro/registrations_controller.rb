@@ -21,7 +21,7 @@ class Pro::RegistrationsController < Pro::ProController
   def new_course
     @structure   = Structure.includes(:subjects).find(params[:id])
     @course_type = params[:course_type]
-    @course_creation_form = Structure::CourseCreationForm.new(structure_slug: params[:id])
+    @course_creation_form = Structure::CourseCreationForm.new(structure_id: params[:id])
   end
 
   def create_course
