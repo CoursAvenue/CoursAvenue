@@ -7,7 +7,6 @@ describe Structure::CourseCreationForm do
     it { should validate_presence_of(:course_name) }
     it { should validate_presence_of(:course_type) }
     it { should validate_presence_of(:course_subject_ids) }
-    it { should validate_presence_of(:course_prices) }
 
     it { should validate_presence_of(:place_name) }
     it { should validate_presence_of(:place_street) }
@@ -56,7 +55,7 @@ describe Structure::CourseCreationForm do
       course_name: Faker::Name.name + ' course',
       course_type: ["Course::Lesson", "Course::Training", "Course::Private"].sample,
       course_subject_ids: [subject_.id],
-      # course_prices: [price.attributes.compact],
+      course_prices_attributes: [price.attributes.compact],
       course_frequency: Course::COURSE_FREQUENCIES.sample,
 
       place_name: Faker::Name.name + ' place',

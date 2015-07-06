@@ -67,18 +67,20 @@ class Structure::CourseCreationForm
       name: @place_name,
       street: @place_street,
       zip_code: @place_zip_code,
-      city_id: @place_city_id
+      city_id: @place_city_id,
+      latitude: @place_latitude,
+      longitude: @place_longitude
     )
-    return false if @place.persisted?
+    return false if !@place.persisted?
 
-    @course = @structure.courses.build(
+    @course = @structure.courses.create(
       type: @course_type,
       name: @course_name,
-      subjects_ids: @course_subject_ids,
-      prices_attributes: @course_prices,
+      subject_ids: @course_subject_ids,
+      prices_attributes: @course_prices_attributes,
       place_id: @place.id
     )
-    return false if @course.persisted?
+    return false if !@course.persisted?
 
     true
   end
@@ -97,6 +99,6 @@ class Structure::CourseCreationForm
   #
   # @return the sanitize attributes
   def sanitize_prices_attributes!
-    @course_prices_attributes = [@course_prices_attributes].flatten
+    @course_prices_attributes = [@course_prices_attributes].flatten.compact
   end
 end
