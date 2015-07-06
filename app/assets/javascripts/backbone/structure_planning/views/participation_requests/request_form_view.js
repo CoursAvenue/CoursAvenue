@@ -150,15 +150,17 @@ StructurePlanning.module('Views.ParticipationRequests', function(Module, App, Ba
          * We create an instance of a message form view
          */
         showRegistrationForm: function showRegistrationForm (planning_data) {
-            if (this.model.get('structure').get('lessons').findWhere({ id: planning_data.course_id })) {
-                this.model.set('course_collection_type', 'lessons');
-            } else if (this.model.get('structure').get('privates').findWhere({ id: planning_data.course_id })) {
-                this.model.set('course_collection_type', 'privates');
-            } else {
-                this.model.set('course_collection_type', 'trainings');
+            if (planning_data) {
+                if (this.model.get('structure').get('lessons').findWhere({ id: planning_data.course_id })) {
+                    this.model.set('course_collection_type', 'lessons');
+                } else if (this.model.get('structure').get('privates').findWhere({ id: planning_data.course_id })) {
+                    this.model.set('course_collection_type', 'privates');
+                } else {
+                    this.model.set('course_collection_type', 'trainings');
+                }
+                this.model.set('course_id', planning_data.course_id);
+                this.model.set('planning_id', planning_data.id);
             }
-            this.model.set('course_id', planning_data.course_id);
-            this.model.set('planning_id', planning_data.id);
             var request_form_view = new Module.RequestFormView( { structure: this.model.get('structure'), model: this.model, in_two_steps: true } ).render();
             var request_form_view_el = $(request_form_view.$el);
             request_form_view_el.find('[data-pr-total]').addClass('soft--right');

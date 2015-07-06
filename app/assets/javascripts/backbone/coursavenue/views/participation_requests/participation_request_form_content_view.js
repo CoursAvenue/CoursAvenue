@@ -268,7 +268,9 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             var formatted_date = moment().day(this.getCurrentPlanning().week_day + days_to_add);
             // We check wether the formatted date is not before the datepicker start date
             if (formatted_date.toDate() < this.datepicker_start_date) {
-                formatted_date = moment(this.datepicker_start_date).day(this.getCurrentPlanning().week_day);
+                var new_date = moment(this.datepicker_start_date).day(this.getCurrentPlanning().week_day);
+                if (new_date.toDate() < this.datepicker_start_date) { days_to_add = 7 }
+                formatted_date = new_date.day(this.getCurrentPlanning().week_day + days_to_add);
             }
             this.ui.$datepicker_input.datepicker('update', formatted_date.toDate());
             // Disable days of week
