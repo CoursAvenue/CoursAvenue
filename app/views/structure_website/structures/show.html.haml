@@ -83,28 +83,27 @@
     }());
 
 #structure-profile-menu.one-whole.west.fixed.on-top-of-the-world{ style: 'top: -100px;' }
-  - cache [@structure, 'structure/show/sticker_header'] do
+  - cache [@structure, 'structure_website/structure/show/sticker_header'] do
     .bg-site-background.soft-half--ends.bordered--bottom
       .main-container.soft--sides
         .flexbox
           .flexbox__item.v-middle.nowrap>
             .flexbox.top-page-menu
               .flexbox__item.one-twelfth.nowrap.soft-half--right
-                %strong= truncate @structure.name, lenght: 25
-              - unless @is_sleeping
-                .flexbox__item
-                  %ul.nav.flush.v-middle.inline-block
-                    - if @structure.plannings.trainings_future.any?
-                      %li.soft-half--sides
-                        %a.muted-link.orange{ href: '#stages-ateliers ', data: { behavior: 'scroll-to', offset_top: '-55' } } Stages & ateliers
-                    - if @structure.courses.lessons.any?
-                      %li.soft-half--sides
-                        %a.muted-link.orange{ href: '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours réguliers
-                    - if @structure.courses.privates.any?
-                      %li.soft-half--sides
-                        %a.muted-link.orange{ href: '#cours-particuliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours particuliers
+                %strong= truncate @structure.name, length: 45
+              .flexbox__item
+                %ul.nav.flush.v-middle.inline-block
+                  - if @structure.plannings.trainings_future.any?
                     %li.soft-half--sides
-                      = link_to 'Avis', structure_path(@structure), class: 'muted-link orange'
+                      %a.muted-link.orange{ href: '#stages-ateliers ', data: { behavior: 'scroll-to', offset_top: '-55' } } Stages & ateliers
+                  - if @structure.courses.lessons.any?
+                    %li.soft-half--sides
+                      %a.muted-link.orange{ href: '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours réguliers
+                  - if @structure.courses.privates.any?
+                    %li.soft-half--sides
+                      %a.muted-link.orange{ href: '#cours-particuliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours particuliers
+                  %li.soft-half--sides
+                    = link_to 'Avis', structure_path(@structure), class: 'muted-link orange', target: :_blank
           .flexbox__item.v-middle.nowrap.text--right>
             %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel' } }
               Contacter

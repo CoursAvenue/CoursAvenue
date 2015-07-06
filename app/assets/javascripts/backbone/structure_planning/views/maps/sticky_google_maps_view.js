@@ -15,7 +15,7 @@ StructurePlanning.module('Views.Map', function(Module, App, Backbone, Marionette
                 updateOnScroll: true,
                 z             : 10,
                 oldWidth      : false,
-                offsetTop     : 70,
+                offsetTop     : 50,
                 onStick: function onStick () {
                     $view.css({
                         left : $grid_item.offset().left + parseInt($view.closest('.grid__item').css('padding-left'), 10) + 'px',
