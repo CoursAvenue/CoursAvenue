@@ -30,7 +30,7 @@ class Pro::RegistrationsController < Pro::ProController
     @course_type = @course_creation_form.course_type.split('::').last.downcase
 
     if @course_creation_form.save
-      redirect_to pro_structure_path(@course_creation_form.structure),
+      redirect_to waiting_for_activation_pro_admins_path({ email: @structure.email }),
         notice: 'Activité créé avec succés.'
     else
       render :new_course

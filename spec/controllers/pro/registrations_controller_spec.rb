@@ -48,7 +48,7 @@ describe Pro::RegistrationsController do
   end
 
   describe 'GET #new_course' do
-    let(:structure) { FactoryGirl.create(:structure) }
+    let(:structure) { FactoryGirl.create(:structure_with_admin) }
     it 'assigns a course creation form' do
       get :new_course, { id: structure.slug }
       expect(assigns(:course_creation_form)).to be_a(Structure::CourseCreationForm)
@@ -58,7 +58,7 @@ describe Pro::RegistrationsController do
   end
 
   describe 'POST #create_course' do
-    let!(:structure) { structure = FactoryGirl.create(:structure) }
+    let!(:structure) { structure = FactoryGirl.create(:structure_with_admin) }
     context 'when the params are not valid' do
       let(:params) { { structure_course_creation_form:
                        { foo: 'bar',
@@ -92,7 +92,8 @@ describe Pro::RegistrationsController do
 
       it 'redirects to the user dashboard' do
         post :create_course, params
-        expect(response).to redirect_to(pro_structure_path(structure))
+        expect(response).
+          to redirect_to(waiting_for_activation_pro_admins_path({ email: structure.email }))
       end
     end
   end
