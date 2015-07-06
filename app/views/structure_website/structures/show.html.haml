@@ -7,12 +7,12 @@
 .main-container.relative
   - if @structure.website.present?
     .absolute.north.west.push-half--top.soft-half--left
-      = link_to '< Revenir au site', @structure.website
+      = link_to '< Revenir au site', URLHelper.fix_url(@structure.website)
   %h1.soft--top.text--center.flush= @structure.name
   %h5.text--center Planning avec demande d'inscription en ligne
-  %hr.push--ends
+  %hr.push--top.flush--bottom
   .grid
-    .grid__item.eight-twelfths.palm-one-whole>
+    .grid__item.eight-twelfths.palm-one-whole.soft--top>
       #structure-planning.push-half--bottom.bg-white.bordered--left.bordered--right{ data: { type: 'structure-planning-root' } }
         #structure-region
       -# We have to keep this div here.
@@ -21,8 +21,8 @@
     .grid__item.four-twelfths.palm-one-whole>
       .visuallyhidden--lap-and-up
         %h3.push--top Lieux des activités :
-      .on-top.transition-all-300{ data: { type: 'sticky-map-container' } }>
-        %div{ data: { type: 'sticky-map', offset_top: '0' } }>
+      .soft--top.bg-site-background-on-stick.on-top.transition-all-300{ data: { type: 'sticky-map-container' } }>
+        %div{ data: { type: 'sticky-map' } }>
       .visuallyhidden--lap-and-up
         %h3.push-half--top= 'Adresse'.pluralize(@structure.places.length)
         - @structure.places.each do |place|
@@ -82,3 +82,36 @@
         };
     }());
 
+#structure-profile-menu.one-whole.west.fixed.on-top-of-the-world{ style: 'top: -100px;' }
+  - cache [@structure, 'structure/show/sticker_header'] do
+    .bg-site-background.soft-half--ends.bordered--bottom
+      .main-container.soft--sides
+        .flexbox
+          .flexbox__item.v-middle.nowrap>
+            .flexbox.top-page-menu
+              .flexbox__item.one-twelfth.nowrap.soft-half--right
+                %strong= truncate @structure.name, lenght: 25
+              - unless @is_sleeping
+                .flexbox__item
+                  %ul.nav.flush.v-middle.inline-block
+                    - if @structure.plannings.trainings_future.any?
+                      %li.soft-half--sides
+                        %a.muted-link.orange{ href: '#stages-ateliers ', data: { behavior: 'scroll-to', offset_top: '-55' } } Stages & ateliers
+                    - if @structure.courses.lessons.any?
+                      %li.soft-half--sides
+                        %a.muted-link.orange{ href: '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours réguliers
+                    - if @structure.courses.privates.any?
+                      %li.soft-half--sides
+                        %a.muted-link.orange{ href: '#cours-particuliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours particuliers
+                    %li.soft-half--sides
+                      = link_to 'Avis', structure_path(@structure), class: 'muted-link orange'
+          .flexbox__item.v-middle.nowrap.text--right>
+            %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel' } }
+              Contacter
+              = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          $('body').addClass('relative').scrollspy({ target: '#structure-profile-menu .top-page-menu', offset: 85 })
+      });
