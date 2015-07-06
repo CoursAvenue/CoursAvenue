@@ -22,15 +22,14 @@ var MapComponent = React.createClass({
     render: function render () {
         var map_style, height_class, expand_button;
         if (LocationStore.get('fullscreen')) {
-            expand_button = (<span><i className="fa fa-compress"></i>&nbsp;Réduire</span>)
+            expand_button = (<span><i className="fa fa-compress"></i>Réduire</span>)
         } else {
-            expand_button = (<span><i className="fa fa-expand"></i>&nbsp;Agrandir</span>)
+            expand_button = (<span><i className="fa fa-expand"></i>Agrandir</span>)
         }
         return (
           <div className={cx("relative overflow-hidden search-page-filters-wrapper",
                              { 'search-page-filters-wrapper--full': LocationStore.get('fullscreen')}) }>
-              <div onClick={this.toggleFullScreen} className="lbl soft-half--sides push absolute east on-top"
-                   style={ { bottom: '25px'} }>
+              <div onClick={this.toggleFullScreen} className="search-page-map__fullscreen-button">
                   {expand_button}
               </div>
               <Map center={this.props.center} />

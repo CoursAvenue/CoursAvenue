@@ -1,3 +1,20 @@
+.search-page-map__fullscreen-button {
+    font-weight: 600;
+    font-size  : 13px;
+    border     : 1px solid #AAAAAA;
+    padding    : 0.5em 1.5em;
+    margin-top: 2em;
+    margin-right: 2em;
+    @extend .absolute;
+    @extend .north;
+    @extend .east;
+    @extend .on-top;
+    i {
+        font-size  : 13px;
+        margin-right: 5px;
+    }
+}
+
 .search-page-filters-wrapper {
     min-height: 480px;
     height: 35vh;
@@ -91,7 +108,6 @@
         color           : white;
     }
 }
-
 .search-page-small-map {
     height       : 225px;
     width        : 300px;
@@ -115,18 +131,19 @@
 }
 
 .search-page-filter-wrapper {
-    margin-top: -25px;
+    margin-top: -3.5em;
     position  : relative;
     z-index   : 10000;
 }
     .search-page-filter {
         vertical-align: middle;
-        padding       : 1em !important; // Important, because of the .grid__item default padding
+        padding       : 1.5em !important; // Important, because of the .grid__item default padding
         font-size     : 1.7em;
         text-align    : center;
         cursor        : pointer;
         position      : relative;
         border-top    : 2px solid white;
+        font-weight   : 500;
         &:hover {
             color: white !important;
             i { @extend .fa-chevron-up; }
@@ -141,7 +158,7 @@
             position    : absolute;
             right       : -1px;
             height      : 33px;
-            top         : 17px;
+            top         : 1.2em;
         }
         &.search-page-filter--subject {
             i { color: $blue_green; }
