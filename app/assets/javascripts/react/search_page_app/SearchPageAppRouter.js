@@ -1,16 +1,19 @@
 var _                    = require('underscore'),
     queryString          = require('query-string'),
     FilterActionCreators = require('./actions/FilterActionCreators'),
-    CardActionCreators = require('./actions/CardActionCreators'),
+    TimeActionCreators   = require('./actions/TimeActionCreators'),
+    CardActionCreators   = require('./actions/CardActionCreators'),
     LocationStore        = require('./stores/LocationStore'),
     CardStore            = require('./stores/CardStore'),
     SubjectStore         = require('./stores/SubjectStore');
 
 // Params that we store in URLs
 var PARAMS_IN_SEARCH = {
-    context         : { name: 'type'      , actionMethod: FilterActionCreators.changeContext },
-    full_text_search: { name: 'discipline', actionMethod: FilterActionCreators.searchFullText },
-    metro_lines     : { name: 'metros[]'  , actionMethod: FilterActionCreators.selectMetroLines },
+    context         : { name: 'type'       , actionMethod: FilterActionCreators.changeContext },
+    full_text_search: { name: 'discipline' , actionMethod: FilterActionCreators.searchFullText },
+    metro_lines     : { name: 'metros[]'   , actionMethod: FilterActionCreators.selectMetroLines },
+
+    planning_periods: { name: 'plannings[]', actionMethod: TimeActionCreators.togglePeriodsSelection }
     // page            : { name: 'page',       actionMethod: CardActionCreators.goToPage },
 };
 
@@ -54,7 +57,9 @@ var SearchPageAppRouter = Backbone.Router.extend({
     bootsrapData: function bootsrapData () {
         var url_parameters = queryString.parse(location.search);
         _.each(PARAMS_IN_SEARCH, function(value, key) {
-            value.actionMethod(url_parameters[value.name]);
+            if (url_parameters[value.name]) {
+                value.actionMethod(url_parameters[value.name]);
+            }
         });
     },
 });

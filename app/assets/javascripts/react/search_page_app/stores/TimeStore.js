@@ -7,6 +7,7 @@ var ActionTypes = SearchPageConstants.ActionTypes;
 var PERIODS = ['morning', 'noon', 'afternoon', 'evening'];
 var ONE_DAY = 60 * 60 * 24;
 
+
 // A day in the time table.
 var DayColumn = Backbone.Model.extend({
     defaults: function defaults() {
@@ -29,9 +30,9 @@ var DayColumn = Backbone.Model.extend({
     },
 
     // Select the period whose index is passed.
-    setPeriod: function setPeriod (periodIndex) {
+    setPeriod: function setPeriod (period_index) {
         periods = this.get('periods');
-        periods[periodIndex] = true;
+        periods[period_index] = true;
         this.set('periods', periods);
     },
 });
@@ -54,6 +55,9 @@ var TimeStore = Backbone.Collection.extend({
             case ActionTypes.TOGGLE_DAY_SELECTION:
                 this.toggleDaySelection(payload.data);
                 break;
+            case ActionTypes.TOGGLE_PERIODS_SELECTION:
+                this.setPeriods(payload.data);
+                break;
             case ActionTypes.TOGGLE_PERIOD_SELECTION:
                 this.togglePeriodSelection(payload.data);
                 break;
@@ -72,12 +76,31 @@ var TimeStore = Backbone.Collection.extend({
         this.trigger('change');
     },
 
-    togglePeriodSelection: function toggleDaySelection (data) {
+    /*
+     * @data [{ day: 'monday', period: 'afternoon' }]
+     */
+    setPeriods: function setPeriods (periods) {
+        _.each(periods, function(period) {
+            var day          = this.findWhere({name: period.day})
+            day.setPeriod(PERIODS.indexOf(period.period));
+
+            // Checking if every period is set to true.
+            if (_.every(day.get('periods'), _.identity)) {
+                day.set({ selected: true });
+            } else {
+                day.set({ selected: false });
+            }
+        }, this);
+
+        this.trigger('change');
+    },
+
+    togglePeriodSelection: function togglePeriodSelection (data) {
         var day         = data.day;
-        var periodIndex = data.period;
+        var period_index = data.period;
         var periods     = day.get('periods');
 
-        periods[periodIndex] = !periods[periodIndex]
+        periods[period_index] = !periods[period_index]
         day.set('periods', periods);
 
         // Checking if every period is set to true.
@@ -107,10 +130,10 @@ var TimeStore = Backbone.Collection.extend({
         filters.each(function(filter) {
             var attributes = filter.split('-');
             var day = this.findWhere({ name: attributes[0] });
-            var periodIndex = PERIODS.indexOf(attributes[1]);
+            var period_index = PERIODS.indexOf(attributes[1]);
 
-            if (day && periodIndex != -1) {
-                day.setPeriod(periodIndex);
+            if (day && period_index != -1) {
+                day.setPeriod(period_index);
             }
         }.bind(this));
 

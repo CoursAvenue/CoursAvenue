@@ -42,6 +42,7 @@ module.exports = {
 
         TOGGLE_DAY_SELECTION:        null,
         TOGGLE_PERIOD_SELECTION:     null,
+        TOGGLE_PERIODS_SELECTION:    null,
         SET_TRAINING_DATE:           null,
 
         TOGGLE_AUDIENCE:             null,

@@ -47,6 +47,7 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.UNSET_FILTER:
             case ActionTypes.TOGGLE_DAY_SELECTION:
             case ActionTypes.TOGGLE_PERIOD_SELECTION:
+            case ActionTypes.TOGGLE_PERIODS_SELECTION:
             case ActionTypes.SET_TRAINING_DATE:
             case ActionTypes.TOGGLE_AUDIENCE:
             case ActionTypes.SET_PRICE_BOUNDS:
