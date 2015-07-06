@@ -14,7 +14,8 @@
         "algoliasearch"         : "~3.4.0",
         "algoliasearch-helper"  : "~2.1.0",
         "envify"                : "~3.4.0",
-        "classnames"            : "~>2.1.2"
+        "classnames"            : "~>2.1.2",
+        "query-string"          : "~>2.3.0"
     },
     "license": "MIT",
     "engines": {

@@ -93,10 +93,25 @@ module.exports = {
         });
     },
 
-    selectMetroLine: function selectMetroLine (data) {
+    /*
+     * @metro_lines 'line-14'
+     */
+    selectMetroLine: function selectMetroLine (metro_line) {
         SearchPageDispatcher.dispatch({
             actionType: SearchPageConstants.ActionTypes.SELECT_METRO_LINE,
-            data: data
+            data: metro_line
+        });
+    },
+
+    /*
+     * @metro_lines ['line-14', 'rer-a']
+     */
+    selectMetroLines: function selectMetroLine (metro_lines) {
+        // Ensure we have an array
+        if (_.isString(metro_lines)) { metro_lines = [metro_lines]; }
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.SELECT_METRO_LINES,
+            data: metro_lines
         });
     },
 

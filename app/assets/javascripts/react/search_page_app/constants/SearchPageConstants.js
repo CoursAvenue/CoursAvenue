@@ -16,6 +16,7 @@ module.exports = {
         SELECT_SUBJECT:              null,
         SELECT_ADDRESS:              null,
         SEARCH_FULL_TEXT:            null,
+        SELECT_METRO_LINES:          null,
         SELECT_METRO_LINE:           null,
         SELECT_METRO_STOP:           null,
 

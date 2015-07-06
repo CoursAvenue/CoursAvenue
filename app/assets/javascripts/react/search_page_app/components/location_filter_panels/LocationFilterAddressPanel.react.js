@@ -26,10 +26,15 @@ var LocationFilterChoicePanel = React.createClass({
                 filter: function filter (parsedResponse) {
                     // query = query + ' France';
                     return _.map(parsedResponse.results, function (result) {
+                        // City is a component that has locality in his types
+                        var city_component = _.detect(result.address_components, function(address_component) {
+                            return (address_component.types.indexOf('locality') !== -1);
+                        });
                         return {
                             latitude : result.geometry.location.lat,
                             longitude: result.geometry.location.lng,
-                            name     : result.formatted_address
+                            name     : result.formatted_address,
+                            city     : (city_component ? city_component.long_name : 'paris')
                         };
                     });
                 }

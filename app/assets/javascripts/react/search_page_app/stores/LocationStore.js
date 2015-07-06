@@ -18,6 +18,7 @@ var LocationStore = Backbone.Model.extend({
                 this.locateUser();
                 this.set('user_location');
                 break;
+            case ActionTypes.SELECT_METRO_LINES:
             case ActionTypes.SELECT_METRO_LINE:
             case ActionTypes.SELECT_METRO_STOP:
                 this.unset('user_location');
@@ -58,7 +59,11 @@ var LocationStore = Backbone.Model.extend({
     },
 
     getCitySlug: function getCitySlug () {
-        return this.get('address').name.replace(', France','').toLowerCase().replace(/ /g,'-');
+        if (this.get('address').city) {
+            return this.get('address').city.toLowerCase().replace(/ /g,'-');
+        } else {
+            return this.get('address').name.replace(', France','').toLowerCase().replace(/ /g,'-');
+        }
     }
 
 });

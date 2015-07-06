@@ -15,6 +15,7 @@ var MapContainer           = require('./MapContainer.react'),
     SearchPageAppRouter    = require('../SearchPageAppRouter'),
     FilterStore            = require('../stores/FilterStore'),
     SubjectStore           = require('../stores/SubjectStore'),
+    CardStore              = require('../stores/CardStore'),
     LocationStore          = require('../stores/LocationStore'),
     SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants    = require('../constants/SearchPageConstants'),
@@ -31,11 +32,11 @@ SearchPageApp = React.createClass({
      */
     componentDidMount: function componentDidMount() {
         this.search_page_app_router = this.search_page_app_router || new SearchPageAppRouter();
-        LocationStore.on('change', this.search_page_app_router.updateUrl);
-        SubjectStore.on('change', this.search_page_app_router.updateUrl);
+        CardStore.on('search:done', this.search_page_app_router.updateUrl);
 
         Backbone.history.start({ pushState: true });
         this.bootsrapData();
+        this.search_page_app_router.bootsrapData();
     },
 
     // Bootstraping data

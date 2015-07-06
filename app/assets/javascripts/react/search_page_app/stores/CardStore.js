@@ -53,6 +53,7 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.TOGGLE_LEVEL:
             case ActionTypes.SELECT_METRO_STOP:
             case ActionTypes.SELECT_METRO_LINE:
+            case ActionTypes.SELECT_METRO_LINES:
                 // Make sure the Filter store has finish everything he needs to do.
                 SearchPageDispatcher.waitFor([ FilterStore.dispatchToken, TimeStore.dispatchToken,
                                                AudienceStore.dispatchToken, SubjectStore.dispatchToken,
@@ -64,12 +65,15 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.UPDATE_SORTING:
                 this.sort_by = payload.data;
                 this.fetchDataFromServer();
+                break;
             case ActionTypes.GO_TO_PAGE:
                 this.current_page = payload.data;
                 this.updateCardsShownRegardingPages();
+                break;
             case ActionTypes.GO_TO_PREVIOUS_PAGE:
                 this.current_page = this.current_page - 1;
                 this.updateCardsShownRegardingPages();
+                break;
             case ActionTypes.GO_TO_NEXT_PAGE:
                 this.current_page = this.current_page + 1;
                 this.updateCardsShownRegardingPages();
@@ -114,6 +118,7 @@ var CardCollection = Backbone.Collection.extend({
         this.current_page = 1;
         this.updateCardsShownRegardingPages();
         this.trigger('reset');
+        this.trigger('search:done');
     },
 
     searchError: function searchError (data) {
@@ -180,6 +185,11 @@ var CardCollection = Backbone.Collection.extend({
             filters.push({ title     : SubjectStore.selected_subject.name,
                            type      : 'subject',
                            filter_key: 'subject' });
+        }
+        if (SubjectStore.full_text_search) {
+            filters.push({ title     : SubjectStore.full_text_search,
+                           type      : 'subject',
+                           filter_key: 'full_text_search' });
         }
         if (LocationStore.isUserLocated()) {
             filters.push({ title     : "Autour de moi",

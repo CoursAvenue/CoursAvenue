@@ -42,6 +42,7 @@ var SubjectStore = Backbone.Collection.extend({
                 break;
             case ActionTypes.SEARCH_FULL_TEXT:
                 this.full_text_search = payload.data;
+                this.trigger('change');
                 break;
             case ActionTypes.UNSET_FILTER:
                 this.unsetFilter(payload.data);
@@ -65,6 +66,9 @@ var SubjectStore = Backbone.Collection.extend({
                 break;
             case 'subject':
                 this.selected_subject = null;
+                break;
+            case 'full_text_search':
+                this.full_text_search = null;
                 break;
         }
         this.trigger('change');

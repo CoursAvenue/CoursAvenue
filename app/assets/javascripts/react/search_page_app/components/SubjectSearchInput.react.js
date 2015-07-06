@@ -10,7 +10,7 @@ var RootSubjectItem       = require('./RootSubjectItem.react'),
 var FilterBar = React.createClass({
 
     mixins: [
-        FluxBoneMixin('filter_store')
+        FluxBoneMixin(['filter_store', 'subject_store'])
     ],
 
     getInitialState: function getInitialState() {
@@ -29,6 +29,7 @@ var FilterBar = React.createClass({
     },
 
     render: function render () {
+        var value = this.state.subject_store.full_text_search;
         return (
           <div className={cx("flexbox one-whole absolute north west bg-white",
                             { hidden: (this.state.filter_store.get('current_panel') != FilterPanelConstants.FILTER_PANELS.SUBJECTS) })}>
@@ -37,6 +38,7 @@ var FilterBar = React.createClass({
               </div>
               <div className="flexbox__item soft-half--ends one-whole">
                   <input className="input--large one-whole"
+                         value={value}
                          size="50"
                          onChange={this.searchFullText}
                          placeholder="Cherchez une activité..." />

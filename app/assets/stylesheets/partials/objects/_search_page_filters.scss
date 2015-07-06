@@ -5,6 +5,8 @@
     padding    : 0.5em 1.5em;
     margin-top: 2em;
     margin-right: 2em;
+    @extend .cursor-pointer;
+    @extend .lbl;
     @extend .absolute;
     @extend .north;
     @extend .east;
@@ -231,6 +233,7 @@
     .search-page-card__image {
         display: block;
         height : 110px;
+        width  : 100%;
         @include border-radius(2px);
     }
     .search-page-card__number{

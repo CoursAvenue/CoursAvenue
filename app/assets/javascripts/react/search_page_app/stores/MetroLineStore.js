@@ -29,6 +29,11 @@ var MetroLineStore = Backbone.Collection.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+            case ActionTypes.SELECT_METRO_LINES:
+                _.each(payload.data, function(metro_line){
+                    this.selectLine(metro_line);
+                }, this);
+                break;
             case ActionTypes.SELECT_METRO_LINE:
                 this.selectLine(payload.data);
                 break;
