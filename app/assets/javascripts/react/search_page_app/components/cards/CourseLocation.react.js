@@ -26,7 +26,7 @@ CourseDistance = React.createClass({
 
     render: function render () {
         return (
-            <div className='very-soft--top very-soft--bottom'>
+            <div className='very-soft--top very-soft--bottom text-ellipsis'>
                 <a href="javascript:void(0)"
                    className="semi-muted-link"
                    onClick={this.highlightMaker} dangerouslySetInnerHTML={{__html: this.location() }} />
