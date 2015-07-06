@@ -36,8 +36,8 @@ module.exports = {
         if (data.insideBoundingBox) {
             card_search_state.insideBoundingBox = data.insideBoundingBox.toString();
         }
-
-        if (data.aroundLatLng) {
+        // Do not search on aroundLatLng if it is not inside bounding box
+        if (data.aroundLatLng && !(data.aroundLatLng && !this.inBoundingBox(data.insideBoundingBox, data.aroundLatLng))) {
             card_search_state.aroundLatLng   = data.aroundLatLng;
             card_search_state.getRankingInfo = true;
         }
@@ -112,5 +112,16 @@ module.exports = {
             return key;
         });
         return (facets.length > 0 ? facets.join(',') : '*')
+    },
+
+    // @bounding_box string that contains north_west & south_east lat_lng
+    // @lat_lng string that contains lat & lng
+    inBoundingBox: function inBoundingBox (bounding_box, lat_lng) {
+        bounding_box   = bounding_box.split(',');
+        lat_lng        = lat_lng.split(',');
+        var north_west = [bounding_box[0], bounding_box[1]];
+        var south_east = [bounding_box[2], bounding_box[3]];
+        return (lat_lng[0] > north_west[0] && lat_lng[0] < south_east[0]
+                && lat_lng[1] > north_west[1] && lat_lng[1] < south_east[1])
     }
 }

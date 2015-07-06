@@ -145,7 +145,7 @@ var MapComponent = React.createClass({
             this.visible_marker_layer.removeLayer(marker);
         }, this);
         _.each(this.small_marker_layer.getLayers(), function(marker) {
-            this.visible_marker_layer.removeLayer(marker);
+            this.small_marker_layer.removeLayer(marker);
         }, this);
 
         this.state.card_store.map(function(card) {
