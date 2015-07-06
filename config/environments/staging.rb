@@ -128,6 +128,8 @@ CoursAvenue::Application.configure do
     # path: ":class/:attachment/:id_partition/:style/:filename"
   }
 
+  routes.default_url_options = { host: "coursaven.eu" }
+
   # ------------ Mailer configuration
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false

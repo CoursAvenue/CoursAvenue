@@ -90,6 +90,8 @@ CoursAvenue::Application.configure do
 
   config.identity_cache_store = :dalli_store
 
+  routes.default_url_options = { host: "coursavenue.com" }
+
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "#{ENV['FOG_DIRECTORY']}.s3.amazonaws.com"
   # config.action_controller.asset_host = "cdn%d.coursavenue.com"
