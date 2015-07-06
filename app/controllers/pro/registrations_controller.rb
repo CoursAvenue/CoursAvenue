@@ -26,6 +26,8 @@ class Pro::RegistrationsController < Pro::ProController
 
   def create_course
     @course_creation_form = Structure::CourseCreationForm.new(course_params)
+    @course_creation_form.set_dates_and_times(params[:structure_course_creation_form])
+
     @structure = Structure.find(course_params[:structure_id])
     @course_type = @course_creation_form.course_type.split('::').last.downcase
 
@@ -69,8 +71,13 @@ class Pro::RegistrationsController < Pro::ProController
       :place_latitude,
       :place_longitude,
 
+      :planning_week_day,
+
       course_subject_ids: [],
-      :course_prices_attributes => [:type, :amount]
+      course_prices_attributes: [:type, :amount],
+
+      audience_ids: [],
+      level_ids: [],
     )
   end
 end

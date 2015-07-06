@@ -5,6 +5,7 @@ class Structure::CourseCreationForm
   attr_reader :structure
   attr_reader :course
   attr_reader :place
+  attr_reader :planning
 
   attr_accessor :course_prices
   attr_accessor :course_prices_attributes
@@ -41,8 +42,21 @@ class Structure::CourseCreationForm
   validates :place_city_id, presence: true
 
   attribute :place_latitude, Float
-
   attribute :place_longitude, Float
+
+  attribute :level_ids, Array[Integer]
+  validates :level_ids, presence: true
+
+  attribute :audience_ids, Array[Integer]
+  validates :audience_ids, presence: true
+
+  attribute :min_age_for_kid, Integer
+  attribute :max_age_for_kid, Integer
+
+  attribute :planning_week_day, Integer
+  attribute :planning_start_time, Time
+  attribute :planning_end_time, Time
+  attribute :planning_duration, Time
 
   # "Save" the Course Creation form.
   # We don't really save the object, but persist the attributes of the object in the related Models,
@@ -51,15 +65,40 @@ class Structure::CourseCreationForm
   # @return Boolean, whether the object has been "saved".
   def save
     @structure = Structure.find(@structure_id)
-    remove_invalid_subjects!
-    sanitize_prices_attributes!
+    sanitize_attributes!
 
     valid? ? persist! : false
   end
 
+  # The audiences selected on the Form.
+  #
+  # @return Array of Audiences
+  def audiences
+    return [] if @audience_ids.nil?
+    @audience_ids.map { |id| Audience.find(id) }
+  end
+
+  def set_dates_and_times(options)
+    # Setting time
+    if options['planning_start_time(4i)'].present? and options['planning_start_time(5i)'].present?
+      @planning_start_time = TimeParser.parse_time_string(
+        "#{options['planning_start_time(4i)']}h#{options['planning_start_time(5i)']}")
+    end
+
+    if options['planning_end_time(4i)'].present? and options['planning_end_time(5i)'].present?
+      @planning_end_time = TimeParser.parse_time_string(
+        "#{options['planning_end_time(4i)']}h#{options['planning_end_time(5i)']}")
+    end
+
+    if @planning_end_time.blank? and @planning_duration.present?
+      @planning_end_time = @planning_start_time + @planning_duration.to_i.minutes
+    elsif @planning_end_time.present? and  @planning_duration.blank?
+      @planning_duration = TimeParser.duration_from @planning_start_time, @planning_end_time
+    end
+  end
+
   private
 
-  # TODO: Set errors.
   def persist!
     @course_subject_ids = @course_subject_ids.map(&:to_i)
 
@@ -86,7 +125,7 @@ class Structure::CourseCreationForm
       name: @course_name,
       subject_ids: @course_subject_ids,
       price_ids: @course_prices.map(&:id),
-      place_id: @place.id
+      place_id: @place.id,
     )
 
     if !@course.persisted?
@@ -94,23 +133,53 @@ class Structure::CourseCreationForm
       return false
     end
 
-    true
-  end
+    @planning = @course.plannings.create(
+      start_time: @planning_start_time,
+      end_time: @planning_end_time,
+      week_day: @planning_week_day,
+      duration: @planning_duration,
+      min_age_for_kid: @min_age_for_kid,
+      max_age_for_kid: @max_age_for_kid,
+      audience_ids: @audience_ids.join(','),
+      level_ids: @level_ids.join(','),
+      place_id: @place.id
+    )
 
-  # Removes the invalid subjects from the association array.
-  #
-  # @return The new array.
-  def remove_invalid_subjects!
-    @course_subject_ids.select! do |subject|
-      Subject.where(id: subject.to_i).any?
+    if !@planning.persisted?
+      errors[:planning] = @planning.errors.messages
+      return false
     end
+
+    true
   end
 
   # Sanitize the Prices Attributes, meaning that we wrap them into an array if the attributes are
   # not already in an array.
   #
   # @return the sanitize attributes
-  def sanitize_prices_attributes!
+  def sanitize_attributes!
+    remove_invalid_subjects!
+    remove_invalid_audiences!
+    remove_invalid_levels!
     @course_prices_attributes = [@course_prices_attributes].flatten.compact
+    nil
+  end
+
+  def remove_invalid_subjects!
+    @course_subject_ids.select! do |subject|
+      Subject.where(id: subject.to_i).any?
+    end
+  end
+
+  def remove_invalid_audiences!
+    @audience_ids.select! do |audience|
+      Audience.where(id: audience.to_i).any?
+    end
+  end
+
+  def remove_invalid_levels!
+    @level_ids.select! do |level|
+      Level.where(id: level.to_i).any?
+    end
   end
 end

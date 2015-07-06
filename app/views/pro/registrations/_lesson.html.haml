@@ -84,6 +84,45 @@
       = f.input :place_latitude, as: :hidden
       = f.input :place_longitude, as: :hidden
 
+  .grid.push-half--bottom
+    .grid__item.one-third.text--right.v-middle>
+      %label.label--large.required.control-label Jour
+    .grid__item.v-middle.two-thirds>
+      - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate
+      = f.input :planning_week_day, as: :select, collection: days, label: false, include_blank: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush' }
+
+  .grid.push-half--bottom
+    .grid__item.one-third.text--right.v-middle>
+      = f.label :planning_start_time, class: 'control-label label--large' do
+        %i.fa.fa-time
+        Horaires
+    .grid__item.v-middle.two-thirds>
+      = f.input :planning_start_time, as: :time, minute_step: 15, default: { year: 2000, month: 1, day: 1, hour: 8, min: 00 }, wrapper_html: { id: 'start-time-wrapper', class: 'flush input-time--large inline-block' }, label: false, input_html: { class: 'input--large' }
+      %span.label--large.v-middle.inline-block -
+      = f.input :planning_end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: { year: 2000, month: 1, day: 1, hour: 9, min: 00 }, wrapper_html: { id: 'end-time-wrapper', class: 'flush input-time--large inline-block' }, input_html: { class: 'input--large' }
+
+  .grid.push-half--bottom
+    .grid__item.one-third.text--right.v-middle>
+      %label{ for: 'structure_course_creation_form[level_ids]' }>= t('planning.levels')
+    .grid__item.v-middle.two-thirds>
+      = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: false, wrapper_html: { data: { behavior: 'checkbox-list' } }, input_html: { class: 'input--large' }
+
+  .grid.push-half--bottom
+    .grid__item.one-third.text--right.v-middle>
+      %label{ for: 'structure_course_creation_form[audience_ids]' }>= t('planning.audiences')
+    .grid__item.v-middle.two-thirds>
+      = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: false, input_html: { class: 'input--large' }
+
+  .grid.push-half--bottom#children-ages{class: f.object.audiences.include?(Audience::KID) ? '' : 'hidden'}
+    .grid__item.one-third.text--right.v-middle>
+      %label.label--large.control-label.v-middle Âge pour les enfants (optionnel)
+    .grid__item.v-middle.two-thirds>
+      %span.v-middle.label--large.inline-block de
+      = f.input :min_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.min_age_for_kid || 0}, wrapper_html: { class: 'flush v-middle inline-block' }
+      %span.v-middl.label--large.inline-block à
+      = f.input :max_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.max_age_for_kid || 18}, wrapper_html: { class: 'flush v-middle inline-block' }
+      %span.v-middle ans
+
   .text--center
     = f.submit 'Commencer avec CoursAvenue', class: 'btn--large btn btn--full btn--green one-whole', data: { disable_with: "Enregistrement en cours" }, style: 'max-width: 900px;'
 
@@ -98,4 +137,16 @@
                 $('[data-trial-price-input]').removeClass('hidden');
             }
         });
+
+      if ($('[name="structure_course_creation_form[audience_ids][]"]').length > 0) {
+          $('[name="structure_course_creation_form[audience_ids][]"]').change(function(event) {
+              if (event.target.value == '1') {
+                  if (event.target.checked) {
+                      $('#children-ages').removeClass('hidden');
+                  } else {
+                      $('#children-ages').addClass('hidden');
+                  }
+              }
+          });
+      }
     });

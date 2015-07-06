@@ -41,6 +41,10 @@ describe Structure::CourseCreationForm do
       it 'creates the course' do
         expect { subject.save }.to change { Course.count }.by(1)
       end
+
+      it 'creates the planning' do
+        expect { subject.save }.to change { Planning.count }.by(1)
+      end
     end
   end
 
@@ -48,6 +52,8 @@ describe Structure::CourseCreationForm do
     subject_ = FactoryGirl.create(:subject_children)
     price = FactoryGirl.build(:registration)
     city = FactoryGirl.create(:city)
+    level = 1
+    audience = 1
 
     {
       structure_id: structure.slug,
@@ -57,6 +63,15 @@ describe Structure::CourseCreationForm do
       course_subject_ids: [subject_.id],
       course_prices_attributes: [price.attributes.compact],
       course_frequency: Course::COURSE_FREQUENCIES.sample,
+
+      planning_start_time: Time.parse("10:00"),
+      planning_end_time: Time.parse("12:00"),
+      planning_week_day: (0..7).to_a.sample,
+      min_age_for_kid: 10,
+      max_age_for_kid: 18,
+
+      level_ids: [level],
+      audience_ids: [audience],
 
       place_name: Faker::Name.name + ' place',
       place_street: Faker::Address.street_address,

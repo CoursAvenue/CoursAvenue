@@ -90,6 +90,10 @@ describe Pro::RegistrationsController do
         expect { post :create_course, params }.to change { Course.count }.by(1)
       end
 
+      it 'creates a new planning' do
+        expect { post :create_course, params }.to change { Planning.count }.by(1)
+      end
+
       it 'redirects to the user dashboard' do
         post :create_course, params
         expect(response).
@@ -116,6 +120,8 @@ describe Pro::RegistrationsController do
   def valid_course_params(structure)
     city = FactoryGirl.create(:city)
     subject_ = FactoryGirl.create(:subject_children)
+    level = Level.all.sample.id
+    audience = Audience.all.sample.id
 
     {
       structure_id: structure.slug,
@@ -127,6 +133,15 @@ describe Pro::RegistrationsController do
       course_frequency: Course::COURSE_FREQUENCIES.sample,
       course_cant_be_joined_during_year: [true, false].sample,
       course_no_class_during_holidays: [true, false].sample,
+
+      planning_start_time: Time.parse("10:00"),
+      planning_end_time: Time.parse("12:00"),
+      planning_week_day: (0..7).to_a.sample,
+      min_age_for_kid: 10,
+      max_age_for_kid: 18,
+
+      level_ids: [level],
+      audience_ids: [audience],
 
       place_name: Faker::Name.name,
       place_street: Faker::Address.street_address,
