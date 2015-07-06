@@ -20,6 +20,9 @@ CoursAvenue::Application.configure do
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = true
+
+  routes.default_url_options = { host: "coursavenue.dev", port: 3000 }
+
   # ------------ Mailer configuration
   config.action_mailer.default_url_options = { :host => 'coursavenue.dev' }
   config.action_mailer.asset_host = 'http://coursavenue.dev'
