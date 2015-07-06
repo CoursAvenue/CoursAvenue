@@ -103,7 +103,9 @@ var MapComponent = React.createClass({
             marker.card = card;
             this.marker_layer.addLayer(marker);
         }.bind(this));
-        this.map.fitBounds(this.marker_layer.getBounds().pad(0.3));
+        if (!_.isEmpty(this.marker_layer.getBounds())) {
+            this.map.fitBounds(this.marker_layer.getBounds().pad(0.3));
+        }
     },
 
     render: function render () {
