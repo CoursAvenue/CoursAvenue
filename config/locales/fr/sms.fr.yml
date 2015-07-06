@@ -23,16 +23,16 @@ fr:
           general:
             with_address_and_phone: >
               Rappel de votre séance "%{course_name}" : demain à %{start_time} avec %{structure_name} - %{address} - %{phone_number}.
-              Très belle séance ! Pour l'annuler ou modifier, connectez-vous sur CoursAvenue ("Mes inscriptions")
+              Très belle séance ! PS : pour modifier/annuler : %{url}
             with_address: >
               Rappel de votre séance "%{course_name}" : demain à %{start_time} avec %{structure_name} - %{address}.
-              Très belle séance ! Pour l'annuler ou modifier, connectez-vous sur CoursAvenue ("Mes inscriptions")
+              Très belle séance ! PS : pour modifier/annuler : %{url}
             with_phone: >
               Rappel de votre séance "%{course_name}" : demain à %{start_time} avec %{structure_name} - %{phone_number}.
-              Très belle séance ! Pour l'annuler ou modifier, connectez-vous sur CoursAvenue ("Mes inscriptions")
+              Très belle séance ! PS : pour modifier/annuler : %{url}
             without_phone_and_address: >
               Rappel de votre séance "%{course_name}" : demain à %{start_time} avec %{structure_name}.
-              Très belle séance ! Pour l'annuler ou modifier, connectez-vous sur CoursAvenue ("Mes inscriptions")
+              Très belle séance ! PS : pour modifier/annuler : %{url}
           # SEND TO users who have registerd through white label planning page
           from_personal_website:
             with_address_and_phone: >
