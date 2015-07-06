@@ -7,18 +7,18 @@ Subject = React.createClass({
     },
 
     componentDidMount: function componentDidMount () {
-        // TODO: Fix this
-        // $(this.getDOMNode()).dotdotdot({
-        //     ellipsis: '... ',
-        //     wrap    : 'letter',
-        //     callback: function callback (isTruncated, orgContent) {
-        //         if (isTruncated) {
-        //             $(this).attr('data-toggle', 'popover')
-        //                    .attr('data-placement', 'top')
-        //                    .attr('data-content', orgContent.text());
-        //         }
-        //     }
-        // });
+        $(this.getDOMNode()).dotdotdot({
+            ellipsis : '... ',
+            wrap     : 'letter',
+            tolerance: 3,
+            callback : function callback (isTruncated, orgContent) {
+                if (isTruncated) {
+                    $(this).attr('data-toggle', 'popover')
+                             .attr('data-placement', 'top')
+                             .attr('data-content', orgContent.text());
+                }
+            }
+        });
     },
 
     getDefaultProps: function getDefaultProps () {
@@ -29,14 +29,14 @@ Subject = React.createClass({
         return { selected: this.props.selected };
     },
 
-    toggleSelection: function toggleSelection () {
+    selectSubject: function selectSubject () {
         SubjectActionCreators.selectSubject(this.props.subject);
     },
 
     render: function render () {
         return (
             <a className="search-page-card__subject"
-               onClick={ this.toggleSelection }
+               onClick={ this.selectSubject }
                href="javascript:void(0)">
                 { this.props.subject.name }
             </a>
