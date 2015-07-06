@@ -44,13 +44,21 @@ class Structure::RegistrationForm
       name: @structure_name,
       subject_ids: @structure_subjects_ids + @structure_subject_descendants_ids,
     )
-    return false if !@structure.persisted?
+
+    if !@structure.persisted?
+      errors[:structure] = @structure.errors.messages
+      return false
+    end
 
     @admin = @structure.admins.create(
       email: @admin_email,
       password: @admin_password
     )
-    return false if !@admin.persisted?
+
+    if !@admin.persisted?
+      errors[:admin] = @admin.errors.messages
+      return false
+    end
 
     @admin.send_confirmation_instructions
     @structure.delay.index
