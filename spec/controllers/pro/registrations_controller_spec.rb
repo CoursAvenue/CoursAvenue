@@ -20,7 +20,10 @@ describe Pro::RegistrationsController do
         expect { post :create, params }.to_not change { Admin.count }
       end
 
-      it 'renders the creation form'
+      it 'renders the creation form' do
+        post :create, params
+        expect(response).to render_template('new')
+      end
     end
 
     context 'when the params are valid' do
@@ -57,8 +60,6 @@ describe Pro::RegistrationsController do
   describe 'POST #create_course' do
     let!(:structure) { structure = FactoryGirl.create(:structure) }
     context 'when the params are not valid' do
-      # render_views
-
       let(:params) { { structure_course_creation_form:
                        { foo: 'bar',
                          course_type: 'Course::Lesson',
@@ -72,10 +73,10 @@ describe Pro::RegistrationsController do
         expect { post :create_course, params }.to_not change { Course.count }
       end
 
-      # it "renders the course creation form" do
-      #   post :create_course, params
-      #   expect(response).to render_template('new')
-      # end
+      it "renders the course creation form" do
+        post :create_course, params
+        expect(response).to render_template('new_course')
+      end
     end
 
     context 'when the params are valid' do
