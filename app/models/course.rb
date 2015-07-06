@@ -67,7 +67,7 @@ class Course < ActiveRecord::Base
                   :subject_ids, :level_ids, :audience_ids, :place_id,
                   :price_group_id, :on_appointment,
                   :is_open_for_trial, :has_promotion, :prices_attributes,
-                  :accepts_payment
+                  :price_ids, :accepts_payment
 
   accepts_nested_attributes_for :prices,
                                  reject_if: :reject_price,

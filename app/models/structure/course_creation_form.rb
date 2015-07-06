@@ -71,16 +71,28 @@ class Structure::CourseCreationForm
       latitude: @place_latitude,
       longitude: @place_longitude
     )
-    return false if !@place.persisted?
+
+    if !@place.persisted?
+      errors[:place] = @place.errors.messages
+      return false
+    end
+
+    @course_prices = @course_prices_attributes.map do |attributes|
+      Price.create(attributes)
+    end
 
     @course = @structure.courses.create(
       type: @course_type,
       name: @course_name,
       subject_ids: @course_subject_ids,
-      prices_attributes: @course_prices_attributes,
+      price_ids: @course_prices.map(&:id),
       place_id: @place.id
     )
-    return false if !@course.persisted?
+
+    if !@course.persisted?
+      errors[:course] = @course.errors.messages
+      return false
+    end
 
     true
   end
