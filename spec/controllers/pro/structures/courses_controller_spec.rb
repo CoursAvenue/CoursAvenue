@@ -34,6 +34,7 @@ describe Pro::Structures::CoursesController do
       patch :update_openings, { structure_id: admin.structure.slug,
                                 courses: { '0' => {
                                   id: course.id,
+                                  has_vacation: 'on',
                                   start_date_unix: start_date_unix,
                                   end_date_unix: end_date_unix
                                 }}
@@ -41,6 +42,22 @@ describe Pro::Structures::CoursesController do
 
       expect(response.status).to eq(302)
       expect(course.reload.start_date).to eq Time.at(start_date_unix).to_date
+      expect(course.end_date).to eq Time.at(end_date_unix).to_date
+    end
+
+    it 'does not have openings' do
+      start_date_unix = 1.month.ago.to_i
+      end_date_unix   = 1.month.from_now.to_i
+      patch :update_openings, { structure_id: admin.structure.slug,
+                                courses: { '0' => {
+                                  id: course.id,
+                                  start_date_unix: start_date_unix,
+                                  end_date_unix: end_date_unix
+                                }}
+                              }
+
+      expect(response.status).to eq(302)
+      expect(course.reload.start_date).to eq Date.parse('01 july 2015')
       expect(course.end_date).to eq Time.at(end_date_unix).to_date
     end
   end
