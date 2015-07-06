@@ -18,7 +18,7 @@
           %br
           = similar_profile.city.name
           %br
-          = truncate(join_parent_subjects_text(similar_profile), lenght: 100)
+          = truncate(join_parent_subjects_text(similar_profile), length: 100)
           - if show_consultation
             %br
             - if (view_count * 1.3) > similar_profile.view_count(30)
