@@ -29,7 +29,7 @@ var MapComponent = React.createClass({
     },
 
     createMap: function createMap () {
-        this.marker_layer = new L.layerGroup();
+        this.marker_layer = new L.featureGroup();
 
         this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets', { scrollWheelZoom: false })
                           .setView(this.props.center, 13)
@@ -103,6 +103,7 @@ var MapComponent = React.createClass({
             marker.card = card;
             this.marker_layer.addLayer(marker);
         }.bind(this));
+        this.map.fitBounds(this.marker_layer.getBounds().pad(0.3));
     },
 
     render: function render () {

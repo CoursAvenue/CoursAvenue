@@ -26,26 +26,17 @@ var MapComponent = React.createClass({
     },
 
     createMap: function createMap () {
-        this.marker_layer = new L.MarkerClusterGroup({
+        this.small_marker_layer = new L.MarkerClusterGroup({
             disableClusteringAtZoom: 14,
-            maxClusterRadius: 10,
-            spiderfyOnMaxZoom: true,
-            // The iconCreateFunction takes the cluster as an argument and returns
-            // an icon that represents it. We use L.mapbox.marker.icon in this
-            // example, but you could also use L.icon or L.divIcon.
-            iconCreateFunction: function iconCreateFunction (cluster) {
-                return L.mapbox.marker.icon({
-                    // show the number of markers in the cluster on the icon.
-                    'marker-symbol': cluster.getChildCount(),
-                    'marker-color': '#422'
-                });
-            }
+            maxClusterRadius: 30,
+            spiderfyOnMaxZoom: true
         });
 
-        // this.marker_layer = L.layerGroup();
+        this.visible_marker_layer = new L.featureGroup();
         this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets', { scrollWheelZoom: false })
                           .setView(this.props.center, 13)
-                          .addLayer(this.marker_layer);
+                          .addLayer(this.small_marker_layer)
+                          .addLayer(this.visible_marker_layer);
     },
 
     setEventsListeners: function setEventsListeners () {
@@ -124,11 +115,16 @@ var MapComponent = React.createClass({
         var card_id         = card.get('id');
         var card_is_hovered = card.get('hovered');
         if (card_is_hovered) {
-            _.each(this.marker_layer.getLayers(), function(marker) {
-                if (marker.card_id != card_id) { marker.setOpacity(0.3); }
+            _.each(this.visible_marker_layer.getLayers(), function(marker) {
+                if (marker.card_id != card_id) {
+                    marker.setOpacity(0.3);
+                    marker.setZIndexOffset(1000);
+                } else {
+                    marker.setZIndexOffset(10000);
+                }
             }, this);
         } else {
-            _.each(this.marker_layer.getLayers(), function(marker) {
+            _.each(this.visible_marker_layer.getLayers(), function(marker) {
                 marker.setOpacity(1);
             });
         }
@@ -136,7 +132,7 @@ var MapComponent = React.createClass({
 
     showHighlightedMarkerPopup: function showHighlightedMarkerPopup (card) {
         var card_id = card.get('id');
-        highlighted_marker = _.detect(this.marker_layer.getLayers(), function(layer) {
+        highlighted_marker = _.detect(this.visible_marker_layer.getLayers(), function(layer) {
             return layer.card_id == card_id;
         });
         this.openMarkerPopup(highlighted_marker, card)();
@@ -145,8 +141,11 @@ var MapComponent = React.createClass({
     updateMarkerLayer: function updateMarkerLayer () {
         if (this.state.card_store.loading) { return; }
 
-        _.each(this.marker_layer.getLayers(), function(marker) {
-            this.marker_layer.removeLayer(marker);
+        _.each(this.visible_marker_layer.getLayers(), function(marker) {
+            this.visible_marker_layer.removeLayer(marker);
+        }, this);
+        _.each(this.small_marker_layer.getLayers(), function(marker) {
+            this.visible_marker_layer.removeLayer(marker);
         }, this);
 
         this.state.card_store.map(function(card) {
@@ -155,7 +154,11 @@ var MapComponent = React.createClass({
                 icon: this.getIconForCard(card)
             });
             marker.card_id = card.get('id');
-            this.marker_layer.addLayer(marker);
+            if (card.get('visible')) {
+                this.visible_marker_layer.addLayer(marker);
+            } else {
+                this.small_marker_layer.addLayer(marker);
+            }
             marker.on('click', this.openMarkerPopup(marker, card));
         }.bind(this));
     },
