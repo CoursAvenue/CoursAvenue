@@ -51,11 +51,15 @@ class Structure::CourseCreationForm
   # @return Boolean, whether the object has been "saved".
   def save
     @structure = Structure.find(@structure_id)
+    remove_invalid_subjects!
+    sanitize_prices_attributes!
+
     valid? ? persist! : false
   end
 
   private
 
+  # TODO: Set errors.
   def persist!
     @course_subject_ids = @course_subject_ids.map(&:to_i)
 
@@ -77,5 +81,22 @@ class Structure::CourseCreationForm
     return false if @course.persisted?
 
     true
+  end
+
+  # Removes the invalid subjects from the association array.
+  #
+  # @return The new array.
+  def remove_invalid_subjects!
+    @course_subject_ids.select! do |subject|
+      Subject.where(id: subject.to_i).any?
+    end
+  end
+
+  # Sanitize the Prices Attributes, meaning that we wrap them into an array if the attributes are
+  # not already in an array.
+  #
+  # @return the sanitize attributes
+  def sanitize_prices_attributes!
+    @course_prices_attributes = [@course_prices_attributes].flatten
   end
 end

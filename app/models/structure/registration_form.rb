@@ -36,6 +36,7 @@ class Structure::RegistrationForm
   private
 
   # Create the Structure and the Admin.
+  # TODO: set errors.
   #
   # @return Boolean, whether the Structure and The admin have been created or not.
   def persist!
