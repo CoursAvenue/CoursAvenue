@@ -36,9 +36,13 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def update_openings
-    courses_openings.each do |index, course_param|
+    courses_openings[:courses].each do |index, course_param|
       course            = @structure.courses.find(course_param[:id])
-      course.start_date = Time.at(course_param[:start_date_unix].to_i).to_date
+      if (course_param[:has_vacation] == 'on')
+        course.start_date = Time.at(course_param[:start_date_unix].to_i).to_date
+      else
+        course.start_date = Date.parse('01 july 2015')
+      end
       course.end_date   = Time.at(course_param[:end_date_unix].to_i).to_date
       course.save
     end
@@ -110,7 +114,7 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def courses_openings
-    params.permit(courses: [:id, :start_date, :end_date, :start_date_unix, :end_date_unix])[:courses]
+    params.permit(courses: [:id, :start_date, :end_date, :start_date_unix, :end_date_unix, :has_vacation])
   end
 
   def course_attributes

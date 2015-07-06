@@ -1,21 +1,33 @@
 %h4.soft--sides.soft--top.push-half--bottom Vos cours réguliers ferment-ils l'été ?
 = form_tag update_openings_pro_structure_courses_path(@structure), { method: :patch } do
   - @courses.each_with_index do |course, index|
+    - course.start_date ||= Date.parse('31 august 2015')
+    - course.end_date ||= Date.parse('01 july 2015')
+    - has_vacation = (course.start_date > Date.today)
     %input{ type: 'hidden', name: "courses[#{index}][id]", value: course.id }
     .grid--full.very-soft.hard--sides{ class: (index % 2 == 0 ? '' : 'bg-gray-light')}
       .grid__item.one-half.v-middle.soft--left>
-        = course.name
+        %input.v-middle.text--center{ name: "courses[#{index}][has_vacation]", type: 'checkbox', checked: has_vacation, id: "courses_has_vacation_#{index}", data: { behavior: 'has_vacation'} }
+        %label.v-middle{ for: "courses_has_vacation_#{index}" }= course.name
       .grid__item.one-half.v-middle.soft--right>
         %span.v-middle Fermé du
         %input{ type: 'hidden', name: "courses[#{index}][end_date_unix]", value: course.id }
         %input{ type: 'hidden', name: "courses[#{index}][start_date_unix]", value: course.id }
-        %input.v-middle.text--center{ name: "courses[#{index}][end_date]", type: 'string', value: l(course.end_date || Date.parse('01 july 2015'), format: :semi_short).titleize, style: 'width: 100px;', data: { behavior: 'datepicker' } }
+        %input.v-middle.text--center{ disabled: (!has_vacation), name: "courses[#{index}][end_date]", type: 'string', value: l(course.end_date, format: :semi_short).titleize, style: 'width: 100px;', data: { behavior: 'datepicker' } }
         %span.v-middle au
-        %input.v-middle.text--center{ name: "courses[#{index}][start_date]", type: 'string', value: l(course.start_date || Date.parse('31 august 2015'), format: :semi_short).titleize, style: 'width: 100px;', data: { behavior: 'datepicker' } }
+        %input.v-middle.text--center{ disabled: (!has_vacation), name: "courses[#{index}][start_date]", type: 'string', value: l(course.start_date, format: :semi_short).titleize, style: 'width: 100px;', data: { behavior: 'datepicker' } }
   .soft-half
     = submit_tag 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
 
 :javascript
+    $('[data-behavior=has_vacation]').change(function() {
+        var $parent = $(this).closest('.grid--full');
+        if (this.checked) {
+            $parent.find('[data-behavior=datepicker]').prop('disabled', false);
+        } else {
+            $parent.find('[data-behavior=datepicker]').prop('disabled', true);
+        }
+    });
     $('[data-behavior=datepicker]').each(function() {
         $(this).datepicker({
             format: 'd MM',
