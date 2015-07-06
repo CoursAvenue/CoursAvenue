@@ -6,7 +6,8 @@ class Structure::CourseCreationForm
   attr_reader :course
   attr_reader :place
 
-  attr_accessor :prices_attributes
+  attr_accessor :course_prices
+  attr_accessor :course_prices_attributes
 
   attribute :structure_id, String
   validates :structure_id, presence: true
@@ -20,9 +21,6 @@ class Structure::CourseCreationForm
 
   attribute :course_subject_ids, Array[Integer]
   validates :course_subject_ids, presence: true
-
-  attribute :course_prices, Array[Price]
-  validates :course_prices, presence: true
 
   attribute :course_frequency, String
 
