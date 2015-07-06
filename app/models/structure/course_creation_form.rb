@@ -58,6 +58,9 @@ class Structure::CourseCreationForm
   attribute :planning_end_time, Time
   attribute :planning_duration, Time
 
+  attribute :planning_start_date
+  attribute :planning_end_date
+
   attribute :teaches_at_home, Boolean
   attribute :teaches_at_place, Boolean
 
