@@ -49,9 +49,12 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.TOGGLE_PERIOD_SELECTION:
             case ActionTypes.TOGGLE_PERIODS_SELECTION:
             case ActionTypes.SET_TRAINING_DATE:
+            case ActionTypes.SET_TRAINING_DATES:
             case ActionTypes.TOGGLE_AUDIENCE:
+            case ActionTypes.SET_AUDIENCES:
             case ActionTypes.SET_PRICE_BOUNDS:
             case ActionTypes.TOGGLE_LEVEL:
+            case ActionTypes.SET_LEVELS:
             case ActionTypes.SELECT_METRO_STOP:
             case ActionTypes.SELECT_METRO_LINE:
             case ActionTypes.SELECT_METRO_LINES:

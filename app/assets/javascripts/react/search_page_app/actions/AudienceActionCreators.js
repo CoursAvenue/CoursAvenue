@@ -9,4 +9,15 @@ module.exports = {
             data: data
         });
     },
+
+    /*
+     * @audiences ['kid', 'adult']
+     */
+    setAudiences: function setAudiences (audiences) {
+        if (_.isString(audiences)) { audiences = [audiences] }
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SET_AUDIENCES,
+            data: audiences
+        });
+    }
 };

@@ -59,7 +59,8 @@ var FilterBar = React.createClass({
                     <i className="fa fa-clock"></i>&nbsp;Quand
                   </div>
                   <div className={cx("grid__item one-tenth search-page-filter search-page-filter--more",
-                                    { 'bordered--top bordered--thick': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.MORE})}
+                                   { 'search-page-filter--active': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.MORE,
+                                     'search-page-filter--has-filters': this.state.card_store.hasActiveFilters('more') }) }
                        onClick={this.toggleMoreFilter}>
                     <i className="fa fa-filter"></i>
                   </div>

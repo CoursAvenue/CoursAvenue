@@ -29,6 +29,9 @@ var LevelStore = Backbone.Collection.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+            case ActionTypes.SET_LEVELS:
+                this.setLevels(payload.data);
+                break;
             case ActionTypes.TOGGLE_LEVEL:
                 this.toggleLevelSelection(payload.data);
                 break;
@@ -41,6 +44,12 @@ var LevelStore = Backbone.Collection.extend({
                 }
                 break;
         }
+    },
+
+    setLevels: function setLevels (levels) {
+        _.map(levels, function(level) {
+            this.findWhere({ id: level }).set('selected', true);
+        }, this)
     },
 
     toggleLevelSelection: function toggleLevelSelection (level) {
@@ -66,9 +75,9 @@ var LevelStore = Backbone.Collection.extend({
 });
 
 module.exports = new LevelStore([
-    { id: 'level.all',          name: 'All' },
-    { id: 'level.beginner',     name: 'Beginner' },
-    { id: 'level.intermediate', name: 'Intermediate' },
-    { id: 'level.confirmed',    name: 'Confirmed' },
-    { id: 'level.professional', name: 'Professional' }
+    { id: 'level.all',          name: 'Tous niveaux' },
+    { id: 'level.beginner',     name: 'Débutant' },
+    { id: 'level.intermediate', name: 'Intermédiaire' },
+    { id: 'level.confirmed',    name: 'Avancé' },
+    { id: 'level.professional', name: 'Professionnel' }
 ]);

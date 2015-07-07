@@ -44,10 +44,13 @@ module.exports = {
         TOGGLE_PERIOD_SELECTION:     null,
         TOGGLE_PERIODS_SELECTION:    null,
         SET_TRAINING_DATE:           null,
+        SET_TRAINING_DATES:          null,
 
         TOGGLE_AUDIENCE:             null,
+        SET_AUDIENCES:               null,
         SET_PRICE_BOUNDS:            null,
         TOGGLE_LEVEL:                null,
+        SET_LEVELS:                  null,
 
         GO_TO_PREVIOUS_PAGE:         null,
         GO_TO_NEXT_PAGE:             null,

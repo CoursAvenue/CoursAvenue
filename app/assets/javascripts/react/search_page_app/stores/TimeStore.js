@@ -42,7 +42,7 @@ var TimeStore = Backbone.Collection.extend({
 
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback', 'toggleDaySelection', 'unsetFilter',
-                        'setTrainingDates', 'trainingDates');
+                        'setTrainingDates', 'setTrainingDate', 'trainingDates');
 
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
 
@@ -52,6 +52,9 @@ var TimeStore = Backbone.Collection.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+            case ActionTypes.CHANGE_CONTEXT:
+                this.unsetFilter('time_store');
+                break;
             case ActionTypes.TOGGLE_DAY_SELECTION:
                 this.toggleDaySelection(payload.data);
                 break;
@@ -61,8 +64,11 @@ var TimeStore = Backbone.Collection.extend({
             case ActionTypes.TOGGLE_PERIOD_SELECTION:
                 this.togglePeriodSelection(payload.data);
                 break;
-            case ActionTypes.SET_TRAINING_DATE:
+            case ActionTypes.SET_TRAINING_DATES:
                 this.setTrainingDates(payload.data);
+                break;
+            case ActionTypes.SET_TRAINING_DATE:
+                this.setTrainingDate(payload.data);
                 break;
             case ActionTypes.UNSET_FILTER:
                 this.unsetFilter(payload.data);
@@ -161,7 +167,17 @@ var TimeStore = Backbone.Collection.extend({
         return filteredByPeriods || !!this.training_start_date || !!this.training_end_date;
     },
 
-    setTrainingDates: function setTrainingDates (date) {
+    setTrainingDates: function setTrainingDates (dates) {
+        debugger
+        if (date.attribute == 'start_date') {
+            this.training_start_date = date.value;
+        } else {
+            this.training_end_date = date.value + ONE_DAY;
+        }
+        this.trigger('change');
+    },
+
+    setTrainingDate: function setTrainingDate (date) {
         if (date.attribute == 'start_date') {
             this.training_start_date = date.value;
         } else {

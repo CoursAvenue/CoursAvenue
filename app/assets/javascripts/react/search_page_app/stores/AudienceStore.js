@@ -29,6 +29,9 @@ var AudienceStore = Backbone.Collection.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+            case ActionTypes.SET_AUDIENCES:
+                this.setAudiences(payload.data);
+                break;
             case ActionTypes.TOGGLE_AUDIENCE:
                 this.toggleAudienceSelection(payload.data);
                 break;
@@ -41,6 +44,12 @@ var AudienceStore = Backbone.Collection.extend({
                 }
                 break;
         }
+    },
+
+    setAudiences: function setAudiences (audiences) {
+        _.map(audiences, function(audience) {
+            this.findWhere({ id: audience }).set('selected', true);
+        }, this)
     },
 
     toggleAudienceSelection: function toggleAudienceSelection (audience) {

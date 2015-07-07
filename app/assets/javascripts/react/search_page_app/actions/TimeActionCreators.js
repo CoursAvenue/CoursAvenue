@@ -35,4 +35,11 @@ module.exports = {
             data: data
         });
     },
+
+    setTrainingDates: function setTrainingDates (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SET_TRAINING_DATES,
+            data: data
+        });
+    },
 };

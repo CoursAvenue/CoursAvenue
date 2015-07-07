@@ -1,20 +1,23 @@
-var _                    = require('underscore'),
-    queryString          = require('query-string'),
-    FilterActionCreators = require('./actions/FilterActionCreators'),
-    TimeActionCreators   = require('./actions/TimeActionCreators'),
-    CardActionCreators   = require('./actions/CardActionCreators'),
-    LocationStore        = require('./stores/LocationStore'),
-    CardStore            = require('./stores/CardStore'),
-    SubjectStore         = require('./stores/SubjectStore');
+var _                      = require('underscore'),
+    queryString            = require('query-string'),
+    FilterActionCreators   = require('./actions/FilterActionCreators'),
+    TimeActionCreators     = require('./actions/TimeActionCreators'),
+    AudienceActionCreators = require('./actions/AudienceActionCreators'),
+    LevelActionCreators    = require('./actions/LevelActionCreators'),
+    CardActionCreators     = require('./actions/CardActionCreators'),
+    LocationStore          = require('./stores/LocationStore'),
+    CardStore              = require('./stores/CardStore'),
+    SubjectStore           = require('./stores/SubjectStore');
 
 // Params that we store in URLs
 var PARAMS_IN_SEARCH = {
     context         : { name: 'type'       , actionMethod: FilterActionCreators.changeContext },
     full_text_search: { name: 'discipline' , actionMethod: FilterActionCreators.searchFullText },
     metro_lines     : { name: 'metros[]'   , actionMethod: FilterActionCreators.selectMetroLines },
-
-    planning_periods: { name: 'plannings[]', actionMethod: TimeActionCreators.togglePeriodsSelection }
-    // page            : { name: 'page',       actionMethod: CardActionCreators.goToPage },
+    planning_periods: { name: 'plannings[]', actionMethod: TimeActionCreators.togglePeriodsSelection },
+    audiences       : { name: 'public[]'   , actionMethod: AudienceActionCreators.setAudiences },
+    levels          : { name: 'niveau[]'   , actionMethod: LevelActionCreators.setLevels },
+    // training_dates  : { name: 'dates[]'    , actionMethod: TimeActionCreators.setTrainingDates }
 };
 
 var SearchPageAppRouter = Backbone.Router.extend({
@@ -27,6 +30,7 @@ var SearchPageAppRouter = Backbone.Router.extend({
 
     initialize: function initialize () {
         _.bindAll(this, 'updateUrl');
+        window.onpopstate = this.bootsrapData.bind(this);
     },
 
     updateUrl: function updateUrl () {

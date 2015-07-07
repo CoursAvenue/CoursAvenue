@@ -9,4 +9,15 @@ module.exports = {
             data: data
         });
     },
+
+    /*
+     * @levels ['kid', 'adult']
+     */
+    setLevels: function setLevels (levels) {
+        if (_.isString(levels)) { levels = [levels] }
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SET_LEVELS,
+            data: levels
+        });
+    }
 };
