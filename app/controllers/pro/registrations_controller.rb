@@ -20,7 +20,7 @@ class Pro::RegistrationsController < Pro::ProController
 
   def new_course
     @structure   = Structure.includes(:subjects).find(params[:id])
-    @course_type = params[:course_type]
+    @course_partial = params[:course_type]
     @course_creation_form = Structure::CourseCreationForm.new(structure_id: params[:id])
   end
 
@@ -29,7 +29,7 @@ class Pro::RegistrationsController < Pro::ProController
     @course_creation_form.set_dates_and_times(params[:structure_course_creation_form])
 
     @structure = Structure.find(course_params[:structure_id])
-    @course_type = @course_creation_form.course_type.split('::').last.downcase
+    @course_partial = @course_creation_form.course_type.split('::').last.downcase
 
     if @course_creation_form.save
       redirect_to waiting_for_activation_pro_admins_path({ email: @structure.email }),
