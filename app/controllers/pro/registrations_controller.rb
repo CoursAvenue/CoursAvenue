@@ -74,7 +74,7 @@ class Pro::RegistrationsController < Pro::ProController
       :planning_week_day,
 
       course_subject_ids: [],
-      course_prices_attributes: [:type, :amount],
+      course_prices_attributes: [:type, :number, :amount, :info],
 
       audience_ids: [],
       level_ids: [],
