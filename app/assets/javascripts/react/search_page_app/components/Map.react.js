@@ -81,6 +81,8 @@ var MapComponent = React.createClass({
     },
 
     moveMapToNewAddress: function moveMapToNewAddress (location) {
+        // We close currently popup if there is one
+        if (this.popup && this.popup._isOpen) { this.map.closePopup(this.popup); }
         if (!this.state.location_store.get('address')) { return; }
         this.map.setView([this.state.location_store.get('address').latitude, this.state.location_store.get('address').longitude]);
         if (this.state.location_store.isFilteredByAddress()) { this.setLocationOnMap(); }
