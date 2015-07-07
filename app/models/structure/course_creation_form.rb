@@ -6,6 +6,7 @@ class Structure::CourseCreationForm
   attr_reader :course
   attr_reader :place
   attr_reader :planning
+  attr_reader :price_group
 
   attr_accessor :course_prices
   attr_accessor :course_prices_attributes
@@ -122,15 +123,18 @@ class Structure::CourseCreationForm
       return false
     end
 
+    @price_group = @structure.price_groups.build()
+    @price_group.save(validate: false)
+
     @course_prices = @course_prices_attributes.map do |attributes|
-      Price.create(attributes)
+      @price_group.prices.create(attributes)
     end
 
     @course = @structure.courses.create(
       type: @course_type,
       name: @course_name,
       subject_ids: @course_subject_ids,
-      price_ids: @course_prices.map(&:id),
+      price_group_id: @price_group.reload.id,
       place_id: @place.id,
     )
 
