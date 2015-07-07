@@ -40,25 +40,40 @@
           .btn-group{ data: { toggle: 'buttons' } }
             %label.text--center.soft-half.one-third.btn.button{ class: (@registration_form.course_type == 'lesson' ? 'active' : '')}>
               Cours Collectif
-              %input{ type: 'radio', name: 'structure_registration_form[course_type]', value: 'lesson', checked: @registration_form.course_type == 'lesson' }
+              %input{ type: 'radio', name: 'structure_registration_form[course_type]', value: 'lesson', checked: @registration_form.course_type == 'lesson', required: true}
             %label.text--center.soft-half.one-third.btn.button{ class: (@registration_form.course_type == 'training' ? 'active' : '')}>
               Stage ou atelier
-              %input{ type: 'radio', name: 'structure_registration_form[course_type]', value: 'training', checked: @registration_form.course_type == 'training' }
+              %input{ type: 'radio', name: 'structure_registration_form[course_type]', value: 'training', checked: @registration_form.course_type == 'training', required: true }
             %label.text--center.soft-half.one-third.btn.button{ class: (@registration_form.course_type == 'private' ? 'active' : '')}>
               Cours particulier
-              %input{ type: 'radio', name: 'structure_registration_form[course_type]', value: 'private', checked: @registration_form.course_type == 'private' }
+              %input{ type: 'radio', name: 'structure_registration_form[course_type]', value: 'private', checked: @registration_form.course_type == 'private', required: true }
+          - if @registration_form.errors[:course_type].present?
+            .input
+              .control-label>
+              .input-container>
+                .red.f-weight-600.field_with_errors Vous devez renseigner un type d'activité
 
       .grid.push--bottom
         .grid__item.one-third.text--right.v-middle>
           %label.gamma.white.smooth-black-text-shadow{ for: 'structure_registration_form[admin_email]' }> E-Mail
         .grid__item.v-middle.two-thirds>
           = f.input :admin_email, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+          - if @registration_form.errors[:admin].present? and @registration_form.errors[:admin].first[:email].present?
+            .input
+              .control-label>
+              .input-container>
+                .red.f-weight-600.field_with_errors Votre E-Mail #{ @registration_form.errors[:admin].first[:email].first }
 
       .grid.push--bottom
         .grid__item.one-third.text--right.v-middle>
           %label.gamma.white.smooth-black-text-shadow{ for: 'structure_registration_form[admin_password]' }> Mot de passe
         .grid__item.v-middle.two-thirds>
           = f.input :admin_password, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+          - if @registration_form.errors[:admin].present? and @registration_form.errors[:admin].first[:password].present?
+            .input
+              .control-label>
+              .input-container>
+                .red.f-weight-600.field_with_errors Votre mot de passe #{ @registration_form.errors[:admin].first[:password].first }
 
       .grid.push--bottom
         .grid__item.one-third.text--right.v-middle>
