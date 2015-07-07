@@ -72,6 +72,8 @@ class Pro::RegistrationsController < Pro::ProController
       :place_longitude,
 
       :planning_week_day,
+      :planning_start_date,
+      :planning_end_date,
 
       course_subject_ids: [],
       course_prices_attributes: [:type, :number, :amount, :info],

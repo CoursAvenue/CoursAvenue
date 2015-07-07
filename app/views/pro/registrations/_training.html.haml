@@ -85,10 +85,9 @@
       %label.label--large.required.control-label Dates
     .grid__item.v-middle.two-thirds>
       .input.input-daterange.input-group{ data: { behavior: 'datepicker', start_date: l(Date.today) } }
-        %input.input-sm.input--large#start-date.datepicker-input{ type: 'text', value: (@course_creation_form.planning_start_date.nil? ? '' : l(@course_creation_form.planning_start_date)), placeholder: "02/08/#{Date.today.year}",
-          name: 'structure_course_creation_form[start_date]' }
+        %input.input-sm.input--large#start-date.datepicker-input{ type: 'text', value: (@course_creation_form.planning_start_date.nil? ? '' : l(@course_creation_form.planning_start_date)), placeholder: "02/08/#{Date.today.year}", name: 'structure_course_creation_form[planning_start_date]' }
         %label.label--large -
-        %input.input-sm.input--large#end-date.datepicker-input{ type: 'text', value: (@course_creation_form.planning_end_date.nil? || @course_creation_form.planning_start_date == @course_creation_form.planning_end_date ? '' : l(@course_creation_form.planning_end_date)), placeholder: "04/08/#{Date.today.year}", name: 'structure_course_creation_form[end_date]', title: 'Laisser vide si le stage se déroule sur 1 seul jour' }
+        %input.input-sm.input--large#end-date.datepicker-input{ type: 'text', value: (@course_creation_form.planning_end_date.nil? || @course_creation_form.planning_start_date == @course_creation_form.planning_end_date ? '' : l(@course_creation_form.planning_end_date)), placeholder: "04/08/#{Date.today.year}", name: 'structure_course_creation_form[planning_end_date]', title: 'Laisser vide si le stage se déroule sur 1 seul jour' }
 
   .grid.push-half--bottom
     .grid__item.one-third.text--right.v-middle>

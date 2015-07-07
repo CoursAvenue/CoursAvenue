@@ -150,6 +150,8 @@ class Structure::CourseCreationForm
       end_time: @planning_end_time,
       week_day: @planning_week_day,
       duration: @planning_duration,
+      start_date: @planning_start_date,
+      end_date: @planning_end_date,
       min_age_for_kid: @min_age_for_kid,
       max_age_for_kid: @max_age_for_kid,
       audience_ids: @audience_ids.join(','),
