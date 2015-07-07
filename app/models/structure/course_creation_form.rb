@@ -196,6 +196,7 @@ class Structure::CourseCreationForm
   #
   # @return the Array of Prices.
   def set_prices!
+    return if @course_prices_attributes.nil?
     if @course_prices_attributes.keys.include?('0')
       @course_prices_attributes = @course_prices_attributes.map { |_, v| v }
       @course_prices_attributes.reject! { |p| p["amount"].blank? or p["amount"].nil? }

@@ -59,7 +59,7 @@ describe Structure::CourseCreationForm do
       course_name: Faker::Name.name + ' course',
       course_type: ["Course::Lesson", "Course::Training", "Course::Private"].sample,
       course_subject_ids: [subject_.id],
-      course_prices_attributes: [price.attributes.compact],
+      course_prices_attributes: price.attributes.compact,
       course_frequency: Course::COURSE_FREQUENCIES.sample,
 
       planning_start_time: Time.parse("10:00"),

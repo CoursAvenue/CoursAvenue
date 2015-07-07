@@ -129,7 +129,7 @@ describe Pro::RegistrationsController do
       course_type: 'Course::Lesson',
       course_name: Faker::Name.name,
       course_subject_ids: [subject_.id],
-      course_prices_attributes: [{ type:'Price::Trial', amount: 0 }],
+      course_prices_attributes: { type:'Price::Trial', amount: 0 },
       course_frequency: Course::COURSE_FREQUENCIES.sample,
       course_cant_be_joined_during_year: [true, false].sample,
       course_no_class_during_holidays: [true, false].sample,
