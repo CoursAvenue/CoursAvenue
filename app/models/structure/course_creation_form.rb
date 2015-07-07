@@ -101,6 +101,14 @@ class Structure::CourseCreationForm
     elsif @planning_end_time.present? and  @planning_duration.blank?
       @planning_duration = TimeParser.duration_from @planning_start_time, @planning_end_time
     end
+
+    if @planning_start_date.kind_of?(String)
+      @planning_start_date = DateTime.parse(@planning_start_date)
+    end
+
+    if @planning_end_date.kind_of?(String)
+      @planning_end_date = DateTime.parse(@planning_end_date)
+    end
   end
 
   private
