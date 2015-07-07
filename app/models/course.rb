@@ -39,7 +39,8 @@ class Course < ActiveRecord::Base
   before_save :update_structure_meta_datas
   before_save :update_structure_vertical_pages_breadcrumb
 
-  after_save  :reindex_plannings unless Rails.env.test?
+  after_save   :reindex_plannings unless Rails.env.test?
+  after_save   :update_indexable_cards unless Rails.env.test?
 
   ######################################################################
   # Scopes                                                             #
@@ -399,5 +400,9 @@ class Course < ActiveRecord::Base
 
   def update_structure_meta_datas
     structure.delay.update_course_meta_datas
+  end
+
+  def update_indexable_cards
+    IndexableCard.delay.update_from_course(self)
   end
 end

@@ -30,7 +30,7 @@ class IndexableCard::Creator
 
   # Update the existing cards if still relevant, and create new ones if needed.
   #
-  # @return the card.
+  # @return the cards.
   def update_cards
     return create_cards if @structure.indexable_cards.empty?
     new_cards = []

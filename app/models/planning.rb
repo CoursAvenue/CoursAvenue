@@ -61,9 +61,11 @@ class Planning < ActiveRecord::Base
 
   before_save :set_structure_if_blank
 
-  after_save :update_structure_meta_datas
+  after_save    :update_structure_meta_datas
+  after_save    :update_indexable_cards
 
   before_destroy :destroy_indexable_cards
+  before_destroy :update_indexable_cards
 
   # before_destroy :remove_from_jobs
 
@@ -582,5 +584,9 @@ class Planning < ActiveRecord::Base
 
   def update_structure_meta_datas
     structure.delay.update_planning_meta_datas
+  end
+
+  def update_indexable_cards
+    IndexableCard.delay.update_from_course(self.course)
   end
 end

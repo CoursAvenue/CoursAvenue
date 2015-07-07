@@ -49,7 +49,7 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :end_date do
-      if plannings and (end_dates = plannings.map(&:end_date)).any?
+      if course.is_training? and plannings and (end_dates = plannings.map(&:end_date)).any?
         end_dates.max.to_time.to_i
       else
         100.years.from_now.to_time.to_i
@@ -159,6 +159,7 @@ class IndexableCard < ActiveRecord::Base
       return existing_cards
     end
 
+    course_subjects = course.subjects
     cards = course.plannings.group_by(&:place).map do |place, plannings|
       attributes = {
         structure: course.structure,
@@ -169,9 +170,36 @@ class IndexableCard < ActiveRecord::Base
       card = new(attributes)
       card.plannings = plannings
 
-      plannings.flat_map(&:subjects).uniq.compact.each do |subject|
-        card.subjects << subject
-      end
+      card.subjects = course_subjects.uniq.compact
+      card.save
+
+      card
+    end
+
+    cards
+  end
+
+  # Create cards from a Course
+  # TODO: Refactor this so we only create one card instead of several.
+  #
+  # @param course the course
+  #
+  # @return the new cards.
+  def self.update_from_course(course)
+    existing_cards = where(course: course)
+
+    course_subjects = course.subjects
+    cards = course.plannings.group_by(&:place).map do |place, plannings|
+      attributes = {
+        structure: course.structure,
+        course:    course,
+        place:     place,
+      }
+      card = existing_cards.detect{ |c| c.place == place } || new(attributes)
+
+      card.plannings = plannings
+
+      card.subjects = course_subjects.uniq.compact
       card.save
 
       card
