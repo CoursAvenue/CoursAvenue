@@ -42,6 +42,7 @@ var MetroLineStore = Backbone.Collection.extend({
                     this.unsetLine();
                 }
                 break;
+            case ActionTypes.CLEAR_ALL_THE_DATA:
             case ActionTypes.LOCATE_USER:
             case ActionTypes.SELECT_ADDRESS:
                 this.unsetLine();

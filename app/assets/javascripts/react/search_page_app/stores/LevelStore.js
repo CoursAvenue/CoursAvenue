@@ -35,15 +35,20 @@ var LevelStore = Backbone.Collection.extend({
             case ActionTypes.TOGGLE_LEVEL:
                 this.toggleLevelSelection(payload.data);
                 break;
+            case ActionTypes.CLEAR_ALL_THE_DATA:
+                this.unsetLevels();
+                break;
             case ActionTypes.UNSET_FILTER:
-                if (payload.data == 'levels') {
-                    this.map(function(level) {
-                        level.set({ selected: false }, { silent: true });
-                    });
-                    this.trigger('change');
-                }
+                if (payload.data == 'levels') { this.unsetLevels(); }
                 break;
         }
+    },
+
+    unsetLevels: function unsetLevels () {
+        this.map(function(level) {
+            level.set({ selected: false }, { silent: true });
+        });
+        this.trigger('change');
     },
 
     setLevels: function setLevels (levels) {

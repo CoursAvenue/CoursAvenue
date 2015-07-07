@@ -3,6 +3,12 @@ var SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
 
 module.exports = {
 
+    clearAllTheData: function clearAllTheData (context) {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.CLEAR_ALL_THE_DATA
+        });
+    },
+
     changeContext: function changeContext (context) {
         SearchPageDispatcher.dispatch({
             actionType: SearchPageConstants.ActionTypes.CHANGE_CONTEXT,

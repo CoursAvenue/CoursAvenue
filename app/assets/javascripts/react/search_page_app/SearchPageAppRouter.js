@@ -5,6 +5,7 @@ var _                      = require('underscore'),
     AudienceActionCreators = require('./actions/AudienceActionCreators'),
     LevelActionCreators    = require('./actions/LevelActionCreators'),
     CardActionCreators     = require('./actions/CardActionCreators'),
+    SliderActionCreators   = require('./actions/SliderActionCreators'),
     LocationStore          = require('./stores/LocationStore'),
     CardStore              = require('./stores/CardStore'),
     SubjectStore           = require('./stores/SubjectStore');
@@ -17,6 +18,7 @@ var PARAMS_IN_SEARCH = {
     planning_periods: { name: 'plannings[]', actionMethod: TimeActionCreators.togglePeriodsSelection },
     audiences       : { name: 'public[]'   , actionMethod: AudienceActionCreators.setAudiences },
     levels          : { name: 'niveau[]'   , actionMethod: LevelActionCreators.setLevels },
+    prices          : { name: 'prix[]'     , actionMethod: SliderActionCreators.setPriceBounds },
     // training_dates  : { name: 'dates[]'    , actionMethod: TimeActionCreators.setTrainingDates }
 };
 
@@ -34,18 +36,26 @@ var SearchPageAppRouter = Backbone.Router.extend({
     },
 
     updateUrl: function updateUrl () {
-        var search_params = this.buildSearchParams();
+        var new_location,
+            search_params = this.buildSearchParams();
         // /:city_id | /paris-12
         if (!SubjectStore.selected_subject && !SubjectStore.selected_root_subject && LocationStore.get('address')) {
-            this.navigate(LocationStore.getCitySlug() + search_params);
+            new_location = LocationStore.getCitySlug() + search_params;
         //  /:root_subject_id--:city_id | /danse--paris-12
         } else if (SubjectStore.selected_root_subject && SubjectStore.selected_subject && LocationStore.get('address')) {
-            this.navigate(SubjectStore.selected_root_subject.slug + '/' + SubjectStore.selected_subject.slug + '--' + LocationStore.getCitySlug() + search_params);
+            new_location = SubjectStore.selected_root_subject.slug + '/' + SubjectStore.selected_subject.slug + '--' + LocationStore.getCitySlug() + search_params;
         } else if (LocationStore.get('address') && SubjectStore.selected_root_subject) {
-            this.navigate(SubjectStore.selected_root_subject.slug + '--' + LocationStore.getCitySlug() + search_params);
+            new_location = SubjectStore.selected_root_subject.slug + '--' + LocationStore.getCitySlug() + search_params;
         }
+        // Prevent from adding the stack same url in history
+        if ((location.pathname + location.search) == ('/' + new_location)) { return; }
+        this.navigate(new_location);
     }.debounce(500),
 
+    /*
+     * From ther filters that are passed to algolia (`CardStore.algoliaFilters()`), we build a hash
+     * of values and convert them into search_params (`?foo=bar&bar=foo`)
+     */
     buildSearchParams: function buildSearchParams () {
         var algolia_filters = CardStore.algoliaFilters();
         var search_params   = {};
@@ -58,8 +68,12 @@ var SearchPageAppRouter = Backbone.Router.extend({
         return (search_params.length == 0 ? '' : '?' + search_params);
     },
 
+    /*
+     * We convert search_params (`?foo=bar&bar=foo`) into hash and we trigger actions to update stores
+     */
     bootsrapData: function bootsrapData () {
         var url_parameters = queryString.parse(location.search);
+        FilterActionCreators.clearAllTheData();
         _.each(PARAMS_IN_SEARCH, function(value, key) {
             if (url_parameters[value.name]) {
                 value.actionMethod(url_parameters[value.name]);

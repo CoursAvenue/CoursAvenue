@@ -70,6 +70,7 @@ var TimeStore = Backbone.Collection.extend({
             case ActionTypes.SET_TRAINING_DATE:
                 this.setTrainingDate(payload.data);
                 break;
+            case ActionTypes.CLEAR_ALL_THE_DATA:
             case ActionTypes.UNSET_FILTER:
                 this.unsetFilter(payload.data);
                 break;

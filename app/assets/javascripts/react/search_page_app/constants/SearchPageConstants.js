@@ -3,6 +3,7 @@ var keyMirror = require('keymirror');
 module.exports = {
 
     ActionTypes: keyMirror({
+        CLEAR_ALL_THE_DATA:          null,
         FILTERS__MAP_BOUNDS_CHANGED: null,
 
         TOGGLE_SUBJECT_FILTERS:      null,

@@ -35,15 +35,20 @@ var AudienceStore = Backbone.Collection.extend({
             case ActionTypes.TOGGLE_AUDIENCE:
                 this.toggleAudienceSelection(payload.data);
                 break;
+            case ActionTypes.CLEAR_ALL_THE_DATA:
+                this.unsetAudiences();
+                break;
             case ActionTypes.UNSET_FILTER:
-                if (payload.data == 'audiences') {
-                    this.map(function(audience) {
-                        audience.set({ selected: false }, { silent: true });
-                    });
-                    this.trigger('change');
-                }
+                if (payload.data == 'audiences') { this.unsetAudiences(); }
                 break;
         }
+    },
+
+    unsetAudiences: function unsetAudiences (audiences) {
+        this.map(function(audience) {
+            audience.set({ selected: false }, { silent: true });
+        });
+        this.trigger('change');
     },
 
     setAudiences: function setAudiences (audiences) {

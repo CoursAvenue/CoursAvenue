@@ -59,6 +59,7 @@ var MetroStopStore = Backbone.Collection.extend({
                     this.unsetStop();
                 }
                 break;
+            case ActionTypes.CLEAR_ALL_THE_DATA:
             case ActionTypes.LOCATE_USER:
             case ActionTypes.SELECT_ADDRESS:
                 this.unsetStop();

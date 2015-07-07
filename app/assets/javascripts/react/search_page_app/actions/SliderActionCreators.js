@@ -3,10 +3,13 @@ var SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     ActionTypes          = SearchPageConstants.ActionTypes;
 
 module.exports = {
-    setPriceBounds: function setPriceBounds (data) {
+    /*
+     * @bounds [min_price, max_price]
+     */
+    setPriceBounds: function setPriceBounds (bounds) {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.SET_PRICE_BOUNDS,
-            data: data
+            data: bounds
         });
     },
 };
