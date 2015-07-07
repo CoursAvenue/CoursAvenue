@@ -48,13 +48,19 @@ describe Pro::RegistrationsController do
   end
 
   describe 'GET #new_course' do
+    # render_views
+
     let(:structure) { FactoryGirl.create(:structure_with_admin) }
     it 'assigns a course creation form' do
       get :new_course, { id: structure.slug }
       expect(assigns(:course_creation_form)).to be_a(Structure::CourseCreationForm)
     end
 
-    it 'renders the right partial depending on the course type'
+    # TODO: Find why it asks to authenticate ????
+    # it 'renders the right partial depending on the course type' do
+    #   get :new_course, { id: structure.slug, course_type: 'lesson' }
+    #   expect(response).to render_template('_lesson')
+    # end
   end
 
   describe 'POST #create_course' do
