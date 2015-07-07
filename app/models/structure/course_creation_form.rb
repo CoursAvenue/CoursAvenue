@@ -167,7 +167,7 @@ class Structure::CourseCreationForm
     remove_invalid_subjects!
     remove_invalid_audiences!
     remove_invalid_levels!
-    @course_prices_attributes = [@course_prices_attributes].flatten.compact
+    set_prices!
     nil
   end
 
@@ -186,6 +186,19 @@ class Structure::CourseCreationForm
   def remove_invalid_levels!
     @level_ids.select! do |level|
       Level.where(id: level.to_i).any?
+    end
+  end
+
+  # Store the prices attributes as an Array.
+  # This allows us to manually create the Prices by just looping on the attribute array.
+  #
+  # @return the Array of Prices.
+  def set_prices!
+    if @course_prices_attributes.keys.include?('0')
+      @course_prices_attributes = @course_prices_attributes.map { |_, v| v }
+      @course_prices_attributes.reject! { |p| p["amount"].blank? or p["amount"].nil? }
+    else
+      @course_prices_attributes = [@course_prices_attributes].flatten.compact
     end
   end
 end
