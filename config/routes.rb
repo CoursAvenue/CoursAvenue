@@ -446,6 +446,8 @@ CoursAvenue::Application.routes.draw do
       get "/contacts/:importer/callback", to: "contacts#callback"
       get "/contacts/failure",            to: "contacts#failure"
 
+      resources :guides
+
     end
   end
 

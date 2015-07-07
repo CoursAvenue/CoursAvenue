@@ -1,0 +1,5 @@
+- @guides.each do |guide|
+  .flexbox.push-half--bottom.hoverable.transition-all-300.soft
+    = link_to pro_guide_path(guide), class: 'flexbox__item v-middle muted-link' do
+      %h4.push-half--bottom
+        = guide.title
