@@ -1,0 +1,15 @@
+= content_for :title do
+  Publiez vos cours gratuitement et recruter de nouveaux élèves.
+
+= render layout: 'pro/home/header_layout', locals: { hide_menu: true, bg_center: true } do
+  .main-container.soft--sides.mega-soft--ends.text--center
+    %h1.white.soft-black-text-shadow.f-size-big.relative.flush
+      L'outil tout-en-un
+      %br
+      pour votre communication sur Internet
+    %h3.line-height-1-7.white.relative
+      Commencez avec CoursAvenue
+
+.soft
+  .main-container
+    = render @course_partial
