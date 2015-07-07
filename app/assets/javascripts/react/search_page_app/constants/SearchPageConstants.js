@@ -6,6 +6,8 @@ module.exports = {
         CLEAR_ALL_THE_DATA:          null,
         FILTERS__MAP_BOUNDS_CHANGED: null,
 
+        CHANGE_CONTEXT:              null,
+
         TOGGLE_SUBJECT_FILTERS:      null,
         TOGGLE_LOCATION_FILTERS:     null,
         TOGGLE_TIME_FILTERS:         null,
@@ -45,7 +47,8 @@ module.exports = {
         TOGGLE_PERIOD_SELECTION:     null,
         TOGGLE_PERIODS_SELECTION:    null,
         SET_TRAINING_DATE:           null,
-        SET_TRAINING_DATES:          null,
+        SET_TRAINING_START_DATE:     null,
+        SET_TRAINING_END_DATE:       null,
 
         TOGGLE_AUDIENCE:             null,
         SET_AUDIENCES:               null,

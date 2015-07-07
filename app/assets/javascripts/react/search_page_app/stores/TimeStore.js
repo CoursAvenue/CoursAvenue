@@ -42,7 +42,7 @@ var TimeStore = Backbone.Collection.extend({
 
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback', 'toggleDaySelection', 'unsetFilter',
-                        'setTrainingDates', 'setTrainingDate', 'trainingDates');
+                        'setTrainingDate', 'trainingDates');
 
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
 
@@ -64,8 +64,11 @@ var TimeStore = Backbone.Collection.extend({
             case ActionTypes.TOGGLE_PERIOD_SELECTION:
                 this.togglePeriodSelection(payload.data);
                 break;
-            case ActionTypes.SET_TRAINING_DATES:
-                this.setTrainingDates(payload.data);
+            case ActionTypes.SET_TRAINING_START_DATE:
+                this.setTrainingDate({ value: payload.data, attribute: 'start_date'});
+                break;
+            case ActionTypes.SET_TRAINING_END_DATE:
+                this.setTrainingDate({ value: payload.data, attribute: 'end_date'});
                 break;
             case ActionTypes.SET_TRAINING_DATE:
                 this.setTrainingDate(payload.data);
@@ -168,14 +171,12 @@ var TimeStore = Backbone.Collection.extend({
         return filteredByPeriods || !!this.training_start_date || !!this.training_end_date;
     },
 
-    setTrainingDates: function setTrainingDates (dates) {
-        debugger
-        if (date.attribute == 'start_date') {
-            this.training_start_date = date.value;
+    getTrainingDate: function getTrainingDate (date_type) {
+        if (date_type == 'start_date') {
+            return (this.training_start_date ? new Date(this.training_start_date * 1000) : null);
         } else {
-            this.training_end_date = date.value + ONE_DAY;
+            return (this.training_end_date ? new Date((this.training_end_date - ONE_DAY) * 1000) : null);
         }
-        this.trigger('change');
     },
 
     setTrainingDate: function setTrainingDate (date) {

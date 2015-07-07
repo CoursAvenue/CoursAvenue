@@ -1,8 +1,18 @@
-var FilterActionCreators = require('../actions/FilterActionCreators');
+var FilterActionCreators  = require('../actions/FilterActionCreators'),
+    CardStore             = require("../stores/CardStore"),
+    FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
 
 var Menubar = React.createClass({
+
+    mixins: [
+        FluxBoneMixin('card_store')
+    ],
+
     getInitialState: function getInitialState () {
-        return { context: 'course' };
+        return {
+            context: 'course',
+            card_store: CardStore
+        };
     },
 
     changeContext: function changeContext (event) {
@@ -20,7 +30,7 @@ var Menubar = React.createClass({
                             <a className="coursavenue-header-logo" href="/"></a>
                         </div>
                         <div className="soft--left v-middle inline-block">
-                            <select value={ this.state.context } onChange={ this.changeContext } >
+                            <select value={ this.state.card_store.context || this.state.context } onChange={ this.changeContext } >
                                 <option value="course">Cours</option>
                                 <option value="training">Stages</option>
                             </select>

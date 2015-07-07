@@ -12,14 +12,15 @@ var _                      = require('lodash'),
 
 // Params that we store in URLs
 var PARAMS_IN_SEARCH = {
-    context         : { name: 'type'       , actionMethod: FilterActionCreators.changeContext },
-    full_text_search: { name: 'discipline' , actionMethod: FilterActionCreators.searchFullText },
-    metro_lines     : { name: 'metros[]'   , actionMethod: FilterActionCreators.selectMetroLines },
-    planning_periods: { name: 'plannings[]', actionMethod: TimeActionCreators.togglePeriodsSelection },
-    audiences       : { name: 'public[]'   , actionMethod: AudienceActionCreators.setAudiences },
-    levels          : { name: 'niveau[]'   , actionMethod: LevelActionCreators.setLevels },
-    prices          : { name: 'prix[]'     , actionMethod: SliderActionCreators.setPriceBounds },
-    // training_dates  : { name: 'dates[]'    , actionMethod: TimeActionCreators.setTrainingDates }
+    context               : { name: 'type'       , actionMethod: FilterActionCreators.changeContext },
+    full_text_search      : { name: 'discipline' , actionMethod: FilterActionCreators.searchFullText },
+    metro_lines           : { name: 'metros[]'   , actionMethod: FilterActionCreators.selectMetroLines },
+    planning_periods      : { name: 'plannings[]', actionMethod: TimeActionCreators.togglePeriodsSelection },
+    audiences             : { name: 'public[]'   , actionMethod: AudienceActionCreators.setAudiences },
+    levels                : { name: 'niveau[]'   , actionMethod: LevelActionCreators.setLevels },
+    prices                : { name: 'prix[]'     , actionMethod: SliderActionCreators.setPriceBounds },
+    'training_dates.start': { name: 'start_date' , actionMethod: TimeActionCreators.setTrainingStartDate },
+    'training_dates.end'  : { name: 'end_date'   , actionMethod: TimeActionCreators.setTrainingEndDate }
 };
 
 var SearchPageAppRouter = Backbone.Router.extend({
@@ -61,8 +62,8 @@ var SearchPageAppRouter = Backbone.Router.extend({
         var search_params   = {};
         _.each(PARAMS_IN_SEARCH, function(value, key) {
             // Skip if there is no filters
-            if (!algolia_filters[key]) { return ''; }
-            search_params[value.name] = algolia_filters[key];
+            if (!_.get(algolia_filters, key)) { return ''; }
+            search_params[value.name] = _.get(algolia_filters, key);
         });
         search_params = $.param(search_params);
         return (search_params.length == 0 ? '' : '?' + search_params);

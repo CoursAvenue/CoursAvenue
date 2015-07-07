@@ -1,6 +1,16 @@
-var TimeActionCreators = require('../../../actions/TimeActionCreators');
+var TimeActionCreators = require('../../../actions/TimeActionCreators'),
+    TimeStore          = require("../../../stores/TimeStore"),
+    FluxBoneMixin      = require("../../../../mixins/FluxBoneMixin");
 
 var TimePicker = React.createClass({
+    mixins: [
+        FluxBoneMixin('time_store')
+    ],
+
+    getInitialState: function getInitialState() {
+        return { time_store: TimeStore };
+    },
+
     propTypes: {
         label:        React.PropTypes.string.isRequired,
         attribute:    React.PropTypes.string.isRequired,
@@ -9,7 +19,7 @@ var TimePicker = React.createClass({
 
     setDate: function setDate (event) {
         if (event.date) {
-        var date = moment(event.date).unix();
+            var date = moment(event.date).unix();
         } else {
             date = null;
         }
@@ -19,8 +29,16 @@ var TimePicker = React.createClass({
         });
     },
 
+    componentDidUpdate: function componentDidUpdate () {
+        var time_store_date = this.state.time_store.getTrainingDate(this.props.attribute);
+        if (!time_store_date) { return; }
+        // Prevent from infinit loop
+        if (this.$picker.datepicker('getDate').getTime() == time_store_date.getTime()) { return; }
+        this.$picker.datepicker('setDate', time_store_date);
+    },
+
     componentDidMount: function componentDidMount () {
-        var $picker = $(this.getDOMNode()).children('input');
+        this.$picker = $(this.getDOMNode()).children('input');
         var options = {
             format: COURSAVENUE.constants.DATE_FORMAT,
             weekStart: 1,
@@ -29,8 +47,8 @@ var TimePicker = React.createClass({
             todayHighlight: true,
             startDate: new Date(),
         };
-        $picker.datepicker(options);
-        $picker.on('changeDate', this.setDate);
+        this.$picker.datepicker(options);
+        this.$picker.on('changeDate', this.setDate);
     },
 
     render: function render () {

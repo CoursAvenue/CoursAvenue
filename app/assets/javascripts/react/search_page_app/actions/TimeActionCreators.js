@@ -36,10 +36,25 @@ module.exports = {
         });
     },
 
-    setTrainingDates: function setTrainingDates (data) {
+    /*
+     * @start_date 1437688800 Date as Unix timestamp
+     */
+    setTrainingStartDate: function setTrainingStartDate (start_date) {
+        start_date = parseInt(start_date, 10); // Ensure it is an Integer
         SearchPageDispatcher.dispatch({
-            actionType: ActionTypes.SET_TRAINING_DATES,
-            data: data
+            actionType: ActionTypes.SET_TRAINING_START_DATE,
+            data: start_date
+        });
+    },
+
+    /*
+     * @end_date 1437688800 Date as Unix timestamp
+     */
+    setTrainingEndDate: function setTrainingEndDate (end_date) {
+        end_date = parseInt(end_date, 10); // Ensure it is an Integer
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SET_TRAINING_END_DATE,
+            data: end_date
         });
     },
 };
