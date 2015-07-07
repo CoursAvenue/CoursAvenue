@@ -11,11 +11,11 @@ Subject = React.createClass({
             ellipsis : '... ',
             wrap     : 'letter',
             tolerance: 3,
-            callback : function callback (isTruncated, orgContent) {
-                if (isTruncated) {
+            callback : function callback (is_truncated, original_content) {
+                if (is_truncated) {
                     $(this).attr('data-toggle', 'popover')
                              .attr('data-placement', 'top')
-                             .attr('data-content', orgContent.text());
+                             .attr('data-content', original_content.text());
                 }
             }
         });

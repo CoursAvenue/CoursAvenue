@@ -8,19 +8,19 @@ Card = React.createClass({
 
     componentDidMount: function componentDidMount () {
         // TODO: Fix this...
-        // $(this.getDOMNode()).find('.search-page-card__course-title, .search-page-card__structure-name').dotdotdot({
-        //     ellipsis : '... ',
-        //     wrap     : 'letter',
-        //     tolerance: 3,
-        //     callback : function callback (isTruncated, orgContent) {
-        //         if (isTruncated) {
-        //             $(this).attr('data-toggle', 'popover')
-        //                    .attr('data-html', 'true')
-        //                    .attr('data-placement', 'top')
-        //                    .attr('data-content', '<div class="f-weight-normal f-size-12">' + orgContent.text() + '<div>');
-        //         }
-        //     }
-        // });
+        $(this.getDOMNode()).find('.search-page-card__course-title, .search-page-card__structure-name').dotdotdot({
+            ellipsis : '... ',
+            wrap     : 'letter',
+            tolerance: 3,
+            callback : function callback (is_truncated, original_content) {
+                if (is_truncated) {
+                    $(this).attr('data-toggle', 'popover')
+                           .attr('data-html', 'true')
+                           .attr('data-placement', 'top')
+                           .attr('data-content', '<div class="f-weight-normal f-size-12">' + original_content.text() + '<div>');
+                }
+            }
+        });
     },
 
     onMouseEnter: function onMouseEnter () {
