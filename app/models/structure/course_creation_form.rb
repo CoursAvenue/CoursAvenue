@@ -139,6 +139,8 @@ class Structure::CourseCreationForm
       return false
     end
 
+    @course_prices.each { |price| price.course_id = course.id }
+
     @planning = @course.plannings.create(
       start_time: @planning_start_time,
       end_time: @planning_end_time,
