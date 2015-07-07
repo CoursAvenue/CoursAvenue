@@ -5,7 +5,7 @@
         "browserify-incremental": "~> 3.0.0",
         "react"                 : "^0.13.3",
         "flux"                  : "^2.0.3",
-        "underscore"            : "^1.7.0",
+        "lodash"                : "~>3.10.0",
         "async"                 : "^0.9.0",
         "backbone"              : "^1.1.2",
         "reactify"              : "^1.1.0",

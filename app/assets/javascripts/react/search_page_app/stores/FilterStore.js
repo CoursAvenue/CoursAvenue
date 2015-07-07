@@ -1,4 +1,4 @@
-var _                    = require('underscore'),
+var _                    = require('lodash'),
     Backbone             = require('backbone'),
     LocationStore        = require('../stores/LocationStore'),
     SubjectStore         = require('../stores/SubjectStore'),

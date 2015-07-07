@@ -1,4 +1,4 @@
-var _                    = require('underscore'),
+var _                    = require('lodash'),
     Backbone             = require('backbone'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants'),

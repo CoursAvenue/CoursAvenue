@@ -1,4 +1,4 @@
-var _                      = require('underscore'),
+var _                      = require('lodash'),
     queryString            = require('query-string'),
     FilterActionCreators   = require('./actions/FilterActionCreators'),
     TimeActionCreators     = require('./actions/TimeActionCreators'),

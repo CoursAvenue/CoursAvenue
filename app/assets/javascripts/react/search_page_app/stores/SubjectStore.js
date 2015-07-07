@@ -1,4 +1,4 @@
-var _                    = require('underscore'),
+var _                    = require('lodash'),
     Backbone             = require('backbone'),
     AlgoliaSearchUtils   = require('../utils/AlgoliaSearchUtils'),
     FilterStore          = require('./FilterStore'),
