@@ -30,19 +30,15 @@ class Structure::CourseCreationForm
 
   # Place attributes
   attribute :place_name, String
-
   attribute :place_street, String
-
   attribute :place_zip_code, String
-  validates :place_zip_code, presence: true
-
   attribute :place_city_id, Integer
-  validates :place_city_id, presence: true
-
   attribute :place_latitude, Float
   attribute :place_longitude, Float
 
-  attribute :place_radius, Integer
+  attribute :place_home_radius, Integer
+  attribute :place_home_zip_code, Integer
+  attribute :place_home_city_id, Integer
 
   attribute :level_ids, Array[Integer]
   validates :level_ids, presence: true
@@ -116,14 +112,24 @@ class Structure::CourseCreationForm
   def persist!
     @course_subject_ids = @course_subject_ids.map(&:to_i)
 
-    @place = @structure.places.create(
-      name: @place_name,
-      street: @place_street,
-      zip_code: @place_zip_code,
-      city_id: @place_city_id,
-      latitude: @place_latitude,
-      longitude: @place_longitude
-    )
+    if @teaches_at_home
+      @place = @structure.places.create(
+        type: 'Place::Home',
+        zip_code: @place_home_zip_code,
+        city_id: @place_home_city_id,
+        radius: @place_home_radius
+      )
+    else
+      @place = @structure.places.create(
+        type: 'Place::Public',
+        name: @place_name,
+        street: @place_street,
+        zip_code: @place_zip_code,
+        city_id: @place_city_id,
+        latitude: @place_latitude,
+        longitude: @place_longitude
+      )
+    end
 
     if !@place.persisted?
       errors[:place] = @place.errors.messages

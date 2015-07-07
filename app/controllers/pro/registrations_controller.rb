@@ -71,6 +71,13 @@ class Pro::RegistrationsController < Pro::ProController
       :place_latitude,
       :place_longitude,
 
+      :place_home_zip_code,
+      :place_home_city_id,
+      :place_home_radius,
+
+      :teaches_at_home,
+      :teaches_at_place,
+
       :planning_week_day,
       :planning_start_date,
       :planning_end_date,

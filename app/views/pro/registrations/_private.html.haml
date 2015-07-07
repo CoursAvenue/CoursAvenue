@@ -75,18 +75,16 @@
         %label{ for: 'structure_course_creation_form[place_zip_code]' }> Code postal et ville
       .grid__item.v-middle.two-thirds>
         - place = @course_creation_form.place.present? ? @course_creation_form.place : Place.new
-        = f.input :place_zip_code, input_html: { class: 'input--large', style: 'width: 7em;', data: { behavior: 'city-autocomplete', el: '#place_city_id' } }, label: false, wrapper_html: { class: 'flush v-middle inline-block' }
-        = f.input :place_city_id, as: :select, collection: [place.city], label: false, selected: place.city, wrapper_html: { class: 'flush v-middle inline-block' },
+        = f.input :place_home_zip_code, input_html: { class: 'input--large', style: 'width: 7em;', data: { behavior: 'city-autocomplete', el: '#place_city_id' } }, label: false, wrapper_html: { class: 'flush v-middle inline-block' }
+        = f.input :place_home_city_id, as: :select, collection: [place.city], label: false, selected: place.city, wrapper_html: { class: 'flush v-middle inline-block' },
           input_html: { class: 'input--large', id: 'place_city_id' }
-
-        = f.input :place_latitude, as: :hidden
-        = f.input :place_longitude, as: :hidden
 
     .grid.push-half--bottom
       .grid__item.one-third.text--right.v-middle>
-        = f.label :place_radius, label: 'Dans un rayon de', class: 'label--large v-middle'
+        = f.label :place_home_radius, label: 'Dans un rayon de', class: 'label--large v-middle'
       .grid__item.v-middle.two-thirds>
-        = f.input :place_radius, label: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush inline-block v-middle' }
+        = f.input :place_home_radius, label: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush inline-block v-middle' }
+        %label.label--large.inline-block.v-middle km
 
   %div{ data: { private: { place: true } }, class: (@course_creation_form.teaches_at_place ? '' : 'hidden') }
     .grid.push-half--bottom
@@ -94,7 +92,6 @@
         %label{ for: 'structure_course_creation_form[place_name]' }> Nom du lieu
       .grid__item.v-middle.two-thirds>
         = f.input :place_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
-        %span.v-middle.label--large km
 
     .grid.push-half--bottom
       .grid__item.one-third.text--right.v-middle>
