@@ -44,11 +44,11 @@ CourseInformation = React.createClass({
 
             if (next_plannings.length == 0) { return '' };
             var plannings_to_string = _.map(next_plannings, function (date) {
-                return _.capitalize(moment(new Date(date * 1000)).format('dddd DD MMMM'));
+                return _.capitalize(moment(new Date(date * 1000)).format('dddd DD MMM')); // MMM = month short
             });
             var other_dates = plannings_to_string.splice(1);
             var next_date   = plannings_to_string[0];
-            var tooltip_content = 'Autres dates : ' + other_dates.join(', ').replace(/,\s([^,]+)$/, ' et $1');
+            var tooltip_content = (other_dates.length == 0 ? '' : 'Autres dates : ' + other_dates.join(', ').replace(/,\s([^,]+)$/, ' et $1'));
             return (<div data-toggle='tooltip'
                          data-trigger="hover"
                          data-placement="top"
