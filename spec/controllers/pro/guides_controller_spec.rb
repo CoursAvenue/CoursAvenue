@@ -8,7 +8,7 @@ describe Pro::GuidesController, user_guide: true do
   let!(:admin) { FactoryGirl.create(:super_admin) }
   before { sign_in admin }
 
-  describe '#index' do
+  describe 'GET #index' do
     render_views
     it 'renders the index template' do
       get :index
@@ -38,6 +38,20 @@ describe Pro::GuidesController, user_guide: true do
         get :index
         expect(assigns(:guides)).to match_array(guides)
       end
+    end
+  end
+
+  describe 'GET #new' do
+    render_views
+
+    it 'assigns a new guide' do
+      get :new
+      expect(assigns(:guide)).to be_a_new(Guide)
+    end
+
+    it 'renders the form' do
+      get :new
+      expect(:response).to render_template(partial:'_form')
     end
   end
 end

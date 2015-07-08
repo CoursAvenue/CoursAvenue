@@ -1,0 +1,53 @@
+= simple_form_for @guide, url: pro_guides_path do |f|
+  = f.input :title, label: 'Titre', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: 'Quelle activité pour mon enfant ?' }
+  = f.input :description, label: 'Description', label_html: { class: 'label--large' }
+
+  %hr
+
+  %div{ data: { behavior: 'show-more-on-demand' } }
+    = f.simple_fields_for :questions, @guide.questions do |qf|
+      - question = qf.object
+      %div{ class: (question.persisted? ? '': 'hidden'), data: { el: true, hidden: (!question.persisted? and qf.index > 0) } }
+        = qf.input :content, label: 'Question', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: "Quel type d'activité?" }
+        = qf.input :ponderation, label: 'Ponderation'
+
+        -# %div{ data: { behavior: 'show-more-on-toggle' } }
+        -#   %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { toggle: true } }
+        -#     %i.fa-eye-o
+        -#     Réponses
+        -#   %div.hidden{ data: { content: true } }
+        -#   = qf.simple_fields_for :answers, question.answers do |af|
+        -#     - answer = af.object
+        -#     %div{ class: (!answer.persisted? ? 'hidden' : ''), data: { el: true, hidden: (!answer.persisted? and af.index > 0) } }
+        -#       = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: "Physique" }
+
+        .text--right
+          %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+            %i.fa-trash-o
+            Supprimer la question
+        %hr.push-half--ends
+
+    .push--ends
+      %a{ href: 'javascript:void(0)', data: { trigger: true } }>
+        %i.fa.fa-plus
+        Ajouter une question
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
+
+- content_for :scripts do
+  :javascript
+    $(document).ready(function() {
+    // TODO: Show more on toggle:
+    // - On toggle slide down content
+    // - Switch icon from `eye` to `eye-slash`
+
+
+
+
+    //  $('#guide_description').redactor({
+    //      buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
+    //        'link', 'alignment', 'horizontalrule', 'image'],
+    //      formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
+    //      lang: 'fr'
+    //  });
+    });
