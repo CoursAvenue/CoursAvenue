@@ -1,4 +1,6 @@
 class Guide::Question < ActiveRecord::Base
+  attr_accessible :content, :ponderation
+
   belongs_to :guide
   has_many :answers, class_name: 'Guide::Answer', foreign_key: 'guide_question_id'
 
