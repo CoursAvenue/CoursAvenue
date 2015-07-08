@@ -13,15 +13,13 @@
         = qf.input :content, label: 'Question', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: "Quel type d'activité?" }
         = qf.input :ponderation, label: 'Ponderation'
 
-        -# %div{ data: { behavior: 'show-more-on-toggle' } }
-        -#   %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { toggle: true } }
-        -#     %i.fa-eye-o
-        -#     Réponses
-        -#   %div.hidden{ data: { content: true } }
-        -#   = qf.simple_fields_for :answers, question.answers do |af|
-        -#     - answer = af.object
-        -#     %div{ class: (!answer.persisted? ? 'hidden' : ''), data: { el: true, hidden: (!answer.persisted? and af.index > 0) } }
-        -#       = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: "Physique" }
+        %div{ data: { behavior: 'show-more-on-toggle' } }
+          -# %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { toggle: true } }
+          -#   %i.fa-eye-o
+          -#   Réponses
+          %div.hidden{ data: { content: true } }
+          = qf.simple_fields_for :answers, question.answers do |af|
+            = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: "Physique" }
 
         .text--right
           %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
