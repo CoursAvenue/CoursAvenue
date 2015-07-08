@@ -94,12 +94,12 @@ fr:
       participation_requests:
         show:
           ask_more_info: Envoyer un message
+          accept: Accepter
         actions:
           discuss: Discuter
           propose_another_date: Proposer une autre date
           ask_more_info: Envoyer un message
           decline: Refuser
-          accept: Accepter
           refund: 'Annuler & Rembourser'
         table_recap:
           discuss: Discuter

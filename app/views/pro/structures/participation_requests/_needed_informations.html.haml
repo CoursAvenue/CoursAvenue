@@ -1,6 +1,6 @@
-.text--center.push--bottom
+.push--bottom
   .alert.alert--warning.soft.one-whole.delta
-    Certaines informations nécessaires au transferts des fonds lors des paiements sont manquantes :
+    Certaines informations nécessaires au transfert des fonds lors des paiements sont manquantes :
     %ul
     - @needed_informations.each do |field|
       %li #{ t('stripe.verification.' + field) }
