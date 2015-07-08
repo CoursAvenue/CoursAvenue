@@ -14,12 +14,12 @@
         = qf.input :ponderation, label: 'Ponderation'
 
         %div{ data: { behavior: 'show-more-on-toggle' } }
-          -# %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { toggle: true } }
-          -#   %i.fa-eye-o
-          -#   Réponses
+          %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { toggle: true } }
+            %i.fa-eye-o
+            Réponses
           %div.hidden{ data: { content: true } }
-          = qf.simple_fields_for :answers, question.answers do |af|
-            = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: "Physique" }
+            = qf.simple_fields_for :answers, question.answers do |af|
+              = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: "Physique" }
 
         .text--right
           %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
@@ -37,12 +37,10 @@
 - content_for :scripts do
   :javascript
     $(document).ready(function() {
-    // TODO: Show more on toggle:
-    // - On toggle slide down content
-    // - Switch icon from `eye` to `eye-slash`
-
-
-
+        $('[data-toggle]').click(function(event) {
+            event.preventDefault();
+            $(this).siblings('[data-content]').slideToggle()
+        });
 
     //  $('#guide_description').redactor({
     //      buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
