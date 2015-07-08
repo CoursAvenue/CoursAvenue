@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150708150811) do
+ActiveRecord::Schema.define(version: 20150708160427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -469,6 +469,14 @@ ActiveRecord::Schema.define(version: 20150708150811) do
 
   add_index "guide_answers", ["guide_id"], name: "index_guide_answers_on_guide_id", using: :btree
   add_index "guide_answers", ["guide_question_id"], name: "index_guide_answers_on_guide_question_id", using: :btree
+
+  create_table "guide_answers_subjects", id: false, force: true do |t|
+    t.integer "guide_answer_id"
+    t.integer "subject_id"
+  end
+
+  add_index "guide_answers_subjects", ["guide_answer_id"], name: "index_guide_answers_subjects_on_guide_answer_id", using: :btree
+  add_index "guide_answers_subjects", ["subject_id"], name: "index_guide_answers_subjects_on_subject_id", using: :btree
 
   create_table "guide_questions", force: true do |t|
     t.integer  "guide_id"
