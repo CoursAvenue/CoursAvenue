@@ -4,6 +4,7 @@ RSpec.describe Guide::Question, type: :model, user_guide: true do
   context 'validations' do
     it { should validate_presence_of(:content) }
     it { should validate_presence_of(:ponderation) }
+    it { should accept_nested_attributes_for(:questions) }
   end
 
   context 'assocations' do
