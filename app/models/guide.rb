@@ -1,4 +1,7 @@
 class Guide < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :finders]
+
   attr_accessible :title, :description, :questions_attributes
 
   has_many :questions, class_name: 'Guide::Question', dependent: :destroy
