@@ -8,5 +8,6 @@ RSpec.describe Guide::Question, type: :model, user_guide: true do
 
   context 'assocations' do
     it { should belong_to(:guide) }
+    it { should have_many(:answers).class_name('Guide::Answer') }
   end
 end
