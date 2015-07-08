@@ -7,7 +7,12 @@
       = succeed ' ' do
         = link_to '#', class: 'btn' do
           %i.fa.fa-eye
+          Voir
       = succeed ' ' do
         = link_to edit_pro_guide_path(guide), class: 'btn' do
-          Modifier
           %i.fa.fa-pencil
+          Modifier
+      = succeed ' ' do
+        = link_to pro_guide_path(guide), class: 'btn btn--red', method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce guide' } do
+          %i.fa.fa-trash
+          Supprimer
