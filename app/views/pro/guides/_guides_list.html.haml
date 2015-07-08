@@ -1,5 +1,13 @@
 - @guides.each do |guide|
   .flexbox.push-half--bottom.hoverable.transition-all-300.soft
-    = link_to pro_guide_path(guide), class: 'flexbox__item v-middle muted-link' do
+    = link_to edit_pro_guide_path(guide), class: 'flexbox__item v-middle muted-link' do
       %h4.push-half--bottom
         = guide.title
+    .flexbox__item.v-middle.text--right
+      = succeed ' ' do
+        = link_to '#', class: 'btn' do
+          %i.fa.fa-eye
+      = succeed ' ' do
+        = link_to edit_pro_guide_path(guide), class: 'btn' do
+          Modifier
+          %i.fa.fa-pencil
