@@ -61,7 +61,8 @@ class Pro::GuidesController < Pro::ProController
     params.require(:guide).permit(
       :title,
       :description,
-      :questions_attributes => [:content, :ponderation, :answers_attributes => [:content] ]
+      :questions_attributes => [:id, :content, :ponderation,
+                                :answers_attributes => [:id, :content]]
     )
   end
 end
