@@ -9,8 +9,6 @@ RSpec.describe Ratp::Stop, type: :model do
 
   context 'association' do
     # TODO: Find why this fails when it shouldn't.
-    # it { should have_and_belong_to_many(:lines).class_name('Ratp::Line') }
+    it { should have_many(:lines).class_name('Ratp::Line').through(:positions) }
   end
-
-  subject { FactoryGirl.create(:ratp_stop) }
 end
