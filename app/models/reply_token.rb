@@ -53,4 +53,11 @@ class ReplyToken < ActiveRecord::Base
     self.save
   end
 
+  # The email address associated with this ReplyToken
+  #
+  # @return string
+  def email_address
+    "CoursAvenue <#{token}@#{CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN}>"
+  end
+
 end
