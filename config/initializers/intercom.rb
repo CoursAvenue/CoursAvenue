@@ -49,7 +49,7 @@ IntercomRails.config do |config|
     :slug                      => Proc.new { |user| ((s = user.structure) ? s.slug : nil) },
     :name                      => Proc.new { |user| ((s = user.structure) ? s.name : user.name) },
     'nb avis'                  => Proc.new { |user| ((s = user.structure) ? s.comments_count : user.try(:comments).try(:count)) },
-    'Villes'                   => Proc.new { |user| ((s = user.structure) ? s.places.map(&:city).map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
+    'Villes'                   => Proc.new { |user| ((s = user.structure) ? s.places.includes(:city).map(&:city).map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
     'A confirmé son compte'    => Proc.new { |user| user.confirmed? },
     # Truncate string at 250 chars because we can't pass more than 255 chars
     'Disciplines_1'            => Proc.new { |user| ((s = user.structure) ? s.subjects.at_depth(0).uniq.map(&:name).join(', ').gsub(/^(.{250,}?).*$/m,'\1...') : nil) },
