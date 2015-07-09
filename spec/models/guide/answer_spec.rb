@@ -10,4 +10,8 @@ RSpec.describe Guide::Answer, type: :model, user_guide: true do
     it { should have_one(:guide).through(:question) }
     it { should have_and_belong_to_many(:subjects) }
   end
+
+  context 'delegations' do
+    it { should delegate_method(:ponderation).to(:question).allow_nil(true) }
+  end
 end

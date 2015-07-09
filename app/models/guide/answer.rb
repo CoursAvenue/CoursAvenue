@@ -7,4 +7,6 @@ class Guide::Answer < ActiveRecord::Base
   has_and_belongs_to_many :subjects, foreign_key: 'guide_answer_id'
 
   validates :content, presence: true
+
+  delegate :ponderation, to: :question, allow_nil: true
 end
