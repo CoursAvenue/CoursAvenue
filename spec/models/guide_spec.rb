@@ -4,6 +4,7 @@ RSpec.describe Guide, type: :model, user_guide: true do
   context 'validations' do
     it { should validate_presence_of(:title) }
     it { should validate_presence_of(:description) }
+    it { should validate_presence_of(:call_to_action) }
     it { should accept_nested_attributes_for(:questions) }
   end
 

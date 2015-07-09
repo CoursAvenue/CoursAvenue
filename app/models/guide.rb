@@ -2,13 +2,14 @@ class Guide < ActiveRecord::Base
   extend FriendlyId
   friendly_id :title, use: [:slugged, :finders]
 
-  attr_accessible :title, :description, :questions_attributes
+  attr_accessible :title, :description, :questions_attributes, :call_to_action
 
   has_many :questions, class_name: 'Guide::Question', dependent: :destroy
   has_many :answers,   class_name: 'Guide::Answer', through: :questions
 
-  validates :title,       presence: true
-  validates :description, presence: true
+  validates :title,          presence: true
+  validates :description,    presence: true
+  validates :call_to_action, presence: true
 
   accepts_nested_attributes_for :questions,
                                 reject_if: :reject_question,
