@@ -7,17 +7,23 @@
 %table.table--striped
   %thead
     %tr
-      %th.six-twelfths Message
+      %th Date
+      %th.five-twelfths Message
       %th.two-twelfths Numéro
       %th.two-twelfths Type
       %th.two-twelfths Nom
   %tbody
     - @sms_loggers.each do |sms_logger|
       %tr
-        %td= sms_logger.text
-        %td= sms_logger.number
+        %td= l(sms_logger.created_at.to_date)
+        %td= sms_logger.text.html_safe
+        %td= PhoneNumberDecorator.new(PhoneNumber.new(number: sms_logger.number)).formatted_number
         %td= sms_logger.sender_type
-        %td= sms_logger.sender.name
+        %td
+          - if sms_logger.sender.is_a? Structure
+            = link_to sms_logger.sender.name, pro_structure_participation_requests_path(sms_logger.sender)
+          - else
+            = link_to sms_logger.sender.name, user_participation_requests_url(sms_logger.sender, subdomain: 'www')
 
 .text--center.push-half--ends= paginate @sms_loggers, window: 1, outer_window: 3
 
