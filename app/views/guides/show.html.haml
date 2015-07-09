@@ -1,0 +1,9 @@
+= react_component('UserGuideApp', { guide: @guide })
+
+= content_for :scripts do
+  :javascript
+    window.coursavenue = window.coursavenue || {};
+    window.coursavenue.bootstrap = {
+        id: #{ @guide.id },
+        models: #{ @guide.to_json },
+    }

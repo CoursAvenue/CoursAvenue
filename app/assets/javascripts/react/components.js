@@ -2,3 +2,4 @@
 SearchPageApp  = require('./search_page_app/components/SearchPageApp.react');
 CardPageMap    = require('./card_page/components/Map.react');
 CardPageCourse = require('./card_page/components/Course.react');
+UserGuideApp   = require('./user_guide/components/UserGuide.react');
