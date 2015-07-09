@@ -413,6 +413,7 @@ CoursAvenue::Application.routes.draw do
             patch :modify_date
             patch :cancel
             patch :report
+            get   :show_user_contacts
           end
           collection do
             get :paid_requests, path: 'transactions-cb'

@@ -21,8 +21,6 @@
               Envoyez votre message ci-dessous :
             - else
               Envoyez votre message de demande d'information.
-              - if on_pro_subdomain?
-                Vous devrez ensuite accepter ou refuser cette réservation le plus tôt possible pour éviter les pénalités.
           = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
             = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
       - else

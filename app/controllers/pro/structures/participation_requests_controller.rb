@@ -38,6 +38,15 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @user                  = @participation_request.user
   end
 
+  # GET pro/etablissements/:structure_id/participation_request/:id/show_user_contact
+  def show_user_contacts
+    @participation_request = @structure.participation_requests.find(params[:id])
+    @participation_request.treat! if @participation_request.pending?
+    @user                  = @participation_request.user
+    @user_decorator        = @user.decorate
+    render layout: false
+  end
+
   # GET pro/etablissements/:structure_id/participation_request/:id/cancel_form
   def cancel_form
     @participation_request = @structure.participation_requests.find(params[:id])
@@ -53,6 +62,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   # PUT pro/etablissements/:structure_id/participation_request/:id/accept
   def accept
     @participation_request = @structure.participation_requests.find(params[:id])
+    @participation_request.update_attributes participation_request_attributes
     message_body = params[:participation_request][:message][:body] if params[:participation_request] and params[:participation_request][:message]
     @participation_request.accept!(message_body, 'Structure')
     respond_to do |format|
@@ -124,5 +134,9 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
       fields.delete('legal_entity.dob.year')
       fields << 'dob'
     end
+  end
+
+  def participation_request_attributes
+    params.require(:participation_request).permit(:date, :start_time, :end_time)
   end
 end

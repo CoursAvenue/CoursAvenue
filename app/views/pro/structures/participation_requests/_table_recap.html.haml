@@ -15,9 +15,16 @@
               - if @participation_request.charged? and !@participation_request.refunded?
                 = link_to t('.refund'), cancel_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
+    %tr.bordered--bottom
+      %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Cours et date
+      %td.v-middle.soft--sides.one-whole
+        - course = participation_request.course
+        %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
+          = course.name
+        = "le #{participation_request_decorator.day_and_hour(false)}"
 
     %tr.bordered--bottom
-      %th.v-middle.soft--sides.bordered--right.one-third Demande d'inscription
+      %th.v-middle.soft--sides.bordered--right.one-third= "Participant".pluralize(@participation_request.nb_participants)
       %td.v-middle.text--left.soft--sides.palm-soft-half--ends
         = participation_request_decorator.details
         - if participation_request.refunded?
@@ -26,32 +33,22 @@
         - elsif participation_request.charged?
           %strong.green
             %i= '— Payé'
-    %tr.bordered--bottom
-      %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Cours
-      %td.v-middle.soft--sides.one-whole
-        - course = participation_request.course
-        %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }= course.name
-
-    %tr.bordered--bottom
-      %th.v-middle.soft--sides.bordered--right.one-third.nowrap Jour et heure
-      %td.v-middle.soft--sides.one-whole
-        = participation_request_decorator.day_and_hour.capitalize
 
     - if participation_request.place
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Lieu
         %td.v-middle.soft--sides.one-whole
           = "#{participation_request.place.name}, #{participation_request.place.address}"
-      - if participation_request.place.info.present?
+      - if participation_request.place.info.present? or participation_request.place.private_info.present?
         %tr.bordered--bottom
-          %th.v-middle.soft--sides.bordered--right.one-third.nowrap Infos publiques
+          %th.v-middle.soft--sides.bordered--right.one-third.nowrap Infos
           %td.v-middle.soft--sides.one-whole
-            = participation_request.place.info
-      - if participation_request.place.private_info.present?
-        %tr.bordered--bottom
-          %th.v-middle.soft--sides.bordered--right.one-third.nowrap Infos privées
-          %td.v-middle.soft--sides.one-whole
-            = participation_request.place.private_info
+            - if participation_request.place.info.present?
+              = participation_request.place.info
+            - if participation_request.place.info.present? or participation_request.place.private_info.present?
+              %br
+            - if participation_request.place.private_info.present?
+              = participation_request.place.private_info
     - elsif participation_request.at_student_home?
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Lieu

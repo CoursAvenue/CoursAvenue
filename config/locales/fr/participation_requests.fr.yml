@@ -49,31 +49,22 @@ fr:
         view: Voir la demande
     state:
       accepted: Acceptée
+      treated: Traitée
       expired: Expirée
       pending: En attente
       canceled: Annulée
       to_structure:
-        last_modified_by_structure:
-          long_description:
-            accepted: Confirmée
-            pending: En attente de confirmation par l'élève
-            canceled: Annulée
-        last_modified_by_user:
-          long_description:
-            accepted: Confirmée par l'élève
-            pending: En attente de confirmation de votre part
-            canceled: Annulée par l'élève
+        long_description:
+          accepted: Confirmée
+          treated: Inscription traitée
+          pending: En attente de confirmation
+          canceled: Annulée
       to_user:
-        last_modified_by_structure:
-          long_description:
-            accepted: Inscription confirmée par le professeur
-            pending: En attente de confirmation de votre part
-            canceled: Annulée par le professeur
-        last_modified_by_user:
-          long_description:
-            accepted: Confirmée
-            pending: En attente de confirmation par le professeur
-            canceled: Annulée
+        long_description:
+          accepted: Inscription confirmée
+          treated: En attente de confirmation
+          pending: En attente de confirmation
+          canceled: Annulée
   # Views
   users:
     participation_requests:
@@ -84,6 +75,7 @@ fr:
       table_recap:
         see_on_map: Voir sur la carte
         propose_another_date: Choisir une autre date
+        modify: Modifier
         propose_another_course: Choisir un autre cours
         decline: Annuler l'inscription
         accept: Accepter
@@ -99,12 +91,12 @@ fr:
           discuss: Discuter
           propose_another_date: Proposer une autre date
           ask_more_info: Envoyer un message
-          decline: Refuser
+          decline: Annuler
           refund: 'Annuler & Rembourser'
         table_recap:
           discuss: Discuter
           propose_another_date: Proposer une autre date
           decline: Refuser
-          accept: Accepter
+          accept: Annuler l'inscription
           refund: 'Annuler & Rembourser'
           see_on_map: Voir sur la carte

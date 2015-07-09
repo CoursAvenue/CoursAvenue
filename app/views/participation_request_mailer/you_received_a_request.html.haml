@@ -16,10 +16,7 @@
   - if @participation_request.place
     au #{@participation_request.place.address} (#{@participation_request.place.name}).
   Connectez-vous à votre profil
-  - if @participation_request.date <= 2.days.from_now
-    %strong= "avant le #{I18n.l(@participation_request.date, format: :semi_short)}"
-  - else
-    %strong= "avant le #{I18n.l(2.days.from_now.to_date, format: :semi_short)} #{I18n.l(Time.now, format: :short)}"
+  %strong= "avant le #{I18n.l(@participation_request.date, format: :semi_short)}"
   pour répondre à sa demande :
 
 .p.action

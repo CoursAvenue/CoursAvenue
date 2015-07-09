@@ -14,7 +14,7 @@ class ParticipationRequestDecorator < Draper::Decorator
 
   # Accepté|En attente|Annulé
   def long_status_name(resource_name="Structure")
-    I18n.t("participation_request.state.to_#{resource_name.downcase}.last_modified_by_#{participation_request.last_modified_by.downcase}.long_description.#{participation_request.state}")
+    I18n.t("participation_request.state.to_#{resource_name.downcase}.long_description.#{participation_request.state}")
   end
 
   # <strong class="red">Annulé</strong>
@@ -68,7 +68,7 @@ class ParticipationRequestDecorator < Draper::Decorator
     elsif object.canceled?
       I18n.t('participation_request.pro.action_button_text.view')
     else
-      I18n.t('participation_request.pro.action_button_text.modify_cancel')
+      I18n.t('participation_request.pro.action_button_text.view')
     end
   end
 
@@ -107,8 +107,8 @@ class ParticipationRequestDecorator < Draper::Decorator
   # 28 janvier de 11h00 à 12h30
   # OR
   # 28 janvier à 11h00 if it does not have planning (on appointment)
-  def day_and_hour
-    if object.course.is_private? and object.course.on_appointment?
+  def day_and_hour(with_end_time=true)
+    if (object.course.is_private? and object.course.on_appointment?) or !with_end_time
       "#{I18n.l(object.date, format: :semi_long)} à #{I18n.l(object.start_time, format: :short).gsub('00', '')}"
     else
       "#{I18n.l(object.date, format: :semi_long)} de #{I18n.l(object.start_time, format: :short).gsub('00', '')} à #{I18n.l(object.end_time, format: :short).gsub('00', '')}"
@@ -124,10 +124,13 @@ class ParticipationRequestDecorator < Draper::Decorator
     if object.participants.any?
       _details = h.pluralize(object.participants.map(&:number).reduce(&:+), 'participant') + ', '
       _details << "#{readable_amount object.participants.map(&:total_price).reduce(&:+)}"
-      price_details = object.participants.map.each_with_index do |participant, index|
-        "#{participant.number} x #{participant.price.decorate.details.downcase}" if participant.price
-      end.join(', ')
-      _details << " (#{price_details})"
+      # Only show price details if there is more than one participant
+      if object.participants.map(&:number).reduce(&:+) > 1
+        price_details = object.participants.map.each_with_index do |participant, index|
+          "#{participant.number} x #{participant.price.decorate.details.downcase}" if participant.price
+        end.join(', ')
+        _details << " (#{price_details})"
+      end
     else
       _details = object.course.decorate.first_session_detail
     end

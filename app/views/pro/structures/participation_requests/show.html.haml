@@ -6,7 +6,29 @@
 - user           = @participation_request.user
 - user_decorator = user.decorate
 - first_message = @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?).first
-%h3.palm-text--center Demande d'inscription de #{@user.name}
+
+.green-box.soft.white.epsilon.push--bottom#pr-confirmation-form{ class: (@participation_request.treated? ? '' : 'hidden') }
+  %h3.flush Valider la présence de #{@user.name}
+  .epsilon.line-height-1-7
+    %strong - Nous nous assurerons qu'il assiste au cours (un SMS de rappel sera envoyé)
+  .epsilon.line-height-1-7
+    %strong - Nous lui demanderons une recommandation après le cours
+  = simple_form_for [:pro, @structure, @participation_request], url: accept_pro_structure_participation_request_path(@participation_request.structure, @participation_request) do |f|
+    .fields-to-hide.delta.push-half--top
+      %strong
+        = "#{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}"
+      %a.push-half--sides.white.f-weight-500{ href: 'javascript:void(0);', onclick: '$(".hidden-form-fields").show(); $(".fields-to-hide").hide();' } Modifier
+      = f.submit 'Valider', class: 'nowrap btn btn--small', data: { disable_with: 'Envoi en cours...' }
+    .hidden-form-fields.hidden
+      %strong.v-middle Le
+      = f.input :date, label: false, wrapper_html: { class: 'inline-block v-middle', style: 'width: 100px;' }, as: :string, input_html: { value: l(@participation_request.date), class: 'one-whole', data: { behavior: 'datepicker', 'start-date' => l(Date.today) } }
+      %strong.v-middle de
+      = f.input :start_time, label: false, wrapper_html: { class: 'inline-block v-middle' }, minute_step: 15
+      %strong.v-middle à
+      = f.input :end_time, label: false, wrapper_html: { class: 'inline-block v-middle' }, minute_step: 15
+      = f.submit 'Valider', class: 'nowrap btn btn--small', data: { disable_with: 'Envoi en cours...' }
+
+%h1.palm-text--center Demande d'inscription de #{@user.name}
 .grid--full.push--bottom.message
   .grid__item.palm-one-whole.palm-block.palm-text--center.two-twelfths.v-top.v-top>
     - if user.has_avatar?
@@ -27,28 +49,17 @@
       %hr.push-half--ends
       = simple_format first_message.body
 
-    -# - if user.phone_number.present?
-    -#   %div.line-height-1-7
-    -#     Téléphone :
-    -#     %span{ class: (@participation_request.show_personnal_info? ? '' : 'has-tooltip' ), data: { toggle: (@participation_request.show_personnal_info? ? '' : 'popover'), content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
-    -#       = user_decorator.phone_number(!@participation_request.show_personnal_info?)
-    -# %div.line-height-1-7
-    -#   Email :
-    -#   %span{ class: (@participation_request.show_personnal_info? ? '' : 'has-tooltip' ), data: { toggle: (@participation_request.show_personnal_info? ? '' : 'popover'), content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
-    -#     = user_decorator.email(!@participation_request.show_personnal_info?)
-
 .flexbox.push--bottom
-  .flexbox__item.five-twelfths.v-middle.nowrap>
-    %h3.flush Répondez-lui au plus vite :
+  .flexbox__item.palm-block.palm-push--bottom.palm-one-whole.five-twelfths.v-middle.nowrap>
+    %h3.flush.palm-text--center Répondez-lui au plus vite :
   - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and !@participation_request.past?
-    .flexbox__item.two-twelfths.v-middle>
+    .flexbox__item.palm-block.palm-push--bottom.palm-one-whole.two-twelfths.v-middle>
       = link_to accept_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--full nowrap palm-flush push-half--right soft--sides btn--green btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
         = t('.accept')
-  .flexbox__item.two-twelfths.v-middle.soft-half--left>
-    .btn.btn--full.nowrap Envoyer un message
-  .flexbox__item.three-twelfths.v-middle.soft-half--left>
-    .btn.btn--full.nowrap Voir ses coordonnées
-
+  .flexbox__item.palm-block.palm-push--bottom.palm-one-whole.two-twelfths.v-middle.soft-half--left>
+    = link_to 'Envoyer un message', edit_pro_structure_participation_request_path(@structure, @participation_request, discuss_only: true), class: 'btn btn--full nowrap fancybox.ajax', data: { behavior: 'modal', padding: 0, width: 500, 'show-pr-acceptation-form' => true }
+  .flexbox__item.palm-block.palm-push--bottom.palm-one-whole.three-twelfths.v-middle.soft-half--left>
+    = link_to 'Voir ses coordonnées', show_user_contacts_pro_structure_participation_request_path(@structure, @participation_request), class: 'btn btn--full nowrap fancybox.ajax', data: { behavior: 'modal', padding: 0, 'show-pr-acceptation-form' => true }
 
 -# Because this page can be accesed throught bitly as non connected user.
 - if current_pro_admin
@@ -64,28 +75,29 @@
             %i.fa-clock-o.epsilon
             %strong.epsilon Expire dans
             %strong.epsilon{ data: { 'expires-in' => true } }
-- else
-  %h1.palm-text--center Demande d'inscription de #{@user.name}
 .push--bottom
   = render partial: 'pro/structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
-- if !@participation_request.pending?
+- if @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?).count > 1
+  %h3 Discussion avec #{@user.name}
   = render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation }
-- if @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?).length > 1
   = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
 
 = content_for :scripts do
   :javascript
     $(function() {
-      var date            = Date.parse("#{l(local_time(@participation_request.created_at + 48.hours), format: :js )}");
-      var $countdown_div = $('[data-expires-in]');
-      countdown(date,
-          function(ts) {
-              var hours   = ("0" + ts.hours).slice(-2);
-              var minutes = ("0" + ts.minutes).slice(-2);
-              var seconds = ("0" + ts.seconds).slice(-2);
-              $countdown_div.text((ts.days > 0 ? ts.days + ' jour et ' : '') + hours + ':' + minutes + ':' + seconds);
-          },
-          countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
-    });
+        var date            = Date.parse("#{l(local_time(@participation_request.created_at + 48.hours), format: :js )}");
+        var $countdown_div = $('[data-expires-in]');
+        countdown(date,
+            function(ts) {
+                var hours   = ("0" + ts.hours).slice(-2);
+                var minutes = ("0" + ts.minutes).slice(-2);
+                var seconds = ("0" + ts.seconds).slice(-2);
+                $countdown_div.text((ts.days > 0 ? ts.days + ' jour et ' : '') + hours + ':' + minutes + ':' + seconds);
+            },
+            countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
 
+        $('[data-show-pr-acceptation-form]').click(function() {
+            $('#pr-confirmation-form').slideDown();
+        });
+    });
