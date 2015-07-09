@@ -15,7 +15,7 @@
   = @comment.content
 
 .p.action
-  = link_to "Répondre à l'élève", pro_structure_comments_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
+  = link_to "Répondre à l'élève", pro_structure_comments_url(@structure, subdomain: 'pro', comment: @comment.id), class: 'btn btn--green'
 
 = render 'shared/mailers/footer'
 

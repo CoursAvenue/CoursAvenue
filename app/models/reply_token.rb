@@ -5,7 +5,7 @@ class ReplyToken < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  REPLY_TYPES = %w(participation_request conversation)
+  REPLY_TYPES = %w(participation_request conversation comment)
 
   ######################################################################
   # Macros                                                             #
@@ -51,6 +51,13 @@ class ReplyToken < ActiveRecord::Base
   def use!
     self.used = true
     self.save
+  end
+
+  # The email address associated with this ReplyToken
+  #
+  # @return string
+  def email_address
+    "CoursAvenue <#{token}@#{CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN}>"
   end
 
 end
