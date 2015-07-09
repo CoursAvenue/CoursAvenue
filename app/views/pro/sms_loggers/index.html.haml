@@ -1,0 +1,23 @@
+= side_menu_currently_at 'activity'
+
+= render partial: 'pro/shared/activity_tabs', locals: { current: 'sms' }
+
+.text--center.push-half--ends= paginate @sms_loggers, window: 1, outer_window: 3
+
+%table.table--striped
+  %thead
+    %tr
+      %th.six-twelfths Message
+      %th.two-twelfths Numéro
+      %th.two-twelfths Type
+      %th.two-twelfths Nom
+  %tbody
+    - @sms_loggers.each do |sms_logger|
+      %tr
+        %td= sms_logger.text
+        %td= sms_logger.number
+        %td= sms_logger.sender_type
+        %td= sms_logger.sender.name
+
+.text--center.push-half--ends= paginate @sms_loggers, window: 1, outer_window: 3
+

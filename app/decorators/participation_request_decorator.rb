@@ -206,10 +206,13 @@ class ParticipationRequestDecorator < Draper::Decorator
   end
 
   def sms_reminder_message_for_coursavenue_users
+    pr_url = h.structure_website_structure_participation_request_url(object.structure, object, subdomain: 'www')
+    bitly  = Bitly.client.shorten(pr_url)
     course = object.course
     default_attributes = { start_time: I18n.l(object.start_time, format: :short),
                            course_name: course.name,
-                           structure_name: object.structure.name }
+                           structure_name: object.structure.name,
+                           url: bitly.short_url }
     if object.course_address and object.structure.phone_numbers.any?
       message = I18n.t('sms.users.day_before_reminder.one_course.general.with_address_and_phone',
                        default_attributes.merge({ address: object.course_address,
