@@ -1,5 +1,5 @@
 class GuidesController < ApplicationController
-  layout 'pages'
+  layout 'empty'
 
   before_action :set_guide, only: [:show]
 
