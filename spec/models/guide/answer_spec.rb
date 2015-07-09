@@ -12,6 +12,6 @@ RSpec.describe Guide::Answer, type: :model, user_guide: true do
   end
 
   context 'delegations' do
-    it { should delegate_method(:ponderation).to(:question).allow_nil(true) }
+    it { should delegate_method(:ponderation).to(:question) }
   end
 end
