@@ -56,7 +56,7 @@ RSpec.describe IndexableCard, type: :model do
       expect(card.structure).to eq(structure)
       expect([place_1, place_2]).to include(card.place)
       expect(card.course).to eq(course)
-      expect(card.subjects).to match_array(course.subjects)
+      expect(card.subjects.uniq).to match_array(course.subjects)
     end
 
     # TODO: Move this test to Planning
