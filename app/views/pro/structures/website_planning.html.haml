@@ -18,7 +18,7 @@
 
 
 %hr.push--ends
-%h3 A quoi ressemble ma page planning ?
+%h2 A quoi ressemble ma page planning ?
 %p.delta.line-height-1-3 Cliquez sur ce bouton pour visualiser votre page planning :
 #planning-button-wrapper.hidden
   <a target="_blank" style='display: block; text-align: center; margin: 0 auto;' href="#{structure_website_structure_url(@structure, subdomain: 'www')}">
@@ -29,7 +29,8 @@
     = image_tag 'https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button.png', height: 65, width: 229, class: 'center-block', alt: 'Planning et inscription'
 
 %hr.push--ends
-%h3 Comment l'installer ?
+%h2.push-half--bottom Comment l'installer ?
+%h3 Sur mon site Internet
 -# %p.delta.line-height-1-3 Voici comment l'installer, c'est simple et rapide :
 
 %ul.delta.line-height-1-3.flush--bottom
@@ -91,10 +92,9 @@
         .push-half--top
           = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
 
-%hr.push--ends
-%h3 Installer sur ma page Facebook
-.text--center.push--bottom
-  %a.btn{ onclick: '$("#facebook-call-to-action-guide").show(); $.scrollTo($("#facebook-call-to-action-guide"), { easing: "easeOutCubic", duration: 500, offset: { top: -200 } })'} Voir le guide
+%h3.push--top Sur ma page Facebook
+.push--bottom
+  %a.btn{ onclick: '$("#facebook-call-to-action-guide").show(); $.scrollTo($("#facebook-call-to-action-guide"), { easing: "easeOutCubic", duration: 500, offset: { top: -200 } }); $(this).hide();'} Voir le guide
 
 .hidden#facebook-call-to-action-guide
   = render 'pro/structures/guides/facebook_call_to_action'
