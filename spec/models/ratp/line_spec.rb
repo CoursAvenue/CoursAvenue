@@ -10,6 +10,4 @@ RSpec.describe Ratp::Line, type: :model do
     it { should have_many(:stops).class_name('Ratp::Stop').through(:positions) }
     it { should have_many(:positions).class_name('Ratp::Position') }
   end
-
-  subject { FactoryGirl.create(:ratp_line) }
 end
