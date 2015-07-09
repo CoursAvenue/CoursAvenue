@@ -2,8 +2,8 @@
 //*= require libs/jquery.fileupload/jquery.fileupload-ui
 
 @import "font-awesome";
-// @import "CoursAvenueIconFont";
-@import "Fontello";
+@import "CoursAvenueIconFont";
+// @import "Fontello";
 
 .cf { clear: both; } // Here to prevent sass fail compilation
 
@@ -19,6 +19,7 @@
 @import "compass/css3/transition";
 @import "compass/css3/images";
 @import "compass/css3/transform";
+@import "compass/css3/flexbox";
 
 @import "defaults";
 @import "widths";
@@ -66,6 +67,7 @@
 @import "partials/objects/map";
 @import "partials/objects/markers";
 @import "partials/objects/media";
+@import "partials/objects/metro";
 @import "partials/objects/menu";
 @import "partials/objects/message";
 @import "partials/objects/pagination";
@@ -73,6 +75,7 @@
 @import "partials/objects/progress-bar";
 @import "partials/objects/read_more";
 @import "partials/objects/search";
+@import "partials/objects/search_page_filters";
 @import "partials/objects/share_buttons";
 @import "partials/objects/sliders";
 @import "partials/objects/slideshow";
@@ -119,7 +122,9 @@ html, pre {
   font-family : $brand-face;
   font-weight : 400;
   background  : $site-background-color;
-  color       : #393C3D;
+  // color       : #393C3D;
+  // color       : #5F7981;
+  color       : #6E6E6E;
   overflow    : auto;
   -webkit-font-smoothing: antialiased;
 }

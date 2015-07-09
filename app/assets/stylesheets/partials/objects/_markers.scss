@@ -83,3 +83,61 @@
     &, a {color: white;}
     @include border-radius($brand-round);
 }
+.map-box-marker__user {
+    width   : 15px !important;
+    height  : 15px !important;
+    background: $old_blue;
+    border: solid white 2px;
+    @include border-radius(10px);
+    @include box-shadow(0 0 30px lighten($old_blue, 10%), 0 0 20px lighten($old_blue, 10%), 0 0 10px lighten($old_blue, 10%));
+}
+.map-box-marker--circle {
+    margin-left    : -7px !important;
+    margin-top     : -13px !important;
+    width          : 8px !important;
+    height         : 8px !important;
+    background-size: 100%;
+    @include background-image-retina('icons/map-marker-small.png', 'icons/map-marker-small@2x.png');
+}
+.map-box-marker {
+    margin-left    : -15px !important;
+    margin-top     : -43px !important;
+    width          : 30px !important;
+    height         : 43px !important;
+    color          : white;
+    text-align     : center;
+    font-size      : 14px;
+    padding-top    : 5px;
+    background-size: 100%;
+    @include background-image-retina('icons/map-marker-empty.png', 'icons/map-marker-empty@2x.png');
+}
+.map-box-marker__danse {
+    // TODO, change background image marker
+}
+.map-box-marker__theatre-scene {
+    // TODO, change background image marker
+}
+.map-box-marker__deco-mode-bricolage {
+    // TODO, change background image marker
+}
+.map-box-marker__musique-chant {
+    // TODO, change background image marker
+}
+.map-box-marker__photo-video {
+    // TODO, change background image marker
+}
+.map-box-marker__dessin-peinture-arts-plastiques {
+    // TODO, change background image marker
+}
+.map-box-marker__cuisine-vins {
+    // TODO, change background image marker
+}
+.map-box-marker__yoga-bien-etre-sante {
+    // TODO, change background image marker
+}
+.map-box-marker__sports-arts-martiaux {
+    // TODO, change background image marker
+}
+.map-box-marker__multi {
+    // TODO, change background image marker
+}

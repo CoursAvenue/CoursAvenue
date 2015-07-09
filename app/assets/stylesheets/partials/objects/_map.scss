@@ -56,3 +56,33 @@
     left            : 50%;
     margin-left     : -5px;
 }
+
+
+.ca-leaflet-popup {
+    bottom: 30px !important;
+    .leaflet-popup-content-wrapper {
+        border : none;
+        padding: 0;
+    }
+    .leaflet-popup-close-button {
+        color       : white;
+        background  : none;
+        text-indent : 0;
+        font-size   : 30px;
+        margin-right: 5px;
+        font-weight : bold;
+        opacity     : 1;
+        &:hover {
+            background: none;
+        }
+    }
+        .leaflet-popup-content {
+            padding: 0 !important;
+        }
+}
+.leaflet-control-zoom {
+    @include border-radius(15px !important);
+}
+    .leaflet-control-zoom-in { @include border-top-radius(13px !important); }
+    .leaflet-control-zoom-out { @include border-bottom-radius(13px !important); }
+

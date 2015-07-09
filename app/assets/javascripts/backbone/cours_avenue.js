@@ -3,6 +3,7 @@
 //
 //= require ./data_mining/manifest
 //
+//= require ./search_page/manifest
 //= require ./filtered_search/manifest
 //= require ./structure_profile/manifest
 //= require ./structure_planning/manifest

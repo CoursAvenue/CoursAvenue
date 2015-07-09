@@ -550,8 +550,9 @@ CoursAvenue::Application.routes.draw do
       resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'
       resources :messages              , only: [:create]                                    , controller: 'structures/messages'
       resources :places                , only: [:index]                                     , controller: 'structures/places'
-      resources :courses               , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
-      resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'   , path: 'avis' do
+      resources :courses               , only: [:index]                                     , controller: 'structures/courses'        , path: 'cours'
+      resources :indexable_cards       , only: [:show]                                      , controller: 'structures/indexable_cards', path: 'cours'
+      resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'       , path: 'avis' do
         collection do
           get :create_from_email
         end
@@ -671,9 +672,9 @@ CoursAvenue::Application.routes.draw do
     get ':root_subject_id/:subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
     get ':root_subject_id--:city_id--:old_city_slug'            , to: 'redirect#structures_index'
     # end-redirect
-    get ':root_subject_id/:subject_id--:city_id'                , to: 'structures#index', as: :search_page
-    get ':root_subject_id--:city_id'                            , to: 'structures#index', as: :root_search_page
-    get ':city_id'                                              , to: 'structures#index', as: :root_search_page_without_subject
+    get ':root_subject_id/:subject_id--:city_id'                , to: 'plannings#index', as: :search_page
+    get ':root_subject_id--:city_id'                            , to: 'plannings#index', as: :root_search_page
+    get ':city_id'                                              , to: 'plannings#index', as: :root_search_page_without_subject
     ########### Search pages ###########
 
     # Needed to catch 404 requests in ApplicationController

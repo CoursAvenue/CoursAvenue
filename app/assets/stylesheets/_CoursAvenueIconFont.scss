@@ -4,11 +4,11 @@
 
 @font-face {
   font-family: "CoursAvenueIconFont";
-  src: url("CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.eot");
-  src: url("CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.eot?#iefix") format("embedded-opentype"),
-       url("CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.woff") format("woff"),
-       url("CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.ttf") format("truetype"),
-       url("CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.svg#CoursAvenueIconFont") format("svg");
+  src: url("CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.eot");
+  src: url("CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.eot?#iefix") format("embedded-opentype"),
+       url("CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.woff") format("woff"),
+       url("CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.ttf") format("truetype"),
+       url("CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.svg#CoursAvenueIconFont") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: "CoursAvenueIconFont";
-    src: url("CoursAvenueIconFont_1a1c675de107461ce198b551e5b97f82.svg#CoursAvenueIconFont") format("svg");
+    src: url("CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.svg#CoursAvenueIconFont") format("svg");
   }
 }
 
@@ -104,6 +104,7 @@
 .fa-trash-o:before,
 .fa-twitter:before,
 .fa-user:before,
+.fa-walk:before,
 .fa-yoga-bien-etre-sante:before,
 .fa-youtube-play:before {
   display: inline-block;
@@ -201,6 +202,7 @@
 .fa-trash-o:before { content: "\f14d"; }
 .fa-twitter:before { content: "\f14e"; }
 .fa-user:before { content: "\f14f"; }
+.fa-walk:before { content: "\f153"; }
 .fa-yoga-bien-etre-sante:before { content: "\f150"; }
 .fa-youtube-play:before { content: "\f151"; }
 
@@ -285,5 +287,6 @@ $font-CoursAvenueIconFont-times: "\f14c";
 $font-CoursAvenueIconFont-trash-o: "\f14d";
 $font-CoursAvenueIconFont-twitter: "\f14e";
 $font-CoursAvenueIconFont-user: "\f14f";
+$font-CoursAvenueIconFont-walk: "\f153";
 $font-CoursAvenueIconFont-yoga-bien-etre-sante: "\f150";
 $font-CoursAvenueIconFont-youtube-play: "\f151";

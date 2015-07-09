@@ -1,0 +1,61 @@
+.soft
+  .grid
+    .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
+      .soft.bordered.bg-white
+        %h1.flush= @indexable_card.name
+        %h2.delta
+          Par
+          = link_to @structure.name, structure_path(@structure)
+        %h4 Planning
+        = react_component("CardPageCourse",
+                        { course: CourseSerializer.new(@course), plannings: ActiveModel::ArraySerializer.new(@indexable_card.plannings, each_serializer: PlanningSerializer) }, { prerender: false })
+        %hr.push--ends
+        - if @course and @course.is_open_for_trial
+          %p.green.nowrap.v-middle
+            %strong Essai gratuit
+        - if @course
+          - if @course.is_private? and @course.on_appointment?
+            .push-half--right.push-half--bottom.inline-block.v-middle
+              %i.delta.fa.fa-audiences.v-middle
+              = join_audiences(@course)
+            .push-half--right.push-half--bottom.inline-block.v-middle
+              %i.delta.fa.fa-levels.v-middle
+              = join_levels_text(@course)
+
+        - if @course
+          %h4 Description du cours
+          .read-more{ data: { behavior: 'read-more' } }
+            = simple_format @course.description
+          - if @course.price_group
+            %h4 Grille tarifaire
+            = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
+
+    .grid__item.four-twelfths.palm-one-whole.soft-half--right.palm-hard>
+      .bordered.bg-white
+        #mfp-hide.center-block.relative{ style: 'max-width:500px;' }
+        = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
+                                          metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) },
+                                         { prerender: false })
+
+        .soft
+          %div.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
+            %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos } }
+              %strong= @place.name
+              %br
+              %span.f-weight-500= @place.address
+            %span{ itemprop: 'address', itemscope: true, itemtype: 'http://data-vocabulary.org/Address'}
+              %meta{ itemprop: 'street-address', content: @place.address }
+              %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }
+                %meta{ itemprop: 'latitude', content: @place.latitude }
+                %meta{ itemprop: 'longitude', content: @place.longitude }
+
+          - if @place.nearby_metro_stops.any?
+            %h4.push-half--bottom Transports
+            - @place.nearby_metro_stops.each do |stop|
+              %div.push-half--bottom
+                - stop.lines.each do |line|
+                  = MetroLineDecorator.new(line).chip
+                %strong.v-middle= stop.name
+          - unless @structure.is_sleeping?
+            %hr
+            = render 'structures/response_stats'

@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Planning < ActiveRecord::Base
   acts_as_paranoid
+  include AlgoliaSearch
   # extend ActiveHashHelper
   include Concerns::ActiveHashHelper
 
@@ -10,21 +11,25 @@ class Planning < ActiveRecord::Base
   TIME_SLOTS = {
     morning: {
       name:       'planning.timeslots.morning',
+      short_name: 'morning',
       start_time: 0,
       end_time:   12,
     },
     noon: {
       name:       'planning.timeslots.noon',
+      short_name: 'noon',
       start_time: 12,
       end_time:   14
     },
     afternoon: {
       name:       'planning.timeslots.afternoon',
+      short_name: 'afternoon',
       start_time: 14,
       end_time:   18
     },
     evening: {
       name:       'planning.timeslots.evening',
+      short_name: 'evening',
       start_time: 18,
       end_time:   24
     }
@@ -42,6 +47,8 @@ class Planning < ActiveRecord::Base
   has_many :subjects,       through: :course
   has_many :reservations,   as: :reservable
 
+  belongs_to :indexable_card
+
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
@@ -54,7 +61,12 @@ class Planning < ActiveRecord::Base
 
   before_save :set_structure_if_blank
 
-  after_save :update_structure_meta_datas
+  after_save    :update_structure_meta_datas
+  after_save    :update_indexable_cards
+
+  before_destroy :destroy_indexable_cards
+  before_destroy :update_indexable_cards
+
   # before_destroy :remove_from_jobs
 
   ######################################################################
@@ -88,6 +100,65 @@ class Planning < ActiveRecord::Base
   scope :past,              -> { where( arel_table[:end_date].lteq(Date.today) ) }
   scope :ordered_by_day,    -> { order('week_day=0, week_day ASC, start_time ASC, start_date ASC') }
   scope :visible,           -> { where(visible: true) }
+
+  ######################################################################
+  # Algolia                                                            #
+  ######################################################################
+  # :nocov:
+  algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
+    attribute :id
+
+    geoloc :latitude, :longitude
+
+    add_attribute :start_time do
+      start_time
+    end
+
+    add_attribute :structure_slug do
+      structure.slug
+    end
+
+    add_attribute :header_image do
+      if structure.medias.any?
+        image = structure.medias.cover_first.images_first.first.image
+        image.url(:search_thumbnail)
+      end
+    end
+
+    add_attribute :structure_logo_url do
+      structure.logo.url(:small_thumb_85) if structure.logo?
+    end
+
+    add_attribute :is_open_for_trial do
+      course.is_open_for_trial
+    end
+
+    add_attribute :comments_count do
+      course.structure.comments_count
+    end
+
+    add_attribute :course_name do
+      course.name
+    end
+
+    add_attribute :course_id do
+      course.id
+    end
+
+    add_attribute :root_subject do
+      roots = course.subjects.map{ |s| s.root.slug }.uniq
+      (roots.length == 1 ? roots.first : 'multi')
+    end
+
+    add_attribute :subjects do
+      course.subjects.map(&:slug).uniq
+    end
+
+    add_attribute :structure_name do
+      structure.name
+    end
+  end
+  # :nocov:
 
   ######################################################################
   # Solr                                                               #
@@ -345,6 +416,49 @@ class Planning < ActiveRecord::Base
     end
   end
 
+  def latitude
+    if course.teaches_at_home and structure.places.homes.any?
+      structure.places.homes.first.latitude
+    elsif place
+      place.latitude
+    elsif course.place
+      course.place.latitude
+    end
+  end
+
+  def longitude
+    if course.teaches_at_home and structure.places.homes.any?
+      structure.places.homes.first.longitude
+    elsif place
+      place.longitude
+    elsif course.place
+      course.place.longitude
+    end
+  end
+
+  # The periods in which the planning is in. We are inclusing with these periods, meaning that we
+  # take slots in which the start_time and the end_time are in.
+  #
+  # @return an Array of string.
+  def periods
+    periods = []
+    _start_time = start_time.in_time_zone('Paris')
+    _end_time   = end_time.in_time_zone('Paris')
+
+    TIME_SLOTS.keys.each do |key|
+      slot = TIME_SLOTS[key]
+      if _start_time.hour.in?(slot[:start_time]..slot[:end_time])
+        periods << slot[:short_name]
+      end
+
+      if _end_time.hour.in?(slot[:start_time]..slot[:end_time])
+        periods << slot[:short_name]
+      end
+    end
+
+    periods.uniq
+  end
+
   private
 
   # Return the scoped price for a given type.
@@ -461,7 +575,18 @@ class Planning < ActiveRecord::Base
     jobs.each(&:destroy)
   end
 
+  # Destroy card if it was the only planning attached to it
+  # @return nil
+  def destroy_indexable_cards
+    indexable_card.destroy if indexable_card.plannings.count == 1
+    nil
+  end
+
   def update_structure_meta_datas
     structure.delay.update_planning_meta_datas
+  end
+
+  def update_indexable_cards
+    IndexableCard.delay.update_from_course(self.course)
   end
 end

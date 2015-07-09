@@ -2,7 +2,6 @@
     @include media-query(palm) { text-align: center; };
     @include media-query(lap) { text-align: center; };
     padding         : 0;
-    border-bottom   : 1px solid #EEE;
     overflow        : visible;
     display         : table;
     width           : 100%;
@@ -14,15 +13,18 @@
         margin-left  : 1em;
     }
 }
+    .coursavenue-header-logo-wrapper {
+        background-color: $blue-green;
+        padding         : 1em 2em;
+        @extend .inline-block;
+    }
     .coursavenue-header-logo {
         @include background-image-retina('logos/logo.png', 'logos/logo@2x.png');
         background-repeat: no-repeat;
-        &.coursavenue-header-logo--white {
-            @include background-image-retina('logos/logo_white.png', 'logos/logo_white@2x.png');
-        }
+        @include background-image-retina('logos/logo_white.png', 'logos/logo_white@2x.png');
         @include background-size(100%);
         width   : 150px;
-        height  : 30px;
+        height  : 24px;
         display : inline-block;
         &.coursavenue-header-logo--pro {
             width: 222px;

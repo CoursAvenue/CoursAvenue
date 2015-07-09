@@ -3,6 +3,8 @@ machine:
     Europe/Paris
   ruby:
     version: 2.2.2
+  node:
+    version: 0.10.22
 
 database:
   post:

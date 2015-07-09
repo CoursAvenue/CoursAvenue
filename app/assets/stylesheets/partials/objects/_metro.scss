@@ -1,0 +1,191 @@
+$metro_line_m_color    : #101C8B;
+$metro_line_1_color    : #FECC2F;
+$metro_line_2_color    : #106FB6;
+$metro_line_3_color    : #9B9842;
+$metro_line_3_bis_color: #8BD3DE;
+$metro_line_4_color    : #B94D9A;
+$metro_line_5_color    : #F58F53;
+$metro_line_6_color    : #7AC597;
+$metro_line_7_color    : #F39FB2;
+$metro_line_7_bis_color: #7AC597;
+$metro_line_8_color    : #C4A4CC;
+$metro_line_9_color    : #CEC83D;
+$metro_line_10_color   : #DFAF47;
+$metro_line_11_color   : #8C653D;
+$metro_line_12_color   : #128B5B;
+$metro_line_13_color   : #8BD3DE;
+$metro_line_14_color   : #65318F;
+
+$tramway_line_t_color  : #003C97;
+$tramway_line_2_color  : #BD3D8C;
+$tramway_line_3a_color : #F68237;
+$tramway_line_3b_color : #00A65C;
+
+$rer_line_a_color      : #FE3D16;
+$rer_line_b_color      : #468FCC;
+
+// ----------- Metros
+.metro-line {
+    width         : 1.7em;
+    height        : 1.7em;
+    border-radius : 1.7em;
+    font-size     : 1.4em;
+    border        : 2px solid black;
+    text-align    : center;
+    display       : inline-block;
+    vertical-align: middle;
+    font-weight   : bold;
+    white-space   : nowrap;
+    &.metro-line--selected {
+        zoom: 1.8;
+    }
+}
+.metro-line--bis {
+    line-height: 1.1em;
+}
+.metro-line__bis {
+    vertical-align: bottom;
+    font-size     : 0.5em !important;
+    line-height   : 1em;
+}
+
+.metro-line-m, .tramway-line-t {
+    line-height : 1.5em;
+    color       : $tramway_line_t_color;
+    border-color: $tramway_line_t_color;
+}
+
+.rer-line-rer {
+    line-height : 1.5em;
+    color       : $tramway_line_t_color;
+    border-color: $tramway_line_t_color;
+    font-size   : 10px;
+    padding     : 5px 3px;
+    width       : auto;
+    height      : auto;
+}
+
+
+.metro-line-station-name {
+    color       : $metro_line_m_color;
+    font-weight : bold;
+    padding-left: 5px;
+    @include text-shadow(0 0 2px white, 0 0 2px white, 0 0 2px white);
+}
+.metro-line-m-for-map {
+    background-color: white;
+    border-color    : $metro_line_m_color;
+    color           : $metro_line_m_color;
+    font-size       : 0.7em !important;
+    line-height     : 1.5em;
+    border-width    : 1px;
+    width           : 1.6em;
+    height          : 1.7em;
+}
+
+.metro-line-1 {
+    background-color: $metro_line_1_color;
+    border-color    : $metro_line_1_color;
+    color           : black;
+}
+.metro-line-2 {
+    background-color: $metro_line_2_color;
+    border-color    : $metro_line_2_color;
+    color           : white;
+}
+.metro-line-3 {
+    background-color: $metro_line_3_color;
+    border-color    : $metro_line_3_color;
+    color           : white;
+}
+.metro-line-3-bis {
+    background-color: $metro_line_3_bis_color;
+    border-color    : $metro_line_3_bis_color;
+    color           : black;
+}
+.metro-line-4 {
+    background-color: $metro_line_4_color;
+    border-color    : $metro_line_4_color;
+    color           : white;
+}
+.metro-line-5 {
+    background-color: $metro_line_5_color;
+    border-color    : $metro_line_5_color;
+    color           : black;
+}
+.metro-line-6 {
+    background-color: $metro_line_6_color;
+    border-color    : $metro_line_6_color;
+    color           : black;
+}
+.metro-line-7 {
+    background-color: $metro_line_7_color;
+    border-color    : $metro_line_7_color;
+    color           : black;
+}
+.metro-line-7-bis {
+    background-color: $metro_line_7_bis_color;
+    border-color    : $metro_line_7_bis_color;
+    color           : black;
+}
+.metro-line-8 {
+    background-color: $metro_line_8_color;
+    border-color    : $metro_line_8_color;
+    color           : black;
+}
+.metro-line-9 {
+    background-color: $metro_line_9_color;
+    border-color    : $metro_line_9_color;
+    color           : black;
+}
+.metro-line-10 {
+    background-color: $metro_line_10_color;
+    border-color    : $metro_line_10_color;
+    color           : black;
+}
+.metro-line-11 {
+    background-color: $metro_line_11_color;
+    border-color    : $metro_line_11_color;
+    color           : white;
+}
+.metro-line-12 {
+    background-color: $metro_line_12_color;
+    border-color    : $metro_line_12_color;
+    color           : white;
+}
+.metro-line-13 {
+    background-color: $metro_line_13_color;
+    border-color    : $metro_line_13_color;
+    color           : black;
+}
+.metro-line-14 {
+    background-color: $metro_line_14_color;
+    border-color    : $metro_line_14_color;
+    color           : white;
+}
+
+// ----------- Tramways
+.tramway-line-2 {
+    color       : $tramway_line_2_color;
+    border-color: $tramway_line_2_color;
+}
+.tramway-line-3a {
+    color       : $tramway_line_3a_color;
+    border-color: $tramway_line_3a_color;
+}
+.tramway-line-3b {
+    color       : $tramway_line_3b_color;
+    border-color: $tramway_line_3b_color;
+}
+
+// ----------- RERs
+.rer-line-a {
+    line-height : 1.5em;
+    color       : $rer_line_a_color;
+    border-color: $rer_line_a_color;
+}
+.rer-line-b {
+    line-height : 1.5em;
+    color       : $rer_line_b_color;
+    border-color: $rer_line_b_color;
+}

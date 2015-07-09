@@ -16,6 +16,7 @@ class Subject < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_and_belongs_to_many :comments
   has_and_belongs_to_many :medias
+  has_and_belongs_to_many :indexable_cards
   has_and_belongs_to_many :guide_answers,
     class_name: 'Guide::Answer', association_foreign_key: 'guide_answer_id'
 
@@ -63,6 +64,7 @@ class Subject < ActiveRecord::Base
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
+    attributesForFaceting [:depth, :parent, :root]
     attribute :slug, :depth
     add_attribute :name do
       self.name.gsub(' de ', ' ').gsub("d'", '')

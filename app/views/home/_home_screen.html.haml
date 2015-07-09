@@ -1,4 +1,4 @@
-.full-screen-item.one-whole.relative.overflow-hidden
+.height-three-quarters.one-whole.relative.overflow-hidden
   %div.hidden.home-page-fullscreen-video.bg-cover{ style: "background-image: url('#{asset_path('home-page/coursavenue_homepage_cover.jpg')}')", data: { replacement: 'video' } }
   %video.home-page-fullscreen-video{ preload: 'auto', loop: 'loop', autoplay: 'autoplay', poster: asset_path('home-page/coursavenue_homepage_cover.jpg') }
     - if params[:geek].present?
@@ -8,7 +8,7 @@
       %source{ type: "video/mp4", src: asset_path('coursavenue_homepage_video.mp4') }
       %source{ type: "video/webm", src: asset_path('coursavenue_homepage_video.webm') }
 
-  .relative.full-screen-item.white
+  .relative.height-three-quarters.white
     .grid--full.one-whole.homescreen-header.homescreen-header--transparent.fixed.one-whole.on-top
       .grid__item.one-third.v-middle.palm-one-whole.palm-push>
         = image_tag 'logos/logo_white.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo_white@2x.png') }, class: 'homescreen-header__logo v-middle push--left push-half--top absolute', style: 'left: 3px; top: 3px;'
@@ -17,14 +17,11 @@
         .white.soft-half.inline-block.v-middle.epsilon#user-nav
         .top-right-hidden-button.inline-block.v-middle.visuallyhidden--palm.visuallyhidden--lap
           = link_to 'Trouver un cours', root_search_page_without_subject_path('paris'), class: 'btn btn--blue nowrap push--right'
-.absolute.one-whole.soft--sides.top-30vh{ data: { behavior: 'block-parallax' } }
-  %h1.white.text--center.f-size-really-big.palm-text--center.soft--top.soft-black-text-shadow.flush--bottom.main-container
-    - if params[:geek].present?
-      ARRÊTEZ DE GEEKER.
-    - else
-      ARTS. SPORTS. BIEN-ÊTRE.
-  %h3.white.text--center.palm-text--center.push--bottom.soft-black-text-shadow.main-container
-    Trouvez votre cours de loisir idéal.
+.absolute.one-whole.soft--sides.top-15vh{ data: { behavior: 'block-parallax' } }
+  %h1.white.text--center.f-size-big.palm-text--center.soft--top.soft-black-text-shadow.flush--bottom.main-container
+    Trouvez l'occupation de vos rêves.
+  %h2.white.text--center.palm-text--center.push--bottom.soft-black-text-shadow.main-container
+    Des centaines de cours sélectionnés pour vous.
   .push--bottom.soft--bottom
     = render partial: 'shared/home_page_search_form', locals: { form_class: 'header-search-bar center-block' }
 .text--center.absolute.one-whole{ style: ' top: 85%;' }
