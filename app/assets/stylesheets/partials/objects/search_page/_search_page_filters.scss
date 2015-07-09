@@ -91,13 +91,14 @@ $map-height   : 480px;
             border          : none;
             height          : $header-height;
             line-height     : $header-height;
+            font-weight     : 600;
             @include border-radius(0);
             &:focus{ @include box-shadow(none); }
         }
-        ::-webkit-input-placeholder { color: white; } /* WebKit browsers */
-        :-moz-placeholder           { color: white; opacity: 1; } /* Mozilla Firefox 4 to 18 */
-        ::-moz-placeholder          { color: white; opacity: 1; } /* Mozilla Firefox 19+ */
-        :-ms-input-placeholder      { color: white; } /* Internet Explorer 10+ */
+        ::-webkit-input-placeholder { font-weight: 600; color: #EEEEEE; } /* WebKit browsers */
+        :-moz-placeholder           { font-weight: 600; color: #EEEEEE; opacity: 1; } /* Mozilla Firefox 4 to 18 */
+        ::-moz-placeholder          { font-weight: 600; color: #EEEEEE; opacity: 1; } /* Mozilla Firefox 19+ */
+        :-ms-input-placeholder      { font-weight: 600; color: #EEEEEE; } /* Internet Explorer 10+ */
         i {
             position: absolute;
             left    : $subject-search-width - 50px;
@@ -105,7 +106,7 @@ $map-height   : 480px;
         }
     }
     .search-page-filters__subject-search--active {
-        left    : 0;
+        left: 0;
     }
     .search-page-filters__closer {
         position        : absolute;
@@ -144,11 +145,19 @@ $map-height   : 480px;
         height     : $map-height;
         font-weight: 600;
         font-size  : 2em;
+        &:hover .search-page-filters__image-icon {
+            display: block
+        }
     }
+        .search-page-filters__image-icon {
+            font-size: 3em;
+            display  : none;
+        }
         .search-page-filters__image-text {
             position      : relative;
             display       : inline-block;
             padding-bottom: 0.3em;
+            padding-top   : 0.5em;
         }
     .search-page-filters__image-button--active {
         .search-page-filters__image-text {

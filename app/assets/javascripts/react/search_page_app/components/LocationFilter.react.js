@@ -23,6 +23,10 @@ var LocationFilter = React.createClass({
         };
     },
 
+    closeFilterPanel: function closeFilterPanel () {
+        FilterActionCreators.closeFilterPanel();
+    },
+
     panelToShow: function panelToShow () {
         switch(this.state.filter_store.get('location_panel')) {
           case FilterPanelConstants.LOCATION_PANELS.ADDRESS:

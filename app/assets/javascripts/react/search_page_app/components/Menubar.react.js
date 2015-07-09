@@ -23,7 +23,7 @@ var Menubar = React.createClass({
 
     render: function render () {
         return (
-            <div className='bg-white'>
+            <div className='bg-white search-page-map__menu-bar'>
                 <div className='grid'>
                     <div className='grid__item one-half v-middle'>
                         <div className="coursavenue-header-logo-wrapper v-middle">
