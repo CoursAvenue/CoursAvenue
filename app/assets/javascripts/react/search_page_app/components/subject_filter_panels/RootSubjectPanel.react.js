@@ -28,13 +28,11 @@ var SubjectFilter = React.createClass({
             );
         });
         return (
-          <div>
-              <div className="main-container">
-                  <ol className="nav breadcrumb text--left">
-                      <li><a onClick={this.showGroupPanel} className="block text--left">Catégorie</a></li>
-                      <li>Discipline</li>
-                  </ol>
-              </div>
+          <div className="relative">
+              <ol className="search-page-filters__breadcrumbs">
+                  <li><a onClick={this.showGroupPanel} className="block text--left">Catégorie</a></li>
+                  <li>Discipline</li>
+              </ol>
               <div className="search-page-filters__title">
                   Quelle discipline vous fait envie ?
               </div>

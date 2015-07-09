@@ -18,18 +18,15 @@ var SubjectFilter = React.createClass({
         var selected_group_subject_name = "Coucou";
         var group_subject_items = this.state.subject_store.getGroupSubjects().map(function(subject, index) {
             return (
-              <GroupSubjectItem subject={ subject } key={ index } />
+              <GroupSubjectItem subject={ subject } key={ subject.id } />
             );
         });
         return (
-          <div>
-              <ol className="nav breadcrumb text--left">
+          <div className="relative">
+              <ol className="search-page-filters__breadcrumbs">
                   <li>Catégorie</li>
               </ol>
-              <div className="search-page-filters__title">
-                  {"Choisissez la catégorie d'activité qui vous fait envie"}
-              </div>
-              <div className="main-container soft--bottom">
+              <div className="flexbox">
                   {group_subject_items}
               </div>
           </div>

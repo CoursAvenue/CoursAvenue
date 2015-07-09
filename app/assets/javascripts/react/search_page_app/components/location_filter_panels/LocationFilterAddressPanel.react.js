@@ -71,17 +71,14 @@ var LocationFilterChoicePanel = React.createClass({
 
     render: function render () {
         return (
-          <div>
+          <div className="relative">
               <div className="main-container">
-                  <ol className="nav breadcrumb text--left">
+                  <ol className="search-page-filters__breadcrumbs">
                       <li>
                           <a onClick={this.showLocationChoicePanel} className="block text--left">Où</a>
                       </li>
                       <li>{"Autour d'une adresse"}</li>
                   </ol>
-              </div>
-              <div className="search-page-filters__title">
-                  Indiquez une adresse
               </div>
               <div className="text--center">
                   <div className="inline-block v-middle relative center-block text--left">

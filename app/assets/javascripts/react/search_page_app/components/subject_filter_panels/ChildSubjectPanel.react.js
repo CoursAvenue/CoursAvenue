@@ -34,19 +34,16 @@ var SubjectFilter = React.createClass({
         var group_subject_name = (this.state.subject_store.selected_group_subject ? this.state.subject_store.selected_group_subject.name : '');
         var root_subject_name = (this.state.subject_store.selected_root_subject ? this.state.subject_store.selected_root_subject.name : '');
         return (
-          <div>
-              <div className="main-container">
-                  <ol className="nav breadcrumb text--left">
-                      <li>
-                          <a onClick={this.showGroupPanel} className="block text--left">Catégorie</a>
-                      </li>
-                      <li>
-                          <a onClick={this.showRootPanel} className="block text--left">Discipline</a>
-                      </li>
-                      <li>Pratique</li>
-                  </ol>
-              </div>
-              <div className="search-page-filters__title">Choisissez la pratique qui vous plaît</div>
+          <div className="relative">
+              <ol className="search-page-filters__breadcrumbs">
+                  <li>
+                      <a onClick={this.showGroupPanel} className="block text--left">Catégorie</a>
+                  </li>
+                  <li>
+                      <a onClick={this.showRootPanel} className="block text--left">Discipline</a>
+                  </li>
+                  <li>Pratique</li>
+              </ol>
               <div className="main-container soft--bottom">
                   { subject_items }
               </div>

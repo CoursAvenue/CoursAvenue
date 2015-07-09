@@ -34,15 +34,31 @@ var LocationFilter = React.createClass({
         }
     },
 
+    title: function title () {
+        switch(this.state.filter_store.get('location_panel')) {
+          case FilterPanelConstants.LOCATION_PANELS.ADDRESS:
+            return "Indiquez une adresse"
+          case FilterPanelConstants.LOCATION_PANELS.METRO:
+            return "Choisissez une ligne et/ou une station"
+          default:
+            return "Où souhaitez-vous trouver un cours ?"
+        }
+    },
+
     render: function render () {
         var isCurrentPanel = this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.LOCATION;
         var classes = classNames({
-            'north'     : isCurrentPanel,
-            'down-north': !isCurrentPanel,
+            'search-page-filters-wrapper--active': isCurrentPanel,
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
         return (
-          <div className={classes + ' on-top search-page-filters__location-panel transition-all-300 absolute west one-whole search-page-filters-wrapper'}>
+          <div className={classes + ' search-page-filters__location-panel search-page-filters-wrapper'}>
+              <div className="search-page-filters__title">
+                  {this.title()}
+                  <div className="search-page-filters__closer" onClick={this.closeFilterPanel}>
+                      <i className="fa fa-times beta"></i>
+                  </div>
+              </div>
               { this.panelToShow() }
           </div>
         );
