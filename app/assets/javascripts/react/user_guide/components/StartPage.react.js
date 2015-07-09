@@ -1,3 +1,5 @@
+var QuestionActionCreators = require('../actions/QuestionActionCreators');
+
 var StarPage = React.createClass({
     propTypes: {
         title:          React.PropTypes.string.isRequired,
@@ -6,7 +8,8 @@ var StarPage = React.createClass({
     },
 
     start: function start (event) {
-        debugger
+        event.preventDefault();
+        QuestionActionCreators.nextQuestion();
     },
 
     render: function render () {
