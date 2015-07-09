@@ -28,7 +28,7 @@ var FilterBar = React.createClass({
         var value = this.state.subject_store.full_text_search;
         return (
           <div className={cx("search-page-filters__subject-search",
-                            { hidden: (this.state.filter_store.get('current_panel') != FilterPanelConstants.FILTER_PANELS.SUBJECTS) })}>
+                            { 'search-page-filters__subject-search--active': (this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS) })}>
               <input className="input--large one-whole"
                      value={value}
                      size="50"

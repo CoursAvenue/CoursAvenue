@@ -78,8 +78,9 @@ $map-height   : 480px;
     }
     $subject-search-width: 300px;
     .search-page-filters__subject-search {
+        @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000) 1s);
         position: absolute;
-        left    : 0;
+        left    : -500px;
         top     : 0;
         width   : $subject-search-width;
         input {
@@ -103,6 +104,9 @@ $map-height   : 480px;
             top     : 0.4em;
         }
     }
+    .search-page-filters__subject-search--active {
+        left    : 0;
+    }
     .search-page-filters__closer {
         position        : absolute;
         right           : 0;
@@ -114,12 +118,13 @@ $map-height   : 480px;
     }
 
     .search-page-filters__breadcrumbs {
+        @extend .on-top;
         @extend .breadcrumb;
         @extend .nav;
         @extend .push--left;
         @extend .push--top;
-        top: 0;
-        @extend .west;
+        left     : 0;
+        top      : 0;
         opacity  : 0.9;
         font-size: 14px;
         position : absolute;

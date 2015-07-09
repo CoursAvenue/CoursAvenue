@@ -49,7 +49,7 @@ var LocationFilterChoicePanel = React.createClass({
                   <div className="search-page-filters__image-text">{"Autour d'une adresse"}</div>
               </div>
               <div className={cx("one-third flexbox__item v-middle search-page-filters__image-button", {
-                    'search-page-filters__image-button--active': this.state.metro_store.getSelectedLines().length > 1
+                    'search-page-filters__image-button--active': this.state.metro_store.getSelectedLines().length > 0
                   }) }
                    onClick={ this.showMetroPanel }
                    style={ { backgroundImage: 'url("https://coursavenue-public.s3.amazonaws.com/public_assets/search_page/filter-where-metro.jpg")' } }>
