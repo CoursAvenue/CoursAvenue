@@ -65,4 +65,12 @@ RSpec.describe ReplyToken, type: :model do
     end
 
   end
+
+  describe '#email_address' do
+    it 'returns the token suffixed by the mail domain' do
+      reply_token = ReplyToken.create(reply_type: 'comment')
+      expected = "CoursAvenue <#{ reply_token.token }@#{CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN}>"
+      expect(reply_token.email_address).to eq(expected)
+    end
+  end
 end

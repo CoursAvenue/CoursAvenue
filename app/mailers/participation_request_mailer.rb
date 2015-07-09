@@ -243,7 +243,7 @@ class ParticipationRequestMailer < ActionMailer::Base
     }
     @reply_token.save
 
-    return "CoursAvenue <#{@reply_token.token}@#{CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN}>"
+    @reply_token.email_address
   end
 
 end
