@@ -24,8 +24,7 @@ var GroupSubjectItem = React.createClass({
             <div className="one-third flexbox__item v-middle search-page-filters__image-button"
                  onClick={this.filterByGroupSubject}
                  style={ { backgroundImage: 'url("' + subject.image_url + '")' } }>
-                <div className="search-page-filters__image-button-curtain">
-                </div>
+                <div className="search-page-filters__image-button-curtain"></div>
                 <div className="search-page-filters__image-text">
                     {subject.name}
                 </div>
