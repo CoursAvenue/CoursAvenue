@@ -1,5 +1,5 @@
 class Guide::Answer < ActiveRecord::Base
-  attr_accessible :content
+  attr_accessible :content, :subject_ids
 
   belongs_to :guide
   belongs_to :question, class_name: 'Guide::Question', foreign_key: 'guide_question_id'

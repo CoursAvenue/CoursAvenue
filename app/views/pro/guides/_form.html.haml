@@ -16,9 +16,11 @@
         %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { toggle: true } }
           %i.fa-eye
           Réponses
-        %div{ class: (question.answers.map(&:content).any? ? '' : 'hidden'), data: { content: true } }
+        .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends{ class: (question.answers.map(&:content).any? ? '' : 'hidden'), data: { content: true } }
           = qf.simple_fields_for :answers, question.answers do |af|
             = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: "Physique" }
+            = af.input :subject_ids, as: :select, collection: Subject.order('position ASC'), label_method: :name,
+              input_html: { data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true }
 
         .text--right
           %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }

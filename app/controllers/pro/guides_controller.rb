@@ -62,7 +62,7 @@ class Pro::GuidesController < Pro::ProController
       :title,
       :description,
       :questions_attributes => [:id, :content, :ponderation,
-                                :answers_attributes => [:id, :content]]
+                                :answers_attributes => [:id, :content, :subject_ids => []]]
     )
   end
 end

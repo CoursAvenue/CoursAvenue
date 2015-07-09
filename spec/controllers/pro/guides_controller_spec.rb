@@ -155,10 +155,15 @@ describe Pro::GuidesController, user_guide: true do
   end
 
   def valid_guide_params
+    subject_ = FactoryGirl.create(:subject)
     q1 = { content: Faker::Lorem.sentence, ponderation: 0,
-           answers_attributes: [ { content: Faker::Lorem.sentence } ] }
+           answers_attributes: [
+             { content: Faker::Lorem.sentence, subject_ids: [ subject_.id ] }
+    ] }
     q2 = { content: Faker::Lorem.sentence, ponderation: 0,
-           answers_attributes: [ { content: Faker::Lorem.sentence } ] }
+           answers_attributes: [
+             { content: Faker::Lorem.sentence, subject_ids: [ subject_.id ] }
+    ] }
 
     {
       title: Faker::Lorem.sentence,
