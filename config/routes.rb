@@ -97,6 +97,7 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
+      resources :sms_loggers, only: [:index]
       resources :comments, only: [:edit, :update, :index] do
         member do
           patch :recover
