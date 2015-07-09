@@ -14,6 +14,7 @@
       = render 'layouts/mixpanel'
 
       = yield :after_ga
+    = render 'layouts/typekit'
     = yield :head
     = favicon_link_tag
     %link{ href: asset_path('favicon.ico'), rel: 'shortcut icon', type: 'image/ico' }
@@ -100,4 +101,3 @@
           });
     - if on_pro_subdomain?
       = intercom_script_tag
-
