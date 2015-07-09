@@ -1,9 +1,9 @@
 - form_url = @guide.persisted? ? pro_guide_path(@guide) : pro_guides_path
 
 = simple_form_for @guide, url: form_url do |f|
-  = f.input :title, label: 'Titre', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: 'Quelle activité pour mon enfant ?' }
-  = f.input :description, label: 'Description', label_html: { class: 'label--large' }, input_html: { placeholder: "L'année scolaire est à peine terminée et tous les parents sont déjà obligés de se poser cette question cruciale : quelle discipline sportive, culturelle ou créative proposer à son enfant à la rentrée ?" }
-  = f.input :call_to_action, label: 'Accroche', label_html: { class: 'label--large' }, input_html: { placeholder: "En quelques questions, laissez-nous trouver des idées d'activités qui conviennent parfaitement aux goûts et aux besoins de votre enfant :" }
+  = f.input :title, label: 'Titre', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.title') }
+  = f.input :description, label: 'Description', label_html: { class: 'label--large' }, input_html: { placeholder: t('guides.placeholder.description') }
+  = f.input :call_to_action, label: 'Accroche', label_html: { class: 'label--large' }, input_html: { placeholder: t('guides.placeholder.call_to_action') }
 
   %hr
 
@@ -11,7 +11,7 @@
     = f.simple_fields_for :questions, @guide.questions do |qf|
       - question = qf.object
       %div{ class: (question.persisted? ? '': 'hidden'), data: { el: true, hidden: (!question.persisted? and qf.index > 0) } }
-        = qf.input :content, label: 'Question', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: "Quel type d'activité?" }
+        = qf.input :content, label: 'Question', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.question.content') }
         = qf.input :ponderation, label: 'Ponderation', input_html: { placeholder: '0' }
 
         %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { toggle: true } }
@@ -19,8 +19,8 @@
           Réponses
         .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends{ class: (question.answers.map(&:content).any? ? '' : 'hidden'), data: { content: true } }
           = qf.simple_fields_for :answers, question.answers do |af|
-            = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: "Physique" }
-            = af.input :subject_ids, as: :select, collection: Subject.order('position ASC'), label_method: :name,
+            = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.answer.content') }
+            = af.input :subject_ids, as: :select, collection: Subject.order('position ASC'), label: 'Disciplines', label_method: :name,
               input_html: { data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true }
 
         .text--right
