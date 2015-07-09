@@ -5,7 +5,7 @@
         = guide.title
     .flexbox__item.v-middle.text--right
       = succeed ' ' do
-        = link_to '#', class: 'btn', target: :_blank do
+        = link_to guide_url(guide, subdomain: 'www'), class: 'btn', target: :_blank do
           %i.fa.fa-eye
           Voir
       = succeed ' ' do

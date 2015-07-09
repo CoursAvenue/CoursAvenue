@@ -616,6 +616,7 @@ CoursAvenue::Application.routes.draw do
 
     resources :reservation_loggers, only: [:create]
     resources :click_logs, only: [:create]
+    resources :guides, only: [:show]
 
     # ------------------------------------------------------
     # ----------------------------------------- Static pages
