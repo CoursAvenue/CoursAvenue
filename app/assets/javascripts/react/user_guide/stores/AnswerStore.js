@@ -41,8 +41,8 @@ var AnswerStore = Backbone.Collection.extend({
         var answer   = this.findWhere({ guide_question_id: data.question_id, id: data.answer_id });
         var selected = this.findWhere({ guide_question_id: data.question_id, selected: true });
 
-        answer.toggleSelection();
-        selected.toggleSelection();
+        if (answer)   { answer.toggleSelection(); }
+        if (selected) { selected.toggleSelection(); }
 
         this.trigger('change');
     },
