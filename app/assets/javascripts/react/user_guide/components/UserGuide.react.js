@@ -1,5 +1,6 @@
 var _                      = require('underscore'),
     StartPage              = require('./StartPage'),
+    Question               = require('./Question'),
     QuestionStore          = require('../stores/QuestionStore'),
     FluxBoneMixin          = require('../../mixins/FluxBoneMixin'),
     QuestionActionCreators = require('../actions/QuestionActionCreators');
@@ -7,7 +8,7 @@ var _                      = require('underscore'),
 
 var UserGuide = React.createClass({
     mixins: [
-        FluxBoneMixin('question_store')
+        FluxBoneMixin([ 'question_store' ])
     ],
 
     propTypes: {
@@ -41,6 +42,12 @@ var UserGuide = React.createClass({
     },
 
     render: function render () {
+        var questions = QuestionStore.map(function(question, index) {
+            return (
+                <Question question={ question } next_page={ this.nextPage } key={ index } />
+            );
+        }.bind(this));
+
         return (
             <div id='fullpage' className='relative overflow-hidden'>
                 <StartPage title={ this.props.guide.title }
@@ -48,6 +55,7 @@ var UserGuide = React.createClass({
                      description={ this.props.guide.description }
                   call_to_action={ this.props.guide.call_to_action }
                 />
+                { questions }
             </div>
         );
     },
