@@ -30,11 +30,8 @@
   %tr{ valign: 'top' }
     %td.v-middle.content-block{ width: 475 }
       .p.soft-half--top
-        Pour assurer la meilleure qualité de service, plus vous répondez vite, plus votre profil montera dans les résultats de recherche. Sans réponse de votre part dans les
-        %strong 2&nbsp;prochains jours,
-        la demande d'information de
-        = @user.name
-        sera expirée.
+        %strong Important :
+        pour continuer à assurer la meilleure qualité de service, vous avez 2 jours pour traiter cette demande d'inscription. Passé ce délai, la demande d'information de #{@user.name} sera expirée et votre compte sera susceptible d'être suspendu. PS : plus vous répondez vite, plus votre profil montera dans les résultats de recherche et plus vous recevrez de nouvelles inscriptions.
       = render 'shared/mailers/footer'
     %td.text--center.v-middle.content-block{ width: 125 }
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/emails_logo/48hours.png', width: 75, height: 120, alt: 'Vous avez 48 heures'
