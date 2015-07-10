@@ -8,7 +8,10 @@ var Question = React.createClass({
 
     selectAnswer: function selectAnswer (answer) {
         return function () {
-            // Send select action.
+            AnswerActionCreators.selectAnswer({
+                answer_id:   answer.id,
+                question_id: this.props.question.id,
+            });
             this.props.next_page();
         }.bind(this);
     },

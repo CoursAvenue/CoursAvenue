@@ -23,7 +23,6 @@ var QuestionStore = Backbone.Collection.extend({
                 this.set(payload.data);
                 break;
             case ActionTypes.NEXT_QUESTION:
-                console.log('ok');
                 break;
         }
     },

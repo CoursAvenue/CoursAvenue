@@ -6,5 +6,7 @@ module.exports = {
 
         POPULATE_QUESTION: null,
         POPULATE_ANSWERS:  null,
+
+        SELECT_ANSWER: null
     })
 };

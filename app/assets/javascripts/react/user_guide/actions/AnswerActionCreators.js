@@ -9,4 +9,10 @@ module.exports = {
             data: data
         });
     },
+    selectAnswer: function selectAnswer (data) {
+        UserGuideDispatcher.dispatch({
+            actionType: ActionTypes.SELECT_ANSWER,
+            data: data
+        });
+    },
 }
