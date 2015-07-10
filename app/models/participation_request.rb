@@ -496,7 +496,7 @@ class ParticipationRequest < ActiveRecord::Base
   end
 
   def set_check_for_disable_later
-    last_two = structure.participation_requests.last(3) - [ self ]
+    last_two = structure.participation_requests.last(Structure::DISABLE_ON_PR_NOT_ANSWERED_COUNT) - [ self ]
     if last_two.all?(&:unanswered?)
       structure.delay(run_at: 3.days.from_now).check_for_disable
     end
