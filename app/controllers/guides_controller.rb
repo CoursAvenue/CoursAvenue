@@ -4,11 +4,12 @@ class GuidesController < ApplicationController
   before_action :set_guide, only: [:show]
 
   def show
+    @serialized_guide = GuideSerializer.new(@guide)
   end
 
   private
 
   def set_guide
-    @guide = Guide.includes(:questions, :answers).find(params[:id])
+    @guide = Guide.includes(:questions).find(params[:id])
   end
 end
