@@ -1,4 +1,5 @@
-var Answer = require('./Answer');
+var Answer               = require('./Answer'),
+    AnswerActionCreators = require('../actions/AnswerActionCreators');
 
 var Question = React.createClass({
     propTypes: {
