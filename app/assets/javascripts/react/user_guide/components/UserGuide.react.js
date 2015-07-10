@@ -1,6 +1,7 @@
 var _                      = require('underscore'),
     StartPage              = require('./StartPage'),
     Question               = require('./Question'),
+    Results                = require('./Results'),
     QuestionStore          = require('../stores/QuestionStore'),
     FluxBoneMixin          = require('../../mixins/FluxBoneMixin'),
     QuestionActionCreators = require('../actions/QuestionActionCreators');
@@ -56,6 +57,7 @@ var UserGuide = React.createClass({
                   call_to_action={ this.props.guide.call_to_action }
                 />
                 { questions }
+                <Results />
             </div>
         );
     },
