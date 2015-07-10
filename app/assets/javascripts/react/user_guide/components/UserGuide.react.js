@@ -4,8 +4,9 @@ var _                      = require('underscore'),
     Results                = require('./Results'),
     QuestionStore          = require('../stores/QuestionStore'),
     FluxBoneMixin          = require('../../mixins/FluxBoneMixin'),
+    AnswerActionCreators   = require('../actions/AnswerActionCreators'),
+    SubjectActionCreators  = require('../actions/SubjectActionCreators'),
     QuestionActionCreators = require('../actions/QuestionActionCreators');
-    AnswerActionCreators   = require('../actions/AnswerActionCreators');
 
 var UserGuide = React.createClass({
     mixins: [
@@ -14,8 +15,9 @@ var UserGuide = React.createClass({
 
     propTypes: {
         guide: React.PropTypes.object.isRequired,
-        questions: React.PropTypes.array.isRequired,
         answers: React.PropTypes.array.isRequired,
+        subjects: React.PropTypes.array.isRequired,
+        questions: React.PropTypes.array.isRequired,
     },
 
     getInitialState: function getInitialState () {
@@ -35,6 +37,7 @@ var UserGuide = React.createClass({
     bootstrap: function bootstrap () {
         QuestionActionCreators.populateQuestions(this.props.guide.questions);
         AnswerActionCreators.populateAnswers(this.props.guide.answers);
+        SubjectActionCreators.populateSubjects(this.props.guide.answers);
     },
 
     nextPage: function nextPage () {
