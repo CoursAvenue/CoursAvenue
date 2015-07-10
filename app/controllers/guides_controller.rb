@@ -10,6 +10,6 @@ class GuidesController < ApplicationController
   private
 
   def set_guide
-    @guide = Guide.includes(questions: [ :answers ]).find(params[:id])
+    @guide = Guide.includes(questions: [ answers: [ :subjects, :question ] ]).find(params[:id])
   end
 end
