@@ -27,6 +27,9 @@ var SubjectStore = Backbone.Collection.extend({
 
   dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+            case ActionTypes.POPULATE_SUBJECTS:
+              this.set(payload.data);
+              break;
             case ActionTypes.SELECT_ANSWER:
               UserGuideDispatcher.waitFor([AnswerStore.dispatchToken]);
               this.updateScores(payload.data);
