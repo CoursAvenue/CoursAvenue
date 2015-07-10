@@ -37,7 +37,7 @@ var UserGuide = React.createClass({
     bootstrap: function bootstrap () {
         QuestionActionCreators.populateQuestions(this.props.guide.questions);
         AnswerActionCreators.populateAnswers(this.props.guide.answers);
-        SubjectActionCreators.populateSubjects(this.props.guide.answers);
+        SubjectActionCreators.populateSubjects(this.props.subjects);
     },
 
     nextPage: function nextPage () {

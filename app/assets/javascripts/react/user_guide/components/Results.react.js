@@ -1,7 +1,7 @@
 var _           = require('underscore'),
-  SubjectStore  = require('../stores/AnswerStore'),
   MainSubject   = require('./results/MainSubject'),
   SubjectList   = require('./results/SubjectList'),
+  SubjectStore  = require('../stores/SubjectStore'),
   CourseSearch  = require('./results/CourseSearch'),
   FluxBoneMixin = require('../../mixins/FluxBoneMixin');
 
