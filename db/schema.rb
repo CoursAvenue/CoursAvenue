@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150709151422) do
+ActiveRecord::Schema.define(version: 20150710144112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1208,6 +1208,7 @@ ActiveRecord::Schema.define(version: 20150709151422) do
     t.text     "good_to_know"
     t.text     "needed_meterial"
     t.text     "tips"
+    t.text     "guide_description"
   end
 
   add_index "subjects", ["ancestry_depth"], name: "index_subjects_on_ancestry_depth", using: :btree

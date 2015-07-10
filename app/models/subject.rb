@@ -48,7 +48,7 @@ class Subject < ActiveRecord::Base
   scope :roots_not_stars,        -> { where(Subject.arel_table[:position].gt(10).and(Subject.arel_table[:ancestry].eq(nil))).order('position ASC') }
 
   attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image,
-                  :good_to_know, :needed_meterial, :tips, :ancestry
+                  :good_to_know, :needed_meterial, :tips, :ancestry, :guide_description
 
   has_attached_file :image,
                     :styles => { super_wide: "825x250#", wide: "600x375#", small: '250x200#', thumb: "200x200#" },
