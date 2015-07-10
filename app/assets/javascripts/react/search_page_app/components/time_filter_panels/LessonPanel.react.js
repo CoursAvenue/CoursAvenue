@@ -19,11 +19,14 @@ var LessonPanel = React.createClass({
 
     render: function render () {
         return (
-          <div>
-              <div className="search-page-filters__title">Indiquez vos disponibilités</div>
-
-              <TimeTable timeTable={ this.state.time_table } />
-              <a onClick={ this.closePanel } className='btn'>Valider</a>
+          <div className="flexbox relative">
+              <div className="flexbox__item text--center v-middle search-page-filters__panel-height">
+                  <div className="search-page-filters__image-button-curtain"></div>
+                  <div className="relative">
+                      <TimeTable timeTable={ this.state.time_table } />
+                      <a onClick={ this.closePanel } className='btn'>Valider</a>
+                  </div>
+              </div>
           </div>
         );
     },

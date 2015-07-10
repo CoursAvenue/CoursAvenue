@@ -43,12 +43,11 @@ var SubjectFilter = React.createClass({
     },
     panelToShow: function panelToShow () {
         switch(this.state.filter_store.get('subject_panel')) {
-          case FilterPanelConstants.SUBJECT_PANELS.GROUP:
-            return ( <SubjectFilterGroupSubjectPanel key='group' /> );
           case FilterPanelConstants.SUBJECT_PANELS.ROOT:
             return ( <SubjectFilterRootSubjectPanel key='root' /> );
           case FilterPanelConstants.SUBJECT_PANELS.CHILD:
             return ( <SubjectFilterChildSubjectPanel key='child' /> );
+          case FilterPanelConstants.SUBJECT_PANELS.GROUP:
           default:
             return ( <SubjectFilterGroupSubjectPanel key='group' /> );
         }

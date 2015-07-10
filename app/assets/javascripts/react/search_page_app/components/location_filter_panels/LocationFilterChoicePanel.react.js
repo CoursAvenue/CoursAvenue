@@ -32,7 +32,7 @@ var LocationFilterChoicePanel = React.createClass({
     render: function render () {
         return (
           <div className="flexbox">
-              <div className={cx("one-third flexbox__item v-middle search-page-filters__image-button", {
+              <div className={cx("one-third flexbox__item v-middle search-page-filters__image-button search-page-filters__image-button--with-icon", {
                     'search-page-filters__image-button--active': this.state.location_store.isUserLocated()
                   }) }
                    onClick={this.locateUser}
@@ -41,7 +41,7 @@ var LocationFilterChoicePanel = React.createClass({
                   <i className="search-page-filters__image-icon fa fa-map-marker"></i>
                   <div className="search-page-filters__image-text">Autour de moi</div>
               </div>
-              <div className={cx("one-third flexbox__item v-middle search-page-filters__image-button", {
+              <div className={cx("one-third flexbox__item v-middle search-page-filters__image-button search-page-filters__image-button--with-icon", {
                     'search-page-filters__image-button--active': this.state.location_store.isFilteredByAddress()
                   }) }
                    onClick={this.showAddressPanel}
@@ -50,7 +50,7 @@ var LocationFilterChoicePanel = React.createClass({
                   <i className="search-page-filters__image-icon fa fa-map-marker"></i>
                   <div className="search-page-filters__image-text">{"Autour d'une adresse"}</div>
               </div>
-              <div className={cx("one-third flexbox__item v-middle search-page-filters__image-button", {
+              <div className={cx("one-third flexbox__item v-middle search-page-filters__image-button search-page-filters__image-button--with-icon", {
                     'search-page-filters__image-button--active': this.state.metro_store.getSelectedLines().length > 0
                   }) }
                    onClick={ this.showMetroPanel }

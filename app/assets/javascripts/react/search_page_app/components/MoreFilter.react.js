@@ -29,17 +29,19 @@ var MoreFilter = React.createClass({
     },
 
     render: function render () {
-        var isCurrentPanel = this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.MORE;
-        var classes = classNames('on-top transition-all-300 absolute west one-whole bg-white search-page-filters-wrapper text--center', {
-            'north'     : isCurrentPanel,
-            'down-north': !isCurrentPanel,
+        var classes = classNames({
+            'search-page-filters-wrapper--active': (this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.MORE),
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
-
         return (
-            <div className={ classes }>
+          <div className={classes + ' search-page-filters-wrapper search-page-filters__more-panel'}>
+              <div className="search-page-filters__title">
+                  Filtres supplémentaires
+                  <div className="search-page-filters__closer" onClick={this.closeFilterPanel}>
+                      <i className="fa fa-times beta"></i>
+                  </div>
+              </div>
               <div>
-                  <h2>Filtres supplémentaires</h2>
                   <div className='grid'>
                       <div className='grid__item one-third'>
                           <AudienceList />

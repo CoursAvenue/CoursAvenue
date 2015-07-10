@@ -26,7 +26,7 @@ var TimeTable = React.createClass({
         return (
             <div className='hard main-container'>
                 <div className='grid'>
-                    <div className='grid__item one-third text--right'>
+                    <div className='grid__item one-third text--right white'>
                         <div className='very-soft'>&nbsp;</div>
                         <div className='very-soft'>Matin (avant 12h)</div>
                         <div className='very-soft'>Midi (12h-14h)</div>

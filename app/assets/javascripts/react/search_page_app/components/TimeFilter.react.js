@@ -21,6 +21,16 @@ var TimeFilter = React.createClass({
         };
     },
 
+    title: function title () {
+        switch(this.state.filter_store.get('time_panel')) {
+          case FilterPanelConstants.TIME_PANELS.TRAINING:
+              return "Indiquez vos disponibilités";
+          case FilterPanelConstants.TIME_PANELS.LESSON:
+          default:
+              return "Indiquez vos disponibilités";
+        }
+    },
+
     panelToShow: function panelToShow () {
         switch(this.state.filter_store.get('time_panel')) {
           case FilterPanelConstants.TIME_PANELS.TRAINING:
@@ -32,14 +42,18 @@ var TimeFilter = React.createClass({
     },
 
     render: function render () {
-        var isCurrentPanel = this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.TIME;
         var classes = classNames({
-            'north'                            : isCurrentPanel,
-            'down-north'                       : !isCurrentPanel,
+            'search-page-filters-wrapper--active': (this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.TIME),
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
         return (
-          <div className={ classes + ' on-top transition-all-300 absolute west one-whole search-page-filters__time-panel search-page-filters-wrapper'}>
+          <div className={classes + ' search-page-filters-wrapper search-page-filters__time-panel'}>
+              <div className="search-page-filters__title">
+                  {this.title()}
+                  <div className="search-page-filters__closer" onClick={this.closeFilterPanel}>
+                      <i className="fa fa-times beta"></i>
+                  </div>
+              </div>
               { this.panelToShow() }
           </div>
         );

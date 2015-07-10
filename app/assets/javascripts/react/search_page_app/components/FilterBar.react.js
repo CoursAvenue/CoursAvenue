@@ -38,7 +38,7 @@ var FilterBar = React.createClass({
 
     render: function render () {
         return (
-          <div className="search-page-filter-wrapper main-container main-container--1000 grid--full bg-white hard">
+          <div className="search-page-filter-bar-wrapper grid--full">
               <div className={ cx("grid__item search-page-filter search-page-filter--subject three-tenths",
                                 { 'search-page-filter--active': this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS,
                                   'search-page-filter--has-filters': this.state.card_store.hasActiveFilters('subject') }) }

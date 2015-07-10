@@ -72,22 +72,23 @@ var LocationFilterChoicePanel = React.createClass({
     render: function render () {
         return (
           <div className="relative">
-              <div className="main-container">
-                  <ol className="search-page-filters__breadcrumbs">
-                      <li>
-                          <a onClick={this.showLocationChoicePanel} className="block text--left">Où</a>
-                      </li>
-                      <li>{"Autour d'une adresse"}</li>
-                  </ol>
-              </div>
-              <div className="text--center">
-                  <div className="inline-block v-middle relative center-block text--left">
-                      <input className="input--large inline-block"
-                             size="50"
-                             onChange={this.searchFullText}
-                             placeholder="Entrez le nom de la localité" />
+              <ol className="search-page-filters__breadcrumbs">
+                  <li>
+                      <a onClick={this.showLocationChoicePanel} className="block text--left">Où</a>
+                  </li>
+                  <li>{"Autour d'une adresse"}</li>
+              </ol>
+              <div className="flexbox">
+                  <div className="flexbox__item text--center v-middle search-page-filters__panel-height">
+                      <div className="search-page-filters__image-button-curtain"></div>
+                      <div className="inline-block v-middle relative center-block text--left">
+                          <input className="input--large inline-block"
+                                 size="50"
+                                 onChange={this.searchFullText}
+                                 placeholder="Entrez le nom de la localité" />
+                      </div>
+                      <div className="btn v-middle relative" onClick={this.closeFilterPanel}>OK</div>
                   </div>
-                  <div className="btn v-middle" onClick={this.closeFilterPanel}>OK</div>
               </div>
           </div>
         );
