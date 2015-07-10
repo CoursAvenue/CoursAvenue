@@ -35,10 +35,16 @@ var UserGuide = React.createClass({
         AnswerActionCreators.populateAnswers(this.props.guide.answers);
     },
 
+    nextPage: function nextPage () {
+        console.log('next page');
+        $.fn.fullpage.moveSectionDown();
+    },
+
     render: function render () {
         return (
             <div id='fullpage' className='relative overflow-hidden'>
                 <StartPage title={ this.props.guide.title }
+                       next_page={ this.nextPage }
                      description={ this.props.guide.description }
                   call_to_action={ this.props.guide.call_to_action }
                 />

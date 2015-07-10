@@ -3,12 +3,15 @@ var QuestionActionCreators = require('../actions/QuestionActionCreators');
 var StarPage = React.createClass({
     propTypes: {
         title:          React.PropTypes.string.isRequired,
+        next_page:      React.PropTypes.func.isRequired,
         description:    React.PropTypes.string.isRequired,
-        call_to_action: React.PropTypes.string.isRequired
+        call_to_action: React.PropTypes.string.isRequired,
     },
 
     start: function start (event) {
         event.preventDefault();
+
+        this.props.next_page();
         QuestionActionCreators.nextQuestion();
     },
 
