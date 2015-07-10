@@ -9,17 +9,23 @@ var Question = React.createClass({
     },
 
     render: function render () {
+        var answers = this.props.question.get('answers').map(function(answer, index) {
+            return (
+                <div key={ index } >
+                    { answer.content }
+                </div>
+            );
+        }.bind(this));
+
         return (
             <div className='section relative one-whole relative white full-screen-item bg-cover'>
-              <div className='flexbox full-screen-item soft'>
-                <div className='black-curtain north west one-whole absolute'></div>
-                <div className='push--top soft--top one-whole flexbox__item'>
-                  <div className='v-middle relative'>
-                    <h1 className='flush soft--top text--center f-size-really-big'>
-                      { this.props.question.get('content') }
-                    </h1>
-                    <hr className=' push-half--ends main-container main-container--medium' />
-                  </div>
+              <div className='black-curtain north west one-whole absolute'></div>
+              <div className='relative' style={ { paddingBottom: '10vh', paddingTop: 80 } }>
+                <h2 className='flush--bottom f-size-big text--center white orange-box soft-half'>
+                  { this.props.question.get('content') }
+                </h2>
+                <div className='grid--full'>
+                    { answers }
                 </div>
               </div>
             </div>
