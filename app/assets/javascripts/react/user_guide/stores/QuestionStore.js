@@ -5,10 +5,6 @@ var _                   = require('underscore'),
     ActionTypes         = UserGuideConstants.ActionTypes;
 
 var Question = Backbone.Model.extend({
-    defaults: function () {
-        return { selected: false };
-    },
-
     initialize: function initialize () {
     },
 });
