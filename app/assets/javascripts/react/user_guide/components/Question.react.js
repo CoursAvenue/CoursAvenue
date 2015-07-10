@@ -1,3 +1,5 @@
+var Answer = require('./Answer');
+
 var Question = React.createClass({
     propTypes: {
         question: React.PropTypes.object.isRequired,
@@ -14,9 +16,7 @@ var Question = React.createClass({
     render: function render () {
         var answers = this.props.question.get('answers').map(function(answer, index) {
             return (
-                <div key={ index } >
-                    { answer.content }
-                </div>
+                <Answer answer={ answer } select={ this.selectAnswer(answer) } key={ index } />
             );
         }.bind(this));
 
