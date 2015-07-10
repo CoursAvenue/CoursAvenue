@@ -1,4 +1,5 @@
-var SubjectStore          = require('../../stores/SubjectStore'),
+var _                     = require('lodash'),
+    SubjectStore          = require('../../stores/SubjectStore'),
     SearchPageDispatcher  = require('../../dispatcher/SearchPageDispatcher'),
     FluxBoneMixin         = require("../../../mixins/FluxBoneMixin"),
     SubjectItem           = require('../../components/SubjectItem.react'),
@@ -31,6 +32,7 @@ var SubjectFilter = React.createClass({
                 <SubjectItem subject={ subject.toJSON() } key={index}/>
             );
         });
+        subject_items = _.chunk(subject_items, 3);
         var group_subject_name = (this.state.subject_store.selected_group_subject ? this.state.subject_store.selected_group_subject.name : '');
         var root_subject_name = (this.state.subject_store.selected_root_subject ? this.state.subject_store.selected_root_subject.name : '');
         return (
@@ -44,8 +46,11 @@ var SubjectFilter = React.createClass({
                   </li>
                   <li>Pratique</li>
               </ol>
-              <div className="main-container soft--bottom">
-                  { subject_items }
+              <div className="flexbox search-page-filters__panel-half-height">
+                  { subject_items[0] }
+              </div>
+              <div className="flexbox search-page-filters__panel-half-height">
+                  { subject_items[1] }
               </div>
           </div>
         );

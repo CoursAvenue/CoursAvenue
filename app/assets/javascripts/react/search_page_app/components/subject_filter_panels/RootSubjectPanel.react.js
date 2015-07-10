@@ -33,7 +33,7 @@ var SubjectFilter = React.createClass({
                   <li><a onClick={this.showGroupPanel} className="block text--left">Catégorie</a></li>
                   <li>Discipline</li>
               </ol>
-              <div className="flexbox">
+              <div className="flexbox search-page-filters__panel-height">
                   { root_subject_items }
               </div>
           </div>

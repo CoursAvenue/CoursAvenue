@@ -26,7 +26,7 @@ var SubjectFilter = React.createClass({
               <ol className="search-page-filters__breadcrumbs">
                   <li>Catégorie</li>
               </ol>
-              <div className="flexbox">
+              <div className="flexbox search-page-filters__panel-height">
                   {group_subject_items}
               </div>
           </div>

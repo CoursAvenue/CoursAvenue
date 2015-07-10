@@ -31,7 +31,7 @@ var LocationFilterChoicePanel = React.createClass({
 
     render: function render () {
         return (
-          <div className="flexbox">
+          <div className="flexbox search-page-filters__panel-height">
               <div className={cx("one-third flexbox__item v-middle search-page-filters__image-button search-page-filters__image-button--with-icon", {
                     'search-page-filters__image-button--active': this.state.location_store.isUserLocated()
                   }) }

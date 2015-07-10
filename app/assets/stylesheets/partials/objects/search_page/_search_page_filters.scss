@@ -147,9 +147,8 @@ $map-height   : 480px;
             font-weight: 600;
         }
     }
-    .search-page-filters__panel-height {
-        height: $map-height;
-    }
+    .search-page-filters__panel-height { height: $map-height; }
+    .search-page-filters__panel-half-height { height: $map-height / 2; }
     .search-page-filters__image-button {
         @include background-size(cover);
         background-position: center;
@@ -157,7 +156,6 @@ $map-height   : 480px;
         @extend .text--center;
         position   : relative;
         color      : white;
-        height     : $map-height;
         font-weight: 600;
         font-size  : 2em;
         &:hover .search-page-filters__image-icon {
