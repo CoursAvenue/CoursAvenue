@@ -2,12 +2,11 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.SignUpView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'sign_up_view',
-        after_sign_up_popup_template: Module.templateDirname() + 'after_sign_up_popup',
         className: 'panel center-block',
 
         options: {
             width: 340,
-            after_sign_up_popup_title: 'Inscription réussie'
+            after_sign_up_popup_title: "Demande d'inscription envoyée"
         },
 
         initialize: function initialize (options) {
@@ -99,9 +98,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                             mixpanel.track("User registered", { info: 'Standard' });
                             ga('send', 'event', 'Action', 'User registered');
                         }
-                        this.showRegistrationConfirmedPopup()
-                        // Pixel to track registration convertion with Facebook
-                        if (window._fbq) { window._fbq.push(['track', '6016889463627', {}]); }
+                        this.options.success();
                     }.bind(this)
                 });
             } else {
@@ -109,25 +106,6 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 this.render();
             }
             return false;
-        },
-
-        showRegistrationConfirmedPopup: function showRegistrationConfirmedPopup () {
-            var data = { title: this.options.after_sign_up_popup_title };
-            if (this.model.isFromHotmail()) { data.from_hotmail = true; }
-            if (this.model.isFromGmail())   { data.from_gmail   = true; }
-            $.magnificPopup.close();
-            // Waits for the popup to close to open new one.
-            _.delay(function() {
-                $.magnificPopup.open({
-                      items: {
-                          src: JST[this.after_sign_up_popup_template](data),
-                          type: 'inline'
-                      },
-                      callbacks: {
-                          afterClose: this.options.success
-                      }
-                });
-            }.bind(this), 500);
         },
 
         serializeData: function serializeData () {

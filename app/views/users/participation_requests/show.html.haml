@@ -1,6 +1,7 @@
 = user_menu_currently_at 'inscriptions'
 = render 'shared/include_addthisevent'
-- structure_decorator = @structure.decorate
+- structure_decorator             = @structure.decorate
+- participation_request_decorator = @participation_request.decorate
 
 .panel.push--bottom
   .panel__header.soft
@@ -8,23 +9,54 @@
       %li.f-weight-600.delta= link_to 'Mes inscriptions', user_participation_requests_path(@user)
       %li.f-weight-600.delta= @structure.name
   .panel__body.soft--top
-    .soft--sides.push-half--bottom
-      %h1 Demande d'inscription
-      .grid__item.palm-one-whole.two-twelfths.v-top>
-        = link_to structure_path(@structure), target: :_blank, class: 'center-block' do
-          = image_tag @structure.logo.url(:thumb), class: 'center-block rounded--circle'
-      .grid__item.palm-one-whole.six-twelfths.v-top>
-        %h3.line-height-1-7.flush
-          = @structure.name
-        .epsilon.line-height-1-7= structure_decorator.phone_numbers
-        .epsilon.line-height-1-7= structure_decorator.website_link
-        - if @structure.facebook_url.present?
-          .epsilon.line-height-1-7= link_to 'Page Facebook', URLHelper.fix_url(@structure.facebook_url), target: :_blank
-        .epsilon.line-height-1-7= link_to 'Profil CoursAvenue', structure_path(@structure), target: :_blank
-      .grid__item.palm-one-whole.four-twelfths.text--right.visuallyhidden--palm.v-top>
-        %h4.push-half--bottom Ajouter au calendrier
-        = add_to_calendar(@participation_request)
+    .soft--sides
+      .grid.push--bottom
+        .grid__item.palm-one-whole.two-twelfths.v-top>
+          = link_to structure_path(@structure), target: :_blank, class: 'center-block' do
+            = image_tag @structure.logo.url(:thumb), class: 'center-block rounded--circle'
+        .grid__item.palm-one-whole.six-twelfths.v-top>
+          %h3.line-height-1-7.flush
+            = @structure.name
+          .epsilon.line-height-1-7= structure_decorator.phone_numbers
+          .epsilon.line-height-1-7= structure_decorator.website_link
+          - if @structure.facebook_url.present?
+            .epsilon.line-height-1-7= link_to 'Page Facebook', URLHelper.fix_url(@structure.facebook_url), target: :_blank
+          .epsilon.line-height-1-7= link_to 'Profil CoursAvenue', structure_path(@structure), target: :_blank
+        .grid__item.palm-one-whole.four-twelfths.text--right.visuallyhidden--palm.v-top>
+          %h4.push-half--bottom Ajouter au calendrier
+          = add_to_calendar(@participation_request)
 
+      - if !@participation_request.canceled?
+        .green-box.rounded.soft.white.epsilon.push--bottom#pr-confirmation-form
+          - if @participation_request.accepted?
+            %h3.flush Avez-vous convenu d'une date ?
+            .epsilon.line-height-1-7
+              Félicitations ! Vous avez reçu une nouvelle demande d'inscription. Que se passe-t-il ensuite ? Nous enverrons à Elsa Lagarde 2 notifications
+            .epsilon.line-height-1-7
+              %strong - 2 jours avant la séance : un SMS de rappel avec le récapitulatif de la séance
+            .epsilon.line-height-1-7
+              %strong - Le lendemain de la séance : un mail pour l'inviter à déposer sa recommandation.
+            .epsilon.line-height-1-7
+              C'est pourquoi il est important de confirmer la date retenue :
+              .delta.push-half--top
+                %strong
+                  #{@user.name} assistera à la séance "#{@participation_request.course.name}" le #{participation_request_decorator.day_and_hour(false)}
+                = link_to 'Modifier', edit_pro_structure_participation_request_path(@structure, @participation_request, show_course_select: true), class: 'btn btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+          - else !@participation_request.canceled?
+            %h3.flush Avez-vous convenu d'une date ?
+            .epsilon.line-height-1-7
+              Félicitations ! Vous avez reçu une nouvelle demande d'inscription. Que se passe-t-il ensuite ? Nous enverrons à Elsa Lagarde 2 notifications
+            .epsilon.line-height-1-7
+              %strong - 2 jours avant la séance : un SMS de rappel avec le récapitulatif de la séance
+            .epsilon.line-height-1-7
+              %strong - Le lendemain de la séance : un mail pour l'inviter à déposer sa recommandation.
+            .epsilon.line-height-1-7
+              C'est pourquoi il est important de confirmer la date retenue :
+              .delta.push-half--top
+                %strong
+                  #{@user.name} assistera à la séance "#{@participation_request.course.name}" le #{participation_request_decorator.day_and_hour(false)}
+              = link_to 'Accepter', accept_pro_structure_participation_request_path(@participation_request.structure, @participation_request), method: :patch, class: 'btn btn--green btn--small'
+              = link_to 'Modifier', edit_pro_structure_participation_request_path(@structure, @participation_request, show_course_select: true), class: 'btn btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
     = render partial: 'structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
   .grid.push--bottom

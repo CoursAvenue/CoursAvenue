@@ -33,11 +33,6 @@ class Structures::ParticipationRequestsController < ApplicationController
     render layout: false
   end
 
-  # GET participation_request/:id/report_form
-  def report_form
-    render layout: false
-  end
-
   # PUT participation_request/:id/accept
   def accept
     message_body = params[:participation_request][:message][:body] if params[:participation_request] and params[:participation_request][:message]
@@ -68,14 +63,6 @@ class Structures::ParticipationRequestsController < ApplicationController
     @participation_request.cancel!(params[:participation_request][:message][:body], params[:participation_request][:cancelation_reason_id], 'User')
     respond_to do |format|
       format.html { redirect_to (params[:return_to] || @participation_request_url), notice: "L'annulation a bien été prise en compte" }
-    end
-  end
-
-  # PUT participation_request/:id/report
-  def report
-    @participation_request.update_attributes params[:participation_request]
-    respond_to do |format|
-      format.html { redirect_to @participation_request_url, notice: "Nous avons bien pris en compte votre signalement" }
     end
   end
 

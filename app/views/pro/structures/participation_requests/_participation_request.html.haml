@@ -26,12 +26,14 @@
       - else
         = participation_request_decorator.status_for('Structure')
       .very-soft.hard--left.hard--bottom.hard--right
-        = participation_request_decorator.teacher_action_link
+        = link_to participation_request_decorator.action_button_name_for('Structure'), pro_structure_participation_request_path(participation_request.structure, participation_request), class: "#{participation_request_decorator.action_button_class_for('Structure')} btn btn--small"
+
+
 
   %td.soft--ends.v-top{ data: { th: 'Cours et date' } }
     %div
       - course = participation_request.course
-      %strong= participation_request_decorator.day_and_hour.capitalize
+      %strong= participation_request_decorator.day_and_hour(false).capitalize
       %br
       %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
         = course.name

@@ -35,13 +35,16 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   # GET pro/etablissements/:structure_id/participation_request/:id
   def show
     @participation_request = @structure.participation_requests.find(params[:id])
+    # Treat PR if it is viewed by the teacher and NOT by a super admin
+    if @participation_request.pending?
+      @participation_request.treat! unless current_pro_admin and current_pro_admin.super_admin?
+    end
     @user                  = @participation_request.user
   end
 
   # GET pro/etablissements/:structure_id/participation_request/:id/show_user_contact
   def show_user_contacts
     @participation_request = @structure.participation_requests.find(params[:id])
-    @participation_request.treat! if @participation_request.pending?
     @user                  = @participation_request.user
     @user_decorator        = @user.decorate
     render layout: false
@@ -49,12 +52,6 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
 
   # GET pro/etablissements/:structure_id/participation_request/:id/cancel_form
   def cancel_form
-    @participation_request = @structure.participation_requests.find(params[:id])
-    render layout: false
-  end
-
-  # GET pro/etablissements/:structure_id/participation_request/:id/report_form
-  def report_form
     @participation_request = @structure.participation_requests.find(params[:id])
     render layout: false
   end
@@ -102,15 +99,6 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     action_performed = @participation_request.charged? and @participation_request.refunded? ? 'remboursée' : 'refusée'
     respond_to do |format|
       format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: "La demande d'inscription a bien été #{ action_performed }" }
-    end
-  end
-
-  # PUT pro/etablissements/:structure_id/participation_request/:id/report
-  def report
-    @participation_request = @structure.participation_requests.find(params[:id])
-    @participation_request.update_attributes params[:participation_request]
-    respond_to do |format|
-      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: "Nous avons bien pris en compte votre signalement" }
     end
   end
 

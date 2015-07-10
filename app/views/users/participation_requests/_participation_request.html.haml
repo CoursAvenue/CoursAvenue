@@ -12,7 +12,8 @@
   %td.v-top.nowrap{ class: participation_request_decorator.color }
     = participation_request_decorator.status_for('User')
     .very-soft.hard--left.hard--bottom.hard--right
-      = participation_request_decorator.user_action_link
+      = link_to participation_request_decorator.action_button_name_for('User'), user_participation_request_path(participation_request.user, participation_request), class: "btn btn--small #{participation_request_decorator.action_button_class_for('User')} nowrap"
+
   %td.v-top
     %div
       %strong= participation_request_decorator.day_and_hour.capitalize

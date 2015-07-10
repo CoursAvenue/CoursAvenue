@@ -61,12 +61,8 @@ class ParticipationRequestDecorator < Draper::Decorator
   end
 
   def action_button_name_for(resource='Structure')
-    if object.past?
-      I18n.t('participation_request.pro.action_button_text.report')
-    elsif object.pending? and object.last_modified_by != resource
+    if object.pending? and object.last_modified_by != resource
       I18n.t('participation_request.pro.action_button_text.answer_now')
-    elsif object.canceled?
-      I18n.t('participation_request.pro.action_button_text.view')
     else
       I18n.t('participation_request.pro.action_button_text.view')
     end
@@ -75,32 +71,6 @@ class ParticipationRequestDecorator < Draper::Decorator
   def action_button_class_for(resource='Structure')
     if object.pending? and object.last_modified_by != resource
       'btn--green'
-    end
-  end
-
-  def teacher_action_link
-    if object.past?
-      h.link_to action_button_name_for('Structure'),
-                h.report_form_pro_structure_participation_request_path(object.structure, object),
-                class: 'btn btn--small red fancybox.ajax soft--sides',
-                data: { behavior: 'modal', width: 500, padding: 0 }
-    else
-      h.link_to action_button_name_for('Structure'),
-                h.pro_structure_participation_request_path(object.structure, object),
-                class: "#{action_button_class_for('Structure')} btn btn--small"
-    end
-  end
-
-  def user_action_link
-    if object.past?
-      h.link_to action_button_name_for('User'),
-                h.report_form_structure_participation_request_path(object.structure, object),
-                class: 'btn btn--small red nowrap fancybox.ajax soft--sides',
-                data: { behavior: 'modal', width: 500, padding: 0 }
-    else
-      h.link_to action_button_name_for('User'),
-                h.user_participation_request_path(object.user, object),
-                class: "btn btn--small #{action_button_class_for('User')} nowrap"
     end
   end
 
@@ -157,32 +127,17 @@ class ParticipationRequestDecorator < Draper::Decorator
                            structure_name: object.structure.name,
                            url:            bitly.short_url }
 
-    if object.course_address and object.structure.phone_numbers.any?
-      message = I18n.t('sms.users.new_participation_request.with_address_and_phone',
-                       default_attributes.merge({ address: object.course_address,
-                        phone_number: object.structure.phone_numbers.first.number }))
-    elsif object.course_address
+    if object.course_address
       message = I18n.t('sms.users.new_participation_request.with_address',
                        default_attributes.merge({ address: object.course_address }))
-    elsif object.structure.phone_numbers.any?
-      message = I18n.t('sms.users.new_participation_request.with_phone',
-                       default_attributes.merge({ phone_number: object.structure.phone_numbers.first.number }))
     else
-      message = I18n.t('sms.users.new_participation_request.without_phone_and_address',
+      message = I18n.t('sms.users.new_participation_request.without_address',
                        default_attributes)
 
     end
   end
 
   def sms_reminder_message
-    if object.from_personal_website
-      sms_reminder_message_for_pr_from_personal_websites
-    else
-      sms_reminder_message_for_coursavenue_users
-    end
-  end
-
-  def sms_reminder_message_for_pr_from_personal_websites
     pr_url = h.structure_website_structure_participation_request_url(object.structure, object, subdomain: 'www')
     bitly  = Bitly.client.shorten(pr_url)
     course = object.course
@@ -191,46 +146,14 @@ class ParticipationRequestDecorator < Draper::Decorator
                            structure_name: object.structure.name,
                            url: bitly.short_url }
 
-    if object.course_address and object.structure.phone_numbers.any?
-      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.with_address_and_phone',
-                       default_attributes.merge({ address: object.course_address,
-                        phone_number: object.structure.phone_numbers.first.number }))
-    elsif object.course_address
-      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.with_address',
+    if object.course_address
+      message = I18n.t('sms.users.day_before_reminder.one_course.with_address',
                        default_attributes.merge({ address: object.course_address }))
-    elsif object.structure.phone_numbers.any?
-      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.with_phone',
-                       default_attributes.merge({ phone_number: object.structure.phone_numbers.first.number }))
     else
-      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.without_phone_and_address',
+      message = I18n.t('sms.users.day_before_reminder.one_course.without_address',
                        default_attributes)
 
     end
-  end
-
-  def sms_reminder_message_for_coursavenue_users
-    pr_url = h.structure_website_structure_participation_request_url(object.structure, object, subdomain: 'www')
-    bitly  = Bitly.client.shorten(pr_url)
-    course = object.course
-    default_attributes = { start_time: I18n.l(object.start_time, format: :short),
-                           course_name: course.name,
-                           structure_name: object.structure.name,
-                           url: bitly.short_url }
-    if object.course_address and object.structure.phone_numbers.any?
-      message = I18n.t('sms.users.day_before_reminder.one_course.general.with_address_and_phone',
-                       default_attributes.merge({ address: object.course_address,
-                        phone_number: object.structure.phone_numbers.first.number }))
-    elsif object.course_address
-      message = I18n.t('sms.users.day_before_reminder.one_course.general.with_address',
-                       default_attributes.merge({ address: object.course_address }))
-    elsif object.structure.phone_numbers.any?
-      message = I18n.t('sms.users.day_before_reminder.one_course.general.with_phone',
-                       default_attributes.merge({ phone_number: object.structure.phone_numbers.first.number }))
-    else
-      message = I18n.t('sms.users.day_before_reminder.one_course.general.without_phone_and_address',
-                       default_attributes)
-
-    end
-
+    message
   end
 end

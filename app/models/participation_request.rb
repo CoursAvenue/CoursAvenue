@@ -187,14 +187,15 @@ class ParticipationRequest < ActiveRecord::Base
     self.assign_attributes new_params
     # Set old_course_id to nil if the user don't change it and modify just the date
     self.old_course_id       = (self.course_id_was == self.course_id ? nil : self.course_id_was)
-    self.state               = 'pending'
-    message                  = reply_to_conversation(message_body, last_modified_by)
+    self.state               = 'accepted'
+    message                  = reply_to_conversation(message_body, last_modified_by) if message_body.present?
     self.structure_responded = true if last_modified_by == 'Structure'
     save
+
     if self.last_modified_by == 'Structure'
-      mailer.delay.request_has_been_modified_by_teacher_to_user(self, message)
+      mailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
-      mailer.delay.request_has_been_modified_by_user_to_teacher(self, message)
+      mailer.delay.request_has_been_accepted_by_user_to_teacher(self, message)
     end
   end
 
