@@ -24,6 +24,12 @@ var UserGuide = React.createClass({
         this.bootstrap();
     },
 
+    componentDidUpdate: function componentDidUpdate (prevProps, prevState) {
+        $('#fullpage').fullpage({ controlArrows: false });
+        $.fn.fullpage.setMouseWheelScrolling(false);
+        $.fn.fullpage.setKeyboardScrolling(false);
+    },
+
     bootstrap: function bootstrap () {
         QuestionActionCreators.populateQuestions(this.props.guide.questions);
         AnswerActionCreators.populateAnswers(this.props.guide.answers);
@@ -31,7 +37,7 @@ var UserGuide = React.createClass({
 
     render: function render () {
         return (
-            <div className='relative overflow-hidden'>
+            <div id='fullpage' className='relative overflow-hidden'>
                 <StartPage title={ this.props.guide.title }
                      description={ this.props.guide.description }
                   call_to_action={ this.props.guide.call_to_action }
