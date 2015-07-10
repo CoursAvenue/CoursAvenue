@@ -5,11 +5,12 @@ var _                   = require('underscore'),
     ActionTypes         = UserGuideConstants.ActionTypes;
 
 var Answer = Backbone.Model.extend({
-    defaults: function () {
+    defaults: function defaults () {
         return { selected: false };
     },
 
     initialize: function () {
+      _.bindAll(this, 'toggleSelection');
     },
 
     toggleSelection: function toggleSelection () {
