@@ -1,9 +1,1 @@
-= react_component('UserGuideApp', { guide: @guide })
-
-= content_for :scripts do
-  :javascript
-    window.coursavenue = window.coursavenue || {};
-    window.coursavenue.bootstrap = {
-        id: #{ @guide.id },
-        models: #{ @serialized_guide.to_json },
-    }
+= react_component('UserGuideApp', { guide: @serialized_guide })
