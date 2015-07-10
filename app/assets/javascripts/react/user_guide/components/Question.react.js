@@ -4,8 +4,11 @@ var Question = React.createClass({
         next_page: React.PropTypes.func.isRequired,
     },
 
-    selectAnswer: function selectAnswer () {
-        this.props.next_page();
+    selectAnswer: function selectAnswer (answer) {
+        return function () {
+            // Send select action.
+            this.props.next_page();
+        }.bind(this);
     },
 
     render: function render () {
