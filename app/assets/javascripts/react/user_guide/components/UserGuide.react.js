@@ -16,6 +16,10 @@ var UserGuide = React.createClass({
         answers: React.PropTypes.array.isRequired,
     },
 
+    getInitialState: function getInitialState () {
+        return { question_store: QuestionStore };
+    },
+
     componentDidMount: function componentDidMount () {
         this.bootstrap();
     },
