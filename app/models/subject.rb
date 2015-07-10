@@ -59,6 +59,8 @@ class Subject < ActiveRecord::Base
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
     attributesForFaceting [:depth, :parent, :root]
+    add_attribute :popularity
+
     attribute :slug, :depth
     add_attribute :image_url do
       image.url(:search_page)
@@ -144,5 +146,13 @@ class Subject < ActiveRecord::Base
     else
       read_attribute(:tips)
     end
+  end
+
+  private
+
+  # Compute score regarding its populariy regardings the # of reservations
+  def popularity
+    pr_count = ParticipationRequest.joins('JOIN courses_subjects ON participation_requests.course_id = courses_subjects.course_id').where("subject_id = #{id}").count
+    courses.count * pr_count
   end
 end

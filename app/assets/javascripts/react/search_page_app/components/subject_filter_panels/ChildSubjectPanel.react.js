@@ -5,7 +5,7 @@ var _                     = require('lodash'),
     SubjectItem           = require('../../components/SubjectItem.react'),
     SubjectSearchInput    = require('../../components/SubjectSearchInput.react'),
     FilterActionCreators  = require('../../actions/FilterActionCreators'),
-    classNames            = require('classnames');
+    cx                    = require('classnames/dedupe');
 
 var SubjectFilter = React.createClass({
     mixins: [
@@ -32,7 +32,22 @@ var SubjectFilter = React.createClass({
                 <SubjectItem subject={ subject.toJSON() } key={index}/>
             );
         });
-        subject_items = _.chunk(subject_items, 3);
+        subject_item_pages = _.chunk(subject_items, 6);
+        subject_item_pages = _.map(subject_item_pages, function(subject_item_page, index) {
+            var chunk = _.chunk(subject_item_page, 3)
+            return (
+              <div className={cx("flexbox search-page-filters__panel-half-height", {
+                                  hidden: index > 0 }) }>
+                  <div className="flexbox search-page-filters__panel-half-height">
+                      { chunk[0] }
+                  </div>
+                  <div className="flexbox search-page-filters__panel-half-height">
+                      { chunk[1] }
+                  </div>
+              </div>
+            );
+
+        });
         var group_subject_name = (this.state.subject_store.selected_group_subject ? this.state.subject_store.selected_group_subject.name : '');
         var root_subject_name = (this.state.subject_store.selected_root_subject ? this.state.subject_store.selected_root_subject.name : '');
         return (
@@ -46,12 +61,7 @@ var SubjectFilter = React.createClass({
                   </li>
                   <li>Pratique</li>
               </ol>
-              <div className="flexbox search-page-filters__panel-half-height">
-                  { subject_items[0] }
-              </div>
-              <div className="flexbox search-page-filters__panel-half-height">
-                  { subject_items[1] }
-              </div>
+              {subject_item_pages}
           </div>
         );
     }
