@@ -23,6 +23,9 @@ var QuestionStore = Backbone.Collection.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+            case ActionTypes.POPULATE_QUESTION:
+                this.set(payload.data);
+                break;
             case ActionTypes.NEXT_QUESTION:
                 console.log('ok');
                 break;

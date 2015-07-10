@@ -37,4 +37,3 @@ var StarPage = React.createClass({
 });
 
 module.exports = StarPage;
-

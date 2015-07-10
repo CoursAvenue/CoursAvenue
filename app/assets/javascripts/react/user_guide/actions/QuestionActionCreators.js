@@ -8,4 +8,10 @@ module.exports = {
             actionType: ActionTypes.NEXT_QUESTION
         });
     },
+    populateQuestions: function populateQuestions (data) {
+        UserGuideDispatcher.dispatch({
+            actionType: ActionTypes.POPULATE_QUESTION,
+            data: data
+        });
+    },
 };
