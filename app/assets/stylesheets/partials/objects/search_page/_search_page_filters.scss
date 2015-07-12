@@ -158,6 +158,8 @@ $map-height   : 480px;
         color      : white;
         font-weight: 600;
         font-size  : 2em;
+        font-family: 'ff-tisa-web-pro';
+        @include prefix(font-feature-settings, "liga");
         &:hover .search-page-filters__image-icon {
             opacity: 1;
         }
