@@ -1,4 +1,4 @@
-var _       = require('underscore'),
+var _       = require('lodash'),
     Subject = require('./Subject.react');
 
 SubjectList = React.createClass({

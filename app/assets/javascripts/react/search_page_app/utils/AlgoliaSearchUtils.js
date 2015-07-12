@@ -1,4 +1,4 @@
-var _                   = require('underscore'),
+var _                   = require('lodash'),
     algoliasearch       = require('algoliasearch'),
     algoliasearchHelper = require('algoliasearch-helper'),
     client              = algoliasearch(ENV['ALGOLIA_APPLICATION_ID'], ENV['ALGOLIA_SEARCH_API_KEY']),
