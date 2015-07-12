@@ -206,6 +206,24 @@ $map-height   : 480px;
             .search-page-filters__image-button-curtain { opacity: 0.7; }
         }
 
+.search-page__result-info {
+    color           : #777777;
+    background-color: white;
+    padding         : 0.4em 1em;
+    vertical-align  : middle;
+    font-size       : 1.1em;
+    margin-right    : 3px;
+    &:hover { text-decoration: none; }
+    @include border-radius(1em);
+}
+    .search-page__result-info--dot-dot-dot {}
+    .search-page__result-info-number {
+        font-weight: bold;
+        color      : #aaaaaa;
+        margin-left: 0.8em;
+    }
+
+
 .search-page-small-map {
     height       : 225px;
     width        : 300px;

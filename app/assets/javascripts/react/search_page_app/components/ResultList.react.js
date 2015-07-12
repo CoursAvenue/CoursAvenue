@@ -13,8 +13,6 @@ ResultList = React.createClass({
         return { card_store: CardStore };
     },
 
-    componentDidMount: function componentDidMount() {},
-
     render: function render () {
         var header_message, no_results;
         if (this.state.card_store.loading) {
