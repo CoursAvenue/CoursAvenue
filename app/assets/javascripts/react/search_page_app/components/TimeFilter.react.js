@@ -41,6 +41,10 @@ var TimeFilter = React.createClass({
         }
     },
 
+    closeFilterPanel: function closeFilterPanel () {
+        FilterActionCreators.closeFilterPanel();
+    },
+
     render: function render () {
         var classes = classNames({
             'search-page-filters-wrapper--active': (this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.TIME),

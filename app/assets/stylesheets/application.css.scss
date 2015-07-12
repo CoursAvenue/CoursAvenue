@@ -120,11 +120,9 @@ html, body {
 
 html, pre {
   font-family : $brand-face;
-  @include prefix(font-feature-settings, "liga");
+  @include prefix(font-feature-settings, '"liga"');
   font-weight : 400;
   background  : $site-background-color;
-  // color       : #393C3D;
-  // color       : #5F7981;
   color       : #6E6E6E;
   overflow    : auto;
   -webkit-font-smoothing: antialiased;

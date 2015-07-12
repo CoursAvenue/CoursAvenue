@@ -159,7 +159,7 @@ $map-height   : 480px;
         font-weight: 600;
         font-size  : 2em;
         font-family: 'ff-tisa-web-pro';
-        @include prefix(font-feature-settings, "liga");
+        @include prefix(font-feature-settings, '"liga"');
         &:hover .search-page-filters__image-icon {
             opacity: 1;
         }
@@ -347,5 +347,16 @@ $map-height   : 480px;
     i {
         margin-left: 0.5em;
         color      : #AAAAAA;
+    }
+}
+.search-page__menu-context {
+    font-size  : 1.5em;
+    font-weight: 600;
+    color      : #687784;
+    i {
+        margin-left: 1em;
+        top        : 1px;
+        font-size  : 0.8em;
+        position   : relative;
     }
 }
