@@ -9,6 +9,19 @@
         color      : #ABABAB;
         font-weight: bold;
     }
+    .search-page-card__price {
+        position        : absolute;
+        color           : white;
+        font-weight     : bold;
+        padding         : 0.5em 0.8em;
+        margin          : 1em;
+        background-color: rgba(55, 91, 118, 0.5);
+        text-transform  : uppercase;
+        @include border-radius(2px);
+    }
+    .search-page-card__price--free {
+        background-color: #71b861;
+    }
     .search-page-card__content {
         position: relative;
         border  : 1px solid white;
@@ -73,14 +86,19 @@
         }
 
 .search-page-card__day-badge {
-    padding     : 1px 4px;
-    margin-right: -3px;
-    text-align  : center;
-    display     : inline-block;
-    font-weight : 500;
-    @include border-radius(2px);
+    padding    : 1px;
+    text-align : center;
+    display    : inline-block;
+    font-weight: 500;
+    width      : 1.4em;
     &.search-page-card__day-badge--active{
         background-color: #9AAAB7;
         color           : white;
     }
+}
+.search-page-card__day-badge--rounded-left  { @include border-left-radius(2px); }
+.search-page-card__day-badge--rounded-right { @include border-right-radius(2px); }
+
+.search-page-card__bottom-information {
+    color: #777777;
 }

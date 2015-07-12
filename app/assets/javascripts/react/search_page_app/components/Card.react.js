@@ -38,6 +38,7 @@ Card = React.createClass({
         } else {
             var starting_price = (this.props.card.get('starting_price') == 0 ? 'Essai gratuit' : 'Atelier à ' + this.props.card.get('starting_price') + '€');
         }
+        var starting_price_class = (this.props.card.get('starting_price') == 0 ? 'search-page-card__price--free' : '')
         var course_url =  '';
         if (this.props.card.get('slug')) {
             course_url = Routes.structure_indexable_card_path(this.props.card.get('structure_slug'), this.props.card.get('slug'));
@@ -47,7 +48,7 @@ Card = React.createClass({
               <div className="search-page-card__number">{this.props.index}.</div>
               <div className="bg-white bordered search-page-card__content">
                   <div className="bordered--bottom relative">
-                      <div className="bg-white rounded very-soft push-half--left push-half--top absolute">{starting_price}</div>
+                      <div className={'search-page-card__price ' + starting_price_class}>{starting_price}</div>
                       <img className="search-page-card__image" src={this.props.card.get('header_image')} />
                   </div>
                   <div className="soft-half">
@@ -67,10 +68,12 @@ Card = React.createClass({
                           </h4>
                       </div>
                       <SubjectList subjectList={ this.props.card.get('subjects') } />
-                      <Rating comment_count={ this.props.card.get('comments_count') } />
-                      <CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') }
-                          trainings={ this.props.card.get('trainings') } />
-                      <CourseLocation card={this.props.card} rankingInfo={ this.props.card.get('_rankingInfo') } address={ this.props.card.get('place_address') } />
+                      <div className="search-page-card__bottom-information">
+                          <Rating comment_count={ this.props.card.get('comments_count') } />
+                          <CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') }
+                              trainings={ this.props.card.get('trainings') } />
+                          <CourseLocation card={this.props.card} rankingInfo={ this.props.card.get('_rankingInfo') } address={ this.props.card.get('place_address') } />
+                      </div>
                   </div>
               </div>
           </div>
