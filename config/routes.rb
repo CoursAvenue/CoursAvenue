@@ -670,9 +670,9 @@ CoursAvenue::Application.routes.draw do
     get ':root_subject_id/:subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
     get ':root_subject_id--:city_id--:old_city_slug'            , to: 'redirect#structures_index'
     # end-redirect
-    get ':root_subject_id/:subject_id--:city_id'                , to: 'plannings#index', as: :search_page
-    get ':root_subject_id--:city_id'                            , to: 'plannings#index', as: :root_search_page
-    get ':city_id'                                              , to: 'plannings#index', as: :root_search_page_without_subject
+    get ':root_subject_id/:subject_id--:city_id'                , to: 'courses#index', as: :search_page
+    get ':root_subject_id--:city_id'                            , to: 'courses#index', as: :root_search_page
+    get ':city_id'                                              , to: 'courses#index', as: :root_search_page_without_subject
     ########### Search pages ###########
 
     # Needed to catch 404 requests in ApplicationController
