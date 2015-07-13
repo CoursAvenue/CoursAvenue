@@ -100,16 +100,17 @@
     @include background-image-retina('icons/map-marker-small.png', 'icons/map-marker-small@2x.png');
 }
 .map-box-marker {
-    margin-left    : -15px !important;
-    margin-top     : -43px !important;
-    width          : 30px !important;
-    height         : 43px !important;
-    color          : white;
-    text-align     : center;
-    font-size      : 14px;
-    padding-top    : 5px;
-    background-size: 100%;
-    font-weight    : bold;
+    margin-left      : -15px !important;
+    margin-top       : -40px !important;
+    width            : 30px !important;
+    height           : 40px !important;
+    color            : white;
+    text-align       : center;
+    font-size        : 14px;
+    padding-top      : 5px;
+    background-size  : 100%;
+    font-weight      : bold;
+    background-repeat: no-repeat;
     @include text-shadow(1px 1px 0 rgba(0,0,0,0.2), -1px -1px 0 rgba(0,0,0,0.2));
     @include background-image-retina('icons/map-marker-empty.png', 'icons/map-marker-empty@2x.png');
 }
