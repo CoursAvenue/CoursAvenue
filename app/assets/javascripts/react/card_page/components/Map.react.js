@@ -15,7 +15,9 @@ var MapComponent = React.createClass({
 
     addMarker: function addMarker () {
         var marker = L.marker([this.props.latitude, this.props.longitude], {
-            icon: L.divIcon({ className: 'map-box-marker on-top' })
+            icon: L.divIcon({
+                className: 'map-box-marker map-box-marker__' + this.props.root_subject,
+            })
         });
         this.map.addLayer(marker);
     },

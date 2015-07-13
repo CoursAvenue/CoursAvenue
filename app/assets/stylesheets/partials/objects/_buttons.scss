@@ -98,20 +98,20 @@
 }
 // Danger and error appear as red
 // Success appears as green
-.btn--green {
-    background-color: $btn--green;
-    border          : none;
-    color           : white;
-    &:hover, &:active {
-        background-color: lighten($btn--green, 5%);
-    }
-    &.disabled, &[disabled] {
-        background-color: lighten($btn--green, 15%);
-        color           : #EEE;
-    }
-}
+// .btn--green {
+//     background-color: $btn--green;
+//     border          : none;
+//     color           : white;
+//     &:hover, &:active {
+//         background-color: lighten($btn--green, 5%);
+//     }
+//     &.disabled, &[disabled] {
+//         background-color: lighten($btn--green, 15%);
+//         color           : #EEE;
+//     }
+// }
 
-.btn--blue, .btn--blue-green {
+.btn--green, .btn--blue, .btn--blue-green {
     background-color: $blue-green;
     border          : none;
     color           : white;

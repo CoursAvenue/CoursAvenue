@@ -57,6 +57,16 @@ $(function() {
         });
         return false;
     });
+
+    // Remove rows that contains  only old or new days
+    COURSAVENUE.datepicker_function_that_hides_inactive_rows = function() {
+        _.each($('.datepicker tr'), function(tr) {
+            $tr = $(tr);
+            if ($tr.find('.old').length == 7 || $tr.find('.new').length == 7) {
+                $tr.remove();
+            }
+        });
+    };
     COURSAVENUE.datepicker_initializer = function() {
         $('[data-behavior=datepicker]').each(function() {
             var datepicker_options = {
@@ -70,6 +80,8 @@ $(function() {
                 datepicker_options.startDate = $(this).data('start-date');
             }
             $(this).datepicker(datepicker_options);
+            $(this).datepicker().on('show', COURSAVENUE.datepicker_function_that_hides_inactive_rows);
+
             if ($(this).data('only-week-day')) {
                 var days_of_week = [0,1,2,3,4,5,6];
                 days_of_week.splice(days_of_week.indexOf($(this).data('only-week-day')), 1);

@@ -6,3 +6,50 @@
         padding: 5px 0 4px 0;
     }
 }
+
+
+.datepicker {
+    cursor    : default;
+    font-weight: bold;
+    padding    : 0;
+    .datepicker-switch {
+        padding: 1em 1em!important;
+        color  : #444444;
+    }
+    // Day Of Week
+    .dow {
+        color: #777777;
+        font-size: 0.8em;
+    }
+    .datepicker-days tbody td {
+        border : 1px solid #EEEEEE;
+        padding: 0.8em 0.7em;
+    }
+    .datepicker-days tbody tr:last-child td { border-bottom: none; }
+    .datepicker-days tbody tr {
+        td:last-child  { border-right: none;}
+        td:first-child { border-left: none; }
+    }
+    td.disabled, td.disabled:hover {
+        background: none;
+        color     : #CCCCCC;
+    }
+    .day:hover {
+        background: transparentize($blue-green, 0.1);
+        color     : white;
+    }
+    .day.new, .day.old {
+        visibility: hidden;
+    }
+    .active, .selected {
+        background-color: $blue-green;
+        background-repeat: repeat-x;
+        color            : #fff;
+    }
+    .range {
+        background-color: transparentize($blue-green, 0.4);
+        color: white;
+    }
+
+}
+

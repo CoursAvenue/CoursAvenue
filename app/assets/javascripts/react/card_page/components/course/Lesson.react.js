@@ -70,6 +70,7 @@ var Lesson = React.createClass({
                             <th className="three-tenths">Niveau</th>
                             <th className="two-tenths">Public</th>
                             <th><i className="fa-info"></i></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

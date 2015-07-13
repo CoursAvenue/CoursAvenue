@@ -79,7 +79,7 @@ var MapComponent = React.createClass({
                 }));
             } else {
                 marker.setIcon(L.divIcon({
-                    className: 'map-box-marker--circle'
+                    className: 'map-box-marker--circle map-box-marker__' + marker.card.get('root_subject'),
                 }));
             }
         }, this);
