@@ -24,6 +24,15 @@ class IndexableCard < ActiveRecord::Base
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
+    attributesToIndex %w(course_name subjects.name structure_name)
+    attributesForFaceting %w(subjects.name root_subject subjects.slug planning_periods
+                             structure_slug audiences subjects.slug_name levels card_type
+                             metro_stops metro_lines active)
+
+    add_slave 'IndexableCard_by_popularity_desc', per_environment: true do
+      customRanking ['desc(popularity)']
+    end
+
     attribute :id, :slug
 
     add_attribute :active do
@@ -100,7 +109,7 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :popularity do
-      self.structure.search_score
+      self.structure.search_score.to_i
     end
 
     add_attribute :has_course do

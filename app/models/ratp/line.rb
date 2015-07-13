@@ -18,6 +18,8 @@ class Ratp::Line < ActiveRecord::Base
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
+    attributesForFaceting [:slug]
+
     attribute :id
     attribute :slug
     attribute :name

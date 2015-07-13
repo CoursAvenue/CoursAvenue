@@ -58,7 +58,9 @@ class Subject < ActiveRecord::Base
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
-    attributesForFaceting [:depth, :parent, :root]
+    attributesForFaceting [:depth, :parent, :root, :slug]
+    customRanking ['desc(popularity)']
+
     add_attribute :popularity
 
     attribute :slug, :depth
