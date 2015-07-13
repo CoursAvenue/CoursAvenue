@@ -15,6 +15,10 @@ var Menubar = React.createClass({
         };
     },
 
+    componentDidMount: function componentDidMount () {
+        CoursAvenue.initializeUserNav();
+    },
+
     changeContext: function changeContext () {
         var context = this.newContext();
         this.setState({ context: context });
@@ -59,6 +63,7 @@ var Menubar = React.createClass({
                         </div>
                     </div>
                     <div className='grid__item one-half v-middle text--right'>
+                        <div id='user-nav'></div>
                     </div>
                 </div>
             </div>

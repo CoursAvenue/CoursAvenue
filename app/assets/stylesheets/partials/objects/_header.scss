@@ -15,17 +15,18 @@
 }
     .coursavenue-header-logo-wrapper {
         background-color: $blue-green;
-        padding         : 1em 2em;
+        padding         : 0 2em;
+        height          : $header-height;
         @extend .inline-block;
     }
     .coursavenue-header-logo {
-        @include background-image-retina('logos/logo.png', 'logos/logo@2x.png');
-        background-repeat: no-repeat;
+        background-position: center;
+        background-repeat  : no-repeat;
         @include background-image-retina('logos/logo_white.png', 'logos/logo_white@2x.png');
         @include background-size(100%);
-        width   : 150px;
-        height  : 24px;
-        display : inline-block;
+        width  : 150px;
+        height : $header-height;
+        display: inline-block;
         &.coursavenue-header-logo--pro {
             width: 222px;
             @include background-image-retina('logos/logo-pro.png', 'logos/logo-pro@2x.png');

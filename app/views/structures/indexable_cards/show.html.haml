@@ -1,3 +1,10 @@
+= content_for :title do
+  -# Ex: YOGA SATTVA PARIS - Essai GRATUIT - CoursAvenue.com
+  = truncate("#{@course.name} avec #{@structure.name} à #{@place.name} | CoursAvenue.com", length: 75)
+
+= content_for :meta_description do
+  = "#{@course.name} avec #{@structure.name} à #{@place.name} : Cours d'essai gratuits, avis des élèves, reservation en ligne."
+
 .soft
   .grid
     .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>

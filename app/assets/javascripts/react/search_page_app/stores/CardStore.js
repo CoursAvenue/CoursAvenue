@@ -151,7 +151,7 @@ var CardCollection = Backbone.Collection.extend({
             data.aroundLatLng = LocationStore.get('user_location').latitude + ',' + LocationStore.get('user_location').longitude;
         } else if (MetroStopStore.getSelectedStop()) {
             data.aroundLatLng = MetroStopStore.getSelectedStop().coordinates().toString();
-        } else if (LocationStore.get('address')) {
+        } else if (LocationStore.isFilteredByAddress() && LocationStore.get('address')) {
             data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
         }
 

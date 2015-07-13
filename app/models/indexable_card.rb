@@ -49,7 +49,7 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :end_date do
-      if course.is_training? and plannings and (end_dates = plannings.map(&:end_date)).any?
+      if course and course.is_training? and plannings and (end_dates = plannings.map(&:end_date)).any?
         end_dates.max.to_time.to_i
       else
         100.years.from_now.to_time.to_i
@@ -99,8 +99,12 @@ class IndexableCard < ActiveRecord::Base
       end
     end
 
-    add_attribute :is_sleeping do
-      self.structure.is_sleeping?
+    add_attribute :popularity do
+      self.structure.search_score
+    end
+
+    add_attribute :has_course do
+      self.course.present?
     end
 
     add_attribute :structure_logo_url do

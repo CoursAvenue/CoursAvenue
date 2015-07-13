@@ -31,17 +31,14 @@
     padding  : 5px 8px;
 }
 .btn {
-    text-transform  : uppercase;
     white-space     : normal;
     line-height     : 1.2;
     font-weight     : 700;
-    padding         : 0.8em;
-    font-size       : 12px;
+    padding         : 0.7em 1.5em;
     @include border-radius($brand-round);
     border          : 1px solid #DEDEDE;
     background-color: #fefefe;
     color           : #555555;
-    @include text-shadow(0 1px 0 white);
     &[type=submit] {
         font-weight: 600;
     }
@@ -60,7 +57,6 @@
 }
 
 .btn--gray {
-    text-transform  : uppercase;
     color           : #555555;
     border-color    : #D5D5D5;
     background-color: #f2f2f2;
@@ -77,11 +73,9 @@
 }
 
 .btn--orange {
-    text-transform  : uppercase;
     color           : white;
     border-color    : darken($orange, 5%);
     background-color: $orange;
-    @include text-shadow(-1px -1px 0 #a34c30);
     &:active, &:hover {
         background-color: lighten($orange, 5%);
     }
@@ -91,11 +85,9 @@
     }
 }
 .btn--red {
-    text-transform: uppercase;
     background-color: $btn--red;
     border          : none;
     color           : white;
-    @include text-shadow(-1px -1px 1px darken($btn--red, 10%));
     &:hover, &:active {
         background-color: lighten($btn--red, 5%);
     }
@@ -107,11 +99,9 @@
 // Danger and error appear as red
 // Success appears as green
 .btn--green {
-    text-transform: uppercase;
     background-color: $btn--green;
     border          : none;
     color           : white;
-    @include text-shadow(-1px -1px 1px darken($btn--green, 10%));
     &:hover, &:active {
         background-color: lighten($btn--green, 5%);
     }
@@ -121,12 +111,10 @@
     }
 }
 
-.btn--blue , .btn--blue-green {
-    text-transform  : uppercase;
+.btn--blue, .btn--blue-green {
     background-color: $blue-green;
     border          : none;
     color           : white;
-    @include text-shadow(-1px -1px 1px darken($blue-green, 10%));
     &:hover, &:active, &.active {
         background-color: lighten($blue-green, 5%);
     }
@@ -136,25 +124,19 @@
 }
 
 .btn--yellow {
-    text-transform  : uppercase;
     color           : darken($yellow, 35%);
     background-color: $yellow;
     border          : none;
-    @include text-shadow(0 1px 0 darken($yellow, 5%));
-    // @include text-shadow(-1px -1px 1px #486762);
     &:hover, &:active {
         color           : darken($yellow, 35%);
         background-color: lighten($yellow, 5%);
-        @include text-shadow(0 1px 0 darken($yellow, 5%));
     }
 }
 
 .btn--purple {
-    text-transform  : uppercase;
     color           : #FFF;
     background-color: $purple;
     border          : none;
-    @include text-shadow(0 1px 0 $purple);
     &:hover, &:active {
         color           : #FFF;
         background-color: lighten($purple, 10%);
@@ -162,7 +144,6 @@
 }
 
 .btn--social {
-    text-transform  : uppercase;
     @include text-shadow(-1px -1px 0 darken($facebook-blue, 5%));
     color           : white;
     vertical-align  : middle;
