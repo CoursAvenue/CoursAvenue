@@ -51,7 +51,7 @@ var CardListSortBy = React.createClass({
                         {this.selectedContextTitle().name}
                         <i className="fa fa-chevron-down blue-green"></i>
                     </span>
-                    <div className="drop-down__el">
+                    <div className="drop-down__el drop-down__el--left">
                         <ul className="drop-down__el-inner-box text--left">
                             {contexts}
                         </ul>

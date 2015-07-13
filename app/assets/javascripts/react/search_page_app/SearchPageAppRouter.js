@@ -21,7 +21,7 @@ var PARAMS_IN_SEARCH = {
     prices                : { name: 'prix[]'     , actionMethod: SliderActionCreators.setPriceBounds },
     'training_dates.start': { name: 'start_date' , actionMethod: TimeActionCreators.setTrainingStartDate },
     'training_dates.end'  : { name: 'end_date'   , actionMethod: TimeActionCreators.setTrainingEndDate },
-    sort_by               : { name: 'sort'       , actionMethod: TimeActionCreators.updateSortBy }
+    sort_by               : { name: 'sort'       , actionMethod: FilterActionCreators.updateSorting }
 };
 
 var SearchPageAppRouter = Backbone.Router.extend({
