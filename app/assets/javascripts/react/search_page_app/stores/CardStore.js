@@ -30,8 +30,8 @@ var CardCollection = Backbone.Collection.extend({
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
         this.current_page = 1;
         this.total_pages  = 1;
-        this.sort_by      = 'distance';
         this.context      = 'course';
+        this.sort_by      = 'by_popularity_desc';
     },
 
     // The function called everytime there's a new action dispatched.

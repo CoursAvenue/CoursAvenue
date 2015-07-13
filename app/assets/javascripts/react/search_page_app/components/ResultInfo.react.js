@@ -1,5 +1,6 @@
 var ReactPropTypes        = React.PropTypes,
     ResultInfoItem        = require('./ResultInfoItem'),
+    CardListSortBy        = require('./CardListSortBy'),
     CardStore             = require('../stores/CardStore'),
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
 
@@ -36,9 +37,14 @@ var ResultInfo = React.createClass({
         }
         var result_string = (total_results > 1 ? 'cours trouvé' : 'cours trouvés');
         return (
-          <div className="main-container main-container--1000 soft--ends soft-half--sides text-ellipsis">
-              <span className="beta v-middle push--right">{total_results} {result_string}</span>
-              &nbsp;{facets}{dot_dot_dot}
+          <div className="main-container main-container--1000 soft--ends soft-half--sides flexbox">
+              <div className="flexbox__item v-middle palm-one-whole">
+                  <span className="beta v-middle push--right">{total_results} {result_string}</span>
+                  &nbsp;{facets}{dot_dot_dot}
+              </div>
+              <div className="flexbox__item v-middle palm-one-whole text--right">
+                  <CardListSortBy />
+              </div>
           </div>
         );
     }
