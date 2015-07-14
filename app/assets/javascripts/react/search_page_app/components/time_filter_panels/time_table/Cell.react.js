@@ -14,12 +14,12 @@ var Cell = React.createClass({
     },
 
     render: function render () {
-        var classes = cx('bordered very-soft cursor-pointer text--center white', { 'bg-blue': this.props.selected });
-        var cell_content = (this.props.selected ? (<i className="fa fa-check"></i>) : (<span dangerouslySetInnerHTML={{__html: '&nbsp;' }} ></span>));
+        var classes = cx('btn-with-hidden-icon btn btn-white-to-blue btn--full', { 'btn--active': this.props.selected });
         return (
             <div onClick={ this.toggleSelected }
-                 className={ classes }>
-                 {cell_content}
+                 className={ classes }
+                 style={ { marginBottom: '-2px' } }>
+                 <i className="fa fa-check"></i>
             </div>
         );
     },

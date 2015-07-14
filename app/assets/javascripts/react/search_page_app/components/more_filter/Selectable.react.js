@@ -11,7 +11,7 @@ var Selectable = React.createClass({
     },
 
     render: function render () {
-        var classes = cx('search-page-filter-more__button btn-white-to-color--with-border btn-white-to-blue-green', {
+        var classes = cx('search-page-filter-more__button btn-white-to-blue-green', {
             'btn--active': this.props.model.get('selected'),
         });
 

@@ -26,20 +26,26 @@ var TimeTable = React.createClass({
         return (
             <div className='hard main-container'>
                 <div className='flexbox'>
-                    <div className='flexbox__item nowrap text--right white'>
-                        <div className='very-soft'>
-                            <strong>Matin</strong> <span>(avant 12h)</span>
+                    <div className='flexbox__item soft--right nowrap text--right white'>
+                        <div>
+                            <span className="search-page-time-panel__left-cell">Matin</span>
+                            <span className="search-page-time-panel__left-cell--blue">(avant 12h)</span>
                         </div>
-                        <div className='very-soft'>
-                            <strong>Midi</strong> <span>(12h-14h)</span>
+                        <div>
+                            <span className="search-page-time-panel__left-cell">Midi</span>
+                            <span className="search-page-time-panel__left-cell--blue">(12h-14h)</span>
                         </div>
-                        <div className='very-soft'>
-                            <strong>Après-Midi</strong> <span>(14h-18h)</span>
+                        <div>
+                            <span className="search-page-time-panel__left-cell">Après-Midi</span>
+                            <span className="search-page-time-panel__left-cell--blue">(14h-18h)</span>
                         </div>
-                        <div className='very-soft push--bottom'>
-                            <strong>Soirée</strong> <span>(après 18h)</span>
+                        <div className='push--bottom '>
+                            <span className="search-page-time-panel__left-cell">Soirée</span>
+                            <span className="search-page-time-panel__left-cell--blue">(après 18h)</span>
                         </div>
-                        <div className='very-soft'>Toute la journée</div>
+                        <div>
+                            <span className="search-page-time-panel__left-cell">Toute la journée</span>
+                        </div>
                     </div>
                     <div className='flexbox__item'>
                         <div className='grid'>

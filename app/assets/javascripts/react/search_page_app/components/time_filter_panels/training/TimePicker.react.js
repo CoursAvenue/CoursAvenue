@@ -48,16 +48,17 @@ var TimePicker = React.createClass({
             startDate: new Date(),
         };
         this.$picker.datepicker(options);
+        this.$picker.datepicker().on('show', COURSAVENUE.datepicker_function_that_hides_inactive_rows);
         this.$picker.on('changeDate', this.setDate);
     },
 
     render: function render () {
         return (
             <div className='soft-half' data-behavior='datepicker'>
-                <label className='inline-block soft-half--right'>
+                <span className='gamma f-weight-600 white inline-block soft-half--right'>
                     { this.props.label }
-                </label>
-                <input className='datepicker-input' onChange={ this.setDate } value={ this.props.initialValue } />
+                </span>
+                <input className='input--very-large datepicker-input' onChange={ this.setDate } value={ this.props.initialValue } />
             </div>
         );
     },

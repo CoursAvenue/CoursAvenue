@@ -27,7 +27,7 @@ var Column = React.createClass({
                     { cells }
                 </div>
                 <div onClick={ this.toggleSelected }
-                     className={cx('bordered very-soft cursor-pointer text--center white', { 'bg-blue': checked })}>
+                     className={cx('btn btn-white-to-blue btn--full', { 'btn--active': checked })}>
                      {this.props.day.get('title')}
                 </div>
 
