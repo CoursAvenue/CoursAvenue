@@ -6,13 +6,15 @@ var AudienceList = React.createClass({
     render: function render () {
         var audiences = AudienceStore.map(function(audience, index) {
             return (
-                <Selectable model={ audience } toggleSelectionFunc={ AudienceActionCreators.toggleAudience } key={ index } />
+                <div className="push-half--bottom">
+                    <Selectable model={ audience } toggleSelectionFunc={ AudienceActionCreators.toggleAudience } key={ index } />
+                </div>
             );
         });
 
         return (
             <div>
-                <div>Âge</div>
+                <div className="search-page-filter-more__title">Âge</div>
                 <div> { audiences } </div>
             </div>
         )

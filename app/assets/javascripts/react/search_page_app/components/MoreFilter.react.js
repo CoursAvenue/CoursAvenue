@@ -29,8 +29,10 @@ var MoreFilter = React.createClass({
     },
 
     render: function render () {
+        var current_panel = this.state.filter_store.get('current_panel');
         var classes = classNames({
-            'search-page-filters-wrapper--active': (this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.MORE),
+            // 'search-page-filters-wrapper--from-left-to-right': (!_.isNull(current_panel) && current_panel != FilterPanelConstants.FILTER_PANELS.MORE),
+            'search-page-filters-wrapper--active': (current_panel == FilterPanelConstants.FILTER_PANELS.MORE),
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
         return (
@@ -41,21 +43,28 @@ var MoreFilter = React.createClass({
                       <i className="fa fa-times beta"></i>
                   </div>
               </div>
-              <div>
-                  <div className='grid'>
-                      <div className='grid__item one-third'>
-                          <AudienceList />
-                      </div>
-                      <div className='grid__item one-third'>
-                          <PriceSlider />
-                      </div>
-                      <div className='grid__item one-third'>
-                          <LevelList />
+              <div className="flexbox relative">
+                  <div className="flexbox__item text--center v-middle search-page-filters__panel-height">
+                      <div className="search-page-filters__image-button-curtain"></div>
+                          <div className="main-container main-container--1000 relative">
+                              <div className='grid'>
+                                  <div className='grid__item bordered--right one-third'>
+                                      <AudienceList />
+                                  </div>
+                                  <div className='grid__item bordered--right one-third'>
+                                      <PriceSlider />
+                                  </div>
+                                  <div className='grid__item one-third'>
+                                      <LevelList />
+                                  </div>
+                              </div>
+                              <div className='text--center'>
+                                  <a onClick={ this.closePanel } className='btn btn--blue-green search-page-filters__button'>Ok</a>
+                              </div>
+                          </div>
                       </div>
                   </div>
-                  <a onClick={ this.closePanel } className='btn'>Valider</a>
               </div>
-            </div>
         );
     },
 });

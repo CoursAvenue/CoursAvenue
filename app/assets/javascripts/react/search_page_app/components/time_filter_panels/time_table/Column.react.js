@@ -1,5 +1,6 @@
-var Cell = require('./Cell'),
-    TimeActionCreators = require('../../../actions/TimeActionCreators');
+var Cell               = require('./Cell'),
+    TimeActionCreators = require('../../../actions/TimeActionCreators'),
+    cx                 = require('classnames/dedupe');
 
 var Column = React.createClass({
     propTypes: {
@@ -22,13 +23,14 @@ var Column = React.createClass({
         var checked = _.every(periods, _.identity);
         return (
             <div className='grid__item one-seventh'>
-                <div className='very-soft'>{ this.props.day.get('title') }</div>
-                { cells }
-                <input name={this.props.day.get('name')}
-                       className='push-half'
-                       type='checkbox'
-                       onChange={ this.toggleSelected }
-                       checked={ checked } />
+                <div className='push--bottom'>
+                    { cells }
+                </div>
+                <div onClick={ this.toggleSelected }
+                     className={cx('bordered very-soft cursor-pointer text--center white', { 'bg-blue': checked })}>
+                     {this.props.day.get('title')}
+                </div>
+
             </div>
         )
     },

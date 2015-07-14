@@ -25,16 +25,23 @@ var TimeTable = React.createClass({
 
         return (
             <div className='hard main-container'>
-                <div className='grid'>
-                    <div className='grid__item one-third text--right white'>
-                        <div className='very-soft'>&nbsp;</div>
-                        <div className='very-soft'>Matin (avant 12h)</div>
-                        <div className='very-soft'>Midi (12h-14h)</div>
-                        <div className='very-soft'>Après Midi (14h-18h)</div>
-                        <div className='very-soft'>Soirée (après 18h)</div>
+                <div className='flexbox'>
+                    <div className='flexbox__item nowrap text--right white'>
+                        <div className='very-soft'>
+                            <strong>Matin</strong> <span>(avant 12h)</span>
+                        </div>
+                        <div className='very-soft'>
+                            <strong>Midi</strong> <span>(12h-14h)</span>
+                        </div>
+                        <div className='very-soft'>
+                            <strong>Après-Midi</strong> <span>(14h-18h)</span>
+                        </div>
+                        <div className='very-soft push--bottom'>
+                            <strong>Soirée</strong> <span>(après 18h)</span>
+                        </div>
                         <div className='very-soft'>Toute la journée</div>
                     </div>
-                    <div className='grid__item two-thirds'>
+                    <div className='flexbox__item'>
                         <div className='grid'>
                             { columns }
                         </div>

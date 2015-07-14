@@ -57,7 +57,7 @@ var LocationFilterChoicePanel = React.createClass({
                    style={ { backgroundImage: 'url("https://coursavenue-public.s3.amazonaws.com/public_assets/search_page/filter-where-metro.jpg")' } }>
                   <div className="search-page-filters__image-button-curtain"></div>
                   <i className="search-page-filters__image-icon fa fa-map-marker"></i>
-                  <div className="search-page-filters__image-text">{"Proche d'un métro"}</div>
+                  <div className="search-page-filters__image-text">{"Près d'une station de métro"}</div>
               </div>
           </div>
         );

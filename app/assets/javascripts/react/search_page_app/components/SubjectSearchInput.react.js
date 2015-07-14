@@ -29,8 +29,7 @@ var FilterBar = React.createClass({
         return (
           <div className={cx("search-page-filters__subject-search",
                             { 'search-page-filters__subject-search--active': (this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS) })}>
-              <input className="input--large one-whole"
-                     value={value}
+              <input value={value}
                      size="50"
                      onChange={this.searchFullText}
                      placeholder="Cherchez une activité..." />

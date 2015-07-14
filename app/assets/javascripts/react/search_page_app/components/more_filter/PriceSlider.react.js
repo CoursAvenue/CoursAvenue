@@ -59,7 +59,7 @@ var PriceSlider = React.createClass({
     render: function render () {
         return (
             <div>
-                <div>Prix</div>
+                <div className="search-page-filter-more__title">Prix</div>
                 <div data-behavior='slider'></div>
                 <div className="grid soft-half--top">
                     <div className="grid__item one-half nowrap">

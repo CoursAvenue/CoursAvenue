@@ -59,13 +59,14 @@ SearchPageApp = React.createClass({
             <LocationFilter />
             <TimeFilter />
             <MoreFilter />
-
-            <FilterBar />
-            <FilterBreadcrumb />
-            <ResultInfo />
-            <ResultList />
-            <Pagination />
-            <SmallMap center={this.props.map_center} />
+            <div className="search-page-content on-top-of-the-world">
+                <FilterBar />
+                <FilterBreadcrumb />
+                <ResultInfo />
+                <ResultList />
+                <Pagination />
+                <SmallMap center={this.props.map_center} />
+            </div>
           </div>
         );
     }

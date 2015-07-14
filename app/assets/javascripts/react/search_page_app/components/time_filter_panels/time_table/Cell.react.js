@@ -14,10 +14,13 @@ var Cell = React.createClass({
     },
 
     render: function render () {
-        var classes = cx('bordered very-soft cursor-pointer', { 'bg-gray': this.props.selected });
+        var classes = cx('bordered very-soft cursor-pointer text--center white', { 'bg-blue': this.props.selected });
+        var cell_content = (this.props.selected ? (<i className="fa fa-check"></i>) : (<span dangerouslySetInnerHTML={{__html: '&nbsp;' }} ></span>));
         return (
             <div onClick={ this.toggleSelected }
-                 className={ classes }>&nbsp;</div>
+                 className={ classes }>
+                 {cell_content}
+            </div>
         );
     },
 });
