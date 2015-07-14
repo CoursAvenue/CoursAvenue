@@ -19,6 +19,7 @@ var Pagination = React.createClass({
      */
     goToPage: function goToPage (page) {
         return function() {
+            if (_.isUndefined(page)) { return; }
             $.scrollTo(0, { easing: 'easeOutCubic', duration: 500 });
             CardActionCreators.goToPage(page);
         }
@@ -81,7 +82,9 @@ var Pagination = React.createClass({
         var back_class = cx('pagination__prev', { 'visibility-hidden': this.state.card_store.isFirstPage() });
         var next_class = cx('pagination__next', { 'visibility-hidden': this.state.card_store.isLastPage() });
         var buttons = _.map(this.buildPaginationButtons(), function(button, index) {
-            var button_classes = cx('pagination__page', { 'pagination__page--active': (this.state.card_store.current_page == button.page) });
+            var button_classes = cx('pagination__page',
+                                    { 'pagination__page--active': (this.state.card_store.current_page == button.page),
+                                      'pagination__page--disabled': button.disabled });
             return (<div className='inline-block' key={index}>
                         <a className={button_classes}
                             href="javascript:void(0)"

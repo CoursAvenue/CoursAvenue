@@ -24,34 +24,18 @@
         width       : 2.5em;
         height      : 2.5em;
         line-height : 2.5em;
-        border      : 2px solid transparent;
         margin-right: -2px;
+        border      : 2px solid transparent;
+        @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
         &:hover {
             border: 2px solid #C7C7C7;
-            @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
         }
     }
     .pagination__page--active {
         border     : 2px solid #C7C7C7;
         color      : #999999;
     }
-// .pagination {
-//     margin-bottom: 0;
-//     margin-left  : 0;
-//     word-spacing: 0;
-//     li {
-//         padding: 0;
-//         margin : 0;
-//         @include border-radius(0);
-//         a {
-//             margin : 0;
-//             display: block;
-//         }
-//     }
-//     .btn--active {
-//         background-color: #EEE;
-//     }
-// }
-// .text--right .pagination {
-//     text-align: right;
-// }
+    .pagination__page--disabled {
+        cursor: default;
+        &:hover { border: 2px solid transparent !important }
+    }
