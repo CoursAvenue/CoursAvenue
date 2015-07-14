@@ -68,7 +68,7 @@ $map-height   : 480px;
 
     }
     .search-page-filters__time-panel {
-        .search-page-filters__closer { background-color: $dark-blue; }
+        .search-page-filters__closer { background-color: #448ABD; }
         background-color: $blue;
         .search-page-filters__image-button:hover, .search-page-filters__image-button--active {
             .search-page-filters__image-button-curtain { background-color: $blue; }
@@ -363,10 +363,10 @@ $map-height   : 480px;
         .search-page-filter--more {
             border-color    : $dark_blue;
             background-color: $dark_blue;
+            &.search-page-filter--has-filters { border-bottom-color: #20425D; }
             i { color: white; }
             &.search-page-filter--active {
-                &::before { border-bottom-color: $dark_blue; }
-                border-top: 2px solid $dark_blue;
+                &, &::before { border-bottom-color: $dark_blue; }
             }
         }
 
