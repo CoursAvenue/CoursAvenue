@@ -1,6 +1,6 @@
 var CardStore             = require('../stores/CardStore'),
     CardActionCreators    = require("../actions/CardActionCreators"),
-    classNames            = require('classnames'),
+    cx                    = require('classnames/dedupe'),
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin"),
     PAGINATION_RADIUS     = 2;
 
@@ -78,11 +78,10 @@ var Pagination = React.createClass({
     },
 
     render: function render () {
-        var back_class = classNames({ 'visibility-hidden': this.state.card_store.isFirstPage() });
-        var next_class = classNames({ 'visibility-hidden': this.state.card_store.isLastPage() });
+        var back_class = cx('pagination__prev', { 'visibility-hidden': this.state.card_store.isFirstPage() });
+        var next_class = cx('pagination__next', { 'visibility-hidden': this.state.card_store.isLastPage() });
         var buttons = _.map(this.buildPaginationButtons(), function(button, index) {
-            var button_classes = classNames({ 'disabled': (this.state.card_store.current_page == button.page),
-                                       'btn': true });
+            var button_classes = cx('pagination__page', { 'pagination__page--active': (this.state.card_store.current_page == button.page) });
             return (<div className='inline-block' key={index}>
                         <a className={button_classes}
                             href="javascript:void(0)"
@@ -92,20 +91,26 @@ var Pagination = React.createClass({
                     </div>);
         }.bind(this));
         return (
-          <div className="soft bordered--top bordered--bottom bg-white main-container">
-              <div className="flexbox">
-                  <div className="flexbox__item one-third">
+          <div className="main-container main-container--1000">
+              <div className="flexbox pagination">
+                  <div className="flexbox__item">
                       <a className={back_class}
                          href="javascript:void(0)"
-                         onClick={this.goToPreviousPage}>Précédent</a>
+                         onClick={this.goToPreviousPage}>
+                         <i className="fa fa-chevron-left"></i>
+                         Précédent
+                      </a>
                   </div>
-                  <div className="flexbox__item one-third text--center">
+                  <div className="flexbox__item nowrap text--center">
                       {buttons}
                   </div>
-                  <div className="flexbox__item one-third text--right">
+                  <div className="flexbox__item text--right">
                       <a className={next_class}
                          href="javascript:void(0)"
-                         onClick={this.goToNextPage}>Suivant</a>
+                         onClick={this.goToNextPage}>
+                         Suivant
+                         <i className="fa fa-chevron-right"></i>
+                      </a>
                   </div>
               </div>
           </div>
