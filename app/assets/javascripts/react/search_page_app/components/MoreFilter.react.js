@@ -47,14 +47,14 @@ var MoreFilter = React.createClass({
                   <div className="flexbox__item text--center v-middle search-page-filters__panel-height">
                       <div className="search-page-filters__image-button-curtain"></div>
                           <div className="main-container main-container--1000 relative">
-                              <div className='grid'>
-                                  <div className='grid__item bordered--right one-third'>
+                              <div className='flexbox'>
+                                  <div className='flexbox__item v-top one-third'>
                                       <AudienceList />
                                   </div>
-                                  <div className='grid__item bordered--right one-third'>
+                                  <div className='flexbox__item soft--sides v-top bordered--sides border-color-black-transparent one-third'>
                                       <PriceSlider />
                                   </div>
-                                  <div className='grid__item one-third'>
+                                  <div className='flexbox__item soft--sides v-top one-third'>
                                       <LevelList />
                                   </div>
                               </div>

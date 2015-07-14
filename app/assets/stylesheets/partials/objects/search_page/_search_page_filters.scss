@@ -82,7 +82,7 @@ $map-height   : 480px;
         .search-page-filters__image-button:hover, .search-page-filters__image-button--active {
             .search-page-filters__image-button-curtain { background-color: $dark-blue; }
         }
-        .search-page-filters__image-button-curtain { background-color: $dark-blue; opacity: 0.8; }
+        .search-page-filters__image-button-curtain { background-color: #103857; opacity: 0.9; }
         .search-page-filters__image-text { border-color: $dark-blue }
     }
     .search-page-filters__title {
@@ -352,6 +352,11 @@ $map-height   : 480px;
             padding    : 0.4em;
             font-size  : 1.1em;
             font-weight: 600;
+        }
+        .search-page-filter-more__slider-desc {
+            color      : $blue_green;
+            font-size  : 1.3em;
+            padding-top: 1em;
         }
         .search-page-filter-more__title {
             text-align   : center;
