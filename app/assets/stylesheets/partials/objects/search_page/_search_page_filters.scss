@@ -356,11 +356,10 @@ $map-height   : 480px;
         }
         .search-page-filter-more__button {
             margin     : auto;
-            color      : white;
+            color      : rgba(255, 255, 255, 0.9) !important;
             width      : 9em;
-            padding    : 0.4em;
-            font-size  : 1.1em;
-            font-weight: 600;
+            padding    : 0.4em !important;
+            font-size  : 1.1em !important;
         }
         .search-page-filter-more__slider-desc {
             color      : $blue_green;
