@@ -94,16 +94,19 @@
             - if place.info.present? and place.private_info.present?
               et accès
           %td.v-middle.soft--sides.one-whole
-            .flexbox.palm-block
-              .flexbox__item.one-whole.palm-block
-                = "#{place.name}, #{place.address}"
-                - if place.info.present? and place.private_info.present?
-                  .soft-half--top
-                    - if place.info.present?
-                      = place.info
-                    - if place.info.present? and place.private_info.present?
-                      %br
-                    - if place.private_info.present?
-                      = place.private_info
-              .flexbox__item.v-middle.nowrap.text--right
-                = link_to t('.see_on_map'), URI.encode("http://maps.google.com/?q=#{place.address}"), target: :_blank
+            - if participation_request.at_student_home
+              À domicile
+            - else
+              .flexbox.palm-block
+                .flexbox__item.one-whole.palm-block
+                  = "#{place.name}, #{place.address}"
+                  - if place.info.present? and place.private_info.present?
+                    .soft-half--top
+                      - if place.info.present?
+                        = place.info
+                      - if place.info.present? and place.private_info.present?
+                        %br
+                      - if place.private_info.present?
+                        = place.private_info
+                .flexbox__item.v-middle.nowrap.text--right
+                  = link_to t('.see_on_map'), URI.encode("http://maps.google.com/?q=#{place.address}"), target: :_blank

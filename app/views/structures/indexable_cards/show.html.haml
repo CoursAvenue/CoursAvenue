@@ -4,7 +4,7 @@
 
 = content_for :meta_description do
   = "#{@course.name} avec #{@structure.name} à #{@place.name} : Cours d'essai gratuits, avis des élèves, reservation en ligne."
-
+- home_place = @course.home_place
 .soft
   .grid
     .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
@@ -16,7 +16,7 @@
           Par
           = link_to @structure.name, structure_path(@structure)
         - if @course.prices.any?
-          .float--right.green.nowrap.v-middle
+          .float--right.blue-green.nowrap.v-middle
             %strong Cours d'essai : #{readable_amount(@course.prices.first.amount)}
         %h3 Planning
         = react_component("CardPageCourse",
@@ -39,10 +39,13 @@
 
     .grid__item.four-twelfths.palm-one-whole.soft-half--right.palm-hard>
       .bordered.bg-white
-        #mfp-hide.center-block.relative{ style: 'max-width:500px;' }
+        #mfp-hide.center-block.relative{ style: 'max-width:530px;' }
+        - home_place_map_attributes = {}
+        - if @course.teaches_at_home? and home_place
+          - home_place_map_attributes = { home: { latitude: home_place.latitude, longitude: home_place.longitude, radius: home_place.radius } }
         = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
                                           root_subject: @course.dominant_root_subject.slug,
-                                          metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) },
+                                          metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
                                          { prerender: false })
 
         .soft
@@ -50,6 +53,11 @@
             %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos } }
               %h4.flush= @place.name
               %span.f-weight-500= @place.address
+            - if @course.teaches_at_home? and home_place
+              %h4.flush--bottom.push--top
+                Se déplace à domicile
+              %span.f-weight-500 À #{home_place.city.name} dans un rayon de #{home_place.radius}km
+
             %span{ itemprop: 'address', itemscope: true, itemtype: 'http://data-vocabulary.org/Address'}
               %meta{ itemprop: 'street-address', content: @place.address }
               %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }

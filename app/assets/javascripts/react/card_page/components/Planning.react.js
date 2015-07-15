@@ -7,7 +7,8 @@ var LessonPlanning = React.createClass({
     },
 
     bookPlanning: function bookPlanning () {
-        var popup = (<BookPopup planning={this.props.planning} course={this.props.course}/>);
+        // We generate a random key to make sure a new is created every time.
+        var popup = (<BookPopup planning={this.props.planning} course={this.props.course} key={Math.random()}/>);
         var rendered_popup = React.render(popup, $('#mfp-hide')[0]);
         $.magnificPopup.open({
               items: {

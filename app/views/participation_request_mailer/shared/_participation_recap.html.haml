@@ -40,7 +40,10 @@
         .p.hard
           %strong Lieu
       %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
-        .p.hard= participation_request.place.try(:name)
+        - if participation_request.at_student_home?
+          .p.hard Chez l'élève
+        - else
+          .p.hard= participation_request.place.try(:name)
   - elsif participation_request.at_student_home?
     %tr{ valign: 'top' }
       %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }

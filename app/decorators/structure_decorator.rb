@@ -168,6 +168,8 @@ class StructureDecorator < Draper::Decorator
 
   # Link of structure's website
   def website_link
-    h.link_to 'Site Internet', URLHelper.fix_url(object.website), target: '_blank', rel: 'nofollow'
+    if object.website.present?
+      h.link_to 'Site Internet', URLHelper.fix_url(object.website), target: '_blank', rel: 'nofollow'
+    end
   end
 end

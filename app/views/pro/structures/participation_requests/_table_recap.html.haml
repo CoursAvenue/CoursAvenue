@@ -41,7 +41,10 @@
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Lieu
         %td.v-middle.soft--sides.one-whole
-          = "#{participation_request.place.name}, #{participation_request.place.address}"
+          - if participation_request.at_student_home?
+            = participation_request.place.name
+          - else
+            = "#{participation_request.place.name}, #{participation_request.place.address}"
           - if participation_request.place.info.present? or participation_request.place.private_info.present?
             .soft-half--top
               - if participation_request.place.info.present?

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150709151848) do
+ActiveRecord::Schema.define(version: 20150715140134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -737,6 +737,7 @@ ActiveRecord::Schema.define(version: 20150709151848) do
     t.datetime "charged_at"
     t.datetime "refunded_at"
     t.float    "stripe_fee"
+    t.boolean  "at_student_home",           default: false
   end
 
   add_index "participation_requests", ["stripe_charge_id"], name: "index_participation_requests_on_stripe_charge_id", unique: true, using: :btree

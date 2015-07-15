@@ -8,7 +8,14 @@
 - first_message = @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?).first
 
 %h1.palm-text--center Demande d'inscription de #{@user.name}
-- if @participation_request.treated?
+- if @participation_request.accepted?
+  .gray-box.rounded.soft.epsilon.push--bottom#pr-confirmation-form
+    %h3.push-half--bottom Avez-vous convenu d'une nouvelle date ?
+    .delta.line-height-1-7.push-half--bottom
+      %strong #{@user.name} assistera à la séance "#{@participation_request.course.name}" le #{participation_request_decorator.day_and_hour(false)}
+      %br
+      = link_to 'Modifier', edit_pro_structure_participation_request_path(@structure, @participation_request, show_course_select: true), class: 'btn btn--white btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+- elsif !@participation_request.canceled?
   .bg-blue-green.rounded.soft.white.epsilon.push--bottom#pr-confirmation-form
     %h3.push-half--bottom Avez-vous convenu d'une date ?
     .delta.line-height-1-7.push-half--bottom
@@ -19,13 +26,6 @@
       = link_to 'Annuler', cancel_form_pro_structure_participation_request_path(@structure, @participation_request), class: 'btn btn--white-transparent--red btn--white-transparent btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
     .line-height-1-5
       PS : en confirmant la date, nous enverrons à l'inscrit un SMS de rappel 1 jour avant le cours et il recevra une demande de recommandation le lendemain. Ainsi, vous limitez le nombre d'absents et votre bouche-à-oreille augmente.
-- elsif @participation_request.accepted?
-  .gray-box.rounded.soft.epsilon.push--bottom#pr-confirmation-form
-    %h3.push-half--bottom Avez-vous convenu d'une nouvelle date ?
-    .delta.line-height-1-7.push-half--bottom
-      %strong #{@user.name} assistera à la séance "#{@participation_request.course.name}" le #{participation_request_decorator.day_and_hour(false)}
-      %br
-      = link_to 'Modifier', edit_pro_structure_participation_request_path(@structure, @participation_request, show_course_select: true), class: 'btn btn--white btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
 .grid--full.push--bottom.message
   .grid__item.palm-one-whole.palm-block.palm-text--center.two-twelfths.v-top.v-top>

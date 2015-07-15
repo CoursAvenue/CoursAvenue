@@ -24,16 +24,20 @@
       = participation_request_decorator.details
   %td.v-top
     - if place
-      %div
-        %strong= place.name
-      %div
-        = place.address
-        %br
-        = link_to 'Voir sur la carte', URI.encode("http://maps.google.com/?q=#{place.address}"), target: :_blank
-      - if place.info.present? or place.private_info.present?
+      - if participation_request.at_student_home
         %div
-          %span.has-tooltip{ data: { toggle: 'popover', content: place_decorator.popover_place_infos, html: 'true', placement: 'top', trigger: 'hover' } }
-            Comment y accéder
+          %strong À domicile
+      - else
+        %div
+          %strong= place.name
+        %div
+          = place.address
+          %br
+          = link_to 'Voir sur la carte', URI.encode("http://maps.google.com/?q=#{place.address}"), target: :_blank
+        - if place.info.present? or place.private_info.present?
+          %div
+            %span.has-tooltip{ data: { toggle: 'popover', content: place_decorator.popover_place_infos, html: 'true', placement: 'top', trigger: 'hover' } }
+              Comment y accéder
     %br
   - if !hide_teacher_column
     %td.v-middle{ style: 'max-width: 250px;' }
@@ -43,8 +47,9 @@
         .grid__item.four-fifths.v-middle.soft-half--left>
           = link_to structure.name, structure_path(structure), target: :_blank, class: 'f-weight-bold'
           %div= structure_decorator.phone_numbers(false)
-          = "#{structure_decorator.website_link}, ".html_safe
-          = link_to 'message', user_conversation_path(participation_request.user, participation_request.conversation)
+          - if structure.website.present?
+            = "#{structure_decorator.website_link}, ".html_safe
+          = link_to 'Message', user_conversation_path(participation_request.user, participation_request.conversation)
   - if calendar
     %td.v-middle.nowrap.text--center
       = add_to_calendar_small(participation_request)

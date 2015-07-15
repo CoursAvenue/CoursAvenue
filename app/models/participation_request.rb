@@ -13,7 +13,7 @@ class ParticipationRequest < ActiveRecord::Base
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
     :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
     :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
-    :old_course_id, :structure_responded, :street, :zip_code, :city_id,
+    :old_course_id, :structure_responded, :street, :zip_code, :city_id, :at_student_home,
     :participants_attributes, :structure_id, :from_personal_website, :token, :charged_at,
     :stripe_fee
 
@@ -240,15 +240,10 @@ class ParticipationRequest < ActiveRecord::Base
     end
   end
 
-  # Tell wether the course will happen at student place
-  #
-  # @return Boolean
-  def at_student_home?
-    (self.course.is_private? and self.street.present? and self.zip_code.present? and self.city.present?)
-  end
-
   def place
-    if planning
+    if at_student_home?
+      course.home_place
+    elsif planning
       planning.place
     elsif course and course.place
       course.place
