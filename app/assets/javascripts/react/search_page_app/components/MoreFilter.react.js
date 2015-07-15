@@ -31,7 +31,7 @@ var MoreFilter = React.createClass({
     render: function render () {
         var current_panel = this.state.filter_store.get('current_panel');
         var classes = classNames({
-            // 'search-page-filters-wrapper--from-left-to-right': (!_.isNull(current_panel) && current_panel != FilterPanelConstants.FILTER_PANELS.MORE),
+            'search-page-filters-wrapper--from-left-to-right': (!_.isNull(current_panel) && current_panel != FilterPanelConstants.FILTER_PANELS.MORE),
             'search-page-filters-wrapper--active': (current_panel == FilterPanelConstants.FILTER_PANELS.MORE),
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });

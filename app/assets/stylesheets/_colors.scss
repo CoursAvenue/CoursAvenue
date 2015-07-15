@@ -76,7 +76,7 @@ $site-background-color:  #F4F4F4;
 // -------------------------
 $link-color:             #0088cc !default;
 $link-colorHover:        darken($link-color, 15%) !default;
-$hover-list-element:     lighten($brand-color, 30%);
+$hover-list-element:     transparentize($blue-green, 0.8);
 
 // Buttons
 // -------------------------
