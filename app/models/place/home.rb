@@ -12,7 +12,7 @@ class Place::Home < Place
   # Callbacks                                                          #
   ######################################################################
   after_create :set_gives_individual_courses_if_false
-  after_destroy :set_teachers_at_home_to_false
+  after_destroy :set_teaches_at_home_to_false
 
   def name
     I18n.t('places.home.name')
@@ -47,7 +47,7 @@ class Place::Home < Place
   # at home flag of structure to false.
   #
   # @return nil
-  def set_teachers_at_home_to_false
+  def set_teaches_at_home_to_false
     self.structure.teaches_at_home          = false
     self.structure.save
     nil
