@@ -4,8 +4,9 @@
   = f.input :title, label: 'Titre', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.title') }
   = f.input :description, label: 'Description', label_html: { class: 'label--large' }, input_html: { placeholder: t('guides.placeholder.description') }
   = f.input :call_to_action, label: 'Accroche', label_html: { class: 'label--large' }, input_html: { placeholder: t('guides.placeholder.call_to_action') }
+  = f.input :age_dependant, label: "Depedant de l'age", label_html: { class: 'label--large' }
 
-  %hr
+  %hr.push--top
 
   %div{ data: { behavior: 'show-more-on-demand' } }
     = f.simple_fields_for :questions, @guide.questions do |qf|

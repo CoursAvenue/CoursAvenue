@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150710144112) do
+ActiveRecord::Schema.define(version: 20150715123458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -459,6 +459,16 @@ ActiveRecord::Schema.define(version: 20150710144112) do
 
   add_index "gift_certificates", ["structure_id"], name: "index_gift_certificates_on_structure_id", using: :btree
 
+  create_table "guide_age_restrictions", force: true do |t|
+    t.integer  "min_age"
+    t.integer  "max_age"
+    t.integer  "guide_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "guide_age_restrictions", ["guide_id"], name: "index_guide_age_restrictions_on_guide_id", using: :btree
+
   create_table "guide_answers", force: true do |t|
     t.integer  "guide_question_id"
     t.string   "content"
@@ -493,6 +503,7 @@ ActiveRecord::Schema.define(version: 20150710144112) do
     t.datetime "updated_at"
     t.string   "slug"
     t.text     "call_to_action"
+    t.boolean  "age_dependant"
   end
 
   add_index "guides", ["slug"], name: "index_guides_on_slug", unique: true, using: :btree

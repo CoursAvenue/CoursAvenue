@@ -5,8 +5,10 @@ class Guide < ActiveRecord::Base
   attr_accessible :title, :description, :questions_attributes, :call_to_action,
     :subjects_attributes
 
-  has_many :questions, class_name: 'Guide::Question', dependent: :destroy
-  has_many :answers,   class_name: 'Guide::Answer', through: :questions
+  has_many :questions,        class_name: 'Guide::Question',       dependent: :destroy
+  has_many :answers,          class_name: 'Guide::Answer',         through: :questions
+  has_many :age_restrictions, class_name: 'Guide::AgeRestriction', dependent: :destroy
+
   has_many :subjects,  through: :answers
 
   validates :title,          presence: true
