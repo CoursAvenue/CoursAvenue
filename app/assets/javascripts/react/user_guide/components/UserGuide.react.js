@@ -41,7 +41,6 @@ var UserGuide = React.createClass({
     },
 
     nextPage: function nextPage () {
-        console.log('next page');
         $.fn.fullpage.moveSectionDown();
     },
 
