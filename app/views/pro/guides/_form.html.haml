@@ -4,7 +4,14 @@
   = f.input :title, label: 'Titre', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.title') }
   = f.input :description, label: 'Description', label_html: { class: 'label--large' }, input_html: { placeholder: t('guides.placeholder.description') }
   = f.input :call_to_action, label: 'Accroche', label_html: { class: 'label--large' }, input_html: { placeholder: t('guides.placeholder.call_to_action') }
-  = f.input :age_dependant, label: "Depedant de l'age", label_html: { class: 'label--large' }
+  = f.input :age_dependant, label: "Dependant de l'age ?", label_html: { class: 'label--large' }, input_html: { data: { behavior: 'toggle-restrictions' } }
+
+  -# TODO: Only show when the `age_dependant` checkbox is checked.
+  -# TODO: Show age input next to each other.
+  #age-restrictions{ class: @guide.age_dependant? ? '' : 'hidden' }
+    = f.simple_fields_for :age_restrictions, @guide.age_restrictions do |af|
+      = af.input :min_age, input_html: { class: 'inline-block' }
+      = af.input :max_age
 
   %hr.push--top
 
@@ -53,6 +60,15 @@
         $('[data-toggle]').click(function(event) {
             event.preventDefault();
             $(this).siblings('[data-content]').slideToggle()
+        });
+
+        $('[data-behavior=toggle-restrictions]').change(function(event) {
+          debugger
+          if (event.target.checked) {
+              $('#age-restrictions').show();
+          } else {
+              $('#age-restrictions').hide();
+          }
         });
 
     //  $('#guide_description').redactor({

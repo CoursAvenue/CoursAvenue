@@ -19,6 +19,9 @@ class Guide < ActiveRecord::Base
                                 reject_if: :reject_question,
                                 allow_destroy: true
 
+  accepts_nested_attributes_for :age_restrictions,
+                                allow_destroy: true
+
   accepts_nested_attributes_for :subjects
 
   # The subjects associated with different answers of this guide.

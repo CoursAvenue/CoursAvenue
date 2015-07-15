@@ -11,6 +11,7 @@ class Pro::GuidesController < Pro::ProController
       q = @guide.questions.build
       4.times { q.answers.build }
     end
+    3.times { @guide.age_restrictions.build }
 
     if request.xhr?
       render layout: false
