@@ -7,7 +7,7 @@ var _                   = require('underscore'),
 
 var Subject = Backbone.Model.extend({
     defaults: function defaults () {
-        return { score: 0, selected: false };
+        return { score: 0, selected: false, age_details: [] };
     },
 
     initialize: function initialize () {

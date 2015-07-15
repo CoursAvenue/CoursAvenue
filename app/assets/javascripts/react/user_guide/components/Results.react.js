@@ -1,4 +1,5 @@
 var _           = require('underscore'),
+  AgeDetails    = require('./results/AgeDetails'),
   MainSubject   = require('./results/MainSubject'),
   SubjectList   = require('./results/SubjectList'),
   SubjectStore  = require('../stores/SubjectStore'),
@@ -23,6 +24,8 @@ var Results = React.createClass({
       return (
           <div className='section relative one-whole relative full-screen-item bg-cover'>
               <MainSubject subject={ main_subject } />
+              <hr />
+              <AgeDetails subject={ main_subject } selected_age={ 0 } />
               <hr />
               <CourseSearch subject={ main_subject } />
               <hr />

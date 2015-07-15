@@ -44,6 +44,7 @@ var UserGuide = React.createClass({
         $.fn.fullpage.moveSectionDown();
     },
 
+    // TODO: Add age dependant question.
     render: function render () {
         var questions = QuestionStore.map(function(question, index) {
             return (
