@@ -11,7 +11,6 @@ var MapContainer           = require('./MapContainer.react'),
     ResultSorting          = require('./ResultSorting.react'),
     Pagination             = require('./Pagination.react'),
     Menubar                = require('./Menubar.react'),
-    SubjectSearchInput     = require('./SubjectSearchInput.react'),
     SearchPageAppRouter    = require('../SearchPageAppRouter'),
     FilterStore            = require('../stores/FilterStore'),
     SubjectStore           = require('../stores/SubjectStore'),
@@ -54,20 +53,22 @@ SearchPageApp = React.createClass({
         return (
           <div className="relative overflow-hidden">
             <Menubar />
-            <SubjectSearchInput />
-            <div className="relative">
-              <MapContainer center={this.props.map_center} />
-              <SubjectFilter />
-              <LocationFilter />
-              <TimeFilter />
-              <MoreFilter />
+
+            <MapContainer center={this.props.map_center} />
+            <SubjectFilter />
+            <LocationFilter />
+            <TimeFilter />
+            <MoreFilter />
+            <div className="on-top-of-the-world relative">
+                <FilterBar />
+                <div className="search-page-content relative">
+                    <FilterBreadcrumb />
+                    <ResultInfo />
+                    <ResultList />
+                    <Pagination />
+                    <SmallMap center={this.props.map_center} />
+                </div>
             </div>
-            <FilterBar />
-            <FilterBreadcrumb />
-            <ResultInfo />
-            <ResultList />
-            <Pagination />
-            <SmallMap center={this.props.map_center} />
           </div>
         );
     }

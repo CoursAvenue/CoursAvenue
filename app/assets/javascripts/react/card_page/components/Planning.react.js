@@ -79,6 +79,9 @@ var LessonPlanning = React.createClass({
                 <td>
                     {info}
                 </td>
+                <td>
+                    <strong className="btn btn--full btn--small btn--green">Réserver</strong>
+                </td>
             </tr>
         );
     }

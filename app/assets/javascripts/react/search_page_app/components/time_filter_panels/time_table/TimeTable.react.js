@@ -25,16 +25,29 @@ var TimeTable = React.createClass({
 
         return (
             <div className='hard main-container'>
-                <div className='grid'>
-                    <div className='grid__item one-third text--right'>
-                        <div className='very-soft'>&nbsp;</div>
-                        <div className='very-soft'>Matin (avant 12h)</div>
-                        <div className='very-soft'>Midi (12h-14h)</div>
-                        <div className='very-soft'>Après Midi (14h-18h)</div>
-                        <div className='very-soft'>Soirée (après 18h)</div>
-                        <div className='very-soft'>Toute la journée</div>
+                <div className='flexbox'>
+                    <div className='flexbox__item soft--right nowrap text--right white'>
+                        <div>
+                            <span className="search-page-time-panel__left-cell">Matin</span>
+                            <span className="search-page-time-panel__left-cell--blue">(avant 12h)</span>
+                        </div>
+                        <div>
+                            <span className="search-page-time-panel__left-cell">Midi</span>
+                            <span className="search-page-time-panel__left-cell--blue">(12h-14h)</span>
+                        </div>
+                        <div>
+                            <span className="search-page-time-panel__left-cell">Après-Midi</span>
+                            <span className="search-page-time-panel__left-cell--blue">(14h-18h)</span>
+                        </div>
+                        <div className='push--bottom '>
+                            <span className="search-page-time-panel__left-cell">Soirée</span>
+                            <span className="search-page-time-panel__left-cell--blue">(après 18h)</span>
+                        </div>
+                        <div>
+                            <span className="search-page-time-panel__left-cell">Toute la journée</span>
+                        </div>
                     </div>
-                    <div className='grid__item two-thirds'>
+                    <div className='flexbox__item'>
                         <div className='grid'>
                             { columns }
                         </div>

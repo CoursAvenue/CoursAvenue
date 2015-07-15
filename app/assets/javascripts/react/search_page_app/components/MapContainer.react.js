@@ -27,8 +27,8 @@ var MapComponent = React.createClass({
             expand_button = (<span><i className="fa fa-expand"></i>Agrandir</span>)
         }
         return (
-          <div className={cx("relative overflow-hidden search-page-filters-wrapper",
-                             { 'search-page-filters-wrapper--full': LocationStore.get('fullscreen')}) }>
+          <div className={cx("relative overflow-hidden search-page-filters__map-container",
+                             { 'search-page-filters__map-container--full': LocationStore.get('fullscreen')}) }>
               <div onClick={this.toggleFullScreen} className="search-page-map__fullscreen-button">
                   {expand_button}
               </div>

@@ -21,8 +21,8 @@ input{
     }
 }
 input, textarea {
-    cursor: text;
-    border        : 1px solid #ccc;
+    cursor        : text;
+    border        : none;
     padding       : 6px 9px;
     vertical-align: middle;
     @include border-radius(3px);
@@ -38,6 +38,10 @@ input, textarea {
         padding-bottom: 6px;
         font-size     : 14px;
     }
+}
+.input--very-large {
+    font-size: 1.4em;
+    padding  : 0.8em 1em;
 }
 .input--large {
     // We also apply the style to the radio buttons generated.
@@ -87,11 +91,7 @@ input, textarea {
         padding-top: 0;
     }
 }
-textarea:focus, input:focus, select:focus {
-    border-color: opacify($blue-green, 0.8);
-    outline     : none;
-    @include box-shadow(inset 0 1px 1px 0 rgba(0, 0, 0, 0.08),0 0 2px 2px #CEEAF6);
-}
+textarea:focus, input:focus, select:focus { outline: none; }
 
 .input-addon {
     display: table !important;
@@ -131,6 +131,10 @@ textarea:focus, input:focus, select:focus {
             @include border-radius(0);
         }
     }
+}
+.input-with-button {
+    input { @include border-right-radius(0); }
+    .btn { @include border-left-radius(0); }
 }
 .input-with-icon {
     position: relative;
@@ -225,7 +229,9 @@ input[type="radio"] {
         background-color: $blue-green
     }
 }
-
-.filepicker-dragdrop {
-
+html {
+    ::-webkit-input-placeholder { font-weight: 600; } /* WebKit browsers */
+    :-moz-placeholder           { font-weight: 600; opacity: 1; } /* Mozilla Firefox 4 to 18 */
+    ::-moz-placeholder          { font-weight: 600; opacity: 1; } /* Mozilla Firefox 19+ */
+    :-ms-input-placeholder      { font-weight: 600; } /* Internet Explorer 10+ */
 }

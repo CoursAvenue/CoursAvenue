@@ -30,8 +30,8 @@ var CardCollection = Backbone.Collection.extend({
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
         this.current_page = 1;
         this.total_pages  = 1;
-        this.sort_by      = 'distance';
         this.context      = 'course';
+        this.sort_by      = 'by_popularity_desc';
     },
 
     // The function called everytime there's a new action dispatched.
@@ -151,7 +151,7 @@ var CardCollection = Backbone.Collection.extend({
             data.aroundLatLng = LocationStore.get('user_location').latitude + ',' + LocationStore.get('user_location').longitude;
         } else if (MetroStopStore.getSelectedStop()) {
             data.aroundLatLng = MetroStopStore.getSelectedStop().coordinates().toString();
-        } else if (LocationStore.get('address')) {
+        } else if (LocationStore.isFilteredByAddress() && LocationStore.get('address')) {
             data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
         }
 

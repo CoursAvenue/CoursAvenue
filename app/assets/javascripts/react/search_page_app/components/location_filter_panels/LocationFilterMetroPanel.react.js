@@ -72,42 +72,44 @@ var LocationFilterMetroPanel = React.createClass({
         }.bind(this));
 
         return (
-            <div>
-                <div className='main-container main-container--1000'>
-                    <ol className="nav breadcrumb">
-                        <li>
-                            <a onClick={ this.showLocationChoicePanel } className="block">Où</a>
-                        </li>
-                        <li>{"Proche d'un Métro"}</li>
-                    </ol>
-                    <div className="search-page-filters__title">
-                        Choisissez une ligne et/ou une station
-                    </div>
-                    <div>
-                        <div className="push-half--bottom">
-                            <div className="metro-line metro-line-m"
-                                 style={ { marginRight: '8px' } }>M</div>
-                            { metro_lines }
-                        </div>
-                        <div className="push-half--bottom">
-                            <div className="metro-line rer-line-rer"
-                                 style={ { marginRight: '8px' } }>RER</div>
-                            { rer_lines }
-                        </div>
-                        <div className="push-half--bottom">
-                            <div className="metro-line tramway-line-t"
-                                 style={ { marginRight: '8px' } }>T</div>
-                            { tramway_lines }
-                        </div>
+            <div className="relative">
+                <ol className="search-page-filters__breadcrumbs">
+                    <li>
+                        <a onClick={ this.showLocationChoicePanel } className="block">Où</a>
+                    </li>
+                    <li>{"Près d'une station de métro"}</li>
+                </ol>
+                <div className="flexbox bg-cover"
+                     style={ { backgroundImage: 'url("https://coursavenue-public.s3.amazonaws.com/public_assets/search_page/filter-where-metro.jpg")' } }>
+                    <div className="flexbox__item v-middle search-page-filters__panel-height input-with-button">
+                        <div className="search-page-filters__image-button-curtain"></div>
+                        <div className="relative main-container main-container--1000">
+                            <div className="push-half--bottom">
+                                <div className="metro-line metro-line-m"
+                                     style={ { marginRight: '8px' } }>M</div>
+                                { metro_lines }
+                            </div>
+                            <div className="push-half--bottom">
+                                <div className="inline-block v-middle">
+                                    <div className="metro-line rer-line-rer"
+                                         style={ { marginRight: '8px' } }>RER</div>
+                                    { rer_lines }
+                                </div>
+                                <div className="inline-block v-middle">
+                                    <div className="metro-line tramway-line-t"
+                                         style={ { marginRight: '8px' } }>T</div>
+                                    { tramway_lines }
+                                </div>
+                            </div>
 
-                        <div className="inline-block v-middle relative center-block">
-                          <select defaultValue='none' onChange={ this.selectStop }>
-                              <option value='none'></option>
-                              { metro_stops }
-                          </select>
+                            <div className="inline-block v-middle relative center-block">
+                              <select defaultValue='none' onChange={ this.selectStop }>
+                                  <option value='none'></option>
+                                  { metro_stops }
+                              </select>
+                              <div className="btn btn--yellow search-page-filters__button v-middle" onClick={this.closeFilterPanel}>Valider</div>
+                            </div>
                         </div>
-
-                        <div className="btn v-middle" onClick={this.closeFilterPanel}>OK</div>
                     </div>
                 </div>
             </div>

@@ -325,6 +325,15 @@ class Course < ActiveRecord::Base
     return (!expired? and can_be_published?)
   end
 
+  # Return the most used subject or the root subjects that has the most childs.
+  #
+  # @return Subject at depth 0
+  def dominant_root_subject
+    Rails.cache.fetch ["Course#dominant_root_subject", self] do
+      subjects.at_depth(2).group_by(&:root).values.max_by(&:size).try(:first).try(:root)
+    end
+  end
+
   private
 
   # Set `has_promotion` attribute. Wether it has promotions or not.

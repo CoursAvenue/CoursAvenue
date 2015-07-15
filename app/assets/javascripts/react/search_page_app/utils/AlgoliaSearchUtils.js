@@ -1,8 +1,7 @@
-var _                   = require('underscore'),
+var _                   = require('lodash'),
     algoliasearch       = require('algoliasearch'),
     algoliasearchHelper = require('algoliasearch-helper'),
     client              = algoliasearch(ENV['ALGOLIA_APPLICATION_ID'], ENV['ALGOLIA_SEARCH_API_KEY']),
-    card_index          = client.initIndex('IndexableCard_' + ENV.SERVER_ENVIRONMENT),
     subject_index       = client.initIndex('Subject_' + ENV.SERVER_ENVIRONMENT);
 
 module.exports = {
@@ -24,6 +23,7 @@ module.exports = {
           insideBoundingBox
      */
     searchCards: function searchCards (data, successCallback, errorCallback) {
+        var index;
         data = data || {};
         var card_search_state = {
             facets      : ['subjects.slug_name'],
@@ -41,7 +41,12 @@ module.exports = {
             card_search_state.aroundLatLng   = data.aroundLatLng;
             card_search_state.getRankingInfo = true;
         }
-        var card_search_helper = algoliasearchHelper(client, 'IndexableCard_' + ENV.SERVER_ENVIRONMENT, card_search_state);
+        if (data.sort_by == 'proximity') {
+            index = 'IndexableCard_' + ENV.SERVER_ENVIRONMENT;
+        } else {
+            index = 'IndexableCard_' + data.sort_by + '_' + ENV.SERVER_ENVIRONMENT;
+        }
+        var card_search_helper = algoliasearchHelper(client, index, card_search_state);
         card_search_helper.addRefine('active', true);
 
         if (data.group_subject)    {

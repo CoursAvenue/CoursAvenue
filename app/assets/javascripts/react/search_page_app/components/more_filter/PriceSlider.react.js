@@ -34,9 +34,10 @@ var PriceSlider = React.createClass({
         var slider = $(this.getDOMNode()).find('[data-behavior=slider]')[0];
 
         noUiSlider.create(slider, {
-            start: range,
-            range: { min: this.props.min, max: this.props.max },
-            step: this.props.step
+            connect: true,
+            start  : range,
+            range  : { min: this.props.min, max: this.props.max },
+            step   : this.props.step
         });
 
         slider.noUiSlider.on('change', this.sliderChange);
@@ -59,17 +60,17 @@ var PriceSlider = React.createClass({
     render: function render () {
         return (
             <div>
-                <div>Prix</div>
-                <div data-behavior='slider'></div>
-                <div className="grid soft-half--top">
-                    <div className="grid__item one-half nowrap">
-                        Min. :
-                        <strong data-behavior="slider-min-value">{ this.getRange()[0] }</strong>
+                <div className="search-page-filter-more__title">Prix</div>
+                <div className="soft--sides">
+                    <div data-behavior='slider'></div>
+                </div>
+                <div className="grid soft-half--sides">
+                    <div className="grid__item one-half nowrap search-page-filter-more__slider-desc text--left">
+                        <span data-behavior="slider-min-value">{ this.getRange()[0] }</span>
                         €
                     </div>
-                    <div className="grid__item one-half text--right nowrap">
-                        Max. :
-                        <strong data-behavior="slider-max-value">{ this.getRange()[1] }</strong>
+                    <div className="grid__item one-half text--right nowrap search-page-filter-more__slider-desc text--left">
+                        <span data-behavior="slider-max-value">{ this.getRange()[1] }</span>
                         €
                     </div>
                 </div>

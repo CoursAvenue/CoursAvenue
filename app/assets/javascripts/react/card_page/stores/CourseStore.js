@@ -1,4 +1,4 @@
-var _                  = require('underscore'),
+var _                  = require('lodash'),
     Backbone           = require('backbone'),
     CardPageDispatcher = require('../dispatcher/CardPageDispatcher'),
     CardPageConstants  = require('../constants/CardPageConstants'),

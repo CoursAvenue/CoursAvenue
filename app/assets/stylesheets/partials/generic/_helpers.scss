@@ -63,6 +63,7 @@
 .bordered               { border        : 1px solid $gray-smooth; }
 .bordered--dash         { border-style: dashed !important; }
 .bordered--ends         { border-top: 1px solid $gray-smooth; border-bottom: 1px solid $gray-smooth; }
+.bordered--sides        { border-left: 1px solid $gray-smooth; border-right: 1px solid $gray-smooth; }
 .bordered--right        { border-right  : 1px solid $gray-smooth !important; }
 .bordered--left         { border-left   : 1px solid $gray-smooth !important; }
 .bordered--right        { border-right   : 1px solid $gray-smooth !important; }
@@ -91,6 +92,7 @@
 .border-color-green     { border-color  : $green !important; }
 .border-color-dark-blue { border-color  : $dark_blue !important; }
 .border-color-yellow    { border-color  : $yellow !important; }
+.border-color-black-transparent { border-color: rgba(0,0,0,0.2) !important}
 
 /*------------------------------------*\
     ALIGNMENTS
@@ -183,7 +185,7 @@
 }
 .bg-position-center { background-position: center !important; }
 .bg-position-top    { background-position: top; }
-.bg-fixed { background-attachment: fixed; }
+.bg-fixed   { background-attachment: fixed; }
 .bg-cover   { @include background-size(cover); }
 .bg-contain { @include background-size(contain !important); }
 

@@ -1,4 +1,4 @@
-var _       = require('underscore'),
+var _       = require('lodash'),
     Subject = require('./Subject.react');
 
 SubjectList = React.createClass({
@@ -7,7 +7,6 @@ SubjectList = React.createClass({
     },
 
     componentDidMount: function componentDidMount () {
-        // TODO: Fix this
         $(this.getDOMNode()).dotdotdot({
             ellipsis : '... ',
             wrap     : 'children',
@@ -23,6 +22,7 @@ SubjectList = React.createClass({
             }
         });
     },
+
     render: function render () {
         if (_.isEmpty(this.props.subjectList)) {
             return false;

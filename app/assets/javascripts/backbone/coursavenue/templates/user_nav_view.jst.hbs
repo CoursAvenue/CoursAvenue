@@ -1,6 +1,6 @@
 {{#if admin_logged_in}}
     <div class="inline-block soft--right">
-        <a href="{{ pro_structures_url }}{{#if structure_path}}{{ structure_path }}{{/if}}" class="f-weight-500">Accéder à mon espace Pro</a>
+        <a href="{{ pro_structures_url }}{{#if structure_path}}{{ structure_path }}{{/if}}">Accéder à mon espace Pro</a>
     </div>
 {{ else }}
     {{#if logged_in}}
@@ -53,24 +53,18 @@
         </div>
     {{else}}
     <div class="inline-block">
-        <div class="inline-block soft--right">
-            <a href="#" data-behavior="sign-up" class="f-weight-500">Inscription</a>
-        </div>
-        <div class="inline-block soft--right">
-            <a href="#" data-behavior="sign-in" class="f-weight-500">Connexion</a>
-        </div>
         {{#unless on_sleeping_page}}
             <div class="inline-block soft--right">
-                <a href="{{ pro_structures_url }}" class="f-weight-500">Espace Pro</a>
-            </div>
-            <div class="inline-block">
-              <a href="{{ pages_faq_users_url }}" target='_blank' target='_blank' class="f-weight-500 visuallyhidden--palm" rel="nofollow">Aide</a>
+                <a href="{{ pro_structures_url }}" class="gray-light">Espace Pro</a>
             </div>
         {{/unless}}
+        <div class="inline-block soft--right">
+            <a href="#" data-behavior="sign-in" class="gray-light">Se connecter</a>
+        </div>
+        <div class="inline-block soft--right">
+            <a href="#" data-behavior="sign-up" class="btn btn--blue-green">S'inscrire</a>
+        </div>
         {{#if on_sleeping_page}}
-            <div class="inline-block soft--right">
-              <a href="{{ pages_faq_users_url }}" target='_blank' target='_blank' class="f-weight-500" rel="nofollow">Aide</a>
-            </div>
             <div class="inline-block">
                 <a href="{{ take_control_url }}" class="btn btn--orange">Compléter ce profil</a>
             </div>

@@ -100,44 +100,48 @@
     @include background-image-retina('icons/map-marker-small.png', 'icons/map-marker-small@2x.png');
 }
 .map-box-marker {
-    margin-left    : -15px !important;
-    margin-top     : -43px !important;
-    width          : 30px !important;
-    height         : 43px !important;
-    color          : white;
-    text-align     : center;
-    font-size      : 14px;
-    padding-top    : 5px;
-    background-size: 100%;
+    margin-left      : -15px !important;
+    margin-top       : -40px !important;
+    width            : 30px !important;
+    height           : 40px !important;
+    color            : white;
+    text-align       : center;
+    font-size        : 14px;
+    padding-top      : 5px;
+    background-size  : 100%;
+    font-weight      : bold;
+    background-repeat: no-repeat;
+    @include text-shadow(1px 1px 0 rgba(0,0,0,0.2), -1px -1px 0 rgba(0,0,0,0.2));
     @include background-image-retina('icons/map-marker-empty.png', 'icons/map-marker-empty@2x.png');
 }
+
 .map-box-marker__danse {
-    // TODO, change background image marker
+    @include background-image-retina('icons/markers/red.png', 'icons/markers/red@2x.png');
 }
 .map-box-marker__theatre-scene {
-    // TODO, change background image marker
+    @include background-image-retina('icons/markers/blue.png', 'icons/markers/blue@2x.png');
 }
 .map-box-marker__deco-mode-bricolage {
-    // TODO, change background image marker
+    @include background-image-retina('icons/markers/orange.png', 'icons/markers/orange@2x.png');
 }
 .map-box-marker__musique-chant {
-    // TODO, change background image marker
+    @include background-image-retina('icons/markers/yellow.png', 'icons/markers/yellow@2x.png');
 }
 .map-box-marker__photo-video {
-    // TODO, change background image marker
+    @include background-image-retina('icons/markers/purple.png', 'icons/markers/purple@2x.png');
 }
 .map-box-marker__dessin-peinture-arts-plastiques {
-    // TODO, change background image marker
+    @include background-image-retina('icons/markers/yellow.png', 'icons/markers/yellow@2x.png');
 }
 .map-box-marker__cuisine-vins {
-    // TODO, change background image marker
+    @include background-image-retina('icons/markers/yellow.png', 'icons/markers/yellow@2x.png');
 }
 .map-box-marker__yoga-bien-etre-sante {
-    // TODO, change background image marker
+    @include background-image-retina('icons/markers/yellow.png', 'icons/markers/yellow@2x.png');
 }
 .map-box-marker__sports-arts-martiaux {
-    // TODO, change background image marker
+    @include background-image-retina('icons/markers/yellow.png', 'icons/markers/yellow@2x.png');
 }
 .map-box-marker__multi {
-    // TODO, change background image marker
+    @include background-image-retina('icons/markers/yellow.png', 'icons/markers/yellow@2x.png');
 }

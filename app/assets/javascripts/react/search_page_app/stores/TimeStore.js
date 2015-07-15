@@ -74,6 +74,8 @@ var TimeStore = Backbone.Collection.extend({
                 this.setTrainingDate(payload.data);
                 break;
             case ActionTypes.CLEAR_ALL_THE_DATA:
+                this.unsetFilter('time_store');
+                break;
             case ActionTypes.UNSET_FILTER:
                 this.unsetFilter(payload.data);
                 break;
@@ -152,6 +154,8 @@ var TimeStore = Backbone.Collection.extend({
 
      unsetFilter: function unsetFilter(store) {
          if (store == 'time_store') {
+             this.training_start_date = undefined;
+             this.training_end_date   = undefined;
              this.map(function(day) {
                  day.set({ selected: false, periods: [false, false, false, false] },
                          { silent: true });

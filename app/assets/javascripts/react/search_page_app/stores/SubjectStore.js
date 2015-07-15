@@ -79,16 +79,19 @@ var SubjectStore = Backbone.Collection.extend({
             {
                 name      : 'Danse, Théâtre & Musique',
                 group_id  : 1,
+                image_url : 'http://coursavenue-public.s3.amazonaws.com/public_assets/search_page/group-subject-theatre.jpg',
                 root_slugs: ["danse", "theatre-scene", "musique-chant"]
                 // collection: this.filter(function(subject) { return (group_1.indexOf(subject.get('slug')) != -1)})
             },{
                 name      : 'Sports, Yoga & Bien-être',
                 group_id  : 2,
+                image_url : 'http://coursavenue-public.s3.amazonaws.com/public_assets/search_page/group-subject-yoga.jpg',
                 root_slugs: ["sports-arts-martiaux", "yoga-bien-etre-sante"]
                 // collection: this.filter(function(subject) { return (group_2.indexOf(subject.get('slug')) != -1)}),
             },{
                 name      : 'Arts créatifs',
                 group_id  : 3,
+                image_url : 'http://coursavenue-public.s3.amazonaws.com/public_assets/search_page/group-subject-arts.jpg',
                 root_slugs: ["deco-mode-bricolage", "dessin-peinture-arts-plastiques"]
                 // collection: this.filter(function(subject) { return (group_3.indexOf(subject.get('slug')) != -1)}),
             }
@@ -132,7 +135,7 @@ var SubjectStore = Backbone.Collection.extend({
      * Will load root subjects associated with selected group subject
      */
     loadChildSubjects: function loadChildSubjects (root_subject) {
-        var data = { hitsPerPage: 6,
+        var data = { hitsPerPage: 30,
                      facets: '*',
                      facetFilters: 'root:' + root_subject.slug,
                      numericFilters: 'depth>0' }

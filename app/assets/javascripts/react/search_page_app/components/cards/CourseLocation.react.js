@@ -1,4 +1,4 @@
-var _                  = require('underscore'),
+var _                  = require('lodash'),
     FluxBoneMixin      = require('../../../mixins/FluxBoneMixin'),
     CardActionCreators = require('../../actions/CardActionCreators'),
     FilterStore        = require('../../stores/FilterStore');

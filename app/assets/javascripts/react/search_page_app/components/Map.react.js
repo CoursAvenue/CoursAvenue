@@ -27,7 +27,7 @@ var MapComponent = React.createClass({
 
     createMap: function createMap () {
         this.small_marker_layer = new L.MarkerClusterGroup({
-            disableClusteringAtZoom: 14,
+            disableClusteringAtZoom: 13,
             maxClusterRadius: 30,
             spiderfyOnMaxZoom: true
         });
@@ -178,6 +178,7 @@ var MapComponent = React.createClass({
             marker.openPopup(this.popup);
         }.bind(this)
     },
+
     getIconForCard: function getIconForCard (card) {
         if (card.get('visible')) {
             return L.divIcon({
@@ -186,7 +187,7 @@ var MapComponent = React.createClass({
             });
         } else {
             return L.divIcon({
-                className: 'map-box-marker--circle'
+                className: 'map-box-marker--circle map-box-marker__' + card.get('root_subject'),
             });
         }
     },

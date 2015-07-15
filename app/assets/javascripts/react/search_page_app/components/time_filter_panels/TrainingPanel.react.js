@@ -21,11 +21,16 @@ var TrainingPanel = React.createClass({
         var start_date = this.state.time_store.get('training_start_date');
         var end_date = this.state.time_store.get('training_end_date');
         return (
-            <div>
-                <div className="search-page-filters__title">Indiquez vos disponibilités</div>
-                <TimePicker label="Du" attribute="start_date" initialValue={ start_date } />
-                <TimePicker label="Au" attribute="end_date" initialValue={ end_date } />
-                <a onClick={ this.closePanel } className='btn'>Valider</a>
+            <div className="text--center">
+                <div className="inline-block v-middle push-half--right">
+                    <TimePicker label="Du" attribute="start_date" initialValue={ start_date } />
+                </div>
+                <div className="inline-block v-middle">
+                    <TimePicker label="Au" attribute="end_date" initialValue={ end_date } />
+                </div>
+                <div className="text--center">
+                    <a onClick={ this.closePanel } className='btn btn--blue search-page-filters__button'>Valider</a>
+                </div>
             </div>
         );
     },

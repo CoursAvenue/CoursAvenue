@@ -42,6 +42,7 @@ var BookPopup = React.createClass({
             startDate: new Date()
         };
         $datepicker_input.datepicker(datepicker_options);
+        $datepicker_input.datepicker().on('show', COURSAVENUE.datepicker_function_that_hides_inactive_rows);
         if (this.props.planning.next_date) {
             var formatted_date = moment(this.props.planning.next_date, "DD/MM/YYYY").format(COURSAVENUE.constants.MOMENT_DATE_FORMAT);
             $datepicker_input.datepicker('update', formatted_date);

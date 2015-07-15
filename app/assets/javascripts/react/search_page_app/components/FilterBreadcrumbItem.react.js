@@ -20,6 +20,9 @@ var RootSubjectItem = React.createClass({
           case 'time':
               FilterActionCreators.toggleTimeFilter();
               break;
+          case 'more':
+              FilterActionCreators.toggleMoreFilter();
+              break;
         }
     },
 

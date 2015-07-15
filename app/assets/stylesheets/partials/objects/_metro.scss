@@ -36,6 +36,7 @@ $rer_line_b_color      : #468FCC;
     vertical-align: middle;
     font-weight   : bold;
     white-space   : nowrap;
+    line-height   : 1.6em;
     &.metro-line--selected {
         zoom: 1.8;
     }
@@ -51,14 +52,14 @@ $rer_line_b_color      : #468FCC;
 
 .metro-line-m, .tramway-line-t {
     line-height : 1.5em;
-    color       : $tramway_line_t_color;
-    border-color: $tramway_line_t_color;
+    color       : white;
+    border-color: white;
 }
 
 .rer-line-rer {
     line-height : 1.5em;
-    color       : $tramway_line_t_color;
-    border-color: $tramway_line_t_color;
+    color       : white;
+    border-color: white;
     font-size   : 10px;
     padding     : 5px 3px;
     width       : auto;

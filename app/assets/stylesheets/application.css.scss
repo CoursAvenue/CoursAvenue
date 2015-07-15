@@ -75,7 +75,7 @@
 @import "partials/objects/progress-bar";
 @import "partials/objects/read_more";
 @import "partials/objects/search";
-@import "partials/objects/search_page_filters";
+@import "partials/objects/search_page/*";
 @import "partials/objects/share_buttons";
 @import "partials/objects/sliders";
 @import "partials/objects/slideshow";
@@ -113,6 +113,7 @@
 @import "libs/bootstrap/bootstrap.tooltip";
 @import "libs/bootstrap/bootstrap.popover";
 @import "libs/bootstrap/bootstrap.collapse";
+@import "libs/bootstrap/bootstrap.tooltip-overrides";
 
 html, body {
   height: 100%;
@@ -120,10 +121,9 @@ html, body {
 
 html, pre {
   font-family : $brand-face;
+  @include prefix(font-feature-settings, '"liga"');
   font-weight : 400;
   background  : $site-background-color;
-  // color       : #393C3D;
-  // color       : #5F7981;
   color       : #6E6E6E;
   overflow    : auto;
   -webkit-font-smoothing: antialiased;

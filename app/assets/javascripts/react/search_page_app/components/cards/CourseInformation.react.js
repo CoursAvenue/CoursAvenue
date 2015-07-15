@@ -10,11 +10,15 @@ CourseInformation = React.createClass({
 
     getInformations: function getInformations () {
         if (this.props.courseType != 'Course::Training') {
-            return this.props.weeklyAvailability.map(function(day, index) {
+            return _.map(this.props.weeklyAvailability, function(day, index) {
                 var tooltip_content = '';
+                var day_before_count = (index == 0 ? 0 : this.props.weeklyAvailability[index - 1].count);
+                var day_after_count  = (index == 6 ? 0 : this.props.weeklyAvailability[index + 1].count);
                 var classes = classNames({
-                    'search-page-card__day-badge--active':   day.count > 0,
-                    'search-page-card__day-badge'        : true
+                    'search-page-card__day-badge--rounded-left' : day_before_count == 0,
+                    'search-page-card__day-badge--rounded-right': day_after_count == 0,
+                    'search-page-card__day-badge--active'       : day.count > 0,
+                    'search-page-card__day-badge'               : true
                 });
                 if (day.count > 0 && day.start_times && day.start_times.length > 0) {
                     tooltip_content = 'Le ' + I18n.t('day_names_from_english.' + day.day) + ' à ' + day.start_times.join(', ');
@@ -30,7 +34,7 @@ CourseInformation = React.createClass({
                     { letter }
                     </div>
                 )
-            });
+            }, this);
         } else {
             if (TimeStore.training_start_date) {
                 var currentDate = new Date(TimeStore.training_start_date * 1000);

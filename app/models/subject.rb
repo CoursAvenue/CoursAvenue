@@ -47,14 +47,11 @@ class Subject < ActiveRecord::Base
   scope :stars,                  -> { where(Subject.arel_table[:position].lt(10)).order('position ASC') }
   scope :roots_not_stars,        -> { where(Subject.arel_table[:position].gt(10).and(Subject.arel_table[:ancestry].eq(nil))).order('position ASC') }
 
-  attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image,
-                  :good_to_know, :needed_meterial, :tips, :ancestry, :guide_description
+  attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description,
+                  :image, :remote_image_url, :good_to_know, :needed_meterial, :tips, :ancestry,
+                  :guide_description
 
-  has_attached_file :image,
-                    :styles => { super_wide: "825x250#", wide: "600x375#", small: '250x200#', thumb: "200x200#" },
-                    processors: [:thumbnail, :paperclip_optimizer]
-
-  validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+  mount_uploader :image, VerticalPageImageUploader
 
   # :nocov:
   searchable do
@@ -64,8 +61,16 @@ class Subject < ActiveRecord::Base
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
-    attributesForFaceting [:depth, :parent, :root]
+    attributesForFaceting [:depth, :parent, :root, :slug]
+    customRanking ['desc(popularity)']
+
+    add_attribute :popularity
+
     attribute :slug, :depth
+    add_attribute :image_url do
+      image.url(:search_page)
+    end
+
     add_attribute :name do
       self.name.gsub(' de ', ' ').gsub("d'", '')
     end
@@ -146,5 +151,13 @@ class Subject < ActiveRecord::Base
     else
       read_attribute(:tips)
     end
+  end
+
+  private
+
+  # Compute score regarding its populariy regardings the # of reservations
+  def popularity
+    pr_count = ParticipationRequest.joins('JOIN courses_subjects ON participation_requests.course_id = courses_subjects.course_id').where("subject_id = #{id}").count
+    courses.count * pr_count
   end
 end
