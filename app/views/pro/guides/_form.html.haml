@@ -18,11 +18,19 @@
         %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { toggle: true } }
           %i.fa-eye
           Réponses
-        .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends{ class: (question.answers.map(&:content).any? ? '' : 'hidden'), data: { content: true } }
+        .bordered.bordered--dash.bordered--larger.f-weight-500{ class: (question.answers.map(&:content).any? ? '' : 'hidden'), data: { content: true } }
           = qf.simple_fields_for :answers, question.answers do |af|
+            - answer = af.object
             = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.answer.content') }
             = af.input :subject_ids, as: :select, collection: Subject.order('position ASC'), label: 'Disciplines', label_method: :name,
               input_html: { data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true }
+            = af.filepicker_field :remote_image_url, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true, class: "filepicker-dragdrop text--center",
+              drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft-half--ends text--center push--bottom", drag_text: "Glissez ou cliquez ici pour changer votre image"
+
+            -# - if answer.image.present?
+            -#   = link_to "Voir l'image", answer.image.url, class: 'fancybox.ajax', data: { behavior: 'modal', width: 700 }, method: :get
+
+            %hr.push-half--ends
 
         .text--right
           %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
@@ -38,6 +46,8 @@
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
 
 - content_for :scripts do
+  = filepicker_js_include_tag
+
   :javascript
     $(document).ready(function() {
         $('[data-toggle]').click(function(event) {

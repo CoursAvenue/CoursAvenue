@@ -8,4 +8,8 @@ class Guide::AnswerSerializer < ActiveModel::Serializer
       { id: subject.id, name: subject.name, slug: subject.slug }
     end
   end
+
+  def image
+    object.image.url
+  end
 end

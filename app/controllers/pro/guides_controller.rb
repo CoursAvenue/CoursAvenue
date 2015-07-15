@@ -77,8 +77,10 @@ class Pro::GuidesController < Pro::ProController
       :title,
       :description,
       :call_to_action,
-      :questions_attributes => [:id, :content, :ponderation,
-                                :answers_attributes => [:id, :content, :subject_ids => []]]
+      :questions_attributes => [
+        :id, :content, :ponderation,
+        :answers_attributes => [:id, :content, :remote_image_url, :subject_ids => []]
+      ]
     )
   end
 
