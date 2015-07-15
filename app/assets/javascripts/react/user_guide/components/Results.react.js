@@ -20,7 +20,7 @@ var Results = React.createClass({
       var other_subjects = SubjectStore.initial(); // Everything but the last.
 
       return (
-          <div className='section relative one-whole relative white full-screen-item bg-cover'>
+          <div className='section relative one-whole relative full-screen-item bg-cover'>
               <MainSubject subject={ main_subject } />
               <CourseSearch subject={ main_subject } />
               <SubjectList subjects={ other_subjects } />
