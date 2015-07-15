@@ -971,3 +971,6 @@ DEPENDENCIES
   virtus (~> 1.0.5)
   wicked_pdf (~> 0.11.0)
   wkhtmltopdf-binary (~> 0.9.9.3)
+
+BUNDLED WITH
+   1.10.5

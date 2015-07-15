@@ -196,4 +196,8 @@ $(function() {
     } else {
         $('[data-behavior=toggle-responsive-menu]').click(showSideMenu);
     }
+
+    $('body').on('click', '[data-logger]', function(event) {
+        CoursAvenue.statistic.logStat($(this).data('structure-id'), $(this).data('logger'));
+    });
 });

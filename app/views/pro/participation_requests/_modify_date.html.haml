@@ -5,10 +5,8 @@
     %h4.flush
       - if discuss_only
         Envoyer un message
-      - elsif show_course_select
-        Proposer un autre cours
       - else
-        Proposer une autre date
+        Modifier les informations
   .panel__body
     = simple_form_for simple_form_array, url: simple_form_url, html: { id: 'participation-request-form' } do |f|
       - if params[:return_to].present?
@@ -16,42 +14,32 @@
       = f.error_notification
       - if discuss_only
         .soft--sides.soft--top
-          %p
-            - if @participation_request.from_personal_website?
-              Envoyez votre message ci-dessous :
-            - else
-              Envoyez votre message de demande d'information.
-              - if on_pro_subdomain?
-                Vous devrez ensuite accepter ou refuser cette réservation le plus tôt possible pour éviter les pénalités.
           = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
-            = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
-          - if !@participation_request.from_personal_website?
-            = render partial: 'pro/structures/participation_requests/dont_contact_information'
+            = message_form.input :body, input_html: { placeholder: "Envoyer votre message personnel", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
       - else
         %div.push-half--bottom{ data: { type: 'participation-request-form-content' } }
-
-      - if on_pro_subdomain? and !@participation_request.from_personal_website?
-        %hr.push-half--bottom
-        .soft--sides= render partial: 'pro/structures/participation_requests/share_information'
 
       - if !discuss_only
         .soft--sides
           = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
-            = message_form.input :body, input_html: { placeholder: "Ajoutez un message facultatif...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behaviors: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
-          - if !@participation_request.from_personal_website?
-            = render partial: 'pro/structures/participation_requests/dont_contact_information'
+            = message_form.input :body, input_html: { placeholder: "Envoyer votre message personnel", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behaviors: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
 
       .soft--sides.soft--bottom
         .grid
           .grid__item.two-tenths.palm-one-whole.palm-push--bottom>
             %a.btn.btn--full{ href: '#', onclick: '$.fancybox.close();' } Fermer
           .grid__item.eight-tenths.palm-one-whole>
-            = f.submit 'Envoyer', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
+            = f.submit 'Envoyer', class: 'nowrap btn--full btn btn--green', disabled: true, id: 'submit-button', data: { disable_with: 'Envoi en cours...' }
 
-- if !@participation_request.from_personal_website?
+- if discuss_only
   :javascript
-    $('#participation-request-message').preventFromContact();
-
+      $('#participation-request-message').on('change keyup', function() {
+          if ($(this).val().length > 1) {
+              $('#submit-button').removeAttr('disabled');
+          } else {
+              $('#submit-button').attr('disabled', true);
+          }
+      });
 - if !discuss_only
   :javascript
       // IMPORTANT: Initialize datepicker to have correct format

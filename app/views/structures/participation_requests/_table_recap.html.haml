@@ -1,9 +1,6 @@
-= render 'shared/include_addthisevent'
-
 - participation_request_decorator = participation_request.decorate
 - course_decorator                = participation_request.course.decorate
 - place                           = participation_request.place
-
 
 .soft--sides
   - if !participation_request.charged? and participation_request.chargeable?
@@ -19,6 +16,8 @@
           %strong Modification :
       .flexbox__item.one-half.v-top>
         - if !@participation_request.canceled?
+          .line-height-2
+            = link_to t('.modify'), edit_structure_participation_request_path(@structure, participation_request, show_course_select: true), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
           - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
             .line-height-2
               = link_to accept_form_structure_participation_request_path(@structure, @participation_request), class: 'soft--sides push--right btn--green btn--small btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
@@ -29,12 +28,6 @@
                 = t('.refund')
               - else
                 = t('.decline')
-        - if !participation_request.canceled?
-          .line-height-2
-            = link_to t('.propose_another_course'), edit_structure_participation_request_path(@structure, participation_request, show_course_select: true), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
-        - if !participation_request.canceled?
-          .line-height-2
-            = link_to t('.propose_another_date'), edit_structure_participation_request_path(@structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
   %table.table--striped.table--striped-reversed.bordered.f-weight-500
     %tbody
       %tr.bordered--bottom.visuallyhidden--palm
@@ -46,9 +39,8 @@
               = participation_request_decorator.long_status_name('User')
             .flexbox__item.v-middle.nowrap.text--right.visuallyhidden--palm
               - if !@participation_request.canceled?
-                - if @participation_request.pending? and @participation_request.last_modified_by == 'Structure'
-                  = link_to accept_form_structure_participation_request_path(@structure, @participation_request), class: 'soft--sides push--right btn--green btn--small btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
-                    = t('.accept')
+                - if !@participation_request.accepted?
+                  = link_to t('.modify'), edit_structure_participation_request_path(@structure, participation_request, show_course_select: true), class: 'orange nowrap fancybox.ajax push-half--right', data: { behavior: 'modal', width: 500, padding: 0 }
                 = link_to cancel_form_structure_participation_request_path(@structure, @participation_request), class: 'red fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
                   - if @participation_request.charged?
                     = t('.refund')
@@ -56,7 +48,7 @@
                     = t('.decline')
 
       %tr.bordered--bottom.bordered-top--palm
-        %th.visuallyhidden--palm.v-middle.soft--sides.bordered--right.one-third Demande d'inscription
+        %th.visuallyhidden--palm.v-middle.soft--sides.bordered--right.one-third= "Participant".pluralize(@participation_request.nb_participants)
         %td.v-middle.text--left.soft--sides
           = participation_request_decorator.details
           - if participation_request.refunded?
@@ -69,14 +61,9 @@
       %tr.bordered--bottom
         %th.visuallyhidden--palm.v-middle.soft--sides.bordered--right.one-third.nowrap Cours
         %td.v-middle.soft--sides.one-whole
-          .flexbox.palm-block
-            .flexbox__item.one-whole.palm-block
-              - course = participation_request.course
-              %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
-                = course.name
-            .flexbox__item.v-middle.nowrap.text--right.visuallyhidden--palm
-              - if !participation_request.canceled?
-                = link_to t('.propose_another_course'), edit_structure_participation_request_path(@structure, participation_request, show_course_select: true), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+          - course = participation_request.course
+          %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
+            = course.name
 
       - if @participation_request.from_personal_website?
         %tr.bordered--bottom
@@ -98,32 +85,25 @@
       %tr.bordered--bottom
         %th.visuallyhidden--palm.v-middle.soft--sides.bordered--right.one-third.nowrap Jour et heure
         %td.v-middle.soft--sides.one-whole
-          .flexbox.palm-block
-            .flexbox__item.one-whole.palm-block= participation_request_decorator.day_and_hour.capitalize
-            .flexbox__item.v-middle.nowrap.text--right.visuallyhidden--palm
-              - if !participation_request.canceled?
-                = link_to t('.propose_another_date'), edit_structure_participation_request_path(@structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+          = participation_request_decorator.day_and_hour.capitalize
 
       - if place
         %tr.bordered--bottom
-          %th.visuallyhidden--palm.v-middle.soft--sides.bordered--right.one-third.nowrap Lieu
+          %th.visuallyhidden--palm.v-middle.soft--sides.bordered--right.one-third.nowrap
+            Lieu
+            - if place.info.present? and place.private_info.present?
+              et accès
           %td.v-middle.soft--sides.one-whole
             .flexbox.palm-block
               .flexbox__item.one-whole.palm-block
                 = "#{place.name}, #{place.address}"
-                .soft-half--top
-                  - if place.info.present?
-                    = place.info
-                  - else
-                    %i.gray Pas d'info pratique concernant l'accès.
-                  %br
-                  - if place.private_info.present?
-                    = place.private_info
-                  - else
-                    %i.gray Pas de digicode ni d'info privée concernant l'accès.
+                - if place.info.present? and place.private_info.present?
+                  .soft-half--top
+                    - if place.info.present?
+                      = place.info
+                    - if place.info.present? and place.private_info.present?
+                      %br
+                    - if place.private_info.present?
+                      = place.private_info
               .flexbox__item.v-middle.nowrap.text--right
                 = link_to t('.see_on_map'), URI.encode("http://maps.google.com/?q=#{place.address}"), target: :_blank
-        %tr.bordered--bottom.visuallyhidden--palm
-          %th.visuallyhidden--palm.v-middle.soft--sides.bordered--right.one-third.nowrap Ajouter au calendrier
-          %td.v-middle.soft--sides.one-whole
-            = add_to_calendar(participation_request)

@@ -3,7 +3,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
 
         /*
          * structure_id - id of the structure
-         * action_type  - Type of action, must be included in Statistic::ACTION_TYPES
+         * action_type  - Type of action, must be included in Analytic::METRICS
          * params       - optional hash of params
          *
          * Save Statistic to Google Analytics
@@ -22,8 +22,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
         },
         /*
          * structure_id - id of the structure
-         * action_type  - Type of action, must be included in Statistic::ACTION_TYPES
-         * params       - optional hash of params
+         * page_name    -
          *
          * Pageviews are stored on specific dimension like:
          *     structure_id/page/website
@@ -31,7 +30,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
          * If no page_name is passed as parameter, we store pageviews directly on structure_id
          * Save PageViews to Google Analytics
          */
-        logView: function logStat (structure_id, page_name) {
+        logView: function logView (structure_id, page_name) {
             if (CoursAvenue.isProduction()) {
                 if (page_name) {
                     var options = { 'dimension1': structure_id + '/page/' + page_name };

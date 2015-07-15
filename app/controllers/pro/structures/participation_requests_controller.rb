@@ -35,7 +35,19 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   # GET pro/etablissements/:structure_id/participation_request/:id
   def show
     @participation_request = @structure.participation_requests.find(params[:id])
+    # Treat PR if it is viewed by the teacher and NOT by a super admin
+    if @participation_request.pending?
+      @participation_request.treat! unless current_pro_admin and current_pro_admin.super_admin?
+    end
     @user                  = @participation_request.user
+  end
+
+  # GET pro/etablissements/:structure_id/participation_request/:id/show_user_contact
+  def show_user_contacts
+    @participation_request = @structure.participation_requests.find(params[:id])
+    @user                  = @participation_request.user
+    @user_decorator        = @user.decorate
+    render layout: false
   end
 
   # GET pro/etablissements/:structure_id/participation_request/:id/cancel_form
@@ -44,15 +56,10 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     render layout: false
   end
 
-  # GET pro/etablissements/:structure_id/participation_request/:id/report_form
-  def report_form
-    @participation_request = @structure.participation_requests.find(params[:id])
-    render layout: false
-  end
-
   # PUT pro/etablissements/:structure_id/participation_request/:id/accept
   def accept
     @participation_request = @structure.participation_requests.find(params[:id])
+    @participation_request.update_attributes participation_request_attributes
     message_body = params[:participation_request][:message][:body] if params[:participation_request] and params[:participation_request][:message]
     @participation_request.accept!(message_body, 'Structure')
     respond_to do |format|
@@ -95,15 +102,6 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     end
   end
 
-  # PUT pro/etablissements/:structure_id/participation_request/:id/report
-  def report
-    @participation_request = @structure.participation_requests.find(params[:id])
-    @participation_request.update_attributes params[:participation_request]
-    respond_to do |format|
-      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: "Nous avons bien pris en compte votre signalement" }
-    end
-  end
-
   private
 
   def load_structure
@@ -124,5 +122,9 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
       fields.delete('legal_entity.dob.year')
       fields << 'dob'
     end
+  end
+
+  def participation_request_attributes
+    params.require(:participation_request).permit(:date, :start_time, :end_time)
   end
 end

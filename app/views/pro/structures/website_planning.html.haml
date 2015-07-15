@@ -6,7 +6,9 @@
   .flexbox__item.v-top
     %h1 Planning sur votre site Internet
   .flexbox__item.v-top.text--right
-    = link_to 'Paramètres', website_planning_parameters_pro_structure_path(@structure), class: 'btn btn--green btn--small'
+    = link_to website_planning_parameters_pro_structure_path(@structure), class: 'btn btn--small soft--sides' do
+      %i.fa.fa-cog
+      Paramètres
 %p.delta.line-height-1-3 Equipez votre site Internet d'une page planning optimisée qui a plusieurs avantages :
 
 %ul.delta.line-height-1-5
@@ -15,6 +17,7 @@
   %li Elle propose l'inscription en ligne, avec ou sans carte bleue, et vous envoie un SMS à chaque demande de réservation incluant les coordonnées complètes du participant.
 
 
+%hr.push--ends
 %h2 A quoi ressemble ma page planning ?
 %p.delta.line-height-1-3 Cliquez sur ce bouton pour visualiser votre page planning :
 #planning-button-wrapper.hidden
@@ -25,7 +28,9 @@
   = link_to structure_website_structure_url(@structure), target: :_blank, class: 'inline-block center-block' do
     = image_tag 'https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button.png', height: 65, width: 229, class: 'center-block', alt: 'Planning et inscription'
 
-%h2 Comment l'installer ?
+%hr.push--ends
+%h2.push-half--bottom Comment l'installer ?
+%h3 Sur mon site Internet
 -# %p.delta.line-height-1-3 Voici comment l'installer, c'est simple et rapide :
 
 %ul.delta.line-height-1-3.flush--bottom
@@ -55,39 +60,6 @@
       %option{ value: '#wix-guide' } J'utilise Wix
 
 = render partial: 'pro/structures/widget_installation_guides', locals: { show_button: false }
-
--# .grid.push--bottom
--#   .grid__item.v-middle.one-twelfth.text--center>
--#     .soft.bordered.bordered--larger.rounded--circle.delta.inline-block{ style: 'width: 60px;' } 1
--#   .grid__item.v-middle.eleven-twelfths>
--#     %div.delta.line-height-1-3.flush
--#       Créez un bouton ou une rubrique «&nbsp;Planning&nbsp;» sur votre site Internet.
--#       %br
--#       Cliquez ici pour récupérer le code et installer le bouton suivant :
--#     = link_to structure_website_structure_url(@structure), target: :_blank, class: 'block' do
--#       = image_tag 'https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button.png', height: 65, class: 'block'
-
--# .grid.push--bottom
--#   .grid__item.v-middle.one-twelfth.text--center>
--#     .soft.bordered.bordered--larger.rounded--circle.delta.inline-block{ style: 'width: 60px;' } 2
--#   .grid__item.v-middle.eleven-twelfths>
--#     %p.delta.line-height-1-3.flush
--#       Copiez et associez le lien suivant à votre rubrique «&nbsp;Planning & Inscription&nbsp;»
--#       = link_to '(voir la page)', structure_website_structure_url(@structure), target: :_blank
--#       \:
--#       %input.f-weight-bold.bg-gray-light.push-half--top#link-input.text--center.one-whole.input--large{ value: structure_website_structure_url(@structure) }
-
--# .grid.push--bottom
--#   .grid__item.v-middle.one-twelfth.text--center>
--#     .soft.bordered.bordered--larger.rounded--circle.delta.inline-block{ style: 'width: 60px;' } 2
--#   .grid__item.v-middle.eleven-twelfths>
--#     %p.delta.line-height-1-3.flush
--#       C'est fait !
--#       Continuez à mettre à jour vos activités dans la rubrique
--#       = link_to '« Mon planning »', pro_structure_courses_path(@structure)
--#       et suivez le nombre de visites et de demandes d'inscriptions depuis l'onglet
--#       = link_to '« Statistiques »', pro_structure_statistics_path(@structure)
-
 
 .gray-box.soft.relative.tab-pane#webmaster-form-wrapper
   = simple_form_for [:pro, @structure], method: :post, url: ask_webmaster_for_planning_pro_structure_path(@structure) do |f|
@@ -120,6 +92,13 @@
         .push-half--top
           = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
 
+%h3.push--top Sur ma page Facebook
+.push--bottom
+  %a.btn{ onclick: '$("#facebook-call-to-action-guide").show(); $.scrollTo($("#facebook-call-to-action-guide"), { easing: "easeOutCubic", duration: 500, offset: { top: -200 } }); $(this).hide();'} Voir le guide
+
+.hidden#facebook-call-to-action-guide
+  = render 'pro/structures/guides/facebook_call_to_action'
+
 = content_for :scripts do
   :javascript
       $(function() {
@@ -133,7 +112,7 @@
               $('.tab-pane').removeClass('active');
               $($(this).val()).addClass('active');
               $('textarea').trigger('autoresize:update');
-              $.scrollTo($(window).scrollTop() + 100, { easing: 'easeOutCubic', duration: 200 })
+              $.scrollTo($(window).scrollTop() + 100, { easing: 'easeOutCubic', duration: 200 });
           });
           $('[data-toggle=tab]').click(function() {
               setTimeout(function() {

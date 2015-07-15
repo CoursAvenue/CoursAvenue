@@ -12,10 +12,11 @@
   %td.v-top.nowrap{ class: participation_request_decorator.color }
     = participation_request_decorator.status_for('User')
     .very-soft.hard--left.hard--bottom.hard--right
-      = participation_request_decorator.user_action_link
+      = link_to participation_request_decorator.action_button_name_for('User'), user_participation_request_path(participation_request.user, participation_request), class: "btn btn--small #{participation_request_decorator.action_button_class_for('User')} nowrap"
+
   %td.v-top
     %div
-      %strong= participation_request_decorator.day_and_hour
+      %strong= participation_request_decorator.day_and_hour.capitalize
     %div
       %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
         = course.name
@@ -41,13 +42,9 @@
           = image_tag structure.logo.url(:small_thumb), class: 'one-whole rounded--circle', data: { src2x: structure.logo.url(:thumb) }
         .grid__item.four-fifths.v-middle.soft-half--left>
           = link_to structure.name, structure_path(structure), target: :_blank, class: 'f-weight-bold'
-          - if participation_request.accepted?
-            %div= structure_decorator.phone_numbers
-            .text-ellipsis= structure_decorator.website_link
-            .text-ellipsis
-              = link_to user_conversation_path(participation_request.user, participation_request.conversation) do
-                %i.fa-envelope-o
-                Envoyer un message
+          %div= structure_decorator.phone_numbers(false)
+          = "#{structure_decorator.website_link}, ".html_safe
+          = link_to 'message', user_conversation_path(participation_request.user, participation_request.conversation)
   - if calendar
     %td.v-middle.nowrap.text--center
       = add_to_calendar_small(participation_request)
