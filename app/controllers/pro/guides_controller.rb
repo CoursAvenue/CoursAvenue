@@ -21,7 +21,7 @@ class Pro::GuidesController < Pro::ProController
     @guide = Guide.new(guide_params)
 
     if @guide.save
-      redirect_to pro_guides_path
+      redirect_to edit_subjects_pro_guide_path(@guide)
     else
       render :new
     end
@@ -39,7 +39,7 @@ class Pro::GuidesController < Pro::ProController
     @guide = Guide.find(params[:id])
 
     if @guide.update_attributes(guide_params)
-      redirect_to pro_guides_path
+      redirect_to edit_subjects_pro_guide_path(@guide)
     else
       render :edit
     end
@@ -55,6 +55,21 @@ class Pro::GuidesController < Pro::ProController
     end
   end
 
+  def edit_subjects
+    @guide    = Guide.find(params[:id])
+    @subjects = @guide.subjects
+  end
+
+  def update_subjects
+    @guide = Guide.find(params[:id])
+
+    if @guide.update_attributes(subjects_params)
+      redirect_to pro_guides_path
+    else
+      render :edit_subjects
+    end
+  end
+
   private
 
   def guide_params
@@ -64,6 +79,12 @@ class Pro::GuidesController < Pro::ProController
       :call_to_action,
       :questions_attributes => [:id, :content, :ponderation,
                                 :answers_attributes => [:id, :content, :subject_ids => []]]
+    )
+  end
+
+  def subjects_params
+    params.require(:guide).permit(
+      :subjects_attributes => [:id, :guide_description]
     )
   end
 end
