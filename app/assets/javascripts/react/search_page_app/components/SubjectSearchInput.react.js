@@ -24,6 +24,13 @@ var FilterBar = React.createClass({
         FilterActionCreators.searchFullText($(event.currentTarget).val());
     },
 
+    closeFilterPanel: function closeFilterPanel (event) {
+        // If hitting enter
+        if (event.keyCode == 13) {
+            FilterActionCreators.closeFilterPanel();
+        }
+    },
+
     render: function render () {
         var value = this.state.subject_store.full_text_search;
         return (
@@ -31,6 +38,7 @@ var FilterBar = React.createClass({
                             { 'search-page-filters__subject-search--active': (this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS) })}>
               <input value={value}
                      size="50"
+                     onKeyUp={this.closeFilterPanel}
                      onChange={this.searchFullText}
                      placeholder="Cherchez une activité..." />
               <i className="fa fa-search beta"></i>

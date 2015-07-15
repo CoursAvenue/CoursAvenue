@@ -22,6 +22,7 @@ var LocationStore = Backbone.Model.extend({
             case ActionTypes.SELECT_METRO_LINE:
             case ActionTypes.SELECT_METRO_STOP:
                 this.unset('user_location');
+                this.unset('address');
                 break;
             case ActionTypes.SELECT_ADDRESS:
                 this.unset('user_location');
