@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715130908) do
+ActiveRecord::Schema.define(version: 20150715154533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -504,7 +504,7 @@ ActiveRecord::Schema.define(version: 20150715130908) do
     t.datetime "updated_at"
     t.string   "slug"
     t.text     "call_to_action"
-    t.boolean  "age_dependant"
+    t.boolean  "age_dependant",  default: false
   end
 
   add_index "guides", ["slug"], name: "index_guides_on_slug", unique: true, using: :btree
