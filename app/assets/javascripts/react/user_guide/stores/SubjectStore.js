@@ -7,7 +7,7 @@ var _                   = require('underscore'),
 
 var Subject = Backbone.Model.extend({
     defaults: function defaults () {
-        return { score: 0 };
+        return { score: 0, selected: false };
     },
 
     initialize: function initialize () {
@@ -39,6 +39,12 @@ var SubjectStore = Backbone.Collection.extend({
                 UserGuideDispatcher.waitFor([AnswerStore.dispatchToken]);
                 this.updateScores(payload.data);
                 break;
+            case ActionTypes.SELECT_SUBJECT:
+                this.selectSubject(payload.data);
+                break;
+            case ActionTypes.DESELECT_SUBJECT:
+                this.deselectSubject(payload.data);
+                break;
         }
     },
 
@@ -56,6 +62,16 @@ var SubjectStore = Backbone.Collection.extend({
 
         this.sort();
         this.trigger('change');
+    },
+
+    selectSubject: function selectSubject (data) {
+        debugger
+        this.trigger('change')
+    },
+
+    deselectSubject: function deselectSubject (data) {
+        debugger
+        this.trigger('change')
     },
 
 });
