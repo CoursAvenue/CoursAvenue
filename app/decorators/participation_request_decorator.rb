@@ -71,6 +71,8 @@ class ParticipationRequestDecorator < Draper::Decorator
   def action_button_class_for(resource='Structure')
     if object.pending? and object.last_modified_by != resource
       'btn--green'
+    else
+      'btn--white'
     end
   end
 

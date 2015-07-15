@@ -26,5 +26,5 @@
 
         %span.gray-light= truncate(last_message.body, length: 80)
       - if participation_request and !participation_request.past? and !participation_request.canceled?
-        .btn.btn--small.nowrap{ class: participation_request_decorator.action_button_class_for('User') }
+        .btn.btn--white.btn--small.nowrap{ class: participation_request_decorator.action_button_class_for('User') }
           = participation_request_decorator.action_button_name_for('User')

@@ -26,10 +26,10 @@
 
       .soft--sides.soft--bottom
         .grid
-          .grid__item.two-tenths.palm-one-whole.palm-push--bottom>
+          .grid__item.three-tenths.palm-one-whole.palm-push--bottom>
             %a.btn.btn--full{ href: '#', onclick: '$.fancybox.close();' } Fermer
-          .grid__item.eight-tenths.palm-one-whole>
-            = f.submit 'Envoyer', class: 'nowrap btn--full btn btn--green', disabled: true, id: 'submit-button', data: { disable_with: 'Envoi en cours...' }
+          .grid__item.seven-tenths.palm-one-whole>
+            = f.submit 'Envoyer', class: 'nowrap btn--full btn btn--green', disabled: (discuss_only), id: 'submit-button', data: { disable_with: 'Envoi en cours...' }
 
 - if discuss_only
   :javascript

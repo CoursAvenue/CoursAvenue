@@ -85,17 +85,16 @@ var Pagination = React.createClass({
             var button_classes = cx('pagination__page',
                                     { 'pagination__page--active': (this.state.card_store.current_page == button.page),
                                       'pagination__page--disabled': button.disabled });
-            return (<div className='inline-block' key={index}>
-                        <a className={button_classes}
-                            href="javascript:void(0)"
-                            onClick={this.goToPage(button.page)}>
-                            {button.label}
-                        </a>
-                    </div>);
+            return (<a className={button_classes}
+                        key={index}
+                        href="javascript:void(0)"
+                        onClick={this.goToPage(button.page)}>
+                        {button.label}
+                    </a>);
         }.bind(this));
         return (
           <div className="main-container main-container--1000">
-              <div className="flexbox pagination">
+              <div className="flexbox pagination pagination--large">
                   <div className="flexbox__item">
                       <a className={back_class}
                          href="javascript:void(0)"
