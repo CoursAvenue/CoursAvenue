@@ -39,7 +39,7 @@ var ResultInfo = React.createClass({
             });
             if (_.size(this.state.card_store.facets[0].data) > 3) {
                 var popover_facet_content = _.map(this.state.card_store.facets[0].data, function(value, key) {
-                    return key.split(':')[0] + ' (' + value + ')';
+                    return key.split(':')[1] + ' (' + value + ')';
                 });
                 dot_dot_dot = (<span className="cursor-pointer search-page__result-info search-page__result-info--dot-dot-dot"
                                       onClick={this.showSubjectFilterPanel}
