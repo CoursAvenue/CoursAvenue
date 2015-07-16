@@ -23,7 +23,7 @@ var SubjectAutocompleteFilter = React.createClass({
 
     subjects: function subjects () {
         return this.state.subject_autocomplete_store.map(function(subject) {
-            return (<div className="flexbox search-page__input-suggestion"
+            return (<div className="flexbox search-page__input-suggestion flexbox search-page__input-suggestion--bordered"
                          onClick={this.selectSubject(subject)}>
                         <div className="flexbox__item v-middle">
                             <img className="block" height="45" width="80" src={subject.get('small_image_url')} />
