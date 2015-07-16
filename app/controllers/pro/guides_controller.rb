@@ -11,7 +11,6 @@ class Pro::GuidesController < Pro::ProController
       q = @guide.questions.build
       4.times { q.answers.build }
     end
-    3.times { @guide.age_restrictions.build }
 
     if request.xhr?
       render layout: false
@@ -31,7 +30,6 @@ class Pro::GuidesController < Pro::ProController
   def edit
     @guide = Guide.includes(questions: [:answers]).find(params[:id])
     3.times { q = @guide.questions.build }
-    3.times { @guide.age_restrictions.build }
 
     @guide.questions.each do |q|
       (4 - q.answers.count).times { q.answers.build }
@@ -80,7 +78,6 @@ class Pro::GuidesController < Pro::ProController
       :title,
       :description,
       :call_to_action,
-      :age_restrictions_attributes => [:id, :min_age, :max_age],
       :questions_attributes => [
         :id, :content, :ponderation,
         :answers_attributes => [:id, :content, :remote_image_url, :subject_ids => []]

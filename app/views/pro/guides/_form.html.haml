@@ -6,17 +6,6 @@
   = f.input :call_to_action, label: 'Accroche', label_html: { class: 'label--large' }, input_html: { placeholder: t('guides.placeholder.call_to_action') }
   = f.input :age_dependant, label: "Dependant de l'age ?", label_html: { class: 'label--large' }, input_html: { data: { behavior: 'toggle-restrictions' } }
 
-  -# TODO: One per line
-  .input#age-restrictions{ class: @guide.age_dependant? ? '' : 'hidden' }
-    %label.control-label.label--large
-    - @guide.age_restrictions.each_with_index do |age_restriction, index|
-      = f.simple_fields_for :age_restrictions, age_restriction, child_index: index do |af|
-        %span.v-middle.label--large de
-        = af.input :min_age, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: af.object.min_age, placeholder: 5 }, wrapper_html: {class: 'flush v-middle'}
-        %span.v-middle.label--large à
-        = af.input :max_age, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: af.object.max_age, placeholder: 10 }, wrapper_html: {class: 'flush v-middle'}
-        %span.v-middle ans
-
   %hr.push--top
 
   %div{ data: { behavior: 'show-more-on-demand' } }

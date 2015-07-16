@@ -11,7 +11,6 @@ RSpec.describe Guide, type: :model, user_guide: true do
   context 'associations' do
     it { should have_many(:questions).class_name('Guide::Question') }
     it { should have_many(:answers).class_name('Guide::Answer').through(:questions) }
-    it { should have_many(:age_restrictions).class_name('Guide::AgeRestriction') }
   end
 
   describe 'GET #subjects' do
