@@ -6,7 +6,7 @@ class Guide::AgeRestriction < ActiveRecord::Base
   private
 
   def has_at_least_one_age
-    if self.min_age.nil? and self.min_age.nil?
+    if self.min_age.nil? and self.max_age.nil?
       errors.add(:min_age, :blank)
       errors.add(:max_age, :blank)
     end
