@@ -1,7 +1,7 @@
 var AgeDetails = React.createClass({
     propTypes: {
         subject: React.PropTypes.object,
-        selected_age: React.PropTypes.integer
+        selected_age: React.PropTypes.number
     },
 
     render: function render () {
