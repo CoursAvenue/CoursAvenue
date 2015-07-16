@@ -13,6 +13,8 @@ module.exports = {
         TOGGLE_TIME_FILTERS:         null,
         TOGGLE_MORE_FILTERS:         null,
         CLOSE_FILTER_PANEL:          null,
+        CLOSE_SUBJECT_INPUT_PANEL:   null,
+        SHOW_SUBJECT_INPUT_PANEL:    null,
 
         SELECT_GROUP_SUBJECT:        null,
         SELECT_ROOT_SUBJECT:         null,

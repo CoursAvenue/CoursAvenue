@@ -30,6 +30,18 @@ module.exports = {
         });
     },
 
+    showSearchInputPanel: function showSearchInputPanel () {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.SHOW_SUBJECT_INPUT_PANEL
+        });
+    },
+
+    closeSearchInputPanel: function closeSearchInputPanel () {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.CLOSE_SUBJECT_INPUT_PANEL
+        });
+    },
+
     closeFilterPanel: function closeFilterPanel () {
         SearchPageDispatcher.dispatch({
             actionType: SearchPageConstants.ActionTypes.CLOSE_FILTER_PANEL

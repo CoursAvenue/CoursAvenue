@@ -54,10 +54,13 @@ var SubjectFilter = React.createClass({
     },
 
     render: function render () {
+        var old_panel     = this.state.filter_store.get('old_panel');
         var current_panel = this.state.filter_store.get('current_panel');
         var classes = classNames({
             'search-page-filters-wrapper--from-left-to-right': (!_.isEmpty(current_panel) && current_panel != FilterPanelConstants.FILTER_PANELS.SUBJECTS),
-            'search-page-filters-wrapper--active': (current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECTS),
+            'search-page-filters-wrapper--active': (current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECTS
+                                                  ||(current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT &&
+                                                     old_panel == FilterPanelConstants.FILTER_PANELS.SUBJECTS)),
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
         return (

@@ -38,6 +38,7 @@ var SubjectStore = Backbone.Collection.extend({
                 break;
             case ActionTypes.SELECT_SUBJECT:
                 this.selected_subject = payload.data;
+                this.full_text_search = '';
                 this.setSelectedRootSubject();
                 break;
             case ActionTypes.SEARCH_FULL_TEXT:

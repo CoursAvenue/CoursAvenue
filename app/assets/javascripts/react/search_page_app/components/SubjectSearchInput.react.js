@@ -24,9 +24,17 @@ var FilterBar = React.createClass({
         FilterActionCreators.searchFullText($(event.currentTarget).val());
     },
 
+    showSearchInputPanel: function showSearchInputPanel (event) {
+        FilterActionCreators.showSearchInputPanel();
+    },
+
+    closeSearchInputPanel: function closeSearchInputPanel (event) {
+        FilterActionCreators.closeSearchInputPanel();
+    },
+
     closeFilterPanel: function closeFilterPanel (event) {
-        // If hitting enter
-        if (event.keyCode == 13) {
+        // If hitting enter or esc
+        if (event.keyCode == 13 || event.keyCode == 27) {
             FilterActionCreators.closeFilterPanel();
         }
     },
@@ -34,16 +42,19 @@ var FilterBar = React.createClass({
     render: function render () {
         var value = this.state.subject_store.full_text_search;
         return (
-          <div className={cx("search-page-filters__subject-search",
-                            { 'search-page-filters__subject-search--active': (this.state.filter_store.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS) })}>
-              <input value={value}
-                     size="50"
-                     onKeyUp={this.closeFilterPanel}
-                     onChange={this.searchFullText}
-                     placeholder="Cherchez une activité..." />
-              <i className="fa fa-search"></i>
-          </div>
-        );
+          <div className="search-page-filters__subject-search">
+              <div className="relative">
+                  <input value={value}
+                         size="50"
+                         onFocus={this.showSearchInputPanel}
+                         onKeyUp={this.closeFilterPanel}
+                         onChange={this.searchFullText}
+                         placeholder="Cherchez une activité..." />
+                  <i className="fa fa-search"></i>
+                  <i className={cx("fa fa-times", { 'hidden': this.state.filter_store.get('current_panel') != FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT }) }
+                     onClick={this.closeSearchInputPanel}></i>
+              </div>
+          </div>);
     }
 });
 
