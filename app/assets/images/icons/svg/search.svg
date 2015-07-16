@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="98px" height="100px"
-	 viewBox="0 0 98 100" enable-background="new 0 0 98 100" xml:space="preserve">
-<title>search</title>
-<desc>Created with Sketch.</desc>
-<path id="Page-1" sketch:type="MSPage" d="M0.601,38.099c0-20.852,16.965-37.816,37.813-37.816
-	c20.852,0,37.816,16.965,37.816,37.816c0,20.852-16.965,37.814-37.816,37.814C17.566,75.913,0.601,58.948,0.601,38.099L0.601,38.099
-	z M7.418,38.098c0,17.093,13.907,31,30.997,31c17.094,0,31-13.906,31-31s-13.906-30.999-31-30.999
-	C21.325,7.099,7.418,21.006,7.418,38.098z M61.377,72.088l8.582-8.58L97.16,90.715l-8.584,8.582L61.377,72.088z"/>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+<g id="Page-1">
+	<g id="search">
+		<path id="Shape" fill="#010101" d="M973.6,866.5L838.2,725.2c113.3-176.6,95.6-418.5-53.6-574.5
+			c-84-87.9-196.2-136.2-315.9-136.2s-231.9,48.3-316,136.2c-169.6,177.3-169.6,465.6,0,642.8c84.1,87.9,196.3,136.2,316,136.2
+			c104.6,0,203.6-37,283-105l130.9,136.9c25.1,26.3,65.8,26.3,91,0C998.8,935.4,998.8,892.9,973.6,866.5L973.6,866.5z M468.7,791.6
+			c-78.2,0-156.4-31.2-216-93.5c-119.4-124.8-119.4-327.1,0-451.9c59.7-62.4,137.9-93.5,216-93.5s156.5,31.2,216,93.5
+			c119.4,124.8,119.4,327.1,0,451.9C625.1,760.4,546.9,791.6,468.7,791.6L468.7,791.6z"/>
+	</g>
+</g>
 </svg>

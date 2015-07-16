@@ -1,3 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="100px" height="100px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
-<path d="M97.137,29.56C97.714,28.984,98,28.229,98,27.475s-0.286-1.51-0.863-2.085c-1.152-1.152-3.018-1.152-4.169,0L50,68.356  L7.031,25.39c-1.149-1.152-3.015-1.152-4.169,0c-1.15,1.152-1.15,3.018,0,4.17L47.917,74.61c1.15,1.152,3.015,1.152,4.17,0  L97.137,29.56z"/>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+<g id="Page-1">
+	<g id="chevron-down" transform="translate(-1.000000, 0.000000)">
+		<path id="Shape" fill="#010101" d="M976.2,235.9c-21.9-22.5-57.3-22.5-79.2,0L501,642.2L105,235.9
+			c-21.9-22.5-57.3-22.5-79.2,0s-21.9,58.9,0,81.2l435.6,447c21.9,22.5,57.3,22.5,79.2,0l435.6-447
+			C998.1,294.7,998.1,258.3,976.2,235.9L976.2,235.9z"/>
+	</g>
+</g>
 </svg>
