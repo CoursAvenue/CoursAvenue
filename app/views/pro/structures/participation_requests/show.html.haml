@@ -35,13 +35,14 @@
   .grid__item.palm-one-whole.palm-block.palm-text--center.ten-twelfths.v-top>
     .delta.line-height-1-7.flush
       = "#{user.name}, #{user_decorator.age_and_city}"
-    - if user.phone_number.present?
+    - if !@participation_request.pending?
+      - if user.phone_number.present?
+        %div.line-height-1-7.delta
+          %i.fa.fa-phone-o
+          = user_decorator.phone_number
       %div.line-height-1-7.delta
-        %i.fa.fa-phone-o
-        = user_decorator.phone_number
-    %div.line-height-1-7.delta
-      %i.fa.fa-envelope-o
-      = link_to user_decorator.email, "mailto:#{user_decorator.email}"
+        %i.fa.fa-envelope-o
+        = link_to user_decorator.email, "mailto:#{user_decorator.email}"
 
     - if user.description.present?
       %div.line-height-1-7.quoted.epsilon.push-half--bottom
