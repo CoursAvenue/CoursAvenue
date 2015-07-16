@@ -67,15 +67,6 @@
             event.preventDefault();
             $(this).siblings('[data-content]').slideToggle()
         });
-
-        $('[data-behavior=toggle-restrictions]').change(function(event) {
-          if (event.target.checked) {
-              $('#age-restrictions').show();
-          } else {
-              $('#age-restrictions').hide();
-          }
-        });
-
     //  $('#guide_description').redactor({
     //      buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
     //        'link', 'alignment', 'horizontalrule', 'image'],

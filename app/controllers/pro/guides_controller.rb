@@ -88,7 +88,8 @@ class Pro::GuidesController < Pro::ProController
 
   def subjects_params
     params.require(:guide).permit(
-      :subjects_attributes => [:id, :guide_description]
+      :subjects_attributes => [:id, :guide_description, :age_advice_younger_than_5,
+                               :age_advice_between_5_and_9, :age_advice_older_than_10]
     )
   end
 end
