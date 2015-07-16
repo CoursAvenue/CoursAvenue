@@ -78,6 +78,7 @@ class Pro::GuidesController < Pro::ProController
       :title,
       :description,
       :call_to_action,
+      :age_dependant,
       :questions_attributes => [
         :id, :content, :ponderation,
         :answers_attributes => [:id, :content, :remote_image_url, :subject_ids => []]
