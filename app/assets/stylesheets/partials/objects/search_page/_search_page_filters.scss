@@ -345,14 +345,14 @@ $map-height   : 480px;
     }
     .search-page-filter--more {
         i { position: relative; line-height: 1.6em; }
-        .fa-chevron-up   { left: 0.3em;}
-        .fa-more-filters { right: 0.3em;}
+        .fa-chevron-up   { left: 0.5em;}
+        .fa-more-filters { right: 0.5em;}
     }
     .search-page-filter--subject, .search-page-filter--time, .search-page-filter--location {
         i { margin-right: 0.5em; margin-bottom: 1px; }
         .fa-chevron-up {
             position : relative;
-            left     : 1.5em;
+            left     : 1.7em;
         }
     }
         .search-page-filter--subject:hover::before, .search-page-filter--location:hover::before {
