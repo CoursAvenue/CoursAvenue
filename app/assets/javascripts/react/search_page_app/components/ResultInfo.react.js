@@ -1,5 +1,7 @@
-var ReactPropTypes        = React.PropTypes,
+var _                     = require('lodash'),
+    ReactPropTypes        = React.PropTypes,
     ResultInfoItem        = require('./ResultInfoItem'),
+    FilterActionCreators  = require('../actions/FilterActionCreators'),
     CardListSortBy        = require('./CardListSortBy'),
     CardStore             = require('../stores/CardStore'),
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
@@ -12,6 +14,10 @@ var ResultInfo = React.createClass({
 
     getInitialState: function getInitialState() {
         return { card_store: CardStore };
+    },
+
+    showSubjectFilterPanel: function showSubjectFilterPanel () {
+        FilterActionCreators.toggleSubjectFilter();
     },
 
     render: function render () {
@@ -32,7 +38,20 @@ var ResultInfo = React.createClass({
                                         key={key} />);
             });
             if (_.size(this.state.card_store.facets[0].data) > 3) {
-                dot_dot_dot = (<span className="search-page__result-info search-page__result-info--dot-dot-dot">...</span>);
+                var popover_facet_content = _.map(this.state.card_store.facets[0].data, function(value, key) {
+                    return key.split(':')[0] + ' (' + value + ')';
+                });
+                dot_dot_dot = (<span className="cursor-pointer search-page__result-info search-page__result-info--dot-dot-dot"
+                                      onClick={this.showSubjectFilterPanel}
+                                      data-toggle="popover"
+                                      data-content={_.trunc(popover_facet_content.splice(3).join(', '), 200)}
+                                      data-trigger="hover"
+                                      data-placement="top"
+                                      data-original-title="">
+                                   <i className="fa fa-circle"></i>
+                                   <i className="fa fa-circle"></i>
+                                   <i className="fa fa-circle"></i>
+                               </span>);
             }
         }
         var result_string = (total_results > 1 ? 'cours trouvé' : 'cours trouvés');

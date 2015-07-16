@@ -63,8 +63,8 @@ var SubjectFilter = React.createClass({
         return (
           <div className={classes + ' search-page-filters-wrapper search-page-filters__subject-panel'}>
               <div className="search-page-filters__title">
-                  <SubjectSearchInput />
                   {this.title()}
+                  <SubjectSearchInput key="subject-filter" />
                   <div className="search-page-filters__closer" onClick={this.closeFilterPanel}>
                       <i className="fa fa-times beta"></i>
                   </div>

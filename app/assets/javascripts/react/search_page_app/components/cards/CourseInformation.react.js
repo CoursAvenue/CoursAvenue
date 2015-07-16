@@ -10,7 +10,7 @@ CourseInformation = React.createClass({
 
     getInformations: function getInformations () {
         if (this.props.courseType != 'Course::Training') {
-            return _.map(this.props.weeklyAvailability, function(day, index) {
+            var days = _.map(this.props.weeklyAvailability, function(day, index) {
                 var tooltip_content = '';
                 var day_before_count = (index == 0 ? 0 : this.props.weeklyAvailability[index - 1].count);
                 var day_after_count  = (index == 6 ? 0 : this.props.weeklyAvailability[index + 1].count);
@@ -35,6 +35,7 @@ CourseInformation = React.createClass({
                     </div>
                 )
             }, this);
+            return (<div className="line-height-normal search-page-card__days inline-block">{days}</div>)
         } else {
             if (TimeStore.training_start_date) {
                 var currentDate = new Date(TimeStore.training_start_date * 1000);
@@ -63,17 +64,10 @@ CourseInformation = React.createClass({
     },
 
     render: function render () {
-        var courseTypeString = (this.props.courseType == 'Course::Training' ? 'Stage / Atelier' : 'Cours');
         var courseInformation = this.getInformations();
         return (
-                <div className='very-soft--top very-soft--bottom flexbox'>
-                    <div className='flexbox__item v-middle nowrap'>
-                        <i className="fa fa-calendar-o very-soft--right"></i>
-                        { courseTypeString }
-                    </div>
-                    <div className='flexbox__item v-middle one-whole text--right'>
-                        { courseInformation }
-                    </div>
+                <div className='search-page-card__content-bottom-line'>
+                    { courseInformation }
                 </div>
         )
     },

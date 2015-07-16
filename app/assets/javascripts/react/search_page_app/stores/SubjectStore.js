@@ -92,7 +92,7 @@ var SubjectStore = Backbone.Collection.extend({
                 name      : 'Arts créatifs',
                 group_id  : 3,
                 image_url : 'http://coursavenue-public.s3.amazonaws.com/public_assets/search_page/group-subject-arts.jpg',
-                root_slugs: ["deco-mode-bricolage", "dessin-peinture-arts-plastiques"]
+                root_slugs: ["deco-mode-bricolage", "dessin-peinture-arts-plastiques", "photo-video"]
                 // collection: this.filter(function(subject) { return (group_3.indexOf(subject.get('slug')) != -1)}),
             }
         ]

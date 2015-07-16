@@ -96,15 +96,3 @@
         border    : 1px solid $pane-border-color;
         border-top: none;
     }
-
-
-.premium-bordered-box {
-    border: 3px solid $yellow_premium !important;
-}
-.premium-box {
-    background-color: $yellow_premium !important;
-    &.premium-box--bordered {
-        border: 3px solid $yellow_premium;
-    }
-}
-

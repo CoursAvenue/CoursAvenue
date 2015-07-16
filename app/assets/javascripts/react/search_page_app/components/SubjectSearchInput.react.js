@@ -41,7 +41,7 @@ var FilterBar = React.createClass({
                      onKeyUp={this.closeFilterPanel}
                      onChange={this.searchFullText}
                      placeholder="Cherchez une activité..." />
-              <i className="fa fa-search beta"></i>
+              <i className="fa fa-search"></i>
           </div>
         );
     }

@@ -7,13 +7,19 @@ SubjectList = React.createClass({
     },
 
     componentDidMount: function componentDidMount () {
+        var that = this;
         $(this.getDOMNode()).dotdotdot({
             ellipsis : '... ',
             wrap     : 'children',
             tolerance: 3,
             callback : function callback (is_truncated, original_content) {
                 if (is_truncated) {
-                    var $dot_node = $('<div>...</div>').addClass('search-page-card__subject');
+                    var $dot_node = $('<div></div>').addClass('search-page-card__subject');
+                    $dot_node.addClass('search-page__result-info--dot-dot-dot');
+                    $dot_node.addClass('search-page-card__subject--' + that.props.subjectList[0].root_slug);
+                    $dot_node.append($('<i class="fa fa-circle"></i>'));
+                    $dot_node.append($('<i class="fa fa-circle"></i>'));
+                    $dot_node.append($('<i class="fa fa-circle"></i>'));
                     $dot_node.attr('data-toggle', 'popover')
                              .attr('data-placement', 'top')
                              .attr('data-content', _.map(original_content, function(a) {return $(a).text()}).join(', '));
@@ -35,7 +41,7 @@ SubjectList = React.createClass({
         });
 
         return (
-            <div className="search-page-card__subjects-wrapper">
+            <div>
                 { subjectNodes }
             </div>
         )

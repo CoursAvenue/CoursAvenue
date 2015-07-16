@@ -1,5 +1,6 @@
 var FilterActionCreators  = require('../actions/FilterActionCreators'),
     CardStore             = require("../stores/CardStore"),
+    SubjectSearchInput    = require('./SubjectSearchInput.react'),
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
 
 var Menubar = React.createClass({
@@ -42,8 +43,8 @@ var Menubar = React.createClass({
         var new_context_url = location.pathname + '?type=' + this.newContext();
         return (
             <div className='bg-white search-page-map__menu-bar'>
-                <div className='grid'>
-                    <div className='grid__item one-half v-middle'>
+                <div className='flexbox'>
+                    <div className='flexbox__item v-middle nowrap'>
                         <div className="coursavenue-header-logo-wrapper v-middle">
                             <a className="coursavenue-header-logo" href="/"></a>
                         </div>
@@ -62,7 +63,10 @@ var Menubar = React.createClass({
                             </div>
                         </div>
                     </div>
-                    <div className='grid__item one-half v-middle text--right'>
+                    <div className='flexbox__item v-middle text--right one-whole soft--right'>
+                        <SubjectSearchInput key="menu-bar" />
+                    </div>
+                    <div className='flexbox__item v-middle text--right nowrap'>
                         <div id='user-nav'></div>
                     </div>
                 </div>

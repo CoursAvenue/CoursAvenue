@@ -1,25 +1,26 @@
-var MapContainer           = require('./MapContainer.react'),
-    SmallMap               = require("./SmallMap.react"),
-    ResultList             = require('./ResultList.react'),
-    SubjectFilter          = require('./SubjectFilter.react'),
-    LocationFilter         = require('./LocationFilter.react'),
-    TimeFilter             = require('./TimeFilter.react'),
-    MoreFilter             = require('./MoreFilter.react'),
-    FilterBar              = require('./FilterBar.react'),
-    FilterBreadcrumb       = require('./FilterBreadcrumb.react'),
-    ResultInfo             = require('./ResultInfo.react'),
-    ResultSorting          = require('./ResultSorting.react'),
-    Pagination             = require('./Pagination.react'),
-    Menubar                = require('./Menubar.react'),
-    SearchPageAppRouter    = require('../SearchPageAppRouter'),
-    FilterStore            = require('../stores/FilterStore'),
-    SubjectStore           = require('../stores/SubjectStore'),
-    CardStore              = require('../stores/CardStore'),
-    LocationStore          = require('../stores/LocationStore'),
-    SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
-    SearchPageConstants    = require('../constants/SearchPageConstants'),
-    SubjectActionCreators  = require('../actions/SubjectActionCreators'),
-    LocationActionCreators = require('../actions/LocationActionCreators');
+var MapContainer              = require('./MapContainer.react'),
+    SmallMap                  = require("./SmallMap.react"),
+    ResultList                = require('./ResultList.react'),
+    SubjectFilter             = require('./SubjectFilter.react'),
+    SubjectAutocompleteFilter = require('./SubjectAutocompleteFilter.react'),
+    LocationFilter            = require('./LocationFilter.react'),
+    TimeFilter                = require('./TimeFilter.react'),
+    MoreFilter                = require('./MoreFilter.react'),
+    FilterBar                 = require('./FilterBar.react'),
+    FilterBreadcrumb          = require('./FilterBreadcrumb.react'),
+    ResultInfo                = require('./ResultInfo.react'),
+    ResultSorting             = require('./ResultSorting.react'),
+    Pagination                = require('./Pagination.react'),
+    Menubar                   = require('./Menubar.react'),
+    SearchPageAppRouter       = require('../SearchPageAppRouter'),
+    FilterStore               = require('../stores/FilterStore'),
+    SubjectStore              = require('../stores/SubjectStore'),
+    CardStore                 = require('../stores/CardStore'),
+    LocationStore             = require('../stores/LocationStore'),
+    SearchPageDispatcher      = require('../dispatcher/SearchPageDispatcher'),
+    SearchPageConstants       = require('../constants/SearchPageConstants'),
+    SubjectActionCreators     = require('../actions/SubjectActionCreators'),
+    LocationActionCreators    = require('../actions/LocationActionCreators');
 
 SearchPageApp = React.createClass({
     propTypes: {
@@ -55,6 +56,7 @@ SearchPageApp = React.createClass({
             <Menubar />
 
             <MapContainer center={this.props.map_center} />
+            <SubjectAutocompleteFilter />
             <SubjectFilter />
             <LocationFilter />
             <TimeFilter />
