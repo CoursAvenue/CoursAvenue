@@ -10,8 +10,9 @@ class GuideSerializer < ActiveModel::Serializer
   def subjects
     object.subjects.map do |subject|
       { id: subject.id,
-        slug: subject.slug,
         name: subject.name,
+        slug: subject.slug,
+        root_slug: subject.root.slug,
         guide_description: subject.guide_description,
         advices: [
           { id: 'younger-than-5', title: 'Conseils pour les enfants de moins de 5 ans',
