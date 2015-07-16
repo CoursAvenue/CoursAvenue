@@ -1,4 +1,4 @@
-var _                     = require('underscore'),
+var _                     = require('lodash'),
     SubjectActionCreators = require('../../actions/SubjectActionCreators');
 
 var SubjectList = React.createClass({

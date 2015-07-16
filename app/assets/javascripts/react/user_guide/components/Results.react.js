@@ -1,4 +1,4 @@
-var _           = require('underscore'),
+var _           = require('lodash'),
   AgeDetails    = require('./results/AgeDetails'),
   MainSubject   = require('./results/MainSubject'),
   SubjectList   = require('./results/SubjectList'),

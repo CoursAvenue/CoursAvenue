@@ -1,4 +1,4 @@
-var _                   = require('underscore'),
+var _                   = require('lodash'),
     Backbone            = require('backbone'),
     AnswerStore         = require('./AnswerStore'),
     UserGuideConstants  = require('../constants/UserGuideConstants'),

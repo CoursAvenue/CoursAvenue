@@ -1,4 +1,4 @@
-var _                      = require('underscore'),
+var _                      = require('lodash'),
     StartPage              = require('./StartPage'),
     Question               = require('./Question'),
     Results                = require('./Results'),
