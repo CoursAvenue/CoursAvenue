@@ -6,6 +6,13 @@
   = f.input :call_to_action, label: 'Accroche', label_html: { class: 'label--large' }, input_html: { placeholder: t('guides.placeholder.call_to_action') }
   = f.input :age_dependant, label: "Dependant de l'age ?", label_html: { class: 'label--large' }, input_html: { data: { behavior: 'toggle-restrictions' } }
 
+  .text--center
+    - if @guide.image.present?
+      = image_tag @guide.image.url(:default), data: { fpimage: true }
+    - else
+      %img{ data: { fpimage: true } }
+    = f.filepicker_field :remote_image_url, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true, class: "filepicker-dragdrop text--center", drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft--ends text--center push--bottom", drag_text: "Glissez votre image ici ou cliquez pour changer d'image", onchange: 'onPhotoUpload(event)'
+
   %hr.push--top
 
   %div{ data: { behavior: 'show-more-on-demand' } }
@@ -32,7 +39,7 @@
                     %img{ data: { fpimage: true } }
                     = af.filepicker_field :remote_image_url, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true,
                       class: "filepicker-dragdrop text--center", drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft-half--ends text--center push--bottom",
-                      drag_text: "Glissez ou cliquez ici pour changer votre image", onChange: 'onPhotoUpload(event)'
+                      drag_text: "Glissez ou cliquez ici pour changer votre image", onchange: 'onPhotoUpload(event)'
               .grid__item.seven-tenths
                 = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.answer.content') }
                 = af.input :subject_ids, as: :select, collection: Subject.order('position ASC'), label: 'Disciplines', label_method: :name,
