@@ -49,7 +49,8 @@ class Subject < ActiveRecord::Base
 
   attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description,
                   :image, :remote_image_url, :good_to_know, :needed_meterial, :tips, :ancestry,
-                  :guide_description
+                  :guide_description, :age_advice_younger_than_5, :age_advice_between_5_and_9,
+                  :age_advice_older_than_10
 
   mount_uploader :image, VerticalPageImageUploader
 
