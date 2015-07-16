@@ -175,6 +175,14 @@ describe Pro::GuidesController, user_guide: true do
     let(:guide) { stub_full_guide }
     let(:valid_subject_params) { valid_subjects_params(guide) }
 
+    it 'updates the subject' do
+      subject_ = guide.subjects.first
+      patch :update_subjects, { id: guide.id, guide: { subjects_attributes: valid_subject_params } }
+
+      subject_.reload
+      expect(subject_.guide_description).to_not be_nil
+    end
+
     it 'redirects to the guides index page' do
       patch :update_subjects, { id: guide.id, guide: { subjects_attributes: valid_subject_params } }
       expect(response).to redirect_to(pro_guides_path)
