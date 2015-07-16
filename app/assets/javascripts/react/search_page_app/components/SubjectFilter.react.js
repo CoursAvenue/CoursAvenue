@@ -66,7 +66,7 @@ var SubjectFilter = React.createClass({
                   {this.title()}
                   <SubjectSearchInput key="subject-filter" />
                   <div className="search-page-filters__closer" onClick={this.closeFilterPanel}>
-                      <i className="fa fa-times beta"></i>
+                      <i className="fa fa-times-big"></i>
                   </div>
               </div>
 

@@ -40,7 +40,7 @@ var MoreFilter = React.createClass({
               <div className="search-page-filters__title">
                   Filtres supplémentaires
                   <div className="search-page-filters__closer" onClick={this.closeFilterPanel}>
-                      <i className="fa fa-times beta"></i>
+                      <i className="fa fa-times-big"></i>
                   </div>
               </div>
               <div className="flexbox relative">

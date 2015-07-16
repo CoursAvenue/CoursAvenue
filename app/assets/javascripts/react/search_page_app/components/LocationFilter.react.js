@@ -63,7 +63,7 @@ var LocationFilter = React.createClass({
               <div className="search-page-filters__title">
                   {this.title()}
                   <div className="search-page-filters__closer" onClick={this.closeFilterPanel}>
-                      <i className="fa fa-times beta"></i>
+                      <i className="fa fa-times-big"></i>
                   </div>
               </div>
               <div className="search-page-filters__content">
