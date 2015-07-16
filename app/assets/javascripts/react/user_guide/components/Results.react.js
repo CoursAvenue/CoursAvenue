@@ -25,7 +25,7 @@ var Results = React.createClass({
           <div className='section relative one-whole relative full-screen-item bg-cover'>
               <MainSubject subject={ main_subject } />
               <hr />
-              <AgeDetails subject={ main_subject } selected_age={ 0 } />
+              <AgeDetails subject={ main_subject } />
               <hr />
               <CourseSearch subject={ main_subject } />
               <hr />

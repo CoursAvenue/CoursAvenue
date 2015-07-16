@@ -15,7 +15,6 @@ var CourseSearch = React.createClass({
     updateUrl: function updateUrl (event) {
         event.preventDefaul();
         var city = event.trigger;
-        debugger
         this.setState({ searchURL: Routes.city_subject_path(city, this.props.subject.slug) });
     },
 

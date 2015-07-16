@@ -8,6 +8,7 @@ module.exports = {
         POPULATE_SUBJECTS: null,
         POPULATE_QUESTION: null,
 
+        SELECT_AGE:    null,
         SELECT_ANSWER: null,
 
         SELECT_SUBJECT: null,

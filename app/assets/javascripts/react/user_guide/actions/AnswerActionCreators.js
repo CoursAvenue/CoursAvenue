@@ -15,4 +15,10 @@ module.exports = {
             data: data
         });
     },
+    selectAge: function selectAge (data) {
+        UserGuideDispatcher.dispatch({
+            actionType: ActionTypes.SELECT_AGE,
+            data: data
+        });
+    },
 }

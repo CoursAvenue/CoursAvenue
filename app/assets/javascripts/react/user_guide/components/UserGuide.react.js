@@ -2,6 +2,7 @@ var _                      = require('lodash'),
     StartPage              = require('./StartPage'),
     Question               = require('./Question'),
     Results                = require('./Results'),
+    AgeQuestion            = require('./AgeQuestion'),
     QuestionStore          = require('../stores/QuestionStore'),
     FluxBoneMixin          = require('../../mixins/FluxBoneMixin'),
     AnswerActionCreators   = require('../actions/AnswerActionCreators'),
@@ -44,13 +45,18 @@ var UserGuide = React.createClass({
         $.fn.fullpage.moveSectionDown();
     },
 
-    // TODO: Add age dependant question.
     render: function render () {
         var questions = QuestionStore.map(function(question, index) {
             return (
                 <Question question={ question } next_page={ this.nextPage } key={ index } />
             );
         }.bind(this));
+
+        if (this.props.guide.age_dependant) {
+            questions.push(
+                <AgeQuestion next_page={ this.nextPage } key={ questions.length } />
+            );
+        }
 
         return (
             <div id='fullpage' className='relative overflow-hidden'>

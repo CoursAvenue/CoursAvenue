@@ -1,20 +1,30 @@
+var _             = require('lodash'),
+    AnswerStore   = require('../../stores/AnswerStore'),
+    FluxBoneMixin = require('../../../mixins/FluxBoneMixin');
+
 var AgeDetails = React.createClass({
     propTypes: {
         subject: React.PropTypes.object,
-        selected_age: React.PropTypes.number
+    },
+
+    mixins: [
+        FluxBoneMixin(['answer_store'])
+    ],
+
+    getInitialState: function getInitialState () {
+        return { answer_store: AnswerStore };
     },
 
     render: function render () {
-        if (!this.props.subject || !this.props.selected_age) { return false; }
+        var age = AnswerStore.selectedAge();
+        if (!age) { return false; }
 
-        var details = this.props.subject.get('age_details')[this.props.selected_age];
-
-        if (!details) { return (false); }
+        var selected_age = _.findWhere(this.props.subject.get('advices'), { id: age.id });
 
         return (
             <div>
-                <h1>{ this.props.selected_age.title }</h1>
-                <p>{ this.props.selected_age.description }</p>
+                <h1>{ selected_age.title }</h1>
+                <p>{ selected_age.content }</p>
             </div>
         );
     },
