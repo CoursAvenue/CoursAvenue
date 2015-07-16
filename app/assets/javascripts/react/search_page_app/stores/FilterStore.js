@@ -57,16 +57,16 @@ var FilterStore = Backbone.Model.extend({
                 this.unset('current_panel');
                 break;
             case ActionTypes.SEARCH_FULL_TEXT:
-                if (!this.get('current_panel')) {
+            case ActionTypes.SHOW_SUBJECT_INPUT_PANEL:
+                if (!this.get('current_panel') || this.get('current_panel') != FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT) {
                     this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT);
                 }
                 break;
+                // this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT);
+                // break;
             case ActionTypes.SELECT_SUBJECT:
                 this.unset('current_panel');
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.CHILD });
-                break;
-            case ActionTypes.SHOW_SUBJECT_INPUT_PANEL:
-                this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT);
                 break;
             case ActionTypes.TOGGLE_SUBJECT_FILTERS:
                 this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.SUBJECTS);
