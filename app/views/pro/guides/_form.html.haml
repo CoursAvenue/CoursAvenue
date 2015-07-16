@@ -28,14 +28,22 @@
         .bordered.bordered--dash.bordered--larger.f-weight-500{ class: (question.answers.map(&:content).any? ? '' : 'hidden'), data: { content: true } }
           = qf.simple_fields_for :answers, question.answers do |af|
             - answer = af.object
-            = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.answer.content') }
-            = af.input :subject_ids, as: :select, collection: Subject.order('position ASC'), label: 'Disciplines', label_method: :name,
-              input_html: { data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true }
-            = af.filepicker_field :remote_image_url, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true, class: "filepicker-dragdrop text--center",
-              drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft-half--ends text--center push--bottom", drag_text: "Glissez ou cliquez ici pour changer votre image"
-
-            -# - if answer.image.present?
-            -#   = link_to "Voir l'image", answer.image.url, class: 'fancybox.ajax', data: { behavior: 'modal', width: 700 }, method: :get
+            .grid.soft--top.soft--ends
+              .grid__item.one-quarter
+                .soft--left.text--center
+                  - if answer.image.present?
+                    = image_tag answer.image.url, class: 'block', data: { fpimage: true }
+                    = af.filepicker_field :remote_image_url, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, button_text: "Changer l'image",
+                      button_class: 'btn btn--blue btn--small push-half--top filepicker', onchange: 'onPhotoUpload(event)'
+                  - else
+                    %img{ data: { fpimage: true } }
+                    = af.filepicker_field :remote_image_url, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true,
+                      class: "filepicker-dragdrop text--center", drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft-half--ends text--center push--bottom",
+                      drag_text: "Glissez ou cliquez ici pour changer votre image", onChange: 'onPhotoUpload(event)'
+              .grid__item.seven-tenths
+                = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.answer.content') }
+                = af.input :subject_ids, as: :select, collection: Subject.order('position ASC'), label: 'Disciplines', label_method: :name,
+                  input_html: { data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true }
 
             %hr.push-half--ends
 
@@ -56,6 +64,11 @@
   = filepicker_js_include_tag
 
   :javascript
+    function onPhotoUpload(event) {
+        var image = $(event.target).siblings('[data-fpimage]');
+        $(image).attr('src', event.fpfile.url);
+    }
+
     $(document).ready(function() {
         $('[data-toggle]').click(function(event) {
             event.preventDefault();
@@ -63,7 +76,6 @@
         });
 
         $('[data-behavior=toggle-restrictions]').change(function(event) {
-          debugger
           if (event.target.checked) {
               $('#age-restrictions').show();
           } else {
