@@ -29,7 +29,7 @@ class Pro::GuidesController < Pro::ProController
   end
 
   def edit
-    @guide = Guide.find(params[:id])
+    @guide = Guide.includes(questions: [:answers]).find(params[:id])
     3.times { q = @guide.questions.build }
     @guide.questions.each do |q|
       (4 - q.answers.count).times { q.answers.build }
