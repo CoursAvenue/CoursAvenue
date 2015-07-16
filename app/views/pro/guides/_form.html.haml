@@ -7,7 +7,7 @@
   = f.input :age_dependant, label: "Dependant de l'age ?", label_html: { class: 'label--large' }, input_html: { data: { behavior: 'toggle-restrictions' } }
 
   -# TODO: One per line
-  .input#age-restrictions{ class: @guide.age_dependant? ? '' : '' }
+  .input#age-restrictions{ class: @guide.age_dependant? ? '' : 'hidden' }
     %label.control-label.label--large
     - @guide.age_restrictions.each_with_index do |age_restriction, index|
       = f.simple_fields_for :age_restrictions, age_restriction, child_index: index do |af|
