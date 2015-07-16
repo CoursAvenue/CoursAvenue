@@ -9,14 +9,6 @@
         .flexbox.palm-block
           .flexbox__item.one-whole.palm-block.palm-soft-half--ends
             = participation_request_decorator.long_status_name('Structure')
-          .flexbox__item.v-middle.nowrap.text--right.palm-block
-            - if !@participation_request.canceled?
-              .palm-text--left.inline-block.palm-block.palm-soft-half--ends
-                = link_to cancel_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
-                  - if @participation_request.charged?
-                    = t('.refund')
-                  - else
-                    = t('.decline')
 
     %tr.bordered--bottom
       %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Cours et date

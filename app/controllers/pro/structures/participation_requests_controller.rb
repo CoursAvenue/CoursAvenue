@@ -34,11 +34,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
 
   # GET pro/etablissements/:structure_id/participation_request/:id
   def show
-    @participation_request = @structure.participation_requests.find(params[:id])
-    # Treat PR if it is viewed by the teacher and NOT by a super admin
-    if @participation_request.pending?
-      @participation_request.treat! unless current_pro_admin and current_pro_admin.super_admin?
-    end
+    @participation_request = @structure.participation_requests.find(params[:id]).decorate
     @user                  = @participation_request.user
   end
 
@@ -47,6 +43,10 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_request = @structure.participation_requests.find(params[:id])
     @user                  = @participation_request.user
     @user_decorator        = @user.decorate
+    # Treat PR if it is viewed by the teacher and NOT by a super admin
+    if @participation_request.pending?
+      @participation_request.treat! unless current_pro_admin and current_pro_admin.super_admin?
+    end
     render layout: false
   end
 
