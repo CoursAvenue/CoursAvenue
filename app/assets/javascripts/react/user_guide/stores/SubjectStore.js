@@ -11,11 +11,18 @@ var Subject = Backbone.Model.extend({
     },
 
     initialize: function initialize () {
-        _.bindAll(this, 'updateScore');
+        _.bindAll(this, 'updateScore', 'searchUrl');
     },
 
     updateScore: function updateScore (answer) {
         this.set('score', this.get('score') + answer.get('ponderation'));
+    },
+
+    searchUrl: function searchUrl (city) {
+        if (!city) { city = 'Paris'; }
+        var city_slug = city.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+
+        return Routes.search_page_path(this.get('root_slug'), this.get('slug'), city);
     },
 
 });
