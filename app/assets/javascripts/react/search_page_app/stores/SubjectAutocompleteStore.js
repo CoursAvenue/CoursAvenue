@@ -20,6 +20,7 @@ var SubjectAutocompleteStore = Backbone.Collection.extend({
                 this.full_text_search = '';
                 this.trigger('change');
                 break;
+            case ActionTypes.INIT_SEARCH_FULL_TEXT:
             case ActionTypes.SEARCH_FULL_TEXT:
                 this.full_text_search = payload.data;
                 this.searchSubjects();
@@ -28,7 +29,7 @@ var SubjectAutocompleteStore = Backbone.Collection.extend({
     },
 
     searchSubjects: function searchSubjects () {
-        var data = { hitsPerPage: 15, facets: '*'}
+        var data = { hitsPerPage: 15, facets: '*', numericFilters: 'depth>0' }
         AlgoliaSearchUtils.searchSubjects(data, this.full_text_search).then(function(content){
             this.reset(content.hits);
             this.trigger('change');

@@ -53,8 +53,15 @@ var FilterStore = Backbone.Model.extend({
             case ActionTypes.SELECT_ADDRESS:
             case ActionTypes.LOCATE_USER:
             case ActionTypes.CLOSE_FILTER_PANEL:
-            case ActionTypes.CLOSE_SUBJECT_INPUT_PANEL:
                 this.unset('current_panel');
+                break;
+            case ActionTypes.CLOSE_SUBJECT_INPUT_PANEL:
+                if (this.get('old_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS) {
+                    // this.set('current_panel', FilterPanelConstants.FILTER_PANELS.SUBJECTS);
+                    this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.SUBJECTS);
+                } else {
+                    this.unset('current_panel');
+                }
                 break;
             case ActionTypes.SEARCH_FULL_TEXT:
             case ActionTypes.SHOW_SUBJECT_INPUT_PANEL:
@@ -62,8 +69,6 @@ var FilterStore = Backbone.Model.extend({
                     this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT);
                 }
                 break;
-                // this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT);
-                // break;
             case ActionTypes.SELECT_SUBJECT:
                 this.unset('current_panel');
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.CHILD });

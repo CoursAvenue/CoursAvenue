@@ -15,15 +15,25 @@ var SubjectAutocompleteFilter = React.createClass({
 
     getInitialState: function getInitialState () {
         return {
+            active_result             : 'full_text_search',
             subject_autocomplete_store: SubjectAutocompleteStore,
             filter_store              : FilterStore,
             location_store            : LocationStore
         };
     },
 
+    hoverSubject: function hoverSubject (subject_slug) {
+        return function() {
+            this.setState({ active_result: subject_slug });
+        }.bind(this);
+    },
+
     subjects: function subjects () {
         return this.state.subject_autocomplete_store.map(function(subject) {
-            return (<div className="flexbox search-page__input-suggestion flexbox search-page__input-suggestion--bordered"
+            return (<div className={cx("flexbox search-page__input-suggestion flexbox search-page__input-suggestion--bordered", {
+                                      'search-page__input-suggestion--active': this.state.active_result == subject.get('slug')
+                                    })}
+                         onMouseOver={this.hoverSubject(subject.get('slug'))}
                          onClick={this.selectSubject(subject)}>
                         <div className="flexbox__item v-middle">
                             <img className="block" height="45" width="80" src={subject.get('small_image_url')} />
@@ -54,11 +64,16 @@ var SubjectAutocompleteFilter = React.createClass({
             'search-page-filters-wrapper--active': (current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT),
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
+        var subjects = this.subjects();
+        if (subjects.length == 0) { this.state.active_result = 'full_text_search'; }
         return (
           <div className={classes}>
               <div className="main-container main-container--1000">
                   <div className="v-middle search-page-filters__panel-height input-with-button">
-                      <div className="flexbox search-page__input-suggestion search-page__input-suggestion--bordered search-page__input-suggestion--active"
+                      <div className={cx("flexbox search-page__input-suggestion search-page__input-suggestion--bordered", {
+                                          'search-page__input-suggestion--active': this.state.active_result == 'full_text_search'
+                                        })}
+                           onMouseOver={this.hoverSubject('full_text_search')}
                            onClick={this.searchFullText}>
                           <div className="flexbox__item v-middle text--center">
                               <i className="fa fa-search white"></i>
@@ -73,7 +88,7 @@ var SubjectAutocompleteFilter = React.createClass({
                       <div className="blue-green f-weight-600 search-page__input-suggestion-label">
                           DISCIPLINES
                       </div>
-                      {this.subjects()}
+                      {subjects}
                   </div>
               </div>
 

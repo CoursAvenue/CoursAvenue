@@ -24,6 +24,7 @@ module.exports = {
         SELECT_METRO_LINES:          null,
         SELECT_METRO_LINE:           null,
         SELECT_METRO_STOP:           null,
+        INIT_SEARCH_FULL_TEXT:       null,
 
         UNSET_FILTER:                null,
 

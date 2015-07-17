@@ -104,6 +104,13 @@ module.exports = {
         });
     },
 
+    initSearchFullText: function initSearchFullText (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.INIT_SEARCH_FULL_TEXT,
+            data: data
+        });
+    },
+
     searchFullText: function searchFullText (data) {
         SearchPageDispatcher.dispatch({
             actionType: SearchPageConstants.ActionTypes.SEARCH_FULL_TEXT,

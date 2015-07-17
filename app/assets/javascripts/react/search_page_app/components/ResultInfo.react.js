@@ -57,12 +57,14 @@ var ResultInfo = React.createClass({
         }
         var result_string = (total_results > 1 ? 'cours trouvé' : 'cours trouvés');
         return (
-          <div className="main-container main-container--1000 soft--ends soft-half--sides flexbox">
-              <div className="flexbox__item v-middle palm-one-whole">
+          <div className="main-container main-container--1000 soft--ends flexbox">
+              <div className="flexbox__item v-middle nowrap palm-one-whole">
                   <span className="beta v-middle push--right">{total_results} {result_string}</span>
-                  &nbsp;{facets}{dot_dot_dot}
               </div>
-              <div className="flexbox__item v-middle palm-one-whole text--right">
+              <div className="flexbox__item v-middle palm-one-whole">
+                  {facets}{dot_dot_dot}
+              </div>
+              <div className="flexbox__item v-middle nowrap palm-one-whole text--right">
                   <CardListSortBy />
               </div>
           </div>

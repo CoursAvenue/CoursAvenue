@@ -25,7 +25,9 @@ var FilterBar = React.createClass({
     },
 
     showSearchInputPanel: function showSearchInputPanel (event) {
-        FilterActionCreators.showSearchInputPanel();
+        if ($(event.currentTarget).val().length > 1) {
+            FilterActionCreators.showSearchInputPanel();
+        }
     },
 
     closeSearchInputPanel: function closeSearchInputPanel (event) {

@@ -41,6 +41,7 @@ var SubjectStore = Backbone.Collection.extend({
                 this.full_text_search = '';
                 this.setSelectedRootSubject();
                 break;
+            case ActionTypes.INIT_SEARCH_FULL_TEXT:
             case ActionTypes.SEARCH_FULL_TEXT:
                 this.full_text_search = payload.data;
                 this.trigger('change');
@@ -82,19 +83,16 @@ var SubjectStore = Backbone.Collection.extend({
                 group_id  : 1,
                 image_url : 'http://coursavenue-public.s3.amazonaws.com/public_assets/search_page/group-subject-theatre.jpg',
                 root_slugs: ["danse", "theatre-scene", "musique-chant"]
-                // collection: this.filter(function(subject) { return (group_1.indexOf(subject.get('slug')) != -1)})
             },{
                 name      : 'Sports, Yoga & Bien-être',
                 group_id  : 2,
                 image_url : 'http://coursavenue-public.s3.amazonaws.com/public_assets/search_page/group-subject-yoga.jpg',
-                root_slugs: ["sports-arts-martiaux", "yoga-bien-etre-sante"]
-                // collection: this.filter(function(subject) { return (group_2.indexOf(subject.get('slug')) != -1)}),
+                root_slugs: ["sports-arts-martiaux", "yoga-bien-etre-sante", "cuisine-vins"]
             },{
                 name      : 'Arts créatifs',
                 group_id  : 3,
                 image_url : 'http://coursavenue-public.s3.amazonaws.com/public_assets/search_page/group-subject-arts.jpg',
                 root_slugs: ["deco-mode-bricolage", "dessin-peinture-arts-plastiques", "photo-video"]
-                // collection: this.filter(function(subject) { return (group_3.indexOf(subject.get('slug')) != -1)}),
             }
         ]
     },

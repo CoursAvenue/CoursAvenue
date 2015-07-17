@@ -13,7 +13,7 @@ var _                      = require('lodash'),
 // Params that we store in URLs
 var PARAMS_IN_SEARCH = {
     context               : { name: 'type'       , actionMethod: FilterActionCreators.changeContext },
-    full_text_search      : { name: 'discipline' , actionMethod: FilterActionCreators.searchFullText },
+    full_text_search      : { name: 'discipline' , actionMethod: FilterActionCreators.initSearchFullText },
     metro_lines           : { name: 'metros[]'   , actionMethod: FilterActionCreators.selectMetroLines },
     planning_periods      : { name: 'plannings[]', actionMethod: TimeActionCreators.togglePeriodsSelection },
     audiences             : { name: 'public[]'   , actionMethod: AudienceActionCreators.setAudiences },

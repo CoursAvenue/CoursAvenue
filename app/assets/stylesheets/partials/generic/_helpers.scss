@@ -229,6 +229,10 @@
         padding-left: $base-spacing-unit / 2; padding-right: $base-spacing-unit / 2;
     }
 }
+.soft-double {
+    padding: $base-spacing-unit * 2;
+    @include media-query(palm) { padding: $base-spacing-unit / 2; }
+}
 .soft--sides {
     @include media-query(palm) {
         padding-left: $base-spacing-unit / 2!important; padding-right: $base-spacing-unit / 2!important;

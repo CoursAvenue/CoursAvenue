@@ -80,13 +80,11 @@ Card = React.createClass({
                                 {this.headerImage()}
                             </div>
                             {this.headerLogo()}
-                            <div className="text--center">
-                                <div className="push-half--bottom gray">
-                                    <a href={Routes.structure_path(this.props.card.get('structure_slug'))}
-                                       className="semi-muted-link search-page-card__structure-name">
-                                        {this.props.card.get('structure_name')}
-                                    </a>
-                                </div>
+                            <div className="text--center soft-half--sides push-half--bottom gray">
+                                <a href={Routes.structure_path(this.props.card.get('structure_slug'))}
+                                   className="semi-muted-link search-page-card__structure-name">
+                                    {this.props.card.get('structure_name')}
+                                </a>
                             </div>
                         </div>
                         <h4 className="flush text--center soft-half--sides">
