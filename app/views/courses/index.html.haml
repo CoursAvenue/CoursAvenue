@@ -15,6 +15,15 @@
 = content_for :meta_description do
   #{title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com. Consultez #{number_with_delimiter Comment::Review.count} avis d'élèves, #{number_with_delimiter Media.count} photos.
 
+.full-screen-item.flexbox.absolute.north.west.on-top.bg-blue-green
+  .flexbox__item.v-middle
+    .text--center
+      = image_tag 'logos/logo_white@2x.png', height: 60, width: 367
+    .spinner
+      .double-bounce1
+      .double-bounce2
+      .double-bounce3
+
 = react_component('SearchPageApp', { map_center: [@city.latitude, @city.longitude],
                                      subject: (@subject and @subject != @root_subject ? @subject.to_json : nil),
                                      root_subject: (@root_subject ? @root_subject.to_json : nil),

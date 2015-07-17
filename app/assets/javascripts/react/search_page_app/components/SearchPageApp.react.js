@@ -52,7 +52,7 @@ SearchPageApp = React.createClass({
 
     render: function render() {
         return (
-          <div className="relative">
+          <div className="relative on-top">
               <div className="relative overflow-hidden">
                   <Menubar />
 
