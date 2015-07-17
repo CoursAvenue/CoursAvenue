@@ -25,6 +25,13 @@ $map-height   : 480px;
 .search-page-filters__map-container {
     height    : 480px;
 }
+.search-page-filters__map-container-curtain {
+    background-color: rgba(17, 202, 175, 0.1);
+    @include transform(scale(0));
+}
+.search-page-filters__map-container-curtain--active {
+    @include transform(scale(1));
+}
 .search-page-filters-wrapper {
     height  : $map-height + $header-height;
     position: absolute;
@@ -107,6 +114,33 @@ $map-height   : 480px;
     .search-page-filters__button {
         font-size: 1.4em;
         padding  : 0.8em 1.1em;
+    }
+    .search-page-filter__subject-pages-bullet-wrapper {
+        bottom: 7em;
+        font-size: 0.6em;
+    }
+        .search-page-filter__subject-page-before {
+            @include transform(translateX(100%));
+        }
+        .search-page-filter__subject-page-after  {
+            @include transform(translateX(-100%));
+        }
+        .search-page-filter__subject-page {
+            @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+        }
+        .search-page-filter__subject-page--active {
+            @include transform(translateX(0));
+        }
+        .search-page-filter__subject-pages-bullet {
+            color : rgba(255, 255, 255, 0.5);
+            margin: 0 0.2em;
+        }
+        .search-page-filter__subject-pages-bullet--active {
+            color: white;
+        }
+    .search-page-filters__subject-prev, .search-page-filters__subject-next {
+        top       : 50%;
+        margin-top: -2em;
     }
     $subject-search-width: 300px;
     .search-page-map__menu-bar {
