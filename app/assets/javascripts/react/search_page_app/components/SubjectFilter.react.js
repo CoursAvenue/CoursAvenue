@@ -42,13 +42,13 @@ var SubjectFilter = React.createClass({
         }
     },
     panelToShow: function panelToShow () {
+        if (this.state.filter_store.get('current_panel') != FilterPanelConstants.FILTER_PANELS.SUBJECTS) { return; }
         switch(this.state.filter_store.get('subject_panel')) {
           case FilterPanelConstants.SUBJECT_PANELS.ROOT:
             return ( <SubjectFilterRootSubjectPanel key='root' /> );
           case FilterPanelConstants.SUBJECT_PANELS.CHILD:
             return ( <SubjectFilterChildSubjectPanel key='child' /> );
           case FilterPanelConstants.SUBJECT_PANELS.GROUP:
-          default:
             return ( <SubjectFilterGroupSubjectPanel key='group' /> );
         }
     },

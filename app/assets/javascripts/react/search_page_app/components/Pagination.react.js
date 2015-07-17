@@ -80,7 +80,7 @@ var Pagination = React.createClass({
 
     render: function render () {
         var back_class = cx('pagination__prev', { 'visibility-hidden': this.state.card_store.isFirstPage() });
-        var next_class = cx('pagination__next', { 'visibility-hidden': this.state.card_store.isLastPage() });
+        var next_class = cx('pagination__next', { 'visibility-hidden': this.state.card_store.length == 0 || this.state.card_store.isLastPage() });
         var buttons = _.map(this.buildPaginationButtons(), function(button, index) {
             var button_classes = cx('pagination__page',
                                     { 'pagination__page--active': (this.state.card_store.current_page == button.page),
