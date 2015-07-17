@@ -38,7 +38,7 @@ var MapComponent = React.createClass({
                   {expand_button}
               </div>
               <div className={cx("on-top-of-the-world search-page-filters__map-container-curtain absolute north west height-100-percent one-whole on-top flexbox", {
-                                 'search-page-filters__map-container-curtain--active': this.state.card_store.loading
+                                 'search-page-filters__map-container-curtain--active': this.state.card_store.loading || this.state.location_store.get('finding_user_position')
                   })}>
                   <div className="flexbox__item v-middle">
                       <div className="spinner">

@@ -63,10 +63,6 @@ var MapComponent = React.createClass({
             }
         }.bind(this));
         this.state.location_store.on('all', function() {
-            // Move Map ONLY IF we just changed address
-            if (this.state.location_store.get('finding_user_position')) {
-                COURSAVENUE.helperMethods.flash('Localisation en cours...', 'success')
-            }
             if (this.state.location_store.changed.hasOwnProperty('fullscreen')) {
                 setTimeout(function() { this.map.invalidateSize(); }.bind(this), 10);
             }
