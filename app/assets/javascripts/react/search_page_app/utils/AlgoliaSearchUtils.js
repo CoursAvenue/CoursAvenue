@@ -34,7 +34,7 @@ module.exports = {
             page        : data.page || 1
         };
 
-        if (data.insideBoundingBox) {
+        if (!window.is_mobile && data.insideBoundingBox) {
             card_search_state.insideBoundingBox = data.insideBoundingBox.toString();
         }
         // Do not search on aroundLatLng if it is not inside bounding box

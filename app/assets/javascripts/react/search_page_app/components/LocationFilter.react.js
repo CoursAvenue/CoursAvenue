@@ -44,7 +44,7 @@ var LocationFilter = React.createClass({
           case FilterPanelConstants.LOCATION_PANELS.ADDRESS:
             return "Indiquez une adresse"
           case FilterPanelConstants.LOCATION_PANELS.METRO:
-            return "Choisissez une ligne et/ou une station"
+            return "Choisissez une ligne de transports"
           default:
             return "Où souhaitez-vous trouver un cours ?"
         }

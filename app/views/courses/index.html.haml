@@ -17,8 +17,8 @@
 
 .full-screen-item.flexbox.absolute.north.west.on-top.bg-blue-green
   .flexbox__item.v-middle
-    .text--center
-      = image_tag 'logos/logo_white@2x.png', height: 60, width: 367
+    .text--center.soft--sides
+      = image_tag 'logos/logo_white@2x.png', style: 'height: auto; width: 367px;'
     .spinner
       .double-bounce1
       .double-bounce2
@@ -29,3 +29,6 @@
                                      root_subject: (@root_subject ? @root_subject.to_json : nil),
                                      address: { name: @city.name, latitude: @city.latitude, longitude: @city.longitude, city: @city.name, is_address: false }.to_json },
                                      { prerender: false })
+= content_for :scripts do
+  :javascript
+    window.is_mobile = COURSAVENUE.helperMethods.isMobile.any();
