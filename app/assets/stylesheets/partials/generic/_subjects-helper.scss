@@ -1,7 +1,7 @@
-.bg-cuisine-vins                       { background-color: inherit; }
-.cuisine-vins-color                    { color: inherit; }
-.bg-photo-video                        { background-color: inherit; }
-.photo-video-color                     { color: inherit; }
+.bg-cuisine-vins                       { background-color: $color-cooking; }
+.cuisine-vins-color                    { color: $color-cooking; }
+.bg-photo-video                        { background-color: $color-photo; }
+.photo-video-color                     { color: $color-photo; }
 .bg-deco-mode-bricolage                { background-color: $color-deco; }
 .deco-mode-bricolage-color             { color: $color-deco; }
 .bg-theatre-scene                      { background-color: $color-theatre; }

@@ -32,7 +32,6 @@
     }
     .search-page-card__content {
         position: relative;
-        border  : 1px solid white;
         @include border-radius(2px);
         @include transition(all 250ms cubic-bezier(0.15, 1.01, 0.65, 0.85));
         &:hover {
@@ -64,7 +63,7 @@
         vertical-align: middle;
         @include border-radius(100px);
     }
-    // .search-page-card__structure-sleeping-logo-icon {}
+
     .search-page-card__structure-name {
         font-size  : 12px;
         line-height: 1;
@@ -110,13 +109,15 @@
         }
         .search-page-card__content:hover {
             .search-page-card__subject { &, i { color: white; } }
-            .search-page-card__subject--deco-mode-bricolage { @extend .bg-deco-mode-bricolage; }
-            .search-page-card__subject--theatre-scene { @extend .bg-theatre-scene; }
+            .search-page-card__subject--deco-mode-bricolage             { @extend .bg-deco-mode-bricolage; }
+            .search-page-card__subject--theatre-scene                   { @extend .bg-theatre-scene; }
             .search-page-card__subject--dessin-peinture-arts-plastiques { @extend .bg-dessin-peinture-arts-plastiques; }
-            .search-page-card__subject--danse { @extend .bg-danse; }
-            .search-page-card__subject--musique-chant { @extend .bg-musique-chant; }
-            .search-page-card__subject--sports-arts-martiaux { @extend .bg-sports-arts-martiaux; }
-            .search-page-card__subject--yoga-bien-etre-sante { @extend .bg-yoga-bien-etre-sante; }
+            .search-page-card__subject--danse                           { @extend .bg-danse; }
+            .search-page-card__subject--musique-chant                   { @extend .bg-musique-chant; }
+            .search-page-card__subject--sports-arts-martiaux            { @extend .bg-sports-arts-martiaux; }
+            .search-page-card__subject--yoga-bien-etre-sante            { @extend .bg-yoga-bien-etre-sante; }
+            .search-page-card__subject--cuisine-vins                    { @extend .bg-cuisine-vins; }
+            .search-page-card__subject--photo-video                     { @extend .bg-photo-video; }
         }
 
 .search-page-card__days {
@@ -140,11 +141,9 @@
 .search-page-card__content-bottom {
     color: #777777;
     height: 5em;
-    i {
-        margin-right: 1em;
-    }
 }
     .search-page-card__content-bottom-line {
+        i { margin-right: 1em; }
         height: 2em;
         line-height: 2em;
     }
