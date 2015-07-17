@@ -4,7 +4,7 @@ var MetroLineChip = React.createClass({
     render: function render () {
         var number;
         var metro_classes = classNames({
-            'cursor-pointer metro-line transition-all-300': true,
+            'cursor-pointer metro-line metro-line--large transition-all-300': true,
             'metro-line--bis': this.props.line.is_bis,
             'metro-line--selected': this.props.line.selected
         });

@@ -151,7 +151,8 @@
     @include text-shadow(darken($color-photo, 10%) 0px 1px, darken($color-photo, 10%) -1px 1px, darken($color-photo, 10%) -1px -1px, darken($color-photo, 10%) 1px -1px);
     div { @include text-shadow(-1px -1px 0 darken($color-photo, 10%)); }
 }
-.map-box-marker__dessin-peinture-arts- {
+
+.map-box-marker__dessin-peinture-arts-plastiques {
     @extend .dessin-peinture-arts-plastiques-color;
     @include text-shadow(darken($color-arts, 10%) 0px 1px, darken($color-arts, 10%) -1px 1px, darken($color-arts, 10%) -1px -1px, darken($color-arts, 10%) 1px -1px);
     div { @include text-shadow(-1px -1px 0 darken($color-arts, 10%)); }

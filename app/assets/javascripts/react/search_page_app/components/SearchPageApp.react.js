@@ -53,22 +53,24 @@ SearchPageApp = React.createClass({
     render: function render() {
         return (
           <div className="relative">
-            <Menubar />
+              <div className="relative overflow-hidden">
+                  <Menubar />
 
-            <MapContainer center={this.props.map_center} />
-            <SubjectAutocompleteFilter />
-            <SubjectFilter />
-            <LocationFilter />
-            <TimeFilter />
-            <MoreFilter />
-            <div className="on-top-of-the-world search-page-content relative">
-                <FilterBar />
-                <FilterBreadcrumb />
-                <ResultInfo />
-                <ResultList />
-                <Pagination />
-                <SmallMap center={this.props.map_center} />
-            </div>
+                  <MapContainer center={this.props.map_center} />
+                  <SubjectAutocompleteFilter />
+                  <SubjectFilter />
+                  <LocationFilter />
+                  <TimeFilter />
+                  <MoreFilter />
+              </div>
+              <div className="on-top-of-the-world search-page-content relative">
+                  <FilterBar />
+                  <FilterBreadcrumb />
+                  <ResultInfo />
+                  <ResultList />
+                  <Pagination />
+                  <SmallMap center={this.props.map_center} />
+              </div>
           </div>
         );
     }

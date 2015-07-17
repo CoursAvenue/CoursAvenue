@@ -45,6 +45,7 @@ var SubjectStore = Backbone.Collection.extend({
                 this.full_text_search = payload.data;
                 this.trigger('change');
                 break;
+            case ActionTypes.CLEAR_AND_CLOSE_SUBJECT_INPUT_PANEL:
             case ActionTypes.CLEAR_ALL_THE_DATA:
                 this.unsetFilter('full_text_search');
                 break;

@@ -42,6 +42,12 @@ module.exports = {
         });
     },
 
+    clearFullTextAndCloseSearchInputPanel: function clearFullTextAndCloseSearchInputPanel () {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.CLEAR_AND_CLOSE_SUBJECT_INPUT_PANEL
+        });
+    },
+
     closeSearchInputPanel: function closeSearchInputPanel () {
         SearchPageDispatcher.dispatch({
             actionType: SearchPageConstants.ActionTypes.CLOSE_SUBJECT_INPUT_PANEL

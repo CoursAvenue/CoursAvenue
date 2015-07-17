@@ -30,13 +30,13 @@ var FilterBar = React.createClass({
         }
     },
 
-    closeSearchInputPanel: function closeSearchInputPanel (event) {
-        FilterActionCreators.closeSearchInputPanel();
+    clearFullTextAndCloseSearchInputPanel: function clearFullTextAndCloseSearchInputPanel (event) {
+        FilterActionCreators.clearFullTextAndCloseSearchInputPanel();
     },
 
     closeFilterPanel: function closeFilterPanel (event) {
         // If hitting enter or esc
-        if (event.keyCode == 13 || event.keyCode == 27) {
+        if ($(event.currentTarget).val().length == 0 || event.keyCode == 13 || event.keyCode == 27) {
             FilterActionCreators.closeFilterPanel();
         }
     },
@@ -54,7 +54,7 @@ var FilterBar = React.createClass({
                          placeholder="Cherchez une activité..." />
                   <i className="fa fa-search"></i>
                   <i className={cx("fa fa-times", { 'hidden': this.state.filter_store.get('current_panel') != FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT }) }
-                     onClick={this.closeSearchInputPanel}></i>
+                     onClick={this.clearFullTextAndCloseSearchInputPanel}></i>
               </div>
           </div>);
     }

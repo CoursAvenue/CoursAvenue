@@ -55,9 +55,9 @@ var FilterStore = Backbone.Model.extend({
             case ActionTypes.CLOSE_FILTER_PANEL:
                 this.unset('current_panel');
                 break;
+            case ActionTypes.CLEAR_AND_CLOSE_SUBJECT_INPUT_PANEL:
             case ActionTypes.CLOSE_SUBJECT_INPUT_PANEL:
                 if (this.get('old_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS) {
-                    // this.set('current_panel', FilterPanelConstants.FILTER_PANELS.SUBJECTS);
                     this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.SUBJECTS);
                 } else {
                     this.unset('current_panel');

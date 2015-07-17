@@ -16,6 +16,7 @@ var SubjectAutocompleteStore = Backbone.Collection.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+            case ActionTypes.CLEAR_AND_CLOSE_SUBJECT_INPUT_PANEL:
             case ActionTypes.SELECT_SUBJECT:
                 this.full_text_search = '';
                 this.trigger('change');

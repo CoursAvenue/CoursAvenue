@@ -1,5 +1,4 @@
 var SubjectList        = require('./cards/SubjectList.react'),
-    // cx                 = require('classnames/dedupe'),
     CourseInformation  = require('./cards/CourseInformation.react'),
     CourseLocation     = require('./cards/CourseLocation.react'),
     CardActionCreators = require("../actions/CardActionCreators"),
@@ -108,12 +107,12 @@ Card = React.createClass({
         var url =  '';
         if (this.props.card.get('has_course')) {
             url = Routes.structure_indexable_card_path(this.props.card.get('structure_slug'), this.props.card.get('slug'));
-            return (<a className="search-page-card__course-title semi-muted-link" href={url}>
+            return (<a className={this.props.card.get('root_subject') + "-color-on-hover search-page-card__course-title muted-link"} href={url}>
                       {this.props.card.get('course_name')}
                   </a>);
         } else {
             url = Routes.structure_path(this.props.card.get('structure_slug'));
-            return (<a className="search-page-card__course-title search-page-card__course-title--sleeping semi-muted-link" href={url}>
+            return (<a className={this.props.card.get('root_subject') + "-color-on-hover search-page-card__course-title search-page-card__course-title--sleeping muted-link"} href={url}>
                       {this.props.card.get('structure_name')}
                   </a>);
         }

@@ -631,3 +631,11 @@
     @include align-items(center);
     @include justify-content(center);
 }
+.vertical-delimiter {
+    display       : inline-block;
+    vertical-align: middle;
+    margin-right  : 1.5em;
+    border-right  : 2px solid white;
+    padding-right : 1.5em;
+    height        : 1.5em;
+}
