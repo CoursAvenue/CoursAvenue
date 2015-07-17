@@ -49,6 +49,7 @@ var SubjectFilter = React.createClass({
           case FilterPanelConstants.SUBJECT_PANELS.CHILD:
             return ( <SubjectFilterChildSubjectPanel key='child' /> );
           case FilterPanelConstants.SUBJECT_PANELS.GROUP:
+          default:
             return ( <SubjectFilterGroupSubjectPanel key='group' /> );
         }
     },
@@ -57,9 +58,11 @@ var SubjectFilter = React.createClass({
         var old_panel     = this.state.filter_store.get('old_panel');
         var current_panel = this.state.filter_store.get('current_panel');
         var classes = classNames({
-            'search-page-filters-wrapper--from-left-to-right': (!_.isEmpty(current_panel) && current_panel != FilterPanelConstants.FILTER_PANELS.SUBJECTS),
+            'search-page-filters-wrapper--from-left-to-right': (current_panel == FilterPanelConstants.FILTER_PANELS.LOCATION
+                                                                || current_panel == FilterPanelConstants.FILTER_PANELS.TIME
+                                                                || current_panel == FilterPanelConstants.FILTER_PANELS.MORE),
             'search-page-filters-wrapper--active': (current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECTS
-                                                  ||(current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT &&
+                                                  || (current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT &&
                                                      old_panel == FilterPanelConstants.FILTER_PANELS.SUBJECTS)),
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
