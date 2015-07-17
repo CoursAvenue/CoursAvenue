@@ -65,7 +65,7 @@
         top         : -3px;
         @include background-image-retina('icons/map-marker-small.png', 'icons/map-marker-small@2x.png')
     }
-    span {;
+    span {
         width           : 13px;
         margin-left     : -8px;
         font-size       : 10px;
@@ -102,7 +102,7 @@
     }
 }
 .map-box-marker {
-    @extend .fa-map-marker;
+    @extend .fa-mapbox-marker;
     margin-top : 0;
     margin-left: -9px;
     &:before {

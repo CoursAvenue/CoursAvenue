@@ -52,7 +52,7 @@ var FilterBar = React.createClass({
                                   'search-page-filter--has-filters': this.state.card_store.hasActiveFilters('location') }) }
                    onClick={this.toggleLocationFilter}>
                 <i className="v-middle fa fa-chevron-up"></i>
-                <i className="v-middle fa fa-map-marker-filter"></i>
+                <i className="v-middle fa fa-map-marker"></i>
                 Où
               </div>
               <div className={cx("grid__item search-page-filter search-page-filter--time three-tenths",

@@ -1,13 +1,13 @@
 {
   "checksum": {
-    "previous": "5360a7ad6d41cb73ec8a9c67ba4f1ed4d626ea293795b25a7339abac8983caff",
-    "current": "5360a7ad6d41cb73ec8a9c67ba4f1ed4d626ea293795b25a7339abac8983caff"
+    "previous": "a5b693c1d4dae35bf8dea244303138ce7c3ded7e6b13194bf394c34905e7b19b",
+    "current": "a5b693c1d4dae35bf8dea244303138ce7c3ded7e6b13194bf394c34905e7b19b"
   },
   "fonts": [
-    "app/assets/fonts/CoursAvenueIconFont_5360a7ad6d41cb73ec8a9c67ba4f1ed4.ttf",
-    "app/assets/fonts/CoursAvenueIconFont_5360a7ad6d41cb73ec8a9c67ba4f1ed4.svg",
-    "app/assets/fonts/CoursAvenueIconFont_5360a7ad6d41cb73ec8a9c67ba4f1ed4.woff",
-    "app/assets/fonts/CoursAvenueIconFont_5360a7ad6d41cb73ec8a9c67ba4f1ed4.eot"
+    "app/assets/fonts/CoursAvenueIconFont_a5b693c1d4dae35bf8dea244303138ce.ttf",
+    "app/assets/fonts/CoursAvenueIconFont_a5b693c1d4dae35bf8dea244303138ce.svg",
+    "app/assets/fonts/CoursAvenueIconFont_a5b693c1d4dae35bf8dea244303138ce.woff",
+    "app/assets/fonts/CoursAvenueIconFont_a5b693c1d4dae35bf8dea244303138ce.eot"
   ],
   "glyphs": {
     "address": {
@@ -218,13 +218,13 @@
       "codepoint": 61745,
       "source": "app/assets/images/icons/svg/map-marker.svg"
     },
-    "map-marker-filter": {
-      "codepoint": 61788,
-      "source": "app/assets/images/icons/svg/map-marker-filter.svg"
-    },
     "map-marker-old-style": {
       "codepoint": 61789,
       "source": "app/assets/images/icons/svg/map-marker-old-style.svg"
+    },
+    "mapbox-marker": {
+      "codepoint": 61790,
+      "source": "app/assets/images/icons/svg/mapbox-marker.svg"
     },
     "menu": {
       "codepoint": 61778,
