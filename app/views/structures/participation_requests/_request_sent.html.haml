@@ -24,8 +24,8 @@
               .text--center
                 %i.fa-avatar.fa-5x
               .text--center Choisir une photo
-            %img.hidden{ style: 'max-height: 200px; max-width: 200px;', height: 200, width: 200, data: { fpimage: true } }
-            = f.filepicker_field :remote_avatar_url, multiple: false, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, class: 'visuallyhidden', button_text: 'Ajouter ma photo', button_class: 'visuallyhidden filepicker', onchange: 'onPhotoUpload(event)'
+            %img.hidden{ style: 'max-width: 200px;', width: 200, data: { fpimage: true } }
+            = f.filepicker_field :remote_avatar_url, multiple: false, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, class: 'visuallyhidden', button_text: 'Modifier ma photo', button_class: 'visuallyhidden filepicker btn btn--small btn--green', onchange: 'onPhotoUpload(event)'
         .flexbox__item.v-top
           = f.label :birthdate, class: 'label--large block text--left f-weight-bold'
           = f.input :birthdate, start_year: (Date.today.year - 1), end_year: (Date.today.year - 110), include_blank: true, input_html: { class: 'input--large' }, label: false, wrapper_html: { class: 'flush--top' }
@@ -55,6 +55,7 @@
             $('#avatar-placeholder').hide();
             $('img[data-fpimage]').attr('src', event.fpfile.url);
             $('img[data-fpimage]').show();
+            $('button.filepicker').removeClass('visuallyhidden');
         }
         filepicker.constructWidget($('input[type=filepicker]'));
         $('[data-filepicker]').click(function(event) {
