@@ -11,6 +11,10 @@ class VerticalPageImageUploader < CarrierWave::Uploader::Base
     cloudinary_transformation transformation: [{ width: 250, height: 200, crop: :fit }]
   end
 
+  version :small do
+    cloudinary_transformation transformation: [{ width: 250, height: 200, crop: :fit }]
+  end
+
   version :autocomplete do
     cloudinary_transformation transformation: [{ width: 80, height: 45, crop: :fit }]
   end

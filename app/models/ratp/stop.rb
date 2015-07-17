@@ -38,4 +38,7 @@ class Ratp::Stop < ActiveRecord::Base
     end
   end
   # :nocov:
+  def position_for_line(line)
+    positions.where(ratp_line_id: line.id).first.position
+  end
 end

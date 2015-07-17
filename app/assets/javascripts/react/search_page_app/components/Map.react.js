@@ -1,5 +1,6 @@
 var CardStore              = require("../stores/CardStore"),
     LocationStore          = require("../stores/LocationStore"),
+    MetroLineStore         = require("../stores/MetroLineStore"),
     MetroStopStore         = require("../stores/MetroStopStore"),
     SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
     LocationActionCreators = require("../actions/LocationActionCreators"),
@@ -13,6 +14,7 @@ var MapComponent = React.createClass({
         return {
             card_store      : CardStore,
             location_store  : LocationStore,
+            metro_line_store: MetroLineStore,
             metro_stop_store: MetroStopStore
         };
     },
@@ -33,10 +35,12 @@ var MapComponent = React.createClass({
         });
 
         this.visible_marker_layer = new L.featureGroup();
+        this.metro_layer          = new L.featureGroup();
         this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets', { scrollWheelZoom: false })
                           .setView(this.props.center, 13)
                           .addLayer(this.small_marker_layer)
-                          .addLayer(this.visible_marker_layer);
+                          .addLayer(this.visible_marker_layer)
+                          .addLayer(this.metro_layer);
     },
 
     setEventsListeners: function setEventsListeners () {
@@ -52,6 +56,7 @@ var MapComponent = React.createClass({
         this.state.card_store.on('change:highlighted', this.showHighlightedMarkerPopup);
         this.state.card_store.on('change:hovered', this.highlightMarker);
 
+        this.state.metro_line_store.on('change', this.showMetroLines.bind(this));
         this.state.metro_stop_store.on('change', function() {
             if (this.state.metro_stop_store.getSelectedStop()) {
                 this.map.setView(this.state.metro_stop_store.getSelectedStop().coordinates(), 15);
@@ -78,6 +83,29 @@ var MapComponent = React.createClass({
 
     locateUser: function locateUser (location) {
         this.map.locate({ setView: true, maxZoom: 15 });
+    },
+
+    showMetroLines: function showMetroLines (location) {
+        // TODO: Load from geojson
+        // if (this.state.metro_line_store.getSelectedLines().length == 0) { return; }
+        // _.each(this.metro_layer.getLayers(), function(layer) {
+        //     this.metro_layer.removeLayer(layer);
+        // }, this);
+        // var lines = [];
+        // _.each(this.state.metro_line_store.getSelectedLines(), function(metro_line) {
+        //     if (metro_line.get('ratp_stops_lat_lng')) {
+        //         var stops = _.map(metro_line.get('ratp_stops_lat_lng'), function(stop_lat_lng) {
+        //             return new L.LatLng(stop_lat_lng[0], stop_lat_lng[1]);
+        //         });
+        //         var polyline = new L.Polyline(stops, {
+        //             color: metro_line.get('color'),
+        //             weight: 3,
+        //             opacity: 0.8,
+        //             smoothFactor: 5
+        //         });
+        //         this.metro_layer.addLayer(polyline);
+        //     }
+        // }, this);
     },
 
     moveMapToNewAddress: function moveMapToNewAddress (location) {
