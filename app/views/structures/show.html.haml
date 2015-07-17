@@ -63,7 +63,7 @@
       -# Needs to be here
       %div.hidden{ data: { type: 'contact-form' } }
       .bg-white.soft.bordered
-        - if !@structure.is_sleeping? and @structure.enabled?
+        - if !@structure.is_sleeping? and @structure.enabled? and @structure.plannings.future.any?
           %div
             .delta.line-height-2.f-weight-bold Quel cours vous intéresse ?
             %div
