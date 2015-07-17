@@ -9,6 +9,12 @@ module.exports = {
         });
     },
 
+    search: function search (context) {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.SEARCH
+        });
+    },
+
     changeContext: function changeContext (context) {
         SearchPageDispatcher.dispatch({
             actionType: SearchPageConstants.ActionTypes.CHANGE_CONTEXT,

@@ -40,12 +40,16 @@
                         margin-right: 0.8em;
                         font-size   : 15px;
                     }
+                    @extend .btn-hover-transition;
+                    @extend .btn-hover-transition--from-left;
+                    &::after, &.btn--active { background-color: $blue_green; }
                     &:hover, &:hover > .green {
                         text-decoration : none;
-                        background-color: $blue;
-                        border-color    : $blue;
-                        color           : white !important;
                     }
+                    //     background-color: $blue_green;
+                    //     border-color    : $blue_green;
+                    //     color           : white !important;
+                    // }
                     &.not-hoverable:hover {
                         text-decoration : inherit;
                         background-color: inherit;

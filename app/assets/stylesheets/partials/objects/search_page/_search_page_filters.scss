@@ -274,7 +274,7 @@ $map-height   : 480px;
     padding         : 0.4em 1em;
     vertical-align  : middle;
     font-size       : 0.9em;
-    margin-right    : 3px;
+    margin          : 3px;
     &:hover { text-decoration: none; }
     @include border-radius(1em);
 }
@@ -506,22 +506,22 @@ $map-height   : 480px;
     color         : #7F7F7F;
     &.search-page-filter-breadcrumb--subject  {
         @extend .btn-white-to-blue-green;
-        color: $blue_green;
+        // color: $blue_green;
         border-color: $blue_green;
     }
     &.search-page-filter-breadcrumb--location {
         @extend .btn-white-to-yellow;
-        color: $yellow;
+        // color: $yellow;
         border-color: $yellow;
     }
     &.search-page-filter-breadcrumb--time     {
         @extend .btn-white-to-blue;
-        color: $blue;
+        // color: $blue;
         border-color: $blue;
     }
     &.search-page-filter-breadcrumb--more     {
         @extend .btn-white-to-dark-blue;
-        color: $dark_blue;
+        // color: $dark_blue;
         border-color: $dark_blue;
     }
     span { cursor: pointer; }

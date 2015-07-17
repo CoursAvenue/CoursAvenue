@@ -52,7 +52,7 @@ SearchPageApp = React.createClass({
 
     render: function render() {
         return (
-          <div className="relative overflow-hidden">
+          <div className="relative">
             <Menubar />
 
             <MapContainer center={this.props.map_center} />

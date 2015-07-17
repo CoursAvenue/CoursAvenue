@@ -103,10 +103,12 @@
 }
 .map-box-marker {
     @extend .fa-map-marker;
+    margin-top : 0;
+    margin-left: -9px;
     &:before {
         font-size: 40px;
         position: relative;
-        left      : -10px;
+        left      : -12px;
         top       : -40px;
     }
     i {
@@ -116,52 +118,56 @@
         position   : absolute;
         color      : white;
         top        : -35px;
-        left       : -5px;
+        left       : -7px;
         font-size  : 1.1em;
         width      : 30px;
         text-align : center;
         font-weight: 600;
     }
-    @include text-shadow(1px 1px 0 rgba(0,0,0,0.2), -1px -1px 0 rgba(0,0,0,0.2));
-    @include background-image-retina('icons/markers/orange.png', 'icons/markers/orange@2x.png');
 }
 
 .map-box-marker__danse {
     @extend .danse-color;
-    // @include background-image-retina('icons/markers/red.png', 'icons/markers/red@2x.png');
+    @include text-shadow(darken($color-dance, 10%) 0px 1px, darken($color-dance, 10%) -1px 1px, darken($color-dance, 10%) -1px -1px, darken($color-dance, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-dance, 10%)); }
 }
 .map-box-marker__theatre-scene {
     @extend .theatre-scene-color;
-    // @include background-image-retina('icons/markers/blue.png', 'icons/markers/blue@2x.png');
+    @include text-shadow(darken($color-theatre, 10%) 0px 1px, darken($color-theatre, 10%) -1px 1px, darken($color-theatre, 10%) -1px -1px, darken($color-theatre, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-theatre, 10%)); }
 }
 .map-box-marker__deco-mode-bricolage {
     @extend .deco-mode-bricolage-color;
-    // @include background-image-retina('icons/markers/orange.png', 'icons/markers/orange@2x.png');
+    @include text-shadow(darken($color-deco, 10%) 0px 1px, darken($color-deco, 10%) -1px 1px, darken($color-deco, 10%) -1px -1px, darken($color-deco, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-deco, 10%)); }
 }
 .map-box-marker__musique-chant {
     @extend .musique-chant-color;
-    // @include background-image-retina('icons/markers/yellow.png', 'icons/markers/yellow@2x.png');
+    @include text-shadow(darken($color-music, 10%) 0px 1px, darken($color-music, 10%) -1px 1px, darken($color-music, 10%) -1px -1px, darken($color-music, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-music, 10%)); }
 }
 .map-box-marker__photo-video {
     @extend .photo-video-color;
-    // @include background-image-retina('icons/markers/purple.png', 'icons/markers/purple@2x.png');
+    @include text-shadow(darken($color-photo, 10%) 0px 1px, darken($color-photo, 10%) -1px 1px, darken($color-photo, 10%) -1px -1px, darken($color-photo, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-photo, 10%)); }
 }
-.map-box-marker__dessin-peinture-arts-plastiques {
+.map-box-marker__dessin-peinture-arts- {
     @extend .dessin-peinture-arts-plastiques-color;
-    // @include background-image-retina('icons/markers/yellow.png', 'icons/markers/yellow@2x.png');
+    @include text-shadow(darken($color-arts, 10%) 0px 1px, darken($color-arts, 10%) -1px 1px, darken($color-arts, 10%) -1px -1px, darken($color-arts, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-arts, 10%)); }
 }
 .map-box-marker__cuisine-vins {
     @extend .cuisine-vins-color;
-    // @include background-image-retina('icons/markers/yellow.png', 'icons/markers/yellow@2x.png');
+    @include text-shadow(darken($color-cooking, 10%) 0px 1px, darken($color-cooking, 10%) -1px 1px, darken($color-cooking, 10%) -1px -1px, darken($color-cooking, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-cooking, 10%)); }
 }
 .map-box-marker__yoga-bien-etre-sante {
     @extend .yoga-bien-etre-sante-color;
-    // @include background-image-retina('icons/markers/yellow.png', 'icons/markers/yellow@2x.png');
+    @include text-shadow(darken($color-yoga, 10%) 0px 1px, darken($color-yoga, 10%) -1px 1px, darken($color-yoga, 10%) -1px -1px, darken($color-yoga, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-yoga, 10%)); }
 }
 .map-box-marker__sports-arts-martiaux {
     @extend .sports-arts-martiaux-color;
-    // @include background-image-retina('icons/markers/yellow.png', 'icons/markers/yellow@2x.png');
-}
-.map-box-marker__multi {
-    @include background-image-retina('icons/markers/yellow.png', 'icons/markers/yellow@2x.png');
+    @include text-shadow(darken($color-sports, 10%) 0px 1px, darken($color-sports, 10%) -1px 1px, darken($color-sports, 10%) -1px -1px, darken($color-sports, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-sports, 10%)); }
 }

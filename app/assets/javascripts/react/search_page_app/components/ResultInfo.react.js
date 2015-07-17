@@ -61,7 +61,7 @@ var ResultInfo = React.createClass({
               <div className="flexbox__item v-middle nowrap palm-one-whole">
                   <span className="beta v-middle push--right">{total_results} {result_string}</span>
               </div>
-              <div className="flexbox__item v-middle palm-one-whole">
+              <div className="flexbox__item v-middle palm-one-whole one-whole">
                   {facets}{dot_dot_dot}
               </div>
               <div className="flexbox__item v-middle nowrap palm-one-whole text--right">

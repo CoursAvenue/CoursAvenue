@@ -28,7 +28,6 @@ var SubjectStore = Backbone.Collection.extend({
             case ActionTypes.SELECT_ROOT_SUBJECT:
                 this.selected_root_subject = payload.data;
                 if (!this.selected_group_subject) { this.setSelectedGroupSubject(); }
-                //SearchPageDispatcher.waitFor([FilterStore.dispatchToken]);
                 var associated_group_subject = this.getGroupSubjectFromRootSubjectSlug(payload.data.slug);
                 // If root subjects are not loaded, we load them.
                 if (!associated_group_subject.root_subjects) {
@@ -45,6 +44,9 @@ var SubjectStore = Backbone.Collection.extend({
             case ActionTypes.SEARCH_FULL_TEXT:
                 this.full_text_search = payload.data;
                 this.trigger('change');
+                break;
+            case ActionTypes.CLEAR_ALL_THE_DATA:
+                this.unsetFilter('full_text_search');
                 break;
             case ActionTypes.UNSET_FILTER:
                 this.unsetFilter(payload.data);
