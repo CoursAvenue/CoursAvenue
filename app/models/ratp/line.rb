@@ -27,13 +27,6 @@ class Ratp::Line < ActiveRecord::Base
     attribute :route_name
     attribute :color
     attribute :line_type
-
-    add_attribute :ratp_stops_lat_lng do
-      # Sort by position, it's important for the view.
-      stops.sort_by{|stop| stop.position_for_line(self)}.map do |stop|
-        [stop.latitude, stop.longitude]
-      end
-    end
   end
   # :nocov:
 
