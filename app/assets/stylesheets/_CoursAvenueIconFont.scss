@@ -4,11 +4,11 @@
 
 @font-face {
   font-family: "CoursAvenueIconFont";
-  src: url("CoursAvenueIconFont_a5b693c1d4dae35bf8dea244303138ce.eot");
-  src: url("CoursAvenueIconFont_a5b693c1d4dae35bf8dea244303138ce.eot?#iefix") format("embedded-opentype"),
-       url("CoursAvenueIconFont_a5b693c1d4dae35bf8dea244303138ce.woff") format("woff"),
-       url("CoursAvenueIconFont_a5b693c1d4dae35bf8dea244303138ce.ttf") format("truetype"),
-       url("CoursAvenueIconFont_a5b693c1d4dae35bf8dea244303138ce.svg#CoursAvenueIconFont") format("svg");
+  src: url("CoursAvenueIconFont_81c9ba17b9b36f85f0169336a315b4dc.eot");
+  src: url("CoursAvenueIconFont_81c9ba17b9b36f85f0169336a315b4dc.eot?#iefix") format("embedded-opentype"),
+       url("CoursAvenueIconFont_81c9ba17b9b36f85f0169336a315b4dc.woff") format("woff"),
+       url("CoursAvenueIconFont_81c9ba17b9b36f85f0169336a315b4dc.ttf") format("truetype"),
+       url("CoursAvenueIconFont_81c9ba17b9b36f85f0169336a315b4dc.svg#CoursAvenueIconFont") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: "CoursAvenueIconFont";
-    src: url("CoursAvenueIconFont_a5b693c1d4dae35bf8dea244303138ce.svg#CoursAvenueIconFont") format("svg");
+    src: url("CoursAvenueIconFont_81c9ba17b9b36f85f0169336a315b4dc.svg#CoursAvenueIconFont") format("svg");
   }
 }
 
@@ -32,6 +32,8 @@
 .fa-book:before,
 .fa-bullhorn:before,
 .fa-calendar:before,
+.fa-card-astuce:before,
+.fa-card-info:before,
 .fa-check:before,
 .fa-chevron-down:before,
 .fa-chevron-left:before,
@@ -138,6 +140,8 @@
 .fa-book:before { content: "\f104"; }
 .fa-bullhorn:before { content: "\f105"; }
 .fa-calendar:before { content: "\f106"; }
+.fa-card-astuce:before { content: "\f15f"; }
+.fa-card-info:before { content: "\f160"; }
 .fa-check:before { content: "\f107"; }
 .fa-chevron-down:before { content: "\f108"; }
 .fa-chevron-left:before { content: "\f109"; }
@@ -231,6 +235,8 @@ $font-CoursAvenueIconFont-bars: "\f103";
 $font-CoursAvenueIconFont-book: "\f104";
 $font-CoursAvenueIconFont-bullhorn: "\f105";
 $font-CoursAvenueIconFont-calendar: "\f106";
+$font-CoursAvenueIconFont-card-astuce: "\f15f";
+$font-CoursAvenueIconFont-card-info: "\f160";
 $font-CoursAvenueIconFont-check: "\f107";
 $font-CoursAvenueIconFont-chevron-down: "\f108";
 $font-CoursAvenueIconFont-chevron-left: "\f109";
