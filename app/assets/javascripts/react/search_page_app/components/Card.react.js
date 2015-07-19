@@ -23,10 +23,12 @@ Card = React.createClass({
     },
 
     onMouseEnter: function onMouseEnter () {
+        if (this.props.is_popup) { return; }
         CardActionCreators.cardHovered({ card: this.props.card, hovered: true });
     },
 
     onMouseLeave: function onMouseLeave () {
+        if (this.props.is_popup) { return; }
         CardActionCreators.cardHovered({ card: this.props.card, hovered: false });
     },
 
@@ -79,7 +81,7 @@ Card = React.createClass({
                                 {this.headerImage()}
                             </div>
                             {this.headerLogo()}
-                            <div className="text--center soft-half--sides push-half--bottom gray">
+                            <div className="search-page-card__structure-name soft-half--sides push-half--bottom gray">
                                 <a href={Routes.structure_path(this.props.card.get('structure_slug'))}
                                    className="semi-muted-link search-page-card__structure-name">
                                     {this.props.card.get('structure_name')}
@@ -118,27 +120,39 @@ Card = React.createClass({
         }
     },
 
+    subjectList: function subjectList () {
+        if (this.props.is_popup) { return ''; }
+        return (<div className="search-page-card__subjects-wrapper">
+                    <SubjectList subjectList={ this.props.card.get('subjects') } />
+                </div>);
+    },
+
     render: function render () {
-        var course_information;
+        var course_information, course_location;
             gift_classes = { gray: this.props.card.get('is_open_for_trial')}
-        if (this.props.card.get('has_course')) {
-            course_information = (<CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') }
-                                  trainings={ this.props.card.get('trainings') } />)
+        if (this.props.is_popup) {
+            var popup_class = 'search-page__card-popup'
+        } else {
+            if (this.props.card.get('has_course')) {
+                course_information = (<CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') }
+                                      trainings={ this.props.card.get('trainings') } />)
+            }
+            course_location = (<CourseLocation card={this.props.card} rankingInfo={ this.props.card.get('_rankingInfo') } address={ this.props.card.get('place_address') } />);
         }
         return (
-          <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave} className="search-page-card soft-half one-quarter palm-one-whole lap-one-half inline-block v-top">
+          <div onMouseEnter={this.onMouseEnter}
+               onMouseLeave={this.onMouseLeave}
+               className={"search-page-card soft-half one-quarter palm-one-whole lap-one-half inline-block v-top " + popup_class}>
               <div className="search-page-card__number">{this.props.index}.</div>
               <div className="bg-white search-page-card__content">
                   {this.headerCard()}
                   <div className="soft-half--sides soft-half--bottom">
-                      <div className="search-page-card__subjects-wrapper">
-                          <SubjectList subjectList={ this.props.card.get('subjects') } />
-                      </div>
+                      {this.subjectList()}
                       <div className="search-page-card__content-bottom flexbox">
                           <div className="flexbox__item v-bottom">
                               <Rating comment_count={ this.props.card.get('comments_count') } />
                               {course_information}
-                              <CourseLocation card={this.props.card} rankingInfo={ this.props.card.get('_rankingInfo') } address={ this.props.card.get('place_address') } />
+                              {course_location}
                           </div>
                       </div>
                   </div>

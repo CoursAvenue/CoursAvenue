@@ -50,9 +50,15 @@ var Menubar = React.createClass({
                         </div>
                         <div className="soft--left v-middle inline-block drop-down__wrapper search-page__menu-context">
                             <span>{this.selectedTitle()}</span>
-                            <i className="fa fa-chevron-down"></i>
-                            <div className="drop-down__el">
+                            <i className="fa fa-chevron-down blue-green"></i>
+                            <div className="drop-down__el drop-down__el--appears-on-text">
                                 <ul className="drop-down__el-inner-box text--left">
+                                    <li className="nowrap">
+                                        <a href='javascript:void(0)'>
+                                           {this.selectedTitle()}
+                                           <i className="fa fa-chevron-down"></i>
+                                        </a>
+                                    </li>
                                     <li className="nowrap">
                                         <a href={new_context_url} className=""
                                            onClick={this.changeContext}>

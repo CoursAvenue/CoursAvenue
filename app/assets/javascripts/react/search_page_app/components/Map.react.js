@@ -4,7 +4,7 @@ var CardStore              = require("../stores/CardStore"),
     MetroStopStore         = require("../stores/MetroStopStore"),
     SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
     LocationActionCreators = require("../actions/LocationActionCreators"),
-    MarkerPopup            = require("./MarkerPopup.react"),
+    Card                   = require("./Card.react"),
     CardActionCreators     = require("../actions/CardActionCreators"),
     FilterActionCreators   = require("../actions/FilterActionCreators");
 
@@ -35,19 +35,25 @@ var MapComponent = React.createClass({
         });
 
         this.visible_marker_layer = new L.featureGroup();
-        this.metro_layer          = new L.featureGroup();
+        // this.metro_layer          = new L.featureGroup();
         this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets', { scrollWheelZoom: false })
                           .setView(this.props.center, 13)
                           .addLayer(this.small_marker_layer)
                           .addLayer(this.visible_marker_layer)
-                          .addLayer(this.metro_layer);
+                          // .addLayer(this.metro_layer);
     },
 
     setEventsListeners: function setEventsListeners () {
         this.map.on('moveend', this.handleMoveend);
         this.map.on('popupclose', function(location) {
+            _.each(this.visible_marker_layer.getLayers(), function(marker) {
+                $(marker._icon).removeClass('map-box-marker--active');
+            });
+            _.each(this.small_marker_layer.getLayers(), function(marker) {
+                $(marker._icon).removeClass('map-box-marker--active');
+            });
             _.defer(CardActionCreators.unhighlightMarkers);
-        });
+        }.bind(this));
         this.map.on('locationfound', function(location) {
             FilterActionCreators.updateFilters({ user_location: location });
         });
@@ -194,12 +200,13 @@ var MapComponent = React.createClass({
      */
     openMarkerPopup: function openMarkerPopup (marker, card) {
         return function() {
-            var string_popup = React.renderToString(<MarkerPopup card={card} />);
+            var string_popup = React.renderToString(<Card card={card} is_popup={true} />);
             this.popup = L.popup({ className: 'ca-leaflet-popup' })
                 .setLatLng(marker.getLatLng())
                 .setContent(string_popup)
                 .openOn(this.map);
             marker.openPopup(this.popup);
+            $(marker._icon).addClass('map-box-marker--active');
         }.bind(this)
     },
 

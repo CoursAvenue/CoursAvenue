@@ -70,7 +70,7 @@
                 = link_to share_comment_url(comment, :facebook), target: '_blank', class: 'btn btn--small btn--full relative', onclick: "ga('send', 'event', 'Share comment on Facebook', 'click')" do
                   Partager
                   %i.fa-chevron-down.soft-half--right.absolute.east
-                .drop-down__el
+                .drop-down__el.drop-down__el--left
                   %ul.drop-down__el-inner-box.text--left
                     %li.nowrap
                       = link_to share_comment_url(comment, :facebook), target: '_blank', onclick: "ga('send', 'event', 'Share comment on', 'click', 'Facebook')" do

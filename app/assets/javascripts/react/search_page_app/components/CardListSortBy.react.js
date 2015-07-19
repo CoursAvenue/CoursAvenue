@@ -4,7 +4,7 @@ var _                     = require('lodash'),
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
 
 var SORT_BYS = [
-    { name: 'Recommandé par CoursAvenue', key: 'by_popularity_desc'},
+    { name: 'Recommandations', key: 'by_popularity_desc'},
     { name: 'Les plus proches'          , key: 'proximity'}
 ];
 
@@ -40,19 +40,25 @@ var CardListSortBy = React.createClass({
     render: function render () {
         var contexts = _.map(this.otherContexts(), function(sort_by) {
             return (<li className="nowrap">
-                            <a href='javascript:void(0)'
-                               onClick={this.changeContext(sort_by.key)}>
-                               {sort_by.name}
-                            </a>
-                        </li>);
+                        <a href='javascript:void(0)'
+                           onClick={this.changeContext(sort_by.key)}>
+                           {sort_by.name}
+                        </a>
+                    </li>);
         }, this);
         return (<div className="soft--left v-middle inline-block drop-down__wrapper search-page__sort-by">
                     <span className="nowrap">
                         {this.selectedContextTitle().name}
                         <i className="fa fa-chevron-down blue-green"></i>
                     </span>
-                    <div className="drop-down__el drop-down__el--left">
+                    <div className="drop-down__el drop-down__el--appears-on-text">
                         <ul className="drop-down__el-inner-box text--left">
+                          <li className="nowrap">
+                              <a href='javascript:void(0)'>
+                                 {this.selectedContextTitle().name}
+                                 <i className="fa fa-chevron-down"></i>
+                              </a>
+                          </li>
                             {contexts}
                         </ul>
                     </div>

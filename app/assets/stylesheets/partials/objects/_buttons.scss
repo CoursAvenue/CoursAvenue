@@ -66,7 +66,7 @@
 .btn--orange {
     background-color: $orange;
     color           : white;
-    border-color    : darken($orange, 5%);
+    border-color    : darken($orange, 5%)!important;
     @extend .btn-hover-transition;
     &::after, &.btn--active { background-color: lighten($orange, 5%); }
     &:active, &.btn--active, &.btn--active:hover, &.active, &.active:hover {
@@ -99,6 +99,7 @@
 
 .btn--blue {
     background-color: $blue;
+    border-color    : $blue !important;
     color           : white;
     border          : none;
     @extend .btn-hover-transition;
@@ -108,6 +109,7 @@
 .btn--yellow {
     color           : white;
     background-color: $yellow;
+    border-color    :$yellow !important;
     border          : none;
     &:hover, &:active {
         color           : white;
@@ -247,7 +249,7 @@
     @extend .btn-hover-transition;
     @include transition(all 200ms linear);
     &:hover {
-        border-color    : $blue-green;
+        border-color    : $blue-green!important;
         background-color: $blue-green;
         &.btn--white-transparent--white {
             &::after, &.btn--active { background-color: white; }
@@ -255,12 +257,12 @@
             color           : black;
         }
         &.btn--white-transparent--orange {
-            border-color    : $orange;
+            border-color    : $orange!important;
             &::after, &.btn--active { background-color: $orange; }
         }
         &.btn--white-transparent--red {
             &::after, &.btn--active { background-color: $btn--red; }
-            border-color    : $btn--red;
+            border-color    : $btn--red!important;
         }
     }
 }

@@ -1,6 +1,30 @@
 /*------------------------------------*\
     $PAGINATION override
 \*------------------------------------*/
+/*
+    Usage:
+    <div class="flexbox pagination">
+        <div class="flexbox__item">
+            <a class="pagination__prev"> // Add visibility-hidden if first page
+                <i class="fa-chevron-left"></i>
+                Précédent
+            </a>
+        </div>
+        <div class="flexbox__item text--center">
+            <a class="pagination__page">1</a>
+            <a class="pagination__page pagination__page--active">2</a>
+            <a class="pagination__page pagination__page--disabled">...</a>
+            <a class="pagination__page">3</a>
+            <a class="pagination__page">4</a>
+        </div>
+        <div class="flexbox__item text--right">
+            <a class="pagination__next">
+                Suivant
+                <i class="fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+*/
 .pagination--large{
     font-size: 1.3em;
 }
@@ -26,7 +50,7 @@
         color       : #5B5B5B;
         width       : 2.5em;
         height      : 2.5em;
-        line-height : 2.5em;
+        line-height : 2.3em;
         margin-right: -2px;
         border      : 2px solid transparent;
         @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));

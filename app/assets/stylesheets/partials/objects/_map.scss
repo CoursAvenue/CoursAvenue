@@ -57,9 +57,13 @@
     margin-left     : -5px;
 }
 
+.leaflet-container a {
+    color      : inherit !important;
+    font-weight: inherit !important;
+}
 
 .ca-leaflet-popup {
-    bottom: 30px !important;
+    bottom: 36px !important;
     .leaflet-popup-content-wrapper {
         border : none;
         padding: 0;

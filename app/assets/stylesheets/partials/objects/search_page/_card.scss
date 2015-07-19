@@ -1,3 +1,34 @@
+.search-page__card-popup {
+    padding: 0 !important;
+    width  : 300px;
+    .search-page-card__number {
+        display: none;
+    }
+    .search-page-card__structure-logo {
+        margin-left: 1em;
+        width      : 40px;
+        height     : 40px;
+        margin-top : -22px;
+    }
+    .search-page-card__course-title {
+        text-align   : left;
+        height       : auto;
+        margin-bottom: 0;
+    }
+    .search-page-card__structure-name {
+        text-align: left;
+    }
+    .search-page-card__content-bottom {
+        height: auto;
+    }
+    .search-page-card__content {
+        @include transition(none);
+        &:hover {
+            margin-top: 0;
+            @include box-shadow(none);
+        }
+    }
+}
 .search-page-card {}
     .search-page-card__image {
         display: block;
@@ -25,10 +56,15 @@
         margin          : 1em;
         background-color: rgba(55, 91, 118, 0.5);
         text-transform  : uppercase;
+        line-height     : 1.2em;
         @include border-radius(2px);
     }
     .search-page-card__price--free {
         background-color: #71b861;
+    }
+    .search-page-card__structure-name {
+        color     : #999999;
+        text-align: center;
     }
     .search-page-card__content {
         position: relative;
@@ -46,7 +82,7 @@
         width   : 50px;
         height  : 50px;
         border  : 2px solid white;
-        margin  : -40px auto 5px auto;
+        margin  : -28px auto 5px auto;
         position: relative;
         display : block;
         @include border-radius(25px);
@@ -140,10 +176,11 @@
 
 .search-page-card__content-bottom {
     color: #777777;
-    height: 5em;
+    height: 6em;
 }
     .search-page-card__content-bottom-line {
         i { margin-right: 0.7em; }
-        height: 2em;
+        color      : #999999;
+        height     : 2em;
         line-height: 2em;
     }

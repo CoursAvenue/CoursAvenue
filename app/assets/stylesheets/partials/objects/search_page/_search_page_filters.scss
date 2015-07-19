@@ -38,7 +38,7 @@ $map-height   : 480px;
     width   : 100%;
     top     : 0;
     z-index : 1000;
-    @include transform(translateY(120%));
+    @include transform(translateY(150%));
     @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
 }
     .search-page-filters-wrapper--from-left-to-right, .search-page-filters-wrapper--from-right-to-left {
@@ -114,6 +114,7 @@ $map-height   : 480px;
     .search-page-filters__button {
         font-size: 1.4em;
         padding  : 0.8em 1.1em;
+        border   : 1px solid;
     }
     .search-page-filter__subject-pages-bullet-wrapper {
         bottom: 7em;
@@ -152,17 +153,18 @@ $map-height   : 480px;
                 top     : 0.8em;
                 color: $blue_green;
             }
-            input {
-                color           : #999999;
-                border          : 1px solid #F1F1F1;
-                background-color: #F9F9F9;
-                box-shadow      : inset 0px 0px 1px #CCC;
-            }
-            ::-webkit-input-placeholder { color: #999999; font-weight: 400; } /* WebKit browsers */
-            :-moz-placeholder           { color: #999999; font-weight: 400; opacity: 1; } /* Mozilla Firefox 4 to 18 */
-            ::-moz-placeholder          { color: #999999; font-weight: 400; opacity: 1; } /* Mozilla Firefox 19+ */
-            :-ms-input-placeholder      { color: #999999; font-weight: 400; } /* Internet Explorer 10+ */
-
+        }
+    }
+    .search-page-filters__subject-panel {
+        input {
+            @extend .soft--left;
+            color           : white;
+            background-color: transparent;
+            border          : 2px solid white;
+            &::-webkit-input-placeholder { color: white !important; } /* WebKit browsers */
+            &:-moz-placeholder           { color: white !important; } /* Mozilla Firefox 4 to 18 */
+            &::-moz-placeholder          { color: white !important; } /* Mozilla Firefox 19+ */
+            &:-ms-input-placeholder      { color: white !important; } /* Internet Explorer 10+ */
         }
     }
     .search-page-filters__subject-search {
@@ -173,15 +175,11 @@ $map-height   : 480px;
         input {
             @extend .soft--left;
             width           : 100%;
-            color           : white;
-            background-color: transparent;
             font-size       : 17px;
-            border          : 2px solid white;
             height          : 40px;
             line-height     : 40px;
             font-weight     : 600;
             @include border-radius(40px);
-            &:focus{ @include box-shadow(none); }
         }
         .fa-times {
             color           : $blue_green;
@@ -239,12 +237,12 @@ $map-height   : 480px;
         @include background-size(cover);
         background-position: center;
         cursor: pointer;
-        @extend .text--center;
         position   : relative;
         color      : white;
-        font-weight: 600;
         font-size  : 2em;
-        font-family: 'ff-tisa-web-pro';
+        font-weight: bold;
+        font-family: 'lexia';
+        text-align : center;
         @include prefix(font-feature-settings, '"liga"');
         &:hover .search-page-filters__image-icon {
             opacity: 1;
@@ -530,8 +528,12 @@ $map-height   : 480px;
             padding      : 0.2em;
         }
 
-
+.search-page-filter-breadcrumb-wrapper {
+    border-bottom: 1px solid #eaeaea;
+}
 .search-page-filter-breadcrumb {
+    position      : relative;
+    bottom        : -1px;
     display       : inline-block;
     text-transform: uppercase;
     border-bottom : 2px solid black;
@@ -540,22 +542,18 @@ $map-height   : 480px;
     color         : #7F7F7F;
     &.search-page-filter-breadcrumb--subject  {
         @extend .btn-white-to-blue-green;
-        // color: $blue_green;
         border-color: $blue_green;
     }
     &.search-page-filter-breadcrumb--location {
         @extend .btn-white-to-yellow;
-        // color: $yellow;
         border-color: $yellow;
     }
     &.search-page-filter-breadcrumb--time     {
         @extend .btn-white-to-blue;
-        // color: $blue;
         border-color: $blue;
     }
     &.search-page-filter-breadcrumb--more     {
         @extend .btn-white-to-dark-blue;
-        // color: $dark_blue;
         border-color: $dark_blue;
     }
     span { cursor: pointer; }
