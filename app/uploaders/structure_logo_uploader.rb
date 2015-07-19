@@ -44,7 +44,7 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
   end
 
   version :wide_and_blurry do
-    cloudinary_transformation transformation: [{ width: 1024, height: 300, crop: :fill, effect: 'blur:900' }]
+    cloudinary_transformation transformation: [{ width: 1024, height: 300, crop: :fill, effect: 'blur:900' }], flags: :progressive
   end
 
   # We don't add white list extension because we want to be able to add images from urls

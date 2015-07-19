@@ -16,28 +16,28 @@ class MediaUploader < CarrierWave::Uploader::Base
   # Create different versions of your uploaded files:
   version :original do
     cloudinary_transformation transformation: [{ width: 750, height: 750, crop: :limit },
-                                               { overlay: 'watermark', width: 150, gravity: :south_east, y: 5, x: 10 }]
+                                               { overlay: 'watermark', width: 150, gravity: :south_east, y: 5, x: 10 }], flags: :progressive
   end
 
   version :search_thumbnail do
-    cloudinary_transformation transformation: [{ width: 250, height: 100, crop: :fill }]
+    cloudinary_transformation transformation: [{ width: 250, height: 100, crop: :fill }], flags: :progressive
     process quality: 70
   end
 
   version :thumbnail do
     cloudinary_transformation transformation: [{ width: 500, height: 500, crop: :limit },
-                                               { overlay: 'watermark', width: 100, gravity: :south_east, y: 5, x: 10 }]
+                                               { overlay: 'watermark', width: 100, gravity: :south_east, y: 5, x: 10 }], flags: :progressive
     process quality: 70
   end
 
   version :small_thumbnail do
-    cloudinary_transformation transformation: [{ width: 70, height: 70, crop: :limit }]
+    cloudinary_transformation transformation: [{ width: 70, height: 70, crop: :limit }], flags: :progressive
     process quality: 70
   end
 
   version :thumbnail_cropped do
     cloudinary_transformation transformation: [{ width: 450, height: 300, crop: :fit },
-                                               { overlay: 'watermark', width: 100, gravity: :south_east, y: 5, x: 10 }]
+                                               { overlay: 'watermark', width: 100, gravity: :south_east, y: 5, x: 10 }], flags: :progressive
     process quality: 70
   end
 
@@ -47,19 +47,19 @@ class MediaUploader < CarrierWave::Uploader::Base
   end
 
   version :wide_and_blurry do
-    cloudinary_transformation transformation: [{ width: 1024, height: 300, crop: :fill, effect: 'blur:900' }]
+    cloudinary_transformation transformation: [{ width: 1024, height: 300, crop: :fill, effect: 'blur:900' }], flags: :progressive
   end
 
   version :thumbnail_blurry do
-    cloudinary_transformation transformation: [{ width: 300, height: 200, crop: :fill, effect: 'blur:900' }]
+    cloudinary_transformation transformation: [{ width: 300, height: 200, crop: :fill, effect: 'blur:900' }], flags: :progressive
   end
 
   version :gallery do
-    cloudinary_transformation transformation: [{ width: 400, crop: :fill }]
+    cloudinary_transformation transformation: [{ width: 400, crop: :fill }], flags: :progressive
   end
 
   version :redactor do
-    cloudinary_transformation transformation: [{ width: 250, height: 200, crop: :limit }]
+    cloudinary_transformation transformation: [{ width: 250, height: 200, crop: :limit }], flags: :progressive
   end
 
   private
