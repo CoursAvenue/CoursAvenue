@@ -250,6 +250,12 @@
     &:hover {
         border-color    : $blue-green!important;
         background-color: $blue-green;
+        &.btn--white-transparent--green {
+            &::after, &.btn--active {
+                border-color: lighten($blue-green, 5%);
+                background-color: lighten($blue-green, 5%);
+            }
+        }
         &.btn--white-transparent--white {
             &::after, &.btn--active { background-color: white; }
             background-color: white;

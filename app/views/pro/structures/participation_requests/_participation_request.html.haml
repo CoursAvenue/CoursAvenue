@@ -25,10 +25,9 @@
               });
       - else
         = participation_request_decorator.status_for('Structure')
-      .very-soft.hard--left.hard--bottom.hard--right
-        = participation_request_decorator.teacher_action_link
+      %div
         - if current_pro_admin and current_pro_admin.super_admin? and participation_request_decorator.past?
-          = link_to 'Voir la demande', pro_structure_participation_request_path(participation_request.structure, participation_request), class: "btn btn--small"
+          = link_to 'Voir la demande', pro_structure_participation_request_path(participation_request.structure, participation_request), class: "btn btn--white btn--small"
 
 
   %td.soft--ends.v-top{ data: { th: 'Cours et date' } }
