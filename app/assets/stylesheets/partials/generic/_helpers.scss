@@ -121,6 +121,7 @@
 .dark-blue          { color: $dark_blue; }
 .green              { color: $green; }
 .blue-green         { color: $blue-green !important; }
+.blue-green--slightly-darker { color: darken($blue-green, 3%) !important; }
 .blue               { color: $blue !important; }
 .blue-darker        { color: darken($blue-green, 10%) !important; }
 .fb-blue            { color: $facebook-blue; }
