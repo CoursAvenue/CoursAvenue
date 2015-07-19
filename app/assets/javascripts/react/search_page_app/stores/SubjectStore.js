@@ -89,17 +89,17 @@ var SubjectStore = Backbone.Collection.extend({
             {
                 name      : 'Danse, Théâtre & Musique',
                 group_id  : 1,
-                image_url : 'http://coursavenue-public.s3.amazonaws.com/public_assets/search_page/group-subject-theatre.jpg',
+                image_url : 'https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-theatre.jpg',
                 root_slugs: ["danse", "theatre-scene", "musique-chant"]
             },{
                 name      : 'Sports, Yoga & Bien-être',
                 group_id  : 2,
-                image_url : 'http://coursavenue-public.s3.amazonaws.com/public_assets/search_page/group-subject-yoga.jpg',
+                image_url : 'https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-yoga.jpg',
                 root_slugs: ["sports-arts-martiaux", "yoga-bien-etre-sante", "cuisine-vins"]
             },{
                 name      : 'Arts créatifs',
                 group_id  : 3,
-                image_url : 'http://coursavenue-public.s3.amazonaws.com/public_assets/search_page/group-subject-arts.jpg',
+                image_url : 'https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-arts.jpg',
                 root_slugs: ["deco-mode-bricolage", "dessin-peinture-arts-plastiques", "photo-video"]
             }
         ]
