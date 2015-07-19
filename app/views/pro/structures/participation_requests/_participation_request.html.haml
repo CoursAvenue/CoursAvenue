@@ -26,8 +26,9 @@
       - else
         = participation_request_decorator.status_for('Structure')
       .very-soft.hard--left.hard--bottom.hard--right
-        = link_to participation_request_decorator.action_button_name_for('Structure'), pro_structure_participation_request_path(participation_request.structure, participation_request), class: "#{participation_request_decorator.action_button_class_for('Structure')} btn btn--small"
-
+        = participation_request_decorator.teacher_action_link
+        - if current_pro_admin and current_pro_admin.super_admin? and participation_request_decorator.past?
+          = link_to 'Voir la demande', pro_structure_participation_request_path(participation_request.structure, participation_request), class: "btn btn--small"
 
 
   %td.soft--ends.v-top{ data: { th: 'Cours et date' } }

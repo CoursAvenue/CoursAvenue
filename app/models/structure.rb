@@ -22,6 +22,7 @@ class Structure < ActiveRecord::Base
   acts_as_tagger
 
 
+  DISABLE_ON_PR_NOT_ANSWERED_COUNT = 2
   NB_STRUCTURE_PER_PAGE = 25
   STRUCTURE_STATUS      = %w(SA SAS SASU EURL SARL)
   TRIAL_COURSES_POLICY  = %w(1_trial 2_trials 3_trials)
@@ -1261,8 +1262,8 @@ class Structure < ActiveRecord::Base
   #
   # @return a boolean.
   def should_be_disabled?
-    return false if participation_requests.count < 3
-    requests = participation_requests.last(3)
+    return false if participation_requests.count < DISABLE_ON_PR_NOT_ANSWERED_COUNT
+    requests = participation_requests.last(DISABLE_ON_PR_NOT_ANSWERED_COUNT)
     return false if requests.empty?
 
     requests.all?(&:unanswered?)

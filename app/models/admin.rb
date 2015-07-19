@@ -150,28 +150,7 @@ class ::Admin < ActiveRecord::Base
     user.accounts.map { |page| [page.name, page.link] }
   end
 
-  # Override Devise::Confirmable#after_confirmation
-  # Send event to intercom
-  def after_confirmation
-    notify_intercom_event
-  end
-
   private
-
-  def notify_intercom_event
-    if Rails.env.production?
-      begin
-        intercom_client = IntercomClientFactory.client
-        intercom_client.users.create(event_name: "Confirmed account",
-                                     created_at: Time.now.to_i,
-                                     email: self.email,
-                                     user_id: "Admin_#{self.id}")
-      rescue
-        Bugsnag.notify(RuntimeError.new("Can't sync with Intercom after confirmation"), {email: self.email})
-      end
-    end
-  end
-  handle_asynchronously :notify_intercom_event, run_at: Proc.new { 15.minutes.from_now }
 
   def subscribe_to_crm
     CrmSync.delay.update(self.structure) if self.structure and !self.structure.crm_locked?
