@@ -41,12 +41,12 @@ var SearchPageAppRouter = Backbone.Router.extend({
         var new_location,
             search_params = this.buildSearchParams();
         // /:city_id | /paris-12
-        if (!SubjectStore.selected_subject && !SubjectStore.selected_root_subject && LocationStore.get('address')) {
+        if (!SubjectStore.selected_subject && !SubjectStore.selected_root_subject) {
             new_location = LocationStore.getCitySlug() + search_params;
         //  /:root_subject_id--:city_id | /danse--paris-12
-        } else if (SubjectStore.selected_root_subject && SubjectStore.selected_subject && LocationStore.get('address')) {
+        } else if (SubjectStore.selected_root_subject && SubjectStore.selected_subject) {
             new_location = SubjectStore.selected_root_subject.slug + '/' + SubjectStore.selected_subject.slug + '--' + LocationStore.getCitySlug() + search_params;
-        } else if (LocationStore.get('address') && SubjectStore.selected_root_subject) {
+        } else if (SubjectStore.selected_root_subject) {
             new_location = SubjectStore.selected_root_subject.slug + '--' + LocationStore.getCitySlug() + search_params;
         }
         // Prevent from adding the stack same url in history
