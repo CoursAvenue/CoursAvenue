@@ -86,20 +86,14 @@ textarea, input {
     border          : 2px solid #ebebeb;
     color           : #666666;
     @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
-    &::-webkit-input-placeholder { color: #777777 !important; font-weight: 400; } /* WebKit browsers */
-    &:-moz-placeholder           { color: #777777 !important; font-weight: 400; opacity: 1; } /* Mozilla Firefox 4 to 18 */
-    &::-moz-placeholder          { color: #777777 !important; font-weight: 400; opacity: 1; } /* Mozilla Firefox 19+ */
-    &:-ms-input-placeholder      { color: #777777 !important; font-weight: 400; } /* Internet Explorer 10+ */
+    &::-webkit-input-placeholder { color: #AAAAAA !important; font-weight: 400; } /* WebKit browsers */
+    &:-moz-placeholder           { color: #AAAAAA !important; font-weight: 400; opacity: 1; } /* Mozilla Firefox 4 to 18 */
+    &::-moz-placeholder          { color: #AAAAAA !important; font-weight: 400; opacity: 1; } /* Mozilla Firefox 19+ */
+    &:-ms-input-placeholder      { color: #AAAAAA !important; font-weight: 400; } /* Internet Explorer 10+ */
 }
 textarea:focus, input:focus {
     outline         : none;
-    background-color: $blue-green;
-    color           : white;
     border-color    : white;
-    &::-webkit-input-placeholder { color: white !important; } /* WebKit browsers */
-    &:-moz-placeholder           { color: white !important; } /* Mozilla Firefox 4 to 18 */
-    &::-moz-placeholder          { color: white !important; } /* Mozilla Firefox 19+ */
-    &:-ms-input-placeholder      { color: white !important; } /* Internet Explorer 10+ */
 }
 
 .input--white {

@@ -19,7 +19,7 @@
           %strong Cours d'essai : #{readable_amount(@course.prices.first.amount)}
       %h3 Planning
       = react_component("CardPageCourse",
-                      { course: CourseSerializer.new(@course), plannings: ActiveModel::ArraySerializer.new(@indexable_card.plannings, each_serializer: PlanningSerializer) }, { prerender: false })
+                      { course: CourseSerializer.new(@course), plannings: ActiveModel::ArraySerializer.new(@indexable_card.plannings.future, each_serializer: PlanningSerializer) }, { prerender: false })
       - if @course.is_private? and @course.on_appointment?
         .push-half--right.push-half--bottom.inline-block.v-middle
           %i.delta.fa.fa-audiences.v-middle

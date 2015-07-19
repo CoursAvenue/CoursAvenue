@@ -25,6 +25,18 @@
             font-weight : 600;
             @include border-radius(40px);
             &:hover .fa-search { color: white; }
+            &::-webkit-input-placeholder { color: #777777 !important; } /* WebKit browsers */
+            &:-moz-placeholder           { color: #777777 !important; } /* Mozilla Firefox 4 to 18 */
+            &::-moz-placeholder          { color: #777777 !important; } /* Mozilla Firefox 19+ */
+            &:-ms-input-placeholder      { color: #777777 !important; } /* Internet Explorer 10+ */
+            &:focus {
+                background-color: $blue-green;
+                color           : white;
+                &::-webkit-input-placeholder { color: white !important; } /* WebKit browsers */
+                &:-moz-placeholder           { color: white !important; } /* Mozilla Firefox 4 to 18 */
+                &::-moz-placeholder          { color: white !important; } /* Mozilla Firefox 19+ */
+                &:-ms-input-placeholder      { color: white !important; } /* Internet Explorer 10+ */
+            }
         }
         .fa-times {
             color           : $blue_green;
