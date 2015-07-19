@@ -5,7 +5,7 @@
 = content_for :meta_description do
   = "#{@course.name} avec #{@structure.name} à #{@place.name} : Cours d'essai gratuits, avis des élèves, reservation en ligne."
 - home_place = (@course.is_private? ? @course.home_place : nil)
-.grid--full
+.grid--full.soft--top
   .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
     .soft.bordered.bg-white
       -# %div

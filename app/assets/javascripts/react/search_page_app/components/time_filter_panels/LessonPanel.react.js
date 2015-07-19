@@ -23,7 +23,7 @@ var LessonPanel = React.createClass({
                         <TimeTable timeTable={ this.state.time_table } />
                     </div>
                     <div className="text--center">
-                        <a onClick={ this.closePanel } className='btn btn--blue search-page-filters__button'>Ok</a>
+                        <a onClick={ this.closePanel } className='btn btn--blue search-page-filters__button'>OK</a>
                     </div>
                 </div>
         );

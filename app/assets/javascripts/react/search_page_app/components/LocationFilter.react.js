@@ -28,7 +28,6 @@ var LocationFilter = React.createClass({
     },
 
     panelToShow: function panelToShow () {
-        if (this.state.filter_store.get('current_panel') != FilterPanelConstants.FILTER_PANELS.LOCATION) { return; }
         switch(this.state.filter_store.get('location_panel')) {
           case FilterPanelConstants.LOCATION_PANELS.ADDRESS:
             return ( <LocationFilterAddressPanel key='location-metro' /> );
