@@ -57,7 +57,7 @@ Card = React.createClass({
             } else {
                 var class_names = "search-page-card__structure-sleeping-logo-icon ";
                 class_names    += this.props.card.get('root_subject') + '-color ';
-                class_names    += 'fa-5x fa-' + this.props.card.get('root_subject');
+                class_names    += 'fa-' + this.props.card.get('root_subject');
                 return (<i className={class_names}></i>);
             }
         }

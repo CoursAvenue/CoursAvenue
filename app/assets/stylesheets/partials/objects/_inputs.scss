@@ -103,8 +103,9 @@ textarea:focus, input:focus {
 }
 
 .input--white {
-    color           : #666666;
+    color: #666666;
     &:focus {
+        color: #666666;
         &::-webkit-input-placeholder { color: #777777 !important; } /* WebKit browsers */
         &:-moz-placeholder           { color: #777777 !important; } /* Mozilla Firefox 4 to 18 */
         &::-moz-placeholder          { color: #777777 !important; } /* Mozilla Firefox 19+ */
