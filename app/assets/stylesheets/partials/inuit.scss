@@ -57,6 +57,10 @@
 /**
  * Style trumps; helper and brand classes
  */
+  // Put style here to prevent from overriding lap & palm widths
+  .one-seventh { width: 14.2857%; }
+  .one-ninth   { width: 11.1111%; }
+
    @import "compass-inuit/generic/widths";
    @import "compass-inuit/generic/push";
    @import "compass-inuit/generic/pull";

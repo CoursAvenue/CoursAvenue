@@ -8,18 +8,19 @@
 .cf { clear: both; } // Here to prevent sass fail compilation
 
 // Compass mixins
-@import "compass/css3/filter";
+@import "compass/css3/animation";
 @import "compass/css3/background-size";
-@import "compass/css3/opacity";
 @import "compass/css3/border-radius";
 @import "compass/css3/box-shadow";
-@import "compass/css3/text-shadow";
-@import "compass/css3/images";
 @import "compass/css3/box-sizing";
-@import "compass/css3/transition";
-@import "compass/css3/images";
-@import "compass/css3/transform";
+@import "compass/css3/filter";
 @import "compass/css3/flexbox";
+@import "compass/css3/images";
+@import "compass/css3/images";
+@import "compass/css3/opacity";
+@import "compass/css3/text-shadow";
+@import "compass/css3/transform";
+@import "compass/css3/transition";
 
 @import "defaults";
 @import "widths";
@@ -67,21 +68,21 @@
 @import "partials/objects/map";
 @import "partials/objects/markers";
 @import "partials/objects/media";
-@import "partials/objects/metro";
 @import "partials/objects/menu";
 @import "partials/objects/message";
+@import "partials/objects/metro";
 @import "partials/objects/pagination";
 @import "partials/objects/panel";
 @import "partials/objects/progress-bar";
 @import "partials/objects/read_more";
 @import "partials/objects/search";
-@import "partials/objects/spinner";
 @import "partials/objects/search_page/*";
 @import "partials/objects/share_buttons";
 @import "partials/objects/sliders";
 @import "partials/objects/slideshow";
-@import "partials/objects/structure-item";
 @import "partials/objects/social";
+@import "partials/objects/spinner";
+@import "partials/objects/structure-item";
 @import "partials/objects/tables";
 @import "partials/objects/tables_responsive";
 @import "partials/objects/tabs";

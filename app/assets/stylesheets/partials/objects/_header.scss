@@ -1,6 +1,7 @@
 .header {
     @include media-query(palm) { text-align: center; };
     @include media-query(lap) { text-align: center; };
+    height: $header-height;
     padding         : 0;
     overflow        : visible;
     display         : table;
@@ -13,6 +14,41 @@
         margin-left  : 1em;
     }
 }
+
+    .header-search-input {
+        display : inline-block;
+        input {
+            padding-left: 1em;
+            max-width   : 300px;
+            font-size   : 17px;
+            line-height : 1.5em;
+            font-weight : 600;
+            @include border-radius(40px);
+            &:hover .fa-search { color: white; }
+        }
+        .fa-times {
+            color           : $blue_green;
+            cursor          : pointer;
+            font-size       : 9px;
+            border          : 1px solid #EEE;
+            background-color: white;
+            padding         : 6px;
+            border-radius   : 14px;
+            top             : 1em;
+        }
+        i {
+            font-size: 15px;
+            color: $blue_green;
+            position: absolute;
+            top     : 0.8em;
+            right   : 1em;
+        }
+        ::-webkit-input-placeholder { color: #EEEEEE; } /* WebKit browsers */
+        :-moz-placeholder           { color: #EEEEEE; opacity: 1; } /* Mozilla Firefox 4 to 18 */
+        ::-moz-placeholder          { color: #EEEEEE; opacity: 1; } /* Mozilla Firefox 19+ */
+        :-ms-input-placeholder      { color: #EEEEEE; } /* Internet Explorer 10+ */
+    }
+
     .coursavenue-header-logo-wrapper {
         background-color: $blue-green;
         padding         : 0 2em;

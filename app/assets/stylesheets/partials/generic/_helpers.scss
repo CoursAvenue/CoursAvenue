@@ -8,7 +8,6 @@
 /*------------------------------------*\
     WIDTHS & HEIGHTS
 \*------------------------------------*/
-.one-seventh { width: 14.2857%; }
 .width-auto  { width: auto !important; }
 
 .height-100-percent { height: 100%; }
@@ -229,6 +228,12 @@
         padding-left: $base-spacing-unit / 2; padding-right: $base-spacing-unit / 2;
     }
 }
+.soft-double--ends {
+    padding-top: $base-spacing-unit * 2; padding-bottom: $base-spacing-unit * 2;
+    @include media-query(palm) {
+        padding-top: $base-spacing-unit / 2; padding-bottom: $base-spacing-unit / 2;
+    }
+}
 .soft-double {
     padding: $base-spacing-unit * 2;
     @include media-query(palm) { padding: $base-spacing-unit / 2; }
@@ -306,6 +311,7 @@
     .opacity-hidden-on-hover__child         { opacity: 0; @include transition(opacity 300ms ease-in-out); }
     &:hover .opacity-hidden-on-hover__child { opacity: 1; }
 }
+
 .show-on-hover__wrapper {
     &.show-on-hover__wrapper--black-curtain {
         @include transition(background 200ms ease-in-out);
@@ -599,10 +605,6 @@
 /*------------------------------------*\
     TRANSITIONS
 \*------------------------------------*/
-// http://matthewlein.com/ceaser/
-// easeOutExpo
-// @include transition(left 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
-
 .transition-all-300 { @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
 .transition-all-500 { @include transition(all 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
 .transition-all-900 { @include transition(all 900ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }

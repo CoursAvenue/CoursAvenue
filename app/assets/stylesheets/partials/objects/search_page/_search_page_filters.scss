@@ -66,6 +66,7 @@ $map-height   : 480px;
           background-color: rgba(58, 145, 152, 0.9);
           &::-webkit-scrollbar { display: none; }
      }
+    .search-page-filters__image-button-curtain { background-color: #083931; }
     .search-page-filters__subject-panel {
         .search-page-filters__closer { background-color: $dark-blue-green; }
         .search-page-filters__title { background-color: $blue-green; }
@@ -143,15 +144,18 @@ $map-height   : 480px;
         top       : 50%;
         margin-top: -2em;
     }
-    $subject-search-width: 300px;
-    .search-page-map__menu-bar {
-        .search-page-filters__subject-search {
-            display : inline-block;
-            position: static;
-            right   : auto;
-            i {
-                top     : 0.8em;
-                color: $blue_green;
+
+    .search-page-filters__title {
+        .header-search-input {
+            position: absolute;
+            right   : 3em;
+            top     : 0;
+            .fa-search {
+                color: white;
+                top  : 1.5em;
+            }
+            .fa-times {
+                top: 2.1em;
             }
         }
     }
@@ -167,41 +171,7 @@ $map-height   : 480px;
             &:-ms-input-placeholder      { color: white !important; } /* Internet Explorer 10+ */
         }
     }
-    .search-page-filters__subject-search {
-        position: absolute;
-        right   : 3em;
-        top     : 0;
-        width   : $subject-search-width;
-        input {
-            @extend .soft--left;
-            width           : 100%;
-            font-size       : 17px;
-            height          : 40px;
-            line-height     : 40px;
-            font-weight     : 600;
-            @include border-radius(40px);
-        }
-        .fa-times {
-            color           : $blue_green;
-            cursor          : pointer;
-            font-size       : 9px;
-            border          : 1px solid #EEE;
-            background-color: white;
-            padding         : 6px;
-            border-radius   : 14px;
-            top             : 2em;
-        }
-        i {
-            font-size: 15px;
-            position: absolute;
-            right   : 1em;
-            top     : 1.5em;
-        }
-        ::-webkit-input-placeholder { color: #EEEEEE; } /* WebKit browsers */
-        :-moz-placeholder           { color: #EEEEEE; opacity: 1; } /* Mozilla Firefox 4 to 18 */
-        ::-moz-placeholder          { color: #EEEEEE; opacity: 1; } /* Mozilla Firefox 19+ */
-        :-ms-input-placeholder      { color: #EEEEEE; } /* Internet Explorer 10+ */
-    }
+
     .search-page-filters__closer {
         position        : absolute;
         right           : 0;
@@ -381,6 +351,7 @@ $map-height   : 480px;
         border-bottom   : 2px solid white;
         font-weight     : 500;
         color           : #999999;
+        @extend .btn-hover-transition--bottom-up;
         i {
             @include transition(all 250ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
         }
@@ -454,7 +425,6 @@ $map-height   : 480px;
             }
         }
         .search-page-filter--more {
-            @extend .btn-hover-transition;
             &::after, &.btn--active { background-color: #113047; }
             border-color    : $dark_blue;
             background-color: $dark_blue;
@@ -542,18 +512,22 @@ $map-height   : 480px;
     color         : #7F7F7F;
     &.search-page-filter-breadcrumb--subject  {
         @extend .btn-white-to-blue-green;
+        @extend .btn-hover-transition--bottom-up;
         border-color: $blue_green;
     }
     &.search-page-filter-breadcrumb--location {
         @extend .btn-white-to-yellow;
+        @extend .btn-hover-transition--bottom-up;
         border-color: $yellow;
     }
     &.search-page-filter-breadcrumb--time     {
         @extend .btn-white-to-blue;
+        @extend .btn-hover-transition--bottom-up;
         border-color: $blue;
     }
     &.search-page-filter-breadcrumb--more     {
         @extend .btn-white-to-dark-blue;
+        @extend .btn-hover-transition--bottom-up;
         border-color: $dark_blue;
     }
     span { cursor: pointer; }

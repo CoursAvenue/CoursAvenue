@@ -122,10 +122,13 @@ var MapComponent = React.createClass({
         var location = this.state.location_store.get('user_location') || this.state.location_store.get('address');
         if (this.location_marker) { this.map.removeLayer(this.location_marker); }
         this.location_marker = L.marker([location.latitude, location.longitude],
-                              { icon: L.divIcon({className: 'map-box-marker__user'}) });
+                              { icon: L.divIcon({
+                                      className: 'map-box-marker__user',
+                                      html     : '<div></div>'
+                                  })
+                              });
         this.map.addLayer(this.location_marker);
         this.map.setView([location.latitude, location.longitude]);
-        this.location_marker.bindPopup('Je suis là !');
     },
 
     handleMoveend: function handleMoveend (leaflet_data) {

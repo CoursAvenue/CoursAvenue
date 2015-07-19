@@ -13,9 +13,8 @@
 }
 
 .btn.btn--large {
-  font-size  : 20px;
-  padding    : 0.6em 2.5em;
-  line-height: 1;
+  font-size  : 1.3em;
+  line-height: 1.3;
 }
 
 .btn.btn--bigger {
@@ -243,7 +242,7 @@
 .btn--white-transparent {
     color      : white;
     border     : 2px solid white;
-    background : none;
+    background : transparent;
     line-height: 0.9em;
     @include text-shadow(none);
     @extend .btn-hover-transition;
@@ -254,7 +253,7 @@
         &.btn--white-transparent--white {
             &::after, &.btn--active { background-color: white; }
             background-color: white;
-            color           : black;
+            color           : #666666;
         }
         &.btn--white-transparent--orange {
             border-color    : $orange!important;
@@ -281,26 +280,26 @@
     z-index   : 1;
     @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
     &:hover { &, i { color: white; } }
-    &:hover::after { height: 100%; }
-    &::after {
-      width     : 100%;
-      height    : 0;
-      bottom    : 0;
-      left      : 0;
-      content   : '';
-      position  : absolute;
-      z-index   : -1;
-      @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
-    }
-}
-.btn-hover-transition--from-left {
     &:hover::after { width: 100%; }
     &::after {
-      width     : 0;
-      height    : 100%;
-      bottom    : 0;
-      left      : 0;
-      @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+        width     : 0;
+        height    : 100%;
+        bottom    : 0;
+        left      : 0;
+        content   : '';
+        position  : absolute;
+        z-index   : -1;
+        @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+    }
+}
+.btn-hover-transition--bottom-up {
+    @extend .btn-hover-transition;
+    &:hover::after { height: 100%; }
+    &::after {
+        width     : 100%;
+        height    : 0;
+        bottom    : 0;
+        left      : 0;
     }
 }
 .btn-white-to-color {

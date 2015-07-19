@@ -44,7 +44,7 @@ var FilterBar = React.createClass({
     render: function render () {
         var value = this.state.subject_store.full_text_search;
         return (
-          <div className="search-page-filters__subject-search">
+          <div className="header-search-input">
               <div className="relative">
                   <input value={value}
                          size="50"

@@ -20,9 +20,9 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         /* the pagination tool forwards all events, since it has
         * no idea what it is paginating */
         events: {
-            'click .pagination li.btn a[rel=next]': 'next',
-            'click .pagination li.btn a[rel=prev]': 'prev',
-            'click .pagination li.btn a[rel=page]': 'page',
+            'click a[rel=next]': 'next',
+            'click a[rel=prev]': 'prev',
+            'click a[rel=page]': 'page',
         },
 
         next: function next (e) {
@@ -75,7 +75,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                     buttons.push({ // push the current page
                         label: current_page,
                         active: (current_page == data.current_page),
-                        query: (data.query_strings ? data.query_strings[current_page] : '')
+                        query: (data.query_strings ? data.query_strings[current_page] : 'javascript:void(0)')
                     });
 
                     skipped = false;

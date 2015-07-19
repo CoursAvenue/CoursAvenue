@@ -84,13 +84,28 @@
     @include border-radius($brand-round);
 }
 .map-box-marker__user {
-    width   : 15px !important;
-    height  : 15px !important;
-    background: $old_blue;
-    border: solid white 2px;
-    @include border-radius(10px);
-    @include box-shadow(0 0 30px lighten($old_blue, 10%), 0 0 20px lighten($old_blue, 10%), 0 0 10px lighten($old_blue, 10%));
+    margin    : 8px auto ;
+    width     : 16px !important;
+    height    : 16px !important;
+    border    : solid rgba(255, 255, 255, 0.8) 4px;
+    background-color: $blue-green;
+    @include border-radius(30px);
+    > div {
+        padding    : 8px;
+        border     : 10px solid transparentize($blue-green, 0.5);
+        width      : 32px !important;
+        height     : 32px !important;
+        margin-left: -14px;
+        margin-top : -14px;
+        @include border-radius(30px);
+        @include animation(breath 8s infinite ease-in-out);
+    }
 }
+@include keyframes(breath) {
+    0%, 100% { @include transform(scale(1)); }
+    50% { @include transform(scale(0.7)); }
+}
+
 .map-box-marker--circle {
     @extend .fa-circle;
     @extend .fa;

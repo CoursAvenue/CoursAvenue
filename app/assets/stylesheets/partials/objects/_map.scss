@@ -69,13 +69,14 @@
         padding: 0;
     }
     .leaflet-popup-close-button {
-        color       : white;
+        color       : rgba(255, 255, 255, 0.9) !important;
         background  : none;
         text-indent : 0;
-        font-size   : 30px;
+        font-size   : 23px;
         margin-right: 5px;
         font-weight : bold;
         opacity     : 1;
+        z-index     : 1;
         &:hover {
             background: none;
         }
