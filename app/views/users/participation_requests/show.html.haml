@@ -26,24 +26,30 @@
           %h4.push-half--bottom Ajouter au calendrier
           = add_to_calendar(@participation_request)
 
-    - if @participation_request.accepted?
-      .bg-gray-light.soft--ends.soft-double--sides.epsilon.push--bottom#pr-confirmation-form
-        %h3.push-half--bottom Avez-vous convenu d'une nouvelle date ?
-        .delta.line-height-1-7.push-half--bottom
-          %strong Vous allez assister à la séance "#{@participation_request.course.name}" le #{participation_request_decorator.day_and_hour}
-          %br
-          = link_to 'Modifier', edit_structure_participation_request_path(@structure, @participation_request, show_course_select: true), class: 'btn btn--white btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
-    - else !@participation_request.canceled?
-      .bg-blue-green.soft--ends.soft-double--sides.white.epsilon.push--bottom#pr-confirmation-form
-        %h3.push-half--bottom Avez-vous convenu d'une date ?
-        .delta.line-height-1-7.push-half--bottom
-          %strong Vous allez assister à la séance "#{@participation_request.course.name}" le #{participation_request_decorator.day_and_hour}
-          %br
-          = link_to 'Accepter', accept_structure_participation_request_path(@participation_request.structure, @participation_request), method: :patch, class: 'btn btn--green btn--small'
-          = link_to 'Modifier', edit_structure_participation_request_path(@structure, @participation_request, show_course_select: true), class: 'btn btn--white-transparent--orange btn--white-transparent btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
-          = link_to 'Annuler', cancel_form_structure_participation_request_path(@structure, @participation_request), class: 'btn btn--small btn--white-transparent--red btn--white-transparent fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
-        .line-height-1-5
-          PS : en confirmant la date, nous vous enverrons un SMS de rappel 1 jour avant le cours avec toutes les informations nécessaire pour assister au cours.
+    -################## README ######################
+    -# TODO: @Aliou: Je vire ce bloc car en fait, si l'élève accepte et que le prof n'a même pas vu la PR,
+    -#       la PR devient validé et ça n'a plus aucun sens. Normalement Nico va te filer des maquettes
+    -#       pour le nouveau process élève. Je crois qu'on va simplement mettre un bouton annuler pour faire simple. :)
+    -################## README ######################
+
+    -# - if @participation_request.accepted?
+    -#   .bg-gray-light.soft--ends.soft-double--sides.epsilon.push--bottom#pr-confirmation-form
+    -#     %h3.push-half--bottom Avez-vous convenu d'une nouvelle date ?
+    -#     .delta.line-height-1-7.push-half--bottom
+    -#       %strong Vous allez assister à la séance "#{@participation_request.course.name}" le #{participation_request_decorator.day_and_hour}
+    -#       %br
+    -#       = link_to 'Modifier', edit_structure_participation_request_path(@structure, @participation_request, show_course_select: true), class: 'btn btn--white btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+    -# - else !@participation_request.canceled?
+    -#   .bg-blue-green.soft--ends.soft-double--sides.white.epsilon.push--bottom#pr-confirmation-form
+    -#     %h3.push-half--bottom Avez-vous convenu d'une date ?
+    -#     .delta.line-height-1-7.push-half--bottom
+    -#       %strong Vous allez assister à la séance "#{@participation_request.course.name}" le #{participation_request_decorator.day_and_hour}
+    -#       %br
+    -#       = link_to 'Accepter', accept_structure_participation_request_path(@participation_request.structure, @participation_request), method: :patch, class: 'btn btn--white-transparent--green btn--white-transparent btn--small'
+    -#       = link_to 'Modifier', edit_structure_participation_request_path(@structure, @participation_request, show_course_select: true), class: 'btn btn--white-transparent--orange btn--white-transparent btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+    -#       = link_to 'Annuler', cancel_form_structure_participation_request_path(@structure, @participation_request), class: 'btn btn--small btn--white-transparent--red btn--white-transparent fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+    -#     .line-height-1-5
+    -#       PS : en confirmant la date, nous vous enverrons un SMS de rappel 1 jour avant le cours avec toutes les informations nécessaire pour assister au cours.
     .soft--sides
       = render partial: 'structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
