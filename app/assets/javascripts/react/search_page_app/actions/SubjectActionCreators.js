@@ -3,8 +3,15 @@ var SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     ActionTypes          = SearchPageConstants.ActionTypes;
 
 module.exports = {
+
+    selectGroupSubjectById: function selectGroupSubjectById (subject_group_id) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.SELECT_GROUP_SUBJECT_BY_ID,
+            data: parseInt(subject_group_id, 10) // Ensure it's an integer
+        });
+    },
     /*
-     * subject_group: Hash as { slug, name }
+     * subject_group: Hash as { group_id, name }
      */
     selectGroupSubject: function selectGroupSubject (subject_group) {
         SearchPageDispatcher.dispatch({

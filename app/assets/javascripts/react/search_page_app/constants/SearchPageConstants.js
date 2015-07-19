@@ -19,6 +19,7 @@ module.exports = {
         SHOW_SUBJECT_INPUT_PANEL:            null,
 
         SELECT_GROUP_SUBJECT:                null,
+        SELECT_GROUP_SUBJECT_BY_ID:          null,
         SELECT_ROOT_SUBJECT:                 null,
         SELECT_SUBJECT:                      null,
         SELECT_ADDRESS:                      null,

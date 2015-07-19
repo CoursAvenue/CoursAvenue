@@ -6,22 +6,24 @@ var _                      = require('lodash'),
     LevelActionCreators    = require('./actions/LevelActionCreators'),
     CardActionCreators     = require('./actions/CardActionCreators'),
     SliderActionCreators   = require('./actions/SliderActionCreators'),
+    SubjectActionCreators  = require('./actions/SubjectActionCreators'),
     LocationStore          = require('./stores/LocationStore'),
     CardStore              = require('./stores/CardStore'),
     SubjectStore           = require('./stores/SubjectStore');
 
 // Params that we store in URLs
 var PARAMS_IN_SEARCH = {
-    context               : { name: 'type'       , actionMethod: FilterActionCreators.changeContext },
-    full_text_search      : { name: 'discipline' , actionMethod: FilterActionCreators.initSearchFullText },
-    metro_lines           : { name: 'metros[]'   , actionMethod: FilterActionCreators.selectMetroLines },
-    planning_periods      : { name: 'plannings[]', actionMethod: TimeActionCreators.togglePeriodsSelection },
-    audiences             : { name: 'public[]'   , actionMethod: AudienceActionCreators.setAudiences },
-    levels                : { name: 'niveau[]'   , actionMethod: LevelActionCreators.setLevels },
-    prices                : { name: 'prix[]'     , actionMethod: SliderActionCreators.setPriceBounds },
-    'training_dates.start': { name: 'start_date' , actionMethod: TimeActionCreators.setTrainingStartDate },
-    'training_dates.end'  : { name: 'end_date'   , actionMethod: TimeActionCreators.setTrainingEndDate },
-    sort_by               : { name: 'sort'       , actionMethod: FilterActionCreators.updateSorting }
+    'group_subject.group_id': { name: 'groupe'     , actionMethod: SubjectActionCreators.selectGroupSubjectById },
+    context                 : { name: 'type'       , actionMethod: FilterActionCreators.changeContext },
+    full_text_search        : { name: 'discipline' , actionMethod: FilterActionCreators.initSearchFullText },
+    metro_lines             : { name: 'metros[]'   , actionMethod: FilterActionCreators.selectMetroLines },
+    planning_periods        : { name: 'plannings[]', actionMethod: TimeActionCreators.togglePeriodsSelection },
+    audiences               : { name: 'public[]'   , actionMethod: AudienceActionCreators.setAudiences },
+    levels                  : { name: 'niveau[]'   , actionMethod: LevelActionCreators.setLevels },
+    prices                  : { name: 'prix[]'     , actionMethod: SliderActionCreators.setPriceBounds },
+    'training_dates.start'  : { name: 'start_date' , actionMethod: TimeActionCreators.setTrainingStartDate },
+    'training_dates.end'    : { name: 'end_date'   , actionMethod: TimeActionCreators.setTrainingEndDate },
+    sort_by                 : { name: 'sort'       , actionMethod: FilterActionCreators.updateSorting }
 };
 
 var SearchPageAppRouter = Backbone.Router.extend({

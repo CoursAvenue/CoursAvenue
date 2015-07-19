@@ -19,6 +19,11 @@ var SubjectStore = Backbone.Collection.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+            case ActionTypes.SELECT_GROUP_SUBJECT_BY_ID:
+                payload.data = this.getGroupSubject(payload.data);
+                this.loadRootSubjects(payload.data);
+                this.selected_group_subject = payload.data;
+                break;
             case ActionTypes.SELECT_GROUP_SUBJECT:
                 this.loadRootSubjects(payload.data);
                 this.selected_group_subject = payload.data;
