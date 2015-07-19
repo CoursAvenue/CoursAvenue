@@ -36,7 +36,7 @@ var LocationFilterChoicePanel = React.createClass({
                     'search-page-filters__image-button--active': this.state.location_store.isUserLocated()
                   }) }
                    onClick={this.locateUser}
-                   style={ { backgroundImage: 'url("https://coursavenue-public.s3.amazonaws.com/public_assets/search_page/filter-where-around-me.jpg")' } }>
+                   style={ { backgroundImage: 'url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/filter-where-around-me.jpg")' } }>
                   <div className="search-page-filters__image-button-curtain"></div>
                   <i className="search-page-filters__image-icon fa fa-around-me"></i>
                   <div className="search-page-filters__image-text">Autour de moi</div>
@@ -45,7 +45,7 @@ var LocationFilterChoicePanel = React.createClass({
                     'search-page-filters__image-button--active': this.state.location_store.isFilteredByAddress()
                   }) }
                    onClick={this.showAddressPanel}
-                   style={ { backgroundImage: 'url("https://coursavenue-public.s3.amazonaws.com/public_assets/search_page/filter-where-address.jpg")' } }>
+                   style={ { backgroundImage: 'url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/filter-where-address.jpg")' } }>
                   <div className="search-page-filters__image-button-curtain"></div>
                   <i className="search-page-filters__image-icon fa fa-address"></i>
                   <div className="search-page-filters__image-text">{"Autour d'une adresse"}</div>
@@ -54,7 +54,7 @@ var LocationFilterChoicePanel = React.createClass({
                     'search-page-filters__image-button--active': this.state.metro_store.getSelectedLines().length > 0
                   }) }
                    onClick={ this.showMetroPanel }
-                   style={ { backgroundImage: 'url("https://coursavenue-public.s3.amazonaws.com/public_assets/search_page/filter-where-metro.jpg")' } }>
+                   style={ { backgroundImage: 'url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/filter-where-metro.jpg")' } }>
                   <div className="search-page-filters__image-button-curtain"></div>
                   <i className="search-page-filters__image-icon fa fa-metro"></i>
                   <div className="search-page-filters__image-text">{"Près d'une station de métro"}</div>
