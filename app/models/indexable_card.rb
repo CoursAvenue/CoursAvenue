@@ -32,6 +32,11 @@ class IndexableCard < ActiveRecord::Base
     add_slave 'IndexableCard_by_popularity_desc', per_environment: true do
       customRanking ['desc(popularity)']
       ranking ['typo', 'custom', 'geo', 'words', 'proximity', 'attribute', 'exact']
+      attributesToIndex %w(course_name subjects.name structure_name)
+      attributesForFaceting %w(subjects.name root_subject subjects.slug planning_periods
+                               structure_slug audiences subjects.slug_name levels card_type
+                               metro_stops metro_lines active)
+
     end
 
     attribute :id, :slug
