@@ -17,28 +17,28 @@
       %h2.delta.white
         Recommandées par des milliers de passionnées.
       .soft--top
-        = link_to root_search_page_without_subject_path('paris'), class: 'btn btn--green btn--large' do
+        = link_to root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--green btn--large' do
           %i.fa.fa-map-marker
           Autour de moi
 
 .grid--full
-  %a.bg-danse.btn--danse.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('danse', 'paris'), data: { behavior: 'update-home-page', slug: 'danse', text: 'de danse' } }>
+  %a.bg-danse.btn--danse.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('danse', 'paris', locate_user: 'on'), data: { behavior: 'update-home-page', slug: 'danse', text: 'de danse' } }>
     %i.fa-danse.fa-4x
-  %a.bg-theatre-scene.btn--theatre-scene.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('theatre-scene', 'paris'), data: { behavior: 'update-home-page', slug: 'theatre-scene', text: 'de théâtre' } }>
+  %a.bg-theatre-scene.btn--theatre-scene.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('theatre-scene', 'paris', locate_user: 'on'), data: { behavior: 'update-home-page', slug: 'theatre-scene', text: 'de théâtre' } }>
     %i.fa-theatre-scene.fa-4x
-  %a.bg-musique-chant.btn--musique-chant.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('musique-chant', 'paris'), data: { behavior: 'update-home-page', slug: 'musique-chant', text: 'de musique' } }>
+  %a.bg-musique-chant.btn--musique-chant.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('musique-chant', 'paris', locate_user: 'on'), data: { behavior: 'update-home-page', slug: 'musique-chant', text: 'de musique' } }>
     %i.fa-musique-chant.fa-4x
-  %a.bg-cuisine-vins.btn--cuisine-vins.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('cuisine-vins', 'paris'), data: { behavior: 'update-home-page', slug: 'cuisine-vins', text: 'de cuisine' } }>
+  %a.bg-cuisine-vins.btn--cuisine-vins.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('cuisine-vins', 'paris', locate_user: 'on'), data: { behavior: 'update-home-page', slug: 'cuisine-vins', text: 'de cuisine' } }>
     %i.fa-cuisine-vins.fa-4x
-  %a.bg-yoga-bien-etre-sante.btn--yoga-bien-etre-sante.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('yoga-bien-etre-sante', 'paris'), data: { behavior: 'update-home-page', slug: 'yoga-bien-etre-sante', text: 'de yoga' } }>
+  %a.bg-yoga-bien-etre-sante.btn--yoga-bien-etre-sante.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('yoga-bien-etre-sante', 'paris', locate_user: 'on'), data: { behavior: 'update-home-page', slug: 'yoga-bien-etre-sante', text: 'de yoga' } }>
     %i.fa-yoga-bien-etre-sante.fa-4x
-  %a.bg-sports-arts-martiaux.btn--sports-arts-martiaux.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('sports-arts-martiaux', 'paris'), data: { behavior: 'update-home-page', slug: 'sports-arts-martiaux', text: 'de sports' } }>
+  %a.bg-sports-arts-martiaux.btn--sports-arts-martiaux.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('sports-arts-martiaux', 'paris', locate_user: 'on'), data: { behavior: 'update-home-page', slug: 'sports-arts-martiaux', text: 'de sports' } }>
     %i.fa-sports-arts-martiaux.fa-4x
-  %a.bg-photo-video.btn--photo-video.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('photo-video', 'paris'), data: { behavior: 'update-home-page', slug: 'photo-video', text: 'de photo' } }>
+  %a.bg-photo-video.btn--photo-video.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('photo-video', 'paris', locate_user: 'on'), data: { behavior: 'update-home-page', slug: 'photo-video', text: 'de photo' } }>
     %i.fa-photo-video.fa-4x
-  %a.bg-deco-mode-bricolage.btn--deco-mode-bricolage.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('deco-mode-bricolage', 'paris'), data: { behavior: 'update-home-page', slug: 'deco-mode-bricolage', text: 'de déco' } }>
+  %a.bg-deco-mode-bricolage.btn--deco-mode-bricolage.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('deco-mode-bricolage', 'paris', locate_user: 'on'), data: { behavior: 'update-home-page', slug: 'deco-mode-bricolage', text: 'de déco' } }>
     %i.fa-deco-mode-bricolage.fa-4x
-  %a.bg-dessin-peinture-arts-plastiques.btn--dessin-peinture-arts-plastiques.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('dessin-peinture-arts-plastiques', 'paris'), data: { behavior: 'update-home-page', slug: 'dessin-peinture-arts-plastiques', text: "d'arts" } }>
+  %a.bg-dessin-peinture-arts-plastiques.btn--dessin-peinture-arts-plastiques.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('dessin-peinture-arts-plastiques', 'paris', locate_user: 'on'), data: { behavior: 'update-home-page', slug: 'dessin-peinture-arts-plastiques', text: "d'arts" } }>
     %i.fa-dessin-peinture-arts-plastiques.fa-4x
 
 .flexbox.palm-block
@@ -62,7 +62,7 @@
     .epsilon
       Sur une journée ou plusieurs semaine, trouvez le cours de loisirs ponctuel qui vous correspond le mieux.
     .soft--top
-      = link_to 'Voir les stages et ateliers', root_search_page_without_subject_path('paris', type: 'training'), class: 'btn btn--white-transparent btn--white-transparent--white'
+      = link_to 'Voir les stages et ateliers', root_search_page_without_subject_path('paris', locate_user: 'on', type: 'training'), class: 'btn btn--white-transparent btn--white-transparent--white'
 
 .home-screen-promotion-wrapper#vivez-passionnement
   .main-container.mega-soft--ends

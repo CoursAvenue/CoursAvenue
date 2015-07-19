@@ -48,6 +48,9 @@ SearchPageApp = React.createClass({
         if (this.props.subject) {
             SubjectActionCreators.selectSubject($.parseJSON(this.props.subject));
         }
+        if (this.props.locate_user) {
+            LocationActionCreators.locateUser();
+        }
     },
 
     render: function render() {
