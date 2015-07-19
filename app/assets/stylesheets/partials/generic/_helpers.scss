@@ -28,6 +28,9 @@
     @include media-query(palm) { height: 50vh; }
 }
 .height-whole { height: 100%; }
+.palm-height-auto {
+    @include media-query(palm) { height: auto !important; }
+}
 .full-screen-item {
     height: 750px; // Fallback
     height: 100vh;
