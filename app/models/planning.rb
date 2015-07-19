@@ -102,65 +102,6 @@ class Planning < ActiveRecord::Base
   scope :visible,           -> { where(visible: true) }
 
   ######################################################################
-  # Algolia                                                            #
-  ######################################################################
-  # :nocov:
-  algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
-    attribute :id
-
-    geoloc :latitude, :longitude
-
-    add_attribute :start_time do
-      start_time
-    end
-
-    add_attribute :structure_slug do
-      structure.slug
-    end
-
-    add_attribute :header_image do
-      if structure.medias.any?
-        image = structure.medias.cover_first.images_first.first.image
-        image.url(:search_thumbnail)
-      end
-    end
-
-    add_attribute :structure_logo_url do
-      structure.logo.url(:small_thumb_85) if structure.logo?
-    end
-
-    add_attribute :is_open_for_trial do
-      course.is_open_for_trial
-    end
-
-    add_attribute :comments_count do
-      course.structure.comments_count
-    end
-
-    add_attribute :course_name do
-      course.name
-    end
-
-    add_attribute :course_id do
-      course.id
-    end
-
-    add_attribute :root_subject do
-      roots = course.subjects.map{ |s| s.root.slug }.uniq
-      (roots.length == 1 ? roots.first : 'multi')
-    end
-
-    add_attribute :subjects do
-      course.subjects.map(&:slug).uniq
-    end
-
-    add_attribute :structure_name do
-      structure.name
-    end
-  end
-  # :nocov:
-
-  ######################################################################
   # Solr                                                               #
   ######################################################################
   # :nocov:
