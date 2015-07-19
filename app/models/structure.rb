@@ -200,34 +200,6 @@ class Structure < ActiveRecord::Base
   scope :with_logo_and_media , -> { with_logo.with_media }
 
   ######################################################################
-  # Algolia                                                            #
-  ######################################################################
-  # :nocov:
-  algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
-    attribute :name, :slug
-    add_attribute :search_score do
-      self.search_score.try(:to_i)
-    end
-
-    add_attribute :is_sleeping do
-      self.is_sleeping?
-    end
-
-    add_attribute :type do
-      'structure'
-    end
-    add_attribute :url do
-      structure_path(self, subdomain: 'www')
-    end
-
-    add_attribute :logo_url do
-      self.logo.url(:small_thumb)
-    end
-    customRanking ['desc(search_score)', 'desc(is_sleeping)']
-  end
-  # :nocov:
-
-  ######################################################################
   # Solr                                                               #
   ######################################################################
   # :nocov:
