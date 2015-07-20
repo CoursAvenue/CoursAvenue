@@ -50,7 +50,6 @@
 .push--bottom
   = render partial: 'pro/structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
-- if @participation_request.conversation.messages.reject(&:new_record?).count > 2
-  %h3 Discussion avec #{@user.name}
-  = render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation }
-  = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
+%h3 Discussion avec #{@user.name}
+= render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation }
+= render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
