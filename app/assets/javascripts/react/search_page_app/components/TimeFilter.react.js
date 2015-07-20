@@ -62,7 +62,7 @@ var TimeFilter = React.createClass({
                   </div>
               </div>
               <div className="flexbox bg-cover relative"
-                   style={ { backgroundImage: 'url("https://coursavenue-public.s3.amazonaws.com/public_assets/search_page/filter-where-metro.jpg")' } }>
+                   style={ { backgroundImage: 'url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/filter-when.jpg")' } }>
                   <div className="flexbox__item v-middle search-page-filters__panel-height">
                       <div className="search-page-filters__image-button-curtain"></div>
                       <div className="relative main-container main-container--1000">
