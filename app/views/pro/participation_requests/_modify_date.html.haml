@@ -1,10 +1,13 @@
 - discuss_only       = false if discuss_only.nil?
 - show_course_select = false if show_course_select.nil?
+- new_date           = false if new_date.nil?
 .panel
   .panel__header.soft
     %h4.flush
       - if discuss_only
         Envoyer un message
+      - elsif new_date
+        Quelle date avez-vous finalement convenu ?
       - else
         Modifier les informations
   .panel__body
