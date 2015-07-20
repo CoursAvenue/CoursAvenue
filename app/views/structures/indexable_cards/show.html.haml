@@ -43,7 +43,7 @@
       - if @course.teaches_at_home? and home_place
         - home_place_map_attributes = { home: { latitude: home_place.latitude, longitude: home_place.longitude, radius: home_place.radius } }
       = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
-                                        root_subject: @course.dominant_root_subject.slug,
+                                        root_subject: @course.dominant_root_subject.try(:slug),
                                         metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
                                        { prerender: false })
 
