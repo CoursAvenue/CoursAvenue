@@ -52,13 +52,13 @@
           %div{ data: { type: "guestbook-collection" } }
         - if @is_sleeping
           = render partial: 'structures/sleeping_content', locals: { medias: @medias }
-      .beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--bottom Articles de blog associés
+      .beta.text--center.tk-lexia.bordered--bottom.soft--bottom.f-weight-400.push--bottom Articles de blog associés
       .grid
         - @structure.associate_blog_articles.each do |article|
           .grid__item.one-third.palm-one-whole.push--bottom>
             = link_to blog_article_path(article), class: 'block link-colored-on-hover', title: article.title do
               = image_tag article.image.url(:similar_article), class: 'block one-whole hoverable-media'
-              %h4.text--center.ff-droid.f-style-itali--fullc.f-weight-normal.flush.delta.soft-half--top.line-height-1-3= article.title
+              %h4.text--center.tk-lexia.f-style-itali--fullc.f-weight-normal.flush.delta.soft-half--top.line-height-1-3= article.title
     .grid__item.four-twelfths.palm-one-whole.visuallyhidden--palm>
       -# Needs to be here
       %div.hidden{ data: { type: 'contact-form' } }

@@ -11,9 +11,9 @@
         = image_tag article.image.url(:user_index_horizontal), class: 'hoverable-media one-whole block', data: { src_2x: article.image.url(:user_index_horizontal_2x) }
     .grid__item.palm-one-whole.v-middle.six-tenths>
       - if article.category
-        = link_to category_blog_articles_path(category_id: article.category.slug), class: 'orange inline-block f-weight-500 delta bordered--bottom soft-half--bottom push-half--bottom f-style-italic soft-half--sides link-colored-on-hover' do
+        = link_to category_blog_articles_path(category_id: article.category.slug), class: 'orange inline-block f-weight-500 delta bordered--bottom soft-half--bottom push-half--bottom soft-half--sides link-colored-on-hover' do
           = article.category.name
-      %h2.line-height-1-7.text--center.f-weight-400.ff-droid.f-style-italic{ itemprop: 'name', class: (homepage ? 'beta' : 'alpha') }
+      %h2.line-height-1-7.text--center.f-weight-400.tk-lexia{ itemprop: 'name', class: (homepage ? 'beta' : 'alpha') }
         = link_to blog_article_path(article), class: 'link-colored-on-hover' do
           = article.title
 
@@ -34,9 +34,9 @@
         = image_tag article.image.url(:user_index_vertical), class: 'hoverable-media palm-one-whole', data: { src_2x: article.image.url(:user_index_vertical_2x) }
 
     - if article.category
-      = link_to category_blog_articles_path(category_id: article.category.slug), class: 'orange inline-block f-weight-500 delta bordered--bottom soft-half--bottom push-half--bottom f-style-italic soft-half--sides link-colored-on-hover' do
+      = link_to category_blog_articles_path(category_id: article.category.slug), class: 'orange inline-block f-weight-500 delta bordered--bottom soft-half--bottom push-half--bottom soft-half--sides link-colored-on-hover' do
         = article.category.name
-    %h2.line-height-1-7.text--center.f-weight-400.ff-droid.f-style-italic{ itemprop: 'name', class: (homepage ? 'beta' : 'alpha') }
+    %h2.line-height-1-7.text--center.f-weight-400.tk-lexia{ itemprop: 'name', class: (homepage ? 'beta' : 'alpha') }
       = link_to blog_article_path(article), class: 'link-colored-on-hover' do
         = article.title
 
