@@ -248,7 +248,6 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             if (!this.pr_content_view) {
                 this.pr_content_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView(options);
                 this.showWidget(this.pr_content_view);
-                this.ui.$participation_request_message_body.preventFromContact();
             }
             if (!this.pr_participants_view) {
                 this.pr_participants_view = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestParticipantsView();

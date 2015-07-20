@@ -12,7 +12,7 @@
   .grid__item.one-third.palm-one-whole.palm-text--left.v-top.text--right{ class: (@structure.courses.any? ? '' : 'hidden'), data: { add_course: true } }>
     = render partial: 'pro/structures/courses/add_activity_button'
     %div.push-half--top
-      = link_to "Dates de fermeture d'été", configure_openings_pro_structure_courses_path(@structure, subdomain: 'www'), class: 'btn btn--small fancybox.ajax', data: { behavior: 'modal', width: '650', padding: '0' }
+      = link_to "Dates de fermeture d'été", configure_openings_pro_structure_courses_path(@structure, subdomain: 'www'), class: 'btn btn--white btn--small fancybox.ajax', data: { behavior: 'modal', width: '650', padding: '0' }
 
 #trainings-header.bg-white.soft--top.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 35, z: 500, old_width: 'true' } }
   %h3{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } } Stages & ateliers

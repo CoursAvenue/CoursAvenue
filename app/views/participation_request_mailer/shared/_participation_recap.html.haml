@@ -11,54 +11,41 @@
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
       .p.hard
         = participation_request.user.name
-        - if participation_request.accepted? and participation_request.user.phone_number
-          = "(#{participation_request.user.phone_number})"
-  - if participation_request.from_personal_website?
-    %tr.table-row-alternate-color{ valign: 'top' }
-      %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
-        .p.hard
-          %strong Contact
-      %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
-        .p.hard
-          - if @user.phone_number.present?
-            Tél. : #{@user.phone_number} /
-          E-mail : #{@user.email}
-  %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
+        = "(#{link_to 'voir les coordonnées', pro_structure_participation_request_url(@structure, @participation_request, subdomain: 'pro')})".html_safe
+  %tr{ valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
       .p.hard
         %strong Statut
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
       .p.hard
         = I18n.t("participation_request.state.#{participation_request.state}")
-  %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
+  %tr.table-row-alternate-color{ valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
       .p.hard
-        %strong Inscription
+        %strong= "Participant".pluralize(@participation_request.nb_participants)
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
       .p.hard
         = participation_request_decorator.details
-  %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
+  %tr{ valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
       .p.hard
-        %strong Cours
+        %strong Cours et date
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
       .p.hard
         = participation_request.course.name
-  %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
-    %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
-      .p.hard
-        %strong Jour et heure
-    %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
-      .p.hard= participation_request_decorator.day_and_hour.capitalize
+        = "le #{participation_request_decorator.day_and_hour(false)}"
   - if participation_request.place
-    %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
+    %tr{ valign: 'top' }
       %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
         .p.hard
           %strong Lieu
       %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
-        .p.hard= participation_request.place.try(:name)
+        - if participation_request.at_student_home?
+          .p.hard Chez l'élève
+        - else
+          .p.hard= participation_request.place.try(:name)
   - elsif participation_request.at_student_home?
-    %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
+    %tr{ valign: 'top' }
       %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
         .p.hard
           %strong Lieu

@@ -21,9 +21,7 @@ class IndexableCard::Creator
     # combining places and subjects.
     if courses.empty?
       places.each do |place|
-        place.subjects.each do |subject|
-          @structure.indexable_cards.create_from_subject_and_place(subject, place)
-        end
+        @structure.indexable_cards.create_from_place(place)
       end
     end
   end
@@ -50,9 +48,7 @@ class IndexableCard::Creator
     if @structure.courses.empty?
       # We then create the new cards for the places and subjects not associated with a course.
       new_cards += new_places.flat_map do |place|
-        place.subjects.map do |subject|
-          @structure.indexable_cards.create_from_subject_and_place(subject, place)
-        end
+        @structure.indexable_cards.create_from_place(place)
       end
     end
 

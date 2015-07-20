@@ -48,8 +48,8 @@ var TimeFilter = React.createClass({
     render: function render () {
         var current_panel = this.state.filter_store.get('current_panel');
         var classes = classNames({
-            // 'search-page-filters-wrapper--from-left-to-right': (current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECTS || current_panel == FilterPanelConstants.FILTER_PANELS.LOCATION),
-            // 'search-page-filters-wrapper--from-right-to-left': current_panel == FilterPanelConstants.FILTER_PANELS.MORE,
+            'search-page-filters-wrapper--from-right-to-left': (current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECTS || current_panel == FilterPanelConstants.FILTER_PANELS.LOCATION),
+            'search-page-filters-wrapper--from-left-to-right': current_panel == FilterPanelConstants.FILTER_PANELS.MORE,
             'search-page-filters-wrapper--active': (current_panel == FilterPanelConstants.FILTER_PANELS.TIME),
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
@@ -58,11 +58,11 @@ var TimeFilter = React.createClass({
               <div className="search-page-filters__title">
                   {this.title()}
                   <div className="search-page-filters__closer" onClick={this.closeFilterPanel}>
-                      <i className="fa fa-times beta"></i>
+                      <i className="fa fa-times-big"></i>
                   </div>
               </div>
               <div className="flexbox bg-cover relative"
-                   style={ { backgroundImage: 'url("https://coursavenue-public.s3.amazonaws.com/public_assets/search_page/filter-where-metro.jpg")' } }>
+                   style={ { backgroundImage: 'url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/filter-when.jpg")' } }>
                   <div className="flexbox__item v-middle search-page-filters__panel-height">
                       <div className="search-page-filters__image-button-curtain"></div>
                       <div className="relative main-container main-container--1000">

@@ -58,7 +58,7 @@ var TimePicker = React.createClass({
                 <span className='gamma f-weight-600 white inline-block soft-half--right'>
                     { this.props.label }
                 </span>
-                <input className='input--very-large datepicker-input' onChange={ this.setDate } value={ this.props.initialValue } />
+                <input className='input--white input--very-large datepicker-input' onChange={ this.setDate } value={ this.props.initialValue } />
             </div>
         );
     },

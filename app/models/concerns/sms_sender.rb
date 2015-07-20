@@ -15,6 +15,7 @@ module Concerns
         recipient_number = formatted_number(ENV['INTERCEPTOR_NUMBER']) if ENV['INTERCEPTOR_NUMBER'].present?
 
         if uses_mobile?(recipient_number)
+          SmsLogger.create(sender: self, number: recipient_number, text: message.strip)
           client.send_message(from: 'CoursAvenue', to: recipient_number, text: message.strip)
         end
       end

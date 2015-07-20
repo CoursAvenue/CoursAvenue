@@ -72,9 +72,14 @@ class Subject < ActiveRecord::Base
       image.url(:search_page)
     end
 
-    add_attribute :name do
-      self.name.gsub(' de ', ' ').gsub("d'", '')
+    add_attribute :small_image_url do
+      image.url(:autocomplete)
     end
+
+    add_attribute :name do
+      self.name
+    end
+
     add_attribute :root_name do
       self.root.name
     end

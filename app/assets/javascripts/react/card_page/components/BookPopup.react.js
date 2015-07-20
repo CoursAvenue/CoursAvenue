@@ -65,15 +65,17 @@ var BookPopup = React.createClass({
 
     submitRequest: function submitRequest () {
         if (CoursAvenue.currentUser().isLogged()) {
+            $dom_node = $(this.getDOMNode());
             RequestActionCreators.submitRequest({
+                at_student_home        : !_.isEmpty($dom_node.find('[name="participation_request[at_student_home]"]').val()),
                 structure_id           : this.props.course.structure_id,
                 course                 : this.props.course,
-                date                   : $(this.getDOMNode()).find('[name="participation_request[date]"]').val(),
+                date                   : $dom_node.find('[name="participation_request[date]"]').val(),
                 planning_id            : this.props.planning.id,
-                message                : { body: $(this.getDOMNode()).find('[name="message[body]"]').val() },
-                user                   : { phone_number: $(this.getDOMNode()).find('[name="user[phone_number]"]').val() },
+                message                : { body: $dom_node.find('[name="message[body]"]').val() },
+                user                   : { phone_number: $dom_node.find('[name="user[phone_number]"]').val() },
                 participants_attributes: [ {
-                    number: $(this.getDOMNode()).find('[name="participation_request[participants_attributes][0][number]"]').val()
+                    number: $dom_node.find('[name="participation_request[participants_attributes][0][number]"]').val()
                 } ]
             });
         } else {
@@ -83,15 +85,13 @@ var BookPopup = React.createClass({
                 success: function success (response) {
                     this.submitRequest();
                 }.bind(this),
-                dismiss: function dismiss() {
-                    debugger
-                }
+                dismiss: function dismiss() {}
             });
         }
     },
 
     render: function render () {
-        var price_libelle, datepicker = '';
+        var price_libelle, datepicker = '', place_select;
         if (this.props.course.db_type == 'Course::Training') {
             price_libelle = 'Prix du stage :';
         } else {
@@ -108,6 +108,20 @@ var BookPopup = React.createClass({
                               </div>
                           </div>);
         }
+
+        if (this.props.course.teaches_at_home && this.props.course.place) {
+            place_select = (<div className="grid--full bordered--bottom">
+                                <label className="grid__item f-weight-600 v-middle one-half soft-half--ends line-height-2">
+                                    Où voulez-vous assister au cours ?
+                                </label>
+                                <div className="grid__item v-middle one-half">
+                                    <select defaultValue="true" name="participation_request[at_student_home]">
+                                        <option value="true">Chez moi</option>
+                                        <option value="false">Chez le professeur</option>
+                                    </select>
+                                </div>
+                            </div>);
+        }
         return (<div className="bg-white">
                     <div className="soft bordered--bottom bg-gray-light">
                         <div className="delta f-weight-bold">
@@ -116,13 +130,14 @@ var BookPopup = React.createClass({
                         <div className="epsilon f-weight-500 line-height-1-5">
                             {this.props.planning.date}&nbsp;{this.props.planning.time_slot}
                         </div>
-                        <div className="epsilon green f-weight-bold line-height-1-5">
+                        <div className="epsilon blue-green f-weight-bold line-height-1-5">
                             {price_libelle}&nbsp;:&nbsp;
                             {COURSAVENUE.helperMethods.readableAmount(this.props.course.min_price.amount)}
                         </div>
                     </div>
                     <div className="soft--sides">
                         {datepicker}
+                        {place_select}
                         <div className="grid--full bordered--bottom">
                             <label className="grid__item f-weight-600 v-middle one-half soft-half--ends line-height-2">
                                 Combien serez-vous ?

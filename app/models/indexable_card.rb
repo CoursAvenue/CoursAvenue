@@ -32,6 +32,11 @@ class IndexableCard < ActiveRecord::Base
     add_slave 'IndexableCard_by_popularity_desc', per_environment: true do
       customRanking ['desc(popularity)']
       ranking ['typo', 'custom', 'geo', 'words', 'proximity', 'attribute', 'exact']
+      attributesToIndex %w(course_name subjects.name structure_name)
+      attributesForFaceting %w(subjects.name root_subject subjects.slug planning_periods
+                               structure_slug audiences subjects.slug_name levels card_type
+                               metro_stops metro_lines active)
+
     end
 
     attribute :id, :slug
@@ -76,12 +81,17 @@ class IndexableCard < ActiveRecord::Base
 
     add_attribute :root_subject do
       roots = subjects.map { |s| s.root.slug }.uniq
-      (roots.length == 1 ? roots.first : 'multi')
+      roots.first
     end
 
     add_attribute :subjects do
       self.subjects.map do |subject|
-        { name: subject.name, slug: subject.slug, slug_name: "#{subject.slug}:#{subject.name}" }
+        {
+          name: subject.name,
+          slug: subject.slug,
+          slug_name: "#{subject.slug}:#{subject.name}",
+          root_slug: subject.root.slug
+        }
       end
     end
 
@@ -118,6 +128,10 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :structure_logo_url do
+      structure.logo.url(:small_thumb_85) if structure.logo?
+    end
+
+    add_attribute :structure_logo_large_url do
       structure.logo.url(:small_thumb_85) if structure.logo?
     end
 
@@ -175,6 +189,7 @@ class IndexableCard < ActiveRecord::Base
 
     course_subjects = course.subjects
     cards = course.plannings.group_by(&:place).map do |place, plannings|
+      place = course.try(:place) if place.nil?
       attributes = {
         structure: course.structure,
         course:    course,
@@ -204,6 +219,7 @@ class IndexableCard < ActiveRecord::Base
 
     course_subjects = course.subjects
     cards = course.plannings.group_by(&:place).map do |place, plannings|
+      place = course.try(:place) if place.nil?
       attributes = {
         structure: course.structure,
         course:    course,
@@ -228,7 +244,7 @@ class IndexableCard < ActiveRecord::Base
   # @param place the place
   #
   # @return the new card.
-  def self.create_from_subject_and_place(subject, place)
+  def self.create_from_place(place)
     attributes = { place: place, structure: place.structure }
     existing_cards = where(attributes)
 
@@ -237,7 +253,8 @@ class IndexableCard < ActiveRecord::Base
     end
 
     card = create(attributes)
-    card.subjects << subject
+    card.subjects = place.subjects
+    card.save
 
     card
   end

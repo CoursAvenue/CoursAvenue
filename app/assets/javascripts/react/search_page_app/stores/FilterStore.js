@@ -55,21 +55,35 @@ var FilterStore = Backbone.Model.extend({
             case ActionTypes.CLOSE_FILTER_PANEL:
                 this.unset('current_panel');
                 break;
+            case ActionTypes.CLEAR_AND_CLOSE_SUBJECT_INPUT_PANEL:
+            case ActionTypes.CLOSE_SUBJECT_INPUT_PANEL:
+                if (this.get('old_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS) {
+                    this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.SUBJECTS);
+                } else {
+                    this.unset('current_panel');
+                }
+                break;
+            case ActionTypes.SEARCH_FULL_TEXT:
+            case ActionTypes.SHOW_SUBJECT_INPUT_PANEL:
+                if (!this.get('current_panel') || this.get('current_panel') != FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT) {
+                    this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT);
+                }
+                break;
             case ActionTypes.SELECT_SUBJECT:
                 this.unset('current_panel');
                 this.set({ subject_panel: FilterPanelConstants.SUBJECT_PANELS.CHILD });
                 break;
             case ActionTypes.TOGGLE_SUBJECT_FILTERS:
-                this.set({ current_panel: (this.get('current_panel') == FilterPanelConstants.FILTER_PANELS.SUBJECTS ? null : FilterPanelConstants.FILTER_PANELS.SUBJECTS) });
+                this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.SUBJECTS);
                 break;
             case ActionTypes.TOGGLE_LOCATION_FILTERS:
-                this.set({ current_panel: (this.get('current_panel') == FilterPanelConstants.FILTER_PANELS.LOCATION ? null : FilterPanelConstants.FILTER_PANELS.LOCATION) });
+                this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.LOCATION);
                 break;
             case ActionTypes.TOGGLE_TIME_FILTERS:
-                this.set({ current_panel: (this.get('current_panel') == FilterPanelConstants.FILTER_PANELS.TIME ? null : FilterPanelConstants.FILTER_PANELS.TIME) });
+                this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.TIME);
                 break;
             case ActionTypes.TOGGLE_MORE_FILTERS:
-                this.set({ current_panel: (this.get('current_panel') == FilterPanelConstants.FILTER_PANELS.MORE ? null : FilterPanelConstants.FILTER_PANELS.MORE) });
+                this.setCurrentPanel(FilterPanelConstants.FILTER_PANELS.MORE);
                 break;
             case ActionTypes.UNSET_FILTER:
                 this.unsetFilter(payload.data);
@@ -77,6 +91,16 @@ var FilterStore = Backbone.Model.extend({
             case ActionTypes.CHANGE_CONTEXT:
                 this.changeContext(payload.data);
                 break;
+        }
+    },
+
+    setCurrentPanel: function setCurrentPanel (panel) {
+        var current_panel = this.get('current_panel');
+        if (panel == current_panel) {
+            this.unset('current_panel');
+        } else {
+            this.set({ old_panel: current_panel });
+            this.set({ current_panel: panel });
         }
     },
 

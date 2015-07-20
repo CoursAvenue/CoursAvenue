@@ -85,29 +85,36 @@ var LocationFilterMetroPanel = React.createClass({
                         <div className="search-page-filters__image-button-curtain"></div>
                         <div className="relative main-container main-container--1000">
                             <div className="push-half--bottom">
-                                <div className="metro-line metro-line-m"
+                                <div className="metro-line metro-line--large metro-line-m"
                                      style={ { marginRight: '8px' } }>M</div>
                                 { metro_lines }
                             </div>
                             <div className="push-half--bottom">
                                 <div className="inline-block v-middle">
-                                    <div className="metro-line rer-line-rer"
+                                    <div className="metro-line metro-line--large rer-line-rer"
                                          style={ { marginRight: '8px' } }>RER</div>
                                     { rer_lines }
                                 </div>
+                                <div className="vertical-delimiter"></div>
                                 <div className="inline-block v-middle">
-                                    <div className="metro-line tramway-line-t"
+                                    <div className="metro-line metro-line--large tramway-line-t"
                                          style={ { marginRight: '8px' } }>T</div>
                                     { tramway_lines }
                                 </div>
                             </div>
 
-                            <div className="inline-block v-middle relative center-block">
-                              <select defaultValue='none' onChange={ this.selectStop }>
-                                  <option value='none'></option>
-                                  { metro_stops }
-                              </select>
-                              <div className="btn btn--yellow search-page-filters__button v-middle" onClick={this.closeFilterPanel}>Valider</div>
+                            <div className="flexbox">
+                                <div className="flexbox__item one-whole soft--right">
+                                    <select defaultValue='none'
+                                            onChange={ this.selectStop }
+                                            className="one-whole">
+                                        <option value='none'></option>
+                                        { metro_stops }
+                                    </select>
+                                </div>
+                                <div className="flexbox__item">
+                                    <div className="btn btn--yellow search-page-filters__button v-middle" onClick={this.closeFilterPanel}>Valider</div>
+                                </div>
                             </div>
                         </div>
                     </div>

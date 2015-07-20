@@ -7,7 +7,7 @@ var ResultInfoItem = React.createClass({
     },
 
     render: function render () {
-      return (<a className="search-page__result-info"
+      return (<a className="nowrap inline-block search-page__result-info"
                  href='javascript:void(0)'
                  onClick={this.filterSubject}>
                   {this.props.subject_name}

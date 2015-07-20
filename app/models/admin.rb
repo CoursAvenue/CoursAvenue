@@ -150,28 +150,7 @@ class ::Admin < ActiveRecord::Base
     user.accounts.map { |page| [page.name, page.link] }
   end
 
-  # Override Devise::Confirmable#after_confirmation
-  # Send event to intercom
-  def after_confirmation
-    notify_intercom_event
-  end
-
   private
-
-  def notify_intercom_event
-    if Rails.env.production?
-      begin
-        intercom_client = IntercomClientFactory.client
-        intercom_client.users.create(event_name: "Confirmed account",
-                                     created_at: Time.now.to_i,
-                                     email: self.email,
-                                     user_id: "Admin_#{self.id}")
-      rescue
-        Bugsnag.notify(RuntimeError.new("Can't sync with Intercom after confirmation"), {email: self.email})
-      end
-    end
-  end
-  handle_asynchronously :notify_intercom_event, run_at: Proc.new { 15.minutes.from_now }
 
   def subscribe_to_crm
     CrmSync.delay.update(self.structure) if self.structure and !self.structure.crm_locked?
@@ -209,11 +188,11 @@ class ::Admin < ActiveRecord::Base
                                         user_id:      "Admin_#{self.id}")
     user.custom_attributes['Villes']                = structure.places.map(&:city).map(&:name).join(', ')
     user.custom_attributes['A confirmé son compte'] = false
-    user.custom_attributes['Disciplines_1']         =  structure.subjects.at_depth(0).uniq.map(&:name).join(', ')
-    user.custom_attributes['Disciplines_2']         =  structure.subjects.at_depth(2).map(&:parent).uniq.map(&:name).join(', ')
-    user.custom_attributes['Disciplines_3']         =  structure.subjects.at_depth(2).uniq.map(&:name).join(', ')
-    user.custom_attributes['Prof tag']              =  CrmSync.structure_status_for_intercom(structure)
-    user.custom_attributes['Code postal']           =   structure.zip_code
+    user.custom_attributes['Disciplines_1']         = structure.subjects.at_depth(0).uniq.map(&:name).join(', ')
+    user.custom_attributes['Disciplines_2']         = structure.subjects.at_depth(2).map(&:parent).uniq.map(&:name).join(', ')
+    user.custom_attributes['Disciplines_3']         = structure.subjects.at_depth(2).uniq.map(&:name).join(', ')
+    user.custom_attributes['Prof tag']              = CrmSync.structure_status_for_intercom(structure)
+    user.custom_attributes['Code postal']           = structure.zip_code
     intercom_client.users.save(user)
   end
   handle_asynchronously :create_in_intercom

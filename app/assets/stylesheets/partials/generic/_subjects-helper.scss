@@ -1,0 +1,73 @@
+.bg-cuisine-vins                                      { background-color: $color-cooking; }
+.btn--cuisine-vins {
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: darken($color-cooking, 10%); }
+}
+.cuisine-vins-color                                   { color: $color-cooking; }
+.cuisine-vins-color-on-hover:hover                    { color: $color-cooking; }
+
+.bg-photo-video                                       { background-color: $color-photo; }
+.btn--photo-video {
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: darken($color-photo, 10%); }
+}
+.photo-video-color                                    { color: $color-photo; }
+.photo-video-color-on-hover:hover                     { color: $color-photo; }
+
+.bg-deco-mode-bricolage                               { background-color: $color-deco; }
+.btn--deco-mode-bricolage {
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: darken($color-deco, 10%); }
+}
+.deco-mode-bricolage-color                            { color: $color-deco; }
+.deco-mode-bricolage-color-on-hover:hover             { color: $color-deco; }
+
+.bg-theatre-scene                                     { background-color: $color-theatre; }
+.btn--theatre-scene {
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: darken($color-theatre, 10%); }
+}
+.theatre-scene-color                                  { color: $color-theatre; }
+.theatre-scene-color-on-hover:hover                   { color: $color-theatre; }
+
+.bg-dessin-peinture-arts-plastiques                   { background-color: $color-arts; }
+.btn--dessin-peinture-arts-plastiques {
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: darken($color-arts, 10%); }
+}
+.dessin-peinture-arts-plastiques-color                { color: $color-arts; }
+.dessin-peinture-arts-plastiques-color-on-hover:hover { color: $color-arts; }
+
+.bg-danse                                             { background-color: $color-dance; }
+.btn--danse {
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: darken($color-dance, 10%); }
+}
+.danse-color                                          { color: $color-dance; }
+.danse-color-on-hover:hover                           { color: $color-dance; }
+
+.bg-musique-chant                                     { background-color: $color-music; }
+.btn--musique-chant {
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: darken($color-music, 10%); }
+}
+.musique-chant-color                                  { color: $color-music; }
+.musique-chant-color-on-hover:hover                   { color: $color-music; }
+
+.bg-sports-arts-martiaux                              { background-color: $color-sports; }
+.btn--sports-arts-martiaux {
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: darken($color-sports, 10%); }
+}
+.sports-arts-martiaux-color                           { color: $color-sports; }
+.sports-arts-martiaux-color-on-hover:hover            { color: $color-sports; }
+
+.bg-yoga-bien-etre-sante                              { background-color: $color-yoga; }
+.btn--yoga-bien-etre-sante {
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: darken($color-yoga, 10%); }
+}
+.yoga-bien-etre-sante-color                           { color: $color-yoga; }
+.yoga-bien-etre-sante-color-on-hover:hover            { color: $color-yoga; }
+
+

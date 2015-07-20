@@ -9,6 +9,15 @@ module.exports = {
         });
     },
 
+    search: function search (context) {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.SEARCH
+        });
+    },
+
+    /*
+     * @param context: course|training
+     */
     changeContext: function changeContext (context) {
         SearchPageDispatcher.dispatch({
             actionType: SearchPageConstants.ActionTypes.CHANGE_CONTEXT,
@@ -27,6 +36,24 @@ module.exports = {
         SearchPageDispatcher.dispatch({
             actionType: SearchPageConstants.ActionTypes.UPDATE_SORTING,
             data: data
+        });
+    },
+
+    showSearchInputPanel: function showSearchInputPanel () {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.SHOW_SUBJECT_INPUT_PANEL
+        });
+    },
+
+    clearFullTextAndCloseSearchInputPanel: function clearFullTextAndCloseSearchInputPanel () {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.CLEAR_AND_CLOSE_SUBJECT_INPUT_PANEL
+        });
+    },
+
+    closeSearchInputPanel: function closeSearchInputPanel () {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.CLOSE_SUBJECT_INPUT_PANEL
         });
     },
 
@@ -89,6 +116,13 @@ module.exports = {
     showMetroPanel: function showMetroPanel () {
         SearchPageDispatcher.dispatch({
             actionType: SearchPageConstants.ActionTypes.SHOW_METRO_PANEL
+        });
+    },
+
+    initSearchFullText: function initSearchFullText (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.INIT_SEARCH_FULL_TEXT,
+            data: data
         });
     },
 

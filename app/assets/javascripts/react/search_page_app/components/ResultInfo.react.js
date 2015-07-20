@@ -1,5 +1,7 @@
-var ReactPropTypes        = React.PropTypes,
+var _                     = require('lodash'),
+    ReactPropTypes        = React.PropTypes,
     ResultInfoItem        = require('./ResultInfoItem'),
+    FilterActionCreators  = require('../actions/FilterActionCreators'),
     CardListSortBy        = require('./CardListSortBy'),
     CardStore             = require('../stores/CardStore'),
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
@@ -12,6 +14,10 @@ var ResultInfo = React.createClass({
 
     getInitialState: function getInitialState() {
         return { card_store: CardStore };
+    },
+
+    showSubjectFilterPanel: function showSubjectFilterPanel () {
+        FilterActionCreators.toggleSubjectFilter();
     },
 
     render: function render () {
@@ -32,17 +38,33 @@ var ResultInfo = React.createClass({
                                         key={key} />);
             });
             if (_.size(this.state.card_store.facets[0].data) > 3) {
-                dot_dot_dot = (<span className="search-page__result-info search-page__result-info--dot-dot-dot">...</span>);
+                var popover_facet_content = _.map(this.state.card_store.facets[0].data, function(value, key) {
+                    return key.split(':')[1] + '&nbsp;(' + value + ')';
+                });
+                dot_dot_dot = (<span className="cursor-pointer search-page__result-info search-page__result-info--dot-dot-dot nowrap"
+                                      onClick={this.showSubjectFilterPanel}
+                                      data-toggle="popover"
+                                      data-content={_.trunc(popover_facet_content.splice(3).join(', '), 200)}
+                                      data-trigger="hover"
+                                      data-html="true"
+                                      data-placement="top"
+                                      data-original-title="">
+                                   <i className="fa fa-circle"></i>
+                                   <i className="fa fa-circle"></i>
+                                   <i className="fa fa-circle"></i>
+                               </span>);
             }
         }
         var result_string = (total_results > 1 ? 'cours trouvé' : 'cours trouvés');
         return (
-          <div className="main-container main-container--1000 soft--ends soft-half--sides flexbox">
-              <div className="flexbox__item v-middle palm-one-whole">
+          <div className="main-container main-container--1000 soft--ends flexbox palm-block">
+              <div className="flexbox__item palm-block v-middle nowrap palm-one-whole palm-text--center">
                   <span className="beta v-middle push--right">{total_results} {result_string}</span>
-                  &nbsp;{facets}{dot_dot_dot}
               </div>
-              <div className="flexbox__item v-middle palm-one-whole text--right">
+              <div className="flexbox__item palm-block v-middle palm-one-whole one-whole visuallyhidden--palm">
+                  {facets}{dot_dot_dot}
+              </div>
+              <div className="flexbox__item palm-block v-middle nowrap palm-one-whole text--right palm-text--center">
                   <CardListSortBy />
               </div>
           </div>

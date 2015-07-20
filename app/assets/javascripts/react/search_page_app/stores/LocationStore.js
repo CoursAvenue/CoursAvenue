@@ -22,6 +22,7 @@ var LocationStore = Backbone.Model.extend({
             case ActionTypes.SELECT_METRO_LINE:
             case ActionTypes.SELECT_METRO_STOP:
                 this.unset('user_location');
+                this.unset('address');
                 break;
             case ActionTypes.SELECT_ADDRESS:
                 this.unset('user_location');
@@ -59,10 +60,14 @@ var LocationStore = Backbone.Model.extend({
     },
 
     getCitySlug: function getCitySlug () {
-        if (this.get('address').city) {
-            return this.get('address').city.toLowerCase().replace(/ /g,'-');
+        if (this.get('address')) {
+            if (this.get('address').city) {
+                return this.get('address').city.toLowerCase().replace(/ /g,'-');
+            } else {
+                return this.get('address').name.replace(', France','').toLowerCase().replace(/ /g,'-');
+            }
         } else {
-            return this.get('address').name.replace(', France','').toLowerCase().replace(/ /g,'-');
+            return 'paris';
         }
     }
 

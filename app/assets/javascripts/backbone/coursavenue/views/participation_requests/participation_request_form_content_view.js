@@ -264,6 +264,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             var formatted_date = COURSAVENUE.helperMethods.nextWeekDay(this.getCurrentPlanning().week_day);
             // We check wether the formatted date is not before the datepicker start date
             if (formatted_date.toDate() < this.datepicker_start_date) {
+                var days_to_add = 0;
                 var new_date = moment(this.datepicker_start_date).day(this.getCurrentPlanning().week_day);
                 if (new_date.toDate() < this.datepicker_start_date) { days_to_add = 7 }
                 formatted_date = new_date.day(this.getCurrentPlanning().week_day + days_to_add);

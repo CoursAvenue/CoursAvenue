@@ -1,4 +1,4 @@
 %ul.nav.no-bullet-list.text--center.flush
   - Blog::Category::UserCategory.find_each do |category|
-    %li.epsilon.line-height-1-7.ff-droid.f-style-italic.line-height-1-7.soft--sides
+    %li.epsilon.line-height-1-7.tk-lexia.line-height-1-7.soft--sides
       = link_to category.name, category_blog_articles_path(category_id: category.slug), class: ['link-colored-on-hover soft-half--ends', (@category == category ? 'f-weight-bold orange' : '')]

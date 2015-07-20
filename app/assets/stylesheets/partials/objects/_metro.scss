@@ -38,32 +38,42 @@ $rer_line_b_color      : #468FCC;
     white-space   : nowrap;
     line-height   : 1.6em;
     &.metro-line--selected {
-        zoom: 1.8;
+        background-color: white;
     }
 }
+.metro-line--large {
+    font-size: 1.7em;
+    width    : 2em;
+    height   : 2em;
+    line-height: 1.9em;
+}
+
 .metro-line--bis {
-    line-height: 1.1em;
+    line-height: 1.8em;
 }
 .metro-line__bis {
     vertical-align: bottom;
     font-size     : 0.5em !important;
-    line-height   : 1em;
+    line-height   : 3em;
 }
 
 .metro-line-m, .tramway-line-t {
-    line-height : 1.5em;
     color       : white;
     border-color: white;
 }
+
 
 .rer-line-rer {
     line-height : 1.5em;
     color       : white;
     border-color: white;
     font-size   : 10px;
-    padding     : 5px 3px;
-    width       : auto;
-    height      : auto;
+    width       : 2.9em;
+    height      : 2.9em;
+    line-height : 2.8em;
+    &.metro-line--large {
+        font-size: 1.2em;
+    }
 }
 
 
@@ -85,81 +95,97 @@ $rer_line_b_color      : #468FCC;
 }
 
 .metro-line-1 {
+    &.metro-line--selected { color: $metro_line_1_color; }
     background-color: $metro_line_1_color;
     border-color    : $metro_line_1_color;
     color           : black;
 }
 .metro-line-2 {
+    &.metro-line--selected { color: $metro_line_2_color; }
     background-color: $metro_line_2_color;
     border-color    : $metro_line_2_color;
     color           : white;
 }
 .metro-line-3 {
+    &.metro-line--selected { color: $metro_line_3_color; }
     background-color: $metro_line_3_color;
     border-color    : $metro_line_3_color;
     color           : white;
 }
 .metro-line-3-bis {
+    &.metro-line--selected { color: $metro_line_3_bis_color; }
     background-color: $metro_line_3_bis_color;
     border-color    : $metro_line_3_bis_color;
     color           : black;
 }
 .metro-line-4 {
+    &.metro-line--selected { color: $metro_line_4_color; }
     background-color: $metro_line_4_color;
     border-color    : $metro_line_4_color;
     color           : white;
 }
 .metro-line-5 {
+    &.metro-line--selected { color: $metro_line_5_color; }
     background-color: $metro_line_5_color;
     border-color    : $metro_line_5_color;
     color           : black;
 }
 .metro-line-6 {
+    &.metro-line--selected { color: $metro_line_6_color; }
     background-color: $metro_line_6_color;
     border-color    : $metro_line_6_color;
     color           : black;
 }
 .metro-line-7 {
+    &.metro-line--selected { color: $metro_line_7_color; }
     background-color: $metro_line_7_color;
     border-color    : $metro_line_7_color;
     color           : black;
 }
 .metro-line-7-bis {
+    &.metro-line--selected { color: $metro_line_7_bis_color; }
     background-color: $metro_line_7_bis_color;
     border-color    : $metro_line_7_bis_color;
     color           : black;
 }
 .metro-line-8 {
+    &.metro-line--selected { color: $metro_line_8_color; }
     background-color: $metro_line_8_color;
     border-color    : $metro_line_8_color;
     color           : black;
 }
 .metro-line-9 {
+    &.metro-line--selected { color: $metro_line_9_color; }
     background-color: $metro_line_9_color;
     border-color    : $metro_line_9_color;
     color           : black;
 }
 .metro-line-10 {
+    &.metro-line--selected { color: $metro_line_10_color; }
     background-color: $metro_line_10_color;
     border-color    : $metro_line_10_color;
     color           : black;
 }
 .metro-line-11 {
+    &.metro-line--selected { color: $metro_line_11_color; }
     background-color: $metro_line_11_color;
     border-color    : $metro_line_11_color;
     color           : white;
 }
 .metro-line-12 {
+    &.metro-line--selected { color: $metro_line_12_color; }
     background-color: $metro_line_12_color;
     border-color    : $metro_line_12_color;
     color           : white;
 }
 .metro-line-13 {
+    &.metro-line--selected { color: $metro_line_13_color; }
     background-color: $metro_line_13_color;
     border-color    : $metro_line_13_color;
     color           : black;
 }
 .metro-line-14 {
+    &.metro-line--selected { color: $metro_line_14_color; }
     background-color: $metro_line_14_color;
     border-color    : $metro_line_14_color;
     color           : white;
@@ -181,12 +207,10 @@ $rer_line_b_color      : #468FCC;
 
 // ----------- RERs
 .rer-line-a {
-    line-height : 1.5em;
     color       : $rer_line_a_color;
     border-color: $rer_line_a_color;
 }
 .rer-line-b {
-    line-height : 1.5em;
     color       : $rer_line_b_color;
     border-color: $rer_line_b_color;
 }

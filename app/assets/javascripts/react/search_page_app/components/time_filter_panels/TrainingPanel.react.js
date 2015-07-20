@@ -17,6 +17,10 @@ var TrainingPanel = React.createClass({
         FilterActionCreators.toggleTimeFilter();
     },
 
+    changeContext: function changeContext () {
+        FilterActionCreators.changeContext('course');
+    },
+
     render: function render () {
         var start_date = this.state.time_store.get('training_start_date');
         var end_date = this.state.time_store.get('training_end_date');
@@ -28,8 +32,14 @@ var TrainingPanel = React.createClass({
                 <div className="inline-block v-middle">
                     <TimePicker label="Au" attribute="end_date" initialValue={ end_date } />
                 </div>
-                <div className="text--center">
-                    <a onClick={ this.closePanel } className='btn btn--blue search-page-filters__button'>Valider</a>
+                <div className="text--center relative">
+                    <a onClick={ this.closePanel } className='btn btn--blue search-page-filters__button'>OK</a>
+                    <a href="javascript:void(0)"
+                       className="white absolute north east soft--top f-weight-bold"
+                       onClick={this.changeContext}>
+                        Voir les cours réguliers
+                        <i className="fa fa-chevron-right"></i>
+                    </a>
                 </div>
             </div>
         );

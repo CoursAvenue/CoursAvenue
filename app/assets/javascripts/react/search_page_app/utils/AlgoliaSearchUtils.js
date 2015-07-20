@@ -9,8 +9,9 @@ module.exports = {
     /*
      * @params data [{ depth: 0 }] Array of key value
      */
-    searchSubjects: function searchSubjects (data) {
-        return subject_index.search('', data);
+    searchSubjects: function searchSubjects (data, full_text_search) {
+        full_text_search = full_text_search || '';
+        return subject_index.search(full_text_search, data);
     },
 
 
@@ -33,7 +34,7 @@ module.exports = {
             page        : data.page || 1
         };
 
-        if (data.insideBoundingBox) {
+        if (!window.is_mobile && data.insideBoundingBox) {
             card_search_state.insideBoundingBox = data.insideBoundingBox.toString();
         }
         // Do not search on aroundLatLng if it is not inside bounding box

@@ -1,7 +1,7 @@
 # encoding: utf-8
 class HomeController < ApplicationController
 
-  layout :get_layout
+  layout 'pages'
 
   def resolutions
   end
@@ -32,21 +32,8 @@ class HomeController < ApplicationController
 
   private
 
-  def get_layout
-    if action_name == 'pass_decouverte' or
-       action_name == 'resolutions' or
-       action_name == 'resolutions_results'
-      'empty'
-    elsif action_name == 'index'
-      'home'
-    else
-      'pages'
-    end
-  end
-
   def layout_locals
     locals = { }
-    locals[:hide_top_menu_search] = true if action_name == 'index'
     locals[:hide_header] = true if action_name == 'resolutions' or action_name == 'resolutions_results'
     locals
   end

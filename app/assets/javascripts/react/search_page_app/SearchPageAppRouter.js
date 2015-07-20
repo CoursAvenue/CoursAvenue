@@ -6,22 +6,24 @@ var _                      = require('lodash'),
     LevelActionCreators    = require('./actions/LevelActionCreators'),
     CardActionCreators     = require('./actions/CardActionCreators'),
     SliderActionCreators   = require('./actions/SliderActionCreators'),
+    SubjectActionCreators  = require('./actions/SubjectActionCreators'),
     LocationStore          = require('./stores/LocationStore'),
     CardStore              = require('./stores/CardStore'),
     SubjectStore           = require('./stores/SubjectStore');
 
 // Params that we store in URLs
 var PARAMS_IN_SEARCH = {
-    context               : { name: 'type'       , actionMethod: FilterActionCreators.changeContext },
-    full_text_search      : { name: 'discipline' , actionMethod: FilterActionCreators.searchFullText },
-    metro_lines           : { name: 'metros[]'   , actionMethod: FilterActionCreators.selectMetroLines },
-    planning_periods      : { name: 'plannings[]', actionMethod: TimeActionCreators.togglePeriodsSelection },
-    audiences             : { name: 'public[]'   , actionMethod: AudienceActionCreators.setAudiences },
-    levels                : { name: 'niveau[]'   , actionMethod: LevelActionCreators.setLevels },
-    prices                : { name: 'prix[]'     , actionMethod: SliderActionCreators.setPriceBounds },
-    'training_dates.start': { name: 'start_date' , actionMethod: TimeActionCreators.setTrainingStartDate },
-    'training_dates.end'  : { name: 'end_date'   , actionMethod: TimeActionCreators.setTrainingEndDate },
-    sort_by               : { name: 'sort'       , actionMethod: FilterActionCreators.updateSorting }
+    'group_subject.group_id': { name: 'groupe'     , actionMethod: SubjectActionCreators.selectGroupSubjectById },
+    context                 : { name: 'type'       , actionMethod: FilterActionCreators.changeContext },
+    full_text_search        : { name: 'discipline' , actionMethod: FilterActionCreators.initSearchFullText },
+    metro_lines             : { name: 'metros[]'   , actionMethod: FilterActionCreators.selectMetroLines },
+    planning_periods        : { name: 'plannings[]', actionMethod: TimeActionCreators.togglePeriodsSelection },
+    audiences               : { name: 'public[]'   , actionMethod: AudienceActionCreators.setAudiences },
+    levels                  : { name: 'niveau[]'   , actionMethod: LevelActionCreators.setLevels },
+    prices                  : { name: 'prix[]'     , actionMethod: SliderActionCreators.setPriceBounds },
+    'training_dates.start'  : { name: 'start_date' , actionMethod: TimeActionCreators.setTrainingStartDate },
+    'training_dates.end'    : { name: 'end_date'   , actionMethod: TimeActionCreators.setTrainingEndDate },
+    sort_by                 : { name: 'sort'       , actionMethod: FilterActionCreators.updateSorting }
 };
 
 var SearchPageAppRouter = Backbone.Router.extend({
@@ -41,12 +43,12 @@ var SearchPageAppRouter = Backbone.Router.extend({
         var new_location,
             search_params = this.buildSearchParams();
         // /:city_id | /paris-12
-        if (!SubjectStore.selected_subject && !SubjectStore.selected_root_subject && LocationStore.get('address')) {
+        if (!SubjectStore.selected_subject && !SubjectStore.selected_root_subject) {
             new_location = LocationStore.getCitySlug() + search_params;
         //  /:root_subject_id--:city_id | /danse--paris-12
-        } else if (SubjectStore.selected_root_subject && SubjectStore.selected_subject && LocationStore.get('address')) {
+        } else if (SubjectStore.selected_root_subject && SubjectStore.selected_subject) {
             new_location = SubjectStore.selected_root_subject.slug + '/' + SubjectStore.selected_subject.slug + '--' + LocationStore.getCitySlug() + search_params;
-        } else if (LocationStore.get('address') && SubjectStore.selected_root_subject) {
+        } else if (SubjectStore.selected_root_subject) {
             new_location = SubjectStore.selected_root_subject.slug + '--' + LocationStore.getCitySlug() + search_params;
         }
         // Prevent from adding the stack same url in history

@@ -44,14 +44,6 @@
     @include box-shadow(none);
 }
 
-.lbl.lbl--orange {
-    background-color: $orange_pale;
-    border          : none;
-    color           : white;
-    @include text-shadow(none);
-    @include box-shadow(none);
-}
-
 .lbl.lbl--yellow {
     background-color: $yellow_bg;
     border          : none;

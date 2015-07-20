@@ -24,23 +24,27 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
   end
 
   version :thumb do
-    process :crop_thumb
+    process crop_thumb: [200]
   end
 
   version :small_thumb do
-    process :crop_small_thumb
+    process crop_thumb: [60]
   end
 
   version :small_thumb_85 do
-    process :crop_small_thumb_85
+    process crop_thumb: [85]
+  end
+
+  version :small_thumb_120 do
+    process crop_thumb: [120]
   end
 
   version :thumbnail_email_cropped do
-    process :crop_email
+    process crop_thumb: [300, 220]
   end
 
   version :wide_and_blurry do
-    cloudinary_transformation transformation: [{ width: 1024, height: 300, crop: :fill, effect: 'blur:900' }]
+    cloudinary_transformation transformation: [{ width: 1024, height: 300, crop: :fill, effect: 'blur:900' }], flags: :progressive
   end
 
   # We don't add white list extension because we want to be able to add images from urls
@@ -51,35 +55,12 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
 
   private
 
-  def crop_thumb
+  def crop_thumb(width, height=nil)
+    height ||= width
     transformations = []
     crop_width      = (model.crop_width.to_i == 0 ? 600 : model.crop_width.to_i)
     transformations << { x: model.crop_x, y: model.crop_y, width: crop_width, height: crop_width, crop: :crop }
-    transformations << { width: 200, height: 200, crop: :fill }
-    { transformation: transformations }
-  end
-
-  def crop_small_thumb
-    transformations = []
-    crop_width      = (model.crop_width.to_i == 0 ? 600 : model.crop_width.to_i)
-    transformations << { x: model.crop_x, y: model.crop_y, width: crop_width, height: crop_width, crop: :crop }
-    transformations << { width: 60, height: 60, crop: :fill }
-    { transformation: transformations }
-  end
-
-  def crop_small_thumb_85
-    transformations = []
-    crop_width      = (model.crop_width.to_i == 0 ? 600 : model.crop_width.to_i)
-    transformations << { x: model.crop_x, y: model.crop_y, width: crop_width, height: crop_width, crop: :crop }
-    transformations << { width: 85, height: 85, crop: :fill }
-    { transformation: transformations }
-  end
-
-  def crop_email
-    transformations = []
-    crop_width      = (model.crop_width.to_i == 0 ? 600 : model.crop_width.to_i)
-    transformations << { x: model.crop_x, y: model.crop_y, width: crop_width, height: crop_width, crop: :crop }
-    transformations << { width: 300, height: 220, crop: :fill }
+    transformations << { width: width, height: height, crop: :fill }
     { transformation: transformations }
   end
 end

@@ -2,12 +2,6 @@
     $Input
 \*------------------------------------*/
 
-[type="text"], [type="password"], [type="search"], [type="email"], [type="url"], [type="tel"], textarea, input[type="radio"], input[type="checkbox"], select {
-    @include transition(border-color 0.3s, box-shadow 0.3s);
-}
-input[type="search"] {
-    @include box-sizing(border-box);
-}
 input[disabled], [type="text"][disabled], [type="password"][disabled], [type="search"][disabled], [type="email"][disabled], [type="url"][disabled], [type="tel"][disabled], textarea[disabled] {
     color     : #888888;
     background: #EEE;
@@ -22,14 +16,10 @@ input{
 }
 input, textarea {
     cursor        : text;
-    border        : none;
+    border        : 1px solid #E3E3E3;
     padding       : 6px 9px;
     vertical-align: middle;
-    @include border-radius(3px);
-    &::-webkit-input-placeholder { font-weight: 300; }
-    &:-moz-placeholder           { font-weight: 300; } // Firefox 18-
-    &::-moz-placeholder          { font-weight: 300; } // Firefox 19+
-    &:-ms-input-placeholder      { font-weight: 300; }
+    @include border-radius(2px);
 }
 
 .input--medium {
@@ -91,7 +81,31 @@ input, textarea {
         padding-top: 0;
     }
 }
-textarea:focus, input:focus, select:focus { outline: none; }
+textarea, input {
+    background-color: #fcfcfc;
+    border          : 2px solid #ebebeb;
+    color           : #666666;
+    @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+    &::-webkit-input-placeholder { color: #AAAAAA !important; font-weight: 400; } /* WebKit browsers */
+    &:-moz-placeholder           { color: #AAAAAA !important; font-weight: 400; opacity: 1; } /* Mozilla Firefox 4 to 18 */
+    &::-moz-placeholder          { color: #AAAAAA !important; font-weight: 400; opacity: 1; } /* Mozilla Firefox 19+ */
+    &:-ms-input-placeholder      { color: #AAAAAA !important; font-weight: 400; } /* Internet Explorer 10+ */
+}
+textarea:focus, input:focus {
+    outline         : none;
+    border-color    : white;
+}
+
+.input--white {
+    color: #666666;
+    &:focus {
+        color: #666666;
+        &::-webkit-input-placeholder { color: #777777 !important; } /* WebKit browsers */
+        &:-moz-placeholder           { color: #777777 !important; } /* Mozilla Firefox 4 to 18 */
+        &::-moz-placeholder          { color: #777777 !important; } /* Mozilla Firefox 19+ */
+        &:-ms-input-placeholder      { color: #777777 !important; } /* Internet Explorer 10+ */
+    }
+}
 
 .input-addon {
     display: table !important;
@@ -103,7 +117,7 @@ textarea:focus, input:focus, select:focus { outline: none; }
     .input-suffix, .input-prefix {
         text-align      : center;
         width           : 2.3em;
-        border          : 1px solid #ccc;
+        border          : 1px solid #E3E3E3;
         background-color: #EFEFEF;
     }
     .input-prefix {
@@ -228,10 +242,4 @@ input[type="radio"] {
         margin-left     : -0.225em;
         background-color: $blue-green
     }
-}
-html {
-    ::-webkit-input-placeholder { font-weight: 600; } /* WebKit browsers */
-    :-moz-placeholder           { font-weight: 600; opacity: 1; } /* Mozilla Firefox 4 to 18 */
-    ::-moz-placeholder          { font-weight: 600; opacity: 1; } /* Mozilla Firefox 19+ */
-    :-ms-input-placeholder      { font-weight: 600; } /* Internet Explorer 10+ */
 }

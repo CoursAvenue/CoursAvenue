@@ -7,11 +7,12 @@ Rating = React.createClass({
         if (this.props.comment_count && this.props.comment_count > 0) {
             var comments = (<span className="v-middle">{this.props.comment_count + ' avis'}</span>);
         } else {
-            var comments = (<i className="v-middle">Aucun avis pour le moment</i>);
+            var comments = (<span className="v-middle f-style-italic">Aucun avis pour le moment</span>);
         }
         return (
-          <div className="very-soft--bottom">
-              <i className="fa fa-user v-middle"></i>&nbsp;{comments}
+          <div className="search-page-card__content-bottom-line">
+              <i className="fa fa-user v-middle"></i>
+              {comments}
           </div>
         );
     },

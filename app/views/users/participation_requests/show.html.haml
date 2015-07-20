@@ -1,6 +1,7 @@
 = user_menu_currently_at 'inscriptions'
 = render 'shared/include_addthisevent'
-- structure_decorator = @structure.decorate
+- structure_decorator             = @structure.decorate
+- participation_request_decorator = @participation_request.decorate
 
 .panel.push--bottom
   .panel__header.soft
@@ -8,30 +9,50 @@
       %li.f-weight-600.delta= link_to 'Mes inscriptions', user_participation_requests_path(@user)
       %li.f-weight-600.delta= @structure.name
   .panel__body.soft--top
-    = render partial: 'structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
+    .soft--sides
+      .grid.push--bottom
+        .grid__item.palm-one-whole.two-twelfths.v-top>
+          = link_to structure_path(@structure), target: :_blank, class: 'center-block' do
+            = image_tag @structure.logo.url(:thumb), class: 'center-block rounded--circle'
+        .grid__item.palm-one-whole.six-twelfths.v-top>
+          %h3.line-height-1-7.flush
+            = @structure.name
+          .epsilon.line-height-1-7= structure_decorator.phone_numbers
+          .epsilon.line-height-1-7= structure_decorator.website_link
+          - if @structure.facebook_url.present?
+            .epsilon.line-height-1-7= link_to 'Page Facebook', URLHelper.fix_url(@structure.facebook_url), target: :_blank
+          .epsilon.line-height-1-7= link_to 'Profil CoursAvenue', structure_path(@structure), target: :_blank
+        .grid__item.palm-one-whole.four-twelfths.text--right.visuallyhidden--palm.v-top>
+          %h4.push-half--bottom Ajouter au calendrier
+          = add_to_calendar(@participation_request)
 
-.panel.push--bottom
-  .panel__header.soft
-    %h4.flush À propos de #{t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")}
-  .panel__body.soft
-    .grid.push--bottom
-      .grid__item.two-twelfths>
-        = link_to structure_path(@structure), target: :_blank, class: 'center-block' do
-          = image_tag @structure.logo.url(:thumb), class: 'center-block rounded--circle'
-      .grid__item.ten-twelfths>
-        %h4.line-height-1-7.flush
-          = @structure.name
-          = link_to structure_path(@structure), target: :_blank do
-            %span.orange (Voir le profil)
-        - if @participation_request.accepted?
-          %div.line-height-1-7= structure_decorator.phone_numbers(!@participation_request.accepted?)
-          %div= structure_decorator.website_link
-    - if !@participation_request.pending?
-      = render partial: 'users/conversations/form', locals: { conversation: @participation_request.conversation }
-    = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
-    - if @participation_request.pending?
-      .grid--full
-        .grid__item.two-twelfths.v-top.palm-one-whole>
-        .grid__item.ten-twelfths.v-top.palm-one-whole>
-          = link_to edit_structure_participation_request_path(@structure, @participation_request, discuss_only: true), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
-            = t('.ask_more_info')
+    -################## README ######################
+    -# TODO: @Aliou: Je vire ce bloc car en fait, si l'élève accepte et que le prof n'a même pas vu la PR,
+    -#       la PR devient validé et ça n'a plus aucun sens. Normalement Nico va te filer des maquettes
+    -#       pour le nouveau process élève. Je crois qu'on va simplement mettre un bouton annuler pour faire simple. :)
+    -################## README ######################
+
+    -# - if @participation_request.accepted?
+    -#   .bg-gray-light.soft--ends.soft-double--sides.epsilon.push--bottom#pr-confirmation-form
+    -#     %h3.push-half--bottom Avez-vous convenu d'une nouvelle date ?
+    -#     .delta.line-height-1-7.push-half--bottom
+    -#       %strong Vous allez assister à la séance "#{@participation_request.course.name}" le #{participation_request_decorator.day_and_hour}
+    -#       %br
+    -#       = link_to 'Modifier', edit_structure_participation_request_path(@structure, @participation_request, show_course_select: true), class: 'btn btn--white btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+    -# - else !@participation_request.canceled?
+    -#   .bg-blue-green.soft--ends.soft-double--sides.white.epsilon.push--bottom#pr-confirmation-form
+    -#     %h3.push-half--bottom Avez-vous convenu d'une date ?
+    -#     .delta.line-height-1-7.push-half--bottom
+    -#       %strong Vous allez assister à la séance "#{@participation_request.course.name}" le #{participation_request_decorator.day_and_hour}
+    -#       %br
+    -#       = link_to 'Accepter', accept_structure_participation_request_path(@participation_request.structure, @participation_request), method: :patch, class: 'btn btn--white-transparent--green btn--white-transparent btn--small'
+    -#       = link_to 'Modifier', edit_structure_participation_request_path(@structure, @participation_request, show_course_select: true), class: 'btn btn--white-transparent--orange btn--white-transparent btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+    -#       = link_to 'Annuler', cancel_form_structure_participation_request_path(@structure, @participation_request), class: 'btn btn--small btn--white-transparent--red btn--white-transparent fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+    -#     .line-height-1-5
+    -#       PS : en confirmant la date, nous vous enverrons un SMS de rappel 1 jour avant le cours avec toutes les informations nécessaire pour assister au cours.
+    .soft--sides
+      = render partial: 'structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
+
+  .grid.push--bottom
+  = render partial: 'users/conversations/form', locals: { conversation: @participation_request.conversation }
+  = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)

@@ -4,66 +4,73 @@
 
 = content_for :meta_description do
   = "#{@course.name} avec #{@structure.name} à #{@place.name} : Cours d'essai gratuits, avis des élèves, reservation en ligne."
+- home_place = (@course.is_private? ? @course.home_place : nil)
+.grid--full.soft--top
+  .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
+    .soft.bordered.bg-white
+      -# %div
+      -#   = link_to '< Revenir à la recherche', ''
+      %h1.flush= @indexable_card.name
+      %h2.delta
+        Par
+        = link_to @structure.name, structure_path(@structure)
+      - if @course.prices.any?
+        .float--right.blue-green.nowrap.v-middle
+          %strong Cours d'essai : #{readable_amount(@course.prices.first.amount)}
+      %h3 Planning
+      = react_component("CardPageCourse",
+                      { course: CourseSerializer.new(@course), plannings: ActiveModel::ArraySerializer.new(@indexable_card.plannings.future, each_serializer: PlanningSerializer) }, { prerender: false })
+      - if @course.is_private? and @course.on_appointment?
+        .push-half--right.push-half--bottom.inline-block.v-middle
+          %i.delta.fa.fa-audiences.v-middle
+          = join_audiences(@course)
+        .push-half--right.push-half--bottom.inline-block.v-middle
+          %i.delta.fa.fa-levels.v-middle
+          = join_levels_text(@course)
 
-.soft
-  .grid
-    .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
-      .soft.bordered.bg-white
-        %div
-          = link_to '< Revenir à la recherche', URLHelper.fix_url(@structure.website)
-        %h1.flush= @indexable_card.name
-        %h2.delta
-          Par
-          = link_to @structure.name, structure_path(@structure)
-        - if @course.prices.any?
-          .float--right.green.nowrap.v-middle
-            %strong Cours d'essai : #{readable_amount(@course.prices.first.amount)}
-        %h3 Planning
-        = react_component("CardPageCourse",
-                        { course: CourseSerializer.new(@course), plannings: ActiveModel::ArraySerializer.new(@indexable_card.plannings, each_serializer: PlanningSerializer) }, { prerender: false })
-        - if @course.is_private? and @course.on_appointment?
-          .push-half--right.push-half--bottom.inline-block.v-middle
-            %i.delta.fa.fa-audiences.v-middle
-            = join_audiences(@course)
-          .push-half--right.push-half--bottom.inline-block.v-middle
-            %i.delta.fa.fa-levels.v-middle
-            = join_levels_text(@course)
+      %h3 Description du cours
+      .push--bottom
+        .read-more{ data: { behavior: 'read-more' } }
+          = simple_format @course.description
+      - if @course.price_group
+        %h3 Tarifs
+        = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
 
-        %h3 Description du cours
-        .push--bottom
-          .read-more{ data: { behavior: 'read-more' } }
-            = simple_format @course.description
-        - if @course.price_group
-          %h3 Tarifs
-          = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
+  .grid__item.four-twelfths.palm-one-whole.palm-hard>
+    .bordered.bg-white
+      #mfp-hide.center-block.relative{ style: 'max-width:530px;' }
+      - home_place_map_attributes = {}
+      - if @course.teaches_at_home? and home_place
+        - home_place_map_attributes = { home: { latitude: home_place.latitude, longitude: home_place.longitude, radius: home_place.radius } }
+      = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
+                                        root_subject: @course.dominant_root_subject.try(:slug),
+                                        metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
+                                       { prerender: false })
 
-    .grid__item.four-twelfths.palm-one-whole.soft-half--right.palm-hard>
-      .bordered.bg-white
-        #mfp-hide.center-block.relative{ style: 'max-width:500px;' }
-        = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
-                                          root_subject: @course.dominant_root_subject.slug,
-                                          metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) },
-                                         { prerender: false })
+      .soft
+        %div.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
+          %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos } }
+            %h4.flush= @place.name
+            %span.f-weight-500= @place.address
+          - if @course.teaches_at_home? and home_place
+            %h4.flush--bottom.push--top
+              Se déplace à domicile
+            %span.f-weight-500 À #{home_place.city.name} dans un rayon de #{home_place.radius}km
 
-        .soft
-          %div.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
-            %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos } }
-              %h4.flush= @place.name
-              %span.f-weight-500= @place.address
-            %span{ itemprop: 'address', itemscope: true, itemtype: 'http://data-vocabulary.org/Address'}
-              %meta{ itemprop: 'street-address', content: @place.address }
-              %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }
-                %meta{ itemprop: 'latitude', content: @place.latitude }
-                %meta{ itemprop: 'longitude', content: @place.longitude }
+          %span{ itemprop: 'address', itemscope: true, itemtype: 'http://data-vocabulary.org/Address'}
+            %meta{ itemprop: 'street-address', content: @place.address }
+            %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }
+              %meta{ itemprop: 'latitude', content: @place.latitude }
+              %meta{ itemprop: 'longitude', content: @place.longitude }
 
-          - if @place.nearby_metro_stops.any?
-            %hr.push-half--ends
-            %h4.push-half--bottom Transports
-            - @place.nearby_metro_stops.each do |stop|
-              %div.push-half--bottom
-                - stop.lines.each do |line|
-                  = MetroLineDecorator.new(line).chip
-                %strong.v-middle= stop.name
-          - unless @structure.is_sleeping?
-            %hr.push-half--ends
-            = render 'structures/response_stats'
+        - if @place.nearby_metro_stops.any?
+          %hr.push-half--ends
+          %h4.push-half--bottom Transports
+          - @place.nearby_metro_stops.each do |stop|
+            %div.push-half--bottom
+              - stop.lines.each do |line|
+                = MetroLineDecorator.new(line).chip
+              %strong.v-middle= stop.name
+        - unless @structure.is_sleeping?
+          %hr.push-half--ends
+          = render 'structures/response_stats'

@@ -1,15 +1,23 @@
 {
   "checksum": {
-    "previous": "47e47bd2894c64ab52049a8475412ff05f908f43873903e53f46b373f8c5e829",
-    "current": "47e47bd2894c64ab52049a8475412ff05f908f43873903e53f46b373f8c5e829"
+    "previous": "87f36d911c78c9f3238962dd94238558bee602ca91faa48c9b2d5441411cabe4",
+    "current": "87f36d911c78c9f3238962dd94238558bee602ca91faa48c9b2d5441411cabe4"
   },
   "fonts": [
-    "app/assets/fonts/CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.ttf",
-    "app/assets/fonts/CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.svg",
-    "app/assets/fonts/CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.woff",
-    "app/assets/fonts/CoursAvenueIconFont_47e47bd2894c64ab52049a8475412ff0.eot"
+    "app/assets/fonts/CoursAvenueIconFont_87f36d911c78c9f3238962dd94238558.ttf",
+    "app/assets/fonts/CoursAvenueIconFont_87f36d911c78c9f3238962dd94238558.svg",
+    "app/assets/fonts/CoursAvenueIconFont_87f36d911c78c9f3238962dd94238558.woff",
+    "app/assets/fonts/CoursAvenueIconFont_87f36d911c78c9f3238962dd94238558.eot"
   ],
   "glyphs": {
+    "address": {
+      "codepoint": 61780,
+      "source": "app/assets/images/icons/svg/address.svg"
+    },
+    "around-me": {
+      "codepoint": 61781,
+      "source": "app/assets/images/icons/svg/around-me.svg"
+    },
     "audiences": {
       "codepoint": 61696,
       "source": "app/assets/images/icons/svg/audiences.svg"
@@ -38,8 +46,16 @@
       "codepoint": 61702,
       "source": "app/assets/images/icons/svg/calendar.svg"
     },
+    "card-astuce": {
+      "codepoint": 61791,
+      "source": "app/assets/images/icons/svg/card-astuce.svg"
+    },
+    "card-info": {
+      "codepoint": 61792,
+      "source": "app/assets/images/icons/svg/card-info.svg"
+    },
     "check": {
-      "codepoint": 61703,
+      "codepoint": 61793,
       "source": "app/assets/images/icons/svg/check.svg"
     },
     "chevron-down": {
@@ -210,9 +226,25 @@
       "codepoint": 61745,
       "source": "app/assets/images/icons/svg/map-marker.svg"
     },
+    "map-marker-old-style": {
+      "codepoint": 61789,
+      "source": "app/assets/images/icons/svg/map-marker-old-style.svg"
+    },
+    "mapbox-marker": {
+      "codepoint": 61790,
+      "source": "app/assets/images/icons/svg/mapbox-marker.svg"
+    },
     "menu": {
       "codepoint": 61778,
       "source": "app/assets/images/icons/svg/menu.svg"
+    },
+    "metro": {
+      "codepoint": 61783,
+      "source": "app/assets/images/icons/svg/metro.svg"
+    },
+    "more-filters": {
+      "codepoint": 61784,
+      "source": "app/assets/images/icons/svg/more-filters.svg"
     },
     "musique-chant": {
       "codepoint": 61746,
@@ -322,6 +354,10 @@
       "codepoint": 61772,
       "source": "app/assets/images/icons/svg/times.svg"
     },
+    "times-big": {
+      "codepoint": 61785,
+      "source": "app/assets/images/icons/svg/times-big.svg"
+    },
     "trash-o": {
       "codepoint": 61773,
       "source": "app/assets/images/icons/svg/trash-o.svg"
@@ -333,6 +369,10 @@
     "user": {
       "codepoint": 61775,
       "source": "app/assets/images/icons/svg/user.svg"
+    },
+    "user-big": {
+      "codepoint": 61786,
+      "source": "app/assets/images/icons/svg/user-big.svg"
     },
     "walk": {
       "codepoint": 61779,

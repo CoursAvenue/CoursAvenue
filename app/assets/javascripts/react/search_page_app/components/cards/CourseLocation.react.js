@@ -19,26 +19,40 @@ CourseDistance = React.createClass({
         };
     },
 
+    componentDidMount: function componentDidMount () {
+        $(this.getDOMNode()).dotdotdot({
+            ellipsis : '... ',
+            wrap     : 'letter',
+            tolerance: 3,
+            callback : function callback (is_truncated, original_content) {
+                if (is_truncated) {
+                    $(this).attr('data-toggle', 'popover')
+                             .attr('data-placement', 'top')
+                             .attr('data-content', original_content.text());
+                }
+            }
+        });
+    },
+
     highlightMaker: function highlightMaker (event) {
         $.scrollTo(0, { easing: 'easeOutCubic', duration: 350 });
         CardActionCreators.highlightMarker({ event: event, card: this.props.card });
     },
 
     render: function render () {
-        return (
-            <div className='very-soft--top very-soft--bottom text-ellipsis'>
-                <a href="javascript:void(0)"
-                   className="semi-muted-link"
-                   onClick={this.highlightMaker} dangerouslySetInnerHTML={{__html: this.location() }} />
-            </div>
-        );
+        return (<a href="javascript:void(0)"
+                   className="semi-muted-link block search-page-card__content-bottom-line"
+                   onClick={this.highlightMaker}>
+                    <i className='fa fa-map-marker-old-style'></i>
+                    {this.location()}
+                </a>);
     },
 
     location: function location () {
         if (this.state.filter_store.isFilteringAroundLocation()) {
-            return "<i class='fa fa-map-marker'></i>&nbsp;" + this.distanceStr();
+            return this.distanceStr();
         } else {
-            return "<i class='fa fa-map-marker'></i>&nbsp;" + this.addressStr();
+            return this.addressStr();
         }
     },
 
@@ -49,15 +63,11 @@ CourseDistance = React.createClass({
 
         var distance = this.props.rankingInfo.geoDistance;
         var string = "À ";
-        var minutes_by_walk = (distance / 100)
         if (distance > 1000) {
             distance /= 1000.0
             string += distance + "km"
         } else {
             string += distance + "m"
-        }
-        if (minutes_by_walk < 20) {
-            string += ' (~' + minutes_by_walk + 'min <i class="fa-walk"></i>)'
         }
 
         return string;
@@ -68,7 +78,6 @@ CourseDistance = React.createClass({
             return "";
         }
 
-        // TODO: Truncate string.
         return this.props.address;
     },
 });

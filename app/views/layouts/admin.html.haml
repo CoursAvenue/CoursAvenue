@@ -8,8 +8,8 @@
             - if current_pro_admin
               %a.cursor-pointer.west.absolute.white{ data: { behavior: 'toggle-responsive-menu' } }
                 %i.fa-menu.fa-2x
-            .coursavenue-header-logo.coursavenue-header-logo--pro.coursavenue-header-logo--white
-          = link_to '', root_path, class: 'visuallyhidden--palm v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
+            .coursavenue-header-logo.coursavenue-header-logo--white
+          = link_to '', root_path, class: 'visuallyhidden--palm v-middle coursavenue-header-logo coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
         .flexbox__item.visuallyhidden--palm.v-middle.text--right.soft--right
           - if !@structure.enabled?
             = link_to 'Réactiver mon compte', enabling_confirmation_pro_structure_path(@structure), class: 'btn btn--yellow btn--small fancybox.ajax', data: { behavior: 'modal', width: '500', padding: '0' }
@@ -56,8 +56,8 @@
           .visuallyhidden--lap-and-up.text--center
             %a.push-half--left.cursor-pointer.west.absolute.white{ data: { behavior: 'toggle-responsive-menu' } }
               %i.fa-menu.fa-2x
-            .coursavenue-header-logo.coursavenue-header-logo--pro.coursavenue-header-logo--white
-          = link_to '', root_path, class: 'visuallyhidden--palm v-middle coursavenue-header-logo coursavenue-header-logo--pro coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
+            .coursavenue-header-logo.coursavenue-header-logo--white
+          = link_to '', root_path, class: 'visuallyhidden--palm v-middle coursavenue-header-logo coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
         .flexbox__item.text--right.visuallyhidden--palm
           .inline-block.v-middle.drop-down__wrapper
             %h5.flush--bottom.white.inline-block.v-middle.nowrap.soft--right

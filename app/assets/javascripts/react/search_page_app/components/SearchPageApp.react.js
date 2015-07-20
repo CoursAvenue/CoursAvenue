@@ -1,25 +1,26 @@
-var MapContainer           = require('./MapContainer.react'),
-    SmallMap               = require("./SmallMap.react"),
-    ResultList             = require('./ResultList.react'),
-    SubjectFilter          = require('./SubjectFilter.react'),
-    LocationFilter         = require('./LocationFilter.react'),
-    TimeFilter             = require('./TimeFilter.react'),
-    MoreFilter             = require('./MoreFilter.react'),
-    FilterBar              = require('./FilterBar.react'),
-    FilterBreadcrumb       = require('./FilterBreadcrumb.react'),
-    ResultInfo             = require('./ResultInfo.react'),
-    ResultSorting          = require('./ResultSorting.react'),
-    Pagination             = require('./Pagination.react'),
-    Menubar                = require('./Menubar.react'),
-    SearchPageAppRouter    = require('../SearchPageAppRouter'),
-    FilterStore            = require('../stores/FilterStore'),
-    SubjectStore           = require('../stores/SubjectStore'),
-    CardStore              = require('../stores/CardStore'),
-    LocationStore          = require('../stores/LocationStore'),
-    SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
-    SearchPageConstants    = require('../constants/SearchPageConstants'),
-    SubjectActionCreators  = require('../actions/SubjectActionCreators'),
-    LocationActionCreators = require('../actions/LocationActionCreators');
+var MapContainer              = require('./MapContainer.react'),
+    SmallMap                  = require("./SmallMap.react"),
+    ResultList                = require('./ResultList.react'),
+    SubjectFilter             = require('./SubjectFilter.react'),
+    SubjectAutocompleteFilter = require('./SubjectAutocompleteFilter.react'),
+    LocationFilter            = require('./LocationFilter.react'),
+    TimeFilter                = require('./TimeFilter.react'),
+    MoreFilter                = require('./MoreFilter.react'),
+    FilterBar                 = require('./FilterBar.react'),
+    FilterBreadcrumb          = require('./FilterBreadcrumb.react'),
+    ResultInfo                = require('./ResultInfo.react'),
+    ResultSorting             = require('./ResultSorting.react'),
+    Pagination                = require('./Pagination.react'),
+    Menubar                   = require('./Menubar.react'),
+    SearchPageAppRouter       = require('../SearchPageAppRouter'),
+    FilterStore               = require('../stores/FilterStore'),
+    SubjectStore              = require('../stores/SubjectStore'),
+    CardStore                 = require('../stores/CardStore'),
+    LocationStore             = require('../stores/LocationStore'),
+    SearchPageDispatcher      = require('../dispatcher/SearchPageDispatcher'),
+    SearchPageConstants       = require('../constants/SearchPageConstants'),
+    SubjectActionCreators     = require('../actions/SubjectActionCreators'),
+    LocationActionCreators    = require('../actions/LocationActionCreators');
 
 SearchPageApp = React.createClass({
     propTypes: {
@@ -47,28 +48,32 @@ SearchPageApp = React.createClass({
         if (this.props.subject) {
             SubjectActionCreators.selectSubject($.parseJSON(this.props.subject));
         }
+        if (this.props.locate_user) {
+            LocationActionCreators.locateUser();
+        }
     },
 
     render: function render() {
         return (
-          <div className="relative overflow-hidden">
-            <Menubar />
+          <div className="relative on-top">
+              <div className="relative overflow-hidden">
+                  <Menubar />
 
-            <MapContainer center={this.props.map_center} />
-            <SubjectFilter />
-            <LocationFilter />
-            <TimeFilter />
-            <MoreFilter />
-            <div className="on-top-of-the-world relative">
-                <FilterBar />
-                <div className="search-page-content relative">
-                    <FilterBreadcrumb />
-                    <ResultInfo />
-                    <ResultList />
-                    <Pagination />
-                    <SmallMap center={this.props.map_center} />
-                </div>
-            </div>
+                  <MapContainer center={this.props.map_center} />
+                  <SubjectAutocompleteFilter />
+                  <SubjectFilter />
+                  <LocationFilter />
+                  <TimeFilter />
+                  <MoreFilter />
+              </div>
+              <div className="on-top-of-the-world search-page-content relative">
+                  <FilterBar />
+                  <FilterBreadcrumb />
+                  <ResultInfo />
+                  <ResultList />
+                  <Pagination />
+                  <SmallMap center={this.props.map_center} />
+              </div>
           </div>
         );
     }

@@ -18,7 +18,7 @@ var RootSubjectItem = React.createClass({
                style={ { backgroundImage: 'url("' + this.props.subject.image_url + '")' } }>
                 <div className="search-page-filters__image-button-curtain"></div>
                 <div className="search-page-filters__image-icon">
-                    <i className="fa fa-danse"></i>
+                    <i className={"fa fa-" + this.props.subject.slug}></i>
                 </div>
                 <div className="search-page-filters__image-text">{this.props.subject.name}</div>
           </div>

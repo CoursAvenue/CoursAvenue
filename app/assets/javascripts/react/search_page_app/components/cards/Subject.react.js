@@ -35,7 +35,7 @@ Subject = React.createClass({
 
     render: function render () {
         return (
-            <a className="search-page-card__subject"
+            <a className={"search-page-card__subject search-page-card__subject--" + this.props.subject.root_slug}
                onClick={ this.selectSubject }
                href="javascript:void(0)">
                 { this.props.subject.name }

@@ -82,36 +82,35 @@ RSpec.describe IndexableCard, type: :model do
     end
   end
 
-  describe '.create_from_subject_and_place' do
-    let(:_subject) { FactoryGirl.create(:subject) }
+  describe '.create_from_place' do
     let(:place)    { structure.places.sample }
 
     it 'creates a new IndexableCard' do
-      expect { IndexableCard.create_from_subject_and_place(_subject, place) }.
+      expect { IndexableCard.create_from_place(place) }.
         to change { IndexableCard.count }.by(1)
     end
 
     it 'associates with the structure' do
-      card = IndexableCard.create_from_subject_and_place(_subject, place)
+      card = IndexableCard.create_from_place(place)
       expect(card.structure).to eq(structure)
     end
 
     it 'sets the other association' do
-      card = IndexableCard.create_from_subject_and_place(_subject, place)
+      card = IndexableCard.create_from_place(place)
       expect(card.subjects).to include(_subject)
       expect(card.place).to eq(place)
     end
 
     context 'when the card already exists' do
       it "doesn't create a new card" do
-        IndexableCard.create_from_subject_and_place(_subject, place)
-        expect { IndexableCard.create_from_subject_and_place(_subject, place) }.
+        IndexableCard.create_from_place(place)
+        expect { IndexableCard.create_from_place(place) }.
           to_not change { IndexableCard.count }
       end
 
       it 'returns the existing card' do
-        original_card = IndexableCard.create_from_subject_and_place(_subject, place)
-        expect(IndexableCard.create_from_subject_and_place(_subject, place)).to eq(original_card)
+        original_card = IndexableCard.create_from_place(place)
+        expect(IndexableCard.create_from_place(place)).to eq(original_card)
       end
     end
   end
@@ -129,9 +128,8 @@ RSpec.describe IndexableCard, type: :model do
 
   describe '#weekly_availability' do
     context 'when there is no course' do
-      let!(:_subject) { structure.subjects.sample }
       let!(:place) { structure.places.sample }
-      subject { IndexableCard.create_from_subject_and_place(_subject, place) }
+      subject { IndexableCard.create_from_place(place) }
 
       it 'returns an empty array' do
         expect(subject.weekly_availability).to be_empty
@@ -168,9 +166,8 @@ RSpec.describe IndexableCard, type: :model do
 
   describe '#planning_periods' do
     context 'when there is no course' do
-      let!(:_subject) { structure.subjects.sample }
       let!(:place) { structure.places.sample }
-      subject { IndexableCard.create_from_subject_and_place(_subject, place) }
+      subject { IndexableCard.create_from_place(place) }
 
       it 'returns an empty array' do
         expect(subject.planning_periods).to be_empty
@@ -215,9 +212,8 @@ RSpec.describe IndexableCard, type: :model do
     end
 
     context 'when there are no prices' do
-      let!(:_subject) { structure.subjects.sample }
       let!(:place) { structure.places.sample }
-      subject { IndexableCard.create_from_subject_and_place(_subject, place) }
+      subject { IndexableCard.create_from_place(place) }
 
       it 'returns 0' do
         expect(subject.starting_price).to eq(0)

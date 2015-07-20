@@ -8,10 +8,9 @@
 /*------------------------------------*\
     WIDTHS & HEIGHTS
 \*------------------------------------*/
-.one-seventh { width: 14.2857%; }
 .width-auto  { width: auto !important; }
 
-.height-100-percent { height: 100%; }
+.height-100-percent { height: 100% !important; }
 .height-150 { height: 150px; }
 .height-35vh {
     height: 350px; // Fallback
@@ -29,6 +28,9 @@
     @include media-query(palm) { height: 50vh; }
 }
 .height-whole { height: 100%; }
+.palm-height-auto {
+    @include media-query(palm) { height: auto !important; }
+}
 .full-screen-item {
     height: 750px; // Fallback
     height: 100vh;
@@ -119,6 +121,7 @@
 .dark-blue          { color: $dark_blue; }
 .green              { color: $green; }
 .blue-green         { color: $blue-green !important; }
+.blue-green--slightly-darker { color: darken($blue-green, 3%) !important; }
 .blue               { color: $blue !important; }
 .blue-darker        { color: darken($blue-green, 10%) !important; }
 .fb-blue            { color: $facebook-blue; }
@@ -229,6 +232,16 @@
         padding-left: $base-spacing-unit / 2; padding-right: $base-spacing-unit / 2;
     }
 }
+.soft-double--ends {
+    padding-top: $base-spacing-unit * 2; padding-bottom: $base-spacing-unit * 2;
+    @include media-query(palm) {
+        padding-top: $base-spacing-unit / 2; padding-bottom: $base-spacing-unit / 2;
+    }
+}
+.soft-double {
+    padding: $base-spacing-unit * 2;
+    @include media-query(palm) { padding: $base-spacing-unit / 2; }
+}
 .soft--sides {
     @include media-query(palm) {
         padding-left: $base-spacing-unit / 2!important; padding-right: $base-spacing-unit / 2!important;
@@ -302,6 +315,7 @@
     .opacity-hidden-on-hover__child         { opacity: 0; @include transition(opacity 300ms ease-in-out); }
     &:hover .opacity-hidden-on-hover__child { opacity: 1; }
 }
+
 .show-on-hover__wrapper {
     &.show-on-hover__wrapper--black-curtain {
         @include transition(background 200ms ease-in-out);
@@ -595,10 +609,6 @@
 /*------------------------------------*\
     TRANSITIONS
 \*------------------------------------*/
-// http://matthewlein.com/ceaser/
-// easeOutExpo
-// @include transition(left 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
-
 .transition-all-300 { @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
 .transition-all-500 { @include transition(all 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
 .transition-all-900 { @include transition(all 900ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
@@ -626,4 +636,12 @@
     @include display-flex;
     @include align-items(center);
     @include justify-content(center);
+}
+.vertical-delimiter {
+    display       : inline-block;
+    vertical-align: middle;
+    margin-right  : 1.5em;
+    border-right  : 2px solid white;
+    padding-right : 1.5em;
+    height        : 1.5em;
 }

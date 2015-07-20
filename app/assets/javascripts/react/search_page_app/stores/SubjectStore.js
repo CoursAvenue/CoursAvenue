@@ -19,6 +19,11 @@ var SubjectStore = Backbone.Collection.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+            case ActionTypes.SELECT_GROUP_SUBJECT_BY_ID:
+                payload.data = this.getGroupSubject(payload.data);
+                this.loadRootSubjects(payload.data);
+                this.selected_group_subject = payload.data;
+                break;
             case ActionTypes.SELECT_GROUP_SUBJECT:
                 this.loadRootSubjects(payload.data);
                 this.selected_group_subject = payload.data;
@@ -28,7 +33,6 @@ var SubjectStore = Backbone.Collection.extend({
             case ActionTypes.SELECT_ROOT_SUBJECT:
                 this.selected_root_subject = payload.data;
                 if (!this.selected_group_subject) { this.setSelectedGroupSubject(); }
-                //SearchPageDispatcher.waitFor([FilterStore.dispatchToken]);
                 var associated_group_subject = this.getGroupSubjectFromRootSubjectSlug(payload.data.slug);
                 // If root subjects are not loaded, we load them.
                 if (!associated_group_subject.root_subjects) {
@@ -38,11 +42,17 @@ var SubjectStore = Backbone.Collection.extend({
                 break;
             case ActionTypes.SELECT_SUBJECT:
                 this.selected_subject = payload.data;
+                this.full_text_search = '';
                 this.setSelectedRootSubject();
                 break;
+            case ActionTypes.INIT_SEARCH_FULL_TEXT:
             case ActionTypes.SEARCH_FULL_TEXT:
                 this.full_text_search = payload.data;
                 this.trigger('change');
+                break;
+            case ActionTypes.CLEAR_AND_CLOSE_SUBJECT_INPUT_PANEL:
+            case ActionTypes.CLEAR_ALL_THE_DATA:
+                this.unsetFilter('full_text_search');
                 break;
             case ActionTypes.UNSET_FILTER:
                 this.unsetFilter(payload.data);
@@ -79,21 +89,18 @@ var SubjectStore = Backbone.Collection.extend({
             {
                 name      : 'Danse, Théâtre & Musique',
                 group_id  : 1,
-                image_url : 'http://coursavenue-public.s3.amazonaws.com/public_assets/search_page/group-subject-theatre.jpg',
+                image_url : 'https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-theatre.jpg',
                 root_slugs: ["danse", "theatre-scene", "musique-chant"]
-                // collection: this.filter(function(subject) { return (group_1.indexOf(subject.get('slug')) != -1)})
             },{
                 name      : 'Sports, Yoga & Bien-être',
                 group_id  : 2,
-                image_url : 'http://coursavenue-public.s3.amazonaws.com/public_assets/search_page/group-subject-yoga.jpg',
-                root_slugs: ["sports-arts-martiaux", "yoga-bien-etre-sante"]
-                // collection: this.filter(function(subject) { return (group_2.indexOf(subject.get('slug')) != -1)}),
+                image_url : 'https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-yoga.jpg',
+                root_slugs: ["sports-arts-martiaux", "yoga-bien-etre-sante", "cuisine-vins"]
             },{
                 name      : 'Arts créatifs',
                 group_id  : 3,
-                image_url : 'http://coursavenue-public.s3.amazonaws.com/public_assets/search_page/group-subject-arts.jpg',
-                root_slugs: ["deco-mode-bricolage", "dessin-peinture-arts-plastiques"]
-                // collection: this.filter(function(subject) { return (group_3.indexOf(subject.get('slug')) != -1)}),
+                image_url : 'https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-arts.jpg',
+                root_slugs: ["deco-mode-bricolage", "dessin-peinture-arts-plastiques", "photo-video"]
             }
         ]
     },
@@ -135,7 +142,7 @@ var SubjectStore = Backbone.Collection.extend({
      * Will load root subjects associated with selected group subject
      */
     loadChildSubjects: function loadChildSubjects (root_subject) {
-        var data = { hitsPerPage: 30,
+        var data = { hitsPerPage: 48,
                      facets: '*',
                      facetFilters: 'root:' + root_subject.slug,
                      numericFilters: 'depth>0' }

@@ -24,14 +24,16 @@ var MoreFilter = React.createClass({
         };
     },
 
-    closePanel: function closePanel () {
+    closeFilterPanel: function closeFilterPanel () {
         FilterActionCreators.toggleMoreFilter();
     },
 
     render: function render () {
         var current_panel = this.state.filter_store.get('current_panel');
         var classes = classNames({
-            // 'search-page-filters-wrapper--from-left-to-right': (!_.isNull(current_panel) && current_panel != FilterPanelConstants.FILTER_PANELS.MORE),
+            'search-page-filters-wrapper--from-right-to-left': (current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECTS
+                                                             || current_panel == FilterPanelConstants.FILTER_PANELS.LOCATION
+                                                             || current_panel == FilterPanelConstants.FILTER_PANELS.TIME),
             'search-page-filters-wrapper--active': (current_panel == FilterPanelConstants.FILTER_PANELS.MORE),
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
@@ -40,7 +42,7 @@ var MoreFilter = React.createClass({
               <div className="search-page-filters__title">
                   Filtres supplémentaires
                   <div className="search-page-filters__closer" onClick={this.closeFilterPanel}>
-                      <i className="fa fa-times beta"></i>
+                      <i className="fa fa-times-big"></i>
                   </div>
               </div>
               <div className="flexbox relative">
@@ -59,7 +61,7 @@ var MoreFilter = React.createClass({
                                   </div>
                               </div>
                               <div className='text--center'>
-                                  <a onClick={ this.closePanel } className='btn btn--blue-green search-page-filters__button'>Ok</a>
+                                  <a onClick={ this.closePanel } className='btn btn--blue-green border-none search-page-filters__button'>OK</a>
                               </div>
                           </div>
                       </div>

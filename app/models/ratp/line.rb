@@ -27,10 +27,6 @@ class Ratp::Line < ActiveRecord::Base
     attribute :route_name
     attribute :color
     attribute :line_type
-
-    add_attribute :ratp_stops do
-      self.stops.map(&:slug)
-    end
   end
   # :nocov:
 

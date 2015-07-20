@@ -38,4 +38,5 @@ class Ratp::Stop < ActiveRecord::Base
     end
   end
   # :nocov:
+
 end

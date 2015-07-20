@@ -1,14 +1,4 @@
 /*------------------------------------*\
-     FAMILY
-\*------------------------------------*/
-
-.ff-droid     { font-family: 'Droid Serif',Georgia,Cambria,'Times New Roman',Times,serif; }
-.ff-georgia   { font-family: Georgia,Cambria,"Times New Roman",Times,serif; }
-.ff-open-sans { font-family: "Open Sans"; }
-.ff-pacifico  { font-family: "Pacifico"; }
-.ff-kameron   { font-family: "Kameron"; }
-
-/*------------------------------------*\
      WEIGHTS
 \*------------------------------------*/
 
@@ -68,6 +58,8 @@
 .f-size-11  { font-size: 11px; }
 .f-size-10  { font-size: 10px; }
 .f-size-9   { font-size: 9px; }
+
+.fa-10x { font-size: 10em; }
 
 .palm-f-size-12 { @include media-query(palm) { font-size: 12px; } }
 

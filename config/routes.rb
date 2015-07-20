@@ -97,6 +97,7 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
+      resources :sms_loggers, only: [:index]
       resources :comments, only: [:edit, :update, :index] do
         member do
           patch :recover
@@ -404,14 +405,13 @@ CoursAvenue::Application.routes.draw do
         end
         resources :participation_requests, only: [:edit, :index, :show], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
           member do
-            get   :report_form
             get   :cancel_form
             get   :accept_form
             patch :accept
             patch :discuss
             patch :modify_date
             patch :cancel
-            patch :report
+            get   :show_user_contacts
           end
           collection do
             get :paid_requests, path: 'transactions-cb'
@@ -542,14 +542,12 @@ CoursAvenue::Application.routes.draw do
       end
       resources :participation_requests, only: [:create, :edit]                             , controller: 'structures/participation_requests' do
         member do
-          get   :report_form
           get   :cancel_form
           get   :accept_form
           patch :accept
           patch :discuss
           patch :modify_date
           patch :cancel
-          patch :report
         end
       end
       resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'

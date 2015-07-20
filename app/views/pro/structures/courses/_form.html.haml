@@ -137,10 +137,11 @@
                         %i.fa.fa-plus
                         Ajouter la zone géographique pour mes cours à domicile
                 %div
+                  %input#delete_course_place_id{ type: 'hidden', name: 'course[delete_place_id]' }
                   %label.inline-block.label--large{ for: 'course_place_id_checkbox' }
                     %input#course_place_id_checkbox{ type: 'checkbox', checked: @course.place.present? }
                     Les cours ont lieu à cette adresse :
-                  = f.input :place_id, as: :select, collection: @structure.places.publics, input_html: { class: 'input--large', style: 'max-width: 13em;' }, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, include_blank: (@structure.places.publics.length > 1 ? 'Sélectionnez une adresse' : false)
+                  = f.input :place_id, as: :select, collection: @structure.places.publics, input_html: { class: 'input--large', style: 'max-width: 13em;' }, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, include_blank: ((@structure.places.publics.length > 1 || @course.is_private?) ? 'Sélectionnez une adresse' : false)
                 - if @course.new_record?
                   - return_to_action = "$('[data-course-type=private][data-action=new_course]').click();"
                 - else
@@ -208,10 +209,14 @@
       }
       $('#course_place_id').change(function() {
           $('#course_place_id_checkbox')[0].checked = (this.value != '');
+          if (this.value != '') { $('#delete_course_place_id').val(''); }
       });
       $('#course_place_id_checkbox').change(function() {
           if (this.checked == false) {
+              $('#delete_course_place_id').val('true');
               $('#course_place_id').val('');
+          } else {
+              $('#delete_course_place_id').val('');
           }
       });
       $('#course_on_appointment').change(function() {

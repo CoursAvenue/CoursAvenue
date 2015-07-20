@@ -43,7 +43,7 @@ var LocationFilter = React.createClass({
           case FilterPanelConstants.LOCATION_PANELS.ADDRESS:
             return "Indiquez une adresse"
           case FilterPanelConstants.LOCATION_PANELS.METRO:
-            return "Choisissez une ligne et/ou une station"
+            return "Choisissez une ligne de transports"
           default:
             return "Où souhaitez-vous trouver un cours ?"
         }
@@ -53,8 +53,8 @@ var LocationFilter = React.createClass({
         var current_panel    = this.state.filter_store.get('current_panel');
         var is_current_panel = current_panel == FilterPanelConstants.FILTER_PANELS.LOCATION;
         var classes = classNames({
-            // 'search-page-filters-wrapper--from-left-to-right': (current_panel == FilterPanelConstants.FILTER_PANELS.TIME || current_panel == FilterPanelConstants.FILTER_PANELS.MORE),
-            // 'search-page-filters-wrapper--from-right-to-left': current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECTS,
+            'search-page-filters-wrapper--from-left-to-right': (current_panel == FilterPanelConstants.FILTER_PANELS.TIME || current_panel == FilterPanelConstants.FILTER_PANELS.MORE),
+            'search-page-filters-wrapper--from-right-to-left': current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECTS,
             'search-page-filters-wrapper--active': is_current_panel,
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
         });
@@ -63,10 +63,12 @@ var LocationFilter = React.createClass({
               <div className="search-page-filters__title">
                   {this.title()}
                   <div className="search-page-filters__closer" onClick={this.closeFilterPanel}>
-                      <i className="fa fa-times beta"></i>
+                      <i className="fa fa-times-big"></i>
                   </div>
               </div>
-              { this.panelToShow() }
+              <div className="search-page-filters__content">
+                { this.panelToShow() }
+              </div>
           </div>
         );
     }

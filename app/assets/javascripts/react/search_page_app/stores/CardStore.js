@@ -20,7 +20,7 @@ var HITS_PER_PAGES = 16;
 
 var CardCollection = Backbone.Collection.extend({
     model:   CardModel,
-    loading: false,
+    loading: true,
     error:   false,
 
     initialize: function initialize () {
@@ -38,6 +38,8 @@ var CardCollection = Backbone.Collection.extend({
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
             // When the filters are updated, refetch the cards.
+            case ActionTypes.CLEAR_AND_CLOSE_SUBJECT_INPUT_PANEL:
+            case ActionTypes.SEARCH:
             case ActionTypes.UPDATE_BOUNDS:
             case ActionTypes.UPDATE_FILTERS:
             case ActionTypes.SELECT_GROUP_SUBJECT:

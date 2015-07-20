@@ -15,8 +15,21 @@
 = content_for :meta_description do
   #{title} : #{number_with_delimiter @total} Cours d'Essai GRATUITS & Promotions - CoursAvenue.com. Consultez #{number_with_delimiter Comment::Review.count} avis d'élèves, #{number_with_delimiter Media.count} photos.
 
+.full-screen-item.flexbox.absolute.north.west.on-top.bg-white
+  .flexbox__item.v-middle
+    .text--center.soft--sides
+      = image_tag 'logos/logo@2x.png', style: 'height: auto; width: 367px;'
+    .spinner
+      .double-bounce1
+      .double-bounce2
+      .double-bounce3
+
 = react_component('SearchPageApp', { map_center: [@city.latitude, @city.longitude],
                                      subject: (@subject and @subject != @root_subject ? @subject.to_json : nil),
                                      root_subject: (@root_subject ? @root_subject.to_json : nil),
+                                     locate_user: (params[:locate_user].present?),
                                      address: { name: @city.name, latitude: @city.latitude, longitude: @city.longitude, city: @city.name, is_address: false }.to_json },
                                      { prerender: false })
+= content_for :scripts do
+  :javascript
+    window.is_mobile = COURSAVENUE.helperMethods.isMobile.any();

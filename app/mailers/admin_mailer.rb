@@ -119,7 +119,11 @@ class AdminMailer < ActionMailer::Base
   def congratulate_for_accepted_comment(comment)
     @comment   = comment
     @structure = @comment.structure
-    mail to: @comment.commentable.contact_email, subject: "Vous avez reçu un avis de #{@comment.author_name}"
+    @admin     = @structure.main_contact
+    @conversation = @comment
+    mail to: @comment.commentable.contact_email,
+      subject: "Vous avez reçu un avis de #{@comment.author_name}",
+      reply_to: generate_reply_to('admin', 'comment')
   end
 
   def congratulate_for_comment(comment)
@@ -210,8 +214,8 @@ class AdminMailer < ActionMailer::Base
 
   private
 
-  def generate_reply_to(sender_type = 'admin')
-    reply_token      = ReplyToken.create(reply_type: 'conversation')
+  def generate_reply_to(sender_type = 'admin', reply_type = 'conversation')
+    reply_token      = ReplyToken.create(reply_type: reply_type)
     reply_token.data = {
       sender_type:     sender_type,
       sender_id:       sender_type == 'admin' ? @admin.id : @user.id,
@@ -219,7 +223,7 @@ class AdminMailer < ActionMailer::Base
     }
     reply_token.save
 
-    return "CoursAvenue <#{reply_token.token}@#{CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN}"
+    reply_token.email_address
   end
 
 end
