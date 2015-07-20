@@ -29,7 +29,7 @@
             Tél. : #{structure.phone_numbers.map(&:number).join(', ')} /
           E-mail : #{structure.main_contact.email}
 
-  %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
+  %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
       .p.hard
         - if participation_request.from_personal_website?
@@ -42,28 +42,28 @@
           = participation_request.structure.name
         - if participation_request.accepted? and participation_request.structure.phone_numbers.any?
           = "(#{participation_request.structure.phone_numbers.map(&:number).join(', ')})"
-  %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
+  %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
       .p.hard
         %strong Inscription
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
       .p.hard
         = participation_request_decorator.details
-  %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
+  %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
       .p.hard
         %strong Cours
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
       .p.hard
         = participation_request.course.name
-  %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
+  %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
       .p.hard
         %strong Jour et heure
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
       .p.hard= participation_request_decorator.day_and_hour.capitalize
   - if place
-    %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
+    %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
       %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
         .p.hard
           %strong Lieu

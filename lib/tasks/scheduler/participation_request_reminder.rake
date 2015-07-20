@@ -32,6 +32,18 @@ namespace :scheduler do
       end
     end
 
+    # Send a reminder to the teacher when she hasn't updated a treated participation request.
+    # $ rake scheduler:participation_requests:remind_to_update_treated_participation_requests
+    desc "Send a reminder to the teacher when he hasn't updated treated participation requests"
+    task :remind_to_update_treated_participation_requests => :environment do |t, args|
+      yesterday = Date.yesterday
+      participation_requests = ParticipationRequest.treated.where(created_at: yesterday.beginning_of_day..yesterday.end_of_day)
+
+      participation_requests.each do |pr|
+        ParticipationRequestMailer.delay.remind_teacher_to_update_state(pr)
+      end
+    end
+
     # Send email to user if he has a user request not answered that is 1 day old
     # $ rake scheduler:participation_requests:remind_user_for_participation_requests_1
     desc 'Send email to user who have pending requests'

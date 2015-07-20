@@ -1,4 +1,9 @@
-- prefilled_message = "Bonjour #{@participation_request.user.first_name},\n\r\n\rMalheureusement, je suis dans l'obligation d'annuler votre séance d'essai.\n\r\n\rJe vous prie de bien vouloir m'excuser et vous remercie d'avance pour votre compréhension,\n\r\n\r#{@participation_request.structure.name}"
+-# - prefilled_message = "Bonjour #{@participation_request.user.first_name},\n\r\n\rMalheureusement, je suis dans l'obligation d'annuler votre séance d'essai.\n\r\n\rJe vous prie de bien vouloir m'excuser et vous remercie d'avance pour votre compréhension,\n\r\n\r#{@participation_request.structure.name}"
+- prefilled_message = "Bonjour #{@participation_request.user.first_name},\n\r\n\rJe vous prie de bien vouloir m'excuser, mais je suis dans l'obligation d'annuler votre séance d'essai."
+- if @structure.website.present? or @structure.phone_numbers.present?
+  - contacts = [ @structure.website ] + @structure.phone_numbers.map(&:number)
+  - prefilled_message += "\n\r\n\rVoici mes coordonnées, vous pouvez me contacter pour convenir d'un nouveau rendez-vous : #{ contacts.to_sentence }"
+- prefilled_message += "\n\r\n\rJe vous remercie d'avance pour votre compréhension, à bientôt,\n\r\n\r#{@participation_request.structure.name}"
 
 .panel
   .panel__header.soft

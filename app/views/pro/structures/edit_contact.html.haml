@@ -36,15 +36,16 @@
             %i.fa.fa-plus
             Ajouter un numéro de téléphone
 
-  %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts.sms') } }
-    .grid
-      .grid__item.one-quarter.palm-one-whole>
-        .label--large.text--right.palm-text--left
-          Alertes SMS
-      .grid__item.three-quarters.palm-one-whole>
-        .checkbox-at-left
-          = form.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large hard--bottom' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, label: 'Recevoir un SMS à chaque nouvel inscrit au '
-          = form.input :principal_mobile_id, as: :select, collection: @structure.phone_numbers.select(&:mobile?), label_method: :number, label: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, include_blank: false
+  - if @has_mobile_phone
+    %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts.sms') } }
+      .grid
+        .grid__item.one-quarter.palm-one-whole>
+          .label--large.text--right.palm-text--left
+            Alertes SMS
+        .grid__item.three-quarters.palm-one-whole>
+          .checkbox-at-left
+            = form.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large hard--bottom' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, label: 'Recevoir un SMS à chaque nouvel inscrit au '
+            = form.input :principal_mobile_id, as: :select, collection: @structure.phone_numbers.select(&:mobile?), label_method: :number, label: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, include_blank: false
 
   %hr.push--ends
   .soft--sides

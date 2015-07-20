@@ -2,7 +2,7 @@ class MailerPreviewer
   # Create a preview of an email and return it as a string so it can be passed in a view.
   # Usage:
   #    mail = UserMailer.welcome(@user)
-  #    @content = MailerPreviewer.convert(mail)
+  #    @content = MailerPreviewer.preview(mail)
   #    # Render it in your view:
   #
   #    = @content.html_safe
