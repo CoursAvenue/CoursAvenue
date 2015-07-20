@@ -24,7 +24,7 @@ var MoreFilter = React.createClass({
         };
     },
 
-    closePanel: function closePanel () {
+    closeFilterPanel: function closeFilterPanel () {
         FilterActionCreators.toggleMoreFilter();
     },
 
