@@ -7,5 +7,3 @@
     %br
     = link_to 'Modifier', edit_pro_structure_participation_request_path(@structure, @participation_request, show_course_select: true), class: 'btn btn--white-transparent--orange btn--white-transparent btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
     = link_to 'Annuler', cancel_form_pro_structure_participation_request_path(@structure, @participation_request), class: 'btn btn--white-transparent--red btn--white-transparent btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
-  .line-height-1-5
-    PS : en confirmant la date, nous enverrons à l'inscrit un SMS de rappel 1 jour avant le cours et il recevra une demande de recommandation le lendemain. Ainsi, vous limitez le nombre d'absents et votre bouche-à-oreille augmente.
