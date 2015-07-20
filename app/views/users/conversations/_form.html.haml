@@ -11,9 +11,3 @@
         = message_form.input :body, input_html: { placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', value: cookies["conversation_#{params[:id]}_message"], class: 'input--large one-whole', id: 'conversation_message', data: {behavior: 'autoresize'} }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
       = f.submit 'Répondre', class: 'btn btn--green palm-one-whole', data: { disable_with: "Message en cours d'envoi" }
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#conversation_message').preventFromContact();
-    });
-
