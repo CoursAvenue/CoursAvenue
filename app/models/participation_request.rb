@@ -69,6 +69,7 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   scope :accepted,                -> { where( state: 'accepted') }
   scope :pending,                 -> { where( state: 'pending') }
+  scope :treated,                 -> { where( state: 'treated') }
   scope :upcoming,                -> { where( arel_table[:date].gteq(Date.today) ).order("date ASC") }
   scope :past,                    -> { where( arel_table[:date].lt(Date.today) ).order("date ASC") }
   scope :canceled,                -> { where( arel_table[:state].eq('canceled') ) }

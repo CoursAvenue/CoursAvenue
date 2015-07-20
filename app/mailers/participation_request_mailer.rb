@@ -140,6 +140,19 @@ class ParticipationRequestMailer < ActionMailer::Base
     @user                   = user
     mail to: @user.email, subject: "Pour mémoire - Planning de demain"
   end
+  ######################################################################
+  # Course reminders                                                   #
+  ######################################################################
+
+  def remind_teacher_to_update_state(participation_request)
+    @participation_request = participation_request
+    @user                  = @participation_request.user
+    @structure             = @participation_request.structure
+    @course                = @participation_request.course
+    @admin                 = @structure.main_contact
+
+    mail to: @admin.email, subject: "Avez-vous convenu d'une date avec #{ @user.name }?"
+  end
 
   ######################################################################
   # After the course                                                   #
