@@ -73,8 +73,9 @@ class Subject < ActiveRecord::Base
     end
 
     add_attribute :name do
-      self.name.gsub(' de ', ' ').gsub("d'", '')
+      self.name
     end
+
     add_attribute :root_name do
       self.root.name
     end
