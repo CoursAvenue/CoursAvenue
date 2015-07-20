@@ -48,11 +48,11 @@
             if (!this.popup_is_visible && this.hasContactInfo()) {
                 this.$popup_div.slideDown();
                 this.popup_is_visible = true;
-                this.$enclosing_form_submit_button.attr('disabled', true);
+                // this.$enclosing_form_submit_button.attr('disabled', true);
             } else if (!this.hasContactInfo()) {
                 this.popup_is_visible = false;
                 this.$popup_div.slideUp();
-                this.$enclosing_form_submit_button.attr('disabled', false);
+                // this.$enclosing_form_submit_button.attr('disabled', false);
             }
         },
 
