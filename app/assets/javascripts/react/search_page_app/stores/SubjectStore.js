@@ -142,7 +142,7 @@ var SubjectStore = Backbone.Collection.extend({
      * Will load root subjects associated with selected group subject
      */
     loadChildSubjects: function loadChildSubjects (root_subject) {
-        var data = { hitsPerPage: 30,
+        var data = { hitsPerPage: 48,
                      facets: '*',
                      facetFilters: 'root:' + root_subject.slug,
                      numericFilters: 'depth>0' }
