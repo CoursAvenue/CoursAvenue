@@ -27,7 +27,7 @@
 
     Plugin.prototype = {
 
-        popup_div: "<div style='display: none;' class='soft-half alert alert--warning one-whole push-half--bottom'>Pas besoin d'envoyer vos coordonnées de contact par message : une fois l'inscription confirmée, elles seront automatiquement partagées.</div>",
+        popup_div: "<div style='display: none;' class='soft-half alert alert--warning one-whole push-half--bottom'>Pas besoin d'envoyer vos coordonnées de contact, elles seront automatiquement transmises.</div>",
         init: function init () {
             _.bindAll(this, 'showMessageIfHasContact', 'hasContactInfo')
             this.$enclosing_form = this.$element.closest('form');
