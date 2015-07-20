@@ -15,6 +15,9 @@ module.exports = {
         });
     },
 
+    /*
+     * @param context: course|training
+     */
     changeContext: function changeContext (context) {
         SearchPageDispatcher.dispatch({
             actionType: SearchPageConstants.ActionTypes.CHANGE_CONTEXT,
