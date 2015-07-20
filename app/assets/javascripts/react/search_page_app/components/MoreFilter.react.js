@@ -61,7 +61,7 @@ var MoreFilter = React.createClass({
                                   </div>
                               </div>
                               <div className='text--center'>
-                                  <a onClick={ this.closePanel } className='btn btn--blue-green search-page-filters__button'>Ok</a>
+                                  <a onClick={ this.closePanel } className='btn btn--blue-green border-none search-page-filters__button'>OK</a>
                               </div>
                           </div>
                       </div>
