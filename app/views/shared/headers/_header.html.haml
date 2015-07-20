@@ -5,12 +5,10 @@
         = link_to '', root_url(subdomain: 'www'), class: 'v-middle coursavenue-header-logo mixpanel-tracker', title: 'CoursAvenue | Tous les cours autour de vous', data: { info: 'header' }
 
     .flexbox__item.palm-block.v-middle.nowrap.print--hidden.palm-text--center.text--right>
-      = form_tag root_search_page_without_subject_path('paris'), class: 'inline-block v-middle', method: :get, authenticity_token: false do
-        .header-search-input.inline-block.v-middle
-          .relative
-            %input.palm-one-whole{ name: 'discipline', type: 'search', placeholder: 'Cherchez une activité...', size: 50}
-              %i.fa.fa-search.blue-green
+      .inline-block= react_component('SubjectSearchInput', { navigate: true })
       #user-nav.inline-block.push--left.v-middle.visuallyhidden--palm
+
+= react_component('SubjectAutocompleteFilter', { full_screen: true, navigate: true })
 
 = content_for :scripts do
   :javascript

@@ -50,26 +50,37 @@ var SubjectAutocompleteFilter = React.createClass({
 
     selectSubject: function selectSubject (subject) {
         return function() {
-            SubjectActionCreators.selectSubject(subject.toJSON());
+            if (this.props.navigate) {
+                window.location = Routes.search_page_path(subject.get('root'), subject.get('slug'), 'paris');
+            } else {
+                SubjectActionCreators.selectSubject(subject.toJSON());
+            }
         }.bind(this);
     },
 
     searchFullText: function searchFullText (event) {
-        FilterActionCreators.closeSearchInputPanel();
+        if (this.props.navigate) {
+            window.location = Routes.root_search_page_without_subject_path('paris', { discipline: this.state.subject_autocomplete_store.full_text_search });
+        } else {
+            FilterActionCreators.closeSearchInputPanel();
+        }
     },
 
     render: function render () {
+        var height_class = 'search-page-filters__panel-height';
         var current_panel = this.state.filter_store.get('current_panel');
         var classes = cx('search-page-filters-wrapper search-page-filters__subject-search-panel', {
             'search-page-filters-wrapper--active': (current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT),
-            'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen')
+            'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen'),
+            'search-page-filters-wrapper--fullscreen height-100-percent': this.props.full_screen
         });
         var subjects = this.subjects();
         if (subjects.length == 0) { this.state.active_result = 'full_text_search'; }
+        if (this.props.full_screen) { height_class = 'height-100-percent'; }
         return (
           <div className={classes}>
               <div className="main-container main-container--1000">
-                  <div className="v-middle search-page-filters__panel-height input-with-button">
+                  <div className={"v-middle input-with-button " + height_class}>
                       <div className={cx("flexbox search-page__input-suggestion search-page__input-suggestion--bordered", {
                                           'search-page__input-suggestion--active': this.state.active_result == 'full_text_search'
                                         })}

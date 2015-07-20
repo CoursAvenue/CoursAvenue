@@ -7,7 +7,7 @@ var RootSubjectItem       = require('./RootSubjectItem.react'),
     cx                    = require('classnames/dedupe');
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
 
-var FilterBar = React.createClass({
+var SubjectSearchInput = React.createClass({
 
     mixins: [
         FluxBoneMixin(['filter_store', 'subject_store'])
@@ -35,9 +35,16 @@ var FilterBar = React.createClass({
     },
 
     closeFilterPanel: function closeFilterPanel (event) {
-        // If hitting enter or esc
-        if ($(event.currentTarget).val().length == 0 || event.keyCode == 13 || event.keyCode == 27) {
+        if ($(event.currentTarget).val().length == 0 || event.keyCode == 27) {
             FilterActionCreators.closeFilterPanel();
+
+        // If hitting enter
+        } else if (event.keyCode == 13) {
+            if (this.props.navigate) {
+                window.location = Routes.root_search_page_without_subject_path('paris', { discipline: $(event.currentTarget).val() });
+            } else {
+                FilterActionCreators.closeFilterPanel();
+            }
         }
     },
 
@@ -60,4 +67,4 @@ var FilterBar = React.createClass({
     }
 });
 
-module.exports = FilterBar;
+module.exports = SubjectSearchInput;
