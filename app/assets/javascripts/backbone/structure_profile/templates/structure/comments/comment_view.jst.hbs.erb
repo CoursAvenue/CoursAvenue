@@ -3,12 +3,12 @@
         <div class="grid__item palm-one-whole two-twelfths text--center">
             <div class="relative inline-block">
                 {{#if certified}}
-                  <img data-behavior="lazy-load" height="20" width="20" data-original="<%= asset_path('icons/certified-badge.png') %>" alt="Cet élève a réservé son cours sur CoursAvenue" class="visuallyhidden--palm absolute north east" data-toggle="popover" data-trigger="hover" data-html="true" data-content="Cet&nbsp;élève&nbsp;a&nbsp;réservé&nbsp;son cours sur CoursAvenue">
+                  <img height="20" width="20" src="<%= asset_path('icons/certified-badge.png') %>" alt="Cet élève a réservé son cours sur CoursAvenue" class="visuallyhidden--palm absolute north east" data-toggle="popover" data-trigger="hover" data-html="true" data-content="Cet&nbsp;élève&nbsp;a&nbsp;réservé&nbsp;son cours sur CoursAvenue">
                 {{/if}}
                 {{#if avatar_url}}
-                  <img data-behavior="lazy-load" height="60" width="60" data-original="{{ avatar_url }}" alt="Photo de {{ author_name }}" class="visuallyhidden--palm bordered rounded--circle center-block push-half--bottom">
+                  <img height="60" width="60" src="{{ avatar_url }}" alt="Photo de {{ author_name }}" class="visuallyhidden--palm bordered rounded--circle center-block push-half--bottom">
                 {{else}}
-                  <img data-behavior="lazy-load" height="60" width="60" data-original="<%= asset_path('icons/avatar.png') %>" alt="Photo de {{ author_name }}" class=" visuallyhidden--palmbordered rounded--circle center-block push-half--bottom">
+                  <img height="60" width="60" src="<%= asset_path('icons/avatar.png') %>" alt="Photo de {{ author_name }}" class=" visuallyhidden--palmbordered rounded--circle center-block push-half--bottom">
                 {{/if}}
             </div>
             <div class="text--center palm-text--left"><strong itemprop="reviewer">{{ author_name }}</strong></div>

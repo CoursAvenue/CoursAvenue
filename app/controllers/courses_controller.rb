@@ -1,6 +1,12 @@
 # encoding: utf-8
 class CoursesController < ApplicationController
+  layout 'home'
+
   def index
-    redirect_to structures_path, status: 301
+    @city = City.find(params[:city_id]) rescue City.find('paris')
+    if params[:subject_id].present? or params[:root_subject_id].present?
+      @subject      = Subject.find(params[:subject_id] || params[:root_subject_id])
+      @root_subject = @subject.root
+    end
   end
 end

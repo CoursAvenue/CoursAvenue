@@ -2,51 +2,23 @@ fr:
   sms:
     users:
       new_participation_request:
-        with_address_and_phone: >
-          Félicitations ! Votre demande d'inscription vient d'etre transmise : "%{course_name}" - le %{day} à %{start_time} - %{address} - %{phone_number}.
-          A bientot ! %{structure_name}. PS : pour modifier/annuler : %{url}
         with_address: >
-          Félicitations ! Votre demande d'inscription vient d'etre transmise : "%{course_name}" - le %{day} à %{start_time} - %{address}.
-          A bientot ! %{structure_name}. PS : pour modifier/annuler : %{url}
-        with_phone: >
-          Félicitations ! Votre demande d'inscription vient d'etre transmise : "%{course_name}" - le %{day} à %{start_time} - %{phone_number}.
-          A bientot ! %{structure_name}. PS : pour modifier/annuler : %{url}
-        without_phone_and_address: >
-          Félicitations ! Votre demande d'inscription vient d'etre transmise : "%{course_name}" - le %{day} à %{start_time}.
-          A bientot ! %{structure_name}. PS : pour modifier/annuler : %{url}
+          Félicitations ! Votre demande d'inscription vient d'etre transmise : "%{course_name}" avec %{structure_name} le %{day} à %{start_time} - %{address}.
+          A bientot ! PS : pour modifier/annuler : %{url}
+        without_address: >
+          Félicitations ! Votre demande d'inscription vient d'etre transmise : "%{course_name}" avec %{structure_name} le %{day} à %{start_time}.
+          A bientot ! PS : pour modifier/annuler : %{url}
       day_before_reminder:
         multiple_course: >
           Rappel : vous avez #{nb_courses} cours demain et le premier commence à %{start_time}.
           CoursAvenue vous souhaite une très belle séance ! Pour l'annuler, connectez-vous ("Mes inscriptions")."
         one_course:
-          # SEND TO CoursAvenue users
-          general:
-            with_address_and_phone: >
-              Rappel de votre séance "%{course_name}" : demain à %{start_time} avec %{structure_name} - %{address} - %{phone_number}.
-              Très belle séance ! PS : pour modifier/annuler : %{url}
-            with_address: >
-              Rappel de votre séance "%{course_name}" : demain à %{start_time} avec %{structure_name} - %{address}.
-              Très belle séance ! PS : pour modifier/annuler : %{url}
-            with_phone: >
-              Rappel de votre séance "%{course_name}" : demain à %{start_time} avec %{structure_name} - %{phone_number}.
-              Très belle séance ! PS : pour modifier/annuler : %{url}
-            without_phone_and_address: >
-              Rappel de votre séance "%{course_name}" : demain à %{start_time} avec %{structure_name}.
-              Très belle séance ! PS : pour modifier/annuler : %{url}
-          # SEND TO users who have registerd through white label planning page
-          from_personal_website:
-            with_address_and_phone: >
-              Rappel de votre séance "%{course_name}" : demain à %{start_time} - %{address} - %{phone_number}.
-              A demain ! %{structure_name}. PS : pour modifier/annuler : %{url}
-            with_address: >
-              Rappel de votre séance "%{course_name}" : demain à %{start_time} - %{address}.
-              A demain ! %{structure_name}. PS : pour modifier/annuler : %{url}
-            with_phone: >
-              Rappel de votre séance "%{course_name}" : demain à %{start_time} - %{phone_number}.
-              A demain ! %{structure_name}. PS : pour modifier/annuler : %{url}
-            without_phone_and_address: >
-              Rappel de votre séance "%{course_name}" : demain à %{start_time}.
-              A demain ! %{structure_name}. PS : pour modifier/annuler : %{url}
+          with_address: >
+            Rappel de votre séance "%{course_name}" : demain à %{start_time} avec %{structure_name} - %{address}.
+            Très belle séance ! PS : pour modifier/annuler : %{url}
+          without_address: >
+            Rappel de votre séance "%{course_name}" : demain à %{start_time} avec %{structure_name}.
+            Très belle séance ! PS : pour modifier/annuler : %{url}
     structures:
       new_participation_request: >
         Bonne nouvelle ! %{user_name} souhaite venir à une séance le %{date} à %{start_time}.

@@ -98,5 +98,7 @@ module CoursAvenue
 
     ROADIE_I_KNOW_ABOUT_VERSION_3 = true # Remove after Roadie 3.1
     config.roadie.url_options = { host: 'coursavenue.com' }
+
+    config.browserify_rails.commandline_options = "-t reactify --extension=\".react.js\""
   end
 end

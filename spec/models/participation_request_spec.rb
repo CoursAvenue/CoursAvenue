@@ -346,6 +346,13 @@ describe ParticipationRequest do
     end
   end
 
+  describe '#discuss' do
+    it 'sets the state to treated' do
+      participation_request.discuss!('Foo')
+      expect(participation_request.treated?).to be_truthy
+    end
+  end
+
   describe '#unanswered?' do
     context 'when the date is in the last two days' do
       subject { FactoryGirl.create(:participation_request, created_at: 1.day.ago) }

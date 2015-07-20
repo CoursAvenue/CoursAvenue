@@ -6,9 +6,13 @@ describe Structure do
   before(:all) { StripeMock.start }
   after(:all)  { StripeMock.stop }
 
-  it { should have_many(:newsletters) }
-  it { should have_many(:gift_certificates) }
-  it { should have_one(:crm_lock) }
+  context 'associations' do
+    it { should have_many(:newsletters) }
+    it { should have_many(:indexable_cards) }
+    it { should have_one(:indexable_lock).class_name('Structure::IndexableLock') }
+    it { should have_many(:gift_certificates) }
+    it { should have_one(:crm_lock) }
+  end
 
   subject {structure}
   let(:structure) { FactoryGirl.create(:structure) }
@@ -628,6 +632,29 @@ describe Structure do
           end
         end
       end
+    end
+  end
+
+  describe '#generate_cards' do
+    context "when the generation is locked" do
+      before do
+        subject.create_indexable_lock
+        subject.indexable_lock.lock!
+      end
+
+      it 'does nothing' do
+        expect { subject.generate_cards }.to_not change { Delayed::Job.count }
+      end
+    end
+
+    it 'locks the generation' do
+      allow(subject).to receive(:delayed_generate_cards).and_return(true)
+      subject.generate_cards
+      expect(subject.indexable_lock.locked?).to be_truthy
+    end
+
+    it 'starts the generation' do
+      expect { subject.generate_cards }.to change { Delayed::Job.count }
     end
   end
 

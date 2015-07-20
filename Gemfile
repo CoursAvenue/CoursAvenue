@@ -147,6 +147,8 @@ gem 'gibbon'                    , '~> 1.1.5'
 gem 'roadie'                    , '~> 3.0.4'
 gem 'roadie-rails'              , '~> 1.0.5'
 
+gem 'browserify-rails'          , '~> 1.0.1'
+gem 'react-rails'               , '~> 1.0.0'
 gem 'handlebars_assets'         , '~> 0.20.1'
 # Decorator
 gem 'draper'                    , '~> 1.4.0'
@@ -191,8 +193,9 @@ gem 'rack-utf8_sanitizer'       , '~> 1.3.0'
 gem 'image_optim'               , '~> 0.20.2'
 gem 'image_optim_pack'          , '~> 0.2.1.20150310'
 
+gem 'execjs'                    , '~> 2.5.2'
+
 group :production, :staging do
-  gem 'execjs'                    , '~> 2.4.0'
   gem 'rails_12factor'            , '~> 0.0.3'
   # Sync assets to S3 and CloudFront
   gem 'asset_sync'                , '~> 1.1.0'

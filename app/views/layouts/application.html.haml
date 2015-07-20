@@ -14,6 +14,7 @@
       = render 'layouts/mixpanel'
 
       = yield :after_ga
+    = render 'layouts/typekit'
     = yield :head
     = favicon_link_tag
     %link{ href: asset_path('favicon.ico'), rel: 'shortcut icon', type: 'image/ico' }
@@ -39,12 +40,17 @@
 
     = javascript_include_tag 'https://maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry'
     = javascript_include_tag 'application'
-    = javascript_include_tag 'https://cdn.jsdelivr.net/algoliasearch/3.0.0/algoliasearch.min.js'
     = javascript_include_tag 'https://d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js', 'data-apikey' => '5ddb2502a5b017d46bf49c15d406678e'
 
     = yield :scripts
     = yield :layout_scripts
     = render 'layouts/social_sdks'
+
+    = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'
+    = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'
+    = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css'
+    = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css'
+    = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css'
 
     :javascript
       if (!$.cookie('fingerprint')) { $.cookie('fingerprint', new Fingerprint().get()); }
@@ -85,6 +91,9 @@
         Bugsnag.notifyReleaseStages = ["staging", "production"]
     :javascript
         window.prerenderReady = false;
+        $(function() {
+            moment.locale('#{I18n.locale.to_s}')
+        })
     - if !@prerender_not_ready
       :javascript
           $(function() {
@@ -92,4 +101,3 @@
           });
     - if on_pro_subdomain?
       = intercom_script_tag
-

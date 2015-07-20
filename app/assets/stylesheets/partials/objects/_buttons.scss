@@ -13,9 +13,8 @@
 }
 
 .btn.btn--large {
-  font-size  : 20px;
-  padding    : 0.6em 2.5em;
-  line-height: 1;
+  font-size  : 1.3em;
+  line-height: 1.3;
 }
 
 .btn.btn--bigger {
@@ -23,34 +22,30 @@
 }
 
 .btn.btn--small {
-    padding: 0.5em;
+    padding: 0.3em 0.5em;
 }
 
 .btn.btn--plus {
     font-size: 16px;
     padding  : 5px 8px;
 }
+
 .btn {
-    text-transform  : uppercase;
     white-space     : normal;
     line-height     : 1.2;
     font-weight     : 700;
-    padding         : 0.8em;
-    font-size       : 12px;
+    padding         : 0.7em 1.5em;
     @include border-radius($brand-round);
     border          : 1px solid #DEDEDE;
     background-color: #fefefe;
     color           : #555555;
-    @include text-shadow(0 1px 0 white);
     &[type=submit] {
         font-weight: 600;
     }
     &:active {
         cursor: default;
     }
-    &:active, &:hover {
-        background-color: #f2f2f2;
-    }
+    // &:active, &:hover { background-color: #f2f2f2; }
 }
 
 .btn.disabled, .btn:disabled, .btn[disabled]{
@@ -59,102 +54,72 @@
     cursor          : default;
 }
 
-.btn--gray {
-    text-transform  : uppercase;
-    color           : #555555;
-    border-color    : #D5D5D5;
-    background-color: #f2f2f2;
-    &:active, &:hover {
-        background-color: lighten(#f2f2f2, 5%);
-    }
-    &.disabled:hover, &:disabled, &[disabled] {
-        background-color: #f2f2f2;
-    }
-    &:active, &.btn--active, &.btn--active:hover, &.active, &.active:hover {
-        border-bottom: none;
-        background-color: lighten(#f2f2f2, 15%);
-    }
+.btn--white, .btn--gray {
+    border: 2px solid #BBBBBB;
+    background-color: white;
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: #BBBBBB; }
+    &.disabled:hover, &:disabled, &[disabled] { background-color: #f2f2f2; }
 }
 
 .btn--orange {
-    text-transform  : uppercase;
-    color           : white;
-    border-color    : darken($orange, 5%);
     background-color: $orange;
-    @include text-shadow(-1px -1px 0 #a34c30);
-    &:active, &:hover {
-        background-color: lighten($orange, 5%);
-    }
+    color           : white;
+    border-color    : darken($orange, 5%)!important;
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: lighten($orange, 5%); }
     &:active, &.btn--active, &.btn--active:hover, &.active, &.active:hover {
         border-bottom: none;
         background-color: lighten($orange, 15%);
     }
 }
 .btn--red {
-    text-transform: uppercase;
     background-color: $btn--red;
     border          : none;
     color           : white;
-    @include text-shadow(-1px -1px 1px darken($btn--red, 10%));
-    &:hover, &:active {
-        background-color: lighten($btn--red, 5%);
-    }
-    &.disabled, &[disabled] {
-        background-color: lighten($btn--red, 15%);
-        color           : #EEE;
-    }
-}
-// Danger and error appear as red
-// Success appears as green
-.btn--green {
-    text-transform: uppercase;
-    background-color: $btn--green;
-    border          : none;
-    color           : white;
-    @include text-shadow(-1px -1px 1px darken($btn--green, 10%));
-    &:hover, &:active {
-        background-color: lighten($btn--green, 5%);
-    }
-    &.disabled, &[disabled] {
-        background-color: lighten($btn--green, 15%);
-        color           : #EEE;
-    }
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: lighten($btn--red, 5%); }
+    &.disabled, &[disabled] { background-color: lighten($btn--red, 15%); color: #EEE; }
 }
 
-.btn--blue , .btn--blue-green {
-    text-transform  : uppercase;
+.btn--green, .btn--blue-green {
     background-color: $blue-green;
     border          : none;
     color           : white;
-    @include text-shadow(-1px -1px 1px darken($blue-green, 10%));
-    &:hover, &:active, &.active {
-        background-color: lighten($blue-green, 5%);
-    }
-    &.disabled, &[disabled] {
-        background-color: lighten($blue-green, 15%);
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: lighten($blue-green, 5%); }
+    &.disabled, &[disabled] { background-color: #8CFCEC; }
+}
+.bg-blue-green {
+    .btn--green, .btn--blue-green {
+        background-color: #22B59E;
     }
 }
 
-.btn--yellow {
-    text-transform  : uppercase;
-    color           : darken($yellow, 35%);
-    background-color: $yellow;
+.btn--blue {
+    background-color: $blue;
+    border-color    : $blue !important;
+    color           : white;
     border          : none;
-    @include text-shadow(0 1px 0 darken($yellow, 5%));
-    // @include text-shadow(-1px -1px 1px #486762);
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: lighten($blue, 5%); }
+}
+
+.btn--yellow {
+    color           : white;
+    background-color: $yellow;
+    border-color    :$yellow !important;
+    border          : none;
     &:hover, &:active {
-        color           : darken($yellow, 35%);
+        color           : white;
         background-color: lighten($yellow, 5%);
-        @include text-shadow(0 1px 0 darken($yellow, 5%));
     }
 }
 
 .btn--purple {
-    text-transform  : uppercase;
     color           : #FFF;
     background-color: $purple;
     border          : none;
-    @include text-shadow(0 1px 0 $purple);
     &:hover, &:active {
         color           : #FFF;
         background-color: lighten($purple, 10%);
@@ -162,7 +127,6 @@
 }
 
 .btn--social {
-    text-transform  : uppercase;
     @include text-shadow(-1px -1px 0 darken($facebook-blue, 5%));
     color           : white;
     vertical-align  : middle;
@@ -276,18 +240,102 @@
     }
 }
 .btn--white-transparent {
-    color     : white;
-    border    : 2px solid white;
-    background: none;
+    color      : white;
+    border     : 2px solid white;
+    background : transparent;
+    line-height: 0.9em;
     @include text-shadow(none);
+    @extend .btn-hover-transition;
     @include transition(all 200ms linear);
     &:hover {
-        border-color    : $btn--green;
-        background-color: $btn--green;
+        border-color    : $blue-green!important;
+        background-color: $blue-green;
+        &.btn--white-transparent--green {
+            &::after, &.btn--active {
+                border-color: lighten($blue-green, 5%);
+                background-color: lighten($blue-green, 5%);
+            }
+        }
         &.btn--white-transparent--white {
-            border-color    : white;
+            &::after, &.btn--active { background-color: white; }
             background-color: white;
-            color           : black;
+            color           : #666666;
+        }
+        &.btn--white-transparent--orange {
+            border-color    : $orange!important;
+            &::after, &.btn--active { background-color: $orange; }
+        }
+        &.btn--white-transparent--red {
+            &::after, &.btn--active { background-color: $btn--red; }
+            border-color    : $btn--red!important;
         }
     }
+}
+
+.btn-with-hidden-icon {
+    i {
+        @include transition(all 250ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+        opacity: 0;
+    }
+    &:hover, &.btn--active {
+      i { opacity: 1; }
+    }
+}
+.btn-hover-transition {
+    position  : relative;
+    z-index   : 1;
+    @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+    &:hover { &, i { color: white; } }
+    &:hover::after { width: 100%; }
+    &::after {
+        width     : 0;
+        height    : 100%;
+        bottom    : 0;
+        left      : 0;
+        content   : '';
+        position  : absolute;
+        z-index   : -1;
+        @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+    }
+}
+.btn-hover-transition--bottom-up {
+    @extend .btn-hover-transition;
+    &:hover::after { height: 100%; }
+    &::after {
+        width     : 100%;
+        height    : 0;
+        bottom    : 0;
+        left      : 0;
+    }
+}
+.btn-white-to-color {
+    @extend .btn-hover-transition;
+    &.btn {
+        padding    : 0.3em 1.5em;
+        font-weight: 600;
+        font-size  : 1.2em;
+        background : none;
+        cursor     : pointer;
+        text-align : center;
+        color      : white;
+        border     : 2px solid white;
+        @include border-radius(2px);
+    }
+}
+.btn-white-to-blue {
+    @extend .btn-white-to-color;
+    &::after, &.btn--active { background-color: $blue; }
+}
+.btn-white-to-yellow {
+    @extend .btn-white-to-color;
+    &::after, &.btn--active { background-color: $yellow; }
+
+}
+.btn-white-to-blue-green {
+    @extend .btn-white-to-color;
+    &::after, &.btn--active { background-color: $blue-green; }
+}
+.btn-white-to-dark-blue {
+    @extend .btn-white-to-color;
+    &::after, &.btn--active { background-color: $dark-blue; }
 }

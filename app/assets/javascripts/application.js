@@ -1,7 +1,9 @@
+//= require dot-env
 //= require libs/underscore
 //= require underscore_extend
 //= require global
 //= require helpers
+//= require I18n
 
 // ---------------------------------- Core include
 //= require libs/jquery
@@ -27,6 +29,7 @@
 //= require libs/jquery.placeholder
 //= require libs/imagesloaded.pkgd
 //= require libs/jquery.payment
+//= require libs/dotdotdot
 
 //= require libs/jquery.magnific-popup
 //= require libs/jquery.lazyload
@@ -53,6 +56,7 @@
 //= require libs/bootstrap/bootstrap.scrollspy
 //= require libs/bootstrap/datepicker-locales/bootstrap.datepicker.fr
 //= require libs/moment
+//= require libs/momentjs_locales/fr
 //= require libs/retina
 //= require libs/masonry.pkgd
 
@@ -80,6 +84,11 @@
 //= require libs/Backbone.ModelBinder.js
 //= require libs/Backbone.CollectionBinder.js
 //= require backbone/cours_avenue
+
+// ---------------------------------- React
+//= require react
+//= require react/components
+//= require react_ujs
 
 // Default magnificpopup style
 // http://codepen.io/dimsemenov/pen/GAIkt

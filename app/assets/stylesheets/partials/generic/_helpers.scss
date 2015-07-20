@@ -8,7 +8,6 @@
 /*------------------------------------*\
     WIDTHS & HEIGHTS
 \*------------------------------------*/
-.one-seventh { width: 14.2857%; }
 .width-auto  { width: auto !important; }
 
 .height-100-percent { height: 100%; }
@@ -29,6 +28,9 @@
     @include media-query(palm) { height: 50vh; }
 }
 .height-whole { height: 100%; }
+.palm-height-auto {
+    @include media-query(palm) { height: auto !important; }
+}
 .full-screen-item {
     height: 750px; // Fallback
     height: 100vh;
@@ -63,6 +65,7 @@
 .bordered               { border        : 1px solid $gray-smooth; }
 .bordered--dash         { border-style: dashed !important; }
 .bordered--ends         { border-top: 1px solid $gray-smooth; border-bottom: 1px solid $gray-smooth; }
+.bordered--sides        { border-left: 1px solid $gray-smooth; border-right: 1px solid $gray-smooth; }
 .bordered--right        { border-right  : 1px solid $gray-smooth !important; }
 .bordered--left         { border-left   : 1px solid $gray-smooth !important; }
 .bordered--right        { border-right   : 1px solid $gray-smooth !important; }
@@ -91,6 +94,7 @@
 .border-color-green     { border-color  : $green !important; }
 .border-color-dark-blue { border-color  : $dark_blue !important; }
 .border-color-yellow    { border-color  : $yellow !important; }
+.border-color-black-transparent { border-color: rgba(0,0,0,0.2) !important}
 
 /*------------------------------------*\
     ALIGNMENTS
@@ -112,11 +116,13 @@
 .black              { color: $text-black; }
 .yellow             { color: $yellow; }
 .yellow--dark       { color: darken($yellow, 8%); }
-.red                { color: $red_light !important; }
+.red                { color: $red !important; }
 .green              { color: $green-success !important; }
 .dark-blue          { color: $dark_blue; }
 .green              { color: $green; }
-.blue               { color: $blue-green !important; }
+.blue-green         { color: $blue-green !important; }
+.blue-green--slightly-darker { color: darken($blue-green, 3%) !important; }
+.blue               { color: $blue !important; }
 .blue-darker        { color: darken($blue-green, 10%) !important; }
 .fb-blue            { color: $facebook-blue; }
 .orange             { color: $orange !important; }
@@ -124,6 +130,8 @@
 .gray-light         { color: $gray-light; }
 .gray               { color: $gray; }
 .gray-very-light    { color: #CCC; }
+.bg-red             { background-color: $red; }
+.bg-blue            { background-color: $blue; }
 .bg-blue-green      { background-color: $blue-green; }
 .bg-green           { background-color: $green-success; }
 .bg-dark-gray       { background-color: $gray; }
@@ -137,7 +145,7 @@
 .bg-site-background { background-color: $site-background-color; }
 .bg-site-background-on-stick.sticky {  background-color: $site-background-color; }
 .bg-black-faded     { background-color: black; background-color: rgba(0, 0, 0, 0.65) }
-.bg-yellow          { background-color: #ffeb3b }
+.bg-yellow          { background-color: $yellow }
 
 /*------------------------------------*\
     DISPLAY
@@ -158,12 +166,14 @@
 .on-top-of-the-world { z-index    : 100000 !important; }
 .on-top            { z-index    : 1000 !important; }
 .on-under-top      { z-index    : 900 !important; }
+.z-index-1         { z-index    : 1 !important; }
 .z-index-under     { z-index    : -1 !important; }
 .absolute          { position   : absolute; }
 .fixed             { position   : fixed; }
 .west              { left       : 0 !important; }
 .east              { right      : 0 !important; }
 .north             { top        : 0 !important; }
+.down-north        { top        : 1000% !important; }
 .south             { bottom     : 0 !important; }
 
 .bg-transparent {
@@ -178,7 +188,7 @@
 }
 .bg-position-center { background-position: center !important; }
 .bg-position-top    { background-position: top; }
-.bg-fixed { background-attachment: fixed; }
+.bg-fixed   { background-attachment: fixed; }
 .bg-cover   { @include background-size(cover); }
 .bg-contain { @include background-size(contain !important); }
 
@@ -222,6 +232,16 @@
         padding-left: $base-spacing-unit / 2; padding-right: $base-spacing-unit / 2;
     }
 }
+.soft-double--ends {
+    padding-top: $base-spacing-unit * 2; padding-bottom: $base-spacing-unit * 2;
+    @include media-query(palm) {
+        padding-top: $base-spacing-unit / 2; padding-bottom: $base-spacing-unit / 2;
+    }
+}
+.soft-double {
+    padding: $base-spacing-unit * 2;
+    @include media-query(palm) { padding: $base-spacing-unit / 2; }
+}
 .soft--sides {
     @include media-query(palm) {
         padding-left: $base-spacing-unit / 2!important; padding-right: $base-spacing-unit / 2!important;
@@ -231,7 +251,7 @@
     margin-top: $base-spacing-unit * 2;
     @include media-query(palm) { margin-top: $base-spacing-unit; }
 }
-.very-soft          { padding: 5px; }
+.very-soft          { padding: 5px !important; }
 .very-soft--left    { padding-left: 5px; }
 .very-soft--right   { padding-right: 5px; }
 .very-soft--top     { padding-top: 5px; }
@@ -295,6 +315,7 @@
     .opacity-hidden-on-hover__child         { opacity: 0; @include transition(opacity 300ms ease-in-out); }
     &:hover .opacity-hidden-on-hover__child { opacity: 1; }
 }
+
 .show-on-hover__wrapper {
     &.show-on-hover__wrapper--black-curtain {
         @include transition(background 200ms ease-in-out);
@@ -581,14 +602,13 @@
     @include media-query(palm) { top: 20vh; }
 }
 
+.top-15vh {
+    top: 15vh;
+}
 
 /*------------------------------------*\
     TRANSITIONS
 \*------------------------------------*/
-// http://matthewlein.com/ceaser/
-// easeOutExpo
-// @include transition(left 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
-
 .transition-all-300 { @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
 .transition-all-500 { @include transition(all 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
 .transition-all-900 { @include transition(all 900ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
@@ -610,4 +630,18 @@
 @keyframes avia_pop_small {
     0%   { transform:rotate(-175deg) scale(0.2);  }
     100% { transform:rotate(0deg) scale(1);   }
+}
+
+.flex-center {
+    @include display-flex;
+    @include align-items(center);
+    @include justify-content(center);
+}
+.vertical-delimiter {
+    display       : inline-block;
+    vertical-align: middle;
+    margin-right  : 1.5em;
+    border-right  : 2px solid white;
+    padding-right : 1.5em;
+    height        : 1.5em;
 }

@@ -2,23 +2,25 @@
 //*= require libs/jquery.fileupload/jquery.fileupload-ui
 
 @import "font-awesome";
-// @import "CoursAvenueIconFont";
-@import "Fontello";
+@import "CoursAvenueIconFont";
+// @import "Fontello";
 
 .cf { clear: both; } // Here to prevent sass fail compilation
 
 // Compass mixins
-@import "compass/css3/filter";
+@import "compass/css3/animation";
 @import "compass/css3/background-size";
-@import "compass/css3/opacity";
 @import "compass/css3/border-radius";
 @import "compass/css3/box-shadow";
-@import "compass/css3/text-shadow";
-@import "compass/css3/images";
 @import "compass/css3/box-sizing";
-@import "compass/css3/transition";
+@import "compass/css3/filter";
+@import "compass/css3/flexbox";
 @import "compass/css3/images";
+@import "compass/css3/images";
+@import "compass/css3/opacity";
+@import "compass/css3/text-shadow";
 @import "compass/css3/transform";
+@import "compass/css3/transition";
 
 @import "defaults";
 @import "widths";
@@ -36,6 +38,7 @@
 @import "partials/generic/mixins";
 @import "partials/generic/grid";
 @import "partials/generic/helpers";
+@import "partials/generic/subjects-helper";
 @import "partials/generic/font_helpers";
 
 
@@ -50,7 +53,6 @@
 @import "partials/objects/datepicker-input";
 @import "partials/objects/drop-down";
 @import "partials/objects/emphasis";
-@import "partials/objects/filtered_search";
 @import "partials/objects/flashs";
 @import "partials/objects/footer";
 @import "partials/objects/forms";
@@ -68,16 +70,19 @@
 @import "partials/objects/media";
 @import "partials/objects/menu";
 @import "partials/objects/message";
+@import "partials/objects/metro";
 @import "partials/objects/pagination";
 @import "partials/objects/panel";
 @import "partials/objects/progress-bar";
 @import "partials/objects/read_more";
 @import "partials/objects/search";
+@import "partials/objects/search_page/*";
 @import "partials/objects/share_buttons";
 @import "partials/objects/sliders";
 @import "partials/objects/slideshow";
-@import "partials/objects/structure-item";
 @import "partials/objects/social";
+@import "partials/objects/spinner";
+@import "partials/objects/structure-item";
 @import "partials/objects/tables";
 @import "partials/objects/tables_responsive";
 @import "partials/objects/tabs";
@@ -110,6 +115,7 @@
 @import "libs/bootstrap/bootstrap.tooltip";
 @import "libs/bootstrap/bootstrap.popover";
 @import "libs/bootstrap/bootstrap.collapse";
+@import "libs/bootstrap/bootstrap.tooltip-overrides";
 
 html, body {
   height: 100%;
@@ -117,9 +123,10 @@ html, body {
 
 html, pre {
   font-family : $brand-face;
+  @include prefix(font-feature-settings, '"liga"');
   font-weight : 400;
   background  : $site-background-color;
-  color       : #393C3D;
+  color       : #6E6E6E;
   overflow    : auto;
   -webkit-font-smoothing: antialiased;
 }

@@ -7,13 +7,13 @@ class ParticipationRequest < ActiveRecord::Base
 
   acts_as_paranoid
 
-  STATE                 = %w(accepted pending canceled)
+  STATE                 = %w(accepted treated pending canceled)
   PARAMS_THAT_MODIFY_PR = %w(date start_time end_time planning_id course_id)
 
   attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
     :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
     :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
-    :old_course_id, :structure_responded, :street, :zip_code, :city_id,
+    :old_course_id, :structure_responded, :street, :zip_code, :city_id, :at_student_home,
     :participants_attributes, :structure_id, :from_personal_website, :token, :charged_at,
     :stripe_fee
 
@@ -69,9 +69,7 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   scope :accepted,                -> { where( state: 'accepted') }
   scope :pending,                 -> { where( state: 'pending') }
-  scope :upcoming,                -> { where( arel_table[:date].gteq(Date.today) )
-    .order("state='pending' DESC, state='canceled' ASC,
-                                              updated_at DESC, date ASC") }
+  scope :upcoming,                -> { where( arel_table[:date].gteq(Date.today) ).order("date ASC") }
   scope :past,                    -> { where( arel_table[:date].lt(Date.today) ).order("date ASC") }
   scope :canceled,                -> { where( arel_table[:state].eq('canceled') ) }
   scope :tomorrow,                -> { where( state: 'accepted', date: Date.tomorrow ) }
@@ -153,6 +151,18 @@ class ParticipationRequest < ActiveRecord::Base
     end
   end
 
+  # Set state of PR to treated: it means the teacher did something with the PR
+  #
+  # @return Boolean
+  def treat!
+    self.state = 'treated'
+    save
+  end
+
+  def treated?
+    self.state == 'treated'
+  end
+
   #
   # Tells wether or not we should charge the PR
   #
@@ -177,14 +187,15 @@ class ParticipationRequest < ActiveRecord::Base
     self.assign_attributes new_params
     # Set old_course_id to nil if the user don't change it and modify just the date
     self.old_course_id       = (self.course_id_was == self.course_id ? nil : self.course_id_was)
-    self.state               = 'pending'
-    message                  = reply_to_conversation(message_body, last_modified_by)
+    self.state               = 'accepted'
+    message                  = reply_to_conversation(message_body, last_modified_by) if message_body.present?
     self.structure_responded = true if last_modified_by == 'Structure'
     save
+
     if self.last_modified_by == 'Structure'
-      mailer.delay.request_has_been_modified_by_teacher_to_user(self, message)
+      mailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
-      mailer.delay.request_has_been_modified_by_user_to_teacher(self, message)
+      mailer.delay.request_has_been_accepted_by_user_to_teacher(self, message)
     end
   end
 
@@ -195,6 +206,7 @@ class ParticipationRequest < ActiveRecord::Base
   def discuss!(message_body, discussed_by='Structure')
     message_body             = StringHelper.replace_contact_infos(message_body)
     message                  = reply_to_conversation(message_body, discussed_by)
+    treat! if pending?
     self.structure_responded = true if discussed_by == 'Structure'
     save
     if discussed_by == 'Structure'
@@ -228,15 +240,10 @@ class ParticipationRequest < ActiveRecord::Base
     end
   end
 
-  # Tell wether the course will happen at student place
-  #
-  # @return Boolean
-  def at_student_home?
-    (self.course.is_private? and self.street.present? and self.zip_code.present? and self.city.present?)
-  end
-
   def place
-    if planning
+    if at_student_home?
+      course.home_place
+    elsif planning
       planning.place
     elsif course and course.place
       course.place
@@ -262,10 +269,6 @@ class ParticipationRequest < ActiveRecord::Base
 
   def nb_participants
     participants.map(&:number).reduce(&:+) || 0
-  end
-
-  def show_personnal_info?
-    return (accepted? || from_personal_website)
   end
 
   # The cost of this Participation Request in Euros.

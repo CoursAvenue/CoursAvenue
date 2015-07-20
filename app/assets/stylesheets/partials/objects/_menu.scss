@@ -93,7 +93,7 @@ body.side-menu-opened {
             &.active {
                 @include box-shadow(0 2px 3px rgba(56,67,67,0.2));
             }
-            font-weight: 600;
+            font-weight: 500;
             .side-menu-link {
                 color: #999999;
                 @include transition(all 150ms linear);

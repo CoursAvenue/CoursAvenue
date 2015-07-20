@@ -30,7 +30,7 @@
     }
 
     // Simple template of the wizard appearing on the right
-    var wizard_template = "<div class='grid--full wizard-helper'><div class='grid__item two-twelfths text--center'><i data-toggle='popover' data-content=\"{{{ content }}}\" data-html='true' data-placement='bottom left' class='cursor-help fa-lightbulb-o blue wizard__icon'></i></div><div class='grid__item ten-twelfths wizard-helper__content text--muted'>{{{ content }}}</div></div>";
+    var wizard_template = "<div class='grid--full wizard-helper'><div class='grid__item two-twelfths text--center'><i data-toggle='popover' data-content=\"{{{ content }}}\" data-html='true' data-placement='bottom left' class='cursor-help fa-lightbulb-o blue-green wizard__icon'></i></div><div class='grid__item ten-twelfths wizard-helper__content text--muted'>{{{ content }}}</div></div>";
     Plugin.prototype = {
         template: Handlebars.compile(wizard_template),
         init: function() {

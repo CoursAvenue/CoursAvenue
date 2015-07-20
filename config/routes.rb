@@ -405,14 +405,13 @@ CoursAvenue::Application.routes.draw do
         end
         resources :participation_requests, only: [:edit, :index, :show], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
           member do
-            get   :report_form
             get   :cancel_form
             get   :accept_form
             patch :accept
             patch :discuss
             patch :modify_date
             patch :cancel
-            patch :report
+            get   :show_user_contacts
           end
           collection do
             get :paid_requests, path: 'transactions-cb'
@@ -536,21 +535,20 @@ CoursAvenue::Application.routes.draw do
       end
       resources :participation_requests, only: [:create, :edit]                             , controller: 'structures/participation_requests' do
         member do
-          get   :report_form
           get   :cancel_form
           get   :accept_form
           patch :accept
           patch :discuss
           patch :modify_date
           patch :cancel
-          patch :report
         end
       end
       resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'
       resources :messages              , only: [:create]                                    , controller: 'structures/messages'
       resources :places                , only: [:index]                                     , controller: 'structures/places'
-      resources :courses               , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
-      resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'   , path: 'avis' do
+      resources :courses               , only: [:index]                                     , controller: 'structures/courses'        , path: 'cours'
+      resources :indexable_cards       , only: [:show]                                      , controller: 'structures/indexable_cards', path: 'cours'
+      resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'       , path: 'avis' do
         collection do
           get :create_from_email
         end
@@ -670,9 +668,9 @@ CoursAvenue::Application.routes.draw do
     get ':root_subject_id/:subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
     get ':root_subject_id--:city_id--:old_city_slug'            , to: 'redirect#structures_index'
     # end-redirect
-    get ':root_subject_id/:subject_id--:city_id'                , to: 'structures#index', as: :search_page
-    get ':root_subject_id--:city_id'                            , to: 'structures#index', as: :root_search_page
-    get ':city_id'                                              , to: 'structures#index', as: :root_search_page_without_subject
+    get ':root_subject_id/:subject_id--:city_id'                , to: 'courses#index', as: :search_page
+    get ':root_subject_id--:city_id'                            , to: 'courses#index', as: :root_search_page
+    get ':city_id'                                              , to: 'courses#index', as: :root_search_page_without_subject
     ########### Search pages ###########
 
     # Needed to catch 404 requests in ApplicationController

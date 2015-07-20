@@ -65,7 +65,7 @@
         top         : -3px;
         @include background-image-retina('icons/map-marker-small.png', 'icons/map-marker-small@2x.png')
     }
-    span {;
+    span {
         width           : 13px;
         margin-left     : -8px;
         font-size       : 10px;
@@ -82,4 +82,148 @@
     font-size       : 12px;
     &, a {color: white;}
     @include border-radius($brand-round);
+}
+.map-box-marker__user {
+    margin    : 8px auto ;
+    width     : 16px !important;
+    height    : 16px !important;
+    border    : solid rgba(255, 255, 255, 0.8) 4px;
+    background-color: $blue-green;
+    @include border-radius(30px);
+    > div {
+        padding    : 8px;
+        border     : 10px solid transparentize($blue-green, 0.5);
+        width      : 32px !important;
+        height     : 32px !important;
+        margin-left: -14px;
+        margin-top : -14px;
+        @include border-radius(30px);
+        @include animation(breath 8s infinite ease-in-out);
+    }
+}
+@include keyframes(breath) {
+    0%, 100% { @include transform(scale(1)); }
+    50% { @include transform(scale(0.7)); }
+}
+
+.map-box-marker--circle {
+    @extend .fa-circle;
+    @extend .fa;
+    width: 10px;
+    height: 10px;
+    margin-left: -3px;
+    &:before {
+      font-size: 8px;
+    }
+}
+.map-box-marker {
+    @extend .fa-mapbox-marker;
+    margin-top : 0;
+    margin-left: -9px;
+    &:before {
+        font-size: 40px;
+        position: relative;
+        left      : -12px;
+        top       : -40px;
+    }
+    i {
+        color: white;
+    }
+    div {
+        position   : absolute;
+        color      : white;
+        top        : -35px;
+        left       : -7px;
+        font-size  : 1.1em;
+        width      : 30px;
+        text-align : center;
+        font-weight: 600;
+    }
+}
+.map-box-marker--active {
+    color  : white;
+    z-index: 1000;
+}
+
+.map-box-marker__danse {
+    @extend .danse-color;
+    @include text-shadow(darken($color-dance, 10%) 0px 1px, darken($color-dance, 10%) -1px 1px, darken($color-dance, 10%) -1px -1px, darken($color-dance, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-dance, 10%)); }
+    &.map-box-marker--active {
+        @include text-shadow(darken($color-dance, 10%) -2px -2px, darken($color-dance, 10%) 2px -2px, darken($color-dance, 10%) -2px 2px, darken($color-dance, 10%) 2px 2px, darken($color-dance, 10%) 0px 3px, darken($color-dance, 10%) 0px -3px);
+        div { @extend .danse-color; @include text-shadow(none); }
+    }
+}
+.map-box-marker__theatre-scene {
+    @extend .theatre-scene-color;
+    @include text-shadow(darken($color-theatre, 10%) 0px 1px, darken($color-theatre, 10%) -1px 1px, darken($color-theatre, 10%) -1px -1px, darken($color-theatre, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-theatre, 10%)); }
+    &.map-box-marker--active {
+        @include text-shadow(darken($color-theatre, 10%) -2px -2px, darken($color-theatre, 10%) 2px -2px, darken($color-theatre, 10%) -2px 2px, darken($color-theatre, 10%) 2px 2px, darken($color-theatre, 10%) 0px 3px, darken($color-theatre, 10%) 0px -3px);
+        div { @extend .theatre-scene-color; @include text-shadow(none); }
+    }
+}
+.map-box-marker__deco-mode-bricolage {
+    @extend .deco-mode-bricolage-color;
+    @include text-shadow(darken($color-deco, 10%) 0px 1px, darken($color-deco, 10%) -1px 1px, darken($color-deco, 10%) -1px -1px, darken($color-deco, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-deco, 10%)); }
+    &.map-box-marker--active {
+        @include text-shadow(darken($color-deco, 10%) -2px -2px, darken($color-deco, 10%) 2px -2px, darken($color-deco, 10%) -2px 2px, darken($color-deco, 10%) 2px 2px, darken($color-deco, 10%) 0px 3px, darken($color-deco, 10%) 0px -3px);
+        div { @extend .deco-mode-bricolage-color; @include text-shadow(none); }
+    }
+}
+.map-box-marker__musique-chant {
+    @extend .musique-chant-color;
+    @include text-shadow(darken($color-music, 10%) 0px 1px, darken($color-music, 10%) -1px 1px, darken($color-music, 10%) -1px -1px, darken($color-music, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-music, 10%)); }
+    &.map-box-marker--active {
+        @include text-shadow(darken($color-music, 10%) -2px -2px, darken($color-music, 10%) 2px -2px, darken($color-music, 10%) -2px 2px, darken($color-music, 10%) 2px 2px, darken($color-music, 10%) 0px 3px, darken($color-music, 10%) 0px -3px);
+        div { @extend .musique-chant-color; @include text-shadow(none); }
+    }
+}
+.map-box-marker__photo-video {
+    @extend .photo-video-color;
+    @include text-shadow(darken($color-photo, 10%) 0px 1px, darken($color-photo, 10%) -1px 1px, darken($color-photo, 10%) -1px -1px, darken($color-photo, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-photo, 10%)); }
+    &.map-box-marker--active {
+        @include text-shadow(darken($color-photo, 10%) -2px -2px, darken($color-photo, 10%) 2px -2px, darken($color-photo, 10%) -2px 2px, darken($color-photo, 10%) 2px 2px, darken($color-photo, 10%) 0px 3px, darken($color-photo, 10%) 0px -3px);
+        div { @extend .photo-video-color; @include text-shadow(none); }
+    }
+}
+
+.map-box-marker__dessin-peinture-arts-plastiques {
+    @extend .dessin-peinture-arts-plastiques-color;
+    @include text-shadow(darken($color-arts, 10%) 0px 1px, darken($color-arts, 10%) -1px 1px, darken($color-arts, 10%) -1px -1px, darken($color-arts, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-arts, 10%)); }
+    &.map-box-marker--active {
+        @include text-shadow(darken($color-arts, 10%) -2px -2px, darken($color-arts, 10%) 2px -2px, darken($color-arts, 10%) -2px 2px, darken($color-arts, 10%) 2px 2px, darken($color-arts, 10%) 0px 3px, darken($color-arts, 10%) 0px -3px);
+        div { @extend .dessin-peinture-arts-plastiques-color; @include text-shadow(none); }
+    }
+}
+.map-box-marker__cuisine-vins {
+    @extend .cuisine-vins-color;
+    @include text-shadow(darken($color-cooking, 10%) 0px 1px, darken($color-cooking, 10%) -1px 1px, darken($color-cooking, 10%) -1px -1px, darken($color-cooking, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-cooking, 10%)); }
+    &.map-box-marker--active {
+        @include text-shadow(darken($color-cooking, 10%) -2px -2px, darken($color-cooking, 10%) 2px -2px, darken($color-cooking, 10%) -2px 2px, darken($color-cooking, 10%) 2px 2px, darken($color-cooking, 10%) 0px 3px, darken($color-cooking, 10%) 0px -3px);
+        div { @extend .cuisine-vins-color; @include text-shadow(none); }
+    }
+}
+.map-box-marker__yoga-bien-etre-sante {
+    @extend .yoga-bien-etre-sante-color;
+    @include text-shadow(darken($color-yoga, 10%) 0px 1px, darken($color-yoga, 10%) -1px 1px, darken($color-yoga, 10%) -1px -1px, darken($color-yoga, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-yoga, 10%)); }
+    &.map-box-marker--active {
+        @include text-shadow(darken($color-yoga, 10%) -2px -2px, darken($color-yoga, 10%) 2px -2px, darken($color-yoga, 10%) -2px 2px, darken($color-yoga, 10%) 2px 2px, darken($color-yoga, 10%) 0px 3px, darken($color-yoga, 10%) 0px -3px);
+        div { @extend .yoga-bien-etre-sante-color; @include text-shadow(none); }
+    }
+}
+.map-box-marker__sports-arts-martiaux {
+    @extend .sports-arts-martiaux-color;
+    @include text-shadow(darken($color-sports, 10%) 0px 1px, darken($color-sports, 10%) -1px 1px, darken($color-sports, 10%) -1px -1px, darken($color-sports, 10%) 1px -1px);
+    div { @include text-shadow(-1px -1px 0 darken($color-sports, 10%)); }
+    &.map-box-marker--active {
+        @include text-shadow(darken($color-sports, 10%) -2px -2px, darken($color-sports, 10%) 2px -2px, darken($color-sports, 10%) -2px 2px, darken($color-sports, 10%) 2px 2px, darken($color-sports, 10%) 0px 3px, darken($color-sports, 10%) 0px -3px);
+        div { @extend .sports-arts-martiaux-color; @include text-shadow(none); }
+    }
 }

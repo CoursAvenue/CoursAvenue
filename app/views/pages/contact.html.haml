@@ -6,7 +6,7 @@
 
 .main-container.main-container--medium.mega-soft--ends.soft-half--sides
   .grid.epsilon
-    .grid__item.one-half.soft-half--right>
+    .grid__item.one-half.palm-one-whole.soft-half--right>
       %h3.f-weight-300.alpha.push-half--bottom Centre d'aide élèves
       .epsilon.push--bottom
         %i Pour les Internautes à la recherche de cours de loisirs
@@ -16,7 +16,7 @@
         %li Je n'ai pas reçu mon mail d'activation : comment faire&nbsp;?
         %li Pourquoi créer un compte élève&nbsp;?
         %li Comment déposer une recommandation&nbsp;?
-    .grid__item.one-half>
+    .grid__item.one-half.palm-one-whole>
       %h3.f-weight-300.alpha.push-half--bottom Centre d'aide professionnels
       .epsilon.push--bottom
         %i Pour les professionnels proposant des cours de loisirs
@@ -40,14 +40,6 @@
         .home-screen-gallery__title.text--center{ style: 'margin-top: -2em;'}
           %i.fa-youtube-play.fa-3x.inline-block
           .show-on-hover__child Voir la vidéo
-
-.main-container.main-container--medium.mega-soft--ends
-  %h2.text--center.flush.f-weight-300 Vous recherchez un cours de loisir ?
-  %h4.text--center.f-weight-300 Choisissez la discipline générale et votre ville, vous pourrez ensuite affiner votre recherche :
-  = render partial: 'shared/home_page_search_form', locals: { form_class: 'header-search-bar center-block push-half--bottom', wrapper_class: '' }
-  %p.epsilon.text--center
-    Besoin d'aide pour trouver un cours ? Accédez à toutes nos réponses dans notre
-    = link_to "centre d'aide", pages_faq_users_url(subdomain: 'www')
 
 .home-screen-promotion-wrapper
   .main-container.mega-soft--ends
@@ -83,8 +75,7 @@
           %p.epsilon
             %strong Vous recherchez des cours ?
             %br
-            Choisissez la discipline générale et votre ville, vous pourrez ensuite affiner votre recherche :
-          = render partial: 'shared/home_page_search_form', locals: { form_class: 'inline-block', wrapper_class: '' }
+            Tapez le nom de la discipline que vous cherchez dans la barre de recherche en haut de la page.
           %p
             Besoin d'aide pour trouver un cours ? Accédez à toutes nos réponses dans notre
             = link_to "centre d'aide", pages_faq_users_url(subdomain: 'www')

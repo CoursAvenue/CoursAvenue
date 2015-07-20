@@ -50,8 +50,6 @@ class Pro::PaymentsController < Pro::ProController
   def layout_locals
     locals = { hide_menu: true }
     locals[:top_menu_header_class] = 'hidden'
-    locals[:hide_top_menu_search] = true
-    locals[:hide_user_nav] = true
     locals
   end
 end

@@ -95,6 +95,8 @@ class Structure < ActiveRecord::Base
 
   has_many :website_pages
 
+  has_many :indexable_cards, dependent: :destroy
+  has_one :indexable_lock, class_name: 'Structure::IndexableLock', dependent: :destroy
   has_many :gift_certificates
 
   has_one :crm_lock, dependent: :destroy
@@ -184,6 +186,7 @@ class Structure < ActiveRecord::Base
   after_save    :geocode_if_needs_to    unless Rails.env.test?
   after_save    :subscribe_to_crm_with_delay
 
+  after_touch   :generate_cards unless Rails.env.test?
   before_destroy :unsubscribe_to_crm
 
   ######################################################################
@@ -195,34 +198,6 @@ class Structure < ActiveRecord::Base
   scope :with_logo           , -> { where.not( logo: nil ) }
   scope :with_media          , -> { joins(:medias).uniq }
   scope :with_logo_and_media , -> { with_logo.with_media }
-
-  ######################################################################
-  # Algolia                                                            #
-  ######################################################################
-  # :nocov:
-  algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
-    attribute :name, :slug
-    add_attribute :search_score do
-      self.search_score.try(:to_i)
-    end
-
-    add_attribute :is_sleeping do
-      self.is_sleeping?
-    end
-
-    add_attribute :type do
-      'structure'
-    end
-    add_attribute :url do
-      structure_path(self, subdomain: 'www')
-    end
-
-    add_attribute :logo_url do
-      self.logo.url(:small_thumb)
-    end
-    customRanking ['desc(search_score)', 'desc(is_sleeping)']
-  end
-  # :nocov:
 
   ######################################################################
   # Solr                                                               #
@@ -1201,6 +1176,20 @@ class Structure < ActiveRecord::Base
     return (structure_type == 'structures.company')
   end
 
+  # Add the generation of the cards in the delayed job queue.
+  #
+  # @return whether the generation was added to the queue or not.
+  def generate_cards
+    if indexable_lock.nil?
+      create_indexable_lock
+    end
+
+    return if indexable_lock.locked?
+    lock_cards!
+
+    delayed_generate_cards
+  end
+
   def crm_locked?
     if self.crm_lock.nil?
       self.create_crm_lock
@@ -1437,6 +1426,27 @@ class Structure < ActiveRecord::Base
       self.crop_x, self.crop_y, self.crop_width = nil, nil, nil
     end
   end
+
+  def lock_cards!
+    if indexable_lock.nil?
+      create_indexable_lock
+    end
+    indexable_lock.lock!
+  end
+
+  def unlock_cards!
+    if indexable_lock.nil?
+      create_indexable_lock
+    end
+    indexable_lock.unlock!
+  end
+
+  def delayed_generate_cards
+    creator = IndexableCard::Creator.new(self)
+    creator.update_cards
+    unlock_cards!
+  end
+  handle_asynchronously :delayed_generate_cards, run_at: Proc.new { 10.minutes.from_now }
 
   def create_intercom_event(event_name)
     begin

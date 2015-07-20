@@ -81,6 +81,9 @@ class Pro::Structures::CoursesController < Pro::ProController
 
   def update
     @course = @structure.courses.friendly.find params[:id]
+    if params[:course][:delete_place_id]
+      @course.place = nil
+    end
     respond_to do |format|
       if @course.update_attributes course_attributes
         format.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours a bien été mis à jour' }

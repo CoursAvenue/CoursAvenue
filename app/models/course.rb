@@ -21,13 +21,15 @@ class Course < ActiveRecord::Base
   belongs_to :price_group
 
   has_many :comments            , through: :structure
+  has_many :participation_requests
   has_many :reservations        , as: :reservable
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , -> { uniq }, through: :plannings
   has_many :places              , -> { uniq }, through: :plannings
   has_many :prices
-  has_many :price_group_prices  , through: :price_group, source: :prices
-  has_many :reservation_loggers , dependent: :destroy
+  has_many :price_group_prices,  through: :price_group, source: :prices
+  has_many :reservation_loggers, dependent: :destroy
+  has_many :indexable_cards,     dependent: :destroy
 
   has_and_belongs_to_many :subjects, -> { uniq }
 
@@ -37,7 +39,8 @@ class Course < ActiveRecord::Base
   before_save :update_structure_meta_datas
   before_save :update_structure_vertical_pages_breadcrumb
 
-  after_save  :reindex_plannings unless Rails.env.test?
+  after_save   :reindex_plannings unless Rails.env.test?
+  after_save   :update_indexable_cards unless Rails.env.test?
 
   ######################################################################
   # Scopes                                                             #
@@ -322,6 +325,15 @@ class Course < ActiveRecord::Base
     return (!expired? and can_be_published?)
   end
 
+  # Return the most used subject or the root subjects that has the most childs.
+  #
+  # @return Subject at depth 0
+  def dominant_root_subject
+    Rails.cache.fetch ["Course#dominant_root_subject", self] do
+      subjects.at_depth(2).group_by(&:root).values.max_by(&:size).try(:first).try(:root)
+    end
+  end
+
   private
 
   # Set `has_promotion` attribute. Wether it has promotions or not.
@@ -397,5 +409,9 @@ class Course < ActiveRecord::Base
 
   def update_structure_meta_datas
     structure.delay.update_course_meta_datas
+  end
+
+  def update_indexable_cards
+    IndexableCard.delay.update_from_course(self)
   end
 end

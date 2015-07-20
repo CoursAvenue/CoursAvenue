@@ -21,7 +21,7 @@
 
             - if @structure.logo.present? and @structure.valid?
               .inline-block.v-top>
-                = link_to crop_logo_pro_structure_path(@structure), class: 'fancybox.ajax btn btn--small btn--blue push-half--right push-half--bottom', data: { behavior: 'modal', width: 800, crop: true } do
+                = link_to crop_logo_pro_structure_path(@structure), class: 'fancybox.ajax btn btn--small btn--blue-green push-half--right push-half--bottom', data: { behavior: 'modal', width: 800, crop: true } do
                   %i.fa.fa-expand.soft--sides-half--right
                   Recadrer
                 %br

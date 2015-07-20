@@ -91,7 +91,7 @@ class Course::Private < Course
   end
 
   #
-  # A course have to have a place OR teachers_at_home with a place
+  # A course have to have a place OR teaches_at_home with a place
   #
   # @return [type] [description]
   def place_or_teaches_at_home
