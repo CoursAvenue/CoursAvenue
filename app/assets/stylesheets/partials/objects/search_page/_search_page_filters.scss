@@ -51,7 +51,12 @@ $map-height   : 480px;
     .search-page-filters-wrapper--from-right-to-left {
         @include transform(translateX(100%));
     }
-    .search-page-filters__map-container--full { height: 80vh; }
+
+    .search-page-filters-wrapper--full .search-page-filters__panel-height,
+    .search-page-filters-wrapper--full,
+    .search-page-filters__map-container--full {
+        height: 80vh;
+    }
     .search-page-filters-wrapper--active {
         @include transform(translateY(0));
         z-index : 1001;
