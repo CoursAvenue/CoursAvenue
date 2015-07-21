@@ -1,5 +1,8 @@
 = side_menu_currently_at 'guides'
 
+= link_to edit_pro_guide_path(@guide) do
+  &larr; Modifier le guide
+
 %h2 #{@guide.title} : Disciplines
 
 %h4 Ajoutez une description et des informations selon l'age de l'élève.
