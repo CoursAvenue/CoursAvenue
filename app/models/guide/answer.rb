@@ -1,5 +1,5 @@
 class Guide::Answer < ActiveRecord::Base
-  attr_accessible :content, :subject_ids, :remote_image_url, :image
+  attr_accessible :content, :subject_ids, :remote_image_url, :image, :position
 
   belongs_to :question, class_name: 'Guide::Question', foreign_key: 'guide_question_id'
   has_one :guide, through: :question

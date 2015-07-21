@@ -81,8 +81,8 @@ class Pro::GuidesController < Pro::ProController
       :age_dependant,
       :remote_image_url,
       :questions_attributes => [
-        :id, :content, :ponderation,
-        :answers_attributes => [:id, :content, :remote_image_url, :subject_ids => []]
+        :id, :content, :ponderation, :position,
+        :answers_attributes => [:id, :content, :remote_image_url, :position, :subject_ids => []]
       ]
     )
   end
