@@ -1,0 +1,9 @@
+.bg-blue-green.rounded.soft.white.epsilon.push--bottom#pr-confirmation-form
+  %h3.push-half--bottom
+    Demande d'inscription
+    %u passée
+  .delta.line-height-1-7.push-half--bottom
+    %strong #{@user.name} a assisté à la séance "#{@participation_request.course.name}" le #{@participation_request.day_and_hour(false)}
+    %br
+    = link_to 'Programmer une nouvelle séance', new_class_form_pro_structure_participation_request_path(@structure, @participation_request, show_course_select: true), class: 'btn btn--white-transparent btn--white-transparent--green btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+    = link_to "Signaler l'absence du participant", signal_user_absence_pro_structure_participation_request_path(@structure, @participation_request), class: 'btn btn--white-transparent--red btn--white-transparent btn--small', method: :patch

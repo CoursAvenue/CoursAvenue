@@ -8,7 +8,10 @@
 - first_message = @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?).first
 
 %h1.palm-text--center Demande d'inscription de #{ @user.name }
-= render "state_#{ @participation_request.state }"
+- if @participation_request.past? and @participation_request.accepted?
+  = render "state_past"
+- else
+  = render "state_#{ @participation_request.state }"
 
 .grid--full.push--bottom.message
   .grid__item.palm-one-whole.palm-block.palm-text--center.two-twelfths.v-top.v-top>
