@@ -346,19 +346,19 @@ $map-height   : 480px;
     margin-top: -3.5em;
 }
 .search-page-filter-bar-wrapper {
-    width           : 1000px;
     margin          : auto;
     top             : -3.5em;
     position        : relative;
     z-index         : 1000000000;
     background-color: #FFFFFF;
+    padding         : 0;
     @include border-radius(3px);
     > div:first-child { @include border-left-radius(3px); }
     > div:last-child  { @include border-right-radius(3px); }
 }
     .search-page-filter {
         vertical-align  : middle;
-        padding         : 1.2em !important; // Important, because of the .grid__item default padding
+        line-height     : 3.5em;
         font-size       : 1.7em;
         text-align      : center;
         cursor          : pointer;
@@ -367,28 +367,30 @@ $map-height   : 480px;
         font-weight     : 500;
         color           : #999999;
         @extend .btn-hover-transition--bottom-up;
-        i {
-            @include transition(all 250ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
-        }
-        .fa-chevron-up {
-            opacity  : 0;
-            font-size: 0.7em;
-        }
         &:hover {
             i { opacity: 0; }
             .fa-chevron-up { opacity: 1; }
         }
     }
-    .search-page-filter--more {
-        i { position: relative; line-height: 1.6em; }
-        .fa-chevron-up   { left: 0.5em;}
-        .fa-more-filters { right: 0.5em;}
+    .search-page-filter--more .search-page-filter__icon {
+        line-height: 3.6em;
+        .fa-chevron-up   { left: 0.4em;}
+        .fa-more-filters { right: 0;}
     }
-    .search-page-filter--subject, .search-page-filter--time, .search-page-filter--location {
-        i { margin-right: 0.3em; margin-bottom: 1px; }
+    .search-page-filter__icon {
+        width: 1.2em;
+        height: 1em;
+        i {
+            @include transition(all 250ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+            left         : 0;
+            margin-bottom: 1px;
+            position     : absolute;
+        }
         .fa-chevron-up {
-            position : relative;
-            left     : 1.7em;
+            opacity  : 0;
+            font-size: 0.7em;
+            top      : 0.2em;
+            left     : 0.2em;
         }
     }
         .search-page-filter--subject:hover::before, .search-page-filter--location:hover::before {
