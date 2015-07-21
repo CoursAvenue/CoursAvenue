@@ -1,0 +1,19 @@
+= side_menu_currently_at 'guides'
+
+%h2 #{@guide.title} : Disciplines
+
+%h4 Ajoutez une description et des informations selon l'age de l'élève.
+
+= simple_form_for @guide, url: update_subjects_pro_guide_path(@guide.slug) do |f|
+  - @subjects.each_with_index do |subject, index|
+    = f.simple_fields_for :subjects, subject, child_index: index do |sf|
+      = sf.input :name, disabled: true, label: 'Discipline'
+      = sf.input :guide_description, label: 'Description sur la page de résultat'
+
+      - if @guide.age_dependant
+        = sf.input :age_advice_younger_than_5, label: 'Conseils pour les enfants de moins de 5 ans'
+        = sf.input :age_advice_between_5_and_9, label: 'Conseils pour les enfants entre 5 et 9 ans'
+        = sf.input :age_advice_older_than_10, label: 'Conseils pour les enfants de plus de 10 ans'
+    %hr
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715140134) do
+ActiveRecord::Schema.define(version: 20150716102038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -458,6 +458,47 @@ ActiveRecord::Schema.define(version: 20150715140134) do
   end
 
   add_index "gift_certificates", ["structure_id"], name: "index_gift_certificates_on_structure_id", using: :btree
+
+  create_table "guide_answers", force: true do |t|
+    t.integer  "guide_question_id"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "image"
+  end
+
+  add_index "guide_answers", ["guide_question_id"], name: "index_guide_answers_on_guide_question_id", using: :btree
+
+  create_table "guide_answers_subjects", id: false, force: true do |t|
+    t.integer "guide_answer_id"
+    t.integer "subject_id"
+  end
+
+  add_index "guide_answers_subjects", ["guide_answer_id"], name: "index_guide_answers_subjects_on_guide_answer_id", using: :btree
+  add_index "guide_answers_subjects", ["subject_id"], name: "index_guide_answers_subjects_on_subject_id", using: :btree
+
+  create_table "guide_questions", force: true do |t|
+    t.integer  "guide_id"
+    t.integer  "ponderation"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "guide_questions", ["guide_id"], name: "index_guide_questions_on_guide_id", using: :btree
+
+  create_table "guides", force: true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "slug"
+    t.text     "call_to_action"
+    t.boolean  "age_dependant",  default: false
+    t.string   "image"
+  end
+
+  add_index "guides", ["slug"], name: "index_guides_on_slug", unique: true, using: :btree
 
   create_table "indexable_cards", force: true do |t|
     t.integer  "structure_id"
@@ -1180,7 +1221,11 @@ ActiveRecord::Schema.define(version: 20150715140134) do
     t.text     "good_to_know"
     t.text     "needed_meterial"
     t.text     "tips"
+    t.text     "guide_description"
     t.string   "image"
+    t.text     "age_advice_younger_than_5"
+    t.text     "age_advice_between_5_and_9"
+    t.text     "age_advice_older_than_10"
   end
 
   add_index "subjects", ["ancestry_depth"], name: "index_subjects_on_ancestry_depth", using: :btree
