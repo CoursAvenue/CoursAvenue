@@ -1,6 +1,7 @@
 - discuss_only       = false if discuss_only.nil?
 - show_course_select = false if show_course_select.nil?
 - new_date           = false if new_date.nil?
+- new_class          = false if new_class.nil?
 .panel
   .panel__header.soft
     %h4.flush
@@ -8,6 +9,8 @@
         Envoyer un message
       - elsif new_date
         Quelle date avez-vous finalement convenu ?
+      - elsif new_class
+        Programmer une nouvelle séance
       - else
         Modifier les informations
   .panel__body
