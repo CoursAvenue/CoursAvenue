@@ -6,10 +6,13 @@ class Guide::Question < ActiveRecord::Base
 
   validates :content, presence: true
   validates :ponderation, presence: true
+  validates :position, presence: true
 
   accepts_nested_attributes_for :answers,
                                 reject_if: :reject_answer,
                                 allow_destroy: true
+
+  before_create :set_default_position
 
   private
 
@@ -26,5 +29,14 @@ class Guide::Question < ActiveRecord::Base
     end
 
     return (!exists and attributes[:content].blank?)
+  end
+
+  # Set the default position.
+  #
+  # @return
+  def set_default_position
+    if position.nil?
+      self.position = guide.questions.count + 1
+    end
   end
 end
