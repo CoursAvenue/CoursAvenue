@@ -7,9 +7,9 @@ class Pro::GuidesController < Pro::ProController
 
   def new
     @guide = Guide.new
-    5.times do
+    10.times do
       q = @guide.questions.build
-      4.times { q.answers.build }
+      5.times { q.answers.build }
     end
 
     if request.xhr?
@@ -29,10 +29,10 @@ class Pro::GuidesController < Pro::ProController
 
   def edit
     @guide = Guide.includes(questions: [:answers]).find(params[:id])
-    3.times { q = @guide.questions.build }
+    10.times { q = @guide.questions.build }
 
     @guide.questions.each do |q|
-      (4 - q.answers.count).times { q.answers.build }
+      (5 - q.answers.count).times { q.answers.build }
     end
   end
 
