@@ -32,7 +32,7 @@ var LessonPanel = React.createClass({
                            className="white absolute north east soft--top f-weight-bold"
                            onClick={this.changeContext}>
                             Voir les stages & ateliers
-                            <i className="fa fa-chevron-right"></i>
+                            <i className="fa fa-chevron-right soft-half--left milli"></i>
                         </a>
                     </div>
                 </div>
