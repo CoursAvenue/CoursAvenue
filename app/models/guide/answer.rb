@@ -6,9 +6,23 @@ class Guide::Answer < ActiveRecord::Base
 
   has_and_belongs_to_many :subjects, foreign_key: 'guide_answer_id'
 
-  validates :content, presence: true
+  validates :content,  presence: true
+  validates :position, presence: true
 
   delegate :ponderation, to: :question, allow_nil: true
 
+  before_create :set_default_position
+
   mount_uploader :image, AdminUploader
+
+  private
+
+  # Set the default position.
+  #
+  # @return
+  def set_default_position
+    if position.nil?
+      self.position = guide.questions.count + 1
+    end
+  end
 end

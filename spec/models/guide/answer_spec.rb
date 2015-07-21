@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Guide::Answer, type: :model, user_guide: true do
   context 'validations' do
     it { should validate_presence_of(:content) }
+    it { should validate_presence_of(:position) }
   end
 
   context 'assocations' do
