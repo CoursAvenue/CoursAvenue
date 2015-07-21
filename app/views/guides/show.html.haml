@@ -1,0 +1,8 @@
+= react_component('UserGuideApp', { guide:     @serialized_guide,
+                                    answers:   @serialized_guide.answers,
+                                    subjects:  @serialized_guide.subjects,
+                                    questions: @serialized_guide.questions })
+
+= content_for :scripts do
+  = javascript_include_tag 'libs/jquery.fullPage'
+  = stylesheet_link_tag 'libs/jquery.fullPage', media: 'all'

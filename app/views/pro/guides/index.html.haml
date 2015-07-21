@@ -1,0 +1,15 @@
+= side_menu_currently_at 'guides'
+
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Guides
+  .flexbox__item.v-middle.text--right
+    - if @guides.any?
+      = link_to new_pro_guide_path, class: 'btn btn--green' do
+        %i.fa.fa-plus
+        Ajouter un guide
+
+- if @guides.any?
+  = render "guides_list"
+- else
+  = render "guides_empty"

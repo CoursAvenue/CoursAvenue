@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Subject do
 
   context 'associations' do
+    it { should have_and_belong_to_many(:guide_answers).class_name('Guide::Answer') }
     it { should have_and_belong_to_many(:indexable_cards) }
   end
 

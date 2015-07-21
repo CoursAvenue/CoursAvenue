@@ -446,6 +446,13 @@ CoursAvenue::Application.routes.draw do
       get "/contacts/:importer/callback", to: "contacts#callback"
       get "/contacts/failure",            to: "contacts#failure"
 
+      resources :guides do
+        member do
+          get :edit_subjects
+          patch :update_subjects
+        end
+      end
+
     end
   end
 
@@ -612,6 +619,7 @@ CoursAvenue::Application.routes.draw do
 
     resources :reservation_loggers, only: [:create]
     resources :click_logs, only: [:create]
+    resources :guides, only: [:show]
 
     # ------------------------------------------------------
     # ----------------------------------------- Static pages
