@@ -25,6 +25,10 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
 
         initialize: function initialize (options) {
             this.in_two_steps = options.in_two_steps;
+            this.hide_classes = options.hide_classes;
+            this.hide_date    = options.hide_date;
+            this.hide_place   = options.hide_place;
+
             Backbone.Validation.bind(this);
             _.bindAll(this, 'showPopupMessageDidntSend');
             this.on('participation_request:total', function(data) {
@@ -79,6 +83,10 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
          * We create an instance of a message form view
          */
         showRegistrationForm: function showRegistrationForm (planning_data) {
+            var hide_classes = false;
+            var hide_date    = false;
+            var hide_place   = false;
+
             if (planning_data) {
                 if (this.model.get('structure').get('lessons').findWhere({ id: planning_data.course_id })) {
                     this.model.set('course_collection_type', 'lessons');
@@ -87,10 +95,23 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
                 } else {
                     this.model.set('course_collection_type', 'trainings');
                 }
+
+                if (planning_data.hide_classes) { hide_classes = true; }
+                if (planning_data.hide_date)    { hide_date = true; }
+                if (planning_data.hide_place)   { hide_place = true; }
+
                 this.model.set('course_id', planning_data.course_id);
                 this.model.set('planning_id', planning_data.id);
             }
-            var request_form_view = new Module.RequestFormView( { structure: this.model.get('structure'), model: this.model, in_two_steps: true } ).render();
+            var form_view_options = {
+                structure:    this.model.get('structure'),
+                in_two_steps: true,
+                model:        this.model,
+                hide_classes: hide_classes,
+                hide_date:    hide_date,
+                hide_place:   hide_place
+            };
+            var request_form_view = new Module.RequestFormView(form_view_options).render();
             var request_form_view_el = $(request_form_view.$el);
             request_form_view_el.find('[data-pr-total]').addClass('soft--right');
             $.magnificPopup.open({
@@ -208,7 +229,10 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
                 is_free: this.model.isFree(),
                 user: {
                     phone_number: CoursAvenue.currentUser().get('phone_number') || $.cookie('user_phone_number')
-                }
+                },
+                hide_date:    this.hide_date,
+                hide_place:   this.hide_place,
+                hide_classes: this.hide_classes,
             });
             return data;
         },
@@ -240,9 +264,12 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
             // We create a new collection from private AND lesson courses
             this.pr_content_view_courses_collection = new Backbone.Collection(courses_array);
             var options =  {
-              courses_collection  : this.pr_content_view_courses_collection,
+              courses_collection:   this.pr_content_view_courses_collection,
               trainings_collection: this.model.get('structure').get('trainings'),
-              model               : this.model
+              model:                this.model,
+              hide_classes:         this.hide_classes,
+              hide_date:            this.hide_date,
+              hide_place:           this.hide_place,
             };
             // Don't re render content_form_view because it's being
             if (!this.pr_content_view) {

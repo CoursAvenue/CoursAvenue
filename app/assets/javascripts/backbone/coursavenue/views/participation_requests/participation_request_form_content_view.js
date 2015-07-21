@@ -30,6 +30,10 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             this.trainings_collection = options.trainings_collection;
             this.courses_collection.on('change', this.render.bind(this).debounce(500));
             this.trainings_collection.on('change', this.render.bind(this).debounce(500));
+
+            this.hide_classes = options.hide_classes || false;
+            this.hide_date    = options.hide_date    || false;
+            this.hide_place   = options.hide_place   || false;
         },
 
         initializeStartHourSelect: function initializeStartHourSelect () {
@@ -293,7 +297,10 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 courses_open_for_trial           : _.invoke(courses_open_for_trial, 'toJSON'),
                 courses_without_open_for_trials  : _.invoke(courses_without_open_for_trials, 'toJSON'),
                 trainings_without_open_for_trials: this.trainings_collection.toJSON(),
-                cid                              : this.cid
+                cid                              : this.cid,
+                hide_date: this.hide_date,
+                hide_place: this.hide_place,
+                hide_classes: this.hide_classes,
             };
             return data;
         }
