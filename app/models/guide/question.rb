@@ -2,7 +2,8 @@ class Guide::Question < ActiveRecord::Base
   attr_accessible :content, :ponderation, :answers_attributes
 
   belongs_to :guide
-  has_many :answers, class_name: 'Guide::Answer', foreign_key: 'guide_question_id'
+  has_many :answers, -> { order(position: :asc) },
+    class_name: 'Guide::Answer', foreign_key: 'guide_question_id'
 
   validates :content, presence: true
   validates :ponderation, presence: true

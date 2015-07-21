@@ -5,8 +5,9 @@ class Guide < ActiveRecord::Base
   attr_accessible :title, :description, :questions_attributes, :call_to_action,
     :subjects_attributes, :age_dependant, :image, :remote_image_url
 
-  has_many :questions,        class_name: 'Guide::Question',       dependent: :destroy
-  has_many :answers,          class_name: 'Guide::Answer',         through: :questions
+  has_many :questions, -> { order(position: :asc) },
+    class_name: 'Guide::Question', dependent: :destroy
+  has_many :answers,   class_name: 'Guide::Answer',   through: :questions
 
   has_many :subjects,  through: :answers
 
