@@ -66,7 +66,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     end
   end
 
-  # GET pro/etablissements/:structure_id/participation_request/:id/cancel_form
+  # GET pro/etablissements/:structure_id/participation_request/:id/accept_form
   def accept_form
     @participation_request = @structure.participation_requests.find(params[:id])
     render layout: false
@@ -99,6 +99,18 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: "La demande d'inscription a bien été #{ action_performed }" }
     end
+  end
+
+  # POST pro/etablissements/:structure_id/participation_request/:id/program_new_class
+  def new_class_form
+  end
+
+  # POST pro/etablissements/:structure_id/participation_request/:id/program_new_class
+  def program_new_class
+  end
+
+  # PATCH pro/etablissements/:structure_id/participation_request/:id/signal_user_absence
+  def signal_user_absence
   end
 
   private
