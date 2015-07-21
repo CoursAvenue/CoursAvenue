@@ -7,11 +7,10 @@ class Guide::Answer < ActiveRecord::Base
   has_and_belongs_to_many :subjects, foreign_key: 'guide_answer_id'
 
   validates :content,  presence: true
-  validates :position, presence: true
 
   delegate :ponderation, to: :question, allow_nil: true
 
-  before_create :set_default_position
+  before_validation :set_default_position
 
   mount_uploader :image, AdminUploader
 
@@ -22,7 +21,7 @@ class Guide::Answer < ActiveRecord::Base
   # @return
   def set_default_position
     if position.nil?
-      self.position = guide.questions.count + 1
+      self.position = (question.present? ? question.answers.count + 1 : 0)
     end
   end
 end
