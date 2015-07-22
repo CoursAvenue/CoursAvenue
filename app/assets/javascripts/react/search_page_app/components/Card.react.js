@@ -127,9 +127,8 @@ Card = React.createClass({
                 </div>);
     },
 
-    // TODO: Ask Nima about the commented line.
     goToCourse: function goToCourse (event) {
-        // if (event.target.nodeName == 'A') { return false; }
+        if (event.target.nodeName == 'A') { return true; }
         if (this.props.card.get('has_course')) {
             window.location = Routes.structure_indexable_card_path(this.props.card.get('structure_slug'), this.props.card.get('slug'));
         } else {
