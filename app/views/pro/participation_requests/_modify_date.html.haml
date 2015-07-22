@@ -60,7 +60,7 @@
                                                              planning_id: #{@participation_request.course_id},
                                                              start_hour : #{@participation_request.start_time.hour},
                                                              start_min : #{@participation_request.start_time.min} });
-      var participation_request_form_content = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView({ courses_collection: courses_collection, trainings_collection: trainings_collection, model: participation_request_model });
+      var participation_request_form_content = new CoursAvenue.Views.ParticipationRequests.ParticipationRequestFormContentView({ courses_collection: courses_collection, trainings_collection: trainings_collection, model: participation_request_model, teacher_view: true });
       $('[data-type=participation-request-form-content]').append(participation_request_form_content.render().el);
 
 - if !discuss_only and !show_course_select

@@ -31,6 +31,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             this.courses_collection.on('change', this.render.bind(this).debounce(500));
             this.trainings_collection.on('change', this.render.bind(this).debounce(500));
 
+            this.teacher_view = options.teacher_view || false;
             this.hide_classes = options.hide_classes || false;
             this.hide_date    = options.hide_date    || false;
             this.hide_place   = options.hide_place   || false;
@@ -235,7 +236,11 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             // If teachers at home but DO NOT have a place, show address form
             } else if (this.getCurrentCourse().get('teaches_at_home') || (this.getCurrentPlanning() && this.getCurrentPlanning().teaches_at_home)) {
                 var address = (this.getCurrentPlanning() ? this.getCurrentPlanning().address : this.getCurrentCourse().get('course_location'));
-                this.ui.$address_info.show().text('À votre domicile').attr('data-content', address);
+                if (this.teacher_view) {
+                    this.ui.$address_info.show().text('À domicile').attr('data-content', address);
+                } else {
+                    this.ui.$address_info.show().text('À votre domicile').attr('data-content', address);
+                }
                 this.ui.$address_info.parent().addClass('text-ellipsis');
                 this.showStudentAddressWrapper();
             // Else, show the address
@@ -301,6 +306,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 hide_date: this.hide_date,
                 hide_place: this.hide_place,
                 hide_classes: this.hide_classes,
+                teacher_view: this.teacher_view,
             };
             return data;
         }

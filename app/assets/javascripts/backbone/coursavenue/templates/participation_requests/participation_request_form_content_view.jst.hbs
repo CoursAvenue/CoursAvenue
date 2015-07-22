@@ -73,7 +73,7 @@
             </select>
         </div>
     </div>
-    <div data-element="student-address-wrapper" class="soft--sides soft-half--ends hidden bordered--top">
+    <div data-element="student-address-wrapper" class="soft--sides soft-half--ends hidden bordered--top {{#if teacher_view}} visuallyhidden {{/if}}">
         <input type="hidden" data-element="student-address-input" name="participation_request[at_student_home]">
         <div class="epsilon">Votre adresse :</div>
         <div class="soft-half--ends">
