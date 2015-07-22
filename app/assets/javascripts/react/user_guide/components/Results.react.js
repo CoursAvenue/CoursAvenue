@@ -34,7 +34,10 @@ var Results = React.createClass({
               <div className='main-container mega-soft--ends'>
                   <MainSubject subject={ main_subject } />
                   <hr />
-                  { answers }
+                  <div className='text--center soft--sides'>
+                      <h1> Reponses </h1>
+                      { answers }
+                  </div>
                   <hr />
                   <AgeDetails subject={ main_subject } />
                   <hr />
