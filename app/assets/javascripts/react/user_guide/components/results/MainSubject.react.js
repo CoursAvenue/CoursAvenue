@@ -8,7 +8,7 @@ var MainSubject = React.createClass({
         return (
                 <div className='text--center soft--sides'>
                     <h1>
-                        Notre suggestion: { this.props.subject.get('name') }
+                        Notre suggestion: { this.props.subject.get('name') } ( score: { this.props.subject.get('score') } )
                     </h1>
                     <p className='delta'>
                         { this.props.subject.get('guide_description') }

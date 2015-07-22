@@ -14,6 +14,7 @@ var SubjectList = React.createClass({
         }.bind(this);
     },
 
+    // TODO: Remove score.
     render: function render () {
         if (!this.props.subjects || _.isEmpty(this.props.subjects)) { return false; }
         var subjects = this.props.subjects.map(function(subject, index) {
@@ -21,7 +22,7 @@ var SubjectList = React.createClass({
             return (
                 <div className='cursor-pointer black-curtain__fading-on-hover bg-position-top bg-cover relative text--center grid__item one-fifth palm-one-whole height-150'
                     key={ index } onClick={ this.selectSubject(subject) } >
-                    { subject.get('name') }
+                    { subject.get('name') } ( score: { subject.get('score') } )
                 </div>
             );
         }.bind(this));
