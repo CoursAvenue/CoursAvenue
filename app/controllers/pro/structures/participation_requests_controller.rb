@@ -3,10 +3,10 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   # We authorize member actions if user is not logged in because we use tokens
   before_action :authenticate_pro_admin!, except: [:show, :edit, :cancel_form, :report_form, :accept,
                                                   :accept_form, :modify_date, :discuss, :cancel,
-                                                  :report]
+                                                  :report, :show_user_contacts]
   authorize_resource :structure, except: [:show, :edit, :cancel_form, :report_form, :accept,
                                                   :accept_form, :modify_date, :discuss, :cancel,
-                                                  :report, :rebook]
+                                                  :report, :rebook, :show_user_contacts]
   before_action :load_structure
 
   layout 'admin'
@@ -38,7 +38,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @user                  = @participation_request.user
   end
 
-  # GET pro/etablissements/:structure_id/participation_request/:id/show_user_contact
+  # GET pro/etablissements/:structure_id/participation_request/:id/show_user_contacts
   def show_user_contacts
     @participation_request = @structure.participation_requests.find(params[:id])
     @user                  = @participation_request.user
