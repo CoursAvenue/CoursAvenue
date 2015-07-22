@@ -362,6 +362,43 @@ class ParticipationRequest < ActiveRecord::Base
       self.conversation.messages.length < 2 and self.last_modified_by == 'User'
   end
 
+  # Rebook the participation request.
+  #
+  # @return the new participation request.
+  def rebook!(options)
+    options[:message][:body] = StringHelper.replace_contact_infos(options[:message][:body])
+    new_attributes = ParticipationRequest.set_start_time(options)
+
+    new_attributes.merge!({
+      planning_id: self.planning_id,
+      structure: self.structure,
+      last_modified_by: 'structure',
+      course_id: self.course_id,
+      street: self.street,
+      zip_code: self.zip_code,
+      city_id: self.city_id,
+      from_personal_website: self.from_personal_website,
+      at_student_home: self.at_student_home,
+      participants_attributes: participants.map { |p| { number: p.number } }
+    })
+
+    participation_request = ParticipationRequest.new(new_attributes)
+    participation_request.user = self.user
+
+    if participation_request.valid?
+      recipients = self.user
+      receipt    = structure.main_contact.send_message_with_label(
+        recipients, options[:message][:body], I18n.t(Mailboxer::Label::REQUEST.name),
+        Mailboxer::Label::REQUEST.id)
+      conversation = receipt.conversation
+      participation_request.conversation = conversation
+      participation_request.save
+      conversation.update_column(:participation_request_id, participation_request.id)
+    end
+
+    participation_request
+  end
+
   private
 
   # Set state to pending by default when creating
