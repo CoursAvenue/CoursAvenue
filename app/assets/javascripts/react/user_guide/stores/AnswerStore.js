@@ -24,6 +24,7 @@ var AnswerStore = Backbone.Collection.extend({
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback', 'selectAnswer', 'selectAge', 'getAges', 'selectedAge');
         this.selected_age = null;
+        this.answers = [];
         this.dispatchToken = UserGuideDispatcher.register(this.dispatchCallback);
     },
 
@@ -45,7 +46,10 @@ var AnswerStore = Backbone.Collection.extend({
         var answer   = this.findWhere({ guide_question_id: data.question_id, id: data.answer_id });
         var selected = this.findWhere({ guide_question_id: data.question_id, selected: true });
 
-        if (answer)   { answer.toggleSelection(); }
+        if (answer) {
+            answer.toggleSelection();
+            this.answers.push({ question: data.question_index + 1, answer: data.answer_index + 1 });
+        }
         if (selected) { selected.toggleSelection(); }
 
         this.trigger('change');

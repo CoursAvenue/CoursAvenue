@@ -5,6 +5,7 @@ var Question = React.createClass({
     propTypes: {
         question: React.PropTypes.object.isRequired,
         next_page: React.PropTypes.func.isRequired,
+        index: React.PropTypes.number,
     },
 
     selectAnswer: function selectAnswer (answer) {
@@ -12,6 +13,8 @@ var Question = React.createClass({
             AnswerActionCreators.selectAnswer({
                 answer_id:   answer.id,
                 question_id: this.props.question.id,
+                question_index: this.props.index,
+                answer_index: this.props.question.get('answers').indexOf(answer),
             });
             this.props.next_page();
         }.bind(this);

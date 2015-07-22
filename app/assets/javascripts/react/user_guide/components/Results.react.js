@@ -21,10 +21,19 @@ var Results = React.createClass({
       var main_subject   = SubjectStore.last(); // The last.
       var other_subjects = SubjectStore.initial(); // Everything but the last.
 
+      // TODO: Remove this.
+      var answers = AnswerStore.answers.map(function(answer, index) {
+          return (
+              <div key={ index }>Question { answer.question } : Reponse { answer.answer }</div>
+          );
+      });
+
       return (
           <div className='section relative one-whole relative full-screen-item bg-cover'>
               <div className='main-container mega-soft--ends'>
                   <MainSubject subject={ main_subject } />
+                  <hr />
+                  { answers }
                   <hr />
                   <AgeDetails subject={ main_subject } />
                   <hr />

@@ -48,7 +48,11 @@ var UserGuide = React.createClass({
     render: function render () {
         var questions = QuestionStore.map(function(question, index) {
             return (
-                <Question question={ question } next_page={ this.nextPage } key={ index } />
+                <Question question={ question }
+                         next_page={ this.nextPage }
+                             index={ index }
+                               key={ index }
+                />
             );
         }.bind(this));
 
