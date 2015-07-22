@@ -3,6 +3,7 @@ var _           = require('lodash'),
   MainSubject   = require('./results/MainSubject'),
   SubjectList   = require('./results/SubjectList'),
   SubjectStore  = require('../stores/SubjectStore'),
+  AnswerStore   = require('../stores/AnswerStore'),
   CourseSearch  = require('./results/CourseSearch'),
   FluxBoneMixin = require('../../mixins/FluxBoneMixin');
 
@@ -18,8 +19,8 @@ var Results = React.createClass({
     render: function render () {
       // The store is sorted in ASC order on the score.
       // TODO: Differentiate if the subject is selected or the main result.
-      var main_subject   = SubjectStore.last(); // The last.
-      var other_subjects = SubjectStore.initial(); // Everything but the last.
+      var main_subject       = SubjectStore.last(); // The last.
+      var alternate_subjects = _.toArray(SubjectStore.last(5)).reverse(); // Last 5
 
       // TODO: Remove this.
       var answers = AnswerStore.answers.map(function(answer, index) {
@@ -39,7 +40,7 @@ var Results = React.createClass({
                   <hr />
                   <CourseSearch subject={ main_subject } />
                   <hr />
-                  <SubjectList subjects={ other_subjects } />
+                  <SubjectList subjects={ alternate_subjects } />
               </div>
           </div>
       );
