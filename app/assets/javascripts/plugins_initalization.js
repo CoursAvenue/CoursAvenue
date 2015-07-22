@@ -30,13 +30,14 @@ $(function() {
     COURSAVENUE.initialize_fancy($('[data-behavior="fancy"]'));
     $('body').on('click', '[data-behavior=modal]', function(event) {
         event.preventDefault();
-        var $this        = $(this);
-        var width        = $this.data('width') || 'auto';
-        var height       = $this.data('height') || 'auto';
-        var padding      = (typeof($this.data('padding')) == 'undefined' ? '15' : $this.data('padding'));
-        var top_ratio    = (typeof($this.data('top-ratio')) == 'undefined' ? '0.5' : $this.data('top-ratio'));
-        var close_click  = (typeof($this.data('close-click')) == 'undefined' ? true : $this.data('close-click'));
-        var lock_overlay = (typeof($this.data('lock-overlay')) == 'undefined' ? false : true);
+        var $this              = $(this);
+        var width              = $this.data('width') || 'auto';
+        var height             = $this.data('height') || 'auto';
+        var padding            = (typeof($this.data('padding')) == 'undefined' ? '15' : $this.data('padding'));
+        var top_ratio          = (typeof($this.data('top-ratio')) == 'undefined' ? '0.5' : $this.data('top-ratio'));
+        var close_click        = (typeof($this.data('close-click')) == 'undefined' ? true : $this.data('close-click'));
+        var lock_overlay       = (typeof($this.data('lock-overlay')) == 'undefined' ? false : true);
+        var after_close_reload = (typeof($this.data('after-close-reload')) == 'undefined' ? null : function () { location.reload(); return ; });
         $.fancybox.open($this, {
                 padding     : parseInt(padding),
                 topRatio    : parseFloat(top_ratio),
@@ -48,6 +49,7 @@ $(function() {
                 height      : height,
                 autoSize    : false,
                 autoResize  : true,
+                afterClose  : after_close_reload,
                 helpers : {
                     overlay: {
                         locked: false,
