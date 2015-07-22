@@ -6,7 +6,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
                                                   :report]
   authorize_resource :structure, except: [:show, :edit, :cancel_form, :report_form, :accept,
                                                   :accept_form, :modify_date, :discuss, :cancel,
-                                                  :report]
+                                                  :report, :rebook]
   before_action :load_structure
 
   layout 'admin'
@@ -109,6 +109,10 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
 
   # POST pro/etablissements/:structure_id/participation_request/:id/rebook
   def rebook
+    @participation_request = @structure.participation_requests.find(params[:id])
+    @new_pr = @participation_request.rebook!(participation_request_new_class_params)
+    redirect_to pro_structure_participation_request_path(@structure, @new_pr),
+      notice: 'Votre nouvelle séance a été programmée avec succès.'
   end
 
   # PATCH pro/etablissements/:structure_id/participation_request/:id/signal_user_absence
@@ -139,5 +143,11 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
 
   def participation_request_attributes
     params.require(:participation_request).permit(:date, :start_time, :end_time)
+  end
+
+  def participation_request_new_class_params
+    params.require(:participation_request).permit(:course_id, :planning_id, :start_hour, :date,
+                                                  :start_min, :at_student_home, :street,
+                                                  :zip_code, :message => [:body])
   end
 end
