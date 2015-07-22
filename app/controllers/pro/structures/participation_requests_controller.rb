@@ -117,6 +117,9 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
 
   # PATCH pro/etablissements/:structure_id/participation_request/:id/signal_user_absence
   def signal_user_absence
+    @participation_request = @structure.participation_requests.find(params[:id])
+    redirect_to pro_structure_participation_request_path(@structure, @participation_request),
+      notice: "Merci de nous avoir signalé l'absence de ce participant, nous allons prendre contact avec lui."
   end
 
   private
