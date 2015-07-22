@@ -5,6 +5,10 @@ class GuideSerializer < ActiveModel::Serializer
   has_many :questions, serializer: Guide::QuestionSerializer
   has_many :answers, serializer: Guide::AnswerSerializer
 
+  def image
+    object.image.url
+  end
+
   def subjects
     object.subjects.map do |subject|
       { id: subject.id,
