@@ -1,4 +1,5 @@
 - form_url = @guide.persisted? ? pro_guide_path(@guide) : pro_guides_path
+- colors = ['#f0c15c', '#ec9f53', '#f6705f', '#d85f79', '#c66fa2', '#4f99d0', '#3ec5dd', '#375b76', '#d5905c']
 
 = simple_form_for @guide, url: form_url do |f|
   = f.input :title, label: 'Titre', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.title') }
@@ -18,10 +19,21 @@
   %div{ data: { behavior: 'show-more-on-demand' } }
     = f.simple_fields_for :questions, @guide.questions do |qf|
       - question = qf.object
+      - selected_color = question.color || colors.sample
       %div{ class: (question.persisted? ? '': 'hidden'), data: { el: true, hidden: (!question.persisted? and qf.index > 0) } }
         = qf.input :content, label: 'Question', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.question.content') }
         = qf.input :ponderation, label: 'Ponderation', input_html: { placeholder: '0' }
         = qf.input :position, label: 'Position', input_html: { placeholder: (qf.index + 1) }
+        .visuallyhidden
+          = qf.input :color, input_html: { value: selected_color, data: { color_value: true, id: qf.index } }
+
+        .input
+          %label.control-label>
+            Couleur
+          .grid.three-quarters.flush>
+            - colors.each do |color|
+              .grid__item.one-tenth.cursor-pointer{ data: { color: color, id: qf.index },
+                style: 'background-color: ' + color + '; min-width: 10px; min-height: 10px; margin: 2px;' + (selected_color == color ? 'border: 2px solid black;' : '')  }>
 
         %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { toggle: true } }
           %i.fa-eye
@@ -76,6 +88,17 @@
             event.preventDefault();
             $(this).siblings('[data-content]').slideToggle()
         });
+
+        $('[data-color]').click(function(event) {
+            event.preventDefault();
+
+            $(this).siblings('[data-color]').css('border', '');
+            $(this).addClass('selected').css('border', '2px solid black');
+
+            var index = $(this).data('id');
+            $('input[data-id=' + index + ']').val($(this).data('color'));
+        });
+
     //  $('#guide_description').redactor({
     //      buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
     //        'link', 'alignment', 'horizontalrule', 'image'],

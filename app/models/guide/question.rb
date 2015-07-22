@@ -1,5 +1,5 @@
 class Guide::Question < ActiveRecord::Base
-  attr_accessible :content, :ponderation, :answers_attributes, :position
+  attr_accessible :content, :ponderation, :answers_attributes, :position, :color
 
   belongs_to :guide
   has_many :answers, -> { order(position: :asc) },

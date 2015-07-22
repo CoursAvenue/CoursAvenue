@@ -31,7 +31,8 @@ var Question = React.createClass({
             <div className='section relative one-whole relative white full-screen-item bg-cover'>
               <div className='black-curtain north west one-whole absolute'></div>
               <div className='relative' style={ { paddingBottom: '10vh', paddingTop: 80 } }>
-                <h2 className='flush--bottom f-size-big text--center white orange-box soft-half'>
+                <h2 className='flush--bottom f-size-big text--center white soft-half'
+                        style={ { backgroundColor: this.props.question.get('color') } }>
                   { this.props.question.get('content') }
                 </h2>
                 <div className='grid--full'>
