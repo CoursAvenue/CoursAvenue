@@ -519,6 +519,7 @@ class Planning < ActiveRecord::Base
   # Destroy card if it was the only planning attached to it
   # @return nil
   def destroy_indexable_cards
+    return nil if indexable_card.present?
     indexable_card.destroy if indexable_card.plannings.count == 1
     nil
   end
