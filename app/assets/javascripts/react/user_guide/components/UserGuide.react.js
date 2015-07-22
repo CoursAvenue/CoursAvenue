@@ -64,6 +64,7 @@ var UserGuide = React.createClass({
                        next_page={ this.nextPage }
                      description={ this.props.guide.description }
                   call_to_action={ this.props.guide.call_to_action }
+                           image={ this.props.guide.image }
                 />
                 { questions }
                 <Results />

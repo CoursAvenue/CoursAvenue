@@ -6,6 +6,7 @@ var StarPage = React.createClass({
         next_page:      React.PropTypes.func.isRequired,
         description:    React.PropTypes.string.isRequired,
         call_to_action: React.PropTypes.string.isRequired,
+        image:          React.PropTypes.string.isRequired,
     },
 
     start: function start (event) {
@@ -16,8 +17,14 @@ var StarPage = React.createClass({
     },
 
     render: function render () {
+        var style = {}
+        if (this.props.image) {
+            style["backgroundImage"] = "url(" + this.props.image + ")";
+        }
+
         return (
-            <div className='section relative one-whole relative white full-screen-item bg-cover'>
+            <div className='section relative one-whole relative white full-screen-item bg-cover'
+                     style={ style }>
               <div className='flexbox full-screen-item soft'>
                 <div className='black-curtain north west one-whole absolute'></div>
                 <div className='push--top soft--top one-whole flexbox__item'>
