@@ -412,8 +412,8 @@ CoursAvenue::Application.routes.draw do
             patch :modify_date
             patch :cancel
             get   :show_user_contacts
-            get   :new_class_form
-            patch :program_new_class
+            get   :rebook_form
+            patch :rebook
             patch :signal_user_absence
           end
           collection do

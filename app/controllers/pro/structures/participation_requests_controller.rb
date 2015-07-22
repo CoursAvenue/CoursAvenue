@@ -101,14 +101,14 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     end
   end
 
-  # POST pro/etablissements/:structure_id/participation_request/:id/program_new_class
-  def new_class_form
+  # POST pro/etablissements/:structure_id/participation_request/:id/rebook_form
+  def rebook_form
     @participation_request = @structure.participation_requests.find(params[:id])
     render layout: false
   end
 
-  # POST pro/etablissements/:structure_id/participation_request/:id/program_new_class
-  def program_new_class
+  # POST pro/etablissements/:structure_id/participation_request/:id/rebook
+  def rebook
   end
 
   # PATCH pro/etablissements/:structure_id/participation_request/:id/signal_user_absence
