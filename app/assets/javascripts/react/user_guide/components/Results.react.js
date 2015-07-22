@@ -20,7 +20,7 @@ var Results = React.createClass({
       // The store is sorted in ASC order on the score.
       // TODO: Differentiate if the subject is selected or the main result.
       var main_subject       = SubjectStore.last(); // The last.
-      var alternate_subjects = _.toArray(SubjectStore.last(5)).reverse(); // Last 5
+      var alternate_subjects = _.rest(_.toArray(SubjectStore.last(6)).reverse()); // Last 5
 
       // TODO: Remove this.
       var answers = AnswerStore.answers.map(function(answer, index) {
