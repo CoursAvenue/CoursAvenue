@@ -1,5 +1,5 @@
 class EmailingSectionBridgeSerializer < ActiveModel::Serializer
-  attributes :id, :media_id, :media_url, :images, :structure,
+  attributes :id, :media_id, :media_url, :images, :structure, :indexable_card,
              :subjects, :subject_id, :subject_name,
              :reviews, :review_id, :review_text, :review_custom,
              :city_text
