@@ -29,7 +29,7 @@
               %i.fa-trash-o
               Supprimer
           Ou
-          = section_form.association :indexable_cards, as: :select, collection: IndexableCard.all, input_html: { class: 'input--large', multiple: false, data: { behavior: 'chosen' } },
+          = section_form.association :indexable_cards, as: :select, collection: IndexableCard.with_place, input_html: { class: 'input--large', multiple: false, data: { behavior: 'chosen' } },
             placeholder: 'Choisir un cours', label_method: lambda { |card| "#{card.structure_name} -> #{card.name}"} , label_html: { class: 'one-whole label--large' }, label: 'Cours'
           .text--right
             %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
