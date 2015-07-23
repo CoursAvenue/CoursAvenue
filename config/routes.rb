@@ -436,7 +436,7 @@ CoursAvenue::Application.routes.draw do
       get '/auth/facebook/callback', to: 'admins#facebook_auth_callback'
       get '/auth/failure',           to: 'admins#facebook_auth_failure'
 
-      resource :onboarding, controller: 'admins/onboarding', only: [] do
+      resource :onboarding, controller: 'admins/onboarding', only: [:update] do
         collection do
           get :step_zero
           get :step_one
