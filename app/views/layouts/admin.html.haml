@@ -77,7 +77,7 @@
   -# Here to prevent scroll from wizard helper
   .overflow-x-hidden
     .main-container.soft--sides
-      .flexbox.push-double--top
+      .flexbox{ class: content_for?(:alert_bar) ? 'push--top' : 'push-double--top' }
         - if content_for? :side_menu
           %nav.flexbox__item.v-top.v-top.border-none--right.print--hidden.soft--top.relative.side-menu-wrapper#pro-side-menu
             .border-none--right.side-menu.side-menu-width.relative
