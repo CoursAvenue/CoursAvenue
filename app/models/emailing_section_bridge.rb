@@ -10,6 +10,8 @@ class EmailingSectionBridge < ActiveRecord::Base
 
   belongs_to :emailing_section
 
+  after_validation :set_structure
+
   # Get the URL of the Media associated with this bridge.
   #
   # @return the String or nil
@@ -25,5 +27,11 @@ class EmailingSectionBridge < ActiveRecord::Base
         media.image.url(:thumbnail_email_cropped)
       end
     end
+  end
+
+  private
+
+  def set_structure
+    self.structure = self.indexable_card.structure if structure.nil?
   end
 end
