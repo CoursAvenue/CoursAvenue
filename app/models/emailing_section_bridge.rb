@@ -6,6 +6,8 @@ class EmailingSectionBridge < ActiveRecord::Base
                   :city_text
 
   belongs_to :structure
+  belongs_to :indexable_card
+
   belongs_to :emailing_section
 
   # Get the URL of the Media associated with this bridge.

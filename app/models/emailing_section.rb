@@ -9,7 +9,8 @@ class EmailingSection < ActiveRecord::Base
   belongs_to :emailing
 
   has_many :emailing_section_bridges
-  has_many :structures, through: :emailing_section_bridges
+  has_many :structures,      through: :emailing_section_bridges
+  has_many :indexable_cards, through: :emailing_section_bridges
 
   accepts_nested_attributes_for :structures
 
