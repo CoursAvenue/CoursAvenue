@@ -2,7 +2,7 @@ class EmailingSectionBridgeSerializer < ActiveModel::Serializer
   attributes :id, :media_id, :media_url, :images, :structure, :indexable_card,
              :subjects, :subject_id, :subject_name,
              :reviews, :review_id, :review_text, :review_custom,
-             :city_text
+             :city_text, :indexable_card
 
   # Get the relevant information about a Structure instead of sending the
   # full object.
@@ -17,6 +17,14 @@ class EmailingSectionBridgeSerializer < ActiveModel::Serializer
       metadata_1: section.call_action(actions[0], structure),
       metadata_2: section.call_action(actions[1], structure),
       metadata_3: section.call_action(actions[2], structure)
+    }
+  end
+
+  def indexable_card
+    return nil if object.indexable_card.nil?
+
+    {
+      id: indexable_card.id,
     }
   end
 
