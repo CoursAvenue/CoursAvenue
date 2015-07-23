@@ -4,15 +4,18 @@ class EmailingSection < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :title, :link, :link_name, :structures, :structure_ids
+  attr_accessible :title, :link, :link_name, :structures, :structure_ids,
+                  :indexable_cards, :indexable_card_ids
 
   belongs_to :emailing
 
   has_many :emailing_section_bridges
+
   has_many :structures,      through: :emailing_section_bridges
   has_many :indexable_cards, through: :emailing_section_bridges
 
   accepts_nested_attributes_for :structures
+  accepts_nested_attributes_for :indexable_cards
 
   ######################################################################
   # Methods                                                            #
