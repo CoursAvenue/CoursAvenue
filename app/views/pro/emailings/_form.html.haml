@@ -30,7 +30,7 @@
               %i.fa-trash-o
               Supprimer
           Ou
-          = section_form.association :indexable_cards, as: :select, collection: [], input_html: { class: 'input--large', multiple: false, data: { cards: true } },
+          = section_form.association :indexable_cards, as: :select, collection: [], input_html: { class: 'input--large', multiple: false, data: { behavior: 'chosen', cards: true } },
             placeholder: 'Choisir un cours', label_html: { class: 'one-whole label--large' }, label: 'Cours'
           .text--right
             %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
@@ -59,6 +59,7 @@
                     response.cards.forEach(function(card) {
                       var option = new Option(card.name, card.id);
                       card_select.append($(option));
+                      card_select.trigger('chosen:updated');
                     });
                   }.bind(this),
               });
