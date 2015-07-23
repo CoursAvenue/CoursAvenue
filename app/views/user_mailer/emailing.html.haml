@@ -26,8 +26,10 @@
             %tr{ valign: 'top' }
               - section_group.each do |section|
                 - structure = section.structures.first
+                - card = section.indexable_cards.first
+                - url = card.present? ? structure_indexable_card_url(structure, card, subdomain: 'www') : structure_url(structure, subdomain: 'www')
                 %td.content-block{ width: '50%', style: 'padding-bottom: 0;' }
-                  = link_to structure_url(structure, subdomain: 'www'), target: :_blank, class: 'block' do
+                  = link_to url, target: :_blank, class: 'block' do
                     .text--center
                       - bridge = section.bridge_with_structure(structure)
                       - media_url = bridge.media_url
