@@ -4,7 +4,6 @@ class Pro::Admins::OnboardingController < ApplicationController
   def update
     @structure = Structure.find(params[:id])
     @admin = @structure.main_contact
-    raise 'update'
 
     @admin.onboard! if @admin
     redirect_to edit_pro_structure_path(@structure)
