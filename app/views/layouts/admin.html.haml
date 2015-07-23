@@ -1,6 +1,9 @@
 = content_for :content do
 
   - if @structure
+    - unless @structure.main_contact.onboarded?
+      = render 'onboarding'
+
     .darkgray-box.flexbox.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000, old_width: 'true' } }
       .main-container.flexbox
         .flexbox__item.v-middle.soft--left.palm-text--center.relative
