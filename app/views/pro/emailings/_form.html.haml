@@ -24,13 +24,13 @@
         %div{ class: (!section.persisted? ? 'hidden' : ''), data: { el: true, hidden: !section.persisted? } }
           %hr
           = section_form.association :structures, as: :select, collection: Structure.with_logo_and_media, input_html: { class: 'input--large', multiple: false,
-            data: { behavior: 'chosen', structures: true } }, placeholder: 'Choisir une structure', label_method: :name, label_html: { class: 'one-whole label--large' }
+            data: { behavior: 'chosen', structures: i } }, placeholder: 'Choisir une structure', label_method: :name, label_html: { class: 'one-whole label--large' }
           .text--right
             %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
               %i.fa-trash-o
               Supprimer
           Ou
-          = section_form.association :indexable_cards, as: :select, collection: [], input_html: { class: 'input--large', multiple: false, data: { behavior: 'chosen', cards: true } },
+          = section_form.association :indexable_cards, as: :select, collection: [], input_html: { class: 'input--large', multiple: false, data: { behavior: 'chosen', cards: i } },
             placeholder: 'Choisir un cours', label_html: { class: 'one-whole label--large' }, label: 'Cours'
           .text--right
             %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
@@ -50,7 +50,7 @@
               var structure_id = $(event.target.selectedOptions).val();
               var url = Routes.cards_pro_structure_path(structure_id, { format: 'json' });
 
-              var card_select = $('[data-cards]');
+              var card_select = $('[data-cards=' + $(event.target).data('structures') + ']');
 
               $.ajax({
                   type: 'GET',
