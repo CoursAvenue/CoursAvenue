@@ -1,5 +1,16 @@
 -# TODO: Close button.
-#onboarding.transition-all-300.invisible.on-top-of-the-world.north.west.fixed.bg-black-faded.height-100-percent.text--center.nowrap.one-whole{ style: 'overflow-x: scroll;' }
+
+= content_for :alert_bar do
+  .soft-half--bottom
+    -# %div Votre profil est complété à 50%
+    .text--right
+      %a.btn.btn--white.btn--small{ href: 'javascript:void(0)', data: { onboarding: 'show' } }
+        Voir le guide de démarage (v1)
+      %a.btn.btn--white.btn--small{ href: 'javascript:void(0)', data: { onboarding1: 'show' } }
+        Voir le guide de démarage (v2)
+
+
+#onboarding.hidden.transition-all-300.invisible.on-top-of-the-world.north.west.fixed.bg-black-faded.height-100-percent.text--center.nowrap.one-whole{ style: 'overflow-x: scroll;' }
   .inline-block.relative.one-third.v-middle{ style: 'margin-top: 50%' }
 
   -# Step zero
@@ -85,6 +96,12 @@
         var steps = $('[data-behavior=onboarding-step]');
         var $onboarding = $('#onboarding');
 
+        $('[data-onboarding=show]').click(function (event) {
+            event.preventDefault();
+            $onboarding.show();
+            $onboarding.removeClass('invisible');
+        });
+
         $('[data-behavior=onboarding-next-step]').click(function (event) {
             event.preventDefault();
             var currentStep     = $(this).parents('[data-behavior=onboarding-step]');
@@ -95,22 +112,25 @@
             var nextPosition = currentPosition + nextStep.position().left + nextStep.width() / 2 - halfScreen;
 
             $onboarding.scrollLeft(nextPosition);
-        $on
         });
 
         $('[data-behavior=onboarding-close]').click(function (event) {
             event.preventDefault();
             $onboarding.addClass('invisible');
+            $onboarding.hide();
         });
 
+        // $onboarding.show();
         // $onboarding.removeClass('invisible');
 
-        // $.fancybox.open([
-        //     { href: Routes.step_zero_pro_onboarding_path(),  type: 'ajax' },
-        //     { href: Routes.step_one_pro_onboarding_path(),   type: 'ajax' },
-        //     { href: Routes.step_two_pro_onboarding_path(),   type: 'ajax' },
-        //     { href: Routes.step_three_pro_onboarding_path(), type: 'ajax' },
-        //     { href: Routes.step_four_pro_onboarding_path(),  type: 'ajax' },
-        //     { href: Routes.step_five_pro_onboarding_path(),  type: 'ajax' },
-        // ], { arrows: false, loop: false });
+        $('[data-onboarding1=show]').click(function (event) {
+            $.fancybox.open([
+                { href: Routes.step_zero_pro_onboarding_path(),  type: 'ajax' },
+                { href: Routes.step_one_pro_onboarding_path(),   type: 'ajax' },
+                { href: Routes.step_two_pro_onboarding_path(),   type: 'ajax' },
+                { href: Routes.step_three_pro_onboarding_path(), type: 'ajax' },
+                { href: Routes.step_four_pro_onboarding_path(),  type: 'ajax' },
+                { href: Routes.step_five_pro_onboarding_path(),  type: 'ajax' },
+            ], { arrows: false, loop: false });
+        });
     });

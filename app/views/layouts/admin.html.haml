@@ -85,6 +85,8 @@
           - if content_for?(:backbone_app)
             = yield :backbone_app
           - else
+            - if content_for? :alert_bar
+              = yield :alert_bar
             .palm-hard.palm-text--center.pro-top-menu.rounded--top--double{ class: (content_for?(:top_menu) ? 'soft--left bg-orange' : 'bordered--top bordered--orange bordered--very-thick') }
               = yield :top_menu
             .bg-white.bordered--left.bordered--right.bordered--right.bordered--bottom.soft--ends.soft-double--sides.shadowed--bottom.rounded--top.min-height-800
