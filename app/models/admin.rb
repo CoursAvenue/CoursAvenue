@@ -150,6 +150,10 @@ class ::Admin < ActiveRecord::Base
     user.accounts.map { |page| [page.name, page.link] }
   end
 
+  def onboarded?
+    false
+  end
+
   private
 
   def subscribe_to_crm

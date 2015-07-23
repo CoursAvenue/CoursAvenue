@@ -1,5 +1,9 @@
 = side_menu_currently_at 'presentation'
 
 = render partial: 'pro/structures/tabs', locals:{ current: 'établissement' }
+
+- unless @structure.main_contact.onboarded?
+  = render 'onboarding'
+
 %h1 Infos
 = render 'form'
