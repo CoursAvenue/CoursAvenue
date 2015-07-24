@@ -30,11 +30,27 @@ class EmailingSection < ActiveRecord::Base
     self.emailing_section_bridges.where(structure_id: structure.id).first
   end
 
+  def bridge_with_card(card)
+    self.emailing_section_bridges.where(indexable_card_id: card.id).first
+  end
+
   # Set the media, subject and reviews by default.
   #
   # @return nothing
   def set_defaults
-    self.structures.each do |structure|
+    self.indexable_cards.each do |card|
+      bridge = bridge_with_card(card) || self.emailing_section_bridges.create(indexable_card_id: card.id)
+      structure = card.structure
+
+      set_media(bridge, structure)   if bridge.media_id.nil?
+      set_review(bridge, structure)  if bridge.review_id.nil?
+      set_subject(bridge, structure) if bridge.subject_id.nil?
+      set_city(bridge, structure)    if bridge.city_text.nil?
+    end
+
+    _structures = self.structures - self.indexable_cards.flat_map(&:structure)
+
+    _structures.each do |structure|
       bridge = bridge_with_structure(structure) || self.emailing_section_bridges.create()
       set_media(bridge, structure)   if bridge.media_id.nil?
       set_review(bridge, structure)  if bridge.review_id.nil?
