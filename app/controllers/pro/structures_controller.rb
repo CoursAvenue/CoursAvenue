@@ -415,6 +415,15 @@ France
     redirect_to pro_structure_path(@structure), notice: 'Profil réactivé avec succès'
   end
 
+  def cards
+    @cards = @structure.indexable_cards.includes(:course).with_place.map do |card|
+      { id: card.id, name: "#{ card.structure_name } -> #{ card.course_name }" }
+    end
+    respond_to do |format|
+      format.json { render json: { cards: @cards }  }
+    end
+  end
+
   private
 
   # Return the next wizard regarding the params passed (skip: true)

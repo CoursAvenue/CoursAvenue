@@ -81,7 +81,7 @@ Card = React.createClass({
                                 {this.headerImage()}
                             </div>
                             {this.headerLogo()}
-                            <div className="search-page-card__structure-name soft-half--sides push-half--bottom gray">
+                            <div className="search-page-card__structure-name soft-half--sides gray">
                                 <a href={Routes.structure_path(this.props.card.get('structure_slug'))}
                                    className="semi-muted-link search-page-card__structure-name">
                                     {this.props.card.get('structure_name')}
@@ -127,6 +127,15 @@ Card = React.createClass({
                 </div>);
     },
 
+    goToCourse: function goToCourse (event) {
+        if (event.target.nodeName == 'A') { return true; }
+        if (this.props.card.get('has_course')) {
+            window.location = Routes.structure_indexable_card_path(this.props.card.get('structure_slug'), this.props.card.get('slug'));
+        } else {
+            window.location = Routes.structure_path(this.props.card.get('structure_slug'));
+        }
+    },
+
     render: function render () {
         var course_information, course_location;
             gift_classes = { gray: this.props.card.get('is_open_for_trial')}
@@ -142,7 +151,8 @@ Card = React.createClass({
         return (
           <div onMouseEnter={this.onMouseEnter}
                onMouseLeave={this.onMouseLeave}
-               className={"search-page-card soft-half one-quarter palm-one-whole lap-one-half inline-block v-top " + popup_class}>
+               onClick={this.goToCourse}
+               className={"search-page-card soft-half one-quarter palm-one-whole lap-one-third inline-block v-top " + popup_class}>
               <div className="search-page-card__number">{this.props.index}.</div>
               <div className="bg-white search-page-card__content">
                   {this.headerCard()}

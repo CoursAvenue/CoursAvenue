@@ -28,7 +28,7 @@ module.exports = {
         data = data || {};
         var card_search_state = {
             facets      : ['subjects.slug_name'],
-            hitsPerPage : 800,
+            hitsPerPage : 80,
             distinct    : false,
             aroundRadius: 10000, // 10km
             page        : data.page || 1
