@@ -13,7 +13,7 @@
   Connectez-vous à votre profil pour lui répondre :
 
 .p.action
-  = link_to "Répondre au message", user_participation_request_url(@user, @participation_request, subdomain: 'www'), class: 'btn btn--green'
+  = link_to "Répondre au message", structure_website_structure_participation_request_url(@participation_request.structure, @participation_request.token, subdomain: 'www'), class: 'btn btn--green'
 
 - if @message
   .soft--bottom
