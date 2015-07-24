@@ -45,7 +45,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @user_decorator        = @user.decorate
     # Treat PR if it is viewed by the teacher and NOT by a super admin
     if @participation_request.pending?
-      @participation_request.treat! unless current_pro_admin and current_pro_admin.super_admin?
+      @participation_request.treat!('infos') unless current_pro_admin and current_pro_admin.super_admin?
     end
     render layout: false
   end

@@ -14,7 +14,10 @@ class ParticipationRequestDecorator < Draper::Decorator
 
   # Accepté|En attente|Annulé
   def long_status_name(resource_name="Structure")
-    I18n.t("participation_request.state.to_#{resource_name.downcase}.long_description.#{participation_request.state}")
+    status = I18n.t("participation_request.state.to_#{resource_name.downcase}.long_description.#{participation_request.state}")
+    if participation_request.treated?
+      status += participation_request.treat_method == 'message' ?  ' (un message vous a été envoyé)' : ' (vos coordonnées de contact ont été visualisées)'
+    end
   end
 
   # <strong class="red">Annulé</strong>

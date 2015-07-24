@@ -208,7 +208,7 @@ class ParticipationRequest < ActiveRecord::Base
   def discuss!(message_body, discussed_by='Structure')
     message_body             = StringHelper.replace_contact_infos(message_body)
     message                  = reply_to_conversation(message_body, discussed_by)
-    treat! if pending?
+    treat!('message') if pending?
     self.structure_responded = true if discussed_by == 'Structure'
     save
     if discussed_by == 'Structure'
