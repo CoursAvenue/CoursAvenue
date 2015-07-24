@@ -1,0 +1,40 @@
+.bg-white.soft.bordered
+  - if !@structure.is_sleeping? and @structure.enabled? and @structure.plannings.future.any?
+    %div
+      .delta.line-height-2.f-weight-bold Quel cours vous intéresse ?
+      %div
+        %a.btn.btn--green.btn--full{ href: 'javascript:void(0)', data: { behavior: 'show-contact-panel' } }
+          - if @structure_decorator.only_has_regular_classes?
+            M'inscrire à un cours d'essai
+          - else
+            M'inscrire
+
+    %hr.push-half--ends
+  - if @structure_decorator.only_has_regular_classes? and !@structure.is_sleeping? and @structure.enabled? and @structure.plannings.future.any?
+    %h3 Besoin d'information avant de vous inscrire ?
+    %p.push-half--bottom
+      Posez toutes vos questions auprés de #{ t(@structure.structure_type + '_for_registration_box') } ou de sa communauté de membres : 
+      .push-half--bottom
+        %a{ href: 'javascript:void(0)', class: 'btn btn--white btn--small' } Question à la communauté
+        = link_to 'Téléphone', '#phone-numbers', data: { behavior: 'modal', width: 350, padding: 0, logger: 'phone_number', structure_id: @structure.id }, class: 'btn btn--white btn--small'
+        - if @structure.website.present?
+          = link_to 'Site Internet', URLHelper.fix_url(@structure.website), target: '_blank', rel: 'nofollow', data: { logger: 'website', structure_id: @structure.id }, class: 'btn btn--white btn--small'
+  - else
+    %div
+      .delta.line-height-2.f-weight-bold.inline-block.v-middle.soft-half--right Contact
+      .inline-block.v-middle.line-height-2.f-weight-600
+        = link_to 'Téléphone', '#phone-numbers', data: { behavior: 'modal', width: 350, padding: 0, logger: 'phone_number', structure_id: @structure.id }
+        - if @structure.website.present?
+          %span.very-soft.gray-light= '|'
+          = link_to 'Site Internet', URLHelper.fix_url(@structure.website), target: '_blank', rel: 'nofollow', data: { logger: 'website', structure_id: @structure.id }
+
+#phone-numbers.hidden.panel
+  .panel__header.soft-half--ends.soft--sides
+    .delta.f-weight-bold.line-height-2 Coordonnées
+  .panel__body.soft.delta
+    - phone_number_html = @structure.phone_numbers.map do |phone_number, index|
+      .line-height-2
+        %i.fa.fa-phone
+        - phone_number_html = PhoneNumberDecorator.new(PhoneNumber.new(number: phone_number.number)).formatted_number if phone_number.number
+        = phone_number_html
+        = " (#{phone_number.info})" if phone_number.info.present?
