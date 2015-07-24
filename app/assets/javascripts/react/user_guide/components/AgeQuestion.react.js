@@ -5,6 +5,7 @@ var Answer               = require('./Answer'),
 var AgeQuestion = React.createClass({
     propTypes: {
         next_page: React.PropTypes.func.isRequired,
+        image: React.PropTypes.string,
     },
 
     selectAge: function selectAge (age) {
@@ -21,8 +22,14 @@ var AgeQuestion = React.createClass({
             return <Answer answer={ age } select={ this.selectAge(age.id) } key={ index } />
         }.bind(this));
 
+        var style = {}
+        if (this.props.image) {
+            style["backgroundImage"] = "url(" + this.props.image + ")";
+        }
+
         return (
-            <div className='section relative one-whole relative white full-screen-item bg-cover'>
+            <div className='section relative one-whole relative white full-screen-item bg-cover'
+                     style={ style }>
               <div className='black-curtain north west one-whole absolute'></div>
               <div className='relative' style={ { paddingBottom: '10vh', paddingTop: 80 } }>
                 <h2 className='flush--bottom f-size-big text--center white orange-box soft-half'>

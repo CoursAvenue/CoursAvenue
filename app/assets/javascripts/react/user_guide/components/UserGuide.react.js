@@ -51,6 +51,7 @@ var UserGuide = React.createClass({
                 <Question question={ question }
                          next_page={ this.nextPage }
                              index={ index }
+                             image={ this.props.guide.image }
                                key={ index }
                 />
             );
@@ -58,7 +59,10 @@ var UserGuide = React.createClass({
 
         if (this.props.guide.age_dependant) {
             questions.push(
-                <AgeQuestion next_page={ this.nextPage } key={ questions.length } />
+                <AgeQuestion next_page={ this.nextPage }
+                                 image={ this.props.guide.image }
+                                   key={ questions.length }
+                />
             );
         }
 
