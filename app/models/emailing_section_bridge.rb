@@ -32,6 +32,6 @@ class EmailingSectionBridge < ActiveRecord::Base
   private
 
   def set_structure
-    self.structure = self.indexable_card.structure if structure.nil?
+    # self.structure = self.indexable_card.structure if structure.nil?
   end
 end

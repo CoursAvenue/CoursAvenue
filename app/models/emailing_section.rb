@@ -88,12 +88,17 @@ class EmailingSection < ActiveRecord::Base
   #
   # @return nothing.
   def set_subject(bridge, structure)
-    subject = structure.subjects.first
+    if bridge.indexable_card.present?
+      bridge.subject_id = 0
+      bridge.subject_name = bridge.indexable_card.name
+    else
+      subject = structure.subjects.first
 
-    if subject.present?
-      bridge.subject_id = subject.id
-      bridge.subject_name = subject.name
-      bridge.save
+      if subject.present?
+        bridge.subject_id = subject.id
+        bridge.subject_name = subject.name
+        bridge.save
+      end
     end
   end
 
