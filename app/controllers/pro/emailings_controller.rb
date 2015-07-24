@@ -20,7 +20,7 @@ class Pro::EmailingsController < Pro::ProController
   end
 
   def create
-    @emailing = Emailing.new params[:emailing]
+    @emailing = Emailing.new(emailing_params)
 
     respond_to do |format|
       if @emailing.save
@@ -78,6 +78,16 @@ class Pro::EmailingsController < Pro::ProController
   end
 
   private
+
+  def emailing_params
+    params[:emailing][:emailing_sections_attributes].each_pair do |key, value|
+      if value[:indexable_card_ids].present?
+        value[:structure_ids] = ''
+      end
+    end
+
+    params[:emailing]
+  end
 
   def set_preview
     @emailing = Emailing.find params[:id]
