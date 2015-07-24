@@ -40,7 +40,7 @@ var SubjectAutocompleteStore = Backbone.Collection.extend({
             this.error   = true;
             this.trigger('change');
         }.bind(this));
-    },
+    }.debounce(250),
 
 });
 
