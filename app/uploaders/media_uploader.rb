@@ -46,6 +46,11 @@ class MediaUploader < CarrierWave::Uploader::Base
     process quality: 70
   end
 
+  version :thumbnail_email_cropped_card do
+    process :thumbnail_email_cropped_card
+    process quality: 70
+  end
+
   version :wide_and_blurry do
     cloudinary_transformation transformation: [{ width: 1024, height: 300, crop: :fill, effect: 'blur:900' }], flags: :progressive
   end
@@ -63,6 +68,13 @@ class MediaUploader < CarrierWave::Uploader::Base
   end
 
   private
+
+  def thumbnail_email_cropped_card
+    transformations = []
+    transformations << { width: 300, height: 220, crop: :fill }
+    transformations << { overlay: "m-inscrire", width: 167, height: 35, gravity: :south_east, y: 20 }
+    { transformation: transformations }
+  end
 
   def thumbnail_email_cropped
     transformations = []
