@@ -24,7 +24,7 @@ class EmailingSectionBridgeSerializer < ActiveModel::Serializer
     return nil if object.indexable_card.nil?
 
     {
-      id: indexable_card.id,
+      id: object.indexable_card.id,
     }
   end
 
