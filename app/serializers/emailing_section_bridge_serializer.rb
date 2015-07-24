@@ -1,15 +1,15 @@
 class EmailingSectionBridgeSerializer < ActiveModel::Serializer
-  attributes :id, :media_id, :media_url, :images, :structure, :indexable_card,
-             :subjects, :subject_id, :subject_name,
-             :reviews, :review_id, :review_text, :review_custom,
-             :city_text, :indexable_card
+  attributes :id, :media_id, :media_url, :images, :structure,
+    :subjects, :subject_id, :subject_name,
+    :reviews, :review_id, :review_text, :review_custom,
+    :city_text, :indexable_card
 
   # Get the relevant information about a Structure instead of sending the
   # full object.
   #
   # @return a Hash.
   def structure
-    structure = object.structure
+    structure = object.structure || object.indexable_card.structure
     section = object.emailing_section.emailing
     actions = section.section_metadata
     {
@@ -24,7 +24,9 @@ class EmailingSectionBridgeSerializer < ActiveModel::Serializer
     return nil if object.indexable_card.nil?
 
     {
-      id: object.indexable_card.id,
+      id:   object.indexable_card.id,
+      name: object.indexable_card.name,
+      slug: object.indexable_card.slug,
     }
   end
 
@@ -32,7 +34,9 @@ class EmailingSectionBridgeSerializer < ActiveModel::Serializer
   #
   # @return An Array of Hashes containing some images attributes.
   def images
-    object.structure.medias.map do |media|
+    _structure = object.structure || object.indexable_card.structure
+
+    _structure.medias.map do |media|
       if media.type == 'Media::Video'
         { id: media.id, url: media.thumbnail_url }
       else
@@ -45,7 +49,9 @@ class EmailingSectionBridgeSerializer < ActiveModel::Serializer
   #
   # @return an Array of Hashes containing some subjects attributes.
   def subjects
-    object.structure.subjects.map do |subject|
+    _structure = object.structure || object.indexable_card.structure
+
+    _structure.subjects.map do |subject|
       { id: subject.id, name: subject.name }
     end
   end
@@ -54,7 +60,9 @@ class EmailingSectionBridgeSerializer < ActiveModel::Serializer
   #
   # @return an Array of reviews attributes.
   def reviews
-    object.structure.comments.map do |review|
+    _structure = object.structure || object.indexable_card.structure
+
+    _structure.comments.map do |review|
       { id: review.id, text: review.title, custom: false }
     end.select { |comment| comment[:text].present? }
   end
