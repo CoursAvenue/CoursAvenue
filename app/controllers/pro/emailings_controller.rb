@@ -11,6 +11,7 @@ class Pro::EmailingsController < Pro::ProController
   def new
     @emailing = Emailing.new
     16.times { @emailing.emailing_sections.build }
+    @cards = []
   end
 
   def show
@@ -32,6 +33,7 @@ class Pro::EmailingsController < Pro::ProController
 
   def edit
     @emailing = Emailing.find params[:id]
+    @cards = @emailing.emailing_sections.flat_map(&:indexable_cards)
 
     count = 16 - @emailing.emailing_sections.count
     count.times { @emailing.emailing_sections.build  }

@@ -3,7 +3,7 @@ class EmailingSectionBridge < ActiveRecord::Base
   attr_accessible :media_id, :is_logo,
                   :subject_id, :subject_name,
                   :review_id, :review_text, :review_custom,
-                  :city_text
+                  :city_text, :structure_id, :indexable_card_id
 
   belongs_to :structure
   belongs_to :indexable_card
