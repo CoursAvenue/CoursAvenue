@@ -155,8 +155,9 @@ class ParticipationRequest < ActiveRecord::Base
   # Set state of PR to treated: it means the teacher did something with the PR
   #
   # @return Boolean
-  def treat!
+  def treat!(method = 'infos')
     self.state = 'treated'
+    self.treat_method = method
     save
   end
 
