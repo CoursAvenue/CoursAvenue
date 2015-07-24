@@ -40,7 +40,11 @@ class EmailingSectionBridgeSerializer < ActiveModel::Serializer
       if media.type == 'Media::Video'
         { id: media.id, url: media.thumbnail_url }
       else
-        { id: media.id, url: media.image.url(:thumbnail_email_cropped) }
+        if object.indexable_card.present?
+          { id: media.id, url: media.image.url(:thumbnail_email_cropped_card) }
+        else
+          { id: media.id, url: media.image.url(:thumbnail_email_cropped) }
+        end
       end
     end
   end
