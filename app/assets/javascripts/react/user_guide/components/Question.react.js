@@ -6,7 +6,6 @@ var Question = React.createClass({
         question: React.PropTypes.object.isRequired,
         next_page: React.PropTypes.func.isRequired,
         index: React.PropTypes.number,
-        image: React.PropTypes.string,
     },
 
     selectAnswer: function selectAnswer (answer) {
@@ -28,15 +27,11 @@ var Question = React.createClass({
             );
         }.bind(this));
 
-        var style = {}
-        if (this.props.image) {
-            style["backgroundImage"] = "url(" + this.props.image + ")";
-        }
-
         return (
-            <div className='section relative one-whole relative white full-screen-item bg-cover'
-                     style={ style }>
-              <div className='black-curtain north west one-whole absolute'></div>
+            <div className='section relative one-whole relative white full-screen-item bg-cover'>
+              <div className='black-curtain north west one-whole absolute'
+                       style={ { backgroundColor: this.props.question.get('color') } }>
+              </div>
               <div className='relative'>
                 <h2 className='flush--bottom f-size-big text--center white soft'
                         style={ { backgroundColor: this.props.question.get('color') } }>
