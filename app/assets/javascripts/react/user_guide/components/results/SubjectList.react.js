@@ -10,7 +10,7 @@ var SubjectList = React.createClass({
     // selected subject.
     selectSubject: function selectSubject (subject) {
         return function () {
-            SubjectActionCreators.selectSubject({ slug: subject.slug });
+            SubjectActionCreators.selectSubject({ slug: subject.get('slug') });
         }.bind(this);
     },
 
