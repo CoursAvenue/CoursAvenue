@@ -21,7 +21,7 @@ module.exports = function (state_name) {
         },
 
         delegateForceUpdate: function delegateForceUpdate () {
-            this.forceUpdate()
+            this.forceUpdate();
         },
     };
 };
