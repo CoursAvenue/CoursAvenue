@@ -14,6 +14,7 @@ class GuideSerializer < ActiveModel::Serializer
       { id: subject.id,
         name: subject.name,
         slug: subject.slug,
+        image: subject.image.url,
         root_slug: subject.root.slug,
         guide_description: subject.guide_description,
         advices: [

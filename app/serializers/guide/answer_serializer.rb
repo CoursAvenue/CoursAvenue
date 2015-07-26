@@ -5,7 +5,7 @@ class Guide::AnswerSerializer < ActiveModel::Serializer
 
   def subjects
     object.subjects.map do |subject|
-      { id: subject.id, name: subject.name, slug: subject.slug }
+      { id: subject.id, name: subject.name, slug: subject.slug, image: subject.image.url }
     end
   end
 
