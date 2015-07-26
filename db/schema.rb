@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150715140134) do
+ActiveRecord::Schema.define(version: 20150723141304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -346,9 +346,11 @@ ActiveRecord::Schema.define(version: 20150715140134) do
     t.string  "review_text"
     t.boolean "review_custom"
     t.string  "city_text"
+    t.integer "indexable_card_id"
   end
 
   add_index "emailing_section_bridges", ["emailing_section_id", "structure_id"], name: "comments_subjects_index", using: :btree
+  add_index "emailing_section_bridges", ["indexable_card_id"], name: "index_emailing_section_bridges_on_indexable_card_id", using: :btree
 
   create_table "emailing_sections", force: true do |t|
     t.string   "title"

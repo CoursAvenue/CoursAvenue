@@ -23,7 +23,15 @@
       = f.simple_fields_for :emailing_sections, section, child_index: i do |section_form|
         %div{ class: (!section.persisted? ? 'hidden' : ''), data: { el: true, hidden: !section.persisted? } }
           %hr
-          = section_form.association :structures, as: :select, collection: Structure.with_logo_and_media, input_html: { class: 'input--large', multiple: false, data: { behavior: 'chosen' } }, placeholder: 'Choisir une structure', label_method: :name, label_html: { class: 'one-whole label--large' }
+          = section_form.association :structures, as: :select, collection: Structure.with_logo_and_media, input_html: { class: 'input--large', multiple: false,
+            data: { behavior: 'chosen', structures: i } }, placeholder: 'Choisir une structure', label_method: :name, label_html: { class: 'one-whole label--large' }
+          .text--right
+            %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+              %i.fa-trash-o
+              Supprimer
+          Ou
+          = section_form.association :indexable_cards, as: :select, collection: @cards, input_html: { class: 'input--large', multiple: false, data: { behavior: 'chosen', cards: i } },
+            placeholder: 'Choisir un cours', label_html: { class: 'one-whole label--large' }, label: 'Cours'
           .text--right
             %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
               %i.fa-trash-o
@@ -37,6 +45,29 @@
 
 = content_for :scripts do
   :javascript
+      $(document).ready(function() {
+          // Populate indexable card select input.
+          $('[data-behavior=chosen]').change(function (event) {
+              var structure_id = $(event.target.selectedOptions).val();
+              var url = Routes.cards_pro_structure_path(structure_id, { format: 'json' });
+
+              var card_select = $('[data-cards=' + $(event.target).data('structures') + ']');
+
+              $.ajax({
+                  type: 'GET',
+                  url: url,
+                  success: function(response, status, xhr) {
+                    response.cards.forEach(function(card) {
+                      var option = new Option(card.name, card.id);
+                      card_select.append($(option));
+                      card_select.trigger('chosen:updated');
+                    });
+                  }.bind(this),
+              });
+
+          });
+      });
+
       $('[name=emailing\\[body\\]]').redactor({
           buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
             'link', 'alignment', 'horizontalrule', 'image'],

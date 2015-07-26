@@ -213,6 +213,7 @@ CoursAvenue::Application.routes.draw do
           get   :premium # redirect to subscriptions
           get   :enabling_confirmation
           patch :enable
+          get   :cards
         end
         resources :website_parameters, except: [:destroy], path: 'site-internet', controller: 'structures/website_parameters'
         resources :website_pages, path: 'pages-personnalisees', controller: 'structures/website_pages' do
