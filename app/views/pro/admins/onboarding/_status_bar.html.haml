@@ -5,88 +5,6 @@
       %a.btn.btn--white.btn--small{ href: 'javascript:void(0)', data: { onboarding: 'show' } }
         Voir le guide de démarage
 
--# #onboarding.hidden.transition-all-300.invisible.on-top-of-the-world.north.west.fixed.bg-black-faded.height-100-percent.text--center.nowrap.one-whole{ style: 'overflow-x: scroll;' }
--#   .inline-block.relative.one-third.v-middle{ style: 'margin-top: 50%' }
--#
--#   -# Step zero
--#   .panel.inline-block.relative.one-third.v-middle.push--sides{ style: 'white-space: normal; min-width: 100px;', data: { behavior: 'onboarding-step' } }
--#     .panel__body.soft
--#       %p.delta
--#         Bienvenue sur CoursAvenue !
--#       %p.delta
--#         Découvrez tout sur CoursAvenue en parcourant notre rapide guide :
--#       .text--center
--#         %a.btn.btn--green{ data: { behavior: 'onboarding-next-step' } } Parcourir le guide de démarage
--#
--#   -# Step one
--#   .panel.inline-block.relative.one-third.v-middle.push--sides{ style: 'white-space: normal; min-width: 100px;', data: { behavior: 'onboarding-step' } }
--#     .panel__body.soft
--#       %p.delta
--#         %strong 1. Affichez sur votre site Internet un planning simple et efficace
--#       %p.delta
--#         Après avoir renseigné vos activités,
--#         équipez votre propre site d'une page planning qui convertit plus d'inscrits,
--#         est optimisée pour mobiles et propose l'inscription ligne (avec ou sans paiement).
--#       %p.delta
--#         %em
--#           = link_to 'Cliquez ici', 'http://www.jazzhip.com/', target: :_blank
--#           puis sur "Voir le planning" pour voir un exemple.
--#       .text--center
--#         %a.btn.btn--green{ data: { behavior: 'onboarding-next-step' } } Suivant : Boostez votre bouche-à-oreille
--#
--#   -# Step two
--#   .panel.inline-block.relative.one-third.v-middle.push--sides{ style: 'white-space: normal; min-width: 100px;', data: { behavior: 'onboarding-step' } }
--#     .panel__body.soft
--#       %p.delta
--#         %strong 2. Boostez votre bouche-à-oreille ce à votre communauté
--#         %p.delta
--#           Entrez les e-mails de tous ceux qui vous connaissent :
--#           ils seront alors invités à partager leur expérience et à conseiller des internautes souhaitant
--#           venir chez vous pour la 1ère fois. Le bouche-à-oreille va vous apporter de nouvelles inscriptions !
--#       .text--center
--#         %a.btn.btn--green{ data: { behavior: 'onboarding-next-step' } } Suivant : Apparaissez sur CoursAvenue
--#
--#   -# Step three
--#   .panel.inline-block.relative.one-third.v-middle.push--sides{ style: 'white-space: normal; min-width: 100px;', data: { behavior: 'onboarding-step' } }
--#     .panel__body.soft
--#       %p.delta
--#         %strong 3. Apparaissez sur le moteur de recherche CoursAvenue.com
--#         %p.delta
--#           Complétez vos informations de profil et apparaissez en tête des résultats du moteur de recherche
--#           géolocalisé CoursAvenue.com. Les Internautes intéressés par vos cours pourront alors vous envoyer
--#           une demande d'inscription ou interroger votre communauté.
--#       .text--center
--#         %a.btn.btn--green{ data: { behavior: 'onboarding-next-step' } } Suivant : Envoyez de belles newsletters
--#
--#   -# Step four
--#   .panel.inline-block.relative.one-third.v-middle.push--sides{ style: 'white-space: normal; min-width: 100px;', data: { behavior: 'onboarding-step' } }
--#     .panel__body.soft
--#       %p.delta
--#         %strong 4. Envoyez des newsletters belles et efficaces
--#         %p.delta
--#           Envoyez une newsletter au minimum une fois par mois ce à notre outil qui va vous simplifier la vie :
--#           il vous suffit d'entrer les emails de vos destinataires, de paramétrer le contenu, et hop c'est envoyé !
--#           Vous allez fidéliser vos membres et augmenter vos inscriptions.
--#       .text--center
--#         %a.btn.btn--green{ data: { behavior: 'onboarding-next-step' } } Suivant : Contactez-nous à tout moment
--#
--#   -# Step five
--#   .panel.inline-block.relative.one-third.v-middle.push--sides{ style: 'white-space: normal; min-width: 100px;', data: { behavior: 'onboarding-step' } }
--#     .panel__body.soft
--#       %p.delta
--#         %strong 5. Contactez-nous quand vous voulez
--#         %p.delta
--#           Nous aimons ce que nous faisons et nous faisons tout pour le faire bien.
--#           Si toutefois vous avez des suggestions ou des questions, envoyez-nous votre demande :
--#           il vous suffit de cliquer sur le point d'interrogation en bas à droite de l'écran.
--#           Nous répondons en général dans la journée !
--#       .text--center
--#         = link_to pro_onboarding_path(id: @structure.slug), class: 'btn btn--green', method: :patch do
--#           Compléter mon profil
--#         -# %a.btn.btn--green{ data: { behavior: 'onboarding-close' } } Compléter mon profil
--#
--#   .inline-block.relative.one-third.v-middle{ style: 'margin-top: 50%' }
-
 // We put the custom style here so it doesn't override the global style used elsewhere.
 // I'm sorry, Nima.
 %style
@@ -116,36 +34,6 @@
 = content_for :scripts do
   :javascript
     $(document).ready(function () {
-        // var steps = $('[data-behavior=onboarding-step]');
-        // var $onboarding = $('#onboarding');
-
-        // $('[data-onboarding=show]').click(function (event) {
-        //     event.preventDefault();
-        //     $onboarding.show();
-        //     $onboarding.removeClass('invisible');
-        // });
-        //
-        // $('[data-behavior=onboarding-next-step]').click(function (event) {
-        //     event.preventDefault();
-        //     var currentStep     = $(this).parents('[data-behavior=onboarding-step]');
-        //     var nextStep        = $(steps[steps.index(currentStep) + 1]);
-        //     var currentPosition = $onboarding.scrollLeft();
-        //     var halfScreen      = $onboarding.width() / 2;
-        //
-        //     var nextPosition = currentPosition + nextStep.position().left + nextStep.width() / 2 - halfScreen;
-        //
-        //     $onboarding.scrollLeft(nextPosition);
-        // });
-        //
-        // $('[data-behavior=onboarding-close]').click(function (event) {
-        //     event.preventDefault();
-        //     $onboarding.addClass('invisible');
-        //     $onboarding.hide();
-        // });
-
-        // $onboarding.show();
-        // $onboarding.removeClass('invisible');
-
         $('[data-onboarding=show]').click(function (event) {
             $.fancybox.open([
                 { href: Routes.step_zero_pro_onboarding_path({ id: "#{ @structure.slug }" }),  type: 'ajax' },
