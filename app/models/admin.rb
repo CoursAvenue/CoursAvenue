@@ -190,7 +190,7 @@ class ::Admin < ActiveRecord::Base
     user.custom_attributes['A confirmé son compte'] = false
     user.custom_attributes['Disciplines_1']         = structure.subjects.at_depth(0).uniq.map(&:name).join(', ')
     user.custom_attributes['Disciplines_2']         = structure.subjects.at_depth(2).map(&:parent).uniq.map(&:name).join(', ')
-    user.custom_attributes['Disciplines_3']         = structure.subjects.at_depth(2).uniq.map(&:name).join(', ')
+    user.custom_attributes['Disciplines_3']         = structure.subjects.at_depth(2).uniq.map(&:name).join(', ').truncate(255)
     user.custom_attributes['Prof tag']              = CrmSync.structure_status_for_intercom(structure)
     user.custom_attributes['Code postal']           = structure.zip_code
     intercom_client.users.save(user)
