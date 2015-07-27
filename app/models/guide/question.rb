@@ -3,7 +3,7 @@ class Guide::Question < ActiveRecord::Base
 
   belongs_to :guide
   has_many :answers, -> { order(position: :asc) },
-    class_name: 'Guide::Answer', foreign_key: 'guide_question_id'
+    class_name: 'Guide::Answer', foreign_key: 'guide_question_id', dependent: :destroy
 
   validates :content, presence: true
   validates :ponderation, presence: true
