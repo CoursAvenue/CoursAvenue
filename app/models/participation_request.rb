@@ -192,6 +192,12 @@ class ParticipationRequest < ActiveRecord::Base
     self.state               = 'accepted'
     message                  = reply_to_conversation(message_body, last_modified_by) if message_body.present?
     self.structure_responded = true if last_modified_by == 'Structure'
+
+    # If we change the course type, make sure to update the date.
+    if self.old_course_id.present? and new_params[:date].present?
+      self.date = Date.parse(new_params[:date])
+    end
+
     save
 
     if self.last_modified_by == 'Structure'
