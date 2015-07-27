@@ -1,9 +1,13 @@
 = content_for :alert_bar do
   .soft-half--bottom
-    -# %div Votre profil est complété à 50%
-    .text--right
-      %a.btn.btn--white.btn--small{ href: 'javascript:void(0)', data: { onboarding: 'show' } }
-        Voir le guide de démarage
+    .flexbox
+      .flexbox__item.ten-twelves.v-middle>
+        Votre profil est complété à #{admin_current_onboarding_percentage(@structure}% :&nbsp;
+        = admin_current_onboarding_step(@structure)
+      .flexbox__item.two-twelves.v-middle>
+        .text--right
+          %a.btn.btn--white.btn--small{ href: 'javascript:void(0)', data: { onboarding: 'show' } }
+            Voir le guide de démarage
 
 // We put the custom style here so it doesn't override the global style used elsewhere.
 // I'm sorry, Nima.
