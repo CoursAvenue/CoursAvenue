@@ -15,9 +15,27 @@ var AgeDetails = React.createClass({
         return { answer_store: AnswerStore };
     },
 
+    renderAll: function renderAll () {
+        if (!this.props.subject) { return false; }
+        var ages = this.props.subject.get('advices').map(function(age, index) {
+            return (
+                <div key={ index }>
+                    <h1>{ age.title }</h1>
+                    <p>{ age.content }</p>
+                </div>
+            );
+        });
+
+        return (
+            <div>
+                { ages }
+            </div>
+        );
+    },
+
     render: function render () {
         var age = AnswerStore.selectedAge();
-        if (!age) { return false; }
+        if (!age) { return this.renderAll(); }
 
         var selected_age = _.findWhere(this.props.subject.get('advices'), { id: age.id });
 
