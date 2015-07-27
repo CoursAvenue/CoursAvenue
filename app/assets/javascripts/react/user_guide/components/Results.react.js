@@ -29,25 +29,36 @@ var Results = React.createClass({
           );
       });
 
+      var style = {}
+      if (main_subject) {
+          style['backgroundImage'] = 'url(' + main_subject.get('image') + ')';
+      }
+
       return (
-          <div className='section relative one-whole relative full-screen-item bg-cover'>
-              <div className='main-container mega-soft--ends'>
-                  <MainSubject subject={ main_subject } />
-                  <hr />
-                  <div className='text--center soft--sides'>
-                      <h1> Reponses </h1>
-                      { answers }
-                  </div>
-                  <hr />
-                  <AgeDetails subject={ main_subject } />
-                  <hr />
-                  <CourseSearch subject={ main_subject } />
-                  <hr />
-                  <SubjectList subjects={ alternate_subjects } />
-              </div>
+          <div className='section white relative one-whole relative full-screen-item bg-cover' style={ style }>
+                <div className='v-middle black-curtain'>
+                    <MainSubject subject={ main_subject } />
+                </div>
           </div>
       );
     },
 });
 
 module.exports = Results;
+          // <div className='section white relative one-whole relative full-screen-item bg-cover'
+          //          style={ style }>
+          //     <div className='main-container mega-soft--ends'>
+          //         <MainSubject subject={ main_subject } />
+          //         <hr />
+          //         <div className='text--center soft--sides'>
+          //             <h1> Reponses </h1>
+          //             { answers }
+          //         </div>
+          //         <hr />
+          //         <AgeDetails subject={ main_subject } />
+          //         <hr />
+          //         <CourseSearch subject={ main_subject } />
+          //         <hr />
+          //         <SubjectList subjects={ alternate_subjects } />
+          //     </div>
+          // </div>

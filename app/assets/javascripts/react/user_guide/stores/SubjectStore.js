@@ -5,13 +5,25 @@ var _                   = require('lodash'),
     UserGuideDispatcher = require('../dispatcher/UserGuideDispatcher'),
     ActionTypes         = UserGuideConstants.ActionTypes;
 
+var COLORS = {
+    'danse':                           '#f6705f',
+    'theatre-scene':                   '#d85f79',
+    'musique-chant':                   '#c66fa2',
+    'cuisine-vins':                    '#375b76',
+    'yoga-bien-etre-sante':            '#4f99d0',
+    'sports-arts-martiaux':            '#3ec5dd',
+    'photo-video':                     '#d5905c',
+    'deco-mode-bricolage':             '#ec9f53',
+    'dessin-peinture-arts-plastiques': '#f0c15c',
+}
+
 var Subject = Backbone.Model.extend({
     defaults: function defaults () {
         return { score: 0, selected: false, age_details: [] };
     },
 
     initialize: function initialize () {
-        _.bindAll(this, 'updateScore', 'searchUrl');
+        _.bindAll(this, 'updateScore', 'searchUrl', 'getColor');
     },
 
     updateScore: function updateScore (answer) {
@@ -23,6 +35,10 @@ var Subject = Backbone.Model.extend({
         var city_slug = city.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 
         return Routes.search_page_path(this.get('root_slug'), this.get('slug'), city);
+    },
+
+    getColor: function getColor () {
+        return COLORS[this.get('root_slug')];
     },
 
 });
