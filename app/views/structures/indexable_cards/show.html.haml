@@ -16,7 +16,10 @@
         = link_to @structure.name, structure_path(@structure)
       - if @course.prices.any?
         .float--right.blue-green.nowrap.v-middle
-          %strong Cours d'essai : #{readable_amount(@course.prices.first.amount)}
+          - if @course.is_training?
+            %strong Stage : #{readable_amount(@course.prices.first.amount)}
+          - else
+            %strong Cours d'essai : #{readable_amount(@course.prices.first.amount)}
       %h3 Planning
       = react_component("CardPageCourse",
                       { course: CourseSerializer.new(@course), plannings: ActiveModel::ArraySerializer.new(@indexable_card.plannings.future, each_serializer: PlanningSerializer) }, { prerender: false })
