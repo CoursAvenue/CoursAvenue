@@ -5,6 +5,15 @@ class Pro::GuidesController < Pro::ProController
     @guides = Guide.all
   end
 
+  def show
+    @guide = Guide.find(params[:id])
+
+    respond_to do |format|
+      format.html { redirect_to guide_path(@guide) }
+      format.json { render json: @guide }
+    end
+  end
+
   def new
     @guide = Guide.new
     10.times do

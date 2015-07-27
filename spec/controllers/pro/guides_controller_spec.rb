@@ -41,6 +41,25 @@ describe Pro::GuidesController, user_guide: true do
     end
   end
 
+  describe 'GET #show' do
+    let(:guide) { FactoryGirl.create(:guide) }
+
+    context 'html format' do
+      it 'redirects to the guide' do
+        get :show, id: guide.slug
+        expect(response).to redirect_to(guide_path(guide))
+      end
+    end
+
+    context 'json format' do
+      it 'renders the guide as json' do
+        get :show, id: guide.slug, format: :json
+        json_response = JSON.parse(response.body)
+        expect(json_response['id']).to eq(guide.id)
+      end
+    end
+  end
+
   describe 'GET #new' do
     render_views
 
