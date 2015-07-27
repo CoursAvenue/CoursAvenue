@@ -50,3 +50,6 @@
             ], { loop: false, margin: [20, 60, 20, 60] });
         });
     });
+  - if params[:show_onboarding]
+    :javascript
+      $(document).ready(function () { $('[data-onboarding=show]').click() });
