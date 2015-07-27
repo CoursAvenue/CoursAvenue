@@ -57,7 +57,7 @@ var CourseSearch = React.createClass({
     getButton: function getButton () {
         if (this.state.city && this.props.subject) {
             return (
-                <a className='btn btn--white two-twelfths' href={ this.props.subject.searchUrl() } >
+                <a className='btn btn--white two-twelfths' href={ this.props.subject.searchUrl() } target='_blank' >
                     Trouver un cours de { this.props.subject.get('name') }
                 </a>
             );
