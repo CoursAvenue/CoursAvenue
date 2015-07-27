@@ -3,7 +3,7 @@
   - if @structure
     - if @structure.main_contact.present?
       - unless @structure.main_contact.onboarded?
-        = render partial: 'pro/structures/onboarding'
+        = render partial: 'pro/admins/onboarding/status_bar'
 
     .darkgray-box.flexbox.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000, old_width: 'true' } }
       .main-container.flexbox
