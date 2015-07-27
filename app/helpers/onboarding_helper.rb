@@ -20,6 +20,8 @@ module OnboardingHelper
         "<i class='fa fa-square-o'></i>".html_safe +
           ' Renseigner mes cours et mon planning'
       end
+    else
+      ''
     end
   end
 
@@ -29,5 +31,7 @@ module OnboardingHelper
     status -= 25 if structure.medias.empty?
     status -= 25 if structure.comments.empty?
     status -= 25 if structure.plannings.future.empty?
+
+    status
   end
 end
