@@ -38,6 +38,8 @@ var Results = React.createClass({
           <div className='section white relative one-whole relative full-screen-item bg-cover' style={ style }>
                 <div className='v-middle black-curtain'>
                     <MainSubject subject={ main_subject } />
+                    <AgeDetails  subject={ main_subject } />
+                    <SubjectList subjects={ alternate_subjects } />
                 </div>
           </div>
       );

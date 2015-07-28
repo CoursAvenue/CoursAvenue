@@ -27,7 +27,7 @@ var AgeDetails = React.createClass({
         });
 
         return (
-            <div>
+            <div className='soft'>
                 { ages }
             </div>
         );
