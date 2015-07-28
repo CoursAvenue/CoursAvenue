@@ -12,6 +12,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             '$course_select'                   : 'select[name="participation_request[course_id]"]',
             '$planning_select_wrapper'         : '[data-element=planning-select-wrapper]',
             '$planning_select_input'           : '[data-element=planning-select-wrapper] select',
+            '$planning_info'                   : '[data-element=planning-info]',
             '$datepicker_wrapper'              : '[data-element=datepicker-wrapper]',
             '$datepicker_input'                : '[data-element=datepicker-wrapper] input',
             '$start_hour_select_input'         : '[data-element=start-hour-select]',
@@ -203,6 +204,13 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 this.ui.$planning_select_input.append(option);
             }, this);
             this.updateDatePicker();
+            // If there is only one option, don't show the select.
+            if (this.getCurrentCoursePlannings().length == 1) {
+                var planning = this.getCurrentCoursePlannings()[0];
+                this.ui.$planning_info.text(planning.date + ' ' + planning.time_slot);
+                this.ui.$planning_info.show();
+                this.ui.$planning_select_input.hide();
+            }
         },
 
         showStudentAddressFields: function showStudentAddressFields () {
