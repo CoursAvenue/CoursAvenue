@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150728102159) do
+ActiveRecord::Schema.define(version: 20150728123345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -264,14 +264,16 @@ ActiveRecord::Schema.define(version: 20150728102159) do
   add_index "community_memberships", ["community_id"], name: "index_community_memberships_on_community_id", using: :btree
   add_index "community_memberships", ["user_id"], name: "index_community_memberships_on_user_id", using: :btree
 
-  create_table "community_threads", force: true do |t|
+  create_table "community_message_threads", force: true do |t|
     t.integer  "community_id"
     t.boolean  "public"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "mailboxer_conversation_id"
   end
 
-  add_index "community_threads", ["community_id"], name: "index_community_threads_on_community_id", using: :btree
+  add_index "community_message_threads", ["community_id"], name: "index_community_message_threads_on_community_id", using: :btree
+  add_index "community_message_threads", ["mailboxer_conversation_id"], name: "index_community_message_threads_on_mailboxer_conversation_id", using: :btree
 
   create_table "contacts", force: true do |t|
     t.integer  "contactable_id",   null: false
