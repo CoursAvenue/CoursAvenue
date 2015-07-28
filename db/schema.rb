@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150727141028) do
+ActiveRecord::Schema.define(version: 20150728093535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -244,6 +244,14 @@ ActiveRecord::Schema.define(version: 20150727141028) do
   end
 
   add_index "comments_subjects", ["comment_id", "subject_id"], name: "index_comments_subjects_on_comment_id_and_subject_id", using: :btree
+
+  create_table "communities", force: true do |t|
+    t.integer  "structure_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "communities", ["structure_id"], name: "index_communities_on_structure_id", using: :btree
 
   create_table "contacts", force: true do |t|
     t.integer  "contactable_id",   null: false
