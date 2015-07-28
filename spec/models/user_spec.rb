@@ -8,6 +8,11 @@ describe User do
 
   it_behaves_like 'StripeCustomer'
 
+  context 'associations' do
+    it { should have_many(:community_memberships).class_name('Community::Membership') }
+    it { should have_many(:communities).through(:community_memberships) }
+  end
+
   context :active do
     it 'should not have password' do
       user = User.new first_name: 'Lorem', last_name: 'last_name', email: 'random@email.com'
