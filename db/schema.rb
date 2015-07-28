@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150728093535) do
+ActiveRecord::Schema.define(version: 20150728095405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -252,6 +252,17 @@ ActiveRecord::Schema.define(version: 20150728093535) do
   end
 
   add_index "communities", ["structure_id"], name: "index_communities_on_structure_id", using: :btree
+
+  create_table "community_memberships", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "community_id"
+    t.datetime "last_notification_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "community_memberships", ["community_id"], name: "index_community_memberships_on_community_id", using: :btree
+  add_index "community_memberships", ["user_id"], name: "index_community_memberships_on_user_id", using: :btree
 
   create_table "contacts", force: true do |t|
     t.integer  "contactable_id",   null: false
