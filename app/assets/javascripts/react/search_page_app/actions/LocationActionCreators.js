@@ -23,6 +23,18 @@ module.exports = {
         });
     },
 
+    userLocationNotFound: function userLocationNotFound () {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.USER_LOCATION_NOT_FOUND
+        });
+    },
+
+    userLocationFound: function userLocationFound () {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.USER_LOCATION_FOUND
+        });
+    },
+
     locateUser: function locateUser () {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.LOCATE_USER

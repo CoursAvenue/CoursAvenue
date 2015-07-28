@@ -16,7 +16,6 @@ var LocationStore = Backbone.Model.extend({
         switch(payload.actionType) {
             case ActionTypes.LOCATE_USER:
                 this.locateUser();
-                this.set('user_location');
                 break;
             case ActionTypes.SELECT_METRO_LINES:
             case ActionTypes.SELECT_METRO_LINE:
@@ -33,9 +32,20 @@ var LocationStore = Backbone.Model.extend({
                 break;
             case ActionTypes.UPDATE_FILTERS:
                 if (payload.data.user_location) {
-                    this.set({ finding_user_position: false });
                     this.set(payload.data);
                 }
+                break;
+            case ActionTypes.FINDING_USER_LOCATION:
+                this.set({ finding_user_position: true });
+                break;
+            case ActionTypes.USER_LOCATION_FOUND:
+                this.set({ finding_user_position: false });
+                break;
+            case ActionTypes.USER_LOCATION_NOT_FOUND:
+                this.unset('user_location');
+            case ActionTypes.USER_LOCATION_FOUND:
+                this.set({ finding_user_position: false });
+                break;
             case ActionTypes.UNSET_FILTER:
                 if      (payload.data == 'user_location') { this.unset('user_location'); }
                 else if (payload.data == 'address') { this.unset('address'); }
