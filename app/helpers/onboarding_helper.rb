@@ -28,9 +28,9 @@ module OnboardingHelper
   def admin_current_onboarding_percentage(structure)
     status = 100
     status -= 25 if !structure.profile_completed?
-    status -= 25 if structure.medias.empty?
-    status -= 25 if structure.comments.empty?
-    status -= 25 if structure.plannings.future.empty?
+    status -= 25 if structure.medias.select(&:persisted?).empty?
+    status -= 25 if structure.comments.select(&:persisted?).empty?
+    status -= 25 if structure.plannings.future.select(&:persisted?).empty?
 
     status
   end
