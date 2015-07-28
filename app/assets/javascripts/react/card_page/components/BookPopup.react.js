@@ -93,7 +93,7 @@ var BookPopup = React.createClass({
     render: function render () {
         var price_libelle, datepicker = '', place_select;
         if (this.props.course.db_type == 'Course::Training') {
-            price_libelle = 'Prix du stage :';
+            price_libelle = 'Prix du stage';
         } else {
             price_libelle = this.props.course.min_price.libelle;
             datepicker = (<div className="grid--full bordered--bottom">
