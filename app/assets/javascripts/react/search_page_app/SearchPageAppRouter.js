@@ -40,6 +40,9 @@ var SearchPageAppRouter = Backbone.Router.extend({
     },
 
     updateUrl: function updateUrl () {
+        // We prevent from updating url while asking for user position because it will dismiss
+        // the popup on Chrome
+        if (LocationStore.get('finding_user_position')) { return; }
         var new_location,
             search_params = this.buildSearchParams();
         // /:city_id | /paris-12
