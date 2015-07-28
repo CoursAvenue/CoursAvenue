@@ -23,8 +23,8 @@ var MapComponent = React.createClass({
         // Provide your access token
         L.mapbox.accessToken = ENV.MAPBOX_ACCESS_TOKEN;
         this.createMap();
-        this.setEventsListeners()
-        this.handleMoveend(); // Trigger map bounds
+        this.setEventsListeners();
+        this.searchCardsWithNewBounds();
     },
 
     createMap: function createMap () {
@@ -44,7 +44,7 @@ var MapComponent = React.createClass({
     },
 
     setEventsListeners: function setEventsListeners () {
-        this.map.on('moveend', this.handleMoveend);
+        this.map.on('moveend', this.searchCardsWithNewBounds);
         this.map.on('popupclose', function(location) {
             _.each(this.visible_marker_layer.getLayers(), function(marker) {
                 $(marker._icon).removeClass('map-box-marker--active');
@@ -56,8 +56,11 @@ var MapComponent = React.createClass({
         }.bind(this));
         this.map.on('locationfound', function(location) {
             FilterActionCreators.updateFilters({ user_location: location });
+            LocationActionCreators.userLocationFound();
         });
-        this.map.on('locationerror', function(data) { console.warn("Location couldn't be found") });
+        this.map.on('locationerror', function(data) {
+            LocationActionCreators.userLocationNotFound();
+        });
         this.state.card_store.on('reset change:visible', this.updateMarkerLayer);
         this.state.card_store.on('change:highlighted', this.showHighlightedMarkerPopup);
         this.state.card_store.on('change:hovered', this.highlightMarker);
@@ -131,12 +134,12 @@ var MapComponent = React.createClass({
         this.map.setView([location.latitude, location.longitude]);
     },
 
-    handleMoveend: function handleMoveend (leaflet_data) {
+    searchCardsWithNewBounds: function searchCardsWithNewBounds (leaflet_data) {
         // ----- We add guard to prevent from updating bounds when a popup is opened
         if (this.popup && this.popup._isOpen) { return; }
 
         if (SearchPageDispatcher.isDispatching()) {
-            _.defer(this.handleMoveend, leaflet_data);
+            _.defer(this.searchCardsWithNewBounds, leaflet_data);
             return;
         }
         LocationActionCreators.updateBounds([

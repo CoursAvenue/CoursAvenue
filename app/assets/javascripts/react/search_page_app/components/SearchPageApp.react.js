@@ -41,15 +41,15 @@ SearchPageApp = React.createClass({
 
     // Bootstraping data
     bootsrapData: function bootsrapData() {
+        if (this.props.locate_user) {
+            LocationActionCreators.locateUser();
+        }
         LocationActionCreators.filterByAddress($.parseJSON(this.props.address));
         if (this.props.root_subject) {
             SubjectActionCreators.selectRootSubject($.parseJSON(this.props.root_subject));
         }
         if (this.props.subject) {
             SubjectActionCreators.selectSubject($.parseJSON(this.props.subject));
-        }
-        if (this.props.locate_user) {
-            LocationActionCreators.locateUser();
         }
     },
 
