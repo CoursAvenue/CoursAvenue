@@ -18,6 +18,8 @@ class ParticipationRequestDecorator < Draper::Decorator
     if participation_request.treated?
       status += participation_request.treat_method == 'message' ?  ' (un message vous a été envoyé)' : ' (vos coordonnées de contact ont été visualisées)'
     end
+
+    status
   end
 
   # <strong class="red">Annulé</strong>
