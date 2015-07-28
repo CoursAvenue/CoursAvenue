@@ -658,6 +658,9 @@ CoursAvenue::Application.routes.draw do
 
     post 'contact/' => 'pages#send_message'
 
+    # Fixes / Hacks
+    get 'browserconfig' => 'home#browserconfig'
+
     post '/mandrill-webhook' => 'mandrill_webhook#create'
     get  '/mandrill-webhook' => 'mandrill_webhook#index'
     post '/stripe_webhook', to: 'stripe_webhook#create'
