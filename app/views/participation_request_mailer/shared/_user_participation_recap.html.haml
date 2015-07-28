@@ -69,7 +69,7 @@
           %strong Lieu
       %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
         .p.hard
-          - if participation_request.at_student_home?
+          - if participation_request.at_student_home? or participation_request.course.is_private?
             À domicile
           - else
             = link_to URI.encode("https://maps.google.com/?q=#{place.address}") do

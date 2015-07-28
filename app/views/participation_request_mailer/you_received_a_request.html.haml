@@ -13,7 +13,9 @@
   #{@user.name} souhaiterait assister à une séance d'essai le
   %strong= "#{@participation_request_decorator.day_and_hour}"
   pour votre cours "#{@participation_request.course.name}"
-  - if @participation_request.place
+  - if @participation_request.course.is_private?
+    à #{ @participation_request_decorator.student_home_address }
+  - elsif @participation_request.place
     au #{@participation_request.place.address} (#{@participation_request.place.name}).
   Connectez-vous à votre profil
   %strong= "avant le #{I18n.l(@participation_request.date, format: :semi_short)}"
