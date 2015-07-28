@@ -59,7 +59,7 @@ var ResultInfo = React.createClass({
         if (CardStore.context == 'course') {
             result_string += (total_results > 1 ? 'cours trouvés' : 'cours trouvé');
         } else {
-            result_string += (total_results > 1 ? 'stage trouvés' : 'stages trouvé');
+            result_string += (total_results > 1 ? 'stages trouvés' : 'stage trouvé');
         }
         if (total_results == 0) { result_string = 'Pas de résultats' }
         return (
