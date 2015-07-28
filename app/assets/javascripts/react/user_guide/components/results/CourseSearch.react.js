@@ -57,8 +57,9 @@ var CourseSearch = React.createClass({
     getButton: function getButton () {
         if (this.state.city && this.props.subject) {
             return (
-                <a className='btn btn--white two-twelfths' href={ this.props.subject.searchUrl() } target='_blank' >
-                    Trouver un cours de { this.props.subject.get('name') }
+                <a className='nowrap btn btn--yellow input--large' href={ this.props.subject.searchUrl(this.state.city) } target='_blank' >
+                    <i className='fa-search'></i>
+                    Trouver
                 </a>
             );
         } else {
@@ -67,21 +68,38 @@ var CourseSearch = React.createClass({
                 course_name = this.props.subject.get('name');
             }
             return (
-                <button disabled className='btn btn--white two-twelfths'>Trouver un cours de { course_name }</button>
+                <button disabled className='nowrap btn btn--yellow input--large'>
+                    <i className='fa-search'></i>
+                    Trouve
+                </button>
             );
         }
     },
 
     render: function render () {
+        if (!this.props.subject) { return false; }
+        var course_name = this.props.subject.get('name');
+
         return (
-            <div className='grid'>
-                <div className='grid__item ten-twelfths'>
-                    <input className="input--very-large inline-block"
-                         size="40"
-                         onChange={ this.setCity_ }
-                         placeholder="Entrez le nom de la localité" />
-                 </div>
-                 { this.getButton() }
+            <div className='grid main-container main-container--medium'>
+                <div className='grid__item one-half v-middle palm-one-whole'>
+                    <h4 className="palm-text--center white flush text--right">
+                            Trouvez le cours de { course_name } idéal à
+                    </h4>
+                </div>
+                <div className='grid__item one-half v-middle palm-one-whole soft-half--left'>
+                    <div className='flexbox'>
+                        <div className='flexbox__item v-middle search-input-wrapper very-soft hard--ends palm-hard' style={ { width: '140px' } }>
+                            <div className='input-with-icon'>
+                                <input className='palm-one-whole input--large one-whole soft-half--left' onChange={ this.setCity_ } placeholder='Ville' />
+                                <i className='fa-map-marker delta black'></i>
+                            </div>
+                        </div>
+                        <div className='flexbox__item v-middle palm-text--center'>
+                            { this.getButton() }
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     },

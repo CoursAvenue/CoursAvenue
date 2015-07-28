@@ -1,3 +1,5 @@
+var CourseSearch = require('./CourseSearch');
+
 var MainSubject = React.createClass({
     propTypes: {
         subject: React.PropTypes.object,
@@ -16,6 +18,7 @@ var MainSubject = React.createClass({
                     <h2 className='alpha palm-beta text--center white'>
                         <span className='ff-kameron'>Notre suggestion : { this.props.subject.get('name') }</span>
                     </h2>
+                    <CourseSearch subject={ this.props.subject } />
                 </div>
                 <div className='main-container main-container--medium'>
                     <div className='f-weight-bold line-height-1-5 push--bottom soft--sides palm-text--center'>
@@ -30,11 +33,3 @@ var MainSubject = React.createClass({
 });
 
 module.exports = MainSubject;
-                // <div className='text--center soft--sides'>
-                //     <h1>
-                //         Notre suggestion: { this.props.subject.get('name') } ( score: { this.props.subject.get('score') } )
-                //     </h1>
-                //     <p className='delta'>
-                //         { this.props.subject.get('guide_description') }
-                //     </p>
-                // </div>
