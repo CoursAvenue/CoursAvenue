@@ -3,22 +3,22 @@ module OnboardingHelper
     if !structure.profile_completed?
       link_to edit_pro_structure_path(structure) do
         "<i class='fa fa-square-o'></i>".html_safe +
-          ' Compléter mes informations générales et ajouter un logo'
+          ' Ajoutez votre description et votre logo'
       end
     elsif structure.comments.empty? and structure.comment_notifications.empty?
       link_to recommendations_pro_structure_path(structure) do
         "<i class='fa fa-square-o'></i>".html_safe +
-          ' Demander des recommandations à mes élèves'
+          ' Boostez votre bouche-à-oreille'
       end
     elsif structure.medias.empty?
       link_to pro_structure_medias_path(structure) do
         "<i class='fa fa-square-o'></i>".html_safe +
-          ' Mettre en ligne les photos et vidéos de mes cours'
+          ' Ajoutez vos photos et vidéos'
       end
     elsif structure.plannings.future.any?
       link_to pro_structure_courses_path(structure) do
         "<i class='fa fa-square-o'></i>".html_safe +
-          ' Renseigner mes cours et mon planning'
+          ' Mettez à jour votre planning'
       end
     else
       ''
