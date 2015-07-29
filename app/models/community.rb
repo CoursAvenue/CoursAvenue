@@ -1,4 +1,6 @@
 class Community < ActiveRecord::Base
+  acts_as_paranoid
+
   belongs_to :structure
 
   has_many :message_threads, -> { order(created_at: :desc) },
