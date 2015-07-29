@@ -30,6 +30,14 @@ class HomeController < ApplicationController
     }
   end
 
+  # Because fuck you Microsoft.
+  def browserconfig
+    respond_to do |format|
+      format.xml { render xml: {} }
+      format.html { redirect_to root_path }
+    end
+  end
+
   private
 
   def layout_locals

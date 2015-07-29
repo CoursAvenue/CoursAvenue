@@ -58,12 +58,12 @@ var MapComponent = React.createClass({
 
     setLocationOnMap: function setLocationOnMap () {
         var location = this.state.location_store.get('user_location') || this.state.location_store.get('address');
+        if (!location) { return; }
         if (this.location_marker) { this.map.removeLayer(this.location_marker); }
         this.location_marker = L.marker([location.latitude, location.longitude],
                               { icon: L.divIcon({className: 'map-box-marker__user'}) });
         this.map.addLayer(this.location_marker);
         this.map.setView([location.latitude, location.longitude]);
-        this.location_marker.bindPopup('Je suis là !');
     },
 
 

@@ -30,6 +30,8 @@ var SubjectAutocompleteStore = Backbone.Collection.extend({
     },
 
     searchSubjects: function searchSubjects () {
+        if (this.full_text_search.length < 3) { return ; }
+
         var data = { hitsPerPage: 15, facets: '*', numericFilters: 'depth>0' }
         AlgoliaSearchUtils.searchSubjects(data, this.full_text_search).then(function(content){
             this.reset(content.hits);
@@ -38,7 +40,7 @@ var SubjectAutocompleteStore = Backbone.Collection.extend({
             this.error   = true;
             this.trigger('change');
         }.bind(this));
-    },
+    }.debounce(250),
 
 });
 

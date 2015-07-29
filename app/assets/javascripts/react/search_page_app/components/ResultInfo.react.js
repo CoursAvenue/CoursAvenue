@@ -55,11 +55,17 @@ var ResultInfo = React.createClass({
                                </span>);
             }
         }
-        var result_string = (total_results > 1 ? 'cours trouvé' : 'cours trouvés');
+        var result_string = total_results + ' '
+        if (CardStore.context == 'course') {
+            result_string += (total_results > 1 ? 'cours trouvés' : 'cours trouvé');
+        } else {
+            result_string += (total_results > 1 ? 'stages trouvés' : 'stage trouvé');
+        }
+        if (total_results == 0) { result_string = 'Pas de résultats' }
         return (
           <div className="main-container main-container--1000 soft--ends push-half--ends flexbox palm-block">
               <div className="flexbox__item palm-block v-middle nowrap palm-one-whole palm-text--center">
-                  <span className="beta v-middle push--right">{total_results} {result_string}</span>
+                  <span className="beta v-middle push--right">{result_string}</span>
               </div>
               <div className="flexbox__item palm-block v-middle palm-one-whole one-whole visuallyhidden--palm">
                   {facets}{dot_dot_dot}

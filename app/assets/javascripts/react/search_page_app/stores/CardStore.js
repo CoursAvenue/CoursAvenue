@@ -65,7 +65,8 @@ var CardCollection = Backbone.Collection.extend({
                 SearchPageDispatcher.waitFor([ FilterStore.dispatchToken, TimeStore.dispatchToken,
                                                AudienceStore.dispatchToken, SubjectStore.dispatchToken,
                                                LevelStore.dispatchToken, PriceStore.dispatchToken,
-                                               MetroStopStore.dispatchToken, MetroLineStore.dispatchToken]);
+                                               MetroStopStore.dispatchToken, MetroLineStore.dispatchToken,
+                                               LocationStore.dispatchToken]);
                 // Fetch the new cards.
                 this.fetchDataFromServer();
                 break;
