@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150728125637) do
+ActiveRecord::Schema.define(version: 20150729113006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -249,6 +249,7 @@ ActiveRecord::Schema.define(version: 20150728125637) do
     t.integer  "structure_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "communities", ["structure_id"], name: "index_communities_on_structure_id", using: :btree
@@ -259,6 +260,7 @@ ActiveRecord::Schema.define(version: 20150728125637) do
     t.datetime "last_notification_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   add_index "community_memberships", ["community_id"], name: "index_community_memberships_on_community_id", using: :btree
@@ -271,6 +273,7 @@ ActiveRecord::Schema.define(version: 20150728125637) do
     t.datetime "updated_at"
     t.integer  "mailboxer_conversation_id"
     t.integer  "community_membership_id"
+    t.datetime "deleted_at"
   end
 
   add_index "community_message_threads", ["community_id"], name: "index_community_message_threads_on_community_id", using: :btree
