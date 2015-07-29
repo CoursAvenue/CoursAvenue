@@ -1,4 +1,6 @@
 class Community::Membership < ActiveRecord::Base
+  # The period in which we don't send a new notification to the user.
+  NOTIFICATION_FREE_PERIOD = 10.days
 
   attr_accessible :user
 
