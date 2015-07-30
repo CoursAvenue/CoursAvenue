@@ -570,7 +570,9 @@ CoursAvenue::Application.routes.draw do
       resources :places                , only: [:index]                                     , controller: 'structures/places'
       resources :courses               , only: [:index]                                     , controller: 'structures/courses'        , path: 'cours'
       # Using a singular resource. (http://guides.rubyonrails.org/routing.html#singular-resources)
-      resource  :community             , only: [:show]                                     , controller: 'structures/community'      , path: 'communaute'
+      resource  :community             , only: [:show]                                     , controller: 'structures/community'      , path: 'communaute' do
+        resources :message_threads, only: [:index], controller: 'structures/community/message_threads'
+      end
       resources :indexable_cards       , only: [:show]                                      , controller: 'structures/indexable_cards', path: 'cours'
       resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'       , path: 'avis' do
         collection do
