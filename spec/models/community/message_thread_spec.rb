@@ -9,7 +9,7 @@ RSpec.describe Community::MessageThread, type: :model, community: true do
          with_foreign_key('mailboxer_conversation_id') }
   end
 
-  let(:structure)  { FactoryGirl.create(:structure) }
+  let(:structure)  { FactoryGirl.create(:structure_with_admin) }
   let(:community)  { FactoryGirl.create(:community, structure: structure) }
   let(:user)       { FactoryGirl.create(:user) }
   let(:membership) { FactoryGirl.create(:community_membership, user: user) }
@@ -23,5 +23,33 @@ RSpec.describe Community::MessageThread, type: :model, community: true do
         to change { Mailboxer::Conversation.count }.by(1)
       expect(subject.conversation).to be_a(Mailboxer::Conversation)
     end
+  end
+
+  describe 'reply!' do
+
+    before do
+      subject.send_message!(Faker::Lorem.paragraph(10))
+    end
+
+    context 'when the replier is a user' do
+      let(:user)    { FactoryGirl.create(:user) }
+      let(:message) { Faker::Lorem.paragraph(10) }
+
+      it 'adds a message to the conversation' do
+        expect { subject.reply!(user, message) }.
+          to change { subject.conversation.messages.count }.by(1)
+      end
+    end
+
+    context "when the replier is the structure's admin" do
+      let(:admin)   { structure.main_contact }
+      let(:message) { Faker::Lorem.paragraph(10) }
+
+      it 'adds a message to the conversation' do
+        expect { subject.reply!(admin, message) }.
+          to change { subject.conversation.messages.count }.by(1)
+      end
+    end
+
   end
 end

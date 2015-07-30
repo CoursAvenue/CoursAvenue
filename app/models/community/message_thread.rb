@@ -21,4 +21,11 @@ class Community::MessageThread < ActiveRecord::Base
 
     save
   end
+
+  # Reply to the conversation.
+  #
+  # @return
+  def reply!(replier, message)
+    receipt = replier.reply_to_conversation(conversation, message)
+  end
 end
