@@ -34,8 +34,9 @@ StructureProfile.addInitializer(function(options) {
     });
 
     var community_view = new StructureProfile.Views.Community.MessageThreadCollectionView({
-        collection: structure.get('message_threads'),
-        about:      structure.get('about')
+        collection:             structure.get('message_threads'),
+        community_thread_count: bootstrap.meta.community_thread_count,
+        about:                  structure.get('about')
     });
 
     layout.render();

@@ -84,6 +84,9 @@ class StructuresController < ApplicationController
       place_ids:          @place_ids
     })
     @is_sleeping = @structure.is_sleeping
+    @community = @structure.community || @structure.create_community
+    @community_thread_count = @community.message_threads.includes(conversation: [:messages]).
+      map(&:conversation).flat_map(&:messages).count
   end
 
   # Used for search on typeahead dropdown

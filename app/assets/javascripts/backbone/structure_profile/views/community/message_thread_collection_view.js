@@ -6,6 +6,7 @@ StructureProfile.module('Views.Community', function(Module, App, Backbone, Mario
 
         initialize: function initialize (options) {
             this.about = options.about;
+            this.thread_count = options.community_thread_count || 0;
         },
 
         onRender: function onRender () {
@@ -19,9 +20,9 @@ StructureProfile.module('Views.Community', function(Module, App, Backbone, Mario
 
         serializeData: function serializeData () {
             return {
-                new_comments_path: Routes.new_structure_comment_path(this.collection.structure.get('slug')),
-                about            : this.about,
-                has_comments     : this.collection.structure.get('has_comments')
+                about: this.about,
+                thread_count: this.thread_count,
+
             }
         },
     });
