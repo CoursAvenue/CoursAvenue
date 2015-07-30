@@ -9,7 +9,7 @@ class Structures::Community::MessageThreadsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to structure_path(@structure) }
-      format.json { render json: { message_threads: threads } }
+      format.json { render json: threads }
     end
   end
 end
