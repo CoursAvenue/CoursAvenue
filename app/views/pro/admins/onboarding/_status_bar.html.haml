@@ -39,13 +39,15 @@
 = content_for :scripts do
   :javascript
     $(document).ready(function () {
-        $('.fa.fa-square-o').hover(
+        $('[data-onboarding-step]').hover(
             function (event) {
-              $(this).removeClass('fa-square-o');
-              $(this).addClass('fa-check-square-o');
+              $checkbox = $(this).children('[data-square]')
+              $checkbox.removeClass('fa-square-o');
+              $checkbox.addClass('fa-check-square-o');
             }, function (event) {
-              $(this).removeClass('fa-check-square-o');
-              $(this).addClass('fa-square-o');
+              $checkbox = $(this).children('[data-square]')
+              $checkbox.removeClass('fa-check-square-o');
+              $checkbox.addClass('fa-square-o');
         });
 
         $('[data-onboarding=show]').click(function (event) {
