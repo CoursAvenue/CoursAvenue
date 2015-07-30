@@ -42,14 +42,18 @@ class StructureWebsite::Structures::ParticipationRequestsController < StructureW
 
   def show
     @participation_request = @structure.participation_requests.where(token: params[:id]).first
+    redirect_to structure_path(@structure) if @participation_request.nil?
+
     if current_user
-      redirect_to user_participation_request_path(current_user, @participation_request)
-      return
-    else
-      if @participation_request.nil?
+      if current_user == @participation_request.user
+        # When the connected user is the pr owner.
+        redirect_to user_participation_request_path(current_user, @participation_request)
+      else
+        # When the connected user is not the pr owner.
         redirect_to structure_path(@structure)
-        return
       end
+    else
+      # When there's no connected user.
       @user = @participation_request.user
     end
   end

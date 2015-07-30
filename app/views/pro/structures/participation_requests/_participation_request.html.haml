@@ -28,7 +28,6 @@
       %div
         = link_to 'Voir la demande', pro_structure_participation_request_path(participation_request.structure, participation_request), class: "btn btn--white btn--small"
 
-
   %td.soft--ends.v-top{ data: { th: 'Cours et date' } }
     %div
       - course = participation_request.course
@@ -51,3 +50,9 @@
 
   %td.soft--ends.v-top{ data: { th: 'Détails' } }
     %div= participation_request_decorator.details
+  %td.soft--ends.v-top{ data: { th: 'Source' } }
+    .text--center
+      - if participation_request.from_personal_website?
+        %strong.blue Votre site
+      - else
+        %strong.yellow CoursAvenue

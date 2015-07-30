@@ -10,6 +10,9 @@ class Pro::EmailingsController < Pro::ProController
 
   def new
     @emailing = Emailing.new
+    @cards    = IndexableCard.includes(:course, :structure).with_place.find_each.map do |card|
+      { id: card.id, name: "#{card.structure_name} -> #{card.name}" }
+    end
     16.times { @emailing.emailing_sections.build }
     @cards = []
   end

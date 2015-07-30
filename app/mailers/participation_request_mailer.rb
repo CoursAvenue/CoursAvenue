@@ -140,6 +140,19 @@ class ParticipationRequestMailer < ActionMailer::Base
     @user                   = user
     mail to: @user.email, subject: "Pour mémoire - Planning de demain"
   end
+  ######################################################################
+  # Course reminders                                                   #
+  ######################################################################
+
+  def remind_teacher_to_update_state(participation_request)
+    @participation_request = participation_request
+    @user                  = @participation_request.user
+    @structure             = @participation_request.structure
+    @course                = @participation_request.course
+    @admin                 = @structure.main_contact
+
+    mail to: @admin.email, subject: "Avez-vous convenu d'une date avec #{ @user.name }?"
+  end
 
   ######################################################################
   # After the course                                                   #
@@ -227,6 +240,11 @@ class ParticipationRequestMailer < ActionMailer::Base
     @admin                           = participation_request.structure.main_contact
     @user                            = participation_request.user
     @conversation                    = participation_request.conversation
+    if participation_request.date < 2.days.from_now
+      @reply_limit_date = participation_request.date
+    else
+      @reply_limit_date = 2.days.from_now.to_date
+    end
   end
 
   # Generate the reply_to address using ReplyTokens.

@@ -379,4 +379,32 @@ describe ParticipationRequest do
       it { expect(subject.unanswered?).to be_truthy }
     end
   end
+
+  describe '#rebook!' do
+    let(:request_attributes) { { message: { body: Faker::Lorem.paragraph(5) },
+                                    date: I18n.l(1.week.from_now.to_date) } }
+    subject { FactoryGirl.create(:participation_request, created_at: 3.days.ago, state: 'accepted') }
+
+    it 'creates a new participation request' do
+      new_pr = subject.rebook!(request_attributes)
+      expect(new_pr).to be_persisted
+    end
+
+    it 'associates it with the user and structure' do
+      new_pr = subject.rebook!(request_attributes)
+      expect(new_pr.user).to      eq(subject.user)
+      expect(new_pr.structure).to eq(subject.structure)
+    end
+
+    it 'is in the future' do
+      new_pr = subject.rebook!(request_attributes)
+      expect(new_pr.date > Date.today).to be_truthy
+    end
+
+    it 'has a pending state' do
+      new_pr = subject.rebook!(request_attributes)
+      expect(new_pr.state).to eq('pending')
+    end
+  end
+
 end

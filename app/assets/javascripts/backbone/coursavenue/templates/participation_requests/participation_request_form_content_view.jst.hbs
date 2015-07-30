@@ -1,5 +1,5 @@
 <div class="bordered--bottom f-weight-500">
-    <div class="soft--sides soft-half--ends">
+    <div class="soft--sides soft-half--ends{{#if hide_classes }} visuallyhidden{{/if}}">
         <select name="participation_request[course_id]" class="one-whole  input--large" id="participation_request_courses_select">
             <option value="">Quel cours vous intéresse ?</option>
             {{#if trainings_without_open_for_trials}}
@@ -26,7 +26,7 @@
         </select>
         <div data-error="course_id" class="{{#unless errors.course_id}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.course_id}}</div>
     </div>
-    <div class="grid--full bordered--top" data-element="planning-select-wrapper" style="display: none">
+    <div class="grid--full bordered--top {{#if hide_date}} visuallyhidden{{/if}}" data-element="planning-select-wrapper" style="display: none">
         <div class="grid__item v-middle three-twelfths soft--sides soft-half--ends bordered--right">
             <label class=" nowrap" for="participation_request_plannings_select">Date</label>
         </div>{{!--
@@ -34,6 +34,7 @@
             <select name="participation_request[planning_id]" class="one-whole" id="participation_request_plannings_select">
                 <option>Quelle séance souhaitez-vous ?</option>
             </select>
+            <span class="epsilon hidden" data-element="planning-info"></span>
         </div>
     </div>
     <div data-error="planning_id" class="{{#unless errors.planning_id}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.planning_id}}</div>
@@ -58,7 +59,7 @@
               <div data-error="date" class="{{#unless errors.date}}hidden{{/unless}} input_field_error red f-weight-bold">{{errors.date}}</div>
          </div>
     </div>
-    <div class="grid--full bordered--top" data-element="address-info-wrapper" style="display: none">
+    <div class="grid--full bordered--top {{#if hide_place}} visuallyhidden {{/if}}" data-element="address-info-wrapper" style="display: none">
         <div class="grid__item v-middle three-twelfths soft--sides soft-half--ends bordered--right">
             <label class="nowrap">Lieu</label>
         </div>{{!--
@@ -73,7 +74,7 @@
             </select>
         </div>
     </div>
-    <div data-element="student-address-wrapper" class="soft--sides soft-half--ends hidden bordered--top">
+    <div data-element="student-address-wrapper" class="soft--sides soft-half--ends hidden bordered--top {{#if teacher_view}} visuallyhidden {{/if}}">
         <input type="hidden" data-element="student-address-input" name="participation_request[at_student_home]">
         <div class="epsilon">Votre adresse :</div>
         <div class="soft-half--ends">

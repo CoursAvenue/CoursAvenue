@@ -9,13 +9,14 @@
     %h5.flush
       Retrouvez tous vos message
       = link_to "votre espace perso.", user_conversations_path(@user)
-  .panel__body.soft
-    %h5 Ne vous arrêtez pas là et contactez d'autres profils !
-    %p.epsilon
-      Les élèves qui ont réservé ce cours ont également découvert :
-    %div{ style: 'height: 20em; overflow-y: scroll; overflow-x: hidden;'}
-      - PlanningSearch.search({ limit: 12, is_open_for_trial: true }, group: :structure_id_str).group(:structure_id_str).groups.each do |planning_group|
-        - structure = planning_group.results.first.try(:structure)
-        - next if structure.nil? or @structure == structure or structure.medias.empty?
-        .inline-block.one-half.very-soft.relative>
-          = render partial: "structures/similar_profile", locals: { structure: structure, show_promotion: false }
+  -# TODO: Replace this with call to action to the forum: ex. "Posez vos questions concernant le cours sur le forum de #{ @structure.name }"
+  -# .panel__body.soft
+  -#   %h5 Ne vous arrêtez pas là et contactez d'autres profils !
+  -#   %p.epsilon
+  -#     Les élèves qui ont réservé ce cours ont également découvert :
+  -#   %div{ style: 'height: 20em; overflow-y: scroll; overflow-x: hidden;'}
+  -#     - PlanningSearch.search({ limit: 12, is_open_for_trial: true }, group: :structure_id_str).group(:structure_id_str).groups.each do |planning_group|
+  -#       - structure = planning_group.results.first.try(:structure)
+  -#       - next if structure.nil? or @structure == structure or structure.medias.empty?
+  -#       .inline-block.one-half.very-soft.relative>
+  -#         = render partial: "structures/similar_profile", locals: { structure: structure, show_promotion: false }

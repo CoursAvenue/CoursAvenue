@@ -1,0 +1,10 @@
+fr:
+  guides:
+    placeholder:
+      title: 'Quelle activité pour mon enfant ?'
+      description: "L'année scolaire est à peine terminée et tous les parents sont déjà obligés de se poser cette question cruciale : quelle discipline sportive, culturelle ou créative proposer à son enfant à la rentrée ?"
+      call_to_action: "En quelques questions, laissez-nous trouver des idées d'activités qui conviennent parfaitement aux goûts et aux besoins de votre enfant :"
+      question:
+        content: "Quel type d'activité souhaiteriez-vous que votre enfant essaye :"
+      answer:
+        content: "Surprenez-moi !"

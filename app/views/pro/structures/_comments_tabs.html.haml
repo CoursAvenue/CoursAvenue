@@ -6,6 +6,9 @@
     %li{ class: current == 'recommandation' ? 'active' : '' }
       = link_to recommendations_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
         Demander des recommandations
+    %li{ class: current == 'comments_on_website' ? 'active' : '' }
+      = link_to comments_on_website_pro_structure_comments_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+        Livre d'Or
     - if @structure.comment_notifications.any?
       %li{ class: current == 'comment_notification' ? 'active' : '' }
         = link_to pro_structure_comment_notifications_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do

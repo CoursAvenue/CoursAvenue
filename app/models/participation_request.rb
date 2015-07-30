@@ -69,6 +69,7 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   scope :accepted,                -> { where( state: 'accepted') }
   scope :pending,                 -> { where( state: 'pending') }
+  scope :treated,                 -> { where( state: 'treated') }
   scope :upcoming,                -> { where( arel_table[:date].gteq(Date.today) ).order("date ASC") }
   scope :past,                    -> { where( arel_table[:date].lt(Date.today) ).order("date ASC") }
   scope :canceled,                -> { where( arel_table[:state].eq('canceled') ) }
@@ -154,8 +155,9 @@ class ParticipationRequest < ActiveRecord::Base
   # Set state of PR to treated: it means the teacher did something with the PR
   #
   # @return Boolean
-  def treat!
+  def treat!(method = 'infos')
     self.state = 'treated'
+    self.treat_method = method
     save
   end
 
@@ -190,6 +192,12 @@ class ParticipationRequest < ActiveRecord::Base
     self.state               = 'accepted'
     message                  = reply_to_conversation(message_body, last_modified_by) if message_body.present?
     self.structure_responded = true if last_modified_by == 'Structure'
+
+    # If we change the course type, make sure to update the date.
+    if self.old_course_id.present? and new_params[:date].present?
+      self.date = Date.parse(new_params[:date])
+    end
+
     save
 
     if self.last_modified_by == 'Structure'
@@ -206,7 +214,7 @@ class ParticipationRequest < ActiveRecord::Base
   def discuss!(message_body, discussed_by='Structure')
     message_body             = StringHelper.replace_contact_infos(message_body)
     message                  = reply_to_conversation(message_body, discussed_by)
-    treat! if pending?
+    treat!('message') if pending?
     self.structure_responded = true if discussed_by == 'Structure'
     save
     if discussed_by == 'Structure'
@@ -359,6 +367,43 @@ class ParticipationRequest < ActiveRecord::Base
   def unanswered?
     self.created_at < 2.days.ago and self.state == 'pending' and
       self.conversation.messages.length < 2 and self.last_modified_by == 'User'
+  end
+
+  # Rebook the participation request.
+  #
+  # @return the new participation request.
+  def rebook!(options)
+    options[:message][:body] = StringHelper.replace_contact_infos(options[:message][:body])
+    new_attributes = ParticipationRequest.set_start_time(options)
+
+    new_attributes.merge!({
+      planning_id: self.planning_id,
+      structure: self.structure,
+      last_modified_by: 'structure',
+      course_id: self.course_id,
+      street: self.street,
+      zip_code: self.zip_code,
+      city_id: self.city_id,
+      from_personal_website: self.from_personal_website,
+      at_student_home: self.at_student_home,
+      participants_attributes: participants.map { |p| { number: p.number } }
+    })
+
+    participation_request = ParticipationRequest.new(new_attributes)
+    participation_request.user = self.user
+
+    if participation_request.valid?
+      recipients = self.user
+      receipt    = structure.main_contact.send_message_with_label(
+        recipients, options[:message][:body], I18n.t(Mailboxer::Label::REQUEST.name),
+        Mailboxer::Label::REQUEST.id)
+      conversation = receipt.conversation
+      participation_request.conversation = conversation
+      participation_request.save
+      conversation.update_column(:participation_request_id, participation_request.id)
+    end
+
+    participation_request
   end
 
   private
