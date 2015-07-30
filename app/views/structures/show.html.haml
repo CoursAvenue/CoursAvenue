@@ -129,6 +129,7 @@
           structure: #{ @model.to_json },
           meta: {
               have_upcoming_plannings: #{ @structure.plannings.future.any? },
+              community_thread_count: #{ @community_thread_count },
               is_sleeping: #{ @structure.is_sleeping? || !@structure.enabled? },
               structure_id: #{ @structure.id }
           }
