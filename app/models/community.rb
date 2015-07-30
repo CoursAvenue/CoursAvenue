@@ -12,7 +12,7 @@ class Community < ActiveRecord::Base
   # Ask a question to the community.
   #
   # @return the Thread created by the question.
-  def ask_question!(user, structure, message)
+  def ask_question!(user, message)
     membership = memberships.where(user: user).first || memberships.create(user: user)
     thread = membership.message_threads.create(community: self)
     thread.send_message!(message)

@@ -17,7 +17,7 @@ RSpec.describe Community, type: :model, community: true do
 
     context "when the user membership doesn't exists" do
       it 'creates a new membership' do
-        expect { subject.ask_question!(user, structure, message) }.
+        expect { subject.ask_question!(user, message) }.
           to change { Community::Membership.count }.by(1)
       end
     end
@@ -25,13 +25,13 @@ RSpec.describe Community, type: :model, community: true do
     context 'when the user has a membership' do
       it "doesn't create a new membership" do
         subject.memberships.create(user: user)
-        expect { subject.ask_question!(user, structure, message) }.
+        expect { subject.ask_question!(user, message) }.
           to_not change { Community::Membership.count }
       end
     end
 
     it 'returns a new message thread' do
-      expect(subject.ask_question!(user, structure, message)).to be_a(Community::MessageThread)
+      expect(subject.ask_question!(user, message)).to be_a(Community::MessageThread)
     end
   end
 end
