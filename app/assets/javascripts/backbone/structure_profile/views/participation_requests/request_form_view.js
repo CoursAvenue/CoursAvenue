@@ -48,6 +48,9 @@ StructureProfile.module('Views.ParticipationRequests', function(Module, App, Bac
         populateRequest: function populateRequest (event) {
             // Retrieve all attributes regarding the name of their input
             var new_attributes = {}
+            if (this.$('[name=participation_request_place]').val() == 'at_home') {
+              new_attributes['at_student_home'] = 'true';
+            }
             this.$('[name^="participation_request["]').each(function (index, input) {
                 if (!$(input).is(':visible')) { return; }
                 $input         = $(input);
