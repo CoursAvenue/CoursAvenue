@@ -157,7 +157,7 @@ describe Structures::ParticipationRequestsController, type: :controller do
                         participation_request: {
                           message: { body: 'Lorem' }
                         }
-        expect(assigns(:participation_request).pending?).to be_truthy
+        expect(assigns(:participation_request).treated?).to be_truthy
         expect(response).to be_redirect
       end
     end
