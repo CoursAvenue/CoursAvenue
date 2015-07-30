@@ -4,7 +4,7 @@
   %tr{ valign: 'top' }
     %td.v-top.content-block{ colspan: 3, style: 'padding: 8px 4px;' }
       .title Récapitulatif de la demande d'inscription
-  %tr{ valign: 'top' }
+  %tr.table-row-alternate-color{ valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
       .p.hard
         %strong Élève
@@ -35,7 +35,7 @@
         = participation_request.course.name
         = "le #{participation_request_decorator.day_and_hour(false)}"
   - if participation_request.at_student_home? or participation_request.course.is_private?
-    %tr{ valign: 'top' }
+    %tr.table-row-alternate-color{ valign: 'top' }
       %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
         .p.hard
           %strong Lieu
@@ -44,7 +44,7 @@
           Au domicile de l'élève :
           = participation_request_decorator.student_home_address
   - elsif participation_request.place
-    %tr{ valign: 'top' }
+    %tr.table-row-alternate-color{ valign: 'top' }
       %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
         .p.hard
           %strong Lieu

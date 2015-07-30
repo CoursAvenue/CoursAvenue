@@ -93,7 +93,11 @@ class ParticipationRequestDecorator < Draper::Decorator
   end
 
   def student_home_address
-    "#{object.street}, #{object.zip_code} #{object.city.name}"
+    if object.street and object.zip_code and object.city
+      "#{object.street}, #{object.zip_code} #{object.city.name}"
+    else
+      ''
+    end
   end
 
   def details
