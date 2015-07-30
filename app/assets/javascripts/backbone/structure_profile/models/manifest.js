@@ -2,6 +2,7 @@
 //= require ./teachers_collection
 //= require ./comments_collection
 //= require_tree ./comments/
+//= require_tree ./community/
 //= require ./trainings_collection
 //= require ./lessons_collection
 //= require ./privates_collection

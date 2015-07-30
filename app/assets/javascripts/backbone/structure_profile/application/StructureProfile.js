@@ -33,6 +33,11 @@ StructureProfile.addInitializer(function(options) {
         about     :  structure.get('about')
     });
 
+    var community_view = new StructureProfile.Views.Community.MessageThreadCollectionView({
+        collection: structure.get('message_threads'),
+        about:      structure.get('about')
+    });
+
     layout.render();
 
     if (bootstrap.meta.have_upcoming_plannings && !bootstrap.meta.is_sleeping) {
@@ -69,6 +74,7 @@ StructureProfile.addInitializer(function(options) {
 
     layout.showWidget(certified_comments_collection_view);
     layout.showWidget(guestbook_collection_view);
+    layout.showWidget(community_view, { selector: '[data-type=message-thread-collection]' });
 
     layout.master.show(structure_view);
     /* --------------------------

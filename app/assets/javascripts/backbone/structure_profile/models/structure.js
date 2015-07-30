@@ -15,12 +15,17 @@ StructureProfile.module('Models', function(Module, App, Backbone, Marionette, $,
                 collection.structure = this;
                 this.set(relation, collection);
             }, this);
-            var certified_comments_collection       = new Module.Comments.CertifiedCommentsCollection([], bootstrap_meta);
-            var guestbook_collection                = new Module.Comments.GuestbookCommentsCollection([], bootstrap_meta);
+            var certified_comments_collection = new Module.Comments.CertifiedCommentsCollection([], bootstrap_meta);
+            var guestbook_collection          = new Module.Comments.GuestbookCommentsCollection([], bootstrap_meta);
+            var message_thread_collection     = new Module.Community.MessageThreadCollection([], bootstrap_meta);
+
             certified_comments_collection.structure = this;
             guestbook_collection.structure          = this;
+            message_thread_collection.structure     = this;
+
             this.set('certified_comments', certified_comments_collection);
             this.set('guestbook', guestbook_collection);
+            this.set('message_threads', message_thread_collection);
         }
     });
 });

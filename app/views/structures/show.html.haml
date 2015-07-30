@@ -50,6 +50,7 @@
         #avis
           %div{ data: { type: "certified-comments-collection" } }
           %div{ data: { type: "guestbook-collection" } }
+          %div{ data: { type: 'message-thread-collection' } }
         - if @is_sleeping
           = render partial: 'structures/sleeping_content', locals: { medias: @medias }
       .beta.text--center.tk-lexia.bordered--bottom.soft--bottom.f-weight-400.push--bottom Articles de blog associés
