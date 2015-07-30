@@ -10,4 +10,12 @@ class Community::Membership < ActiveRecord::Base
 
   has_many :message_threads, class_name: 'Community::MessageThread',
     foreign_key: 'community_membership_id'
+
+  # Whether or not the user can receive a notification.
+  #
+  # @return a boolean
+  def can_receive_notifications?
+    (last_notification_at.nil? or last_notification_at < NOTIFICATION_FREE_PERIOD.ago) and
+      user.community_notification_opt_in?
+  end
 end
