@@ -1,4 +1,4 @@
-.bg-white.soft.bordered
+.bg-white.bordered.soft--left.soft--right.soft--top
   - if !@structure.is_sleeping? and @structure.enabled? and @structure.plannings.future.any?
     %div
       .delta.line-height-2.f-weight-bold Quel cours vous intéresse ?
@@ -11,7 +11,7 @@
 
     %hr.push-half--ends
   - if @structure_decorator.only_has_regular_classes? and !@structure.is_sleeping? and @structure.enabled? and @structure.plannings.future.any?
-    %h3 Besoin d'information avant de vous inscrire ?
+    .delta.line-height-1-3.f-weight-bold Besoin d'information avant de vous inscrire ?
     %p.push-half--bottom
       Posez toutes vos questions auprés de #{ t(@structure.structure_type + '_for_registration_box') }
       -# ou de sa communauté de membres :
@@ -21,7 +21,7 @@
         - if @structure.website.present?
           = link_to 'Site Internet', URLHelper.fix_url(@structure.website), target: '_blank', rel: 'nofollow', data: { logger: 'website', structure_id: @structure.id }, class: 'btn btn--white btn--small'
   - else
-    %div
+    %div.soft--bottom
       .delta.line-height-2.f-weight-bold.inline-block.v-middle.soft-half--right Contact
       .inline-block.v-middle.line-height-2.f-weight-600
         = link_to 'Téléphone', '#phone-numbers', data: { behavior: 'modal', width: 350, padding: 0, logger: 'phone_number', structure_id: @structure.id }
