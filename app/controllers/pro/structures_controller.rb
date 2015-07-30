@@ -211,7 +211,7 @@ France
 
   def edit_contact
     @admin            = @structure.main_contact
-    @has_mobile_phone = @structure.phone_numbers.detect { |number| phs.uses_mobile?(number.number) }.present?
+    @has_mobile_phone = @structure.phone_numbers.detect { |number| structure.uses_mobile?(number.number) }.present?
     5.times { @structure.phone_numbers.build }
   end
 
