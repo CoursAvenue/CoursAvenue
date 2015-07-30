@@ -21,6 +21,6 @@ describe Structures::CommunityController, community: true do
   end
 
   def response_body
-    JSON.parse(response)
+    JSON.parse(response.body)
   end
 end
