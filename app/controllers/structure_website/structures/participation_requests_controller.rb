@@ -51,6 +51,7 @@ class StructureWebsite::Structures::ParticipationRequestsController < StructureW
       else
         # When the connected user is not the pr owner.
         redirect_to structure_path(@structure)
+      end
     else
       # When there's no connected user.
       @user = @participation_request.user
