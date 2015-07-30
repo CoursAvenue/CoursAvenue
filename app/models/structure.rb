@@ -100,6 +100,7 @@ class Structure < ActiveRecord::Base
   has_many :gift_certificates
 
   has_one :crm_lock, dependent: :destroy
+  has_one :community, dependent: :destroy
 
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,

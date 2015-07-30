@@ -11,6 +11,7 @@ fr:
       comment: Avis déposé
       conversation: Conversation
       request: Demande d'inscription
+      public_question: Nouvelle question publique
     extra_info:
       inscription: Inscription
       planning_info: Infos planning

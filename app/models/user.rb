@@ -63,6 +63,9 @@ class User < ActiveRecord::Base
   # Other users had sponsored me
   has_many :sponsors, class_name: 'Sponsorship', foreign_key: 'sponsored_user_id'
 
+  has_many :community_memberships, class_name: 'Community::Membership', dependent: :destroy
+  has_many :communities, through: :community_memberships
+
   has_and_belongs_to_many :subjects
 
   belongs_to :city

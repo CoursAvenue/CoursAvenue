@@ -12,6 +12,7 @@ describe Structure do
     it { should have_one(:indexable_lock).class_name('Structure::IndexableLock') }
     it { should have_many(:gift_certificates) }
     it { should have_one(:crm_lock) }
+    it { should have_one(:community) }
   end
 
   subject {structure}
