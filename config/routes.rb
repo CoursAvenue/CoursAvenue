@@ -434,6 +434,17 @@ CoursAvenue::Application.routes.draw do
       get '/auth/facebook/callback', to: 'admins#facebook_auth_callback'
       get '/auth/failure',           to: 'admins#facebook_auth_failure'
 
+      resource :onboarding, controller: 'admins/onboarding', only: [] do
+        collection do
+          get :step_zero
+          get :step_one
+          get :step_two
+          get :step_three
+          get :step_four
+          get :step_five
+        end
+      end
+
       resources :admins do
         collection do
           get :waiting_for_activation, path: 'activez-votre-compte'
