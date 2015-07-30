@@ -213,6 +213,6 @@ class UsersController < InheritedResources::Base
                                  :birthdate, :phone_number, :zip_code, :city_id, :remote_avatar_url,
                                  :password, :password_confirmation, :current_password,
                                  :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
-                                 :sms_opt_in)
+                                 :sms_opt_in, :community_notification_opt_in)
   end
 end

@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :lived_places_attributes, :delivery_email_status, :sign_up_at,
                   :test_name, :interested_at,
-                  :subscription_from
+                  :subscription_from, :community_notification_opt_in
 
   # To store hashes into hstore
   store_accessor :meta_data, :after_sign_up_url,
