@@ -4,6 +4,7 @@ StructureProfile.module('Views.Community', function(Module, App, Backbone, Mario
         template: Module.templateDirname() + 'message_thread_collection_view',
         childViewContainer: '[data-type=container]',
 
+        // TODO: Turn message submition async.
         initialize: function initialize (options) {
             this.about = options.about;
             this.thread_count = options.community_thread_count || 0;

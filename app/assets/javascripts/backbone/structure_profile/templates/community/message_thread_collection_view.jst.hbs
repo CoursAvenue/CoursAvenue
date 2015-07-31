@@ -14,13 +14,23 @@
   </div>
   <div class='soft--sides soft--bottom'>
     <form action="{{ url }}" method='POST'>
-      <div class="input flush--top push-half--bottom">
-        <textarea name="community_message_thread[message]" id="" cols="30" rows="10" class="one-whole input--large" style='height: 170px;' data-behavior='autoresize' placeholder='Posez vos questions ou réponses ici.'></textarea>
+      <div class='gray-box'>
+        <div class="input flush--top push-half--bottom soft">
+          <textarea name="community_message_thread[message]" id="" cols="30" rows="10" class="one-whole input--large" style='height: 170px;' data-behavior='autoresize' placeholder='Posez vos questions ou réponses ici.'></textarea>
+        </div>
+        <div class='grid'>
+          <div class='grid__item ten-twelfths'>
+            <div class='soft'>
+              Inutile de poser une question sur les coordonnées de contact : <a href=''>accéder au téléphone et au site Internet</a>
+            </div>
+          </div>{{!--
+       --}}<div class='grid__item two-twelfths'>
+            <button type="submit" class="btn btn--green" data-disable-with="Message en cours d'envoi...">
+              Poser une question
+            </button>
+          </div>
       </div>
-      <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
-        <i class="fa fa-envelope"></i>
-        Envoyer mon message
-      </button>
+      </div>
     </form>
   </div>
   <article class="soft--sides" data-type="container"></article>

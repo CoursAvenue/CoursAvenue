@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Structures::Community::MessageThreadsController do
+describe Structures::Community::MessageThreadsController, community: true do
   include Devise::TestHelpers
 
   let(:structure)  { FactoryGirl.create(:structure) }
