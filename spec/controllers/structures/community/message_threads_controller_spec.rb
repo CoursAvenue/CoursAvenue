@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 describe Structures::Community::MessageThreadsController do
+  include Devise::TestHelpers
 
-  let(:structure) { FactoryGirl.create(:structure) }
+  let(:structure)  { FactoryGirl.create(:structure) }
   let!(:community) { FactoryGirl.create(:community, structure: structure) }
+  let(:user)       { FactoryGirl.create(:user) }
 
   before do
     5.times { community.message_threads.create }
@@ -26,7 +28,42 @@ describe Structures::Community::MessageThreadsController do
     end
   end
 
+  describe 'POST #create' do
+    let(:user)    { FactoryGirl.create(:user) }
+    let(:message) { Faker::Lorem.paragraph(5) }
+
+    before { sign_in user }
+
+    it 'creates a new message thread' do
+      expect { post :create, valid_params(structure, user) }.
+        to change { Community::MessageThread }.by(1)
+    end
+  end
+
+  describe 'PATCH #update' do
+    let(:user)    { FactoryGirl.create(:user) }
+    let(:message) { Faker::Lorem.paragraph(5) }
+    let(:thread)  { community.ask_question!(user, message) }
+
+    before { sign_in user }
+
+    it 'adds a message to the thread' do
+    end
+  end
+
   def response_body
     JSON.parse(response.body)
+  end
+
+  def valid_params(structure, user)
+    {
+      structure_id: structure.slug,
+      community_message_thread: {
+        user: {
+          id: user.id,
+        },
+        message: Faker::Lorem.paragraph
+      }
+    }
   end
 end
