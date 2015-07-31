@@ -8,6 +8,8 @@ class Community::MessageThread < ActiveRecord::Base
   belongs_to :conversation, class_name: 'Mailboxer::Conversation',
     foreign_key: 'mailboxer_conversation_id'
 
+  delegate :messages, to: :conversation, allow_nil: true
+
   # Send a mewssage to the teacher and the community.
   #
   # @return
@@ -27,5 +29,16 @@ class Community::MessageThread < ActiveRecord::Base
   # @return
   def reply!(replier, message)
     receipt = replier.reply_to_conversation(conversation, message)
+  end
+
+  # Every person that as a message in the thread.
+  #
+  # @return an array of Community::Membership.
+  def participants
+    users = messages.includes(:sender).map(&:sender).uniq.select { |u| u.is_a?(User) }
+
+    users.map do |user|
+      community.memberships.where(user: user).first
+    end
   end
 end
