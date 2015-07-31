@@ -21,22 +21,24 @@ RSpec.describe Community::MessageThread, type: :model, community: true do
     it 'creates a maiboxer conversation' do
       expect { subject.send_message!(message) }.
         to change { Mailboxer::Conversation.count }.by(1)
+    end
+
+    it 'saves the conversation' do
+      subject.send_message!(message)
       expect(subject.conversation).to be_a(Mailboxer::Conversation)
     end
   end
 
   describe 'reply!' do
 
-    before do
-      subject.send_message!(Faker::Lorem.paragraph(10))
-    end
+    subject { community.ask_question!(user, Faker::Lorem.paragraph(10)) }
 
     context 'when the replier is a user' do
-      let(:user)    { FactoryGirl.create(:user) }
+      let(:user1)    { FactoryGirl.create(:user) }
       let(:message) { Faker::Lorem.paragraph(10) }
 
       it 'adds a message to the conversation' do
-        expect { subject.reply!(user, message) }.
+        expect { subject.reply!(user1, message) }.
           to change { subject.conversation.messages.count }.by(1)
       end
     end
@@ -51,5 +53,24 @@ RSpec.describe Community::MessageThread, type: :model, community: true do
       end
     end
 
+  end
+
+  describe '#participants' do
+    let(:user1) { FactoryGirl.create(:user) }
+    let(:user2) { FactoryGirl.create(:user) }
+    let(:user3) { FactoryGirl.create(:user) }
+
+    subject { community.ask_question!(user, Faker::Lorem.paragraph(10)) }
+
+    before do
+      subject.reply!(user1, message)
+      subject.reply!(user2, message)
+      subject.reply!(user3, message)
+    end
+
+    it 'returns the memberships of every participants to the thread' do
+      participants = subject.participants
+      expect(participants.map(&:user)).to match_array([user, user1, user2, user3])
+    end
   end
 end

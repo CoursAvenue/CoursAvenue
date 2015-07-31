@@ -25,6 +25,12 @@ class Community < ActiveRecord::Base
 
   private
 
+  # Generate the memberships with the users already associated with the structure:
+  # - The users in the address book,
+  # - The users who had an accepted participation request
+  # - The users who left comments on the structure's page.
+  #
+  # @return
   def generate_memberships
     users = structure.user_profiles.includes(:user).map(&:user)
     users += structure.participation_requests.accepted.includes(:user).map(&:user)

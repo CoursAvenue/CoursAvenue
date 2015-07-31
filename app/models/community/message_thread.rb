@@ -32,7 +32,7 @@ class Community::MessageThread < ActiveRecord::Base
     receipt = replier.reply_to_conversation(conversation, message)
 
     if replier.is_a?(Admin)
-      Community::Notifier.new(self, messsage, nil).notify_answer_from_teacher
+      Community::Notifier.new(self, message, nil).notify_answer_from_teacher
     else
       membership = community.memberships.where(user: replier).first ||
         community.memberships.create(user: replier)
