@@ -56,10 +56,12 @@ class MailboxerMessageMailer < ActionMailer::Base
   end
 
   def new_message_email_to_admin(message, receiver)
-    # Don't send email if message is new AND the label is comment because we show
+    # Don't send email if message is new AND the label is comment or community because we show
     # this message in new comment email
     return if message.conversation.mailboxer_label_id == Mailboxer::Label::COMMENT.id
     return if message.conversation.mailboxer_label_id == Mailboxer::Label::REQUEST.id
+    return if message.conversation.mailboxer_label_id == Mailboxer::Label::PUBLIC_QUESTION.id
+
     @message      = message
     @conversation = message.conversation
     @admin        = receiver
