@@ -30,4 +30,29 @@ class Community::Notifier
 
     CommunityMailer.delay.notify_admin_of_question(admin, @message, @thread)
   end
+
+  # Notify the every participants of an answer by the teacher.
+  #
+  # @return
+  def notify_answer_from_teacher
+    memberships = @thread.participants.select(&:can_receive_notifications?)
+
+    memberships.each do |membership|
+      CommunityMailer.delay.notify_answer_from_teacher(membership.user, @message, @thread)
+    end
+  end
+
+  # Notify the every participants and the teacher of an answer by a member.
+  #
+  # @return
+  def notify_answer_from_member
+    memberships = @thread.participants.select(&:can_receive_notifications?) - [ @membership ]
+    admin = @community.structure.main_contact
+
+    memberships.each do |membership|
+      CommunityMailer.delay.notify_answer_from_member(membership.user, @message, @thread)
+    end
+
+    CommunityMailer.delay.notify_answer_from_member_to_teacher(admin, @message, @thread)
+  end
 end
