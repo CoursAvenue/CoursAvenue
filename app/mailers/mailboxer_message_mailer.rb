@@ -18,12 +18,17 @@ class MailboxerMessageMailer < ActionMailer::Base
     if @conversation.lock_email_notification_once == true
       @conversation.update_column :lock_email_notification_once, false
       return false
+    end
+
+    # Don't use the mailboxer mailer for community public questions.
+    if @conversation.mailboxer_label_id == Mailboxer::Label::PUBLIC_QUESTION.id
+      return false
+    end
+
+    if receiver.is_a? User
+      send_email_to_user(message, receiver)
     else
-      if receiver.is_a? User
-        send_email_to_user(message, receiver)
-      else
-        send_email_to_admin(message, receiver)
-      end
+      send_email_to_admin(message, receiver)
     end
   end
 
