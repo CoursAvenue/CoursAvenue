@@ -26,7 +26,7 @@ class Community::MessageThread < ActiveRecord::Base
 
   # Reply to the conversation.
   #
-  # @return
+  # @return self
   def reply!(replier, message)
     conversation.update_column :lock_email_notification_once, true
     receipt = replier.reply_to_conversation(conversation, message)
@@ -39,6 +39,7 @@ class Community::MessageThread < ActiveRecord::Base
       Community::Notifier.new(self, message, membership).notify_answer_from_member
     end
 
+    self
   end
 
   # Every person that as a message in the thread.

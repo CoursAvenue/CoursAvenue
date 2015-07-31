@@ -14,6 +14,7 @@ class Structures::Community::MessageThreadsController < ApplicationController
   end
 
   # New comment.
+  # TODO: Check how the Participation request get the user.
   def create
     @structure = Structure.includes(:community).friendly.find(params[:structure_id])
     @community = @structure.community
@@ -44,9 +45,16 @@ class Structures::Community::MessageThreadsController < ApplicationController
   end
 
   # Reply to a comment.
+  # TODO: Check how the Participation request get the user.
   def update
-    @structure = Structure.includes(community: [:message_threads]).friendly.find(params[:structure_id])
-    @community = @structure.community
+    @structure      = Structure.includes(community: [:message_threads]).friendly.find(params[:structure_id])
+    @community      = @structure.community
+    @message_thread = @community.find(params[:id])
+    @user           = User.find(reply_parameters[:user][:id])
+
+    message = StringHelper.replace_contact_infos(reply_parameters[:message])
+
+    thread = @message_thread.reply!(@user, message)
   end
 
   private

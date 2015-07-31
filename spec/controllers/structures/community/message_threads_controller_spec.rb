@@ -48,6 +48,8 @@ describe Structures::Community::MessageThreadsController do
     before { sign_in user }
 
     it 'adds a message to the thread' do
+      expect { patch :update, valid_update_params(structure, user) }.
+        to change { thread.messages }.by(1)
     end
   end
 
@@ -57,6 +59,19 @@ describe Structures::Community::MessageThreadsController do
 
   def valid_params(structure, user)
     {
+      structure_id: structure.slug,
+      community_message_thread: {
+        user: {
+          id: user.id,
+        },
+        message: Faker::Lorem.paragraph
+      }
+    }
+  end
+
+  def valid_update_params(structure, user, thread)
+    {
+      id: thread.id,
       structure_id: structure.slug,
       community_message_thread: {
         user: {
