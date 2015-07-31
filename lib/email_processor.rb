@@ -12,7 +12,7 @@ class EmailProcessor
     return 'OK' if @email.to.first[:token] == 'example'
     return process_image if @email.to.first[:token] == 'flyers'
 
-    token = ReplyToken.find @email.to.first[:token]
+    token = ReplyToken.find(@email.to.first[:token])
 
     case token.reply_type
     when 'participation_request'
@@ -21,6 +21,8 @@ class EmailProcessor
       process_conversation(token)
     when 'comment'
       process_comment(token)
+    when 'community'
+      process_community_reply(token)
     end
 
     track_reply(token)
@@ -96,6 +98,18 @@ class EmailProcessor
     end
   end
 
+  def process_community_reply(token)
+    return if @email.body.blank?
+    thread    = Community::Thread.find(token.thread_id.to_i)
+
+    if token.sender_type == 'admin'
+      sender = Admin.find(token.sender_id)
+    else
+      sender = User.find(token.sender_id)
+    end
+
+    thread.reply!(sender, @email.body)
+  end
 
   def track_reply(reply_token)
     if Rails.env.production?
