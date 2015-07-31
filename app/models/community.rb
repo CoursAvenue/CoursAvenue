@@ -16,6 +16,7 @@ class Community < ActiveRecord::Base
     membership = memberships.where(user: user).first || memberships.create(user: user)
     thread = membership.message_threads.create(community: self)
     thread.send_message!(message)
+    Community::Notifier.new(thread, message, membership).notify_question
 
     thread
   end
