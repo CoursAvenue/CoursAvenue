@@ -22,7 +22,7 @@ StructureProfile.module('Views.Community', function(Module, App, Backbone, Mario
             return {
                 about: this.about,
                 thread_count: this.thread_count,
-
+                url: Routes.structure_community_message_threads_path(this.collection.structure.get('slug')),
             }
         },
     });

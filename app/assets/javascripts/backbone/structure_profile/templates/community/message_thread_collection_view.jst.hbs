@@ -1,15 +1,27 @@
 <div class="bordered--top">
   <div class="grid--full">
-    <div class="grid__item one-half palm-one-whole v-middle soft line-height-1-7">
+    <div class="palm-one-whole v-middle soft line-height-1-7">
       <div>
-        <strong class="v-middle gamma">Communauté</strong>
-        <i class="v-middle epsilon fa-question-circle" data-toggle="popover" data-content="<div class='f-size-normal'>Questions et témoignages recueillis par {{ about }} auprès de sa communauté d'élèves</div>" data-html="true"></i>
+        <strong class="v-middle gamma">
+          Posez une question publique ({{ thread_count }})
+        </strong>
+        <i class="v-middle epsilon fa-question-circle" data-toggle="popover" data-content="<div class='f-size-normal'>Questions et témoignages recueillis par {{ about }} auprès de sa communauté d'élèves.</div>" data-html="true"></i>
       </div>
-      <div class="delta">
-        Posez une question publique ({{ thread_count }})
+      <div class='epsilon soft-half--top'>
+        Vous pouvez poser vos questions à l'association et à ses pratiquants avant de vous inscrire :
       </div>
     </div>
   </div>
-  <!-- Ajouter le formulaire de question. -->
+  <div class='soft--sides soft--bottom'>
+    <form action="{{ url }}" method='POST'>
+      <div class="input flush--top push-half--bottom">
+        <textarea name="community_message_thread[message]" id="" cols="30" rows="10" class="one-whole input--large" style='height: 170px;' data-behavior='autoresize' placeholder='Posez vos questions ou réponses ici.'></textarea>
+      </div>
+      <button type="submit" class="btn btn--green btn--full" data-disable-with="Message en cours d'envoi...">
+        <i class="fa fa-envelope"></i>
+        Envoyer mon message
+      </button>
+    </form>
+  </div>
   <article class="soft--sides" data-type="container"></article>
 </div>
