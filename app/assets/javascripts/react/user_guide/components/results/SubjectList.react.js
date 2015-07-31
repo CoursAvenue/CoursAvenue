@@ -3,6 +3,7 @@ var _                     = require('lodash'),
 
 var SubjectList = React.createClass({
     propTypes: {
+        main_subject: React.PropTypes.object,
         subjects: React.PropTypes.array,
     },
 
@@ -34,8 +35,17 @@ var SubjectList = React.createClass({
             );
         }.bind(this));
 
+        var main_style = {
+            backgroundColor: this.props.main_subject.getColor(),
+        };
+
         return (
-            <div className='grid text--center'> { subjects } </div>
+            <div className='soft push--bottom' style={ main_style }>
+                <h2 className='alpha palm-beta text--center white'>
+                    <span className='ff-kameron'>Nous vous suggérons aussi :</span>
+                </h2>
+                <div className='grid text--center'> { subjects } </div>
+            </div>
         );
     },
 });

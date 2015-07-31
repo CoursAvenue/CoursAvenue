@@ -27,7 +27,7 @@ var AgeDetails = React.createClass({
         });
 
         return (
-            <div className='soft'>
+            <div className='main-container main-container--medium'>
                 { ages }
             </div>
         );
