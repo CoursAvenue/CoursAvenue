@@ -330,9 +330,9 @@ describe ParticipationRequest do
   end
 
   describe '#modify_date!' do
-    it 'changes the status to pending' do
+    it 'changes the status to accepted' do
       participation_request.modify_date!(message, { date: Date.tomorrow.to_s }, 'User')
-      expect(participation_request.pending?).to be_truthy
+      expect(participation_request.accepted?).to be_truthy
     end
 
     it 'sends a message' do

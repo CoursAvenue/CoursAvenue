@@ -2,17 +2,36 @@
 require 'rails_helper'
 
 describe Structures::CoursesController do
+  let(:structure) { FactoryGirl.create(:structure) }
 
-  subject { course }
-  let(:course) { FactoryGirl.create(:course) }
+  describe 'GET #index' do
+    context 'with json format' do
 
-  describe '#show' do
-    subject { response.status }
+      before do
+        5.times do
+          course = FactoryGirl.create(:course, structure: structure)
+          planning = FactoryGirl.create(:planning, course: course)
+          course.plannings.reload
+        end
+        structure.courses.reload
+      end
 
-    it 'returns 200' do
-      get :show, structure_id: course.structure.id, id: course.id
-      expect(response.status).to eq(301)
+      it 'renders the structure courses' do
+        get :index, structure_id: structure.slug, format: :json
+        course_ids = response_body['courses'].map { |c| c['id'] }
+        expect(course_ids).to match_array(structure.courses.map(&:id))
+      end
+    end
+
+    context 'with html format' do
+      it 'redirects to the structure page' do
+        get :index, structure_id: structure.slug
+        expect(response).to redirect_to(structure_path(structure))
+      end
     end
   end
 
+  def response_body
+    JSON.parse(response.body)
+  end
 end

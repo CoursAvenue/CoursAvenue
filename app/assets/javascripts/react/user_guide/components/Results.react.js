@@ -7,6 +7,8 @@ var _           = require('lodash'),
   CourseSearch  = require('./results/CourseSearch'),
   FluxBoneMixin = require('../../mixins/FluxBoneMixin');
 
+// TODO: Send event to google:
+// ga('send', 'event', 'Action', 'message');
 var Results = React.createClass({
     mixins: [
         FluxBoneMixin(['subject_store'])
@@ -22,13 +24,6 @@ var Results = React.createClass({
       var main_subject       = SubjectStore.last(); // The last.
       var alternate_subjects = _.rest(_.toArray(SubjectStore.last(6)).reverse()); // Last 5
 
-      // TODO: Remove this.
-      var answers = AnswerStore.answers.map(function(answer, index) {
-          return (
-              <div key={ index }>Question { answer.question } : Reponse { answer.answer }</div>
-          );
-      });
-
       var style = {}
       if (main_subject) {
           style['backgroundImage'] = 'url(' + main_subject.get('image') + ')';
@@ -39,7 +34,7 @@ var Results = React.createClass({
                 <div className='v-middle black-curtain'>
                     <MainSubject subject={ main_subject } />
                     <AgeDetails  subject={ main_subject } />
-                    <SubjectList subjects={ alternate_subjects } />
+                    <SubjectList main_subject={ main_subject } subjects={ alternate_subjects } />
                 </div>
           </div>
       );
