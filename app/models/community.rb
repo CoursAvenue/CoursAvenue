@@ -9,6 +9,8 @@ class Community < ActiveRecord::Base
   has_many :memberships, class_name: 'Community::Membership', dependent: :destroy
   has_many :users, through: :memberships
 
+  after_create :generate_memberships
+
   # Ask a question to the community.
   #
   # @return the Thread created by the question.
@@ -20,4 +22,18 @@ class Community < ActiveRecord::Base
 
     thread
   end
+
+  private
+
+  def generate_memberships
+    users = structure.user_profiles.includes(:user).map(&:user)
+    users += structure.participation_requests.accepted.includes(:user).map(&:user)
+    users += structure.comments.includes(:user).map(&:user)
+    users = users.uniq.compact
+
+    users.map do |user|
+      memberships.where(user: user).first || memberships.create(user: user)
+    end
+  end
+  handle_asynchronously :generate_memberships
 end
