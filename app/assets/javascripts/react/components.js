@@ -1,5 +1,6 @@
 // Tell react-rails where our components are
 SearchPageApp      = require('./search_page_app/components/SearchPageApp.react');
+SearchPageAppMap   = require('./search_page_app/components/Map.react');
 SubjectSearchInput = require('./search_page_app/components/SubjectSearchInput.react');
 SubjectAutocompleteFilter = require('./search_page_app/components/SubjectAutocompleteFilter.react');
 

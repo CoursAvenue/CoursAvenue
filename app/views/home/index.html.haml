@@ -3,12 +3,13 @@
     = ""
     = JSON.pretty_generate(@google_search_box_metadata).html_safe
 
+
 .search-page-filters__panel-height.relative.text--center.palm-height-auto.soft--ends
-  .absolute.north.west.height-100-percent.one-whole.bg-cover{ style: "background-image: url('#{asset_path('home-page/map.jpg')}')" }
+  = react_component('SearchPageAppMap', { center: [48.8592, 2.3417] }, { class: ' absolute north west height-100-percent one-whole' })
   - %w(danse theatre-scene musique-chant cuisine-vins yoga-bien-etre-sante sports-arts-martiaux photo-video deco-mode-bricolage dessin-peinture-arts-plastiques).each do |slug|
-    .transition-all-300.invisible.absolute.north.west.height-100-percent.one-whole.bg-cover{ style: "background-image: url('#{Subject.find(slug).image.url(:homepage)}')", data: { slug: slug, curtain: true } }
-  .home-page-curtain.absolute.north.west.height-100-percent.one-whole
-  .relative.flexbox.search-page-filters__panel-height
+    .transition-all-300.invisible.absolute.north.west.height-100-percent.one-whole.bg-cover.on-top{ style: "background-image: url('#{Subject.find(slug).image.url(:homepage)}')", data: { slug: slug, curtain: true } }
+  .home-page-curtain.absolute.north.west.height-100-percent.one-whole.on-top
+  .relative.flexbox.search-page-filters__panel-height.on-top
     .flexbox__item.v-middle
       %h1.flush.f-weight-bold.f-size-really-big.white.soft--sides
         Toutes les activités
