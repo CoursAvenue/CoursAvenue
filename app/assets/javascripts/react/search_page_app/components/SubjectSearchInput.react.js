@@ -1,7 +1,7 @@
-var RootSubjectItem       = require('./RootSubjectItem.react'),
-    SubjectStore          = require('../stores/SubjectStore'),
+var SubjectStore          = require('../stores/SubjectStore'),
     FilterStore           = require('../stores/FilterStore'),
     SearchPageDispatcher  = require('../dispatcher/SearchPageDispatcher'),
+    SubjectActionCreators = require('../actions/SubjectActionCreators'),
     FilterActionCreators  = require('../actions/FilterActionCreators'),
     FilterPanelConstants  = require('../constants/FilterPanelConstants'),
     cx                    = require('classnames/dedupe');
@@ -34,17 +34,19 @@ var SubjectSearchInput = React.createClass({
         FilterActionCreators.clearFullTextAndCloseSearchInputPanel();
     },
 
-    closeFilterPanel: function closeFilterPanel (event) {
+    handleKeyUp: function handleKeyUp (event) {
         if ($(event.currentTarget).val().length == 0 || event.keyCode == 27) {
             FilterActionCreators.closeFilterPanel();
 
         // If hitting enter
         } else if (event.keyCode == 13) {
-            if (this.props.navigate) {
-                window.location = Routes.root_search_page_without_subject_path('paris', { discipline: $(event.currentTarget).val() });
-            } else {
-                FilterActionCreators.closeFilterPanel();
-            }
+            SubjectActionCreators.selectHighlightedSuggestion();
+        // If arrow down
+        } else if (event.keyCode == 40) {
+            SubjectActionCreators.selectNextSuggestion();
+        // If arrow up
+        } else if (event.keyCode == 38) {
+            SubjectActionCreators.selectPreviousSuggestion();
         }
     },
 
@@ -56,7 +58,7 @@ var SubjectSearchInput = React.createClass({
                   <input value={value}
                          size="50"
                          onFocus={this.showSearchInputPanel}
-                         onKeyUp={this.closeFilterPanel}
+                         onKeyUp={this.handleKeyUp}
                          onChange={this.searchFullText}
                          placeholder="Cherchez une activité..." />
                   <i className="fa fa-search"></i>

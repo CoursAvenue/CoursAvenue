@@ -60,6 +60,7 @@ SearchPageApp = React.createClass({
                   <Menubar />
 
                   <MapContainer center={this.props.map_center} />
+
                   <SubjectAutocompleteFilter />
                   <SubjectFilter />
                   <LocationFilter />

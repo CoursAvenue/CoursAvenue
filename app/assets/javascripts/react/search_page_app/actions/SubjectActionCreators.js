@@ -38,5 +38,32 @@ module.exports = {
             actionType: ActionTypes.SELECT_SUBJECT,
             data: subject
         });
+    },
+
+    selectNextSuggestion: function selectNextSuggestion () {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.FULL_TEXT_SELECT_NEXT_SUGGESTION
+        });
+    },
+
+    selectPreviousSuggestion: function selectPreviousSuggestion () {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.FULL_TEXT_SELECT_PREVIOUS_SUGGESTION
+        });
+    },
+
+    selectSuggestion: function selectSuggestion (index) {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.FULL_TEXT_SELECT_SUGGESTION,
+            data: index
+        });
+    },
+
+    selectHighlightedSuggestion: function selectHighlightedSuggestion (index) {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.FULL_TEXT_SELECT_HIGHLIGHTED_SUGGESTION,
+            data: index
+        });
     }
+
 };
