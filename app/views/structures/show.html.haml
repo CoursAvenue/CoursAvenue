@@ -47,9 +47,8 @@
 
       #structure-profile.push--bottom.bg-white.bordered{ data: { type: 'structure-profile-root' } }
         #structure-region
-        #avis
-          %div{ data: { type: "certified-comments-collection" } }
-          %div{ data: { type: "guestbook-collection" } }
+        .soft--sides.soft--bottom
+          = react_component('CommentList', { structure_slug: @structure.slug })
         - if @is_sleeping
           = render partial: 'structures/sleeping_content', locals: { medias: @medias }
       .beta.text--center.tk-lexia.bordered--bottom.soft--bottom.f-weight-400.push--bottom Articles de blog associés

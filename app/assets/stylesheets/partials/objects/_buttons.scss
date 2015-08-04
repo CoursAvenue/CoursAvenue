@@ -296,7 +296,6 @@
         content   : '';
         position  : absolute;
         z-index   : -1;
-        @include border-radius(2px);
         @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
     }
 }

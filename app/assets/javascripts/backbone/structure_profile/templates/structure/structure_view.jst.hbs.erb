@@ -1,14 +1,16 @@
 <article id="presentation">
     <div class="soft">
-        <div class="grid--full push-half--bottom">
-            {{#if logo_thumb_url}}<!--
-             --><div class="grid__item palm-one-whole v-top three-twelfths text--center palm-push--bottom">
-                    <div class="media-photo">
-                        <img src="{{ logo_thumb_url }}" alt="Image de profil de {{ name }}" class="block palm-one-whole">
+        <div class="grid--full push-half--bottom"><!--
+          --><div class="grid__item palm-one-whole v-top one-fifth text--center palm-push--bottom">
+                {{#if logo_thumb_url}}
+                    <img src="{{ logo_thumb_url }}" alt="Image de profil de {{ name }}" class="center-block palm-one-whole rounded--circle" width="100" height="100" data-src2x={{ logo_thumb_url_2x }}>
+                {{ else }}
+                    <div class="inline-block rounded--circle-100 white text--center bg-{{ dominant_root_subject_slug }}">
+                        <i class="fa fa-user-big alpha"></i>
                     </div>
-                </div><!--
-          -->{{/if}}<!--
-          --><div class="grid__item soft--left palm-hard palm-one-whole {{#if logo_thumb_url}}nine-twelfths{{else}}one-whole hard{{/if}} v-top">
+                {{/if}}
+             </div><!--
+          --><div class="grid__item soft--left palm-hard palm-one-whole four-fifths v-top">
                 <h1 class="beta gray push-half--bottom">{{ name }}</h1>
                 <div class="delta f-weight-500 push-half--bottom gray">
                     {{ structure_type }}{{#if structure_type}} - {{/if}}{{ cities_text }}

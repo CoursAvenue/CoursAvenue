@@ -11,8 +11,7 @@ StructureProfile.addInitializer(function(options) {
         structure_view = new StructureProfile.Views.Structure.StructureView({
             model: structure
         }),
-        sticky_google_maps_view, places_collection,
-        certified_comments_collection_view, guestbook_collection_view, participation_request,
+        sticky_google_maps_view, places_collection, participation_request,
         participation_request_view, message_form_view, message;
 
     places_collection          = structure.get('places');
@@ -21,16 +20,6 @@ StructureProfile.addInitializer(function(options) {
         collection:         places_collection,
         mapOptions:         { scrollwheel: false },
         infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) }
-    });
-
-    certified_comments_collection_view = new StructureProfile.Views.Structure.Comments.CertifiedCommentsCollectionView({
-        collection: structure.get('certified_comments'),
-        about     :  structure.get('about')
-    });
-
-    guestbook_collection_view = new StructureProfile.Views.Structure.Comments.GuestbookCollectionView({
-        collection: structure.get('guestbook'),
-        about     :  structure.get('about')
     });
 
     layout.render();
@@ -67,14 +56,11 @@ StructureProfile.addInitializer(function(options) {
         }
     });
 
-    layout.showWidget(certified_comments_collection_view);
-    layout.showWidget(guestbook_collection_view);
-
     layout.master.show(structure_view);
     /* --------------------------
      *         PRERENDER
      * -------------------------- */
-    collection_that_has_to_be_loaded = { privates: false, lessons: false, trainings: false, certified_comments: false, guestbook: false }
+    collection_that_has_to_be_loaded = { privates: false, lessons: false, trainings: false }
     var triggerPrerenderIfReady = function triggerPrerenderIfReady (collection_name) {
         collection_that_has_to_be_loaded[collection_name] = true;
         var everything_is_loaded = _.every(_.values(collection_that_has_to_be_loaded), function(value) {
@@ -82,11 +68,9 @@ StructureProfile.addInitializer(function(options) {
         });
         if (everything_is_loaded) { window.prerenderReady = true; }
     }
-    structure.get('lessons')           .on('reset', function() { triggerPrerenderIfReady('lessons');            });
-    structure.get('privates')          .on('reset', function() { triggerPrerenderIfReady('privates');           });
-    structure.get('trainings')         .on('reset', function() { triggerPrerenderIfReady('trainings');          });
-    structure.get('certified_comments').on('reset', function() { triggerPrerenderIfReady('certified_comments'); });
-    structure.get('guestbook')         .on('reset', function() { triggerPrerenderIfReady('guestbook');          });
+    structure.get('lessons')           .on('reset', function() { triggerPrerenderIfReady('lessons');   });
+    structure.get('privates')          .on('reset', function() { triggerPrerenderIfReady('privates');  });
+    structure.get('trainings')         .on('reset', function() { triggerPrerenderIfReady('trainings'); });
 
     if (window.location.hash.length > 0 && window.location.hash != '#_=_' && $(window.location.hash).length > 0) {
         try { // Prevent from bug when hash is corrupted
