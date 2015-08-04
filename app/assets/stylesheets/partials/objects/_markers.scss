@@ -121,11 +121,30 @@
     @extend .fa-mapbox-marker;
     margin-top : 0;
     margin-left: -9px;
-    &:before {
+    position: relative;
+    &::after {
+      content: $font-CoursAvenueIconFont-mapbox-marker;
+      display                : inline-block;
+      font-family            : "CoursAvenueIconFont";
+      font-style             : normal;
+      font-weight            : normal;
+      font-variant           : normal;
+      line-height            : 1;
+      text-decoration        : inherit;
+      text-rendering         : optimizeLegibility;
+      text-transform         : none;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing : antialiased;
+      font-smoothing         : antialiased;
+    }
+    &::before, &::after {
         font-size: 40px;
-        position: relative;
+        position : absolute;
         left      : -12px;
         top       : -40px;
+    }
+    &::before {
+        @include transform(scale(1.06) rotate(2deg) translate(-0.5%, 1%));
     }
     i {
         color: white;
@@ -139,74 +158,76 @@
         width      : 30px;
         text-align : center;
         font-weight: bold;
+        z-index    : 1;
     }
 }
 .map-box-marker--active {
-    color  : white;
+    &::before{ @include transform(scale(1.12) rotate(3deg) translate(-0.5%, 1%)); }
+    &::after{ color: white; }
     z-index: 1000;
 }
 
 .map-box-marker__danse {
     @extend .danse-color;
-    @include text-shadow(darken($color-dance, 10%) 0px 1px, darken($color-dance, 10%) -1px 1px, darken($color-dance, 10%) -1px -1px, darken($color-dance, 10%) 1px -1px);
-    &.map-box-marker--active {
-        @include text-shadow(darken($color-dance, 10%) -2px -2px, darken($color-dance, 10%) 2px -2px, darken($color-dance, 10%) -2px 2px, darken($color-dance, 10%) 2px 2px, darken($color-dance, 10%) 0px 3px, darken($color-dance, 10%) 0px -3px);
+    &::before { color: darken($color-dance, 8%); }
+    &.map-box-marker--active div {
+        color: $color-dance;
     }
 }
 .map-box-marker__theatre-scene {
     @extend .theatre-scene-color;
-    @include text-shadow(darken($color-theatre, 10%) 0px 1px, darken($color-theatre, 10%) -1px 1px, darken($color-theatre, 10%) -1px -1px, darken($color-theatre, 10%) 1px -1px);
-    &.map-box-marker--active {
-        @include text-shadow(darken($color-theatre, 10%) -2px -2px, darken($color-theatre, 10%) 2px -2px, darken($color-theatre, 10%) -2px 2px, darken($color-theatre, 10%) 2px 2px, darken($color-theatre, 10%) 0px 3px, darken($color-theatre, 10%) 0px -3px);
+    &::before { color: darken($color-theatre, 8%); }
+    &.map-box-marker--active div {
+        color: $color-theatre;
     }
 }
 .map-box-marker__deco-mode-bricolage {
     @extend .deco-mode-bricolage-color;
-    @include text-shadow(darken($color-deco, 10%) 0px 1px, darken($color-deco, 10%) -1px 1px, darken($color-deco, 10%) -1px -1px, darken($color-deco, 10%) 1px -1px);
-    &.map-box-marker--active {
-        @include text-shadow(darken($color-deco, 10%) -2px -2px, darken($color-deco, 10%) 2px -2px, darken($color-deco, 10%) -2px 2px, darken($color-deco, 10%) 2px 2px, darken($color-deco, 10%) 0px 3px, darken($color-deco, 10%) 0px -3px);
+    &::before { color: darken($color-deco, 8%); }
+    &.map-box-marker--active div {
+        color: $color-deco;
     }
 }
 .map-box-marker__musique-chant {
     @extend .musique-chant-color;
-    @include text-shadow(darken($color-music, 10%) 0px 1px, darken($color-music, 10%) -1px 1px, darken($color-music, 10%) -1px -1px, darken($color-music, 10%) 1px -1px);
-    &.map-box-marker--active {
-        @include text-shadow(darken($color-music, 10%) -2px -2px, darken($color-music, 10%) 2px -2px, darken($color-music, 10%) -2px 2px, darken($color-music, 10%) 2px 2px, darken($color-music, 10%) 0px 3px, darken($color-music, 10%) 0px -3px);
+    &::before { color: darken($color-music, 8%); }
+    &.map-box-marker--active div {
+        color: $color-music;
     }
 }
 .map-box-marker__photo-video {
     @extend .photo-video-color;
-    @include text-shadow(darken($color-photo, 10%) 0px 1px, darken($color-photo, 10%) -1px 1px, darken($color-photo, 10%) -1px -1px, darken($color-photo, 10%) 1px -1px);
-    &.map-box-marker--active {
-        @include text-shadow(darken($color-photo, 10%) -2px -2px, darken($color-photo, 10%) 2px -2px, darken($color-photo, 10%) -2px 2px, darken($color-photo, 10%) 2px 2px, darken($color-photo, 10%) 0px 3px, darken($color-photo, 10%) 0px -3px);
+    &::before { color: darken($color-photo, 8%); }
+    &.map-box-marker--active div {
+        color: $color-photo;
     }
 }
 
 .map-box-marker__dessin-peinture-arts-plastiques {
     @extend .dessin-peinture-arts-plastiques-color;
-    @include text-shadow(darken($color-arts, 10%) 0px 1px, darken($color-arts, 10%) -1px 1px, darken($color-arts, 10%) -1px -1px, darken($color-arts, 10%) 1px -1px);
-    &.map-box-marker--active {
-        @include text-shadow(darken($color-arts, 10%) -2px -2px, darken($color-arts, 10%) 2px -2px, darken($color-arts, 10%) -2px 2px, darken($color-arts, 10%) 2px 2px, darken($color-arts, 10%) 0px 3px, darken($color-arts, 10%) 0px -3px);
+    &::before { color: darken($color-arts, 8%); }
+    &.map-box-marker--active div {
+        color: $color-arts;
     }
 }
 .map-box-marker__cuisine-vins {
     @extend .cuisine-vins-color;
-    @include text-shadow(darken($color-cooking, 10%) 0px 1px, darken($color-cooking, 10%) -1px 1px, darken($color-cooking, 10%) -1px -1px, darken($color-cooking, 10%) 1px -1px);
-    &.map-box-marker--active {
-        @include text-shadow(darken($color-cooking, 10%) -2px -2px, darken($color-cooking, 10%) 2px -2px, darken($color-cooking, 10%) -2px 2px, darken($color-cooking, 10%) 2px 2px, darken($color-cooking, 10%) 0px 3px, darken($color-cooking, 10%) 0px -3px);
+    &::before { color: darken($color-cooking, 8%); }
+    &.map-box-marker--active div {
+        color: $color-cooking;
     }
 }
 .map-box-marker__yoga-bien-etre-sante {
     @extend .yoga-bien-etre-sante-color;
-    @include text-shadow(darken($color-yoga, 10%) 0px 1px, darken($color-yoga, 10%) -1px 1px, darken($color-yoga, 10%) -1px -1px, darken($color-yoga, 10%) 1px -1px);
-    &.map-box-marker--active {
-        @include text-shadow(darken($color-yoga, 10%) -2px -2px, darken($color-yoga, 10%) 2px -2px, darken($color-yoga, 10%) -2px 2px, darken($color-yoga, 10%) 2px 2px, darken($color-yoga, 10%) 0px 3px, darken($color-yoga, 10%) 0px -3px);
+    &::before { color: darken($color-yoga, 8%); }
+    &.map-box-marker--active div {
+        color: $color-yoga;
     }
 }
 .map-box-marker__sports-arts-martiaux {
     @extend .sports-arts-martiaux-color;
-    @include text-shadow(darken($color-sports, 10%) 0px 1px, darken($color-sports, 10%) -1px 1px, darken($color-sports, 10%) -1px -1px, darken($color-sports, 10%) 1px -1px);
-    &.map-box-marker--active {
-        @include text-shadow(darken($color-sports, 10%) -2px -2px, darken($color-sports, 10%) 2px -2px, darken($color-sports, 10%) -2px 2px, darken($color-sports, 10%) 2px 2px, darken($color-sports, 10%) 0px 3px, darken($color-sports, 10%) 0px -3px);
+    &::before { color: darken($color-sports, 8%); }
+    &.map-box-marker--active div {
+        color: $color-sports;
     }
 }
