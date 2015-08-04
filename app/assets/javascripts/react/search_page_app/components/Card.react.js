@@ -136,6 +136,11 @@ Card = React.createClass({
         }
     },
 
+    // A card do not have to be updated when created.
+    shouldComponentUpdate: function shouldComponentUpdate () {
+        return false;
+    },
+
     render: function render () {
         var course_information, course_location;
             gift_classes = { gray: this.props.card.get('is_open_for_trial')}
