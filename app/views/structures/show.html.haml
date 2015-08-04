@@ -62,31 +62,7 @@
     .grid__item.four-twelfths.palm-one-whole.visuallyhidden--palm>
       -# Needs to be here
       %div.hidden{ data: { type: 'contact-form' } }
-      .bg-white.soft.bordered
-        - if !@structure.is_sleeping? and @structure.enabled? and @structure.plannings.future.any?
-          %div
-            .delta.line-height-2.f-weight-bold Quel cours vous intéresse ?
-            %div
-              %a.btn.btn--green.btn--full{ href: 'javascript:void(0)', data: { behavior: 'show-contact-panel' } } Demande d'inscription
-
-          %hr.push-half--ends
-        %div
-          .delta.line-height-2.f-weight-bold.inline-block.v-middle.soft-half--right Contact
-          .inline-block.v-middle.line-height-2.f-weight-600
-            = link_to 'Téléphone', '#phone-numbers', data: { behavior: 'modal', width: 350, padding: 0, logger: 'phone_number', structure_id: @structure.id }
-            - if @structure.website.present?
-              %span.very-soft.gray-light= '|'
-              = link_to 'Site Internet', URLHelper.fix_url(@structure.website), target: '_blank', rel: 'nofollow', data: { logger: 'website', structure_id: @structure.id }
-              #phone-numbers.hidden.panel
-                .panel__header.soft-half--ends.soft--sides
-                  .delta.f-weight-bold.line-height-2 Coordonnées
-                .panel__body.soft.delta
-                  - phone_number_html = @structure.phone_numbers.map do |phone_number, index|
-                    .line-height-2
-                      %i.fa.fa-phone
-                      - phone_number_html = PhoneNumberDecorator.new(PhoneNumber.new(number: phone_number.number)).formatted_number if phone_number.number
-                      = phone_number_html
-                      = " (#{phone_number.info})" if phone_number.info.present?
+      = render 'registration'
 
       - # This additionnal div is necessary for the husk that will be prepended
       - # to the parent of the sticky div

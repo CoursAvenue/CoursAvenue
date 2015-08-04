@@ -413,6 +413,9 @@ CoursAvenue::Application.routes.draw do
             patch :modify_date
             patch :cancel
             get   :show_user_contacts
+            get   :rebook_form
+            patch :rebook
+            patch :signal_user_absence
           end
           collection do
             get :paid_requests, path: 'transactions-cb'
@@ -434,6 +437,17 @@ CoursAvenue::Application.routes.draw do
       get '/auth/facebook/callback', to: 'admins#facebook_auth_callback'
       get '/auth/failure',           to: 'admins#facebook_auth_failure'
 
+      resource :onboarding, controller: 'admins/onboarding', only: [:update] do
+        collection do
+          get :step_zero
+          get :step_one
+          get :step_two
+          get :step_three
+          get :step_four
+          get :step_five
+        end
+      end
+
       resources :admins do
         collection do
           get :waiting_for_activation, path: 'activez-votre-compte'
@@ -446,6 +460,13 @@ CoursAvenue::Application.routes.draw do
 
       get "/contacts/:importer/callback", to: "contacts#callback"
       get "/contacts/failure",            to: "contacts#failure"
+
+      resources :guides do
+        member do
+          get :edit_subjects
+          patch :update_subjects
+        end
+      end
 
     end
   end
@@ -613,6 +634,7 @@ CoursAvenue::Application.routes.draw do
 
     resources :reservation_loggers, only: [:create]
     resources :click_logs, only: [:create]
+    resources :guides, only: [:show]
 
     # ------------------------------------------------------
     # ----------------------------------------- Static pages

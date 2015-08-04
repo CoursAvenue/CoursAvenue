@@ -17,6 +17,8 @@ class Subject < ActiveRecord::Base
   has_and_belongs_to_many :comments
   has_and_belongs_to_many :medias
   has_and_belongs_to_many :indexable_cards
+  has_and_belongs_to_many :guide_answers,
+    class_name: 'Guide::Answer', association_foreign_key: 'guide_answer_id'
 
   has_many :vertical_pages
   has_many :passions
@@ -46,7 +48,9 @@ class Subject < ActiveRecord::Base
   scope :roots_not_stars,        -> { where(Subject.arel_table[:position].gt(10).and(Subject.arel_table[:ancestry].eq(nil))).order('position ASC') }
 
   attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description,
-                  :image, :remote_image_url, :good_to_know, :needed_meterial, :tips, :ancestry
+                  :image, :remote_image_url, :good_to_know, :needed_meterial, :tips, :ancestry,
+                  :guide_description, :age_advice_younger_than_5, :age_advice_between_5_and_9,
+                  :age_advice_older_than_10
 
   mount_uploader :image, VerticalPageImageUploader
 

@@ -12,6 +12,7 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             '$course_select'                   : 'select[name="participation_request[course_id]"]',
             '$planning_select_wrapper'         : '[data-element=planning-select-wrapper]',
             '$planning_select_input'           : '[data-element=planning-select-wrapper] select',
+            '$planning_info'                   : '[data-element=planning-info]',
             '$datepicker_wrapper'              : '[data-element=datepicker-wrapper]',
             '$datepicker_input'                : '[data-element=datepicker-wrapper] input',
             '$start_hour_select_input'         : '[data-element=start-hour-select]',
@@ -30,6 +31,11 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             this.trainings_collection = options.trainings_collection;
             this.courses_collection.on('change', this.render.bind(this).debounce(500));
             this.trainings_collection.on('change', this.render.bind(this).debounce(500));
+
+            this.teacher_view = options.teacher_view || false;
+            this.hide_classes = options.hide_classes || false;
+            this.hide_date    = options.hide_date    || false;
+            this.hide_place   = options.hide_place   || false;
         },
 
         initializeStartHourSelect: function initializeStartHourSelect () {
@@ -198,6 +204,13 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 this.ui.$planning_select_input.append(option);
             }, this);
             this.updateDatePicker();
+            // If there is only one option, don't show the select.
+            if (this.getCurrentCoursePlannings().length == 1) {
+                var planning = this.getCurrentCoursePlannings()[0];
+                this.ui.$planning_info.text(planning.date + ' ' + planning.time_slot);
+                this.ui.$planning_info.show();
+                this.ui.$planning_select_input.hide();
+            }
         },
 
         showStudentAddressFields: function showStudentAddressFields () {
@@ -231,7 +244,11 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
             // If teachers at home but DO NOT have a place, show address form
             } else if (this.getCurrentCourse().get('teaches_at_home') || (this.getCurrentPlanning() && this.getCurrentPlanning().teaches_at_home)) {
                 var address = (this.getCurrentPlanning() ? this.getCurrentPlanning().address : this.getCurrentCourse().get('course_location'));
-                this.ui.$address_info.show().text('À votre domicile').attr('data-content', address);
+                if (this.teacher_view) {
+                    this.ui.$address_info.show().text('À domicile').attr('data-content', address);
+                } else {
+                    this.ui.$address_info.show().text('À votre domicile').attr('data-content', address);
+                }
                 this.ui.$address_info.parent().addClass('text-ellipsis');
                 this.showStudentAddressWrapper();
             // Else, show the address
@@ -293,7 +310,11 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
                 courses_open_for_trial           : _.invoke(courses_open_for_trial, 'toJSON'),
                 courses_without_open_for_trials  : _.invoke(courses_without_open_for_trials, 'toJSON'),
                 trainings_without_open_for_trials: this.trainings_collection.toJSON(),
-                cid                              : this.cid
+                cid                              : this.cid,
+                hide_date: this.hide_date,
+                hide_place: this.hide_place,
+                hide_classes: this.hide_classes,
+                teacher_view: this.teacher_view,
             };
             return data;
         }

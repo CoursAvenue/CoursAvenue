@@ -97,7 +97,6 @@ RSpec.describe IndexableCard, type: :model do
 
     it 'sets the other association' do
       card = IndexableCard.create_from_place(place)
-      expect(card.subjects).to include(_subject)
       expect(card.place).to eq(place)
     end
 

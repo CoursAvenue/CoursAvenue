@@ -83,11 +83,12 @@ StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbon
         },
 
         onChildviewRegister: function onChildviewRegister (view, data) {
+            data = _.extend(data, { hide_date: true, hide_place: true, hide_classes: true });
             this.trigger("register", data);
         },
 
         registerToCourse: function registerToCourse (view, data) {
-            this.trigger("register", { course_id: this.model.get('id') });
+            this.trigger("register", { course_id: this.model.get('id'), hide_classes: true });
         },
 
         childViewOptions: function childViewOptions (model, index) {

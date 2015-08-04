@@ -1,5 +1,7 @@
 class StructureDecorator < Draper::Decorator
 
+  delegate_all
+
   def structure_type
     I18n.t(object.structure_type) if object.structure_type.present? and object.structure_type != 'object.structure_type'
   end
@@ -171,5 +173,12 @@ class StructureDecorator < Draper::Decorator
     if object.website.present?
       h.link_to 'Site Internet', URLHelper.fix_url(object.website), target: '_blank', rel: 'nofollow'
     end
+  end
+
+  # Check if a structure only has regular classes.
+  #
+  # @return a boolean
+  def only_has_regular_classes?
+    object.courses.pluck(:type).all? { |class_type| class_type != 'Course::Training' }
   end
 end

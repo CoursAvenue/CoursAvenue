@@ -8,7 +8,9 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
         },
 
         ui: {
-            '$grand_total'        : '[data-behavior=total]'
+            '$grand_total'        : '[data-behavior=total]',
+            '$price_select'       : '[data-element=price-select]',
+            '$price_info'         : '[data-element=price-info]'
         },
 
         initialize: function initialize () {
@@ -33,6 +35,13 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
         onRender: function onRender (options) {
             this.computePrices();
             this.$('[data-behavior=show-more-on-demand]').showMoreOnDemand();
+            // If there's only one option, don't show the select.
+            if (this.prices_collection.length == 1) {
+                var price = this.prices_collection.first();
+                this.ui.$price_info.text(price.get('readable_promo_amount') || price.get('readable_amount'));
+                this.ui.$price_info.show();
+                this.ui.$price_select.hide();
+            }
         },
 
         computePrices: function computePrices (options) {

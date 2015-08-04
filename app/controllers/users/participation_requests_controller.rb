@@ -13,7 +13,7 @@ class Users::ParticipationRequestsController < ApplicationController
 
   # GET eleves/:user_id/participation_request/:id
   def show
-    @participation_request = @user.participation_requests.find(params[:id])
+    @participation_request = @user.participation_requests.find(params[:id]).decorate
     @structure             = @participation_request.structure
   end
 

@@ -83,13 +83,6 @@ describe Structures::ParticipationRequestsController, type: :controller do
           expect(response.status).to eq 200
         end
       end
-      describe '#report_form' do
-        it 'returns 200' do
-          get :report_form, structure_id: participation_request.structure.slug,
-                         id: participation_request.token
-          expect(response.status).to eq 200
-        end
-      end
     end
     context 'user is not signed in' do
       describe '#edit' do
@@ -153,7 +146,7 @@ describe Structures::ParticipationRequestsController, type: :controller do
                         participation_request: {
                           message: { body: 'Lorem' }
                         }
-        expect(assigns(:participation_request).pending?).to be_truthy
+        expect(assigns(:participation_request).accepted?).to be_truthy
         expect(response).to be_redirect
       end
     end
@@ -164,7 +157,7 @@ describe Structures::ParticipationRequestsController, type: :controller do
                         participation_request: {
                           message: { body: 'Lorem' }
                         }
-        expect(assigns(:participation_request).pending?).to be_truthy
+        expect(assigns(:participation_request).treated?).to be_truthy
         expect(response).to be_redirect
       end
     end

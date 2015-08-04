@@ -15,6 +15,7 @@
         <div>
             <div class="grid--full very-soft--bottom">
                 <div class="grid__item v-middle seven-twelfths">
+                    <span class="epsilon f-weight-bold hidden" data-element="price-info"></span>
                     <select data-element="price-select" name="participation_request[participants_attributes][0][price_id]" class="one-whole">
                         {{#each ../prices}}
                             <option data-amount="{{#if promo_amount }}{{ promo_amount }}{{ else }}{{ amount }}{{/if}}" value="{{ id }}">  {{ libelle }} :

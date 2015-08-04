@@ -33,6 +33,17 @@
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Lieu
         %td.v-middle.soft--sides.one-whole
+          .flexbox.palm-block
+            .flexbox__item.one-whole.palm-block
+              Au domicile de l'élève :
+              = participation_request_decorator.student_home_address
+            .flexbox__item.v-middle.nowrap.text--right
+              = link_to t('.see_on_map'), URI.encode("http://maps.google.com/?q=#{participation_request_decorator.student_home_address}"), target: :_blank
+
+    - elsif participation_request.at_student_home? or pr.course.is_private?
+      %tr.bordered--bottom
+        %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Lieu
+        %td.v-middle.soft--sides.one-whole
           - if participation_request.at_student_home?
             = participation_request.place.name
           - else
@@ -45,13 +56,3 @@
                 %br
               - if participation_request.place.private_info.present?
                 = participation_request.place.private_info
-    - elsif participation_request.at_student_home?
-      %tr.bordered--bottom
-        %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Lieu
-        %td.v-middle.soft--sides.one-whole
-          .flexbox.palm-block
-            .flexbox__item.one-whole.palm-block
-              Au domicile de l'élève :
-              = participation_request_decorator.student_home_address
-            .flexbox__item.v-middle.nowrap.text--right
-              = link_to t('.see_on_map'), URI.encode("http://maps.google.com/?q=#{participation_request_decorator.student_home_address}"), target: :_blank

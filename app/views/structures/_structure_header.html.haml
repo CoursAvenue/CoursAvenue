@@ -27,8 +27,11 @@
                       %a.muted-link.orange{ href: '#avis', data: { behavior: 'scroll-to' } } Avis
           .flexbox__item.v-middle.nowrap.text--right>
             %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel' } }
-              Contacter
-              = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
+              - if @structure.enabled?
+                Demande d'inscription
+              - else
+                Contacter
+                = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
 
 = content_for :scripts do
   :javascript
