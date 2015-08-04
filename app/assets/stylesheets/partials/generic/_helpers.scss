@@ -55,6 +55,12 @@
 .rounded--double       { @include border-radius($brand-round * 2); }
 .rounded--thick        { @include border-radius(1em !important); }
 .rounded--circle       { @include border-radius(100% !important); }
+.rounded--circle-100   {
+    @include border-radius(100px !important);
+    height: 100px;
+    width: 100px;
+    &, i { line-height: 100px; }
+}
 
 /*------------------------------------*\
     BORDERS

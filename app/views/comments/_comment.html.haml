@@ -23,15 +23,13 @@
             .break-word (#{comment.email})
             = icon_rating(comment, 'fa-2x')
 
-      .grid__item.palm-one-whole.seven-twelfths.push-half--bottom>
+      .grid__item.palm-one-whole.push-half--bottom{ class: ((current_pro_admin.present? and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)) ? 'seven-twelfths' : 'ten-twelfths') }>
         - # User can share if:
         - #   - comment is accepted
         - #   - user is owner
         .gray-box.soft-half.rounded--top.message__appendix
           - if comment.title.present?
             %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: comment.title}= "#{comment.title}"
-            - if comment.course_name
-              %span.v-middle= "— #{comment.course_name.capitalize}"
           %span.rating{title: 'Excellent !', itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
             %meta{itemprop: 'ratingValue', content: 5}
             %meta{itemprop: 'worstRating', content: 1}
@@ -59,8 +57,8 @@
               %i.fa-eye
               Voir tous les avis du profil
 
-      .grid__item.palm-one-whole.three-twelfths.soft--left.palm-hard>
-        - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
+      - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
+        .grid__item.palm-one-whole.three-twelfths.soft--left.palm-hard>
           - if comment.user
             .very-soft--bottom
               = link_to 'Répondre', new_pro_structure_comment_comment_reply_path(structure, comment), class: "#{(comment.reply.nil? ? '' : 'hidden')} btn btn--small btn--full btn--green fancybox.ajax", data: { toggle: 'tooltip', title: 'Répondre par un commentaire qui sera affiché sur mon profil public', behavior: 'modal', width: '700', padding: 0 }, id: "comment-reply-button-#{comment.id}"

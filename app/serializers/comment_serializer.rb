@@ -7,7 +7,8 @@ class CommentSerializer < ActiveModel::Serializer
   # delegate :cache_key, to: :object
 
   attributes :id, :content, :title, :author_name, :course_name, :created_at, :rating,
-             :distance_of_time, :comment_url, :avatar_url, :created_at_iso, :certified
+             :distance_of_time, :comment_url, :avatar_url, :created_at_iso, :certified,
+             :simple_format_content
 
   has_one :reply, serializer: CommentReplySerializer
 
@@ -19,10 +20,18 @@ class CommentSerializer < ActiveModel::Serializer
     structure_url((options[:structure] || object.structure), anchor: "recommandation-#{object.id}", subdomain: 'www', host: 'coursavenue.com')
   end
 
+  def has_avatar
+    (object.user and object.user.avatar.present?)
+  end
+
   def avatar_url
     if object.user
-      object.user.avatar_url(:small_thumb)
+      object.user.avatar.url(:small_thumb)
     end
+  end
+
+  def simple_format_content
+    simple_format(content)
   end
 
   def created_at_iso

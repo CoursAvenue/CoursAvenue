@@ -1,3 +1,5 @@
+- dominant_root_subject_slug = @course.dominant_root_subject.try(:slug)
+
 = content_for :title do
   -# Ex: YOGA SATTVA PARIS - Essai GRATUIT - CoursAvenue.com
   = truncate("#{@course.name} avec #{@structure.name} à #{@place.name} | CoursAvenue.com", length: 75)
@@ -5,15 +7,21 @@
 = content_for :meta_description do
   = "#{@course.name} avec #{@structure.name} à #{@place.name} : Cours d'essai gratuits, avis des élèves, reservation en ligne."
 - home_place = (@course.is_private? ? @course.home_place : nil)
-.grid--full.soft--top
+.grid--full.soft--top.push--bottom
   .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
     .soft.bordered.bg-white
-      -# %div
-      -#   = link_to '< Revenir à la recherche', ''
-      %h1.flush= @indexable_card.name
-      %h2.delta
-        Par
-        = link_to @structure.name, structure_path(@structure)
+      .grid.push--bottom
+        .grid__item.v-middle.one-fifth.text--center>
+          - if @structure.logo.present?
+            = image_tag @structure.logo.url(:small_thumb_120), height: 100, width: 100, data: { src2x: @structure.logo.url(:small_thumb) }, class: 'rounded--circle'
+          - else
+            .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{dominant_root_subject_slug}" }
+              %i.fa.fa-user-big.alpha
+        .grid__item.v-middle.four-fifths>
+          %h1.flush= @indexable_card.name
+          %h2.delta.flush
+            Par
+            = link_to @structure.name, structure_path(@structure)
       - if @course.prices.any?
         .float--right.blue-green.nowrap.v-middle
           - if @course.is_training?
@@ -31,13 +39,21 @@
           %i.delta.fa.fa-levels.v-middle
           = join_levels_text(@course)
 
-      %h3 Description du cours
       .push--bottom
-        .read-more{ data: { behavior: 'read-more' } }
-          = simple_format @course.description
+        %h3 Description du cours
+        .push--bottom
+          - if @course.description.present?
+            .read-more{ data: { behavior: 'read-more', height: 240 } }
+              = simple_format @course.description
+          - else
+            %p Pas de description.
+
       - if @course.price_group
-        %h3 Tarifs
-        = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
+        .push--bottom
+          %h3 Tarifs
+          = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
+
+      = react_component('CommentList', { structure_slug: @structure.slug })
 
   .grid__item.four-twelfths.palm-one-whole.palm-hard>
     .bordered.bg-white
@@ -46,13 +62,13 @@
       - if @course.teaches_at_home? and home_place
         - home_place_map_attributes = { home: { latitude: home_place.latitude, longitude: home_place.longitude, radius: home_place.radius } }
       = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
-                                        root_subject: @course.dominant_root_subject.try(:slug),
+                                        root_subject: dominant_root_subject_slug,
                                         metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
                                        { prerender: false })
 
       .soft
         %div.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
-          %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos } }
+          %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos, placement: 'left' } }
             %h4.flush= @place.name
             %span.f-weight-500= @place.address
           - if @course.teaches_at_home? and home_place
@@ -67,7 +83,7 @@
               %meta{ itemprop: 'longitude', content: @place.longitude }
 
         - if @place.nearby_metro_stops.any?
-          %hr.push-half--ends
+          %hr.push--ends
           %h4.push-half--bottom Transports
           - @place.nearby_metro_stops.each do |stop|
             %div.push-half--bottom
@@ -75,5 +91,5 @@
                 = MetroLineDecorator.new(line).chip
               %strong.v-middle= stop.name
         - unless @structure.is_sleeping?
-          %hr.push-half--ends
+          %hr.push--ends
           = render 'structures/response_stats'

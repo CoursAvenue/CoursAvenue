@@ -6,4 +6,6 @@ SubjectAutocompleteFilter = require('./search_page_app/components/SubjectAutocom
 
 CardPageMap    = require('./card_page/components/Map.react');
 CardPageCourse = require('./card_page/components/Course.react');
+CommentList    = require('./card_page/components/CommentList.react');
+
 UserGuideApp   = require('./user_guide/components/UserGuide.react');

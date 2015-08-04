@@ -14,12 +14,13 @@ class Structures::CommentsController < ApplicationController
     else
       @comments = @structure.comments.accepted.page(params[:page] || 1).per(5)
     end
+
     respond_to do |format|
       format.html { redirect_to new_structure_comment_path(@structure) }
       format.json { render json: @comments.to_a,
                            root: 'comments',
                            each_serializer: CommentSerializer,
-                           meta: { total: @comments.total_count },
+                           meta: { total: @comments.total_count, total_pages: @comments.total_pages },
                            options: { structure: @structure } }
     end
   end
