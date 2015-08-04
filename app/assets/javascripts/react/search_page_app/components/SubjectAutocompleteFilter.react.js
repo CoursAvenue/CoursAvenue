@@ -35,7 +35,7 @@ var SubjectAutocompleteFilter = React.createClass({
                                     })}
                          onMouseOver={this.hoverSubject(subject.get('slug'))}
                          onClick={this.selectSubject(subject)}>
-                        <div className="flexbox__item v-middle">
+                        <div className="flexbox__item visuallyhidden--palm v-middle">
                             <img className="block" height="45" width="80" src={subject.get('small_image_url')} />
                         </div>
                         <div className="flexbox__item v-middle white soft--sides">
@@ -72,11 +72,11 @@ var SubjectAutocompleteFilter = React.createClass({
         var classes = cx('search-page-filters-wrapper search-page-filters__subject-search-panel', {
             'search-page-filters-wrapper--active': (current_panel == FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT),
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen'),
-            'search-page-filters-wrapper--fullscreen height-100-percent': this.props.full_screen
+            'search-page-filters-wrapper--fullscreen height-100-percent': (this.props.fullscreen || window.is_mobile)
         });
         var subjects = this.subjects();
         if (subjects.length == 0) { this.state.active_result = 'full_text_search'; }
-        if (this.props.full_screen) { height_class = 'height-100-percent'; }
+        if ((this.props.fullscreen || window.is_mobile)) { height_class = 'height-100-percent'; }
         return (
           <div className={classes}>
               <div className="main-container main-container--1000">

@@ -51,7 +51,7 @@ var SubjectSearchInput = React.createClass({
     render: function render () {
         var value = this.state.subject_store.full_text_search;
         return (
-          <div className="header-search-input">
+          <div className="header-search-input palm-one-whole">
               <div className="relative">
                   <input value={value}
                          size="50"

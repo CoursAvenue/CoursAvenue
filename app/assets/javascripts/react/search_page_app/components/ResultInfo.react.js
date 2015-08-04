@@ -63,7 +63,7 @@ var ResultInfo = React.createClass({
         }
         if (total_results == 0) { result_string = 'Pas de résultats' }
         return (
-          <div className="main-container main-container--1000 soft--ends push-half--ends flexbox palm-block">
+          <div className="main-container main-container--1000 soft--ends push-half--ends palm-flush flexbox palm-block">
               <div className="flexbox__item palm-block v-middle nowrap palm-one-whole palm-text--center">
                   <span className="beta v-middle push--right">{result_string}</span>
               </div>

@@ -1210,8 +1210,8 @@ ActiveRecord::Schema.define(version: 20150727141028) do
   create_table "subjects", force: true do |t|
     t.string   "name"
     t.text     "info"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "slug"
     t.string   "ancestry"
     t.string   "image_file_name"
@@ -1220,15 +1220,15 @@ ActiveRecord::Schema.define(version: 20150727141028) do
     t.datetime "image_updated_at"
     t.string   "short_name"
     t.integer  "position"
-    t.integer  "ancestry_depth",     default: 0
+    t.integer  "ancestry_depth",             default: 0
     t.text     "title"
     t.text     "description"
     t.text     "subtitle"
     t.text     "good_to_know"
     t.text     "needed_meterial"
     t.text     "tips"
-    t.text     "guide_description"
     t.string   "image"
+    t.text     "guide_description"
     t.text     "age_advice_younger_than_5"
     t.text     "age_advice_between_5_and_9"
     t.text     "age_advice_older_than_10"
