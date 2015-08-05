@@ -3,12 +3,6 @@
   = f.hidden_field :course_type, value: 'Course::Lesson'
 
   .grid--full
-    .grid__item.one-third.v-middle>
-    .grid__item.two-thirds.v-middle>
-      %h4
-        %i.fa-info.v-middle
-        %span.v-middle Infos sur le cours
-  .grid--full
     .grid__item.one-third.text--right.v-middle>
       = f.label :course_name, label: 'Nom du cours collectif', class: 'label--large v-middle'
     .grid__item.v-middle.two-thirds>
@@ -69,12 +63,14 @@
       %i.fa-chevron-right.soft--left
   .hidden{ data: { step: 2 } }
     %hr.push--ends
-    .grid
-      .grid__item.one-third.v-middle>
+    .grid.push--bottom
+      .grid__item.one-third.v-middle.text--right.soft-half--right>
+        %i.fa.fa-map-marker.fa-2x
       .grid__item.two-thirds.v-middle>
-        %h4
-          %i.fa-map-marker.v-middle
-          %span.v-middle Infos sur le lieu
+        %h4.flush Où se déroule le cours ?
+        %p.flush
+          %i D'autres lieux pourront être ajoutés plus tard
+
     .grid--full.push-half--bottom
       .grid__item.one-third.text--right.v-middle>
         = f.label :place_name, label: Place.human_attribute_name(:name), class: 'label--large v-middle'
@@ -107,11 +103,14 @@
   .hidden{ data: { step: 3 } }
     %hr.push--ends
     .grid
-      .grid__item.one-third.v-middle>
+    .grid--full.push--bottom
+      .grid__item.one-third.v-middle.text--right.soft-half--right>
+        %i.fa.fa-calendar.fa-2x
       .grid__item.two-thirds.v-middle>
-        %h4
-          %i.fa-calendar.v-middle
-          %span.v-middle Infos sur le planning
+        %h4.flush Quel est le 1<sup>er</sup> créneau horaire ?
+        %p.flush
+          %i Les autres créneaux pourront être ajoutés plus tard
+
     .grid--full.push-half--bottom
       .grid__item.one-third.text--right.v-middle>
         %label.label--large.required.control-label Jour

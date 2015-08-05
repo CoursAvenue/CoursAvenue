@@ -4,12 +4,6 @@
   = f.hidden_field :course_type, value: 'Course::Training'
 
   .grid--full
-    .grid__item.one-third.v-middle>
-    .grid__item.two-thirds.v-middle>
-      %h4
-        %i.fa-info.v-middle
-        %span.v-middle Infos sur le cours
-  .grid--full
     .grid__item.one-third.text--right.v-middle>
       = f.label :course_name, label: 'Nom du stage', class: 'label--large v-middle'
     .grid__item.v-middle.two-thirds>
@@ -62,12 +56,11 @@
       %i.fa-chevron-right.soft--left
   .hidden{ data: { step: 2 } }
     %hr.push--ends
-    .grid
-      .grid__item.one-third.v-middle>
+    .grid--full.push--bottom
+      .grid__item.one-third.v-middle.text--right.soft-half--right>
+        %i.fa.fa-map-marker.fa-2x
       .grid__item.two-thirds.v-middle>
-        %h4
-          %i.fa-map-marker.v-middle
-          %span.v-middle Infos sur le lieu
+        %h4.flush Où se déroule le stage ?
     .grid--full.push-half--bottom
       .grid__item.one-third.text--right.v-middle>
         = f.label :place_name, label: Place.human_attribute_name(:name), class: 'label--large v-middle'
@@ -98,20 +91,21 @@
 
   .hidden{ data: { step: 3 } }
     %hr.push--ends
-    .grid
-      .grid__item.one-third.v-middle>
+    .grid--full.push--bottom
+      .grid__item.one-third.v-middle.text--right.soft-half--right>
+        %i.fa.fa-calendar.fa-2x
       .grid__item.two-thirds.v-middle>
-        %h4
-          %i.fa-calendar.v-middle
-          %span.v-middle Infos sur le planning
+        %h4.flush Quel est le 1<sup>er</sup> créneau horaire ?
+        %p.flush
+          %i Les autres créneaux pourront être ajoutés plus tard
     .grid--full.push-half--bottom
       .grid__item.one-third.text--right.v-middle>
         %label.label--large.required.control-label Dates
       .grid__item.v-middle.two-thirds>
         .input.flush.input-daterange.input-group{ data: { behavior: 'datepicker', start_date: l(Date.today) } }
-          %input.input-sm.input--large#start-date.datepicker-input{ type: 'text', value: (@course_creation_form.planning_start_date.nil? ? '' : l(@course_creation_form.planning_start_date)), placeholder: "02/08/#{Date.today.year}", name: 'structure_course_creation_form[planning_start_date]' }
+          %input.input-sm.input--large#start-date.datepicker-input{ type: 'text', value: (@course_creation_form.planning_start_date.blank? ? '' : l(@course_creation_form.planning_start_date)), placeholder: "02/08/#{Date.today.year}", name: 'structure_course_creation_form[planning_start_date]' }
           %label.label--large -
-          %input.input-sm.input--large#end-date.datepicker-input{ type: 'text', value: (@course_creation_form.planning_end_date.nil? || @course_creation_form.planning_start_date == @course_creation_form.planning_end_date ? '' : l(@course_creation_form.planning_end_date)), placeholder: "04/08/#{Date.today.year}", name: 'structure_course_creation_form[planning_end_date]', title: 'Laisser vide si le stage se déroule sur 1 seul jour' }
+          %input.input-sm.input--large#end-date.datepicker-input{ type: 'text', value: (@course_creation_form.planning_end_date.blank? || @course_creation_form.planning_start_date == @course_creation_form.planning_end_date ? '' : l(@course_creation_form.planning_end_date)), placeholder: "04/08/#{Date.today.year}", name: 'structure_course_creation_form[planning_end_date]', title: 'Laisser vide si le stage se déroule sur 1 seul jour' }
 
     .grid--full.push-half--bottom
       .grid__item.one-third.text--right.v-middle>
