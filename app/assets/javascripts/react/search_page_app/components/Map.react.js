@@ -35,7 +35,7 @@ var MapComponent = React.createClass({
         this.visible_marker_layer = new L.featureGroup();
         // this.metro_layer          = new L.featureGroup();
         this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets', { scrollWheelZoom: false })
-                          .setView(this.props.center, 12)
+                          .setView(this.props.center, (this.state.location_store.getCitySlug() == 'paris' ? 12 : 13))
                           .addLayer(this.small_marker_layer)
                           .addLayer(this.visible_marker_layer)
                           // .addLayer(this.metro_layer);
