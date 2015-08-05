@@ -1,5 +1,7 @@
 # encoding: utf-8
 class Place < ActiveRecord::Base
+  METRO_STOP_MAX_DISTANCE = 0.5 # kms.
+
   acts_as_paranoid
 
   include ActsAsGeolocalizable
@@ -14,6 +16,7 @@ class Place < ActiveRecord::Base
 
   has_many :contacts, as: :contactable, dependent: :destroy
   has_many :plannings, dependent: :destroy
+  has_many :indexable_cards, dependent: :destroy
   has_and_belongs_to_many :subjects
 
   ######################################################################
@@ -80,11 +83,36 @@ class Place < ActiveRecord::Base
   end
   handle_asynchronously :affect_subjects
 
+  # The Metro stops around self.
+  #
+  # @return an Array of Ratp::Stop.
+  def nearby_metro_stops
+    return [] if !latitude.present? or !longitude.present?
+
+    Rails.cache.fetch ['Place#nearby_metro_stops', self] do
+      Ratp::Stop.near([latitude, longitude], METRO_STOP_MAX_DISTANCE, units: :km)
+    end
+  end
+
+  def dominant_root_subject
+    subjects.at_depth(2).group_by(&:root).values.max_by(&:size).try(:first).try(:root)
+  end
+
+  def to_react_json
+    {
+        latitude:     latitude,
+        longitude:    longitude,
+        subject_slug: dominant_root_subject.try(:slug),
+        radius:       radius
+    }
+  end
+
   private
 
   # Only geocode if :
   #     - lat and lng are nil
   #     - lat and lng didn't change but address changed
+  #     - last geocode was more than 10 minutes ago
   def geocode_if_needs_to
     # Prevents from infinite loop
     return nil if self.last_geocode_try and (Time.now - self.last_geocode_try) < 10.minutes
@@ -107,6 +135,7 @@ class Place < ActiveRecord::Base
   def touch_relations
     self.structure.update_place_meta_datas
     self.plannings.map(&:touch)
+    self.indexable_cards.map(&:touch)
   end
   handle_asynchronously :touch_relations
 

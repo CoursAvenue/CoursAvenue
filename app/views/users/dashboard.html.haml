@@ -18,9 +18,9 @@
       .push-half--ends
         = link_to "Modifier mon profil", edit_user_path(@user)
       %div
-        = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=https://www.coursavenue.com", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
+        = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=https://www.coursavenue.com", class: 'btn btn--full btn--small btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
 
-    = link_to new_user_invited_user_path(@user), class: 'btn btn--full push--bottom', onclick: "ga('send', 'event', 'Share with friends', 'click')" do
+    = link_to new_user_invited_user_path(@user), class: 'btn btn--full btn--white push--bottom', onclick: "ga('send', 'event', 'Share with friends', 'click')" do
       Inviter mes amis
     .bg-cover{ style: "background-image: url(#{asset_path('users/passions_bg--small.jpg')}); height: 300px;" }
       .relative.one-whole.height-whole
@@ -39,55 +39,42 @@
       .panel__body.soft--ends
         .soft--sides
           %h3 Tableau de bord
-          .grid
-            .grid__item.one-half.bordered--right.soft-half--right>
-              .islet
-                %h4.push-half--bottom
-                  Votre profil est complété à #{@profile_completion}%
-                .text--center.progress.push-half--bottom{style: "width: 280px;"}
-                  - if @profile_completion == 0
-                    #{@profile_completion}%
-                  - else
-                    #profile-progress-bar.bar.bar-success{style: "width: 0%;"}
-                      #{@profile_completion}%
-                %ul.no-bullet-list
-                  %li
-                    %i.fa-check-square-o
-                    %span.line-through--gray Créer mon profil
-                  %li
-                    - if @user.has_avatar? and @user.city
-                      %i.fa-check-square-o
-                      %span.line-through--gray Compléter mes informations générales
-                    - else
-                      = link_to edit_user_path(@user), class: 'profile-task-uncomplete' do
-                        %i.fa.fa-square-o
-                        Compléter mes informations générales
-                  %li
-                    - if @user.subjects.any?
-                      %i.fa-check-square-o
-                      %span.line-through--gray Mettre à jour mes passions
-                    - else
-                      = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do
-                        %i.fa.fa-square-o
-                        Mettre à jour mes passions
-                  %li
-                    - if @user.followings.any?
-                      %i.fa-check-square-o
-                      %span.line-through--gray Ajouter mes favoris
-                    - else
-                      = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do
-                        %i.fa.fa-square-o
-                        Ajouter mes favoris
-            .grid__item.one-half>
-              %h4.push-half--bottom.soft-half--left.soft-half--top
-                Tous les cours autour de chez vous
-              #map.google-map.google-map--small.push-half--ends
-              - if @user.city
-                .text--center.push-half--bottom
-                  = link_to 'Voir les cours autour de chez moi', @user.around_courses_url, class: 'btn btn--blue btn--small', target: :_blank
+          %h4.push-half--bottom
+            Votre profil est complété à #{@profile_completion}%
+          .text--center.progress.push-half--bottom{style: "width: 280px;"}
+            - if @profile_completion == 0
+              #{@profile_completion}%
+            - else
+              #profile-progress-bar.bar.bar-success{style: "width: 0%;"}
+                #{@profile_completion}%
+          %ul.no-bullet-list
+            %li
+              %i.fa.fa-check-square-o
+              %span.line-through--gray Créer mon profil
+            %li
+              - if @user.has_avatar? and @user.city
+                %i.fa.fa-check-square-o
+                %span.line-through--gray Compléter mes informations générales
               - else
-                .text--center.push-half--bottom
-                  = link_to 'Renseignez ma ville', edit_user_path(@user), class: 'btn btn--blue btn--small'
+                = link_to edit_user_path(@user), class: 'profile-task-uncomplete' do
+                  %i.fa.fa-square-o
+                  Compléter mes informations générales
+            %li
+              - if @user.subjects.any?
+                %i.fa.fa-check-square-o
+                %span.line-through--gray Mettre à jour mes passions
+              - else
+                = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do
+                  %i.fa.fa-square-o
+                  Mettre à jour mes passions
+            %li
+              - if @user.followings.any?
+                %i.fa.fa-check-square-o
+                %span.line-through--gray Ajouter mes favoris
+              - else
+                = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do
+                  %i.fa.fa-square-o
+                  Ajouter mes favoris
 
         %hr.push--ends
         .soft--sides
@@ -141,16 +128,5 @@
         $('#profile-progress-bar').animate({
             width: '#{@profile_completion}%'
         }, 800)
-    });
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        google_map_handler = Gmaps.build('Google');
-        google_map_handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-            markers = google_map_handler.addMarkers(#{@structure_locations.to_json});
-            google_map_handler.bounds.extendWith(markers);
-            google_map_handler.fitMapToBounds();
-        });
     });
 

@@ -4,7 +4,7 @@
 
 %div{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.premium_infos') } }
   .grid.push--bottom
-    .grid__item.one-third.text--center.v-middle>
+    .grid__item.one-third.text--center.v-middle.hard>
       .inline-block.cursor-pointer{ data: { behavior: 'toggle-premium-serie' } }
         .v-middle.lbl.lbl--red.v-middle.lbl--chip
         .v-middle.inline-block.text--left
@@ -13,7 +13,7 @@
             = @website_planning_views_count
           %div.f-weight-500
             %i Sur votre site Internet
-    .grid__item.one-third.text--center.v-middle>
+    .grid__item.one-third.text--center.v-middle.hard>
       .inline-block.cursor-pointer.nowrap{ data: { behavior: 'toggle-premium-serie' } }
         .v-middle.lbl.lbl--blue.v-middle.lbl--chip
         .v-middle.inline-block.text--left
@@ -22,12 +22,12 @@
             = @views_total_count
           %div.f-weight-500
             %i Sur le moteur de recherche CoursAvenue
-    .grid__item.one-third.text--center.v-middle>
+    .grid__item.one-third.text--center.v-middle.hard>
       .inline-block.cursor-pointer{ data: { behavior: 'toggle-premium-serie' } }
         .v-middle.lbl.lbl--green.v-middle.lbl--chip
         .v-middle.inline-block.text--left
           %h5.flush.v-middle.inline-block
-            Demandes d'inscriptions
+            Demandes d'inscriptions :
             = @actions_total_count
           %div.f-weight-500
             %i Via votre site Internet et CoursAvenue

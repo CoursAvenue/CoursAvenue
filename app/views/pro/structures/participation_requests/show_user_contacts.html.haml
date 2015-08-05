@@ -1,0 +1,12 @@
+.panel
+  .panel__header.soft-half--ends.soft--sides
+    %h4.flush Coordonnées de #{@user.name}
+  .panel__body.soft
+    - if @user.phone_number.present?
+      %div.line-height-1-7.delta
+        %i.fa.fa-phone.soft-half--right
+        = @user_decorator.phone_number
+    %div.line-height-1-7.delta
+      %i.fa.fa-envelope.soft-half--right
+      = link_to @user_decorator.email, "mailto:#{@user_decorator.email}"
+

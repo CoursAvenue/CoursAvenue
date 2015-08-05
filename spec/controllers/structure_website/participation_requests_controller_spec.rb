@@ -113,7 +113,7 @@ describe StructureWebsite::Structures::ParticipationRequestsController, type: :c
 
     it 'redirects because only ID was given' do
       get :show, id: participation_request.id, structure_id: participation_request.structure.id
-      expect(response.status).to eq 302
+      expect(response.status).to redirect_to(structure_path(participation_request.structure))
     end
   end
 

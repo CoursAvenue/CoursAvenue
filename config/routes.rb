@@ -97,6 +97,7 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
+      resources :sms_loggers, only: [:index]
       resources :comments, only: [:edit, :update, :index] do
         member do
           patch :recover
@@ -195,7 +196,6 @@ CoursAvenue::Application.routes.draw do
           get   :ask_for_deletion
           get   :confirm_deletion
           get   :crop_logo
-          get   :dashboard, path: 'tableau-de-bord'
           get   :edit_contact, path: 'informations-contact'
           get   :logo
           get   :payment_confirmation, path: 'confirmation-paiement'
@@ -218,6 +218,7 @@ CoursAvenue::Application.routes.draw do
           get   :premium # redirect to subscriptions
           get   :enabling_confirmation
           patch :enable
+          get   :cards
         end
         resources :website_parameters, except: [:destroy], path: 'site-internet', controller: 'structures/website_parameters'
         resources :website_pages, path: 'pages-personnalisees', controller: 'structures/website_pages' do
@@ -410,14 +411,16 @@ CoursAvenue::Application.routes.draw do
         end
         resources :participation_requests, only: [:edit, :index, :show], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
           member do
-            get   :report_form
             get   :cancel_form
             get   :accept_form
             patch :accept
             patch :discuss
             patch :modify_date
             patch :cancel
-            patch :report
+            get   :show_user_contacts
+            get   :rebook_form
+            patch :rebook
+            patch :signal_user_absence
           end
           collection do
             get :paid_requests, path: 'transactions-cb'
@@ -439,6 +442,17 @@ CoursAvenue::Application.routes.draw do
       get '/auth/facebook/callback', to: 'admins#facebook_auth_callback'
       get '/auth/failure',           to: 'admins#facebook_auth_failure'
 
+      resource :onboarding, controller: 'admins/onboarding', only: [:update] do
+        collection do
+          get :step_zero
+          get :step_one
+          get :step_two
+          get :step_three
+          get :step_four
+          get :step_five
+        end
+      end
+
       resources :admins do
         collection do
           get :waiting_for_activation, path: 'activez-votre-compte'
@@ -451,6 +465,13 @@ CoursAvenue::Application.routes.draw do
 
       get "/contacts/:importer/callback", to: "contacts#callback"
       get "/contacts/failure",            to: "contacts#failure"
+
+      resources :guides do
+        member do
+          get :edit_subjects
+          patch :update_subjects
+        end
+      end
 
     end
   end
@@ -541,21 +562,20 @@ CoursAvenue::Application.routes.draw do
       end
       resources :participation_requests, only: [:create, :edit]                             , controller: 'structures/participation_requests' do
         member do
-          get   :report_form
           get   :cancel_form
           get   :accept_form
           patch :accept
           patch :discuss
           patch :modify_date
           patch :cancel
-          patch :report
         end
       end
       resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'
       resources :messages              , only: [:create]                                    , controller: 'structures/messages'
       resources :places                , only: [:index]                                     , controller: 'structures/places'
-      resources :courses               , only: [:show, :index]                              , controller: 'structures/courses'    , path: 'cours'
-      resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'   , path: 'avis' do
+      resources :courses               , only: [:index]                                     , controller: 'structures/courses'        , path: 'cours'
+      resources :indexable_cards       , only: [:show]                                      , controller: 'structures/indexable_cards', path: 'cours'
+      resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'       , path: 'avis' do
         collection do
           get :create_from_email
         end
@@ -619,6 +639,7 @@ CoursAvenue::Application.routes.draw do
 
     resources :reservation_loggers, only: [:create]
     resources :click_logs, only: [:create]
+    resources :guides, only: [:show]
 
     # ------------------------------------------------------
     # ----------------------------------------- Static pages
@@ -664,6 +685,9 @@ CoursAvenue::Application.routes.draw do
 
     post 'contact/' => 'pages#send_message'
 
+    # Fixes / Hacks
+    get 'browserconfig' => 'home#browserconfig'
+
     post '/mandrill-webhook' => 'mandrill_webhook#create'
     get  '/mandrill-webhook' => 'mandrill_webhook#index'
     post '/stripe_webhook', to: 'stripe_webhook#create'
@@ -675,9 +699,9 @@ CoursAvenue::Application.routes.draw do
     get ':root_subject_id/:subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
     get ':root_subject_id--:city_id--:old_city_slug'            , to: 'redirect#structures_index'
     # end-redirect
-    get ':root_subject_id/:subject_id--:city_id'                , to: 'structures#index', as: :search_page
-    get ':root_subject_id--:city_id'                            , to: 'structures#index', as: :root_search_page
-    get ':city_id'                                              , to: 'structures#index', as: :root_search_page_without_subject
+    get ':root_subject_id/:subject_id--:city_id'                , to: 'courses#index', as: :search_page
+    get ':root_subject_id--:city_id'                            , to: 'courses#index', as: :root_search_page
+    get ':city_id'                                              , to: 'courses#index', as: :root_search_page_without_subject
     ########### Search pages ###########
 
     # Needed to catch 404 requests in ApplicationController
@@ -710,8 +734,6 @@ CoursAvenue::Application.routes.draw do
       get '/'       , to: 'structures#show'
       get 'planning' => redirect('/')
       get 'reviews' , to: 'structures#reviews' , as: :reviews, path: 'livre-d-or'
-      # get 'medias'  , to: 'structures#medias'  , as: :medias
-      # get 'contact' , to: 'structures#contact' , as: :contact
       resources :website_pages, only: [:show], path: 'pages'
     end
   end

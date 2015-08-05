@@ -1,7 +1,7 @@
 # encoding: utf-8
 class HomeController < ApplicationController
 
-  layout :get_layout
+  layout 'pages'
 
   def resolutions
   end
@@ -30,23 +30,18 @@ class HomeController < ApplicationController
     }
   end
 
-  private
-
-  def get_layout
-    if action_name == 'pass_decouverte' or
-       action_name == 'resolutions' or
-       action_name == 'resolutions_results'
-      'empty'
-    elsif action_name == 'index'
-      'home'
-    else
-      'pages'
+  # Because fuck you Microsoft.
+  def browserconfig
+    respond_to do |format|
+      format.xml { render xml: {} }
+      format.html { redirect_to root_path }
     end
   end
 
+  private
+
   def layout_locals
     locals = { }
-    locals[:hide_top_menu_search] = true if action_name == 'index'
     locals[:hide_header] = true if action_name == 'resolutions' or action_name == 'resolutions_results'
     locals
   end

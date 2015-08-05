@@ -1,7 +1,5 @@
 //= require ./places_collection
 //= require ./teachers_collection
-//= require ./comments_collection
-//= require_tree ./comments/
 //= require ./trainings_collection
 //= require ./lessons_collection
 //= require ./privates_collection

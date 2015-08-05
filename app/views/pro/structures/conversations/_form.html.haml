@@ -26,8 +26,3 @@
               %li.nowrap
                 = link_to 'Autres', flag_pro_structure_conversation_path(@structure, conversation, flag: 'Autres'), method: :patch
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#conversation_message').preventFromContact();
-    });

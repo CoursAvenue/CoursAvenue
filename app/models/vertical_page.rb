@@ -10,7 +10,7 @@ class VerticalPage < ActiveRecord::Base
   belongs_to :subject, touch: true
   has_many :medias, as: :mediable
 
-  attr_accessible :subject_name, :caption, :title, :content, :keywords, :subject_id, :image,
+  attr_accessible :subject_name, :caption, :title, :content, :keywords, :subject_id,
                   :medias_attributes, :sidebar_title, :show_trainings_in_title,
                   :image, :remote_image_url, :page_title, :page_description,
                   :checked, :comments, # For internal use

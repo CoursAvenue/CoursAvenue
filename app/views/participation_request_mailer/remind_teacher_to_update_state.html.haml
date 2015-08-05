@@ -1,0 +1,14 @@
+- content_for :email_title do
+  Avez-vous convenu d'une date avec #{ @user.name }?
+
+.p
+  Bonjour #{ @structure.name },
+
+.p
+  Vous avez récemment pris contact avec #{ @user.name } qui souhaitait assister à la séance "#{ @course.name }".
+
+.p
+  Avez-vous finalement convenu d'une date ? Dès que vous vous êtes mis d'accord, indiquez-nous la date retenue, nous pourrons alors lui envoyer un SMS de rappel 1 jour avant la séance et une demande de recommandation par e-mail le lendemain du cours. Cela vous permettra d'éviter toute absence et d'augmenter votre nombre d'inscriptions ce au bouche-à-oreille.
+
+.p.action
+  = link_to 'Indiquer la date retenue', pro_structure_participation_request_url(@structure, @participation_request, subdomain: 'pro'), class: 'btn btn--green'

@@ -1,7 +1,9 @@
+//= require dot-env
 //= require libs/underscore
 //= require underscore_extend
 //= require global
 //= require helpers
+//= require I18n
 
 // ---------------------------------- Core include
 //= require libs/jquery
@@ -27,6 +29,7 @@
 //= require libs/jquery.placeholder
 //= require libs/imagesloaded.pkgd
 //= require libs/jquery.payment
+//= require libs/dotdotdot
 
 //= require libs/jquery.magnific-popup
 //= require libs/jquery.lazyload
@@ -53,6 +56,7 @@
 //= require libs/bootstrap/bootstrap.scrollspy
 //= require libs/bootstrap/datepicker-locales/bootstrap.datepicker.fr
 //= require libs/moment
+//= require libs/momentjs_locales/fr
 //= require libs/retina
 //= require libs/masonry.pkgd
 
@@ -63,23 +67,22 @@
 // - https://github.com/jquery-boilerplate/jquery-boilerplate
 //= require_tree ./plugins/
 
-//= require libs/markerclusterer.js
-//= require libs/richmarker.js
-//= require libs/infobox.js
-//= require gmaps/google
-//= require libs/gmaps_overrides
 //= require ./plugins_initalization
 
 // ---------------------------------- Backbone
 //= require libs/backbone
 //= require libs/backbone.marionette
 //= require libs/backbone-validation
-//= require libs/backbone.googlemaps
 //= require libs/backbone.paginator.js
 //= require libs/backbone.poller.js
 //= require libs/Backbone.ModelBinder.js
 //= require libs/Backbone.CollectionBinder.js
 //= require backbone/cours_avenue
+
+// ---------------------------------- React
+//= require react
+//= require react/components
+//= require react_ujs
 
 // Default magnificpopup style
 // http://codepen.io/dimsemenov/pen/GAIkt

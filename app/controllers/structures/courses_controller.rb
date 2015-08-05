@@ -27,11 +27,4 @@ class Structures::CoursesController < ApplicationController
       format.html { redirect_to structure_path(@structure)}
     end
   end
-
-  def show
-    @structure = Structure.friendly.find params[:structure_id]
-    respond_to do |format|
-      format.html { redirect_to structure_path(@structure), status: 301 }
-    end
-  end
 end

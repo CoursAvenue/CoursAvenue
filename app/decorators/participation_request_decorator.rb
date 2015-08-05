@@ -14,7 +14,12 @@ class ParticipationRequestDecorator < Draper::Decorator
 
   # Accepté|En attente|Annulé
   def long_status_name(resource_name="Structure")
-    I18n.t("participation_request.state.to_#{resource_name.downcase}.last_modified_by_#{participation_request.last_modified_by.downcase}.long_description.#{participation_request.state}")
+    status = I18n.t("participation_request.state.to_#{resource_name.downcase}.long_description.#{participation_request.state}")
+    if participation_request.treated?
+      status += participation_request.treat_method == 'message' ?  ' (un message vous a été envoyé)' : ' (vos coordonnées de contact ont été visualisées)'
+    end
+
+    status
   end
 
   # <strong class="red">Annulé</strong>
@@ -61,54 +66,26 @@ class ParticipationRequestDecorator < Draper::Decorator
   end
 
   def action_button_name_for(resource='Structure')
-    if object.past?
-      I18n.t('participation_request.pro.action_button_text.report')
-    elsif object.pending? and object.last_modified_by != resource
+    if object.pending? and object.last_modified_by != resource
       I18n.t('participation_request.pro.action_button_text.answer_now')
-    elsif object.canceled?
-      I18n.t('participation_request.pro.action_button_text.view')
     else
-      I18n.t('participation_request.pro.action_button_text.modify_cancel')
+      I18n.t('participation_request.pro.action_button_text.view')
     end
   end
 
   def action_button_class_for(resource='Structure')
     if object.pending? and object.last_modified_by != resource
       'btn--green'
-    end
-  end
-
-  def teacher_action_link
-    if object.past?
-      h.link_to action_button_name_for('Structure'),
-                h.report_form_pro_structure_participation_request_path(object.structure, object),
-                class: 'btn btn--small red fancybox.ajax soft--sides',
-                data: { behavior: 'modal', width: 500, padding: 0 }
     else
-      h.link_to action_button_name_for('Structure'),
-                h.pro_structure_participation_request_path(object.structure, object),
-                class: "#{action_button_class_for('Structure')} btn btn--small"
-    end
-  end
-
-  def user_action_link
-    if object.past?
-      h.link_to action_button_name_for('User'),
-                h.report_form_structure_participation_request_path(object.structure, object),
-                class: 'btn btn--small red nowrap fancybox.ajax soft--sides',
-                data: { behavior: 'modal', width: 500, padding: 0 }
-    else
-      h.link_to action_button_name_for('User'),
-                h.user_participation_request_path(object.user, object),
-                class: "btn btn--small #{action_button_class_for('User')} nowrap"
+      'btn--white'
     end
   end
 
   # 28 janvier de 11h00 à 12h30
   # OR
   # 28 janvier à 11h00 if it does not have planning (on appointment)
-  def day_and_hour
-    if object.course.is_private? and object.course.on_appointment?
+  def day_and_hour(with_end_time=true)
+    if (object.course.is_private? and object.course.on_appointment?) or !with_end_time
       "#{I18n.l(object.date, format: :semi_long)} à #{I18n.l(object.start_time, format: :short).gsub('00', '')}"
     else
       "#{I18n.l(object.date, format: :semi_long)} de #{I18n.l(object.start_time, format: :short).gsub('00', '')} à #{I18n.l(object.end_time, format: :short).gsub('00', '')}"
@@ -116,7 +93,11 @@ class ParticipationRequestDecorator < Draper::Decorator
   end
 
   def student_home_address
-    "#{object.street}, #{object.zip_code} #{object.city.name}"
+    if object.street and object.zip_code and object.city
+      "#{object.street}, #{object.zip_code} #{object.city.name}"
+    else
+      ''
+    end
   end
 
   def details
@@ -124,10 +105,13 @@ class ParticipationRequestDecorator < Draper::Decorator
     if object.participants.any?
       _details = h.pluralize(object.participants.map(&:number).reduce(&:+), 'participant') + ', '
       _details << "#{readable_amount object.participants.map(&:total_price).reduce(&:+)}"
-      price_details = object.participants.map.each_with_index do |participant, index|
-        "#{participant.number} x #{participant.price.decorate.details.downcase}" if participant.price
-      end.join(', ')
-      _details << " (#{price_details})"
+      # Only show price details if there is more than one participant
+      if object.participants.map(&:number).reduce(&:+) > 1
+        price_details = object.participants.map.each_with_index do |participant, index|
+          "#{participant.number} x #{participant.price.decorate.details.downcase}" if participant.price
+        end.join(', ')
+        _details << " (#{price_details})"
+      end
     else
       _details = object.course.decorate.first_session_detail
     end
@@ -154,32 +138,17 @@ class ParticipationRequestDecorator < Draper::Decorator
                            structure_name: object.structure.name,
                            url:            bitly.short_url }
 
-    if object.course_address and object.structure.phone_numbers.any?
-      message = I18n.t('sms.users.new_participation_request.with_address_and_phone',
-                       default_attributes.merge({ address: object.course_address,
-                        phone_number: object.structure.phone_numbers.first.number }))
-    elsif object.course_address
+    if object.course_address
       message = I18n.t('sms.users.new_participation_request.with_address',
                        default_attributes.merge({ address: object.course_address }))
-    elsif object.structure.phone_numbers.any?
-      message = I18n.t('sms.users.new_participation_request.with_phone',
-                       default_attributes.merge({ phone_number: object.structure.phone_numbers.first.number }))
     else
-      message = I18n.t('sms.users.new_participation_request.without_phone_and_address',
+      message = I18n.t('sms.users.new_participation_request.without_address',
                        default_attributes)
 
     end
   end
 
   def sms_reminder_message
-    if object.from_personal_website
-      sms_reminder_message_for_pr_from_personal_websites
-    else
-      sms_reminder_message_for_coursavenue_users
-    end
-  end
-
-  def sms_reminder_message_for_pr_from_personal_websites
     pr_url = h.structure_website_structure_participation_request_url(object.structure, object, subdomain: 'www')
     bitly  = Bitly.client.shorten(pr_url)
     course = object.course
@@ -188,43 +157,14 @@ class ParticipationRequestDecorator < Draper::Decorator
                            structure_name: object.structure.name,
                            url: bitly.short_url }
 
-    if object.course_address and object.structure.phone_numbers.any?
-      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.with_address_and_phone',
-                       default_attributes.merge({ address: object.course_address,
-                        phone_number: object.structure.phone_numbers.first.number }))
-    elsif object.course_address
-      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.with_address',
+    if object.course_address
+      message = I18n.t('sms.users.day_before_reminder.one_course.with_address',
                        default_attributes.merge({ address: object.course_address }))
-    elsif object.structure.phone_numbers.any?
-      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.with_phone',
-                       default_attributes.merge({ phone_number: object.structure.phone_numbers.first.number }))
     else
-      message = I18n.t('sms.users.day_before_reminder.one_course.from_personal_website.without_phone_and_address',
+      message = I18n.t('sms.users.day_before_reminder.one_course.without_address',
                        default_attributes)
 
     end
-  end
-
-  def sms_reminder_message_for_coursavenue_users
-    course = object.course
-    default_attributes = { start_time: I18n.l(object.start_time, format: :short),
-                           course_name: course.name,
-                           structure_name: object.structure.name }
-    if object.course_address and object.structure.phone_numbers.any?
-      message = I18n.t('sms.users.day_before_reminder.one_course.general.with_address_and_phone',
-                       default_attributes.merge({ address: object.course_address,
-                        phone_number: object.structure.phone_numbers.first.number }))
-    elsif object.course_address
-      message = I18n.t('sms.users.day_before_reminder.one_course.general.with_address',
-                       default_attributes.merge({ address: object.course_address }))
-    elsif object.structure.phone_numbers.any?
-      message = I18n.t('sms.users.day_before_reminder.one_course.general.with_phone',
-                       default_attributes.merge({ phone_number: object.structure.phone_numbers.first.number }))
-    else
-      message = I18n.t('sms.users.day_before_reminder.one_course.general.without_phone_and_address',
-                       default_attributes)
-
-    end
-
+    message
   end
 end

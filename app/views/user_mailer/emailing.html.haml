@@ -25,11 +25,13 @@
           %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
             %tr{ valign: 'top' }
               - section_group.each do |section|
-                - structure = section.structures.first
+                - card = section.indexable_cards.first
+                - structure = section.structures.first || card.structure
+                - url = card.present? ? structure_indexable_card_url(structure, card, subdomain: 'www') : structure_url(structure, subdomain: 'www')
                 %td.content-block{ width: '50%', style: 'padding-bottom: 0;' }
-                  = link_to structure_url(structure, subdomain: 'www'), target: :_blank, class: 'block' do
+                  = link_to url, target: :_blank, class: 'block' do
                     .text--center
-                      - bridge = section.bridge_with_structure(structure)
+                      - bridge = section.bridge_with_structure(structure) || section.bridge_with_card(card)
                       - media_url = bridge.media_url
                       - if media_url.blank?
                         = image_tag structure.logo.url(:thumb), width: 280, height: 210, alt: "Cours de #{bridge.subject_name}"

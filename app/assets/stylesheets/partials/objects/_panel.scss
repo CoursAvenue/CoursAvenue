@@ -13,17 +13,7 @@
     .panel__header.tabs--blue + .panel__body {
         border-top-color: $blue;
     }
-.panel--blue {
-    border: none;
-    .panel__header {
-        background-color: $blue;
-        color           : white;
-    }
-    .panel__body {
-        border    : 2px solid $blue;
-        border-top: none;
-    }
-}
+
 .panel--red {
     border: none;
     .panel__header {
@@ -32,16 +22,6 @@
     }
     .panel__body {
         border    : 2px solid $red;
-        border-top: none;
-    }
-}
-.panel--yellow {
-    border: none;
-    .panel__header {
-        background-color: $yellow_premium;
-    }
-    .panel__body {
-        border    : 2px solid $yellow_premium;
         border-top: none;
     }
 }

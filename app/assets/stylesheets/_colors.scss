@@ -7,7 +7,7 @@ $gray-darker:                    #222222 !default;
 $gray-dark:                      #333333 !default;
 $gray:                           #555555 !default;
 $gray-muted:                     #959595!default;
-$gray-light:                     #999999 !default;
+$gray-light:                     #AAAAAA !default;
 $gray-smooth:                    #DBDBDB !default;
 $gray-lighter:                   #eeeeee !default;
 $white:                          #ffffff !default;
@@ -21,32 +21,44 @@ $dark-white:                     #FBFBFB !default;
 // $blue:                           #049cdb !default;
 $facebook-blue:                  #4c66a4 !default;
 $twitter-blue:                   #4099FF !default;
-$dark_blue:                      #515e78 !default;
+$dark_blue:                      #375b76 !default;
 $green-success:                  #47b442 !default;
 $green:                          #27ae60 !default;
-// $blue:                           #00B0FF !default;
-$blue:                           #3AB8AE !default;
-$blue-green:                     #3AB8AE !default;
+$old_blue:                       #00B0FF !default;
+$blue:                           #5698C8 !default;
+$dark-blue:                      darken($blue, 0.1) !default;
+$blue-green:                     #11CAAF !default;
+$dark-blue-green:                #22B69E !default;
 $light-blue:                     #6bbeb4 !default;
 $green-light:                    #62BC62 !default;
-$red:                            #e2493c !default;
+$red:                            #F46D5A !default;
 $red-light:                      #ff493a !default;
-$yellow:                         #f3b700 !default;
+$yellow:                         #f3b62d !default;
+$dark-yellow:                    #EAA01F !default;
 $yellow_bg:                      #ffc30d !default;
 $yellow_premium:                 #fee185 !default;
 $orange:                         #e9683d !default;
-$orange_pale:                    #ea724b !default;
 $dark_orange:                    #9e5841 !default;
 $pink:                           #c3325f !default;
 $purple:                         #843d60 !default;
-// $purple:                         #7a43b6 !default;
-// $beige-darker:                   #e3dcd4 !default;
 $beige-darker:                   #E3E3E3 !default;
-// $beige-dark:                     #f7f5f3 !default;
 $beige-dark:                     #F7F7F7 !default;
-// $beige:                          #f1eeec !default;
 $beige:                          #F1F1F1 !default;
 
+// Subjects
+// -------------------------
+$color-arts   : #f0c15c !default;
+$color-deco   : #ec9f53 !default;
+$color-dance  : #f6705f !default;
+$color-theatre: #d85f79 !default;
+$color-music  : #c66fa2 !default;
+$color-yoga   : #4f99d0 !default;
+$color-sports : #3ec5dd !default;
+$color-cooking: #375b76 !default;
+$color-photo  : #d5905c !default;
+
+// Alerts
+// -------------------------
 $alert-info-background-color:    #7CD1EF !default;
 $alert-info-text-color:          #105166 !default;
 $alert-info-border-color:        #4FC1E9 !default;
@@ -67,13 +79,13 @@ $brand-color:                    $orange !default;
 //$alternative-background: lighten($brand-color, 35%) !default;
 $alternative-background: #F5F5F5;
 $homescreen-background:  $beige !default;
-$site-background-color:  $beige-dark;
+$site-background-color:  #F4F4F4;
 
 // Links
 // -------------------------
 $link-color:             #0088cc !default;
 $link-colorHover:        darken($link-color, 15%) !default;
-$hover-list-element:     lighten($brand-color, 30%);
+$hover-list-element:     transparentize($blue-green, 0.8);
 
 // Buttons
 // -------------------------

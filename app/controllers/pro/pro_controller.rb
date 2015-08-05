@@ -1,5 +1,6 @@
 class Pro::ProController < ApplicationController
   layout 'admin'
+  helper OnboardingHelper
 
   before_action :set_sponsorship_token
 

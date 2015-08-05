@@ -1,14 +1,14 @@
 .text--center
-  .bordered--bottom.bordered--larger.bordered--gray.soft-half--bottom.push--bottom.gamma.ff-droid.f-style-italic.f-weight-bold Top articles
+  .bordered--bottom.bordered--larger.bordered--gray.soft-half--bottom.push--bottom.gamma.tk-lexia.f-weight-bold Top articles
   - Blog::Article::UserArticle.ordered_by_views.limit(5).each_with_index do |article, index|
     - if index > 0
       %hr.push-half--ends
-    = link_to blog_article_path(article), class: 'ff-droid f-style-italic delta block link-colored-on-hover line-height-1-7 push-half--ends soft-half--bottom' do
+    = link_to blog_article_path(article), class: 'ff-droid delta block link-colored-on-hover line-height-1-7 push-half--ends soft-half--bottom' do
       %span.orange= index + 1
       = article.title
 
   = simple_form_for Blog::Subscriber::UserSubscriber.new, as: :blog_subscriber, url: blog_subscribers_path, html: { class: 'push--bottom' } do |f|
-    .bordered--bottom.bordered--larger.bordered--gray.soft-half--bottom.push--top.push--bottom.gamma.ff-droid.f-style-italic.f-weight-bold Suivez-nous
+    .bordered--bottom.bordered--larger.bordered--gray.soft-half--bottom.push--top.push--bottom.gamma.tk-lexia.f-weight-bold Suivez-nous
     %p.epsilon.line-height-1-7.push-half--bottom Recevez tous les articles concernant vos disciplines favorites et les loisirs à la mode en vous inscrivant à notre newsletter bimensuelle
     = f.input :type, as: :hidden
     = f.input :email, label: false, placeholder: 'E-mail', input_html: { class: 'one-whole' }

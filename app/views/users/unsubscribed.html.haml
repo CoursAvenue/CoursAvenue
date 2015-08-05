@@ -3,7 +3,7 @@
 
 = content_for :above_container do
 
-  .beta.push.f-weight-300.text--center.soft
+  .beta.soft.f-weight-300.text--center.soft.bg-blue-green.white
     Vous avez bien été désinscrit de CoursAvenue.com
 
   .home-screen-promotion-wrapper
@@ -11,8 +11,6 @@
       .soft.push
         %h2.text--center.soft--bottom.f-weight-300 Mais CoursAvenue c'est quoi ?
         = render 'home/how_it_works'
-        .text--center
-          = render partial: 'shared/home_page_search_form', locals: { form_class: 'inline-block', wrapper_class: '' }
 
   .bg-fixed.bg-cover{ style: "background-image: url(#{asset_path('dessin-peinture-arts-plastiques.jpg')}); min-height: 430px;" }
     .main-container.main-container--medium.soft--ends

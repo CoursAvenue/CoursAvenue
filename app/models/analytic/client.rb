@@ -86,22 +86,9 @@ class Analytic::Client
   # @param end_date     The end date, by defautl yesterday.
   #
   # @return The view count.
-  def view_count(structure_id, start_date = 15.days.ago, end_date = 1.day.ago)
+  def action_count(structure_id, action_name="impression", start_date = 15.days.ago, end_date = 1.day.ago)
     hits(structure_id, start_date, end_date).inject(0) do |sum, date|
-      sum + date.metric2.to_i
-    end
-  end
-
-  # Retrieve the action count in the given interval for the supplied structure.
-  #
-  # @param structure_id The structure id
-  # @param start_date   The start date, by default 15 days ago.
-  # @param end_date     The end date, by defautl yesterday.
-  #
-  # @return The action count.
-  def action_count(structure_id, start_date = 15.days.ago, end_date = 1.day.ago)
-    hits(structure_id, start_date, end_date).inject(0) do |sum, date|
-      sum + date.metric3.to_i
+      sum + date.send("metric#{Analytic::METRICS.index(action_name) + 1}").to_i
     end
   end
 

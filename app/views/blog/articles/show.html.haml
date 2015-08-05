@@ -12,7 +12,7 @@
   .relative.height-70-vh.bg-position-top.flexbox.home-screen-promotion-wrapper.soft.bg-cover.white{ style: "background-image: url('#{@article.image.url(:default)}')" }
     .black-curtain.north.west.one-whole.absolute
   .text--center.soft.main-container
-    %h1.ff-droid.f-style-italic.f-weight-400.f-size-really-big.flush.line-height-1-3= @article.title
+    %h1.tk-lexia.f-weight-400.f-size-really-big.flush.line-height-1-3= @article.title
     .blog-article__published-date.gray.grid__item.one-half>
       %i
         Publié le
@@ -52,21 +52,21 @@
         %i.fa-3x.fa-twitter
 
     - if @article.subjects.any?
-      %h4.beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Découvrez nos guides de disciplines
+      %h4.beta.text--center.tk-lexia.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Découvrez nos guides de disciplines
       %ul.nav.text--center
         - @article.subjects.each do |subject|
           - subject.vertical_pages.each do |vertical_page|
             %li.epsilon.soft--right.line-height-1-7= link_to vertical_page.subject_name, vertical_page_path(subject.root, vertical_page)
 
-    %h4.beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Vous aimerez aussi
+    %h4.beta.text--center.tk-lexia.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Vous aimerez aussi
     .grid.push--bottom
       - @article.similar_articles.each do |article|
         .grid__item.one-third.palm-one-whole.push--bottom>
           = link_to blog_article_path(article), class: 'block link-colored-on-hover', title: article.title do
             = image_tag article.image.url(:similar_article), class: 'block one-whole hoverable-media'
-            %h4.text--center.ff-droid.f-style-italic.f-weight-normal.flush.delta.soft-half--top.line-height-1-3= article.title
+            %h4.text--center.tk-lexia.f-weight-normal.flush.delta.soft-half--top.line-height-1-3= article.title
 
-  %h4.beta.text--center.ff-droid.f-style-italic.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Commentaires
+  %h4.beta.text--center.tk-lexia.bordered--bottom.soft--bottom.f-weight-400.push--top.soft--top Commentaires
   #disqus_thread
   :javascript
     var disqus_shortname = 'coursavenue';

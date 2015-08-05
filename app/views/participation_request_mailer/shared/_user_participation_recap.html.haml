@@ -29,7 +29,7 @@
             Tél. : #{structure.phone_numbers.map(&:number).join(', ')} /
           E-mail : #{structure.main_contact.email}
 
-  %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
+  %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
       .p.hard
         - if participation_request.from_personal_website?
@@ -42,46 +42,50 @@
           = participation_request.structure.name
         - if participation_request.accepted? and participation_request.structure.phone_numbers.any?
           = "(#{participation_request.structure.phone_numbers.map(&:number).join(', ')})"
-  %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
+  %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
       .p.hard
         %strong Inscription
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
       .p.hard
         = participation_request_decorator.details
-  %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
+  %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
       .p.hard
         %strong Cours
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
       .p.hard
         = participation_request.course.name
-  %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
+  %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
       .p.hard
         %strong Jour et heure
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
       .p.hard= participation_request_decorator.day_and_hour.capitalize
   - if place
-    %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
+    %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
       %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
         .p.hard
           %strong Lieu
       %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
         .p.hard
-          = link_to URI.encode("https://maps.google.com/?q=#{place.address}") do
-            = place.address
-          = "(#{place.try(:name)})"
-    - if show_access and (place.info.present? or place.private_info.present?)
-      %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
-        %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
-          .p.hard
-            %strong Accès
-        %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
-          .p.hard
-            - if place.info.present?
-              = place.info
-            - if place.info.present? and place.private_info.present?
-              %br
-            - if place.private_info.present?
-              = place.private_info
+          - if participation_request.at_student_home? or participation_request.course.is_private?
+            À domicile
+          - else
+            = link_to URI.encode("https://maps.google.com/?q=#{place.address}") do
+              = place.address
+            = "(#{place.try(:name)})"
+    - if !participation_request.at_student_home?
+      - if show_access and (place.info.present? or place.private_info.present?)
+        %tr{ class: (participation_request.from_personal_website? ? '' : 'table-row-alternate-color'), valign: 'top' }
+          %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}
+            .p.hard
+              %strong Accès
+          %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
+            .p.hard
+              - if place.info.present?
+                = place.info
+              - if place.info.present? and place.private_info.present?
+                %br
+              - if place.private_info.present?
+                = place.private_info

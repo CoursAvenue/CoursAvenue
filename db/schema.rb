@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150630135638) do
+ActiveRecord::Schema.define(version: 20150727141028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -346,9 +346,11 @@ ActiveRecord::Schema.define(version: 20150630135638) do
     t.string  "review_text"
     t.boolean "review_custom"
     t.string  "city_text"
+    t.integer "indexable_card_id"
   end
 
   add_index "emailing_section_bridges", ["emailing_section_id", "structure_id"], name: "comments_subjects_index", using: :btree
+  add_index "emailing_section_bridges", ["indexable_card_id"], name: "index_emailing_section_bridges_on_indexable_card_id", using: :btree
 
   create_table "emailing_sections", force: true do |t|
     t.string   "title"
@@ -458,6 +460,50 @@ ActiveRecord::Schema.define(version: 20150630135638) do
   end
 
   add_index "gift_certificates", ["structure_id"], name: "index_gift_certificates_on_structure_id", using: :btree
+
+  create_table "guide_answers", force: true do |t|
+    t.integer  "guide_question_id"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "image"
+    t.integer  "position"
+  end
+
+  add_index "guide_answers", ["guide_question_id"], name: "index_guide_answers_on_guide_question_id", using: :btree
+
+  create_table "guide_answers_subjects", id: false, force: true do |t|
+    t.integer "guide_answer_id"
+    t.integer "subject_id"
+  end
+
+  add_index "guide_answers_subjects", ["guide_answer_id"], name: "index_guide_answers_subjects_on_guide_answer_id", using: :btree
+  add_index "guide_answers_subjects", ["subject_id"], name: "index_guide_answers_subjects_on_subject_id", using: :btree
+
+  create_table "guide_questions", force: true do |t|
+    t.integer  "guide_id"
+    t.integer  "ponderation"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "position"
+    t.string   "color"
+  end
+
+  add_index "guide_questions", ["guide_id"], name: "index_guide_questions_on_guide_id", using: :btree
+
+  create_table "guides", force: true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "slug"
+    t.text     "call_to_action"
+    t.boolean  "age_dependant",  default: false
+    t.string   "image"
+  end
+
+  add_index "guides", ["slug"], name: "index_guides_on_slug", unique: true, using: :btree
 
   create_table "indexable_cards", force: true do |t|
     t.integer  "structure_id"
@@ -737,6 +783,8 @@ ActiveRecord::Schema.define(version: 20150630135638) do
     t.datetime "charged_at"
     t.datetime "refunded_at"
     t.float    "stripe_fee"
+    t.boolean  "at_student_home",           default: false
+    t.string   "treat_method"
   end
 
   add_index "participation_requests", ["stripe_charge_id"], name: "index_participation_requests_on_stripe_charge_id", unique: true, using: :btree
@@ -1031,6 +1079,15 @@ ActiveRecord::Schema.define(version: 20150630135638) do
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
   add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
+  create_table "sms_loggers", force: true do |t|
+    t.string   "number"
+    t.text     "text"
+    t.string   "sender_type"
+    t.integer  "sender_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "sticker_demands", force: true do |t|
     t.integer  "round_number"
     t.integer  "square_number"
@@ -1153,8 +1210,8 @@ ActiveRecord::Schema.define(version: 20150630135638) do
   create_table "subjects", force: true do |t|
     t.string   "name"
     t.text     "info"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "slug"
     t.string   "ancestry"
     t.string   "image_file_name"
@@ -1163,13 +1220,18 @@ ActiveRecord::Schema.define(version: 20150630135638) do
     t.datetime "image_updated_at"
     t.string   "short_name"
     t.integer  "position"
-    t.integer  "ancestry_depth",     default: 0
+    t.integer  "ancestry_depth",             default: 0
     t.text     "title"
     t.text     "description"
     t.text     "subtitle"
     t.text     "good_to_know"
     t.text     "needed_meterial"
     t.text     "tips"
+    t.string   "image"
+    t.text     "guide_description"
+    t.text     "age_advice_younger_than_5"
+    t.text     "age_advice_between_5_and_9"
+    t.text     "age_advice_older_than_10"
   end
 
   add_index "subjects", ["ancestry_depth"], name: "index_subjects_on_ancestry_depth", using: :btree

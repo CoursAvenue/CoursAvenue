@@ -1,18 +1,23 @@
-<ul class="pagination">
+<div class="pagination flexbox soft--sides">
     {{#if buttons }}
     {{!-- make a previous button --}}
-    <li class="btn {{#if is_first_page}}disabled{{/if}}" >
-        <a {{#unless is_first_page}}rel="prev" href="{{ previous_query }}"{{/unless}}><i class="fa-chevron-left"></i></a>
-    </li>
-    {{#each buttons}}
-    <li class="btn {{#if active}}btn--active current{{/if}} {{#if disabled}}disabled{{/if}}">
-        <a rel="page" href="{{ query }}">{{ label }}</a>
-    </li>
-    {{/each}}
-    </li>
+    <div class="flexbox__item">
+        <a class="pagination__prev {{#if is_first_page}}pagination__page--disabled{{/if}}" {{#unless is_first_page}}rel="prev" href="{{ previous_query }}"{{/unless}}>
+            <i class="fa-chevron-left"></i>
+            Précédent
+        </a>
+    </div>
+    <div class="flexbox__item text--center">
+        {{#each buttons}}
+        <a class="pagination__page {{#if active}}pagination__page--active{{/if}} {{#if disabled}}pagination__page--disabled{{/if}}" rel="page" href="{{ query }}">{{ label }}</a>
+        {{/each}}
+    </div>
     {{!-- make a next button --}}
-    <li class="btn" {{#if is_last_page}}disabled{{/if}}>
-        <a {{#unless is_last_page}}rel="next" href="{{next_query}}" {{/unless}}><i class="fa-chevron-right"></i></a>
-    </li>
+    <div class="flexbox__item text--right">
+        <a class="pagination__next {{#if is_last_page}}pagination__page--disabled{{/if}}" {{#unless is_last_page}}rel="next" href="{{next_query}}" {{/unless}}>
+            Suivant
+            <i class="fa-chevron-right"></i>
+        </a>
+    </div>
     {{/if}}
-</ul>
+</div>

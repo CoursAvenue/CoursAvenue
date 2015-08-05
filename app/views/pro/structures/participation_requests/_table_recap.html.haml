@@ -9,22 +9,17 @@
         .flexbox.palm-block
           .flexbox__item.one-whole.palm-block.palm-soft-half--ends
             = participation_request_decorator.long_status_name('Structure')
-          .flexbox__item.v-middle.nowrap.text--right.palm-block
-            - if !@participation_request.canceled?
-              - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and !@participation_request.past?
-                .palm-text--left.inline-block.palm-block
-                  = link_to accept_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'btn--small palm-flush push-half--right soft--sides btn--green btn fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
-                    = t('.accept')
-              .palm-text--left.inline-block.palm-block.palm-soft-half--ends
-                = link_to cancel_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request), class: 'fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 } do
-                  - if @participation_request.charged? and ! @participation_request.refunded?
-                    = t('.refund')
-                  - else
-                    = t('.decline')
-
 
     %tr.bordered--bottom
-      %th.v-middle.soft--sides.bordered--right.one-third Demande d'inscription
+      %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Cours et date
+      %td.v-middle.soft--sides.one-whole
+        - course = participation_request.course
+        %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
+          = course.name
+        = "le #{participation_request_decorator.day_and_hour(false)}"
+
+    %tr.bordered--bottom
+      %th.v-middle.soft--sides.bordered--right.one-third= "Participant".pluralize(@participation_request.nb_participants)
       %td.v-middle.text--left.soft--sides.palm-soft-half--ends
         = participation_request_decorator.details
         - if participation_request.refunded?
@@ -33,73 +28,8 @@
         - elsif participation_request.charged?
           %strong.green
             %i= '— Payé'
-    %tr.bordered--bottom
-      %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Cours
-      %td.v-middle.soft--sides.one-whole
-        .flexbox.palm-block
-          .flexbox__item.one-whole.palm-block.palm-soft-half--ends
-            - course = participation_request.course
-            %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }= course.name
-          .flexbox__item.v-middle.nowrap.text--right.palm-block
-            - if !participation_request.canceled?
-              .palm-text--left.inline-block.palm-block.palm-soft-half--bottom
-                = link_to 'Proposer un autre cours', edit_pro_structure_participation_request_path(participation_request.structure, participation_request, show_course_select: true), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
-
-    %tr.bordered--bottom
-      %th.v-middle.soft--sides.bordered--right.one-third.nowrap Jour et heure
-      %td.v-middle.soft--sides.one-whole
-        .flexbox.palm-block
-          .flexbox__item.one-whole.palm-block.palm-soft-half--ends
-            = participation_request_decorator.day_and_hour.capitalize
-          .flexbox__item.v-middle.nowrap.text--right.palm-block
-            - if !participation_request.canceled?
-              .palm-text--left.inline-block.palm-block.palm-soft-half--bottom
-                = link_to 'Proposer une autre date', edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
 
     - if participation_request.place
-      %tr.bordered--bottom
-        %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Lieu
-        %td.v-middle.soft--sides.one-whole
-          .flexbox.palm-block
-            .flexbox__item.one-whole.palm-block.palm-soft-half--ends
-              = "#{participation_request.place.name}, #{participation_request.place.address}"
-            - if !participation_request.canceled?
-              .flexbox__item.v-middle.nowrap.text--right.palm-block
-                .palm-text--left.inline-block.palm-block.palm-soft-half--bottom
-                  = link_to edit_pro_structure_place_path(participation_request.structure, participation_request.place, return_to_action: 'window.location.reload()'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
-                    %i.fa-pencil
-                    Modifier
-      %tr.bordered--bottom
-        %th.v-middle.soft--sides.bordered--right.one-third.nowrap Infos publiques
-        %td.v-middle.soft--sides.one-whole
-          .flexbox.palm-block
-            .flexbox__item.one-whole.palm-block.palm-soft-half--ends
-              - if participation_request.place.info.present?
-                = participation_request.place.info
-              - else
-                %i.gray Pas d'info pratique concernant l'accès.
-            - if !participation_request.canceled?
-              .flexbox__item.v-middle.nowrap.text--right.palm-block
-                .palm-text--left.inline-block.palm-block.palm-soft-half--bottom
-                  = link_to edit_infos_pro_structure_place_path(participation_request.structure, participation_request.place, return_to: pro_structure_participation_request_path(@structure, participation_request)), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
-                    %i.fa-pencil
-                    Modifier
-      %tr.bordered--bottom
-        %th.v-middle.soft--sides.bordered--right.one-third.nowrap Infos privées
-        %td.v-middle.soft--sides.one-whole
-          .flexbox.palm-block
-            .flexbox__item.one-whole.palm-block.palm-soft-half--ends
-              - if participation_request.place.private_info.present?
-                = participation_request.place.private_info
-              - else
-                %i.gray Pas de digicode ni d'info privée concernant l'accès.
-            - if !participation_request.canceled?
-              .flexbox__item.v-middle.nowrap.text--right.palm-block
-                .palm-text--left.inline-block.palm-block.palm-soft-half--bottom
-                  = link_to edit_infos_pro_structure_place_path(participation_request.structure, participation_request.place, return_to: pro_structure_participation_request_path(@structure, participation_request)), class: 'fancybox.ajax', data: { behavior: 'modal', width: '650', padding: 0 } do
-                    %i.fa-pencil
-                    Modifier
-    - elsif participation_request.at_student_home?
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Lieu
         %td.v-middle.soft--sides.one-whole
@@ -109,3 +39,20 @@
               = participation_request_decorator.student_home_address
             .flexbox__item.v-middle.nowrap.text--right
               = link_to t('.see_on_map'), URI.encode("http://maps.google.com/?q=#{participation_request_decorator.student_home_address}"), target: :_blank
+
+    - elsif participation_request.at_student_home? or pr.course.is_private?
+      %tr.bordered--bottom
+        %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Lieu
+        %td.v-middle.soft--sides.one-whole
+          - if participation_request.at_student_home?
+            = participation_request.place.name
+          - else
+            = "#{participation_request.place.name}, #{participation_request.place.address}"
+          - if participation_request.place.info.present? or participation_request.place.private_info.present?
+            .soft-half--top
+              - if participation_request.place.info.present?
+                = participation_request.place.info
+              - if participation_request.place.info.present? or participation_request.place.private_info.present?
+                %br
+              - if participation_request.place.private_info.present?
+                = participation_request.place.private_info

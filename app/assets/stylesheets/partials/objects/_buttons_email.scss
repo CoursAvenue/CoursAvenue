@@ -32,15 +32,9 @@
 
 // Danger and error appear as red
 // Success appears as green
-.btn--green {
+.btn--green, .btn--blue {
     text-transform: uppercase;
-    background-color: $btn--green !important;
-    border          : none;
-    color           : #FFFFFF !important;
-}
-.btn--blue {
-    text-transform  : uppercase;
-    background-color: $btn--blue !important;
+    background-color: $blue-green !important;
     border          : none;
     color           : #FFFFFF !important;
 }

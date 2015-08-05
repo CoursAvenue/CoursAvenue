@@ -1,26 +1,21 @@
 - content_for :email_title do
+  REPONDEZ AU DESSUS DE CETTE LIGNE
   Répondez à #{@structure.name} en répondant directement à cet e-mail
   %hr
 
 .p
   Bonjour #{@user.first_name},
 
-.p
-  Malheureusement, #{@structure.name} vient de refuser votre demande d'inscription au cours "#{@course.name}" du
-  - if @participation_request.cancelation_reason and !@participation_request.cancelation_reason.hidden?
-    %strong= @participation_request_decorator.day_and_hour
-    = "(motif : \"#{t(@participation_request.cancelation_reason.name).downcase})\"."
-  - else
-    %strong= "#{@participation_request_decorator.day_and_hour}."
-  Notre objectif est de vous faire découvrir le maximum de cours, continuez à vous inscrire aux séances de votre choix :
-
-.p.action
-  = link_to "Découvrir les meilleurs cours", root_search_page_url(@structure.dominant_root_subject, @structure.city, subdomain: 'www'), class: 'btn btn--green'
+%em
+  Malheureusement, votre inscription au cours "#{ @course.name } avec #{ @structure.name }. Motif :
+  "#{t(@participation_request.cancelation_reason.name).downcase}".
 
 - if @message
-  = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
-  .p.action.soft--top
-    = link_to "Répondre", user_participation_request_url(@user, @participation_request, subdomain: 'www'), class: 'btn'
+  %p
+    Message :
+    = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
+    .p.action.soft--top
+      = link_to "Répondre", user_participation_request_url(@user, @participation_request, subdomain: 'www'), class: 'btn'
 
 .p.soft--top
   Pour éviter qu'une telle situation se reproduise, notre équipe prendra contact avec ce partenaire pour comprendre les raisons de son annulation.

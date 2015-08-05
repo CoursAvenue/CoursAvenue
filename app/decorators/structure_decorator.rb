@@ -1,5 +1,7 @@
 class StructureDecorator < Draper::Decorator
 
+  delegate_all
+
   def structure_type
     I18n.t(object.structure_type) if object.structure_type.present? and object.structure_type != 'object.structure_type'
   end
@@ -151,44 +153,32 @@ class StructureDecorator < Draper::Decorator
     output
   end
 
-  # @param crypted=false Wether we have to show crypted number.
-  #
   # @return something like:
   #   06 07 65 33 23
   #   <br>
   #   nim.izadi@gmail.com
-  # And if crypted:
-  #   XX XX XX XX 23
-  #   <br>
-  #   XXXXXXXXX@gmail.com
   # Structure's phone numbers
-  def phone_numbers(crypted=false, on_one_line=false)
-    phone_number_html = ''
-    object.phone_numbers.each_with_index do |phone_number, index|
-      if index > 0
-        phone_number_html << "<br>" if on_one_line
-        phone_number_html << ", " if !on_one_line
-      end
-      if crypted
-        phone_number_html << "XX XX XX XX #{phone_number.number[-2..-1]}" if phone_number.number
-      else
-        phone_number_html << phone_number.number if phone_number.number
-      end
-    end
+  def phone_numbers(with_info=true)
+    phone_number_html = object.phone_numbers.map do |phone_number, index|
+      phone_number_html = PhoneNumberDecorator.new(PhoneNumber.new(number: phone_number.number)).formatted_number if phone_number.number
+      phone_number_html = "<span class='nowrap'>#{phone_number_html}</span>"
+      phone_number_html << " (#{phone_number.info})" if phone_number.info.present? and with_info
+      "<span class='push-half--right'>#{phone_number_html}</span>"
+    end.join(' ')
     phone_number_html.html_safe
   end
 
-  # def phone_numbers
-  #   string = ''
-  #   object.phone_numbers.each do |phone_number|
-  #     _phone_number = phone_number.number.gsub(' ', '').gsub('-', '').gsub('.', '').gsub('+33', '0').gsub(/^33/, '0')
-  #     string << "<div>#{_phone_number[0..1]} #{_phone_number[2..3]} #{_phone_number[4..5]} #{_phone_number[6..7]} #{_phone_number[8..9]}</div>"
-  #   end
-  #   string.html_safe
-  # end
-
   # Link of structure's website
-  def website_link(truncate_length=100)
-    h.link_to h.truncate(object.website, length: truncate_length), object.website, target: '_blank', rel: 'nofollow'
+  def website_link
+    if object.website.present?
+      h.link_to 'Site Internet', URLHelper.fix_url(object.website), target: '_blank', rel: 'nofollow'
+    end
+  end
+
+  # Check if a structure only has regular classes.
+  #
+  # @return a boolean
+  def only_has_regular_classes?
+    object.courses.pluck(:type).all? { |class_type| class_type != 'Course::Training' }
   end
 end

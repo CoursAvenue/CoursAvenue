@@ -1,11 +1,7 @@
-.top-right-hidden-button {
-    max-width: 0;
-    overflow : hidden;
-    @include transition(all 300ms ease-out);
-    &.in {
-        max-width: 300px;
-    }
+.home-page-curtain {
+    background-color: rgba(10, 21, 44, 0.7);
 }
+
 .home-page-fullscreen-video {
     position  : absolute;
     left      : 50%;
@@ -27,40 +23,14 @@
     margin-top : -1em;
     font-size  : 1.5em;
     @include text-shadow(0 0 20px $gray-darker);
-    // @include text-shadow(0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker);
     &.home-screen-gallery__title--bigger {
         font-size  : 2em;
     }
 }
 
-.home-screen-comment {
-    position   : absolute;
-    bottom     : 1em;
-    right      : 1em;
-    max-width  : 500px;
-    color      : white;
-    margin-left : auto;
-    @include text-shadow(0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker);
-    img {
-        @include border-radius(5em);
-    }
-}
-.home-screen {
-    background-color: black;
-    width           : 100%;
-    min-height      : 24em;
-    position        : relative;
-    overflow        : visible;
-}
-    .home-page-search {
-        position        : relative;
-        z-index         : 5;
-    }
-
-
 .home-screen-promotion-wrapper {
     background-color: $homescreen-background;
-    border          : 1px solid #DBDBDB;
+    border-bottom      : 1px solid #E9E9E9;
     .home-screen-promotion {
         padding-top: 0;
     }
@@ -70,23 +40,6 @@
         @include media-query(lap)  { text-align: center; }
     }
 
-.homescreen-header {
-    background-color: white;
-    background      : white;
-    border-bottom   : 1px solid $gray-smooth;
-    @include transition(all 200ms linear);
-    &.homescreen-header--transparent {
-        border: none;
-        @extend .gradient-black-to-white;
-        a {
-            color      : white;
-            font-weight: 500;
-            &.f-color-black {
-                color: black;
-            }
-        }
-    }
-}
     .homescreen-header__logo {
         @include media-query(palm) {
             left       : 50%!important;

@@ -1,4 +1,5 @@
 - content_for :email_title do
+  REPONDEZ AU DESSUS DE CETTE LIGNE
   Acceptez la demande d'inscription de #{@user.name} en répondant directement à cet e-mail
   %hr
 
@@ -13,13 +14,12 @@
   #{@user.name} souhaiterait assister à une séance d'essai le
   %strong= "#{@participation_request_decorator.day_and_hour}"
   pour votre cours "#{@participation_request.course.name}"
-  - if @participation_request.place
+  - if @participation_request.course.is_private?
+    à #{ @participation_request_decorator.student_home_address }
+  - elsif @participation_request.place
     au #{@participation_request.place.address} (#{@participation_request.place.name}).
   Connectez-vous à votre profil
-  - if @participation_request.date <= 2.days.from_now
-    %strong= "avant le #{I18n.l(@participation_request.date, format: :semi_short)}"
-  - else
-    %strong= "avant le #{I18n.l(2.days.from_now.to_date, format: :semi_short)} #{I18n.l(Time.now, format: :short)}"
+  %strong= "avant le #{I18n.l(@reply_limit_date, format: :semi_short)}"
   pour répondre à sa demande :
 
 .p.action
@@ -33,11 +33,8 @@
   %tr{ valign: 'top' }
     %td.v-middle.content-block{ width: 475 }
       .p.soft-half--top
-        Pour assurer la meilleure qualité de service, plus vous répondez vite, plus votre profil montera dans les résultats de recherche. Sans réponse de votre part dans les
-        %strong 2&nbsp;prochains jours,
-        la demande d'information de
-        = @user.name
-        sera expirée.
+        %strong Important :
+        pour continuer à assurer la meilleure qualité de service, vous avez 2 jours pour traiter cette demande d'inscription. Passé ce délai, la demande d'information de #{@user.name} sera expirée et votre compte sera susceptible d'être suspendu. PS : plus vous répondez vite, plus votre profil montera dans les résultats de recherche et plus vous recevrez de nouvelles inscriptions.
       = render 'shared/mailers/footer'
     %td.text--center.v-middle.content-block{ width: 125 }
       = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/emails_logo/48hours.png', width: 75, height: 120, alt: 'Vous avez 48 heures'

@@ -1,7 +1,6 @@
 StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.StickyGoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
-        infoBoxView:  Module.InfoBoxView,
 
         onShow: function onShow () {
             // If the current instance is the stycky map that appears on the right of the StructureProfile
@@ -27,53 +26,6 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
                     $view.removeAttr('style');
                 }
             });
-            this.recenterMap();
-        },
-
-        // We have some weird behavior having two maps on the same page...
-        addChild: function addChild (childModel, html) {
-            var markerView = new this.markerView({
-                model:   childModel,
-                map:     this.map,
-                content: html
-            });
-            markerView.on('click'          , function() { this.markerFocus(markerView) }.bind(this));
-            markerView.on('hovered'        , function() { this.markerHovered(markerView) }.bind(this));
-            markerView.on('unhighlight:all', function() { this.unhighlightEveryMarker(markerView) }.bind(this));
-            this.markerViewChildren[childModel.get('id')] = markerView;
-            markerView.render();
-        },
-
-        /* ***
-         * ### \#recenterMap
-         *
-         * When we change the width of the map's container, we need to alert the map
-         * to this by triggering resize. This will change the amount of map that is
-         * shown, but won't adjust the center of the map so that it is visually centered.
-         * So, in addition, we visually center the map.
-         * */
-        recenterMap: function recenterMap () {
-            // Set zoom to 12 if there is only one marker
-            if (this.collection.length == 1) {
-                var center = new google.maps.LatLng (this.collection.first().get('latitude'), this.collection.first().get('longitude'))
-                this.map.setCenter(center);
-                this.map.setZoom(14);
-            } else {
-                // From: http://blog.shamess.info/2009/09/29/zoom-to-fit-all-markers-on-google-maps-api-v3/
-                //  Make an array of the LatLng's of the markers you want to show
-                var lat_lng_list = this.collection.map(function(place) {
-                    return new google.maps.LatLng (place.get('latitude'), place.get('longitude'))
-                });
-                //  Create a new viewpoint bound
-                var bounds = new google.maps.LatLngBounds();
-                //  Go through each...
-                for (var i = 0, length = lat_lng_list.length; i < length; i++) {
-                  //  And increase the bounds to take this point
-                  bounds.extend (lat_lng_list[i]);
-                }
-                //  Fit these bounds to the map
-                this.map.fitBounds(bounds);
-            }
         },
 
         /* ***

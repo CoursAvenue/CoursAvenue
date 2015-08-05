@@ -12,7 +12,7 @@
 
 .soft.panel-background-blue-radial
   .main-container
-    = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post, html: { class: 'push--ends', autocomplete: "false"} do |f|
+    = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post, html: { class: 'push--ends', autocomplete: "off"} do |f|
       .grid.push--bottom
         .grid__item.one-third.text--right.v-middle>
           .gamma.white.smooth-black-text-shadow> Type de structure
@@ -41,7 +41,7 @@
           .grid__item.one-third.text--right.v-middle>
             .gamma.white.smooth-black-text-shadow> Disciplines générales pratiquées
           .grid__item.v-middle.two-thirds>
-            = f.association :subjects, as: :select, collection: Subject.roots.order('position ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+            = f.association :subjects, as: :select, collection: Subject.roots.order('position ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "off" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
         #descendants-subject.grid.push--bottom
           .grid__item.one-third.text--right.v-middle>
             .gamma.white.smooth-black-text-shadow> Sous disciplines

@@ -5,6 +5,9 @@ bundle install
 # Set up database
 bundle exec rake db:setup
 
+# Set up node
+npm install
+
 # Set up deploys
 git remote add staging git@heroku.com:coursavenue-staging.git
 heroku join --app coursavenue-staging

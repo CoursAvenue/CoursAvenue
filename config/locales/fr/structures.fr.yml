@@ -84,6 +84,10 @@ fr:
     association_for_meta_description: Association
     other_for_meta_description: ''
     independant_for_meta_description: Professeur
+    company_for_registration_box: cette école
+    association_for_registration_box: cette association
+    other_for_registration_box: ce professeur
+    independant_for_registration_box: ce professeur
     show:
       see_arrounding_structures: Voir les établissements à proximité
       back_to_results: Retour aux résultats
@@ -178,6 +182,7 @@ fr:
         dashboard: Tableau de bord
         emailings: Newsletters
         general: Général
+        guides: Guides
         inscriptions: Inscriptions
         invitations: Invitations
         jpo: Portes Ouvertes

@@ -25,4 +25,8 @@ if Rails.env.production?
     # :cache => Redis.new,
     # :cache_prefix => "..."
   )
+else
+  Geocoder.configure(
+    :units => :km
+  )
 end

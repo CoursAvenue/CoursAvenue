@@ -39,8 +39,8 @@
                   %i.fa-check
                 Editer
             %td.nowrap
-              - subject.vertical_pages.each do |verticale_page|
-                = link_to 'Lien', vertical_page_url(verticale_page), target: :_blank
+              - subject.vertical_pages.each do |vertical_page|
+                = link_to 'Lien', vertical_page_url(subject.root, vertical_page), target: :_blank
 
     %h2 Disciplines niveau 2
     %table.table--data.table--striped.white-box#dataTable{style: 'margin-bottom: 1000px;'}

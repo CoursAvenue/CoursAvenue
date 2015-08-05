@@ -3,10 +3,10 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   # We authorize member actions if user is not logged in because we use tokens
   before_action :authenticate_pro_admin!, except: [:show, :edit, :cancel_form, :report_form, :accept,
                                                   :accept_form, :modify_date, :discuss, :cancel,
-                                                  :report]
+                                                  :report, :show_user_contacts]
   authorize_resource :structure, except: [:show, :edit, :cancel_form, :report_form, :accept,
                                                   :accept_form, :modify_date, :discuss, :cancel,
-                                                  :report]
+                                                  :report, :rebook, :show_user_contacts]
   before_action :load_structure
 
   layout 'admin'
@@ -34,18 +34,24 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
 
   # GET pro/etablissements/:structure_id/participation_request/:id
   def show
+    @participation_request = @structure.participation_requests.find(params[:id]).decorate
+    @user                  = @participation_request.user
+  end
+
+  # GET pro/etablissements/:structure_id/participation_request/:id/show_user_contacts
+  def show_user_contacts
     @participation_request = @structure.participation_requests.find(params[:id])
     @user                  = @participation_request.user
+    @user_decorator        = @user.decorate
+    # Treat PR if it is viewed by the teacher and NOT by a super admin
+    if @participation_request.pending?
+      @participation_request.treat!('infos') unless current_pro_admin and current_pro_admin.super_admin?
+    end
+    render layout: false
   end
 
   # GET pro/etablissements/:structure_id/participation_request/:id/cancel_form
   def cancel_form
-    @participation_request = @structure.participation_requests.find(params[:id])
-    render layout: false
-  end
-
-  # GET pro/etablissements/:structure_id/participation_request/:id/report_form
-  def report_form
     @participation_request = @structure.participation_requests.find(params[:id])
     render layout: false
   end
@@ -60,7 +66,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     end
   end
 
-  # GET pro/etablissements/:structure_id/participation_request/:id/cancel_form
+  # GET pro/etablissements/:structure_id/participation_request/:id/accept_form
   def accept_form
     @participation_request = @structure.participation_requests.find(params[:id])
     render layout: false
@@ -95,13 +101,25 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     end
   end
 
-  # PUT pro/etablissements/:structure_id/participation_request/:id/report
-  def report
+  # POST pro/etablissements/:structure_id/participation_request/:id/rebook_form
+  def rebook_form
     @participation_request = @structure.participation_requests.find(params[:id])
-    @participation_request.update_attributes params[:participation_request]
-    respond_to do |format|
-      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: "Nous avons bien pris en compte votre signalement" }
-    end
+    render layout: false
+  end
+
+  # POST pro/etablissements/:structure_id/participation_request/:id/rebook
+  def rebook
+    @participation_request = @structure.participation_requests.find(params[:id])
+    @new_pr = @participation_request.rebook!(participation_request_new_class_params)
+    redirect_to pro_structure_participation_request_path(@structure, @new_pr),
+      notice: 'Votre nouvelle séance a été programmée avec succès.'
+  end
+
+  # PATCH pro/etablissements/:structure_id/participation_request/:id/signal_user_absence
+  def signal_user_absence
+    @participation_request = @structure.participation_requests.find(params[:id])
+    redirect_to pro_structure_participation_request_path(@structure, @participation_request),
+      notice: "Merci de nous avoir signalé l'absence de ce participant, nous allons prendre contact avec lui."
   end
 
   private
@@ -124,5 +142,15 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
       fields.delete('legal_entity.dob.year')
       fields << 'dob'
     end
+  end
+
+  def participation_request_attributes
+    params.require(:participation_request).permit(:date, :start_time, :end_time)
+  end
+
+  def participation_request_new_class_params
+    params.require(:participation_request).permit(:course_id, :planning_id, :start_hour, :date,
+                                                  :start_min, :at_student_home, :street,
+                                                  :zip_code, :message => [:body])
   end
 end

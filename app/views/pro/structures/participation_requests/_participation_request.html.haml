@@ -25,25 +25,16 @@
               });
       - else
         = participation_request_decorator.status_for('Structure')
-      .very-soft.hard--left.hard--bottom.hard--right
-        = participation_request_decorator.teacher_action_link
+      %div
+        = link_to 'Voir la demande', pro_structure_participation_request_path(participation_request.structure, participation_request), class: "btn btn--white btn--small"
 
   %td.soft--ends.v-top{ data: { th: 'Cours et date' } }
     %div
       - course = participation_request.course
-      %strong= participation_request_decorator.day_and_hour
+      %strong= participation_request_decorator.day_and_hour(false).capitalize
       %br
       %span.has-tooltip{ data: { toggle: 'popover', content: participation_request_decorator.popover_course_infos, html: 'true', placement: 'top', trigger: 'hover' } }
         = course.name
-      - place = participation_request.place
-      - if place
-        %br
-        - if place.info.present? or place.private_info.present?
-          - place_decorator = participation_request.place.decorate
-          %span.has-tooltip{ data: { toggle: 'popover', content: place_decorator.popover_place_infos, html: 'true', placement: 'top', trigger: 'hover' } }
-            = place.name
-        - else
-          = place.name
 
   %td.soft--ends.v-top{ data: { th: 'Participant' } }
     .grid--full
@@ -56,8 +47,6 @@
             + #{participation_request.nb_participants - 1} personnes
         %br
         = user_decorator.age_and_city
-        %div.text-ellipsis{ class: (participation_request.show_personnal_info? ? '' : 'has-tooltip'), data: { toggle: (participation_request.show_personnal_info? ? '' : 'popover'), content: t('tooltips.pro.structures.hidden_contact_infos'), html: 'true', placement: 'top', trigger: 'hover' } }
-          = user_decorator.phone_number_and_email(!participation_request.show_personnal_info?)
 
   %td.soft--ends.v-top{ data: { th: 'Détails' } }
     %div= participation_request_decorator.details

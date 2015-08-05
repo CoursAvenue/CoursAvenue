@@ -48,3 +48,10 @@
           = render partial: 'comments/comment', locals: { with_reply: true, comment: review }
     .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
 
+= content_for :scripts do
+  :javascript
+    $(document).ready(function() {
+        if ($('#comment-reply-button-#{ params[:comment] }').length) {
+            $("#comment-reply-button-#{ params[:comment] }").click();
+        }
+    });

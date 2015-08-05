@@ -1,0 +1,12 @@
+.bg-blue-green.rounded.soft.white.epsilon.push--bottom#pr-confirmation-form
+  %h3.push-half--bottom Traitez la demande d'inscription avant 48h
+  .delta.line-height-1-5.push-half--bottom
+    Si la demande vous convient, cliquez sur "Accepter" pour que le participant reçoive un mail de confirmation. Si vous souhaitez au contraire discuter avec le participant, accédez à ses coordonnées ou envoyez-lui un message :
+  %br
+  = link_to 'Accepter', accept_pro_structure_participation_request_path(@participation_request.structure, @participation_request), method: :patch, class: 'btn btn--white-transparent btn--white-transparent--green'
+  = link_to 'Voir les coordonnées', show_user_contacts_pro_structure_participation_request_path(@participation_request.structure, @participation_request),
+    class: 'btn btn--white-transparent btn--white-transparent--white fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0, 'after-close-reload' => true }
+  = link_to 'Envoyer un message', edit_pro_structure_participation_request_path(@structure, @participation_request, discuss_only: true),
+    class: 'btn btn--white-transparent--orange btn--white-transparent fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+  = link_to 'Annuler', cancel_form_pro_structure_participation_request_path(@structure, @participation_request),
+    class: 'btn btn--white-transparent--red btn--white-transparent fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }

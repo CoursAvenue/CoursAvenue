@@ -10,7 +10,11 @@ class Pro::EmailingsController < Pro::ProController
 
   def new
     @emailing = Emailing.new
+    @cards    = IndexableCard.includes(:course, :structure).with_place.find_each.map do |card|
+      { id: card.id, name: "#{card.structure_name} -> #{card.name}" }
+    end
     16.times { @emailing.emailing_sections.build }
+    @cards = []
   end
 
   def show
@@ -19,7 +23,7 @@ class Pro::EmailingsController < Pro::ProController
   end
 
   def create
-    @emailing = Emailing.new params[:emailing]
+    @emailing = Emailing.new(emailing_params)
 
     respond_to do |format|
       if @emailing.save
@@ -32,6 +36,7 @@ class Pro::EmailingsController < Pro::ProController
 
   def edit
     @emailing = Emailing.find params[:id]
+    @cards = @emailing.emailing_sections.flat_map(&:indexable_cards)
 
     count = 16 - @emailing.emailing_sections.count
     count.times { @emailing.emailing_sections.build  }
@@ -76,6 +81,18 @@ class Pro::EmailingsController < Pro::ProController
   end
 
   private
+
+  def emailing_params
+    if params[:emailing][:emailing_sections_attributes].present?
+      params[:emailing][:emailing_sections_attributes].each_pair do |key, value|
+        if value[:indexable_card_ids].present?
+          value[:structure_ids] = ''
+        end
+      end
+    end
+
+    params[:emailing]
+  end
 
   def set_preview
     @emailing = Emailing.find params[:id]

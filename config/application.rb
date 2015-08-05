@@ -8,7 +8,7 @@ Bundler.require(:default, Rails.env)
 module CoursAvenue
   class Application < Rails::Application
 
-    MANDRILL_REPLY_TO_DOMAIN = Rails.env.staging? ? 'reply-staging.coursaven.eu' : 'reply.coursavenue.com'
+    MANDRILL_REPLY_TO_DOMAIN = Rails.env.staging? ? 'reply.coursaven.eu' : 'reply.coursavenue.com'
     AMAZON_S3                = AWS::S3.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
     S3_BUCKET                = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
     FACEBOOK_APP_ID          = 589759807705512
@@ -98,5 +98,7 @@ module CoursAvenue
 
     ROADIE_I_KNOW_ABOUT_VERSION_3 = true # Remove after Roadie 3.1
     config.roadie.url_options = { host: 'coursavenue.com' }
+
+    config.browserify_rails.commandline_options = "-t reactify --extension=\".react.js\""
   end
 end

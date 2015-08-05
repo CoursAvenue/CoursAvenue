@@ -3,6 +3,44 @@
 - if current_pro_admin
   = side_menu_currently_at 'inscriptions'
 
+- user           = @participation_request.user
+- user_decorator = user.decorate
+- first_message = @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?).first
+
+%h1.palm-text--center Demande d'inscription de #{ @user.name }
+- if @participation_request.past? and @participation_request.accepted?
+  = render "state_past"
+- else
+  = render "state_#{ @participation_request.state }"
+
+.grid--full.push--bottom.message
+  .grid__item.palm-one-whole.palm-block.palm-text--center.two-twelfths.v-top.v-top>
+    = image_tag user.avatar_url(:normal), class: 'center-block push-half--bottom rounded--circle', width: 100
+    .text--center
+      = "#{l(local_time(first_message.created_at).to_date, format: :short)} à #{l(local_time(first_message.created_at), format: :short)}"
+  .grid__item.palm-one-whole.palm-block.palm-text--center.ten-twelfths.v-top>
+    .delta.line-height-1-7.flush
+      = "#{user.name}, #{user_decorator.age_and_city}"
+    - if !@participation_request.pending?
+      - if user.phone_number.present?
+        %div.line-height-1-7.epsilon
+          %i.fa.fa-phone-o
+          = user_decorator.phone_number
+      %div.line-height-1-7.epsilon
+        %i.fa.fa-envelope-o
+        = link_to user_decorator.email, "mailto:#{user_decorator.email}"
+
+    - if user.description.present?
+      %div.line-height-1-7.quoted.epsilon.push-half--bottom
+        %i= user.description
+    .message__body.soft-half.gray-box.message__appendix
+      .epsilon.line-height-1-5
+        = "#{@participation_request.course.name}, le "
+        %strong= "#{participation_request_decorator.day_and_hour(false)},"
+        = participation_request_decorator.details
+      %hr.push-half--ends
+      = simple_format first_message.body
+
 -# Because this page can be accesed throught bitly as non connected user.
 - if current_pro_admin
   = content_for :top_menu do
@@ -11,73 +49,10 @@
         %ol.nav.flush.breadcrumb{ itemprop: 'breadcrumb' }
           %li.active-without-caret= link_to 'Mes inscriptions', pro_structure_participation_requests_path(@structure), class: 'semi-muted-link epsilon f-weight-600 soft--left soft-half--ends white'
           %li.epsilon.f-weight-500.white.soft-half--ends= @user.name
-      - if !@participation_request.from_personal_website?
-        - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
-          .flexbox__item.v-middle.text--right.white.soft--right
-            %i.fa-clock-o.epsilon
-            %strong.epsilon Expire dans
-            %strong.epsilon{ data: { 'expires-in' => true } }
-- else
-  %h1.palm-text--center Demande d'inscription de #{@user.name}
+
 .push--bottom
   = render partial: 'pro/structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
-- user           = @participation_request.user
-- user_decorator = user.decorate
-%h3.palm-text--center À propos de l'élève
-.grid--full.push--bottom.message
-  .grid__item.palm-one-whole.palm-block.palm-text--center.two-twelfths.v-top.v-top>
-    - if user.has_avatar?
-      = image_tag user.avatar_url(:normal), class: 'center-block push-half--bottom rounded--circle', width: 100
-  .grid__item.palm-one-whole.palm-block.palm-text--center.ten-twelfths.v-top>
-    %h4.line-height-1-7.flush= user.name
-    %div.line-height-1-7
-      Profil : #{user_decorator.age_and_city}
-    - if user.phone_number.present?
-      %div.line-height-1-7
-        Téléphone :
-        %span{ class: (@participation_request.show_personnal_info? ? '' : 'has-tooltip' ), data: { toggle: (@participation_request.show_personnal_info? ? '' : 'popover'), content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
-          = user_decorator.phone_number(!@participation_request.show_personnal_info?)
-    %div.line-height-1-7
-      Email :
-      %span{ class: (@participation_request.show_personnal_info? ? '' : 'has-tooltip' ), data: { toggle: (@participation_request.show_personnal_info? ? '' : 'popover'), content: t('tooltips.pro.participation_requests.infos_will_be_shown_once_accepted'), html: 'true', placement: 'top', trigger: 'hover' } }
-        = user_decorator.email(!@participation_request.show_personnal_info?)
-    - if user.description.present?
-      %div.line-height-1-7
-        Un peu plus sur l'élève :
-        = user.description
-- if !@participation_request.pending?
-  = render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation }
+%h3 Discussion avec #{@user.name}
+= render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation }
 = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)
-
-- if !@participation_request.canceled? and @participation_request.last_modified_by == 'User'
-  %hr.push--ends
-  .flexbox.palm-block
-    .flexbox__item.v-middle.palm-block
-      %h3.palm-text--center Acceptez la demande
-    - if !@participation_request.from_personal_website?
-      - if @participation_request.pending? and @participation_request.last_modified_by == 'User' and @participation_request.created_at > 2.days.ago
-        .flexbox__item.v-middle.text--right.blue.palm-block.palm-text--center.palm-push--bottom
-          %i.fa-clock-o.delta
-          %strong.delta Expire dans
-          %strong.delta{ data: { 'expires-in' => true } }
-  - if !@participation_request.from_personal_website?
-    %p
-      Vous risquez d'être pénalisé si vous n'acceptez pas ou ne refusez pas cette demande d'inscription avant son expiration :
-  = render partial: 'actions', locals: { position: 'top' }
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-      var date            = Date.parse("#{l(local_time(@participation_request.created_at + 48.hours), format: :js )}");
-      var $countdown_div = $('[data-expires-in]');
-      countdown(date,
-          function(ts) {
-              var hours   = ("0" + ts.hours).slice(-2);
-              var minutes = ("0" + ts.minutes).slice(-2);
-              var seconds = ("0" + ts.seconds).slice(-2);
-              $countdown_div.text((ts.days > 0 ? ts.days + ' jour et ' : '') + hours + ':' + minutes + ':' + seconds);
-          },
-          countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
-    });
-

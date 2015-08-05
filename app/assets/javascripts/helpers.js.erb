@@ -1,6 +1,9 @@
 var COURSAVENUE = COURSAVENUE || {};
 COURSAVENUE.initialize_callbacks  = [];
 COURSAVENUE.constants = {
+    DATE_FORMATS: {
+      MOMENT_ISO_DATE_8601: "YYYY-MM-DDTHH:mmZ"
+    },
     IMAGE_TYPE_REGEX      : /(\.|\/)(gif|jpe?g|png|bmp)$/i,
     MAX_IMAGE_SIZE        : 5000000, // 5mo
     MOMENT_DATE_FORMAT    : 'DD/MM/YYYY',
@@ -104,5 +107,16 @@ COURSAVENUE.helperMethods = {
             string_amount = string_amount + (amount_type || '€')
         }
         return string_amount;
+    },
+
+    /*
+     * Return a moment day, one week from now regarding the week_day given.
+     * If the week_day of the planning is earlier in the week, we show same week_day of next week
+     * Eg. we are tuesday, moment().day(1) will give you monday of the current week wich is in the past.
+     */
+    nextWeekDay: function nextWeekDay (week_day) {
+        var days_to_add = 0;
+        if (week_day < moment().day()) { days_to_add = 7 }
+        return moment().day(week_day + days_to_add);
     }
 }

@@ -19,6 +19,8 @@ class EmailProcessor
       process_participation_request(token)
     when 'conversation'
       process_conversation(token)
+    when 'comment'
+      process_comment(token)
     end
 
     track_reply(token)
@@ -78,6 +80,22 @@ class EmailProcessor
     reply = @email.body
     sender.reply_to_conversation(conversation, reply)
   end
+
+  def process_comment(token)
+    comment   = Comment::Review.find(token.conversation_id.to_i)
+    structure = comment.structure
+    message   = @email.body
+    return if message.blank?
+
+    if comment.associated_message
+      conversation = comment.associated_message.conversation
+      structure.main_contact.reply_to_conversation(conversation, message)
+    else
+      structure.main_contact.send_message_with_label(comment.user, message, 'Réponse à votre avis',
+                                                     Mailboxer::Label::COMMENT.id)
+    end
+  end
+
 
   def track_reply(reply_token)
     if Rails.env.production?

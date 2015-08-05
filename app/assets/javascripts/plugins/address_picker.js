@@ -43,7 +43,7 @@
             this.input_address_name = $(this.$element.data('address-name'));
             this.input_radius       = $(this.$element.data('radius'));
             this.input_zoom         = $(this.$element.data('zoom'));
-            geocoder            = new google.maps.Geocoder();
+            geocoder                = new google.maps.Geocoder();
             this.$element.on('typeahead:selected', function(event, data) {
                 this.input_lat.val(data.lat);
                 this.input_lng.val(data.lng);
@@ -103,7 +103,6 @@
                 },
                 source: engine.ttAdapter()
             });
-
         },
         getRadiusFromType: function getRadiusFromType (radius_type) {
             switch(radius_type) {

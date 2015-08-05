@@ -1,4 +1,8 @@
-- prefilled_message = "Bonjour #{@participation_request.structure.name},\n\r\n\rMalheureusement, je suis dans l'obligation d'annuler ma séance d'essai qui était prévue le #{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}.\n\r\n\rJe vous prie de bien vouloir m'excuser et vous remercie d'avance pour votre compréhension,\n\r\n\r#{@participation_request.user.name}"
+- prefilled_message = "Bonjour #{@participation_request.structure.name},\n\r\n\re vous prie de bien vouloir m'excuser, mais je suis dans l'obligation d'annuler ma séance d'essai qui était prévue le #{l(@participation_request.date, format: :semi_short)} à #{l(@participation_request.start_time, format: :short)}.\n\r\n\rJe vous prie de bien vouloir m'excuser et vous remercie d'avance pour votre compréhension.\n\r\n\r"
+- if @participation_request.user.email.present? or @participation_request.user.phone_number.present?
+  - contacts = [@participation_request.user.email, @participation_request.user.phone_number].compact
+  - prefilled_message += "Voici mes coordonnées pour me recontacter ou m'inclure dans vos communications : #{ contacts.to_sentence }.\n\r\n\r"
+- prefilled_message += "Je vous remercie d'avance pour votre compréhension, à bientôt, #{@participation_request.user.name}"
 
 .panel
   .panel__header.soft
@@ -11,16 +15,8 @@
       = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
         = message_form.input :body, input_html: { value: prefilled_message, placeholder: 'Ajouter un message personnel ici', style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
 
-
-      - if !@participation_request.from_personal_website?
-        = render partial: 'pro/structures/participation_requests/dont_contact_information'
-
       .grid
         .grid__item.two-tenths.palm-one-whole.palm-push--bottom>
           %a.btn.btn--full{ href: '#', onclick: '$.fancybox.close();' } Fermer
         .grid__item.eight-tenths.palm-one-whole>
           = f.submit 'Envoyer', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
-
-- if !@participation_request.from_personal_website?
-  :javascript
-    $('#participation-request-message').preventFromContact();

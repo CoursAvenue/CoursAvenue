@@ -1,8 +1,8 @@
 .header {
     @include media-query(palm) { text-align: center; };
     @include media-query(lap) { text-align: center; };
+    height: $header-height;
     padding         : 0;
-    border-bottom   : 1px solid #EEE;
     overflow        : visible;
     display         : table;
     width           : 100%;
@@ -14,25 +14,74 @@
         margin-left  : 1em;
     }
 }
-    .coursavenue-header-logo {
-        @include background-image-retina('logos/logo.png', 'logos/logo@2x.png');
-        background-repeat: no-repeat;
-        &.coursavenue-header-logo--white {
-            @include background-image-retina('logos/logo_white.png', 'logos/logo_white@2x.png');
+
+    .header-search-input {
+        @include media-query(palm) {
+            padding         : 0.4em;
+            background-color: $blue-green;
         }
-        @include background-size(100%);
-        width   : 150px;
-        height  : 30px;
         display : inline-block;
-        &.coursavenue-header-logo--pro {
-            width: 222px;
-            @include background-image-retina('logos/logo-pro.png', 'logos/logo-pro@2x.png');
-            &.coursavenue-header-logo--white {
-                width : 153px;
-                height: 22px;
-                @include background-image-retina('logos/logo-pro-white.png', 'logos/logo-pro-white@2x.png');
+        input {
+            padding-left: 1em;
+            width       : 300px;
+            @include media-query(palm) {
+                width    : 100%;
+            }
+            font-size   : 17px;
+            line-height : 1.5em;
+            font-weight : 600;
+            @include border-radius(40px);
+            &:hover .fa-search { color: white; }
+            &::-webkit-input-placeholder { color: #777777 !important; } /* WebKit browsers */
+            &:-moz-placeholder           { color: #777777 !important; } /* Mozilla Firefox 4 to 18 */
+            &::-moz-placeholder          { color: #777777 !important; } /* Mozilla Firefox 19+ */
+            &:-ms-input-placeholder      { color: #777777 !important; } /* Internet Explorer 10+ */
+            &:focus {
+                background-color: $blue-green;
+                color           : white;
+                &::-webkit-input-placeholder { color: white !important; } /* WebKit browsers */
+                &:-moz-placeholder           { color: white !important; } /* Mozilla Firefox 4 to 18 */
+                &::-moz-placeholder          { color: white !important; } /* Mozilla Firefox 19+ */
+                &:-ms-input-placeholder      { color: white !important; } /* Internet Explorer 10+ */
             }
         }
+        .fa-times {
+            color           : $blue_green;
+            cursor          : pointer;
+            font-size       : 9px;
+            border          : 1px solid #EEE;
+            background-color: white;
+            padding         : 6px;
+            border-radius   : 14px;
+            top             : 1em;
+        }
+        i {
+            font-size: 15px;
+            color: $blue_green;
+            position: absolute;
+            top     : 0.8em;
+            right   : 1em;
+        }
+        ::-webkit-input-placeholder { color: #EEEEEE; } /* WebKit browsers */
+        :-moz-placeholder           { color: #EEEEEE; opacity: 1; } /* Mozilla Firefox 4 to 18 */
+        ::-moz-placeholder          { color: #EEEEEE; opacity: 1; } /* Mozilla Firefox 19+ */
+        :-ms-input-placeholder      { color: #EEEEEE; } /* Internet Explorer 10+ */
+    }
+
+    .coursavenue-header-logo-wrapper {
+        background-color: $blue-green;
+        padding         : 0 2em;
+        height          : $header-height;
+        @extend .inline-block;
+    }
+    .coursavenue-header-logo {
+        background-position: center;
+        background-repeat  : no-repeat;
+        @include background-image-retina('logos/logo_white.png', 'logos/logo_white@2x.png');
+        @include background-size(100%);
+        width  : 150px;
+        height : $header-height;
+        display: inline-block;
         img {
             width: 100%;
         }

@@ -1,12 +1,12 @@
 = content_for :top_menu do
   %ul.nav.flush
     %li{ class: current == 'list' ? 'active' : '' }
-      = link_to pro_structure_user_profiles_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to pro_structure_user_profiles_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Contacts
     - if @structure.user_profiles.any?
       %li{ class: current == 'tags' ? 'active' : '' }
-        = link_to pro_structure_tags_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+        = link_to pro_structure_tags_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
           Étiquettes
     %li{ class: current == 'import' ? 'active' : '' }
-      = link_to new_pro_structure_user_profile_import_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to new_pro_structure_user_profile_import_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Importer

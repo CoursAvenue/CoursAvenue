@@ -116,34 +116,6 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
-  # GET member
-  def dashboard
-    @structure_decorator = @structure.decorate
-    @wizard              = get_next_wizard
-    commentable_ids      = @structure.courses.map(&:id)
-    commentable_ids << @structure.id
-    @comments            = @structure.comments.accepted
-    @courses             = @structure.courses
-    @places              = @structure.places
-
-    if @structure.premium?
-      @medias = @structure.medias.cover_first
-    else
-      @medias = [@structure.medias.cover_first.first]
-    end
-
-    @profile_percentage = 100
-    @profile_percentage -= 25 if !@structure.profile_completed?
-    @profile_percentage -= 25 if @structure.medias.empty?
-    @profile_percentage -= 25 if @comments.empty?
-    @profile_percentage -= 25 if @structure.plannings.future.empty?
-
-    @json_locations = Gmaps4rails.build_markers(@places) do |place, marker|
-      marker.lat place.latitude
-      marker.lng place.longitude
-    end
-  end
-
   # GET collection
   #   format :json
   # Returns the best structures located near Paris
@@ -210,7 +182,8 @@ France
   end
 
   def edit_contact
-    @admin          = @structure.main_contact
+    @admin            = @structure.main_contact
+    @has_mobile_phone = @structure.phone_numbers.detect { |number| @structure.uses_mobile?(number.number) }.present?
     5.times { @structure.phone_numbers.build }
   end
 
@@ -412,6 +385,15 @@ France
   def enable
     @structure.enable!
     redirect_to pro_structure_path(@structure), notice: 'Profil réactivé avec succès'
+  end
+
+  def cards
+    @cards = @structure.indexable_cards.includes(:course).with_place.map do |card|
+      { id: card.id, name: "#{ card.structure_name } -> #{ card.course_name }" }
+    end
+    respond_to do |format|
+      format.json { render json: { cards: @cards }  }
+    end
   end
 
   private
