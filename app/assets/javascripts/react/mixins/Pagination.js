@@ -114,8 +114,8 @@ module.exports = function (store_name, action_creator) {
                         </a>);
             }.bind(this));
             return (
-              <div className={ cx("flexbox pagination", { 'pagination--large': this.state.large }) }>
-                  <div className="flexbox__item two-twelfths">
+              <div className={ cx("flexbox palm-block palm-text--center palm-one-whole pagination", { 'pagination--large': this.state.large }) }>
+                  <div className="flexbox__item palm-block palm-text--center palm-one-whole two-twelfths">
                       <a className={back_class}
                          href="javascript:void(0)"
                          onClick={this.goToPreviousPage}>
@@ -123,10 +123,10 @@ module.exports = function (store_name, action_creator) {
                          Précédent
                       </a>
                   </div>
-                  <div className="flexbox__item eight-twelfths nowrap text--center">
+                  <div className="flexbox__item palm-block palm-text--center palm-one-whole eight-twelfths nowrap text--center">
                       {buttons}
                   </div>
-                  <div className="flexbox__item two-twelfths text--right">
+                  <div className="flexbox__item palm-block palm-text--center palm-one-whole two-twelfths text--right">
                       <a className={next_class}
                          href="javascript:void(0)"
                          onClick={this.goToNextPage}>

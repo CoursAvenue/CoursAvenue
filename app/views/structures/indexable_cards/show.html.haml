@@ -11,13 +11,13 @@
   .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
     .soft.bordered.bg-white
       .grid.push--bottom
-        .grid__item.v-middle.one-fifth.text--center>
+        .grid__item.v-middle.one-fifth.text--center.palm-one-whole>
           - if @structure.logo.present?
             = image_tag @structure.logo.url(:small_thumb_120), height: 100, width: 100, data: { src2x: @structure.logo.url(:small_thumb) }, class: 'rounded--circle'
           - else
             .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{dominant_root_subject_slug}" }
               %i.fa.fa-user-big.alpha
-        .grid__item.v-middle.four-fifths>
+        .grid__item.v-middle.four-fifths.palm-one-whole>
           %h1.flush= @indexable_card.name
           %h2.delta.flush
             Par
