@@ -79,7 +79,7 @@
       .flexbox{ class: content_for?(:alert_bar) ? 'push--top' : 'push-double--top' }
         - if content_for? :side_menu
           %nav.flexbox__item.v-top.v-top.border-none--right.print--hidden.soft--top.relative.side-menu-wrapper#pro-side-menu
-            .border-none--right.side-menu.side-menu-width.relative
+            .border-none--right.side-menu.side-menu-width.relative{ class: content_for?(:alert_bar) ? 'push-double--top' : '' }
               = yield :side_menu
         .flexbox__item.v-top
           - if content_for?(:backbone_app)
