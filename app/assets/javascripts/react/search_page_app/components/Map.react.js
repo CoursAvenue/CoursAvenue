@@ -27,7 +27,7 @@ var MapComponent = React.createClass({
 
     createMap: function createMap () {
         this.small_marker_layer = new L.MarkerClusterGroup({
-            disableClusteringAtZoom: 13,
+            disableClusteringAtZoom: 12,
             maxClusterRadius: 30,
             spiderfyOnMaxZoom: true
         });
@@ -35,7 +35,7 @@ var MapComponent = React.createClass({
         this.visible_marker_layer = new L.featureGroup();
         // this.metro_layer          = new L.featureGroup();
         this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets', { scrollWheelZoom: false })
-                          .setView(this.props.center, 13)
+                          .setView(this.props.center, 12)
                           .addLayer(this.small_marker_layer)
                           .addLayer(this.visible_marker_layer)
                           // .addLayer(this.metro_layer);
