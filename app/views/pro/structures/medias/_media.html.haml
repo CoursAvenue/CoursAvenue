@@ -14,11 +14,11 @@
       = simple_form_for [:pro, @structure, media], url: pro_structure_media_path(@structure, media), remote: true, as: :media, html: { data: { behavior: 'live-form' } } do |f|
         = f.input :caption, as: :text, label: false, input_html: { class: 'one-whole media_caption input--large', placeholder: 'Ajouter une légende' }, wrapper_html: { class: 'flush--top push-half--bottom' }
       - if !media.cover?
-        = link_to 'Afficher en premier', make_it_cover_pro_structure_media_path(@structure, media), method: :put, class: 'btn btn--small btn--blue'
+        = link_to 'Afficher en premier', make_it_cover_pro_structure_media_path(@structure, media), method: :put, class: 'btn btn--small btn--blue-green'
       = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, title: 'Supprimer', class: 'btn btn--small btn--red' do
         %i.fa-trash-o
       - if current_pro_admin.super_admin? and media.star
         %i.fa-star.yellow
       - if current_pro_admin.super_admin?
-        = link_to edit_pro_structure_media_path(@structure, media), class: 'btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: 600 } do
+        = link_to edit_pro_structure_media_path(@structure, media), class: 'btn btn--small btn--blue-green fancybox.ajax', data: { behavior: 'modal', width: 600 } do
           %i.fa-star

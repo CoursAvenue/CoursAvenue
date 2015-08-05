@@ -4,7 +4,7 @@
     - if @structure.main_contact.present?
       = render partial: 'pro/admins/onboarding/status_bar'
 
-    .darkgray-box.flexbox.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000, old_width: 'true' } }
+    .darkgray-box.flexbox.print--hidden.on-top-of-the-world
       .main-container.flexbox
         .flexbox__item.v-middle.soft--left.palm-text--center.relative
           .visuallyhidden--lap-and-up
@@ -53,7 +53,7 @@
         .flexbox__item.wizard-container-width.visuallyhidden--palm
 
   - elsif current_pro_admin
-    .darkgray-box.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000, old_width: 'true' } }
+    .darkgray-box.print--hidden.on-top-of-the-world
       .main-container.flexbox.pro-public-top-menu
         .flexbox__item.v-middle.soft--left
           .visuallyhidden--lap-and-up.text--center
