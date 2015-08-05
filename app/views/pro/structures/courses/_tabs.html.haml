@@ -1,17 +1,17 @@
 = content_for :top_menu do
   %ul.nav.flush
     %li{ class: current == 'plannings' ? 'active' : '' }
-      = link_to pro_structure_courses_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to pro_structure_courses_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Mon planning
     %li{ class: current == 'prices' ? 'active' : '' }
-      = link_to pro_structure_price_groups_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to pro_structure_price_groups_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Mes tarifs
     %li{ class: current == 'website_planning' ? 'active' : '' }
-      = link_to website_planning_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to website_planning_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Planning sur mon site Internet
     %li{ class: current == 'website_planning_parameters' ? 'active' : '' }
-      = link_to website_planning_parameters_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to website_planning_parameters_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Paramètres
     -# %li{ class: current == 'gift_certificates' ? 'active' : '' }
-    -#   = link_to pro_structure_gift_certificates_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+    -#   = link_to pro_structure_gift_certificates_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
     -#     Bons cadeaux

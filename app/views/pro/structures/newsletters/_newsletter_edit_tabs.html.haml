@@ -1,17 +1,17 @@
 = content_for :top_menu do
   %ul.nav.flush
     %li{ class: current == 'design' ? 'active' : '' }
-      = link_to choose_layout_pro_structure_newsletters_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to choose_layout_pro_structure_newsletters_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Design
     %li{ class: current == 'editing' ? 'active' : '' }
-      = link_to new_pro_structure_newsletter_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to new_pro_structure_newsletter_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Remplissage
     %li{ class: current == 'mailing_list' ? 'active' : '' }
-      = link_to 'javascript:void(0)', class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to 'javascript:void(0)', class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Liste de diffusion
     %li{ class: current == 'metadata' ? 'active' : '' }
-      = link_to 'javascript:void(0)', class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to 'javascript:void(0)', class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Recapitulatif
     %li{ class: current == 'preview' ? 'active' : '' }
-      = link_to 'javascript:void(0)', class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to 'javascript:void(0)', class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         = "Prévisualisation & Envoi"
