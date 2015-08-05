@@ -61,7 +61,7 @@
     .grid__item.four-twelfths.palm-one-whole.visuallyhidden--palm>
       -# Needs to be here
       %div.hidden{ data: { type: 'contact-form' } }
-      = render 'registration'
+      .bordered.bg-white= render 'registration'
 
       - # This additionnal div is necessary for the husk that will be prepended
       - # to the parent of the sticky div
@@ -86,51 +86,37 @@
           - @similar_profiles.each_with_index do |structure, index|
             - unless index == 0
               %hr.push-half--ends
-            - cache ['similar_profiles', structure] do
-              %div{ style: 'height: 70px;' }
-                .soft-half--sides
-                  .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
-                    .grid__item.v-top.one-fifth>
-                      .media-photo{ itemprop: 'image', content: structure.logo.url }
-                        = image_tag structure.logo.url(:thumb)
-                    .grid__item.v-top.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
-                      %h6.flush.line-height-1-5.text-ellipsis
-                        = link_to structure.name, structure_path(structure), class: 'muted-link'
-                      .line-height-1-5
-                        %i= truncate(structure.cities_text, length: 40)
-                      - if header_promotion_title_for_structure(structure).present?
-                        .line-height-1-5
-                          .lbl.lbl--small.lbl--yellow
-                            %i.fa-star
-                            = header_promotion_title_for_structure(structure)
-
-- if @structure.medias.empty?
-  - @structure_locations = Gmaps4rails.build_markers([@structure]) do |structure, marker|
-    - marker.lat structure.latitude
-    - marker.lng structure.longitude
+            -# - cache ['similar_profiles_2', structure] do
+            %div{ style: 'height: 70px;' }
+              .soft-half--sides
+                .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
+                  .grid__item.v-middle.one-fifth>
+                    %div{ itemprop: 'image', content: structure.logo.url }
+                      = image_tag structure.logo.url(:thumb), class: 'rounded--circle'
+                  .grid__item.v-middle.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
+                    %h6.flush.line-height-1-5.text-ellipsis
+                      = link_to structure.name, structure_path(structure), class: 'muted-link'
+                    .line-height-1-5
+                      %i= truncate(structure.cities_text, length: 40)
 
 = content_for :scripts do
   :javascript
     $(function () {
-      if ($('#header-map').length == 1) {
-          google_map_handler = Gmaps.build('Google');
-          google_map_handler.buildMap({ provider: { scrollwheel: false }, internal: { id: 'header-map' }}, function(){
-              markers = google_map_handler.addMarkers(#{@structure_locations.to_json});
-              google_map_handler.bounds.extendWith(markers);
-              google_map_handler.fitMapToBounds();
-              google_map_handler.getMap().setZoom(15);
-          });
-      }
-      window.coursavenue = window.coursavenue || {};
-      window.coursavenue.bootstrap = {
-          current_pro_admin: #{(current_pro_admin ? true : false)},
-          structure: #{ @model.to_json },
-          meta: {
-              have_upcoming_plannings: #{ @structure.plannings.future.any? },
-              is_sleeping: #{ @structure.is_sleeping? || !@structure.enabled? },
-              structure_id: #{ @structure.id }
-          }
-      };
+        if ($('#header-map').length == 1) {
+          L.mapbox.map($('#header-map')[0], 'mapbox.streets', { scrollWheelZoom: false })
+                  .setView([#{@structure.latitude}, #{@structure.longitude}], 14);
+
+        }
+        window.coursavenue = window.coursavenue || {};
+        window.coursavenue.bootstrap = {
+            current_pro_admin: #{(current_pro_admin ? true : false)},
+            structure: #{ @model.to_json },
+            meta: {
+                have_upcoming_plannings: #{ @structure.plannings.future.any? },
+                is_sleeping: #{ @structure.is_sleeping? || !@structure.enabled? },
+                structure_id: #{ @structure.id }
+            }
+        };
     }());
 
 

@@ -1,14 +1,7 @@
-<div data-type="closer" class="infobox__close">
-    <i class="fa-times"></i>
-</div>
-<div class="grid--full">
-    <div class="relative grid__item two-eighths">
-    <a href="{{ data_url }}" class="block">
-        <img src="{{ logo_thumb_url }}" class="block one-whole" alt="{{ parent_subjects_text }} à {{ name }}" title="{{ parent_subjects_text }} à {{ name }}" style="max-width: 100%;">
-    </a>
-    </div>{{!--
- --}}<div class="grid__item very-soft soft-half--sides six-eighths">
-        <a href="{{ data_url }}" class="infobox__title">{{ name }}</a>
-        <div>{{ comments_count }} avis / {{ medias_count }} {{ pluralize medias_count 'Photo / vidéo' 'Photos & vidéos' }}</div>
-    </div>
+<div class="soft-half">
+    <p class="flush">
+      <strong>{{name}} : </strong>
+      <br>
+      {{address}}
+    </p>
 </div>

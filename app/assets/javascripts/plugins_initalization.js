@@ -1,6 +1,6 @@
 $(function() {
     // Setting default settings of Fancybox
-    $.fancybox.defaults.tpl.closeBtn = '<a title="Fermer" class="fancybox-item fancybox-close fa-times" href="javascript:;"></a>';
+    $.fancybox.defaults.tpl.closeBtn = '<a title="Fermer" class="fancybox-item fancybox-close fa-close" href="javascript:;"></a>';
     $.fancybox.defaults.afterShow = function () {
         $.each(COURSAVENUE.initialize_callbacks, function(i, func) { func(); });
     };

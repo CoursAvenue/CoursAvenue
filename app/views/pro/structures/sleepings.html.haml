@@ -3,10 +3,10 @@
 = content_for :top_menu do
   %ul.nav.flush
     %li{ class: params[:opt_in] == 'true' ? 'active' : '' }
-      = link_to sleepings_pro_structures_path(opt_in: true), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to sleepings_pro_structures_path(opt_in: true), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         En attente de validation
     %li{ class: params[:opt_in] == 'false' ? 'active' : '' }
-      = link_to sleepings_pro_structures_path(opt_in: false), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to sleepings_pro_structures_path(opt_in: false), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Desinscription
 
 %h1 Profils dormants

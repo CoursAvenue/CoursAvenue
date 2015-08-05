@@ -94,6 +94,19 @@ class Place < ActiveRecord::Base
     end
   end
 
+  def dominant_root_subject
+    subjects.at_depth(2).group_by(&:root).values.max_by(&:size).try(:first).try(:root)
+  end
+
+  def to_react_json
+    {
+        latitude:     latitude,
+        longitude:    longitude,
+        subject_slug: dominant_root_subject.try(:slug),
+        radius:       radius
+    }
+  end
+
   private
 
   # Only geocode if :

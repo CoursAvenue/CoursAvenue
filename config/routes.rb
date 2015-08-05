@@ -190,7 +190,6 @@ CoursAvenue::Application.routes.draw do
           get   :ask_for_deletion
           get   :confirm_deletion
           get   :crop_logo
-          get   :dashboard, path: 'tableau-de-bord'
           get   :edit_contact, path: 'informations-contact'
           get   :logo
           get   :payment_confirmation, path: 'confirmation-paiement'
@@ -729,8 +728,6 @@ CoursAvenue::Application.routes.draw do
       get '/'       , to: 'structures#show'
       get 'planning' => redirect('/')
       get 'reviews' , to: 'structures#reviews' , as: :reviews, path: 'livre-d-or'
-      # get 'medias'  , to: 'structures#medias'  , as: :medias
-      # get 'contact' , to: 'structures#contact' , as: :contact
       resources :website_pages, only: [:show], path: 'pages'
     end
   end

@@ -26,17 +26,18 @@ $rer_line_b_color      : #468FCC;
 
 // ----------- Metros
 .metro-line {
-    width         : 1.7em;
-    height        : 1.7em;
-    border-radius : 1.7em;
-    font-size     : 1.4em;
+    width         : 1.5em;
+    height        : 1.5em;
+    border-radius : 1.5em;
+    font-size     : 1em;
     border        : 2px solid black;
     text-align    : center;
     display       : inline-block;
     vertical-align: middle;
     font-weight   : bold;
     white-space   : nowrap;
-    line-height   : 1.6em;
+    line-height   : 1.3em;
+    text-indent   : -1px;
     &.metro-line--selected {
         background-color: white;
     }
