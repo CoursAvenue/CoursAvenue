@@ -145,6 +145,6 @@ class StructureShowSerializer < ActiveModel::Serializer
   end
 
   def dominant_root_subject_slug
-    object.dominant_root_subject.slug
+    object.dominant_root_subject.try(:slug)
   end
 end
