@@ -10,7 +10,7 @@ var Comment = React.createClass({
         }
         return (
             <div className="grid push--bottom " itemProp='review' itemScope={true} itemType='http://schema.org/Review'>
-                <div className="grid__item one-fifth text--center">
+                <div className="grid__item palm-one-whole one-fifth text--center">
                     { avatar }
                     <div>
                         {this.props.comment.get('author_name')}
@@ -21,7 +21,7 @@ var Comment = React.createClass({
                         <i>Il y a {this.props.comment.get('distance_of_time')}</i>
                     </div>
                 </div>
-                <div className="grid__item four-fifths">
+                <div className="grid__item palm-one-whole four-fifths">
                     <h6 className="push-half--bottom">{this.props.comment.get('title')}</h6>
                     <div dangerouslySetInnerHTML={{__html: this.props.comment.get('simple_format_content') }}>
                     </div>
