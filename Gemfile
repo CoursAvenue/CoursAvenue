@@ -95,8 +95,6 @@ gem 'paperclip'                 , '~> 4.2.1'
 # For having models acting like trees
 gem 'ancestry'                  , '~> 2.1.0'
 
-# Nice helper to use google maps
-gem 'gmaps4rails'               , '~> 2.1.2'
 # Helper methods for geolocations
 gem 'geocoder'                  , '~> 1.2.7'
 # To have model serializers apart from models

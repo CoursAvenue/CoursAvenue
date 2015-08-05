@@ -2,11 +2,9 @@ var MetroMarkerPopup = require('./MetroMarkerPopup.react');
 var MapComponent = React.createClass({
 
     componentDidMount: function componentDidMount () {
-        // Provide your access token
-        L.mapbox.accessToken = ENV.MAPBOX_ACCESS_TOKEN;
         this.createMap();
         this.addMarker()
-        if (this.props.home) { this.addHomePlaceMarker() }
+        if (this.props.home) { this.addHomePlaceMarker(); }
     },
 
     createMap: function createMap () {

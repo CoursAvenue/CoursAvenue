@@ -5,20 +5,11 @@
         <% elsif params[:return_to_action].present?%>
             <%== params[:return_to_action] %>
         <% else %>
-            $('#new-home-place').hide();
-            $('#update-home-place').show();
-            var new_href = Routes.edit_pro_structure_place_path(<%= @structure.id %>, <%= @place.id %>);
-            $('#update-home-place a').attr('href', new_href)
-            $.fancybox.close();
+            window.location.reload();
         <% end %>
     <% else %>
         $.fancybox("<%== escape_javascript(render partial: 'pro/structures/places/verify_address') %>", { width: 600, minWidth: 600, maxWidth: 600, padding: 0, helpers: { overlay : { closeClick: false } } });
     <% end %>
-    $("#map").show();
-    $("#place-table").show();
-    $("#place-table tbody").append('<%= escape_javascript(render partial: "pro/structures/places/place", locals: { place: @place, structure: @structure }) %>')
-    $('#place-<%= @place.id %>').yellowFade({ delay: 400 });
-    window.coursavenue.redrawMap(<%== @place_coordinates.to_json %>);
 
 <% else %>
     $.fancybox("<%== escape_javascript(render partial: 'pro/structures/places/form') %>", { width: 650, minWidth: 650, maxWidth: 650, padding: 0, helpers: { overlay : { closeClick: false } } });

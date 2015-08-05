@@ -14,8 +14,6 @@ var MapComponent = React.createClass({
     },
 
     componentDidMount: function componentDidMount () {
-        // Provide your access token
-        L.mapbox.accessToken = ENV.MAPBOX_ACCESS_TOKEN;
         this.createMap();
         this.setEventsListeners()
         this.$dom_node = $(this.getDOMNode());

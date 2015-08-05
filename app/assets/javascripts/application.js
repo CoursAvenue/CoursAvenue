@@ -67,18 +67,12 @@
 // - https://github.com/jquery-boilerplate/jquery-boilerplate
 //= require_tree ./plugins/
 
-//= require libs/markerclusterer.js
-//= require libs/richmarker.js
-//= require libs/infobox.js
-//= require gmaps/google
-//= require libs/gmaps_overrides
 //= require ./plugins_initalization
 
 // ---------------------------------- Backbone
 //= require libs/backbone
 //= require libs/backbone.marionette
 //= require libs/backbone-validation
-//= require libs/backbone.googlemaps
 //= require libs/backbone.paginator.js
 //= require libs/backbone.poller.js
 //= require libs/Backbone.ModelBinder.js

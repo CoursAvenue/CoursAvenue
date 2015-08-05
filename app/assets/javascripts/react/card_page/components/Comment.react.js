@@ -26,7 +26,7 @@ var Comment = React.createClass({
                     <div dangerouslySetInnerHTML={{__html: this.props.comment.get('simple_format_content') }}>
                     </div>
                 </div>
-                <span title={this.props.comment.get('title')} itemProp='reviewRating' itemscope={true} itemtype='http://schema.org/Rating'>
+                <span title={this.props.comment.get('title')} itemProp='reviewRating' itemScope={true} itemType='http://schema.org/Rating'>
                   <meta itemProp='ratingValue' content={this.props.comment.get('rating') || 5} />
                   <meta itemProp='worstRating' content={1} />
                   <meta itemProp='bestRating' content={5} />

@@ -31,7 +31,7 @@ class CommentSerializer < ActiveModel::Serializer
   end
 
   def simple_format_content
-    simple_format(content)
+    simple_format(content.strip)
   end
 
   def created_at_iso

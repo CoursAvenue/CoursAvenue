@@ -57,6 +57,7 @@
 
   .grid__item.four-twelfths.palm-one-whole.palm-hard>
     .bordered.bg-white
+      = render 'structures/registration'
       #mfp-hide.center-block.relative{ style: 'max-width:530px;' }
       - home_place_map_attributes = {}
       - if @course.teaches_at_home? and home_place
@@ -89,7 +90,7 @@
             %div.push-half--bottom
               - stop.lines.each do |line|
                 = MetroLineDecorator.new(line).chip
-              %strong.v-middle= stop.name
+              %span.v-middle= stop.name
         - unless @structure.is_sleeping?
           %hr.push--ends
           = render 'structures/response_stats'

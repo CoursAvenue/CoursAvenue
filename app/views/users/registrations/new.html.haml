@@ -17,20 +17,9 @@
                 = render 'users/sessions/form'
 
 
-      #map.google-map.google-map--medium
-
     = content_for :scripts do
       :javascript
         $(function() {
-            handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
-            handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-                markers = handler.addMarkers(#{@structure_locations.to_json});
-                handler.bounds.extendWith(markers);
-                handler.fitMapToBounds();
-                var center = handler.getMap().getCenter();
-                var latLng = new google.maps.LatLng(center.lat() + 0.04, center.lng() + 0.15);
-                handler.getMap().panTo(latLng);
-            });
             // For registration
             $('#new_user').submit(function(){
               if ($('#user_first_name').val().length === 0 ||
