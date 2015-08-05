@@ -98,11 +98,11 @@ class Structure::CourseCreationForm
       @planning_duration = TimeParser.duration_from @planning_start_time, @planning_end_time
     end
 
-    if @planning_start_date.kind_of?(String)
+    if @planning_start_date.kind_of?(String) and @planning_start_date.present?
       @planning_start_date = DateTime.parse(@planning_start_date)
     end
 
-    if @planning_end_date.kind_of?(String)
+    if @planning_end_date.kind_of?(String) and @planning_end_date.present?
       @planning_end_date = DateTime.parse(@planning_end_date)
     end
   end
