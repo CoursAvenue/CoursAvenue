@@ -49,6 +49,9 @@
     = render 'layouts/social_sdks'
 
     :javascript
+      L.mapbox.accessToken = ENV.MAPBOX_ACCESS_TOKEN;
+
+    :javascript
         Bugsnag.releaseStage = '#{Rails.env}';
         Bugsnag.notifyReleaseStages = ["staging", "production"]
     :javascript
