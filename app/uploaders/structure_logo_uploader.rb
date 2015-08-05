@@ -23,39 +23,53 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
     process resize_to_fit: [450, 450]
   end
 
+  version :thumbnail_email_cropped do
+    process :crop_thumb_300_220
+  end
+
   version :thumb do
-    process crop_thumb: [200]
-  end
-
-  version :small_thumb do
-    process crop_thumb: [60]
-  end
-
-  version :small_thumb_85 do
-    process crop_thumb: [85]
+    process :crop_thumb_200
   end
 
   version :small_thumb_120 do
-    process crop_thumb: [120]
+    process :crop_thumb_120
   end
 
-  version :thumbnail_email_cropped do
-    process crop_thumb: [300, 220]
+  version :small_thumb_85 do
+    process :crop_thumb_85
+  end
+
+  version :small_thumb do
+    process :crop_thumb_60
   end
 
   version :wide_and_blurry do
     cloudinary_transformation transformation: [{ width: 1024, height: 300, crop: :fill, effect: 'blur:900' }], flags: :progressive
   end
 
-  # We don't add white list extension because we want to be able to add images from urls
-  # that does not have extension, eg: http://filepicker.io/api/file/X8iSrLQESv27CTIXXHU1
-  # def extension_white_list
-  #   %w(jpg jpeg gif png)
-  # end
-
   private
 
-  def crop_thumb(width, height=nil)
+  def crop_thumb_300_220
+    custom_crop(300, 220)
+  end
+
+  def crop_thumb_200
+    custom_crop(200)
+  end
+
+  def crop_thumb_120
+    custom_crop(120)
+  end
+
+  def crop_thumb_85
+    custom_crop(85)
+  end
+
+  def crop_thumb_60
+    custom_crop(60)
+  end
+
+  def custom_crop(width, height=nil)
     height ||= width
     transformations = []
     crop_width      = (model.crop_width.to_i == 0 ? 600 : model.crop_width.to_i)
