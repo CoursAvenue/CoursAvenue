@@ -21,6 +21,30 @@ class Pro::StructuresController < Pro::ProController
 
   respond_to :json
 
+  # GET member
+  def dashboard
+    @structure_decorator = @structure.decorate
+    @wizard              = get_next_wizard
+    commentable_ids      = @structure.courses.map(&:id)
+    commentable_ids << @structure.id
+    @comments            = @structure.comments.accepted
+    @courses             = @structure.courses
+    @places              = @structure.places
+
+    if @structure.premium?
+      @medias = @structure.medias.cover_first
+    else
+      @medias = [@structure.medias.cover_first.first]
+    end
+
+    @profile_percentage = 100
+    @profile_percentage -= 25 if !@structure.profile_completed?
+    @profile_percentage -= 25 if @structure.medias.empty?
+    @profile_percentage -= 25 if @comments.empty?
+    @profile_percentage -= 25 if @structure.plannings.future.empty?
+
+    @places_latlng = @places.map(&:to_react_json)
+  end
 
   # GET etablissements/:id/quelqu-un-a-deja-le-control
   # When somebody try to register to a structure that already has an admin

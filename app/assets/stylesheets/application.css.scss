@@ -67,7 +67,6 @@
 @import "partials/objects/main-container";
 @import "partials/objects/map";
 @import "partials/objects/markers";
-@import "partials/objects/mapbox";
 @import "partials/objects/media";
 @import "partials/objects/menu";
 @import "partials/objects/message";
@@ -110,6 +109,8 @@
 @import "libs/magnific-popup-effects";
 @import "libs/redactor";
 @import "libs/masonry";
+
+@import "libs/mapbox";
 
 @import "libs/bootstrap/bootstrap.animation-component";
 @import "libs/bootstrap/bootstrap.datepicker";

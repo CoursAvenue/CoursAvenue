@@ -189,6 +189,7 @@ CoursAvenue::Application.routes.draw do
           get :imported_structures
         end
         member do
+          get   :dashboard
           get   :edit_order_recipient
           get   :someone_already_took_control, path: 'quelqu-un-a-deja-le-control'
           get   :dont_want_to_take_control_of_my_sleeping_account, path: 'me-desabonner'

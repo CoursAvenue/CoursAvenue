@@ -1,0 +1,356 @@
+= side_menu_currently_at 'statistics'
+
+= render partial: 'pro/structures/general_tabs', locals: { current: 'general' }
+
+- if @wizard
+  #wizard.hidden
+    .blue-box.relative.soft.rounded--none.push--bottom
+      %a#close-wizard.closer{ href: 'javascript:void(0)', data: { behavior: 'closer', el: '#wizard' } }
+        %i.fa-times
+      #wizard-form= render @wizard.partial
+      .text--right
+        - if @wizard.show_save
+          %span.btn.btn--green#save-wizard Enregistrer
+        %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
+  = render 'pro/structures/wizards/share_your_profile'
+
+= render 'alerts'
+%h1 Tableau de bord
+.grid
+  .grid__item.palm-one-whole.one-half.bordered--right{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.profile_completion')} }>
+    - cache "pro/structures/dashboard/completion/#{@profile_percentage}/v2" do
+      %h4.push-half--bottom Votre profil est complété à #{@profile_percentage}%
+      .text--center.progress.push-half--bottom{style: "width: 280px;"}
+        - if @profile_percentage == 0
+          #{@profile_percentage}%
+        - else
+          #profile-progress-bar.bar.bar-success{style: "width: 0%;"}
+            #{@profile_percentage}%
+      %ul.no-bullet-list
+        %li
+          %i.fa-check-square-o
+          %span.line-through--gray Créer mon profil
+        %li
+          - if @structure.profile_completed?
+            %i.fa-check-square-o
+            %span.line-through--gray Compléter mes informations générales et ajouter un logo
+          - else
+            = link_to edit_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
+              %i.fa.fa-square-o
+              Compléter mes informations générales et ajouter un logo
+        %li
+          - if @structure.comments.any? or @structure.comment_notifications.any?
+            %i.fa-check-square-o
+            %span.line-through--gray Demander des recommandations à mes élèves
+          - else
+            = link_to recommendations_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
+              %i.fa.fa-square-o
+              Demander des recommandations à mes élèves
+        %li
+          - if @structure.medias.any?
+            %i.fa-check-square-o
+            %span.line-through--gray Mettre en ligne les photos et vidéos de mes cours
+          - else
+            = link_to pro_structure_medias_path(@structure), class: 'profile-task-uncomplete' do
+              %i.fa.fa-square-o
+              Mettre en ligne les photos et vidéos de mes cours
+        %li
+          - if @structure.plannings.future.any?
+            %i.fa-check-square-o
+            %span.line-through--gray Renseigner mes cours et mon planning
+          - else
+            = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
+              %i.fa.fa-square-o
+              Renseigner mes cours et mon planning
+  .grid__item.visuallyhidden--palm.one-half{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.recommendations')} }>
+    - cache [@structure, "pro/structures/dashboard/comments_completion/#{@structure.comments.accepted.count}"] do
+      .soft--right
+        %h4.push-half--bottom Vos avis
+        %table#progress-comments.push-half--right.flush--bottom
+          %tbody
+            %tr{style: 'background: #e7e1da;'}
+              - @structure.comments.accepted.limit(15).order('created_at ASC').each do |comment|
+                %td.text--center.hard{style: "width: 6.6%;"}
+                  .hidden.bg-green{ data: { toggle: 'popover', html: 'true', placement: 'bottom', content: "<div style='font-size: 12px;'>#{comment.author_name} le #{I18n.l(comment.created_at, format: :date)}<br><br>#{comment.content.html_safe}<div>", trigger: 'hover' } }
+                    %a{ href: 'javascript:void(0)' }
+                      %i.fa-comment.white
+              - if @structure.comments.count < 15
+                - (15 -@structure.comments.accepted.count).times do |index|
+                  %td.text--center.hard{style: "width: 6.6%;"}
+                    &nbsp;
+        %table.push-half--right
+          %thead
+            %tr
+              - 15.times do |index|
+                %th.text--center.hard{style: "width: 6.6%;"}
+
+          %tbody
+            %tr
+              %td.v-top.text--center.hard{ colspan: 9 }
+                %i.fa.fa-arrow-up
+                %br
+                %span.nowrap À partir du 5<sup>e</sup> avis :
+                %br
+                - if @structure.comments_count > 4
+                  = link_to comments_on_website_pro_structure_comments_path(@structure), class: 'btn btn--blue-green nowrap text--center' do
+                    Installer mon
+                    %br
+                    livre d'or
+                - else
+                  %a.btn.btn--small.text--center{ href: '#livre-dor-explanation', data: { behavior: 'modal', width: 500, padding: 0 } } OBTENEZ VOTRE LIVRE D'OR
+              %td.text--right.v-top.hard{ colspan: 6 }
+                %i.fa.fa-arrow-up
+                %br
+                %span.nowrap À partir de 15 avis et +
+                %br
+                - if @structure.comments_count > 14
+                  = link_to new_pro_structure_sticker_demand_path(@structure), class: 'btn btn--blue-green text--center nowrap' do
+                    Recevoir mes
+                    %br
+                    autocollants
+                - else
+                  %a.btn.btn--small.text--center{ href: '#sticker-explanation', data: { behavior: 'modal', width: 500, padding: 0 } } OBTENEZ VOS AUTOCOLLANTS
+              -# %td.v-top.text--center.hard{ colspan: 9 }
+              -#   %i.fa-chevron-up
+              -#   %br
+              -#   Avec 5 avis, vous êtes
+              -#   %br
+              -#   2 fois plus visibles
+              -# %td.text--right.v-top.hard{ colspan: 6 }
+              -#   %i.fa-chevron-up
+              -#   %br
+              -#   Avec 15 avis, vous êtes
+              -#   %br
+              -#   10 fois plus visibles
+
+- cache 'pro/structures/dashboard/hidden-popups' do
+  #livre-dor-explanation.hidden
+    .panel
+      .panel__header.soft
+        %h4.flush Vous n'avez pas encore accès à votre livre d'or
+      .panel__body.soft
+        %p
+          %strong Au-delà de 5 avis, nous vous offrons votre livre d'or interactif
+          qui vous permet d'afficher toutes les recommandations de vos élèves directement sur votre propre site Internet ou blog, mais aussi sur tous les autres supports de communication (flyers, affiches, signature de vos emails, etc.).
+        %p
+          Le bouche à oreille restant le 1er facteur d'inscription à un cours, nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
+        .text--center.push--bottom= link_to "Exemples de livres d'Or.", pro_pages_widget_path, target: '_blank', rel: 'nofollow'
+        %p.text--center
+          = link_to "Obtenir plus de recommandations", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
+
+  #sticker-explanation.hidden
+    .panel
+      .panel__header.soft
+        %h4.flush Vous n'avez pas encore accès à votre autocollant
+      .panel__body.soft
+        %p
+          %strong Au-delà de 15 avis, nous vous offrons l'autocollant "Recommandé par les élèves sur CoursAvenue"
+          à afficher sur vos lieux de cours : cela signifie que vos cours sont appréciés d'une large partie de vos élèves et que le bouche à oreille participe à votre développement.
+
+        %p.text--center
+          = link_to "Obtenir plus de recommandations", recommendations_pro_structure_path(@structure), class: 'btn btn--green'
+
+%hr.push--ends
+%h4.push-half--bottom
+  %i.fa-user
+  Résumé du profil
+= render 'pro/structures/structure'
+
+%hr.push--ends
+.grid
+  .grid__item.palm-one-whole.one-third>
+    .islet.text--center
+      %h4.flush
+        %i.fa-comment
+        Avis
+      %p
+        %span.beta{class: (@comments.length > 6 ? 'green' : 'red')}= @comments.length
+        %br
+        = link_to "Obtenir plus de recommandations", recommendations_pro_structure_path(@structure), class: 'btn btn--blue-green btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
+
+  .grid__item.palm-one-whole.one-third>
+    .islet.text--center
+      %h4.flush
+        %i.fa-list
+        Cours & Stages
+      %p
+        %span.beta{class: (@structure.courses.count > 0 ? 'green' : 'red')}= @structure.courses.count
+        %br
+        = link_to 'Ajouter des cours / stages', pro_structure_courses_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des cours')", class: 'btn btn--blue-green btn--small'
+  .grid__item.palm-one-whole.one-third>
+    .islet.text--center
+      %h4.flush
+        %i.fa-youtube-play
+        Photo & vidéos
+      %p
+        %span.beta{class: (@structure.medias.count > 3 ? 'green' : 'red')}= @structure.medias.count
+        %br
+        = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')", class: 'btn btn--blue-green btn--small'
+
+%hr.push--ends
+%h4
+  %i.fa-map-marker
+  Mes lieux d'enseignement
+
+= react_component('Map', { markers: @places_latlng } )
+.text--center
+  = link_to "Ajouter un lieu", pro_structure_places_path(@structure), class: 'btn btn--blue-green push-half--ends'
+
+- if @comments.length > 0
+  %hr.push--ends
+  %h4
+    %i.fa-comment
+    Mes derniers avis
+  %ul.comment-list
+    - @comments[0..2].each do |comment|
+      - cache [comment, 'pro/structure/dashboard/comments'] do
+        = render partial: 'comments/comment', locals: { comment: comment, structure: @structure, with_reply: true }
+    - if @comments.length > 3
+      %p.text--center= link_to 'Voir mes autres avis', pro_structure_comments_path(@structure)
+
+- if @courses.any?
+  %hr.push--ends
+  %h4
+    %i.fa-list
+    Mes cours & stages
+
+  - if @courses.lessons.any?
+    %h5 Cours réguliers
+    %table.table--striped
+      %thead
+        %tr
+          %th.one-half Nom
+          %th.one-half Créneaux
+      %tbody
+        - @courses.lessons.each do |course|
+          - cache [course, 'pro/structure/dashboard/courses/lesson'] do
+            %tr
+              %td= course.name
+              %td
+                - if course.plannings.count > 1
+                  = "#{course.plannings.count} créneaux"
+                - elsif course.plannings.any?
+                  1 créneau
+                - unless course.plannings.empty?
+                  = "(#{course.plannings.ordered_by_day.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
+
+  - if @courses.trainings.any?
+    %h5 Stages
+    %table.table--striped
+      %thead
+        %tr
+          %th.one-half Nom
+          %th.one-half Créneaux
+      %tbody
+        - @courses.trainings.each do |course|
+          - cache [course, 'pro/structure/dashboard/courses/trainings'] do
+            %tr
+              %td= course.name
+              %td
+                - if course.plannings.count > 1
+                  = "#{course.plannings.count} créneaux"
+                - elsif course.plannings.any?
+                  1 créneau
+                - unless course.plannings.empty?
+                  = "(#{course.plannings.ordered_by_day.map{ |planning| l(planning.start_date) }.join(', ')})"
+
+  - if @courses.privates.any?
+    %h5 Cours particuliers
+    %table.table--striped
+      %thead
+        %tr
+          %th.one-half Nom
+          %th.one-half Créneaux
+      %tbody
+        - @courses.privates.each do |course|
+          - cache [course, 'pro/structure/dashboard/courses/privates'] do
+            %tr
+              %td= course.name
+              %td
+                - if course.plannings.count > 1
+                  = "#{course.plannings.count} créneaux"
+                - else
+                  1 créneau
+                = "(#{course.plannings.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
+  %p.text--center
+    = succeed ' ' do
+      = link_to 'Ajouter un cours', regular_pro_structure_courses_path(@structure), class: 'btn btn--blue-green'
+    = link_to 'Ajouter un stage', trainings_pro_structure_courses_path(@structure), class: 'btn btn--blue-green'
+
+- if @medias.any?
+  %hr.push--ends
+  %h4
+    %i.fa-youtube-play
+    Mes photos & vidéos
+  - @medias.each_with_index do |media, index|
+    .soft-half.inline-block.one-third.palm-one-whole.v-top>
+      - cache [media, 'pro/structure/dashboard/medias'] do
+        = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, show: true }
+
+  %p.text--center= link_to 'Ajouter une photo / vidéo', pro_structure_medias_path(@structure), class: 'btn btn--blue-green'
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#progress-comments .hidden').each(function(index, td) {
+            setTimeout(function(){
+              $(td).removeClass('hidden');
+              var width = $(td).css('width');
+              $(td).css('width', '0');
+              $(td).animate({width: width}, 250, 'linear');
+            }, index * 250)
+        });
+        $('a.profile-task-uncomplete').hover(function() {
+            $(this).find('i').removeClass('fa fa-square-o').addClass('fa-check-square-o');
+        }, function() {
+            $(this).find('i').removeClass('fa-check-square-o').addClass('fa fa-square-o');
+        });
+        $('#profile-progress-bar').animate({
+            width: '#{@profile_percentage}%'
+        }, 800);
+        setTimeout(function() {
+            if ($('#wizard').length > 0) {
+                $('#wizard').slideDown();
+                var send_ajax = function(options) {
+                    options = options || '';
+                    $.ajax({
+                        url: "#{wizard_pro_structure_path(@structure, format: :json)}",
+                        dataType: 'json',
+                        data: options,
+                        success: function(response) {
+                            $('#wizard-form').hide('slow');
+                            setTimeout(function(){
+                                if (response.done) {
+                                    $('#wizard').hide('slow');
+                                    setTimeout(function(){
+                                        $('#wizard').empty();
+                                        $('#wizard').append($('#share_your_profile').removeClass('hidden')).show('slow');
+                                    }, 400)
+                                } else {
+                                    $('#wizard-form').html(response.form);
+                                    $('#wizard-form').show('slow');
+                                }
+                            }, 500);
+                        }
+                    })
+                }
+                var submit_form = function() {
+                    $('#wizard form').submit().bind('ajax:success', function() {
+                        if ($('#wizard form input[name=next]').length > 0) {
+                            send_ajax({next:true});
+                        } else {
+                            send_ajax()
+                        }
+                    });
+                    return false;
+                };
+                $('#save-wizard').click(submit_form);
+                $('#skip-wizard').click(function(){
+                    var wizard_label = $('#wizard form label').text();
+                    send_ajax({next:true});
+                });
+                $('#close-wizard').click(function() {
+                });
+            }
+        }, 1000);
+    });
