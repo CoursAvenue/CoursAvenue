@@ -40,10 +40,9 @@ class Structure::RegistrationForm
   #
   # @return Boolean, whether the Structure and The admin have been created or not.
   def persist!
-    @structure = Structure.create(
-      name: @structure_name,
-      subject_ids: @structure_subjects_ids + @structure_subject_descendants_ids,
-    )
+    @structure = Structure.new(name: @structure_name)
+    @structure.subjects = Subject.find(@structure_subjects_ids + @structure_subject_descendants_ids)
+    @structure.save
 
     if !@structure.persisted?
       errors[:structure] = @structure.errors.messages
@@ -60,7 +59,7 @@ class Structure::RegistrationForm
       return false
     end
 
-    @admin.send_confirmation_instructions
+    # @admin.send_confirmation_instructions
     @structure.delay.index
 
     true

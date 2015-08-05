@@ -17,36 +17,36 @@
   .push--top.soft--ends.hard--bottom.palm-hard
     .text--right.soft-half--ends.transition-all-linear#sticky-header
       .main-container.relative
-        = render partial: 'layouts/pro/home_header', locals: { current: current }
+        = render partial: 'layouts/pro/home_header', locals: { current: current, hide_menu: hide_menu }
     = yield
   - if full
     .text--center.absolute.one-whole
       %a.block.not-outlined.white{ href: '#en-savoir-plus', data: { behavior: 'scroll-to', duration: 900, offset_top: '-50'} }
         %i.fa-chevron-down.fa-3x.smooth-black-text-shadow.animated-arrow-1.block
         %i.fa-chevron-down.fa-3x.smooth-black-text-shadow.animated-arrow-2.block
-
-- content_for :scripts do
-  :javascript
-      $(function() {
-          $('#sticky-header').sticky({
-              oldWidth: true,
-              onUnStick: function onUnStick ($element) {
-                  $element.find('a').removeClass('border-color-orange orange');
-                  $element.find('a').addClass('white-transparent');
-                  $element.find('[data-try]').removeClass('btn--green');
-                  $element.find('[data-try]').addClass('btn--white-transparent');
-                  $element.find('.header--pro__link.btn').addClass('btn--white-transparent');
-                  $element.removeClass('bg-white bordered--bottom');
-                  $('#home-logo-dark').fadeOut();
-              },
-              onStick: function onStick ($element) {
-                  $element.find('a').removeClass('white-transparent');
-                  $element.find('.header--pro__link').addClass('border-color-orange orange');
-                  $element.find('.header--pro__link.btn--white-transparent').removeClass('btn--white-transparent');
-                  $element.find('[data-try]').removeClass('btn--white-transparent');
-                  $element.find('[data-try]').addClass('btn btn--green');
-                  $element.addClass('bg-white bordered--bottom');
-                  $('#home-logo-dark').fadeIn();
-              }
-          });
-      });
+- if !hide_menu
+  - content_for :scripts do
+    :javascript
+        $(function() {
+            $('#sticky-header').sticky({
+                oldWidth: true,
+                onUnStick: function onUnStick ($element) {
+                    $element.find('a').removeClass('border-color-orange orange');
+                    $element.find('a').addClass('white-transparent');
+                    $element.find('[data-try]').removeClass('btn--green');
+                    $element.find('[data-try]').addClass('btn--white-transparent');
+                    $element.find('.header--pro__link.btn').addClass('btn--white-transparent');
+                    $element.removeClass('bg-white bordered--bottom');
+                    $('#home-logo-dark').fadeOut();
+                },
+                onStick: function onStick ($element) {
+                    $element.find('a').removeClass('white-transparent');
+                    $element.find('.header--pro__link').addClass('border-color-orange orange');
+                    $element.find('.header--pro__link.btn--white-transparent').removeClass('btn--white-transparent');
+                    $element.find('[data-try]').removeClass('btn--white-transparent');
+                    $element.find('[data-try]').addClass('btn btn--green');
+                    $element.addClass('bg-white bordered--bottom');
+                    $('#home-logo-dark').fadeIn();
+                }
+            });
+        });

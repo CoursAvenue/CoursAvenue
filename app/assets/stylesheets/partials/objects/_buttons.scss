@@ -89,7 +89,7 @@
     color           : white;
     @extend .btn-hover-transition;
     &::after, &.btn--active { background-color: lighten($blue-green, 5%); }
-    &.disabled, &[disabled] { background-color: #8CFCEC; }
+    &.disabled, &[disabled] { background-color: transparentize($blue-green, 0.5); color: white; }
 }
 .bg-blue-green {
     .btn--green, .btn--blue-green {

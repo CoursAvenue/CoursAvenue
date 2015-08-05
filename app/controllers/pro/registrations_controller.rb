@@ -12,7 +12,7 @@ class Pro::RegistrationsController < Pro::ProController
     if @registration_form.save
       redirect_to new_course_pro_registrations_path(
         id: @registration_form.structure.slug, course_type: @registration_form.course_type
-      ), notice: 'Établissement créé avec succés'
+      ), notice: 'Publiez maintenant votre 1ère activité'
     else
       render :new
     end

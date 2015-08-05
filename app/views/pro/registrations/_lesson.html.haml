@@ -2,28 +2,37 @@
   = f.hidden_field :structure_id, value: @structure.slug
   = f.hidden_field :course_type, value: 'Course::Lesson'
 
-  .grid.push-half--bottom
+  .grid--full
+    .grid__item.one-third.v-middle>
+    .grid__item.two-thirds.v-middle>
+      %h4
+        %i.fa-info.v-middle
+        %span.v-middle Infos sur le cours
+  .grid--full
     .grid__item.one-third.text--right.v-middle>
-      %label{ for: 'structure_course_creation_form[course_name]' }> Nom du cours collectif
+      = f.label :course_name, label: 'Nom du cours collectif', class: 'label--large v-middle'
     .grid__item.v-middle.two-thirds>
       = f.input :course_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+  .grid--full.push-half--bottom
+    .grid__item.one-third.text--right.v-middle>
+    .grid__item.v-middle.two-thirds>
       %p.flush
-        %i.blue
+        %i.blue-green
           Un bon nom doit être court et explicite : aucune information sur le lieu, l'âge ou le niveau.
 
-  .grid.push-half--bottom
+  .grid--full.push-half--bottom
     .grid__item.one-third.text--right.v-middle>
-      %label{ for: 'structure_course_creation_form[course_subject_ids]' }> Étiquette disciplines
+      = f.label :course_subject_ids, label: 'Étiquette disciplines', class: 'label--large v-middle'
     .grid__item.v-middle.two-thirds>
       = f.input :course_subject_ids, as: :select, collection: little_children_subjects(@structure), input_html: { id: 'subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
 
-  .grid.push-half--bottom
+  .grid--full.push-half--bottom
     .grid__item.one-third.text--right.v-middle>
-      %label> Prix séance d'essai
+      %label.string.optional.control-label.label--large.v-middle> Prix séance d'essai
     .grid__item.v-middle.two-thirds>
       - price = @structure.prices.build
       - price_free = !price.persisted? ? true : price.free?
-      .input
+      .input.flush
         = f.simple_fields_for :course_prices, price, child_index: 0 do |price_form|
           = price_form.hidden_field :type, value: 'Price::Trial'
           %select.push-half--right.input--large.inline-block.v-middle{ data: { trial_select: true } }
@@ -33,98 +42,117 @@
             %span.label--large.v-middle Tarif :
             = price_form.input :amount, label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large flush text--center', style: 'width: 5em;', type: 'string', value: (price.amount ? price.amount.gsub(',00', '') : 0 ), data: { amount: true } }, wrapper_html: { class: 'flush v-middle inline-block' }
             %span.push-half--right.label--large.v-middle €
-      -# - if @course.errors[:prices].any?
-      -#   .input
-      -#     .control-label>
-      -#     .input-container>
-      -#       .red.f-weight-600.field_with_errors Vous devez renseigner un tarif
 
-  .grid.push-half--bottom
+  .grid--full.push-half--bottom
     .grid__item.one-third.text--right.v-middle>
-      %label{ for: 'structure_course_creation_form[course_frequency]' }> Fréquence des cours
+      = f.label :course_frequency, label: Course.human_attribute_name(:frequency), class: 'label--large v-middle'
     .grid__item.v-middle.two-thirds>
       = f.input :course_frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first,
-        label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+        label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush'}
 
-  .grid.push-half--bottom
+  .grid--full.push-half--bottom
     .grid__item.one-third.text--right.v-middle>
-      %label> Infos
+      %label.string.optional.control-label.label--large.v-middle> Infos
     .grid__item.v-middle.two-thirds>
       .input.flush
         .input-container>
           %div
-            = f.input :course_cant_be_joined_during_year, as: :boolean, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
-            %label.inline-block.v-middle.label--large{ for: 'structure_course_creation_form[course_cant_be_joined_during_year]' }= Course.human_attribute_name :cant_be_joined_during_year
+            = f.input :course_cant_be_joined_during_year, as: :boolean, label: false, wrapper_html: { class: 'flush--top inline-block v-middle' }, input_html: { class: 'input--large' }
+            %label.inline-block.v-middle.label--large.hard--top{ for: 'structure_course_creation_form_course_cant_be_joined_during_year' }= Course.human_attribute_name :cant_be_joined_during_year
 
           %div
-            = f.input :course_no_class_during_holidays, as: :boolean, label: false, wrapper_html: { class: 'inline-block v-middle' }, input_html: { class: 'input--large' }
-            %label.inline-block.v-middle.label--large{ for: 'structure_course_creation_form[course_no_class_during_holidays]' }= Course.human_attribute_name :no_class_during_holidays
-
-  .grid.push-half--bottom
-    .grid__item.one-third.text--right.v-middle>
-      %label{ for: 'structure_course_creation_form[place_name]' }> Nom du lieu
-    .grid__item.v-middle.two-thirds>
-      = f.input :place_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
-
-  .grid.push-half--bottom
-    .grid__item.one-third.text--right.v-middle>
-      %label{ for: 'structure_course_creation_form[place_street]' }> Adresse
-    .grid__item.v-middle.two-thirds>
-      = f.input :place_street, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
-
-  .grid.push-half--bottom
-    .grid__item.one-third.text--right.v-middle>
-      %label{ for: 'structure_course_creation_form[place_zip_code]' }> Code postal et ville
-    .grid__item.v-middle.two-thirds>
-      - place = @course_creation_form.place.present? ? @course_creation_form.place : Place.new
-      = f.input :place_zip_code, input_html: { class: 'input--large', style: 'width: 7em;', data: { behavior: 'city-autocomplete', el: '#place_city_id' } }, label: false, wrapper_html: { class: 'flush v-middle inline-block' }
-      = f.input :place_city_id, as: :select, collection: [place.city], label: false, selected: place.city, wrapper_html: { class: 'flush v-middle inline-block' },
-        input_html: { class: 'input--large', id: 'place_city_id' }
-
-      = f.input :place_latitude, as: :hidden
-      = f.input :place_longitude, as: :hidden
-
-  .grid.push-half--bottom
-    .grid__item.one-third.text--right.v-middle>
-      %label.label--large.required.control-label Jour
-    .grid__item.v-middle.two-thirds>
-      - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate
-      = f.input :planning_week_day, as: :select, collection: days, label: false, include_blank: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush' }
-
-  .grid.push-half--bottom
-    .grid__item.one-third.text--right.v-middle>
-      = f.label :planning_start_time, class: 'control-label label--large' do
-        %i.fa.fa-time
-        Horaires
-    .grid__item.v-middle.two-thirds>
-      = f.input :planning_start_time, as: :time, minute_step: 15, default: { year: 2000, month: 1, day: 1, hour: 8, min: 00 }, wrapper_html: { id: 'start-time-wrapper', class: 'flush input-time--large inline-block' }, label: false, input_html: { class: 'input--large' }
-      %span.label--large.v-middle.inline-block -
-      = f.input :planning_end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: { year: 2000, month: 1, day: 1, hour: 9, min: 00 }, wrapper_html: { id: 'end-time-wrapper', class: 'flush input-time--large inline-block' }, input_html: { class: 'input--large' }
-
-  .grid.push-half--bottom
-    .grid__item.one-third.text--right.v-middle>
-      %label{ for: 'structure_course_creation_form[level_ids]' }>= t('planning.levels')
-    .grid__item.v-middle.two-thirds>
-      = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: false, wrapper_html: { data: { behavior: 'checkbox-list' } }, input_html: { class: 'input--large' }
-
-  .grid.push-half--bottom
-    .grid__item.one-third.text--right.v-middle>
-      %label{ for: 'structure_course_creation_form[audience_ids]' }>= t('planning.audiences')
-    .grid__item.v-middle.two-thirds>
-      = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: false, input_html: { class: 'input--large' }
-
-  .grid.push-half--bottom#children-ages{class: f.object.audiences.include?(Audience::KID) ? '' : 'hidden'}
-    .grid__item.one-third.text--right.v-middle>
-      %label.label--large.control-label.v-middle Âge pour les enfants (optionnel)
-    .grid__item.v-middle.two-thirds>
-      %span.v-middle.label--large.inline-block de
-      = f.input :min_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.min_age_for_kid || 0}, wrapper_html: { class: 'flush v-middle inline-block' }
-      %span.v-middl.label--large.inline-block à
-      = f.input :max_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.max_age_for_kid || 18}, wrapper_html: { class: 'flush v-middle inline-block' }
-      %span.v-middle ans
-
+            = f.input :course_no_class_during_holidays, as: :boolean, label: false, wrapper_html: { class: 'flush inline-block v-middle' }, input_html: { class: 'input--large' }
+            %label.inline-block.v-middle.label--large.hard{ for: 'structure_course_creation_form_course_no_class_during_holidays' }= Course.human_attribute_name :no_class_during_holidays
   .text--center
-    = f.submit 'Commencer avec CoursAvenue', class: 'btn--large btn btn--full btn--green one-whole', data: { disable_with: "Enregistrement en cours" }, style: 'max-width: 900px;'
+    %a.btn.btn--blue-green{ data: { behavior: 'show-step-2' } }
+      Suivant
+      %i.fa-chevron-right.soft--left
+  .hidden{ data: { step: 2 } }
+    %hr.push--ends
+    .grid
+      .grid__item.one-third.v-middle>
+      .grid__item.two-thirds.v-middle>
+        %h4
+          %i.fa-map-marker.v-middle
+          %span.v-middle Infos sur le lieu
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle>
+        = f.label :place_name, label: Place.human_attribute_name(:name), class: 'label--large v-middle'
+      .grid__item.v-middle.two-thirds>
+        = f.input :place_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off', placeholder: t('simple_form.placeholders.place.name') }
+
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle>
+        = f.label :place_street, label: Place.human_attribute_name(:street), class: 'label--large v-middle'
+      .grid__item.v-middle.two-thirds>
+        = f.input :place_street, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off', placeholder: t('simple_form.placeholders.place.street') }
+
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle>
+        = f.label :place_zip_code, label: Place.human_attribute_name(:zip_code), class: 'label--large v-middle'
+      .grid__item.v-middle.two-thirds>
+        - place = @course_creation_form.place.present? ? @course_creation_form.place : Place.new
+        = f.input :place_zip_code, input_html: { class: 'input--large', style: 'width: 7em;', placeholder: t('simple_form.placeholders.place.zip_code'), data: { behavior: 'city-autocomplete', el: '#place_city_id' } }, label: false, wrapper_html: { class: 'flush v-middle inline-block' }
+        = f.input :place_city_id, as: :select, collection: [place.city], label: false, selected: place.city, wrapper_html: { class: 'flush v-middle inline-block' },
+          input_html: { class: 'input--large', id: 'place_city_id' }
+
+        = f.input :place_latitude, as: :hidden
+        = f.input :place_longitude, as: :hidden
+
+    .text--center
+      %a.btn.btn--blue-green{ data: { behavior: 'show-step-3' } }
+        Suivant
+        %i.fa-chevron-right.soft--left
+
+  .hidden{ data: { step: 3 } }
+    %hr.push--ends
+    .grid
+      .grid__item.one-third.v-middle>
+      .grid__item.two-thirds.v-middle>
+        %h4
+          %i.fa-calendar.v-middle
+          %span.v-middle Infos sur le planning
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle>
+        %label.label--large.required.control-label Jour
+      .grid__item.v-middle.two-thirds>
+        - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate
+        = f.input :planning_week_day, as: :select, collection: days, label: false, include_blank: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush' }
+
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle>
+        = f.label :planning_start_time, class: 'control-label label--large' do
+          %i.fa.fa-time
+          Horaires
+      .grid__item.v-middle.two-thirds>
+        = f.input :planning_start_time, as: :time, minute_step: 15, default: { year: 2000, month: 1, day: 1, hour: 8, min: 00 }, wrapper_html: { id: 'start-time-wrapper', class: 'flush input-time--large inline-block' }, label: false, input_html: { class: 'input--large' }
+        %span.label--large.v-middle.inline-block -
+        = f.input :planning_end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: { year: 2000, month: 1, day: 1, hour: 9, min: 00 }, wrapper_html: { id: 'end-time-wrapper', class: 'flush input-time--large inline-block' }, input_html: { class: 'input--large' }
+
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle>
+        = f.label :level_ids, label: t('planning.levels'), class: 'label--large v-middle'
+      .grid__item.v-middle.two-thirds>
+        = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: false, wrapper_html: { data: { behavior: 'checkbox-list' } }, input_html: { class: 'input--large' }
+
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle>
+        = f.label :audience_ids, label: t('planning.audiences'), class: 'label--large v-middle'
+      .grid__item.v-middle.two-thirds>
+        = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: false, input_html: { class: 'input--large' }
+
+    .grid--full.push-half--bottom#children-ages{class: f.object.audiences.include?(Audience::KID) ? '' : 'hidden'}
+      .grid__item.one-third.text--right.v-middle>
+        %label.label--large.control-label.v-middle Âge pour les enfants (optionnel)
+      .grid__item.v-middle.two-thirds>
+        %span.v-middle.label--large.inline-block de
+        = f.input :min_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.min_age_for_kid || 0}, wrapper_html: { class: 'flush v-middle inline-block' }
+        %span.v-middl.label--large.inline-block à
+        = f.input :max_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.max_age_for_kid || 18}, wrapper_html: { class: 'flush v-middle inline-block' }
+        %span.v-middle ans
+
+    .text--center
+      = f.submit 'Commencer avec CoursAvenue', class: 'btn--large btn btn--full btn--green one-whole', data: { disable_with: "Enregistrement en cours" }, style: 'max-width: 900px;'
 
 - content_for :scripts do
   :javascript

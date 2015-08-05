@@ -11,12 +11,16 @@
         = render 'layouts/pro_g_analytics'
       - else
         = render 'layouts/g_analytics'
-      = render 'layouts/mixpanel'
 
       = yield :after_ga
+
+    = render 'layouts/mixpanel'
+
     = render 'layouts/typekit'
+
     = yield :head
     = favicon_link_tag
+
     %link{ href: asset_path('favicon.ico'), rel: 'shortcut icon', type: 'image/ico' }
     %link{ href: asset_path('favicon.png'), rel: 'apple-touch-icon' }
     = javascript_include_tag 'modernizr' # MUST BE In the Head and before CSS
@@ -66,7 +70,6 @@
     - if Rails.env.production? and request.subdomain == 'www'
       :javascript
           mixpanel.identify($.cookie('fingerprint'));
-          mixpanel.track('Visited: ' + window.location.pathname, { url: document.URL, path: window.location.pathname });
           CoursAvenue.addInitializer(function(options){
               if (CoursAvenue.currentUser()) {
                   mixpanel.people.set({

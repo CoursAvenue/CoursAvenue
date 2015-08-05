@@ -1,4 +1,12 @@
 .tooltip-inner {
-    max-width: 300px;
-    background: rgba(0,0,0,0.9);
+    max-width : 400px;
+    background: white;
+    color     : #444;
+    padding   : 0.5em 1em;
+    @include box-shadow(0 5px 10px rgba(0, 0, 0, 0.1));
+    @include border-radius(2px);
+}
+
+.tooltip.top .tooltip-arrow {
+    border-top-color: white;
 }

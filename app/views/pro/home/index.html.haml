@@ -84,3 +84,9 @@
       = image_tag 'presses/logos/au-feminin.png', height: 40, data: { src2x: asset_path('presses/logos/au-feminin@2x.png') }
 
 = render partial: 'testimonies_banner', locals: { profile: 'emilie' }
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          mixpanel.track('Landed on pro homepage');
+      });

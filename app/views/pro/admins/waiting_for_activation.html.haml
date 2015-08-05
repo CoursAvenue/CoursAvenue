@@ -32,3 +32,9 @@
               vous utilisez
               = image_tag 'logos/gmail-logo.jpg', class: "v-top", height: 22
               ? L'e-mail de validation est peut-être arrivé dans le 3ème onglet "Promotions" de votre boîte de réception : glissez-le dans votre boîte "Principale" pour recevoir correctement tous les prochains e-mails.
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          mixpanel.track("Profil creation done");
+      });

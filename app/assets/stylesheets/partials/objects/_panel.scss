@@ -1,4 +1,3 @@
-// -------------------- PANELS ------------------------- //
 .panel {
     background-color: white;
     border          : 1px solid $pane-border-color;
@@ -23,19 +22,5 @@
     .panel__body {
         border    : 2px solid $red;
         border-top: none;
-    }
-}
-// -------------------- PANELS ------------------------- //
-
-.panel-background-blue-radial {
-    @include box-shadow(inset 0 0 15px rgba(0, 0, 0, 0.6));
-    background: $blue-green;
-    @include background-image(radial-gradient(farthest-side circle at center center, lighten($blue-green, 10%) 20%, $blue-green 100%));
-    // Old Airbnb blue
-    // background: #0F92CD;
-    // @include background-image(radial-gradient(farthest-side circle at center center, #30B9F1 20%, #0F92CD 100%));
-    .input_field_error {
-        font-weight: bold;
-        @include text-shadow(#FBEFEF 0px 0px 4px);
     }
 }

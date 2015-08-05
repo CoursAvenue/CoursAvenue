@@ -44,6 +44,17 @@
 .datepicker-dropdown.datepicker-orient-top:before   { top  : -7px; }
 .datepicker-dropdown.datepicker-orient-top:after    { top  : -6px; }
 
+.datepicker-dropdown.datepicker-orient-bottom:before {
+  bottom: -7px;
+  border-bottom: 0;
+  border-top: 7px solid #999;
+}
+.datepicker-dropdown.datepicker-orient-bottom:after {
+  bottom: -6px;
+  border-bottom: 0;
+  border-top: 6px solid #ffffff;
+}
+
 .datepicker > div { display: none; }
 .datepicker.days div.datepicker-days { display: block; }
 .datepicker.months div.datepicker-months { display: block; }
