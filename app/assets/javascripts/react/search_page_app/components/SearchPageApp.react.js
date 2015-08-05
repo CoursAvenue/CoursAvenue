@@ -30,7 +30,7 @@ SearchPageApp = React.createClass({
     /*
      * Initialization
      */
-    componentDidMount: function componentDidMount() {
+    componentWillMount: function componentWillMount() {
         this.search_page_app_router = this.search_page_app_router || new SearchPageAppRouter();
         CardStore.on('search:done', this.search_page_app_router.updateUrl);
 
@@ -44,12 +44,12 @@ SearchPageApp = React.createClass({
         if (this.props.locate_user) {
             LocationActionCreators.locateUser();
         }
-        LocationActionCreators.filterByAddress($.parseJSON(this.props.address));
+        LocationActionCreators.filterByAddress(this.props.address);
         if (this.props.root_subject) {
-            SubjectActionCreators.selectRootSubject($.parseJSON(this.props.root_subject));
+            SubjectActionCreators.selectRootSubject(this.props.root_subject);
         }
         if (this.props.subject) {
-            SubjectActionCreators.selectSubject($.parseJSON(this.props.subject));
+            SubjectActionCreators.selectSubject(this.props.subject);
         }
     },
 

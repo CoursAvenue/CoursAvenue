@@ -72,9 +72,9 @@ var LocationStore = Backbone.Model.extend({
     getCitySlug: function getCitySlug () {
         if (this.get('address')) {
             if (this.get('address').city) {
-                return this.get('address').city.toLowerCase().replace(/ /g,'-');
+                return this.get('address').city.toLowerCase().replace(/ /g,'-').replace(/ème/g,'');
             } else {
-                return this.get('address').name.replace(', France','').toLowerCase().replace(/ /g,'-');
+                return this.get('address').name.replace(', France','').toLowerCase().replace(/ /g,'-').replace(/ème/g,'');
             }
         } else {
             return 'paris';

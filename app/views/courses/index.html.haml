@@ -25,10 +25,10 @@
       .double-bounce3
 
 = react_component('SearchPageApp', { map_center: [@city.latitude, @city.longitude],
-                                     subject: (@subject and @subject != @root_subject ? @subject.to_json : nil),
-                                     root_subject: (@root_subject ? @root_subject.to_json : nil),
+                                     subject: (@subject and @subject != @root_subject ? @subject : nil),
+                                     root_subject: (@root_subject ? @root_subject : nil),
                                      locate_user: (params[:locate_user].present?),
-                                     address: { name: @city.name, latitude: @city.latitude, longitude: @city.longitude, city: @city.name, is_address: false }.to_json },
+                                     address: { name: @city.name, latitude: @city.latitude, longitude: @city.longitude, city: @city.name, is_address: false } },
                                      { prerender: false })
 = content_for :scripts do
   :javascript
