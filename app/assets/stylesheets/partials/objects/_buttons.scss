@@ -88,7 +88,7 @@
     border          : none;
     color           : white;
     @extend .btn-hover-transition;
-    &::after, &.btn--active { background-color: lighten($blue-green, 5%); }
+    &::after, &.btn--active { background-color: #22b69e; }
     &.disabled, &[disabled] { background-color: transparentize($blue-green, 0.5); color: white; }
 }
 .bg-blue-green {
