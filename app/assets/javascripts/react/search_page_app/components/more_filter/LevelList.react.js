@@ -6,8 +6,8 @@ var LevelList = React.createClass({
     render: function render () {
         var levels = LevelStore.map(function(level, index) {
             return (
-                <div className="push-half--bottom">
-                    <Selectable model={ level } toggleSelectionFunc={ LevelActionCreators.toggleLevel } key={ index } />
+                <div key={ level.get('id') } className="push-half--bottom">
+                    <Selectable model={ level } toggleSelectionFunc={ LevelActionCreators.toggleLevel } />
                 </div>
             );
         });
