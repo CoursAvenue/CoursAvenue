@@ -32,8 +32,12 @@ var LocationFilterChoicePanel = React.createClass({
     // We show the metro panel only if we are near paris
     shouldShowMetroPanel: function shouldShowMetroPanel () {
         var paris_center = L.latLng(48.8592, 2.3417) // Center of paris
-        var location_latlng = L.latLng(LocationStore.attributes.address.latitude, LocationStore.attributes.address.longitude);
-        return location_latlng.distanceTo(paris_center) < 10000; // meters
+        if (LocationStore.get('bounds')) {
+            var location_latlng = L.latLngBounds(LocationStore.get('bounds')).getCenter();
+        } else if (LocationStore.get('address')) {
+            var location_latlng = L.latLng(LocationStore.get('address').latitude, LocationStore.get('address').longitude);
+        }
+        return location_latlng.distanceTo(paris_center) < 10000; // 10km — seems fair
     },
 
     render: function render () {
