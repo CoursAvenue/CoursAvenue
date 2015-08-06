@@ -33,3 +33,26 @@
 = content_for :scripts do
   :javascript
     window.is_mobile = COURSAVENUE.helperMethods.isMobile.any();
+
+.visuallyhidden
+  %ol
+    %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+      = link_to root_search_page_without_subject_path(@city), itemprop: 'url' do
+        %span{ itemprop: 'title' }= "#{@city.name} (#{@city.zip_code})"
+    - if @root_subject
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = link_to root_search_page_path(@root_subject, @city), itemprop: 'url' do
+          %span{ itemprop: 'title' }= "#{@root_subject.name} à #{@city.name} (#{@city.zip_code})"
+
+    - if @subject and !@subject.root?
+      %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
+        = link_to search_page_path(@root_subject, @subject, @city) do
+          %span{ itemprop: 'title' }= "#{@subject.name} à #{@city.name} (#{@city.zip_code})"
+
+  - if @root_subject.nil?
+    - Subject.roots.stars.each do |root_subject|
+      = link_to "#{root_subject.name} à #{@city.name} (#{@city.zip_code})", root_search_page_path(root_subject, @city)
+  - elsif @subject.root?
+    - @root_subject.descendants.each do |subject|
+      = link_to "#{subject.name} à #{@city.name} (#{@city.zip_code})", search_page_path(@root_subject, subject, @city)
+
