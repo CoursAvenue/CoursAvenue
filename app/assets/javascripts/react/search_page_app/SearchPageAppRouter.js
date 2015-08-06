@@ -23,7 +23,8 @@ var PARAMS_IN_SEARCH = {
     prices                  : { name: 'prix[]'     , actionMethod: SliderActionCreators.setPriceBounds },
     'training_dates.start'  : { name: 'start_date' , actionMethod: TimeActionCreators.setTrainingStartDate },
     'training_dates.end'    : { name: 'end_date'   , actionMethod: TimeActionCreators.setTrainingEndDate },
-    sort_by                 : { name: 'sort'       , actionMethod: FilterActionCreators.updateSorting }
+    sort_by                 : { name: 'sort'       , actionMethod: FilterActionCreators.updateSorting },
+    actual_page             : { name: 'page'       , actionMethod: CardActionCreators.goToPage, delay: 500 }
 };
 
 var SearchPageAppRouter = Backbone.Router.extend({
@@ -68,7 +69,7 @@ var SearchPageAppRouter = Backbone.Router.extend({
         var search_params   = {};
         _.each(PARAMS_IN_SEARCH, function(value, key) {
             // Skip if there is no filters
-            if (!_.get(algolia_filters, key)) { return ''; }
+            if (_.isUndefined(_.get(algolia_filters, key))) { return ''; }
             search_params[value.name] = _.get(algolia_filters, key);
         });
         search_params = $.param(search_params);
@@ -83,7 +84,13 @@ var SearchPageAppRouter = Backbone.Router.extend({
         FilterActionCreators.clearAllTheData();
         _.each(PARAMS_IN_SEARCH, function(value, key) {
             if (url_parameters[value.name]) {
-                value.actionMethod(url_parameters[value.name]);
+                if (value.delay) {
+                  setTimeout(function() {
+                      value.actionMethod(url_parameters[value.name]);
+                  }, value.delay);
+                } else {
+                    value.actionMethod(url_parameters[value.name]);
+                }
             }
         });
     },

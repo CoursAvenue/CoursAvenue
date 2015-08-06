@@ -20,7 +20,8 @@ var MapContainer              = require('./MapContainer.react'),
     SearchPageDispatcher      = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants       = require('../constants/SearchPageConstants'),
     SubjectActionCreators     = require('../actions/SubjectActionCreators'),
-    LocationActionCreators    = require('../actions/LocationActionCreators');
+    LocationActionCreators    = require('../actions/LocationActionCreators'),
+    CardActionCreators        = require('../actions/CardActionCreators');
 
 SearchPageApp = React.createClass({
     propTypes: {
@@ -33,6 +34,7 @@ SearchPageApp = React.createClass({
     componentWillMount: function componentWillMount() {
         this.search_page_app_router = this.search_page_app_router || new SearchPageAppRouter();
         CardStore.on('search:done', this.search_page_app_router.updateUrl);
+        CardStore.on('page:change', this.search_page_app_router.updateUrl);
 
         Backbone.history.start({ pushState: true });
         this.bootsrapData();

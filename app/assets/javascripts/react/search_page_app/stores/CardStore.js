@@ -77,16 +77,19 @@ var CardCollection = Backbone.Collection.extend({
                 this.fetchDataFromServer(true);
                 break;
             case ActionTypes.GO_TO_PAGE:
-                this.current_page = payload.data;
+                this.current_page = parseInt(payload.data, 10);
                 this.updateCardsShownRegardingPages();
+                this.trigger('page:change');
                 break;
             case ActionTypes.GO_TO_PREVIOUS_PAGE:
                 this.current_page = this.current_page - 1;
                 this.updateCardsShownRegardingPages();
+                this.trigger('page:change');
                 break;
             case ActionTypes.GO_TO_NEXT_PAGE:
                 this.current_page = this.current_page + 1;
                 this.updateCardsShownRegardingPages();
+                this.trigger('page:change');
                 break;
             case ActionTypes.CHANGE_CONTEXT:
                 this.context = payload.data;
@@ -167,6 +170,7 @@ var CardCollection = Backbone.Collection.extend({
         var data = {
             hitsPerPage: this.HITS_PER_PAGES * this.NB_PAGE_LOADED_PER_BATCH,
             page       : this.batchPage() - 1, // Pages starts at 0
+            actual_page: this.current_page, // Needed for routing
             sort_by    : this.sort_by,
             context    : this.context
         };
