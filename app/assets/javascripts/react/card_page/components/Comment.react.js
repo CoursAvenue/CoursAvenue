@@ -10,8 +10,10 @@ var Comment = React.createClass({
         }
         return (
             <div className="grid push--bottom " itemProp='review' itemScope={true} itemType='http://schema.org/Review'>
-                <div className="grid__item palm-one-whole one-fifth text--center">
-                    { avatar }
+                <div className="grid__item palm-one-whole one-fifth text--center palm-text--left">
+                    <div className="visuallyhidden--palm">
+                        { avatar }
+                    </div>
                     <div>
                         {this.props.comment.get('author_name')}
                     </div>
