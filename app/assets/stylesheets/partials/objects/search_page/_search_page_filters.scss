@@ -4,6 +4,9 @@ $map-height   : 480px;
     height: $header-height;
     @include media-query(palm) { height: auto; }
 }
+.search-page-map-small-map__minimize-button {
+    @include transform(rotate(-90deg) translateX(1px));
+}
 .search-page-map__fullscreen-button {
     font-weight : 600;
     font-size   : 13px;

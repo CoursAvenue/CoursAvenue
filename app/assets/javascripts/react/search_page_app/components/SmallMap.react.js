@@ -18,6 +18,7 @@ var MapComponent = React.createClass({
         this.setEventsListeners()
         this.$dom_node = $(this.getDOMNode());
         $(window).scroll(function () {
+            if (this.map_is_hidden) { return; }
             if ($(window).scrollTop() > 500) {
                 this.$dom_node.addClass('search-page-small-map--visible');
             } else {
@@ -29,7 +30,7 @@ var MapComponent = React.createClass({
     createMap: function createMap () {
         this.marker_layer = new L.featureGroup();
 
-        this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets', { scrollWheelZoom: false })
+        this.map = L.mapbox.map($(this.getDOMNode()).find('.map-container')[0], this.props.mapId || 'mapbox.streets', { scrollWheelZoom: false })
                           .setView(this.props.center, 13)
                           .addLayer(this.marker_layer);
     },
@@ -106,8 +107,24 @@ var MapComponent = React.createClass({
         }
     },
 
+    reduceMap: function reduceMap () {
+        $(this.getDOMNode()).removeClass('search-page-small-map--visible');
+        this.map_is_hidden = true;
+    },
+
     render: function render () {
         return (<div className="search-page-small-map on-top fixed south">
+                    <div className="relative height-100-percent">
+                        <div className="map-container height-100-percent"></div>
+                        <i className="absolute left north fa fa-compress bg-white very-soft
+                                      cursor-pointer search-page-map-small-map__minimize-button on-top"
+                            data-toggle="tooltip"
+                            data-trigger="hover"
+                            data-title="Cacher la carte"
+                            data-placement="top"
+                           onClick={this.reduceMap}>
+                        </i>
+                    </div>
                 </div>);
     }
 });
