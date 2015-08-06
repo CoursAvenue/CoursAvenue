@@ -9,7 +9,7 @@
 
 %em
   Malheureusement, votre inscription au cours "#{ @course.name } avec #{ @structure.name }.
-  - if @participation_request.cancelation_reason
+  - if @participation_request.cancelation_reason and !@participation_request.cancelation_reason.hidden?
     Motif : "#{t(@participation_request.cancelation_reason.name).downcase}".
 
 - if @message
