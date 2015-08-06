@@ -68,7 +68,7 @@
     color           : white;
     border-color    : darken($orange, 5%)!important;
     @extend .btn-hover-transition;
-    &::after, &.btn--active { background-color: lighten($orange, 5%); }
+    &::after, &.btn--active { background-color: darken($orange, 5%); }
     &:active, &.btn--active, &.btn--active:hover, &.active, &.active:hover {
         border-bottom: none;
         background-color: lighten($orange, 15%);
@@ -79,7 +79,7 @@
     border          : none;
     color           : white;
     @extend .btn-hover-transition;
-    &::after, &.btn--active { background-color: lighten($btn--red, 5%); }
+    &::after, &.btn--active { background-color: darken($btn--red, 5%); }
     &.disabled, &[disabled] { background-color: lighten($btn--red, 15%); color: #EEE; }
 }
 
@@ -103,7 +103,7 @@
     color           : white;
     border          : none;
     @extend .btn-hover-transition;
-    &::after, &.btn--active { background-color: lighten($blue, 5%); }
+    &::after, &.btn--active { background-color: darken($blue, 5%); }
 }
 
 .btn--yellow {
@@ -113,17 +113,7 @@
     border          : none;
     &:hover, &:active {
         color           : white;
-        background-color: lighten($yellow, 5%);
-    }
-}
-
-.btn--purple {
-    color           : #FFF;
-    background-color: $purple;
-    border          : none;
-    &:hover, &:active {
-        color           : #FFF;
-        background-color: lighten($purple, 10%);
+        background-color: darken($yellow, 5%);
     }
 }
 
