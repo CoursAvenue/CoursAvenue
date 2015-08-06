@@ -37,19 +37,17 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
         exciteMarkers: function exciteMarkers (data) {
             // If there are multiple ids
             if (data.place_ids) {
-                _.each(this.markerViewChildren, function (child) {
-                    if (data.place_ids.indexOf(child.model.get("id")) != -1) {
-                        child.highlight({ show_info_box: false });
-                        child.excite();
+                _.each(this.marker_layer.getLayers(), function (marker) {
+                    if (data.place_ids.indexOf(marker.id) != -1) {
+                        $(marker._icon).addClass('map-box-marker--active');
                     }
                 });
             } else {
                 var key = data.place_id || data.id;
                 if (key === null) { return; }
-                _.each(this.markerViewChildren, function (child) {
-                    if (child.model.get("id") === key) {
-                        child.highlight({ show_info_box: false });
-                        child.excite();
+                _.each(this.marker_layer.getLayers(), function (marker) {
+                    if (marker.id == key) {
+                        $(marker._icon).addClass('map-box-marker--active');
                     }
                 });
             }
@@ -57,19 +55,17 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
 
         unexciteMarkers: function exciteMarkers (data) {
             if (data.place_ids) {
-                _.each(this.markerViewChildren, function (child) {
-                    if (data.place_ids.indexOf(child.model.get("id")) != -1) {
-                        child.unhighlight({ show_info_box: false });
-                        child.calm();
+                _.each(this.marker_layer.getLayers(), function (marker) {
+                    if (data.place_ids.indexOf(marker.id) != -1) {
+                        $(marker._icon).removeClass('map-box-marker--active');
                     }
                 });
             } else {
                 var key = data.place_id || data.id;
                 if (key === null) { return; }
-                _.each(this.markerViewChildren, function (child) {
-                    if (child.model.get("id") === key) {
-                        child.unhighlight();
-                        child.calm();
+                _.each(this.marker_layer.getLayers(), function (marker) {
+                    if (marker.id == key) {
+                        $(marker._icon).removeClass('map-box-marker--active');
                     }
                 });
             }

@@ -52,6 +52,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                 })
             });
             this.marker_layer.addLayer(marker);
+            marker.id = model.get('id');
 
             var popup = L.popup({ className: 'ca-leaflet-popup' })
                 .setLatLng(marker.getLatLng())
