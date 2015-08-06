@@ -1,8 +1,7 @@
 - dominant_root_subject_slug = @course.dominant_root_subject.try(:slug)
 
 = content_for :title do
-  -# Ex: YOGA SATTVA PARIS - Essai GRATUIT - CoursAvenue.com
-  = truncate("#{@course.name} avec #{@structure.name} à #{@place.name} | CoursAvenue.com", length: 75)
+  = truncate_html("#{@course.name} avec #{@structure.name} à #{@place.name} | CoursAvenue.com", length: 75)
 
 = content_for :meta_description do
   = "#{@course.name} avec #{@structure.name} à #{@place.name} : Cours d'essai gratuits, avis des élèves, reservation en ligne."
