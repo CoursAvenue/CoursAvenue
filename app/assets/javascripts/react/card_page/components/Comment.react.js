@@ -25,13 +25,12 @@ var Comment = React.createClass({
                     <h6 className="push-half--bottom">{this.props.comment.get('title')}</h6>
                     <div dangerouslySetInnerHTML={{__html: this.props.comment.get('simple_format_content') }}>
                     </div>
+                    <span title={this.props.comment.get('title')} itemProp='reviewRating' itemScope={true} itemType='http://schema.org/Rating'>
+                      <meta itemProp='ratingValue' content={this.props.comment.get('rating') || 5} />
+                      <meta itemProp='worstRating' content={1} />
+                      <meta itemProp='bestRating' content={5} />
+                    </span>
                 </div>
-                <span title={this.props.comment.get('title')} itemProp='reviewRating' itemScope={true} itemType='http://schema.org/Rating'>
-                  <meta itemProp='ratingValue' content={this.props.comment.get('rating') || 5} />
-                  <meta itemProp='worstRating' content={1} />
-                  <meta itemProp='bestRating' content={5} />
-                </span>
-
             </div>
         );
     }
