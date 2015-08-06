@@ -44,7 +44,7 @@ var Lesson = React.createClass({
                         </div>));
         } else {
             infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
-                            <i className='delta fa fa-forbidden v-middle'></i>
+                            <i className='delta fa fa-repeat v-middle'></i>
                             <div className='inline-block v-middle'>
                                 &nbsp;{"Inscriptions tout au long de l'année"}
                             </div>
