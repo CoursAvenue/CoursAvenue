@@ -57,7 +57,7 @@
 
   .grid__item.four-twelfths.palm-one-whole.palm-hard>
     .bordered.bg-white
-      = render 'structures/registration'
+      = render partial: 'structures/registration', locals: { booking_button: false }
       #mfp-hide.center-block.relative{ style: 'max-width:530px;' }
       - home_place_map_attributes = {}
       - if @course.teaches_at_home? and home_place
