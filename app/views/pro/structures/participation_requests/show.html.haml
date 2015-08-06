@@ -31,9 +31,9 @@
         = link_to user_decorator.email, "mailto:#{user_decorator.email}"
 
     - if user.description.present?
-      %div.line-height-1-7.quoted.epsilon.push-half--bottom
+      %div.line-height-1-7.quoted.epsilon
         %i= user.description
-    .message__body.soft-half.gray-box.message__appendix
+    .message__body.soft-half.gray-box.message__appendix.push-half--top
       .epsilon.line-height-1-5
         = "#{@participation_request.course.name}, le "
         %strong= "#{participation_request_decorator.day_and_hour(false)},"
