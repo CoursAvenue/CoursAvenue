@@ -63,7 +63,8 @@ var BookPopup = React.createClass({
         $datepicker_input.datepicker('setDaysOfWeekDisabled', days_of_week);
     },
 
-    submitRequest: function submitRequest () {
+    submitRequest: function submitRequest (event) {
+        $(event.currentTarget).prop('disabled', true);
         if (CoursAvenue.currentUser().isLogged()) {
             $dom_node = $(this.getDOMNode());
             RequestActionCreators.submitRequest({
@@ -171,7 +172,8 @@ var BookPopup = React.createClass({
                                            data-trigger="hover"
                                            data-placement="left"
                                            data-original-title=""
-                                           title="" />
+                                           title=""
+                                           defaultValue={(CoursAvenue.currentUser() ? CoursAvenue.currentUser().get('phone_number') : '')}/>
                                 </div>
                             </div>
                         </div>
