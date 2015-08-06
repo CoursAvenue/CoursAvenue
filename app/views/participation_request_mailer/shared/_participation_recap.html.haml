@@ -34,22 +34,17 @@
       .p.hard
         = participation_request.course.name
         = "le #{participation_request_decorator.day_and_hour(false)}"
-  - if participation_request.at_student_home? or participation_request.course.is_private?
+  - if participation_request.at_student_home?
     %tr.table-row-alternate-color{ valign: 'top' }
       %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
         .p.hard
           %strong Lieu
       %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
-        .p.hard
-          Au domicile de l'élève :
-          = participation_request_decorator.student_home_address
+        .p.hard Chez l'élève
   - elsif participation_request.place
     %tr.table-row-alternate-color{ valign: 'top' }
       %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
         .p.hard
           %strong Lieu
       %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
-        - if participation_request.at_student_home?
-          .p.hard Chez l'élève
-        - else
-          .p.hard= participation_request.place.try(:name)
+        .p.hard= participation_request.place.try(:name)

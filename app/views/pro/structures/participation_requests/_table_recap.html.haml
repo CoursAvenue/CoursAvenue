@@ -35,8 +35,7 @@
         %td.v-middle.soft--sides.one-whole
           .flexbox.palm-block
             .flexbox__item.one-whole.palm-block
-              Au domicile de l'élève :
-              = participation_request_decorator.student_home_address
+              Au domicile de l'élève
             .flexbox__item.v-middle.nowrap.text--right
               = link_to t('.see_on_map'), URI.encode("http://maps.google.com/?q=#{participation_request_decorator.student_home_address}"), target: :_blank
 
