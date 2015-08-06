@@ -42,6 +42,10 @@ class IndexableCard < ActiveRecord::Base
 
     attribute :id, :slug
 
+    add_attribute :city_slug do
+      self.place.try(:city).try(:slug)
+    end
+
     add_attribute :active do
       (self.structure.active && self.structure.enabled)
     end
