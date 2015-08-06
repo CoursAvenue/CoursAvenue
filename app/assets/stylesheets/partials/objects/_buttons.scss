@@ -239,12 +239,12 @@
     @extend .btn-hover-transition;
     @include transition(all 200ms linear);
     &:hover {
-        border-color    : $blue-green!important;
+        border-color    : #22b69e!important;
         background-color: $blue-green;
         &.btn--white-transparent--green {
             &::after, &.btn--active {
-                border-color: lighten($blue-green, 5%);
-                background-color: lighten($blue-green, 5%);
+                border-color: #22b69e;
+                background-color: #22b69e;
             }
         }
         &.btn--white-transparent--white {
