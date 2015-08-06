@@ -62,7 +62,7 @@ var Lesson = React.createClass({
         return (
             <div>
                 {infos}
-                <table className="table--striped table--data table--data-small table-responsive table-responsive--without-th table--hoverable">
+                <table className={"table--striped table--data table--data-small table-responsive table-responsive--without-th " + (this.props.course.structure_is_active ? 'table--hoverable' : '')}>
                     <thead className="gray-light">
                         <tr>
                             <th className="one-tenths">Jour</th>
@@ -70,7 +70,7 @@ var Lesson = React.createClass({
                             <th className="three-tenths">Niveau</th>
                             <th className="two-tenths">Public</th>
                             <th><i className="fa-info"></i></th>
-                            <th></th>
+                            <th className={ this.props.course.structure_is_active ? '' : 'hidden'}></th>
                         </tr>
                     </thead>
                     <tbody>

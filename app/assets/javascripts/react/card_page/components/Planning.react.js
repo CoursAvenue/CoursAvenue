@@ -50,7 +50,8 @@ var LessonPlanning = React.createClass({
                     </div>);
         }
         return (
-            <tr className="cursor-pointer" onClick={this.bookPlanning}>
+            <tr className={ this.props.course.structure_is_active ? 'cursor-pointer' : '' }
+                onClick={this.props.course.structure_is_active ? this.bookPlanning : null}>
                 <td itemScope="" itemType="http://data-vocabulary.org/Event">
                     <div>
                         <meta content={this.props.course.name} itemprop="summary" />
@@ -80,7 +81,7 @@ var LessonPlanning = React.createClass({
                 <td>
                     {info}
                 </td>
-                <td>
+                <td className={ this.props.course.structure_is_active ? '' : 'hidden'}>
                     <strong className="btn btn--full btn--small btn--green">Réserver</strong>
                 </td>
             </tr>

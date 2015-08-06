@@ -11,7 +11,7 @@ class CourseSerializer < ActiveModel::Serializer
              :course_location, :min_age_for_kid, :max_age_for_kid, :audiences,
              :levels, :details, :prices, :has_price_group,
              :is_open_for_trial, :has_promotion, :trial_courses_policy_popover, :min_price,
-             :teaches_at_home, :accepts_payment, :start_date, :end_date
+             :teaches_at_home, :accepts_payment, :start_date, :end_date, :structure_is_active
 
   has_one  :home_place,          serializer: PlaceSerializer
   has_one  :place,               serializer: PlaceSerializer
@@ -134,4 +134,7 @@ class CourseSerializer < ActiveModel::Serializer
     I18n.t("structures.trial_courses_policy.#{(object.structure.trial_courses_policy.blank? ? '1_trial' : object.structure.trial_courses_policy)}_nb_given")
   end
 
+  def structure_is_active
+    object.structure.active? && !object.structure.is_sleeping?
+  end
 end
