@@ -72,7 +72,9 @@ SearchPageApp = React.createClass({
                   <FilterBreadcrumb />
                   <ResultInfo />
                   <ResultList />
-                  <Pagination />
+                  <div className="main-container main-container--1000">
+                      <Pagination />
+                  </div>
                   <SmallMap center={this.props.map_center} />
               </div>
           </div>
