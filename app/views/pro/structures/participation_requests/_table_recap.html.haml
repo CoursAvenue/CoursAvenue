@@ -29,24 +29,17 @@
           %strong.green
             %i= '— Payé'
 
-    - if participation_request.place
+    - if participation_request.at_student_home?
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Lieu
         %td.v-middle.soft--sides.one-whole
-          .flexbox.palm-block
-            .flexbox__item.one-whole.palm-block
-              Au domicile de l'élève
-            .flexbox__item.v-middle.nowrap.text--right
-              = link_to t('.see_on_map'), URI.encode("http://maps.google.com/?q=#{participation_request_decorator.student_home_address}"), target: :_blank
+          Au domicile de l'élève
 
-    - elsif participation_request.at_student_home? or pr.course.is_private?
+    - elsif participation_request.place
       %tr.bordered--bottom
         %th.v-middle.soft--sides.nowrap.bordered--right.one-third.nowrap Lieu
         %td.v-middle.soft--sides.one-whole
-          - if participation_request.at_student_home?
-            Au domicile de l'élève
-          - else
-            = "#{participation_request.place.name}, #{participation_request.place.address}"
+          = "#{participation_request.place.name}, #{participation_request.place.address}"
           - if participation_request.place.info.present? or participation_request.place.private_info.present?
             .soft-half--top
               - if participation_request.place.info.present?
