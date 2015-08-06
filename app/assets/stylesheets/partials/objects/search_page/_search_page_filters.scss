@@ -6,6 +6,7 @@ $map-height   : 480px;
 }
 .search-page-map-small-map__minimize-button {
     @include transform(rotate(-90deg) translateX(1px));
+    @include border-bottom-left-radius(3px);
 }
 .search-page-map__fullscreen-button {
     font-weight : 600;
