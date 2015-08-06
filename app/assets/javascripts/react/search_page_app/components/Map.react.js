@@ -206,7 +206,7 @@ var MapComponent = React.createClass({
     openMarkerPopup: function openMarkerPopup (marker, card) {
         return function() {
             var string_popup = React.renderToString(<Card card={card} is_popup={true} />);
-            this.popup = L.popup({ className: 'ca-leaflet-popup' })
+            this.popup = L.popup({ className: 'ca-leaflet-popup ' + (card.get('visible') ? '' : 'ca-leaflet-popup--small-markers') })
                 .setLatLng(marker.getLatLng())
                 .setContent(string_popup)
                 .openOn(this.map);
