@@ -26,7 +26,7 @@
           %h4.push-half--bottom Ajouter au calendrier
           = add_to_calendar(@participation_request)
 
-    = render "state_#{ @participation_request.state }"
+    -# = render "state_#{ @participation_request.state }"
     .soft--sides
       = render partial: 'structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
