@@ -35,12 +35,6 @@ var LocationStore = Backbone.Model.extend({
                     this.set(payload.data);
                 }
                 break;
-            case ActionTypes.FINDING_USER_LOCATION:
-                this.set({ finding_user_position: true });
-                break;
-            case ActionTypes.USER_LOCATION_FOUND:
-                this.set({ finding_user_position: false });
-                break;
             case ActionTypes.USER_LOCATION_NOT_FOUND:
                 this.unset('user_location');
             case ActionTypes.USER_LOCATION_FOUND:

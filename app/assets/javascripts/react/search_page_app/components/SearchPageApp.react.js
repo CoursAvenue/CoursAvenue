@@ -41,11 +41,16 @@ SearchPageApp = React.createClass({
         this.search_page_app_router.bootsrapData();
     },
 
-    // Bootstraping data
-    bootsrapData: function bootsrapData() {
+    componentDidMount: function componentDidMount() {
+        // We have to trigger this action on when the app is mounted because the action is triggered
+        // by a component
         if (this.props.locate_user) {
             LocationActionCreators.locateUser();
         }
+    },
+
+    // Bootstraping data
+    bootsrapData: function bootsrapData() {
         LocationActionCreators.filterByAddress(this.props.address);
         if (this.props.root_subject) {
             SubjectActionCreators.selectRootSubject(this.props.root_subject);

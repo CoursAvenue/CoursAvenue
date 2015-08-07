@@ -55,7 +55,7 @@ var MapComponent = React.createClass({
         this.map.on('locationfound', function(location) {
             FilterActionCreators.updateFilters({ user_location: location });
             LocationActionCreators.userLocationFound();
-        });
+        }.bind(this));
         this.map.on('locationerror', function(data) {
             LocationActionCreators.userLocationNotFound();
         });
@@ -77,7 +77,7 @@ var MapComponent = React.createClass({
             if (this.state.location_store.changed.hasOwnProperty('user_location')) {
                 if (this.state.location_store.changed.user_location == true) {
                     this.locateUser();
-                } else {
+                } else if (!_.isUndefined(this.state.location_store.changed.user_location)) {
                     this.setLocationOnMap();
                 }
             }
