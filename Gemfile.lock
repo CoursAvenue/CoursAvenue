@@ -225,7 +225,7 @@ GEM
       chronic
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
-    devise (3.4.1)
+    devise (3.5.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
@@ -871,7 +871,7 @@ DEPENDENCIES
   delayed_job_active_record (~> 4.0.3)
   delayed_paperclip (~> 2.9.1)
   delorean
-  devise (~> 3.4.1)
+  devise (~> 3.5.1)
   dotenv-rails (~> 2.0.0)
   draper (~> 1.4.0)
   execjs (~> 2.5.2)

@@ -114,7 +114,7 @@ gem 'mailboxer'                 , '~> 0.12.5'
 gem 'cancancan'                 , '~> 1.10.1'
 # gem 'cancan'                    , '~> 1.6.10'
 # For authentication
-gem 'devise'                    , '~> 3.4.1'
+gem 'devise'                    , '~> 3.5.1'
 # For facebook connect or more
 gem 'omniauth-facebook'         , '~> 2.0.1'
 gem 'omniauth'                  , '~> 1.2.2'
