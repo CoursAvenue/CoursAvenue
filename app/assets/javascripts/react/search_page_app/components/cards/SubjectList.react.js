@@ -34,11 +34,11 @@ SubjectList = React.createClass({
             return false;
         }
 
-        var subjectNodes = this.props.subjectList.map(function(subject, index) {
+        var subjectNodes = _.map(this.props.subjectList, function(subject, index) {
             return (
-                <Subject subject={ subject } key={ index } />
+                <Subject follow_links={this.props.follow_links} subject={ subject } key={ index } />
             );
-        });
+        }, this);
 
         return (
             <div>

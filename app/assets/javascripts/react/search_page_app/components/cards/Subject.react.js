@@ -32,7 +32,7 @@ Subject = React.createClass({
 
     selectSubject: function selectSubject (event) {
         SubjectActionCreators.selectSubject(this.props.subject);
-        event.stopPropagation(); event.preventDefault();
+        if(!this.props.follow_links) { event.stopPropagation(); event.preventDefault(); }
     },
 
     url: function url () {

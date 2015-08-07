@@ -31,7 +31,7 @@ var RootSubjectItem = React.createClass({
             filter_wrapper_class = 'search-page-filter-breadcrumb-wrapper soft-half--top'
         }
         return (
-          <div className={"visuallyhidden--palm main-container main-container--1000 " + filter_wrapper_class}>
+          <div className={"visuallyhidden--palm " + filter_wrapper_class}>
               {filters}
           </div>
         );

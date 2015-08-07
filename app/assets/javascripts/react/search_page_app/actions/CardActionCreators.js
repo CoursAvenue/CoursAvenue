@@ -14,6 +14,16 @@ module.exports = {
     },
 
     /*
+     * @params number: 14
+     */
+    updateNbCardsPerPage: function updateNbCardsPerPage (number) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.UPDATE_NB_CARDS_PER_PAGE,
+            data: number
+        });
+    },
+
+    /*
      * @params data: { card: CardModel }
      */
     highlightMarker: function highlightMarker (data) {

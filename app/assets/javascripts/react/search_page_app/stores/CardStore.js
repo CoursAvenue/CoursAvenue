@@ -40,6 +40,10 @@ var CardCollection = Backbone.Collection.extend({
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
             // When the filters are updated, refetch the cards.
+            case ActionTypes.UPDATE_NB_CARDS_PER_PAGE:
+                this.HITS_PER_PAGES = payload.data;
+                this.fetchDataFromServer(true);
+                break;
             case ActionTypes.CLEAR_AND_CLOSE_SUBJECT_INPUT_PANEL:
             case ActionTypes.SEARCH:
             case ActionTypes.UPDATE_BOUNDS:

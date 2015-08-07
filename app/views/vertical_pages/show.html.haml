@@ -4,50 +4,52 @@
   - title = "Danse, Théâtre, Musique, Yoga..."
 
 = content_for :title do
-  = @vertical_page_decorator.page_title
+  - if @city
+    = @vertical_page_decorator.page_title(@city)
+  - else
+    = @vertical_page_decorator.page_title
 
 = content_for :meta_description do
-  = "#{@vertical_page_decorator.page_h1} : toutes les écoles de #{@vertical_page.subject_name.downcase}, stages, cours d'essai gratuits, plannings, tarifs, conseils, avis, promotions"
+  - if @city
+    = "#{@vertical_page_decorator.page_h1} à #{@city.name} (#{@city.department_code}) : toutes les écoles de #{@vertical_page.subject_name.downcase} à #{@city.name}, stages, cours d'essai gratuits, plannings, tarifs, conseils, avis, promotions"
+  - else
+    = "#{@vertical_page_decorator.page_h1} : toutes les cours de #{@vertical_page.subject_name.downcase}, stages, cours d'essai gratuits, plannings, tarifs, conseils, avis, promotions"
 
-- slug = @subject.root.slug
-- if @vertical_page.image.present?
-  - bg = asset_path(@vertical_page.image.url(:large))
-- else
-  - bg = asset_path(subject_image(@subject))
-
-.bg-fixed.bg-cover{ style: "background-image: url('#{bg}')" }
-  .main-container.main-container--medium.soft--ends
-    %h1.white.soft-black-text-shadow= @vertical_page_decorator.page_h1
-    - if @vertical_page.caption
-      %h4.center-block.white.soft-black-text-shadow
-        = @vertical_page.caption
-
-- content_present = [@vertical_page.content, @subject.good_to_know, @subject.needed_meterial, @subject.tips].reject(&:blank?).any?
-
+- @paris = City.find('paris')
+.relative.search-page-filters__panel-height
+  .soft--ends.absolute.north.west.on-top-of-the-world.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height
+    .flexbox__item.v-middle
+      .main-container.main-container--medium.white.text--center
+        %h1.f-size-really-big= @vertical_page_decorator.page_h1
+        - if @vertical_page.caption
+          %h4.center-block
+            = @vertical_page.caption
+        .soft--top
+          - if @subject.root?
+            = link_to root_search_page_path(@subject.root, (@city || 'paris'), locate_user: (@city ? '' : 'on')), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
+              %i.fa.fa-map-marker
+              Voir les cours autour de moi
+          - else
+            = link_to search_page_path(@subject.root, @subject, (@city || 'paris'), locate_user: (@city ? '' : 'on')), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
+              %i.fa.fa-map-marker
+              Voir les cours autour de moi
+  = react_component('MapContainer', { center: [(@city || @paris).latitude, (@city || @paris).longitude] })
 .main-container.main-container--medium.soft--ends
-
-  = render partial: 'vertical_pages/breadcrumb'
+  .soft-half--left= render partial: 'vertical_pages/breadcrumb'
   .grid
-    .grid__item.six-tenths.palm-one-whole.soft-half--right>
-      = render partial: 'vertical_pages/timetable'
-
-      - if @subject.depth == 2
-        = render partial: 'vertical_pages/siblings'
-      %h3= "Les lieux les plus recherchés"
-      .push--bottom
-        - @cities.each do |city|
-          - next if StructureSearch.search(lat: city.latitude, lng: city.longitude).total < 10
-          .inline-block.one-half>
-            - if @subject.is_root?
-              = link_to "Cours de #{@vertical_page.subject_name.downcase} à #{city.name}", root_vertical_page_with_city_path(@vertical_page, city), class: 'epsilon line-height-1-7'
-            - else
-              = link_to "Cours de #{@vertical_page.subject_name.downcase} à #{city.name}", vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'epsilon line-height-1-7'
-
-    .grid__item.four-tenths.palm-one-whole.soft--left.bordered--left>
+    .grid__item.six-tenths>
+      = react_component('ResultList', { root_subject: (@root_subject ? @root_subject : nil),
+                                        subject: (@subject and @subject != @root_subject ? @subject : nil),
+                                        address: { name: (@city || @paris).name, latitude: (@city || @paris).latitude, longitude: (@city || @paris).longitude, city: (@city || @paris).name, is_address: false },
+                                        per_line: 2,
+                                        per_page: 14,
+                                        follow_links: true })
+    .grid__item.four-tenths>
       - if @vertical_page.content.present?
         %h2
           = @vertical_page.title
-        = @vertical_page.content.html_safe
+        .epsilon.line-height-1-5
+          = @vertical_page.content.html_safe
       - else
         - if @subject.good_to_know.present?
           %h3 Bon à savoir / Qu'est-ce que c'est ?
@@ -58,12 +60,31 @@
         - if @subject.tips.present?
           %h3 Matériel à prévoir
           %p= @subject.tips
-      %h3 #{@vertical_page.subject_name} : sélection
-      .bg-white.bordered.soft--ends.soft-half--sides.tab-content
-        - structures = StructureSearch.search(order_by: 'is_open_for_trial', subject_id: @vertical_page.subject.slug, per_page: 10).results
-        - structures.each_with_index do |structure, index|
-          = render partial: 'vertical_pages/structure', locals: { structure: structure }
-        .text--center= link_to "Voir tous les cours de #{@vertical_page.subject_name}", search_page_path(@subject.root, @subject, 'paris'), class: 'epsilon'
+      - if @subject.depth == 2
+        = render partial: 'vertical_pages/siblings'
+      - unless @city
+        %h3= "Les lieux les plus recherchés"
+        .push--bottom
+          - @cities.each do |city|
+            - next if StructureSearch.search(lat: city.latitude, lng: city.longitude).total < 10
+            %div
+              - if @subject.is_root?
+                = link_to "Cours de #{@vertical_page.subject_name.downcase} à #{city.name}", root_vertical_page_with_city_path(@vertical_page, city), class: 'epsilon line-height-1-7'
+              - else
+                = link_to "Cours de #{@vertical_page.subject_name.downcase} à #{city.name}", vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'epsilon line-height-1-7'
+
+  .text--center
+    - if @subject.root?
+      = link_to root_search_page_path(@subject.root, (@city || 'paris'), locate_user: (@city ? '' : 'on')), class: 'btn btn--blue-green btn--large see-all-courses-tracker' do
+        %i.fa.fa-map-marker
+        Voir les autres cours autour de moi
+    - else
+      = link_to search_page_path(@subject.root, @subject, (@city || 'paris'), locate_user: (@city ? '' : 'on')), class: 'btn btn--blue-green btn--large see-all-courses-tracker' do
+        %i.fa.fa-map-marker
+        Voir les autres cours autour de moi
+= content_for :scripts do
+  :javascript
+    window.is_mobile = COURSAVENUE.helperMethods.isMobile.any();
 
 
 - if @subject.depth == 0
@@ -91,3 +112,13 @@
     .main-container.main-container--medium.soft--ends
       %h2.soft--bottom.f-weight-300 Articles de blog associés
       = render partial: 'vertical_pages/blog_articles', locals: { articles: @vertical_page.blog_articles }
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          mixpanel.track('VerticalPage landing');
+          mixpanel.track_links('.see-all-courses-tracker', 'VerticalPage - Clicked on see all courses');
+          mixpanel.track_links('.search-page-card__subject', 'VerticalPage - Clicked on subject');
+          mixpanel.track_links('.search-page-card__course-title', 'VerticalPage - Clicked on course title');
+          mixpanel.track_links('.search-page-card__structure-name', 'VerticalPage - Clicked on structure');
+      });

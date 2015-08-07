@@ -1,11 +1,11 @@
-%h3= "D'autres disciplines qui pourraient vous plaire :"
+%h3= "D'autres cours qui pourraient vous plaire :"
 .push--bottom
   - @subject.siblings.each do |sibling|
     - if @city and StructureSearch.search(lat: @city.latitude, lng: @city.longitude, subject_id: sibling.slug).total > 8
       - sibling.vertical_pages.each do |vertical_page|
-        .inline-block.one-half>
+        %div
           = link_to vertical_page.decorate.link_text(@city), vertical_page_with_city_path(@subject.root, vertical_page, @city), class: 'epsilon line-height-1-7'
     - else
       - sibling.vertical_pages.each do |vertical_page|
-        .inline-block.one-half>
+        %div
           = link_to vertical_page.decorate.link_text, vertical_page_path(@subject.root, vertical_page), class: 'epsilon line-height-1-7'

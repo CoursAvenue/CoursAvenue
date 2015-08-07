@@ -66,20 +66,19 @@
       = link_to 'Voir les stages et ateliers', root_search_page_without_subject_path('paris', locate_user: 'on', type: 'training'), class: 'btn btn--white-transparent btn--white-transparent--white'
 
 .home-screen-promotion-wrapper#vivez-passionnement
-  .main-container.mega-soft--ends
-    .text--center.soft--sides
-      %h2.f-weight-400.push-half--bottom.f-size-big Vivez passionnément
-      %h5.f-weight-400.delta.push--bottom.soft--bottom Des centaines de disciplines pour trouver celle qui vous correspond le mieux
-    - VerticalPage.homepage.limit(21).each_with_index do |vertical_page, index|
-      .inline-block.v-top.one-third.very-soft.palm-one-whole>
-        - if index % 2 == 0
-          = link_to vertical_page_path(vertical_page.root_subject, vertical_page), class: 'white relative semi-muted-link line-height-1-5 delta block f-weight-500 text--center bg-cover', style: "background-image: url('#{vertical_page.image.url(:thumb)}'); height: 130px;" do
-            .black-curtain.north.west.one-whole.absolute
-            .relative.f-weight-600{ style: 'line-height: 130px;' }= "Cours de #{vertical_page.subject_name.downcase}"
-        - else
-          = link_to vertical_page_with_city_path(vertical_page.root_subject, vertical_page, 'paris'), class: 'white relative semi-muted-link line-height-1-5 delta block f-weight-500 text--center bg-cover', style: "background-image: url('#{vertical_page.image.url(:thumb)}'); height: 130px;" do
-            .black-curtain.north.west.one-whole.absolute
-            .relative.f-weight-600{ style: 'line-height: 130px;' }= "Cours de #{vertical_page.subject_name.downcase} à Paris"
+  .text--center.mega-soft--ends
+    %h2.f-weight-400.push-half--bottom.f-size-big Vivez passionnément
+    %h5.f-weight-400.delta.flush Des centaines de disciplines pour trouver celle qui vous correspond le mieux
+  - VerticalPage.homepage.limit(23).each_with_index do |vertical_page, index|
+    .inline-block.v-top.palm-one-whole{ class: ( (index % 5 < 3) ? 'one-third' : 'one-half')}>
+      - if index % 2 == 0
+        = link_to vertical_page_path(vertical_page.root_subject, vertical_page), class: 'white relative semi-muted-link line-height-1-5 delta block f-weight-500 text--center bg-cover', style: "background-image: url('#{vertical_page.image.url(:thumb)}'); height: 230px;" do
+          .black-curtain.north.west.one-whole.absolute
+          .relative.f-weight-600{ style: 'line-height: 230px;' }= "Cours de #{vertical_page.subject_name.downcase}"
+      - else
+        = link_to vertical_page_with_city_path(vertical_page.root_subject, vertical_page, 'paris'), class: 'white relative semi-muted-link line-height-1-5 delta block f-weight-500 text--center bg-cover', style: "background-image: url('#{vertical_page.image.url(:thumb)}'); height: 230px;" do
+          .black-curtain.north.west.one-whole.absolute
+          .relative.f-weight-600{ style: 'line-height: 230px;' }= "Cours de #{vertical_page.subject_name.downcase} à Paris"
 
 
 .main-container.main-container--medium.mega-soft--ends
@@ -95,8 +94,8 @@
     %hr.push--ends
     .text--center
       = link_to blog_articles_path, class: 'delta' do
-        %i.fa-chevron-right
         Découvrir les autres articles
+        %i.fa-chevron-right
 
 = content_for :scripts do
   :javascript

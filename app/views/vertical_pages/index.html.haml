@@ -13,7 +13,6 @@
 
 .home-screen-promotion-wrapper
   .main-container.main-container--medium.soft--ends
-    %h2.soft--bottom.f-weight-300 Disciplines
     = render partial: 'vertical_pages/subjects', locals: { subjects: Subject.roots.order('position ASC') }
 
 

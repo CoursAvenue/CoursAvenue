@@ -37,7 +37,9 @@ var LocationFilterChoicePanel = React.createClass({
         } else if (LocationStore.get('address')) {
             var location_latlng = L.latLng(LocationStore.get('address').latitude, LocationStore.get('address').longitude);
         }
-        return location_latlng.distanceTo(paris_center) < 10000; // 10km — seems fair
+        if (location_latlng) {
+            return location_latlng.distanceTo(paris_center) < 10000; // 10km — seems fair
+        }
     },
 
     render: function render () {

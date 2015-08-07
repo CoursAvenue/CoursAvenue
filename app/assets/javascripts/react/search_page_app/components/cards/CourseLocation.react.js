@@ -38,7 +38,7 @@ CourseDistance = React.createClass({
     highlightMaker: function highlightMaker (event) {
         $.scrollTo(0, { easing: 'easeOutCubic', duration: 350 });
         CardActionCreators.highlightMarker({ event: event, card: this.props.card });
-        event.stopPropagation(); event.preventDefault();
+        if(!this.props.follow_links) { event.stopPropagation(); event.preventDefault(); }
     },
 
     url: function url () {

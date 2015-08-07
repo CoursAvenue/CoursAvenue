@@ -326,9 +326,10 @@
         @include transition(background 200ms ease-in-out);
         height    : 100%;
         width     : 100%;
+        background: rgba(0, 0, 0, 0.3);
     }
     &.show-on-hover__wrapper--black-curtain:hover {
-        background: rgba(0, 0, 0, 0.3);
+        background: none;
     }
     .show-on-hover__child, .show-on-hover__child-ilb { display: none; }
     &:hover {

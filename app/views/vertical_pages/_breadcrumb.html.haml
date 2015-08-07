@@ -4,7 +4,7 @@
       %span{ itemprop: 'title' }
         Nos guides
   - @ancestors.each do |ancestor|
-    - next if ancestor.vertical_pages.empty?
+    - next if ancestor.vertical_pages.empty? or ancestor.depth == 1
     - if ancestor.depth == 0
       %li{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         = link_to root_vertical_page_path(ancestor.vertical_pages.first), itemprop: 'url' do

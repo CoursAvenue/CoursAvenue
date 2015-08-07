@@ -139,22 +139,6 @@ $(function() {
             return false;
         }
     });
-    setTimeout(function() {
-        if (typeof(mixpanel) != 'undefined') {
-            $('.mixpanel-tracker').each(function(index, element) {
-                  var new_class = 'mixpanel-tracker-class-' + Math.random().toString(26).slice(2) // Don't use id in case ID is already used
-                  $(element).addClass(new_class);
-                  mixpanel.track_links('.' + new_class, 'Clicked on ' + $(this).text(), function(el) {
-                      return {
-                        text: $(el).text(),
-                        info: $(el).data('info'),
-                        url: document.URL,
-                        path: window.location.pathname
-                      }
-                  });
-            });
-        }
-    }, 500);
     $('[data-behavior="lazy-load"]').lazyload();
 
     if ($('[data-behavior=parallax]').length > 0) {

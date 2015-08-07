@@ -2,7 +2,7 @@
   .flexbox.palm-block
     .flexbox__item.palm-block.palm-one-whole.v-middle.relative.nowrap.text--left.palm-text--center>
       .coursavenue-header-logo-wrapper.v-middle.palm-one-whole
-        = link_to '', root_url(subdomain: 'www'), class: 'v-middle coursavenue-header-logo mixpanel-tracker', title: 'CoursAvenue | Tous les cours autour de vous', data: { info: 'header' }
+        = link_to '', root_url(subdomain: 'www'), class: 'v-middle coursavenue-header-logo', title: 'CoursAvenue | Tous les cours autour de vous'
 
     .flexbox__item.palm-block.v-middle.nowrap.print--hidden.palm-text--center.text--right>
       .header-search-input.palm-one-whole.inline-block= react_component('SubjectSearchInput', { navigate: true })

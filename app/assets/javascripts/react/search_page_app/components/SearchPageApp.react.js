@@ -37,7 +37,6 @@ SearchPageApp = React.createClass({
         CardStore.on('page:change', this.search_page_app_router.updateUrl);
 
         Backbone.history.start({ pushState: true });
-        this.bootsrapData();
         this.search_page_app_router.bootsrapData();
     },
 
@@ -49,16 +48,6 @@ SearchPageApp = React.createClass({
         }
     },
 
-    // Bootstraping data
-    bootsrapData: function bootsrapData() {
-        LocationActionCreators.filterByAddress(this.props.address);
-        if (this.props.root_subject) {
-            SubjectActionCreators.selectRootSubject(this.props.root_subject);
-        }
-        if (this.props.subject) {
-            SubjectActionCreators.selectSubject(this.props.subject);
-        }
-    },
 
     render: function render() {
         return (
@@ -75,11 +64,13 @@ SearchPageApp = React.createClass({
                   <MoreFilter />
               </div>
               <div className="on-top-of-the-world search-page-content relative">
-                  <FilterBar />
-                  <FilterBreadcrumb />
-                  <ResultInfo />
-                  <ResultList />
                   <div className="main-container main-container--1000">
+                      <FilterBar />
+                      <FilterBreadcrumb />
+                      <ResultInfo />
+                      <ResultList address={this.props.address}
+                                  root_subject={this.props.root_subject}
+                                  subject={this.props.subject}/>
                       <Pagination />
                   </div>
                   <SmallMap center={this.props.map_center} />

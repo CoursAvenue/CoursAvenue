@@ -123,7 +123,7 @@ Card = React.createClass({
     subjectList: function subjectList () {
         if (this.props.is_popup) { return ''; }
         return (<div className="search-page-card__subjects-wrapper">
-                    <SubjectList subjectList={ this.props.card.get('subjects') } />
+                    <SubjectList follow_links={this.props.follow_links}  subjectList={ this.props.card.get('subjects') } />
                 </div>);
     },
 
@@ -151,13 +151,13 @@ Card = React.createClass({
                 course_information = (<CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') }
                                       trainings={ this.props.card.get('trainings') } />)
             }
-            course_location = (<CourseLocation card={this.props.card} rankingInfo={ this.props.card.get('_rankingInfo') } address={ this.props.card.get('place_address') } />);
+            course_location = (<CourseLocation follow_links={this.props.follow_links} card={this.props.card} rankingInfo={ this.props.card.get('_rankingInfo') } address={ this.props.card.get('place_address') } />);
         }
         return (
           <div onMouseEnter={this.onMouseEnter}
                onMouseLeave={this.onMouseLeave}
                onClick={this.goToCourse}
-               className={"search-page-card soft-half one-quarter palm-one-whole lap-one-third inline-block v-top " + popup_class}>
+               className={this.props.width_class + " search-page-card soft-half palm-one-whole lap-one-third inline-block v-top " + popup_class}>
               <div className="search-page-card__number">{this.props.index}.</div>
               <div className="bg-white search-page-card__content">
                   {this.headerCard()}
