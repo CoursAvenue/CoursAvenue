@@ -17,6 +17,8 @@ class Structure::CourseCreationForm
   attribute :course_name, String
   validates :course_name, presence: true
 
+  attribute :course_description, String
+
   attribute :course_type, String
   validates :course_type, presence: true
 
@@ -27,6 +29,7 @@ class Structure::CourseCreationForm
 
   attribute :course_cant_be_joined_during_year, Boolean
   attribute :course_no_class_during_holidays, Boolean
+
 
   # Place attributes
   attribute :place_name, String
@@ -143,6 +146,7 @@ class Structure::CourseCreationForm
     @course = @structure.courses.create(
       type: @course_type,
       name: @course_name,
+      description: @course_description,
       subject_ids: @course_subject_ids,
       prices_attributes: @course_prices_attributes,
       # price_ids: @course_prices.map(&:id),

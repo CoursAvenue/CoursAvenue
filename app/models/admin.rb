@@ -51,6 +51,8 @@ class ::Admin < ActiveRecord::Base
   after_create :check_if_was_invited
   after_create :set_email_opt_ins
   after_create :subscribe_to_crm
+  after_create :send_confirmation_instructions
+  handle_asynchronously :send_confirmation_instructions
 
   before_save    :downcase_email
   before_destroy :delete_from_intercom if Rails.env.production?

@@ -179,6 +179,17 @@ class Pro::StructuresController < Pro::ProController
     render action: :edit
   end
 
+  # GET member
+  def confirm_email
+    render layout: false
+  end
+
+  # POST member
+  def resend_confirmation_instructions
+    @structure.main_contact.send_confirmation_instructions
+    redirect_to edit_pro_structure_path(@structure)
+  end
+
   def add_subjects
     respond_to do |format|
       format.html do

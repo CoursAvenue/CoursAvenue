@@ -3,37 +3,16 @@
     .flexbox
       .flexbox__item.ten-twelves.v-middle>
         - if admin_current_onboarding_percentage(@structure) != 100
-          Votre profil est complété à #{admin_current_onboarding_percentage(@structure)}% :&nbsp;
-          = admin_current_onboarding_step(@structure)
+          .inline-block.v-middle
+            Votre profil est complété à #{admin_current_onboarding_percentage(@structure)}% :&nbsp;
+            .progress{ style: "width: 15em;" }
+              .bar.bar-success{style: "width: #{admin_current_onboarding_percentage(@structure)}%;"}
+          .inline-block.v-middle.soft-half--left
+            = admin_current_onboarding_step(@structure)
       .flexbox__item.two-twelves.v-middle>
         .text--right
           %a.btn.btn--white.btn--small{ href: 'javascript:void(0)', data: { onboarding: 'show' } }
             Voir le guide de démarage
-
-// We put the custom style here so it doesn't override the global style used elsewhere.
-// I'm sorry, Nima.
-%style
-  :css
-    .fancybox-nav {
-      width: 60px;
-    }
-
-    .fancybox-nav span {
-      visibility: visible;
-      opacity: 0.5;
-    }
-
-    .fancybox-nav:hover span {
-      opacity: 1;
-    }
-
-    .fancybox-next {
-      right: -80px;
-    }
-
-    .fancybox-prev {
-      left: -80px;
-    }
 
 
 = content_for :scripts do
@@ -58,7 +37,7 @@
                 { href: Routes.step_three_pro_onboarding_path({ id: "#{ @structure.slug }" }), type: 'ajax' },
                 { href: Routes.step_four_pro_onboarding_path({ id: "#{ @structure.slug }" }),  type: 'ajax' },
                 { href: Routes.step_five_pro_onboarding_path({ id: "#{ @structure.slug }" }),  type: 'ajax' },
-            ], { loop: false, margin: [20, 60, 20, 60] });
+            ], { loop: false, margin: [20, 60, 20, 60], padding: 0 });
         });
     });
   - if params[:show_onboarding]

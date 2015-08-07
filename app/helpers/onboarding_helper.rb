@@ -1,6 +1,13 @@
 module OnboardingHelper
   def admin_current_onboarding_step(structure)
-    if !structure.profile_completed?
+    if !structure.main_contact.confirmed?
+      link_to confirm_email_pro_structure_path(structure),
+             data: { onboarding_step: true, behavior: 'modal', padding: '0', width: 500 },
+             class: 'fancybox.ajax' do
+        "<i class='fa fa-square-o' data-square='true'></i>".html_safe +
+          ' Confirmez votre adresse e-mail'
+      end
+    elsif !structure.profile_completed?
       link_to edit_pro_structure_path(structure), data: { onboarding_step: true } do
         "<i class='fa fa-square-o' data-square='true'></i>".html_safe +
           ' Ajoutez votre description et votre logo'
@@ -27,10 +34,11 @@ module OnboardingHelper
 
   def admin_current_onboarding_percentage(structure)
     status = 100
-    status -= 25 if !structure.profile_completed?
-    status -= 25 if structure.medias.select(&:persisted?).empty?
-    status -= 25 if structure.comments.select(&:persisted?).empty?
-    status -= 25 if structure.plannings.future.select(&:persisted?).empty?
+    status -= 20 if !structure.main_contact.confirmed?
+    status -= 20 if !structure.profile_completed?
+    status -= 20 if structure.medias.select(&:persisted?).empty?
+    status -= 20 if structure.comments.select(&:persisted?).empty?
+    status -= 20 if structure.plannings.future.select(&:persisted?).empty?
 
     status
   end

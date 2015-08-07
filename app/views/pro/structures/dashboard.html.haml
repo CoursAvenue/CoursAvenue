@@ -28,11 +28,11 @@
             #{@profile_percentage}%
       %ul.no-bullet-list
         %li
-          %i.fa-check-square-o
+          %i.fa.fa-check-square-o
           %span.line-through--gray Créer mon profil
         %li
           - if @structure.profile_completed?
-            %i.fa-check-square-o
+            %i.fa.fa-check-square-o
             %span.line-through--gray Compléter mes informations générales et ajouter un logo
           - else
             = link_to edit_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
@@ -40,7 +40,7 @@
               Compléter mes informations générales et ajouter un logo
         %li
           - if @structure.comments.any? or @structure.comment_notifications.any?
-            %i.fa-check-square-o
+            %i.fa.fa-check-square-o
             %span.line-through--gray Demander des recommandations à mes élèves
           - else
             = link_to recommendations_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
@@ -48,7 +48,7 @@
               Demander des recommandations à mes élèves
         %li
           - if @structure.medias.any?
-            %i.fa-check-square-o
+            %i.fa.fa-check-square-o
             %span.line-through--gray Mettre en ligne les photos et vidéos de mes cours
           - else
             = link_to pro_structure_medias_path(@structure), class: 'profile-task-uncomplete' do
@@ -56,7 +56,7 @@
               Mettre en ligne les photos et vidéos de mes cours
         %li
           - if @structure.plannings.future.any?
-            %i.fa-check-square-o
+            %i.fa.fa-check-square-o
             %span.line-through--gray Renseigner mes cours et mon planning
           - else
             = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do

@@ -18,8 +18,10 @@ var Map = React.createClass({
                 this.marker_layer.addLayer(circle);
             }
         }, this);
-        this.map.fitBounds(this.marker_layer.getBounds().pad(0.3));
-        setTimeout(function() { this.map.invalidateSize(); }.bind(this), 100);
+        if (this.props.markers.length > 0) {
+            this.map.fitBounds(this.marker_layer.getBounds().pad(0.3));
+            setTimeout(function() { this.map.invalidateSize(); }.bind(this), 100);
+        }
     },
 
     render: function render () {

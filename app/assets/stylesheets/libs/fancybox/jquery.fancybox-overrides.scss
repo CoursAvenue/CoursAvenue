@@ -24,3 +24,23 @@
         width: 100% !important;
     }
 }
+.fancybox-nav {
+    width: 60px;
+}
+
+.fancybox-nav span {
+    visibility: visible;
+    opacity: 0.5;
+}
+
+.fancybox-nav:hover span {
+    opacity: 1;
+}
+
+.fancybox-next {
+    right: -80px;
+}
+
+.fancybox-prev {
+    left: -80px;
+}

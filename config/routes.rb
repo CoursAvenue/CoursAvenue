@@ -189,6 +189,8 @@ CoursAvenue::Application.routes.draw do
           get :imported_structures
         end
         member do
+          get   :confirm_email
+          post  :resend_confirmation_instructions
           get   :dashboard
           get   :edit_order_recipient
           get   :someone_already_took_control, path: 'quelqu-un-a-deja-le-control'

@@ -10,6 +10,7 @@ class Pro::RegistrationsController < Pro::ProController
     @registration_form = Structure::RegistrationForm.new(registration_params)
 
     if @registration_form.save
+      sign_in @registration_form.admin
       redirect_to new_course_pro_registrations_path(
         id: @registration_form.structure.slug, course_type: @registration_form.course_type
       ), notice: 'Publiez maintenant votre 1ère activité'
@@ -32,7 +33,7 @@ class Pro::RegistrationsController < Pro::ProController
     @course_partial = @course_creation_form.course_type.split('::').last.downcase
 
     if @course_creation_form.save
-      redirect_to waiting_for_activation_pro_admins_path({ email: @structure.email }),
+      redirect_to edit_pro_structure_path(@structure),
         notice: 'Activité créé avec succés.'
     else
       render :new_course
@@ -60,6 +61,7 @@ class Pro::RegistrationsController < Pro::ProController
 
       :course_type,
       :course_name,
+      :course_description,
       :course_frequency,
       :course_cant_be_joined_during_year,
       :course_no_class_during_holidays,

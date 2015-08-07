@@ -3,6 +3,11 @@
   = f.hidden_field :structure_id, value: @structure.slug
   = f.hidden_field :course_type, value: 'Course::Training'
 
+  .grid--full.push--bottom
+    .grid__item.one-third.v-middle.text--right.soft-half--right>
+      %i.fa.fa-info.fa-2x
+    .grid__item.two-thirds.v-middle>
+      %h4.flush Information sur le stage
   .grid--full
     .grid__item.one-third.text--right.v-middle>
       = f.label :course_name, label: 'Nom du stage', class: 'label--large v-middle'
@@ -49,6 +54,12 @@
           %a.cursor-pointer.f-size-12{ data: { trigger: true } }
             %i.fa.fa-plus.milli
             Ajouter un tarif
+
+  .grid--full.push-half--bottom
+    .grid__item.one-third.text--right.v-middle>
+      = f.label :course_description, label: 'Description', class: 'label--large v-middle'
+    .grid__item.v-middle.two-thirds>
+      = f.input :course_description, as: :text, label: false, input_html: { placeholder: t('simple_form.placeholders.course.description') }
 
   .text--center
     %a.btn.btn--blue-green{ data: { behavior: 'show-step-2' } }
@@ -121,13 +132,13 @@
       .grid__item.one-third.text--right.v-middle>
         = f.label :level_ids, label: t('planning.levels'), class: 'label--large v-middle'
       .grid__item.v-middle.two-thirds>
-        = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: false, wrapper_html: { data: { behavior: 'checkbox-list' } }, input_html: { class: 'input--large' }
+        = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: false, wrapper_html: { data: { behavior: 'checkbox-list' } }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush' }, checked: (@course_creation_form.level_ids.present? ? @course_creation_form.level_ids : [Level::ALL.id])
 
     .grid--full.push-half--bottom
       .grid__item.one-third.text--right.v-middle>
         = f.label :audience_ids, label: t('planning.audiences'), class: 'label--large v-middle'
       .grid__item.v-middle.two-thirds>
-        = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: false, input_html: { class: 'input--large' }
+        = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: false, input_html: { class: 'input--large' }, checked: (@course_creation_form.audience_ids.present? ? @course_creation_form.audience_ids : [Audience::ADULT.id])
 
     .grid--full.push-half--bottom#children-ages{class: f.object.audiences.include?(Audience::KID) ? '' : 'hidden'}
       .grid__item.one-third.text--right.v-middle>

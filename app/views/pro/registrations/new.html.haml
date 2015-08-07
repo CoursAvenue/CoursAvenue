@@ -21,7 +21,7 @@
           .grid__item.one-third.text--right.v-middle>
             %label.delta{ for: 'structure_registration_form[structure_subjects_ids]' }> Disciplines générales pratiquées
           .grid__item.v-middle.two-thirds>
-            = f.input :structure_subjects_ids, as: :select, collection: Subject.roots.order('position ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+            = f.input :structure_subjects_ids, as: :select, collection: Subject.roots.stars.order('position ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
         #descendants-subject.grid.push--bottom
           .grid__item.one-third.text--right.v-middle>
             %label.delta{ for: 'structure_registration_form[structure_subject_descendants_ids]' }> Sous disciplines
