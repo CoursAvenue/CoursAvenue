@@ -60,6 +60,7 @@ var SubjectSearchInput = React.createClass({
                          onFocus={this.showSearchInputPanel}
                          onKeyUp={this.handleKeyUp}
                          onChange={this.searchFullText}
+                         tabIndex="-1"
                          placeholder="Cherchez une activité..." />
                   <i className="fa fa-search"></i>
                   <i className={cx("fa fa-times", { 'hidden': this.state.filter_store.get('current_panel') != FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT }) }

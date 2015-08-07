@@ -28,7 +28,7 @@ var LessonPanel = React.createClass({
                     </div>
                     <div className="text--center relative">
                         <a onClick={ this.closePanel } className='btn btn--blue search-page-filters__button'>OK</a>
-                        <a href="javascript:void(0)"
+                        <a tabIndex="-1" href="javascript:void(0)"
                            className="white absolute north east soft--top f-weight-bold"
                            onClick={this.changeContext}>
                             Voir les stages & ateliers
