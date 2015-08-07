@@ -111,10 +111,8 @@
     background-color: $yellow;
     border-color    :$yellow !important;
     border          : none;
-    &:hover, &:active {
-        color           : white;
-        background-color: darken($yellow, 5%);
-    }
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: darken($yellow, 5%); }
 }
 
 .btn--social {

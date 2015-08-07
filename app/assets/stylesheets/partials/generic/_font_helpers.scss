@@ -34,11 +34,11 @@
      FONT-SIZE
 \*------------------------------------*/
 
-.palm-beta    { @include media-query(palm) { font-size: $h2-size; } }
-.palm-gamma   { @include media-query(palm) { font-size: $h3-size; } }
-.palm-delta   { @include media-query(palm) { font-size: $h4-size; } }
-.palm-epsilon { @include media-query(palm) { font-size: $h5-size; } }
-.palm-zeta    { @include media-query(palm) { font-size: $h6-size; } }
+.palm-beta    { @include media-query(palm) { font-size: $h2-size !important; } }
+.palm-gamma   { @include media-query(palm) { font-size: $h3-size !important; } }
+.palm-delta   { @include media-query(palm) { font-size: $h4-size !important; } }
+.palm-epsilon { @include media-query(palm) { font-size: $h5-size !important; } }
+.palm-zeta    { @include media-query(palm) { font-size: $h6-size !important; } }
 
 .inherit-font-size { font-size  : inherit; }
 .f-size-really-big {

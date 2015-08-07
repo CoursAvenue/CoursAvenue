@@ -15,7 +15,7 @@ var MainSubject = React.createClass({
         return (
             <div>
                 <div className='soft push--bottom' style={ style } >
-                    <h2 className='alpha palm-beta text--center white'>
+                    <h2 className='alpha palm-gamma text--center white'>
                         <span className='ff-kameron'>Notre suggestion : { this.props.subject.get('name') }</span>
                     </h2>
                     <CourseSearch subject={ this.props.subject } />

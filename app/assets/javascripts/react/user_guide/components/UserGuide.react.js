@@ -52,8 +52,7 @@ var UserGuide = React.createClass({
                          next_page={ this.nextPage }
                              index={ index }
                              image={ this.props.guide.image }
-                               key={ index }
-                />
+                               key={ index } />
             );
         }.bind(this));
 
@@ -61,8 +60,7 @@ var UserGuide = React.createClass({
             questions.push(
                 <AgeQuestion next_page={ this.nextPage }
                                  image={ this.props.guide.image }
-                                   key={ questions.length }
-                />
+                                   key={ questions.length } />
             );
         }
 
@@ -72,8 +70,7 @@ var UserGuide = React.createClass({
                        next_page={ this.nextPage }
                      description={ this.props.guide.description }
                   call_to_action={ this.props.guide.call_to_action }
-                           image={ this.props.guide.image }
-                />
+                           image={ this.props.guide.image } />
                 { questions }
                 <Results />
             </div>

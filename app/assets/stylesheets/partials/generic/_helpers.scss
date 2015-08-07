@@ -285,6 +285,7 @@
     padding-top   : $base-spacing-unit * 3 !important;
     padding-bottom: $base-spacing-unit * 3 !important;
 }
+.palm-soft--top         { @include media-query(palm) { padding-top : $base-spacing-unit !important; } }
 .palm-soft-half--ends   { @include media-query(palm) { padding-bottom : $base-spacing-unit / 2 !important; padding-top : $base-spacing-unit / 2 !important; } }
 .palm-soft-half--top    { @include media-query(palm) { padding-top : $base-spacing-unit / 2 !important; } }
 .palm-soft-half--bottom { @include media-query(palm) { padding-bottom : $base-spacing-unit / 2 !important; } }
@@ -477,11 +478,6 @@
     .black-curtain {
         background: rgba(0,0,0,.1);
     }
-}
-.quizz-question-text {
-    top       : 50%;
-    margin-top: -4em;
-    @include media-query(palm) { margin-top: -1.5em; }
 }
 
 .grayscale {

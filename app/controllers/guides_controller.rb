@@ -12,4 +12,7 @@ class GuidesController < ApplicationController
   def set_guide
     @guide = Guide.includes(questions: [ answers: [ :subjects, :question ] ]).find(params[:id])
   end
+  def layout_locals
+    { hide_header: true }
+  end
 end

@@ -51,7 +51,7 @@ var CourseSearch = React.createClass({
     // http://stackoverflow.com/a/24849854/1814139
     setCity: function setCity (event, address) {
         var city = address.city;
-        this.setState({ city: city });
+        this.setState({ city: city.replace(', France','').toLowerCase().replace(/ /g,'-').replace(/ème/g,'') });
     },
 
     getButton: function getButton () {
@@ -70,7 +70,7 @@ var CourseSearch = React.createClass({
             return (
                 <button disabled className='nowrap btn btn--yellow input--large'>
                     <i className='fa-search'></i>
-                    Trouve
+                    Trouver
                 </button>
             );
         }

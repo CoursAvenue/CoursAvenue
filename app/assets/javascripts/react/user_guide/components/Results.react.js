@@ -42,20 +42,3 @@ var Results = React.createClass({
 });
 
 module.exports = Results;
-          // <div className='section white relative one-whole relative full-screen-item bg-cover'
-          //          style={ style }>
-          //     <div className='main-container mega-soft--ends'>
-          //         <MainSubject subject={ main_subject } />
-          //         <hr />
-          //         <div className='text--center soft--sides'>
-          //             <h1> Reponses </h1>
-          //             { answers }
-          //         </div>
-          //         <hr />
-          //         <AgeDetails subject={ main_subject } />
-          //         <hr />
-          //         <CourseSearch subject={ main_subject } />
-          //         <hr />
-          //         <SubjectList subjects={ alternate_subjects } />
-          //     </div>
-          // </div>

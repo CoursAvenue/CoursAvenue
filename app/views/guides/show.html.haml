@@ -1,3 +1,6 @@
+= link_to root_path, class: 'fixed north west push on-top' do
+  = image_tag 'logos/logo_white.png', width: 200, data: { src2x: asset_path('logos/logo_white@2x.png') }
+
 = react_component('UserGuideApp', { guide:     @serialized_guide,
                                     answers:   @serialized_guide.answers,
                                     subjects:  @serialized_guide.subjects,

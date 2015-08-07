@@ -25,22 +25,22 @@ var StarPage = React.createClass({
         return (
             <div className='section relative one-whole relative white full-screen-item bg-cover'
                      style={ style }>
-              <div className='flexbox full-screen-item soft'>
-                <div className='black-curtain north west one-whole absolute'></div>
-                <div className='push--top soft--top one-whole flexbox__item'>
-                  <div className='v-middle relative'>
-                    <h1 className='flush soft--top text--center f-size-really-big'>
-                      { this.props.title }
-                    </h1>
-                    <hr className=' push-half--ends main-container main-container--medium' />
-                    <div className='text--center'>
-                      <a onClick={ this.start } className='btn--yellow btn btn--enormous'>
-                        { "C'est parti !" }
-                      </a>
+                <div className='flexbox full-screen-item soft'>
+                    <div className='black-curtain north west one-whole absolute'></div>
+                      <div className='push--top soft--top one-whole flexbox__item'>
+                          <div className='v-middle relative'>
+                              <h1 className='tk-lexia flush soft--top text--center f-size-really-big'>
+                                { this.props.title }
+                              </h1>
+                              <hr className='hard push--ends main-container main-container--medium' />
+                              <div className='text--center'>
+                                  <a onClick={ this.start } className='btn--yellow btn btn--enormous'>
+                                    { "C'est parti !" }
+                                  </a>
+                              </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
         );
     },

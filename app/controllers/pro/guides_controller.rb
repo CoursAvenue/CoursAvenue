@@ -9,7 +9,7 @@ class Pro::GuidesController < Pro::ProController
     @guide = Guide.find(params[:id])
 
     respond_to do |format|
-      format.html { redirect_to guide_path(@guide) }
+      format.html { redirect_to edit_guide_path(@guide) }
       format.json { render json: @guide }
     end
   end

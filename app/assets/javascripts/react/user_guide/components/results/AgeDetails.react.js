@@ -18,6 +18,7 @@ var AgeDetails = React.createClass({
     renderAll: function renderAll () {
         if (!this.props.subject) { return false; }
         var ages = this.props.subject.get('advices').map(function(age, index) {
+            if (_.isEmpty(age.content)) { return null; }
             return (
                 <div key={ index }>
                     <h1>{ age.title }</h1>
