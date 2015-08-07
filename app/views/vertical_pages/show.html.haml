@@ -28,11 +28,11 @@
           - if @subject.root?
             = link_to root_search_page_path(@subject.root, (@city || 'paris'), locate_user: (@city ? '' : 'on')), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
               %i.fa.fa-map-marker
-              Voir les cours autour de moi
+              Voir les cours #{@city ? "à #{@city.name}" : 'autour de moi'}
           - else
             = link_to search_page_path(@subject.root, @subject, (@city || 'paris'), locate_user: (@city ? '' : 'on')), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
               %i.fa.fa-map-marker
-              Voir les cours autour de moi
+              Voir les cours #{@city ? "à #{@city.name}" : 'autour de moi'}
   = react_component('MapContainer', { center: [(@city || @paris).latitude, (@city || @paris).longitude] })
 .main-container.main-container--medium.soft--ends
   .soft-half--left= render partial: 'vertical_pages/breadcrumb'
@@ -77,11 +77,11 @@
     - if @subject.root?
       = link_to root_search_page_path(@subject.root, (@city || 'paris'), locate_user: (@city ? '' : 'on')), class: 'btn btn--blue-green btn--large see-all-courses-tracker' do
         %i.fa.fa-map-marker
-        Voir les autres cours autour de moi
+        Voir tous les cours #{@city ? "à #{@city.name} (#{@city.zip_code})" : 'autour de moi'}
     - else
       = link_to search_page_path(@subject.root, @subject, (@city || 'paris'), locate_user: (@city ? '' : 'on')), class: 'btn btn--blue-green btn--large see-all-courses-tracker' do
         %i.fa.fa-map-marker
-        Voir les autres cours autour de moi
+        Voir tous les cours #{@city ? "à #{@city.name} (#{@city.zip_code})" : 'autour de moi'}
 = content_for :scripts do
   :javascript
     window.is_mobile = COURSAVENUE.helperMethods.isMobile.any();
