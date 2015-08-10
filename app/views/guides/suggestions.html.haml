@@ -29,15 +29,16 @@
         %h2.alpha= @subject.name
         = @subject.guide_description
     - if @subject.has_kid_advices?
-      - if @subject.age_advice_younger_than_5.present?
-        %h3 Pour les enfants de moins de 5 ans
-        .line-height-1-3= simple_format @subject.age_advice_younger_than_5
-      - if @subject.age_advice_between_5_and_9.present?
-        %h3 Pour les enfants entre 5 et 9 ans
-        .line-height-1-3= simple_format @subject.age_advice_between_5_and_9
-      - if @subject.age_advice_older_than_10.present?
-        %h3 Pour les enfants de plus de 10 ans
-        .line-height-1-3= simple_format @subject.age_advice_older_than_10
+      .grid__item.one-third.palm-one-whole>
+        - if @subject.age_advice_younger_than_5.present?
+          %h3 Pour les enfants de moins de 5 ans
+          .line-height-1-3= simple_format @subject.age_advice_younger_than_5
+        - if @subject.age_advice_between_5_and_9.present?
+          %h3 Pour les enfants entre 5 et 9 ans
+          .line-height-1-3= simple_format @subject.age_advice_between_5_and_9
+        - if @subject.age_advice_older_than_10.present?
+          %h3 Pour les enfants de plus de 10 ans
+          .line-height-1-3= simple_format @subject.age_advice_older_than_10
 
   %h2.alpha.text--center Voilà une sélection qui peut vous intéresser :
   = react_component('ResultList', { root_subject: (@root_subject ? @root_subject : nil),
