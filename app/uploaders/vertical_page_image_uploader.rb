@@ -5,7 +5,8 @@
 class VerticalPageImageUploader < CarrierWave::Uploader::Base
   include Cloudinary::CarrierWave
 
-  process convert: "jpg"
+  process convert: 'jpg'
+  process quality: 'jpegmini:0'
 
   version :thumb do
     cloudinary_transformation transformation: [{ width: 250, height: 200, crop: :fill }], flags: :progressive
