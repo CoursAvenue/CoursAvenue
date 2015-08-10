@@ -60,7 +60,7 @@ $(function() {
         return false;
     });
 
-    // Remove rows that contains  only old or new days
+    // Remove rows that contains only old or new days
     COURSAVENUE.datepicker_function_that_hides_inactive_rows = function() {
         _.each($('.datepicker tr'), function(tr) {
             $tr = $(tr);
@@ -78,6 +78,9 @@ $(function() {
                 autoclose: true,
                 todayHighlight: true
             };
+            if ($(this).data('clear-btn')) {
+                datepicker_options.clearBtn = true;
+            }
             if ($(this).data('start-date')) {
                 datepicker_options.startDate = $(this).data('start-date');
             }

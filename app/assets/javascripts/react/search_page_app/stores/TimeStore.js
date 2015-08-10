@@ -178,7 +178,7 @@ var TimeStore = Backbone.Collection.extend({
     getTrainingDate: function getTrainingDate (date_type) {
         if (date_type == 'start_date') {
             return (this.training_start_date ? new Date(this.training_start_date * 1000) : null);
-        } else {
+        } else if (this.training_end_date > this.training_start_date) {
             return (this.training_end_date ? new Date((this.training_end_date - ONE_DAY) * 1000) : null);
         }
     },
@@ -187,13 +187,13 @@ var TimeStore = Backbone.Collection.extend({
         if (date.attribute == 'start_date') {
             this.training_start_date = date.value;
         } else {
-            this.training_end_date = date.value + ONE_DAY;
+            this.training_end_date = (date.value ? date.value + ONE_DAY : null);
         }
         this.trigger('change');
     },
 
     trainingDates: function trainingDates () {
-        return { start: this.training_start_date, end: this.training_end_date };
+        return { start: this.training_start_date, end: (this.training_end_date > this.training_start_date ? this.training_end_date : null) };
     },
 
 });
