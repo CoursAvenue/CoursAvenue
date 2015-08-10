@@ -346,9 +346,10 @@ class IndexableCard < ActiveRecord::Base
   private
 
   SEARCH_SCORE_COEF = {
-    plannings: 3,
-    prices:    2,
-    subjects:  2,
+    free_trial: 5,
+    plannings:  3,
+    prices:     2,
+    subjects:   2
   }
 
   # @return Integer
@@ -357,6 +358,9 @@ class IndexableCard < ActiveRecord::Base
     score_to_add += plannings.count * SEARCH_SCORE_COEF[:plannings]
     score_to_add += course.price_group_prices.count * SEARCH_SCORE_COEF[:prices] if course
     score_to_add += subjects.count * SEARCH_SCORE_COEF[:prices]
+    if course and course.has_free_trial_lesson?
+      score_to_add += SEARCH_SCORE_COEF[:free_trial]
+    end
     score_to_add += rand(15) # Let's add some randomeness!
 
     score = structure.search_score.to_i + score_to_add
