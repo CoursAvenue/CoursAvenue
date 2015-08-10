@@ -1,4 +1,5 @@
 require 'rails_helper'
+include Devise::TestHelpers
 
 describe Pro::RegistrationsController do
   describe 'GET #new' do
@@ -100,10 +101,9 @@ describe Pro::RegistrationsController do
         expect { post :create_course, params }.to change { Planning.count }.by(1)
       end
 
-      it 'redirects to the user dashboard' do
+      it 'redirects to the edit structure page' do
         post :create_course, params
-        expect(response).
-          to redirect_to(waiting_for_activation_pro_admins_path({ email: structure.email }))
+        expect(response).to redirect_to(edit_pro_structure_path(structure))
       end
     end
   end
@@ -134,12 +134,14 @@ describe Pro::RegistrationsController do
 
       course_type: 'Course::Lesson',
       course_name: Faker::Name.name,
+      course_description: Faker::Lorem.paragraph(3),
       course_subject_ids: [subject_.id],
       course_prices_attributes: { type:'Price::Trial', amount: 0 },
       course_frequency: Course::COURSE_FREQUENCIES.sample,
       course_cant_be_joined_during_year: [true, false].sample,
       course_no_class_during_holidays: [true, false].sample,
 
+      planning_start_date: Date.tomorrow,
       planning_start_time: Time.parse("10:00"),
       planning_end_time: Time.parse("12:00"),
       planning_week_day: (0..7).to_a.sample,

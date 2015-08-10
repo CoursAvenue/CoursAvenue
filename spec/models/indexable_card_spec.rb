@@ -29,10 +29,10 @@ RSpec.describe IndexableCard, type: :model do
   let!(:structure) { FactoryGirl.create(:structure_with_multiple_place) }
 
   describe '.create_from_course' do
-    let!(:_subject)  { structure.subjects.sample }
-    let!(:place_1)     { structure.places.first }
-    let!(:place_2)     { structure.places.last }
-    let!(:course)    { FactoryGirl.create(:course, structure: structure) }
+    let!(:_subject)           { structure.subjects.sample }
+    let!(:place_1)            { structure.places.first }
+    let!(:place_2)            { structure.places.last }
+    let!(:course)             { FactoryGirl.create(:course, structure: structure) }
     let!(:planning_place_1)   { FactoryGirl.create(:planning, course: course, place: place_1) }
     let!(:planning_place_2)   { FactoryGirl.create(:planning, course: course, place: place_2) }
     let!(:planning_2_place_2) { FactoryGirl.create(:planning, course: course, place: place_2) }

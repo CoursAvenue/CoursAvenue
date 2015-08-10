@@ -82,7 +82,9 @@ class Pro::RegistrationsController < Pro::ProController
 
       :planning_week_day,
       :planning_start_date,
+      :planning_start_time,
       :planning_end_date,
+      :planning_end_time,
 
       course_subject_ids: [],
       course_prices_attributes: [:type, :number, :amount, :info],

@@ -121,13 +121,6 @@ describe Structures::ParticipationRequestsController, type: :controller do
         expect(response.status).to eq 200
       end
     end
-    describe '#report_form' do
-      it 'returns 200' do
-        get :report_form, structure_id: participation_request.structure.slug,
-                       id: participation_request.token
-        expect(response.status).to eq 200
-      end
-    end
     describe '#accept' do
       it 'accepts and redirect' do
         patch :accept, structure_id: participation_request.structure.slug,
@@ -169,15 +162,6 @@ describe Structures::ParticipationRequestsController, type: :controller do
                           message: { body: 'Lorem' }
                         }
         expect(assigns(:participation_request).canceled?).to be_truthy
-        expect(response).to be_redirect
-      end
-    end
-    describe '#report' do
-      it 'reports and redirect ' do
-        patch :report, structure_id: participation_request.structure.slug,
-                       id: participation_request.token,
-                        participation_request: {
-                        }
         expect(response).to be_redirect
       end
     end

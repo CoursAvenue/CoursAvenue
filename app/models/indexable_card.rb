@@ -253,7 +253,7 @@ class IndexableCard < ActiveRecord::Base
     attributes = { place: place, structure: place.structure }
     existing_cards = where(attributes)
 
-    if existing_cards.any? and existing_cards.flat_map(&:subjects).include?(subject)
+    if existing_cards.any?
       return existing_cards.first
     end
 
@@ -300,7 +300,7 @@ class IndexableCard < ActiveRecord::Base
       day_availability = availability.detect { |d| d[:day] == course_day }
 
       day_availability[:count] += 1
-      day_availability[:start_times] << I18n.l(planning.start_time, format: :short)
+      day_availability[:start_times] << I18n.l(planning.start_time, format: :short) if planning.start_time
     end
 
     availability

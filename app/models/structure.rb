@@ -1263,6 +1263,8 @@ class Structure < ActiveRecord::Base
   def check_for_disable
     if should_be_disabled?
       disable!
+    else
+      enable!
     end
   end
 
