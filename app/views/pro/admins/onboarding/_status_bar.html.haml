@@ -1,7 +1,7 @@
 = content_for :alert_bar do
   .soft-half--bottom
-    .flexbox
-      .flexbox__item.ten-twelves.v-middle>
+    .flexbox.palm-block
+      .flexbox__item.ten-twelves.v-middle.palm-block>
         - if admin_current_onboarding_percentage(@structure) != 100
           .inline-block.v-middle
             Votre profil est complété à #{admin_current_onboarding_percentage(@structure)}% :&nbsp;
@@ -9,10 +9,9 @@
               .bar.bar-success{style: "width: #{admin_current_onboarding_percentage(@structure)}%;"}
           .inline-block.v-middle.soft-half--left
             = admin_current_onboarding_step(@structure)
-      .flexbox__item.two-twelves.v-middle>
-        .text--right
-          %a.btn.btn--white.btn--small{ href: 'javascript:void(0)', data: { onboarding: 'show' } }
-            Voir le guide de démarage
+      .flexbox__item.two-twelves.v-middle.palm-block.palm-text--left.text--right>
+        %a.btn.btn--white.btn--small{ href: 'javascript:void(0)', data: { onboarding: 'show' } }
+          Voir le guide de démarage
 
 
 = content_for :scripts do
