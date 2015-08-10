@@ -25,7 +25,6 @@
     %link{ href: asset_path('favicon.png'), rel: 'apple-touch-icon' }
     = javascript_include_tag 'modernizr' # MUST BE In the Head and before CSS
     = stylesheet_link_tag 'application', media: 'all'
-    = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css', media: 'all'
     = csrf_meta_tags unless response.cache_control[:public]
 
   %body
@@ -46,7 +45,7 @@
     = javascript_include_tag 'application'
     = javascript_include_tag 'https://d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js', 'data-apikey' => '5ddb2502a5b017d46bf49c15d406678e'
 
-    = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'
+    = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.js'
     = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'
     :javascript
       L.mapbox.accessToken = ENV.MAPBOX_ACCESS_TOKEN;
