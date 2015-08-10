@@ -20,30 +20,30 @@ class MediaUploader < CarrierWave::Uploader::Base
   end
 
   version :search_thumbnail do
-    cloudinary_transformation transformation: [{ width: 250, height: 100, crop: :fill }], flags: :progressive
-    process quality: 70
+    cloudinary_transformation transformation: [{ width: 250, height: 100, crop: :fill }], flags: :progressive, quality: 70
   end
 
   version :thumbnail do
     cloudinary_transformation transformation: [{ width: 500, height: 500, crop: :limit },
-                                               { overlay: 'watermark', width: 100, gravity: :south_east, y: 5, x: 10 }], flags: :progressive
-    process quality: 70
+                                               { overlay: 'watermark', width: 100, gravity: :south_east, y: 5, x: 10 }],
+                              flags: :progressive, quality: 70
   end
 
   version :small_thumbnail do
-    cloudinary_transformation transformation: [{ width: 70, height: 70, crop: :limit }], flags: :progressive
-    process quality: 70
+    cloudinary_transformation transformation: [{ width: 70, height: 70, crop: :limit }],
+                              flags: :progressive,
+                              quality: 70
   end
 
   version :thumbnail_cropped do
     cloudinary_transformation transformation: [{ width: 450, height: 300, crop: :fit },
-                                               { overlay: 'watermark', width: 100, gravity: :south_east, y: 5, x: 10 }], flags: :progressive
-    process quality: 70
+                                               { overlay: 'watermark', width: 100, gravity: :south_east, y: 5, x: 10 }],
+                              flags: :progressive,
+                              quality: 70
   end
 
   version :thumbnail_email_cropped do
     process :thumbnail_email_cropped
-    process quality: 70
   end
 
   version :thumbnail_email_cropped_card do
