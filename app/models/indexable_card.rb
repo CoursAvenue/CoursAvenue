@@ -346,7 +346,7 @@ class IndexableCard < ActiveRecord::Base
   private
 
   SEARCH_SCORE_COEF = {
-    free_trial: 5,
+    free_trial: 15,
     plannings:  3,
     prices:     2,
     subjects:   2
