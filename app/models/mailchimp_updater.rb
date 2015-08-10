@@ -1,6 +1,6 @@
 class MailchimpUpdater
 
-  def list_id
+  def self.list_id
     return {
       user:               '34fb5a48e8',
       structure:          '79f30bcce9',
@@ -9,7 +9,7 @@ class MailchimpUpdater
   end
 
   def self.update_user(user)
-    Gibbon::API.lists.subscribe({id: list_id[:user],
+    Gibbon::API.lists.subscribe({id: MailchimpUpdater.list_id[:user],
                                  email: { email: user.email},
                                  merge_vars: {
                                    :FNAME      => user.first_name.try(:capitalize),
@@ -30,7 +30,7 @@ class MailchimpUpdater
   end
 
   def self.update_structure(structure)
-    Gibbon::API.lists.subscribe({id: list_id[:structure],
+    Gibbon::API.lists.subscribe({id: MailchimpUpdater.list_id[:structure],
                                  email: { email: structure.main_contact.email},
                                  merge_vars: {
                                    :NAME      => structure.name,
