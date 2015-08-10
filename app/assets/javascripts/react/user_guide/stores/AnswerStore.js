@@ -1,5 +1,6 @@
 var _                   = require('lodash'),
     Backbone            = require('backbone'),
+    QuestionStore       = require('../stores/QuestionStore'),
     UserGuideDispatcher = require('../dispatcher/UserGuideDispatcher'),
     UserGuideConstants  = require('../constants/UserGuideConstants'),
     ActionTypes         = UserGuideConstants.ActionTypes;
@@ -9,7 +10,7 @@ var Answer = Backbone.Model.extend({
         return { selected: false };
     },
 
-    initialize: function () {
+    initialize: function initialize () {
       _.bindAll(this, 'toggleSelection');
     },
 
@@ -72,6 +73,12 @@ var AnswerStore = Backbone.Collection.extend({
         return _.findWhere(this.getAges(), { id: this.selected_age });
         return false;
     },
+
+    allQuestionsAnswered: function allQuestionsAnswered (payload) {
+        return (this.select(function(model) {
+            return model.get('selected');
+        }).length == QuestionStore.length);
+    }
 });
 
 module.exports = new AnswerStore();

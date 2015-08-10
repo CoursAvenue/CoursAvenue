@@ -1,0 +1,62 @@
+= content_for :right_after_head do
+  %meta{ name: 'robots', content: 'noindex,follow' }
+
+= content_for :title do
+  = "Réponse | #{@guide.title}"
+
+- @paris = City.find('paris')
+.relative.search-page-filters__panel-height
+  .soft--ends.absolute.north.west.on-top-of-the-world.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height
+    .flexbox__item.v-middle.white.text--center
+      %h1.f-size-really-big
+        Notre suggestion :
+        = @subject.name
+      .soft--top
+        - if @subject.root?
+          = link_to root_search_page_path(@subject.root, 'paris', locate_user: 'on'), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
+            %i.fa.fa-map-marker
+            Voir les cours autour de moi
+        - else
+          = link_to search_page_path(@subject.root, @subject, 'paris', locate_user: 'on'), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
+            %i.fa.fa-map-marker
+            Voir les cours autour de moi
+  = react_component('MapContainer', { center: [@paris.latitude, @paris.longitude] })
+
+.main-container.main-container--medium.soft--ends
+  .grid
+    .grid__item.palm-one-whole.epsilon{ class: (@subject.has_kid_advices? ? 'two-thirds' : 'one-whole')}>
+      .delta.push--bottom
+        %h2.alpha= @subject.name
+        = @subject.guide_description
+    - if @subject.has_kid_advices?
+      - if @subject.age_advice_younger_than_5.present?
+        %h3 Pour les enfants de moins de 5 ans
+        .line-height-1-3= simple_format @subject.age_advice_younger_than_5
+      - if @subject.age_advice_between_5_and_9.present?
+        %h3 Pour les enfants entre 5 et 9 ans
+        .line-height-1-3= simple_format @subject.age_advice_between_5_and_9
+      - if @subject.age_advice_older_than_10.present?
+        %h3 Pour les enfants de plus de 10 ans
+        .line-height-1-3= simple_format @subject.age_advice_older_than_10
+
+  %h2.alpha.text--center Voilà une sélection qui peut vous intéresser :
+  = react_component('ResultList', { root_subject: (@root_subject ? @root_subject : nil),
+                                    subject: (@subject and @subject != @root_subject ? @subject : nil),
+                                    address: { name: @paris.name, latitude: @paris.latitude, longitude: @paris.longitude, city: @paris.name, is_address: false },
+                                    per_line: 4,
+                                    per_page: 12,
+                                    follow_links: true })
+
+
+%h2.alpha.text--center Nous vous suggérons aussi :
+- @other_subjects.in_groups_of(3, false).each do |subject_group|
+  .flexbox
+    - subject_group.each do |subject|
+      - if subject.root?
+        - url = search_page_path(subject.root, subject, 'paris', locate_user: 'on')
+      - else
+        - url = root_search_page_path(subject.root, 'paris', locate_user: 'on')
+      = link_to url, class: 'flexbox__item flush gamma muted-link v-middle search-page-filters__image-button palm-one-whole palm-block bg-cover one-third', style: "background-image: url('#{subject.image.url(:thumb)}');" do
+        .search-page-filters__image-button-curtain
+        .flexbox.relative.search-page-filters__panel-height
+          .flexbox__item.v-middle= subject.name

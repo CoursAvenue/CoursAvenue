@@ -1,8 +1,9 @@
 var _                      = require('lodash'),
     StartPage              = require('./StartPage'),
     Question               = require('./Question'),
-    Results                = require('./Results'),
     AgeQuestion            = require('./AgeQuestion'),
+    SubjectStore           = require('../stores/SubjectStore'),
+    AnswerStore            = require('../stores/AnswerStore'),
     QuestionStore          = require('../stores/QuestionStore'),
     FluxBoneMixin          = require('../../mixins/FluxBoneMixin'),
     AnswerActionCreators   = require('../actions/AnswerActionCreators'),
@@ -22,7 +23,9 @@ var UserGuide = React.createClass({
     },
 
     getInitialState: function getInitialState () {
-        return { question_store: QuestionStore };
+        return { question_store: QuestionStore,
+                 answer_store: AnswerStore,
+                 subject_store: SubjectStore };
     },
 
     componentDidMount: function componentDidMount () {
@@ -42,7 +45,14 @@ var UserGuide = React.createClass({
     },
 
     nextPage: function nextPage () {
-        $.fn.fullpage.moveSectionDown();
+        if (this.state.answer_store.allQuestionsAnswered()) {
+            CoursAvenue.showFullPageLoader();
+            var data = { subject: this.state.subject_store.getMostRelevantSubject().get('id'),
+                         other: _.map(this.state.subject_store.getOtherRelevantSubjects(), function(subject) { return subject.get('id'); }).join(',') }
+            window.location = Routes.suggestions_guide_path(this.props.guide.slug, data);
+        } else {
+            $.fn.fullpage.moveSectionDown();
+        }
     },
 
     render: function render () {
@@ -72,7 +82,6 @@ var UserGuide = React.createClass({
                   call_to_action={ this.props.guide.call_to_action }
                            image={ this.props.guide.image } />
                 { questions }
-                <Results />
             </div>
         );
     },

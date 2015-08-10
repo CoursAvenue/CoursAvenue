@@ -4,10 +4,7 @@ var _                   = require('lodash'),
     UserGuideConstants  = require('../constants/UserGuideConstants'),
     ActionTypes         = UserGuideConstants.ActionTypes;
 
-var Question = Backbone.Model.extend({
-    initialize: function initialize () {
-    },
-});
+var Question = Backbone.Model.extend({});
 
 var QuestionStore = Backbone.Collection.extend({
     model: Question,
@@ -21,8 +18,6 @@ var QuestionStore = Backbone.Collection.extend({
         switch(payload.actionType) {
             case ActionTypes.POPULATE_QUESTION:
                 this.set(payload.data);
-                break;
-            case ActionTypes.NEXT_QUESTION:
                 break;
         }
     },

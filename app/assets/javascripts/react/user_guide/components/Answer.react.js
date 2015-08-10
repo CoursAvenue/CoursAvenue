@@ -11,8 +11,7 @@ var Answer = React.createClass({
             case 2: return 'one-half';
             case 3: return 'one-third';
             case 4: return 'one-half';
-            case 5:
-              return (this.props.index < 3 ? 'one-third' : 'one-half');
+            case 5: return (this.props.index > 1 ? 'one-third' : 'one-half');
             case 6: return 'one-third';
         }
     },
