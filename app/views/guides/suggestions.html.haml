@@ -8,9 +8,10 @@
 .relative.search-page-filters__panel-height
   .soft--ends.absolute.north.west.on-top-of-the-world.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height
     .flexbox__item.v-middle.white.text--center
-      %h1.f-size-really-big
+      .alpha
         Notre suggestion :
-        = @subject.name
+      %h1.f-size-really-big
+        = "#{@subject.name} !"
       .soft--top
         - if @subject.root?
           = link_to root_search_page_path(@subject.root, 'paris', locate_user: 'on'), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
@@ -23,11 +24,10 @@
   = react_component('MapContainer', { center: [@paris.latitude, @paris.longitude] })
 
 .main-container.main-container--medium.soft--ends
-  .grid
-    .grid__item.palm-one-whole.epsilon{ class: (@subject.has_kid_advices? ? 'two-thirds' : 'one-whole')}>
-      .delta.push--bottom
-        %h2.alpha= @subject.name
-        = @subject.guide_description
+  .grid.push--bottom
+    .grid__item.palm-one-whole.epsilon.line-height-1-5.soft--right{ class: (@subject.has_kid_advices? ? 'two-thirds' : 'one-whole')}>
+      %h2.alpha= @subject.name
+      = @subject.guide_description
     - if @subject.has_kid_advices?
       .grid__item.one-third.palm-one-whole>
         - if @subject.age_advice_younger_than_5.present?
@@ -40,16 +40,26 @@
           %h3 Pour les enfants de plus de 10 ans
           .line-height-1-3= simple_format @subject.age_advice_older_than_10
 
-  %h2.alpha.text--center Voilà une sélection qui peut vous intéresser :
+  %h2.alpha.text--center Une sélection recommandé par la communauté :
   = react_component('ResultList', { root_subject: (@root_subject ? @root_subject : nil),
                                     subject: (@subject and @subject != @root_subject ? @subject : nil),
                                     address: { name: @paris.name, latitude: @paris.latitude, longitude: @paris.longitude, city: @paris.name, is_address: false },
                                     per_line: 4,
-                                    per_page: 12,
+                                    per_page: 8,
                                     follow_links: true })
 
 
-%h2.alpha.text--center Nous vous suggérons aussi :
+.text--center.soft--ends.push--bottom
+  - if @subject.root?
+    = link_to root_search_page_path(@subject.root, 'paris', locate_user: 'on'), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
+      %i.fa.fa-map-marker
+      Voir les cours autour de moi
+  - else
+    = link_to search_page_path(@subject.root, @subject, 'paris', locate_user: 'on'), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
+      %i.fa.fa-map-marker
+      Voir les cours autour de moi
+
+%h2.alpha.text--center Sinon vous pouvez toujours regarder ces disciplines :
 - @other_subjects.in_groups_of(3, false).each do |subject_group|
   .flexbox
     - subject_group.each do |subject|
