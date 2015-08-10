@@ -14,7 +14,7 @@ class IndexableCard < ActiveRecord::Base
 
   has_and_belongs_to_many :subjects
 
-  attr_accessible :structure, :place, :plannings, :course, :slug
+  attr_accessible :structure, :place, :plannings, :course, :slug, :popularity
 
   delegate :name, :price, :type, :audiences, :levels, to: :course,    prefix: true, allow_nil: true
   delegate :name, :comments_count, :slug,             to: :structure, prefix: true, allow_nil: true
@@ -125,7 +125,7 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :popularity do
-      self.structure.search_score.to_i
+      self.popularity || compute_popularity
     end
 
     add_attribute :has_course do
@@ -344,6 +344,25 @@ class IndexableCard < ActiveRecord::Base
   end
 
   private
+
+  SEARCH_SCORE_COEF = {
+    plannings: 3,
+    prices:    2,
+    subjects:  2,
+  }
+
+  # @return Integer
+  def compute_popularity
+    score_to_add = 0
+    score_to_add += plannings.count * SEARCH_SCORE_COEF[:plannings]
+    score_to_add += course.price_group_prices.count * SEARCH_SCORE_COEF[:prices] if course
+    score_to_add += subjects.count * SEARCH_SCORE_COEF[:prices]
+    score_to_add += rand(15) # Let's add some randomeness!
+
+    score = structure.search_score.to_i + score_to_add
+    self.update_column :popularity, score
+    return score
+  end
 
   def identity
     [card_type, structure_id, place_id, course_id].compact.join(':')
