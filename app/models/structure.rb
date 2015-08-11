@@ -163,7 +163,6 @@ class Structure < ActiveRecord::Base
   # Validations                                                        #
   ######################################################################
   validates :name, presence: true
-  validates :places, presence: true
   validate  :subject_parent_and_children
   validates :name, :website, :facebook_url, length: { maximum: 255 }
   # validates :website, :facebook_url, :widget_url, url: true
@@ -1265,6 +1264,8 @@ class Structure < ActiveRecord::Base
   def check_for_disable
     if should_be_disabled?
       disable!
+    else
+      enable!
     end
   end
 

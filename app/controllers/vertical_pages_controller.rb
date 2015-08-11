@@ -1,6 +1,7 @@
 # encoding: utf-8
 class VerticalPagesController < ApplicationController
   layout 'pages'
+
   before_action :load_cities
 
   before_action :load_root_vertical_page, only: [:show_root]
@@ -31,6 +32,7 @@ class VerticalPagesController < ApplicationController
     @vertical_page_decorator = @vertical_page.decorate
     @subject                 = @vertical_page.subject
     @ancestors               = @subject.ancestors
+    render action: :show
   end
 
   def index

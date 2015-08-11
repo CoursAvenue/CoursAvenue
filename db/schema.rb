@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150730150523) do
+ActiveRecord::Schema.define(version: 20150810152213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -548,6 +548,7 @@ ActiveRecord::Schema.define(version: 20150730150523) do
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.string   "slug"
+    t.integer  "popularity"
   end
 
   add_index "indexable_cards", ["course_id"], name: "index_indexable_cards_on_course_id", using: :btree
@@ -1245,8 +1246,8 @@ ActiveRecord::Schema.define(version: 20150730150523) do
   create_table "subjects", force: true do |t|
     t.string   "name"
     t.text     "info"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "slug"
     t.string   "ancestry"
     t.string   "image_file_name"
@@ -1255,15 +1256,15 @@ ActiveRecord::Schema.define(version: 20150730150523) do
     t.datetime "image_updated_at"
     t.string   "short_name"
     t.integer  "position"
-    t.integer  "ancestry_depth",     default: 0
+    t.integer  "ancestry_depth",             default: 0
     t.text     "title"
     t.text     "description"
     t.text     "subtitle"
     t.text     "good_to_know"
     t.text     "needed_meterial"
     t.text     "tips"
-    t.text     "guide_description"
     t.string   "image"
+    t.text     "guide_description"
     t.text     "age_advice_younger_than_5"
     t.text     "age_advice_between_5_and_9"
     t.text     "age_advice_older_than_10"
@@ -1466,19 +1467,19 @@ ActiveRecord::Schema.define(version: 20150730150523) do
   add_index "user_profiles", ["structure_id", "user_id"], name: "index_user_profiles_on_structure_id_and_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                   default: "",    null: false
-    t.string   "encrypted_password",      default: "",    null: false
+    t.string   "email",                         default: "",    null: false
+    t.string   "encrypted_password",            default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",           default: 0
+    t.integer  "sign_in_count",                 default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "authentication_token"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.string   "provider"
     t.string   "uid"
     t.string   "oauth_token"
@@ -1488,17 +1489,17 @@ ActiveRecord::Schema.define(version: 20150730150523) do
     t.string   "slug"
     t.string   "gender"
     t.date     "birthdate"
-    t.boolean  "email_opt_in",            default: true
+    t.boolean  "email_opt_in",                  default: true
     t.string   "first_name"
     t.string   "last_name"
     t.string   "zip_code"
     t.string   "phone_number"
     t.integer  "city_id"
     t.text     "description"
-    t.boolean  "email_promo_opt_in",      default: true
-    t.boolean  "email_newsletter_opt_in", default: true
-    t.boolean  "email_passions_opt_in",   default: true
-    t.boolean  "sms_opt_in",              default: true
+    t.boolean  "email_promo_opt_in",            default: true
+    t.boolean  "email_newsletter_opt_in",       default: true
+    t.boolean  "email_passions_opt_in",         default: true
+    t.boolean  "sms_opt_in",                    default: true
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
@@ -1507,7 +1508,7 @@ ActiveRecord::Schema.define(version: 20150730150523) do
     t.string   "email_status"
     t.string   "last_email_sent_at"
     t.string   "last_email_sent_status"
-    t.boolean  "super_user",              default: false
+    t.boolean  "super_user",                    default: false
     t.integer  "passion_city_id"
     t.string   "passion_zip_code"
     t.string   "delivery_email_status"

@@ -1,6 +1,6 @@
 {{#if admin_logged_in}}
     <div class="inline-block soft--right">
-        <a href="{{ pro_structures_url }}{{#if structure_path}}{{ structure_path }}{{/if}}">Accéder à mon espace Pro</a>
+        <a href="{{ pro_structures_url }}{{#if structure_path}}{{ structure_path }}{{/if}}" class="muted-link">Accéder à mon espace Pro</a>
     </div>
 {{ else }}
     {{#if logged_in}}
@@ -66,7 +66,7 @@
         </div>
         {{#if on_sleeping_page}}
             <div class="inline-block">
-                <a href="{{ take_control_url }}" class="btn btn--orange">Compléter ce profil</a>
+                <a href="{{ take_control_url }}" class="btn btn--white">Compléter ce profil</a>
             </div>
         {{/if}}
     </div>

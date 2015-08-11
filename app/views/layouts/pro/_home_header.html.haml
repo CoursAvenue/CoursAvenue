@@ -1,21 +1,24 @@
+- hide_menu = false if hide_menu.nil?
+
 .visuallyhidden--lap-and-up
   = image_tag 'logos/logo_white.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo_white@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute ', style: 'left: 3px; top: 3px;'
-  = image_tag 'logos/logo.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute hidden'
+  = image_tag 'logos/logo.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute hidden'
 = link_to root_path, class: 'block visuallyhidden--palm' do
   = image_tag 'logos/logo_white.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo_white@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute ', style: 'left: 3px; top: 3px;'
-  = image_tag 'logos/logo.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute hidden', id: 'home-logo-dark'
+  = image_tag 'logos/logo.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute hidden', id: 'home-logo-dark'
 
-%ul.nav.flush.epsilon.f-weight-600.palm-push
-  %li.palm-block.palm-text--center.line-height-1-7.soft--right
-    = link_to 'Blog', pro_blog_articles_path, class: ['white-transparent', 'header--pro__link f-weight-bold', (current == 'blog' ? 'active bordered--bottom bordered--larger' : '')]
-  %li.palm-block.palm-text--center.line-height-1-7.soft--right
-    - if current_pro_admin
-      - if current_pro_admin.super_admin?
-        = link_to 'Espace super admin', pro_dashboard_path, class: 'header--pro__link white muted-link btn btn--white-transparent btn--small'
-      - elsif current_pro_admin.structure.present?
-        = link_to 'Mon profil', dashboard_pro_structure_path(current_pro_admin.structure), class: 'header--pro__link white muted-link btn btn--white-transparent btn--small'
-    - else
-      = link_to 'Connexion', new_pro_admin_session_path, class: 'white-transparent header--pro__link f-weight-bold fancybox.ajax', data: { behavior: 'modal', width: '320', padding: 0 }
-  %li.visuallyhidden--palm.soft--right
-    - if !current_pro_admin
-      = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'muted-link white btn btn--white-transparent', data: { try: true }
+- if !hide_menu
+  %ul.nav.flush.epsilon.f-weight-600.palm-push
+    %li.palm-block.palm-text--center.line-height-1-7.soft--right
+      = link_to 'Blog', pro_blog_articles_path, class: ['white-transparent', 'header--pro__link f-weight-500', (current == 'blog' ? 'active bordered--bottom bordered--larger' : '')]
+    %li.palm-block.palm-text--center.line-height-1-7.soft--right
+      - if current_pro_admin
+        - if current_pro_admin.super_admin?
+          = link_to 'Espace super admin', pro_dashboard_path, class: 'header--pro__link white muted-link btn btn--white-transparent btn--small'
+        - elsif current_pro_admin.structure.present?
+          = link_to 'Mon profil', dashboard_pro_structure_path(current_pro_admin.structure), class: 'header--pro__link white muted-link btn btn--white-transparent btn--small'
+      - else
+        = link_to 'Connexion', new_pro_admin_session_path, class: 'white-transparent header--pro__link f-weight-500 fancybox.ajax', data: { behavior: 'modal', width: '320', padding: 0 }
+    %li.visuallyhidden--palm.soft--right
+      - if !current_pro_admin
+        = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'muted-link white btn btn--white-transparent', data: { try: true }

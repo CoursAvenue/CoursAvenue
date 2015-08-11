@@ -52,7 +52,7 @@ fr:
       failure: "Nous n'avons pas pu vous authentifier via %{kind}."
     mailer:
       confirmation_instructions:
-        subject: Bienvenue sur CoursAvenue
+        subject: CoursAvenue | Confirmation de votre e-mail
       reset_password_instructions:
         subject: "Instructions pour changer le mot de passe"
       unlock_instructions:

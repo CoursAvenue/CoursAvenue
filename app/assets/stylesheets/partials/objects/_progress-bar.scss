@@ -94,8 +94,8 @@
 }
 .progress-success .bar,
 .progress .bar-success {
-  background-color: #5eb95e;
-  @include background-image(linear-gradient(top, #62c462, #57a957));
+  background-color: $blue-green;
+  @include background-image(none);
 }
 .progress-success.progress-striped .bar,
 .progress-striped .bar-success {

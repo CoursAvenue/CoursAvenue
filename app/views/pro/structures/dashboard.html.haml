@@ -1,4 +1,4 @@
-= side_menu_currently_at 'general'
+= side_menu_currently_at 'statistics'
 
 = render partial: 'pro/structures/general_tabs', locals: { current: 'general' }
 
@@ -28,11 +28,11 @@
             #{@profile_percentage}%
       %ul.no-bullet-list
         %li
-          %i.fa-check-square-o
+          %i.fa.fa-check-square-o
           %span.line-through--gray Créer mon profil
         %li
           - if @structure.profile_completed?
-            %i.fa-check-square-o
+            %i.fa.fa-check-square-o
             %span.line-through--gray Compléter mes informations générales et ajouter un logo
           - else
             = link_to edit_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
@@ -40,7 +40,7 @@
               Compléter mes informations générales et ajouter un logo
         %li
           - if @structure.comments.any? or @structure.comment_notifications.any?
-            %i.fa-check-square-o
+            %i.fa.fa-check-square-o
             %span.line-through--gray Demander des recommandations à mes élèves
           - else
             = link_to recommendations_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
@@ -48,7 +48,7 @@
               Demander des recommandations à mes élèves
         %li
           - if @structure.medias.any?
-            %i.fa-check-square-o
+            %i.fa.fa-check-square-o
             %span.line-through--gray Mettre en ligne les photos et vidéos de mes cours
           - else
             = link_to pro_structure_medias_path(@structure), class: 'profile-task-uncomplete' do
@@ -56,7 +56,7 @@
               Mettre en ligne les photos et vidéos de mes cours
         %li
           - if @structure.plannings.future.any?
-            %i.fa-check-square-o
+            %i.fa.fa-check-square-o
             %span.line-through--gray Renseigner mes cours et mon planning
           - else
             = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
@@ -92,7 +92,7 @@
                 %span.nowrap À partir du 5<sup>e</sup> avis :
                 %br
                 - if @structure.comments_count > 4
-                  = link_to comments_on_website_pro_structure_comments_path(@structure), class: 'btn btn--blue nowrap text--center' do
+                  = link_to comments_on_website_pro_structure_comments_path(@structure), class: 'btn btn--blue-green nowrap text--center' do
                     Installer mon
                     %br
                     livre d'or
@@ -104,7 +104,7 @@
                 %span.nowrap À partir de 15 avis et +
                 %br
                 - if @structure.comments_count > 14
-                  = link_to new_pro_structure_sticker_demand_path(@structure), class: 'btn btn--blue text--center nowrap' do
+                  = link_to new_pro_structure_sticker_demand_path(@structure), class: 'btn btn--blue-green text--center nowrap' do
                     Recevoir mes
                     %br
                     autocollants
@@ -166,7 +166,7 @@
       %p
         %span.beta{class: (@comments.length > 6 ? 'green' : 'red')}= @comments.length
         %br
-        = link_to "Obtenir plus de recommandations", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
+        = link_to "Obtenir plus de recommandations", recommendations_pro_structure_path(@structure), class: 'btn btn--blue-green btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
 
   .grid__item.palm-one-whole.one-third>
     .islet.text--center
@@ -176,7 +176,7 @@
       %p
         %span.beta{class: (@structure.courses.count > 0 ? 'green' : 'red')}= @structure.courses.count
         %br
-        = link_to 'Ajouter des cours / stages', pro_structure_courses_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des cours')", class: 'btn btn--blue btn--small'
+        = link_to 'Ajouter des cours / stages', pro_structure_courses_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des cours')", class: 'btn btn--blue-green btn--small'
   .grid__item.palm-one-whole.one-third>
     .islet.text--center
       %h4.flush
@@ -185,16 +185,16 @@
       %p
         %span.beta{class: (@structure.medias.count > 3 ? 'green' : 'red')}= @structure.medias.count
         %br
-        = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')", class: 'btn btn--blue btn--small'
+        = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')", class: 'btn btn--blue-green btn--small'
 
 %hr.push--ends
 %h4
   %i.fa-map-marker
   Mes lieux d'enseignement
 
-#map.google-map
+= react_component('Map', { markers: @places_latlng } )
 .text--center
-  = link_to "Ajouter un lieu", pro_structure_places_path(@structure), class: 'btn btn--blue push-half--ends'
+  = link_to "Ajouter un lieu", pro_structure_places_path(@structure), class: 'btn btn--blue-green push-half--ends'
 
 - if @comments.length > 0
   %hr.push--ends
@@ -274,8 +274,8 @@
                 = "(#{course.plannings.map{ |planning| week_day_for(planning).downcase }.uniq.join(', ')})"
   %p.text--center
     = succeed ' ' do
-      = link_to 'Ajouter un cours', regular_pro_structure_courses_path(@structure), class: 'btn btn--blue'
-    = link_to 'Ajouter un stage', trainings_pro_structure_courses_path(@structure), class: 'btn btn--blue'
+      = link_to 'Ajouter un cours', regular_pro_structure_courses_path(@structure), class: 'btn btn--blue-green'
+    = link_to 'Ajouter un stage', trainings_pro_structure_courses_path(@structure), class: 'btn btn--blue-green'
 
 - if @medias.any?
   %hr.push--ends
@@ -287,7 +287,7 @@
       - cache [media, 'pro/structure/dashboard/medias'] do
         = render partial: 'pro/structures/medias/media', locals: { media: media, index: index, show: true }
 
-  %p.text--center= link_to 'Ajouter une photo / vidéo', pro_structure_medias_path(@structure), class: 'btn btn--blue'
+  %p.text--center= link_to 'Ajouter une photo / vidéo', pro_structure_medias_path(@structure), class: 'btn btn--blue-green'
 
 = content_for :scripts do
   :javascript
@@ -353,13 +353,4 @@
                 });
             }
         }, 1000);
-        google_map_handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
-        google_map_handler.buildMap({ provider: { scrollwheel: false }, internal: {id: 'map'}}, function(){
-            markers = google_map_handler.addMarkers(#{@json_locations.to_json});
-            google_map_handler.bounds.extendWith(markers);
-            google_map_handler.fitMapToBounds();
-            if (google_map_handler.getMap().getZoom() > 15) {
-              google_map_handler.getMap().setZoom(15);
-            }
-        });
     });

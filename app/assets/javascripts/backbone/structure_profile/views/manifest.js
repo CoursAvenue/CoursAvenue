@@ -4,5 +4,4 @@
 //= require ./structure/manifest
 //= require_tree ./participation_requests
 //= require_tree ./messages
-//= require ./community/manifest
 

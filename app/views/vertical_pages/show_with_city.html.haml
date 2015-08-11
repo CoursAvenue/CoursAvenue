@@ -1,5 +1,4 @@
 - @title = "#{@vertical_page.subject_name} à #{@city.name} (#{@city.department_code})"
-- @total = Planning.count
 
 = content_for :title do
   = @vertical_page_decorator.page_title(@city)
@@ -19,8 +18,6 @@
     - if @vertical_page.caption
       %h4.center-block.white.soft-black-text-shadow
         = @vertical_page.caption
-
-- content_present = [@vertical_page.content, @subject.good_to_know, @subject.needed_meterial, @subject.tips].reject(&:blank?).any?
 
 .main-container.main-container--medium.soft--ends
   = render partial: 'vertical_pages/breadcrumb'

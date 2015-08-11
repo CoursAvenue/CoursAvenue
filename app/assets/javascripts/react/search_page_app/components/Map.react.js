@@ -20,8 +20,6 @@ var MapComponent = React.createClass({
     },
 
     componentDidMount: function componentDidMount () {
-        // Provide your access token
-        L.mapbox.accessToken = ENV.MAPBOX_ACCESS_TOKEN;
         this.createMap();
         this.setEventsListeners();
         this.searchCardsWithNewBounds();
@@ -29,7 +27,7 @@ var MapComponent = React.createClass({
 
     createMap: function createMap () {
         this.small_marker_layer = new L.MarkerClusterGroup({
-            disableClusteringAtZoom: 13,
+            disableClusteringAtZoom: 12,
             maxClusterRadius: 30,
             spiderfyOnMaxZoom: true
         });
@@ -37,7 +35,7 @@ var MapComponent = React.createClass({
         this.visible_marker_layer = new L.featureGroup();
         // this.metro_layer          = new L.featureGroup();
         this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets', { scrollWheelZoom: false })
-                          .setView(this.props.center, 13)
+                          .setView(this.props.center, (this.state.location_store.getCitySlug() == 'paris' ? 12 : 13))
                           .addLayer(this.small_marker_layer)
                           .addLayer(this.visible_marker_layer)
                           // .addLayer(this.metro_layer);
@@ -57,7 +55,7 @@ var MapComponent = React.createClass({
         this.map.on('locationfound', function(location) {
             FilterActionCreators.updateFilters({ user_location: location });
             LocationActionCreators.userLocationFound();
-        });
+        }.bind(this));
         this.map.on('locationerror', function(data) {
             LocationActionCreators.userLocationNotFound();
         });
@@ -79,7 +77,7 @@ var MapComponent = React.createClass({
             if (this.state.location_store.changed.hasOwnProperty('user_location')) {
                 if (this.state.location_store.changed.user_location == true) {
                     this.locateUser();
-                } else {
+                } else if (!_.isUndefined(this.state.location_store.changed.user_location)) {
                     this.setLocationOnMap();
                 }
             }
@@ -208,7 +206,7 @@ var MapComponent = React.createClass({
     openMarkerPopup: function openMarkerPopup (marker, card) {
         return function() {
             var string_popup = React.renderToString(<Card card={card} is_popup={true} />);
-            this.popup = L.popup({ className: 'ca-leaflet-popup' })
+            this.popup = L.popup({ className: 'ca-leaflet-popup ' + (card.get('visible') ? '' : 'ca-leaflet-popup--small-markers') })
                 .setLatLng(marker.getLatLng())
                 .setContent(string_popup)
                 .openOn(this.map);

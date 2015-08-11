@@ -55,6 +55,12 @@
 .rounded--double       { @include border-radius($brand-round * 2); }
 .rounded--thick        { @include border-radius(1em !important); }
 .rounded--circle       { @include border-radius(100% !important); }
+.rounded--circle-100   {
+    @include border-radius(100px !important);
+    height: 100px;
+    width: 100px;
+    &, i { line-height: 100px; }
+}
 
 /*------------------------------------*\
     BORDERS
@@ -91,6 +97,7 @@
 .border-color-gray      { border-color  : $gray !important; }
 .border-color-white     { border-color  : white !important; }
 .border-color-orange    { border-color  : $orange !important; }
+.border-color-blue-green{ border-color  : $blue-green !important; }
 .border-color-green     { border-color  : $green !important; }
 .border-color-dark-blue { border-color  : $dark_blue !important; }
 .border-color-yellow    { border-color  : $yellow !important; }
@@ -182,9 +189,6 @@
 .bg-contain, .bg-cover {
     background-position  : center;
     background-repeat    : no-repeat;
-    &[data-stellar-background-ratio] {
-        background-position: top;
-    }
 }
 .bg-position-center { background-position: center !important; }
 .bg-position-top    { background-position: top; }
@@ -282,6 +286,7 @@
     padding-top   : $base-spacing-unit * 3 !important;
     padding-bottom: $base-spacing-unit * 3 !important;
 }
+.palm-soft--top         { @include media-query(palm) { padding-top : $base-spacing-unit !important; } }
 .palm-soft-half--ends   { @include media-query(palm) { padding-bottom : $base-spacing-unit / 2 !important; padding-top : $base-spacing-unit / 2 !important; } }
 .palm-soft-half--top    { @include media-query(palm) { padding-top : $base-spacing-unit / 2 !important; } }
 .palm-soft-half--bottom { @include media-query(palm) { padding-bottom : $base-spacing-unit / 2 !important; } }
@@ -321,9 +326,10 @@
         @include transition(background 200ms ease-in-out);
         height    : 100%;
         width     : 100%;
+        background: rgba(0, 0, 0, 0.3);
     }
     &.show-on-hover__wrapper--black-curtain:hover {
-        background: rgba(0, 0, 0, 0.3);
+        background: none;
     }
     .show-on-hover__child, .show-on-hover__child-ilb { display: none; }
     &:hover {
@@ -474,11 +480,6 @@
     .black-curtain {
         background: rgba(0,0,0,.1);
     }
-}
-.quizz-question-text {
-    top       : 50%;
-    margin-top: -4em;
-    @include media-query(palm) { margin-top: -1.5em; }
 }
 
 .grayscale {

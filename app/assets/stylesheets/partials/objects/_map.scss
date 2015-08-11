@@ -63,6 +63,7 @@
 }
 
 .ca-leaflet-popup {
+    &.ca-leaflet-popup--small-markers { bottom: -7px !important; left: -154px !important; }
     bottom: 36px !important;
     .leaflet-popup-content-wrapper {
         border : none;

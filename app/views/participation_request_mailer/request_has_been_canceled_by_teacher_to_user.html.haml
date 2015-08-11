@@ -1,5 +1,6 @@
 - content_for :email_title do
   REPONDEZ AU DESSUS DE CETTE LIGNE
+  %br
   Répondez à #{@structure.name} en répondant directement à cet e-mail
   %hr
 
@@ -7,8 +8,9 @@
   Bonjour #{@user.first_name},
 
 %em
-  Malheureusement, votre inscription au cours "#{ @course.name } avec #{ @structure.name }. Motif :
-  "#{t(@participation_request.cancelation_reason.name).downcase}".
+  Malheureusement, votre inscription au cours "#{ @course.name } avec #{ @structure.name }.
+  - if @participation_request.cancelation_reason and !@participation_request.cancelation_reason.hidden?
+    Motif : "#{t(@participation_request.cancelation_reason.name).downcase}".
 
 - if @message
   %p

@@ -47,6 +47,7 @@ var SubjectStore = Backbone.Collection.extend({
     model: Subject,
     // Order by score ASC.
     comparator: 'score',
+    DELTA_FOR_RELEVANT_SUBJECTS: 10,
 
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback', 'updateScores');
@@ -62,13 +63,23 @@ var SubjectStore = Backbone.Collection.extend({
                 UserGuideDispatcher.waitFor([AnswerStore.dispatchToken]);
                 this.updateScores(payload.data);
                 break;
-            case ActionTypes.SELECT_SUBJECT:
-                this.selectSubject(payload.data);
-                break;
-            case ActionTypes.DESELECT_SUBJECT:
-                this.deselectSubject(payload.data);
-                break;
         }
+    },
+
+    // As the collection is sorted by score, the most relevent subject is the last one
+    getMostRelevantSubject: function getMostRelevantSubject (data) {
+        return this.last();
+    },
+
+    // Other relevant subjects are other subjects that the same score than the most relevant with
+    // a delta of DELTA_FOR_RELEVANT_SUBJECTS
+    getOtherRelevantSubjects: function getOtherRelevantSubjects (data) {
+        var best_score      = this.last().get('score');
+        var best_subject_id = this.last().get('id');
+        return _.take(this.select(function(subject) {
+            return (subject.get('score') > best_score - this.DELTA_FOR_RELEVANT_SUBJECTS &&
+                    subject.get('id') != best_subject_id);
+        }.bind(this)), 5);
     },
 
     // TODO: Find a way to remove score if it is an updated answer. Only necessary if the user
@@ -85,18 +96,7 @@ var SubjectStore = Backbone.Collection.extend({
 
         this.sort();
         this.trigger('change');
-    },
-
-    selectSubject: function selectSubject (data) {
-        debugger
-        this.trigger('change')
-    },
-
-    deselectSubject: function deselectSubject (data) {
-        debugger
-        this.trigger('change')
-    },
-
+    }
 });
 
 module.exports = new SubjectStore();

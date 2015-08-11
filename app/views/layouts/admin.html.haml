@@ -4,7 +4,7 @@
     - if @structure.main_contact.present?
       = render partial: 'pro/admins/onboarding/status_bar'
 
-    .darkgray-box.flexbox.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000, old_width: 'true' } }
+    .darkgray-box.flexbox.print--hidden.on-top-of-the-world
       .main-container.flexbox
         .flexbox__item.v-middle.soft--left.palm-text--center.relative
           .visuallyhidden--lap-and-up
@@ -53,7 +53,7 @@
         .flexbox__item.wizard-container-width.visuallyhidden--palm
 
   - elsif current_pro_admin
-    .darkgray-box.print--hidden.on-top-of-the-world{ data: { behavior: 'sticky', z: 1000, old_width: 'true' } }
+    .darkgray-box.print--hidden.on-top-of-the-world
       .main-container.flexbox.pro-public-top-menu
         .flexbox__item.v-middle.soft--left
           .visuallyhidden--lap-and-up.text--center
@@ -79,7 +79,7 @@
       .flexbox{ class: content_for?(:alert_bar) ? 'push--top' : 'push-double--top' }
         - if content_for? :side_menu
           %nav.flexbox__item.v-top.v-top.border-none--right.print--hidden.soft--top.relative.side-menu-wrapper#pro-side-menu
-            .border-none--right.side-menu.side-menu-width.relative
+            .border-none--right.side-menu.side-menu-width.relative{ class: content_for?(:alert_bar) ? 'push-double--top' : '' }
               = yield :side_menu
         .flexbox__item.v-top
           - if content_for?(:backbone_app)

@@ -91,6 +91,9 @@ textarea, input {
     &::-moz-placeholder          { color: #AAAAAA !important; font-weight: 400; opacity: 1; } /* Mozilla Firefox 19+ */
     &:-ms-input-placeholder      { color: #AAAAAA !important; font-weight: 400; } /* Internet Explorer 10+ */
 }
+input[type="checkbox"] {
+    @include transition(none);
+}
 textarea:focus, input:focus {
     outline         : none;
     border-color    : white;

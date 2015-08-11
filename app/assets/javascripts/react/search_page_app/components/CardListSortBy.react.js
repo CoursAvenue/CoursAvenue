@@ -38,8 +38,8 @@ var CardListSortBy = React.createClass({
     },
 
     render: function render () {
-        var contexts = _.map(this.otherContexts(), function(sort_by) {
-            return (<li className="nowrap">
+        var contexts = _.map(this.otherContexts(), function(sort_by, index) {
+            return (<li className="nowrap" key={index}>
                         <a href='javascript:void(0)'
                            onClick={this.changeContext(sort_by.key)}>
                            {sort_by.name}

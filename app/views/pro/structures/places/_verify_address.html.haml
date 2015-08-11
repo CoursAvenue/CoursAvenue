@@ -3,32 +3,20 @@
     %h4.flush Vérifier l'adresse
     %p.flush.epsilon L'emplacement sur la carte est-il juste ?
   .panel__body
+    = react_component('Map', { markers: [ @place.to_react_json ] })
     .soft
-      #verification-map.google-map.push-half--bottom
       %p.flush
         %strong= @place.street
         %br
-        %strong= @place.zip_code
-        %strong= @place.city.name
+        = @place.zip_code
+        = @place.city.name
     %hr.flush.soft--sides
     .soft.text--right
       = link_to "Modifier l'adresse", edit_pro_structure_place_path(@structure, @place, return_to: params[:return_to], return_to_action: params[:return_to_action]), class: 'btn fancybox.ajax', data: { behavior: 'modal', width: '650', padding: '0' }
       - if params[:return_to_action].present?
         %a.btn.btn--green{ onclick: "#{params[:return_to_action]}"} Parfait !
       - else
-        %a.btn.btn--green{ onclick: '$.fancybox.close();'} Parfait !
+        %a.btn.btn--green{ onclick: 'window.location.reload();'} Parfait !
 
-- @json_locations = Gmaps4rails.build_markers([@place]) do |place, marker|
-  - marker.lat place.latitude
-  - marker.lng place.longitude
-
-:javascript
-    setTimeout(function() {
-        verification_handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
-        verification_handler.buildMap({ provider: { scrollwheel: false }, internal: {id: 'verification-map'}}, function(){
-            markers = verification_handler.addMarkers(#{@json_locations.to_json});
-            verification_handler.bounds.extendWith(markers);
-            verification_handler.fitMapToBounds();
-            verification_handler.getMap().setZoom(15);
-        });
-    }, 500);
+  :javascript
+    window.ReactRailsUJS.mountComponents();

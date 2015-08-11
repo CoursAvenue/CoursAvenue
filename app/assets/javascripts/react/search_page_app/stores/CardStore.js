@@ -16,9 +16,11 @@ var _                    = require('lodash'),
 var ActionTypes = SearchPageConstants.ActionTypes;
 
 var CardModel = Backbone.Model.extend({});
-var HITS_PER_PAGES = 16;
 
 var CardCollection = Backbone.Collection.extend({
+    HITS_PER_PAGES          : 16,
+    NB_PAGE_LOADED_PER_BATCH: 6,
+
     model:   CardModel,
     loading: true,
     error:   false,
@@ -38,6 +40,10 @@ var CardCollection = Backbone.Collection.extend({
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
             // When the filters are updated, refetch the cards.
+            case ActionTypes.UPDATE_NB_CARDS_PER_PAGE:
+                this.HITS_PER_PAGES = payload.data;
+                this.fetchDataFromServer(true);
+                break;
             case ActionTypes.CLEAR_AND_CLOSE_SUBJECT_INPUT_PANEL:
             case ActionTypes.SEARCH:
             case ActionTypes.UPDATE_BOUNDS:
@@ -68,27 +74,30 @@ var CardCollection = Backbone.Collection.extend({
                                                MetroStopStore.dispatchToken, MetroLineStore.dispatchToken,
                                                LocationStore.dispatchToken]);
                 // Fetch the new cards.
-                this.fetchDataFromServer();
+                this.fetchDataFromServer(true);
                 break;
             case ActionTypes.UPDATE_SORTING:
                 this.sort_by = payload.data;
-                this.fetchDataFromServer();
+                this.fetchDataFromServer(true);
                 break;
             case ActionTypes.GO_TO_PAGE:
-                this.current_page = payload.data;
+                this.current_page = parseInt(payload.data, 10);
                 this.updateCardsShownRegardingPages();
+                this.trigger('page:change');
                 break;
             case ActionTypes.GO_TO_PREVIOUS_PAGE:
                 this.current_page = this.current_page - 1;
                 this.updateCardsShownRegardingPages();
+                this.trigger('page:change');
                 break;
             case ActionTypes.GO_TO_NEXT_PAGE:
                 this.current_page = this.current_page + 1;
                 this.updateCardsShownRegardingPages();
+                this.trigger('page:change');
                 break;
             case ActionTypes.CHANGE_CONTEXT:
                 this.context = payload.data;
-                this.fetchDataFromServer();
+                this.fetchDataFromServer(true);
                 break;
             case ActionTypes.CARD_HOVERED:
                 this.a_card_is_hovered = payload.data.hovered;
@@ -104,7 +113,8 @@ var CardCollection = Backbone.Collection.extend({
         }
     },
 
-    fetchDataFromServer: function fetchDataFromServer () {
+    fetchDataFromServer: function fetchDataFromServer (reset_page_nb) {
+        if (reset_page_nb) { this.current_page = 1; }
         this.error   = false;
         this.loading = true;
 
@@ -118,13 +128,22 @@ var CardCollection = Backbone.Collection.extend({
         this.loading = false;
         this.error   = false;
 
-        // This triggers the change event.
         this.facets        = data.facets;
         this.total_results = data.nbHits;
-        this.total_pages   = Math.ceil(this.total_results / HITS_PER_PAGES);
-        this.reset(data.hits, { silent: true });
-        this.current_page = 1;
-        this.updateCardsShownRegardingPages();
+        this.total_pages   = Math.ceil(data.nbHits / this.HITS_PER_PAGES);
+        // We affect batch page to results to be able to know if we have to load results of a specific page
+        var batch_page = this.batchPage();
+        _.each(data.hits, function(hit, index) {
+            hit.batch_page = batch_page;
+            hit.page       = (batch_page * this.NB_PAGE_LOADED_PER_BATCH) - this.NB_PAGE_LOADED_PER_BATCH + (Math.floor(index / this.HITS_PER_PAGES) + 1);
+        }.bind(this));
+        // We reset results if the search was made for page 1
+        if (this.batchPage() == 1) {
+            this.reset(data.hits, { silent: true });
+        } else {
+            this.add(data.hits, { silent: true });
+        }
+        if (data.hits.length > 0) { this.updateCardsShownRegardingPages(); }
         this.trigger('reset');
         this.trigger('search:done');
     },
@@ -134,11 +153,30 @@ var CardCollection = Backbone.Collection.extend({
         this.error   = true;
     },
 
+    /*
+     * As we load `NB_PAGE_LOADED_PER_BATCH` pages each time we fetch the server, we want to know
+     * the page number that correspond to Algolia's request
+     * Ex.
+     *  NB_PAGE_LOADED_PER_BATCH: 2 and current_page = 3
+     *    => batchPage: 2
+     */
+    batchPage: function batchPage () {
+        return Math.ceil(this.current_page /this.NB_PAGE_LOADED_PER_BATCH);
+    },
+
+    // We load next batch ONLY if we do not have results of this batch
+    shouldLoadNextBatch: function shouldLoadNextBatch () {
+        if (this.length == 0) { return false; }
+        return _.isUndefined(this.findWhere({batch_page: this.batchPage()}));
+    },
+
     algoliaFilters: function algoliaFilters () {
         var data = {
-            page   : this.current_page,
-            sort_by: this.sort_by,
-            context: this.context
+            hitsPerPage: this.HITS_PER_PAGES * this.NB_PAGE_LOADED_PER_BATCH,
+            page       : this.batchPage() - 1, // Pages starts at 0
+            actual_page: this.current_page, // Needed for routing
+            sort_by    : this.sort_by,
+            context    : this.context
         };
         if (SubjectStore.selected_group_subject)  { data.group_subject    = SubjectStore.selected_group_subject }
         if (SubjectStore.selected_root_subject)   { data.root_subject     = SubjectStore.selected_root_subject }
@@ -251,14 +289,15 @@ var CardCollection = Backbone.Collection.extend({
     },
 
     updateCardsShownRegardingPages: function updateCardsShownRegardingPages () {
+        var selected_models = this.where({ page: this.current_page });
         // Unselect all models
-        var selected_models_range = _.range((this.current_page - 1) * HITS_PER_PAGES, this.current_page * HITS_PER_PAGES);
         _.invoke(this.models, 'set', { visible: false }, { silent: true });
-        _.each(selected_models_range, function(card_index) {
-            // Don't select not existing models, of course.
-            if (card_index > (this.length - 1)) { return; }
-            this.models[card_index].set({ visible: true }, { silent: true });
+        _.each(selected_models, function(card) {
+            card.set({ visible: true }, { silent: true });
         }.bind(this));
+        if (this.shouldLoadNextBatch()) {
+            this.fetchDataFromServer(false);
+        }
         this.trigger('change:visible');
     }
 });

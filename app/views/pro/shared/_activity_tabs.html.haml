@@ -1,12 +1,12 @@
 = content_for :top_menu do
   %ul.nav.flush
     %li{ class: current == 'all_messages' ? 'active' : '' }
-      = link_to "Tous les messages", pro_conversations_path, class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends'
+      = link_to "Tous les messages", pro_conversations_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
     %li{ class: current == 'info_messages' ? 'active' : '' }
-      = link_to "Demandes d'infos", pro_conversations_path(info: true), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends'
+      = link_to "Demandes d'infos", pro_conversations_path(info: true), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
     %li{ class: current == 'participation_requests' ? 'active' : '' }
-      = link_to "Inscriptions", pro_participation_requests_path, class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends'
+      = link_to "Inscriptions", pro_participation_requests_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
     %li{ class: current == 'comments' ? 'active' : '' }
-      = link_to "Derniers avis", pro_comments_path, class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends'
+      = link_to "Derniers avis", pro_comments_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
     %li{ class: current == 'sms' ? 'active' : '' }
-      = link_to "SMS", pro_sms_loggers_path, class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends'
+      = link_to "SMS", pro_sms_loggers_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'

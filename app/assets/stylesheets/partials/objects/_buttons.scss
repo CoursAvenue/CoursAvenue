@@ -59,6 +59,7 @@
     background-color: white;
     @extend .btn-hover-transition;
     &::after, &.btn--active { background-color: #BBBBBB; }
+    &::after { @include border-radius(0!important); }
     &.disabled:hover, &:disabled, &[disabled] { background-color: #f2f2f2; }
 }
 
@@ -67,7 +68,7 @@
     color           : white;
     border-color    : darken($orange, 5%)!important;
     @extend .btn-hover-transition;
-    &::after, &.btn--active { background-color: lighten($orange, 5%); }
+    &::after, &.btn--active { background-color: darken($orange, 5%); }
     &:active, &.btn--active, &.btn--active:hover, &.active, &.active:hover {
         border-bottom: none;
         background-color: lighten($orange, 15%);
@@ -78,7 +79,7 @@
     border          : none;
     color           : white;
     @extend .btn-hover-transition;
-    &::after, &.btn--active { background-color: lighten($btn--red, 5%); }
+    &::after, &.btn--active { background-color: darken($btn--red, 5%); }
     &.disabled, &[disabled] { background-color: lighten($btn--red, 15%); color: #EEE; }
 }
 
@@ -87,8 +88,8 @@
     border          : none;
     color           : white;
     @extend .btn-hover-transition;
-    &::after, &.btn--active { background-color: lighten($blue-green, 5%); }
-    &.disabled, &[disabled] { background-color: #8CFCEC; }
+    &::after, &.btn--active { background-color: #22b69e; }
+    &.disabled, &[disabled] { background-color: transparentize($blue-green, 0.5); color: white; }
 }
 .bg-blue-green {
     .btn--green, .btn--blue-green {
@@ -102,7 +103,7 @@
     color           : white;
     border          : none;
     @extend .btn-hover-transition;
-    &::after, &.btn--active { background-color: lighten($blue, 5%); }
+    &::after, &.btn--active { background-color: darken($blue, 5%); }
 }
 
 .btn--yellow {
@@ -110,20 +111,8 @@
     background-color: $yellow;
     border-color    :$yellow !important;
     border          : none;
-    &:hover, &:active {
-        color           : white;
-        background-color: lighten($yellow, 5%);
-    }
-}
-
-.btn--purple {
-    color           : #FFF;
-    background-color: $purple;
-    border          : none;
-    &:hover, &:active {
-        color           : #FFF;
-        background-color: lighten($purple, 10%);
-    }
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: darken($yellow, 5%); }
 }
 
 .btn--social {
@@ -248,12 +237,12 @@
     @extend .btn-hover-transition;
     @include transition(all 200ms linear);
     &:hover {
-        border-color    : $blue-green!important;
+        border-color    : #22b69e!important;
         background-color: $blue-green;
         &.btn--white-transparent--green {
             &::after, &.btn--active {
-                border-color: lighten($blue-green, 5%);
-                background-color: lighten($blue-green, 5%);
+                border-color: #22b69e;
+                background-color: #22b69e;
             }
         }
         &.btn--white-transparent--white {

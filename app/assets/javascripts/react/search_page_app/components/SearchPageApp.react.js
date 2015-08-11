@@ -20,7 +20,8 @@ var MapContainer              = require('./MapContainer.react'),
     SearchPageDispatcher      = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants       = require('../constants/SearchPageConstants'),
     SubjectActionCreators     = require('../actions/SubjectActionCreators'),
-    LocationActionCreators    = require('../actions/LocationActionCreators');
+    LocationActionCreators    = require('../actions/LocationActionCreators'),
+    CardActionCreators        = require('../actions/CardActionCreators');
 
 SearchPageApp = React.createClass({
     propTypes: {
@@ -30,28 +31,23 @@ SearchPageApp = React.createClass({
     /*
      * Initialization
      */
-    componentDidMount: function componentDidMount() {
+    componentWillMount: function componentWillMount() {
         this.search_page_app_router = this.search_page_app_router || new SearchPageAppRouter();
         CardStore.on('search:done', this.search_page_app_router.updateUrl);
+        CardStore.on('page:change', this.search_page_app_router.updateUrl);
 
         Backbone.history.start({ pushState: true });
-        this.bootsrapData();
         this.search_page_app_router.bootsrapData();
     },
 
-    // Bootstraping data
-    bootsrapData: function bootsrapData() {
+    componentDidMount: function componentDidMount() {
+        // We have to trigger this action on when the app is mounted because the action is triggered
+        // by a component
         if (this.props.locate_user) {
             LocationActionCreators.locateUser();
         }
-        LocationActionCreators.filterByAddress($.parseJSON(this.props.address));
-        if (this.props.root_subject) {
-            SubjectActionCreators.selectRootSubject($.parseJSON(this.props.root_subject));
-        }
-        if (this.props.subject) {
-            SubjectActionCreators.selectSubject($.parseJSON(this.props.subject));
-        }
     },
+
 
     render: function render() {
         return (
@@ -60,6 +56,7 @@ SearchPageApp = React.createClass({
                   <Menubar />
 
                   <MapContainer center={this.props.map_center} />
+
                   <SubjectAutocompleteFilter />
                   <SubjectFilter />
                   <LocationFilter />
@@ -67,11 +64,15 @@ SearchPageApp = React.createClass({
                   <MoreFilter />
               </div>
               <div className="on-top-of-the-world search-page-content relative">
-                  <FilterBar />
-                  <FilterBreadcrumb />
-                  <ResultInfo />
-                  <ResultList />
-                  <Pagination />
+                  <div className="main-container main-container--1000">
+                      <FilterBar />
+                      <FilterBreadcrumb />
+                      <ResultInfo />
+                      <ResultList address={this.props.address}
+                                  root_subject={this.props.root_subject}
+                                  subject={this.props.subject}/>
+                      <Pagination />
+                  </div>
                   <SmallMap center={this.props.map_center} />
               </div>
           </div>

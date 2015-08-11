@@ -1,25 +1,20 @@
 = content_for :content do
-  .bg-white.soft-half--ends
-    .main-container.relative
-      .grid
-        .grid__item.one-half.palm-one-whole.palm-push--bottom>
-          = link_to root_path, class: 'block' do
-            = image_tag 'logos/logo-pro.png', width: 190, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo-pro@2x.png') }, class: 'homescreen-header__logo v-middle push--left west north absolute ', style: 'left: 3px; top: 3px;'
-        .grid__item.one-half.palm-one-whole>
-          %ul.nav.flush.epsilon.f-weight-600.palm-push--top.text--right
-            %li.palm-hidden.palm-block.palm-text--center.line-height-1-7.soft--right
-              = link_to 'Accueil', root_path, class: 'header--pro__link orange'
-            -# %li.palm-block.palm-text--center.line-height-1-7.soft--right
-            -#   = link_to 'Fonctionnalités', pro_pages_features_path, class: 'header--pro__link orange'
-            -# %li.palm-block.palm-text--center.line-height-1-7.soft--right
-            -#   = link_to 'Tarifs', pro_pages_price_path, class: 'header--pro__link orange'
-            %li.palm-block.palm-text--center.line-height-1-7.soft--right
-              = link_to 'Blog', pro_blog_articles_path, class: 'header--pro__link active bordered--bottom bordered--larger border-color-orange orange'
-            %li.visuallyhidden--palm.soft--right
-              - if current_pro_admin and !current_pro_admin.super_admin?
-                = link_to 'Accéder à mon espace Pro', pro_structure_path(current_pro_admin.structure), class: 'muted-link btn', data: { try: true }
-              - else
-                = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'muted-link white btn btn--green' , data: { try: true }
+  %header.header
+    .flexbox
+      .flexbox__item.one-half.palm-one-half.v-middle>
+        .coursavenue-header-logo-wrapper.v-middle.palm-one-whole
+          = link_to '', root_path, target: '_blank', class: 'coursavenue-header-logo'
+      .flexbox__item.one-half.v-middle.text--right.soft--right
+        %ul.nav.flush.epsilon.palm-push--top.text--right
+          %li.palm-hidden.palm-block.palm-text--center.line-height-1-7.soft--right
+            = link_to 'Accueil', root_path, class: 'header--pro__link orange'
+          %li.palm-block.palm-text--center.line-height-1-7.soft--right
+            = link_to 'Blog', pro_blog_articles_path, class: 'header--pro__link active f-weight-bold'
+          %li.visuallyhidden--palm.soft--right
+            - if current_pro_admin and !current_pro_admin.super_admin?
+              = link_to 'Accéder à mon espace Pro', pro_structure_path(current_pro_admin.structure), class: 'muted-link btn', data: { try: true }
+            - else
+              = link_to 'Essayer gratuitement', inscription_pro_structures_path, class: 'muted-link white btn btn--green' , data: { try: true }
 
 
   = yield :above_content

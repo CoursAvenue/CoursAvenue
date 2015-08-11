@@ -5,7 +5,7 @@ class StructureSerializer < ActiveModel::Serializer
   cached
   delegate :cache_key, to: :object
 
-  attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_large_url,
+  attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_thumb_url_2x, :logo_large_url,
               :data_url, :query_params, :structure_type, :highlighted_comment_title,
               :has_promotion, :is_open_for_trial, :cover_media, :subjects,
               :cities_text, :min_price_amount
@@ -45,7 +45,11 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def logo_thumb_url
-    object.logo.url(:small_thumb_85)
+    object.logo.url(:small_thumb_120)
+  end
+
+  def logo_thumb_url_2x
+    object.logo.url(:small_thumb)
   end
 
   def logo_large_url
@@ -79,4 +83,5 @@ class StructureSerializer < ActiveModel::Serializer
   def min_price_amount
     object.min_price_amount.to_i
   end
+
 end

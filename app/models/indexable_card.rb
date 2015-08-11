@@ -14,7 +14,7 @@ class IndexableCard < ActiveRecord::Base
 
   has_and_belongs_to_many :subjects
 
-  attr_accessible :structure, :place, :plannings, :course, :slug
+  attr_accessible :structure, :place, :plannings, :course, :slug, :popularity
 
   delegate :name, :price, :type, :audiences, :levels, to: :course,    prefix: true, allow_nil: true
   delegate :name, :comments_count, :slug,             to: :structure, prefix: true, allow_nil: true
@@ -41,6 +41,10 @@ class IndexableCard < ActiveRecord::Base
     end
 
     attribute :id, :slug
+
+    add_attribute :city_slug do
+      self.place.try(:city).try(:slug)
+    end
 
     add_attribute :active do
       (self.structure.active && self.structure.enabled)
@@ -121,7 +125,7 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :popularity do
-      self.structure.search_score.to_i
+      self.popularity || compute_popularity
     end
 
     add_attribute :has_course do
@@ -249,7 +253,7 @@ class IndexableCard < ActiveRecord::Base
     attributes = { place: place, structure: place.structure }
     existing_cards = where(attributes)
 
-    if existing_cards.any? and existing_cards.flat_map(&:subjects).include?(subject)
+    if existing_cards.any?
       return existing_cards.first
     end
 
@@ -296,7 +300,7 @@ class IndexableCard < ActiveRecord::Base
       day_availability = availability.detect { |d| d[:day] == course_day }
 
       day_availability[:count] += 1
-      day_availability[:start_times] << I18n.l(planning.start_time, format: :short)
+      day_availability[:start_times] << I18n.l(planning.start_time, format: :short) if planning.start_time
     end
 
     availability
@@ -340,6 +344,29 @@ class IndexableCard < ActiveRecord::Base
   end
 
   private
+
+  SEARCH_SCORE_COEF = {
+    free_trial: 15,
+    plannings:  3,
+    prices:     2,
+    subjects:   2
+  }
+
+  # @return Integer
+  def compute_popularity
+    score_to_add = 0
+    score_to_add += plannings.count * SEARCH_SCORE_COEF[:plannings]
+    score_to_add += course.price_group_prices.count * SEARCH_SCORE_COEF[:prices] if course
+    score_to_add += subjects.count * SEARCH_SCORE_COEF[:prices]
+    if course and course.has_free_trial_lesson?
+      score_to_add += SEARCH_SCORE_COEF[:free_trial]
+    end
+    score_to_add += rand(15) # Let's add some randomeness!
+
+    score = structure.search_score.to_i + score_to_add
+    self.update_column :popularity, score
+    return score
+  end
 
   def identity
     [card_type, structure_id, place_id, course_id].compact.join(':')

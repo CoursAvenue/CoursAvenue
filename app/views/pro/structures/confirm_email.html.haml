@@ -1,0 +1,11 @@
+.panel
+  .panel__header.soft
+    %h4.flush Confirmez votre adresse e-mail
+  .panel__body.soft
+    %p.epsilon
+      Pour être sûr que vous recevrez bien les demandes d'inscriptions des élèves CoursAvenue, nous avons besoin de nous assurer que vous recevez nos e-mails.
+      %br
+      Lors de votre inscription, nous vous avons envoyé un e-mail avec un lien de confirmation. Il vous suffit de cliquer sur le bouton <strong>«Confirmer mon e-mail»</strong> pour confirmer votre e-mail
+    %p.epsilon
+      Si vous n'avez pas reçu d'e-mail, veuillez cliquer sur ce lien :
+      = link_to "renvoyer l'e-mail de confirmation.", resend_confirmation_instructions_pro_structure_path(@structure), method: :post

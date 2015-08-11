@@ -21,10 +21,18 @@ var Question = React.createClass({
     },
 
     render: function render () {
-        var answers = this.props.question.get('answers').map(function(answer, index) {
-            return (
-                <Answer answer={ answer } select={ this.selectAnswer(answer) } key={ index } />
-            );
+        var first_line_answers = [], second_line_answers = [];
+        var nb_answers = this.props.question.get('answers').length;
+        _.each(this.props.question.get('answers'), function(answer, index) {
+            if (index < 2 || (index == 2 && nb_answers == 3)) {
+                first_line_answers.push((
+                    <Answer nb_answers={nb_answers} index={index} answer={ answer } select={ this.selectAnswer(answer) } key={ index } />
+                ));
+            } else {
+                second_line_answers.push((
+                    <Answer nb_answers={nb_answers} index={index} answer={ answer } select={ this.selectAnswer(answer) } key={ index } />
+                ));
+            }
         }.bind(this));
 
         return (
@@ -33,12 +41,15 @@ var Question = React.createClass({
                        style={ { backgroundColor: this.props.question.get('color') } }>
               </div>
               <div className='relative'>
-                <h2 className='flush--bottom f-size-big text--center white soft'
+                <h2 className='palm-gamma flush--bottom f-size-big text--center white soft'
                         style={ { backgroundColor: this.props.question.get('color') } }>
                   { this.props.question.get('content') }
                 </h2>
-                <div className='grid--full'>
-                    { answers }
+                <div className='palm-block flexbox'>
+                    { first_line_answers }
+                </div>
+                <div className='palm-block flexbox'>
+                    { second_line_answers }
                 </div>
               </div>
             </div>

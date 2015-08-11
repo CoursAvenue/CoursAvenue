@@ -3,22 +3,22 @@
     %li{ class: current == 'établissement' ? 'active' : '' }
     - if @structure.comments_count >= 5
       %li{ class: current == 'widget' ? 'active' : '' }
-        = link_to widget_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+        = link_to widget_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
           Livre d'or
 
     %li{ class: current == 'signature' ? 'active' : '' }
-      = link_to signature_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to signature_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Signature
 
     %li{ class: current == 'logo' ? 'active' : '' }
-      = link_to logo_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+      = link_to logo_pro_structure_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Logo
 
     - if @structure.comments_count >= 15
       %li{ class: current == 'sticker' ? 'active' : '' }
-        = link_to new_pro_structure_sticker_demand_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+        = link_to new_pro_structure_sticker_demand_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
           Autocollants
       - if @structure.sticker_demands.reject(&:new_record?).any?
         %li{ class: current == 'sticker-index' ? 'active' : '' }
-          = link_to pro_structure_sticker_demands_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends' do
+          = link_to pro_structure_sticker_demands_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
             Suivi de mes autocollants

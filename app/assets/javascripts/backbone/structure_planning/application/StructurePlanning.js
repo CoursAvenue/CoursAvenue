@@ -18,9 +18,7 @@ StructurePlanning.addInitializer(function(options) {
     places_collection          = structure.get('places');
 
     sticky_google_maps_view    = new StructurePlanning.Views.Map.StickyGoogleMapsView({
-        collection:         places_collection,
-        mapOptions:         { scrollwheel: false },
-        infoBoxViewOptions: { infoBoxClearance: new google.maps.Size(0, 0) }
+        collection: places_collection
     });
 
     layout.render();
@@ -53,8 +51,7 @@ StructurePlanning.addInitializer(function(options) {
             'course:mouse:enter': 'exciteMarkers',
             'course:mouse:leave': 'unexciteMarkers',
             'place:mouse:enter' : 'exciteMarkers',
-            'place:mouse:leave' : 'unexciteMarkers',
-            'map:marker:click'  : 'showInfoWindow'
+            'place:mouse:leave' : 'unexciteMarkers'
         }
     });
 

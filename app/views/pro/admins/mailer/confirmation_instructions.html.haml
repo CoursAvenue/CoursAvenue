@@ -1,5 +1,5 @@
 - content_for :email_title do
-  - if @resource.sign_in_count > 0
+  - if @resource.sign_in_count > 1
     Nous avons bien pris en compte votre changement d'e-mail.
   - else
     Bienvenue sur CoursAvenue ! Pour commencer, vous devez confirmer votre adresse e-mail.
@@ -9,22 +9,26 @@
 - @structures = @structure.similar_profiles(4, { nb_courses: 1 })
 
 
-- if @resource.sign_in_count > 0
+- if @resource.sign_in_count > 1
   .p Bonjour
   .p
     Nous avons bien pris en compte votre changement d'e-mail. Pour valider ce changement veuillez cliquer sur le lien de validation suivant :
+
   .p.action
     = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: 'pro'), class: 'btn btn--green' do
-      Valider mon nouvel e-mail
+      Confirmer mon e-mail
+
 - else
   .title
     Bienvenue sur CoursAvenue !
 
-  .p Accédez dès maintenant à votre profil pour valider votre inscription et votre e-mail :
+  .p
+    Pour nous assurer que vous recevrez correctement les inscriptions d'élèves, vous devez confirmer votre e-mail. Pour cela, il vous suffit de cliquer sur ce lien :
+
 
   .p.action
     = link_to pro_admin_confirmation_url(confirmation_token: @token, subdomain: 'pro'), class: 'btn btn--green' do
-      Valider et compléter mon profil
+      Confirmer mon e-mail
 
   = render 'shared/mailers/footer'
 

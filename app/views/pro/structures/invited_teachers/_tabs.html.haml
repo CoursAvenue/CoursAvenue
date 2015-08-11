@@ -1,7 +1,7 @@
 = content_for :top_menu do
   %ul.nav.flush
     %li{ class: (current == 'new' ? 'active' : '') }
-      = link_to 'Parrainage',  new_pro_structure_invited_teacher_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends'
+      = link_to 'Parrainage',  new_pro_structure_invited_teacher_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
     - if @structure.invited_teachers.any?
       %li{ class: (current == 'list' ? 'active' : '') }
-        = link_to 'Invitations envoyées', pro_structure_invited_teachers_path(@structure), class: 'muted-link epsilon f-weight-600 soft--sides soft-half--ends'
+        = link_to 'Invitations envoyées', pro_structure_invited_teachers_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'

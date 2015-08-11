@@ -817,11 +817,8 @@ describe Structure do
     context 'when the last participation request has been replied' do
       let!(:pr2) { FactoryGirl.create(:participation_request, :pending_state, structure: structure) }
 
-      before do
-        pr2.discuss!(Faker::Lorem.paragraph)
-      end
-
       it 'keeps the structure enabled' do
+        pr2.discuss!(Faker::Lorem.paragraph)
         subject.check_for_disable
         subject.reload
         expect(subject.enabled?).to be_truthy

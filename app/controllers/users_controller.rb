@@ -90,22 +90,6 @@ class UsersController < InheritedResources::Base
     @profile_completion     = @user.profile_completion
     @participation_requests = (@user.participation_requests.upcoming.accepted + @user.participation_requests.upcoming.pending).sort_by(&:date)
     @conversations          = (@user.mailbox.conversations - @participation_requests.map(&:conversation))[0..4]
-    if @user.city
-      @structure_search = StructureSearch.search_around({lat: @user.city.latitude,
-                                                        lng: @user.city.longitude,
-                                                        subject_slugs: (@user.subjects.any? ? @user.subjects.map(&:slug) : []) },
-                                                        150)
-
-      @structure_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
-        marker.lat structure.latitude
-        marker.lng structure.longitude
-      end
-    else
-      @structure_locations = Gmaps4rails.build_markers(City.where( zip_code: '75000' ).first) do |city, marker|
-        marker.lat city.latitude
-        marker.lng city.longitude
-      end
-    end
   end
 
   def update

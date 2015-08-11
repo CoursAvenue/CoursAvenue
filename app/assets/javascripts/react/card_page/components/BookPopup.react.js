@@ -63,7 +63,8 @@ var BookPopup = React.createClass({
         $datepicker_input.datepicker('setDaysOfWeekDisabled', days_of_week);
     },
 
-    submitRequest: function submitRequest () {
+    submitRequest: function submitRequest (event) {
+        $(event.currentTarget).prop('disabled', true);
         if (CoursAvenue.currentUser().isLogged()) {
             $dom_node = $(this.getDOMNode());
             RequestActionCreators.submitRequest({
@@ -96,11 +97,11 @@ var BookPopup = React.createClass({
             price_libelle = 'Prix du stage';
         } else {
             price_libelle = this.props.course.min_price.libelle;
-            datepicker = (<div className="grid--full bordered--bottom">
-                              <label className="grid__item f-weight-600 v-middle one-half soft-half--ends line-height-2">
+            datepicker = (<div className="grid--full bordered--bottom soft-half--ends">
+                              <label className="grid__item f-weight-600 v-middle one-half line-height-2 palm-one-whole">
                                   Quel {this.props.planning.date.toLowerCase()} voulez-vous venir ?&nbsp;
                               </label>
-                              <div className="grid__item v-middle one-half">
+                              <div className="grid__item v-middle one-half palm-one-whole">
                                   <input type="text"
                                          data-behavior="datepicker"
                                          name="participation_request[date]"
@@ -110,11 +111,11 @@ var BookPopup = React.createClass({
         }
 
         if (this.props.course.teaches_at_home && this.props.course.place) {
-            place_select = (<div className="grid--full bordered--bottom">
-                                <label className="grid__item f-weight-600 v-middle one-half soft-half--ends line-height-2">
+            place_select = (<div className="grid--full bordered--bottom soft-half--ends">
+                                <label className="grid__item f-weight-600 v-middle one-half line-height-2 palm-one-whole">
                                     Où voulez-vous assister au cours ?
                                 </label>
-                                <div className="grid__item v-middle one-half">
+                                <div className="grid__item v-middle one-half palm-one-whole">
                                     <select defaultValue="true" name="participation_request[at_student_home]">
                                         <option value="true">Chez moi</option>
                                         <option value="false">Chez le professeur</option>
@@ -138,11 +139,11 @@ var BookPopup = React.createClass({
                     <div className="soft--sides">
                         {datepicker}
                         {place_select}
-                        <div className="grid--full bordered--bottom">
-                            <label className="grid__item f-weight-600 v-middle one-half soft-half--ends line-height-2">
+                        <div className="grid--full bordered--bottom soft-half--ends">
+                            <label className="grid__item f-weight-600 v-middle one-half line-height-2 palm-one-whole">
                                 Combien serez-vous ?
                             </label>
-                            <div className="grid__item v-middle one-half">
+                            <div className="grid__item v-middle one-half palm-one-whole">
                                 <select defaultValue="1" name="participation_request[participants_attributes][0][number]">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -154,11 +155,11 @@ var BookPopup = React.createClass({
                                 </select>
                             </div>
                         </div>
-                        <div className="grid--full bordered--bottom">
-                            <label className="grid__item f-weight-600 v-middle one-half soft-half--ends line-height-2">
+                        <div className="grid--full bordered--bottom soft-half--ends">
+                            <label className="grid__item f-weight-600 v-middle one-half line-height-2 palm-one-whole">
                                 Comment peut-on vous joindre ?
                             </label>
-                            <div className="grid__item v-middle one-half">
+                            <div className="grid__item v-middle one-half palm-one-whole">
                                 <div className="input-addon">
                                     <div className="input-prefix">
                                         <i className="fa-phone-o"></i>
@@ -171,7 +172,8 @@ var BookPopup = React.createClass({
                                            data-trigger="hover"
                                            data-placement="left"
                                            data-original-title=""
-                                           title="" />
+                                           title=""
+                                           defaultValue={(CoursAvenue.currentUser() ? CoursAvenue.currentUser().get('phone_number') : '')}/>
                                 </div>
                             </div>
                         </div>

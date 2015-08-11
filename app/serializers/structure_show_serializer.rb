@@ -12,7 +12,8 @@ class StructureShowSerializer < ActiveModel::Serializer
              :audience, :gives_group_courses,
              :gives_individual_courses, :structure_type, :given_course_types,
              :given_funding_type, :places_count, :subjects, :has_teachers, :has_only_one_more_info,
-             :phone_numbers, :is_sleeping, :website, :cities_text, :contact_email, :can_receive_payments
+             :phone_numbers, :is_sleeping, :website, :cities_text, :contact_email, :can_receive_payments,
+             :dominant_root_subject_slug
 
   has_many :places                            , serializer: PlaceSerializer
   has_many :courses_open_for_trial            , serializer: ShortCourseSerializer
@@ -141,5 +142,9 @@ class StructureShowSerializer < ActiveModel::Serializer
 
   def is_sleeping
     object.is_sleeping || !object.enabled?
+  end
+
+  def dominant_root_subject_slug
+    object.dominant_root_subject.try(:slug)
   end
 end

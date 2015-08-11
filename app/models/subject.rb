@@ -159,6 +159,10 @@ class Subject < ActiveRecord::Base
     end
   end
 
+  def has_kid_advices?
+    (age_advice_younger_than_5.present? or age_advice_between_5_and_9.present? or age_advice_older_than_10.present?)
+  end
+
   private
 
   # Compute score regarding its populariy regardings the # of reservations

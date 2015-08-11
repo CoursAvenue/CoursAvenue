@@ -23,7 +23,7 @@ var RootSubjectItem = React.createClass({
     },
 
     render: function render () {
-        var filter_wrapper_class;
+        var filter_wrapper_class = '';
         var filters = this.state.card_store.getBreadcrumbFilters().map(function(filter, index) {
             return ( <FilterBreadcrumbItem filter={filter} key={index} /> )
         });
@@ -31,7 +31,7 @@ var RootSubjectItem = React.createClass({
             filter_wrapper_class = 'search-page-filter-breadcrumb-wrapper soft-half--top'
         }
         return (
-          <div className={"main-container main-container--1000 " + filter_wrapper_class}>
+          <div className={"visuallyhidden--palm " + filter_wrapper_class}>
               {filters}
           </div>
         );

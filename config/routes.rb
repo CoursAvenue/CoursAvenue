@@ -173,6 +173,12 @@ CoursAvenue::Application.routes.draw do
       end
 
       get 'nouveau-dormant', to: 'structures#new_sleeping', as: :add_sleeping_structure
+      resources :registrations, only: [:new, :create], path: 'inscriptions' do
+        collection do
+          get :new_course
+          post :create_course
+        end
+      end
       resources :structures, path: 'etablissements' do
         collection do
           get :sleepings
@@ -183,6 +189,9 @@ CoursAvenue::Application.routes.draw do
           get :imported_structures
         end
         member do
+          get   :confirm_email
+          post  :resend_confirmation_instructions
+          get   :dashboard
           get   :edit_order_recipient
           get   :someone_already_took_control, path: 'quelqu-un-a-deja-le-control'
           get   :dont_want_to_take_control_of_my_sleeping_account, path: 'me-desabonner'
@@ -190,7 +199,6 @@ CoursAvenue::Application.routes.draw do
           get   :ask_for_deletion
           get   :confirm_deletion
           get   :crop_logo
-          get   :dashboard, path: 'tableau-de-bord'
           get   :edit_contact, path: 'informations-contact'
           get   :logo
           get   :payment_confirmation, path: 'confirmation-paiement'
@@ -638,7 +646,11 @@ CoursAvenue::Application.routes.draw do
 
     resources :reservation_loggers, only: [:create]
     resources :click_logs, only: [:create]
-    resources :guides, only: [:show]
+    resources :guides, only: [:show] do
+      member do
+        get :suggestions, path: 'notre-suggestion'
+      end
+    end
 
     # ------------------------------------------------------
     # ----------------------------------------- Static pages
@@ -733,8 +745,6 @@ CoursAvenue::Application.routes.draw do
       get '/'       , to: 'structures#show'
       get 'planning' => redirect('/')
       get 'reviews' , to: 'structures#reviews' , as: :reviews, path: 'livre-d-or'
-      # get 'medias'  , to: 'structures#medias'  , as: :medias
-      # get 'contact' , to: 'structures#contact' , as: :contact
       resources :website_pages, only: [:show], path: 'pages'
     end
   end

@@ -1,4 +1,5 @@
-var SubjectActionCreators = require('../../actions/SubjectActionCreators');
+var SubjectActionCreators = require('../../actions/SubjectActionCreators'),
+    LocationStore         = require('../../stores/LocationStore');
 
 Subject = React.createClass({
     propTypes: {
@@ -29,15 +30,22 @@ Subject = React.createClass({
         return { selected: this.props.selected };
     },
 
-    selectSubject: function selectSubject () {
+    selectSubject: function selectSubject (event) {
         SubjectActionCreators.selectSubject(this.props.subject);
+        if(!this.props.follow_links) { event.stopPropagation(); event.preventDefault(); }
+    },
+
+    url: function url () {
+        return CoursAvenue.searchPath({ city: LocationStore.getCitySlug(),
+                                        root_subject_id: this.props.subject.root_slug,
+                                        subject_id: this.props.subject.slug });
     },
 
     render: function render () {
         return (
             <a className={"search-page-card__subject search-page-card__subject--" + this.props.subject.root_slug}
                onClick={ this.selectSubject }
-               href="javascript:void(0)">
+               href={this.url()}>
                 { this.props.subject.name }
             </a>
         )

@@ -1,6 +1,6 @@
 $(function() {
     // Setting default settings of Fancybox
-    $.fancybox.defaults.tpl.closeBtn = '<a title="Fermer" class="fancybox-item fancybox-close fa-times" href="javascript:;"></a>';
+    $.fancybox.defaults.tpl.closeBtn = '<a title="Fermer" class="fancybox-item fancybox-close fa-close" href="javascript:;"></a>';
     $.fancybox.defaults.afterShow = function () {
         $.each(COURSAVENUE.initialize_callbacks, function(i, func) { func(); });
     };
@@ -60,7 +60,7 @@ $(function() {
         return false;
     });
 
-    // Remove rows that contains  only old or new days
+    // Remove rows that contains only old or new days
     COURSAVENUE.datepicker_function_that_hides_inactive_rows = function() {
         _.each($('.datepicker tr'), function(tr) {
             $tr = $(tr);
@@ -78,6 +78,9 @@ $(function() {
                 autoclose: true,
                 todayHighlight: true
             };
+            if ($(this).data('clear-btn')) {
+                datepicker_options.clearBtn = true;
+            }
             if ($(this).data('start-date')) {
                 datepicker_options.startDate = $(this).data('start-date');
             }
@@ -139,22 +142,6 @@ $(function() {
             return false;
         }
     });
-    setTimeout(function() {
-        if (typeof(mixpanel) != 'undefined') {
-            $('.mixpanel-tracker').each(function(index, element) {
-                  var new_class = 'mixpanel-tracker-class-' + Math.random().toString(26).slice(2) // Don't use id in case ID is already used
-                  $(element).addClass(new_class);
-                  mixpanel.track_links('.' + new_class, 'Clicked on ' + $(this).text(), function(el) {
-                      return {
-                        text: $(el).text(),
-                        info: $(el).data('info'),
-                        url: document.URL,
-                        path: window.location.pathname
-                      }
-                  });
-            });
-        }
-    }, 500);
     $('[data-behavior="lazy-load"]').lazyload();
 
     if ($('[data-behavior=parallax]').length > 0) {

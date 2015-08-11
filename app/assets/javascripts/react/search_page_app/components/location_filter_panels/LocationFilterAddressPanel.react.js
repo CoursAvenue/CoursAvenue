@@ -88,7 +88,10 @@ var LocationFilterChoicePanel = React.createClass({
                                  onChange={this.searchFullText}
                                  placeholder="Entrez le nom de la localité" />
                       </div>
-                      <div className="btn search-page-filters__button btn--yellow v-middle relative" onClick={this.closeFilterPanel}>OK</div>
+                      <div className="btn search-page-filters__button btn--yellow v-middle relative"
+                           onClick={this.closeFilterPanel}>
+                          OK
+                      </div>
                   </div>
               </div>
           </div>

@@ -47,10 +47,13 @@ class ::Admin < ActiveRecord::Base
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
+  after_create :update_mailchimp_sleeping if Rails.env.production?
   after_create :create_in_intercom if Rails.env.production?
   after_create :check_if_was_invited
   after_create :set_email_opt_ins
   after_create :subscribe_to_crm
+  after_create :send_confirmation_instructions
+  handle_asynchronously :send_confirmation_instructions
 
   before_save    :downcase_email
   before_destroy :delete_from_intercom if Rails.env.production?
@@ -203,5 +206,9 @@ class ::Admin < ActiveRecord::Base
       intercom_client.users.find(user_id: "Admin_#{self.id}").delete
     rescue
     end
+  end
+
+  def update_mailchimp_sleeping
+    MailchimpUpdater.delay.update_sleeping_structures(structure)
   end
 end

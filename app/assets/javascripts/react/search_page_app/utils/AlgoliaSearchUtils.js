@@ -28,10 +28,9 @@ module.exports = {
         data = data || {};
         var card_search_state = {
             facets      : ['subjects.slug_name'],
-            hitsPerPage : 80,
+            hitsPerPage : data.hitsPerPage || 160,
             distinct    : false,
-            aroundRadius: 10000, // 10km
-            page        : data.page || 1
+            aroundRadius: 10000 // 10km
         };
 
         if (!window.is_mobile && data.insideBoundingBox) {
@@ -100,6 +99,7 @@ module.exports = {
 
         card_search_helper.on("result",  successCallback);
         card_search_helper.on("error",  errorCallback);
+        card_search_helper.setCurrentPage(data.page || 0);
         return card_search_helper.search();
     },
 

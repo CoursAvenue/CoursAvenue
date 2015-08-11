@@ -1,0 +1,179 @@
+- 5.times { @structure.prices.build }
+= simple_form_for [:pro, @course_creation_form], url: create_course_pro_registrations_path, method: :post, html: { class: 'push--ends', autocomplete: "false"} do |f|
+  = f.hidden_field :structure_id, value: @structure.slug
+  = f.hidden_field :course_type, value: 'Course::Training'
+
+  .grid--full.push--bottom
+    .grid__item.one-third.v-middle.text--right.soft-half--right.visuallyhidden--palm>
+      %i.fa.fa-info.fa-2x
+    .grid__item.two-thirds.v-middle.palm-one-whole>
+      %h4.flush Information sur le stage
+  .grid--full
+    .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+      = f.label :course_name, label: 'Nom du stage', class: 'label--large v-middle'
+    .grid__item.v-middle.two-thirds.palm-one-whole>
+      = f.input :course_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+  .grid--full.push-half--bottom
+    .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+    .grid__item.v-middle.two-thirds.palm-one-whole>
+      %p.flush
+        %i.blue-green
+          Un bon nom doit être court et explicite : aucune information sur le lieu, l'âge ou le niveau.
+
+  .grid--full.push-half--bottom
+    .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+      = f.label :course_subject_ids, label: 'Étiquette disciplines', class: 'label--large v-middle'
+    .grid__item.v-middle.two-thirds.palm-one-whole>
+      = f.input :course_subject_ids, as: :select, collection: little_children_subjects(@structure), input_html: { id: 'subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+
+  %div{ data: { behavior: 'show-more-on-demand' } }
+    .grid--full
+      .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+        %label.string.optional.control-label.label--large.v-middle> Tarif
+      .grid__item.v-middle.two-thirds.palm-one-whole>
+        - prices = @structure.prices
+        -# - prices.each_with_index do |price, index|
+        -# - price = price.localized
+        = f.simple_fields_for :course_prices, prices do |price_form|
+          - price = price_form.object
+          .input{ class: ((!price.persisted? and price_form.index > 0) ? 'push-half--top flush--bottom nowrap' : 'flush nowrap'), data: { el: true, hidden: (!price.persisted? and price_form.index > 0) } }
+            = price_form.input :type, as: :hidden
+            = price_form.input :number, as: :hidden
+            %div.v-middle{ class: (price.free? ? 'hidden' : ''), data: { trial_price_input: true } }
+              = price_form.input :amount, label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large flush text--center', style: 'width: 5em;', type: 'string', value: (price.amount ? price.amount.gsub(',00', '') : '' ), data: { amount: true } }, wrapper_html: { class: 'flush v-middle inline-block' }
+              %span.push-half--right.label--large.v-middle €
+              = price_form.input :info, as: :string, label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large flush', placeholder: 'Ex. : prix pour 2h', style: 'width: 300px' }, wrapper_html: { class: 'flush v-middle inline-block visuallyhidden--palm' }
+            - if @structure.prices.length > 1
+              %a.cursor-pointer.v-middle.inline-block{ data: { clear: true } }
+                %i.fa-times
+
+    - if @structure.prices.length > 1
+      .grid
+        .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+        .grid__item.v-middle.two-thirds.palm-one-whole>
+          %a.cursor-pointer.f-size-12{ data: { trigger: true } }
+            %i.fa.fa-plus.milli
+            Ajouter un tarif
+
+  .grid--full.push-half--bottom
+    .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+      = f.label :course_description, label: 'Description', class: 'label--large v-middle'
+    .grid__item.v-middle.two-thirds.palm-one-whole>
+      = f.input :course_description, as: :text, label: false, input_html: { placeholder: t('simple_form.placeholders.course.description') }
+
+  .text--center
+    %a.btn.btn--blue-green{ data: { behavior: 'show-step-2' } }
+      Suivant
+      %i.fa-chevron-right.soft--left
+  .hidden{ data: { step: 2 } }
+    %hr.push--ends
+    .grid--full.push--bottom
+      .grid__item.one-third.v-middle.text--right.soft-half--right.visuallyhidden--palm>
+        %i.fa.fa-map-marker.fa-2x
+      .grid__item.two-thirds.v-middle.palm-one-whole>
+        %h4.flush Où se déroule le stage ?
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+        = f.label :place_name, label: Place.human_attribute_name(:name), class: 'label--large v-middle'
+      .grid__item.v-middle.two-thirds.palm-one-whole>
+        = f.input :place_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off', placeholder: t('simple_form.placeholders.place.name') }
+
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+        = f.label :place_street, label: Place.human_attribute_name(:street), class: 'label--large v-middle'
+      .grid__item.v-middle.two-thirds.palm-one-whole>
+        = f.input :place_street, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off', placeholder: t('simple_form.placeholders.place.street') }
+
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+        = f.label :place_zip_code, label: Place.human_attribute_name(:zip_code), class: 'label--large v-middle'
+      .grid__item.v-middle.two-thirds.palm-one-whole>
+        - place = @course_creation_form.place.present? ? @course_creation_form.place : Place.new
+        = f.input :place_zip_code, input_html: { class: 'input--large', style: 'width: 7em;', placeholder: t('simple_form.placeholders.place.zip_code'), data: { behavior: 'city-autocomplete', el: '#place_city_id' } }, label: false, wrapper_html: { class: 'flush v-middle inline-block' }
+        = f.input :place_city_id, as: :select, collection: [place.city], label: false, selected: place.city, wrapper_html: { class: 'flush v-middle inline-block' },
+          input_html: { class: 'input--large', id: 'place_city_id' }
+
+        = f.input :place_latitude, as: :hidden
+        = f.input :place_longitude, as: :hidden
+    .text--center
+      %a.btn.btn--blue-green{ data: { behavior: 'show-step-3' } }
+        Suivant
+        %i.fa-chevron-right.soft--left
+
+  .hidden{ data: { step: 3 } }
+    %hr.push--ends
+    .grid--full.push--bottom
+      .grid__item.one-third.v-middle.text--right.soft-half--right.visuallyhidden--palm>
+        %i.fa.fa-calendar.fa-2x
+      .grid__item.two-thirds.v-middle.palm-one-whole>
+        %h4.flush Quel est le 1<sup>er</sup> créneau horaire ?
+        %p.flush
+          %i Les autres créneaux pourront être ajoutés plus tard
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+        %label.label--large.required.control-label Dates
+      .grid__item.v-middle.two-thirds.palm-one-whole>
+        .input.flush.input-daterange.input-group{ data: { behavior: 'datepicker', start_date: l(Date.today) } }
+          %input.input-sm.input--large#start-date.datepicker-input{ type: 'text', value: (@course_creation_form.planning_start_date.blank? ? '' : l(@course_creation_form.planning_start_date)), placeholder: "02/08/#{Date.today.year}", name: 'structure_course_creation_form[planning_start_date]' }
+          %label.label--large -
+          %input.input-sm.input--large#end-date.datepicker-input{ type: 'text', value: (@course_creation_form.planning_end_date.blank? || @course_creation_form.planning_start_date == @course_creation_form.planning_end_date ? '' : l(@course_creation_form.planning_end_date)), placeholder: "04/08/#{Date.today.year}", name: 'structure_course_creation_form[planning_end_date]', title: 'Laisser vide si le stage se déroule sur 1 seul jour' }
+
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+        = f.label :planning_start_time, class: 'control-label label--large' do
+          %i.fa.fa-time
+          Horaires
+      .grid__item.v-middle.two-thirds.palm-one-whole>
+        = f.input :planning_start_time, as: :time, minute_step: 15, default: { year: 2000, month: 1, day: 1, hour: 8, min: 00 }, wrapper_html: { id: 'start-time-wrapper', class: 'flush input-time--large inline-block' }, label: false, input_html: { class: 'input--large' }
+        %span.label--large.v-middle.inline-block -
+        = f.input :planning_end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: { year: 2000, month: 1, day: 1, hour: 9, min: 00 }, wrapper_html: { id: 'end-time-wrapper', class: 'flush input-time--large inline-block' }, input_html: { class: 'input--large' }
+
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+        = f.label :level_ids, label: t('planning.levels'), class: 'label--large v-middle'
+      .grid__item.v-middle.two-thirds.palm-one-whole>
+        = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: false, wrapper_html: { data: { behavior: 'checkbox-list' } }, input_html: { class: 'input--large' }, wrapper_html: { class: 'flush' }, checked: (@course_creation_form.level_ids.present? ? @course_creation_form.level_ids : [Level::ALL.id])
+
+    .grid--full.push-half--bottom
+      .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+        = f.label :audience_ids, label: t('planning.audiences'), class: 'label--large v-middle'
+      .grid__item.v-middle.two-thirds.palm-one-whole>
+        = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: false, input_html: { class: 'input--large' }, checked: (@course_creation_form.audience_ids.present? ? @course_creation_form.audience_ids : [Audience::ADULT.id])
+
+    .grid--full.push-half--bottom#children-ages{class: f.object.audiences.include?(Audience::KID) ? '' : 'hidden'}
+      .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+        %label.label--large.control-label.v-middle Âge pour les enfants (optionnel)
+      .grid__item.v-middle.two-thirds.palm-one-whole>
+        %span.v-middle.label--large.inline-block de
+        = f.input :min_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.min_age_for_kid || 0}, wrapper_html: { class: 'flush v-middle inline-block' }
+        %span.v-middl.label--large.inline-block à
+        = f.input :max_age_for_kid, label: false, input_html: { class: 'input--large', style: 'width: 5em;', value: f.object.max_age_for_kid || 18}, wrapper_html: { class: 'flush v-middle inline-block' }
+        %span.v-middle ans
+
+    .text--center
+      = f.submit 'Commencer avec CoursAvenue', class: 'btn--large btn btn--full btn--green one-whole', data: { disable_with: "Enregistrement en cours" }, style: 'max-width: 900px;'
+
+- content_for :scripts do
+  :javascript
+    $(document).ready(function() {
+        if ($('[name="structure_course_creation_form[audience_ids][]"]').length > 0) {
+            $('[name="structure_course_creation_form[audience_ids][]"]').change(function(event) {
+                if (event.target.value == '1') {
+                    if (event.target.checked) {
+                        $('#children-ages').removeClass('hidden');
+                    } else {
+                        $('#children-ages').addClass('hidden');
+                    }
+                }
+            });
+        }
+
+        $('#end-date').tooltip();
+        $('#start-date').change(function() {
+            if ($('#start-date').val().length > 0) {
+                $('#end-date').attr('placeholder', $('#start-date').val());
+                $('#end-date').datepicker('setStartDate', $('#start-date').datepicker('getDate'));
+            }
+        });
+        $('#start-date').change();
+    });

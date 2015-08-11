@@ -1,10 +1,7 @@
 %header.header
-  .main-container.grid--full
-    .grid__item.one-half.palm-one-half.v-middle>
-      = link_to root_path, class: 'logo', target: '_blank' do
-        - if request.subdomain == 'pro'
-          = image_tag 'logos/logo-pro.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo-pro@2x.png') }
-        - else
-          = image_tag 'logos/logo.png', width: 200, alt: 'CoursAvenue.com - Les meilleurs cours de loisirs de votre ville', data: { src2x: asset_path('logos/logo@2x.png') }
-    .grid__item.one-half.v-middle.text--right
-      = render partial: 'shared/question_dropdown_menu', locals: {position: 'right'}
+  .flexbox
+    .flexbox__item.one-half.palm-one-half.v-middle>
+      .coursavenue-header-logo-wrapper.v-middle.palm-one-whole
+        = link_to '', root_path, target: '_blank', class: 'coursavenue-header-logo'
+    .flexbox__item.one-half.v-middle.text--right.soft--right
+      = render partial: 'shared/question_dropdown_menu'

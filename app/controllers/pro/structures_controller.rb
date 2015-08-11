@@ -21,6 +21,30 @@ class Pro::StructuresController < Pro::ProController
 
   respond_to :json
 
+  # GET member
+  def dashboard
+    @structure_decorator = @structure.decorate
+    @wizard              = get_next_wizard
+    commentable_ids      = @structure.courses.map(&:id)
+    commentable_ids << @structure.id
+    @comments            = @structure.comments.accepted
+    @courses             = @structure.courses
+    @places              = @structure.places
+
+    if @structure.premium?
+      @medias = @structure.medias.cover_first
+    else
+      @medias = [@structure.medias.cover_first.first]
+    end
+
+    @profile_percentage = 100
+    @profile_percentage -= 25 if !@structure.profile_completed?
+    @profile_percentage -= 25 if @structure.medias.empty?
+    @profile_percentage -= 25 if @comments.empty?
+    @profile_percentage -= 25 if @structure.plannings.future.empty?
+
+    @places_latlng = @places.map(&:to_react_json)
+  end
 
   # GET etablissements/:id/quelqu-un-a-deja-le-control
   # When somebody try to register to a structure that already has an admin
@@ -116,34 +140,6 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
-  # GET member
-  def dashboard
-    @structure_decorator = @structure.decorate
-    @wizard              = get_next_wizard
-    commentable_ids      = @structure.courses.map(&:id)
-    commentable_ids << @structure.id
-    @comments            = @structure.comments.accepted
-    @courses             = @structure.courses
-    @places              = @structure.places
-
-    if @structure.premium?
-      @medias = @structure.medias.cover_first
-    else
-      @medias = [@structure.medias.cover_first.first]
-    end
-
-    @profile_percentage = 100
-    @profile_percentage -= 25 if !@structure.profile_completed?
-    @profile_percentage -= 25 if @structure.medias.empty?
-    @profile_percentage -= 25 if @comments.empty?
-    @profile_percentage -= 25 if @structure.plannings.future.empty?
-
-    @json_locations = Gmaps4rails.build_markers(@places) do |place, marker|
-      marker.lat place.latitude
-      marker.lng place.longitude
-    end
-  end
-
   # GET collection
   #   format :json
   # Returns the best structures located near Paris
@@ -183,6 +179,17 @@ class Pro::StructuresController < Pro::ProController
     render action: :edit
   end
 
+  # GET member
+  def confirm_email
+    render layout: false
+  end
+
+  # POST member
+  def resend_confirmation_instructions
+    @structure.main_contact.send_confirmation_instructions
+    redirect_to edit_pro_structure_path(@structure)
+  end
+
   def add_subjects
     respond_to do |format|
       format.html do
@@ -216,12 +223,7 @@ France
   end
 
   def new
-    session[:name]     = params[:name]
-    session[:zip_code] = params[:zip_code]
-    session[:email]    = params[:email]
-    @structure  = Structure.new name: params[:name], zip_code: params[:zip_code], contact_email: params[:email]
-    @structure.places << @structure.places.publics.build
-    @structures = Structure.where.not(comments_count: nil).order('comments_count DESC').limit(3)
+    redirect_to new_pro_registration_path, status: 301
   end
 
   def new_sleeping

@@ -1,0 +1,40 @@
+= content_for :title do
+  Publiez vos cours gratuitement et recruter de nouveaux élèves.
+
+= render layout: 'pro/home/header_layout', locals: { hide_menu: true, bg_center: true } do
+  .main-container.soft--sides.mega-soft--ends.text--center
+    %h1.white.soft-black-text-shadow.f-size-big.relative.flush
+      Publiez votre 1<sup>ère</sup> activité
+
+.soft
+  .main-container
+    = render @course_partial
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          mixpanel.track('Profil creation - new course 1/3', { course_type: "#{params[:course_type]}", url: document.URL, path: window.location.pathname });
+          $('[data-behavior=show-step-2]').click(function() {
+              $step_2 = $('[data-step=2]');
+              $step_2.slideDown();
+              $(this).hide();
+              $.scrollTo($step_2, { easing: 'easeOutCubic', duration: 350 })
+              mixpanel.track('Profil creation - new course 2/3', { url: document.URL, path: window.location.pathname });
+          });
+          $('[data-behavior=show-step-3]').click(function() {
+              $step_3 = $('[data-step=3]');
+              $step_3.slideDown();
+              $(this).hide();
+              $.scrollTo($step_3, { easing: 'easeOutCubic', duration: 350 })
+              mixpanel.track('Profil creation - new course 3/3', { url: document.URL, path: window.location.pathname });
+          });
+          $('#new_structure_course_creation_form').submit(function(event) {
+              if ($('[data-step=2]').is(':hidden') && $('[data-step=3]').is(':hidden')) {
+                  $('[data-behavior=show-step-2]').click();
+                  return false;
+              } else if ($('[data-step=3]').is(':hidden')) {
+                  $('[data-behavior=show-step-3]').click();
+                  return false;
+              }
+          });
+      });

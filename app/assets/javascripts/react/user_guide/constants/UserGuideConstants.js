@@ -9,9 +9,6 @@ module.exports = {
         POPULATE_QUESTION: null,
 
         SELECT_AGE:    null,
-        SELECT_ANSWER: null,
-
-        SELECT_SUBJECT: null,
-        DESELECT_SUBJECT: null,
+        SELECT_ANSWER: null
     })
 };

@@ -2,12 +2,12 @@
   .text--center.hard.push--bottom>
   - subjects.each do |subject|
     - subject.vertical_pages.each do |vertical_page|
-      .inline-block.one-quarter.very-soft.palm-one-half>
+      .inline-block.one-third.very-soft.palm-one-half>
         - if vertical_page.image.present?
           - image = vertical_page.image.url(:thumb)
         - else
           - image = subject_image(subject)
-        .relative.bg-cover{style: "background-image: url('#{image}'); height: 150px; "}>
+        .relative.bg-cover{style: "background-image: url('#{image}'); height: 220px; "}>
           - cache [subject, vertical_page, 'vertical_page/show/subjects/v3', @city] do
             - if @city
               - url = vertical_page_with_city_path(subject.root, vertical_page, @city)
@@ -17,6 +17,6 @@
               - url = vertical_page_path(subject.root, vertical_page)
             .block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain
               .home-screen-gallery__title.text--center
-                %h6.delta.push-half--bottom
+                %h6.delta.flush.line-height-1-3
                   = link_to vertical_page.title, url, class: 'white muted-link', title: "Cours de #{subject.name}"
                 .show-on-hover__child.f-size-12 Voir le guide

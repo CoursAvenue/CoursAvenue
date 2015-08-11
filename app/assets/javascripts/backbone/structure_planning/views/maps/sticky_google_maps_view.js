@@ -26,7 +26,6 @@ StructurePlanning.module('Views.Map', function(Module, App, Backbone, Marionette
                     $view.removeAttr('style');
                 }
             });
-            this.recenterMap();
         }
 
     });

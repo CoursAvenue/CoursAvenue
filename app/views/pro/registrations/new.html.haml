@@ -1,0 +1,77 @@
+= content_for :title do
+  Publiez vos cours gratuitement et recruter de nouveaux élèves.
+
+= render layout: 'pro/home/header_layout', locals: { hide_menu: true, bg_center: true } do
+  .main-container.soft--sides.mega-soft--ends.text--center
+    %h1.white.soft-black-text-shadow.f-size-big.relative.flush
+      Commencez avec CoursAvenue
+
+.soft
+  .main-container
+    = simple_form_for [:pro, @registration_form], url: pro_registrations_path, method: :post, html: { class: 'push--ends', autocomplete: "false"} do |f|
+
+      .grid.push--bottom
+        .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+          %label.delta{ for: 'structure_registration_form[structure_name]' }> Nom de votre structure
+        .grid__item.v-middle.two-thirds.palm-one-whole>
+          = f.input :structure_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off', placeholder: 'Ex. : Association KDance, Juliette Maret, Ateliers créatifs Lyon...' }
+
+      %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
+        .grid.push--bottom
+          .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+            %label.delta{ for: 'structure_registration_form[structure_subjects_ids]' }> Disciplines générales pratiquées
+          .grid__item.v-middle.two-thirds.palm-one-whole>
+            = f.input :structure_subjects_ids, as: :select, collection: Subject.roots.stars.order('position ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+        #descendants-subject.grid.push--bottom
+          .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+            %label.delta{ for: 'structure_registration_form[structure_subject_descendants_ids]' }> Sous disciplines
+          .grid__item.v-middle.two-thirds{ title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: { behavior: 'tooltip' } }>
+            %div{ style: 'max-width: 600px;'}
+              %select.input--large.one-whole.hard#subject-descendants-select{ name: 'structure_registration_form[structure_subject_descendants_ids][]', multiple: true, data: { behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @registration_form.structure_subject_descendants_ids.map{|id| Subject.find(id)}.select{|subj| subj.depth == 2}.map(&:id).join(',')}}>
+
+      .grid.push--bottom
+        .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+          %label.delta{ for: 'structure_registration_form[course_type]' }> Type d'activité à promouvoir en priorité
+        .grid__item.v-middle.two-thirds.palm-one-whole>
+          .btn-group{ data: { toggle: 'buttons' } }
+            %label.text--center.soft-half.one-third.btn{ class: (@registration_form.course_type == 'lesson' ? 'active' : '')}>
+              Cours Collectif
+              %input{ type: 'radio', name: 'structure_registration_form[course_type]', value: 'lesson', checked: @registration_form.course_type == 'lesson', required: true}
+            %label.text--center.soft-half.one-third.btn{ class: (@registration_form.course_type == 'training' ? 'active' : '')}>
+              Stage ou atelier
+              %input{ type: 'radio', name: 'structure_registration_form[course_type]', value: 'training', checked: @registration_form.course_type == 'training', required: true }
+            %label.text--center.soft-half.one-third.btn{ class: (@registration_form.course_type == 'private' ? 'active' : '')}>
+              Cours particulier
+              %input{ type: 'radio', name: 'structure_registration_form[course_type]', value: 'private', checked: @registration_form.course_type == 'private', required: true }
+          - if @registration_form.errors[:course_type].present?
+            .red.f-weight-600.field_with_errors Vous devez renseigner un type d'activité
+
+      .grid.push--bottom
+        .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+          %label.delta{ for: 'structure_registration_form[admin_email]' }> E-Mail
+        .grid__item.v-middle.two-thirds.palm-one-whole>
+          = f.input :admin_email, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+          - if @registration_form.errors[:admin].present? and @registration_form.errors[:admin].first[:email].present?
+            .red.f-weight-600.field_with_errors=  @registration_form.errors[:admin].first[:email].first
+
+      .grid.push--bottom
+        .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+          %label.delta{ for: 'structure_registration_form[admin_password]' }> Mot de passe
+        .grid__item.v-middle.two-thirds.palm-one-whole>
+          = f.input :admin_password, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+          - if @registration_form.errors[:admin].present? and @registration_form.errors[:admin].first[:password].present?
+            .input
+              .control-label>
+              .input-container>
+                .red.f-weight-600.field_with_errors Votre mot de passe #{ @registration_form.errors[:admin].first[:password].first }
+
+      .grid.push--bottom
+        .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
+        .grid__item.v-middle.two-thirds.palm-one-whole>
+          = f.submit 'Enregistrer', class: 'btn--large btn btn--full btn--green', data: { disable_with: "Enregistrement en cours" }, style: 'max-width: 600px;'
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          mixpanel.track('Profil creation step 1');
+      });

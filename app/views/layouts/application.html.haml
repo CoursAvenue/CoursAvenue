@@ -11,12 +11,16 @@
         = render 'layouts/pro_g_analytics'
       - else
         = render 'layouts/g_analytics'
-      = render 'layouts/mixpanel'
 
       = yield :after_ga
+
+    = render 'layouts/mixpanel'
+
     = render 'layouts/typekit'
+
     = yield :head
     = favicon_link_tag
+
     %link{ href: asset_path('favicon.ico'), rel: 'shortcut icon', type: 'image/ico' }
     %link{ href: asset_path('favicon.png'), rel: 'apple-touch-icon' }
     = javascript_include_tag 'modernizr' # MUST BE In the Head and before CSS
@@ -38,7 +42,6 @@
     = yield :above_container
     = content_for?(:content) ? yield(:content) : yield
 
-    = javascript_include_tag 'https://maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry'
     = javascript_include_tag 'application'
     = javascript_include_tag 'https://d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js', 'data-apikey' => '5ddb2502a5b017d46bf49c15d406678e'
 
@@ -46,11 +49,6 @@
     = yield :layout_scripts
     = render 'layouts/social_sdks'
 
-    = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'
-    = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'
-    = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css'
-    = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css'
-    = stylesheet_link_tag 'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css'
 
     :javascript
       if (!$.cookie('fingerprint')) { $.cookie('fingerprint', new Fingerprint().get()); }
@@ -68,7 +66,6 @@
     - if Rails.env.production? and request.subdomain == 'www'
       :javascript
           mixpanel.identify($.cookie('fingerprint'));
-          mixpanel.track('Visited: ' + window.location.pathname, { url: document.URL, path: window.location.pathname });
           CoursAvenue.addInitializer(function(options){
               if (CoursAvenue.currentUser()) {
                   mixpanel.people.set({

@@ -12,4 +12,4 @@
         .grid__item.one-third>
           %a.btn.btn--full{ onclick: '$.fancybox.close()' } Annuler
         .grid__item.two-thirds>
-          = link_to 'Supprimer ce lieu', pro_structure_place_path(@structure, @place), class: 'red', method: :delete, remote: true, class: 'btn btn--full btn--red', data: { disable_with: 'Suppression en cours...' }
+          = link_to 'Supprimer ce lieu', pro_structure_place_path(@structure, @place), class: 'red', method: :delete, class: 'btn btn--full btn--red', data: { disable_with: 'Suppression en cours...' }

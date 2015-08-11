@@ -29,6 +29,19 @@ var LocationFilterChoicePanel = React.createClass({
         FilterActionCreators.showMetroPanel();
     },
 
+    // We show the metro panel only if we are near paris
+    shouldShowMetroPanel: function shouldShowMetroPanel () {
+        var paris_center = L.latLng(48.8592, 2.3417) // Center of paris
+        if (LocationStore.get('bounds')) {
+            var location_latlng = L.latLngBounds(LocationStore.get('bounds')).getCenter();
+        } else if (LocationStore.get('address')) {
+            var location_latlng = L.latLng(LocationStore.get('address').latitude, LocationStore.get('address').longitude);
+        }
+        if (location_latlng) {
+            return location_latlng.distanceTo(paris_center) < 10000; // 10km — seems fair
+        }
+    },
+
     render: function render () {
         return (
           <div className="flexbox search-page-filters__panel-height">
@@ -51,7 +64,8 @@ var LocationFilterChoicePanel = React.createClass({
                   <div className="search-page-filters__image-text">{"Autour d'une adresse"}</div>
               </div>
               <div className={cx("one-third flexbox__item v-middle search-page-filters__image-button search-page-filters__image-button--with-icon", {
-                    'search-page-filters__image-button--active': this.state.metro_store.getSelectedLines().length > 0
+                    'search-page-filters__image-button--active': this.state.metro_store.getSelectedLines().length > 0,
+                    'hidden': !this.shouldShowMetroPanel()
                   }) }
                    onClick={ this.showMetroPanel }
                    style={ { backgroundImage: 'url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/filter-where-metro.jpg")' } }>

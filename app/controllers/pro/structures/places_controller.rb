@@ -35,10 +35,6 @@ class Pro::Structures::PlacesController < InheritedResources::Base
   def new
     @structure      = Structure.friendly.find params[:structure_id]
     @place          = @structure.places.build type: params[:type]
-    @gmap_center    = Gmaps4rails.build_markers(@structure) do |structure, marker|
-      marker.lat structure.latitude
-      marker.lng structure.longitude
-    end
 
     respond_to do |format|
       if request.xhr?
@@ -97,9 +93,8 @@ class Pro::Structures::PlacesController < InheritedResources::Base
   private
 
   def get_places_coordinates
-    @place_coordinates = Gmaps4rails.build_markers(@structure.places) do |place, marker|
-      marker.lat place.latitude
-      marker.lng place.longitude
+    @places_latlng = @structure.places.map do |place|
+      place.to_react_json
     end
   end
 end

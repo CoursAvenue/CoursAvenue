@@ -8,8 +8,7 @@
       %h4.flush Entrez la zone géographique de vos cours à domicile
       %p.flush.epsilon Où vous déplacez-vous pour vos cours particuliers à domicile ?
     - else
-      %h4.flush Entrez l'adresse
-      %p.flush.epsilon Où proposez-vous des cours ?
+      %h4.flush Où proposez-vous des cours ?
   .panel__body.soft--ends
     = simple_form_for [:pro, @structure, @place], remote: true, url: place_url, as: :place do |f|
       - # Don't use remote if is home because we'll want to redirect
