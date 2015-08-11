@@ -34,13 +34,13 @@ var MessageThreadList = React.createClass({
     },
 
     render: function render () {
-        var spinner, threads;
+        var threads, button_content = 'Poser ma question'
         if (this.state.thread_store.loading) {
-            var spinner = (<div className="spinner">
-                              <div className="double-bounce1"></div>
-                              <div className="double-bounce2"></div>
-                              <div className="double-bounce3"></div>
-                          </div>);
+            button_content = (<div className="spinner">
+                                  <div className="double-bounce1"></div>
+                                  <div className="double-bounce2"></div>
+                                  <div className="double-bounce3"></div>
+                              </div>);
         }
         threads = this.state.thread_store.map(function(thread, index) {
             var hr;
@@ -83,13 +83,12 @@ var MessageThreadList = React.createClass({
                                     className="nowrap btn btn--green"
                                     data-disable-with="Message en cours d'envoi..."
                                     onClick={this.submitThread}>
-                                Poser ma question
+                                { button_content }
                             </button>
                         </div>
                     </div>
                 </div>
                 <article className="soft--ends">
-                    { spinner }
                     { threads }
                 </article>
             </div>
