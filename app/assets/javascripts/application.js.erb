@@ -12,6 +12,8 @@
 //= require js-routes
 
 // ---------------------------------- Lib includes
+//= require libs/mapbox
+//= require libs/leaflet.markercluster
 //= require libs/handlebars
 //= require libs/handlebars-helpers
 //= require libs/chosen.jquery
@@ -119,3 +121,5 @@ $.magnificPopup.defaults.removalDelay = 500;
     });
   }
 })(jQuery);
+
+L.mapbox.accessToken = '<%= ENV['MAPBOX_ACCESS_TOKEN']%>';

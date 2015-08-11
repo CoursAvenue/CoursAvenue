@@ -37,18 +37,13 @@
     = yield :above_container
     = content_for?(:content) ? yield(:content) : yield
 
-    = javascript_include_tag '//maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry'
     = javascript_include_tag 'application'
     = javascript_include_tag '//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js', 'data-apikey' => '5ddb2502a5b017d46bf49c15d406678e'
-    = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.js'
-    = javascript_include_tag 'https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js'
 
     = yield :scripts
     = yield :layout_scripts
     = render 'layouts/social_sdks'
 
-    :javascript
-      L.mapbox.accessToken = ENV.MAPBOX_ACCESS_TOKEN;
 
     :javascript
         Bugsnag.releaseStage = '#{Rails.env}';

@@ -11,7 +11,7 @@
     .panel__header.soft
       %h4.flush Planning de : #{@course.name}
       %p.flush
-        %i.fa-tags
+        %i.fa.fa-tags
         %i= @course.subjects.map(&:name).join(', ')
         - if @course.is_lesson?
           %br
