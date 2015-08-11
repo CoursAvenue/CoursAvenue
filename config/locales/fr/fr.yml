@@ -95,6 +95,7 @@ fr:
 
   time:
     formats:
+      month_and_year: "%B %Y"  # => "février 2015"
       default_only_time: "%H:%M:%S"
       default: "%d %B %Y %H:%M:%S"
       short: "%Hh%M"

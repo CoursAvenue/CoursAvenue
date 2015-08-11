@@ -15,7 +15,7 @@
                   .media-photo
                     = image_tag @user.avatar_url(:normal), class: 'block', data: { fpimage: true }
                   %br
-                  = f.filepicker_field :remote_avatar_url, multiple: false, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, class: 'visuallyhidden', button_text: 'Changer ma photo', button_class: 'btn btn--blue btn--small filepicker', onchange: 'onPhotoUpload(event)'
+                  = f.filepicker_field :remote_avatar_url, multiple: false, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, class: 'visuallyhidden', button_text: 'Changer ma photo', button_class: 'btn btn--blue-green btn--small filepicker', onchange: 'onPhotoUpload(event)'
               - else
                 = link_to '#', class: 'soft block gray epsilon f-weight-500 v-middle bg-gray-light bordered', id: 'avatar-placeholder', data: { filepicker: true } do
                   .text--center

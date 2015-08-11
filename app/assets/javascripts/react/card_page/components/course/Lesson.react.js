@@ -30,7 +30,7 @@ var Lesson = React.createClass({
                         </div>));
         }
         infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
-                        <i className='delta fa fa-calendar v-middle'></i>
+                        <i className='delta fa fa-repeat v-middle'></i>
                         <div className='inline-block v-middle'>
                             &nbsp;{this.props.course.frequency}
                         </div>
@@ -44,7 +44,7 @@ var Lesson = React.createClass({
                         </div>));
         } else {
             infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
-                            <i className='delta fa fa-repeat v-middle'></i>
+                            <i className='delta fa fa-calendar v-middle'></i>
                             <div className='inline-block v-middle'>
                                 &nbsp;{"Inscriptions tout au long de l'année"}
                             </div>
@@ -62,7 +62,7 @@ var Lesson = React.createClass({
         return (
             <div>
                 {infos}
-                <table className={"table--striped table--data table--data-small table-responsive table-responsive--without-th " + (this.props.course.structure_is_active ? 'table--hoverable' : '')}>
+                <table className={"table--striped table--data table-responsive table-responsive--without-th " + (this.props.course.structure_is_active ? 'table--hoverable' : '')}>
                     <thead className="gray-light">
                         <tr>
                             <th className="one-tenths">Jour</th>

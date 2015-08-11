@@ -1,3 +1,22 @@
+.comment-avatar-80 {
+    @extend .fa-user;
+    height       : 80px;
+    width        : 80px;
+    margin       : auto;
+    line-height  : 1.5em;
+    border       : 4px solid #D1D1D1;
+    border-radius: 80px;
+    font-size    : 5em;
+    overflow     : hidden;
+    color        : #D1D1D1;
+}
+.comment-avatar-60 {
+    @extend .comment-avatar-80;
+    height      : 60px;
+    width       : 60px;
+    font-size   : 3.5em;
+    border-width: 3px;
+}
 .comment-list {
     list-style : none;
     margin-left: 0;

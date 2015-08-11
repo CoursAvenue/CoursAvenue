@@ -49,9 +49,9 @@
         #structure-region
         .soft--sides.soft--bottom
           %hr.push--ends
-          = react_component('MessageThreadList', { structure_slug: @structure.slug })
+          = react_component('MessageThreadList', { structure: @structure })
         .soft--sides.soft--bottom
-          = react_component('CommentList', { structure_slug: @structure.slug })
+          = react_component('CommentList', { structure: @structure })
         - if @is_sleeping
           = render partial: 'structures/sleeping_content', locals: { medias: @medias }
       .beta.text--center.tk-lexia.bordered--bottom.soft--bottom.f-weight-400.push--bottom Articles de blog associés

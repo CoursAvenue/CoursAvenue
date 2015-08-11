@@ -1,5 +1,6 @@
 var _                  = require('lodash'),
     Backbone           = require('backbone'),
+    StructureStore     = require('../stores/StructureStore'),
     CardPageDispatcher = require('../dispatcher/CardPageDispatcher'),
     CardPageConstants  = require('../constants/CardPageConstants'),
     ActionTypes        = CardPageConstants.ActionTypes;
@@ -21,8 +22,8 @@ var CommentStore = Backbone.Collection.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
-            case ActionTypes.SET_STRUCTURE_SLUG:
-                this.structure_slug = payload.data;
+            case ActionTypes.SET_STRUCTURE:
+                CardPageDispatcher.waitFor([StructureStore.dispatchToken]);
                 this.loadComments();
                 break;
             case ActionTypes.COMMENT_GO_TO_PAGE:
@@ -50,7 +51,7 @@ var CommentStore = Backbone.Collection.extend({
 
     loadComments: function loadComments () {
         this.loading = true;
-        $.get(Routes.structure_comments_path(this.structure_slug, { page: this.current_page }), function(data) {
+        $.get(Routes.structure_comments_path(StructureStore.get('slug'), { page: this.current_page }), function(data) {
             this.total_pages = parseInt(data.meta.total_pages, 10);
             this.total       = data.meta.total;
             this.loading     = false;

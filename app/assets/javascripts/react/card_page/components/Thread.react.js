@@ -2,13 +2,14 @@ var ThreadMessage = require("./ThreadMessage");
 var Thread = React.createClass({
 
     render: function render () {
-        var messages = _.map(this.props.thread.messages, function(message) {
-            return message;
-        });
+        var message;
+        if (this.props.thread.get('question')) {
+            message = (<ThreadMessage message={this.props.thread.get('question')}
+                                      answers={this.props.thread.get('answers')}/>);
+        }
         return (
             <section>
-                { messages }
-                <hr />
+                {message}
             </section>
         );
     }

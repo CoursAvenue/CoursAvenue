@@ -15,10 +15,10 @@
   - if @structure.phone_numbers.any? or @structure.website.present?
     .delta.line-height-1-3.f-weight-bold Besoin d'information avant de vous inscrire ?
     %p.push-half--bottom
-      Posez toutes vos questions auprés de #{ t((@structure.structure_type or 'structures.independant') + '_for_registration_box') }
-      -# ou de sa communauté de membres :
+      Posez toutes vos questions auprés de #{ t((@structure.structure_type or 'structures.independant') + '_for_registration_box') } ou de sa communauté de membres :
       .push-half--bottom
-        -# %a{ href: 'javascript:void(0)', class: 'btn btn--white btn--small' } Question à la communauté
+        %a{ href: '#message-thread-list', class: 'btn btn--white btn--small', data: { behavior: 'scroll-to' } }
+          Question
         - if @structure.phone_numbers.any?
           = link_to 'Téléphone', '#phone-numbers', data: { behavior: 'modal', width: 350, padding: 0, logger: 'phone_number', structure_id: @structure.id }, class: 'btn btn--white btn--small'
         - if @structure.website.present?

@@ -1,7 +1,8 @@
 class Structures::Community::MessageThreadsController < ApplicationController
+  skip_before_filter :verify_authenticity_token
+  before_filter :load_structure_and_community
+
   def index
-    @structure = Structure.includes(community: [:message_threads]).friendly.find(params[:structure_id])
-    @community = @structure.community
     @message_threads = @community.message_threads
 
     threads = ActiveModel::ArraySerializer.new(@message_threads,
@@ -16,27 +17,20 @@ class Structures::Community::MessageThreadsController < ApplicationController
   # New comment.
   # TODO: Check how the Participation request get the user.
   def create
-    @structure = Structure.includes(:community).friendly.find(params[:structure_id])
-    @community = @structure.community
-    @user      = User.find(thread_parameters[:user][:id])
-
     message = StringHelper.replace_contact_infos(thread_parameters[:message])
 
-    message_thread = @community.ask_question!(@user, message)
+    message_thread = @community.ask_question!(current_user, message)
 
     respond_to do |format|
       if message_thread.persisted?
         format.html { redirect_to structure_path(@structure), notice: 'Votre question a été envoyée avec succés.' }
         format.json do
-          render json: { success: true,
-                         # popup_to_show: render_to_string(partial: ''),
-                         formats: [:html] }
+          render json: Community::MessageThreadsSerializer.new(message_thread)
         end
       else
         format.html { redirect_to structure_path(@structure), error: 'Une erreur est survenue, veuillez rééssayer.' }
         format.json do
           render json: { success: false,
-                         # popup_to_show: render_to_string(partial: ''),
                          formats: [:html] },
           status: :unprocessable_entity
         end
@@ -45,28 +39,31 @@ class Structures::Community::MessageThreadsController < ApplicationController
   end
 
   # Reply to a comment.
-  # TODO: Check how the Participation request get the user.
   def update
-    @structure      = Structure.includes(community: [:message_threads]).friendly.find(params[:structure_id])
-    @community      = @structure.community
-    @message_thread = @community.find(params[:id])
-    @user           = User.find(reply_parameters[:user][:id])
+    @message_thread = @community.message_threads.find(params[:id])
 
     message = StringHelper.replace_contact_infos(reply_parameters[:message])
 
-    thread = @message_thread.reply!(@user, message)
+    thread = @message_thread.reply!(current_user, message)
+    respond_to do |format|
+      format.json do
+        render json: Community::MessageThreadsSerializer.new(@message_thread)
+      end
+    end
   end
 
   private
 
   def thread_parameters
-    params.require(:community_message_thread).permit(
-      :message,
-      :user => [:id],
-    )
+    params.require(:community_message_thread).permit(:message)
   end
 
   def reply_parameters
-    params.require(:community_message_thread).permit(:message, :user => [:id])
+    params.require(:community_message_thread).permit(:message)
+  end
+
+  def load_structure_and_community
+    @structure = Structure.includes(community: [:message_threads]).friendly.find(params[:structure_id])
+    @community = @structure.community || @structure.create_community
   end
 end

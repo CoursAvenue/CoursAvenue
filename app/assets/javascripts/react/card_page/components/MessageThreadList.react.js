@@ -1,38 +1,57 @@
-var Thread                = require("./Thread"),
-    MessageActionCreators = require("../actions/MessageActionCreators"),
-    MessageThreadStore    = require('../stores/MessageThreadStore');
+var Thread                  = require("./Thread"),
+    MessageActionCreators   = require("../actions/MessageActionCreators"),
+    StructureActionCreators = require("../actions/StructureActionCreators"),
+    MessageThreadStore      = require('../stores/MessageThreadStore');
 
 var MessageThreadList = React.createClass({
 
-    mixins: [
-        FluxBoneMixin('thread_store')
-    ],
+    mixins: [ FluxBoneMixin('thread_store') ],
 
     componentDidMount: function componentDidMount() {
-        MessageActionCreators.setStructureSlug(this.props.structure_slug)
+        StructureActionCreators.setStructure(this.props.structure);
     },
 
     getInitialState: function getInitialState() {
         return { thread_store: MessageThreadStore };
     },
 
+    submitThread: function submitThread () {
+        if (CoursAvenue.currentUser().isLogged()) {
+            var $textarea = $(this.getDOMNode()).find('textarea');
+            MessageActionCreators.submitThread({ message: $textarea.val() });
+            $textarea.val('');
+        } else {
+            CoursAvenue.signUp({
+                title: 'Vous devez vous enregistrer pour envoyer votre message',
+                success: this.submitThread,
+                dismiss: function dismiss() {}
+            });
+        }
+    },
+
+    scrollToTop: function scrollToTop () {
+        $.scrollTo(0, { duration: 250 });
+    },
+
     render: function render () {
-        var spinner, threads, no_threads;
+        var spinner, threads;
         if (this.state.thread_store.loading) {
             var spinner = (<div className="spinner">
                               <div className="double-bounce1"></div>
                               <div className="double-bounce2"></div>
                               <div className="double-bounce3"></div>
                           </div>);
-        } else {
-            comment_title = this.state.thread_store.total + ' avis';
-            threads = this.state.thread_store.map(function(thread) {
-                return (<Thread thread={thread} key={thread.get('id')}/>);
-            });
         }
+        threads = this.state.thread_store.map(function(thread, index) {
+            var hr;
+            if (index > 0) { hr = (<hr className="push--ends nine-twelfths margin-left-auto" />); }
+            return (<div>
+                        {hr}
+                        <Thread thread={thread} key={thread.get('id')}/>
+                    </div>);
+        });
         return (
-            <div>
-                { spinner }
+            <div id="message-thread-list">
                 <div className="push-half--bottom">
                     <div>
                         <h3 className="v-middle flush inline-block">
@@ -44,30 +63,33 @@ var MessageThreadList = React.createClass({
                         {"Vous pouvez poser vos questions à l'association et à ses pratiquants avant de vous inscrire :"}
                     </div>
                 </div>
-                <form action="{ Routes.structure_community_message_threads_path(this.state.thread_store.structure_id); }"
-                      method='POST'>
-                    <div className='gray-box'>
-                        <div className="input flush soft">
-                            <textarea name="community_message_thread[message]"
-                                      className="one-whole input--large"
-                                      data-behavior='autoresize'
-                                      placeholder='Posez vos questions ou réponses ici.'>
-                             </textarea>
+                <div className='gray-box'>
+                    <div className="input flush soft">
+                        <textarea name="community_message_thread[message]"
+                                  className="one-whole input--large"
+                                  data-behavior='autoresize'
+                                  placeholder='Posez vos questions ou réponses ici.' />
+                    </div>
+                    <div className='flexbox soft hard--top'>
+                        <div className='flexbox__item one-whole soft--right'>
+                            Inutile de poser une question sur les coordonnées de contact&nbsp;:&nbsp;
+                            <a href="javascript:void(0)"
+                               onClick={this.scrollToTop}>
+                               accéder au téléphone et au site Internet
+                            </a>
                         </div>
-                        <div className='flexbox soft'>
-                            <div className='flexbox__item one-whole soft--right'>
-                                Inutile de poser une question sur les coordonnées de contact : <a href=''>accéder au téléphone et au site Internet</a>
-                            </div>
-                            <div className='flexbox__item'>
-                                <button type="submit" className="nowrap btn btn--green" data-disable-with="Message en cours d'envoi...">
-                                    Poser une question
-                                </button>
-                            </div>
+                        <div className='flexbox__item'>
+                            <button type="submit"
+                                    className="nowrap btn btn--green"
+                                    data-disable-with="Message en cours d'envoi..."
+                                    onClick={this.submitThread}>
+                                Poser ma question
+                            </button>
                         </div>
                     </div>
-                </form>
-                <article className="soft--sides">
-                    { no_threads }
+                </div>
+                <article className="soft--ends">
+                    { spinner }
                     { threads }
                 </article>
             </div>

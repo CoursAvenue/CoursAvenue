@@ -3,10 +3,25 @@ var CardPageDispatcher = require('../dispatcher/CardPageDispatcher'),
     ActionTypes        = CardPageConstants.ActionTypes;
 
 module.exports = {
-    setStructureSlug: function setStructureSlug (structure_slug) {
+
+    /*
+     * @param data { message: 'lorem...' }
+     */
+    submitThread: function submitThread (data) {
         CardPageDispatcher.dispatch({
-            actionType: ActionTypes.SET_STRUCTURE_SLUG,
-            data: structure_slug
+            actionType: ActionTypes.SUBMIT_NEW_THREAD,
+            data: data
         });
-    }
+    },
+
+    /*
+     * @param data { id: XX, message: 'lorem...' }
+     */
+    replyToThread: function replyToThread (data) {
+        CardPageDispatcher.dispatch({
+            actionType: ActionTypes.REPLY_TO_THREAD,
+            data: data
+        });
+    },
+
 }

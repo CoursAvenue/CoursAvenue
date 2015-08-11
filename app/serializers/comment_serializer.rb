@@ -7,13 +7,13 @@ class CommentSerializer < ActiveModel::Serializer
   # delegate :cache_key, to: :object
 
   attributes :id, :content, :title, :author_name, :course_name, :created_at, :rating,
-             :distance_of_time, :comment_url, :avatar_url, :created_at_iso, :certified,
-             :simple_format_content
+             :created_at_for_human, :comment_url, :avatar_url, :created_at_iso, :certified,
+             :simple_format_content, :has_avatar
 
   has_one :reply, serializer: CommentReplySerializer
 
-  def distance_of_time
-    distance_of_time_in_words_to_now self.created_at
+  def created_at_for_human
+    I18n.l(object.created_at, format: :month_and_year)
   end
 
   def comment_url

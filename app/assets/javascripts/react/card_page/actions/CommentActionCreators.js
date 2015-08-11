@@ -3,12 +3,6 @@ var CardPageDispatcher = require('../dispatcher/CardPageDispatcher'),
     ActionTypes        = CardPageConstants.ActionTypes;
 
 module.exports = {
-    setStructureSlug: function setStructureSlug (structure_slug) {
-        CardPageDispatcher.dispatch({
-            actionType: ActionTypes.SET_STRUCTURE_SLUG,
-            data: structure_slug
-        });
-    },
 
     goToPage: function goToPage (page_number) {
         CardPageDispatcher.dispatch({

@@ -7,8 +7,10 @@ module.exports = {
         POPULATE_PLANNINGS : null,
 
         SUBMIT_REQUEST     : null,
+        SUBMIT_NEW_THREAD  : null,
+        REPLY_TO_THREAD    : null,
 
-        SET_STRUCTURE_SLUG : null,
+        SET_STRUCTURE      : null,
 
         COMMENT_GO_TO_PAGE         : null,
         COMMENT_GO_TO_PREVIOUS_PAGE: null,

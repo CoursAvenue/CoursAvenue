@@ -52,7 +52,8 @@
           %h3 Tarifs
           = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
 
-      = react_component('CommentList', { structure_slug: @structure.slug })
+      = react_component('MessageThreadList', { structure: @structure })
+      = react_component('CommentList', { structure: @structure })
 
   .grid__item.four-twelfths.palm-one-whole.palm-hard>
     .bordered.bg-white

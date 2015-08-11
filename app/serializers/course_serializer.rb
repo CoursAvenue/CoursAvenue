@@ -96,14 +96,14 @@ class CourseSerializer < ActiveModel::Serializer
     end
     if object.is_lesson?
       _details << { text: frequency,
-                    icon: 'delta fa fa-calendar' }
+                    icon: 'delta fa fa-repeat' }
     end
     if object.is_lesson? and object.cant_be_joined_during_year?
       _details << { text: "Pas d'inscription en cours d'année",
                     icon: 'delta fa-forbidden' }
     elsif object.is_lesson?
       _details << { text: "Inscriptions tout au long de l'année",
-                    icon: 'delta fa-repeat' }
+                    icon: 'delta fa-calendar' }
     end
     if object.no_class_during_holidays
       _details << { text: "Pas de cours pendant les vacances scolaires",

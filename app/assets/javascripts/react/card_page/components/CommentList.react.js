@@ -1,6 +1,6 @@
 var Comment               = require('./Comment'),
     CommentPagination     = require('./CommentPagination'),
-    CommentActionCreators = require("../actions/CommentActionCreators"),
+    StructureActionCreators = require("../actions/StructureActionCreators"),
     CommentStore          = require('../stores/CommentStore');
 
 var CommentList = React.createClass({
@@ -10,7 +10,7 @@ var CommentList = React.createClass({
     ],
 
     componentDidMount: function componentDidMount() {
-        CommentActionCreators.setStructureSlug(this.props.structure_slug)
+        StructureActionCreators.setStructure(this.props.structure);
     },
 
     getInitialState: function getInitialState() {
@@ -31,14 +31,23 @@ var CommentList = React.createClass({
                 no_comments = (<div>{"Pas d'avis sur ce cours."}</div>)
             } else {
                 comment_title = this.state.comment_store.total + ' avis';
-                comments = this.state.comment_store.map(function(comment) {
-                    return (<Comment comment={comment} key={comment.get('id')}/>);
+                comments = this.state.comment_store.map(function(comment, index) {
+                    var hr;
+                    if (index > 0) { hr = (<hr className="push--ends nine-twelfths margin-left-auto" />); }
+                    return (<div>
+                              {hr}
+                              <Comment comment={comment} key={comment.get('id')}/>
+                            </div>);
                 });
                 pagination = (<CommentPagination />)
             }
         }
         return (
             <div>
+                <a className="float--right btn btn--white btn--small" target="_blank"
+                   href={Routes.new_structure_comment_path(this.props.structure.slug)}>
+                    Déposer mon avis
+                </a>
                 <h3>{comment_title}</h3>
                 { spinner }
                 { no_comments }
