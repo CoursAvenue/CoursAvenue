@@ -82,12 +82,10 @@
             - else
               = link_to "Cours de #{vertical_page.subject_name.downcase} à Paris", vertical_page_with_city_path(vertical_page.root_subject, vertical_page, 'paris'), class: 'white semi-muted-link'
 
-
-- cache 'home#index@bottom_comments' do
-  .main-container.main-container--medium.mega-soft--ends
-    %h2.text--center.push--top.push-half--bottom.f-size-big.f-weight-400 Laissez-vous guider
-    %h5.text--center.delta.push--bottom.soft--bottom.f-weight-400 Des milliers d'avis d'élèves pour trouver le meilleur cours
-    = render 'home/bottom_comments'
+.main-container.main-container--medium.mega-soft--ends
+  %h2.text--center.push--top.push-half--bottom.f-size-big.f-weight-400 Laissez-vous guider
+  %h5.text--center.delta.push--bottom.soft--bottom.f-weight-400 Des milliers d'avis d'élèves pour trouver le meilleur cours
+  = render 'home/bottom_comments'
 
 - cache ['home#index@blog', Blog::Article::UserArticle.published.order('published_at DESC').first] do
   .home-screen-promotion-wrapper
