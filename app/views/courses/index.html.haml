@@ -28,6 +28,7 @@
                                      subject: (@subject and @subject != @root_subject ? @subject : nil),
                                      root_subject: (@root_subject ? @root_subject : nil),
                                      locate_user: (params[:locate_user].present?),
+                                     show_subject_panel: (params[:show_subject_panel].present?),
                                      address: { name: @city.name, latitude: @city.latitude, longitude: @city.longitude, city: @city.name, is_address: false } },
                                      { prerender: false })
 = content_for :scripts do
