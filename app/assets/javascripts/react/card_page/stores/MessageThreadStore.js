@@ -71,6 +71,8 @@ var ThreadStore = Backbone.Collection.extend({
                 this.trigger('change');
             }.bind(this),
             error: function error (model, response) {
+                this.loading = false;
+                this.trigger('change');
             }
         });
     },

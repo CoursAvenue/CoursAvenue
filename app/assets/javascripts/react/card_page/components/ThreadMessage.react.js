@@ -32,7 +32,7 @@ var ThreadMessage = React.createClass({
             content_class = '';
         // To be sure this is not an "answer"
         if (this.props.answers) {
-            content_class = 'delta';
+            content_class = 'delta line-height-1-3';
             avatar_size   = '80';
             answers = _.map(this.props.answers, function(message) {
                 return (<ThreadMessage message={message} />);
@@ -68,12 +68,12 @@ var ThreadMessage = React.createClass({
                               </div>
                           </div>);
         }
-        if (_.isEmpty(this.props.message.avatar_url)) {
-            avatar = (<div className={"push-half--bottom comment-avatar-" + avatar_size}></div>)
-        } else {
+        if (this.props.message.has_avatar) {
             avatar = (<img src={this.props.message.avatar_url}
                            className="center-block push-half--bottom rounded--circle"
                            height={avatar_size} width={avatar_size} />);
+        } else {
+            avatar = (<div className={"push-half--bottom comment-avatar-" + avatar_size}></div>)
         }
         return (
             <article className="grid push--bottom " itemProp='review' itemScope={true} itemType='http://schema.org/Comment'>

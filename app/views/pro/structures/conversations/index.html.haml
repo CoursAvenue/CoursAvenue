@@ -10,6 +10,7 @@
     - conversation_comment_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count
     - conversation_conversation_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
     - conversation_request_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::REQUEST.id).count
+    - conversation_public_question_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::PUBLIC_QUESTION.id).count
     .push--bottom
       .inline-block.palm-block
         .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}
@@ -23,6 +24,9 @@
       .inline-block.palm-block
         .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}
         %strong Conversation (#{conversation_conversation_count})
+      .inline-block.palm-block
+        .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::PUBLIC_QUESTION.color}"}
+        %strong Question publique (#{conversation_public_question_count})
     .grid
       .grid__item.palm-one-whole.one-third.palm-text--center>
         %select#conversation_label{ name: 'conversation_label_id' }

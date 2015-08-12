@@ -7,9 +7,7 @@
     font-weight     : 500;
     padding         : 0.5em 0.7em;
     background-color: #FFF;
-    @include text-shadow(none);
     @include border-radius(30px);
-    @include box-shadow(none);
 }
 
 .lbl.lbl--rounded {
@@ -23,57 +21,51 @@
 
 .lbl.lbl--gray {
     background-color: $gray-light;
-    border          : none;
     color           : white;
-    @include text-shadow(none);
-    @include box-shadow(none);
 }
 
 .lbl.lbl--gray-light {
     background-color: $gray-lighter;
-    border          : none;
-    @include text-shadow(none);
-    @include box-shadow(none);
 }
 
 .lbl.lbl--red {
     background-color: $red;
-    border          : none;
     color           : white;
-    @include text-shadow(none);
-    @include box-shadow(none);
+}
+
+.lbl.lbl--purple {
+    background-color: $purple;
+    color           : white;
 }
 
 .lbl.lbl--yellow {
-    background-color: $yellow_bg;
-    border          : none;
+    background-color: $yellow;
     color           : #222;
-    @include text-shadow(none);
-    @include box-shadow(none);
 }
 
 .lbl.lbl--blue {
     background-color: $blue;
-    border          : none;
     color           : white;
-    @include text-shadow(none);
-    @include box-shadow(none);
+}
+
+.lbl.lbl--blue-green {
+    background-color: $blue-green;
+    color           : white;
+}
+
+.lbl.lbl--orange {
+    background-color: $orange;
+    color           : white;
 }
 
 .lbl.lbl--green {
     background-color: $green-success;
-    border          : none;
     color           : white;
-    @include text-shadow(none);
-    @include box-shadow(none);
 }
 
 .lbl.lbl--green-light {
     background-color: $green-light;
-    border          : none;
     color           : white;
-    @include text-shadow(none);
-    @include box-shadow(none);
 }
 
 .lbl--chip {

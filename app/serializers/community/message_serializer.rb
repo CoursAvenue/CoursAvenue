@@ -3,7 +3,17 @@ class Community::MessageSerializer < ActiveModel::Serializer
   include ActionView::Helpers::DateHelper
 
   attributes :id, :thread_id, :content, :distance_of_time, :created_at, :created_at_iso,
-             :author_name
+             :author_name, :avatar_url, :has_avatar
+
+  def has_avatar
+    if object.sender_type == 'User'
+      sender = User.find(object.sender_id)
+      sender.avatar.present?
+    else
+      sender = Admin.find(object.sender_id)
+      sender.structure.logo.present?
+    end
+  end
 
   def avatar_url
     if object.sender_type == 'User'

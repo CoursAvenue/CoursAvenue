@@ -4,6 +4,7 @@
 - recipients                      = conversation.recipients.reject{|recipient| recipient == @admin }
 - participation_request           = conversation_participation_request(conversation)
 - participation_request_decorator = participation_request.decorate if participation_request
+
 .bordered--top.push--top.soft--top
   = link_to pro_structure_conversation_path(structure, conversation), class: "muted-link block flexbox" do
     .flexbox__item.v-top.v-middle.soft--right.visuallyhidden--palm
@@ -14,7 +15,9 @@
         %strong.gray-light.epsilon= l(last_message.created_at.to_date, format: :short)
         %span{ data: { toggle: 'popover', placement: 'top', content: conversation_label_name(conversation) } }
           = conversation_label conversation
-      %p.flush.line-height-1-7
+      .flush.line-height-1-7
+        - if conversation.is_unread?(structure.main_contact)
+          .lbl--small.lbl--chip.lbl.lbl--yellow{ data: { toggle: 'tooltip', title: 'Message non lu' } }
         - if recipients.first
           %strong.epsilon= truncate((recipients.first.name || recipients.first.email), length: 18)
           %soan.visuallyhidden--palm= "(#{pluralize conversation.messages.count, 'message'})"

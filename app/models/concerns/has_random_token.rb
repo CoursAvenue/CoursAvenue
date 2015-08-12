@@ -18,7 +18,7 @@ module Concerns
       #
       # @return self
       def create_token
-        if self.token.nil?
+        if self.read_attribute(:token).nil?
           self.token = loop do
             random_token = SecureRandom.urlsafe_base64
             break random_token unless self.class.exists?(token: random_token)

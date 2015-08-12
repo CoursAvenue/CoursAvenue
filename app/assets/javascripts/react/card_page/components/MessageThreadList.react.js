@@ -16,8 +16,9 @@ var MessageThreadList = React.createClass({
     },
 
     submitThread: function submitThread () {
+        var $textarea = $(this.getDOMNode()).find('textarea');
+        if ($textarea.val().length == 0) { return; }
         if (CoursAvenue.currentUser().isLogged()) {
-            var $textarea = $(this.getDOMNode()).find('textarea');
             MessageActionCreators.submitThread({ message: $textarea.val() });
             $textarea.val('');
         } else {

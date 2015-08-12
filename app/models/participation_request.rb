@@ -510,32 +510,20 @@ class ParticipationRequest < ActiveRecord::Base
     # ParticipationRequestMailer.delay.send_invoice_to_user(self)
   end
 
-  # Creates an unique token.
-  #
-  # @return self
-  def create_token
-    if self.token.nil?
-      self.token = loop do
-        random_token = SecureRandom.urlsafe_base64
-        break random_token unless ParticipationRequest.exists?(token: random_token)
-      end
+  def mailer
+    if from_personal_website?
+      StructureWebsiteParticipationRequestMailer
+    else
+      ParticipationRequestMailer
     end
+  end
 
-    def mailer
-      if from_personal_website?
-        StructureWebsiteParticipationRequestMailer
-      else
-        ParticipationRequestMailer
-      end
-    end
+  # If participation request is from personal website, send a SMS to user
+  def send_sms_to_user
+    if user.phone_number and user.sms_opt_in?
+      message = self.decorate.sms_message_for_new_request_to_user
 
-    # If participation request is from personal website, send a SMS to user
-    def send_sms_to_user
-      if user.phone_number and user.sms_opt_in?
-        message = self.decorate.sms_message_for_new_request_to_user
-
-        user.delay.send_sms(message, user.phone_number)
-      end
+      user.delay.send_sms(message, user.phone_number)
     end
   end
 
