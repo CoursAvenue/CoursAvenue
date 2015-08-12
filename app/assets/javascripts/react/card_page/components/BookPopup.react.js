@@ -1,4 +1,5 @@
 var RequestStore          = require("../stores/RequestStore"),
+    StructureStore        = require("../stores/StructureStore"),
     RequestActionCreators = require("../actions/RequestActionCreators"),
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
 
@@ -10,7 +11,8 @@ var BookPopup = React.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            request_store: RequestStore
+            request_store: RequestStore,
+            structure_store: StructureStore
         };
     },
 
@@ -32,6 +34,23 @@ var BookPopup = React.createClass({
         }
     },
 
+    holidayWarning: function holidayWarning () {
+        var new_start_date = moment(this.props.course.start_date, 'YYYY-MM-DD');
+        if (new Date() < new_start_date.toDate()) {
+            return (<div className="f-size-12">
+                        <i>Reprise des cours le {new_start_date.format('DD MMMM').replace(/0([0-9])/, function(a, b) { return b})}</i>
+                    </div>);
+        }
+    },
+
+    getDatepickerStartDate: function getDatepickerStartDate () {
+        var new_start_date = moment(this.props.course.start_date, 'YYYY-MM-DD').toDate();
+        if (new Date() < new_start_date) {
+            return new_start_date;
+        }
+        return new Date();
+    },
+
     initializeDatepicker: function initializeDatepicker ($datepicker_input) {
         var datepicker_options = {
             format: COURSAVENUE.constants.DATE_FORMAT,
@@ -39,16 +58,22 @@ var BookPopup = React.createClass({
             language: 'fr',
             autoclose: true,
             todayHighlight: true,
-            startDate: new Date()
+            startDate: this.getDatepickerStartDate()
         };
         $datepicker_input.datepicker(datepicker_options);
         $datepicker_input.datepicker().on('show', COURSAVENUE.datepicker_function_that_hides_inactive_rows);
-        if (this.props.planning.next_date) {
-            var formatted_date = moment(this.props.planning.next_date, "DD/MM/YYYY").format(COURSAVENUE.constants.MOMENT_DATE_FORMAT);
-            $datepicker_input.datepicker('update', formatted_date);
-        } else {
-            $datepicker_input.datepicker('update', moment().add(7, 'days').toDate());
+
+
+        var formatted_date = COURSAVENUE.helperMethods.nextWeekDay(this.props.planning.week_day);
+        // We check wether the formatted date is not before the datepicker start date
+        if (formatted_date.toDate() < this.getDatepickerStartDate()) {
+            var days_to_add = 0;
+            var new_date = moment(this.getDatepickerStartDate()).day(this.props.planning.week_day);
+            if (new_date.toDate() < this.getDatepickerStartDate()) { days_to_add = 7 }
+            formatted_date = new_date.day(this.props.planning.week_day + days_to_add);
         }
+        $datepicker_input.datepicker('update', formatted_date.toDate());
+
         // Disable days of week
         var days_of_week = [0,1,2,3,4,5,6];
         if (this.props.course.db_type == 'Course::Private') {
@@ -97,16 +122,19 @@ var BookPopup = React.createClass({
             price_libelle = 'Prix du stage';
         } else {
             price_libelle = this.props.course.min_price.libelle;
-            datepicker = (<div className="grid--full bordered--bottom soft-half--ends">
-                              <label className="grid__item f-weight-600 v-middle one-half line-height-2 palm-one-whole">
-                                  Quel {this.props.planning.date.toLowerCase()} voulez-vous venir ?&nbsp;
-                              </label>
-                              <div className="grid__item v-middle one-half palm-one-whole">
-                                  <input type="text"
-                                         data-behavior="datepicker"
-                                         name="participation_request[date]"
-                                         className="datepicker-input very-soft v-middle" />
+            datepicker = (<div className="soft-half--ends bordered--bottom">
+                              <div className="grid--full">
+                                  <label className="grid__item f-weight-600 v-middle one-half line-height-2 palm-one-whole">
+                                      Quel {this.props.planning.date.toLowerCase()} voulez-vous venir ?&nbsp;
+                                  </label>
+                                  <div className="grid__item v-middle one-half palm-one-whole">
+                                      <input type="text"
+                                             data-behavior="datepicker"
+                                             name="participation_request[date]"
+                                             className="datepicker-input very-soft v-middle" />
+                                  </div>
                               </div>
+                              {this.holidayWarning()}
                           </div>);
         }
 

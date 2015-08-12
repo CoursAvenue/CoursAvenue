@@ -28,6 +28,9 @@
           - else
             %strong Cours d'essai : #{readable_amount(@course.prices.first.amount)}
       %h3 Planning
+      - if Date.today < @course.start_date
+        .bg-blue-green.soft.white.push--bottom
+          %strong Reprise des cours le #{l(@course.start_date, format: :semi_short).gsub(/0([0-9])/, '\1')}.
       = react_component("CardPageCourse",
                       { course: CourseSerializer.new(@course), plannings: ActiveModel::ArraySerializer.new(@indexable_card.plannings.ordered_by_day.future, each_serializer: PlanningSerializer) }, { prerender: false })
       - if @course.is_private? and @course.on_appointment?
@@ -52,8 +55,8 @@
           %h3 Tarifs
           = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
 
-      = react_component('MessageThreadList', { structure: @structure })
-      = react_component('CommentList', { structure: @structure })
+      = react_component('MessageThreadList', { structure: StructureSerializer.new(@structure) })
+      = react_component('CommentList', { structure: StructureSerializer.new(@structure) })
 
   .grid__item.four-twelfths.palm-one-whole.palm-hard>
     .bordered.bg-white

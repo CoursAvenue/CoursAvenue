@@ -181,4 +181,9 @@ class StructureDecorator < Draper::Decorator
   def only_has_regular_classes?
     object.courses.pluck(:type).all? { |class_type| class_type != 'Course::Training' }
   end
+
+  def about
+    I18n.t("structures.structure_type_contact.#{(object.structure_type.present? ? object.structure_type : 'structures.other')}")
+  end
+
 end
