@@ -6,5 +6,5 @@
 -#    per_page:      number of items to fetch per page
 -#    remote:        data-remote
 = link_to url, rel: 'next', remote: remote, class: ['pagination__prev', (current_page.first? ? 'visibility-hidden' : '')] do
+  %i.fa-chevron-left
   = raw(t 'views.pagination.previous')
-  %i.fa-chevron-right
