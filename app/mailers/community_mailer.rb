@@ -41,7 +41,7 @@ class CommunityMailer < ActionMailer::Base
     set_global_variables
 
     mail to: @user.email,
-      subject: I18n.t('community.emails.notify_answer_from_teacher', { sender_name: @sender.name }),),
+      subject: I18n.t('community.emails.notify_answer_from_teacher', { sender_name: @sender.name }),
       reply_to: generate_reply_to(@user)
   end
 
@@ -53,7 +53,7 @@ class CommunityMailer < ActionMailer::Base
     set_global_variables
 
     mail to: @user.email,
-      subject: I18n.t('community.emails.notify_answer_from_member', { sender_name: @sender.name }),),
+      subject: I18n.t('community.emails.notify_answer_from_member', { sender_name: @sender.name }),
       reply_to: generate_reply_to(@user)
   end
 
@@ -66,7 +66,7 @@ class CommunityMailer < ActionMailer::Base
     set_global_variables
 
     mail to: @admin.email,
-      subject: I18n.t('community.emails.notify_answer_from_member_to_teacher', { sender_name: @sender.name }),),
+      subject: I18n.t('community.emails.notify_answer_from_member_to_teacher', { sender_name: @sender.name }),
       reply_to: generate_reply_to(@admin)
   end
 
