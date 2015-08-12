@@ -47,7 +47,7 @@ var SubjectStore = Backbone.Collection.extend({
     model: Subject,
     // Order by score ASC.
     comparator: 'score',
-    DELTA_FOR_RELEVANT_SUBJECTS: 10,
+    DELTA_FOR_RELEVANT_SUBJECTS: 5,
 
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback', 'updateScores');
@@ -77,8 +77,8 @@ var SubjectStore = Backbone.Collection.extend({
         var best_score      = this.last().get('score');
         var best_subject_id = this.last().get('id');
         return _.take(this.select(function(subject) {
-            return (subject.get('score') > best_score - this.DELTA_FOR_RELEVANT_SUBJECTS &&
-                    subject.get('id') != best_subject_id);
+            return (subject.get('score') > (best_score - this.DELTA_FOR_RELEVANT_SUBJECTS) &&
+                    subject.get('id') != best_subject_id && subject.get('score') > 0);
         }.bind(this)), 5);
     },
 

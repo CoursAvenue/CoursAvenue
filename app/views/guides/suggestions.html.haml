@@ -68,9 +68,8 @@
       %i.fa.fa-map-marker
       Voir les cours autour de moi
 
-%hr.push--ends{ class: "#{@subject.root.slug}-border-color"}
 %h2.alpha.text--center Sinon vous pouvez toujours regarder ces disciplines :
-- @other_subjects.in_groups_of(3, false).each do |subject_group|
+- @other_subjects.reverse.in_groups_of(3, false).each do |subject_group|
   .flexbox
     - subject_group.each do |subject, score|
       - if subject.root?
