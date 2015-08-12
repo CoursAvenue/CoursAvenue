@@ -76,7 +76,7 @@
         - url = search_page_path(subject.root, subject, 'paris', locate_user: 'on')
       - else
         - url = root_search_page_path(subject.root, 'paris', locate_user: 'on')
-      = link_to url, class: 'flexbox__item flush gamma muted-link v-middle search-page-filters__image-button palm-one-whole palm-block bg-cover one-third', style: "background-image: url('#{subject.image.url(:thumb)}');" do
+      = link_to url, class: 'flexbox__item flush gamma muted-link v-middle search-page-filters__image-button palm-one-whole palm-block bg-cover one-third', style: "background-image: url('#{subject.image.url(:search_page)}');" do
         .search-page-filters__image-button-curtain
         .flexbox.relative.search-page-filters__panel-height
           .flexbox__item.v-middle

@@ -27,6 +27,11 @@ class VerticalPageImageUploader < CarrierWave::Uploader::Base
                               flags: :progressive, quality: 'jpegmini:0'
   end
 
+  version :homepage_small do
+    cloudinary_transformation transformation: [{ width: 500, height: 220, crop: :fill }],
+                              flags: :progressive, quality: 'jpegmini:0'
+  end
+
   version :search_page do
     cloudinary_transformation transformation: [{ width: 600, height: 500, crop: :fill }],
                               flags: :progressive, quality: 'jpegmini:0'

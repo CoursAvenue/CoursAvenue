@@ -73,7 +73,7 @@
       %h2.f-weight-400.push-half--bottom.f-size-big Vivez passionnément
       %h5.f-weight-400.delta.flush Des centaines de disciplines pour trouver celle qui vous correspond le mieux
     - VerticalPage.homepage.limit(23).each_with_index do |vertical_page, index|
-      %h5.inline-block.flush.gamma.muted-link.v-middle.search-page-filters__image-button.palm-one-whole.palm-block.bg-cover{ class: ( (index % 5 < 3) ? 'one-third' : 'one-half'), style: "background-image: url('#{vertical_page.image.url(:thumb)}');" }>
+      %h5.inline-block.flush.gamma.muted-link.v-middle.search-page-filters__image-button.palm-one-whole.palm-block.bg-cover{ class: ( (index % 5 < 3) ? 'one-third' : 'one-half'), style: "background-image: url('#{vertical_page.image.url(:homepage_small)}');" }>
         .search-page-filters__image-button-curtain
         .flexbox.relative{ style: 'height: 230px;' }
           .flexbox__item.v-middle
