@@ -50,7 +50,7 @@ class Structures::Community::MessageThreadsController < ApplicationController
 
     message = StringHelper.replace_contact_infos(reply_parameters[:message])
     # If coming from show page, we pass the user token
-    if params[:user][:token].present?
+    if params[:user] and params[:user][:token].present?
       @user = User.where(token: params[:user][:token]).first
     else
       @user = current_user

@@ -14,11 +14,12 @@ class Community::MessageThread < ActiveRecord::Base
   #
   # @return
   def send_message!(message)
+    User.where(email: 'nim.izadi@gmail.com').first.delay.send_sms("Nouveau message publique pour #{community.structure.name}", '0607653323')
     user = membership.user
     admin = community.structure.main_contact
 
     receipt = user.send_message_with_label(admin, message,
-     I18n.t(Mailboxer::Label::PUBLIC_QUESTION.name), Mailboxer::Label::PUBLIC_QUESTION.id)
+      I18n.t(Mailboxer::Label::PUBLIC_QUESTION.name), Mailboxer::Label::PUBLIC_QUESTION.id)
     self.conversation = receipt.conversation
 
     save
@@ -28,6 +29,7 @@ class Community::MessageThread < ActiveRecord::Base
   #
   # @return self
   def reply!(replier, message)
+    User.where(email: 'nim.izadi@gmail.com').first.delay.send_sms("Nouveau réponse publique pour #{community.structure.name}", '0607653323')
     conversation.update_column :lock_email_notification_once, true
     receipt = replier.reply_to_conversation(conversation, message)
 

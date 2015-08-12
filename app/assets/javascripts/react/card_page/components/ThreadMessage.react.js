@@ -13,6 +13,7 @@ var ThreadMessage = React.createClass({
             var $textarea = $(this.getDOMNode()).find('textarea');
             MessageActionCreators.replyToThread({ id: this.props.message.thread_id, message: $textarea.val() });
             $textarea.parent().slideUp();
+            $.magnificPopup.close();
         } else {
             CoursAvenue.signUp({
                 title: 'Vous devez vous enregistrer pour envoyer votre message',

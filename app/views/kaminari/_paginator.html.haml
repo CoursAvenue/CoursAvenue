@@ -6,14 +6,14 @@
 -#    remote:        data-remote
 -#    paginator:     the paginator that renders the pagination tags inside
 = paginator.render do
-  .flexbox.pagination.text--left
-    .flexbox__item
+  .flexbox.palm-block.palm-text--center.palm-one-whole.pagination
+    .flexbox__item.palm-block.palm-text--center.palm-one-whole.two-twelfths.text--left
       = prev_page_tag
-    .flexbox__item.text--center
+    .flexbox__item.palm-block.palm-text--center.palm-one-whole.eight-twelfths.nowrap.text--center
       - each_page do |page|
         - if page.left_outer? || page.right_outer? || page.inside_window?
           = page_tag page
         - elsif !page.was_truncated?
           = gap_tag
-    .flexbox__item.text--right
+    .flexbox__item.palm-block.palm-text--center.palm-one-whole.two-twelfths.text--right
       = next_page_tag

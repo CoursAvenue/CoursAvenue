@@ -1,1 +1,10 @@
-= @message
+- content_for :email_title do
+  #{@sender.name} vient de poser une question publique
+
+.title
+  #{@sender.name} vient de poser une question publique
+.p
+  = simple_format @message
+
+.p.action
+  = link_to "Répondre à #{@sender.name}", structure_community_message_thread_url(@structure, @thread, user_token: @user.token, subdomain: 'www'), class: 'btn btn--blue'

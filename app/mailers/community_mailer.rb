@@ -7,6 +7,7 @@ class CommunityMailer < ActionMailer::Base
   default from: 'CoursAvenue <hello@coursavenue.com>'
 
   def notify_member_of_question(user, message, thread)
+    return # Until we have the content of the mail
     @user      = user
     @message   = message
     @thread    = thread
@@ -19,6 +20,8 @@ class CommunityMailer < ActionMailer::Base
   end
 
   def notify_admin_of_question(admin, message, thread)
+    return # Until we have the content of the mail
+    return if admin.nil?
     @admin     = admin
     @message   = message
     @thread    = thread
@@ -31,35 +34,39 @@ class CommunityMailer < ActionMailer::Base
   end
 
   def notify_answer_from_teacher(user, message, thread)
+    return # Until we have the content of the mail
     @user    = user
     @message = message
     @thread  = thread
     set_global_variables
 
     mail to: @user.email,
-      subject: I18n.t('community.emails.notify_answer_from_teacher'),
+      subject: I18n.t('community.emails.notify_answer_from_teacher', { sender_name: @sender.name }),),
       reply_to: generate_reply_to(@user)
   end
 
   def notify_answer_from_member(user, message, thread)
+    return # Until we have the content of the mail
     @user    = user
     @message = message
     @thread  = thread
     set_global_variables
 
     mail to: @user.email,
-      subject: I18n.t('community.emails.notify_answer_from_member'),
+      subject: I18n.t('community.emails.notify_answer_from_member', { sender_name: @sender.name }),),
       reply_to: generate_reply_to(@user)
   end
 
   def notify_answer_from_member_to_teacher(admin, message, thread)
+    return # Until we have the content of the mail
+    return if admin.nil?
     @admin   = admin
     @message = message
     @thread  = thread
     set_global_variables
 
     mail to: @admin.email,
-      subject: I18n.t('community.emails.notify_answer_from_member_to_teacher'),
+      subject: I18n.t('community.emails.notify_answer_from_member_to_teacher', { sender_name: @sender.name }),),
       reply_to: generate_reply_to(@admin)
   end
 

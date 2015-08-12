@@ -1,6 +1,7 @@
 var Thread                  = require("./Thread"),
     MessageActionCreators   = require("../actions/MessageActionCreators"),
     StructureActionCreators = require("../actions/StructureActionCreators"),
+    StructureStore          = require('../stores/StructureStore'),
     MessageThreadStore      = require('../stores/MessageThreadStore');
 
 var MessageThreadList = React.createClass({
@@ -12,7 +13,7 @@ var MessageThreadList = React.createClass({
     },
 
     getInitialState: function getInitialState() {
-        return { thread_store: MessageThreadStore };
+        return { thread_store: MessageThreadStore, structure_store: StructureStore };
     },
 
     submitThread: function submitThread () {
@@ -21,6 +22,7 @@ var MessageThreadList = React.createClass({
         if (CoursAvenue.currentUser().isLogged()) {
             MessageActionCreators.submitThread({ message: $textarea.val() });
             $textarea.val('');
+            $.magnificPopup.close();
         } else {
             CoursAvenue.signUp({
                 title: 'Vous devez vous enregistrer pour envoyer votre message',
@@ -61,7 +63,7 @@ var MessageThreadList = React.createClass({
                         <i className="v-middle delta fa-question-circle" data-toggle="popover" data-content="<div className='f-size-normal'>Questions et témoignages recueillis auprès de la communauté d'élèves.</div>" data-html="true"></i>
                     </div>
                     <div className='epsilon soft-half--ends'>
-                        {"Vous pouvez poser vos questions à l'association et à ses pratiquants avant de vous inscrire :"}
+                        {"Vous pouvez poser vos questions à " + (this.state.structure_store.get('about') || 'ce professeur') + " et à ses pratiquants avant de vous inscrire :"}
                     </div>
                 </div>
                 <div className='gray-box'>
@@ -71,15 +73,15 @@ var MessageThreadList = React.createClass({
                                   data-behavior='autoresize'
                                   placeholder='Posez vos questions ou réponses ici.' />
                     </div>
-                    <div className='flexbox soft hard--top'>
-                        <div className='flexbox__item one-whole soft--right'>
+                    <div className='flexbox palm-block palm-one-whole soft hard--top'>
+                        <div className='flexbox__item palm-block palm-one-whole one-whole soft--right'>
                             Inutile de poser une question sur les coordonnées de contact&nbsp;:&nbsp;
                             <a href="javascript:void(0)"
                                onClick={this.scrollToTop}>
                                accéder au téléphone et au site Internet
                             </a>
                         </div>
-                        <div className='flexbox__item'>
+                        <div className='flexbox__item palm-block palm-one-whole'>
                             <button type="submit"
                                     className="nowrap btn btn--green"
                                     data-disable-with="Message en cours d'envoi..."
