@@ -1,0 +1,11 @@
+- content_for :email_title do
+  #{@structure.name} vient de répondre à votre question
+
+.title
+  #{@structure.name} vient de répondre à votre question
+
+.gray-box.soft-half
+  = simple_format(@message).gsub('<p>', '<div class="p">').gsub('</p>', '</div>').html_safe
+
+.p.action.soft--top
+  = link_to "Répondre", structure_community_message_thread_url(@structure, @thread, user_token: @user.token, subdomain: 'www'), class: 'btn btn--blue'

@@ -23,9 +23,7 @@ class Structures::Community::MessageThreadsController < ApplicationController
 
   # New comment.
   def create
-    message = StringHelper.replace_contact_infos(thread_parameters[:message])
-
-    message_thread = @community.ask_question!(current_user, message, thread_parameters[:indexable_card_id]) if message.present?
+    message_thread = @community.ask_question!(current_user, reply_parameters[:message], thread_parameters[:indexable_card_id]) if message.present?
 
     respond_to do |format|
       if message_thread and message_thread.persisted?
@@ -48,14 +46,13 @@ class Structures::Community::MessageThreadsController < ApplicationController
   def update
     @message_thread = @community.message_threads.find(params[:id])
 
-    message = StringHelper.replace_contact_infos(reply_parameters[:message])
     # If coming from show page, we pass the user token
     if params[:user] and params[:user][:token].present?
       @user = User.where(token: params[:user][:token]).first
     else
       @user = current_user
     end
-    thread = @message_thread.reply!(@user, message) if @user
+    thread = @message_thread.reply!(@user, reply_parameters[:message]) if @user
     respond_to do |format|
       format.html { redirect_to structure_path(@structure), notice: 'Merci pour votre réponse !' }
       format.json { render json: Community::MessageThreadsSerializer.new(@message_thread) }

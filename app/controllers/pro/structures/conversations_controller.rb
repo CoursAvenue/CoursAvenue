@@ -71,7 +71,12 @@ class Pro::Structures::ConversationsController < ApplicationController
     params[:conversation][:message][:body] = StringHelper.replace_contact_infos(params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
 
     @conversation    = @admin.mailbox.conversations.find params[:id]
-    @admin.reply_to_conversation(@conversation, params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
+
+    if @message_thread = @structure.community.message_threads.where(mailboxer_conversation_id: @conversation.id).first
+      @message_thread.reply!(@admin, params[:conversation][:message][:body])
+    else
+      @admin.reply_to_conversation(@conversation, params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
+    end
     respond_to do |format|
       if params[:conversation][:message][:body].blank?
         format.html { redirect_to pro_structure_conversation_path(@structure, @conversation), error: 'Vous devez mettre un text pour répondre' }

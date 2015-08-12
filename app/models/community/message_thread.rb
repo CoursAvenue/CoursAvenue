@@ -15,6 +15,7 @@ class Community::MessageThread < ActiveRecord::Base
   #
   # @return
   def send_message!(message)
+    message = StringHelper.replace_contact_infos(message)
     User.where(email: 'nim.izadi@gmail.com').first.delay.send_sms("Nouveau message publique pour #{community.structure.name}", '0607653323')
     user = membership.user
     admin = community.structure.main_contact
@@ -30,6 +31,7 @@ class Community::MessageThread < ActiveRecord::Base
   #
   # @return self
   def reply!(replier, message)
+    message = StringHelper.replace_contact_infos(message)
     User.where(email: 'nim.izadi@gmail.com').first.delay.send_sms("Nouveau réponse publique pour #{community.structure.name}", '0607653323')
     conversation.update_column :lock_email_notification_once, true
     receipt = replier.reply_to_conversation(conversation, message)

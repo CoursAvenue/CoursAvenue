@@ -7,7 +7,6 @@ class CommunityMailer < ActionMailer::Base
   default from: 'CoursAvenue <hello@coursavenue.com>'
 
   def notify_member_of_question(user, message, thread)
-    return # Until we have the content of the mail
     @user      = user
     @message   = message
     @thread    = thread
@@ -20,7 +19,6 @@ class CommunityMailer < ActionMailer::Base
   end
 
   def notify_admin_of_question(admin, message, thread)
-    return # Until we have the content of the mail
     return if admin.nil?
     @admin     = admin
     @message   = message
@@ -34,22 +32,22 @@ class CommunityMailer < ActionMailer::Base
   end
 
   def notify_answer_from_teacher(user, message, thread)
-    return # Until we have the content of the mail
-    @user    = user
-    @message = message
-    @thread  = thread
+    @user      = user
+    @message   = message
+    @thread    = thread
+    @structure = @thread.community.structure
     set_global_variables
 
     mail to: @user.email,
-      subject: I18n.t('community.emails.notify_answer_from_teacher', { sender_name: @sender.name }),
+      subject: I18n.t('community.emails.notify_answer_from_teacher', { structure_name: @structure.name }),
       reply_to: generate_reply_to(@user)
   end
 
   def notify_answer_from_member(user, message, thread)
-    return # Until we have the content of the mail
     @user    = user
     @message = message
     @thread  = thread
+    @sender    = @thread.messages.order('created_at ASC').last.sender
     set_global_variables
 
     mail to: @user.email,
@@ -58,7 +56,6 @@ class CommunityMailer < ActionMailer::Base
   end
 
   def notify_answer_from_member_to_teacher(admin, message, thread)
-    return # Until we have the content of the mail
     return if admin.nil?
     @admin   = admin
     @message = message
