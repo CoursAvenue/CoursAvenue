@@ -6,12 +6,14 @@
 
 - @paris = City.find('paris')
 .relative.search-page-filters__panel-height
-  .soft--ends.absolute.north.west.on-top-of-the-world.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height
+  .soft--ends.absolute.north.west.on-top-of-the-world.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.bordered--bottom.bordered--thicker{ class: "#{@subject.root.slug}-border-color"}
     .flexbox__item.v-middle.white.text--center
       .alpha
         Notre suggestion :
-      %h1.f-size-really-big
+      %h1.f-size-really-big.flush
         = "#{@subject.name} !"
+      .push--bottom
+        %i.fa.fa-4x{ class: "fa-#{@subject.root.slug}" }
       .soft--top
         - if @subject.root?
           = link_to root_search_page_path(@subject.root, 'paris', locate_user: 'on'), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
@@ -21,6 +23,12 @@
           = link_to search_page_path(@subject.root, @subject, 'paris', locate_user: 'on'), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
             %i.fa.fa-map-marker
             Voir les cours autour de moi
+      .absolute.north.west.soft-half
+        .push-half--bottom
+          %div{ class: "fb-share-button", data: { href:  guide_url(@guide), type: 'box_count' } }
+        %div
+          %a{ href: guide_url(@guide), class: 'twitter-share-button', data: { lang: "fr", via: 'CoursAvenue', url: guide_url(@guide), count: 'vertical' } } Tweeter
+
   = react_component('MapContainer', { center: [@paris.latitude, @paris.longitude] })
 
 .main-container.main-container--medium.soft--ends
@@ -33,12 +41,14 @@
         - if @subject.age_advice_younger_than_5.present?
           %h3 Pour les enfants de moins de 5 ans
           .line-height-1-3= simple_format @subject.age_advice_younger_than_5
+          .push--bottom.bordered--bottom.bordered--double{ class: "#{@subject.root.slug}-border-color"}
         - if @subject.age_advice_between_5_and_9.present?
           %h3 Pour les enfants entre 5 et 9 ans
           .line-height-1-3= simple_format @subject.age_advice_between_5_and_9
-        - if @subject.age_advice_older_than_10.present?
+          .push--bottom.bordered--bottom.bordered--double{ class: "#{@subject.root.slug}-border-color"}
           %h3 Pour les enfants de plus de 10 ans
           .line-height-1-3= simple_format @subject.age_advice_older_than_10
+          .push--bottom.bordered--bottom.bordered--double{ class: "#{@subject.root.slug}-border-color"}
 
   %h2.alpha.text--center Une sélection recommandé par la communauté :
   = react_component('ResultList', { root_subject: (@root_subject ? @root_subject : nil),
@@ -47,7 +57,6 @@
                                     per_line: 4,
                                     per_page: 8,
                                     follow_links: true })
-
 
 .text--center.soft--ends.push--bottom
   - if @subject.root?
@@ -59,10 +68,11 @@
       %i.fa.fa-map-marker
       Voir les cours autour de moi
 
+%hr.push--ends{ class: "#{@subject.root.slug}-border-color"}
 %h2.alpha.text--center Sinon vous pouvez toujours regarder ces disciplines :
 - @other_subjects.in_groups_of(3, false).each do |subject_group|
   .flexbox
-    - subject_group.each do |subject|
+    - subject_group.each do |subject, score|
       - if subject.root?
         - url = search_page_path(subject.root, subject, 'paris', locate_user: 'on')
       - else
@@ -70,4 +80,6 @@
       = link_to url, class: 'flexbox__item flush gamma muted-link v-middle search-page-filters__image-button palm-one-whole palm-block bg-cover one-third', style: "background-image: url('#{subject.image.url(:thumb)}');" do
         .search-page-filters__image-button-curtain
         .flexbox.relative.search-page-filters__panel-height
-          .flexbox__item.v-middle= subject.name
+          .flexbox__item.v-middle
+            = subject.name
+            .epsilon= "(score : #{score})"
