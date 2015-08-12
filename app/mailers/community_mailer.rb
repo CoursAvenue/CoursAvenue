@@ -10,10 +10,11 @@ class CommunityMailer < ActionMailer::Base
     @user      = user
     @message   = message
     @thread    = thread
+    @sender    = @thread.messages.order('created_at ASC').first.sender
     set_global_variables
 
     mail to: @user.email,
-      subject: 'notify_member_of_question',
+      subject: I18n.t('community.emails.notify_member_of_question', { sender_name: @sender.name }),
       reply_to: generate_reply_to(@user)
   end
 
@@ -21,10 +22,11 @@ class CommunityMailer < ActionMailer::Base
     @admin     = admin
     @message   = message
     @thread    = thread
+    @sender    = @thread.messages.order('created_at ASC').first.sender
     set_global_variables
 
     mail to: @admin.email,
-      subject: 'notify_admin_of_question',
+      subject: I18n.t('community.emails.notify_admin_of_question', { sender_name: @sender.name }),
       reply_to: generate_reply_to(@admin)
   end
 
@@ -35,7 +37,7 @@ class CommunityMailer < ActionMailer::Base
     set_global_variables
 
     mail to: @user.email,
-      subject: 'notify_answer_from_teacher',
+      subject: I18n.t('community.emails.notify_answer_from_teacher'),
       reply_to: generate_reply_to(@user)
   end
 
@@ -46,7 +48,7 @@ class CommunityMailer < ActionMailer::Base
     set_global_variables
 
     mail to: @user.email,
-      subject: 'notify_answer_from_member',
+      subject: I18n.t('community.emails.notify_answer_from_member'),
       reply_to: generate_reply_to(@user)
   end
 
@@ -57,7 +59,7 @@ class CommunityMailer < ActionMailer::Base
     set_global_variables
 
     mail to: @admin.email,
-      subject: 'notify_answer_from_member_to_teacher',
+      subject: I18n.t('community.emails.notify_answer_from_member_to_teacher'),
       reply_to: generate_reply_to(@admin)
   end
 

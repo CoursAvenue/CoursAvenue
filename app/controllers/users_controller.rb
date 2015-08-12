@@ -15,12 +15,8 @@ class UsersController < InheritedResources::Base
   # Create from newsletter
   # GET /users
   def create
-    user = User.new email: params[:user][:email], zip_code: params[:user][:zip_code], sign_up_at: Time.now, subscription_from: params[:user][:subscription_from]
-    user.valid? # Validate to trigger errors
-    if user.errors[:email].blank? # check if email is valid
-      user.save(validate: false)
-    end
-    params[:user][:subscription_from] == 'newsletter' if user.persisted? and UserMailer.delay.subscribed_to_newsletter(user)
+    user = User.force_create(email: params[:user][:email], zip_code: params[:user][:zip_code], sign_up_at: Time.now, subscription_from: params[:user][:subscription_from])
+    UserMailer.delay.subscribed_to_newsletter(user) if params[:user][:subscription_from] == 'newsletter' and user.persisted?
     respond_to do |format|
       format.js
       format.html { redirect_to params[:redirect_to] || root_path }

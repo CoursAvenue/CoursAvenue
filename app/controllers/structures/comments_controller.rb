@@ -150,8 +150,8 @@ class Structures::CommentsController < ApplicationController
     else
       user_email = comment_params[:email].try(:downcase)
       # If the user does not exists
-      unless (@user = User.where(email: user_email).first)
-        @user = User.new email: user_email, first_name: comment_params[:author_name]
+      unless (@user = User.where(User.arel_table[:email].matches(user_email)).first)
+        @user = User.force_create email: user_email, first_name: comment_params[:author_name]
       end
       @user.update_attribute(:first_name, comment_params[:author_name]) if comment_params[:author_name].present?
     end

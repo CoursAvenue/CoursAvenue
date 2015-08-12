@@ -11,7 +11,7 @@ class Pro::Structures::CommentNotificationsController < Pro::ProController
     text = '<div class="p">' + params[:text].gsub(/\r\n\r\n/, '</div><div class="p">').gsub(/\r\n/, '<br>') + '</div>'
     emails.each do |_email|
       if (user = User.where(User.arel_table[:email].matches(_email)).first).nil?
-        user             = User.new(email: _email)
+        user             = User.force_create(email: _email)
         user.structures << @structure
         user.subjects   << @structure.subjects
         user.save(validate: false)

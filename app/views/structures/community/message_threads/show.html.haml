@@ -1,0 +1,18 @@
+.main-container.main-container--1000.soft--ends
+  .grid.push--bottom
+    .grid__item.palm-one-whole.text--center.palm-text--left.three-twelfths>
+      - if @sender.avatar.present?
+        = image_tag @sender.avatar.url(:thumb), class: "center-block push-half--bottom rounded--circle", height: 80, width: 80
+      - else
+        .push-half--bottom.comment-avatar-80
+      .line-height-1-5
+        = @sender.name
+    .grid__item.palm-one-whole.nine-twelfths.soft-half--top.delta.line-height-1-5>
+      = simple_format @question_message.body
+
+  .gray-box.soft
+    %h4 Répondez à #{@sender.name}
+    = simple_form_for [@structure, @message_thread] do |f|
+      %input{ name: 'user[token]', value: params[:user_token], type: 'hidden' }
+      %textarea.one-whole{ name: 'community_message_thread[message]', rows: 5, placeholder: 'Écrivez votre réponse ici.', data: { behavior: 'autoresize' } }
+      .text--right.very-soft--top= f.submit 'Répondre', class: 'btn btn--blue-green', data: { disable_with: 'Envoi en cours...' }

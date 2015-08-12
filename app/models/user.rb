@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   include Concerns::ReminderEmailStatus
   include Concerns::StripeCustomer
   include ActsAsUnsubscribable
+  include Concerns::HasRandomToken
   include Rails.application.routes.url_helpers
 
   acts_as_messageable
@@ -29,7 +30,7 @@ class User < ActiveRecord::Base
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :lived_places_attributes, :delivery_email_status, :sign_up_at,
-                  :test_name, :interested_at,
+                  :test_name, :interested_at, :token,
                   :subscription_from, :community_notification_opt_in
 
   # To store hashes into hstore
@@ -85,6 +86,16 @@ class User < ActiveRecord::Base
   after_create :associate_all_comments
   after_save   :subscribe_to_mailchimp if Rails.env.production?
 
+  def self.force_create(params)
+    u = User.new(params)
+    u.email = u.email.downcase
+    u.valid? # Validate to trigger errors
+    # We don't want to save users with fucked up email addresses
+    if u.errors[:email].blank? # check if email is valid
+      u.save(validate: false)
+    end
+    u
+  end
   # Called from Registration Controller when user registers for first time
   def after_registration
     send_pending_messages
@@ -297,7 +308,11 @@ class User < ActiveRecord::Base
   end
 
   def name
-    self.full_name
+    if full_name.present?
+      full_name
+    else
+      generated_fake_name
+    end
   end
 
   def full_name
@@ -492,10 +507,20 @@ class User < ActiveRecord::Base
     end
   end
 
+  def token
+    if read_attribute(:token).present?
+      read_attribute(:token)
+    else
+      create_token
+      save(validate: false)
+      read_attribute(:token)
+    end
+  end
+
   private
 
-  def random_string
-    (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+  def generated_fake_name
+    email.split('@').first
   end
 
   # Update city id of the user regarding the zip_code he choosed when registering

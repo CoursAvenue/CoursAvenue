@@ -117,8 +117,7 @@
             meta: {
                 have_upcoming_plannings: #{ @structure.plannings.future.any? },
                 is_sleeping: #{ @structure.is_sleeping? || !@structure.enabled? },
-                structure_id: #{ @structure.id },
-                community_thread_count: #{ @community_thread_count },
+                structure_id: #{ @structure.id }
             }
         };
     }());

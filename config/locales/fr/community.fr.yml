@@ -1,0 +1,8 @@
+fr:
+  community:
+    emails:
+      notify_member_of_question: "%{sender_name} a une question"
+      notify_admin_of_question: "%{sender_name} vient de poser une question publique"
+      notify_answer_from_teacher: Vous avez eu une réponse
+      notify_answer_from_member: Vous avez eu une réponse
+      notify_answer_from_member_to_teacher: Vous avez eu une réponse
