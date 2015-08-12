@@ -7,10 +7,14 @@ class GuidesController < ApplicationController
     @serialized_guide = GuideSerializer.new(@guide)
   end
 
+  # @params other: like subject_id;score,subject_id;score
   def suggestions
     @serialized_guide = GuideSerializer.new(@guide)
     @subject = Subject.find(params[:subject])
-    @other_subjects = params[:other].split(',').map{|subject_id| Subject.find(subject_id) }
+    @other_subjects = params[:other].split(',').map do |subject_id_score|
+      subject_id, score = subject_id_score.split(';')
+      [Subject.find(subject_id), score]
+    end
   end
 
   private

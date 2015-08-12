@@ -47,8 +47,9 @@ var UserGuide = React.createClass({
     nextPage: function nextPage () {
         if (this.state.answer_store.allQuestionsAnswered()) {
             CoursAvenue.showFullPageLoader();
+            debugger
             var data = { subject: this.state.subject_store.getMostRelevantSubject().get('id'),
-                         other: _.map(this.state.subject_store.getOtherRelevantSubjects(), function(subject) { return subject.get('id'); }).join(',') }
+                         other: _.map(this.state.subject_store.getOtherRelevantSubjects(), function(subject) { return subject.get('id') + ';' + subject.get('score'); }).join(',') }
             window.location = Routes.suggestions_guide_path(this.props.guide.slug, data);
         } else {
             $.fn.fullpage.moveSectionDown();

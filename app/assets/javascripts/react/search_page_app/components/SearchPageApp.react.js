@@ -19,6 +19,7 @@ var MapContainer              = require('./MapContainer.react'),
     LocationStore             = require('../stores/LocationStore'),
     SearchPageDispatcher      = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants       = require('../constants/SearchPageConstants'),
+    FilterActionCreators      = require('../actions/FilterActionCreators'),
     SubjectActionCreators     = require('../actions/SubjectActionCreators'),
     LocationActionCreators    = require('../actions/LocationActionCreators'),
     CardActionCreators        = require('../actions/CardActionCreators');
@@ -41,6 +42,9 @@ SearchPageApp = React.createClass({
     },
 
     componentDidMount: function componentDidMount() {
+        if (this.props.show_subject_panel) {
+            FilterActionCreators.toggleSubjectFilter();
+        }
         // We have to trigger this action on when the app is mounted because the action is triggered
         // by a component
         if (this.props.locate_user) {
