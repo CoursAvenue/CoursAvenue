@@ -55,7 +55,7 @@
           %h3 Tarifs
           = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
 
-      = react_component('MessageThreadList', { structure: StructureSerializer.new(@structure) })
+      = react_component('MessageThreadList', { structure: StructureSerializer.new(@structure), indexable_card_id: @indexable_card.id })
       = react_component('CommentList', { structure: StructureSerializer.new(@structure) })
 
   .grid__item.four-twelfths.palm-one-whole.palm-hard>

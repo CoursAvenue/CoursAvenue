@@ -25,7 +25,7 @@ class Structures::Community::MessageThreadsController < ApplicationController
   def create
     message = StringHelper.replace_contact_infos(thread_parameters[:message])
 
-    message_thread = @community.ask_question!(current_user, message) if message.present?
+    message_thread = @community.ask_question!(current_user, message, thread_parameters[:indexable_card_id]) if message.present?
 
     respond_to do |format|
       if message_thread and message_thread.persisted?
@@ -65,7 +65,7 @@ class Structures::Community::MessageThreadsController < ApplicationController
   private
 
   def thread_parameters
-    params.require(:community_message_thread).permit(:message)
+    params.require(:community_message_thread).permit(:message, :indexable_card_id)
   end
 
   def reply_parameters

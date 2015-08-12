@@ -14,9 +14,10 @@ class Community < ActiveRecord::Base
   # Ask a question to the community.
   #
   # @return the Thread created by the question.
-  def ask_question!(user, message)
+  def ask_question!(user, message, indexable_card_id)
     membership = memberships.where(user: user).first || memberships.create(user: user)
     thread = membership.message_threads.create(community: self)
+    thread.update_column(:indexable_card_id, indexable_card_id.to_i) if indexable_card_id
     thread.send_message!(message)
     Community::Notifier.new(thread, message, membership).notify_question
 

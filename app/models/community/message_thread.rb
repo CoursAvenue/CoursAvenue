@@ -4,6 +4,7 @@ class Community::MessageThread < ActiveRecord::Base
   attr_accessible :community
 
   belongs_to :community
+  belongs_to :indexable_card
   belongs_to :membership, class_name: 'Community::Membership', foreign_key: 'community_membership_id'
   belongs_to :conversation, class_name: 'Mailboxer::Conversation',
     foreign_key: 'mailboxer_conversation_id'

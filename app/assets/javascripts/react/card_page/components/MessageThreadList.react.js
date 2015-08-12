@@ -20,7 +20,7 @@ var MessageThreadList = React.createClass({
         var $textarea = $(this.getDOMNode()).find('textarea');
         if ($textarea.val().length == 0) { return; }
         if (CoursAvenue.currentUser().isLogged()) {
-            MessageActionCreators.submitThread({ message: $textarea.val() });
+            MessageActionCreators.submitThread({ message: $textarea.val(), indexable_card_id: this.props.indexable_card_id });
             $textarea.val('');
             $.magnificPopup.close();
         } else {
