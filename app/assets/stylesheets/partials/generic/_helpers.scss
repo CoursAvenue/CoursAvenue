@@ -474,9 +474,11 @@
     }
 }
 .black-curtain__fading-on-hover:hover {
-    .black-curtain {
-        background: rgba(0,0,0,.1);
-    }
+    .black-curtain { background: rgba(0,0,0,.1); }
+}
+.black-curtain__fading-in-on-hover {
+            .black-curtain { background: rgba(0,0,0,.1); }
+    &:hover .black-curtain { background: rgba(0,0,0,0.5); }
 }
 
 .grayscale {

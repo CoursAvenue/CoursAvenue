@@ -7,14 +7,17 @@
   - medias[0..2].each_with_index do |media, index|
     .grid__item.relative{ class: [((index == 1 or index == 2) ? 'visuallyhidden--palm' : 'palm-one-half'), width_class] }>
       - if index == 2 and medias.length > 3
-        %a.relative.text--center.muted-link.block.bg-cover{ href: media.url, rel: 'slideshow', style: "height: 175px; background-image: url('#{media.image.url(:thumbnail_blurry)}')", data: { behavior: "fancy" } }
-          .black-curtain.north.west.one-whole.absolute
+        %a.black-curtain__fading-in-on-hover.relative.text--center.muted-link.block.bg-cover{ href: media.url, rel: 'slideshow', style: "height: 175px; background-image: url('#{media.image.url(:thumbnail_blurry)}')", data: { behavior: "fancy" } }
+          .black-curtain.north.west.one-whole.absolute.transition-all-300
           .white.smooth-black-text-shadow.relative
             %i.fa.fa-camera.fa-3x.white.smooth-black-text-shadow{ style: 'padding-top: 55px;'}
             %br
             %strong.block.epsilon.very-soft Tout voir (#{medias.count})
       - else
         %a.text--center.muted-link.block.bg-cover{ href: media.url, rel: 'slideshow', style: "height: 175px; background-image: url('#{media.thumbnail_url}')", data: { behavior: "fancy" } }
+          .black-curtain.north.west.one-whole.absolute.invisible.fade-in-on-hover.transition-all-300
+            - if !media.video?
+              %i.fa.fa-expand.white.fa-3x{ style: 'padding-top: 65px;'}
           - if media.video?
             %i.fa-youtube-play.fa-3x.white.smooth-black-text-shadow.inline-block{ style: 'padding-top: 65px;'}
 
