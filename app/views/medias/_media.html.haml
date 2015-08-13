@@ -1,13 +1,12 @@
-- lazy             = false      if lazy.nil?
 - width_class_name = 'one-half' if width_class_name.nil?
 - vertical         = false      if vertical.nil?
 .media__item.soft-half{ class: [(media.video? ? 'media__item--video' : ''), width_class_name] }>
   %a.relative.block.break-all{ rel: 'gallery', href: media.url, title: media.caption, data: { behavior: 'fancy' } }
     - if media.video?
-      = media.thumbnail_url_html lazy: lazy
+      = media.thumbnail_url_html
       %i.fa-youtube-play.inline-block
     - else
-      = media.url_html lazy: true
+      = media.url_html
     %i.fa.fa-expand
   - if vertical
     %caption= media.vertical_page_caption

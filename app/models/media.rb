@@ -89,12 +89,8 @@ class Media < ActiveRecord::Base
     self.type == 'Media::Image'
   end
 
-  def thumbnail_url_html(options={})
-    if options[:lazy]
-      "<img data-original='#{self.thumbnail_url}' title='#{self.caption}' class='#{options[:class]}'/>".html_safe
-    else
-      "<img src='#{self.thumbnail_url}' title='#{self.caption}' class='#{options[:class]}'/>".html_safe
-    end
+  def thumbnail_url_html
+    "<img src='#{self.thumbnail_url}' title='#{self.caption}' class='#{options[:class]}'/>".html_safe
   end
 
   def thumbnail_url
