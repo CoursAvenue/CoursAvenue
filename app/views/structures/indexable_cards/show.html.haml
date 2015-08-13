@@ -28,7 +28,7 @@
           - else
             %strong Cours d'essai : #{readable_amount(@course.prices.first.amount)}
       %h3 Planning
-      - if Date.today < @course.start_date
+      - if @course.start_date and Date.today < @course.start_date
         .bg-blue-green.soft.white.push--bottom
           %strong Reprise des cours le #{l(@course.start_date, format: :semi_short).gsub(/0([0-9])/, '\1')}.
       = react_component("CardPageCourse",
