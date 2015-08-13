@@ -9,7 +9,7 @@
       - if index == 2 and medias.length > 3
         %a.black-curtain__fading-in-on-hover.relative.text--center.muted-link.block.bg-cover{ href: media.url, rel: 'slideshow', style: "height: 175px; background-image: url('#{media.image.url(:thumbnail_blurry)}')", data: { behavior: "fancy" } }
           .black-curtain.north.west.one-whole.absolute.transition-all-300
-          .white.smooth-black-text-shadow.relative
+          .white.smooth-black-text-shadow.relative.zoom-on-hover.height-100-percent
             %i.fa.fa-camera.fa-3x.white.smooth-black-text-shadow{ style: 'padding-top: 55px;'}
             %br
             %strong.block.epsilon.very-soft Tout voir (#{medias.count})

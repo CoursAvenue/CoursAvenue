@@ -69,42 +69,43 @@
         = react_component('CommentList', { structure: StructureSerializer.new(@structure) })
 
   .grid__item.four-twelfths.palm-one-whole.palm-hard>
-    .bordered.bg-white
-      = render partial: 'structures/registration', locals: { booking_button: false }
-      #mfp-hide.center-block.relative{ style: 'max-width:530px;' }
-      - home_place_map_attributes = {}
-      - if @course.teaches_at_home? and home_place
-        - home_place_map_attributes = { home: { latitude: home_place.latitude, longitude: home_place.longitude, radius: home_place.radius } }
-      = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
-                                        root_subject: dominant_root_subject_slug,
-                                        metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
-                                       { prerender: false })
+    %div{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#coursavenue-footer' } }
+      .bordered.bg-white.push--bottom
+        = render partial: 'structures/registration', locals: { booking_button: false }
+        #mfp-hide.center-block.relative{ style: 'max-width:530px;' }
+        - home_place_map_attributes = {}
+        - if @course.teaches_at_home? and home_place
+          - home_place_map_attributes = { home: { latitude: home_place.latitude, longitude: home_place.longitude, radius: home_place.radius } }
+        = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
+                                          root_subject: dominant_root_subject_slug,
+                                          metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
+                                         { prerender: false })
 
-      .soft--ends
-        %div.soft--sides.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
-          %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos, placement: 'left' } }
-            %h4.flush= @place.name
-            %span.f-weight-500= @place.address
-          - if @course.teaches_at_home? and home_place
-            %h4.flush--bottom.push--top
-              Se déplace à domicile
-            %span.f-weight-500 À #{home_place.city.name} dans un rayon de #{home_place.radius}km
+        .soft--ends
+          %div.soft--sides.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
+            %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos, placement: 'left' } }
+              %h4.flush= @place.name
+              %span.f-weight-500= @place.address
+            - if @course.teaches_at_home? and home_place
+              %h4.flush--bottom.push--top
+                Se déplace à domicile
+              %span.f-weight-500 À #{home_place.city.name} dans un rayon de #{home_place.radius}km
 
-          %span{ itemprop: 'address', itemscope: true, itemtype: 'http://data-vocabulary.org/Address'}
-            %meta{ itemprop: 'street-address', content: @place.address }
-            %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }
-              %meta{ itemprop: 'latitude', content: @place.latitude }
-              %meta{ itemprop: 'longitude', content: @place.longitude }
+            %span{ itemprop: 'address', itemscope: true, itemtype: 'http://data-vocabulary.org/Address'}
+              %meta{ itemprop: 'street-address', content: @place.address }
+              %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }
+                %meta{ itemprop: 'latitude', content: @place.latitude }
+                %meta{ itemprop: 'longitude', content: @place.longitude }
 
-        - if @place.nearby_metro_stops.any?
-          %hr.push--ends
-          .soft--sides
-            %h4.push-half--bottom Transports
-            - @place.nearby_metro_stops.each do |stop|
-              %div.push-half--bottom
-                - stop.lines.each do |line|
-                  = MetroLineDecorator.new(line).chip
-                %span.v-middle= stop.name
-        - unless @structure.is_sleeping?
-          %hr.push--ends
-          .soft--sides= render 'structures/response_stats'
+          - if @place.nearby_metro_stops.any?
+            %hr.push--ends
+            .soft--sides
+              %h4.push-half--bottom Transports
+              - @place.nearby_metro_stops.each do |stop|
+                %div.push-half--bottom
+                  - stop.lines.each do |line|
+                    = MetroLineDecorator.new(line).chip
+                  %span.v-middle= stop.name
+          - unless @structure.is_sleeping?
+            %hr.push--ends
+            .soft--sides= render 'structures/response_stats'
