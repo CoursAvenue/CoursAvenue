@@ -1,5 +1,15 @@
 <% if @place.errors.empty? %>
-    window.location.reload();
+    <% if @place.is_home? %>
+        <% if params[:return_to].present?%>
+            window.location.href = "<%= params[:return_to] %>";
+        <% elsif params[:return_to_action].present?%>
+            <%== params[:return_to_action] %>
+        <% else %>
+            window.location.reload();
+        <% end %>
+    <% else %>
+        $.fancybox("<%== escape_javascript(render partial: 'pro/structures/places/verify_address') %>", { width: 600, minWidth: 600, maxWidth: 600, padding: 0, helpers: { overlay : { closeClick: false } } });
+    <% end %>
 <% else %>
     $.fancybox("<%== escape_javascript(render partial: 'pro/structures/places/form') %>", { width: 650, minWidth: 650, maxWidth: 650, padding: 0, helpers: { overlay : { closeClick: false } } });
 <% end %>
