@@ -555,7 +555,8 @@ CoursAvenue::Application.routes.draw do
 
     resources :statistics, only: [:create]
 
-    resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
+    resources :structures, only: [:index], path: 'etablissements', to: 'redirect#structures_index'
+    resources :structures, only: [:show], path: 'etablissements', controller: 'structures' do
       member do
         get  :toggle_pure_player
         post :add_to_favorite
@@ -642,7 +643,6 @@ CoursAvenue::Application.routes.draw do
         get :search
       end
       resources :structures, only: [:index], path: 'etablissements'
-      # resources :places, only: [:index], path: 'etablissements'
       resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index' # établissement without S
       resources :courses, only: [:index], path: 'cours'
     end
