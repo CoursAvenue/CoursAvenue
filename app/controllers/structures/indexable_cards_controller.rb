@@ -1,6 +1,10 @@
 # encoding: utf-8
 class Structures::IndexableCardsController < ApplicationController
 
+  # GET /etablissements
+  # GET /paris
+  # GET /danse--paris
+  # GET /danse/danse-orientale--paris
   def show
     @structure           = Structure.friendly.find params[:structure_id]
     @structure_decorator = @structure.decorate

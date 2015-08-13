@@ -14,7 +14,7 @@ var Training = React.createClass({
             <table className={"table--striped table--data table-responsive table-responsive--without-th " + (this.props.course.structure_is_active ? 'table--hoverable' : '')}>
                 <thead className="gray-light">
                     <tr>
-                        <th className="one-tenths">Jour</th>
+                        <th className="soft--left one-tenths">Jour</th>
                         <th className="two-tenths">Horaires</th>
                         <th className="two-tenths">Niveau</th>
                         <th className="two-tenths">Public</th>

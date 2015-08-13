@@ -8,55 +8,64 @@
 - home_place = (@course.is_private? ? @course.home_place : nil)
 .grid--full.soft--top.push--bottom
   .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
-    .soft.bordered.bg-white
-      .grid.push--bottom
-        .grid__item.v-middle.one-fifth.text--center.palm-one-whole>
-          - if @structure.logo.present?
-            = image_tag @structure.logo.url(:small_thumb_120), height: 100, width: 100, data: { src2x: @structure.logo.url(:small_thumb) }, class: 'rounded--circle'
-          - else
-            .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{dominant_root_subject_slug}" }
-              %i.fa.fa-user-big.alpha
-        .grid__item.v-middle.four-fifths.palm-one-whole>
-          %h1.flush= @indexable_card.name
-          %h2.delta.flush
-            Par
-            = link_to @structure.name, structure_path(@structure)
-      - if @course.prices.any?
-        .float--right.blue-green.nowrap.v-middle
-          - if @course.is_training?
-            %strong Stage : #{readable_amount(@course.prices.first.amount)}
-          - else
-            %strong Cours d'essai : #{readable_amount(@course.prices.first.amount)}
-      %h3 Planning
+    .soft--ends.bordered.bg-white
+      .soft--sides
+        .grid.push--bottom
+          .grid__item.v-middle.one-fifth.text--center.palm-one-whole>
+            - if @structure.logo.present?
+              = image_tag @structure.logo.url(:small_thumb_120), height: 100, width: 100, data: { src2x: @structure.logo.url(:small_thumb) }, class: 'rounded--circle'
+            - else
+              .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{dominant_root_subject_slug}" }
+                %i.fa.fa-user-big.alpha
+          .grid__item.v-middle.four-fifths.palm-one-whole>
+            %h1.flush= @indexable_card.name
+            %h2.delta.flush
+              Par
+              = link_to @structure.name, structure_path(@structure)
+        - if @course.prices.any?
+          .float--right.blue-green.nowrap.v-middle
+            - if @course.is_training?
+              %strong Stage : #{readable_amount(@course.prices.first.amount)}
+            - else
+              %strong Cours d'essai : #{readable_amount(@course.prices.first.amount)}
+      %h3.soft--sides Planning
       - if @course.start_date and Date.today < @course.start_date
         .bg-blue-green.soft.white.push--bottom
           %strong Reprise des cours le #{l(@course.start_date, format: :semi_short).gsub(/0([0-9])/, '\1')}.
       = react_component("CardPageCourse",
                       { course: CourseSerializer.new(@course), plannings: ActiveModel::ArraySerializer.new(@indexable_card.plannings.ordered_by_day.future, each_serializer: PlanningSerializer) }, { prerender: false })
-      - if @course.is_private? and @course.on_appointment?
-        .push-half--right.push-half--bottom.inline-block.v-middle
-          %i.delta.fa.fa-audiences.v-middle
-          = join_audiences(@course)
-        .push-half--right.push-half--bottom.inline-block.v-middle
-          %i.delta.fa.fa-levels.v-middle
-          = join_levels_text(@course)
+      .soft--sides
+        - if @course.is_private? and @course.on_appointment?
+          .push-half--right.push-half--bottom.inline-block.v-middle
+            %i.delta.fa.fa-audiences.v-middle
+            = join_audiences(@course)
+          .push-half--right.push-half--bottom.inline-block.v-middle
+            %i.delta.fa.fa-levels.v-middle
+            = join_levels_text(@course)
 
-      .push--bottom
-        %h3 Description du cours
+      - if @structure.medias.any?
         .push--bottom
-          - if @course.description.present?
-            .read-more{ data: { behavior: 'read-more', height: 240 } }
-              = simple_format @course.description
-          - else
-            %p Pas de description.
+          %h3.soft--sides Photos & Vidéos
+          = render partial: 'gallery', locals: { medias: @structure.medias.cover_first.videos_first, structure: @structure }
+      .soft--sides
+        .push--bottom
+          %h3 Description du cours
+          .push--bottom
+            - if @course.description.present?
+              .read-more{ data: { behavior: 'read-more', height: 240 } }
+                = simple_format @course.description
+            - else
+              %p Pas de description.
 
       - if @course.price_group
         .push--bottom
-          %h3 Tarifs
+          %h3.soft--sides Tarifs
           = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
 
-      = react_component('MessageThreadList', { structure: StructureSerializer.new(@structure), indexable_card_id: @indexable_card.id })
-      = react_component('CommentList', { structure: StructureSerializer.new(@structure) })
+      .push--bottom
+        = react_component('MessageThreadList', { structure: StructureSerializer.new(@structure), indexable_card_id: @indexable_card.id })
+      .soft--sides
+        = react_component('CommentList', { structure: StructureSerializer.new(@structure) })
 
   .grid__item.four-twelfths.palm-one-whole.palm-hard>
     .bordered.bg-white
@@ -70,8 +79,8 @@
                                         metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
                                        { prerender: false })
 
-      .soft
-        %div.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
+      .soft--ends
+        %div.soft--sides.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
           %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos, placement: 'left' } }
             %h4.flush= @place.name
             %span.f-weight-500= @place.address
@@ -88,12 +97,13 @@
 
         - if @place.nearby_metro_stops.any?
           %hr.push--ends
-          %h4.push-half--bottom Transports
-          - @place.nearby_metro_stops.each do |stop|
-            %div.push-half--bottom
-              - stop.lines.each do |line|
-                = MetroLineDecorator.new(line).chip
-              %span.v-middle= stop.name
+          .soft--sides
+            %h4.push-half--bottom Transports
+            - @place.nearby_metro_stops.each do |stop|
+              %div.push-half--bottom
+                - stop.lines.each do |line|
+                  = MetroLineDecorator.new(line).chip
+                %span.v-middle= stop.name
         - unless @structure.is_sleeping?
           %hr.push--ends
-          = render 'structures/response_stats'
+          .soft--sides= render 'structures/response_stats'

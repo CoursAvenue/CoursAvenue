@@ -52,7 +52,9 @@ var LessonPlanning = React.createClass({
         return (
             <tr className={ this.props.course.structure_is_active ? 'cursor-pointer' : '' }
                 onClick={this.props.course.structure_is_active ? this.bookPlanning : null}>
-                <td itemScope="" itemType="http://data-vocabulary.org/Event">
+                <td itemScope=""
+                    itemType="http://data-vocabulary.org/Event"
+                    className="soft--left">
                     <div>
                         <meta content={this.props.course.name} itemprop="summary" />
                         {this.props.planning.date}
@@ -81,7 +83,7 @@ var LessonPlanning = React.createClass({
                 <td>
                     {info}
                 </td>
-                <td className={ this.props.course.structure_is_active ? '' : 'hidden'}>
+                <td className={ 'soft--right ' + (this.props.course.structure_is_active ? '' : 'hidden')}>
                     <strong className="btn btn--full btn--small btn--green">Réserver</strong>
                 </td>
             </tr>

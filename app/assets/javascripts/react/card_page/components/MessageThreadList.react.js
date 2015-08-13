@@ -55,7 +55,7 @@ var MessageThreadList = React.createClass({
         });
         return (
             <div id="message-thread-list">
-                <div className="push-half--bottom">
+                <div className="push-half--bottom soft--sides">
                     <div>
                         <h3 className="v-middle flush inline-block">
                             Posez une question publique ({ this.state.thread_store.length })
@@ -66,7 +66,7 @@ var MessageThreadList = React.createClass({
                         {"Vous pouvez poser vos questions à " + (this.state.structure_store.get('about') || 'ce professeur') + " et à ses pratiquants avant de vous inscrire :"}
                     </div>
                 </div>
-                <div className='gray-box'>
+                <div className='bg-blue-green'>
                     <div className="input flush soft">
                         <textarea name="community_message_thread[message]"
                                   className="one-whole input--large"
@@ -74,16 +74,16 @@ var MessageThreadList = React.createClass({
                                   placeholder='Posez vos questions ou réponses ici.' />
                     </div>
                     <div className='flexbox palm-block palm-one-whole soft hard--top'>
-                        <div className='flexbox__item palm-block palm-one-whole one-whole soft--right'>
+                        <div className='flexbox__item palm-block palm-one-whole one-whole soft--right white'>
                             Inutile de poser une question sur les coordonnées de contact&nbsp;:&nbsp;
-                            <a href="javascript:void(0)"
+                            <a href="javascript:void(0)" className="link--white"
                                onClick={this.scrollToTop}>
                                accéder au téléphone et au site Internet
                             </a>
                         </div>
                         <div className='flexbox__item palm-block palm-one-whole'>
                             <button type="submit"
-                                    className="nowrap btn btn--green"
+                                    className="nowrap btn btn--white-transparent btn--white-transparent--white"
                                     data-disable-with="Message en cours d'envoi..."
                                     onClick={this.submitThread}>
                                 { button_content }
@@ -91,7 +91,7 @@ var MessageThreadList = React.createClass({
                         </div>
                     </div>
                 </div>
-                <article className="soft--ends">
+                <article className="soft">
                     { threads }
                 </article>
             </div>

@@ -21,6 +21,10 @@ a:hover, .btn-as-link:hover {
 a.selected, a.active {
     font-weight: bold;
 }
+.link--white {
+    color          : white;
+    text-decoration: underline;
+}
 
 .comment_link {
     color: inherit;
