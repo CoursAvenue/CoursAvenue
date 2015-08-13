@@ -1,13 +1,13 @@
 {
   "checksum": {
-    "previous": "d623d7f085329b0852e38f51fa29a3047848d70f591064fe265064b4617f6f33",
-    "current": "d623d7f085329b0852e38f51fa29a3047848d70f591064fe265064b4617f6f33"
+    "previous": "2f1b63ade508331c681cb2dce8b7e28b4b1df4f72e294f80bcb0fae801bfb431",
+    "current": "2f1b63ade508331c681cb2dce8b7e28b4b1df4f72e294f80bcb0fae801bfb431"
   },
   "fonts": [
-    "app/assets/fonts/CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.ttf",
-    "app/assets/fonts/CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.svg",
-    "app/assets/fonts/CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.woff",
-    "app/assets/fonts/CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.eot"
+    "app/assets/fonts/CoursAvenueIconFont.ttf",
+    "app/assets/fonts/CoursAvenueIconFont.svg",
+    "app/assets/fonts/CoursAvenueIconFont.woff",
+    "app/assets/fonts/CoursAvenueIconFont.eot"
   ],
   "glyphs": {
     "address": {
@@ -406,7 +406,7 @@
       "templates": "app/assets/images/icons/svg/",
       "vectors": "app/assets/images/icons/svg/"
     },
-    "no_hash": false,
+    "no_hash": true,
     "output": {
       "css": "app/assets/stylesheets",
       "fonts": "app/assets/fonts",

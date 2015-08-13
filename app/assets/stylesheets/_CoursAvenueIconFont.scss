@@ -4,11 +4,11 @@
 
 @font-face {
   font-family: "CoursAvenueIconFont";
-  src: url("CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.eot");
-  src: url("CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.eot?#iefix") format("embedded-opentype"),
-       url("CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.woff") format("woff"),
-       url("CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.ttf") format("truetype"),
-       url("CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.svg#CoursAvenueIconFont") format("svg");
+  src: asset-url("CoursAvenueIconFont.eot");
+  src: asset-url("CoursAvenueIconFont.eot?#iefix") format("embedded-opentype"),
+       asset-url("CoursAvenueIconFont.woff") format("woff"),
+       asset-url("CoursAvenueIconFont.ttf") format("truetype"),
+       asset-url("CoursAvenueIconFont.svg#CoursAvenueIconFont") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: "CoursAvenueIconFont";
-    src: url("CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.svg#CoursAvenueIconFont") format("svg");
+    src: asset-url("CoursAvenueIconFont.svg#CoursAvenueIconFont") format("svg");
   }
 }
 
