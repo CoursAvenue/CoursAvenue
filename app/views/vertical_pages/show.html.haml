@@ -16,8 +16,8 @@
     = "#{@vertical_page_decorator.page_h1} : toutes les cours de #{@vertical_page.subject_name.downcase}, stages, cours d'essai gratuits, plannings, tarifs, conseils, avis, promotions"
 
 - @paris = City.find('paris')
-.relative.search-page-filters__panel-height
-  .soft--ends.absolute.north.west.on-top-of-the-world.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height
+.relative.search-page-filters__panel-height.palm-height-auto
+  .soft--ends.absolute.north.west.on-top-of-the-world.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto
     .flexbox__item.v-middle
       .main-container.main-container--medium.white.text--center
         %h1.f-size-really-big= @vertical_page_decorator.page_h1
@@ -37,14 +37,14 @@
 .main-container.main-container--medium.soft--ends
   .soft-half--left= render partial: 'vertical_pages/breadcrumb'
   .grid
-    .grid__item.six-tenths>
+    .grid__item.six-tenths.palm-one-whole>
       = react_component('ResultList', { root_subject: (@root_subject ? @root_subject : nil),
                                         subject: (@subject and @subject != @root_subject ? @subject : nil),
                                         address: { name: (@city || @paris).name, latitude: (@city || @paris).latitude, longitude: (@city || @paris).longitude, city: (@city || @paris).name, is_address: false },
                                         per_line: 2,
                                         per_page: 14,
                                         follow_links: true })
-    .grid__item.four-tenths>
+    .grid__item.four-tenths.palm-one-whole.palm-push--top>
       - if @vertical_page.content.present?
         %h2
           = @vertical_page.title

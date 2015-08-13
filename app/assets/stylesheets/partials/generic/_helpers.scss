@@ -182,6 +182,7 @@
 .north             { top        : 0 !important; }
 .down-north        { top        : 1000% !important; }
 .south             { bottom     : 0 !important; }
+.palm-static { @include media-query(palm) { position: static !important; } }
 
 .bg-transparent {
     background: transparent;
