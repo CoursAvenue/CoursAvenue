@@ -1,5 +1,13 @@
 class UserDecorator < Draper::Decorator
 
+  def avatar(size=60)
+    if object.has_avatar?
+      h.image_tag object.avatar_url(:thumb), class: 'rounded--circle block center-block bordered', width: size, height: size
+    else
+      h.content_tag('div', '', class: "comment-avatar-#{size}")
+    end
+  end
+
   # Ex.: 25 ans, Lyon
   def age_and_city
     infos = []

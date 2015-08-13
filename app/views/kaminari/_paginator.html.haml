@@ -7,7 +7,7 @@
 -#    paginator:     the paginator that renders the pagination tags inside
 = paginator.render do
   .flexbox.palm-block.palm-text--center.palm-one-whole.pagination
-    .flexbox__item.palm-block.palm-text--center.palm-one-whole.two-twelfths.text--left
+    .flexbox__item.palm-block.palm-text--center.palm-one-whole.two-twelfths.text--left.nowrap
       = prev_page_tag
     .flexbox__item.palm-block.palm-text--center.palm-one-whole.eight-twelfths.nowrap.text--center
       - each_page do |page|
@@ -15,5 +15,5 @@
           = page_tag page
         - elsif !page.was_truncated?
           = gap_tag
-    .flexbox__item.palm-block.palm-text--center.palm-one-whole.two-twelfths.text--right
+    .flexbox__item.palm-block.palm-text--center.palm-one-whole.two-twelfths.text--right.nowrap
       = next_page_tag

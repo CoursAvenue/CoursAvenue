@@ -1,0 +1,13 @@
+.p Bonjour #{@structure.name}
+
+.p
+  %strong= @sender.name
+  a contribué à la discussion à laquelle vous participez :
+
+.gray-box.soft-half.last-div-hard
+  = simple_format(@message).gsub('<p>', '<div class="p">').gsub('</p>', '</div>').html_safe
+
+.p.action.soft--top
+  = link_to "Continuer la discussion", pro_structure_conversation_url(@structure, @thread.conversation, subdomain: 'pro'), class: 'btn btn--blue'
+
+= render 'admin_footer'

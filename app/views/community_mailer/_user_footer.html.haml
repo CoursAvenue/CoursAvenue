@@ -1,0 +1,15 @@
+.p
+  Vous pouvez suivre la discussion sur
+  = link_to "le profil de #{@structure.name}", structure_url(@structure, subdomain: 'www')
+  %br
+  Nous vous remercions d'avance pour l'aide apportée aux autres utilisateurs.
+.p
+  La communauté CoursAvenue
+
+.p
+  CoursAvenue est la première communauté d'entraide entre pratiquants d'activités de loisirs.
+
+= content_for :footer do
+  Vous avez reçu cet e-mail car vous faites partie de la communauté d'entraide de #{@structure.name}. Si cela n'est pas le cas ou si vous ne vous sentez pas concerné, nous en sommes désolés :
+  = link_to 'cliquez ici pour vous désinscrire.', unsubscribe_users_url(@user.access_token, subdomain: 'www'), class: 'fix-class'
+

@@ -47,10 +47,9 @@
 
       #structure-profile.push--bottom.bg-white.bordered{ data: { type: 'structure-profile-root' } }
         #structure-region
-        - if current_pro_admin and current_pro_admin.super_admin
-          .soft--sides.soft--bottom
-            %hr.push--ends
-            = react_component('MessageThreadList', { structure: StructureSerializer.new(@structure) })
+        .soft--sides.soft--bottom
+          %hr.push--ends
+          = react_component('MessageThreadList', { structure: StructureSerializer.new(@structure) })
         .soft--sides.soft--bottom
           = react_component('CommentList', { structure: StructureSerializer.new(@structure) })
         - if @is_sleeping

@@ -8,7 +8,7 @@ class Community::MessageSerializer < ActiveModel::Serializer
   def has_avatar
     if object.sender_type == 'User'
       sender = User.find(object.sender_id)
-      sender.avatar.present?
+      sender.has_avatar?
     else
       sender = Admin.find(object.sender_id)
       sender.structure.logo.present?
@@ -18,7 +18,7 @@ class Community::MessageSerializer < ActiveModel::Serializer
   def avatar_url
     if object.sender_type == 'User'
       sender = User.find(object.sender_id)
-      sender.avatar.url(:thumb)
+      sender.avatar_url(:thumb)
     else
       sender = Admin.find(object.sender_id)
       sender.avatar

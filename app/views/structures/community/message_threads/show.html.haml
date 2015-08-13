@@ -1,18 +1,45 @@
-.main-container.main-container--1000.soft--ends
-  .grid.push--bottom
-    .grid__item.palm-one-whole.text--center.palm-text--left.three-twelfths>
-      - if @sender.avatar.present?
-        = image_tag @sender.avatar.url(:thumb), class: "center-block push-half--bottom rounded--circle", height: 80, width: 80
-      - else
-        .push-half--bottom.comment-avatar-80
-      .line-height-1-5
-        = @sender.name
-    .grid__item.palm-one-whole.nine-twelfths.soft-half--top.delta.line-height-1-5>
-      = simple_format @question_message.body
+= content_for :right_after_head do
+  %meta{ name: 'robots', content: 'noindex,follow' }
 
-  .gray-box.soft
-    %h4 Répondez à #{@sender.name}
-    = simple_form_for [@structure, @message_thread] do |f|
-      %input{ name: 'user[token]', value: params[:user_token], type: 'hidden' }
-      %textarea.one-whole{ name: 'community_message_thread[message]', rows: 5, placeholder: 'Écrivez votre réponse ici.', data: { behavior: 'autoresize' } }
-      .text--right.very-soft--top= f.submit 'Répondre', class: 'btn btn--blue-green', data: { disable_with: 'Envoi en cours...' }
+.main-container.main-container--1000.soft--ends
+  .two-thirds.center-block
+    .grid.push--bottom
+      - if @structure.logo.present?
+        .grid__item.two-twelfths.v-middle>
+          = image_tag @structure.logo.url(:thumb), class: 'rounded--circle'
+        .grid__item.ten-twelfths.v-middle>
+          %h1.beta.flush Communauté de #{@structure.name}
+          .epsilon
+            = link_to "Voir le profil CoursAvenue", structure_path(@structure), target: :_blank
+    .grid.push--bottom
+      .grid__item.palm-one-whole.text--center.palm-text--left.three-twelfths>
+        - if @sender.avatar.present?
+          = image_tag @sender.avatar.url(:thumb), class: "center-block push-half--bottom rounded--circle", height: 80, width: 80
+        - else
+          .push-half--bottom.comment-avatar-80
+        .line-height-1-5
+          = @sender.name
+      .grid__item.palm-one-whole.nine-twelfths.soft-half--top.line-height-1-5>
+        .delta= simple_format @question_message.body
+
+        - if @message_thread.conversation.messages.length > 1
+          %h4
+            = "Réponse".pluralize(@message_thread.conversation.messages.length - 1)
+            (#{@message_thread.conversation.messages.length - 1})
+          - @message_thread.conversation.messages.order('created_at ASC')[1..-1].each do |message|
+            .grid.push--bottom
+              .grid__item.palm-one-whole.text--center.palm-text--left.three-twelfths>
+                - if message.sender.avatar.present?
+                  = image_tag message.sender.avatar, class: "center-block push-half--bottom rounded--circle", height: 60, width: 60
+                - else
+                  .push-half--bottom.comment-avatar-60
+                .line-height-1-5
+                  = message.sender.name
+              .grid__item.palm-one-whole.nine-twelfths.soft-half--top.line-height-1-5>
+                = simple_format message.body
+    .gray-box.soft
+      %h4 Répondez à #{@sender.name}
+      = simple_form_for [@structure, @message_thread] do |f|
+        %input{ name: 'user[token]', value: params[:user_token], type: 'hidden' }
+        %textarea.one-whole{ name: 'community_message_thread[message]', rows: 5, placeholder: 'Écrivez votre réponse ici.', data: { behavior: 'autoresize' } }
+        .text--right.very-soft--top= f.submit 'Répondre', class: 'btn btn--blue-green', data: { disable_with: 'Envoi en cours...' }

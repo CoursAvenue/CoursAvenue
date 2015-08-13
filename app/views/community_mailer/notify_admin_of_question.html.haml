@@ -1,11 +1,16 @@
 - content_for :email_title do
   #{@sender.name} vient de vous poser une question publique
 
-.title
-  #{@sender.name} vient de vous poser une question publique
+.p Bonjour #{@structure.name},
 
-.gray-box.soft-half
+.p
+  %strong= @sender.name
+  vient de poser une question publique sur votre profil pour avoir quelques informations avant de s'inscrire à l'une de vos activités :
+
+.gray-box.soft-half.last-div-hard
   = simple_format(@message).gsub('<p>', '<div class="p">').gsub('</p>', '</div>').html_safe
 
 .p.action.soft--top
   = link_to "Répondre à #{@sender.name}", pro_structure_conversation_url(@structure, @thread.conversation, subdomain: 'pro'), class: 'btn btn--blue'
+
+= render 'admin_footer'

@@ -16,17 +16,17 @@
         .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}
         %strong.push--right Inscription (#{conversation_request_count})
       .inline-block.palm-block
-        .lbl.lbl--small.lbl--chip{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
-        %strong.push--right Demande d'information (#{conversation_information_count})
+        .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::PUBLIC_QUESTION.color}"}
+        %strong.push--right Question publique (#{conversation_public_question_count})
+      .inline-block.palm-block
+        .push-half--left.palm-flush.lbl.lbl--small.lbl--chip{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
+        %strong.push--right Demande d'info (#{conversation_information_count})
       .inline-block.palm-block
         .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}
-        %strong.push--right Avis déposé (#{conversation_comment_count})
+        %strong.push--right Avis (#{conversation_comment_count})
       .inline-block.palm-block
         .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}
         %strong Conversation (#{conversation_conversation_count})
-      .inline-block.palm-block
-        .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::PUBLIC_QUESTION.color}"}
-        %strong Question publique (#{conversation_public_question_count})
     .grid
       .grid__item.palm-one-whole.one-third.palm-text--center>
         %select#conversation_label{ name: 'conversation_label_id' }
@@ -36,7 +36,7 @@
           %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
           - if conversation_request_count > 0
             %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::REQUEST.id), value: Mailboxer::Label::REQUEST.id } Inscriptions (#{conversation_request_count})
-      .grid__item.palm-one-whole.two-thirds.text--center>
+      .grid__item.palm-one-whole.two-thirds.text--center.last-div-hard>
         = paginate @conversations, window: 1, outer_window: 3
     - @conversations.each do |conversation|
       = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }

@@ -437,12 +437,8 @@
         margin-bottom: $base-line-height / 2;
     }
 }
-
-.last-p-flush {
-    p:last-child {
-        margin-bottom: 0;
-    }
-}
+.last-p-flush p:last-child     { margin-bottom: 0; }
+.last-div-hard div:last-child  { padding: 0; }
 .zoom-on-hover {
     @include transition(all 100ms ease-in-out);
     &:hover {

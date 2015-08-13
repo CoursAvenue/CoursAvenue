@@ -7,14 +7,16 @@ class CommunityMailer < ActionMailer::Base
   default from: 'CoursAvenue <hello@coursavenue.com>'
 
   def notify_member_of_question(user, message, thread)
-    @user      = user
-    @message   = message
-    @thread    = thread
-    @sender    = @thread.messages.order('created_at ASC').first.sender
+    @user       = user
+    @message    = message
+    @thread     = thread
+    @membership = @thread.community.memberships.where(user_id: @user.id).first
+    @structure  = @thread.community.structure
+    @sender     = @thread.messages.order('created_at ASC').first.sender
     set_global_variables
 
     mail to: @user.email,
-      subject: I18n.t('community.emails.notify_member_of_question', { sender_name: @sender.name }),
+      subject: I18n.t('community.emails.notify_member_of_question', { structure_name: @structure.name }),
       reply_to: generate_reply_to(@user)
   end
 
@@ -23,11 +25,12 @@ class CommunityMailer < ActionMailer::Base
     @admin     = admin
     @message   = message
     @thread    = thread
+    @structure = @thread.community.structure
     @sender    = @thread.messages.order('created_at ASC').first.sender
     set_global_variables
 
     mail to: @admin.email,
-      subject: I18n.t('community.emails.notify_admin_of_question', { sender_name: @sender.name }),
+      subject: I18n.t('community.emails.notify_admin_of_question'),
       reply_to: generate_reply_to(@admin)
   end
 
@@ -35,6 +38,7 @@ class CommunityMailer < ActionMailer::Base
     @user      = user
     @message   = message
     @thread    = thread
+    @sender    = @thread.messages.order('created_at ASC').first.sender
     @structure = @thread.community.structure
     set_global_variables
 
@@ -44,22 +48,25 @@ class CommunityMailer < ActionMailer::Base
   end
 
   def notify_answer_from_member(user, message, thread)
-    @user    = user
-    @message = message
-    @thread  = thread
+    @user      = user
+    @message   = message
+    @thread    = thread
     @sender    = @thread.messages.order('created_at ASC').last.sender
+    @structure = @thread.community.structure
     set_global_variables
 
     mail to: @user.email,
-      subject: I18n.t('community.emails.notify_answer_from_member', { sender_name: @sender.name }),
+      subject: I18n.t('community.emails.notify_answer_from_member', { structure_name: @structure.name }),
       reply_to: generate_reply_to(@user)
   end
 
   def notify_answer_from_member_to_teacher(admin, message, thread)
     return if admin.nil?
-    @admin   = admin
-    @message = message
-    @thread  = thread
+    @admin     = admin
+    @message   = message
+    @thread    = thread
+    @sender    = @thread.messages.order('created_at ASC').last.sender
+    @structure = @thread.community.structure
     set_global_variables
 
     mail to: @admin.email,

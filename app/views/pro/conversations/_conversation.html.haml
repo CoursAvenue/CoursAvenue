@@ -8,8 +8,7 @@
 .bordered--top.push--top.soft--top
   = link_to pro_structure_conversation_path(structure, conversation), class: "muted-link block flexbox" do
     .flexbox__item.v-top.v-middle.soft--right.visuallyhidden--palm
-      - if recipients.first
-        = image_tag recipients.first.avatar_url(:thumb), class: 'block bordered rounded--circle', height: 65, width: 65
+      = recipients.first.decorate.avatar(60) if recipients.first
     .flexbox__item.v-top.v-middle.one-whole.palm-block
       .float--right
         %strong.gray-light.epsilon= l(last_message.created_at.to_date, format: :short)

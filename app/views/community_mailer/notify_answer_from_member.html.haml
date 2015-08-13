@@ -1,0 +1,13 @@
+.p Bonjour #{@user.name}
+
+.p
+  %strong= @sender.name
+  a contribué à la discussion à laquelle vous participez :
+
+.gray-box.soft-half.last-div-hard
+  = simple_format(@message).gsub('<p>', '<div class="p">').gsub('</p>', '</div>').html_safe
+
+.p.action.soft--top
+  = link_to "Continuer la discussion", structure_community_message_thread_url(@structure, @thread, user_token: @user.token, subdomain: 'www'), class: 'btn btn--blue'
+
+= render 'user_footer'

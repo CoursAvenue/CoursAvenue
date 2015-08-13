@@ -23,8 +23,9 @@ class Structures::Community::MessageThreadsController < ApplicationController
 
   # New comment.
   def create
-    message_thread = @community.ask_question!(current_user, reply_parameters[:message], thread_parameters[:indexable_card_id]) if message.present?
-
+    if reply_parameters[:message].present?
+      message_thread = @community.ask_question!(current_user, reply_parameters[:message], thread_parameters[:indexable_card_id])
+    end
     respond_to do |format|
       if message_thread and message_thread.persisted?
         format.html { redirect_to structure_path(@structure), notice: 'Votre question a été envoyée avec succés.' }
@@ -52,9 +53,9 @@ class Structures::Community::MessageThreadsController < ApplicationController
     else
       @user = current_user
     end
-    thread = @message_thread.reply!(@user, reply_parameters[:message]) if @user
+    thread = @message_thread.reply!(@user, reply_parameters[:message]) if @user and reply_parameters[:message].present?
     respond_to do |format|
-      format.html { redirect_to structure_path(@structure), notice: 'Merci pour votre réponse !' }
+      format.html { redirect_to structure_path(@structure, anchor: "thread-#{@message_thread.id}"), notice: 'Merci pour votre réponse !' }
       format.json { render json: Community::MessageThreadsSerializer.new(@message_thread) }
     end
   end

@@ -2,10 +2,11 @@
 
 .panel
   .panel__body.soft
-    %h3 Boîte de réception
+    %h3 Mes messages
     - conversation_information_count  = @user.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count
     - conversation_comment_count      = @user.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count
     - conversation_conversation_count = @user.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
+    - conversation_public_count       = @user.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::PUBLIC_QUESTION.id).count
     - conversation_request_count      = @user.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::REQUEST.id).count
 
     .push--bottom
@@ -15,6 +16,8 @@
       %strong.push--right Demande d'information (#{conversation_information_count})
       .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}
       %strong.push--right Avis déposé (#{conversation_comment_count})
+      .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::PUBLIC_QUESTION.color}"}
+      %strong.push--right Question publiques (#{conversation_public_count})
       .push-half--left.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}
       %strong Conversation (#{conversation_conversation_count})
 
@@ -22,12 +25,13 @@
       .grid__item.one-third>
         %select#conversation_label{ name: 'conversation_label_id' }
           %option{ value: '' } Tous les messages
-          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demandes d'informations (#{conversation_information_count})
-          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposés (#{conversation_comment_count})
-          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
           - if conversation_request_count > 0
             %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::REQUEST.id), value: Mailboxer::Label::REQUEST.id } Inscription (#{conversation_request_count})
-      .grid__item.two-thirds.text--center>
+          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demandes d'informations (#{conversation_information_count})
+          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposés (#{conversation_comment_count})
+          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::PUBLIC_QUESTION.id), value: Mailboxer::Label::PUBLIC_QUESTION.id } Question publiques (#{conversation_public_count})
+          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
+      .grid__item.two-thirds.text--center.last-div-hard>
         = paginate @conversations, window: 1, outer_window: 3
 
     - @conversations.each do |conversation|
