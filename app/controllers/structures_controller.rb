@@ -19,56 +19,6 @@ class StructuresController < ApplicationController
     redirect_to structure_path(@structure)
   end
 
-  # GET /etablissements
-  # GET /paris
-  # GET /danse--paris
-  # GET /danse/danse-orientale--paris
-  def index
-    @city = City.find(params[:city_id]) rescue City.find('paris')
-    proceed_to_redirection_if_needed
-    if params[:root_subject_id].present? and params[:subject_id].blank?
-      params[:subject_id] = params[:root_subject_id]
-    end
-    @app_slug = "filtered-search"
-    @subject  = filter_by_subject?
-
-    # We remove bbox parameters if user is on mobile since we don't show the map
-    if mobile_device?
-      params.delete :bbox_ne
-      params.delete :bbox_sw
-    end
-
-    params[:address_name] ||= 'Paris, France' unless request.xhr?
-    params[:page]         ||= 1
-    params[:per_page]      = Structure::NB_STRUCTURE_PER_PAGE
-
-    if params_has_planning_filters?
-      @structures, @places, @total, @subject_slugs_with_more_than_five_results = search_plannings
-    else
-      @structures, @total, @subject_slugs_with_more_than_five_results = search_structures
-    end
-    @latlng = retrieve_location
-    @models = jasonify @structures
-
-    log_search
-
-    @total_comments = Comment::Review.count
-    @total_medias   = Media.count
-    respond_to do |format|
-      format.html do
-        @models = jasonify @structures, place_ids: @places
-        cookies[:structure_search_path] = request.fullpath
-      end
-      format.json do
-        render json: @structures,
-               root: 'structures',
-               place_ids: @places,
-               each_serializer: StructureSerializer,
-               meta: { total: @total, location: @latlng }
-      end
-    end
-  end
-
   # GET /etablissements/:id
   def show
     @structure_decorator = @structure.decorate
