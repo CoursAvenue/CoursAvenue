@@ -16,11 +16,13 @@ class MediaUploader < CarrierWave::Uploader::Base
   # Create different versions of your uploaded files:
   version :original do
     cloudinary_transformation transformation: [{ width: 750, height: 750, crop: :limit },
-                                               { overlay: 'watermark', width: 150, gravity: :south_east, y: 5, x: 10 }], flags: :progressive
+                                               { overlay: 'watermark', width: 150, gravity: :south_east, y: 5, x: 10 }],
+                              flags: :progressive
   end
 
   version :search_thumbnail do
-    cloudinary_transformation transformation: [{ width: 250, height: 100, crop: :fill }], flags: :progressive, quality: 70
+    cloudinary_transformation transformation: [{ width: 250, height: 100, crop: :fill }],
+                              flags: :progressive, quality: 70
   end
 
   version :thumbnail do
@@ -51,19 +53,23 @@ class MediaUploader < CarrierWave::Uploader::Base
   end
 
   version :wide_and_blurry do
-    cloudinary_transformation transformation: [{ width: 1024, height: 300, crop: :fill, effect: 'blur:900' }], flags: :progressive
+    cloudinary_transformation transformation: [{ width: 1024, height: 300, crop: :fill, effect: 'blur:900' }],
+                              flags: :progressive
   end
 
   version :thumbnail_blurry do
-    cloudinary_transformation transformation: [{ width: 300, height: 200, crop: :fill, effect: 'blur:900' }], flags: :progressive
+    cloudinary_transformation transformation: [{ width: 300, height: 200, crop: :fill, effect: 'blur:900' }],
+                              flags: :progressive
   end
 
   version :gallery do
-    cloudinary_transformation transformation: [{ width: 400, crop: :fill }], flags: :progressive
+    cloudinary_transformation transformation: [{ width: 400, crop: :fill }],
+                              flags: :progressive
   end
 
   version :redactor do
-    cloudinary_transformation transformation: [{ width: 250, height: 200, crop: :limit }], flags: :progressive
+    cloudinary_transformation transformation: [{ width: 250, height: 200, crop: :limit }],
+                              flags: :progressive
   end
 
   private

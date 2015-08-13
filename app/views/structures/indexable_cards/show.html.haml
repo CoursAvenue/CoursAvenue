@@ -22,13 +22,14 @@
             %h2.delta.flush
               Par
               = link_to @structure.name, structure_path(@structure)
+      .soft--sides
         - if @course.prices.any?
-          .float--right.blue-green.nowrap.v-middle
+          .float--right.blue-green.nowrap.v-middle.delta
             - if @course.is_training?
-              %strong Stage : #{readable_amount(@course.prices.first.amount)}
+              %strong #{readable_amount(@course.prices.first.amount)}
             - else
-              %strong Cours d'essai : #{readable_amount(@course.prices.first.amount)}
-      %h3.soft--sides Planning
+              %strong Cours d'essai à #{readable_amount(@course.prices.first.amount)}
+        %h3 Planning
       - if @course.start_date and Date.today < @course.start_date
         .bg-blue-green.soft.white.push--bottom
           %strong Reprise des cours le #{l(@course.start_date, format: :semi_short).gsub(/0([0-9])/, '\1')}.

@@ -83,7 +83,7 @@ var LessonPlanning = React.createClass({
                 <td>
                     {info}
                 </td>
-                <td className={ 'soft--right ' + (this.props.course.structure_is_active ? '' : 'hidden')}>
+                <td className={(this.props.course.structure_is_active ? '' : 'hidden')}>
                     <strong className="btn btn--full btn--small btn--green">Réserver</strong>
                 </td>
             </tr>
