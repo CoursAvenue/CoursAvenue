@@ -1,13 +1,13 @@
 {
   "checksum": {
-    "previous": "87f36d911c78c9f3238962dd94238558bee602ca91faa48c9b2d5441411cabe4",
-    "current": "87f36d911c78c9f3238962dd94238558bee602ca91faa48c9b2d5441411cabe4"
+    "previous": "d623d7f085329b0852e38f51fa29a3047848d70f591064fe265064b4617f6f33",
+    "current": "d623d7f085329b0852e38f51fa29a3047848d70f591064fe265064b4617f6f33"
   },
   "fonts": [
-    "app/assets/fonts/CoursAvenueIconFont_87f36d911c78c9f3238962dd94238558.ttf",
-    "app/assets/fonts/CoursAvenueIconFont_87f36d911c78c9f3238962dd94238558.svg",
-    "app/assets/fonts/CoursAvenueIconFont_87f36d911c78c9f3238962dd94238558.woff",
-    "app/assets/fonts/CoursAvenueIconFont_87f36d911c78c9f3238962dd94238558.eot"
+    "app/assets/fonts/CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.ttf",
+    "app/assets/fonts/CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.svg",
+    "app/assets/fonts/CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.woff",
+    "app/assets/fonts/CoursAvenueIconFont_d623d7f085329b0852e38f51fa29a304.eot"
   ],
   "glyphs": {
     "address": {
@@ -45,6 +45,10 @@
     "calendar": {
       "codepoint": 61702,
       "source": "app/assets/images/icons/svg/calendar.svg"
+    },
+    "camera": {
+      "codepoint": 61794,
+      "source": "app/assets/images/icons/svg/camera.svg"
     },
     "card-astuce": {
       "codepoint": 61791,
