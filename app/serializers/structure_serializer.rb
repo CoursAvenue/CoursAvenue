@@ -45,7 +45,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def logo_thumb_url
-    object.logo.url(:small_thumb_120)
+    object.logo.url(:small_thumb_100)
   end
 
   def logo_thumb_url_2x

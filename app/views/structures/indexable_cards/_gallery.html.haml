@@ -5,7 +5,7 @@
   - width_class = 'one-half'
 .grid--full#medias
   - medias[0..2].each_with_index do |media, index|
-    .grid__item.relative{ class: [((index == 1 or index == 2) ? 'visuallyhidden--palm' : 'palm-one-half'), width_class] }>
+    .grid__item.relative.palm-one-whole{ class:  width_class }>
       - if index == 2 and medias.length > 3
         %a.black-curtain__fading-in-on-hover.relative.text--center.muted-link.block.bg-cover{ href: media.url, rel: 'slideshow', style: "height: 175px; background-image: url('#{media.image.url(:thumbnail_blurry)}')", data: { behavior: "fancy" } }
           .black-curtain.north.west.one-whole.absolute.transition-all-300
@@ -14,12 +14,14 @@
             %br
             %strong.block.epsilon.very-soft Tout voir (#{medias.count})
       - else
-        %a.text--center.muted-link.block.bg-cover{ href: media.url, rel: 'slideshow', style: "height: 175px; background-image: url('#{media.thumbnail_url}')", data: { behavior: "fancy" } }
-          .black-curtain.north.west.one-whole.absolute.invisible.fade-in-on-hover.transition-all-300
-            - if !media.video?
-              %i.fa.fa-expand.white.fa-3x{ style: 'padding-top: 65px;'}
+        %a.black-curtain__fading-in-on-hover.text--center.muted-link.block.bg-cover{ href: media.url, rel: 'slideshow', style: "height: 175px; background-image: url('#{media.thumbnail_url}')", data: { behavior: "fancy" } }
           - if media.video?
-            %i.fa-youtube-play.fa-3x.white.smooth-black-text-shadow.inline-block{ style: 'padding-top: 65px;'}
+            .black-curtain.north.west.one-whole.absolute.transition-all-300
+            .white.smooth-black-text-shadow.relative.zoom-on-hover.height-100-percent
+              %i.fa-youtube-play.fa-3x.white.smooth-black-text-shadow.inline-block{ style: 'padding-top: 65px;'}
+          - else
+            .black-curtain.north.west.one-whole.absolute.invisible.fade-in-on-hover.transition-all-300
+              %i.fa.fa-expand.white.fa-3x{ style: 'padding-top: 65px;'}
 
   - if medias.length > 3
     - medias[3..-1].each do |media|

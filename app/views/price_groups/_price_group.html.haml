@@ -2,74 +2,83 @@
   %thead
     %tr
       %th.soft--left.three-twelfths Formule
-      %th.two-twelfths.text--center Tarif normal
-      %th.three-twelfths.text--center Tarif promotionnel
-      %th.four-twelfths.text--center Infos
+      %th.two-twelfths.text--center Tarif
+      %th.visuallyhidden--palm.four-twelfths.text--center Infos
   %tbody
     - price_group.book_tickets.each do |price|
       %tr
-        - if price_group.for_training?
-          %td.soft--left{ data: { th: 'Formule' } }
-            %div 1 stage / atelier
-        - else
-          %td.soft--left{ data: { th: 'Formule' } }
-            %div= "#{price.number} cours"
-        %td.text--center{ data: { th: 'Tarif normal' } }
-          %div= readable_amount(price.amount) if price.amount
-        %td.text--center{ data: { th: 'Tarif promo' } }
+        %td.soft--left{ data: { th: 'Formule' } }
           %div
-            - if price.promo_amount
-              = readable_amount(price.promo_amount) if price.promo_amount
-        %td.soft--right{ data: { th: 'Infos' } }
+            - if price_group.for_training?
+              1 stage / atelier
+            - else
+              = "#{price.number} cours"
+            - if price.info.present?
+              %div.visuallyhidden--lap-and-up= "(#{price.info})"
+        %td.text--center{ data: { th: 'Tarif' } }
+          %div
+            - if price.amount && price.promo_amount
+              %span.line-through= readable_amount(price.amount)
+              %strong= readable_amount(price.promo_amount)
+            - elsif price.amount
+              = readable_amount(price.amount)
+        %td.visuallyhidden--palm.soft--right{ data: { th: 'Infos' } }
           %div= price.info
 
     - price_group.subscriptions.each do |price|
       %tr
         %td.soft--left{ data: { th: 'Formule' } }
-          %div= t(price.libelle)
-        %td.text--center{ data: { th: 'Tarif normal' } }
-          %div= readable_amount(price.amount) if price.amount
-        %td.text--center{ data: { th: 'Tarif promo' } }
           %div
-            - if price.promo_amount
-              = readable_amount(price.promo_amount) if price.promo_amount
-        %td.soft--right{ data: { th: 'Infos' } }
+            = t(price.libelle)
+            - if price.info.present?
+              %div.visuallyhidden--lap-and-up= "(#{price.info})"
+        %td.text--center{ data: { th: 'Tarif' } }
+          %div
+            - if price.amount && price.promo_amount
+              %span.line-through= readable_amount(price.amount)
+              %strong= readable_amount(price.promo_amount)
+            - elsif price.amount
+              = readable_amount(price.amount)
+        %td.visuallyhidden--palm.soft--right{ data: { th: 'Infos' } }
           %div= price.info
     - price_group.registrations.each do |price|
       %tr
         %td.soft--left{ data: { th: 'Formule' } }
-          %div Adhésion annuelle
-        %td.text--center{ data: { th: 'Tarif normal' } }
+          %div
+            Adhésion annuelle
+            - if price.info.present?
+              %div.visuallyhidden--lap-and-up= "(#{price.info})"
+        %td.text--center{ data: { th: 'Tarif' } }
           %div
             - if price.free?
               Gratuite
             - else
               = readable_amount(price.amount)
-        %td{ data: { th: 'Tarif promo' } }
-          %div
-        %td.soft--right{ data: { th: 'Infos' } }
-          %div
-            = price.info
+        %td.visuallyhidden--palm.soft--right{ data: { th: 'Infos' } }
+          %div= price.info
 
     - price_group.premium_offers.each do |price|
       %tr
         %td.soft--left{ data: { th: 'Formule' } }
-          %div= t(price.libelle)
-        %td{ data: { th: 'Tarif normal' } }
           %div
-        %td.text--center{ data: { th: 'Tarif promo' } }
+            = t(price.libelle)
+            - if price.info.present?
+              %div.visuallyhidden--lap-and-up= "(#{price.info})"
+
+        %td{ data: { th: 'Tarif' } }
           %div= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
-        %td.soft--right{ data: { th: 'Infos' } }
+        %td.visuallyhidden--palm.soft--right{ data: { th: 'Infos' } }
           %div= price.info
 
 
     - price_group.discounts.each do |price|
       %tr
         %td.soft--left{ data: { th: 'Formule' } }
-          %div= t(price.libelle)
-        %td{ data: { th: 'Tarif normal' } }
           %div
-        %td.text--center{ data: { th: 'Tarif promo' } }
+            = t(price.libelle)
+            - if price.info.present?
+              %div.visuallyhidden--lap-and-up= "(#{price.info})"
+        %td.text--center{ data: { th: 'Tarif' } }
           %div= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
-        %td.soft--right{ data: { th: 'Tarif normal' } }
+        %td.visuallyhidden--palm.soft--right{ data: { th: 'Infos' } }
           %div= price.info

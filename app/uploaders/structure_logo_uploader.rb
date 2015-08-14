@@ -31,8 +31,8 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
     process :crop_thumb_200
   end
 
-  version :small_thumb_120 do
-    process :crop_thumb_120
+  version :small_thumb_100 do
+    process :crop_thumb_100
   end
 
   version :small_thumb_85 do
@@ -57,8 +57,8 @@ class StructureLogoUploader < CarrierWave::Uploader::Base
     custom_crop(200)
   end
 
-  def crop_thumb_120
-    custom_crop(120)
+  def crop_thumb_100
+    custom_crop(100)
   end
 
   def crop_thumb_85

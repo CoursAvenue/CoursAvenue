@@ -83,7 +83,7 @@ var MessageThreadList = React.createClass({
                         </div>
                         <div className='flexbox__item palm-block palm-one-whole'>
                             <button type="submit"
-                                    className="nowrap btn btn--white-transparent btn--white-transparent--white"
+                                    className="nowrap btn palm-one-whole palm-push--top btn--white-transparent btn--white-transparent--white"
                                     data-disable-with="Message en cours d'envoi..."
                                     onClick={this.submitThread}>
                                 { button_content }
