@@ -23,7 +23,7 @@
 
     %link{ href: asset_path('favicon.ico'), rel: 'shortcut icon', type: 'image/ico' }
     %link{ href: asset_path('favicon.png'), rel: 'apple-touch-icon' }
-    = javascript_include_tag 'modernizr' # MUST BE In the Head and before CSS
+    = javascript_include_tag 'modernizr', async: true, cache: true # MUST BE In the Head and before CSS
     = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags unless response.cache_control[:public]
 
@@ -42,7 +42,7 @@
     = yield :above_container
     = content_for?(:content) ? yield(:content) : yield
 
-    = javascript_include_tag 'application'
+    = javascript_include_tag 'application', async: true, cache: true
     = javascript_include_tag 'https://d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js', 'data-apikey' => '5ddb2502a5b017d46bf49c15d406678e'
 
     = yield :scripts
