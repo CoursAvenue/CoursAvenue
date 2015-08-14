@@ -567,7 +567,6 @@ CoursAvenue::Application.routes.draw do
       collection do
         post :recommendation
         get :search
-        get :typeahead
       end
       resources :participation_requests, only: [:create, :edit]                             , controller: 'structures/participation_requests' do
         member do
@@ -636,9 +635,6 @@ CoursAvenue::Application.routes.draw do
       end
     end
     resources :subjects, only: [:index] do
-      member do
-        get :depth_2
-      end
       collection do
         get :list
         get :descendants

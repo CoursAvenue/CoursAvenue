@@ -49,27 +49,6 @@ class StructuresController < ApplicationController
     end
   end
 
-  # Used for search on typeahead dropdown
-  # GET /etablissements/typeahead.json
-  def typeahead
-    @subjects = Rails.cache.fetch "structures/search/#{params[:name]}" do
-      SubjectSearch.search(name: params[:name]).results
-    end
-    @structures = StructureSearch.search(params).results
-    json_data = (@subjects + @structures).map do |data|
-      if data.is_a? Structure
-        StructureTypeaheadSerializer.new data
-      else
-        SubjectSearchSerializer.new data
-      end
-    end
-    respond_to do |format|
-      format.json do
-        render json: json_data
-      end
-    end
-  end
-
   # POST structure/:id/add_to_favorite
   # Create a following for the structure and the current_user
   def add_to_favorite
