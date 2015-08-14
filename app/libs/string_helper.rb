@@ -25,6 +25,12 @@ class StringHelper
     string.gsub(/((http|ftp|https):\/\/)?[\w\-_]{2,}(\(point\)[\w\-_]|\.[\w\-_])+([\w\-\.,@?^=%&amp;:\/~\+#]*[\w\-\@?^=%&amp;\/~\+#])?/i, '*************') if string
   end
 
+  def self.replace_email_and_phones(string)
+    string = StringHelper.replace_email_address(string)
+    string = StringHelper.replace_phone_numbers(string)
+    string
+  end
+
   def self.replace_contact_infos(string)
     string = StringHelper.replace_email_address(string)
     string = StringHelper.replace_phone_numbers(string)
