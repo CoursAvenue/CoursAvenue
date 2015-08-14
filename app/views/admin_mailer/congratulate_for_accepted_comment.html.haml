@@ -9,12 +9,12 @@
   = "(#{@comment.user.email})"
   vient de déposer son avis sur votre Livre d'Or CoursAvenue, visible également sur votre profil public :
 
-.title
-  = @comment.title
-.p
-  = @comment.content
 
-.p.action
+.gray-box.soft-half.last-div-hard
+  .title= @comment.title
+  = simple_format(@comment.content).gsub('<p>', '<div class="p">').gsub('</p>', '</div>').html_safe
+
+.p.action.soft--top
   = link_to "Répondre à l'élève", pro_structure_comments_url(@structure, subdomain: 'pro', comment: @comment.id), class: 'btn btn--green'
 
 = render 'shared/mailers/footer'
