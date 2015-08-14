@@ -3,7 +3,6 @@
     %tr
       %th.soft--left.three-twelfths Formule
       %th.two-twelfths.text--center Tarif
-      %th.visuallyhidden--palm.four-twelfths.text--center Infos
   %tbody
     - price_group.book_tickets.each do |price|
       %tr
@@ -14,7 +13,7 @@
             - else
               = "#{price.number} cours"
             - if price.info.present?
-              %div.visuallyhidden--lap-and-up= "(#{price.info})"
+              = "(#{price.info})"
         %td.text--center{ data: { th: 'Tarif' } }
           %div
             - if price.amount && price.promo_amount
@@ -22,8 +21,6 @@
               %strong= readable_amount(price.promo_amount)
             - elsif price.amount
               = readable_amount(price.amount)
-        %td.visuallyhidden--palm.soft--right{ data: { th: 'Infos' } }
-          %div= price.info
 
     - price_group.subscriptions.each do |price|
       %tr
@@ -31,7 +28,7 @@
           %div
             = t(price.libelle)
             - if price.info.present?
-              %div.visuallyhidden--lap-and-up= "(#{price.info})"
+              = "(#{price.info})"
         %td.text--center{ data: { th: 'Tarif' } }
           %div
             - if price.amount && price.promo_amount
@@ -39,23 +36,19 @@
               %strong= readable_amount(price.promo_amount)
             - elsif price.amount
               = readable_amount(price.amount)
-        %td.visuallyhidden--palm.soft--right{ data: { th: 'Infos' } }
-          %div= price.info
     - price_group.registrations.each do |price|
       %tr
         %td.soft--left{ data: { th: 'Formule' } }
           %div
             Adhésion annuelle
             - if price.info.present?
-              %div.visuallyhidden--lap-and-up= "(#{price.info})"
+              = "(#{price.info})"
         %td.text--center{ data: { th: 'Tarif' } }
           %div
             - if price.free?
               Gratuite
             - else
               = readable_amount(price.amount)
-        %td.visuallyhidden--palm.soft--right{ data: { th: 'Infos' } }
-          %div= price.info
 
     - price_group.premium_offers.each do |price|
       %tr
@@ -63,12 +56,10 @@
           %div
             = t(price.libelle)
             - if price.info.present?
-              %div.visuallyhidden--lap-and-up= "(#{price.info})"
+              = "(#{price.info})"
 
         %td{ data: { th: 'Tarif' } }
           %div= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
-        %td.visuallyhidden--palm.soft--right{ data: { th: 'Infos' } }
-          %div= price.info
 
 
     - price_group.discounts.each do |price|
@@ -77,8 +68,6 @@
           %div
             = t(price.libelle)
             - if price.info.present?
-              %div.visuallyhidden--lap-and-up= "(#{price.info})"
+              = "(#{price.info})"
         %td.text--center{ data: { th: 'Tarif' } }
           %div= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
-        %td.visuallyhidden--palm.soft--right{ data: { th: 'Infos' } }
-          %div= price.info
