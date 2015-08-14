@@ -34,10 +34,7 @@ var SubjectStore = Backbone.Collection.extend({
                 this.selected_root_subject = payload.data;
                 if (!this.selected_group_subject) { this.setSelectedGroupSubject(); }
                 var associated_group_subject = this.getGroupSubjectFromRootSubjectSlug(payload.data.slug);
-                // If root subjects are not loaded, we load them.
-                if (!associated_group_subject.root_subjects) {
-                    this.loadRootSubjects(associated_group_subject);
-                }
+                this.loadRootSubjects(associated_group_subject);
                 this.loadChildSubjects(payload.data);
                 break;
             case ActionTypes.SELECT_SUBJECT:
@@ -125,6 +122,8 @@ var SubjectStore = Backbone.Collection.extend({
      * Will load root subjects associated with selected group subject
      */
     loadRootSubjects: function loadRootSubjects (group_subject) {
+        // Don't need to load roots if they are already loaded
+        if (this.getGroupSubject(group_subject.group_id).root_subjects) { return; }
         var slug_facet = _.map(this.getGroupSubject(group_subject.group_id).root_slugs, function(root_slug) {
             return 'slug:' + root_slug
         });
@@ -136,7 +135,7 @@ var SubjectStore = Backbone.Collection.extend({
             this.error   = true;
             this.trigger('change');
         }.bind(this));
-    },
+    }.debounce(250),
 
     /*
      * Will load root subjects associated with selected group subject
@@ -153,7 +152,7 @@ var SubjectStore = Backbone.Collection.extend({
             this.error   = true;
             this.trigger('change');
         }.bind(this));
-    },
+    }.debounce(250),
 
     setSelectedGroupSubject: function setSelectedGroupSubject () {
         var group_subject = this.getGroupSubjectFromRootSubjectSlug(this.selected_root_subject.slug);
@@ -161,6 +160,8 @@ var SubjectStore = Backbone.Collection.extend({
     },
 
     setSelectedRootSubject: function setSelectedRootSubject () {
+        // Only if it's a new root
+        if (this.selected_subject.root == this.selected_root_subject.slug) { return; }
         var data = { hitsPerPage: 5, facets: '*', facetFilters: 'slug:' + this.selected_subject.slug }
         AlgoliaSearchUtils.searchSubjects(data).then(function(content){
             this.selected_root_subject = { slug: content.hits[0].root, name: content.hits[0].root_name };
