@@ -24,7 +24,7 @@
   .center-block{ style: 'max-width: 800px; '}>
     .two-thrids
       = simple_form_for @comment, url: structure_comment_path(@structure, @comment), as: :comment do |f|
-        = render 'private_message'
+        = render partial: 'private_message', locals: { f: f }
         .text--center
           = f.submit 'Envoyer mon message', class: 'btn btn--large btn--green btn--full', data: { disable_with: "Envoi en cours..." }
 
