@@ -161,7 +161,7 @@ var SubjectStore = Backbone.Collection.extend({
 
     setSelectedRootSubject: function setSelectedRootSubject () {
         // Only if it's a new root
-        if (this.selected_subject.root == this.selected_root_subject.slug) { return; }
+        if (this.selected_root_subject && this.selected_subject && this.selected_subject.root == this.selected_root_subject.slug) { return; }
         var data = { hitsPerPage: 5, facets: '*', facetFilters: 'slug:' + this.selected_subject.slug }
         AlgoliaSearchUtils.searchSubjects(data).then(function(content){
             this.selected_root_subject = { slug: content.hits[0].root, name: content.hits[0].root_name };
