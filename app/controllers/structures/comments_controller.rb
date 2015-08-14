@@ -8,11 +8,11 @@ class Structures::CommentsController < ApplicationController
   def index
     @structure    = Structure.friendly.find(params[:structure_id])
     if params[:certified] == "true"
-      @comments = @structure.comments.accepted.certified.page(params[:page] || 1).per(5)
+      @comments = @structure.comments.includes(:commentable, :user).accepted.certified.page(params[:page] || 1).per(5)
     elsif params[:certified] == "false"
-      @comments = @structure.comments.accepted.not_certified.page(params[:page] || 1).per(5)
+      @comments = @structure.comments.includes(:commentable, :user).accepted.not_certified.page(params[:page] || 1).per(5)
     else
-      @comments = @structure.comments.accepted.page(params[:page] || 1).per(5)
+      @comments = @structure.comments.includes(:commentable, :user).accepted.page(params[:page] || 1).per(5)
     end
 
     respond_to do |format|
