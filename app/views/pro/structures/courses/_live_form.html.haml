@@ -3,36 +3,48 @@
 .push--bottom{ id: "course-#{course.id}", data: { 'course-id' => course.id } }
   .panel
     .visuallyhidden= link_to 'Définir les tarifs', new_pro_structure_price_group_path(@structure, course_type: (course.is_training? ? 'training' : 'regular'), name: course.name, course_id: course.id), class: 'fancybox.ajax', data: { type: 'course-price-group-creation', behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' }
-    .soft-half
-      = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { data: { behavior: 'live-form' } } do |f|
-        .push-half--bottom
-          %h4.inline-block.line-height-normal.v-middle.flush--bottom.push-half--right{ data: { toggle: 'popover', title: course.name, content: "<p class='flush'><strong>Description</strong></p>#{truncate_html(simple_format(course.description), length: 1000)}", html: 'true', trigger: 'hover' } }
-            = truncate course.name, length: (course.is_lesson? ? 50 : 80)
-          .inline-block.line-height-normal.v-middle.nowrap
-            = link_to edit_pro_structure_course_path(structure, course), class: 'v-middle fancybox.ajax nowrap', data: { behavior: 'modal', width: '750', padding: '0', course_id: course.id, action: 'edit', lock_overlay: true } do
-              %i.fa-pencil
-              Modifier
-            %span.v-middle /
-            = link_to ask_for_deletion_pro_structure_course_path(structure, course), class: 'v-middle red fancybox.ajax nowrap', data: { behavior: 'modal', width: '400', padding: '0' } do
-              %i.fa-trash-o
-              Supprimer
+    .flexbox
+      .flexbox__item.v-top.two-twelfths.text--center.bordered--right>
+        - if course.media
+          = image_tag course.media.image.url(:thumbnail)
+          = link_to 'Choisir une autre image', choose_media_pro_structure_course_path(@structure, course), class: 'fancybox.ajax', data: { behavior: 'modal', padding: '0', width: 750 }
+        - else
+          = link_to choose_media_pro_structure_course_path(@structure, course), class: 'soft block gray epsilon f-weight-500 v-middle bg-gray-light bordered--bottom fancybox.ajax', data: { behavior: 'modal', padding: '0', width: 750 } do
+            .text--center
+              %i.fa-camera.fa-4x
+            Choisir une image
 
-      - if course.is_private?
-        - if course.teaches_at_home? and course.home_place and course.place
-          %strong 2 lieux :
-        - if course.teaches_at_home? and course.home_place
-          À domicile (#{course.home_place.city.name}, #{course.home_place.radius}km)
-        - if course.teaches_at_home? and course.home_place and course.place
-          et
-        - if course.place
-          = course.place.address
-      .push-half--ends
-        = render partial: "pro/structures/courses/plannings/#{course.underscore_name}_list", locals: { course: course, structure: structure }
-        - unless course.on_appointment?
-          .soft-half--top
-            = link_to new_pro_structure_course_planning_path(structure, course), class: ['fancybox.ajax nowrap', (course.plannings.empty? ? 'btn btn--red btn--small' : '')], data: { behavior: 'modal', width: '800', padding: '0', action: 'new_planning', course_id: course.id, lock_overlay: true } do
-              .fa.fa-plus
-              = (course.is_training? ? 'Ajouter une date' : 'Ajouter un créneau')
+      .flexbox__item.v-top.ten-twelfths>
+        .soft-half--ends
+          = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { data: { behavior: 'live-form' } } do |f|
+            .push-half--bottom.soft-half--sides
+              %h4.inline-block.line-height-normal.v-middle.flush--bottom.push-half--right{ data: { toggle: 'popover', title: course.name, content: "<p class='flush'><strong>Description</strong></p>#{truncate_html(simple_format(course.description), length: 1000)}", html: 'true', trigger: 'hover' } }
+                = truncate course.name, length: (course.is_lesson? ? 50 : 80)
+              .inline-block.line-height-normal.v-middle.nowrap
+                = link_to edit_pro_structure_course_path(structure, course), class: 'v-middle fancybox.ajax nowrap', data: { behavior: 'modal', width: '750', padding: '0', course_id: course.id, action: 'edit', lock_overlay: true } do
+                  %i.fa-pencil
+                  Modifier
+                %span.v-middle /
+                = link_to ask_for_deletion_pro_structure_course_path(structure, course), class: 'v-middle red fancybox.ajax nowrap', data: { behavior: 'modal', width: '400', padding: '0' } do
+                  %i.fa-trash-o
+                  Supprimer
+
+          - if course.is_private?
+            - if course.teaches_at_home? and course.home_place and course.place
+              %strong 2 lieux :
+            - if course.teaches_at_home? and course.home_place
+              À domicile (#{course.home_place.city.name}, #{course.home_place.radius}km)
+            - if course.teaches_at_home? and course.home_place and course.place
+              et
+            - if course.place
+              = course.place.address
+          .push-half--ends
+            = render partial: "pro/structures/courses/plannings/#{course.underscore_name}_list", locals: { course: course, structure: structure }
+            - unless course.on_appointment?
+              .soft-half--top.soft-half--sides
+                = link_to new_pro_structure_course_planning_path(structure, course), class: ['fancybox.ajax nowrap', (course.plannings.empty? ? 'btn btn--red btn--small' : '')], data: { behavior: 'modal', width: '800', padding: '0', action: 'new_planning', course_id: course.id, lock_overlay: true } do
+                  .fa.fa-plus
+                  = (course.is_training? ? 'Ajouter une date' : 'Ajouter un créneau')
     .bg-gray-light.bordered--top
       .inline-block.soft-half
         - if course.is_lesson? or course.is_private?

@@ -12,6 +12,7 @@ class Course < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   belongs_to :place
+  belongs_to :media
 
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
@@ -62,7 +63,7 @@ class Course < ActiveRecord::Base
   validates :name, length: { maximum: 255 }
 
   attr_accessible :name, :type, :description,
-                  :active, :info,
+                  :active, :info, :media_id,
                   :frequency, :is_individual,
                   :cant_be_joined_during_year,
                   :no_class_during_holidays,

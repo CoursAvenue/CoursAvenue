@@ -87,6 +87,7 @@ class User < ActiveRecord::Base
   after_save   :subscribe_to_mailchimp if Rails.env.production?
 
   def self.force_create(params)
+    return if params[:email].blank?
     u = User.new(params)
     u.email = u.email.downcase
     u.valid? # Validate to trigger errors

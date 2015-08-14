@@ -409,7 +409,9 @@ CoursAvenue::Application.routes.draw do
             patch :update_openings
           end
           member do
-            get  :ask_for_deletion
+            get   :choose_media
+            patch :add_image
+            get   :ask_for_deletion
             patch :update_price
           end
           resources :plannings, controller: 'structures/courses/plannings'

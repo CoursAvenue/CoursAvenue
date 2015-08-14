@@ -103,7 +103,7 @@ CoursAvenue::Application.configure do
   config.assets.precompile += %w( libs/highcharts/highcharts.js libs/highcharts/modules/exporting.js )
   config.assets.precompile += %w( libs/filepicker.js )
   config.assets.precompile += %w( libs/jquery.fullPage.js libs/jquery.fullPage.css )
-  config.assets.precompile << /\.(?:svg|eot|woff|ttf)\z/
+  config.assets.precompile += %w( CoursAvenueIconFont.svg )
 
 
   # Enable threaded mode

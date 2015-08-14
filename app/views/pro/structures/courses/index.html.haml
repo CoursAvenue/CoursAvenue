@@ -14,20 +14,20 @@
     %div.push-half--top
       = link_to "Dates de fermeture d'été", configure_openings_pro_structure_courses_path(@structure, subdomain: 'www'), class: 'btn btn--white btn--small fancybox.ajax', data: { behavior: 'modal', width: '650', padding: '0' }
 
-#trainings-header.bg-white.soft--top.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 35, z: 500, old_width: 'true' } }
+#trainings-header.bg-white.soft--top
   %h3{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } } Stages &amp; ateliers
 #training-list
   - @trainings.each do |course|
     = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
-#lessons-header.bg-white.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 35, z: 500, old_width: 'true', pushed: '#trainings-header' } }
+#lessons-header.bg-white
   - training_border = @trainings.any? ? 'bordered--top' : ''
   %h3{ class: @lessons.any? ? (training_border + ' soft--top') : 'hidden', data: { 'course-container-title' => true } } Cours collectifs
 #lesson-list
   - @lessons.each do |course|
     = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }
 
-.bg-white.bordered--bottom-on-stick{ data: { behavior: 'sticky', offset_top: 35, z: 500, old_width: 'true', pushed: '#lessons-header' } }
+.bg-white
   - private_border = @privates.any? ? 'bordered--top' : ''
   %h3{ class: @privates.any? ? (private_border + ' soft--top' ): 'hidden', data: { 'course-container-title' => true } } Cours particuliers
 #private-list
@@ -40,3 +40,5 @@
   = render partial: 'pro/structures/courses/add_activity_button'
 
 = render 'course_bottom_scripts'
+
+

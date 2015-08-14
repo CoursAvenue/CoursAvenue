@@ -7,7 +7,7 @@ class Media < ActiveRecord::Base
 
   attr_accessible :mediable, :mediable_id, :mediable_type, :url, :caption, :format,
                   :provider_id, :provider_name, :thumbnail_url, :filepicker_url, :cover,
-                  :star, :vertical_page_caption, :subject_ids
+                  :star, :vertical_page_caption, :subject_ids, :remote_image_url
 
   ######################################################################
   # Relations                                                          #

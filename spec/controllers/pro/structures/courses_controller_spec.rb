@@ -26,6 +26,16 @@ describe Pro::Structures::CoursesController do
     end
   end
 
+  describe "PATCH #add_image" do
+    let(:course) { FactoryGirl.create(:course, structure: admin.structure) }
+    it 'creates a media and affect it to the course' do
+      patch :add_image, { structure_id: admin.structure.slug,
+                          id: course.id,
+                          course: { media: 'urltoimage' } }
+      expect(course.reload.media.present?).to be_truthy
+    end
+  end
+
   describe "PATCH #update_openings" do
     let(:course) { FactoryGirl.create(:course, structure: admin.structure) }
     it 'updates start_date and end_date' do

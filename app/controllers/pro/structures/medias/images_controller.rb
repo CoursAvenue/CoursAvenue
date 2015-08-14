@@ -11,9 +11,7 @@ class Pro::Structures::Medias::ImagesController < Pro::ProController
 
   def create
     params[:media_image][:url].split(',').each do |filepicker_url|
-      media_image                  = Media::Image.new filepicker_url: filepicker_url, mediable: @structure
-      media_image.remote_image_url = filepicker_url
-      media_image.save
+      media_image = Media::Image.create filepicker_url: filepicker_url, remote_image_url: filepicker_url, mediable: @structure
     end
     respond_to do |format|
       format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Vos images ont bien été ajoutées !' }

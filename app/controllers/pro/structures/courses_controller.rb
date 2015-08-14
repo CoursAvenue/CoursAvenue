@@ -14,6 +14,23 @@ class Pro::Structures::CoursesController < Pro::ProController
     end
   end
 
+  # PATCH member
+  # @params { course: { media: 'filepickerurl' } }
+  def add_image
+    @course = @structure.courses.friendly.find params[:id]
+    media_image = Media::Image.create filepicker_url: params[:course][:media], remote_image_url: params[:course][:media], mediable: @structure
+    @course.media = media_image
+    @course.save
+    redirect_to pro_structure_courses_path(@structure), notice: 'Le cours a bien été mis à jour'
+  end
+
+  def choose_media
+    @course = @structure.courses.friendly.find params[:id]
+    if request.xhr?
+      render layout: false
+    end
+  end
+
   def index
     @trainings = @structure.courses.trainings.order('name ASC')
     @lessons   = @structure.courses.lessons.order('name ASC')
@@ -50,7 +67,7 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def edit
-    @course = Course.friendly.find params[:id]
+    @course = @structure.courses.friendly.find params[:id]
     if request.xhr?
       render partial: 'form', layout: false
     else
@@ -124,7 +141,7 @@ class Pro::Structures::CoursesController < Pro::ProController
     params.require(:course).permit(:type, :name, :frequency, :description, :teaches_at_home,
                                    :cant_be_joined_during_year, :no_class_during_holidays,
                                    :place_id, :on_appointment, :max_age_for_kid, :min_age_for_kid,
-                                   :accepts_payment,
+                                   :accepts_payment, :media_id,
                                    :accepts_payment, :price_group_id,
                                    audience_ids: [], level_ids: [], subject_ids: [],
                                    prices_attributes: [:id, :number, :type, :amount, :promo_amount, :info])
