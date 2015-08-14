@@ -103,6 +103,7 @@ class Place < ActiveRecord::Base
         latitude:     latitude,
         longitude:    longitude,
         subject_slug: dominant_root_subject.try(:slug),
+        address:      address,
         radius:       radius
     }
   end
