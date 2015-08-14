@@ -58,7 +58,7 @@
             - if price.info.present?
               = "(#{price.info})"
 
-        %td{ data: { th: 'Tarif' } }
+        %td.text--center{ data: { th: 'Tarif' } }
           %div= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
 
 
