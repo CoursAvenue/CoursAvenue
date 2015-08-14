@@ -1,5 +1,8 @@
 class MetroLineSerializer < ActiveModel::Serializer
 
+  cached
+  delegate :cache_key, to: :object
+
   attributes :number, :number_without_bis, :is_bis, :line_type
 
   def number_without_bis

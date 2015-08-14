@@ -1,8 +1,8 @@
 %table.table--striped.table--data.table-responsive
   %thead
     %tr
-      %th.soft--left.three-twelfths Formule
-      %th.two-twelfths.text--center Tarif
+      %th.soft--left.ten-twelfths Formule
+      %th.two-twelfths.text--right.soft--right Tarif
   %tbody
     - price_group.book_tickets.each do |price|
       %tr
@@ -14,7 +14,7 @@
               = "#{price.number} cours"
             - if price.info.present?
               = "(#{price.info})"
-        %td.text--center{ data: { th: 'Tarif' } }
+        %td.text--right.soft--right{ data: { th: 'Tarif' } }
           %div
             - if price.amount && price.promo_amount
               %span.line-through= readable_amount(price.amount)
@@ -29,7 +29,7 @@
             = t(price.libelle)
             - if price.info.present?
               = "(#{price.info})"
-        %td.text--center{ data: { th: 'Tarif' } }
+        %td.text--right.soft--right{ data: { th: 'Tarif' } }
           %div
             - if price.amount && price.promo_amount
               %span.line-through= readable_amount(price.amount)
@@ -43,7 +43,7 @@
             Adhésion annuelle
             - if price.info.present?
               = "(#{price.info})"
-        %td.text--center{ data: { th: 'Tarif' } }
+        %td.text--right.soft--right{ data: { th: 'Tarif' } }
           %div
             - if price.free?
               Gratuite
@@ -58,7 +58,7 @@
             - if price.info.present?
               = "(#{price.info})"
 
-        %td.text--center{ data: { th: 'Tarif' } }
+        %td.text--right.soft--right{ data: { th: 'Tarif' } }
           %div= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount
 
 
@@ -69,5 +69,5 @@
             = t(price.libelle)
             - if price.info.present?
               = "(#{price.info})"
-        %td.text--center{ data: { th: 'Tarif' } }
+        %td.text--right.soft--right{ data: { th: 'Tarif' } }
           %div= readable_amount(price.promo_amount, false, price.promo_amount_type) if price.promo_amount

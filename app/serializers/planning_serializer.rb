@@ -2,6 +2,9 @@ class PlanningSerializer < ActiveModel::Serializer
   include PlanningsHelper
   include PricesHelper
 
+  cached
+  delegate :cache_key, to: :object
+
   attributes :id, :date, :duration, :time_slot, :levels, :audiences, :place_id,
              :course_id, :info, :address, :address_with_info, :address_name, :home_place_id,
              :next_date, :week_day, :address_lat, :address_lng, :start_date, :start_hour,

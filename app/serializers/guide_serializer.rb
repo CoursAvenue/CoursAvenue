@@ -1,4 +1,8 @@
 class GuideSerializer < ActiveModel::Serializer
+
+  cached
+  delegate :cache_key, to: :object
+
   # This allows us to have all of the Guide attributes and to add some.
   attributes *(Guide.attribute_names.map(&:to_sym) + [:subjects])
 

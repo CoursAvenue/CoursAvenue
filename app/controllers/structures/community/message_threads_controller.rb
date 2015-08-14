@@ -3,14 +3,11 @@ class Structures::Community::MessageThreadsController < ApplicationController
   before_filter :load_structure_and_community
 
   def index
-    @message_threads = @community.message_threads
-
-    threads = ActiveModel::ArraySerializer.new(@message_threads,
-                                               each_serializer: Community::MessageThreadsSerializer)
+    @message_threads = @community.message_threads.includes(:conversation)
 
     respond_to do |format|
       format.html { redirect_to structure_path(@structure) }
-      format.json { render json: threads }
+      format.json { render json: @message_threads, each_serializer: Community::MessageThreadsSerializer }
     end
   end
 
