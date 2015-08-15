@@ -8,6 +8,10 @@ var ThreadMessage = React.createClass({
         return { show_reply_form: false };
     },
 
+    componentDidMount: function componentDidMount () {
+        $(this.getDOMNode()).find('[data-behavior=read-more]').readMore();
+    },
+
     submitReplyToThread: function submitReplyToThread () {
         if (CoursAvenue.currentUser().isLogged()) {
             var $textarea = $(this.getDOMNode()).find('textarea');
@@ -82,13 +86,14 @@ var ThreadMessage = React.createClass({
                     <div className="visuallyhidden--palm">
                         { avatar }
                     </div>
-                    <div className="line-height-1-5">
+                    <div className={"line-height-1-5 " + (this.props.answers ? '' : 'f-size-11')}>
                         <strong>{this.props.message.author_name}</strong>
                     </div>
 
                 </div>
                 <div className="grid__item palm-one-whole nine-twelfths soft-half--top">
-                    <div className={content_class}
+                    <div data-behavior="read-more"
+                         className={content_class}
                          dangerouslySetInnerHTML={{__html: this.props.message.content }}></div>
                     { answer_section }
                     { reply_form }
