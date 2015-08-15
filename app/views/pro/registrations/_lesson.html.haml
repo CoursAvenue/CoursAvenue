@@ -1,4 +1,4 @@
-= simple_form_for [:pro, @course_creation_form], url: create_course_pro_registrations_path, method: :post, html: { class: 'push--ends', autocomplete: "false"} do |f|
+= simple_form_for [:pro, @course_creation_form], url: create_course_pro_registrations_path, method: :post, html: { class: 'push--ends', autocomplete: "off"} do |f|
   = f.hidden_field :structure_id, value: @structure.slug
   = f.hidden_field :course_type, value: 'Course::Lesson'
 
@@ -23,7 +23,7 @@
     .grid__item.one-third.text--right.v-middle.palm-text--left.palm-one-whole>
       = f.label :course_subject_ids, label: 'Étiquette disciplines', class: 'label--large v-middle'
     .grid__item.v-middle.two-thirds.palm-one-whole>
-      = f.input :course_subject_ids, as: :select, collection: little_children_subjects(@structure), input_html: { id: 'subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+      = f.input :course_subject_ids, as: :select, collection: little_children_subjects(@structure), input_html: { id: 'subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "off" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
 
   .grid--full.push-half--bottom
     .grid__item.one-third.text--right.v-middle.palm-text--left.palm-one-whole>

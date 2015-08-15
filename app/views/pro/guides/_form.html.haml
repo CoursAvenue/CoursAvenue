@@ -56,7 +56,7 @@
               .grid__item.seven-tenths
                 = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.answer.content') }
                 = af.input :subject_ids, as: :select, collection: Subject.order('position ASC'), label: 'Disciplines', label_method: :name,
-                  input_html: { data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true }
+                  input_html: { data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "off" }, multiple: true }
                 = af.input :position, label: 'Position', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: (af.index + 1) }
 
             %hr.push-half--ends

@@ -1,3 +1,4 @@
 .p Nom : #{@name}
 .p Email : #{@email}
-.p= @content.html_safe
+
+= simple_format(@content.html_safe).gsub('<p>', '<div class="p">').gsub('</p>', '</div>').html_safe
