@@ -1,8 +1,5 @@
 class Community::MessageThreadsSerializer < ActiveModel::Serializer
 
-  cached
-  delegate :cache_key, to: :object
-
   attributes :id, :community_id, :question, :answers
 
   has_one :question, serializer: Community::MessageSerializer
