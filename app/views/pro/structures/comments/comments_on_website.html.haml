@@ -4,33 +4,16 @@
 
 %h1 Livre d'Or sur votre site web
 
-- if @structure.premium?
-  - if @structure.subscription.plan.website_plan?
-    %p.delta.line-height-1-3 Félicitations ! Grâce à l'offre Site Internet, votre site Internet bénéficie d'un Livre d'Or optimisé pour développer le bouche-à-oreille sur Internet.
-    .text--center
-      = link_to "Voir ma page Livre d'Or", structure_website_reviews_url(subdomain: @structure.subdomain_slug), target: :_blank, class: 'btn btn--green'
-  - else
-    %p.delta.line-height-1-3 Equipez votre site Internet d'une page Livre d'Or optimisée et augmentez votre nombre d'inscrits :
+%p.delta.line-height-1-3 Equipez votre site Internet d'une page Livre d'Or optimisée et augmentez votre nombre d'inscrits :
 
-    %p.delta.line-height-1-3 1. Créez un bouton ou une rubrique « Livre d'Or » sur votre site Internet
+%p.delta.line-height-1-3 1. Créez un bouton ou une rubrique « Livre d'Or » sur votre site Internet
 
-    %p.delta.line-height-1-3
-      2. Après avoir obtenu vos premiers avis
-      = precede '(' do
-        = succeed '),' do
-          = link_to 'demander des recommandations', recommendations_pro_structure_path(@structure)
-      copiez et associez le lien suivant à votre rubrique « Livre d'Or » :
-      = link_to structure_website_reviews_url(subdomain: @structure.subdomain_slug), structure_website_reviews_url(subdomain: @structure.subdomain_slug), target: :_blank
+%p.delta.line-height-1-3
+  2. Après avoir obtenu vos premiers avis
+  = precede '(' do
+    = succeed '),' do
+      = link_to 'demander des recommandations', recommendations_pro_structure_path(@structure)
+  copiez et associez le lien suivant à votre rubrique « Livre d'Or » :
+  = link_to structure_website_reviews_url(subdomain: @structure.subdomain_slug), structure_website_reviews_url(subdomain: @structure.subdomain_slug), target: :_blank
 
-    %p.delta.line-height-1-3 3. C'est fait ! Votre site Internet va maintenant pouvoir développer votre bouche à oreille sur Internet
-
-- else
-  .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides
-    %p.delta.line-height-1-3 Affichez les avis de vos élèves sur votre site Internet et profitez des effets du bouche-à-oreille.
-
-    %p.delta.line-height-1-3
-      %strong Le saviez-vous ?
-      %br
-      90% des Français recherchent des avis sur Internet avant de s'inscrire à une activité.
-    %p.text--center
-      = link_to 'Essayer gratuitement', confirm_choice_pro_structure_subscriptions_path(@structure, plan_id: Subscriptions::Plan.monthly.module.first.id), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 }
+%p.delta.line-height-1-3 3. C'est fait ! Votre site Internet va maintenant pouvoir développer votre bouche à oreille sur Internet
