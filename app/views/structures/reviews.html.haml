@@ -4,6 +4,9 @@
 = content_for :meta_description do
   #{@structure.name} | Tous les avis des élèves
 
+= content_for :right_after_head do
+  %meta{ name: "robots", content: 'noindex,follow' }
+
 .main-container.main-container--medium
   .text--center
     %h3

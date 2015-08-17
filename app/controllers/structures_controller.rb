@@ -70,6 +70,10 @@ class StructuresController < ApplicationController
     end
   end
 
+  def reviews
+    @reviews = @structure.comments
+  end
+
   private
 
   def get_layout
