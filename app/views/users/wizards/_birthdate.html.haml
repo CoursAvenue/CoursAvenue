@@ -1,4 +1,4 @@
-= simple_form_for [@user], html: { autocomplete: 'off', class: 'wizard-form' }, remote: true do |f|
+= simple_form_for [@user], html: { autocomplete: 'false', class: 'wizard-form' }, remote: true do |f|
   %h4
     Quelle est votre date de naissance ?
   = f.input :birthdate, start_year: (Date.today.year - 1), end_year: 1900, include_blank: true

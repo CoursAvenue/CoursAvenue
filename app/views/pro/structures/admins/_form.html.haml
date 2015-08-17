@@ -1,4 +1,4 @@
-= simple_form_for [:pro, @structure, @admin], html: { autocomplete: 'off' } do |f|
+= simple_form_for [:pro, @structure, @admin], html: { autocomplete: 'false' } do |f|
   = f.error_notification
   .soft--top
     .soft--sides.hard--bottom{ data: { behavior: 'wizard-helper', content: t('pro.admins.wizard.email')} }

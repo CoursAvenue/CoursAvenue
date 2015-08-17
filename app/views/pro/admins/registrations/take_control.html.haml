@@ -48,7 +48,7 @@
                     S'inscrire avec Facebook
                 .text--center.push-half--top
                   %strong.epsilon> OU
-                = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
+                = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'false', class: 'half-form'} do |f|
                   = f.error_notification
                   .grid
                     .grid__item.one-fifth.text--right.v-middle>

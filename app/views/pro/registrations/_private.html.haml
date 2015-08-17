@@ -11,7 +11,7 @@
     .grid__item.one-third.text--right.v-middle.palm-text--left.palm-one-whole>
       = f.label :course_name, label: 'Nom du cours particulier', class: 'label--large v-middle'
     .grid__item.v-middle.two-thirds.palm-one-whole>
-      = f.input :course_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+      = f.input :course_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'false' }
 
   .grid--full.push-half--bottom
     .grid__item.one-third.text--right.v-middle.palm-text--left.palm-one-whole>
@@ -118,13 +118,13 @@
         .grid__item.one-third.text--right.v-middle.palm-text--left.palm-one-whole>
           = f.label :place_name, label: Place.human_attribute_name(:name), class: 'label--large v-middle'
         .grid__item.v-middle.two-thirds.palm-one-whole>
-          = f.input :place_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off', placeholder: t('simple_form.placeholders.place.name') }
+          = f.input :place_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'false', placeholder: t('simple_form.placeholders.place.name') }
 
       .grid--full.push-half--bottom
         .grid__item.one-third.text--right.v-middle.palm-text--left.palm-one-whole>
           = f.label :place_street, label: Place.human_attribute_name(:street), class: 'label--large v-middle'
         .grid__item.v-middle.two-thirds.palm-one-whole>
-          = f.input :place_street, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off', placeholder: t('simple_form.placeholders.place.street') }
+          = f.input :place_street, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'false', placeholder: t('simple_form.placeholders.place.street') }
 
       .grid--full.push-half--bottom
         .grid__item.one-third.text--right.v-middle.palm-text--left.palm-one-whole>

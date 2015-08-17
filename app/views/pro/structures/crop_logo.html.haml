@@ -4,7 +4,7 @@
     = render partial: 'pro/structures/tabs', locals: { current: 'établissement'}
 
   %div{class: @is_xhr ? '' : 'panel__body soft'}
-    = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |f|
+    = simple_form_for [:pro, @structure], html: { autocomplete: 'false', id: 'structure-form' } do |f|
       = f.error_notification
       .grid
         .grid__item.two-thirds>

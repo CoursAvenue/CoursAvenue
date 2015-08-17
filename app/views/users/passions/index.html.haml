@@ -13,7 +13,7 @@
           %br
           pour recevoir des cours d'essai gratuits ou des offres exclusives près de chez vous :
 
-        = simple_form_for [@user], html: { autocomplete: 'off', id: 'user-form' } do |f|
+        = simple_form_for [@user], html: { autocomplete: 'false', id: 'user-form' } do |f|
           %input{ name: 'return_to', value: user_passions_path(@user), type: 'hidden' }
           %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
             = f.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { class: 'input--large hard', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', selected: @user.subjects.roots.map(&:id).join(',') }, multiple: true }, label: 'Disciplines générales ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }

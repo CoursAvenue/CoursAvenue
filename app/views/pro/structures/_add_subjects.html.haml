@@ -3,7 +3,7 @@
   = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20, style: 'margin-top: 190px;'
 #content.hidden
   %h4.text--center Gérez vos disciplines
-  = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' }, remote: params[:return_to_action].present? do |f|
+  = simple_form_for [:pro, @structure], html: { autocomplete: 'false', id: 'structure-form' }, remote: params[:return_to_action].present? do |f|
     %input{ type: 'hidden', name: 'return_to', value: return_to }
     - if params[:return_to_action].present?
       %input{ type: 'hidden', name: 'return_to_action', value: params[:return_to_action] }

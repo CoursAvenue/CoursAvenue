@@ -1,4 +1,4 @@
-= simple_form_for [:pro, @structure], html: { autocomplete: 'off', class: 'wizard-form' }, remote: true do |f|
+= simple_form_for [:pro, @structure], html: { autocomplete: 'false', class: 'wizard-form' }, remote: true do |f|
   .push--bottom#description-wizard-helper-container{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.description') } }
     %h4
       Il nous manque une description sur vous et vos cours : rédigez-la maintenant

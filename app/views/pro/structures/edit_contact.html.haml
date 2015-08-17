@@ -2,7 +2,7 @@
 
 = render partial: 'pro/structures/tabs', locals:{ current: 'contact' }
 %h1 Contact
-= simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |form|
+= simple_form_for [:pro, @structure], html: { autocomplete: 'false', id: 'structure-form' } do |form|
   %input{ type: 'hidden', name: 'return_to', value: edit_contact_pro_structure_path(@structure)}
 
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts.coordinates') } }

@@ -1,4 +1,4 @@
-= simple_form_for [@user], html: { autocomplete: 'off', class: 'wizard-form' }, remote: true do |f|
+= simple_form_for [@user], html: { autocomplete: 'false', class: 'wizard-form' }, remote: true do |f|
   %h4
     Quel est votre numéro de téléphone ? (seul votre professeur a accès à cette information)
   = f.input :phone_number, placeholder: 'Ex. : 06 34 41 99 31'

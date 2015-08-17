@@ -18,7 +18,7 @@
         .or
           %span
             ou
-        = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
+        = simple_form_for [:pro, @admin], url: pro_admin_registration_path, html: { autocomplete: 'false', class: 'half-form'} do |f|
           = f.input :email, required: true, autofocus: true, label: t('.email'), wrapper_html: { class: 'flush--bottom' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
           = f.input :password, required: true, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
           = f.hidden_field :structure_id, as: :hidden, value: @structure.try(:id)

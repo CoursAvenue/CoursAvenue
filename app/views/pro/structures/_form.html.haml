@@ -1,7 +1,7 @@
 = content_for :scripts do
   = javascript_include_tag 'libs/jquery.Jcrop.js'
 
-= simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |structure_form|
+= simple_form_for [:pro, @structure], html: { autocomplete: 'false', id: 'structure-form' } do |structure_form|
 
   - if params[:return_to].present?
     %input{type: 'hidden', value: params[:return_to], name: 'return_to'}

@@ -7,7 +7,7 @@
   .panel__header.soft
     %h3.flush Ajouter une étiquette
   .panel__body.soft
-    = simple_form_for [:pro, @structure, @tag], url: url, html: { autocomplete: 'off' }, as: :tag do |f|
+    = simple_form_for [:pro, @structure, @tag], url: url, html: { autocomplete: 'false' }, as: :tag do |f|
       = f.error_notification
 
       = f.input :name, label: "Nom de l'étiquette", label_html: { class: 'label--large' }, input_html: { class: 'input--large'}

@@ -8,20 +8,20 @@
 
 .soft
   .main-container
-    = simple_form_for [:pro, @registration_form], url: pro_registrations_path, method: :post, html: { class: 'push--ends', autocomplete: "off"} do |f|
+    = simple_form_for [:pro, @registration_form], url: pro_registrations_path, method: :post, html: { class: 'push--ends', autocomplete: "false"} do |f|
 
       .grid.push--bottom
         .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
           %label.delta{ for: 'structure_registration_form[structure_name]' }> Nom de votre structure
         .grid__item.v-middle.two-thirds.palm-one-whole>
-          = f.input :structure_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off', placeholder: 'Ex. : Association KDance, Juliette Maret, Ateliers créatifs Lyon...' }
+          = f.input :structure_name, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'false', placeholder: 'Ex. : Association KDance, Juliette Maret, Ateliers créatifs Lyon...' }
 
       %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
         .grid.push--bottom
           .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
             %label.delta{ for: 'structure_registration_form[structure_subjects_ids]' }> Disciplines générales pratiquées
           .grid__item.v-middle.two-thirds.palm-one-whole>
-            = f.input :structure_subjects_ids, as: :select, collection: Subject.roots.stars.order('position ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "off" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
+            = f.input :structure_subjects_ids, as: :select, collection: Subject.roots.stars.order('position ASC'), input_html: { id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "false" }, multiple: true, class: 'input--large hard one-whole' }, label: false, label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }
         #descendants-subject.grid.push--bottom
           .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
             %label.delta{ for: 'structure_registration_form[structure_subject_descendants_ids]' }> Sous disciplines
@@ -50,7 +50,7 @@
         .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
           %label.delta{ for: 'structure_registration_form[admin_email]' }> E-Mail
         .grid__item.v-middle.two-thirds.palm-one-whole>
-          = f.input :admin_email, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+          = f.input :admin_email, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'false' }
           - if @registration_form.errors[:admin].present? and @registration_form.errors[:admin].first[:email].present?
             .red.f-weight-600.field_with_errors=  @registration_form.errors[:admin].first[:email].first
 
@@ -58,7 +58,7 @@
         .grid__item.one-third.text--right.v-middle.palm-one-whole.palm-text--left>
           %label.delta{ for: 'structure_registration_form[admin_password]' }> Mot de passe
         .grid__item.v-middle.two-thirds.palm-one-whole>
-          = f.input :admin_password, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'off' }
+          = f.input :admin_password, wrapper_html: { class: 'flush', style: 'max-width: 600px;' }, label: false, input_html: { class: 'input--large one-whole', autocomplete: 'false' }
           - if @registration_form.errors[:admin].present? and @registration_form.errors[:admin].first[:password].present?
             .input
               .control-label>

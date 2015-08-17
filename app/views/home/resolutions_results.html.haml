@@ -75,7 +75,7 @@
                   .flexbox
                     .flexbox__item.v-middle.search-input-wrapper.very-soft.hard--ends.palm-hard{ style: 'width: 140px;' }
                       .input-with-icon
-                        %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 19, placeholder:'Ville', type:'text', autocomplete: 'off', name:'address_name', value: 'Paris', data: { type:'address', lng:'#address-lng', lat: '#address-lat', city: '#address-city' , address_name: '#address-name', behavior: 'address-picker' } }
+                        %input.palm-one-whole.input--large.one-whole.soft-half--left{ size: 19, placeholder:'Ville', type:'text', autocomplete: 'false', name:'address_name', value: 'Paris', data: { type:'address', lng:'#address-lng', lat: '#address-lat', city: '#address-city' , address_name: '#address-name', behavior: 'address-picker' } }
                         %i.fa-map-marker.delta.black
                       %input#address-lat{ type: 'hidden', value: '48.8592', name: 'lat' }
                       %input#address-lng{ type: 'hidden', value: '2.3417', name: 'lng' }
