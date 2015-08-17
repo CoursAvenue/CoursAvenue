@@ -64,7 +64,7 @@ class Structures::Community::MessageThreadsController < ApplicationController
   end
 
   def reply_parameters
-    params.require(:community_message_thread).permit(:message)
+    params.require(:community_message_thread).permit(:message, :indexable_card_id)
   end
 
   def load_structure_and_community

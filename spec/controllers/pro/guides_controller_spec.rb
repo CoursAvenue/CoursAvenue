@@ -47,7 +47,7 @@ describe Pro::GuidesController, user_guide: true do
     context 'html format' do
       it 'redirects to the guide' do
         get :show, id: guide.slug
-        expect(response).to redirect_to(edit_guide_path(guide))
+        expect(response).to redirect_to(edit_pro_guide_path(guide))
       end
     end
 

@@ -3,13 +3,6 @@ require 'rails_helper'
 describe IndexableCard::Creator do
   let(:structure) { FactoryGirl.create(:structure_with_place) }
 
-  describe '#initialize' do
-    it do
-      creator = IndexableCard::Creator.new(structure)
-      expect(creator.structure).to eq(structure)
-    end
-  end
-
   describe '#create_cards' do
     subject { IndexableCard::Creator.new(structure) }
 
@@ -41,14 +34,9 @@ describe IndexableCard::Creator do
 
       context "when there's a new course" do
         it 'creates a new card' do
-          new_planning
-          structure.reload
-
-          expect { subject.update_cards }.
+          expect { new_planning; structure.reload; subject.update_cards }.
             to change { structure.indexable_cards.with_course.count }.by(1)
         end
-
-        it 'associates the new card with the course plannings'
       end
 
       context "when there are new subjects and places" do

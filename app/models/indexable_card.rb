@@ -306,6 +306,7 @@ class IndexableCard < ActiveRecord::Base
     ]
 
     course.plannings.order('start_time ASC, end_time ASC').each do |planning|
+      next if planning.week_day.nil?
       course_day = Date::DAYNAMES[planning.week_day].downcase
       day_availability = availability.detect { |d| d[:day] == course_day }
 
