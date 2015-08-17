@@ -59,11 +59,10 @@ module.exports = {
         });
     },
 
-    selectHighlightedSuggestion: function selectHighlightedSuggestion (index) {
+    searchFullText: function searchFullText (data) {
         SearchPageDispatcher.dispatch({
-            actionType: SearchPageConstants.ActionTypes.FULL_TEXT_SELECT_HIGHLIGHTED_SUGGESTION,
-            data: index
+            actionType: SearchPageConstants.ActionTypes.SUBJECT_SEARCH_FULL_TEXT,
+            data: data
         });
-    }
-
+    },
 };

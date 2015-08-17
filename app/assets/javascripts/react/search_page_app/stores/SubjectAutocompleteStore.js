@@ -25,7 +25,7 @@ var SubjectAutocompleteStore = Backbone.Collection.extend({
                 this.trigger('change');
                 break;
             case ActionTypes.INIT_SEARCH_FULL_TEXT:
-            case ActionTypes.SEARCH_FULL_TEXT:
+            case ActionTypes.SUBJECT_SEARCH_FULL_TEXT:
                 this.full_text_search = payload.data;
                 this.searchSubjects();
                 break;

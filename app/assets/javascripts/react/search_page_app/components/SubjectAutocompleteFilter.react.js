@@ -64,15 +64,6 @@ var SubjectAutocompleteFilter = React.createClass({
         }
     },
 
-    componentDidUpdate: function componentDidUpdate () {
-        if (this.state.subject_autocomplete_store.select_highlighted_suggestion) {
-            if (this.state.subject_autocomplete_store.selected_index == 0) {
-                this.searchFullText();
-            } else {
-                this.selectSubject();
-            }
-        }
-    },
     render: function render () {
 
         var height_class = 'search-page-filters__panel-height';

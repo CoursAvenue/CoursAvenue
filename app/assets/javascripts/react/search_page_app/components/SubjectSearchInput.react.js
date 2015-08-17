@@ -1,11 +1,12 @@
-var SubjectStore          = require('../stores/SubjectStore'),
-    FilterStore           = require('../stores/FilterStore'),
-    SearchPageDispatcher  = require('../dispatcher/SearchPageDispatcher'),
-    SubjectActionCreators = require('../actions/SubjectActionCreators'),
-    FilterActionCreators  = require('../actions/FilterActionCreators'),
-    FilterPanelConstants  = require('../constants/FilterPanelConstants'),
-    cx                    = require('classnames/dedupe');
-    FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
+var SubjectStore             = require('../stores/SubjectStore'),
+    SubjectAutocompleteStore = require('../stores/SubjectAutocompleteStore'),
+    FilterStore              = require('../stores/FilterStore'),
+    SearchPageDispatcher     = require('../dispatcher/SearchPageDispatcher'),
+    SubjectActionCreators    = require('../actions/SubjectActionCreators'),
+    FilterActionCreators     = require('../actions/FilterActionCreators'),
+    FilterPanelConstants     = require('../constants/FilterPanelConstants'),
+    cx                       = require('classnames/dedupe');
+    FluxBoneMixin            = require("../../mixins/FluxBoneMixin");
 
 var SubjectSearchInput = React.createClass({
 
@@ -15,13 +16,14 @@ var SubjectSearchInput = React.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            subject_store: SubjectStore,
-            filter_store:  FilterStore
+            subject_store             : SubjectStore,
+            subject_autocomplete_store: SubjectAutocompleteStore,
+            filter_store              :  FilterStore
         }
     },
 
     searchFullText: function searchFullText (event) {
-        FilterActionCreators.searchFullText($(event.currentTarget).val());
+        SubjectActionCreators.searchFullText($(event.currentTarget).val());
     },
 
     showSearchInputPanel: function showSearchInputPanel (event) {
@@ -34,13 +36,29 @@ var SubjectSearchInput = React.createClass({
         FilterActionCreators.clearFullTextAndCloseSearchInputPanel();
     },
 
-    handleKeyUp: function handleKeyUp (event) {
-        if ($(event.currentTarget).val().length == 0 || event.keyCode == 27) {
-            FilterActionCreators.closeFilterPanel();
+    selectSubject: function selectSubject (subject) {
+        var subject = this.state.subject_autocomplete_store.at(this.state.subject_autocomplete_store.selected_index - 1);
+        if (this.props.navigate) {
+            window.location = Routes.search_page_path(subject.get('root'), subject.get('slug'), 'paris');
+        } else {
+            SubjectActionCreators.selectSubject(subject.toJSON());
+        }
+    },
 
+
+    handleKeyUp: function handleKeyUp (event) {
+        // If hitting escape OF there is no val
+        if ($(event.currentTarget).val().length == 0 || event.keyCode == 27) {
+            FilterActionCreators.searchFullText();
+            FilterActionCreators.closeFilterPanel();
         // If hitting enter
         } else if (event.keyCode == 13) {
-            SubjectActionCreators.selectHighlightedSuggestion();
+            if (this.state.subject_autocomplete_store.selected_index == 0) {
+                FilterActionCreators.searchFullText($(event.currentTarget).val());
+                FilterActionCreators.closeFilterPanel();
+            } else {
+                this.selectSubject()
+            }
         // If arrow down
         } else if (event.keyCode == 40) {
             SubjectActionCreators.selectNextSuggestion();
@@ -50,12 +68,21 @@ var SubjectSearchInput = React.createClass({
         }
     },
 
+    shouldComponentUpdate: function shouldComponentUpdate () {
+        return (!this.state.subject_store.full_text_search || this.state.subject_store.full_text_search.length == 0);
+    },
+
+    componentDidUpdate: function componentDidUpdate () {
+        if (!this.state.subject_store.full_text_search || this.state.subject_store.full_text_search.length == 0) {
+            $(this.getDOMNode()).find('input').val('');
+        }
+    },
+
     render: function render () {
-        var value = this.state.subject_store.full_text_search;
         return (
           <div className="header-search-input palm-one-whole">
               <div className="relative">
-                  <input value={value}
+                  <input defaultValue={this.state.subject_store.full_text_search}
                          size="50"
                          onFocus={this.showSearchInputPanel}
                          onKeyUp={this.handleKeyUp}

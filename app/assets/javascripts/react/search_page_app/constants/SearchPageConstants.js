@@ -24,6 +24,7 @@ module.exports = {
         SELECT_SUBJECT:                       null,
         SELECT_ADDRESS:                       null,
         SEARCH_FULL_TEXT:                     null,
+        SUBJECT_SEARCH_FULL_TEXT:             null,
         SELECT_METRO_LINES:                   null,
         SELECT_METRO_LINE:                    null,
         SELECT_METRO_STOP:                    null,
@@ -31,7 +32,6 @@ module.exports = {
         FULL_TEXT_SELECT_NEXT_SUGGESTION:     null,
         FULL_TEXT_SELECT_PREVIOUS_SUGGESTION: null,
         FULL_TEXT_SELECT_SUGGESTION:          null,
-        FULL_TEXT_SELECT_HIGHLIGHTED_SUGGESTION: null,
 
         UNSET_FILTER:                         null,
 

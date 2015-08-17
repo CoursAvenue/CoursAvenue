@@ -63,6 +63,7 @@ var FilterStore = Backbone.Model.extend({
                     this.unset('current_panel');
                 }
                 break;
+            case ActionTypes.SUBJECT_SEARCH_FULL_TEXT:
             case ActionTypes.SEARCH_FULL_TEXT:
             case ActionTypes.SHOW_SUBJECT_INPUT_PANEL:
                 if (!this.get('current_panel') || this.get('current_panel') != FilterPanelConstants.FILTER_PANELS.SUBJECT_FULL_TEXT) {
