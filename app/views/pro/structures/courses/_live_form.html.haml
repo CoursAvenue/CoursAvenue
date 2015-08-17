@@ -30,14 +30,15 @@
                   Supprimer
 
           - if course.is_private?
-            - if course.teaches_at_home? and course.home_place and course.place
-              %strong 2 lieux :
-            - if course.teaches_at_home? and course.home_place
-              À domicile (#{course.home_place.city.name}, #{course.home_place.radius}km)
-            - if course.teaches_at_home? and course.home_place and course.place
-              et
-            - if course.place
-              = course.place.address
+            .soft-half--sides
+              - if course.teaches_at_home? and course.home_place and course.place
+                %strong 2 lieux :
+              - if course.teaches_at_home? and course.home_place
+                À domicile (#{course.home_place.city.name}, #{course.home_place.radius}km)
+              - if course.teaches_at_home? and course.home_place and course.place
+                et
+              - if course.place
+                = course.place.address
           .push-half--ends
             = render partial: "pro/structures/courses/plannings/#{course.underscore_name}_list", locals: { course: course, structure: structure }
             - unless course.on_appointment?

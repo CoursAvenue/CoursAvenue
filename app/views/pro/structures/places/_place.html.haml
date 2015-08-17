@@ -1,10 +1,8 @@
 %tr{ id: "place-#{place.id}"}
   %td{ data: { th: 'Nom du lieu' } }
     %div
-      - if current_pro_admin
-        = link_to place.name, edit_pro_structure_place_path(structure, place)
-      - else
-        = link_to place.name, place_url(place, subdomain: 'www')
+      %strong= (index + 1)
+      = place.name
   %td{ data: { th: 'Adresse' } }
     %div= place.address
   %td.text--center{ data: { th: 'Infos' } }

@@ -1,5 +1,7 @@
 class NewsletterBlocSerializer < ActiveModel::Serializer
+
   attributes :id, :position, :type, :content, :image, :view_type, :sub_blocs
+
   has_many :sub_blocs, serializer: NewsletterBlocSerializer
 
   def image

@@ -128,11 +128,17 @@ Card = React.createClass({
     },
 
     goToCourse: function goToCourse (event) {
+        var new_location;
         if (event.target.nodeName == 'A') { return true; }
         if (this.props.card.get('has_course')) {
-            window.location = Routes.structure_indexable_card_path(this.props.card.get('structure_slug'), this.props.card.get('slug'));
+            new_location = Routes.structure_indexable_card_path(this.props.card.get('structure_slug'), this.props.card.get('slug'));
         } else {
-            window.location = Routes.structure_path(this.props.card.get('structure_slug'));
+            new_location = Routes.structure_path(this.props.card.get('structure_slug'));
+        }
+        if (event.metaKey || event.ctrlKey) {
+            window.open(new_location);
+        } else {
+            window.location = new_location;
         }
     },
 

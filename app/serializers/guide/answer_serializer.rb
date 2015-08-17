@@ -1,7 +1,10 @@
 class Guide::AnswerSerializer < ActiveModel::Serializer
-  attributes *(Guide::Answer.attribute_names.map(&:to_sym) + [:subjects, :ponderation])
-
   delegate :ponderation, to: :object, allow_nil: true
+
+  cached
+  delegate :cache_key, to: :object
+
+  attributes *(Guide::Answer.attribute_names.map(&:to_sym) + [:subjects, :ponderation])
 
   def subjects
     object.subjects.map do |subject|

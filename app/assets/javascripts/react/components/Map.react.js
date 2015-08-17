@@ -6,13 +6,17 @@ var Map = React.createClass({
         this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets', { scrollWheelZoom: false })
                           .addLayer(this.marker_layer);
 
-        _.each(this.props.markers, function(marker) {
+        _.each(this.props.markers, function(marker, index) {
             var mapbox_marker = L.marker([marker.latitude, marker.longitude], {
                 icon: L.divIcon({
-                    className: 'map-box-marker map-box-marker__' + marker.subject_slug
+                    className: 'map-box-marker map-box-marker__' + marker.subject_slug,
+                    html     : '<div>' +  (index + 1) + '</div>'
                 })
             });
             this.marker_layer.addLayer(mapbox_marker);
+            var popup = L.popup({ className: 'ca-leaflet-popup '});
+            popup.setContent('<div class="soft-half">' + marker.address + '</div>');
+            mapbox_marker.bindPopup(popup);
             if (marker.radius) {
                 var circle = L.circle([marker.latitude, marker.longitude], parseInt(marker.radius, 10) * 1000);
                 this.marker_layer.addLayer(circle);

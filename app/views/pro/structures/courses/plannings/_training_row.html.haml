@@ -1,7 +1,7 @@
 - planning_decorator = planning.decorate
 - course           ||= planning.course
 - structure        ||= course.structure
-%div.flexbox.very-soft{ id: "planning-#{planning.id}" }
+%div.flexbox.very-soft--top.very-soft--bottom.soft-half--sides{ id: "planning-#{planning.id}" }
   .flexbox__item.one-whole
     = planning_decorator.dates
     = planning_decorator.time_slot

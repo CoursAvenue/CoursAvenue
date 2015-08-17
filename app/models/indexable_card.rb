@@ -195,8 +195,16 @@ class IndexableCard < ActiveRecord::Base
     end
 
     course_subjects = course.subjects
+
     cards = course.plannings.group_by(&:place).map do |place, plannings|
-      place = course.try(:place) if place.nil?
+      if place.nil?
+        if course.teaches_at_home? and place.home_place
+          place = course.home_place
+        else
+          place = course.try(:place)
+        end
+      end
+      next if place.nil?
       attributes = {
         structure: course.structure,
         course:    course,

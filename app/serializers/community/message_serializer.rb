@@ -2,7 +2,10 @@ class Community::MessageSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::DateHelper
 
-  attributes :id, :thread_id, :content, :distance_of_time, :created_at, :created_at_iso,
+  cached
+  delegate :cache_key, to: :object
+
+  attributes :id, :thread_id, :content, :created_at, :created_at_iso,
              :author_name, :avatar_url, :has_avatar
 
   def has_avatar
@@ -35,10 +38,6 @@ class Community::MessageSerializer < ActiveModel::Serializer
 
   def author_name
     object.sender.name
-  end
-
-  def distance_of_time
-    distance_of_time_in_words_to_now(object.created_at)
   end
 
   def thread_id

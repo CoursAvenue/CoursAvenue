@@ -2,8 +2,8 @@ class StructureShowSerializer < ActiveModel::Serializer
   include StructuresHelper
   include ActionView::Helpers::TextHelper
 
-  # cached
-  # delegate :cache_key, to: :object
+  cached
+  delegate :cache_key, to: :object
 
   attributes :id, :name, :slug, :description, :description_short, :trial_courses_policy,
              :logo_thumb_url, :courses_without_open_for_trials,

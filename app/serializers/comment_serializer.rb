@@ -2,10 +2,6 @@ class CommentSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::DateHelper
 
-  # TODO: To be able to add back cache, we need to remove `distance_of_time` attribute
-  # cached
-  # delegate :cache_key, to: :object
-
   attributes :id, :content, :title, :author_name, :course_name, :created_at, :rating,
              :created_at_for_human, :comment_url, :avatar_url, :created_at_iso, :certified,
              :simple_format_content, :has_avatar
