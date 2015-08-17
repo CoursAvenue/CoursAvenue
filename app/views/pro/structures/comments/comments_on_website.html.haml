@@ -14,6 +14,23 @@
     = succeed '),' do
       = link_to 'demander des recommandations', recommendations_pro_structure_path(@structure)
   copiez et associez le lien suivant à votre rubrique « Livre d'Or » :
-  = link_to structure_website_reviews_url(subdomain: @structure.subdomain_slug), structure_website_reviews_url(subdomain: @structure.subdomain_slug), target: :_blank
+  = link_to reviews_structure_url(@structure, subdomain: 'www'), reviews_structure_url(@structure, subdomain: 'www'), target: :_blank
 
 %p.delta.line-height-1-3 3. C'est fait ! Votre site Internet va maintenant pouvoir développer votre bouche à oreille sur Internet
+
+%hr.push--ends
+
+%p.delta.line-height-1-3
+  Préférez vous avoir un widget sur votre site ?
+  = link_to 'Cliquez ici', 'javascript:void(0)', data: { toggle: true }
+  \.
+
+#widget.hidden.push--top
+  %h2 Ajouter un Widget sur votre site web
+  = render partial: 'pro/structures/widget_instruction'
+
+- content_for :scripts do
+  :javascript
+      $('[data-toggle]').click(function() {
+          $('#widget').slideToggle();
+      });
