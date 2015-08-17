@@ -7,12 +7,22 @@
 = content_for :right_after_head do
   %meta{ name: "robots", content: 'noindex,follow' }
 
-.main-container.main-container--medium
+.main-container.relative
+  - if @structure.website.present?
+    .absolute.north.west.push-half--top.soft-half--left
+      = link_to URLHelper.fix_url(@structure.website), class: 'gray' do
+        %i.fa.fa-chevron-left.blue-green
+        Revenir au site
+  %h1.soft--top.text--center.flush= @structure.name
+  %h5.text--center Livre d'Or
+  %hr.push--top.flush--bottom
+
+.main-container.main-container--medium.soft--top
   .text--center
     %h3
       = "#{@reviews.length} avis d'élèves"
-    %div
-      = link_to 'Déposer mon avis', new_structure_comment_url(@structure), subdomain: 'www'
+    .push--bottom
+      = link_to 'Déposer mon avis', new_structure_comment_url(@structure), class: 'btn btn--white'
 
   .relative{ data: { el: 'loading-indicator' } }
     .absolute.push--top{ style: 'left: 50%; margin-left: -16px;' }
