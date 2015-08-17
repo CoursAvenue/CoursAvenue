@@ -563,7 +563,7 @@ CoursAvenue::Application.routes.draw do
         get  :toggle_pure_player
         post :add_to_favorite
         post :remove_from_favorite
-        get :reviews, path: 'avis'
+        get :reviews, path: 'livre-d-or'
       end
       collection do
         post :recommendation
