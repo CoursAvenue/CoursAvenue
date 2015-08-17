@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 describe Community::Notifier, community: true, with_mail: true do
-  let(:structure)  { FactoryGirl.create(:structure_with_admin) }
-  let(:community)  { FactoryGirl.create(:community, structure: structure) }
-  let(:user)       { FactoryGirl.create(:user) }
-  let(:membership) { FactoryGirl.create(:community_membership, user: user) }
-  let(:message)    { Faker::Lorem.paragraph(10) }
-  let(:thread)     { community.ask_question!(user, Faker::Lorem.paragraph(5)) }
+  let!(:structure)  { FactoryGirl.create(:structure_with_admin) }
+  let!(:community)  { FactoryGirl.create(:community, structure: structure) }
+  let!(:user)       { FactoryGirl.create(:user) }
+  let!(:membership) { FactoryGirl.create(:community_membership, user: user) }
+  let!(:message)    { Faker::Lorem.paragraph(10) }
+  let!(:thread)     { community.ask_question!(user, Faker::Lorem.paragraph(5)) }
 
   describe '#notify_question' do
     subject { Community::Notifier.new(thread, message, membership) }

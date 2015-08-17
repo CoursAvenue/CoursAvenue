@@ -12,6 +12,6 @@ class Community::MessageThreadsSerializer < ActiveModel::Serializer
 
   def answers
     @options[:thread_id] = object.id
-    (object.conversation ? object.conversation.messages.order('created_at ASC')[1..-1] : nil)
+    (object.conversation ? object.conversation.messages.order('created_at ASC')[1..-1] : [])
   end
 end

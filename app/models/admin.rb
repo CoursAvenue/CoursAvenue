@@ -126,7 +126,7 @@ class ::Admin < ActiveRecord::Base
       admin.email     = auth.info.email if auth.info.email.present?
       admin.password  = Devise.friendly_token[0, 20] if admin.password.blank?
       admin.structure = structure
-      admin.confirm!
+      admin.confirm
     end
     admin.provider         = auth.provider
     admin.uid              = auth.uid

@@ -15,7 +15,7 @@ describe Structures::Community::MessageThreadsController, community: true do
     context 'with json format' do
       it 'renders the community message threads' do
         get :index, structure_id: structure.slug, format: :json
-        thread_ids = response_body['message_threads'].map { |t| t['id'] }
+        thread_ids = response_body.map { |t| t['id'] }
         expect(thread_ids).to match_array(community.message_threads.map(&:id))
       end
     end
@@ -48,8 +48,8 @@ describe Structures::Community::MessageThreadsController, community: true do
     before { sign_in user }
 
     it 'adds a message to the thread' do
-      expect { patch :update, valid_update_params(structure, user) }.
-        to change { thread.messages }.by(1)
+      expect { patch :update, valid_update_params(structure, user, thread) }.
+        to change { thread.messages.count }.by(1)
     end
   end
 
