@@ -1,3 +1,3 @@
 .table-striped-like{ id: "course-planning-list-#{course.id}"}
-  - course.plannings.ordered_by_day.each do |planning|
+  - course.plannings.order('start_date DESC').each do |planning|
     = render partial: 'pro/structures/courses/plannings/training_row', locals: { planning: planning, course: course }
