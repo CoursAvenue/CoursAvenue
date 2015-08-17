@@ -44,17 +44,27 @@ var SubjectSearchInput = React.createClass({
             SubjectActionCreators.selectSubject(subject.toJSON());
         }
     },
-
+    executeSearchFullText: function executeSearchFullText () {
+        if (this.props.navigate) {
+            if (event.metaKey || event.ctrlKey) {
+              window.open(Routes.root_search_page_without_subject_path('paris', { discipline: this.state.subject_autocomplete_store.full_text_search }));
+            } else {
+              window.location = Routes.root_search_page_without_subject_path('paris', { discipline: this.state.subject_autocomplete_store.full_text_search });
+            }
+        } else {
+            FilterActionCreators.searchFullText($(event.currentTarget).val());
+        }
+    },
 
     handleKeyUp: function handleKeyUp (event) {
         // If hitting escape OF there is no val
         if ($(event.currentTarget).val().length == 0 || event.keyCode == 27) {
-            FilterActionCreators.searchFullText();
+            this.executeSearchFullText();
             FilterActionCreators.closeFilterPanel();
         // If hitting enter
         } else if (event.keyCode == 13) {
             if (this.state.subject_autocomplete_store.selected_index == 0) {
-                FilterActionCreators.searchFullText($(event.currentTarget).val());
+                this.executeSearchFullText();
                 FilterActionCreators.closeFilterPanel();
             } else {
                 this.selectSubject()

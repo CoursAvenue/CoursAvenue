@@ -50,7 +50,11 @@ var SubjectAutocompleteFilter = React.createClass({
     selectSubject: function selectSubject (subject) {
         var subject = this.state.subject_autocomplete_store.at(this.state.subject_autocomplete_store.selected_index - 1);
         if (this.props.navigate) {
-            window.location = Routes.search_page_path(subject.get('root'), subject.get('slug'), 'paris');
+            if (event.metaKey || event.ctrlKey) {
+              window.open(Routes.search_page_path(subject.get('root'), subject.get('slug'), 'paris'));
+            } else {
+              window.location = Routes.search_page_path(subject.get('root'), subject.get('slug'), 'paris');
+            }
         } else {
             SubjectActionCreators.selectSubject(subject.toJSON());
         }
@@ -58,7 +62,11 @@ var SubjectAutocompleteFilter = React.createClass({
 
     searchFullText: function searchFullText (event) {
         if (this.props.navigate) {
-            window.location = Routes.root_search_page_without_subject_path('paris', { discipline: this.state.subject_autocomplete_store.full_text_search });
+            if (event.metaKey || event.ctrlKey) {
+              window.open(Routes.root_search_page_without_subject_path('paris', { discipline: this.state.subject_autocomplete_store.full_text_search }));
+            } else {
+              window.location = Routes.root_search_page_without_subject_path('paris', { discipline: this.state.subject_autocomplete_store.full_text_search });
+            }
         } else {
             FilterActionCreators.closeSearchInputPanel();
         }
