@@ -26,7 +26,7 @@ var CardCollection = Backbone.Collection.extend({
     error:   false,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'searchSuccess', 'searchError');
+	_.bindAll(this, 'dispatchCallback', 'searchSuccess', 'searchError', 'fetchDataFromServer');
 
         // Register the store to the dispatcher, so it calls our callback on new actions.
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
@@ -39,6 +39,12 @@ var CardCollection = Backbone.Collection.extend({
     // The function called everytime there's a new action dispatched.
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+	    case ActionTypes.TOGGLE_DAY_SELECTION:
+	    case ActionTypes.TOGGLE_PERIOD_SELECTION:
+	    case ActionTypes.TOGGLE_PERIODS_SELECTION:
+		// We debounce that much to prevent from blocking UI.
+		_.debounce(this.fetchDataFromServer, 1500)(true);
+		break;
             // When the filters are updated, refetch the cards.
             case ActionTypes.UPDATE_NB_CARDS_PER_PAGE:
                 this.HITS_PER_PAGES = payload.data;
@@ -53,9 +59,6 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.SELECT_SUBJECT:
             case ActionTypes.SEARCH_FULL_TEXT:
             case ActionTypes.UNSET_FILTER:
-            case ActionTypes.TOGGLE_DAY_SELECTION:
-            case ActionTypes.TOGGLE_PERIOD_SELECTION:
-            case ActionTypes.TOGGLE_PERIODS_SELECTION:
             case ActionTypes.SET_TRAINING_DATE:
             case ActionTypes.SET_TRAINING_START_DATE:
             case ActionTypes.SET_TRAINING_END_DATE:
