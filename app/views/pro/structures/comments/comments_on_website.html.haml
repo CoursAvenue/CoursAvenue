@@ -14,6 +14,6 @@
     = succeed '),' do
       = link_to 'demander des recommandations', recommendations_pro_structure_path(@structure)
   copiez et associez le lien suivant à votre rubrique « Livre d'Or » :
-  = link_to structure_website_reviews_url(subdomain: @structure.subdomain_slug), structure_website_reviews_url(subdomain: @structure.subdomain_slug), target: :_blank
+  = link_to reviews_structure_url(@structure, subdomain: 'www'), reviews_structure_url(@structure, subdomain: 'www'), target: :_blank
 
 %p.delta.line-height-1-3 3. C'est fait ! Votre site Internet va maintenant pouvoir développer votre bouche à oreille sur Internet
