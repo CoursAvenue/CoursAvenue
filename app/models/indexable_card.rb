@@ -326,6 +326,7 @@ class IndexableCard < ActiveRecord::Base
 
     periods = []
     course.plannings.each do |planning|
+      next if planning.week_day.nil? or Date::DAYNAMES[planning.week_day].nil?
       course_day = Date::DAYNAMES[planning.week_day].downcase
       periods += planning.periods.map { |period| "#{course_day}-#{period}" }
     end
