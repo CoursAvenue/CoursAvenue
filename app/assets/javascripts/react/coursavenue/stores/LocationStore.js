@@ -22,10 +22,12 @@ var LocationStore = Backbone.Collection.extend({
                 this.map(function(level) {
                     level.set({ highlighted: false }, { silent: true });
                 });
-                this.findWhere({ id: payload.data }).set({ highlighted: true });
+                var model = this.findWhere({ id: payload.data })
+                if (model) { model.set({ highlighted: true }); }
                 break;
             case ActionTypes.UNHIGHLIGHT_LOCATION:
-                this.findWhere({ id: payload.data }).set({ highlighted: false });
+                var model = this.findWhere({ id: payload.data })
+                if (model) { model.set({ highlighted: false }); }
                 break;
         }
     },
