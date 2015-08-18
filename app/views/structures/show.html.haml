@@ -17,14 +17,6 @@
   .blue-box.islet.text--center.push--ends
     = render 'users/waiting_for_activation_text'
 
-- if @structure.medias.any?
-  - image = @structure.medias.cover_first.images_first.first.image
-  #photos-videos.bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under{ style: "height:300px; background-image: url('#{image.url(:wide_and_blurry)}')", data: { behavior: 'parallax' } }
-    .black-curtain.black-curtain--soft.north.west.one-whole.absolute
-- else
-  .bg-position-top.bg-cover.absolute.north.west.one-whole.z-index-under
-    #header-map{ style: "height:300px;" }
-    .black-curtain.black-curtain--soft.north.west.one-whole.absolute
 .soft--sides.soft-half--top.soft--bottom.palm-hard
   = render partial: 'structures/structure_header', locals: { structure: @structure }
   = render partial: 'structures/breadcrumbs', locals: { structure: @structure }
@@ -37,7 +29,7 @@
               - if @structure.logo.present?
                 = image_tag @structure.logo.url(:small_thumb_100), height: 100, width: 100, data: { src2x: @structure.logo.url(:thumb) }, class: 'rounded--circle'
               - else
-                .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{dominant_root_subject_slug}" }
+                .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{@structure.dominant_root_subject.slug}" }
                   %i.fa.fa-user-big.alpha
             .grid__item.v-top.four-fifths.palm-one-whole>
               %h1.flush= @structure.name
@@ -115,7 +107,7 @@
           %h4 Profils similaires
           - @similar_profiles.each_with_index do |structure, index|
             %div{ style: 'height: 70px;' }
-              .soft-half--sides.push-half--bottom
+              .soft-half--sides
                 .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
                   .grid__item.v-middle.one-fifth>
                     %div{ itemprop: 'image', content: structure.logo.url }
@@ -126,35 +118,6 @@
                     .line-height-1-5
                       %i= truncate(structure.cities_text, length: 40)
 
-
-= content_for :scripts do
-  :javascript
-    $(function () {
-        if ($('#header-map').length == 1) {
-          L.mapbox.map($('#header-map')[0], 'mapbox.streets', { scrollWheelZoom: false })
-                  .setView([#{@structure.latitude}, #{@structure.longitude}], 14);
-
-        }
-        window.coursavenue = window.coursavenue || {};
-        window.coursavenue.bootstrap = {
-            current_pro_admin: #{(current_pro_admin ? true : false)},
-            structure: #{ @model.to_json },
-            meta: {
-                have_upcoming_plannings: #{ @structure.plannings.future.any? },
-                is_sleeping: #{ @structure.is_sleeping? || !@structure.enabled? },
-                structure_id: #{ @structure.id }
-            }
-        };
-    }());
-
-
-- unless current_user
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          var body_message = $('#contact-message-body').val();
-          $.cookie('user_contact_message', body_message);
-      });
 
 = content_for :scripts do
   -# This is used when a user make a reservation.

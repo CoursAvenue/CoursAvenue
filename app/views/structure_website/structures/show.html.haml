@@ -101,17 +101,6 @@
             CoursAvenue.statistic.logView(#{@structure.id}, 'website/planning');
         });
         Stripe.setPublishableKey("#{ Rails.configuration.stripe[:publishable_key] }");
-
-        window.coursavenue = window.coursavenue || {};
-        window.coursavenue.bootstrap = {
-            current_pro_admin: #{(current_pro_admin ? true : false)},
-            structure: #{ @model.to_json },
-            stripe_errors: #{ I18n.t('stripe.error_codes').to_json },
-            meta: {
-                have_upcoming_plannings: #{ @structure.plannings.future.any? },
-                structure_id: #{ @structure.id }
-            }
-        };
     }());
 
 #structure-profile-menu.one-whole.west.fixed.on-top-of-the-world{ style: 'top: -100px;' }
