@@ -426,6 +426,15 @@ France
     end
   end
 
+  # GET structures/duplicates
+  def duplicates
+    @structures = Structure.active_and_enabled.map do |s|
+      duplicates = StructureSearch.potential_duplicates(s)
+
+      duplicates.empty? ? nil : { structure: s, duplicates: duplicates }
+    end.compact
+  end
+
   private
 
   # Return the next wizard regarding the params passed (skip: true)
