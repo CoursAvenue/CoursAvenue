@@ -432,7 +432,7 @@ France
     page     = params[:page] || 1
     offset   = (page - 1) * per_page
 
-    @structures = Structure.active_and_enabled.limit(per_page).offset(offset).map do |s|
+    @structures = Structure.active_and_enabled.order('created_at desc').limit(per_page).offset(offset).map do |s|
       duplicates = StructureSearch.potential_duplicates(s)
 
       duplicates.empty? ? nil : { structure: s, duplicates: duplicates }

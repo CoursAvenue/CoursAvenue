@@ -10,10 +10,10 @@
       %th.sortAsc
         %span Date de création
       %th Doublons
-      %th Profil
   %tbody
     - @structures.each do |row|
-      - structure = row[:structure]
+      - structure  = row[:structure]
+      - duplicates = row[:duplicates]
       - next if structure.nil?
       %tr
         %td
@@ -21,10 +21,6 @@
         %td
           = l(structure.main_contact.created_at.to_date) if structure.main_contact
         %td.nowrap
-          = row[:duplicates].count
-        %td
-          - if params[:opt_in] == 'false'
-            = structure.sleeping_email_opt_out_reason
-          - elsif structure.main_contact
-            = link_to 'Valider', wake_up_pro_structure_path(structure), method: :patch, class: 'btn btn--small btn--green'
-            = link_to 'Rollback', return_to_sleeping_mode_pro_structure_path(structure), method: :patch, class: 'btn btn--small btn--red', data: { confirm: 'Êtes-vous sûr de vouloir rollback cette structure ?' }
+          - duplicates.each do |dup|
+            = link_to "#{ dup.name } (#{ l(dup.created_at.to_date) })", dashboard_pro_structure_path(dup)
+            %br
