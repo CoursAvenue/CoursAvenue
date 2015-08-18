@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813162153) do
+ActiveRecord::Schema.define(version: 20150818134331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1147,6 +1147,15 @@ ActiveRecord::Schema.define(version: 20150813162153) do
   end
 
   add_index "stripe_events", ["stripe_event_id"], name: "index_stripe_events_on_stripe_event_id", unique: true, using: :btree
+
+  create_table "structure_duplicate_lists", force: true do |t|
+    t.integer  "structure_id"
+    t.hstore   "metadata"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "structure_duplicate_lists", ["structure_id"], name: "index_structure_duplicate_lists_on_structure_id", using: :btree
 
   create_table "structure_indexable_locks", force: true do |t|
     t.integer  "structure_id"
