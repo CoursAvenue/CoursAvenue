@@ -198,6 +198,7 @@ class Structure < ActiveRecord::Base
   scope :with_logo           , -> { where.not( logo: nil ) }
   scope :with_media          , -> { joins(:medias).uniq }
   scope :with_logo_and_media , -> { with_logo.with_media }
+  scope :active_and_enabled  , -> { where(active: true, enabled: true) }
 
   ######################################################################
   # Solr                                                               #
