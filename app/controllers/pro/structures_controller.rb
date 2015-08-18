@@ -432,8 +432,8 @@ France
     page     = params[:page].present? ? params[:page].to_i : 1
     offset   = (page - 1) * per_page
 
-    @duplicate_list   = Structure::DuplicateList.includes(:structure).
-      limit(per_page).offset(offset)
+    @duplicate_lists   = Structure::DuplicateList.includes(:structure).joins(:structure).
+      order('structures.created_at DESC').limit(per_page).offset(offset)
     @pagination_scope = OpenStruct.new(
       current_page: page,
       limit_value: per_page,

@@ -16,7 +16,7 @@
         %span Date de création
       %th Doublons
   %tbody
-    - @duplicate_list.each do |list|
+    - @duplicate_lists.each do |list|
       - structure  = list.structure
       - duplicates = list.duplicates
       - next if structure.nil? or duplicates.empty?
