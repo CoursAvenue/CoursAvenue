@@ -54,7 +54,7 @@ var MessageThreadList = React.createClass({
                     </div>);
         });
         return (
-            <div id="message-thread-list">
+            <div id="messages-publics">
                 <div className="push-half--bottom soft--sides">
                     <div>
                         <h3 className="v-middle flush inline-block">

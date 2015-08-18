@@ -2,30 +2,25 @@
   - cache [@structure, 'structure/show/sticker_header'] do
     .bg-dark-gray
       .main-container.soft--sides
-        .flexbox
-          .flexbox__item.v-middle.nowrap>
-            .flexbox.top-page-menu
-              - unless @is_sleeping
-                .flexbox__item
-                  %ul.nav.flush.v-middle.inline-block
-                    %li.soft-half
-                      %a.muted-link.white{ href: '#presentation', data: { behavior: 'scroll-to', offset_top: '-55' } } Présentation
-                    - if @structure.plannings.trainings_future.any?
-                      %li.soft-half
-                        %a.muted-link.white{ href: '#stages-ateliers ', data: { behavior: 'scroll-to', offset_top: '-55' } } Stages & ateliers
-                    - if @structure.courses.lessons.any?
-                      %li.soft-half
-                        %a.muted-link.white{ href: '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours réguliers
-                    - if @structure.courses.privates.any?
-                      %li.soft-half
-                        %a.muted-link.white{ href: '#cours-particuliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours particuliers
-                    %li.soft-half
-                      %a.muted-link.white{ href: '#message-thread-list', data: { behavior: 'scroll-to', offset_top: '-50' } } Messages publics
-                    %li.soft-half
-                      %a.muted-link.white{ href: '#avis', data: { behavior: 'scroll-to' } } Avis
-          .flexbox__item.v-middle.nowrap.text--right>
-            %a.contact-button.btn.btn--green.nowrap{ href: '#message-thread-list', data: { behavior: 'scroll-to', offset_top: '-65' } }
-              Poser une question
+        .top-page-menu
+          - unless @is_sleeping
+            .flexbox__item
+              %ul.nav.flush.v-middle.inline-block
+                %li.soft-half
+                  %a.link-not-outlined.muted-link.white{ href: '#presentation', data: { behavior: 'scroll-to', offset_top: '-55' } } Présentation
+                - if @structure.plannings.trainings_future.any?
+                  %li.soft-half
+                    %a.link-not-outlined.muted-link.white{ href: '#stages-ateliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Stages & ateliers
+                - if @structure.courses.lessons.any?
+                  %li.soft-half
+                    %a.link-not-outlined.muted-link.white{ href: '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours réguliers
+                - if @structure.courses.privates.any?
+                  %li.soft-half
+                    %a.link-not-outlined.muted-link.white{ href: '#cours-particuliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours particuliers
+                %li.soft-half
+                  %a.link-not-outlined.muted-link.white{ href: '#messages-publics', data: { behavior: 'scroll-to', offset_top: '-50' } } Messages publics
+                %li.soft-half
+                  %a.link-not-outlined.muted-link.white{ href: '#avis', data: { behavior: 'scroll-to' } } Avis
 
 = content_for :scripts do
   :javascript
