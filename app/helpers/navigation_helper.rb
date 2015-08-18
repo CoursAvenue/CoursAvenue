@@ -20,7 +20,7 @@ module NavigationHelper
         html_title = "<i class='relative #{options[:icon]}'></i>"
       end
       html_title += "<div class='very-soft--top'>#{I18n.t('pro.structures.side_menu.' + title)}</div>"
-    elsif options[:icon].include?('envelope-o') and @structure
+    elsif options[:icon].include?('envelope-o') and @structure and @structure.mailbox.present?
       pending_conversation = @structure.mailbox.conversations(unread: true).count
       if pending_conversation > 0
         html_title = "<i class='relative #{options[:icon]}'><span style='padding: 3px; top: -8px; right: -8px;' class='rounded--double f-size-9 absolute bg-red white'>#{pending_conversation}</span></i>"

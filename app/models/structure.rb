@@ -102,6 +102,8 @@ class Structure < ActiveRecord::Base
   has_one :crm_lock, dependent: :destroy
   has_one :community, dependent: :destroy
 
+  has_one :duplicate_list, class_name: 'Structure::DuplicateList', dependent: :destroy
+
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name,
@@ -198,6 +200,7 @@ class Structure < ActiveRecord::Base
   scope :with_logo           , -> { where.not( logo: nil ) }
   scope :with_media          , -> { joins(:medias).uniq }
   scope :with_logo_and_media , -> { with_logo.with_media }
+  scope :active_and_enabled  , -> { where(active: true, enabled: true) }
 
   ######################################################################
   # Solr                                                               #

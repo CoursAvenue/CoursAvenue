@@ -28,91 +28,91 @@ RSpec.describe IndexableCard, type: :model do
 
   let!(:structure) { FactoryGirl.create(:structure_with_multiple_place) }
 
-  describe '.create_from_course' do
-    let!(:_subject)           { structure.subjects.sample }
-    let!(:place_1)            { structure.places.first }
-    let!(:place_2)            { structure.places.last }
-    let!(:course)             { FactoryGirl.create(:course, structure: structure) }
-    let!(:planning_place_1)   { FactoryGirl.create(:planning, course: course, place: place_1) }
-    let!(:planning_place_2)   { FactoryGirl.create(:planning, course: course, place: place_2) }
-    let!(:planning_2_place_2) { FactoryGirl.create(:planning, course: course, place: place_2) }
+  # describe '.create_from_course' do
+  #   let!(:_subject)           { structure.subjects.sample }
+  #   let!(:place_1)            { structure.places.first }
+  #   let!(:place_2)            { structure.places.last }
+  #   let!(:course)             { FactoryGirl.create(:course, structure: structure) }
+  #   let!(:planning_place_1)   { FactoryGirl.create(:planning, course: course, place: place_1) }
+  #   let!(:planning_place_2)   { FactoryGirl.create(:planning, course: course, place: place_2) }
+  #   let!(:planning_2_place_2) { FactoryGirl.create(:planning, course: course, place: place_2) }
+  #
+  #   before do
+  #     course.plannings.reload
+  #   end
+  #
+  #   it 'creates two new IndexableCard' do
+  #     expect { IndexableCard.create_from_course(course) }.
+  #       to change { IndexableCard.count }.by(2)
+  #   end
+  #
+  #   it 'associates it with the course' do
+  #     cards = IndexableCard.create_from_course(course)
+  #     expect(cards.map(&:course).uniq).to include(course)
+  #   end
+  #
+  #   it 'sets the other associations' do
+  #     card = IndexableCard.create_from_course(course).first
+  #     expect(card.structure).to eq(structure)
+  #     expect([place_1, place_2]).to include(card.place)
+  #     expect(card.course).to eq(course)
+  #     expect(card.subjects.uniq).to match_array(course.subjects)
+  #   end
+  #
+  #   # TODO: Move this test to Planning
+  #   # context 'when a planning is destroyed' do
+  #   #   it 'destroys the card if there is no other plannings attached to it' do
+  #   #     card = planning_place_1.indexable_card
+  #   #     planning_place_1.destroy
+  #   #     expect(card.persisted?).to be_falsy
+  #   #   end
+  #   # end
+  #
+  #   context 'when the card already exists' do
+  #     it "doesn't create a new card" do
+  #       IndexableCard.create_from_course(course)
+  #       expect { IndexableCard.create_from_course(course) }.
+  #         to_not change { IndexableCard.count }
+  #     end
+  #
+  #     it 'returns the existing cards' do
+  #       original_cards = IndexableCard.create_from_course(course)
+  #       expect(IndexableCard.create_from_course(course)).to eq(original_cards)
+  #     end
+  #   end
+  # end
 
-    before do
-      course.plannings.reload
-    end
-
-    it 'creates two new IndexableCard' do
-      expect { IndexableCard.create_from_course(course) }.
-        to change { IndexableCard.count }.by(2)
-    end
-
-    it 'associates it with the course' do
-      cards = IndexableCard.create_from_course(course)
-      expect(cards.map(&:course).uniq).to include(course)
-    end
-
-    it 'sets the other associations' do
-      card = IndexableCard.create_from_course(course).first
-      expect(card.structure).to eq(structure)
-      expect([place_1, place_2]).to include(card.place)
-      expect(card.course).to eq(course)
-      expect(card.subjects.uniq).to match_array(course.subjects)
-    end
-
-    # TODO: Move this test to Planning
-    # context 'when a planning is destroyed' do
-    #   it 'destroys the card if there is no other plannings attached to it' do
-    #     card = planning_place_1.indexable_card
-    #     planning_place_1.destroy
-    #     expect(card.persisted?).to be_falsy
-    #   end
-    # end
-
-    context 'when the card already exists' do
-      it "doesn't create a new card" do
-        IndexableCard.create_from_course(course)
-        expect { IndexableCard.create_from_course(course) }.
-          to_not change { IndexableCard.count }
-      end
-
-      it 'returns the existing cards' do
-        original_cards = IndexableCard.create_from_course(course)
-        expect(IndexableCard.create_from_course(course)).to eq(original_cards)
-      end
-    end
-  end
-
-  describe '.create_from_place' do
-    let(:place)    { structure.places.sample }
-
-    it 'creates a new IndexableCard' do
-      expect { IndexableCard.create_from_place(place) }.
-        to change { IndexableCard.count }.by(1)
-    end
-
-    it 'associates with the structure' do
-      card = IndexableCard.create_from_place(place)
-      expect(card.structure).to eq(structure)
-    end
-
-    it 'sets the other association' do
-      card = IndexableCard.create_from_place(place)
-      expect(card.place).to eq(place)
-    end
-
-    context 'when the card already exists' do
-      it "doesn't create a new card" do
-        IndexableCard.create_from_place(place)
-        expect { IndexableCard.create_from_place(place) }.
-          to_not change { IndexableCard.count }
-      end
-
-      it 'returns the existing card' do
-        original_card = IndexableCard.create_from_place(place)
-        expect(IndexableCard.create_from_place(place)).to eq(original_card)
-      end
-    end
-  end
+  # describe '.create_from_place' do
+  #   let(:place)    { structure.places.sample }
+  #
+  #   it 'creates a new IndexableCard' do
+  #     expect { IndexableCard.create_from_place(place) }.
+  #       to change { IndexableCard.count }.by(1)
+  #   end
+  #
+  #   it 'associates with the structure' do
+  #     card = IndexableCard.create_from_place(place)
+  #     expect(card.structure).to eq(structure)
+  #   end
+  #
+  #   it 'sets the other association' do
+  #     card = IndexableCard.create_from_place(place)
+  #     expect(card.place).to eq(place)
+  #   end
+  #
+  #   context 'when the card already exists' do
+  #     it "doesn't create a new card" do
+  #       IndexableCard.create_from_place(place)
+  #       expect { IndexableCard.create_from_place(place) }.
+  #         to_not change { IndexableCard.count }
+  #     end
+  #
+  #     it 'returns the existing card' do
+  #       original_card = IndexableCard.create_from_place(place)
+  #       expect(IndexableCard.create_from_place(place)).to eq(original_card)
+  #     end
+  #   end
+  # end
 
   describe '#subject_name' do
     let!(:planning) { FactoryGirl.create(:planning) }

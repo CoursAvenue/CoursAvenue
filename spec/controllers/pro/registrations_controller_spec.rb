@@ -1,7 +1,8 @@
 require 'rails_helper'
-include Devise::TestHelpers
 
 describe Pro::RegistrationsController do
+  include Devise::TestHelpers
+
   describe 'GET #new' do
     it 'assigns a registration form' do
       get :new

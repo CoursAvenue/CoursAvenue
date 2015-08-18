@@ -160,4 +160,13 @@ class StructureSearch
     @structures
   end
 
+  def self.potential_duplicates(structure)
+    @search = Sunspot.search(Structure) do
+      fulltext structure.name.downcase, fields: :name
+      without :id, [structure.id]
+    end
+
+    @search.results
+  end
+
 end

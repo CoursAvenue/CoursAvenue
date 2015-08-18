@@ -31,9 +31,9 @@ class Media::Image < Media
     self.image.file_name
   end
 
-  def url
+  def url(version = :original)
     if self.image.present?
-      self.image.url(:original)
+      self.image.url(version)
     else
       self.read_attribute(:url)
     end

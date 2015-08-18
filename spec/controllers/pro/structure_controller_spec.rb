@@ -168,12 +168,5 @@ describe Pro::StructuresController do
         expect(response).to be_redirect
       end
     end
-
-    describe "GET #new" do
-      it "'s a success" do
-        xhr :get, :new
-        expect(response).to be_success
-      end
-    end
   end
 end
