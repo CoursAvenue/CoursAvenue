@@ -165,10 +165,11 @@ class StructureSearch
   # return 'yoga sattva paris'.
   #
   # @return a Sunspot search object.
-  def self.potential_duplicates(structure)
+  def self.potential_duplicates(structure, params = {})
     @search = Sunspot.search(Structure) do
       fulltext structure.name.downcase
       without :id, [structure.id]
+      paginate page: (params[:page].present? ? params[:page] : 1), per_page: 20
     end
 
     @search.results

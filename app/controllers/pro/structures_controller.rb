@@ -429,7 +429,7 @@ France
   # GET structures/duplicates
   def duplicates
     @structures = Structure.active_and_enabled.map do |s|
-      duplicates = StructureSearch.potential_duplicates(s)
+      duplicates = StructureSearch.potential_duplicates(s, params[:page])
 
       duplicates.empty? ? nil : { structure: s, duplicates: duplicates }
     end.compact
