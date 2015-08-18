@@ -1,12 +1,13 @@
-- if course.prices.any?
-  .float--right.blue-green.nowrap.v-middle.delta
-    - if course.is_training?
-      %strong #{readable_amount(course.prices.first.amount)}
-    - elsif course.prices.first.free?
-      %strong Cours d'essai gratuit
-    - else
-      %strong Cours d'essai à #{readable_amount(course.prices.first.amount)}
-%h3.push-half--bottom= course.name
-.push-half--bottom
-  - course.subjects.at_depth(2).each do |subject|
-    = link_to subject.name, search_page_path(subject.root, subject, course.places.first.city), class: "search-page-card__subject bg-#{subject.root.slug}-on-hover", target: :_blank
+- cache [course, 'structures/courses/header'] do
+  - if course.prices.any?
+    .float--right.blue-green.nowrap.v-middle.delta
+      - if course.is_training?
+        %strong #{readable_amount(course.prices.first.amount)}
+      - elsif course.prices.first.free?
+        %strong Cours d'essai gratuit
+      - else
+        %strong Cours d'essai à #{readable_amount(course.prices.first.amount)}
+  %h3.push-half--bottom= course.name
+  .push-half--bottom
+    - course.subjects.at_depth(2).each do |subject|
+      = link_to subject.name, search_page_path(subject.root, subject, course.places.first.city), class: "search-page-card__subject bg-#{subject.root.slug}-on-hover", target: :_blank

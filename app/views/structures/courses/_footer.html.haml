@@ -1,18 +1,19 @@
-.soft--sides
+- cache [course, 'structures/courses/footer'] do
+  .soft--sides
+    - if course.price_group
+      = link_to 'javascript:void(0)', class: 'btn btn--small btn--white', data: { behavior: 'toggleable', el: "#course-price-#{course.id}" } do
+        Tarifs
+        %i.fa.fa-chevron-down.milli
+
+    - if course.description.present?
+      = link_to 'javascript:void(0)',  class: 'btn btn--small btn--white', data: { behavior: 'toggleable', el: "#course-description-#{course.id}" } do
+        Description
+        %i.fa.fa-chevron-down.milli
+
   - if course.price_group
-    = link_to 'javascript:void(0)', class: 'btn btn--small btn--white', data: { behavior: 'toggleable', el: "#course-price-#{course.id}" } do
-      Tarifs
-      %i.fa.fa-chevron-down.milli
+    %div.hidden{ id: "course-price-#{course.id}" }
+      .soft--top= render partial: 'price_groups/price_group', locals: { price_group: course.price_group }
 
   - if course.description.present?
-    = link_to 'javascript:void(0)',  class: 'btn btn--small btn--white', data: { behavior: 'toggleable', el: "#course-description-#{course.id}" } do
-      Description
-      %i.fa.fa-chevron-down.milli
-
-- if course.price_group
-  %div.hidden{ id: "course-price-#{course.id}" }
-    .soft--top= render partial: 'price_groups/price_group', locals: { price_group: course.price_group }
-
-- if course.description.present?
-  %div.last-p-flush.soft--sides.hidden{ id: "course-description-#{course.id}" }
-    .soft--top= simple_format course.description
+    %div.last-p-flush.soft--sides.hidden{ id: "course-description-#{course.id}" }
+      .soft--top= simple_format course.description
