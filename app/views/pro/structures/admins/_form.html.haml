@@ -1,3 +1,5 @@
+- @confirmed = @confirmed.nil? ? true : @confirmed
+
 = simple_form_for [:pro, @structure, @admin], html: { autocomplete: 'false' } do |f|
   = f.error_notification
   .soft--top
@@ -7,14 +9,21 @@
         Identifiant de profil
       = render "pro/structures/admins/change_email"
 
+
   %hr.push--ends
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.admins.wizard.password') } }
     %h5
       %i.fa-lock
       Changement de mot de passe
+      - unless @confirmed
+        .text--center.push-half--ends
+          .alert.alert--info.soft--half.one-whole
+            Veuillez
+            = link_to "confirmer votre addresse e-mail", confirm_email_pro_structure_path(@structure), data: { onboarding_step: true, behavior: 'modal', padding: '0', width: 500 }, class: 'fancybox.ajax'
+            avant de modifier votre mot de passe.
 
-    = f.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-    = f.input :password_confirmation, input_html: { class: 'input--large v-middle' }, label_html: { class: 'label--large v-middle' }
+    = f.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }, disabled: !@confirmed
+    = f.input :password_confirmation, input_html: { class: 'input--large v-middle' }, label_html: { class: 'label--large v-middle' }, disabled: !@confirmed
 
   %hr.push--ends
   .soft--sides
