@@ -432,15 +432,12 @@ France
     page     = params[:page].present? ? params[:page].to_i : 1
     offset   = (page - 1) * per_page
 
-    @structures = Structure.active_and_enabled.order('created_at desc')
-    @duplicates = @structures.limit(per_page).offset(offset).map do |s|
-      potentials = StructureSearch.potential_duplicates(s)
-
-      potentials.empty? ? nil : { structure: s, duplicates: potentials }
-    end.compact
-
-    @pagination_scope = OpenStruct.new(total_pages: (@structures.count / per_page.to_f).ceil,
-                                       current_page: page, limit_value: per_page)
+    @duplicate_list   = Structure::DuplicateList.limit(per_page).offset(offset)
+    @pagination_scope = OpenStruct.new(
+      current_page: page,
+      limit_value: per_page,
+      total_pages: (Structure::DuplicateList.count / per_page.to_f).ceil
+    )
   end
 
   private
