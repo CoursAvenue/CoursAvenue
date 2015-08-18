@@ -22,18 +22,24 @@
             %h2.delta.flush
               Par
               = link_to @structure.name, structure_path(@structure)
+            .search-page-card__subjects-wrapper.text--left
+              = react_component('SubjectList', { follow_links: true, colored: true, subject_list: ActiveModel::ArraySerializer.new(@indexable_card.subjects.at_depth(2), each_serializer: SubjectListSerializer) })
       .soft--sides
         - if @course.prices.any?
           .float--right.blue-green.nowrap.v-middle.delta
             - if @course.is_training?
               %strong #{readable_amount(@course.prices.first.amount)}
             - else
-              %strong Cours d'essai à #{readable_amount(@course.prices.first.amount)}
+              - if @course.prices.first.free?
+                %strong Cours d'essai gratuit
+              - else
+                %strong Cours d'essai à #{readable_amount(@course.prices.first.amount)}
+
         %h3 Planning
       - if @course.start_date and Date.today < @course.start_date
         .bg-blue-green.soft.white.push--bottom
           %strong Reprise des cours le #{l(@course.start_date, format: :semi_short).gsub(/0([0-9])/, '\1')}.
-      = react_component("CardPageCourse",
+      = react_component('Course',
                       { course: CourseSerializer.new(@course), plannings: ActiveModel::ArraySerializer.new(@indexable_card.plannings.ordered_by_day.future, each_serializer: PlanningSerializer) }, { prerender: false })
       .soft--sides
         - if @course.is_private? and @course.on_appointment?
@@ -70,9 +76,8 @@
 
   .grid__item.four-twelfths.palm-one-whole.palm-hard>
     %div{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#coursavenue-footer' } }
-      .bordered.bg-white.push--bottom
-        = render partial: 'structures/registration', locals: { booking_button: false }
-        #mfp-hide.center-block.relative{ style: 'max-width:530px;' }
+      .bg-white.push--bottom
+        = render partial: 'structures/registration'
         - home_place_map_attributes = {}
         - if @course.teaches_at_home? and home_place
           - home_place_map_attributes = { home: { latitude: home_place.latitude, longitude: home_place.longitude, radius: home_place.radius } }
@@ -81,7 +86,7 @@
                                           metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
                                          { prerender: false })
 
-        .soft--ends
+        .soft--ends.bordered--sides.bordered--bottom
           %div.soft--sides.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
             %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos, placement: 'left' } }
               %h4.flush= @place.name
@@ -109,3 +114,8 @@
           - unless @structure.is_sleeping?
             %hr.push--ends
             .soft--sides= render 'structures/response_stats'
+
+= content_for :scripts do
+  -# This is used when a user make a reservation.
+  -# The confirmation popup will ask to update logo if the user does not have one already.
+  = filepicker_js_include_tag

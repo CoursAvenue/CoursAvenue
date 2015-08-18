@@ -100,6 +100,7 @@ class Place < ActiveRecord::Base
 
   def to_react_json
     {
+        id:           id,
         latitude:     latitude,
         longitude:    longitude,
         subject_slug: dominant_root_subject.try(:slug),

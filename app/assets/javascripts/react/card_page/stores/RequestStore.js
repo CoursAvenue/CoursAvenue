@@ -13,7 +13,13 @@ var RequestStore = Backbone.Model.extend({
     },
 
     url: function url () {
-        return Routes.structure_participation_requests_path({ structure_id: this.get('structure_id') });
+        // It means that the Request is for unregistered users, then it has to
+        // go to a different path
+        if (this.get('user').email) {
+            return Routes.structure_website_structure_participation_requests_path({ structure_id: this.get('structure_id') });
+        } else {
+            return Routes.structure_participation_requests_path({ structure_id: this.get('structure_id') });
+        }
     },
 
     // We override the toJSON function to have all the params grouped into

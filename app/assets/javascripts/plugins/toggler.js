@@ -3,7 +3,7 @@
     Example
        <h5 data-behavior='toggleable' data-el='+ .search-panel-content'>
            Dates
-           <i class='icon-caret-left'></i>
+           <i class='icon-caret-down'></i>
        </h5>
        <div class='hide search-panel-content'>
             ...

@@ -1,9 +1,9 @@
 var _       = require('lodash'),
     Subject = require('./Subject.react');
 
-SubjectList = React.createClass({
+Subject_list = React.createClass({
     propTypes: {
-        subjectList: React.PropTypes.array.isRequired
+        subject_list: React.PropTypes.array.isRequired
     },
 
     componentDidMount: function componentDidMount () {
@@ -16,7 +16,7 @@ SubjectList = React.createClass({
                 if (is_truncated) {
                     var $dot_node = $('<div></div>').addClass('search-page-card__subject');
                     $dot_node.addClass('search-page__result-info--dot-dot-dot nowrap');
-                    $dot_node.addClass('search-page-card__subject--' + that.props.subjectList[0].root_slug);
+                    $dot_node.addClass('search-page-card__subject--' + that.props.subject_list[0].root_slug);
                     $dot_node.append($('<i class="fa fa-circle"></i>'));
                     $dot_node.append($('<i class="fa fa-circle"></i>'));
                     $dot_node.append($('<i class="fa fa-circle"></i>'));
@@ -30,13 +30,15 @@ SubjectList = React.createClass({
     },
 
     render: function render () {
-        if (_.isEmpty(this.props.subjectList)) {
+        if (_.isEmpty(this.props.subject_list)) {
             return false;
         }
 
-        var subjectNodes = _.map(this.props.subjectList, function(subject, index) {
+        var subjectNodes = _.map(this.props.subject_list, function(subject, index) {
             return (
-                <Subject follow_links={this.props.follow_links} subject={ subject } key={ index } />
+                <Subject colored={this.props.colored}
+                         follow_links={this.props.follow_links}
+                         subject={ subject } key={ index } />
             );
         }, this);
 
@@ -48,4 +50,4 @@ SubjectList = React.createClass({
     },
 });
 
-module.exports = SubjectList;
+module.exports = Subject_list;

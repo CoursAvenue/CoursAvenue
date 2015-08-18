@@ -127,6 +127,7 @@
 .green              { color: $green-success !important; }
 .dark-blue          { color: $dark_blue; }
 .green              { color: $green; }
+.blue-info--darker  { color: $blue-info-darker; }
 .blue-green         { color: $blue-green !important; }
 .blue-green--slightly-darker { color: darken($blue-green, 3%) !important; }
 .blue               { color: $blue !important; }
@@ -138,6 +139,7 @@
 .gray               { color: $gray; }
 .gray-very-light    { color: #CCC; }
 .bg-red             { background-color: $red; }
+.bg-blue-info       { background-color: $blue-info; }
 .bg-blue            { background-color: $blue; }
 .bg-blue-green      { background-color: $blue-green; }
 .bg-green           { background-color: $green-success; }

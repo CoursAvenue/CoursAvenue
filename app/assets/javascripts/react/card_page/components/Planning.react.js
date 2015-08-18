@@ -1,4 +1,5 @@
-var BookPopup = require('./BookPopup');
+var BookPopup             = require('./BookPopup'),
+    LocationActionCreator = require('../../coursavenue/actions/LocationActionCreators');
 var LessonPlanning = React.createClass({
 
     propTypes: {
@@ -8,7 +9,11 @@ var LessonPlanning = React.createClass({
 
     bookPlanning: function bookPlanning () {
         // We generate a random key to make sure a new is created every time.
-        var popup = (<BookPopup planning={this.props.planning} course={this.props.course} key={Math.random()}/>);
+        var popup = (<BookPopup planning={this.props.planning}
+                                dont_register={this.props.dont_register}
+                                course={this.props.course}
+                                key={Math.random()}/>);
+        if ($('#mfp-hide').length == 0) { $('body').append('<div id="mfp-hide" class="center-block relative" style="max-width: 530px;">'); }
         var rendered_popup = React.render(popup, $('#mfp-hide')[0]);
         $.magnificPopup.open({
               items: {
@@ -33,24 +38,47 @@ var LessonPlanning = React.createClass({
         end_date_datetime.second(0);
         return end_date_datetime.format(COURSAVENUE.constants.DATE_FORMATS.MOMENT_ISO_DATE_8601);
     },
+
+    highlightPlace: function highlightPlace () {
+        LocationActionCreator.highlightLocation(this.props.planning.place_id);
+    },
+
+    unhighlightPlace: function unhighlightPlace () {
+        LocationActionCreator.unhighlightLocation(this.props.planning.place_id);
+    },
+
     render: function render () {
-        var info = '';
+        var location_td, subscribe_button, time;
         if (this.props.planning.info) {
-            info = (<div>
-                        <div className="visuallyhidden--lap-and-up">
-                            <i>{this.props.planning.info}</i>
-                        </div>
+            subscribe_button = (<div>
                         <div data-content={this.props.planning.info}
                              data-html="true"
                              data-toggle="popover"
                              data-trigger="hover"
-                             className="visuallyhidden--palm">
-                            <i className="fa-info"></i>
+                             className="btn btn--full btn--small btn--blue-green">
+                            {"M'inscrire"}
                         </div>
+                    </div>);
+        } else {
+            var subscribe_button = (<div className="btn btn--full btn--small btn--green">{"M'inscrire"}</div>);
+        }
+        if (this.props.show_location) {
+            location_td = (<td className="two-tenths">{this.props.planning.address_name}</td>);
+        }
+        if (this.props.planning.visible == false) { // Check if false because can be undefined
+            time = (<div>Sur demande</div>);
+        } else {
+            time = (<div>
+                        <time dateTime={this.startDateDatetime()} itemprop="startDate">
+                            {this.props.planning.time_slot}
+                        </time>
+                        <time dateTime={this.endDateDatetime()} itemprop="endDate"></time>
                     </div>);
         }
         return (
             <tr className={ this.props.course.structure_is_active ? 'cursor-pointer' : '' }
+                onMouseLeave={this.unhighlightPlace}
+                onMouseEnter={this.highlightPlace}
                 onClick={this.props.course.structure_is_active ? this.bookPlanning : null}>
                 <td itemScope=""
                     itemType="http://data-vocabulary.org/Event"
@@ -58,16 +86,11 @@ var LessonPlanning = React.createClass({
                     <div>
                         <meta content={this.props.course.name} itemprop="summary" />
                         {this.props.planning.date}
-                        <span className="visuallyhidden--lap-and-up">{this.props.planning.time_slot}</span>
+                        <span className="visuallyhidden--lap-and-up">{time}</span>
                     </div>
                 </td>
                 <td className="visuallyhidden--palm">
-                    <div>
-                        <time dateTime={this.startDateDatetime()} itemprop="startDate">
-                            {this.props.planning.time_slot}
-                        </time>
-                        <time dateTime={this.endDateDatetime()} itemprop="endDate"></time>
-                    </div>
+                    { time }
                 </td>
                 <td>
                     <div>
@@ -80,11 +103,10 @@ var LessonPlanning = React.createClass({
                 <td className="visuallyhidden--palm">
                     <div>{this.props.planning.audiences}</div>
                 </td>
-                <td>
-                    {info}
-                </td>
-                <td className={(this.props.course.structure_is_active ? '' : 'hidden')}>
-                    <strong className="btn btn--full btn--small btn--green">Réserver</strong>
+                { location_td }
+                <td style={{ width: '8em' }}
+                    className={(this.props.course.structure_is_active ? '' : 'hidden')}>
+                    { subscribe_button }
                 </td>
             </tr>
         );

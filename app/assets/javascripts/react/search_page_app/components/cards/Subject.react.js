@@ -42,8 +42,12 @@ Subject = React.createClass({
     },
 
     render: function render () {
+        var additionnal_class = '';
+        if (this.props.colored) {
+          additionnal_class = ' white bg-' + this.props.subject.root_slug;
+        }
         return (
-            <a className={"search-page-card__subject search-page-card__subject--" + this.props.subject.root_slug}
+            <a className={"search-page-card__subject search-page-card__subject--" + this.props.subject.root_slug + additionnal_class}
                onClick={ this.selectSubject }
                href={this.url()}>
                 { this.props.subject.name }

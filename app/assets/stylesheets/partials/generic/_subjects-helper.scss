@@ -1,4 +1,5 @@
-.bg-cuisine-vins                                      { background-color: $color-cooking; }
+.bg-cuisine-vins-on-hover:hover                       { background-color: $color-cooking !important; color: white; }
+.bg-cuisine-vins                                      { background-color: $color-cooking !important; }
 .btn--cuisine-vins {
     @extend .btn-hover-transition;
     &::after, &.btn--active { background-color: darken($color-cooking, 10%); }
@@ -7,7 +8,8 @@
 .cuisine-vins-color                                   { color: $color-cooking; }
 .cuisine-vins-color-on-hover:hover                    { color: $color-cooking; }
 
-.bg-photo-video                                       { background-color: $color-photo; }
+.bg-photo-video-on-hover:hover                        { background-color: $color-photo !important; color: white; }
+.bg-photo-video                                       { background-color: $color-photo !important; }
 .btn--photo-video {
     @extend .btn-hover-transition;
     &::after, &.btn--active { background-color: darken($color-photo, 10%); }
@@ -16,7 +18,8 @@
 .photo-video-color                                    { color: $color-photo; }
 .photo-video-color-on-hover:hover                     { color: $color-photo; }
 
-.bg-deco-mode-bricolage                               { background-color: $color-deco; }
+.bg-deco-mode-bricolage-on-hover:hover                { background-color: $color-deco !important; color: white; }
+.bg-deco-mode-bricolage                               { background-color: $color-deco !important; }
 .btn--deco-mode-bricolage {
     @extend .btn-hover-transition;
     &::after, &.btn--active { background-color: darken($color-deco, 10%); }
@@ -25,7 +28,8 @@
 .deco-mode-bricolage-color                            { color: $color-deco; }
 .deco-mode-bricolage-color-on-hover:hover             { color: $color-deco; }
 
-.bg-theatre-scene                                     { background-color: $color-theatre; }
+.bg-theatre-scene-on-hover:hover                      { background-color: $color-theatre !important; color: white; }
+.bg-theatre-scene                                     { background-color: $color-theatre !important; }
 .btn--theatre-scene {
     @extend .btn-hover-transition;
     &::after, &.btn--active { background-color: darken($color-theatre, 10%); }
@@ -34,7 +38,8 @@
 .theatre-scene-color                                  { color: $color-theatre; }
 .theatre-scene-color-on-hover:hover                   { color: $color-theatre; }
 
-.bg-dessin-peinture-arts-plastiques                   { background-color: $color-arts; }
+.bg-dessin-peinture-arts-plastiques-on-hover:hover    { background-color: $color-arts !important; color: white; }
+.bg-dessin-peinture-arts-plastiques                   { background-color: $color-arts !important; }
 .btn--dessin-peinture-arts-plastiques {
     @extend .btn-hover-transition;
     &::after, &.btn--active { background-color: darken($color-arts, 10%); }
@@ -43,7 +48,8 @@
 .dessin-peinture-arts-plastiques-color                { color: $color-arts; }
 .dessin-peinture-arts-plastiques-color-on-hover:hover { color: $color-arts; }
 
-.bg-danse                                             { background-color: $color-dance; }
+.bg-danse-on-hover:hover                              { background-color: $color-dance !important; color: white; }
+.bg-danse                                             { background-color: $color-dance !important; }
 .btn--danse {
     @extend .btn-hover-transition;
     &::after, &.btn--active { background-color: darken($color-dance, 10%); }
@@ -52,7 +58,8 @@
 .danse-color                                          { color: $color-dance; }
 .danse-color-on-hover:hover                           { color: $color-dance; }
 
-.bg-musique-chant                                     { background-color: $color-music; }
+.bg-musique-chant-on-hover:hover                      { background-color: $color-music !important; color: white; }
+.bg-musique-chant                                     { background-color: $color-music !important; }
 .btn--musique-chant {
     @extend .btn-hover-transition;
     &::after, &.btn--active { background-color: darken($color-music, 10%); }
@@ -61,7 +68,8 @@
 .musique-chant-color                                  { color: $color-music; }
 .musique-chant-color-on-hover:hover                   { color: $color-music; }
 
-.bg-sports-arts-martiaux                              { background-color: $color-sports; }
+.bg-sports-arts-martiaux-on-hover:hover               { background-color: $color-sports !important; color: white; }
+.bg-sports-arts-martiaux                              { background-color: $color-sports !important; }
 .btn--sports-arts-martiaux {
     @extend .btn-hover-transition;
     &::after, &.btn--active { background-color: darken($color-sports, 10%); }
@@ -70,7 +78,8 @@
 .sports-arts-martiaux-color                           { color: $color-sports; }
 .sports-arts-martiaux-color-on-hover:hover            { color: $color-sports; }
 
-.bg-yoga-bien-etre-sante                              { background-color: $color-yoga; }
+.bg-yoga-bien-etre-sante-on-hover:hover               { background-color: $color-yoga !important; color: white; }
+.bg-yoga-bien-etre-sante                              { background-color: $color-yoga !important; }
 .btn--yoga-bien-etre-sante {
     @extend .btn-hover-transition;
     &::after, &.btn--active { background-color: darken($color-yoga, 10%); }
