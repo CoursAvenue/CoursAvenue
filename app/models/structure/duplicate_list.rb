@@ -17,10 +17,10 @@ class Structure::DuplicateList < ActiveRecord::Base
   def self.save_potential_duplicates
     Structure.active_and_enabled.each do |structure|
       duplicates = StructureSearch.potential_duplicates(structure)
-      next if duplicate.empty?
+      next if duplicates.empty?
 
       list = structure.duplicate_list || structure.create_duplicate_list
-      list.duplicate_ids = duplicate.map(&:id)
+      list.duplicate_ids = duplicates.map(&:id)
       list.save
     end
   end
