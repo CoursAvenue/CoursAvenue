@@ -20,7 +20,7 @@
 .soft--sides.soft-half--top.soft--bottom.palm-hard
   = render partial: 'structures/structure_header', locals: { structure: @structure }
   = render partial: 'structures/breadcrumbs', locals: { structure: @structure }
-  .grid--full
+  .grid--full#presentation
     .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
       .push--bottom.bg-white.bordered.soft--ends
         .soft--sides
@@ -49,7 +49,7 @@
             = render partial: 'structures/indexable_cards/gallery', locals: { medias: @structure.medias.cover_first.videos_first, structure: @structure }
 
         - if @structure.courses.trainings.any?
-          %h2.soft--sides Stages
+          %h2.soft--sides#stages-ateliers Stages
         - @structure.courses.trainings.includes(:prices, :price_group).each do |training|
           - next if training.plannings.future.count == 0
 
@@ -60,7 +60,7 @@
           .push--bottom.bordered--bottom.soft--bottom
             = render partial: 'structures/courses/footer', locals: { course: training }
         - if @structure.courses.lessons.any?
-          %h2.soft--sides Cours collectifs
+          %h2.soft--sides#cours-collectifs Cours collectifs
         - @structure.courses.lessons.includes(:prices, :price_group).each do |lesson|
           - next if lesson.plannings.future.count == 0
 
@@ -71,7 +71,7 @@
           .push--bottom.bordered--bottom.soft--bottom
             = render partial: 'structures/courses/footer', locals: { course: lesson }
         - if @structure.courses.privates.any?
-          %h2.soft--sides Cours particuliers
+          %h2.soft--sides#cours-particuliers Cours particuliers
         - @structure.courses.privates.includes(:prices, :price_group).each do |private|
           - next if private.plannings.future.count == 0
 
@@ -97,7 +97,7 @@
               %h4.text--center.tk-lexia.f-style-itali--fullc.f-weight-normal.flush.delta.soft-half--top.line-height-1-3= article.title
     .grid__item.four-twelfths.palm-one-whole.visuallyhidden--palm>
       .bg-white
-        %div{ data: { behavior: 'sticky', old_width: 'true' } }
+        .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true' } }
           = render 'registration'
           = react_component('Map', { markers: @structure.places.map(&:to_react_json), hide_numbers: true } )
         - unless @is_sleeping
