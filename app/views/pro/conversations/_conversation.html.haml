@@ -15,15 +15,14 @@
         %span{ data: { toggle: 'popover', placement: 'top', content: conversation_label_name(conversation) } }
           = conversation_label conversation
       .flush.line-height-1-7
-        - if conversation.is_unread?(structure.main_contact)
-          .lbl--small.lbl--chip.lbl.lbl--yellow{ data: { toggle: 'tooltip', title: 'Message non lu' } }
         - if recipients.first
           %strong.epsilon= truncate((recipients.first.name || recipients.first.email), length: 18)
           %soan.visuallyhidden--palm= "(#{pluralize conversation.messages.count, 'message'})"
         - if recipients.length > 1
           %span.nowrap.milli{ title: recipients.map(&:name).join(', '), data: { behavior: 'tooltip' } }
             et #{pluralize(recipients.length - 1, 'autre')}
-          %br
+        - if conversation.is_unread?(structure.main_contact)
+          .lbl--small.white.lbl.lbl--yellow NON LU
       %p.flush.line-height-1-7.f-weight-500
         - if participation_request and !participation_request.past?
           #{participation_request_decorator.status_for('Structure')} -
