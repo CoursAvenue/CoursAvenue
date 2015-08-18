@@ -66,14 +66,14 @@ var LessonPlanning = React.createClass({
             location_td = (<td className="two-tenths">{this.props.planning.address_name}</td>);
         }
         if (this.props.planning.visible == false) { // Check if false because can be undefined
-            time = (<div>Sur demande</div>);
+            time = (<span>(horaire sur demande)</span>);
         } else {
-            time = (<div>
+            time = (<span>
                         <time dateTime={this.startDateDatetime()} itemprop="startDate">
                             {this.props.planning.time_slot}
                         </time>
                         <time dateTime={this.endDateDatetime()} itemprop="endDate"></time>
-                    </div>);
+                    </span>);
         }
         return (
             <tr className={ this.props.course.structure_is_active ? 'cursor-pointer' : '' }
@@ -82,15 +82,11 @@ var LessonPlanning = React.createClass({
                 onClick={this.props.course.structure_is_active ? this.bookPlanning : null}>
                 <td itemScope=""
                     itemType="http://data-vocabulary.org/Event"
-                    className="soft--left">
+                    className="soft--left nowrap">
                     <div>
                         <meta content={this.props.course.name} itemprop="summary" />
-                        {this.props.planning.date}
-                        <span className="visuallyhidden--lap-and-up">{time}</span>
+                        {this.props.planning.date}&nbsp;{ time }
                     </div>
-                </td>
-                <td className="visuallyhidden--palm">
-                    { time }
                 </td>
                 <td>
                     <div>

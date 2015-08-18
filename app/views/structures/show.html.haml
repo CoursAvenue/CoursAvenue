@@ -30,21 +30,6 @@
   = render partial: 'structures/breadcrumbs', locals: { structure: @structure }
   .grid--full
     .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
-      - if @structure.medias.any?
-        = render partial: 'structures/gallery', locals: { medias: @medias, structure: @structure }
-
-      - comment = (@structure.highlighted_comment || @structure.comments.last)
-      - if comment
-        %div.epsilon.soft-half--bottom
-          %i.fa-quotes.v-super.white
-          .inline-block.v-middle.white.inline-block.very-soft.hard--ends.f-weight-bold
-            = truncate(comment.title, length: 60)
-          .inline-block.v-middle.white.f-style-italic
-            \— #{comment.author_name}, #{truncate(comment.course_name, length: 15)} —
-          .inline-block.v-middle.f-weight-bold
-            = link_to '#avis', data: { behavior: 'scroll-to', offset_top: '-50' }, class: 'white' do
-              Voir les #{@structure.comments_count} avis
-
       .push--bottom.bg-white.bordered.soft--ends
         .soft--sides
           .grid.push--bottom
@@ -66,9 +51,14 @@
               .read-more{ data: { behavior: 'read-more' } }
                 = simple_format @structure.description
 
+        - if @structure.medias.any?
+          .push--bottom
+            %h2.soft--sides Photos & Vidéos
+            = render partial: 'structures/indexable_cards/gallery', locals: { medias: @structure.medias.cover_first.videos_first, structure: @structure }
+
         - if @structure.courses.trainings.any?
           %h2.soft--sides Stages
-        - @structure.courses.trainings.each do |training|
+        - @structure.courses.trainings.includes(:prices, :price_group).each do |training|
           - next if training.plannings.future.count == 0
 
           .soft--sides
@@ -79,7 +69,7 @@
             = render partial: 'structures/courses/footer', locals: { course: training }
         - if @structure.courses.lessons.any?
           %h2.soft--sides Cours collectifs
-        - @structure.courses.lessons.each do |lesson|
+        - @structure.courses.lessons.includes(:prices, :price_group).each do |lesson|
           - next if lesson.plannings.future.count == 0
 
           .soft--sides
@@ -90,7 +80,7 @@
             = render partial: 'structures/courses/footer', locals: { course: lesson }
         - if @structure.courses.privates.any?
           %h2.soft--sides Cours particuliers
-        - @structure.courses.privates.each do |private|
+        - @structure.courses.privates.includes(:prices, :price_group).each do |private|
           - next if private.plannings.future.count == 0
 
           .soft--sides
@@ -124,10 +114,8 @@
         .soft.bordered
           %h4 Profils similaires
           - @similar_profiles.each_with_index do |structure, index|
-            - unless index == 0
-              %hr.push-half--ends
             %div{ style: 'height: 70px;' }
-              .soft-half--sides
+              .soft-half--sides.push-half--bottom
                 .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
                   .grid__item.v-middle.one-fifth>
                     %div{ itemprop: 'image', content: structure.logo.url }
