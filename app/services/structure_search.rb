@@ -160,4 +160,18 @@ class StructureSearch
     @structures
   end
 
+  # Searching for potential duplicates. We only check by searching the name in the text fields
+  # because it allows to find structures with a similar name: i.e. searching for 'sattva paris yoga' will
+  # return 'yoga sattva paris'.
+  #
+  # @return a Sunspot search object.
+  def self.potential_duplicates(structure)
+    @search = Sunspot.search(Structure) do
+      fulltext structure.name.downcase
+      without :id, [structure.id]
+    end
+
+    @search.results
+  end
+
 end
