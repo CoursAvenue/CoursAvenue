@@ -438,6 +438,7 @@ France
 
       potentials.empty? ? nil : { structure: s, duplicates: potentials }
     end.compact
+
     @pagination_scope = OpenStruct.new(total_pages: (@structures.count / per_page.to_f).ceil,
                                        current_page: page, limit_value: per_page)
   end
