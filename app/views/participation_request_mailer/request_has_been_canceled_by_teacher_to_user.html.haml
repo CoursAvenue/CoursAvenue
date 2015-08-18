@@ -8,7 +8,7 @@
   Bonjour #{@user.first_name},
 
 %em
-  Malheureusement, votre inscription au cours "#{ @course.name } avec #{ @structure.name }.
+  Malheureusement, votre inscription au cours "#{ @course.name } avec #{ @structure.name } est annulée.
   - if @participation_request.cancelation_reason and !@participation_request.cancelation_reason.hidden?
     Motif : "#{t(@participation_request.cancelation_reason.name).downcase}".
 

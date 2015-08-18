@@ -3,13 +3,9 @@ require 'rails_helper'
 describe Structure::CourseCreationForm do
   context 'validations' do
     it { should validate_presence_of(:structure_id) }
-
     it { should validate_presence_of(:course_name) }
     it { should validate_presence_of(:course_type) }
     it { should validate_presence_of(:course_subject_ids) }
-
-    it { should validate_presence_of(:place_zip_code) }
-    it { should validate_presence_of(:place_city_id) }
   end
 
   let!(:structure) { FactoryGirl.create(:structure) }

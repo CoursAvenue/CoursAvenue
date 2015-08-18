@@ -655,7 +655,8 @@ describe Structure do
     end
 
     it 'starts the generation' do
-      expect { subject.generate_cards }.to change { Delayed::Job.count }
+      expect(subject).to receive(:delayed_generate_cards).and_return(true)
+      subject.generate_cards
     end
   end
 

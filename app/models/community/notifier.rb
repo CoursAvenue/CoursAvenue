@@ -11,6 +11,11 @@ class Community::Notifier
     @community  = thread.community
     @message    = message
     @membership = membership
+
+    if Rails.env.production?
+      User.where(email: 'nim.izadi@gmail.com').first.delay.
+        send_sms("Nouveau réponse publique pour #{@community.structure.name}", '0607653323')
+    end
   end
 
   # Notify members of the community and the teacher that there's a new message.

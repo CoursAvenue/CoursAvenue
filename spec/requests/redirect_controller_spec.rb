@@ -7,13 +7,6 @@ describe "301 Redirections" do
   let (:subject)   { FactoryGirl.create(:subject) }
   let (:subject_2) { FactoryGirl.create(:subject) }
 
-  describe '/cergy--2' do
-    it 'returns 301' do
-      get "/#{city.slug}--2"
-      expect(response).to be_redirect
-    end
-  end
-
   # GET 'cours-de-:id-a/:city_id--:old_slug', to: 'redirect#structures_index'
   describe '/cours-de-clarinette-a/cergy--2' do
     it 'returns 301' do
@@ -35,15 +28,6 @@ describe "301 Redirections" do
     it 'returns 301' do
       get "#{subject.slug}--#{city.slug}--2"
       expect(response).to be_redirect
-    end
-  end
-
-  # GET '/:city_id' as an integer
-  describe '/124123' do
-    it 'returns 301' do
-      get "#{city.id}"
-      expect(response).to be_redirect
-      expect(response.location).to include city.slug
     end
   end
 end

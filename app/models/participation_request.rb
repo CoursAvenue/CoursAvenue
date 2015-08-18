@@ -182,7 +182,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def modify_date!(message_body, new_params, last_modified_by='Structure')
-    message_body          = StringHelper.replace_contact_infos(message_body)
+    # message_body          = StringHelper.replace_contact_infos(message_body)
     new_params            = ParticipationRequest.set_start_time(new_params)
     self.last_modified_by = last_modified_by
     # We don not update_attributes because self.course_id_was won't work...
@@ -212,7 +212,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def discuss!(message_body, discussed_by='Structure')
-    message_body             = StringHelper.replace_contact_infos(message_body)
+    # message_body             = StringHelper.replace_contact_infos(message_body)
     message                  = reply_to_conversation(message_body, discussed_by)
     treat!('message') if pending?
     self.structure_responded = true if discussed_by == 'Structure'
@@ -229,7 +229,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def cancel!(message_body, cancelation_reason_id, last_modified_by='Structure')
-    message_body               = StringHelper.replace_contact_infos(message_body)
+    # message_body               = StringHelper.replace_contact_infos(message_body)
     self.cancelation_reason_id = cancelation_reason_id
     self.last_modified_by      = last_modified_by
     self.state                 = 'canceled'
@@ -456,7 +456,7 @@ class ParticipationRequest < ActiveRecord::Base
   end
 
   def reply_to_conversation(message_body, last_modified_by)
-    message_body = StringHelper.replace_contact_infos(message_body)
+    # message_body = StringHelper.replace_contact_infos(message_body)
     if message_body.present?
       self.conversation.update_column :lock_email_notification_once, true
       if last_modified_by == 'Structure'

@@ -1,6 +1,7 @@
 = side_menu_currently_at 'comments'
 
 = render partial: 'pro/structures/comments_tabs', locals: { current: 'comments_on_website' }
+= render '/pro/structures/widget_inline_css'
 
 %h1 Livre d'Or sur votre site web
 
@@ -25,12 +26,12 @@
     Préférez-vous avoir un widget sur votre site ?
     = link_to 'Cliquez ici.', 'javascript:void(0)', data: { toggle: true }
 
-#widget.hidden.push--top
+#widget-infos.hidden.push--top
   %h2 Ajouter un Widget sur votre site web
   = render partial: 'pro/structures/widget_instruction'
 
 - content_for :scripts do
   :javascript
-      $('[data-toggle]').click(function() {
-          $('#widget').slideToggle();
+      $('[data-show-widget]').click(function() {
+          $('#widget-infos').slideToggle();
       });
