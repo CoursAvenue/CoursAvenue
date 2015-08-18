@@ -36,7 +36,7 @@ describe Structures::Community::MessageThreadsController, community: true do
 
     it 'creates a new message thread' do
       expect { post :create, valid_params(structure, user) }.
-        to change { Community::MessageThread }.by(1)
+        to change { Community::MessageThread.count }.by(1)
     end
   end
 
