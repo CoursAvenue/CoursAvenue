@@ -11,7 +11,7 @@
         %span Date de création
       %th Doublons
   %tbody
-    - @structures.each do |row|
+    - @duplicates.each do |row|
       - structure  = row[:structure]
       - duplicates = row[:duplicates]
       - next if structure.nil?
@@ -24,3 +24,5 @@
           - duplicates.each do |dup|
             = link_to "#{ dup.name } (#{ l(dup.created_at.to_date) })", dashboard_pro_structure_path(dup)
             %br
+
+.text--center.push-half--ends= paginate(@pagination_scope, window: 1, outer_window: 3)
