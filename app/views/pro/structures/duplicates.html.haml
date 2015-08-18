@@ -24,7 +24,7 @@
         %td
           = link_to structure.name, dashboard_pro_structure_path(structure)
         %td
-          = l(structure.main_contact.created_at.to_date) if structure.main_contact
+          = l(structure.created_at.to_date)
         %td.nowrap
           - duplicates.each do |dup|
             = link_to "#{ dup.name } (#{ l(dup.created_at.to_date) })", dashboard_pro_structure_path(dup)
