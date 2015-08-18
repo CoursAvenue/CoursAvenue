@@ -191,6 +191,7 @@ CoursAvenue::Application.routes.draw do
           post :import
           get :imported_structures
           get :duplicates
+          post :update_duplicates
         end
         member do
           get   :confirm_email

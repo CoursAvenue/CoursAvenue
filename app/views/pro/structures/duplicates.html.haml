@@ -2,6 +2,9 @@
 
 = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'structures' }
 
+.text--center
+  = link_to 'Mettre a jour', update_duplicates_pro_structures_path, class: 'btn btn--blue-green', method: :post
+
 %table.table--striped.table--data#dataTable
   %thead
     %tr

@@ -440,6 +440,11 @@ France
     )
   end
 
+  def update_duplicates
+    Structure::DuplicateList.delay.save_potential_duplicates
+    redirect_to duplicates_pro_structures_path, notice: 'La recherche de doublon est en cours.'
+  end
+
   private
 
   # Return the next wizard regarding the params passed (skip: true)
