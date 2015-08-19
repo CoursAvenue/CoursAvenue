@@ -58,6 +58,7 @@ describe Structure::CourseCreationForm do
       course_prices_attributes: price.attributes.compact,
       course_frequency: Course::COURSE_FREQUENCIES.sample,
 
+      planning_start_date: Date.tomorrow,
       planning_start_time: Time.parse("10:00"),
       planning_end_time: Time.parse("12:00"),
       planning_week_day: (0..7).to_a.sample,
