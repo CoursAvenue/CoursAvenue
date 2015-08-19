@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
 
   has_many :lived_places
   has_many :cities, through: :lived_places
-  has_many :followings
+  has_many :favorites, class_name: 'User::Favorite', dependent: :destroy
 
   has_many :orders, class_name: 'Order::Pass'
   has_many :participation_requests

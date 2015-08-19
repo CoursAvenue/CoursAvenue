@@ -1,6 +1,7 @@
-class Following < ActiveRecord::Base
+class User::Favorite < ActiveRecord::Base
   belongs_to :user
   belongs_to :structure
+  belongs_to :indexable_card
 
   attr_accessible :structure, :user
 
