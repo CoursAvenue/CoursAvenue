@@ -40,12 +40,15 @@ var HelpCard = React.createClass({
                                 <a href='javascript:void(0)' onClick={ this.dismiss }>&times;</a>
                             </div>
                         </div>
+                        <div className='text--center giga soft--top'>
+                            <i className={ 'fa-card-' + helper.get('type') }></i>
+                        </div>
                         <h4 className="flush text--center soft-half caps f-weight-bold">
                             { helper.strType() }
                         </h4>
                     </div>
 
-                    <div className="soft-half--sides soft-half--bottom text--center">
+                    <div className="soft-half--sides soft-half--bottom text--center search-page-card__content-bottom--help">
                         <h4 className='line-height-normal'>{ helper.get('description') }</h4>
 
                         { this.callToAction() }
