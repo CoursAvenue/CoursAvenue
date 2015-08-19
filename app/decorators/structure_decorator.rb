@@ -2,6 +2,14 @@ class StructureDecorator < Draper::Decorator
 
   delegate_all
 
+  def avatar(size=60)
+    if object.logo.present?
+      h.image_tag object.logo.url(:thumb), class: 'rounded--circle block center-block bordered', width: size, height: size
+    else
+      h.content_tag('div', '', class: "comment-avatar-#{size}")
+    end
+  end
+
   def structure_type
     I18n.t(object.structure_type) if object.structure_type.present? and object.structure_type != 'object.structure_type'
   end

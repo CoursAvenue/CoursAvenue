@@ -261,7 +261,7 @@ var BookPopup = React.createClass({
                         {planning_details}
                         <div className="epsilon blue-green f-weight-bold line-height-1-5">
                             {price_libelle}&nbsp;:&nbsp;
-                            {COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price').amount)}
+                            {COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price_amount'))}
                         </div>
                     </div>
                     <div className="soft--sides">

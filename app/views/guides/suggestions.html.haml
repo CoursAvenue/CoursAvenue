@@ -86,3 +86,9 @@
             = subject.name
             .push--bottom
               .epsilon= "(score : #{score})"
+
+= content_for :scripts do
+  :javascript
+    $(function(){
+        mixpanel.track("Finished guide " + #{@guide.id}, { name: "#{@guide.title}" });
+    });

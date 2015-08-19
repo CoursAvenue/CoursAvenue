@@ -5,7 +5,6 @@ class StructureWebsite::StructuresController < StructureWebsiteController
   def show
     @structure           = Structure.friendly.find(params[:id])
     @structure_decorator = @structure.decorate
-    @place_ids           = @structure.places.includes(:city).map(&:id)
     @city                = @structure.city
   end
 

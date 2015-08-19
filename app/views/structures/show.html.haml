@@ -35,14 +35,14 @@
               %h1.flush= @structure.name
               .delta.f-weight-500.push-half--bottom.gray= @structure_decorator.structure_type
 
-              = react_component('SubjectList', { classes: 'text--left', follow_links: true, colored: true, subject_list: ActiveModel::ArraySerializer.new(@structure.subjects.at_depth(2), each_serializer: SubjectListSerializer) })
+              = react_component('SubjectList', { classes: 'text--left', follow_links: true, colored: true, subject_list: ActiveModel::ArraySerializer.new(@structure.subjects.at_depth(2).uniq, each_serializer: SubjectListSerializer) })
 
           - if @structure.description.present?
             .push--bottom
               .read-more{ data: { behavior: 'read-more' } }
                 = simple_format @structure.description
 
-        - if @structure.medias.any?
+        - if @structure.medias.count > 0
           .push--bottom
             %h2.soft--sides Photos & Vidéos
             = render partial: 'structures/indexable_cards/gallery', locals: { medias: @structure.medias.cover_first.videos_first, structure: @structure }
@@ -78,7 +78,7 @@
                 .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
                   .grid__item.v-middle.one-fifth>
                     %div{ itemprop: 'image', content: structure.logo.url }
-                      = image_tag structure.logo.url(:thumb), class: 'rounded--circle', height: 60, width: 60
+                      = structure.decorate.avatar
                   .grid__item.v-middle.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
                     %h6.hide-for-fout.flush.line-height-1-5.text-ellipsis
                       = link_to structure.name, structure_path(structure), class: 'muted-link'

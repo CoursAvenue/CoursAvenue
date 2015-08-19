@@ -491,7 +491,7 @@ France
     if @structure.places.homes.empty?
       @structure.places.homes.build
     end
-    @home_places = @structure.places.select{ |p| p.type == 'Place::Home' }
+    @home_places = @structure.places.includes(:city).select{ |p| p.type == 'Place::Home' }
     if @home_places.empty?
       @home_places << @structure.places.homes.build
     end

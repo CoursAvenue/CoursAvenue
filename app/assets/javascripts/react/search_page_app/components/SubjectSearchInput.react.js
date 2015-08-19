@@ -52,7 +52,7 @@ var SubjectSearchInput = React.createClass({
               window.location = Routes.root_search_page_without_subject_path('paris', { discipline: this.state.subject_autocomplete_store.full_text_search });
             }
         } else {
-            FilterActionCreators.searchFullText($(event.currentTarget).val());
+            FilterActionCreators.searchFullText(this.state.subject_autocomplete_store.full_text_search);
         }
     },
 
