@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819145107) do
+ActiveRecord::Schema.define(version: 20150819145606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1443,8 +1443,10 @@ ActiveRecord::Schema.define(version: 20150819145107) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "indexable_card_id"
   end
 
+  add_index "user_favorites", ["indexable_card_id"], name: "index_user_favorites_on_indexable_card_id", using: :btree
   add_index "user_favorites", ["user_id", "structure_id"], name: "index_user_favorites_on_user_id_and_structure_id", using: :btree
 
   create_table "user_profile_imports", force: true do |t|

@@ -11,6 +11,7 @@ class IndexableCard < ActiveRecord::Base
   belongs_to :course
 
   has_many :plannings
+  has_many :user_favorites, class_name: 'User::Favorite', dependent: :destroy
 
   has_and_belongs_to_many :subjects
 
