@@ -1,0 +1,34 @@
+- dont_register = false if dont_register.nil?
+- if @structure.courses.trainings.any?
+  %h2.soft--sides#stages-ateliers Stages
+- @structure.courses.trainings.includes(:prices, :price_group).each do |training|
+  - next if training.plannings.future.count == 0
+
+  .soft--sides
+    = render partial: 'structures/courses/header', locals: { course: training }
+
+  = react_component('Course', { dont_register: dont_register, show_location: true, course: CourseSerializer.new(training), plannings: ActiveModel::ArraySerializer.new(training.plannings.ordered_by_day.future, each_serializer: PlanningSerializer) }, { prerender: false })
+  .push--bottom.bordered--bottom.soft--bottom
+    = render partial: 'structures/courses/footer', locals: { course: training }
+- if @structure.courses.lessons.any?
+  %h2.soft--sides#cours-collectifs Cours collectifs
+- @structure.courses.lessons.includes(:prices, :price_group).each do |lesson|
+  - next if lesson.plannings.future.count == 0
+
+  .soft--sides
+    = render partial: 'structures/courses/header', locals: { course: lesson }
+  = react_component('Course', { dont_register: dont_register, show_location: true, course: CourseSerializer.new(lesson), plannings: ActiveModel::ArraySerializer.new(lesson.plannings.ordered_by_day.future, each_serializer: PlanningSerializer) }, { prerender: false })
+
+  .push--bottom.bordered--bottom.soft--bottom
+    = render partial: 'structures/courses/footer', locals: { course: lesson }
+- if @structure.courses.privates.any?
+  %h2.soft--sides#cours-particuliers Cours particuliers
+- @structure.courses.privates.includes(:prices, :price_group).each do |private|
+  - next if private.plannings.future.count == 0
+
+  .soft--sides
+    = render partial: 'structures/courses/header', locals: { course: private }
+
+  = react_component('Course', { dont_register: dont_register, show_location: true, course: CourseSerializer.new(private), plannings: ActiveModel::ArraySerializer.new(private.plannings.ordered_by_day.future, each_serializer: PlanningSerializer) }, { prerender: false })
+  .push--bottom.bordered--bottom.soft--bottom
+    = render partial: 'structures/courses/footer', locals: { course: private }
