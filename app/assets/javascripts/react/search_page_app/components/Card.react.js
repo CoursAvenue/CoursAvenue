@@ -10,7 +10,7 @@ var Card = React.createClass({
             )
         } else {
             children.unshift(
-                <div className="search-page-card__number" key={ children.length }></div>
+                <div className="search-page-card__number" key={ children.length }>&nbsp;</div>
             )
         }
 
