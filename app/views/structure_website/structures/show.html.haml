@@ -51,23 +51,22 @@
 
 
     .grid__item.four-twelfths.palm-one-whole>
-      .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true' } }
+      %div{ data: { behavior: 'sticky', old_width: 'true', offset_top: '39' } }
         = react_component('Map', { markers: @structure.places.map(&:to_react_json) } )
+        .bg-white.soft--ends.bordered--sides.bordered--bottom
+          .soft--sides
+            %h3.push-half--top= 'Adresse'.pluralize(@structure.places.length)
+            - @structure.places.each_with_index do |place, index|
+              .push--bottom
+                .line-height-1-5
+                  %strong= "#{index + 1} #{place.name}"
+                  %br
+                  = place.address
+                - if place.info.present?
+                  %div
+                    %i= place.info
 
-      .bg-white.soft--ends.bordered
-        .soft--sides
-          %h3.push-half--top= 'Adresse'.pluralize(@structure.places.length)
-          - @structure.places.each_with_index do |place, index|
-            .push--bottom
-              .line-height-1-5
-                %strong= "#{index + 1} #{place.name}"
-                %br
-                = place.address
-              - if place.info.present?
-                %div
-                  %i= place.info
-          %hr.push--ends
-
+      .bg-white.soft--ends.bordered--sides.bordered--bottom
         - if @structure.comments_count > 0
           .soft--sides
             %h3= "#{@structure.comments_count} avis"
