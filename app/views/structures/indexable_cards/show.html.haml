@@ -102,7 +102,7 @@
               %hr.push--ends
               .soft--sides
                 %h4.push-half--bottom Transports
-                - @place.nearby_metro_stops.each do |stop|
+                - @place.nearby_metro_stops.includes(:lines).each do |stop|
                   %div.push-half--bottom
                     - stop.lines.each do |line|
                       = MetroLineDecorator.new(line).chip

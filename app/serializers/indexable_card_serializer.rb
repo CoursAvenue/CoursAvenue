@@ -34,7 +34,7 @@ class IndexableCardSerializer < ActiveModel::Serializer
   end
 
   def frequency
-    I18n.t(object.frequency) if object.frequency.present?
+    I18n.t(object.course.frequency) if object.course.frequency.present?
   end
 
   def cant_be_joined_during_year
