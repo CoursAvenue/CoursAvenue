@@ -34,13 +34,13 @@ var HelpCard = React.createClass({
         return (
             <Card {...options}>
                 <div className={ content_class }>
-                    <div className='search-page-card__content-top'>
-                        <div className='relative'>
-                            <div className='search-page-card__dismiss'>
-                                <a href='javascript:void(0)' onClick={ this.dismiss }>&times;</a>
-                            </div>
+                    <div className='search-page-card__content-top relative soft--top'>
+                        <div className='search-page-card__dismiss north east absolute'>
+                            <a href='javascript:void(0)' onClick={ this.dismiss }>
+                                <i className="fa fa-times"></i>
+                            </a>
                         </div>
-                        <div className='text--center giga soft--top'>
+                        <div className='text--center mega soft--top'>
                             <i className={ 'fa-card-' + helper.get('type') }></i>
                         </div>
                         <h4 className="flush text--center soft-half caps f-weight-bold">
@@ -49,14 +49,14 @@ var HelpCard = React.createClass({
                     </div>
 
                     <div className="soft-half--sides soft-half--bottom text--center search-page-card__content-bottom--help">
-                        <h4 className='line-height-normal'>{ helper.get('description') }</h4>
+                        <h4>{ helper.get('description') }</h4>
 
                         { this.callToAction() }
 
-                        <div className='text--center soft-half'>
-                            <input type='checkbox' className='input--large' id='toggle_dismiss' name='toggle_dismiss' onChange={ this.toggleDismiss } />
-                            <label className='f-weight-bold' htmlFor='toggle_dismiss'>Ne plus afficher</label>
-                        </div>
+                    </div>
+                    <div className='text--center soft--bottom absolute south left one-whole text--center'>
+                        <input type='checkbox' className='v-middle input--large' id='toggle_dismiss' name='toggle_dismiss' onChange={ this.toggleDismiss } />
+                        <label className='v-middle f-weight-bold' htmlFor='toggle_dismiss'>Ne plus afficher</label>
                     </div>
 
                 </div>

@@ -7,6 +7,7 @@ var CardStore              = require('../stores/CardStore'),
     FluxBoneMixin          = require("../../mixins/FluxBoneMixin"),
     Suggestions            = require("./Suggestions"),
     HelpCard               = require("./HelpCard"),
+    EmptyCard              = require("./EmptyCard"),
     CourseCard             = require("./CourseCard");
 
 ResultList = React.createClass({
@@ -42,13 +43,12 @@ ResultList = React.createClass({
     },
 
     render: function render () {
-        var spinner, no_results;
-        if (this.state.card_store.loading) {
-            spinner = (<div className="spinner">
-                           <div className="double-bounce1"></div>
-                           <div className="double-bounce2"></div>
-                           <div className="double-bounce3"></div>
-                       </div>);
+        var fake_cards, no_results;
+        this.helper_card_position = this.helper_card_position || (Math.ceil(Math.random() * 5) + 2);
+        if (this.state.card_store.first_loading) {
+            fake_cards = [(<EmptyCard />), (<EmptyCard />), (<EmptyCard />),
+                          (<EmptyCard />), (<EmptyCard />), (<EmptyCard />),
+                          (<EmptyCard />), (<EmptyCard />), (<EmptyCard />)];
         } else {
             var card_class = this.getCardClass();
             var helper_cards = HelpStore.getUnseenCards();
@@ -66,13 +66,13 @@ ResultList = React.createClass({
                     <HelpCard helper={ helper_cards[0] } key={ helper_cards[0].get('type') } width_class={ card_class } />
                 )
 
-                cards.splice(7, 0, helper_card);
+                cards.splice(this.helper_card_position, 0, helper_card);
                 cards.splice(-1, 1);
             }
         }
         return (
           <div className="relative z-index-1">
-              {spinner}
+              {fake_cards}
               {cards}
               {no_results}
           </div>

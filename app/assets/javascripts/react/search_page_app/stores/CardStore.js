@@ -21,9 +21,9 @@ var CardCollection = Backbone.Collection.extend({
     HITS_PER_PAGES          : 16,
     NB_PAGE_LOADED_PER_BATCH: 6,
 
-    model:   CardModel,
-    loading: true,
-    error:   false,
+    model        :   CardModel,
+    first_loading: true,
+    error        :   false,
 
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback', 'searchSuccess', 'searchError', 'fetchDataFromServer');
@@ -122,17 +122,15 @@ var CardCollection = Backbone.Collection.extend({
     fetchDataFromServer: function fetchDataFromServer (reset_page_nb) {
         if (reset_page_nb) { this.current_page = 1; }
         this.error   = false;
-        this.loading = true;
 
-        this.trigger('change');
 
         // Call the algolia search.
         AlgoliaSearchUtils.searchCards(this.algoliaFilters(), this.searchSuccess, this.searchError);
     }.debounce(150),
 
     searchSuccess: function searchSuccess (data) {
-        this.loading = false;
-        this.error   = false;
+        this.first_loading = false;
+        this.error         = false;
 
         this.facets        = data.facets;
         this.total_results = data.nbHits;

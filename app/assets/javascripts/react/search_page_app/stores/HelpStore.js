@@ -71,7 +71,7 @@ module.exports = new HelperCollection(
             name:           'Quelle activité pour mon enfant ?',
             type:           'info',
             cookie_key:     'info-guide-quelle-activite-pour-mon-enfant',
-            description:    'Souhaitez vous trouvez un cours pour votre enfant ?',
+            description:    'Vous cherchez un cours pour vos enfants ?',
             call_to_action: 'Cliquez ici',
         }
     ]
