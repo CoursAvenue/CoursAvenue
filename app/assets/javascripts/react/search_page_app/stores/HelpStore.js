@@ -16,6 +16,10 @@ var HelperModel = Backbone.Model.extend({
     dismiss: function dismiss () {
         // Add a cookie.
     },
+
+    strType: function strType () {
+        return (this.get('type') == 'astuce' ? 'Astuce' : 'Info');
+    },
 });
 
 var HelperCollection = Backbone.Collection.extend({
