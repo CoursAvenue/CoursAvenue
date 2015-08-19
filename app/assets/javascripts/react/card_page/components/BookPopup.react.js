@@ -209,9 +209,13 @@ var BookPopup = React.createClass({
     render: function render () {
         var price_libelle, datepicker = '', place_select, date_label, planning_details, time_select;
         if (this.props.course.get('db_type') == 'Course::Training') {
-            price_libelle = 'Prix du stage';
+            price_libelle = 'Prix du stage : ' + COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price_amount'));
         } else {
-            price_libelle = this.props.course.get('min_price').libelle;
+            if (this.props.course.get('min_price_amount') == 0) {
+                price_libelle = 'Essai gratuit';
+            } else {
+                price_libelle = 'Essai à ' + COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price_amount'));
+            }
             if (this.props.course.get('on_appointment')) {
                 date_label = "Quand voulez-vous venir ? ";
                 time_select = this.getTimeSelect();
@@ -260,8 +264,7 @@ var BookPopup = React.createClass({
                         </div>
                         {planning_details}
                         <div className="epsilon blue-green f-weight-bold line-height-1-5">
-                            {price_libelle}&nbsp;:&nbsp;
-                            {COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price_amount'))}
+                            {price_libelle}
                         </div>
                     </div>
                     <div className="soft--sides">
