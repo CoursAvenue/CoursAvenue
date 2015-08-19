@@ -23,7 +23,7 @@
               %h2.delta.flush
                 Par
                 = link_to @structure.name, structure_path(@structure)
-              = react_component('SubjectList', { follow_links: true, colored: true, subject_list: ActiveModel::ArraySerializer.new(@indexable_card.subjects.at_depth(2), each_serializer: SubjectListSerializer) })
+              = react_component('SubjectList', { classes: 'text--left', follow_links: true, colored: true, subject_list: ActiveModel::ArraySerializer.new(@indexable_card.subjects.at_depth(2), each_serializer: SubjectListSerializer) })
         .soft--sides
           - if @course.prices.any?
             .float--right.blue-green.nowrap.v-middle.delta
