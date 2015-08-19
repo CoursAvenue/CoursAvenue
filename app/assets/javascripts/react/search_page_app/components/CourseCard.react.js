@@ -2,6 +2,7 @@ var SubjectList        = require('./cards/SubjectList.react'),
     CourseInformation  = require('./cards/CourseInformation.react'),
     CourseLocation     = require('./cards/CourseLocation.react'),
     CardActionCreators = require("../actions/CardActionCreators"),
+    Card               = require('./Card'),
     Rating             = require('./cards/Rating.react');
 
 CourseCard = React.createClass({
@@ -163,26 +164,30 @@ CourseCard = React.createClass({
             }
             course_location = (<CourseLocation follow_links={this.props.follow_links} card={this.props.card} rankingInfo={ this.props.card.get('_rankingInfo') } address={ this.props.card.get('place_address') } />);
         }
+        var options = {
+            onMouseEnter: this.onMouseEnter,
+            onMouseLeave: this.onMouseLeave,
+            onClick:      this.goToCourse,
+            classes:      this.props.width_class + ' ' + popup_class,
+            index:        this.props.index
+        }
+
         return (
-          <div onMouseEnter={this.onMouseEnter}
-               onMouseLeave={this.onMouseLeave}
-               onClick={this.goToCourse}
-               className={this.props.width_class + " search-page-card soft-half palm-one-whole lap-one-third inline-block v-top " + popup_class}>
-              <div className="search-page-card__number">{this.props.index}.</div>
-              <div className="bg-white search-page-card__content">
+            <Card {...options}>
+                <div className="bg-white search-page-card__content">
                   {this.headerCard()}
-                  <div className="soft-half--sides soft-half--bottom">
-                      {this.subjectList()}
-                      <div className="search-page-card__content-bottom flexbox">
-                          <div className="flexbox__item v-bottom">
-                              <Rating comment_count={ this.props.card.get('comments_count') } />
-                              {course_information}
-                              {course_location}
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+                    <div className="soft-half--sides soft-half--bottom">
+                        {this.subjectList()}
+                        <div className="search-page-card__content-bottom flexbox">
+                            <div className="flexbox__item v-bottom">
+                                <Rating comment_count={ this.props.card.get('comments_count') } />
+                                {course_information}
+                                {course_location}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Card>
         );
     }
 });
