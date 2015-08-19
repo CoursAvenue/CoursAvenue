@@ -54,8 +54,8 @@ var HelpCard = React.createClass({
                         { this.callToAction() }
 
                         <div className='text--center soft-half'>
-                            <input type='checkbox' className='input--large' id='toggle-dismiss' onChange={ this.toggleDismiss } />
-                            <label className='f-weight-bold' for='toggle-dismiss'>Ne plus afficher</label>
+                            <input type='checkbox' className='input--large' id='toggle_dismiss' name='toggle_dismiss' onChange={ this.toggleDismiss } />
+                            <label className='f-weight-bold' htmlFor='toggle_dismiss'>Ne plus afficher</label>
                         </div>
                     </div>
 
