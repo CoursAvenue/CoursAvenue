@@ -69,7 +69,7 @@
         Stripe.setPublishableKey("#{ Rails.configuration.stripe[:publishable_key] }");
     }());
 
-#structure-profile-menu.one-whole.west.fixed.on-top{ style: 'top: -100px;', data: { behavior: 'header-stick-on-scroll' } }
+#structure-profile-menu.visuallyhidden--palm.one-whole.west.fixed.on-top{ style: 'top: -100px;', data: { behavior: 'header-stick-on-scroll' } }
   - cache [@structure, 'structure_website/structure/show/sticker_header'] do
     .bg-dark-gray
       .main-container.soft--sides

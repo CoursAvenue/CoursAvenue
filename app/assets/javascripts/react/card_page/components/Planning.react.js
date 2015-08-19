@@ -63,7 +63,7 @@ var LessonPlanning = React.createClass({
             var subscribe_button = (<div className="btn btn--full btn--small btn--green">{"M'inscrire"}</div>);
         }
         if (this.props.show_location) {
-            location_td = (<td className="two-tenths">{this.props.planning.address_name}</td>);
+            location_td = (<td className="two-tenths"><div>{this.props.planning.address_name}</div></td>);
         }
         if (this.props.planning.visible == false) { // Check if false because can be undefined
             time = (<span>(horaire sur demande)</span>);
