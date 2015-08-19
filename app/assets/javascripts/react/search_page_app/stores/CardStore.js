@@ -150,6 +150,9 @@ var CardCollection = Backbone.Collection.extend({
         _.each(data.hits, function(hit, index) {
             hit.batch_page = batch_page;
             hit.page       = (batch_page * this.NB_PAGE_LOADED_PER_BATCH) - this.NB_PAGE_LOADED_PER_BATCH + (Math.floor(index / this.HITS_PER_PAGES) + 1);
+	    if (_.includes(this.favorites, hit.id)) {
+		hit.favorite = true;
+	    }
         }.bind(this));
         // We reset results if the search was made for page 1
         if (this.batchPage() == 1) {
