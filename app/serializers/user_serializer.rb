@@ -8,7 +8,7 @@ class UserSerializer < ActiveModel::Serializer
              :favorite_structure_ids, :last_messages_sent, :created_at, :gender, :phone_number
 
   def favorite_structure_ids
-    object.followings.map(&:structure_id)
+    object.favorites.pluck(:structure_id).compact
   end
 
   def last_messages_sent

@@ -334,7 +334,7 @@ class User < ActiveRecord::Base
     percentage += 25 if self.full_name.present?
     percentage += 25 if self.has_avatar? and self.city
     percentage += 25 if self.subjects.any?
-    percentage += 25 if self.followings.any?
+    percentage += 25 if self.favorites.any?
     percentage
   end
 
@@ -447,7 +447,7 @@ class User < ActiveRecord::Base
   end
 
   def follows?(structure)
-    self.followings.map(&:structure_id).include? structure.id
+    self.favorites.pluck(:structure_id).include?(structure.id)
   end
 
   def city
