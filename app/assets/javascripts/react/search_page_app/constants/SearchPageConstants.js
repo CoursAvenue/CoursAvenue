@@ -71,7 +71,9 @@ module.exports = {
         GO_TO_PAGE:                           null,
 
         UPDATE_SORTING:                       null,
-        UPDATE_NB_CARDS_PER_PAGE:             null
+        UPDATE_NB_CARDS_PER_PAGE:             null,
+
+        DISMISS_HELP:                         null,
     })
 
 };

@@ -57,4 +57,11 @@ module.exports = {
             actionType: ActionTypes.GO_TO_NEXT_PAGE
         });
     },
+
+    dismissHelp: function dismissHelp (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.DISMISS_HELP,
+            data: data,
+        });
+    },
 };
