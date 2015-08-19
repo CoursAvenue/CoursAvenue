@@ -50,6 +50,15 @@
         color      : #ABABAB;
         font-weight: bold;
     }
+    .search-page-card__dismiss {
+        position        : absolute;
+        font-weight     : bold;
+        font-size       : 1.5em;
+        padding         : 0.5em 0.8em;
+        text-transform  : uppercase;
+        line-height     : 1.2em;
+        right           : 1px;
+    }
     .search-page-card__price {
         position        : absolute;
         color           : white;
