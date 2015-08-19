@@ -35,8 +35,7 @@
               %h1.flush= @structure.name
               .delta.f-weight-500.push-half--bottom.gray= @structure_decorator.structure_type
 
-              .search-page-card__subjects-wrapper.text--left
-                = react_component('SubjectList', { follow_links: true, colored: true, subject_list: ActiveModel::ArraySerializer.new(@structure.subjects.at_depth(2), each_serializer: SubjectListSerializer) })
+              = react_component('SubjectList', { follow_links: true, colored: true, subject_list: ActiveModel::ArraySerializer.new(@structure.subjects.at_depth(2), each_serializer: SubjectListSerializer) })
 
           - if @structure.description.present?
             .push--bottom

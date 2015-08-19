@@ -100,8 +100,7 @@ var LessonPlanning = React.createClass({
                     <div>{this.props.planning.audiences}</div>
                 </td>
                 { location_td }
-                <td style={{ width: '8em' }}
-                    className={(this.props.course.structure_is_active ? '' : 'hidden')}>
+                <td className={(this.props.course.structure_is_active ? '' : 'hidden')}>
                     { subscribe_button }
                 </td>
             </tr>

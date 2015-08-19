@@ -127,9 +127,12 @@ Card = React.createClass({
 
     subjectList: function subjectList () {
         if (this.props.is_popup) { return ''; }
-        return (<div className="search-page-card__subjects-wrapper">
-                    <SubjectList follow_links={this.props.follow_links}  subject_list={ this.props.card.get('subjects') } />
-                </div>);
+        if (this.props.card.get('subjects').length > 0) {
+            return (<SubjectList follow_links={this.props.follow_links}
+                                 subject_list={ this.props.card.get('subjects') } />);
+        } else {
+            return (<div className="search-page-card__subjects-wrapper"></div>);
+        }
     },
 
     goToCourse: function goToCourse (event) {

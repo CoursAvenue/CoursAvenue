@@ -57,9 +57,9 @@ var MessageThreadList = React.createClass({
             <div id="messages-publics">
                 <div className="push-half--bottom soft--sides">
                     <div>
-                        <h3 className="v-middle flush inline-block">
+                        <h2 className="v-middle flush inline-block">
                             Posez une question publique ({ this.state.thread_store.length })
-                        </h3>
+                        </h2>
                         <i className="v-middle delta fa-question-circle" data-toggle="popover" data-content="<div className='f-size-normal'>Questions et témoignages recueillis auprès de la communauté d'élèves.</div>" data-html="true"></i>
                     </div>
                     <div className='epsilon soft-half--ends'>

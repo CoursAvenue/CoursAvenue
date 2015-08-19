@@ -34,7 +34,7 @@ Subject_list = React.createClass({
             return false;
         }
 
-        var subjectNodes = _.map(this.props.subject_list, function(subject, index) {
+        var subject_nodes = _.map(this.props.subject_list, function(subject, index) {
             return (
                 <Subject colored={this.props.colored}
                          follow_links={this.props.follow_links}
@@ -43,8 +43,8 @@ Subject_list = React.createClass({
         }, this);
 
         return (
-            <div>
-                { subjectNodes }
+            <div className="search-page-card__subjects-wrapper">
+                { subject_nodes }
             </div>
         )
     },

@@ -22,11 +22,14 @@ var Private = React.createClass({
             <table className={"table--striped table--data table-responsive table-responsive--without-th " + (this.props.course.structure_is_active ? 'table--hoverable' : '')}>
                 <thead className="gray-light">
                     <tr>
-                        <th className="soft--left three-tenths">Jour & heure</th>
+                        <th className={"soft--left " + (this.props.show_location ? 'three-tenths' : '')}>
+                            Jour & heure
+                        </th>
                         <th className="two-tenths">Niveau</th>
                         <th className="two-tenths">Public</th>
                         { location_th }
-                        <th className={ this.props.course.structure_is_active ? '' : 'hidden'}></th>
+                        <th style={{ width: '8em' }}
+                            className={ this.props.course.structure_is_active ? '' : 'hidden'}></th>
                     </tr>
                 </thead>
                 <tbody>

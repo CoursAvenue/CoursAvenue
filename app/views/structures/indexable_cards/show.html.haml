@@ -35,7 +35,7 @@
                 - else
                   %strong Cours d'essai à #{readable_amount(@course.prices.first.amount)}
 
-          %h3 Planning
+          %h2 Planning
         = react_component('Course',
                         { course: CourseSerializer.new(@course), plannings: ActiveModel::ArraySerializer.new(@indexable_card.plannings.ordered_by_day.future, each_serializer: PlanningSerializer) }, { prerender: false })
         .soft--sides
@@ -49,11 +49,11 @@
 
         - if @structure.medias.any?
           .push--bottom
-            %h3.soft--sides Photos & Vidéos
+            %h2.soft--sides Photos & Vidéos
             = render partial: 'gallery', locals: { medias: @structure.medias.cover_first.videos_first, structure: @structure }
         .soft--sides
           .push--bottom
-            %h3 Description du cours
+            %h2 Description du cours
             .push--bottom
               - if @course.description.present?
                 .read-more{ data: { behavior: 'read-more', height: 240 } }
@@ -63,7 +63,7 @@
 
         - if @course.price_group
           .push--bottom
-            %h3.soft--sides Tarifs
+            %h2.soft--sides Tarifs
             = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
 
         .push--bottom
