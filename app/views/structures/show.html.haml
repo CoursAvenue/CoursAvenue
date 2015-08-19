@@ -96,7 +96,7 @@
     :javascript
       $(function() {
           mixpanel.track("Structures/show: landing", { "structure_slug": "#{@structure.slug}", "structure_name": "#{escape_javascript(@structure.name)}" });
-          CoursAvenue.statistic.logStat(window.coursavenue.bootstrap.structure.id, 'view')
+          CoursAvenue.statistic.logStat(#{@structure.id}, 'view')
       });
 
 - if Rails.env.production? and params[:utm_campaign] == 'take_control'
