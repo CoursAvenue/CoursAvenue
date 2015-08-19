@@ -72,7 +72,7 @@ module.exports = new HelperCollection(
             type:           'info',
             cookie_key:     'info-guide-quelle-activite-pour-mon-enfant',
             description:    'Vous cherchez un cours pour vos enfants ?',
-            call_to_action: 'Cliquez ici',
+            call_to_action: 'Suivez le guide',
         }
     ]
 );
