@@ -68,7 +68,7 @@ class Structures::Community::MessageThreadsController < ApplicationController
   end
 
   def load_structure_and_community
-    @structure = Structure.includes(community: [:message_threads]).friendly.find(params[:structure_id])
+    @structure = Structure.includes(:community).friendly.find(params[:structure_id])
     @community = @structure.community || @structure.create_community
   end
 end
