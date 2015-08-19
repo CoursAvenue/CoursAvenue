@@ -1,5 +1,4 @@
 var RequestStore          = require("../stores/RequestStore"),
-    StructureStore        = require("../stores/StructureStore"),
     RequestActionCreators = require("../actions/RequestActionCreators"),
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
 
@@ -11,12 +10,10 @@ var BookPopup = React.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            request_store: RequestStore,
-            structure_store: StructureStore
+            request_store: RequestStore
         };
     },
 
-    // Trigger view in a popup if a planning is selected
     componentDidMount: function componentDidMount () {
         var $datepicker_input = $(this.getDOMNode()).find('[data-behavior=datepicker]');
         this.initializeDatepicker($datepicker_input);
@@ -63,43 +60,46 @@ var BookPopup = React.createClass({
         $datepicker_input.datepicker(datepicker_options);
         $datepicker_input.datepicker().on('show', COURSAVENUE.datepicker_function_that_hides_inactive_rows);
 
-
-        var formatted_date = COURSAVENUE.helperMethods.nextWeekDay(this.props.planning.week_day);
-        // We check wether the formatted date is not before the datepicker start date
-        if (formatted_date.toDate() < this.getDatepickerStartDate()) {
-            var days_to_add = 0;
-            var new_date = moment(this.getDatepickerStartDate()).day(this.props.planning.week_day);
-            if (new_date.toDate() < this.getDatepickerStartDate()) { days_to_add = 7 }
-            formatted_date = new_date.day(this.props.planning.week_day + days_to_add);
-        }
-        $datepicker_input.datepicker('update', formatted_date.toDate());
-
-        // Disable days of week
-        var days_of_week = [0,1,2,3,4,5,6];
-        if (this.props.course.db_type == 'Course::Private') {
-            _.each(this.props.course.plannings, function(planning) {
-                if (days_of_week.indexOf(planning.week_day) != -1) {
-                    days_of_week.splice(days_of_week.indexOf(planning.week_day), 1);
-                }
-            });
-        } else {
+        if (this.props.planning.week_day) {
+            var formatted_date = COURSAVENUE.helperMethods.nextWeekDay(this.props.planning.week_day);
+            // We check wether the formatted date is not before the datepicker start date
+            if (formatted_date.toDate() < this.getDatepickerStartDate()) {
+                var days_to_add = 0;
+                var new_date = moment(this.getDatepickerStartDate()).day(this.props.planning.week_day || 1);
+                if (new_date.toDate() < this.getDatepickerStartDate()) { days_to_add = 7 }
+                formatted_date = new_date.day(this.props.planning.week_day + days_to_add);
+            }
+            $datepicker_input.datepicker('update', formatted_date.toDate());
+            // Disable days of week
+            var days_of_week = [0,1,2,3,4,5,6];
             days_of_week.splice(days_of_week.indexOf(this.props.planning.week_day), 1);
+            $datepicker_input.datepicker('setDaysOfWeekDisabled', days_of_week);
+        } else {
+            $datepicker_input.datepicker('update', this.getDatepickerStartDate());
         }
-        $datepicker_input.datepicker('setDaysOfWeekDisabled', days_of_week);
     },
 
     submitRequest: function submitRequest (event) {
-        $(event.currentTarget).prop('disabled', true);
-        if (CoursAvenue.currentUser().isLogged()) {
+        var user_params;
+        if (event) { $(event.currentTarget).prop('disabled', true); }
+        if (this.props.dont_register || CoursAvenue.currentUser().isLogged()) {
             $dom_node = $(this.getDOMNode());
+            user_params = { phone_number: $dom_node.find('[name="user[phone_number]"]').val() }
+            if (this.props.dont_register) {
+                user_params.first_name = $dom_node.find('[name="user[first_name]"]').val();
+                user_params.last_name  = $dom_node.find('[name="user[last_name]"]').val();
+                user_params.email      = $dom_node.find('[name="user[email]"]').val();
+            }
             RequestActionCreators.submitRequest({
                 at_student_home        : !_.isEmpty($dom_node.find('[name="participation_request[at_student_home]"]').val()),
                 structure_id           : this.props.course.structure_id,
-                course                 : this.props.course,
+                course_id              : this.props.course.id,
+                start_hour             : $dom_node.find('[name="participation_request[start_hour]"]').val(),
+                start_min              : $dom_node.find('[name="participation_request[start_min]"]').val(),
                 date                   : $dom_node.find('[name="participation_request[date]"]').val(),
                 planning_id            : this.props.planning.id,
                 message                : { body: $dom_node.find('[name="message[body]"]').val() },
-                user                   : { phone_number: $dom_node.find('[name="user[phone_number]"]').val() },
+                user                   : user_params,
                 participants_attributes: [ {
                     number: $dom_node.find('[name="participation_request[participants_attributes][0][number]"]').val()
                 } ]
@@ -116,22 +116,119 @@ var BookPopup = React.createClass({
         }
     },
 
+    getTimeSelect: function getTimeSelect () {
+        return (<div className="inline-block v-middle">
+                  &nbsp;à&nbsp;
+                  <select name="participation_request[start_hour]">
+                      {_.map(_.range(6, 23), function(index) {
+                          return (<option value={index}>{(index < 10 ? '0' + index : index)}</option>);
+                      })}
+                  </select>
+                  &nbsp;h&nbsp;
+                  <select name="participation_request[start_min]">
+                      <option value="00">00</option>
+                      <option value="15">15</option>
+                      <option value="30">30</option>
+                      <option value="4s5">45</option>
+                  </select>
+                </div>);
+    },
+
+    /*
+     * User do not have to register to CoursAvenue if he is on /reservation page
+     */
+    userInfo: function userInfo () {
+        if (this.props.dont_register) {
+            return (<div className="bordered--bottom soft-half--bottom">
+                      <div className="soft-half--ends">
+                          <label className="f-weight-600 v-middle line-height-2">
+                              Quelques informations sur vous :
+                          </label>
+                      </div>
+                      <div className="grid push-half--bottom">
+                          <div className="grid__item one-half palm-one-whole">
+                              <input className="one-whole"
+                                      name="user[first_name]"
+                                      placeholder="Votre prénom" />
+                          </div>
+                          <div className="grid__item one-half palm-one-whole">
+                              <input className="one-whole"
+                                      name="user[last_name]"
+                                      placeholder="Votre nom" />
+                          </div>
+                      </div>
+                      <div className="grid">
+                          <div className="grid__item one-half palm-one-whole">
+                              <div className="input-addon">
+                                  <div className="input-prefix">
+                                      <i className="fa-envelope-o"></i>
+                                  </div>
+                                  <input className="one-whole"
+                                          name="user[email]"
+                                          placeholder="Votre email" />
+                              </div>
+                          </div>
+                          <div className="grid__item one-half palm-one-whole">
+                              <div className="input-addon">
+                                  <div className="input-prefix">
+                                      <i className="fa-phone-o"></i>
+                                  </div>
+                                  <input type="text" className="one-whole hard--right"
+                                         name="user[phone_number]"
+                                         placeholder="Votre téléphone (confidentiel)" />
+                              </div>
+                          </div>
+                      </div>
+                  </div>);
+        } else {
+            return (<div className="grid--full bordered--bottom soft-half--ends">
+                        <label className="grid__item f-weight-600 v-middle one-half line-height-2 palm-one-whole">
+                            Comment peut-on vous joindre ?
+                        </label>
+                        <div className="grid__item v-middle one-half palm-one-whole">
+                            <div className="input-addon">
+                                <div className="input-prefix">
+                                    <i className="fa-phone-o"></i>
+                                </div>
+                                <input type="text" className="one-whole hard--right"
+                                       name="user[phone_number]"
+                                       placeholder="Votre téléphone (confidentiel)"
+                                       data-toggle="popover"
+                                       data-content="Nous vous recommandons de laisser votre numéro de portable : si la séance est annulée ou modifiée, un SMS pourra vous être envoyé."
+                                       data-trigger="hover"
+                                       data-placement="left"
+                                       data-original-title=""
+                                       title=""
+                                       defaultValue={(CoursAvenue.currentUser() ? CoursAvenue.currentUser().get('phone_number') : '')}/>
+                            </div>
+                        </div>
+                    </div>);
+        }
+    },
+
     render: function render () {
-        var price_libelle, datepicker = '', place_select;
+        var price_libelle, datepicker = '', place_select, date_label, planning_details, time_select;
         if (this.props.course.db_type == 'Course::Training') {
             price_libelle = 'Prix du stage';
         } else {
             price_libelle = this.props.course.min_price.libelle;
+            if (this.props.course.on_appointment) {
+                date_label = "Quand voulez-vous venir ? ";
+                time_select = this.getTimeSelect();
+            } else {
+                date_label = "Quel " + this.props.planning.date.toLowerCase() + " voulez-vous venir ? ";
+            }
             datepicker = (<div className="soft-half--ends bordered--bottom">
                               <div className="grid--full">
                                   <label className="grid__item f-weight-600 v-middle one-half line-height-2 palm-one-whole">
-                                      Quel {this.props.planning.date.toLowerCase()} voulez-vous venir ?&nbsp;
+                                      {date_label}
                                   </label>
                                   <div className="grid__item v-middle one-half palm-one-whole">
                                       <input type="text"
                                              data-behavior="datepicker"
                                              name="participation_request[date]"
                                              className="datepicker-input very-soft v-middle" />
+                                      {time_select}
                                   </div>
                               </div>
                               {this.holidayWarning()}
@@ -151,14 +248,17 @@ var BookPopup = React.createClass({
                                 </div>
                             </div>);
         }
+        if (!this.props.course.on_appointment) {
+            planning_details = (<div className="epsilon f-weight-500 line-height-1-5">
+                                    {this.props.planning.date}&nbsp;{this.props.planning.time_slot}
+                                </div>)
+        }
         return (<div className="bg-white">
                     <div className="soft bordered--bottom bg-gray-light">
                         <div className="delta f-weight-bold">
                             {this.props.course.name}
                         </div>
-                        <div className="epsilon f-weight-500 line-height-1-5">
-                            {this.props.planning.date}&nbsp;{this.props.planning.time_slot}
-                        </div>
+                        {planning_details}
                         <div className="epsilon blue-green f-weight-bold line-height-1-5">
                             {price_libelle}&nbsp;:&nbsp;
                             {COURSAVENUE.helperMethods.readableAmount(this.props.course.min_price.amount)}
@@ -183,32 +283,11 @@ var BookPopup = React.createClass({
                                 </select>
                             </div>
                         </div>
-                        <div className="grid--full bordered--bottom soft-half--ends">
-                            <label className="grid__item f-weight-600 v-middle one-half line-height-2 palm-one-whole">
-                                Comment peut-on vous joindre ?
-                            </label>
-                            <div className="grid__item v-middle one-half palm-one-whole">
-                                <div className="input-addon">
-                                    <div className="input-prefix">
-                                        <i className="fa-phone-o"></i>
-                                    </div>
-                                    <input type="text" className="one-whole hard--right"
-                                           name="user[phone_number]"
-                                           placeholder="Votre téléphone (confidentiel)"
-                                           data-toggle="popover"
-                                           data-content="Nous vous recommandons de laisser votre numéro de portable : si la séance est annulée ou modifiée, un SMS pourra vous être envoyé."
-                                           data-trigger="hover"
-                                           data-placement="left"
-                                           data-original-title=""
-                                           title=""
-                                           defaultValue={(CoursAvenue.currentUser() ? CoursAvenue.currentUser().get('phone_number') : '')}/>
-                                </div>
-                            </div>
-                        </div>
+                        { this.userInfo() }
                         <div className="input flush--top push-half--bottom soft-half--top">
                             <div style={{ display: 'none' }}
                                 className="soft-half alert alert--warning one-whole push-half--bottom">
-                                Pas besoin d'envoyer vos coordonnées de contact, elles seront automatiquement transmises.
+                                {"Pas besoin d'envoyer vos coordonnées de contact, elles seront automatiquement transmises."}
                             </div>
                             <label className="f-weight-bold soft-half--bottom">
                                 {"Accompagnez votre demande d'un petit message :"}

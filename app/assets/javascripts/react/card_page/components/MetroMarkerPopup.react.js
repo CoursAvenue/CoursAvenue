@@ -1,4 +1,4 @@
-var MetroLineChip = require('../../components/MetroLineChip.react');
+var MetroLineChip = require('../../coursavenue/components/MetroLineChip.react');
 
 var MarkerPopup = React.createClass({
 

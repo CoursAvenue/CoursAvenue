@@ -13,7 +13,7 @@
       .soft
         .grid--full.push-half--bottom.message
           .grid__item.two-twelfths.v-top.v-top.visuallyhidden--palm>
-            = image_tag @user.avatar_url(:thumb), class: 'message__avatar block center-block bordered rounded--circle'
+            = @user.decorate.avatar(60)
             .text--center
               %strong= @user.name
           .grid__item.ten-twelfths.message__body.message__appendix.soft-half.gray-box.palm-one-whole>

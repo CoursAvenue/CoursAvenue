@@ -708,16 +708,6 @@ CoursAvenue::Application.routes.draw do
     post '/stripe_webhook', to: 'stripe_webhook#create'
     root :to => 'home#index'
 
-    ########### Search pages ###########
-    # Must be at the end not to stop other routes
-    # Redirect cities that have been deleted and have slug like 'tours--57'
-    get ':root_subject_id/:subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
-    get ':root_subject_id--:city_id--:old_city_slug'            , to: 'redirect#structures_index'
-    # end-redirect
-    get ':root_subject_id/:subject_id--:city_id'                , to: 'courses#index', as: :search_page
-    get ':root_subject_id--:city_id'                            , to: 'courses#index', as: :root_search_page
-    get ':city_id'                                              , to: 'courses#index', as: :root_search_page_without_subject
-    ########### Search pages ###########
 
     # Needed to catch 404 requests in ApplicationController
     # match "*path", to: "application#routing_error", via: :get
@@ -734,6 +724,17 @@ CoursAvenue::Application.routes.draw do
         end
       end
     end
+
+    ########### Search pages ###########
+    # Must be at the end not to stop other routes
+    # Redirect cities that have been deleted and have slug like 'tours--57'
+    get ':root_subject_id/:subject_id--:city_id--:old_city_slug', to: 'redirect#structures_index'
+    get ':root_subject_id--:city_id--:old_city_slug'            , to: 'redirect#structures_index'
+    # end-redirect
+    get ':root_subject_id/:subject_id--:city_id'                , to: 'courses#index', as: :search_page
+    get ':root_subject_id--:city_id'                            , to: 'courses#index', as: :root_search_page
+    get ':city_id'                                              , to: 'courses#index', as: :root_search_page_without_subject
+    ########### Search pages ###########
   end
 
   # ---------------------------------------------

@@ -203,7 +203,6 @@ class Course < ActiveRecord::Base
 
     boolean :has_package_price
     boolean :has_trial_lesson
-    boolean :has_unit_course_price
 
     integer :structure_id
   end
@@ -234,13 +233,6 @@ class Course < ActiveRecord::Base
     return self.prices.where( Price.arel_table[:type].eq('Price::Trial').and(
                               (Price.arel_table[:amount].eq(nil).or(Price.arel_table[:amount].eq(0)))) ).any?
   end
-
-  # :nocov:
-  def has_unit_course_price
-    return false if price_group.nil?
-    return (price_group.book_tickets.any? or prices.where(libelle: 'prices.individual_course').any?)
-  end
-  # :nocov:
 
   def promotion_planning
     self.plannings.where.not( promotion: nil ).order('promotion ASC').first

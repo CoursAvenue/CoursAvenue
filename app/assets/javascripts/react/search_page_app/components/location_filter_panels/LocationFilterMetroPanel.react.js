@@ -1,7 +1,7 @@
 var FluxBoneMixin        = require("../../../mixins/FluxBoneMixin"),
     MetroLineStore       = require('../../stores/MetroLineStore'),
     MetroStopStore       = require('../../stores/MetroStopStore'),
-    MetroLineChip        = require('../../../components/MetroLineChip.react'),
+    MetroLineChip        = require('../../../coursavenue/components/MetroLineChip.react'),
     FilterActionCreators = require("../../actions/FilterActionCreators");
 
 var LocationFilterMetroPanel = React.createClass({

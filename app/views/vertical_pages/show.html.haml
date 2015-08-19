@@ -20,7 +20,7 @@
   .soft--ends.absolute.north.west.on-top-of-the-world.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto
     .flexbox__item.v-middle
       .main-container.main-container--medium.white.text--center
-        %h1.f-size-really-big= @vertical_page_decorator.page_h1
+        %h1.f-size-really-big= @vertical_page_decorator.page_h1(@city)
         - if @vertical_page.caption
           %h4.center-block
             = @vertical_page.caption

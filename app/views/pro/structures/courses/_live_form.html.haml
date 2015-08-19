@@ -43,8 +43,7 @@
             = render partial: "pro/structures/courses/plannings/#{course.underscore_name}_list", locals: { course: course, structure: structure }
             - unless course.on_appointment?
               .soft-half--top.soft-half--sides
-                = link_to new_pro_structure_course_planning_path(structure, course), class: ['fancybox.ajax nowrap', (course.plannings.empty? ? 'btn btn--red btn--small' : '')], data: { behavior: 'modal', width: '800', padding: '0', action: 'new_planning', course_id: course.id, lock_overlay: true } do
-                  .fa.fa-plus
+                = link_to new_pro_structure_course_planning_path(structure, course), class: 'fancybox.ajax nowrap btn btn--white btn--small', data: { behavior: 'modal', width: '800', padding: '0', action: 'new_planning', course_id: course.id, lock_overlay: true } do
                   = (course.is_training? ? 'Ajouter une date' : 'Ajouter un créneau')
     .bg-gray-light.bordered--top
       .inline-block.soft-half

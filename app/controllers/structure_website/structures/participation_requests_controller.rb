@@ -11,7 +11,8 @@ class StructureWebsite::Structures::ParticipationRequestsController < StructureW
   def create
     @user              = User.where(email: request_params[:user][:email].downcase).first_or_initialize(validate: false)
     @user.phone_number = request_params[:user][:phone_number]
-    @user.first_name   = request_params[:user][:name]
+    @user.first_name   = request_params[:user][:first_name]
+    @user.last_name    = request_params[:user][:last_name]
     @user.save(validate: false)
 
     if request_params[:stripe_token].present?
@@ -72,7 +73,8 @@ class StructureWebsite::Structures::ParticipationRequestsController < StructureW
                                                   :structure_id,
                                                   :stripe_token,
                                                   participants_attributes: [ :price_id, :number ],
-                                                  user: [ :phone_number, :email, :name ],
+                                                  user: [ :phone_number, :email,
+                                                          :first_name, :last_name ],
                                                   message: [ :body ])
   end
 

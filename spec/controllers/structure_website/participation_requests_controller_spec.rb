@@ -54,7 +54,8 @@ describe StructureWebsite::Structures::ParticipationRequestsController, type: :c
                           },
                           user: {
                             phone_number: '021402104',
-                            name: 'Lorem',
+                            first_name: 'Lorem',
+                            last_name: 'Ipsum',
                             email: 'lorem@ipsum.com'
                           }
                         }
@@ -63,6 +64,7 @@ describe StructureWebsite::Structures::ParticipationRequestsController, type: :c
         expect(assigns(:user).email).to eq 'lorem@ipsum.com'
         expect(assigns(:user).phone_number).to eq '021402104'
         expect(assigns(:user).first_name).to eq 'Lorem'
+        expect(assigns(:user).last_name).to eq 'Ipsum'
       end
 
       it 'creates a stripe customer for the user' do
@@ -93,7 +95,8 @@ describe StructureWebsite::Structures::ParticipationRequestsController, type: :c
                           },
                           user: {
                             phone_number: '021402104',
-                            name: 'Lorem',
+                            first_name: 'Lorem',
+                            last_name: 'Ipsum',
                             email: user.email
                           }
                         }
@@ -101,6 +104,7 @@ describe StructureWebsite::Structures::ParticipationRequestsController, type: :c
         expect(assigns(:user).id).to eq user.id
         expect(assigns(:user).phone_number).to eq '021402104'
         expect(assigns(:user).first_name).to eq 'Lorem'
+        expect(assigns(:user).last_name).to eq 'Ipsum'
       end
     end
   end

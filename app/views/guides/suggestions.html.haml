@@ -8,12 +8,13 @@
 .relative.search-page-filters__panel-height
   .soft--ends.absolute.north.west.on-top-of-the-world.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.bordered--bottom.bordered--thicker{ class: "#{@subject.root.slug}-border-color"}
     .flexbox__item.v-middle.white.text--center
-      .alpha
+      .beta
         Notre suggestion :
       %h1.f-size-really-big.flush
         = "#{@subject.name} !"
       .push--bottom
         %i.fa.fa-4x{ class: "fa-#{@subject.root.slug}" }
+        .epsilon= "(score : #{params[:subject].split(';').last})"
       .soft--top
         - if @subject.root?
           = link_to root_search_page_path(@subject.root, 'paris', locate_user: 'on'), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
@@ -80,5 +81,8 @@
         .search-page-filters__image-button-curtain
         .flexbox.relative.search-page-filters__panel-height
           .flexbox__item.v-middle
+            %div
+              %i.fa.fa-3x{ class: "fa-#{subject.root.slug}" }
             = subject.name
-            .epsilon= "(score : #{score})"
+            .push--bottom
+              .epsilon= "(score : #{score})"

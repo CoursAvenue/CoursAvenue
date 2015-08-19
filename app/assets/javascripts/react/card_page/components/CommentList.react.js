@@ -48,7 +48,7 @@ var CommentList = React.createClass({
                    href={Routes.new_structure_comment_path(this.props.structure.slug)}>
                     Déposer mon avis
                 </a>
-                <h3>{comment_title}</h3>
+                <h2>{comment_title}</h2>
                 { spinner }
                 { no_comments }
                 { comments }

@@ -83,6 +83,7 @@ Card = React.createClass({
                             {this.headerLogo()}
                             <div className="search-page-card__structure-name soft-half--sides gray">
                                 <a href={Routes.structure_path(this.props.card.get('structure_slug'))}
+                                   target="_blank"
                                    className="semi-muted-link search-page-card__structure-name">
                                     {this.props.card.get('structure_name')}
                                 </a>
@@ -109,12 +110,16 @@ Card = React.createClass({
         var url =  '';
         if (this.props.card.get('has_course')) {
             url = Routes.structure_indexable_card_path(this.props.card.get('structure_slug'), this.props.card.get('slug'));
-            return (<a className={this.props.card.get('root_subject') + "-color-on-hover search-page-card__course-title muted-link"} href={url}>
+            return (<a className={this.props.card.get('root_subject') + "-color-on-hover search-page-card__course-title muted-link"}
+                       target="_blank"
+                       href={url}>
                       {this.props.card.get('course_name')}
                   </a>);
         } else {
             url = Routes.structure_path(this.props.card.get('structure_slug'));
-            return (<a className={this.props.card.get('root_subject') + "-color-on-hover search-page-card__course-title search-page-card__course-title--sleeping muted-link"} href={url}>
+            return (<a className={this.props.card.get('root_subject') + "-color-on-hover search-page-card__course-title search-page-card__course-title--sleeping muted-link"}
+                       target="_blank"
+                       href={url}>
                       {this.props.card.get('structure_name')}
                   </a>);
         }
@@ -122,9 +127,12 @@ Card = React.createClass({
 
     subjectList: function subjectList () {
         if (this.props.is_popup) { return ''; }
-        return (<div className="search-page-card__subjects-wrapper">
-                    <SubjectList follow_links={this.props.follow_links}  subjectList={ this.props.card.get('subjects') } />
-                </div>);
+        if (this.props.card.get('subjects').length > 0) {
+            return (<SubjectList follow_links={this.props.follow_links}
+                                 subject_list={ this.props.card.get('subjects') } />);
+        } else {
+            return (<div className="search-page-card__subjects-wrapper"></div>);
+        }
     },
 
     goToCourse: function goToCourse (event) {
@@ -135,11 +143,7 @@ Card = React.createClass({
         } else {
             new_location = Routes.structure_path(this.props.card.get('structure_slug'));
         }
-        if (event.metaKey || event.ctrlKey) {
-            window.open(new_location);
-        } else {
-            window.location = new_location;
-        }
+        window.open(new_location);
     },
 
     // A card do not have to be updated when created.

@@ -12,47 +12,76 @@
         Revenir au site
   %h1.soft--top.text--center.flush= @structure.name
   %h5.text--center Planning avec demande d'inscription en ligne
-  %hr.push--top.flush--bottom
   .grid
-    .grid__item.eight-twelfths.palm-one-whole.soft--top>
-      #structure-planning.push-half--bottom.bg-white.bordered--left.bordered--right{ data: { type: 'structure-planning-root' } }
-        #structure-region
-      -# We have to keep this div here.
-      .hidden{ data: { type: 'contact-form' } }
+    .grid__item.eight-twelfths.palm-one-whole>
+      .bg-white.soft--top.bordered
+        - if @structure.courses.trainings.any?
+          %h2.soft--sides#stages-ateliers Stages
+        - @structure.courses.trainings.includes(:prices, :price_group).each do |training|
+          - next if training.plannings.future.count == 0
+
+          .soft--sides
+            = render partial: 'structures/courses/header', locals: { course: training }
+
+          = react_component('Course', { dont_register: true, show_location: true, course: CourseSerializer.new(training), plannings: ActiveModel::ArraySerializer.new(training.plannings.ordered_by_day.future, each_serializer: PlanningSerializer) }, { prerender: false })
+          .push--bottom.bordered--bottom.soft--bottom
+            = render partial: 'structures/courses/footer', locals: { course: training }
+        - if @structure.courses.lessons.any?
+          %h2.soft--sides#cours-collectifs Cours collectifs
+        - @structure.courses.lessons.includes(:prices, :price_group).each do |lesson|
+          - next if lesson.plannings.future.count == 0
+
+          .soft--sides
+            = render partial: 'structures/courses/header', locals: { course: lesson }
+          = react_component('Course', { dont_register: true, show_location: true, course: CourseSerializer.new(lesson), plannings: ActiveModel::ArraySerializer.new(lesson.plannings.ordered_by_day.future, each_serializer: PlanningSerializer) }, { prerender: false })
+
+          .push--bottom.bordered--bottom.soft--bottom
+            = render partial: 'structures/courses/footer', locals: { course: lesson }
+        - if @structure.courses.privates.any?
+          %h2.soft--sides#cours-particuliers Cours particuliers
+        - @structure.courses.privates.includes(:prices, :price_group).each do |private|
+          - next if private.plannings.future.count == 0
+
+          .soft--sides
+            = render partial: 'structures/courses/header', locals: { course: private }
+
+          = react_component('Course', { dont_register: true, show_location: true, course: CourseSerializer.new(private), plannings: ActiveModel::ArraySerializer.new(private.plannings.ordered_by_day.future, each_serializer: PlanningSerializer) }, { prerender: false })
+          .push--bottom.bordered--bottom.soft--bottom
+            = render partial: 'structures/courses/footer', locals: { course: private }
+
 
     .grid__item.four-twelfths.palm-one-whole>
-      .visuallyhidden--lap-and-up
-        %h3.push--top Lieux des activités :
-      .soft--top.bg-site-background-on-stick.on-top.transition-all-300{ data: { type: 'sticky-map-container' } }>
-        %div{ data: { type: 'sticky-map' } }>
-      .visuallyhidden--lap-and-up
-        %h3.push-half--top= 'Adresse'.pluralize(@structure.places.length)
-        - @structure.places.each do |place|
-          .push--bottom
-            .line-height-1-5
-              %strong= place.name
-              %br
-              = place.address
-            - if place.info.present?
-              %div
-                %i= place.info
+      %div{ data: { behavior: 'sticky', old_width: 'true', offset_top: '39' } }
+        = react_component('Map', { markers: @structure.places.map(&:to_react_json) } )
+        .bg-white.soft--ends.bordered--sides.bordered--bottom
+          .soft--sides
+            %h3.push-half--top= 'Adresse'.pluralize(@structure.places.length)
+            - @structure.places.each_with_index do |place, index|
+              .push--bottom
+                .line-height-1-5
+                  %strong= "#{index + 1} #{place.name}"
+                  %br
+                  = place.address
+                - if place.info.present?
+                  %div
+                    %i= place.info
 
-      - if @structure.comments_count > 0
-        %hr.push--ends
-        %h3.text--center
-          = "#{@structure.comments_count} avis"
-        - @structure.comments.order('created_at DESC').first(3).each do |comment|
-          .gray-box.soft.push--bottom
-            %h6.quoted.inline-block.push-half--bottom
-              = comment.title
-            .read-more{ itemprop: 'reviewBody', data: { behavior: 'read-more' } }
-              = simple_format comment.content
-            .text--right.flush
-              Il y a #{distance_of_time_in_words_to_now comment.created_at} par #{comment.author_name}
-        .text--center.push--bottom
-          = link_to 'Voir tous les avis', structure_path(@structure), class: 'epsilon'
+      .bg-white.soft--ends.bordered--sides.bordered--bottom
+        - if @structure.comments_count > 0
+          .soft--sides
+            %h3= "#{@structure.comments_count} avis"
+            - @structure.comments.order('created_at DESC').first(3).each do |comment|
+              .push--bottom
+                %h6.quoted.inline-block.push-half--bottom
+                  = comment.title
+                .read-more{ itemprop: 'reviewBody', data: { behavior: 'read-more' } }
+                  = simple_format comment.content
+                .text--right.flush
+                  Il y a #{distance_of_time_in_words_to_now comment.created_at} par #{comment.author_name}
+            .text--center.push--bottom
+              = link_to 'Voir tous les avis', structure_path(@structure), class: 'btn btn--white btn--full'
 
-  .grid
+  .grid.push--top
     .grid__item.eight-twelfths.palm-one-whole>
       .text--right.f-weight-600
         Planning offert avec plaisir par
@@ -71,45 +100,27 @@
             CoursAvenue.statistic.logView(#{@structure.id}, 'website/planning');
         });
         Stripe.setPublishableKey("#{ Rails.configuration.stripe[:publishable_key] }");
-
-        window.coursavenue = window.coursavenue || {};
-        window.coursavenue.bootstrap = {
-            current_pro_admin: #{(current_pro_admin ? true : false)},
-            structure: #{ @model.to_json },
-            stripe_errors: #{ I18n.t('stripe.error_codes').to_json },
-            meta: {
-                have_upcoming_plannings: #{ @structure.plannings.future.any? },
-                structure_id: #{ @structure.id }
-            }
-        };
     }());
 
-#structure-profile-menu.one-whole.west.fixed.on-top-of-the-world{ style: 'top: -100px;' }
+#structure-profile-menu.one-whole.west.fixed.on-top{ style: 'top: -100px;', data: { behavior: 'header-stick-on-scroll' } }
   - cache [@structure, 'structure_website/structure/show/sticker_header'] do
-    .bg-site-background.soft-half--ends.bordered--bottom
+    .bg-dark-gray
       .main-container.soft--sides
-        .flexbox
-          .flexbox__item.v-middle.nowrap>
-            .flexbox.top-page-menu
-              .flexbox__item.one-twelfth.nowrap.soft-half--right
-                %strong= truncate @structure.name, length: 45
-              .flexbox__item
-                %ul.nav.flush.v-middle.inline-block
-                  - if @structure.plannings.trainings_future.any?
-                    %li.soft-half--sides
-                      %a.muted-link.orange{ href: '#stages-ateliers ', data: { behavior: 'scroll-to', offset_top: '-55' } } Stages & ateliers
-                  - if @structure.courses.lessons.any?
-                    %li.soft-half--sides
-                      %a.muted-link.orange{ href: '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours réguliers
-                  - if @structure.courses.privates.any?
-                    %li.soft-half--sides
-                      %a.muted-link.orange{ href: '#cours-particuliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours particuliers
-                  %li.soft-half--sides
-                    = link_to 'Avis', structure_path(@structure), class: 'muted-link orange', target: :_blank
-          .flexbox__item.v-middle.nowrap.text--right>
-            %a.contact-button.btn.btn--green.nowrap{ data: { behavior: 'show-contact-panel' } }
-              Contacter
-              = I18n.t("structures.structure_type_contact.#{(@structure.structure_type.present? ? @structure.structure_type : 'structures.other')}")
+        .top-page-menu
+          %ul.nav.flush.v-middle.inline-block
+            - if @structure.plannings.trainings_future.any?
+              %li.soft-half
+                %a.link-not-outlined.muted-link.white{ href: '#stages-ateliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Stages & ateliers
+            - if @structure.courses.lessons.any?
+              %li.soft-half
+                %a.link-not-outlined.muted-link.white{ href: '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours réguliers
+            - if @structure.courses.privates.any?
+              %li.soft-half
+                %a.link-not-outlined.muted-link.white{ href: '#cours-particuliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours particuliers
+            %li.soft-half
+              = link_to 'Messages publics', structure_path(@structure, anchor: 'messages-publics'), class: 'muted-link white', target: :_blank
+            %li.soft-half
+              = link_to 'Avis', structure_path(@structure, anchor: 'avis'), class: 'muted-link white', target: :_blank
 
 = content_for :scripts do
   :javascript

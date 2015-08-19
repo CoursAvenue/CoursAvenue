@@ -8,10 +8,17 @@ var Lesson = React.createClass({
     },
 
     render: function render () {
+        var location_th;
         var plannings = _.map(this.props.plannings, function(planning, index) {
-            return (<Planning planning={planning} course={this.props.course} key={index} />);
+            return (<Planning planning={planning}
+                              dont_register={this.props.dont_register}
+                              show_location={this.props.show_location}
+                              course={this.props.course}
+                              key={index} />);
         }.bind(this));
-
+        if (this.props.show_location) {
+            location_th = (<th className="two-tenths">Lieu</th>);
+        }
         var infos = [];
         if (this.props.course.teaches_at_home) {
             infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
@@ -67,12 +74,14 @@ var Lesson = React.createClass({
                 <table className={"table--striped table--data table-responsive table-responsive--without-th " + (this.props.course.structure_is_active ? 'table--hoverable' : '')}>
                     <thead className="gray-light">
                         <tr>
-                            <th className="soft--left one-tenths">Jour</th>
-                            <th className="two-tenths">Horaires</th>
+                            <th className={"soft--left " + (this.props.show_location ? 'three-tenths' : '')}>
+                                Jour & heure
+                            </th>
                             <th className="three-tenths">Niveau</th>
                             <th className="two-tenths">Public</th>
-                            <th><i className="fa-info"></i></th>
-                            <th className={ this.props.course.structure_is_active ? '' : 'hidden'}></th>
+                            { location_th }
+                            <th style={{ width: '8em' }}
+                                className={ this.props.course.structure_is_active ? '' : 'hidden'}></th>
                         </tr>
                     </thead>
                     <tbody>

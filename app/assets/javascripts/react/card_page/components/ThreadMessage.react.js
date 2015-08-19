@@ -43,9 +43,9 @@ var ThreadMessage = React.createClass({
                 return (<ThreadMessage message={message} />);
             });
             if (this.state.show_reply_form == false) {
-                reply_link = (<a onClick={this.showReplyForm} className="btn btn--small btn--white">
+                reply_link = (<div className="text--right"><a onClick={this.showReplyForm} className="btn btn--small btn--white">
                                  Répondre à {this.props.message.author_name}
-                              </a>);
+                              </a></div>);
             }
             if (answers.length > 0) {
                 answers = (<div>
