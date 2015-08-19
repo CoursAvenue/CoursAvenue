@@ -66,7 +66,7 @@
       .bg-white
         .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true' } }
           = render 'registration'
-          = react_component('Map', { markers: @structure.places.map(&:to_react_json), hide_numbers: true } )
+          = react_component('Map', { markers: @structure.places.includes(:city).map(&:to_react_json), hide_numbers: true } )
         - unless @is_sleeping
           .soft.bordered--sides= render 'structures/response_stats'
 

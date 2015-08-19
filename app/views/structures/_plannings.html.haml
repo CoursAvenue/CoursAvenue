@@ -1,7 +1,7 @@
 - dont_register = false if dont_register.nil?
 - if @structure.courses.trainings.any?
   %h2.soft--sides#stages-ateliers Stages
-- @structure.courses.trainings.includes(:prices, :price_group).each do |training|
+- @structure.courses.trainings.includes(:prices, price_group: [:prices]).each do |training|
   - next if training.plannings.future.count == 0
 
   .soft--sides
@@ -12,7 +12,7 @@
     = render partial: 'structures/courses/footer', locals: { course: training }
 - if @structure.courses.lessons.any?
   %h2.soft--sides#cours-collectifs Cours collectifs
-- @structure.courses.lessons.includes(:prices, :price_group).each do |lesson|
+- @structure.courses.lessons.includes(:prices, price_group: [:prices]).each do |lesson|
   - next if lesson.plannings.future.count == 0
 
   .soft--sides
@@ -23,7 +23,7 @@
     = render partial: 'structures/courses/footer', locals: { course: lesson }
 - if @structure.courses.privates.any?
   %h2.soft--sides#cours-particuliers Cours particuliers
-- @structure.courses.privates.includes(:prices, :price_group).each do |private|
+- @structure.courses.privates.includes(:place, :prices, price_group: [:prices]).each do |private|
   - next if private.plannings.future.count == 0
 
   .soft--sides
