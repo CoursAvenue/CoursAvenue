@@ -106,6 +106,14 @@
     &::after, &.btn--active { background-color: darken($blue, 5%); }
 }
 
+.btn--blue-info {
+    background-color: $blue-info-darker;
+    border-color    : $blue-info-darker !important;
+    color           : $blue-info !important;
+    border          : none;
+    &::after, &.btn--active { background-color: darken($blue-info, 5%); }
+  }
+
 .btn--yellow {
     color           : white;
     background-color: $yellow;

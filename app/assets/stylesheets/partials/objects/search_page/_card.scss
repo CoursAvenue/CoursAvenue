@@ -84,15 +84,35 @@
         }
     }
         .search-page-card__content--info {
-          color:            $blue-info-darker;
-          border:           2px solid $blue-info-darker;
-          background-color: $blue-info;
+            color:            $blue-info-darker;
+            border:           2px solid $blue-info-darker;
+            background-color: $blue-info;
+
+            a {
+                color: $blue-info-darker;
+            }
+
+            @include transition(none);
+            &:hover {
+                margin-top: 0;
+                @include box-shadow(none);
+            }
         }
 
         .search-page-card__content--astuce {
-          color:            $yellow-info-darker;
-          border:           2px solid $yellow-info-darker;
-          background-color: $yellow-info;
+            color:            $yellow-info-darker;
+            border:           2px solid $yellow-info-darker;
+            background-color: $yellow-info;
+
+            a {
+                color: $yellow-info-darker;
+            }
+
+            @include transition(none);
+            &:hover {
+                margin-top: 0;
+                @include box-shadow(none);
+            }
         }
 
         .search-page-card__content-top           { height: 175px; }
@@ -200,6 +220,9 @@
     .search-page-card__day-badge--rounded-left  { @include border-left-radius(2px); }
     .search-page-card__day-badge--rounded-right { @include border-right-radius(2px); }
 
+.search-page-card__content-bottom--help {
+    height: 18em;
+}
 .search-page-card__content-bottom {
     color: #777777;
     height: 6em;
