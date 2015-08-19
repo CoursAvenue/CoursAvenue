@@ -1,10 +1,12 @@
 var CardStore              = require('../stores/CardStore'),
+    HelpStore              = require('../stores/HelpStore'),
     SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
     LocationActionCreators = require("../actions/LocationActionCreators"),
     SubjectActionCreators  = require("../actions/SubjectActionCreators"),
     CardActionCreators     = require("../actions/CardActionCreators"),
     FluxBoneMixin          = require("../../mixins/FluxBoneMixin"),
     Suggestions            = require("./Suggestions"),
+    HelpCard               = require("./HelpCard"),
     CourseCard             = require("./CourseCard");
 
 ResultList = React.createClass({
@@ -49,6 +51,7 @@ ResultList = React.createClass({
                        </div>);
         } else {
             var card_class = this.getCardClass();
+            var helper_cards = HelpStore.getUnseenCards();
             var cards = this.state.card_store.where({ visible: true }).map(function(card, index) {
                 return (
                   <CourseCard follow_links={this.props.follow_links} width_class={card_class} card={ card } index={this.state.card_store.indexOf(card) + 1} key={ card.get('id') }/>
@@ -57,6 +60,10 @@ ResultList = React.createClass({
             if (cards.length == 0) {
                 no_results = (<Suggestions />);
             }
+
+            cards[7] = (
+                <HelpCard helper={ helper_cards[0] } key={ helper_cards[0].get('type') } width_class={ card_class } />
+            )
         }
         return (
           <div className="relative z-index-1">
