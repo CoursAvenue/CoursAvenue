@@ -8,7 +8,7 @@
   src: asset-url("CoursAvenueIconFont.eot?#iefix") format("embedded-opentype"),
        asset-url("CoursAvenueIconFont.woff") format("woff"),
        asset-url("CoursAvenueIconFont.ttf") format("truetype"),
-       asset-url("CoursAvenueIconFont.svg#CoursAvenueIconFont") format("svg");
+       asset-data-url("CoursAvenueIconFont.svg") format("svg");
   font-weight: normal;
   font-style: normal;
 }
