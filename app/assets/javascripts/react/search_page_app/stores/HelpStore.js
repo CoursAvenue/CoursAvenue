@@ -66,13 +66,13 @@ var HelperCollection = Backbone.Collection.extend({
 
 module.exports = new HelperCollection(
     [
-        {
-            url:            Routes.guide_path('quelle-activite-pour-mon-enfant'),
-            name:           'Quelle activité pour mon enfant ?',
-            type:           'info',
-            cookie_key:     'info-guide-quelle-activite-pour-mon-enfant',
-            description:    'Vous cherchez un cours pour vos enfants ?',
-            call_to_action: 'Cliquez ici',
-        }
+        // {
+        //     url:            Routes.guide_path('quelle-activite-pour-mon-enfant'),
+        //     name:           'Quelle activité pour mon enfant ?',
+        //     type:           'info',
+        //     cookie_key:     'info-guide-quelle-activite-pour-mon-enfant',
+        //     description:    'Vous cherchez un cours pour vos enfants ?',
+        //     call_to_action: 'Cliquez ici',
+        // }
     ]
 );
