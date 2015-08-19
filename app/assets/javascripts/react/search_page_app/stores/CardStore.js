@@ -15,7 +15,13 @@ var _                    = require('lodash'),
 
 var ActionTypes = SearchPageConstants.ActionTypes;
 
-var CardModel = Backbone.Model.extend({});
+var CardModel = Backbone.Model.extend({
+    defaults: function defaults () {
+	return {
+	    favorite: false,
+	};
+    },
+});
 
 var CardCollection = Backbone.Collection.extend({
     HITS_PER_PAGES          : 16,
@@ -26,7 +32,7 @@ var CardCollection = Backbone.Collection.extend({
     error        :   false,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'searchSuccess', 'searchError', 'fetchDataFromServer');
+	_.bindAll(this, 'dispatchCallback', 'setFavorites', 'searchSuccess', 'searchError', 'fetchDataFromServer');
 
         // Register the store to the dispatcher, so it calls our callback on new actions.
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
@@ -117,6 +123,10 @@ var CardCollection = Backbone.Collection.extend({
                 this.updateCardsShownRegardingPages();
                 break;
         }
+    },
+
+    setFavorites: function setFavorites (favorites) {
+	this.favorites = favorites;
     },
 
     fetchDataFromServer: function fetchDataFromServer (reset_page_nb) {

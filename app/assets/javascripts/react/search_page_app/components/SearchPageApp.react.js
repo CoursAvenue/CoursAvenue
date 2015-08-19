@@ -37,6 +37,8 @@ SearchPageApp = React.createClass({
         CardStore.on('search:done', this.search_page_app_router.updateUrl);
         CardStore.on('page:change', this.search_page_app_router.updateUrl);
 
+	CardStore.setFavorites(this.props.favorite_cards);
+
         Backbone.history.start({ pushState: true });
         this.search_page_app_router.bootsrapData();
     },
