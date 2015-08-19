@@ -6,7 +6,11 @@ var Card = React.createClass({
         var children = [this.props.children];
         if (this.props.index) {
             children.unshift(
-                <div className="search-page-card__number">{this.props.index}.</div>
+                <div className="search-page-card__number" key={ children.length }>{ this.props.index }.</div>
+            )
+        } else {
+            children.unshift(
+                <div className="search-page-card__number" key={ children.length }></div>
             )
         }
 
