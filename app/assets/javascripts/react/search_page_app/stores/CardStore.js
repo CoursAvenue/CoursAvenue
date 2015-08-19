@@ -113,6 +113,9 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.UNHIGHLIGHT_MARKERS:
                 _.invoke(this.models, 'set', { highlighted: false }, { silent: true });
                 break;
+            case ActionTypes.DISMISS_HELP:
+                this.updateCardsShownRegardingPages();
+                break;
         }
     },
 
