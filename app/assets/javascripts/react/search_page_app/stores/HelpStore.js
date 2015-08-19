@@ -9,17 +9,16 @@ var HelperModel = Backbone.Model.extend({
     },
 
     hasBeenDismissed: function hasBeenDismissed () {
-        // Check cookie.
-        return false;
+        return ($.cookie(this.get('cookie_key')) == "true");
     },
 
     dismiss: function dismiss () {
-        // Add a cookie.
+        $.cookie(this.get('cookie_key'), true);
     },
 
     toggleDismiss: function toggleDismiss () {
         if (this.hasBeenDismissed()) {
-            // Remove cookie
+            $.removeCookie(this.get('cookie_key'));
         } else {
             this.dismiss();
         }
@@ -68,10 +67,11 @@ var HelperCollection = Backbone.Collection.extend({
 module.exports = new HelperCollection(
     [
         {
-            url: Routes.guide_path('quelle-activite-pour-mon-enfant'),
-            name: 'Quelle activité pour mon enfant ?',
-            type: 'info',
-            description: 'Souhaitez vous trouvez un cours pour votre enfant ?',
+            url:            Routes.guide_path('quelle-activite-pour-mon-enfant'),
+            name:           'Quelle activité pour mon enfant ?',
+            type:           'info',
+            cookie_key:     'info-guide-quelle-activite-pour-mon-enfant',
+            description:    'Souhaitez vous trouvez un cours pour votre enfant ?',
             call_to_action: 'Cliquez ici',
         }
     ]
