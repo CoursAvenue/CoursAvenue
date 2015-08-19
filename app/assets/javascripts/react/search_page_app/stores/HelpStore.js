@@ -51,7 +51,9 @@ module.exports = new HelperCollection(
         {
             url: Routes.guide_path('quelle-activite-pour-mon-enfant'),
             name: 'Quelle activité pour mon enfant ?',
-            type: 'guide'
+            type: 'info',
+            description: 'Souhaitez vous trouvez un cours pour votre enfant ?',
+            call_to_action: 'Cliquez ici',
         }
     ]
 );
