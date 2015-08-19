@@ -11,9 +11,11 @@ class GuidesController < ApplicationController
   def suggestions
     @serialized_guide = GuideSerializer.new(@guide)
     @subject = Subject.find(params[:subject].split(';').first)
-    @other_subjects = params[:other].split(',').map do |subject_id_score|
-      subject_id, score = subject_id_score.split(';')
-      [Subject.find(subject_id), score]
+    if params[:other]
+      @other_subjects = params[:other].split(',').map do |subject_id_score|
+        subject_id, score = subject_id_score.split(';')
+        [Subject.find(subject_id), score]
+      end
     end
   end
 

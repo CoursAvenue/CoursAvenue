@@ -1,5 +1,6 @@
 // Tell react-rails where our components are
 MapContainer              = require('./search_page_app/components/MapContainer.react');
+SmallMap                  = require('./search_page_app/components/SmallMap.react');
 ResultList                = require('./search_page_app/components/ResultList.react');
 SearchPageApp             = require('./search_page_app/components/SearchPageApp.react');
 SearchPageAppMap          = require('./search_page_app/components/Map.react');

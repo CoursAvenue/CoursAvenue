@@ -90,7 +90,12 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :subjects do
-      self.subjects.map do |subject|
+      _all_subjects = []
+      self.subjects.each do |subject|
+        _all_subjects << subject
+        _all_subjects << subject.parent if subject.depth == 2
+      end
+      _all_subjects.uniq.map do |subject|
         {
           name: subject.name,
           slug: subject.slug,

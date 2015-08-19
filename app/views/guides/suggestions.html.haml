@@ -31,6 +31,7 @@
           %a{ href: guide_url(@guide), class: 'twitter-share-button', data: { lang: "fr", via: 'CoursAvenue', url: guide_url(@guide), count: 'vertical' } } Tweeter
 
   = react_component('MapContainer', { center: [@paris.latitude, @paris.longitude] })
+  = react_component('SmallMap', { center: [@paris.latitude, @paris.longitude] })
 
 .main-container.main-container--medium.soft--ends
   .grid.push--bottom
@@ -69,23 +70,24 @@
       %i.fa.fa-map-marker
       Voir les cours autour de moi
 
-%h2.alpha.text--center Sinon vous pouvez toujours regarder ces disciplines :
-- @other_subjects.reverse.in_groups_of(3, false).each do |subject_group|
-  .flexbox
-    - subject_group.each do |subject, score|
-      - if subject.root?
-        - url = search_page_path(subject.root, subject, 'paris', locate_user: 'on')
-      - else
-        - url = root_search_page_path(subject.root, 'paris', locate_user: 'on')
-      = link_to url, class: 'flexbox__item flush gamma muted-link v-middle search-page-filters__image-button palm-one-whole palm-block bg-cover one-third', style: "background-image: url('#{subject.image.url(:search_page)}');" do
-        .search-page-filters__image-button-curtain
-        .flexbox.relative.search-page-filters__panel-height
-          .flexbox__item.v-middle
-            %div
-              %i.fa.fa-3x{ class: "fa-#{subject.root.slug}" }
-            = subject.name
-            .push--bottom
-              .epsilon= "(score : #{score})"
+- if @other_subjects
+  %h2.alpha.text--center Sinon vous pouvez toujours regarder ces disciplines :
+  - @other_subjects.reverse.in_groups_of(3, false).each do |subject_group|
+    .flexbox
+      - subject_group.each do |subject, score|
+        - if subject.root?
+          - url = search_page_path(subject.root, subject, 'paris', locate_user: 'on')
+        - else
+          - url = root_search_page_path(subject.root, 'paris', locate_user: 'on')
+        = link_to url, class: 'flexbox__item flush gamma muted-link v-middle search-page-filters__image-button palm-one-whole palm-block bg-cover one-third', style: "background-image: url('#{subject.image.url(:search_page)}');" do
+          .search-page-filters__image-button-curtain
+          .flexbox.relative.search-page-filters__panel-height
+            .flexbox__item.v-middle
+              %div
+                %i.fa.fa-3x{ class: "fa-#{subject.root.slug}" }
+              = subject.name
+              .push--bottom
+                .epsilon= "(score : #{score})"
 
 = content_for :scripts do
   :javascript
