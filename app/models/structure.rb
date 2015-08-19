@@ -56,7 +56,7 @@ class Structure < ActiveRecord::Base
   has_many :reservations,         as: :reservable
   has_many :comment_notifications     , dependent: :destroy
   has_many :sticker_demands           , dependent: :destroy
-  has_many :user_favorites
+  has_many :user_favorites, class_name: 'User::Favorite'
   has_many :followers, through: :user_favorites, source: :user
 
   has_many :price_groups              , dependent: :destroy

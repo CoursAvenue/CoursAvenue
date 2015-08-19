@@ -68,7 +68,7 @@
                   %i.fa.fa-square-o
                   Mettre à jour mes passions
             %li
-              - if @user.followings.any?
+	      - if @user.favorites.any?
                 %i.fa.fa-check-square-o
                 %span.line-through--gray Ajouter mes favoris
               - else
