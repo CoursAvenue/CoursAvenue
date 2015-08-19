@@ -10,6 +10,7 @@ var HelperModel = Backbone.Model.extend({
 
     hasBeenDismissed: function hasBeenDismissed () {
         // Check cookie.
+        return false;
     },
 
     dismiss: function dismiss () {
@@ -21,9 +22,15 @@ var HelperCollection = Backbone.Collection.extend({
     model: HelperModel,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'dismiss');
+        _.bindAll(this, 'dispatchCallback', 'getUnseenCards', 'dismiss');
 
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
+    },
+
+    getUnseenCards: function getUnseenCards () {
+        return _.reject(this.models, function (helper) {
+            return helper.hasBeenDismissed();
+        });
     },
 
     dispatchCallback: function dispatchCallback (payload) {
