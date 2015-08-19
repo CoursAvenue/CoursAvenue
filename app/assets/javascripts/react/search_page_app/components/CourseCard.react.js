@@ -158,6 +158,7 @@ CourseCard = React.createClass({
         if (this.props.is_popup) {
             var popup_class = 'search-page__card-popup'
         } else {
+            var popup_class = ''
             if (this.props.card.get('has_course')) {
                 course_information = (<CourseInformation courseType={ this.props.card.get('course_type') || ''} weeklyAvailability={ this.props.card.get('weekly_availability') }
                                       trainings={ this.props.card.get('trainings') } />)
