@@ -32,7 +32,7 @@ var BookPopup = React.createClass({
     },
 
     holidayWarning: function holidayWarning () {
-        var new_start_date = moment(this.props.course.start_date, 'YYYY-MM-DD');
+        var new_start_date = moment(this.props.course.get('start_date'), 'YYYY-MM-DD');
         if (new Date() < new_start_date.toDate()) {
             return (<div className="f-size-12">
                         <i>Reprise des cours le {new_start_date.format('DD MMMM').replace(/0([0-9])/, function(a, b) { return b})}</i>
@@ -41,7 +41,7 @@ var BookPopup = React.createClass({
     },
 
     getDatepickerStartDate: function getDatepickerStartDate () {
-        var new_start_date = moment(this.props.course.start_date, 'YYYY-MM-DD').toDate();
+        var new_start_date = moment(this.props.course.get('start_date'), 'YYYY-MM-DD').toDate();
         if (new Date() < new_start_date) {
             return new_start_date;
         }
@@ -92,8 +92,8 @@ var BookPopup = React.createClass({
             }
             RequestActionCreators.submitRequest({
                 at_student_home        : !_.isEmpty($dom_node.find('[name="participation_request[at_student_home]"]').val()),
-                structure_id           : this.props.course.structure_id,
-                course_id              : this.props.course.id,
+                structure_id           : this.props.course.get('structure_id'),
+                course_id              : this.props.course.get('id'),
                 start_hour             : $dom_node.find('[name="participation_request[start_hour]"]').val(),
                 start_min              : $dom_node.find('[name="participation_request[start_min]"]').val(),
                 date                   : $dom_node.find('[name="participation_request[date]"]').val(),
@@ -208,11 +208,11 @@ var BookPopup = React.createClass({
 
     render: function render () {
         var price_libelle, datepicker = '', place_select, date_label, planning_details, time_select;
-        if (this.props.course.db_type == 'Course::Training') {
+        if (this.props.course.get('db_type') == 'Course::Training') {
             price_libelle = 'Prix du stage';
         } else {
-            price_libelle = this.props.course.min_price.libelle;
-            if (this.props.course.on_appointment) {
+            price_libelle = this.props.course.get('min_price').libelle;
+            if (this.props.course.get('on_appointment')) {
                 date_label = "Quand voulez-vous venir ? ";
                 time_select = this.getTimeSelect();
             } else {
@@ -235,7 +235,7 @@ var BookPopup = React.createClass({
                           </div>);
         }
 
-        if (this.props.course.teaches_at_home && this.props.course.place) {
+        if (this.props.course.get('teaches_at_home') && this.props.course.get('place')) {
             place_select = (<div className="grid--full bordered--bottom soft-half--ends">
                                 <label className="grid__item f-weight-600 v-middle one-half line-height-2 palm-one-whole">
                                     Où voulez-vous assister au cours ?
@@ -248,7 +248,7 @@ var BookPopup = React.createClass({
                                 </div>
                             </div>);
         }
-        if (!this.props.course.on_appointment) {
+        if (!this.props.course.get('on_appointment')) {
             planning_details = (<div className="epsilon f-weight-500 line-height-1-5">
                                     {this.props.planning.date}&nbsp;{this.props.planning.time_slot}
                                 </div>)
@@ -256,12 +256,12 @@ var BookPopup = React.createClass({
         return (<div className="bg-white">
                     <div className="soft bordered--bottom bg-gray-light">
                         <div className="delta f-weight-bold">
-                            {this.props.course.name}
+                            {this.props.course.get('name')}
                         </div>
                         {planning_details}
                         <div className="epsilon blue-green f-weight-bold line-height-1-5">
                             {price_libelle}&nbsp;:&nbsp;
-                            {COURSAVENUE.helperMethods.readableAmount(this.props.course.min_price.amount)}
+                            {COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price').amount)}
                         </div>
                     </div>
                     <div className="soft--sides">

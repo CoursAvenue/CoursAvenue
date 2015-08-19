@@ -1,46 +1,31 @@
 class CourseSerializer < ActiveModel::Serializer
-  include CoursesHelper, PlanningsHelper, PricesHelper
-  include ActionView::Helpers::TextHelper
-  include ActionView::Helpers::NumberHelper
 
-  cached
-  delegate :cache_key, to: :object
+  # cached
+  # delegate :cache_key, to: :object
 
-  attributes :id, :name, :description, :description_short, :db_type, :type, :subjects, :structure_id,
+  attributes :id, :name, :description, :db_type, :structure_id,
              :is_individual, :is_lesson, :frequency, :on_appointment,
-             :course_location, :min_age_for_kid, :max_age_for_kid, :audiences,
-             :levels, :details, :prices, :has_price_group,
-             :is_open_for_trial, :has_promotion, :trial_courses_policy_popover, :min_price,
+             :is_open_for_trial, :min_price_amount,
              :teaches_at_home, :accepts_payment, :start_date, :end_date, :structure_is_active
 
-  has_one  :home_place,          serializer: PlaceSerializer
-  has_one  :place,               serializer: PlaceSerializer
   has_many :plannings,           serializer: PlanningSerializer
   has_many :price_group_prices,  serializer: PriceSerializer
-  has_many :prices,              serializer: PriceSerializer
+  has_many :child_subjects,      serializer: ShortSubjectSerializer
 
-  def home_place
-    object.home_place if object.is_private?
-  end
-
-  def min_price
-    PriceSerializer.new(object.prices.order('amount ASC').first) if object.prices.any?
+  def min_price_amount
+    object.prices.order('amount ASC').first.amount if object.prices.any?
   end
 
   def plannings
-    object.plannings.visible.future.ordered_by_day
+    object.plannings.future.ordered_by_day
   end
 
-  def description_short
-    truncate(object.description, :length => 170, :separator => ' ') if object.description.present?
+  def child_subjects
+    object.subjects.at_depth(2)
   end
 
   def is_individual
     object.is_individual?
-  end
-
-  def type
-    object.type_name
   end
 
   def db_type
@@ -51,28 +36,8 @@ class CourseSerializer < ActiveModel::Serializer
     object.is_lesson?
   end
 
-  # TODO improve with subject_strings ?
-  def subjects
-    _subjects = []
-    object.subjects.map(&:root).uniq.each do |root_subject|
-      child_subjects = object.subjects.at_depth(2).order('name ASC').select{ |subject|  subject.ancestry.start_with?(root_subject.id.to_s) }
-      _subjects << {
-        root_name: root_subject.name,
-        child_names: child_subjects.map(&:name).join(', '),
-        icon: root_subject.slug,
-        child_length: child_subjects.length
-      }
-    end
-    _subjects.sort{ |a, b| b[:child_length] <=> a[:child_length] }
-  end
-
   def frequency
     I18n.t(object.frequency) if object.frequency.present?
-  end
-
-  def course_location
-    return '' unless object.is_private?
-    readable_private_course_location(object)
   end
 
   def levels
@@ -81,48 +46,6 @@ class CourseSerializer < ActiveModel::Serializer
 
   def audiences
     join_audiences(object) if object.is_private?
-  end
-
-  def details
-    _details = []
-    if object.teaches_at_home?
-      _details << { text: 'Se déplace à domicile',
-                    icon: 'delta fa-house' }
-    end
-    if object.on_appointment?
-      _details << { text: 'Pas de créneau précis, uniquement sur demande',
-                    icon: 'delta fa-phone-o' }
-    end
-    if object.is_lesson?
-      _details << { text: frequency,
-                    icon: 'delta fa fa-repeat' }
-    end
-    if object.is_lesson? and object.cant_be_joined_during_year?
-      _details << { text: "Pas d'inscription en cours d'année",
-                    icon: 'delta fa-forbidden' }
-    elsif object.is_lesson?
-      _details << { text: "Inscriptions tout au long de l'année",
-                    icon: 'delta fa-calendar' }
-    end
-    if object.no_class_during_holidays
-      _details << { text: "Pas de cours pendant les vacances scolaires",
-                    icon: 'delta fa-forbidden' }
-    end
-    if object.is_private? and object.on_appointment?
-      _details << { text: join_audiences(object),
-                    icon: 'gamma fa-audiences' }
-      _details << { text: join_levels_text(object),
-                    icon: 'delta fa-levels' }
-    end
-    _details
-  end
-
-  def has_price_group
-    object.price_group.present?
-  end
-
-  def trial_courses_policy_popover
-    I18n.t("structures.trial_courses_policy.#{(object.structure.trial_courses_policy.blank? ? '1_trial' : object.structure.trial_courses_policy)}_nb_given")
   end
 
   def structure_is_active

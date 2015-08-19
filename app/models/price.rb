@@ -18,7 +18,7 @@ class Price < ActiveRecord::Base
 
   attr_accessor :delete_price
   attr_accessible :libelle, :amount, :promo_amount, :nb_courses, :info, :course,
-                  :number, :type, :duration, :promo_percentage, :price_group, :price_group_id,
+                  :number, :type, :duration, :price_group, :price_group_id,
                   :course_id
 
   # All types

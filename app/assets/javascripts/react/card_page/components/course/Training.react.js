@@ -12,10 +12,6 @@ var Training = React.createClass({
         return { course_store: CourseStore };
     },
 
-    getCourse: function getCourse () {
-        return this.state.course_store.findWhere({ id: this.props.course_id });
-    },
-
     render: function render () {
         var location_th, plannings;
         var course = this.state.course_store.getCourseByID(this.props.course_id);

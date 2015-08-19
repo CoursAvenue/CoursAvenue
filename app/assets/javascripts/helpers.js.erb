@@ -24,6 +24,20 @@ COURSAVENUE.constants = {
 }
 
 COURSAVENUE.helperMethods = {
+    simpleFormat: function simpleFormat (text) {
+        var carriage_returns = /\r\n?/g,
+            paragraphs       = /\n\n+/g,
+            newline          = /([^\n]\n)(?=[^\n])/g;
+
+        if (text && text.trim().length > 0) {
+            text = text.replace(carriage_returns, "\n"); // \r\n and \r -> \n
+            text = text.replace(paragraphs, "</p>\n\n<p>"); // 2+ newline  -> paragraph
+            text = text.replace(newline, "$1<br/>"); // 1 newline   -> br
+            text = "<p>" + text + "</p>";
+        }
+        return text;
+    },
+
     isImageValid: function isImageValid (file) {
         return file.type.match(COURSAVENUE.constants.IMAGE_TYPE_REGEX) && file.size < COURSAVENUE.constants.MAX_IMAGE_SIZE
     },

@@ -50,7 +50,6 @@
         %span
           - if course.is_lesson? or course.is_private?
             Cours d'essai :
-            = course.decorate.trial_price
           - else
             = "Tarif".pluralize(course.prices.length)
             \ :

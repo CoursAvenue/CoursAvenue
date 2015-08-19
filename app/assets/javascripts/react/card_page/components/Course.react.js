@@ -1,6 +1,8 @@
 var Lesson                 = require('./course/Lesson.react'),
     Private                = require('./course/Private.react'),
     Training               = require('./course/Training.react'),
+    CourseHeader           = require('./course/CourseHeader.react'),
+    CourseFooter           = require('./course/CourseFooter.react'),
     CourseStore            = require('../stores/CourseStore'),
     CourseActionCreators   = require('../actions/CourseActionCreators'),
     PlanningActionCreators = require('../actions/PlanningActionCreators'),
@@ -30,29 +32,43 @@ var Course = React.createClass({
     },
 
     render: function render () {
-        var course = (<div></div>);
+        var course_header, course_planning, course_footer, spinner;
         var course_model = this.state.course_store.getCourseByID(this.props.course_id || this.props.indexable_card_id)
-        if (course_model) {
+        if (course_model && course_model.get('plannings')) {
             switch(course_model.get('db_type')) {
                 case 'Course::Lesson':
-                    course = (<Lesson show_location={this.props.show_location}
-                                      dont_register={this.props.dont_register}
-                                      course_id={this.props.course_id || this.props.indexable_card_id} />);
+                    course_planning = (<Lesson show_location={this.props.show_location}
+                                               dont_register={this.props.dont_register}
+                                               course_id={this.props.course_id || this.props.indexable_card_id} />);
                     break;
                 case 'Course::Training':
-                    course = (<Training show_location={this.props.show_location}
-                                      dont_register={this.props.dont_register}
-                                      course_id={this.props.course_id || this.props.indexable_card_id} />);
+                    course_planning = (<Training show_location={this.props.show_location}
+                                                dont_register={this.props.dont_register}
+                                                course_id={this.props.course_id || this.props.indexable_card_id} />);
                     break;
                 case 'Course::Private':
-                    course = (<Private show_location={this.props.show_location}
-                                      dont_register={this.props.dont_register}
-                                      course_id={this.props.course_id || this.props.indexable_card_id} />);
+                    course_planning = (<Private show_location={this.props.show_location}
+                                                dont_register={this.props.dont_register}
+                                                course_id={this.props.course_id || this.props.indexable_card_id} />);
                     break;
             }
+            if (this.props.show_course_info) {
+                course_header = (<CourseHeader course_id={this.props.course_id || this.props.indexable_card_id} />);
+                course_footer = (<CourseFooter course_id={this.props.course_id || this.props.indexable_card_id} />);
+            }
+        } else {
+            spinner = (<div className="spinner">
+                           <div className="double-bounce1"></div>
+                           <div className="double-bounce2"></div>
+                           <div className="double-bounce3"></div>
+                       </div>);
         }
-        if (this.props.show_course_info) {}
-        return course;
+        return  (<div>
+                    { spinner }
+                    { course_header }
+                    { course_planning }
+                    { course_footer }
+                 </div>);
     }
 });
 

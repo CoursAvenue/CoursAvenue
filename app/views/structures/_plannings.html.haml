@@ -1,34 +1,22 @@
 - dont_register = false if dont_register.nil?
-- if @structure.courses.trainings.any?
+- if @structure.plannings.trainings_future.count > 0
   %h2.soft--sides#stages-ateliers Stages
-- @structure.courses.trainings.includes(:prices, price_group: [:prices]).each do |training|
+- @structure.courses.trainings.each do |training|
   - next if training.plannings.future.count == 0
 
-  .soft--sides
-    = render partial: 'structures/courses/header', locals: { course: training }
-
   = react_component('Course', { show_course_info: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: training.id }, { prerender: false })
-  .push--bottom.bordered--bottom.soft--bottom
-    = render partial: 'structures/courses/footer', locals: { course: training }
-- if @structure.courses.lessons.any?
+
+- if @structure.courses.lessons.count > 0
   %h2.soft--sides#cours-collectifs Cours collectifs
-- @structure.courses.lessons.includes(:prices, price_group: [:prices]).each do |lesson|
+- @structure.courses.lessons.each do |lesson|
   - next if lesson.plannings.future.count == 0
 
-  .soft--sides
-    = render partial: 'structures/courses/header', locals: { course: lesson }
   = react_component('Course', { show_course_info: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: lesson.id }, { prerender: false })
 
-  .push--bottom.bordered--bottom.soft--bottom
-    = render partial: 'structures/courses/footer', locals: { course: lesson }
-- if @structure.courses.privates.any?
+- if @structure.courses.privates.count > 0
   %h2.soft--sides#cours-particuliers Cours particuliers
-- @structure.courses.privates.includes(:place, :prices, price_group: [:prices]).each do |private|
+- @structure.courses.privates.each do |private|
   - next if private.plannings.future.count == 0
 
-  .soft--sides
-    = render partial: 'structures/courses/header', locals: { course: private }
-
   = react_component('Course', { show_course_info: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: private.id }, { prerender: false })
-  .push--bottom.bordered--bottom.soft--bottom
-    = render partial: 'structures/courses/footer', locals: { course: private }
+
