@@ -90,6 +90,7 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :subjects do
+      # We load child and mid subjects
       _all_subjects = []
       self.subjects.each do |subject|
         _all_subjects << subject
