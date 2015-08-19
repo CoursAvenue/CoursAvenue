@@ -14,8 +14,8 @@ class User::Favorite < ActiveRecord::Base
 
   after_create :affect_tag_to_user_profile
 
-  scope :structure,      -> { where.not(structure_id: nil) }
-  scope :indexable_card, -> { where.not(indexable_card_id: nil) }
+  scope :structures, -> { where.not(structure_id: nil) }
+  scope :cards,      -> { where.not(indexable_card_id: nil) }
 
   private
 
