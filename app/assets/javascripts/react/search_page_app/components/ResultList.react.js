@@ -61,9 +61,14 @@ ResultList = React.createClass({
                 no_results = (<Suggestions />);
             }
 
-            cards[7] = (
-                <HelpCard helper={ helper_cards[0] } key={ helper_cards[0].get('type') } width_class={ card_class } />
-            )
+            if (helper_cards.length > 0) {
+                var helper_card = (
+                    <HelpCard helper={ helper_cards[0] } key={ helper_cards[0].get('type') } width_class={ card_class } />
+                )
+
+                cards.splice(7, 0, helper_card);
+                cards.splice(-1, 1);
+            }
         }
         return (
           <div className="relative z-index-1">
