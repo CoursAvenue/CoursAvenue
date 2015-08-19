@@ -64,4 +64,11 @@ module.exports = {
             data: data,
         });
     },
+
+    toggleDismiss: function dismissHelp (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.TOGGLE_DISMISS_HELP,
+            data: data,
+        });
+    },
 };

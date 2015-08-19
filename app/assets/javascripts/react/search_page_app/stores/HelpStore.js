@@ -5,7 +5,7 @@ var ActionTypes = SearchPageConstants.ActionTypes;
 
 var HelperModel = Backbone.Model.extend({
     initialize: function initialize () {
-        _.bindAll(this, 'hasBeenDismissed', 'dismiss');
+        _.bindAll(this, 'hasBeenDismissed', 'dismiss', 'toggleDismiss');
     },
 
     hasBeenDismissed: function hasBeenDismissed () {
@@ -15,6 +15,14 @@ var HelperModel = Backbone.Model.extend({
 
     dismiss: function dismiss () {
         // Add a cookie.
+    },
+
+    toggleDismiss: function toggleDismiss () {
+        if (this.hasBeenDismissed()) {
+            // Remove cookie
+        } else {
+            this.dismiss();
+        }
     },
 
     strType: function strType () {
@@ -39,6 +47,9 @@ var HelperCollection = Backbone.Collection.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+            case ActionTypes.TOGGLE_DISMISS_HELP:
+                this.toggleDismiss(payload.data);
+                break;
             case ActionTypes.DISMISS_HELP:
                 this.dismiss(payload.data);
                 break;
@@ -47,6 +58,10 @@ var HelperCollection = Backbone.Collection.extend({
 
     dismiss: function dismiss (helper) {
         helper.dismiss();
+    },
+
+    toggleDismiss: function toggleDismiss (helper) {
+        helper.toggleDismiss();
     },
 });
 

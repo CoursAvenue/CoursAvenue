@@ -74,6 +74,7 @@ module.exports = {
         UPDATE_NB_CARDS_PER_PAGE:             null,
 
         DISMISS_HELP:                         null,
+        TOGGLE_DISMISS_HELP:                  null,
     })
 
 };
