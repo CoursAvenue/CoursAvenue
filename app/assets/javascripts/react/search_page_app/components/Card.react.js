@@ -3,13 +3,21 @@ var Card = React.createClass({
         var classes = this.props.classes +
             " search-page-card soft-half palm-one-whole lap-one-third inline-block v-top";
 
+        var children = [this.props.children];
+        if (this.props.index) {
+            children.unshift(
+                <div className="search-page-card__number">{this.props.index}.</div>
+            )
+        }
+
+        children = _.flatten(children);
+
         return (
             <div onMouseEnter={ this.props.onMouseEnter }
                  onMouseLeave={ this.props.onMouseLeave }
                  onClick={ this.props.onClick }
                  className={ classes }>
-                <div className="search-page-card__number">{this.props.index}.</div>
-                { this.props.children }
+                { children }
             </div>
         );
     },
