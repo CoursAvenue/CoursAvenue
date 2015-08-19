@@ -12,6 +12,7 @@ class Pro::Structures::AdminsController < Pro::ProController
 
   def edit
     @admin     = @structure.admins.find(params[:id])
+    @confirmed = @admin.confirmed?
   end
 
   def modify_email
