@@ -28,7 +28,7 @@ var CommentList = React.createClass({
         } else {
             if (this.state.comment_store.isEmpty()) {
                 comment_title = 'Avis';
-                no_comments = (<div>{"Pas d'avis sur ce cours."}</div>)
+                no_comments = (<div>{"Il n'y a encore d'avis."}</div>)
             } else {
                 comment_title = this.state.comment_store.total + ' avis';
                 comments = this.state.comment_store.map(function(comment, index) {

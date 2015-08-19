@@ -1,22 +1,25 @@
 - dont_register = false if dont_register.nil?
-- if @structure.plannings.trainings_future.count > 0
-  %h2.soft--sides#stages-ateliers Stages
-- @structure.courses.trainings.each do |training|
+- index = 0
+- @structure.courses.trainings.each_with_index do |training|
   - next if training.plannings.future.count == 0
+  - if index == 0
+    %h2.soft--sides#stages-ateliers Stages
 
   = react_component('Course', { show_course_info: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: training.id }, { prerender: false })
 
-- if @structure.courses.lessons.count > 0
-  %h2.soft--sides#cours-collectifs Cours collectifs
-- @structure.courses.lessons.each do |lesson|
+- index = 0
+- @structure.courses.lessons.each_with_index do |lesson|
   - next if lesson.plannings.future.count == 0
+  - if index == 0
+    %h2.soft--sides#cours-collectifs Cours collectifs
 
   = react_component('Course', { show_course_info: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: lesson.id }, { prerender: false })
 
-- if @structure.courses.privates.count > 0
-  %h2.soft--sides#cours-particuliers Cours particuliers
-- @structure.courses.privates.each do |private|
+- index = 0
+- @structure.courses.privates.each_with_index do |private|
   - next if private.plannings.future.count == 0
+  - if index == 0
+    %h2.soft--sides#cours-particuliers Cours particuliers
 
   = react_component('Course', { show_course_info: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: private.id }, { prerender: false })
 

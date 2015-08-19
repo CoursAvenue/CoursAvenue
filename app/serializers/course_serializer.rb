@@ -10,7 +10,7 @@ class CourseSerializer < ActiveModel::Serializer
 
   has_many :plannings,           serializer: PlanningSerializer
   has_many :price_group_prices,  serializer: PriceSerializer
-  has_many :child_subjects,      serializer: ShortSubjectSerializer
+  has_many :child_subjects,      serializer: SubjectListSerializer
 
   def min_price_amount
     object.prices.order('amount ASC').first.amount if object.prices.any?

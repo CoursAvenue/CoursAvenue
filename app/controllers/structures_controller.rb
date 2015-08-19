@@ -22,7 +22,6 @@ class StructuresController < ApplicationController
   # GET /etablissements/:id
   def show
     @structure_decorator = @structure.decorate
-    @place_ids           = @structure.places.map(&:id)
     @city                = @structure.city
 
     @similar_profiles = @structure.similar_profiles(18)
