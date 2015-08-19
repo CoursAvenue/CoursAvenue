@@ -4,7 +4,7 @@ var SubjectList        = require('./cards/SubjectList.react'),
     CardActionCreators = require("../actions/CardActionCreators"),
     Rating             = require('./cards/Rating.react');
 
-Card = React.createClass({
+CourseCard = React.createClass({
 
     componentDidMount: function componentDidMount () {
         $(this.getDOMNode()).find('.search-page-card__course-title, .search-page-card__structure-name').dotdotdot({
@@ -187,4 +187,4 @@ Card = React.createClass({
     }
 });
 
-module.exports = Card;
+module.exports = CourseCard;

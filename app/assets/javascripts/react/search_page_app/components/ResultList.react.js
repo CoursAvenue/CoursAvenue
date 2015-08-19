@@ -5,7 +5,7 @@ var CardStore              = require('../stores/CardStore'),
     CardActionCreators     = require("../actions/CardActionCreators"),
     FluxBoneMixin          = require("../../mixins/FluxBoneMixin"),
     Suggestions            = require("./Suggestions"),
-    Card                   = require("./Card");
+    CourseCard             = require("./CourseCard");
 
 ResultList = React.createClass({
     mixins: [
@@ -51,7 +51,7 @@ ResultList = React.createClass({
             var card_class = this.getCardClass();
             var cards = this.state.card_store.where({ visible: true }).map(function(card, index) {
                 return (
-                  <Card follow_links={this.props.follow_links} width_class={card_class} card={ card } index={this.state.card_store.indexOf(card) + 1} key={ card.get('id') }/>
+                  <CourseCard follow_links={this.props.follow_links} width_class={card_class} card={ card } index={this.state.card_store.indexOf(card) + 1} key={ card.get('id') }/>
                 )
             }.bind(this));
             if (cards.length == 0) {

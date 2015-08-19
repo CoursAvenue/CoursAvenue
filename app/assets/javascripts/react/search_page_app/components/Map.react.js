@@ -4,7 +4,7 @@ var CardStore              = require("../stores/CardStore"),
     MetroStopStore         = require("../stores/MetroStopStore"),
     SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
     LocationActionCreators = require("../actions/LocationActionCreators"),
-    Card                   = require("./Card.react"),
+    CourseCard             = require("./CourseCard"),
     CardActionCreators     = require("../actions/CardActionCreators"),
     FilterActionCreators   = require("../actions/FilterActionCreators");
 
@@ -205,7 +205,7 @@ var MapComponent = React.createClass({
      */
     openMarkerPopup: function openMarkerPopup (marker, card) {
         return function() {
-            var string_popup = React.renderToString(<Card card={card} is_popup={true} />);
+            var string_popup = React.renderToString(<CourseCard card={card} is_popup={true} />);
             this.popup = L.popup({ className: 'ca-leaflet-popup ' + (card.get('visible') ? '' : 'ca-leaflet-popup--small-markers') })
                 .setLatLng(marker.getLatLng())
                 .setContent(string_popup)
