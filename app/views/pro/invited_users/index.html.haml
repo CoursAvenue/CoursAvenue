@@ -36,7 +36,7 @@
             - if invited_user.registered?
               %i.fa-check
           %td
-            - if invited_user.user and Participation.where(user_id: invited_user.user.id).any?
+            - if invited_user.user and ParticipationRequest.where(user_id: invited_user.user.id).any?
               %i.fa-check
           %td= l(invited_user.created_at, format: :date)
 .text--center.push-half--ends= paginate @invited_users, window: 1, outer_window: 3
