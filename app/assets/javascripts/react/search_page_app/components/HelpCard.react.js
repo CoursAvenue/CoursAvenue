@@ -2,10 +2,6 @@ var Card               = require('./Card'),
     CardActionCreators = require("../actions/CardActionCreators");
 
 var HelpCard = React.createClass({
-    goToPage: function goToPage () {
-        window.location = this.props.helper.get('url');
-    },
-
     dismiss: function dismiss () {
         CardActionCreators.dismissHelp(this.props.helper);
     },
@@ -13,7 +9,6 @@ var HelpCard = React.createClass({
     render: function render () {
         var options = {
             index: this.props.index,
-            onClick: this.goToPage,
             classes: this.props.width_class
         };
 
