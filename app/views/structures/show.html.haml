@@ -80,9 +80,9 @@
                     %div{ itemprop: 'image', content: structure.logo.url }
                       = image_tag structure.logo.url(:thumb), class: 'rounded--circle', height: 60, width: 60
                   .grid__item.v-middle.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
-                    %h6.flush.line-height-1-5.text-ellipsis
+                    %h6.hide-for-fout.flush.line-height-1-5.text-ellipsis
                       = link_to structure.name, structure_path(structure), class: 'muted-link'
-                    .line-height-1-5
+                    .hide-for-fout.line-height-1-5
                       %i= truncate(structure.cities_text, length: 40)
 
 

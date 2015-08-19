@@ -18,7 +18,6 @@ class CourseSerializer < ActiveModel::Serializer
   has_many :plannings,           serializer: PlanningSerializer
   has_many :price_group_prices,  serializer: PriceSerializer
   has_many :prices,              serializer: PriceSerializer
-  has_many :registrations,       serializer: PriceSerializer
 
   def home_place
     object.home_place if object.is_private?
@@ -29,7 +28,7 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def plannings
-    (@options && @options[:plannings]) || object.plannings.visible.future.ordered_by_day
+    object.plannings.visible.future.ordered_by_day
   end
 
   def description_short
@@ -116,14 +115,6 @@ class CourseSerializer < ActiveModel::Serializer
                     icon: 'delta fa-levels' }
     end
     _details
-  end
-
-  def registrations
-    if object.price_group
-      object.price_group.prices.registrations.order('amount ASC')
-    else
-      []
-    end
   end
 
   def has_price_group

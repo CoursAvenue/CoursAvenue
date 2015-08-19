@@ -1,7 +1,5 @@
 var _                  = require('lodash'),
     Backbone           = require('backbone'),
-    PlanningStore      = require('../stores/PlanningStore'),
-    CourseStore        = require('../stores/CourseStore'),
     CardPageDispatcher = require('../dispatcher/CardPageDispatcher'),
     CardPageConstants  = require('../constants/CardPageConstants'),
     ActionTypes        = CardPageConstants.ActionTypes;

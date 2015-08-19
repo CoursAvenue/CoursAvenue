@@ -584,7 +584,8 @@ CoursAvenue::Application.routes.draw do
       resources :statistics            , only: [:create]                                    , controller: 'structures/statistics'
       resources :messages              , only: [:create]                                    , controller: 'structures/messages'
       resources :places                , only: [:index]                                     , controller: 'structures/places'
-      resources :courses               , only: [:index]                                     , controller: 'structures/courses'        , path: 'cours'
+      # IMPORTANT: DO NOT ADD path: 'cours', because it's already used by indexable_cards
+      resources :courses               , only: [:index, :show]                              , controller: 'structures/courses'
       # Using a singular resource. (http://guides.rubyonrails.org/routing.html#singular-resources)
       resource  :community             , only: [:show]                                     , controller: 'structures/community'      , path: 'communaute' do
         resources :message_threads, only: [:show, :index, :create, :update], controller: 'structures/community/message_threads'

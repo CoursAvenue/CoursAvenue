@@ -1,13 +1,19 @@
 var Lesson                 = require('./course/Lesson.react'),
     Private                = require('./course/Private.react'),
     Training               = require('./course/Training.react'),
+    CourseStore            = require('../stores/CourseStore'),
     CourseActionCreators   = require('../actions/CourseActionCreators'),
-    PlanningActionCreators = require('../actions/PlanningActionCreators');
+    PlanningActionCreators = require('../actions/PlanningActionCreators'),
+    FluxBoneMixin          = require("../../mixins/FluxBoneMixin");
 
 var Course = React.createClass({
 
-    propTypes: {
-        course: React.PropTypes.object.isRequired,
+    mixins: [
+        FluxBoneMixin(['course_store'])
+    ],
+
+    getInitialState: function getInitialState () {
+        return { course_store: CourseStore };
     },
 
     componentDidMount: function componentDidMount () {
@@ -16,33 +22,36 @@ var Course = React.createClass({
 
     // Bootstraping data
     bootsrapData: function bootsrapData() {
-        CourseActionCreators.populateCourse(this.props.course);
-        PlanningActionCreators.populatePlannings(this.props.plannings);
+        if (this.props.course_id) {
+            CourseActionCreators.populateCourse(this.props.structure_id, this.props.course_id);
+        } else if (this.props.indexable_card_id) {
+            CourseActionCreators.populateIndexableCard(this.props.structure_id, this.props.indexable_card_id);
+        }
     },
 
     render: function render () {
-        var course;
-        switch(this.props.course.db_type) {
-            case 'Course::Lesson':
-                course = (<Lesson show_location={this.props.show_location}
-                                  dont_register={this.props.dont_register}
-                                  course={this.props.course}
-                                  plannings={this.props.plannings} />);
-                break;
-            case 'Course::Training':
-                course = (<Training show_location={this.props.show_location}
-                                  dont_register={this.props.dont_register}
-                                  course={this.props.course}
-                                  plannings={this.props.plannings} />);
-                break;
-            case 'Course::Private':
-                course = (<Private show_location={this.props.show_location}
-                                  dont_register={this.props.dont_register}
-                                  course={this.props.course}
-                                  plannings={this.props.plannings} />);
-                break;
+        var course = (<div></div>);
+        var course_model = this.state.course_store.getCourseByID(this.props.course_id || this.props.indexable_card_id)
+        if (course_model) {
+            switch(course_model.get('db_type')) {
+                case 'Course::Lesson':
+                    course = (<Lesson show_location={this.props.show_location}
+                                      dont_register={this.props.dont_register}
+                                      course_id={this.props.course_id || this.props.indexable_card_id} />);
+                    break;
+                case 'Course::Training':
+                    course = (<Training show_location={this.props.show_location}
+                                      dont_register={this.props.dont_register}
+                                      course_id={this.props.course_id || this.props.indexable_card_id} />);
+                    break;
+                case 'Course::Private':
+                    course = (<Private show_location={this.props.show_location}
+                                      dont_register={this.props.dont_register}
+                                      course_id={this.props.course_id || this.props.indexable_card_id} />);
+                    break;
+            }
         }
-        this.props.course
+        if (this.props.show_course_info) {}
         return course;
     }
 });

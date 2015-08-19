@@ -69,22 +69,22 @@ var LessonPlanning = React.createClass({
             time = (<span>(horaire sur demande)</span>);
         } else {
             time = (<span>
-                        <time dateTime={this.startDateDatetime()} itemprop="startDate">
+                        <time dateTime={this.startDateDatetime()} itemProp="startDate">
                             {this.props.planning.time_slot}
                         </time>
-                        <time dateTime={this.endDateDatetime()} itemprop="endDate"></time>
+                        <time dateTime={this.endDateDatetime()} itemProp="endDate"></time>
                     </span>);
         }
         return (
-            <tr className={ this.props.course.structure_is_active ? 'cursor-pointer' : '' }
+            <tr className={ this.props.course.get('structure_is_active') ? 'cursor-pointer' : '' }
                 onMouseLeave={this.unhighlightPlace}
                 onMouseEnter={this.highlightPlace}
-                onClick={this.props.course.structure_is_active ? this.bookPlanning : null}>
+                onClick={this.props.course.get('structure_is_active') ? this.bookPlanning : null}>
                 <td itemScope=""
                     itemType="http://data-vocabulary.org/Event"
                     className="soft--left nowrap">
                     <div>
-                        <meta content={this.props.course.name} itemprop="summary" />
+                        <meta content={this.props.course.get('name')} itemProp="summary" />
                         {this.props.planning.date}&nbsp;{ time }
                     </div>
                 </td>
@@ -100,7 +100,7 @@ var LessonPlanning = React.createClass({
                     <div>{this.props.planning.audiences}</div>
                 </td>
                 { location_td }
-                <td className={(this.props.course.structure_is_active ? '' : 'hidden')}>
+                <td className={(this.props.course.get('structure_is_active') ? '' : 'hidden')}>
                     { subscribe_button }
                 </td>
             </tr>

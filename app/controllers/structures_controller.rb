@@ -27,12 +27,6 @@ class StructuresController < ApplicationController
 
     @similar_profiles = @structure.similar_profiles(18)
     @medias = @structure.medias.cover_first.videos_first
-    @model = StructureShowSerializer.new(@structure, {
-      structure:          @structure,
-      unlimited_comments: false,
-      query:              get_filters_params,
-      place_ids:          @place_ids
-    })
     @is_sleeping = @structure.is_sleeping
   end
 

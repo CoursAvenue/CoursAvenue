@@ -7,7 +7,7 @@
   .soft--sides
     = render partial: 'structures/courses/header', locals: { course: training }
 
-  = react_component('Course', { dont_register: dont_register, show_location: true, course: CourseSerializer.new(training), plannings: ActiveModel::ArraySerializer.new(training.plannings.ordered_by_day.future, each_serializer: PlanningSerializer) }, { prerender: false })
+  = react_component('Course', { show_course_info: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: training.id }, { prerender: false })
   .push--bottom.bordered--bottom.soft--bottom
     = render partial: 'structures/courses/footer', locals: { course: training }
 - if @structure.courses.lessons.any?
@@ -17,7 +17,7 @@
 
   .soft--sides
     = render partial: 'structures/courses/header', locals: { course: lesson }
-  = react_component('Course', { dont_register: dont_register, show_location: true, course: CourseSerializer.new(lesson), plannings: ActiveModel::ArraySerializer.new(lesson.plannings.ordered_by_day.future, each_serializer: PlanningSerializer) }, { prerender: false })
+  = react_component('Course', { show_course_info: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: lesson.id }, { prerender: false })
 
   .push--bottom.bordered--bottom.soft--bottom
     = render partial: 'structures/courses/footer', locals: { course: lesson }
@@ -29,6 +29,6 @@
   .soft--sides
     = render partial: 'structures/courses/header', locals: { course: private }
 
-  = react_component('Course', { dont_register: dont_register, show_location: true, course: CourseSerializer.new(private), plannings: ActiveModel::ArraySerializer.new(private.plannings.ordered_by_day.future, each_serializer: PlanningSerializer) }, { prerender: false })
+  = react_component('Course', { show_course_info: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: private.id }, { prerender: false })
   .push--bottom.bordered--bottom.soft--bottom
     = render partial: 'structures/courses/footer', locals: { course: private }

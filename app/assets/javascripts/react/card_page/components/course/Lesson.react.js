@@ -1,26 +1,34 @@
-var Planning = require('../Planning.react');
+var Planning      = require('../Planning.react'),
+    CourseStore   = require('../../stores/CourseStore'),
+    FluxBoneMixin = require("../../../mixins/FluxBoneMixin");
 
 var Lesson = React.createClass({
 
-    propTypes: {
-        plannings: React.PropTypes.array.isRequired,
-        course: React.PropTypes.array.isRequired,
+    mixins: [
+        FluxBoneMixin(['course_store'])
+    ],
+
+    getInitialState: function getInitialState () {
+        return { course_store: CourseStore };
     },
 
     render: function render () {
-        var location_th;
-        var plannings = _.map(this.props.plannings, function(planning, index) {
-            return (<Planning planning={planning}
-                              dont_register={this.props.dont_register}
-                              show_location={this.props.show_location}
-                              course={this.props.course}
-                              key={index} />);
-        }.bind(this));
+        var location_th, plannings;
+        var course = this.state.course_store.getCourseByID(this.props.course_id);
+        if (course) {
+            plannings = _.map(course.get('plannings'), function(planning, index) {
+                return (<Planning planning={planning}
+                                  dont_register={this.props.dont_register}
+                                  show_location={this.props.show_location}
+                                  course={course}
+                                  key={index} />);
+            }.bind(this));
+        }
         if (this.props.show_location) {
             location_th = (<th className="two-tenths">Lieu</th>);
         }
         var infos = [];
-        if (this.props.course.teaches_at_home) {
+        if (course.get('teaches_at_home')) {
             infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
                             <i className='delta fa fa-house v-middle'></i>
                             <div className='inline-block v-middle'>
@@ -28,7 +36,7 @@ var Lesson = React.createClass({
                             </div>
                         </div>));
         }
-        if (this.props.course.on_appointment) {
+        if (course.get('on_appointment')) {
             infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
                             <i className='delta fa fa-phone v-middle'></i>
                             <div className='inline-block v-middle'>
@@ -39,10 +47,10 @@ var Lesson = React.createClass({
         infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
                         <i className='delta fa fa-repeat v-middle'></i>
                         <div className='inline-block v-middle'>
-                            &nbsp;{this.props.course.frequency}
+                            &nbsp;{course.get('frequency')}
                         </div>
                     </div>));
-        if (this.props.course.cant_be_joined_during_year) {
+        if (course.get('cant_be_joined_during_year')) {
             infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
                             <i className='delta fa fa-forbidden v-middle'></i>
                             <div className='inline-block v-middle'>
@@ -57,7 +65,7 @@ var Lesson = React.createClass({
                             </div>
                         </div>));
         }
-        if (this.props.course.no_class_during_holidays) {
+        if (course.get('no_class_during_holidays')) {
             infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
                             <i className='delta fa fa-forbidden v-middle'></i>
                             <div className='inline-block v-middle'>
@@ -71,7 +79,7 @@ var Lesson = React.createClass({
                 <div className="soft--sides">
                     {infos}
                 </div>
-                <table className={"table--striped table--data table-responsive table-responsive--without-th " + (this.props.course.structure_is_active ? 'table--hoverable' : '')}>
+                <table className={"table--striped table--data table-responsive table-responsive--without-th " + (course.get('structure_is_active') ? 'table--hoverable' : '')}>
                     <thead className="gray-light">
                         <tr>
                             <th className={"soft--left " + (this.props.show_location ? 'three-tenths' : '')}>
@@ -81,7 +89,7 @@ var Lesson = React.createClass({
                             <th className="two-tenths">Public</th>
                             { location_th }
                             <th style={{ width: '8em' }}
-                                className={ this.props.course.structure_is_active ? '' : 'hidden'}></th>
+                                className={ course.get('structure_is_active') ? '' : 'hidden'}></th>
                         </tr>
                     </thead>
                     <tbody>
