@@ -74,6 +74,18 @@
             @include box-shadow(0px 7px 15px #DDD);
         }
     }
+        .search-page-card__content--info {
+          color:            $blue-info-darker;
+          border:           2px solid $blue-info-darker;
+          background-color: $blue-info;
+        }
+
+        .search-page-card__content--astuce {
+          color:            $yellow-info-darker;
+          border:           2px solid $yellow-info-darker;
+          background-color: $yellow-info;
+        }
+
         .search-page-card__content-top           { height: 175px; }
         .search-page-card__content-top--sleeping { line-height: 175px; }
 
