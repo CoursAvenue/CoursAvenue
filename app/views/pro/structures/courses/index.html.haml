@@ -5,10 +5,11 @@
 .grid.push--bottom
   .grid__item.two-thirds.palm-one-whole.v-top>
     %h1.flush Mon planning
-    Voir mon
-    = link_to 'profil CoursAvenue', structure_url(@structure, subdomain: 'www'), target: :_blank
-    \/ mon
-    = link_to 'planning à mettre sur mon site Internet', structure_website_structure_url(@structure, subdomain: 'www'), target: :_blank
+    %p.flush
+      Voir mon
+      = link_to 'profil CoursAvenue', structure_url(@structure, subdomain: 'www'), target: :_blank
+      \/ mon
+      = link_to 'planning à mettre sur mon site Internet', structure_website_structure_url(@structure, subdomain: 'www'), target: :_blank
   .grid__item.one-third.palm-one-whole.palm-text--left.v-top.text--right{ class: (@structure.courses.any? ? '' : 'hidden'), data: { add_course: true } }>
     = render partial: 'pro/structures/courses/add_activity_button'
     %div.push-half--top

@@ -1,18 +1,18 @@
 - if @structure.response_rate
   .grid--full.soft-half--bottom
     .grid__item.v-middle.one-half.gray>
-      Taux de réponse
+      %p.flush Taux de réponse
     .grid__item.v-middle.one-half>
       %strong= "#{@structure.response_rate}%"
 - if @structure.response_time
   .grid--full.soft-half--bottom
     .grid__item.v-middle.one-half.gray>
-      Temps de réponse
+      %p.flush Temps de réponse
     .grid__item.v-middle.one-half>
       %strong= response_time_in_words @structure
 - if @structure.main_contact and @structure.main_contact.current_sign_in_at
   .grid--full
     .grid__item.v-middle.one-half.gray>
-      Dernière activité
+      %p.flush Dernière activité
     .grid__item.v-middle.one-half>
       %strong= l(@structure.main_contact.current_sign_in_at, format: :date).capitalize

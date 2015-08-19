@@ -2,7 +2,7 @@
 - course           ||= planning.course
 - structure        ||= course.structure
 %div.flexbox.very-soft--top.very-soft--bottom.soft-half--sides{ id: "planning-#{planning.id}" }
-  .flexbox__item.one-whole
+  .flexbox__item.one-whole.hide-for-fout
     = planning_decorator.week_day_name
     = planning_decorator.time_slot
   .flexbox__item.text--right.nowrap

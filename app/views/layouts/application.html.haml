@@ -1,7 +1,7 @@
 !!!
 %html.no-js{ lang: 'fr', prefix: 'og:http://opengraphprotocol.org/schema fb:http://www.facebook.com/2008/fbml' }
   %head
-    %link{ href: 'https://fonts.googleapis.com/css?family=Raleway:500,400,300,600,700', rel: 'stylesheet', type: 'text/css' }
+    = render 'layouts/prevent_fout'
     = yield :right_after_head
 
     = render 'shared/meta_information'
@@ -15,8 +15,6 @@
       = yield :after_ga
 
     = render 'layouts/mixpanel'
-
-    = render 'layouts/typekit'
 
     = yield :head
     = favicon_link_tag
@@ -98,3 +96,4 @@
           });
     - if on_pro_subdomain?
       = intercom_script_tag
+    = render 'layouts/typekit'

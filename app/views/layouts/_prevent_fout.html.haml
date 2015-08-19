@@ -1,0 +1,8 @@
+-# Prevent from the FOUT
+-# http://help.typekit.com/customer/portal/articles/6852-Controlling-the-Flash-of-Unstyled-Text-or-FOUT-using-Font-Events
+:css
+  .wf-loading .hide-for-fout,.wf-loading label,.wf-loading a, .wf-loading td, .wf-loading th, .wf-loading .btn, .wf-loading span,.wf-loading strong, .wf-loading ol, .wf-loading ul, .wf-loading .alpha, .wf-loading .beta, .wf-loading .gamma, .wf-loading .delta, .wf-loading .epsilon, .wf-loading h1, .wf-loading h2, .wf-loading h3, .wf-loading h4, .wf-loading h5, .wf-loading p { visibility: hidden;}
+  .wf-active .hide-for-fout,.wf-active label,.wf-active a, .wf-active td, .wf-active th, .wf-active .btn, .wf-active span,.wf-active strong, .wf-active ol, .wf-active ul, .wf-active .alpha, .wf-active .beta, .wf-active .gamma, .wf-active .delta, .wf-active .epsilon, .wf-active h1, .wf-active h2, .wf-active h3, .wf-active h4, .wf-active h5, .wf-active p,
+  .wf-inactive .hide-for-fout,.wf-inactive label,.wf-inactive a, .wf-inactive td, .wf-inactive th, .wf-inactive .btn, .wf-inactive span,.wf-inactive strong, .wf-inactive ol, .wf-inactive ul, .wf-inactive .alpha, .wf-inactive .beta, .wf-inactive .gamma, .wf-inactive .delta, .wf-inactive .epsilon, .wf-inactive h1, .wf-inactive h2, .wf-inactive h3, .wf-inactive h4, .wf-inactive h5, .wf-inactive p { visibility: visible; }
+:javascript
+  document.documentElement.className += ' wf-loading';
