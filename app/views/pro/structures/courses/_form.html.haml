@@ -55,34 +55,36 @@
                     %strong Tarif promotionnel
                   .flexbox__item.text--center.eight-twelfths
                     %strong Infos
-          - @course.prices.each_with_index do |price, index|
-            - price = price.localized
-            .input{ data: { el: true, hidden: (!price.persisted? and index > 0) } }
-              = f.simple_fields_for :prices, price, child_index: index do |price_form|
-                = price_form.input :type, as: :hidden
-                - if @course.is_training?
-                  = price_form.input :number, as: :hidden
-                - if @course.is_lesson? or @course.is_private?
-                  = f.label :trial_price, "Prix séance d'essai", class: 'inline-block label--large control-label'
-                - else
-                  = f.label :trial_price, "Tarif", class: 'inline-block label--large control-label'
-                - if @course.is_lesson? or @course.is_private?
-                  %select.push-half--right.input--large.inline-block.v-middle{ data: { trial_select: true } }
-                    %option{ value: 'free'    , selected: price.free? } Gratuit
-                    %option{ value: 'not-free', selected: !price.free? } Payante
-                %div.v-middle{ class: (price.free? ? 'hidden' : ''), data: { trial_price_input: true } }
-                  - if @course.is_lesson? or @course.is_private?
-                    %span.label--large.v-middle Tarif :
-                  = price_form.input :amount, label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large flush text--center', style: 'width: 5em;', type: 'string', value: (price.amount ? price.amount.gsub(',00', '') : '' ), data: { amount: true } }, wrapper_html: { class: 'flush v-middle inline-block' }
-                  %span.push-half--right.label--large.v-middle €
-                  - if @course.is_training?
-                    = price_form.input :promo_amount, label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large flush text--center', style: 'width: 5em;', type: 'string', value: (price.promo_amount ? price.promo_amount.gsub(',00', '') : '' )}, wrapper_html: { class: 'flush v-middle inline-block' }
-                    %span.push-half--right.label--large.v-middle €
-                  - if @course.is_training?
-                    = price_form.input :info, as: :string, label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large flush', placeholder: 'Ex. : prix pour 2h', style: 'width: 300px' }, wrapper_html: { class: 'flush v-middle inline-block' }
-              - if @course.prices.length > 1
-                %a.cursor-pointer.v-middle.inline-block{ data: { clear: true } }
-                  %i.fa-times
+          .input
+            - if @course.is_lesson? or @course.is_private?
+              %label.inline-block.label--large.control-label> Prix séance d'essai
+            - else
+              %label.inline-block.label--large.control-label> Tarif
+            .input-container>
+              - @course.prices.each_with_index do |price, index|
+                - price = price.localized
+                %div{ data: { el: true, hidden: (!price.persisted? and index > 0) } }
+                  = f.simple_fields_for :prices, price, child_index: index do |price_form|
+                    = price_form.input :type, as: :hidden
+                    - if @course.is_training?
+                      = price_form.input :number, as: :hidden
+                    - if @course.is_lesson? or @course.is_private?
+                      %select.push-half--right.input--large.inline-block.v-middle{ data: { trial_select: true } }
+                        %option{ value: 'free'    , selected: price.free? } Gratuit
+                        %option{ value: 'not-free', selected: !price.free? } Payante
+                    %div.inline-block.v-middle{ class: (@course.is_lesson? and price.free? ? 'hidden' : ''), data: { trial_price_input: true } }
+                      - if @course.is_lesson? or @course.is_private?
+                        %span.label--large.v-middle Tarif :
+                      = price_form.input :amount, label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large flush text--center', style: 'width: 5em;', type: 'string', value: (price.amount ? price.amount.gsub(',00', '') : '' ), data: { amount: true } }, wrapper_html: { class: 'flush v-middle inline-block' }
+                      %span.push-half--right.label--large.v-middle €
+                      - if @course.is_training?
+                        = price_form.input :promo_amount, label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large flush text--center', style: 'width: 5em;', type: 'string', value: (price.promo_amount ? price.promo_amount.gsub(',00', '') : '' )}, wrapper_html: { class: 'flush v-middle inline-block' }
+                        %span.push-half--right.label--large.v-middle €
+                      - if @course.is_training?
+                        = price_form.input :info, as: :string, label: false, label_html: { class: 'label--large' }, input_html: { class: 'input--large flush', placeholder: 'Ex. : prix pour 2h', style: 'width: 300px' }, wrapper_html: { class: 'flush v-middle inline-block' }
+                  - if @course.prices.length > 1
+                    %a.gray-light.cursor-pointer.v-middle.inline-block{ data: { clear: true } }
+                      %i.fa-times
           - if @course.errors[:prices].any?
             .input
               .control-label>

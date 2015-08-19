@@ -107,7 +107,7 @@ class Pro::Structures::CoursesController < Pro::ProController
         format.json { render json: {}, status: 200 }
         format.js
       else
-        format.html { render action: :new}
+        format.html { render action: :new }
         format.json { render json: {}, status: 500 }
         format.js
       end
