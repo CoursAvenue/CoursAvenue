@@ -20,7 +20,7 @@ class GuidesController < ApplicationController
   private
 
   def set_guide
-    @guide = Guide.includes(questions: [ answers: [ :subjects, :question ] ]).find(params[:id])
+    @guide = Guide.find(params[:id])
   end
 
   def layout_locals

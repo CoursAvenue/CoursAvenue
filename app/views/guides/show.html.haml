@@ -9,3 +9,7 @@
 = content_for :scripts do
   = javascript_include_tag 'libs/jquery.fullPage'
   = stylesheet_link_tag 'libs/jquery.fullPage', media: 'all'
+  :javascript
+    $(function(){
+        mixpanel.track("Landed on guide " + #{@guide.id}, { name: "#{@guide.title}" });
+    });

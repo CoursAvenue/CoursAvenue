@@ -29,6 +29,7 @@ var UserGuide = React.createClass({
     },
 
     componentDidMount: function componentDidMount () {
+        this.current_page = 1;
         this.bootstrap();
     },
 
@@ -45,6 +46,8 @@ var UserGuide = React.createClass({
     },
 
     nextPage: function nextPage () {
+        mixpanel.track("Guide " + this.props.guide.id  + " | Q " + this.current_page);
+        this.current_page = this.current_page + 1;
         if (this.state.answer_store.allQuestionsAnswered()) {
             CoursAvenue.showFullPageLoader();
             var data = { subject: this.state.subject_store.getMostRelevantSubject().get('id') + ';' + this.state.subject_store.getMostRelevantSubject().get('score'),
