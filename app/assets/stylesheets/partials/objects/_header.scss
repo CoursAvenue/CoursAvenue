@@ -22,8 +22,9 @@
         }
         display : inline-block;
         input {
-            padding-left: 1em;
-            width       : 300px;
+            padding-left : 1em;
+            padding-right: 2em;
+            width        : 300px;
             @include media-query(palm) {
                 width    : 100%;
             }

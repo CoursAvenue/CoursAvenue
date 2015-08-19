@@ -43,7 +43,7 @@ Subject_list = React.createClass({
         }, this);
 
         return (
-            <div className="search-page-card__subjects-wrapper">
+            <div className={"search-page-card__subjects-wrapper " + (this.props.classes ? this.props.classes : '')}>
                 { subject_nodes }
             </div>
         )
