@@ -10,6 +10,18 @@ var HelpCard = React.createClass({
         // TODO:
     },
 
+    callToAction: function callToAction () {
+        if (this.props.helper.get('type') == 'info') {
+            return (
+                <a href={ this.props.helper.get('url') } className='btn btn--blue-info' target='_blank'>
+                    { this.props.helper.get('call_to_action') }
+                </a>
+            );
+        } else {
+            return '';
+        }
+    },
+
     render: function render () {
         var helper = this.props.helper;
         var options = {
@@ -35,9 +47,9 @@ var HelpCard = React.createClass({
 
                     <div className="soft-half--sides soft-half--bottom text--center">
                         <h4 className='line-height-normal'>{ helper.get('description') }</h4>
-                        <a href={ helper.get('url') } className='btn btn--blue' target='_blank'>
-                            { helper.get('call_to_action') }
-                        </a>
+
+                        { this.callToAction() }
+
                         <div className='text--center soft-half'>
                             <input type='checkbox' className='input--large' onChange={ this.toggleDismiss } />
                             <label className='f-weight-bold'>Ne plus afficher</label>
