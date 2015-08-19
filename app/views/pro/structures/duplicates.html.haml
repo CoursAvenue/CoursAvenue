@@ -23,11 +23,15 @@
       %tr
         %td
           = link_to structure.name, dashboard_pro_structure_path(structure)
+          - if structure.main_contact.present?
+            = link_to "(Admin)", pro_structure_admin_path(structure, structure.main_contact)
         %td
           = l(structure.created_at.to_date)
         %td.nowrap
           - duplicates.each do |dup|
             = link_to "#{ dup.name } (#{ l(dup.created_at.to_date) })", dashboard_pro_structure_path(dup)
+            - if dup.main_contact.present?
+              = link_to "(Admin)", pro_structure_admin_path(dup, dup.main_contact)
             %br
 
 .text--center.push-half--ends= paginate(@pagination_scope, window: 1, outer_window: 3)
