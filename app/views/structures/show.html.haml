@@ -78,7 +78,7 @@
                 .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
                   .grid__item.v-middle.one-fifth>
                     %div{ itemprop: 'image', content: structure.logo.url }
-                      = image_tag structure.logo.url(:thumb), class: 'rounded--circle'
+                      = image_tag structure.logo.url(:thumb), class: 'rounded--circle', height: 60, width: 60
                   .grid__item.v-middle.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
                     %h6.flush.line-height-1-5.text-ellipsis
                       = link_to structure.name, structure_path(structure), class: 'muted-link'
