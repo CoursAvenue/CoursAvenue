@@ -362,6 +362,22 @@ class IndexableCard < ActiveRecord::Base
     end
   end
 
+  #
+  #
+  # @return the User::Favorite or nil
+  def toggle_favorite!(user)
+    favorite = user.favorites.where(indexable_card_id: self.id).first
+
+    if favorite.present?
+      favorite.destroy
+      favorite = nil
+    else
+      favorite = user.favorites.create(indexable_card: self)
+    end
+
+    favorite
+  end
+
   private
 
   SEARCH_SCORE_COEF = {
