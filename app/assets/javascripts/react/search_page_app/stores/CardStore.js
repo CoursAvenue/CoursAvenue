@@ -21,6 +21,17 @@ var CardModel = Backbone.Model.extend({
 	    favorite: false,
 	};
     },
+
+    initialize: function initialize () {
+	_.bindAll(this, 'toggleFavorite');
+    },
+
+    toggleFavorite: function toggleFavorite () {
+	$.post(Routes.toggle_favorite_structure_indexable_card_path(
+	    this.get('structure_slug'), this.get('slug'), { format: 'json' }
+	));
+	this.set('favorite', true);
+    },
 });
 
 var CardCollection = Backbone.Collection.extend({
@@ -122,6 +133,9 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.DISMISS_HELP:
                 this.updateCardsShownRegardingPages();
                 break;
+	    case ActionTypes.TOGGLE_FAVORITE:
+		payload.data.card.toggleFavorite();
+		break;
         }
     },
 

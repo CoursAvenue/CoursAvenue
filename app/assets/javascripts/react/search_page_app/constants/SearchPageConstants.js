@@ -75,6 +75,8 @@ module.exports = {
 
         DISMISS_HELP:                         null,
         TOGGLE_DISMISS_HELP:                  null,
+
+	TOGGLE_FAVORITE:                      null,
     })
 
 };

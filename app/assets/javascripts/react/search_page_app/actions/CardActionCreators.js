@@ -71,4 +71,11 @@ module.exports = {
             data: data,
         });
     },
+
+    toggleFavorite: function toggleFavorite (data) {
+	SearchPageDispatcher.dispatch({
+	    actionType: ActionTypes.TOGGLE_FAVORITE,
+	    data: data,
+	});
+    },
 };
