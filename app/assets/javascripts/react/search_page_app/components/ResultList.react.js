@@ -61,7 +61,7 @@ ResultList = React.createClass({
                 no_results = (<Suggestions />);
             }
 
-            if (helper_cards.length > 0) {
+            if (helper_cards.length > 0 && CardStore.current_page == 1) {
                 var helper_card = (
                     <HelpCard helper={ helper_cards[0] } key={ helper_cards[0].get('type') } width_class={ card_class } />
                 )
