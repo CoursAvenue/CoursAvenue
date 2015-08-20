@@ -4,6 +4,7 @@ var _                    = require('lodash'),
     FilterStore          = require('../stores/FilterStore'),
     LocationStore        = require('../stores/LocationStore'),
     TimeStore            = require('../stores/TimeStore'),
+    UserStore            = require('../stores/UserStore'),
     PriceStore           = require('../stores/PriceStore'),
     AudienceStore        = require('../stores/AudienceStore'),
     LevelStore           = require('../stores/LevelStore'),
@@ -27,9 +28,6 @@ var CardModel = Backbone.Model.extend({
     },
 
     toggleFavorite: function toggleFavorite () {
-        $.post(Routes.toggle_favorite_structure_indexable_card_path(
-            this.get('structure_slug'), this.get('slug'), { format: 'json' }
-        ));
         this.set('favorite', true);
     },
 });
@@ -43,7 +41,7 @@ var CardCollection = Backbone.Collection.extend({
     error        :   false,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'setFavorites', 'searchSuccess', 'searchError', 'fetchDataFromServer');
+        _.bindAll(this, 'dispatchCallback', 'searchSuccess', 'searchError', 'fetchDataFromServer');
 
         // Register the store to the dispatcher, so it calls our callback on new actions.
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
@@ -139,10 +137,6 @@ var CardCollection = Backbone.Collection.extend({
         }
     },
 
-    setFavorites: function setFavorites (favorites) {
-        this.favorites = favorites;
-    },
-
     fetchDataFromServer: function fetchDataFromServer (reset_page_nb) {
         if (reset_page_nb) { this.current_page = 1; }
         this.error   = false;
@@ -164,7 +158,7 @@ var CardCollection = Backbone.Collection.extend({
         _.each(data.hits, function(hit, index) {
             hit.batch_page = batch_page;
             hit.page       = (batch_page * this.NB_PAGE_LOADED_PER_BATCH) - this.NB_PAGE_LOADED_PER_BATCH + (Math.floor(index / this.HITS_PER_PAGES) + 1);
-            if (_.includes(this.favorites, hit.id)) {
+            if (_.includes(UserStore.favorites(), hit.id)) {
                 hit.favorite = true;
             }
         }.bind(this));

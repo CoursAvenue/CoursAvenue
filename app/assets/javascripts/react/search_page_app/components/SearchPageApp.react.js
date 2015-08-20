@@ -16,6 +16,7 @@ var MapContainer              = require('./MapContainer.react'),
     FilterStore               = require('../stores/FilterStore'),
     SubjectStore              = require('../stores/SubjectStore'),
     CardStore                 = require('../stores/CardStore'),
+    UserStore                 = require('../stores/UserStore'),
     LocationStore             = require('../stores/LocationStore'),
     SearchPageDispatcher      = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants       = require('../constants/SearchPageConstants'),
@@ -37,7 +38,9 @@ SearchPageApp = React.createClass({
         CardStore.on('search:done', this.search_page_app_router.updateUrl);
         CardStore.on('page:change', this.search_page_app_router.updateUrl);
 
-        CardStore.setFavorites(this.props.favorite_cards);
+        // CardStore.setFavorites(this.props.favorite_cards);
+        UserStore.setFavorites(this.props.favorite_cards);
+        if (this.props.logged_in) { UserStore.log_in(); }
 
         Backbone.history.start({ pushState: true });
         this.search_page_app_router.bootsrapData();
