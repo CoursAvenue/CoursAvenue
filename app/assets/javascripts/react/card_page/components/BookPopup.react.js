@@ -1,4 +1,5 @@
-var RequestStore          = require("../stores/RequestStore"),
+var _                     = require('lodash'),
+    RequestStore          = require("../stores/RequestStore"),
     RequestActionCreators = require("../actions/RequestActionCreators"),
     FluxBoneMixin         = require("../../mixins/FluxBoneMixin");
 
@@ -17,6 +18,13 @@ var BookPopup = React.createClass({
     componentDidMount: function componentDidMount () {
         var $datepicker_input = $(this.getDOMNode()).find('[data-behavior=datepicker]');
         this.initializeDatepicker($datepicker_input);
+        this.state.request_store.unset('errors');
+    },
+
+    componentWillUpdate: function componentWillUpdate () {
+        if (this.state.request_store.get('errors')) {
+            $(this.getDOMNode()).find('button').prop('disabled', false);
+        }
     },
 
     componentDidUpdate: function componentDidUpdate () {
@@ -86,9 +94,10 @@ var BookPopup = React.createClass({
             $dom_node = $(this.getDOMNode());
             user_params = { phone_number: $dom_node.find('[name="user[phone_number]"]').val() }
             if (this.props.dont_register) {
-                user_params.first_name = $dom_node.find('[name="user[first_name]"]').val();
-                user_params.last_name  = $dom_node.find('[name="user[last_name]"]').val();
-                user_params.email      = $dom_node.find('[name="user[email]"]').val();
+                user_params.validate_full = true;
+                user_params.first_name    = $dom_node.find('[name="user[first_name]"]').val();
+                user_params.last_name     = $dom_node.find('[name="user[last_name]"]').val();
+                user_params.email         = $dom_node.find('[name="user[email]"]').val();
             }
             RequestActionCreators.submitRequest({
                 at_student_home        : !_.isEmpty($dom_node.find('[name="participation_request[at_student_home]"]').val()),
@@ -150,11 +159,17 @@ var BookPopup = React.createClass({
                               <input className="one-whole"
                                       name="user[first_name]"
                                       placeholder="Votre prénom" />
+                              <div className="red f-weight-bold">
+                                  {(this.state.request_store.get('errors') ? this.state.request_store.get('errors')['user.first_name'] : '')}
+                              </div>
                           </div>
                           <div className="grid__item one-half palm-one-whole">
                               <input className="one-whole"
                                       name="user[last_name]"
                                       placeholder="Votre nom" />
+                              <div className="red f-weight-bold">
+                                  {(this.state.request_store.get('errors') ? this.state.request_store.get('errors')['user.last_name'] : '')}
+                              </div>
                           </div>
                       </div>
                       <div className="grid">
@@ -167,6 +182,9 @@ var BookPopup = React.createClass({
                                           name="user[email]"
                                           placeholder="Votre email" />
                               </div>
+                              <div className="red f-weight-bold">
+                                  {(this.state.request_store.get('errors') ? this.state.request_store.get('errors')['user.email'] : '')}
+                              </div>
                           </div>
                           <div className="grid__item one-half palm-one-whole">
                               <div className="input-addon">
@@ -176,6 +194,9 @@ var BookPopup = React.createClass({
                                   <input type="text" className="one-whole hard--right"
                                          name="user[phone_number]"
                                          placeholder="Votre téléphone (confidentiel)" />
+                              </div>
+                              <div className="red f-weight-bold">
+                                  {(this.state.request_store.get('errors') ? this.state.request_store.get('errors')['user.phone_number'] : '')}
                               </div>
                           </div>
                       </div>
@@ -201,6 +222,9 @@ var BookPopup = React.createClass({
                                        title=""
                                        defaultValue={(CoursAvenue.currentUser() ? CoursAvenue.currentUser().get('phone_number') : '')}/>
                             </div>
+                              <div className="red f-weight-bold">
+                                  {(this.state.request_store.get('errors') ? this.state.request_store.get('errors')['user.phone_number'] : '')}
+                              </div>
                         </div>
                     </div>);
         }

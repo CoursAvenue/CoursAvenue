@@ -10,7 +10,7 @@
     // Create the defaults once
     var pluginName = "readMore",
         defaults = {
-            text_height: 150,
+            text_height: 145,
             read_more_text: '+ Plus'
         };
 
