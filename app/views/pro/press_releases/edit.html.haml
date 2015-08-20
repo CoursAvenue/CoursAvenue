@@ -1,7 +1,6 @@
-= side_menu_currently_at 'press_releases'
+= side_menu_currently_at 'pages'
 
-.panel
-  .panel__header.soft
-    %h3.flush CP
-  .panel__body.soft
-    = render 'form'
+= render partial: 'pro/shared/pages_tabs', locals: { current: 'press_releases' }
+
+%h1= @press_release.title
+= render 'form'
