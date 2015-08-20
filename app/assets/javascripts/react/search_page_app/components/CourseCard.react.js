@@ -64,6 +64,11 @@ CourseCard = React.createClass({
         }
     },
 
+    toggleFavorite: function toggleFavorite (event) {
+        CardActionCreators.toggleFavorite({ card: this.props.card });
+        return false;
+    },
+
     headerCard: function headerCard () {
         var starting_price, starting_price_class, price;
         if (this.props.card.get('has_course')) {
@@ -74,12 +79,17 @@ CourseCard = React.createClass({
             }
             starting_price_class = (this.props.card.get('starting_price') == 0 ? 'search-page-card__price--free' : '')
             price = (<div className={'search-page-card__price ' + starting_price_class}>{starting_price}</div>);
-
+            var favorite_class = 'fa ' + ( this.props.card.get('favorite') ?  'fa-heart' : 'fa-heart-o');
             return (<div>
                         <div className="search-page-card__content-top">
                             <div className="relative">
                                 {price}
                                 {this.headerImage()}
+                                <div className='search-page-card__favorite north east absolute'>
+                                    <div onClick={ this.toggleFavorite } className='white delta cursor-pointer'>
+                                        <i className={ favorite_class }></i>
+                                    </div>
+                                </div>
                             </div>
                             {this.headerLogo()}
                             <div className="search-page-card__structure-name soft-half--sides gray">
