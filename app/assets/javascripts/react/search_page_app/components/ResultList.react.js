@@ -1,5 +1,6 @@
 var CardStore              = require('../stores/CardStore'),
     HelpStore              = require('../stores/HelpStore'),
+    UserStore              = require('../stores/UserStore'),
     SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
     LocationActionCreators = require("../actions/LocationActionCreators"),
     SubjectActionCreators  = require("../actions/SubjectActionCreators"),
@@ -12,7 +13,7 @@ var CardStore              = require('../stores/CardStore'),
 
 ResultList = React.createClass({
     mixins: [
-        FluxBoneMixin('card_store')
+        FluxBoneMixin(['card_store', 'user_store'])
     ],
 
     // Bootstraping data
@@ -30,7 +31,7 @@ ResultList = React.createClass({
     },
 
     getInitialState: function getInitialState() {
-        return { card_store: CardStore, per_line: 4 };
+        return { card_store: CardStore, user_store: UserStore, per_line: 4 };
     },
 
     getCardClass: function getCardClass () {

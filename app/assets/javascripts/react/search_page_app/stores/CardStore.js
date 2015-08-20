@@ -28,7 +28,8 @@ var CardModel = Backbone.Model.extend({
     },
 
     toggleFavorite: function toggleFavorite () {
-        this.set('favorite', true);
+        var favorite = this.get('favorite');
+        this.set('favorite', !favorite);
     },
 });
 
@@ -133,6 +134,7 @@ var CardCollection = Backbone.Collection.extend({
                 break;
             case ActionTypes.TOGGLE_FAVORITE:
                 payload.data.card.toggleFavorite();
+                this.trigger('change');
                 break;
         }
     },

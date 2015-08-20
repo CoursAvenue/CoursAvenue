@@ -45,6 +45,7 @@ var User = Backbone.Model.extend({
         } else {
             // Show connection alert or something.
         }
+
         var favorites = this.get('favorites');
         if (_.includes(favorites, card.id)) {
             var index = _.indexOf(favorites, card.id);
