@@ -204,7 +204,7 @@ class IndexableCard < ActiveRecord::Base
 
     cards = course.plannings.group_by(&:place).map do |place, plannings|
       if place.nil?
-        if course.teaches_at_home? and place.home_place
+        if course.teaches_at_home? and course.try(:home_place)
           place = course.home_place
         else
           place = course.try(:place)
