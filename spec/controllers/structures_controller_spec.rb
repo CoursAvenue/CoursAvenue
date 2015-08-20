@@ -22,15 +22,14 @@ describe StructuresController, type: :controller do
   describe 'follow' do
     let(:user) { FactoryGirl.create(:user) }
     let(:structure) { FactoryGirl.create(:structure_with_admin) }
-    before do
-      sign_in user
-    end
 
-    it 'creates a new following' do
-      followings_count = structure.followings.count
+    before { sign_in user }
+
+    it 'creates a new favorites' do
+      followings_count = structure.user_favorites.count
       post :add_to_favorite, id: structure.slug
 
-      expect(structure.followings.count).to eq followings_count + 1
+      expect(structure.user_favorites.count).to eq followings_count + 1
     end
 
     # We freezed the metrics
