@@ -233,27 +233,4 @@ RSpec.describe IndexableCard, type: :model do
       it 'returns course'
     end
   end
-
-  describe '#toggle_favorite!' do
-    let(:subject) { FactoryGirl.create(:indexable_card) }
-    let(:user) { FactoryGirl.create(:user) }
-
-    context 'when the card is not a favorite' do
-      it 'creates a new user favorite' do
-	expect { subject.toggle_favorite!(user) }. to change { user.reload.favorites.count }.by(1)
-      end
-
-      it { expect(subject.toggle_favorite!(user)).to be_truthy }
-    end
-
-    context 'when the card is already a favorite' do
-      before { subject.toggle_favorite!(user) }
-
-      it 'destroys the favorite' do
-	expect { subject.toggle_favorite!(user) }.to change { user.reload.favorites.count }.by(-1)
-      end
-
-      it { expect(subject.toggle_favorite!(user)).to be_falsy }
-    end
-  end
 end

@@ -36,10 +36,9 @@ var User = Backbone.Model.extend({
 	this.set('favorites', favorites);
     },
 
-    toggleFavorite: function toggleFavorite (data) {
-	var card = data.card;
+    addFavorite: function addFavorite (card) {
 	if (this.get('logged_in')) {
-	    $.post(Routes.toggle_favorite_structure_indexable_card_path(
+	    $.post(Routes.structure_indexable_card_favorite_path(
 		card.get('structure_slug'), card.get('slug'), { format: 'json' }
 	    ));
 	} else {
@@ -47,13 +46,36 @@ var User = Backbone.Model.extend({
 	}
 
 	var favorites = this.get('favorites');
-	if (_.includes(favorites, card.id)) {
-	    var index = _.indexOf(favorites, card.id);
-	    favorites.splice(index, 1);
-	} else {
-	    favorites.push(card.id);
-	}
+	favorites = _.uniq(favorites.push(card.id));
 	this.set('favorites', favorites);
+    },
+
+    removeFavorite: function removeFavorite (card) {
+	if (this.get('logged_in')) {
+	    $.ajax({
+		url: Routes.structure_indexable_card_favorite_path(
+		    card.get('structure_slug'), card.get('slug'), { format: 'json' }
+		),
+		type: 'DELETE'
+	    });
+	} else {
+	}
+
+	var favorites = _.uniq(this.get('favorites'));
+	var index = _.indexOf(favorites, card.id);
+
+	if (index != -1) { favorites.splice(index, 1); }
+
+	this.set('favorites', favorites);
+    },
+
+    toggleFavorite: function toggleFavorite (data) {
+	var card = data.card;
+	if (_.includes(this.get('favorites'), card.id)) {
+	    this.addFavorite(card);
+	} else {
+	    this.removeFavorite(card);
+	}
     },
 
     favorites: function favorites () {

@@ -588,15 +588,13 @@ CoursAvenue::Application.routes.draw do
       resources :courses               , only: [:index, :show]                              , controller: 'structures/courses'
       # Using a singular resource. (http://guides.rubyonrails.org/routing.html#singular-resources)
       resource  :community             , only: [:show]                                     , controller: 'structures/community'      , path: 'communaute' do
-        resources :message_threads, only: [:show, :index, :create, :update], controller: 'structures/community/message_threads'
+	resources :message_threads, only: [:show, :index, :create, :update], controller: 'structures/community/message_threads'
       end
       resources :indexable_cards       , only: [:show]                                      , controller: 'structures/indexable_cards', path: 'cours' do
-	member do
-	  post :toggle_favorite, path: 'favoris'
-	end
+	resource :favorite, only: [:create, :destroy], controller: 'structures/indexable_cards/favorite', path: 'favoris'
       end
       resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'       , path: 'avis' do
-        collection do
+	collection do
           get :create_from_email
         end
         member do
