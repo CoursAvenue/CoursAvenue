@@ -4,11 +4,11 @@
 
 @font-face {
   font-family: "CoursAvenueIconFont";
-  src: asset-url("CoursAvenueIconFont.eot");
-  src: asset-url("CoursAvenueIconFont.eot?#iefix") format("embedded-opentype"),
-       asset-url("CoursAvenueIconFont.woff") format("woff"),
-       asset-url("CoursAvenueIconFont.ttf") format("truetype"),
-       asset-data-url("CoursAvenueIconFont.svg") format("svg");
+  src: url("CoursAvenueIconFont.eot");
+  src: url("CoursAvenueIconFont.eot?#iefix") format("embedded-opentype"),
+       url("CoursAvenueIconFont.woff") format("woff"),
+       url("CoursAvenueIconFont.ttf") format("truetype"),
+       url("CoursAvenueIconFont.svg#CoursAvenueIconFont") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: "CoursAvenueIconFont";
-    src: asset-url("CoursAvenueIconFont.svg#CoursAvenueIconFont") format("svg");
+    src: url("CoursAvenueIconFont.svg#CoursAvenueIconFont") format("svg");
   }
 }
 
@@ -30,6 +30,7 @@
 .fa-bar-chart-o:before,
 .fa-bars:before,
 .fa-book:before,
+.fa-boy:before,
 .fa-bullhorn:before,
 .fa-calendar:before,
 .fa-camera:before,
@@ -63,6 +64,7 @@
 .fa-face-neutral:before,
 .fa-face-sad:before,
 .fa-facebook:before,
+.fa-family:before,
 .fa-flag:before,
 .fa-forbidden:before,
 .fa-gift:before,
@@ -139,6 +141,7 @@
 .fa-bar-chart-o:before { content: "\f102"; }
 .fa-bars:before { content: "\f103"; }
 .fa-book:before { content: "\f104"; }
+.fa-boy:before { content: "\f163"; }
 .fa-bullhorn:before { content: "\f105"; }
 .fa-calendar:before { content: "\f106"; }
 .fa-camera:before { content: "\f162"; }
@@ -172,6 +175,7 @@
 .fa-face-neutral:before { content: "\f120"; }
 .fa-face-sad:before { content: "\f121"; }
 .fa-facebook:before { content: "\f122"; }
+.fa-family:before { content: "\f168"; }
 .fa-flag:before { content: "\f123"; }
 .fa-forbidden:before { content: "\f124"; }
 .fa-gift:before { content: "\f125"; }
@@ -235,6 +239,7 @@ $font-CoursAvenueIconFont-avatar: "\f101";
 $font-CoursAvenueIconFont-bar-chart-o: "\f102";
 $font-CoursAvenueIconFont-bars: "\f103";
 $font-CoursAvenueIconFont-book: "\f104";
+$font-CoursAvenueIconFont-boy: "\f163";
 $font-CoursAvenueIconFont-bullhorn: "\f105";
 $font-CoursAvenueIconFont-calendar: "\f106";
 $font-CoursAvenueIconFont-camera: "\f162";
@@ -268,6 +273,7 @@ $font-CoursAvenueIconFont-face-happy: "\f11f";
 $font-CoursAvenueIconFont-face-neutral: "\f120";
 $font-CoursAvenueIconFont-face-sad: "\f121";
 $font-CoursAvenueIconFont-facebook: "\f122";
+$font-CoursAvenueIconFont-family: "\f168";
 $font-CoursAvenueIconFont-flag: "\f123";
 $font-CoursAvenueIconFont-forbidden: "\f124";
 $font-CoursAvenueIconFont-gift: "\f125";

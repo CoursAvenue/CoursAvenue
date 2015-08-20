@@ -30,11 +30,7 @@ var HelperModel = Backbone.Model.extend({
         } else {
             this.dismiss();
         }
-    },
-
-    strType: function strType () {
-        return (this.get('type') == 'astuce' ? 'Astuce' : 'Info');
-    },
+    }
 });
 
 var HelperCollection = Backbone.Collection.extend({
@@ -77,9 +73,11 @@ module.exports = new HelperCollection(
         {
             url:            Routes.guide_path('quelle-activite-pour-mon-enfant'),
             name:           'Quelle activité pour mon enfant ?',
+            title:          'C’est la rentrée ! ',
             type:           'info',
+            icon:           'family',
             cookie_key:     'info-guide-quelle-activite-pour-mon-enfant',
-            description:    'Vous cherchez un cours pour vos enfants ?',
+            description:    'Trouvez une activité pour vos enfants grâce à notre guide interactif.',
             call_to_action: 'Suivez le guide',
         }
     ]

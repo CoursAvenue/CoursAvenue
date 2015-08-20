@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "2f1b63ade508331c681cb2dce8b7e28b4b1df4f72e294f80bcb0fae801bfb431",
-    "current": "2f1b63ade508331c681cb2dce8b7e28b4b1df4f72e294f80bcb0fae801bfb431"
+    "previous": "4ad92f6bb7fe586e542a8923f96dd40cf607559dbd7b07b0db0bc90402344c7f",
+    "current": "4ad92f6bb7fe586e542a8923f96dd40cf607559dbd7b07b0db0bc90402344c7f"
   },
   "fonts": [
     "app/assets/fonts/CoursAvenueIconFont.ttf",
@@ -37,6 +37,10 @@
     "book": {
       "codepoint": 61700,
       "source": "app/assets/images/icons/svg/book.svg"
+    },
+    "boy": {
+      "codepoint": 61795,
+      "source": "app/assets/images/icons/svg/boy.svg"
     },
     "bullhorn": {
       "codepoint": 61701,
@@ -169,6 +173,10 @@
     "facebook": {
       "codepoint": 61730,
       "source": "app/assets/images/icons/svg/facebook.svg"
+    },
+    "family": {
+      "codepoint": 61800,
+      "source": "app/assets/images/icons/svg/family.svg"
     },
     "flag": {
       "codepoint": 61731,
@@ -393,6 +401,7 @@
   },
   "options": {
     "autowidth": false,
+    "base64": true,
     "config": "fontcustom.yml",
     "css_selector": ".fa-{{glyph}}",
     "debug": false,
@@ -414,7 +423,6 @@
     },
     "preprocessor_path": "",
     "quiet": false,
-    "skip_first": false,
     "templates": [
       "scss"
     ]

@@ -41,10 +41,10 @@ var HelpCard = React.createClass({
                             </a>
                         </div>
                         <div className='text--center mega soft--top'>
-                            <i className={ 'fa-card-' + helper.get('type') }></i>
+                            <i className={ 'fa-' + helper.get('icon') }></i>
                         </div>
                         <h4 className="flush text--center soft-half caps f-weight-bold">
-                            { helper.strType() }
+                            { helper.get('title') }
                         </h4>
                     </div>
 

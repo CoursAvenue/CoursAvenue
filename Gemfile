@@ -226,7 +226,7 @@ group :development do
   # Guard::Pow automatically manage Pow applications restart
   gem 'guard-pow', require: false
   # Removes useless logging in dev.
-  gem 'fontcustom'              , '~> 1.3.8'
+  gem 'fontcustom'              , '~> 1.3.8', github: 'nim1989/fontcustom'
   gem 'brakeman'                , '~> 2.3.1'
   gem 'rubocop'                 , '~> 0.18.1', require: false
 
