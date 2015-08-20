@@ -75,7 +75,7 @@ var SubjectAutocompleteFilter = React.createClass({
     },
 
     render: function render () {
-
+        var full_text_search;
         var height_class = 'search-page-filters__panel-height';
         var current_panel = this.state.filter_store.get('current_panel');
         var classes = cx('west search-page-filters-wrapper search-page-filters__subject-search-panel', {
@@ -85,6 +85,10 @@ var SubjectAutocompleteFilter = React.createClass({
         });
         var subjects = this.subjects();
         if ((this.props.fullscreen || window.is_mobile)) { height_class = 'height-100-percent'; }
+        full_text_search = "Tous les cours pour \"" + this.state.autocomplete_store.get('full_text_search') + "\"";
+        if (this.state.autocomplete_store.get('total_cards')) {
+          full_text_search += " (" + this.state.autocomplete_store.get('total_cards') + ")"
+        }
         return (
           <div className={classes}>
               <div className="text--left main-container main-container--1000">
@@ -98,7 +102,7 @@ var SubjectAutocompleteFilter = React.createClass({
                               <i className="fa fa-search white"></i>
                           </div>
                           <div className="flexbox__item v-middle white soft--sides">
-                              Tous les cours pour "{this.state.autocomplete_store.get('full_text_search')}" ({this.state.autocomplete_store.get('total_cards')})
+                              {full_text_search}
                           </div>
                           <div className="flexbox__item v-middle blue-green text--right soft-half--right">
                               <i className="fa fa-chevron-right"></i>

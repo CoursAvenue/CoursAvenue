@@ -12,7 +12,7 @@ var AutocompleteStore = Backbone.Model.extend({
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback', 'searchDone');
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
-        this.set({ selected_subject_index: 0 });
+        this.set('selected_subject_index', 0);
         this.select_highlighted_suggestion = false;
     },
 
@@ -21,21 +21,21 @@ var AutocompleteStore = Backbone.Model.extend({
         switch(payload.actionType) {
             case ActionTypes.CLEAR_AND_CLOSE_SUBJECT_INPUT_PANEL:
             case ActionTypes.SELECT_SUBJECT:
-                this.set({ full_text_search: '' });
+                this.set('full_text_search', '');
                 break;
             case ActionTypes.INIT_SEARCH_FULL_TEXT:
             case ActionTypes.SUBJECT_SEARCH_FULL_TEXT:
-                this.set({ full_text_search: payload.data });
-                this.searchSubjects();
+                this.set('full_text_search', payload.data, { silent: true });
+                this.searchResults();
                 break;
             case ActionTypes.FULL_TEXT_SELECT_SUGGESTION:
-                this.set({ selected_subject_index: payload.data });
+                this.set('selected_subject_index', payload.data);
                 break;
             case ActionTypes.FULL_TEXT_SELECT_NEXT_SUGGESTION:
-                this.set({ selected_subject_index: (this.get('selected_subject_index') + 1) });
+                this.set('selected_subject_index', this.get('selected_subject_index') + 1);
                 break;
             case ActionTypes.FULL_TEXT_SELECT_PREVIOUS_SUGGESTION:
-                this.set({ selected_subject_index: (this.get('selected_subject_index') - 1) });
+                this.set('selected_subject_index', this.get('selected_subject_index') - 1);
                 break;
             case ActionTypes.FULL_TEXT_SELECT_HIGHLIGHTED_SUGGESTION:
                 this.set({ select_highlighted_suggestion: true });
@@ -43,9 +43,9 @@ var AutocompleteStore = Backbone.Model.extend({
         }
     },
 
-    searchSubjects: function searchSubjects () {
+    searchResults: function searchResults () {
         var insideBoundingBox;
-        this.set({ selected_subject_index: 0 });
+        this.set('selected_subject_index', 0);
         if (LocationStore.get('bounds')) {
             insideBoundingBox = LocationStore.get('bounds').toString();
         }
