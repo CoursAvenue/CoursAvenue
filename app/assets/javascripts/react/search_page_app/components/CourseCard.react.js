@@ -66,7 +66,7 @@ CourseCard = React.createClass({
 
     toggleFavorite: function toggleFavorite (event) {
 	CardActionCreators.toggleFavorite({ card: this.props.card });
-	return false;
+	event.stopPropagation();
     },
 
     headerCard: function headerCard () {
