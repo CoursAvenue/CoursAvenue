@@ -37,21 +37,25 @@ var Question = React.createClass({
 
         return (
             <div className='section relative one-whole relative white full-screen-item bg-cover'>
-              <div className='black-curtain north west one-whole absolute'
-                       style={ { backgroundColor: this.props.question.get('color') } }>
-              </div>
-              <div className='relative'>
-                <h2 className='palm-gamma flush--bottom f-size-big text--center white soft'
-                        style={ { backgroundColor: this.props.question.get('color') } }>
-                  { this.props.question.get('content') }
-                </h2>
-                <div className='palm-block flexbox'>
-                    { first_line_answers }
+                <div className='black-curtain north west one-whole absolute'
+                         style={ { backgroundColor: this.props.question.get('color') } }>
                 </div>
-                <div className='palm-block flexbox'>
-                    { second_line_answers }
+                <div className='absolute north west one-whole text--center soft--top'>
+                    <i onClick={this.props.previous_page}
+                       className='fa-3x fa-chevron-up cursor-pointer'></i>
                 </div>
-              </div>
+                <div className='relative'>
+                    <h2 className='palm-gamma flush--bottom f-size-big text--center white soft'
+                            style={ { backgroundColor: this.props.question.get('color') } }>
+                      { this.props.question.get('content') }
+                    </h2>
+                    <div className='palm-block flexbox'>
+                        { first_line_answers }
+                    </div>
+                    <div className='palm-block flexbox'>
+                        { second_line_answers }
+                    </div>
+                </div>
             </div>
         );
     },
