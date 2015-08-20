@@ -375,7 +375,7 @@ class IndexableCard < ActiveRecord::Base
       favorite = user.favorites.create(indexable_card: self)
     end
 
-    favorite
+    favorite.present?
   end
 
   private
