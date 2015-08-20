@@ -26,12 +26,16 @@ class Structures::IndexableCardsController < ApplicationController
   # POST /favorite
   def toggle_favorite
     if current_user and @indexable_card.present?
+      id = @indexable_card.id
       faved = @indexable_card.toggle_favorite!(current_user)
+    else
+      id = nil
+      faved = false
     end
 
     respond_to do |format|
       format.html { redirect_to structure_indexable_card_path }
-      format.json { render json: { id: @indexable_card.id, favorited: faved }, status: :ok  }
+      format.json { render json: { id: id, favorited: faved }, status: :ok  }
     end
   end
 
