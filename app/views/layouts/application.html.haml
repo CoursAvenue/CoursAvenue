@@ -97,9 +97,3 @@
     - if on_pro_subdomain?
       = intercom_script_tag
     = render 'layouts/typekit'
-    :javascript
-      console.log(#{request.location.coordinates});
-      console.log("#{request.location.city}");
-    :javascript
-      console.log(#{request.safe_location.coordinates});
-      console.log("#{request.safe_location.city}");
