@@ -1,6 +1,6 @@
-- if @course.image
+- if @course.media
   = content_for :meta_image do
-    = @course.image.url
+    = @course.media.image.try(:url)
 - elsif @structure.medias.count > 0
   = content_for :meta_image do
     = @structure.medias.cover_first.videos_first.image.try(:url)
