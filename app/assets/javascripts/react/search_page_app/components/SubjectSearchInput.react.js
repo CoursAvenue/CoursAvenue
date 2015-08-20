@@ -59,8 +59,7 @@ var SubjectSearchInput = React.createClass({
     handleKeyUp: function handleKeyUp (event) {
         // If hitting escape OF there is no val
         if ($(event.currentTarget).val().length == 0 || event.keyCode == 27) {
-            this.executeSearchFullText();
-            FilterActionCreators.closeFilterPanel();
+            FilterActionCreators.clearFullTextAndCloseSearchInputPanel();
         // If hitting enter
         } else if (event.keyCode == 13) {
             if (this.state.autocomplete_store.get('selected_subject_index') == 0) {
