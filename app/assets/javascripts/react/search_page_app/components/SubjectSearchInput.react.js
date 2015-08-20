@@ -1,5 +1,5 @@
 var SubjectStore             = require('../stores/SubjectStore'),
-    SubjectAutocompleteStore = require('../stores/SubjectAutocompleteStore'),
+    AutocompleteStore        = require('../stores/AutocompleteStore'),
     FilterStore              = require('../stores/FilterStore'),
     SearchPageDispatcher     = require('../dispatcher/SearchPageDispatcher'),
     SubjectActionCreators    = require('../actions/SubjectActionCreators'),
@@ -16,9 +16,9 @@ var SubjectSearchInput = React.createClass({
 
     getInitialState: function getInitialState() {
         return {
-            subject_store             : SubjectStore,
-            subject_autocomplete_store: SubjectAutocompleteStore,
-            filter_store              :  FilterStore
+            subject_store     : SubjectStore,
+            autocomplete_store: AutocompleteStore,
+            filter_store      : FilterStore
         }
     },
 
@@ -37,7 +37,7 @@ var SubjectSearchInput = React.createClass({
     },
 
     selectSubject: function selectSubject (subject) {
-        var subject = this.state.subject_autocomplete_store.at(this.state.subject_autocomplete_store.selected_index - 1);
+        var subject = this.state.autocomplete_store.get('subjects').at(this.state.autocomplete_store.get('selected_subject_index') - 1);
         if (this.props.navigate) {
             window.location = Routes.search_page_path(subject.get('root'), subject.get('slug'), 'paris');
         } else {
@@ -47,12 +47,12 @@ var SubjectSearchInput = React.createClass({
     executeSearchFullText: function executeSearchFullText () {
         if (this.props.navigate) {
             if (event.metaKey || event.ctrlKey) {
-              window.open(Routes.root_search_page_without_subject_path('paris', { discipline: this.state.subject_autocomplete_store.full_text_search }));
+              window.open(Routes.root_search_page_without_subject_path('paris', { discipline: this.state.autocomplete_store.get('full_text_search') }));
             } else {
-              window.location = Routes.root_search_page_without_subject_path('paris', { discipline: this.state.subject_autocomplete_store.full_text_search });
+              window.location = Routes.root_search_page_without_subject_path('paris', { discipline: this.state.autocomplete_store.get('full_text_search') });
             }
         } else {
-            FilterActionCreators.searchFullText(this.state.subject_autocomplete_store.full_text_search);
+            FilterActionCreators.searchFullText(this.state.autocomplete_store.get('full_text_search'));
         }
     },
 
@@ -63,7 +63,7 @@ var SubjectSearchInput = React.createClass({
             FilterActionCreators.closeFilterPanel();
         // If hitting enter
         } else if (event.keyCode == 13) {
-            if (this.state.subject_autocomplete_store.selected_index == 0) {
+            if (this.state.autocomplete_store.get('selected_subject_index') == 0) {
                 this.executeSearchFullText();
                 FilterActionCreators.closeFilterPanel();
             } else {

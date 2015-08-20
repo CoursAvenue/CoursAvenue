@@ -508,6 +508,10 @@ $map-height   : 480px;
             line-height  : 2em;
             @include border-radius(2px);
             &:last-child { margin-bottom: 3em; } // Needed for the scroll to not be hidden
+            em {
+                font-style      : normal;
+                background-color: $blue-green;
+            }
             > .flexbox__item:first-child, > .flexbox__item:last-child {
                 width: 80px;
             }

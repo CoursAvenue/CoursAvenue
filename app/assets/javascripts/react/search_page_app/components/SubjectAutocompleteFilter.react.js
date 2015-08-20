@@ -3,21 +3,21 @@ var FilterActionCreators     = require('../actions/FilterActionCreators'),
     FilterPanelConstants     = require('../constants/FilterPanelConstants'),
     FilterStore              = require('../stores/FilterStore'),
     LocationStore            = require('../stores/LocationStore'),
-    SubjectAutocompleteStore = require('../stores/SubjectAutocompleteStore'),
+    AutocompleteStore        = require('../stores/AutocompleteStore'),
     FluxBoneMixin            = require("../../mixins/FluxBoneMixin"),
     cx                       = require('classnames/dedupe');
 
 var SubjectAutocompleteFilter = React.createClass({
 
     mixins: [
-        FluxBoneMixin(['subject_autocomplete_store', 'filter_store', 'location_store']),
+        FluxBoneMixin(['autocomplete_store', 'filter_store', 'location_store']),
     ],
 
     getInitialState: function getInitialState () {
         return {
-            subject_autocomplete_store: SubjectAutocompleteStore,
-            filter_store              : FilterStore,
-            location_store            : LocationStore
+            autocomplete_store: AutocompleteStore,
+            filter_store      : FilterStore,
+            location_store    : LocationStore
         };
     },
 
@@ -28,17 +28,18 @@ var SubjectAutocompleteFilter = React.createClass({
     },
 
     subjects: function subjects () {
-        return this.state.subject_autocomplete_store.map(function(subject, index) {
+        if (!this.state.autocomplete_store.get('subjects')) { return; }
+        return this.state.autocomplete_store.get('subjects').map(function(subject, index) {
             return (<div className={cx("flexbox search-page__input-suggestion flexbox search-page__input-suggestion--bordered", {
-                                      'search-page__input-suggestion--active': this.state.subject_autocomplete_store.selected_index == (index + 1)
+                                      'search-page__input-suggestion--active': this.state.autocomplete_store.get('selected_subject_index') == (index + 1)
                                     })}
                          onMouseOver={this.hoverResult(index + 1)}
                          onClick={this.selectSubject}>
                         <div className="flexbox__item visuallyhidden--palm v-middle">
                             <img className="block" height="45" width="80" src={subject.get('small_image_url')} />
                         </div>
-                        <div className="flexbox__item v-middle white soft--sides">
-                            {subject.get('name')}
+                        <div className="flexbox__item v-middle white soft--sides"
+                            dangerouslySetInnerHTML={{__html: subject.get('_highlightResult').name.value }}>
                         </div>
                         <div className="flexbox__item v-middle blue-green text--right soft-half--right">
                             <i className="fa fa-chevron-right"></i>
@@ -48,7 +49,7 @@ var SubjectAutocompleteFilter = React.createClass({
     },
 
     selectSubject: function selectSubject (subject) {
-        var subject = this.state.subject_autocomplete_store.at(this.state.subject_autocomplete_store.selected_index - 1);
+        var subject = this.state.autocomplete_store.get('subjects').at(this.state.autocomplete_store.get('selected_subject_index') - 1);
         if (this.props.navigate) {
             if (event.metaKey || event.ctrlKey) {
               window.open(Routes.search_page_path(subject.get('root'), subject.get('slug'), 'paris'));
@@ -63,11 +64,12 @@ var SubjectAutocompleteFilter = React.createClass({
     searchFullText: function searchFullText (event) {
         if (this.props.navigate) {
             if (event.metaKey || event.ctrlKey) {
-              window.open(Routes.root_search_page_without_subject_path('paris', { discipline: this.state.subject_autocomplete_store.full_text_search }));
+              window.open(Routes.root_search_page_without_subject_path('paris', { discipline: this.state.autocomplete_store.get('full_text_search') }));
             } else {
-              window.location = Routes.root_search_page_without_subject_path('paris', { discipline: this.state.subject_autocomplete_store.full_text_search });
+              window.location = Routes.root_search_page_without_subject_path('paris', { discipline: this.state.autocomplete_store.get('full_text_search') });
             }
         } else {
+            FilterActionCreators.searchFullText(this.state.autocomplete_store.get('full_text_search'));
             FilterActionCreators.closeSearchInputPanel();
         }
     },
@@ -88,7 +90,7 @@ var SubjectAutocompleteFilter = React.createClass({
               <div className="text--left main-container main-container--1000">
                   <div className={"v-middle input-with-button " + height_class}>
                       <div className={cx("flexbox search-page__input-suggestion search-page__input-suggestion--bordered", {
-                                          'search-page__input-suggestion--active': this.state.subject_autocomplete_store.selected_index == 0
+                                          'search-page__input-suggestion--active': this.state.autocomplete_store.get('selected_subject_index') == 0
                                         })}
                            onMouseOver={this.hoverResult(0)}
                            onClick={this.searchFullText}>
@@ -96,7 +98,7 @@ var SubjectAutocompleteFilter = React.createClass({
                               <i className="fa fa-search white"></i>
                           </div>
                           <div className="flexbox__item v-middle white soft--sides">
-                              Tous les cours pour "{this.state.subject_autocomplete_store.full_text_search}"
+                              Tous les cours pour "{this.state.autocomplete_store.get('full_text_search')}" ({this.state.autocomplete_store.get('total_cards')})
                           </div>
                           <div className="flexbox__item v-middle blue-green text--right soft-half--right">
                               <i className="fa fa-chevron-right"></i>

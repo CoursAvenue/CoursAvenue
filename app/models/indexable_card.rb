@@ -25,7 +25,14 @@ class IndexableCard < ActiveRecord::Base
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
-    attributesToIndex %w(course_name subjects.name structure_name)
+    attributesToIndex ['course_name' 'unordered(subjects.name)' 'structure_name',
+                       'unordered(audiences_fr)' 'unordered(levels_fr)',
+                       'unordered(metro_stops_fr)', 'teaches_at_home', 'city_name',
+                       'city_zip_code', 'unordered(planning_periods_fr)',
+                       'place_name']
+    ignorePlurals true
+    removeWordsIfNoResults 'allOptional'
+
     attributesForFaceting %w(subjects.name root_subject subjects.slug planning_periods
                              structure_slug audiences subjects.slug_name levels card_type
                              metro_stops metro_lines active)
@@ -33,7 +40,14 @@ class IndexableCard < ActiveRecord::Base
     add_slave 'IndexableCard_by_popularity_desc', per_environment: true do
       customRanking ['desc(popularity)']
       ranking ['typo', 'custom', 'geo', 'words', 'proximity', 'attribute', 'exact']
-      attributesToIndex %w(course_name subjects.name structure_name)
+      attributesToIndex ['course_name' 'unordered(subjects.name)' 'structure_name',
+                         'unordered(audiences_fr)' 'unordered(levels_fr)',
+                         'unordered(metro_stops_fr)', 'teaches_at_home', 'city_name',
+                         'city_zip_code', 'unordered(planning_periods_fr)',
+                         'place_name']
+      ignorePlurals true
+      removeWordsIfNoResults 'allOptional'
+
       attributesForFaceting %w(subjects.name root_subject subjects.slug planning_periods
                                structure_slug audiences subjects.slug_name levels card_type
                                metro_stops metro_lines active)
@@ -42,8 +56,22 @@ class IndexableCard < ActiveRecord::Base
 
     attribute :id, :slug
 
+    add_attribute :teaches_at_home do
+      if course and course.try(:teaches_at_home?)
+        'À domicile'
+      end
+    end
+
     add_attribute :city_slug do
       self.place.try(:city).try(:slug)
+    end
+
+    add_attribute :city_name do
+      self.place.try(:city).try(:name)
+    end
+
+    add_attribute :city_zip_code do
+      self.place.try(:city).try(:zip_code)
     end
 
     add_attribute :active do
@@ -150,13 +178,22 @@ class IndexableCard < ActiveRecord::Base
 
     attribute :identity
     attribute :planning_periods
+    attribute :planning_periods_fr
 
     add_attribute :audiences do
       self.course_audiences.map(&:name) if self.course_audiences
     end
 
+    add_attribute :audiences_fr do
+      self.course_audiences.map{|a| I18n.t(a.name) } if self.course_audiences
+    end
+
     add_attribute :levels do
       self.course_levels.map(&:name) if self.course_levels
+    end
+
+    add_attribute :levels_fr do
+      self.course_levels.map{|l| I18n.t(l.name) } if self.course_levels
     end
 
     attribute :card_type
@@ -181,6 +218,10 @@ class IndexableCard < ActiveRecord::Base
 
     add_attribute :metro_stops do
       place.nearby_metro_stops.map(&:slug) if place.present?
+    end
+
+    add_attribute :metro_stops_fr do
+      place.nearby_metro_stops.map(&:name) if place.present?
     end
 
     add_attribute :metro_lines do
@@ -335,6 +376,23 @@ class IndexableCard < ActiveRecord::Base
       next if planning.week_day.nil? or Date::DAYNAMES[planning.week_day].nil?
       course_day = Date::DAYNAMES[planning.week_day].downcase
       periods += planning.periods.map { |period| "#{course_day}-#{period}" }
+    end
+
+    periods.uniq
+  end
+
+  # @return an array of string.
+  def planning_periods_fr
+    return [] if plannings.empty? or course.nil?
+
+    periods = []
+    course.plannings.each do |planning|
+      next if planning.week_day.nil? or Date::DAYNAMES[planning.week_day].nil?
+      course_day = I18n.t('date.day_names')[planning.week_day]
+      periods += planning.periods.map do |period|
+        period = I18n.t("date.periods.#{period}")
+        "#{course_day} #{period}"
+      end
     end
 
     periods.uniq
