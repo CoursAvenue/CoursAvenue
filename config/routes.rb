@@ -591,9 +591,7 @@ CoursAvenue::Application.routes.draw do
         resources :message_threads, only: [:show, :index, :create, :update], controller: 'structures/community/message_threads'
       end
       resources :indexable_cards       , only: [:show]                                      , controller: 'structures/indexable_cards', path: 'cours' do
-        member do
-          post :toggle_favorite, path: 'favoris'
-        end
+        resource :favorite, only: [:create, :destroy], controller: 'structures/indexable_cards/favorite', path: 'favoris'
       end
       resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'       , path: 'avis' do
         collection do

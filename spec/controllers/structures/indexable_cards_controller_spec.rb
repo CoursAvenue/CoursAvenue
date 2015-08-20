@@ -15,9 +15,6 @@ describe Structures::IndexableCardsController do
     end
 
     context 'when the user is connected' do
-      let(:user) { FactoryGirl.create(:user) }
-      let(:card) { FactoryGirl.create(:indexable_card) }
-
       before { sign_in user }
 
       it 'toggles the favorite' do
