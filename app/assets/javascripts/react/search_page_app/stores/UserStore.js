@@ -53,8 +53,8 @@ var User = Backbone.Model.extend({
             // Show connection alert or something.
         }
 
-        var favorites = this.get('favorites');
-        favorites = _.uniq(favorites.push(card.id));
+        var favorites = this.get('favorites') || [];
+        favorites.push(card.id);
         this.set('favorites', favorites);
     },
 
@@ -80,9 +80,9 @@ var User = Backbone.Model.extend({
     toggleFavorite: function toggleFavorite (data) {
         var card = data.card;
         if (_.includes(this.get('favorites'), card.id)) {
-            this.addFavorite(card);
-        } else {
             this.removeFavorite(card);
+        } else {
+            this.addFavorite(card);
         }
     },
 
