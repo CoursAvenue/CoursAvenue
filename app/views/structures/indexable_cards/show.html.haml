@@ -1,3 +1,13 @@
+- if @course.image
+  = content_for :meta_image do
+    = @course.image.url
+- elsif @structure.medias.count > 0
+  = content_for :meta_image do
+    = @structure.medias.cover_first.videos_first.image.try(:url)
+- elsif @structure.logo.present?
+  = content_for :meta_image do
+    = @structure.logo.url
+
 - dominant_root_subject_slug = @course.dominant_root_subject.try(:slug)
 
 = content_for :title do
