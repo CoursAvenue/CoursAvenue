@@ -163,6 +163,7 @@
         @include transition(all 250ms cubic-bezier(0.15, 1.01, 0.65, 0.85));
     }
     .search-page-card__course-title--sleeping { color: #777777; }
+    .search-page-card__content .search-page-card__subjects-wrapper { height: 48px; }
     .search-page-card__subjects-wrapper {
         overflow     : hidden;
         max-height   : 48px;
