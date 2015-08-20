@@ -9,6 +9,25 @@ module.exports = {
     /*
      * @params data [{ depth: 0 }] Array of key value
      */
+    searchAutocomplete: function searchAutocomplete (full_text_search, callback, insideBoundingBox) {
+        full_text_search = full_text_search || '';
+        var queries = [{
+            indexName: 'Subject_' + ENV.SERVER_ENVIRONMENT,
+            query: full_text_search,
+            params: { hitsPerPage: 15, facets: '*', numericFilters: 'depth>0' }
+        }, {
+            indexName: 'IndexableCard_' + ENV.SERVER_ENVIRONMENT,
+            query: full_text_search,
+            params: _.extend({ hitsPerPage: 10, facets: '*'},
+                             (insideBoundingBox ? { insideBoundingBox: insideBoundingBox} : { aroundLatLngViaIP: true }))
+        }];
+        client.search(queries, callback);
+        // return subject_index.search(full_text_search, data);
+    },
+
+    /*
+     * @params data [{ depth: 0 }] Array of key value
+     */
     searchSubjects: function searchSubjects (data, full_text_search) {
         full_text_search = full_text_search || '';
         return subject_index.search(full_text_search, data);

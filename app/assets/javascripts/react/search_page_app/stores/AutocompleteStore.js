@@ -1,18 +1,18 @@
 var _                    = require('lodash'),
     Backbone             = require('backbone'),
     AlgoliaSearchUtils   = require('../utils/AlgoliaSearchUtils'),
+    LocationStore        = require('./LocationStore'),
     FilterStore          = require('./FilterStore'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants'),
     ActionTypes          = SearchPageConstants.ActionTypes;
 
-var SubjectAutocompleteStore = Backbone.Collection.extend({
-    model: Backbone.Model.extend({}),
+var AutocompleteStore = Backbone.Model.extend({
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback');
+        _.bindAll(this, 'dispatchCallback', 'searchDone');
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
-        this.selected_index = 0;
+        this.set('selected_subject_index', 0);
         this.select_highlighted_suggestion = false;
     },
 
@@ -21,48 +21,51 @@ var SubjectAutocompleteStore = Backbone.Collection.extend({
         switch(payload.actionType) {
             case ActionTypes.CLEAR_AND_CLOSE_SUBJECT_INPUT_PANEL:
             case ActionTypes.SELECT_SUBJECT:
-                this.full_text_search = '';
-                this.trigger('change');
+                this.set('full_text_search', '');
                 break;
             case ActionTypes.INIT_SEARCH_FULL_TEXT:
             case ActionTypes.SUBJECT_SEARCH_FULL_TEXT:
-                this.full_text_search = payload.data;
-                this.searchSubjects();
+                this.set('full_text_search', payload.data, { silent: true });
+                this.searchResults();
                 break;
             case ActionTypes.FULL_TEXT_SELECT_SUGGESTION:
-                this.selected_index = payload.data
-                this.trigger('change');
+                this.set('selected_subject_index', payload.data);
                 break;
             case ActionTypes.FULL_TEXT_SELECT_NEXT_SUGGESTION:
-                this.selected_index = this.selected_index + 1;
-                this.trigger('change');
+                this.set('selected_subject_index', this.get('selected_subject_index') + 1);
                 break;
             case ActionTypes.FULL_TEXT_SELECT_PREVIOUS_SUGGESTION:
-                this.selected_index = this.selected_index - 1;
-                this.trigger('change');
+                this.set('selected_subject_index', this.get('selected_subject_index') - 1);
                 break;
             case ActionTypes.FULL_TEXT_SELECT_HIGHLIGHTED_SUGGESTION:
-                this.select_highlighted_suggestion = true;
-                this.trigger('change');
+                this.set({ select_highlighted_suggestion: true });
                 break;
         }
     },
 
-    searchSubjects: function searchSubjects () {
-        if (this.full_text_search.length < 2) { return ; }
-        this.selected_index = 0;
+    searchResults: function searchResults () {
+        var insideBoundingBox;
+        this.set('selected_subject_index', 0);
+        if (LocationStore.get('bounds')) {
+            insideBoundingBox = LocationStore.get('bounds').toString();
+        }
+        AlgoliaSearchUtils.searchAutocomplete(this.get('full_text_search'), this.searchDone, insideBoundingBox);
+    },
 
-        var data = { hitsPerPage: 15, facets: '*', numericFilters: 'depth>0' }
-        AlgoliaSearchUtils.searchSubjects(data, this.full_text_search).then(function(content){
-            this.reset(content.hits);
-            this.trigger('change');
-        }.bind(this)).catch(function(error) {
+    searchDone: function searchDone (err, content) {
+        if (err) {
             this.error   = true;
             this.trigger('change');
-        }.bind(this));
+            return;
+        }
+        var subjects = content.results[0];
+        var cards    = content.results[1];
+        this.set('total_cards', cards.nbHits);
+        this.set('subjects', new Backbone.Collection(subjects.hits));
+        this.trigger('change');
     }.debounce(250),
 
 });
 
 // the Store is an instantiated Collection; a singleton.
-module.exports = new SubjectAutocompleteStore();
+module.exports = new AutocompleteStore();

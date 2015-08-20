@@ -1,7 +1,7 @@
 class IndexableCardSerializer < ActiveModel::Serializer
 
-  # cached
-  # delegate :cache_key, to: :object
+  cached
+  delegate :cache_key, to: :object
 
   attributes :id, :structure_is_active, :db_type, :teaches_at_home,
               :on_appointment, :frequency, :cant_be_joined_during_year,
@@ -10,7 +10,7 @@ class IndexableCardSerializer < ActiveModel::Serializer
   has_many :plannings, serializer: PlanningSerializer
 
   def plannings
-    object.plannings.visible.future.ordered_by_day
+    object.plannings.future.ordered_by_day
   end
 
   def min_price

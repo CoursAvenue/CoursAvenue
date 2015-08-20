@@ -24,7 +24,7 @@
     .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
       .push--bottom.bg-white.bordered.soft--ends
         .soft--sides
-          .grid.push--bottom
+          .grid
             .grid__item.v-top.one-fifth.text--center.palm-one-whole>
               - if @structure.logo.present?
                 = image_tag @structure.logo.url(:small_thumb_100), height: 100, width: 100, data: { src2x: @structure.logo.url(:thumb) }, class: 'rounded--circle'
@@ -35,7 +35,7 @@
               %h1.flush= @structure.name
               .delta.f-weight-500.push-half--bottom.gray= @structure_decorator.structure_type
 
-              = react_component('SubjectList', { classes: 'text--left', follow_links: true, colored: true, subject_list: ActiveModel::ArraySerializer.new(@structure.subjects.at_depth(2).uniq, each_serializer: SubjectListSerializer) })
+              = react_component('SubjectList', { classes: 'search-page-card__subjects-wrapper text--left', follow_links: true, colored: true, subject_list: ActiveModel::ArraySerializer.new(@structure.subjects.at_depth(2).uniq, each_serializer: SubjectListSerializer) })
 
           - if @structure.description.present?
             .push--bottom

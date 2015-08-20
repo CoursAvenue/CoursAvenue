@@ -19,7 +19,7 @@
 
     .grid__item.four-twelfths.palm-one-whole>
       %div{ data: { behavior: 'sticky', old_width: 'true', offset_top: '39' } }
-        = react_component('Map', { markers: @structure.places.map(&:to_react_json) } )
+        = react_component('Map', { markers: @structure.places.includes(:city).map(&:to_react_json) } )
         .bg-white.soft--ends.bordered--sides.bordered--bottom
           .soft--sides
             %h3.push-half--top= 'Adresse'.pluralize(@structure.places.length)

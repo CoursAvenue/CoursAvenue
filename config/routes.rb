@@ -594,7 +594,7 @@ CoursAvenue::Application.routes.draw do
         resource :favorite, only: [:create, :destroy], controller: 'structures/indexable_cards/favorite', path: 'favoris'
       end
       resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'       , path: 'avis' do
-        collection do
+	collection do
           get :create_from_email
         end
         member do

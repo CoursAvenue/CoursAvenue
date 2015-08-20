@@ -45,6 +45,10 @@ var UserGuide = React.createClass({
         SubjectActionCreators.populateSubjects(this.props.subjects);
     },
 
+    previousPage: function previousPage () {
+        $.fn.fullpage.moveSectionUp();
+    },
+
     nextPage: function nextPage () {
         mixpanel.track("Guide " + this.props.guide.id  + " | Q " + this.current_page);
         this.current_page = this.current_page + 1;
@@ -63,6 +67,7 @@ var UserGuide = React.createClass({
             return (
                 <Question question={ question }
                          next_page={ this.nextPage }
+                     previous_page={ this.previousPage }
                              index={ index }
                              image={ this.props.guide.image }
                                key={ index } />
@@ -72,6 +77,7 @@ var UserGuide = React.createClass({
         if (this.props.guide.age_dependant) {
             questions.push(
                 <AgeQuestion next_page={ this.nextPage }
+                         previous_page={ this.previousPage }
                                  image={ this.props.guide.image }
                                    key={ questions.length } />
             );

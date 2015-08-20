@@ -96,7 +96,7 @@ gem 'paperclip'                 , '~> 4.2.1'
 gem 'ancestry'                  , '~> 2.1.0'
 
 # Helper methods for geolocations
-gem 'geocoder'                  , '~> 1.2.7'
+gem 'geocoder'                  , '~> 1.2.9'
 # To have model serializers apart from models
 gem 'active_model_serializers'  , '0.8.3'
 
@@ -226,7 +226,7 @@ group :development do
   # Guard::Pow automatically manage Pow applications restart
   gem 'guard-pow', require: false
   # Removes useless logging in dev.
-  gem 'fontcustom'              , '~> 1.3.8'
+  gem 'fontcustom'              , '~> 1.3.8', github: 'nim1989/fontcustom'
   gem 'brakeman'                , '~> 2.3.1'
   gem 'rubocop'                 , '~> 0.18.1', require: false
 

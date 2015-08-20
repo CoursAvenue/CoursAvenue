@@ -12,6 +12,6 @@
           .p.hard--bottom
             %strong= link_to truncate(structure.name, length: 25), structure_url(structure, subdomain: 'www'), class: 'muted-link'
             %br
-            = structure.city.name
+            = structure.city.try(:name)
             %br
             %i= truncate(join_parent_subjects_text(structure), length: 100)

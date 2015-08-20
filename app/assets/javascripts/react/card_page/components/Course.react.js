@@ -53,8 +53,10 @@ var Course = React.createClass({
                     break;
             }
             if (this.props.show_course_info) {
-                course_header = (<CourseHeader course_id={this.props.course_id || this.props.indexable_card_id} />);
-                course_footer = (<CourseFooter course_id={this.props.course_id || this.props.indexable_card_id} />);
+                course_header = (<CourseHeader key={this.props.course_id + 'header'}
+                                               course_id={this.props.course_id || this.props.indexable_card_id} />);
+                course_footer = (<CourseFooter key={this.props.course_id + 'footer'}
+                                               course_id={this.props.course_id || this.props.indexable_card_id} />);
             }
         } else {
             spinner = (<div className="spinner">

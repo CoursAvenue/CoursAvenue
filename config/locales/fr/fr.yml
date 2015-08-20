@@ -36,6 +36,11 @@ fr:
   'yes': Oui
   'no': Non
   date:
+    periods:
+      morning: Matin
+      noon: Midi
+      afternoon: Après-midi
+      evening: Soir
     formats:
       default: "%d/%m/%Y"         # => 24/02/2015
       short: "%d %b"              # => 24 fév.

@@ -85,8 +85,8 @@ var Lesson = React.createClass({
                             <th className={"soft--left " + (this.props.show_location ? 'three-tenths' : '')}>
                                 Jour & heure
                             </th>
-                            <th className="three-tenths">Niveau</th>
-                            <th className="two-tenths">Public</th>
+                            <th className={(this.props.show_location ? 'two-tenths' : '')}>Niveau</th>
+                            <th className={(this.props.show_location ? 'two-tenths' : '')}>Public</th>
                             { location_th }
                             <th style={{ width: '8em' }}
                                 className={ course.get('structure_is_active') ? '' : 'hidden'}></th>
