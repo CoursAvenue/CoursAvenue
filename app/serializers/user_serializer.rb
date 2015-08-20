@@ -5,10 +5,15 @@ class UserSerializer < ActiveModel::Serializer
   delegate :cache_key, to: :object
 
   attributes :id, :email, :name, :first_name, :last_name, :avatar_url, :slug,
-             :favorite_structure_ids, :last_messages_sent, :created_at, :gender, :phone_number
+             :favorite_structure_ids, :last_messages_sent, :created_at, :gender, :phone_number,
+             :favorite_card_ids
 
   def favorite_structure_ids
     object.favorites.pluck(:structure_id).compact
+  end
+
+  def favorite_card_ids
+    object.favorites.pluck(:indexable_card_id).compact
   end
 
   def last_messages_sent
