@@ -4,12 +4,20 @@ var SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
 var ActionTypes = SearchPageConstants.ActionTypes;
 
 var HelperModel = Backbone.Model.extend({
+    defaults: function defaults () {
+        return { dismissed: false };
+    },
+
     initialize: function initialize () {
         _.bindAll(this, 'hasBeenDismissed', 'dismiss', 'toggleDismiss');
     },
 
+    softDismiss: function softDismiss () {
+        this.dissmissed = true;
+    },
+
     hasBeenDismissed: function hasBeenDismissed () {
-        return ($.cookie(this.get('cookie_key')) == "true");
+        return ($.cookie(this.get('cookie_key')) == "true" || this.dissmissed);
     },
 
     dismiss: function dismiss () {
@@ -56,7 +64,7 @@ var HelperCollection = Backbone.Collection.extend({
     },
 
     dismiss: function dismiss (helper) {
-        helper.dismiss();
+        helper.softDismiss();
     },
 
     toggleDismiss: function toggleDismiss (helper) {
