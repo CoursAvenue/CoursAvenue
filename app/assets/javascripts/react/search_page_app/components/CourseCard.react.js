@@ -10,11 +10,11 @@ var SubjectList        = require('./cards/SubjectList.react'),
 CourseCard = React.createClass({
 
     mixins: [
-	FluxBoneMixin('user_store')
+    FluxBoneMixin('user_store')
     ],
 
     getInitialState: function getInitialState() {
-	return { user_store: UserStore };
+    return { user_store: UserStore };
     },
 
     componentDidMount: function componentDidMount () {
@@ -75,8 +75,8 @@ CourseCard = React.createClass({
     },
 
     toggleFavorite: function toggleFavorite (event) {
-	CardActionCreators.toggleFavorite({ card: this.props.card });
-	event.stopPropagation();
+    CardActionCreators.toggleFavorite({ card: this.props.card });
+    event.stopPropagation();
     },
 
     headerCard: function headerCard () {
@@ -89,19 +89,19 @@ CourseCard = React.createClass({
             }
             starting_price_class = (this.props.card.get('starting_price') == 0 ? 'search-page-card__price--free' : '')
             price = (<div className={'search-page-card__price ' + starting_price_class}>{starting_price}</div>);
-	    var favorite_class = 'fa ' + ( this.props.card.get('favorite') ?  'fa-heart' : 'fa-heart-o');
+        var favorite_class = 'fa-2x fa ' + ( this.props.card.get('favorite') ?  'fa-heart' : 'fa-heart-o');
             return (<div>
                         <div className="search-page-card__content-top">
                             <div className="relative">
-				{price}
-				{this.headerImage()}
-				<div className='search-page-card__favorite north east absolute'>
-				    <a href='javascript:void(0)' onClick={ this.toggleFavorite } className='white delta cursor-pointer'>
-					<i className={ favorite_class }></i>
-				    </a>
-				</div>
-			    </div>
-			    {this.headerLogo()}
+                {price}
+                {this.headerImage()}
+                <div className='search-page-card__favorite north east absolute'>
+                    <a href='javascript:void(0)' onClick={ this.toggleFavorite } className='heart-link white cursor-pointer'>
+                      <i className={ favorite_class }></i>
+                    </a>
+                </div>
+                </div>
+                {this.headerLogo()}
                             <div className="search-page-card__structure-name soft-half--sides gray">
                                 <a href={Routes.structure_path(this.props.card.get('structure_slug'))}
                                    target="_blank"
@@ -170,7 +170,7 @@ CourseCard = React.createClass({
     // A card should only be updated if the favorite is being toggled.
     // We test if the attribute is present and not its value because its value can be false.
     shouldComponentUpdate: function shouldComponentUpdate () {
-	return (!_.isUndefined(this.props.card.changedAttributes().favorite))
+    return (!_.isUndefined(this.props.card.changedAttributes().favorite))
     },
 
     render: function render () {
