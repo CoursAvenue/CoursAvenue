@@ -96,7 +96,7 @@ gem 'paperclip'                 , '~> 4.2.1'
 gem 'ancestry'                  , '~> 2.1.0'
 
 # Helper methods for geolocations
-gem 'geocoder'                  , '~> 1.2.7'
+gem 'geocoder'                  , '~> 1.2.9'
 # To have model serializers apart from models
 gem 'active_model_serializers'  , '0.8.3'
 

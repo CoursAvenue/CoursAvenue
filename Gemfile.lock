@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/nim1989/fontcustom.git
-  revision: 492d6722d36dc248bcb0d5acf88f23e0beaa696b
+  revision: a5e5846b428bf0f07c55ab77191fd1ed37f4519e
   specs:
     fontcustom (1.3.8)
       json (~> 1.4)
@@ -378,7 +378,7 @@ GEM
     friendly_id (5.1.0)
       activerecord (>= 4.0.0)
     fspath (2.1.1)
-    geocoder (1.2.8)
+    geocoder (1.2.9)
     gibbon (1.1.5)
       httparty
       multi_json (>= 1.9.0)
@@ -887,7 +887,7 @@ DEPENDENCIES
   font-awesome-rails (~> 4.3.0.0)
   fontcustom (~> 1.3.8)!
   friendly_id (~> 5.1.0)
-  geocoder (~> 1.2.7)
+  geocoder (~> 1.2.9)
   gibbon (~> 1.1.5)
   google-api-client (~> 0.8.2)
   griddler (~> 1.1.0)
