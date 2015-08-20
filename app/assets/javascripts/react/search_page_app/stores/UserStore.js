@@ -11,9 +11,11 @@ var User = Backbone.Model.extend({
     },
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'log_in', 'log_out',
+        _.bindAll(this, 'dispatchCallback', 'log_in', 'log_out', 'asyncLogin',
                         'setFavorites', 'toggleFavorite', 'favorites');
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
+
+        $(window).on('user:connection', this.asyncLogin.bind(this));
     },
 
     dispatchCallback: function dispatchCallback (payload) {
@@ -28,7 +30,13 @@ var User = Backbone.Model.extend({
         this.set('logged_in', true);
     },
 
-    log_out: function log_in () {
+    asyncLogin: function asyncLogin (event, data) {
+        if (this.get('logged_in')) { return ; }
+        this.set('logged_in', true);
+        this.set('favorites', _.uniq(this.get('favorites').concat(data.favorite_card_ids)));
+    },
+
+    log_out: function log_out () {
         this.set('logged_in', false);
     },
 
