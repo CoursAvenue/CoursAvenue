@@ -25,8 +25,8 @@ class IndexableCard < ActiveRecord::Base
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
-    attributesToIndex ['course_name' 'unordered(subjects.name)' 'structure_name',
-                       'unordered(audiences_fr)' 'unordered(levels_fr)',
+    attributesToIndex ['course_name', 'unordered(subjects.name)', 'structure_name',
+                       'unordered(audiences_fr)', 'unordered(levels_fr)',
                        'unordered(metro_stops_fr)', 'teaches_at_home', 'city_name',
                        'city_zip_code', 'unordered(planning_periods_fr)',
                        'place_name']
@@ -40,8 +40,8 @@ class IndexableCard < ActiveRecord::Base
     add_slave 'IndexableCard_by_popularity_desc', per_environment: true do
       customRanking ['desc(popularity)']
       ranking ['typo', 'custom', 'geo', 'words', 'proximity', 'attribute', 'exact']
-      attributesToIndex ['course_name' 'unordered(subjects.name)' 'structure_name',
-                         'unordered(audiences_fr)' 'unordered(levels_fr)',
+      attributesToIndex ['course_name', 'unordered(subjects.name)', 'structure_name',
+                         'unordered(audiences_fr)', 'unordered(levels_fr)',
                          'unordered(metro_stops_fr)', 'teaches_at_home', 'city_name',
                          'city_zip_code', 'unordered(planning_periods_fr)',
                          'place_name']
