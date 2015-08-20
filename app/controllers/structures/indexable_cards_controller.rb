@@ -26,10 +26,10 @@ class Structures::IndexableCardsController < ApplicationController
   # POST /favorite
   def toggle_favorite
     if current_user and @indexable_card.present?
-      id = @indexable_card.id
+      id    = @indexable_card.id
       faved = @indexable_card.toggle_favorite!(current_user)
     else
-      id = nil
+      id    = nil
       faved = false
     end
 
