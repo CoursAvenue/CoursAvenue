@@ -165,7 +165,7 @@
     .search-page-card__course-title--sleeping { color: #777777; }
     .search-page-card__subjects-wrapper {
         overflow     : hidden;
-        height       : 48px;
+        max-height   : 48px;
         text-align   : center;
         margin-bottom: 1.5em;
     }

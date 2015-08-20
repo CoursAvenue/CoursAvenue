@@ -21,7 +21,7 @@
     .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
       .soft--ends.bordered.bg-white
         .soft--sides
-          .grid.push--bottom
+          .grid
             .grid__item.v-top.one-fifth.text--center.palm-one-whole>
               - if @structure.logo.present?
                 = image_tag @structure.logo.url(:small_thumb_100), height: 100, width: 100, data: { src2x: @structure.logo.url(:thumb) }
@@ -51,10 +51,10 @@
           - if @course.is_private? and @course.on_appointment?
             .push-half--right.push-half--bottom.inline-block.v-middle
               %i.delta.fa.fa-audiences.v-middle
-              = join_audiences(@course)
+              %span.v-middle= join_audiences(@course)
             .push-half--right.push-half--bottom.inline-block.v-middle
               %i.delta.fa.fa-levels.v-middle
-              = join_levels_text(@course)
+              %span.v-middle= join_levels_text(@course)
 
         - if @structure.medias.any?
           .push--bottom
