@@ -35,7 +35,8 @@ class Structures::IndexableCardsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to structure_indexable_card_path }
-      format.json { render json: { id: id, favorited: faved }, status: :ok  }
+      format.json { render json: { id: id, favorited: faved },
+                         status: (id.present? ? :ok : :unprocessable_entity)  }
     end
   end
 
