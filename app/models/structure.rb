@@ -639,6 +639,7 @@ class Structure < ActiveRecord::Base
   #
   # @return nil
   def create_or_update_user_profile_for_user(user, tag=nil)
+    return nil if user.nil?
     user_profile = user_profiles.where(email: user.email).first_or_create
     user_profile.first_name = user.first_name   if user_profile.first_name.nil?
     user_profile.last_name  = user.last_name    if user_profile.last_name.nil?

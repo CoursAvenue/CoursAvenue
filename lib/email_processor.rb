@@ -100,7 +100,7 @@ class EmailProcessor
 
   def process_community_reply(token)
     return if @email.body.blank?
-    thread    = Community::Thread.find(token.thread_id.to_i)
+    thread    = Community::MessageThread.find(token.thread_id.to_i)
 
     if token.sender_type == 'admin'
       sender = Admin.find(token.sender_id)

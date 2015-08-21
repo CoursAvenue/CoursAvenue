@@ -89,7 +89,7 @@ class User < ActiveRecord::Base
   def self.force_create(params)
     return if params[:email].blank?
     u = User.new(params)
-    u.email = u.email.downcase
+    u.email = u.email.downcase if u.email.present?
     u.valid? # Validate to trigger errors
     # We don't want to save users with fucked up email addresses
     if u.errors[:email].blank? # check if email is valid

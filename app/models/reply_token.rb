@@ -12,7 +12,7 @@ class ReplyToken < ActiveRecord::Base
   ######################################################################
   store_accessor :data, :sender_id, :sender_type,
                         :conversation_id, :participation_request_id,
-                        :gmail_action_name
+                        :gmail_action_name, :thread_id
 
   attr_accessible :token, :reply_type, :data
   ######################################################################
