@@ -63,7 +63,7 @@ var MessageThreadList = React.createClass({
                 </h2>
                 <div className="bg-white bordered--sides bordered--bottom soft--sides soft--bottom">
                     <div className='epsilon soft--ends'>
-                        {"Posez ici vos questions concernant " + this.state.structure_store.get('name') + " ou une activité. Le professeur ou d’autres élèves comme vous pourront y répondre."}
+                        {"Posez ici vos questions concernant " + this.state.structure_store.get('name') + " ou l’activité qui vous intéresse. Le professeur ou d’autres élèves comme vous pourront y répondre."}
                     </div>
                     <div className="input flush">
                         <textarea name="community_message_thread[message]"
