@@ -11,7 +11,7 @@
                   %input.input--hidden{ type: 'hidden', value: @participation_request.id, name: 'participation_request_id'}
                 = f.hidden_field :commentable_type, name: 'comment_commentable_type', class: 'input--hidden'
                 = f.hidden_field :commentable_id, name: 'comment_commentable_id', class: 'input--hidden'
-                = f.hidden_field :email, value: self.message.to.first, class: 'input--hidden'
+                = f.hidden_field :email, name: 'comment_email', value: @email, class: 'input--hidden'
                 - if @participation_request
                   = f.hidden_field :certified, value: true, name: 'comment_certified', class: 'input--hidden'
                   = f.hidden_field :course_name, value: @participation_request.course.name, name: 'comment_course_name', class: 'input--hidden'
