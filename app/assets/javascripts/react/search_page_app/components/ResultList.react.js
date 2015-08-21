@@ -70,7 +70,6 @@ ResultList = React.createClass({
                    width_class={ card_class } />
                 );
 
-                debugger
                 cards.splice((helper_card.get('index') || this.helper_card_position), 0, card);
                 cards.splice(-1, 1);
             }
