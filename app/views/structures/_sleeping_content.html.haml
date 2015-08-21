@@ -1,23 +1,12 @@
 - structure_decorator = @structure.decorate
-.push--bottom
-  .soft.bordered--top
-    .gamma.line-height-1-7
-      %strong  S'agit-il de votre profil ?
-    %p Prenez gratuitement le contrôle de votre profil CoursAvenue pour :
-    %ul
-      %li Mettre immédiatement à jour vos informations et votre planning de cours
-      %li Remonter dans les résultats de recherche et recruter plus d'élèves
-      %li Afficher les recommandations de vos élèves pour votre bouche à oreille
-      %li Suivre le nombre de personnes qui consultent votre profil
-    %div
-      = link_to 'Compléter ce profil', new_pro_admin_structure_registration_url(@structure, subdomain: 'pro'), class: 'btn btn--white'
-
-  .soft.bordered--top
-    .gamma.line-height-1-7.push--bottom
-      %strong Suggestions
-    - similars = @structure.similar_profiles(6, { has_logo: true, medias_count: 1 })
-    - similars.each do |structure|
-      - next if structure.medias.cover_first.first.nil?
-      .inline-block.one-half.very-soft.relative>
-        - cache ['sleeping_content', structure] do
-          = render partial: "structures/similar_profile", locals: { structure: structure }
+.push--bottom.bg-white.bordered.soft
+  .gamma.line-height-1-7
+    %strong  S'agit-il de votre établissement ?
+  %p Prenez gratuitement le contrôle de votre profil CoursAvenue pour :
+  %ul
+    %li Mettre immédiatement à jour vos informations et votre planning de cours
+    %li Remonter dans les résultats de recherche et recruter plus d'élèves
+    %li Afficher les recommandations de vos élèves pour votre bouche à oreille
+    %li Suivre le nombre de personnes qui consultent votre profil
+  %div
+    = link_to 'Mettre à jour cette page', new_pro_admin_structure_registration_url(@structure, subdomain: 'pro'), class: 'btn btn--white'
