@@ -28,7 +28,7 @@ var SimilarProfileStore = Backbone.Collection.extend({
 
     loadSimilarProfiles: function loadSimilarProfiles () {
         this.loading = true;
-        var filter = {};
+        var filters = {};
         AlgoliaSearchUtils.searchCards(filters, this.searchSuccess, this.searchError);
     },
 
