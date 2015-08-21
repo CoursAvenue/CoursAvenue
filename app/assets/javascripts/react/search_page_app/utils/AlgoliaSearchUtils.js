@@ -49,7 +49,7 @@ module.exports = {
             facets      : ['subjects.slug_name'],
             hitsPerPage : data.hitsPerPage || 160,
             distinct    : false,
-            aroundRadius: 10000 // 10km
+            aroundRadius: 100000 // 100km
         };
 
         if (!window.is_mobile && data.insideBoundingBox) {
