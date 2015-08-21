@@ -13,6 +13,7 @@ module.exports = {
         //
         // return card_search_helper.search();
         successCallback([{
+            id: 'aliou',
             name: 'aliou',
         }]);
     },
