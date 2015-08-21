@@ -44,13 +44,18 @@
             }
             this.$element.css('max-height', this.options.text_height + 'px');
             if (this.original_height > this.options.text_height) {
-                this.$element.addClass('read-more');
+                this.$element.addClass('read-more transition-all-500');
                 this.read_more_link = $('<a>').text(this.options.read_more_text).attr('href','javascript:void(0)');
+                this.expandable_indicator = $('<div>').addClass('expandable-indicator');
+                this.$element.after(this.expandable_indicator);
                 this.$element.after(this.read_more_link);
                 this.read_more_link.click(function() {
-                    this.$element.removeClass('read-more');
-                    this.$element.css('max-height', 'none');
-                    this.read_more_link.hide();
+                    this.$element.css('max-height', this.original_height + 'px');
+                    this.$element.find('.expandable-indicator').remove();
+                    this.read_more_link.remove();
+                    _.delay(function() {
+                        this.$element.css('max-height', 'none');
+                    }.bind(this), 500)
                 }.bind(this));
             }
             if (this.original_height == 0) {
