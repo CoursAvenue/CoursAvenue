@@ -140,9 +140,8 @@ var CardCollection = Backbone.Collection.extend({
     },
 
     fetchDataFromServer: function fetchDataFromServer (reset_page_nb) {
-	if (reset_page_nb) { this.current_page = 1; }
-	this.error   = false;
-
+        if (reset_page_nb) { this.current_page = 1; }
+        this.error   = false;
 
         // Call the algolia search.
         AlgoliaSearchUtils.searchCards(this.algoliaFilters(), this.searchSuccess, this.searchError);

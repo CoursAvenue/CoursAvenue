@@ -5,7 +5,7 @@ var ActionTypes = SearchPageConstants.ActionTypes;
 
 var HelperModel = Backbone.Model.extend({
     defaults: function defaults () {
-        return { dismissed: false };
+        return { dismissed: false, sign_in: false };
     },
 
     initialize: function initialize () {
@@ -66,6 +66,18 @@ var HelperCollection = Backbone.Collection.extend({
     toggleDismiss: function toggleDismiss (helper) {
         helper.toggleDismiss();
     },
+});
+
+
+var LoggedOutHelper = new HelperModel({
+    // url:            '',
+    title:          'Connectez-vous !',
+    type:           'info',
+    icon:           'sign-in fa',
+    sign_in:        true,
+    cookie_key:     'info-connection-after-favorites',
+    description:    'En vous connectant, vos favoris seront enregistré dans votre compte.',
+    call_to_action: 'Se connecter',
 });
 
 module.exports = new HelperCollection(
