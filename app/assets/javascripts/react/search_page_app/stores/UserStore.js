@@ -54,6 +54,16 @@ var User = Backbone.Model.extend({
         } else {
             var index = card.index() + 1;
             HelpStore.addSignInHelper(index);
+
+            var cookieFavs = $.cookie('indexable_card_favorites');
+            if (cookieFavs) {
+                cookieFavs = cookieFavs.split(',').map(function(f) { return (parseInt(f, 10)) });
+            } else {
+                cookieFavs = [];
+            }
+
+            cookieFavs.push(card.id);
+            $.cookie('indexable_card_favorites', cookieFavs);
         }
 
         var favorites = this.get('favorites') || [];
@@ -70,6 +80,16 @@ var User = Backbone.Model.extend({
                 type: 'DELETE'
             });
         } else {
+            var cookieFavs = $.cookie('indexable_card_favorites');
+            if (cookieFavs) {
+                cookieFavs = cookieFavs.split(',').map(function(f) { return (parseInt(f, 10)) });
+            } else {
+                cookieFavs = [];
+            }
+
+            var index = _.indexOf(cookieFavs, card.id);
+            if (index != -1) { cookieFavs.splice(index, 1); }
+            $.cookie('indexable_card_favorites', cookieFavs);
         }
 
         var favorites = _.uniq(this.get('favorites'));
