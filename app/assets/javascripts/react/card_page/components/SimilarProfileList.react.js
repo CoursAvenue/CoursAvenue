@@ -1,3 +1,6 @@
+var _                   = require('lodash'),
+    SimilarProfileStore = require('../stores/SimilarProfileStore');
+
 var SimilarProfile = React.createClass({
     image: function image () {
         var profile = this.props.profile;
@@ -15,7 +18,13 @@ var SimilarProfile = React.createClass({
     render: function render () {
         var profile = this.props.profile;
         var style = { height: '70px' };
-        var cities_text = ''; // truncate profile.get('cities_text') to 40 chars.
+        var cities_text;
+
+        if (profile.get('cities_text')) {
+            cities_text = profile.get('cities_text').substring(0, 37) + '...'
+        } else {
+            cities_text = '';
+        }
 
         return (
             <div style={ style }>
@@ -43,12 +52,13 @@ var SimilarProfile = React.createClass({
 
 var SimilarProfileList = React.createClass({
     render: function render () {
-        // var profiles = this.props.structure.get('profiles').map(function (profile, index) {
-        var profiles = [].map(function (profile, index) {
+        var profiles = SimilarProfileStore.map(function (profile, index) {
             return (
                 <SimilarProfile profile={ profile } key={ index } />
             );
         });
+
+        // if (_.isEmpty(profiles)) { return false; }
 
         return (
             <div className='bordered bg-white'>
