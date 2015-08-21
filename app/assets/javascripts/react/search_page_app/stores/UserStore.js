@@ -1,5 +1,6 @@
 var _                    = require('lodash'),
     Backbone             = require('backbone'),
+    HelpStore            = require('./HelpStore'),
     SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     SearchPageConstants  = require('../constants/SearchPageConstants');
 
@@ -34,6 +35,7 @@ var User = Backbone.Model.extend({
         if (this.get('logged_in')) { return ; }
         this.set('logged_in', true);
         this.set('favorites', _.uniq(this.get('favorites').concat(data.favorite_card_ids)));
+        HelpStore.removeSignInHelper();
     },
 
     log_out: function log_out () {
@@ -50,7 +52,8 @@ var User = Backbone.Model.extend({
                 card.get('structure_slug'), card.get('slug'), { format: 'json' }
             ));
         } else {
-            // Show connection alert or something.
+            var index = card.index() + 1;
+            HelpStore.addSignInHelper(index);
         }
 
         var favorites = this.get('favorites') || [];

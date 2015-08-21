@@ -52,7 +52,6 @@ ResultList = React.createClass({
                           (<EmptyCard />), (<EmptyCard />), (<EmptyCard />)];
         } else {
             var card_class = this.getCardClass();
-            var helper_cards = HelpStore.getUnseenCards();
             var cards = this.state.card_store.where({ visible: true }).map(function(card, index) {
                 return (
                   <CourseCard follow_links={this.props.follow_links} width_class={card_class} card={ card } index={this.state.card_store.indexOf(card) + 1} key={ card.get('id') }/>
@@ -62,12 +61,17 @@ ResultList = React.createClass({
                 no_results = (<Suggestions />);
             }
 
-            if (helper_cards.length > 0 && CardStore.current_page == 1) {
-                var helper_card = (
-                    <HelpCard helper={ helper_cards[0] } key={ helper_cards[0].get('type') } width_class={ card_class } />
-                )
+            var helper_card = HelpStore.getCard();
+            if (CardStore.current_page == 1 && helper_card) {
+                var card = (
+                    <HelpCard
+                        helper={ helper_card }
+                           key={ helper_card.get('type') }
+                   width_class={ card_class } />
+                );
 
-                cards.splice(this.helper_card_position, 0, helper_card);
+                debugger
+                cards.splice((helper_card.get('index') || this.helper_card_position), 0, card);
                 cards.splice(-1, 1);
             }
         }

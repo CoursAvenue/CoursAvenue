@@ -93,7 +93,6 @@ var HelperCollection = Backbone.Collection.extend({
         if (!_.isEmpty(this.where({ sign_in: true }))) { return ; }
         SignInHelper.index = index;
         this.add(SignInHelper);
-        debugger
     },
 
     removeSignInHelper: function removeSignInHelper () {
