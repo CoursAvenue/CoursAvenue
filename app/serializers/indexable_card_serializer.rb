@@ -1,7 +1,9 @@
 class IndexableCardSerializer < ActiveModel::Serializer
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'IndexableCardSerializer/' + object.cache_key
+  end
 
   attributes :id, :structure_is_active, :db_type, :teaches_at_home,
               :on_appointment, :frequency, :cant_be_joined_during_year,

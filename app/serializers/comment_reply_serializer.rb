@@ -1,7 +1,9 @@
 class CommentReplySerializer < ActiveModel::Serializer
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'CommentReplySerializer/' + object.cache_key
+  end
 
   attributes :id, :content
 

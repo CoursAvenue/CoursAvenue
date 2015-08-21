@@ -1,7 +1,9 @@
 class MediaSerializer < ActiveModel::Serializer
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'MediaSerializer/' + object.cache_key
+  end
 
   attributes :id, :url, :url_html, :caption, :format, :is_video, :thumbnail_url, :mediable_id
 

@@ -1,7 +1,9 @@
 class PlaceSerializer < ActiveModel::Serializer
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'PlaceSerializer/' + object.cache_key
+  end
 
   attributes :id, :longitude, :latitude, :name, :street, :zip_code, :address, :structure_id
 

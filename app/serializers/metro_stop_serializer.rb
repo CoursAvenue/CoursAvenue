@@ -1,7 +1,9 @@
 class MetroStopSerializer < ActiveModel::Serializer
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'MetroStopSerializer/' + object.cache_key
+  end
 
   attributes :name, :latitude, :longitude
 

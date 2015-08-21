@@ -2,7 +2,9 @@ class PriceSerializer < ActiveModel::Serializer
   include PricesHelper
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'PriceSerializer/' + object.cache_key
+  end
 
   attributes :id, :libelle, :amount, :info, :promo_amount, :promo_amount_type,
              :libelle_type, :type
