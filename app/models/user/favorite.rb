@@ -1,5 +1,5 @@
 class User::Favorite < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :user, touch: true
   belongs_to :structure
   belongs_to :indexable_card
 
