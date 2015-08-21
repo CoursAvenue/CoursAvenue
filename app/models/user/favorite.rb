@@ -9,8 +9,8 @@ class User::Favorite < ActiveRecord::Base
   validates :structure,      presence: true, unless: -> (favorite) { favorite.indexable_card_id.present? }
   validates :indexable_card, presence: true, unless: -> (favorite) { favorite.structure_id.present? }
 
-  validates :user_id, uniqueness: { scope: :structure_id },      allow_nil: true
-  validates :user_id, uniqueness: { scope: :indexable_card_id }, allow_nil: true
+  validates :structure_id,      uniqueness: { scope: :user_id }, allow_nil: true
+  validates :indexable_card_id, uniqueness: { scope: :user_id }, allow_nil: true
 
   after_create :affect_tag_to_user_profile
 
