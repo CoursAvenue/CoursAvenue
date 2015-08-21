@@ -215,10 +215,13 @@ class AdminMailer < ActionMailer::Base
   private
 
   def generate_reply_to(sender_type = 'admin', reply_type = 'conversation')
+    sender = (sender_type == 'admin' ? @admin : @user)
+    return '' if sender.nil?
+
     reply_token      = ReplyToken.create(reply_type: reply_type)
     reply_token.data = {
       sender_type:     sender_type,
-      sender_id:       sender_type == 'admin' ? @admin.id : @user.id,
+      sender_id:       sender.id,
       conversation_id: @conversation.id
     }
     reply_token.save
