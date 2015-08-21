@@ -1,0 +1,12 @@
+= content_for :header do
+  = render 'shared/headers/header'
+
+= content_for :content do
+  = yield :user_top_menu
+  = content_for?(:users_content) ? yield(:users_content) : yield
+  - if content_for?(:under_container)
+    = yield(:under_container)
+
+  = render 'shared/footer'
+
+= render :template => 'layouts/application'
