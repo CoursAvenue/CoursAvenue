@@ -48,10 +48,10 @@
       .push--bottom= render partial: 'structures/plannings'
 
       .push--bottom
-        = react_component('MessageThreadList', { structure: StructureSerializer.new(@structure) })
+        = react_component('MessageThreadList', { structure: @serialized_structure })
 
       .push--bottom#avis
-        = react_component('CommentList', { structure: StructureSerializer.new(@structure) })
+        = react_component('CommentList', { structure: @serialized_structure })
       - if @is_sleeping
         = render partial: 'structures/sleeping_content', locals: { medias: @medias }
       .bg-white.bordered
@@ -71,22 +71,7 @@
       - unless @is_sleeping
         .bg-white.bordered.push--bottom.soft.bordered--sides= render 'structures/response_stats'
 
-      .bordered.bg-white.bordered
-        %h4.flush.soft.bordered--bottom Ces profils pourraient vous intéresser
-        .soft
-          - @similar_profiles.each_with_index do |structure, index|
-            %div{ style: 'height: 70px;' }
-              .soft-half--sides
-                .grid--full{ data: { similar_profile: true, structure_id: structure.id } }
-                  .grid__item.v-middle.one-fifth>
-                    %div{ itemprop: 'image', content: structure.logo.url }
-                      = structure.decorate.avatar
-                  .grid__item.v-middle.four-fifths.soft-half--left.opacity-hidden-on-hover__wrapper>
-                    %h6.hide-for-fout.flush.line-height-1-5.text-ellipsis
-                      = link_to structure.name, structure_path(structure), class: 'muted-link'
-                    .hide-for-fout.line-height-1-5
-                      %i= truncate(structure.cities_text, length: 40)
-
+      = react_component('SimilarProfileList', { structure: @serialized_structure })
 
 = content_for :scripts do
   -# This is used when a user make a reservation.

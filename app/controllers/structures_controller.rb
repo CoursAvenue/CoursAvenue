@@ -21,10 +21,10 @@ class StructuresController < ApplicationController
 
   # GET /etablissements/:id
   def show
-    @structure_decorator = @structure.decorate
-    @city                = @structure.city
+    @structure_decorator  = @structure.decorate
+    @serialized_structure = StructureSerializer.new(@structure)
+    @city                 = @structure.city
 
-    @similar_profiles = @structure.similar_profiles(18)
     @medias = @structure.medias.cover_first.videos_first
     @is_sleeping = @structure.is_sleeping
   end
