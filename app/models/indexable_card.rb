@@ -34,7 +34,7 @@ class IndexableCard < ActiveRecord::Base
     ignorePlurals true
     removeWordsIfNoResults 'allOptional'
 
-    attributesForFaceting %w(subjects.name root_subject subjects.slug planning_periods
+    attributesForFaceting %w(id subjects.name root_subject subjects.slug planning_periods
                              structure_slug audiences subjects.slug_name levels card_type
                              metro_stops metro_lines active)
 
@@ -49,7 +49,7 @@ class IndexableCard < ActiveRecord::Base
       ignorePlurals true
       removeWordsIfNoResults 'allOptional'
 
-      attributesForFaceting %w(subjects.name root_subject subjects.slug planning_periods
+      attributesForFaceting %w(id subjects.name root_subject subjects.slug planning_periods
                                structure_slug audiences subjects.slug_name levels card_type
                                metro_stops metro_lines active)
 
