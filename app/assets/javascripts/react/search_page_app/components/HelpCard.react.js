@@ -46,7 +46,9 @@ var HelpCard = React.createClass({
                 <div className={ content_class }>
                     <div className='search-page-card__content-top relative soft--top'>
                         <div className='search-page-card__dismiss north east absolute'>
-                            <a href='javascript:void(0)' onClick={ this.dismiss }>
+                            <a href='javascript:void(0)'
+                            onClick={ this.dismiss }
+                          className="link-not-outlined">
                                 <i className="fa fa-times"></i>
                             </a>
                         </div>
@@ -59,7 +61,7 @@ var HelpCard = React.createClass({
                     </div>
 
                     <div className="soft-half--sides soft-half--bottom text--center search-page-card__content-bottom--help">
-                        <h4>{ helper.get('description') }</h4>
+                        <h4 dangerouslySetInnerHTML={{__html: helper.get('description') }}></h4>
 
                         { this.callToAction() }
 

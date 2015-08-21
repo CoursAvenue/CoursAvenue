@@ -6,12 +6,15 @@
     .panel
       .panel__body.soft
         %h3 Mes favoris
-        - if @user.favorites.any?
-          - @user.favorites.each do |following|
-            - structure = following.structure
-            .inline-block.one-half.very-soft.relative>
-              = render partial: "structures/similar_profile", locals: { structure: structure }
-              %i.fa.fa-heart.north.east.absolute.push.fa-4x.orange
+        - if @user.favorites.cards.any?
+          - @city = @user.city || City.find('paris')
+          - first_card_place = @user.favorites.cards.detect{|f| f.indexable_card.place }.indexable_card.place.city
+          = react_component('MapContainer', { center: [first_card_place.latitude, first_card_place.longitude] })
+          = react_component('ResultList', { cards_id: @user.favorites.cards.map(&:indexable_card_id),
+                                            per_line: 3,
+                                            per_page: 14,
+                                            follow_links: true })
+          = react_component('SmallMap', { center: [@city.latitude, @city.longitude] })
         - else
           %p
             Vous n'avez aucun favoris.

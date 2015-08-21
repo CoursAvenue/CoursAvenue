@@ -106,6 +106,11 @@ module.exports = {
             card_search_helper.addNumericRefinement('starting_price', '<=', data.prices[1]);
         }
 
+        if (data.ids) {
+            _.each(data.ids, function(id) {
+                card_search_helper.addDisjunctiveRefine('id', id);
+            })
+        }
         if (data.metro_lines && !data.metro_stop) {
             _.each(data.metro_lines, function(line) {
                 card_search_helper.addDisjunctiveRefine('metro_lines', line);

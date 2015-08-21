@@ -6,6 +6,16 @@ module.exports = {
     /*
      * @params data: { card: CardModel }
      */
+    filterByCardIds: function filterByCardIds (ids) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.FILTER_BY_CARD_IDS,
+            data: ids
+        });
+    },
+
+    /*
+     * @params data: { card: CardModel }
+     */
     cardHovered: function cardHovered (hovered) {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.CARD_HOVERED,

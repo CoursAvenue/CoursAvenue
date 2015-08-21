@@ -79,6 +79,17 @@ CourseCard = React.createClass({
         event.stopPropagation();
     },
 
+    favoriteLink: function favoriteLink () {
+        var favorite_class = 'fa ' + ( this.props.card.get('favorite') ?  'fa-heart red' : 'fa-heart-o');
+        return (<div className='search-page-card__favorite north east absolute'>
+                    <a href='javascript:void(0)'
+                    onClick={ this.toggleFavorite }
+                  className='white fa-2x cursor-pointer link-not-outlined'>
+                        <i className={ favorite_class }></i>
+                    </a>
+                </div>);
+    },
+
     headerCard: function headerCard () {
         var starting_price, starting_price_class, price;
         if (this.props.card.get('has_course')) {
@@ -89,17 +100,12 @@ CourseCard = React.createClass({
             }
             starting_price_class = (this.props.card.get('starting_price') == 0 ? 'search-page-card__price--free' : '')
             price = (<div className={'search-page-card__price ' + starting_price_class}>{starting_price}</div>);
-            var favorite_class = 'fa ' + ( this.props.card.get('favorite') ?  'fa-heart' : 'fa-heart-o');
             return (<div>
                         <div className="search-page-card__content-top">
                             <div className="relative">
                                 {price}
                                 {this.headerImage()}
-                                <div className='search-page-card__favorite north east absolute'>
-                                    <a href='javascript:void(0)' onClick={ this.toggleFavorite } className='white delta cursor-pointer'>
-                                        <i className={ favorite_class }></i>
-                                    </a>
-                                </div>
+                                {this.favoriteLink()}
                             </div>
                             {this.headerLogo()}
                             <div className="search-page-card__structure-name soft-half--sides gray">
@@ -118,6 +124,7 @@ CourseCard = React.createClass({
             return (<div className="relative">
                         <div className="search-page-card__content-top search-page-card__content-top--sleeping text--center">
                             {this.headerLogo()}
+                            {this.favoriteLink()}
                         </div>
                         <h4 className="flush text--center soft-half--sides">
                             {this.cardName()}

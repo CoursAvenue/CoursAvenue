@@ -18,6 +18,9 @@ ResultList = React.createClass({
 
     // Bootstraping data
     componentWillMount: function componentWillMount() {
+        if (this.props.cards_id) {
+            CardActionCreators.filterByCardIds(this.props.cards_id);
+        }
         LocationActionCreators.filterByAddress(this.props.address);
         if (this.props.per_page) {
             CardActionCreators.updateNbCardsPerPage(this.props.per_page);
@@ -46,6 +49,7 @@ ResultList = React.createClass({
     render: function render () {
         var fake_cards, no_results;
         this.helper_card_position = this.helper_card_position || (Math.ceil(Math.random() * 5) + 2);
+        this.helper_card = (this.helper_card && !this.helper_card.get('dissmissed') ? this.helper_card : HelpStore.getCard());
         if (this.state.card_store.first_loading) {
             fake_cards = [(<EmptyCard />), (<EmptyCard />), (<EmptyCard />),
                           (<EmptyCard />), (<EmptyCard />), (<EmptyCard />),
@@ -61,16 +65,15 @@ ResultList = React.createClass({
                 no_results = (<Suggestions />);
             }
 
-            var helper_card = HelpStore.getCard();
-            if (CardStore.current_page == 1 && helper_card) {
+            if (CardStore.current_page == 1 && this.helper_card) {
                 var card = (
                     <HelpCard
-                        helper={ helper_card }
-                           key={ helper_card.get('type') }
+                        helper={ this.helper_card }
+                           key={ this.helper_card.get('type') }
                    width_class={ card_class } />
                 );
 
-                cards.splice((helper_card.get('index') || this.helper_card_position), 0, card);
+                cards.splice((this.helper_card.get('index') || this.helper_card_position), 0, card);
                 cards.splice(-1, 1);
             }
         }

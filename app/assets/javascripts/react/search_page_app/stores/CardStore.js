@@ -61,6 +61,9 @@ var CardCollection = Backbone.Collection.extend({
     // The function called everytime there's a new action dispatched.
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+            case ActionTypes.FILTER_BY_CARD_IDS:
+                this.filtered_ids = payload.data;
+                break;
             case ActionTypes.TOGGLE_DAY_SELECTION:
             case ActionTypes.TOGGLE_PERIOD_SELECTION:
             case ActionTypes.TOGGLE_PERIODS_SELECTION:
@@ -236,6 +239,9 @@ var CardCollection = Backbone.Collection.extend({
             });
         }
 
+        if (this.filtered_ids) {
+            data.ids = this.filtered_ids;
+        }
         if (TimeStore.isFiltered()) {
             if (data.context == 'course') {
                 data.planning_periods = TimeStore.algoliaFilters()

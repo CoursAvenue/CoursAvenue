@@ -24,11 +24,11 @@ var HelperModel = Backbone.Model.extend({
     },
 
     softDismiss: function softDismiss () {
-        this.dissmissed = true;
+        this.set('dissmissed', true);
     },
 
     hasBeenDismissed: function hasBeenDismissed () {
-        return ($.cookie(this.get('cookie_key')) == "true" || this.dissmissed);
+        return ($.cookie(this.get('cookie_key')) == "true" || this.get('dissmissed'));
     },
 
     dismiss: function dismiss () {
@@ -65,9 +65,9 @@ var HelperCollection = Backbone.Collection.extend({
 
         if (sign_in_card) { return sign_in_card; }
 
-        return _.reject(this.models, function (helper) {
+        return _.sample(_.reject(this.models, function (helper) {
             return helper.hasBeenDismissed();
-        })[0];
+        }));
     },
 
     dispatchCallback: function dispatchCallback (payload) {
@@ -105,13 +105,19 @@ module.exports = new HelperCollection(
     [
         {
             url:            Routes.guide_path('quelle-activite-pour-mon-enfant'),
-            name:           'Quelle activité pour mon enfant ?',
-            title:          'C’est la rentrée ! ',
+            title:          'C’est la rentrée !',
             type:           'info',
             icon:           'family',
             cookie_key:     'info-guide-quelle-activite-pour-mon-enfant',
             description:    'Trouvez une activité pour vos enfants grâce à notre guide interactif.',
             call_to_action: 'Suivez le guide',
+        },
+        {
+            title:          'Astuce',
+            type:           'astuce',
+            icon:           'card-astuce',
+            cookie_key:     'astuce-favoris',
+            description:    'Cliquez sur <i class="fa fa-heart-o"></i> pour ajouter les cours qui vous plaisent à votre liste de cours favoris !'
         }
     ]
 );
