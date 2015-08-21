@@ -11,12 +11,22 @@ var HelpCard = React.createClass({
     },
 
     callToAction: function callToAction () {
-        if (this.props.helper.get('type') == 'info') {
-            return (
-                <a href={ this.props.helper.get('url') } className='btn btn--blue-info' target='_blank'>
-                    { this.props.helper.get('call_to_action') }
-                </a>
-            );
+        var helper = this.props.helper;
+
+        if (helper.get('type') == 'info') {
+            if (helper.get('sign_in')) {
+                return (
+                    <a href='javascript:void(0)' className='btn btn--blue-info' onClick={ CoursAvenue.signIn }>
+                        { helper.get('call_to_action') }
+                    </a>
+                );
+            } else {
+                return (
+                    <a href={ helper.get('url') } className='btn btn--blue-info' target='_blank'>
+                        { helper.get('call_to_action') }
+                    </a>
+                );
+            }
         } else {
             return '';
         }
