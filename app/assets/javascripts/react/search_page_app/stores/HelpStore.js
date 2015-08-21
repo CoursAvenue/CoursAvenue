@@ -3,6 +3,17 @@ var SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
 
 var ActionTypes = SearchPageConstants.ActionTypes;
 
+var SignInHelper = {
+    // url:            '',
+    title:          'Connectez-vous !',
+    type:           'info',
+    icon:           'sign-in fa',
+    sign_in:        true,
+    cookie_key:     'info-connection-after-favorites',
+    description:    'En vous connectant, vos favoris seront enregistré dans votre compte.',
+    call_to_action: 'Se connecter',
+};
+
 var HelperModel = Backbone.Model.extend({
     defaults: function defaults () {
         return { dismissed: false, sign_in: false };
@@ -37,7 +48,8 @@ var HelperCollection = Backbone.Collection.extend({
     model: HelperModel,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'getUnseenCards', 'dismiss');
+        _.bindAll(this, 'dispatchCallback', 'getUnseenCards', 'dismiss', 'getCard',
+                  'addSignInHelper', 'removeSignInHelper');
 
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
     },
@@ -46,6 +58,16 @@ var HelperCollection = Backbone.Collection.extend({
         return _.reject(this.models, function (helper) {
             return helper.hasBeenDismissed();
         });
+    },
+
+    getCard: function getCard () {
+        var sign_in_card = this.where({ sign_in: true })[0];
+
+        if (sign_in_card) { return sign_in_card; }
+
+        return _.reject(this.models, function (helper) {
+            return helper.hasBeenDismissed();
+        })[0];
     },
 
     dispatchCallback: function dispatchCallback (payload) {
@@ -66,18 +88,18 @@ var HelperCollection = Backbone.Collection.extend({
     toggleDismiss: function toggleDismiss (helper) {
         helper.toggleDismiss();
     },
-});
 
+    addSignInHelper: function addSignInHelper (index) {
+        if (!_.isEmpty(this.where({ sign_in: true }))) { return ; }
+        SignInHelper.index = index;
+        this.add(SignInHelper);
+        debugger
+    },
 
-var LoggedOutHelper = new HelperModel({
-    // url:            '',
-    title:          'Connectez-vous !',
-    type:           'info',
-    icon:           'sign-in fa',
-    sign_in:        true,
-    cookie_key:     'info-connection-after-favorites',
-    description:    'En vous connectant, vos favoris seront enregistré dans votre compte.',
-    call_to_action: 'Se connecter',
+    removeSignInHelper: function removeSignInHelper () {
+        var helper = this.where({ sign_in: true })[0];
+        if (helper) { this.remove(helper); }
+    }
 });
 
 module.exports = new HelperCollection(

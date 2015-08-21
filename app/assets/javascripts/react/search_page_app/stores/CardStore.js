@@ -31,6 +31,12 @@ var CardModel = Backbone.Model.extend({
         var favorite = this.get('favorite');
         this.set('favorite', !favorite);
     },
+
+    index: function index () {
+        if (!this.collection) { return (-1); }
+
+        return this.collection.indexOf(this);
+    },
 });
 
 var CardCollection = Backbone.Collection.extend({
