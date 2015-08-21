@@ -654,6 +654,11 @@
     height        : 1.5em;
 }
 
+.gray-box {
+    .expandable-indicator {
+        @include background-image(linear-gradient(top, transparentize($pane-background-color, 1) 0%, transparentize($pane-background-color, 0.1) 50%, transparentize($pane-background-color, 0.1) 50%, $pane-background-color 100%));
+    }
+}
 .expandable-indicator {
     position: absolute;
     width: 100%;
