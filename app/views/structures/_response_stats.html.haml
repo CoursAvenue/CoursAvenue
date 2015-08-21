@@ -1,17 +1,17 @@
 - if @structure.response_rate
-  .grid--full.soft-half--bottom
+  .grid--full.soft-half--bottom.epsilon.line-height-1-5
     .grid__item.v-middle.one-half.gray>
       %p.flush Taux de réponse
     .grid__item.v-middle.one-half>
       %strong= "#{@structure.response_rate}%"
 - if @structure.response_time
-  .grid--full.soft-half--bottom
+  .grid--full.soft-half--bottom.epsilon.line-height-1-5
     .grid__item.v-middle.one-half.gray>
       %p.flush Temps de réponse
     .grid__item.v-middle.one-half>
       %strong= response_time_in_words @structure
 - if @structure.main_contact and @structure.main_contact.current_sign_in_at
-  .grid--full
+  .grid--full.epsilon.line-height-1-5
     .grid__item.v-middle.one-half.gray>
       %p.flush Dernière activité
     .grid__item.v-middle.one-half>

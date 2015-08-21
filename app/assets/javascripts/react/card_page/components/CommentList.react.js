@@ -28,7 +28,7 @@ var CommentList = React.createClass({
         } else {
             if (this.state.comment_store.isEmpty()) {
                 comment_title = 'Avis';
-                no_comments = (<div>{"Il n'y a encore d'avis."}</div>)
+                no_comments = (<div>{"Vous connaissez cet établissement ? Soyez le premier à laisser un avis !"}</div>)
             } else {
                 comment_title = this.state.comment_store.total + ' avis';
                 comments = this.state.comment_store.map(function(comment, index) {
@@ -44,15 +44,26 @@ var CommentList = React.createClass({
         }
         return (
             <div>
-                <a className="float--right btn btn--white btn--small" target="_blank"
-                   href={Routes.new_structure_comment_path(this.props.structure.slug)}>
-                    Déposer mon avis
-                </a>
-                <h2>{comment_title}</h2>
-                { spinner }
-                { no_comments }
-                { comments }
-                { pagination }
+                <div className="grid--full bg-pink bordered--sides bordered--top border-color-pink-darker soft--sides soft-half--ends white">
+                    <div className="grid__item v-middle one-half">
+                        <h2 className="flush">
+                            <i className="fa-comment v-middle"></i>&nbsp;
+                            <span className="v-middle">{comment_title}</span>
+                        </h2>
+                    </div>
+                    <div className="grid__item v-middle one-half text--right">
+                        <a className="btn btn--white-transparent btn--white-transparent--white btn--small" target="_blank"
+                           href={Routes.new_structure_comment_path(this.props.structure.slug)}>
+                            Déposer mon avis
+                        </a>
+                    </div>
+                </div>
+                <div className="bg-white bordered--sides bordered--bottom soft hard--bottom">
+                  { spinner }
+                  { no_comments }
+                  { comments }
+                  { pagination }
+                </div>
             </div>
         );
     }

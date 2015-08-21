@@ -8,6 +8,11 @@ class IndexableCardSerializer < ActiveModel::Serializer
               :no_class_during_holidays, :min_price
 
   has_many :plannings, serializer: PlanningSerializer
+  has_many :price_group_prices,  serializer: PriceSerializer
+
+  def price_group_prices
+    object.course.price_group_prices
+  end
 
   def plannings
     object.plannings.future.ordered_by_day

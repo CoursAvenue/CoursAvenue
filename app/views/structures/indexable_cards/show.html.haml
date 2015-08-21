@@ -19,8 +19,8 @@
 .soft--sides.soft-half--top.soft--bottom.palm-hard
   .grid--full.soft--top.push--bottom
     .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
-      .soft--ends.bordered.bg-white
-        .soft--sides
+      .bg-white.bordered.push--bottom
+        .soft
           .grid
             .grid__item.v-top.one-fifth.text--center.palm-one-whole>
               - if @structure.logo.present?
@@ -34,19 +34,36 @@
                 Par
                 = link_to @structure.name, structure_path(@structure)
               = react_component('SubjectList', { classes: 'text--left', follow_links: true, colored: true, subject_list: ActiveModel::ArraySerializer.new(@indexable_card.subjects.at_depth(2), each_serializer: SubjectListSerializer) })
-        .soft--sides
-          - if @course.prices.any?
-            .float--right.blue-green.nowrap.v-middle.delta
-              - if @course.is_training?
-                %strong #{readable_amount(@course.prices.first.amount)}
-              - else
-                - if @course.prices.first.free?
-                  %strong Cours d'essai gratuit
-                - else
-                  %strong Cours d'essai à #{readable_amount(@course.prices.first.amount)}
 
-          %h2 Planning
-        = react_component('Course', { structure_id: @structure.id, indexable_card_id: @indexable_card.id }, { prerender: false })
+        - if @structure.medias.any?
+          .push--bottom
+            = render partial: 'gallery', locals: { medias: @structure.medias.cover_first.videos_first, structure: @structure }
+        .soft--sides.soft--bottom.last-p-flush
+          - if @course.description.present?
+            .epsilon.line-height-1-3.read-more{ data: { behavior: 'read-more', height: '240' } }
+              = simple_format @course.description
+          - else
+            %p Pas de description.
+
+      .soft--sides.soft-half--ends.bg-blue.white.border-color-blue-darker.bordered--sides.bordered--top
+        .grid
+          .grid__item.one-half.palm-one-whole.v-middle>
+            %h2.flush
+              %i.fa.fa-clock.v-middle
+              %span.v-middle Planning
+          .grid__item.one-half.palm-one-whole.v-middle.text--right.palm-text--left>
+            - if @course.prices.any?
+              .white.nowrap.delta
+                - if @course.is_training?
+                  %strong #{readable_amount(@course.prices.first.amount)}
+                - else
+                  - if @course.prices.first.free?
+                    %strong Cours d'essai gratuit
+                  - else
+                    %strong Cours d'essai à #{readable_amount(@course.prices.first.amount)}
+
+      .bordered--sides.bg-white.soft-half--top.push--bottom
+        = react_component('Course', { hide_description: true, show_footer: true, structure_id: @structure.id, indexable_card_id: @indexable_card.id }, { prerender: false })
         .soft--sides
           - if @course.is_private? and @course.on_appointment?
             .push-half--right.push-half--bottom.inline-block.v-middle
@@ -56,70 +73,61 @@
               %i.delta.fa.fa-levels.v-middle
               %span.v-middle= join_levels_text(@course)
 
-        - if @structure.medias.any?
-          .push--bottom
-            %h2.soft--sides Photos & Vidéos
-            = render partial: 'gallery', locals: { medias: @structure.medias.cover_first.videos_first, structure: @structure }
-        .soft--sides
-          .push--bottom
-            %h2 Description du cours
-            .push--bottom
-              - if @course.description.present?
-                .read-more{ data: { behavior: 'read-more', height: 240 } }
-                  = simple_format @course.description
-              - else
-                %p Pas de description.
+      -# - if @course.price_group
+      -#   .push--bottom.bg-white.bordered
+      -#     %h2.soft.flush Tarifs
+      -#     = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
 
-        - if @course.price_group
-          .push--bottom
-            %h2.soft--sides Tarifs
-            = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
+      .push--bottom
+        = react_component('MessageThreadList', { structure: StructureSerializer.new(@structure), indexable_card_id: @indexable_card.id })
 
-        .push--bottom
-          = react_component('MessageThreadList', { structure: StructureSerializer.new(@structure), indexable_card_id: @indexable_card.id })
-        .soft--sides
-          = react_component('CommentList', { structure: StructureSerializer.new(@structure) })
+      = react_component('CommentList', { structure: StructureSerializer.new(@structure) })
 
     .grid__item.four-twelfths.palm-one-whole.palm-hard>
       %div{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#coursavenue-footer' } }
-        .bg-white.push--bottom
+        .push--bottom
           = render partial: 'structures/registration'
           - home_place_map_attributes = {}
           - if @course.teaches_at_home? and home_place
             - home_place_map_attributes = { home: { latitude: home_place.latitude, longitude: home_place.longitude, radius: home_place.radius } }
-          = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
-                                            root_subject: dominant_root_subject_slug,
-                                            metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
-                                           { prerender: false })
 
-          .soft--ends.bordered--sides.bordered--bottom
-            %div.soft--sides.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
-              %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos, placement: 'left' } }
-                %h4.flush= @place.name
-                %span.f-weight-500= @place.address
-              - if @course.teaches_at_home? and home_place
-                %h4.flush--bottom.push--top
-                  Se déplace à domicile
-                %span.f-weight-500 À #{home_place.city.name} dans un rayon de #{home_place.radius}km
+      .bg-white.push--bottom
+        .bg-yellow.soft--sides.soft-half--ends.bordered--top.bordered--sides.white
+          %h2.flush
+            %i.fa.fa-map-marker.v-middle
+            %span.v-middle Lieu
+        = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
+                                          root_subject: dominant_root_subject_slug,
+                                          metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
+                                         { prerender: false })
 
-              %span{ itemprop: 'address', itemscope: true, itemtype: 'http://data-vocabulary.org/Address'}
-                %meta{ itemprop: 'street-address', content: @place.address }
-                %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }
-                  %meta{ itemprop: 'latitude', content: @place.latitude }
-                  %meta{ itemprop: 'longitude', content: @place.longitude }
+        .soft--ends.bordered--sides.bordered--bottom
+          %div.soft--sides.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
+            %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos, placement: 'left' } }
+              %h4.flush= @place.name.slice(0,1).capitalize + @place.name.slice(1..-1)
+              %span.f-weight-500= @place.address
+            - if @course.teaches_at_home? and home_place
+              %h4.flush--bottom.push--top
+                Se déplace à domicile
+              %span.f-weight-500 À #{home_place.city.name} dans un rayon de #{home_place.radius}km
 
-            - if @place.nearby_metro_stops.any?
-              %hr.push--ends
-              .soft--sides
-                %h4.push-half--bottom Transports
-                - @place.nearby_metro_stops.includes(:lines).each do |stop|
-                  %div.push-half--bottom
-                    - stop.lines.each do |line|
-                      = MetroLineDecorator.new(line).chip
-                    %span.v-middle= stop.name
-            - unless @structure.is_sleeping?
-              %hr.push--ends
-              .soft--sides= render 'structures/response_stats'
+            %span{ itemprop: 'address', itemscope: true, itemtype: 'http://data-vocabulary.org/Address'}
+              %meta{ itemprop: 'street-address', content: @place.address }
+              %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }
+                %meta{ itemprop: 'latitude', content: @place.latitude }
+                %meta{ itemprop: 'longitude', content: @place.longitude }
+
+          - if @place.nearby_metro_stops.any?
+            %hr.push--ends
+            .soft--sides
+              %h4.push-half--bottom Transports
+              - @place.nearby_metro_stops.includes(:lines).each do |stop|
+                %div.push-half--bottom
+                  - stop.lines.each do |line|
+                    = MetroLineDecorator.new(line).chip
+                  %span.v-middle= stop.name
+      - unless @structure.is_sleeping?
+        .bg-white.bordered.push--bottom.soft= render 'structures/response_stats'
 
 = content_for :scripts do
   -# This is used when a user make a reservation.

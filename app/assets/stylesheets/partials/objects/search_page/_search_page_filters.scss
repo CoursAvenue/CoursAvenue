@@ -222,6 +222,7 @@ $map-height   : 480px;
         li:last-child { color: rgba(255,255,255,0.8); }
         a { cursor: pointer; }
     }
+    .search-page-filters__panel-half-height { height: $map-height / 2; }
     .search-page-filters__panel-height {
         height: $map-height;
         @include media-query(palm) { height: $map-height / 2; }

@@ -1,88 +1,3 @@
-.map_container {
-    .map-marker-image {
-        position : absolute;
-        font-size: 13px;
-        top      : -43px;
-        left     : -10px;
-        &.map-marker-image--small {
-            top : -5px !important;
-            left: 0px;
-        }
-    }
-    .map-marker-image.disabled {
-        a {
-            @include background-image-retina('icons/map-marker.png', 'icons/map-marker@2x.png');
-        }
-    }
-    .map-marker-image.disabled:hover, .map-marker-image.active {
-        z-index: 10;
-        a {
-            @include background-image-retina('icons/map-marker-blue.png', 'icons/map-marker-blue@2x.png');
-        }
-        &.map-marker-image--small {
-            a {
-                @include background-image-retina('icons/map-marker-blue-small.png', 'icons/map-marker-blue-small@2x.png');
-            }
-        }
-    }
-}
-.map-marker-image {
-    display : inline-block;
-    width   : 30px;
-    height  : 43px;
-    a {
-        width               : 30px;
-        height              : 43px;
-        line-height         : 28px;
-        position            : relative;
-        display             : block;
-        background-image    : image-url('icons/map-marker.png');
-        background-repeat   : no-repeat;
-        background-position : center center;
-        background-size     : 100%;
-    }
-    span {
-        position        : absolute;
-        color           : white;
-        width           : 21px;
-        left            : 50%;
-        margin-left     : -10px;
-        text-align      : center;
-        text-shadow     : -1px -1px 0 #a34c30;
-        font-size       : 12px;
-        vertical-align  : middle;
-        z-index         : 2;
-    }
-}
-.map-marker-image--small {
-    @extend .map-marker-image;
-    width   : 13px;
-    height  : 13px;
-    a {
-        width       : 13px;
-        height      : 13px;
-        line-height : 13px;
-        top         : -3px;
-        @include background-image-retina('icons/map-marker-small.png', 'icons/map-marker-small@2x.png')
-    }
-    span {
-        width           : 13px;
-        margin-left     : -8px;
-        font-size       : 10px;
-    }
-}
-.map-marker {
-    display         : inline-block;
-    padding         : 2px 5px;
-    background-color: $orange;
-    border          : solid 1px darken($brand-color, 10%);
-    text-align      : center;
-    min-width       : 1.3em;
-    text-shadow     : -1px -1px 0 #a34c30;
-    font-size       : 12px;
-    &, a {color: white;}
-    @include border-radius($brand-round);
-}
 .map-box-marker__user {
     margin-left: -7px !important;
     margin-top : -8px !important;
@@ -122,6 +37,14 @@
     margin-top : 0;
     margin-left: -9px;
     position   : relative;
+    &.map-box-marker--inline {
+        width      : 30px;
+        height     : 45px;
+        margin-left: 0;
+        display    : inline-block;
+        div { top: 8px; left: 0; }
+        &::before, &::after { top: 0; left: -5px; }
+    }
     &::after {
       content: $font-CoursAvenueIconFont-mapbox-marker;
       display                : inline-block;

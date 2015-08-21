@@ -1,28 +1,33 @@
-- dont_register = false if dont_register.nil?
-- index = 0
-- @structure.courses.trainings.each_with_index do |training|
-  - next if training.plannings.future.count == 0
-  - if index == 0
-    %h2.soft--sides#stages-ateliers Stages
-  - index = 1
+.soft--sides.soft-half--ends.bg-blue.white.border-color-blue-darker.bordered--sides.bordered--top
+  %h2.flush
+    %i.fa.fa-clock.v-middle
+    %span.v-middle Planning
+.bg-white.bordered--sides
+  - dont_register = false if dont_register.nil?
+  - index = 0
+  - @structure.courses.trainings.each_with_index do |training|
+    - next if training.plannings.future.count == 0
+    - if index == 0
+      %h2.soft--top.soft--sides#stages-ateliers Stages
+    - index = 1
 
-  = react_component('Course', { show_course_info: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: training.id }, { prerender: false })
+    = react_component('Course', { show_header: true, show_footer: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: training.id }, { prerender: false })
 
-- index = 0
-- @structure.courses.lessons.each_with_index do |lesson|
-  - next if lesson.plannings.future.count == 0
-  - if index == 0
-    %h2.soft--sides#cours-collectifs Cours collectifs
-  - index = 1
+  - index = 0
+  - @structure.courses.lessons.each_with_index do |lesson|
+    - next if lesson.plannings.future.count == 0
+    - if index == 0
+      %h2.soft--top.soft--sides#cours-collectifs Cours collectifs
+    - index = 1
 
-  = react_component('Course', { show_course_info: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: lesson.id }, { prerender: false })
+    = react_component('Course', { show_header: true, show_footer: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: lesson.id }, { prerender: false })
 
-- index = 0
-- @structure.courses.privates.each_with_index do |private|
-  - next if private.plannings.future.count == 0
-  - if index == 0
-    %h2.soft--sides#cours-particuliers Cours particuliers
-  - index = 1
+  - index = 0
+  - @structure.courses.privates.each_with_index do |private|
+    - next if private.plannings.future.count == 0
+    - if index == 0
+      %h2.soft--top.soft--sides#cours-particuliers Cours particuliers
+    - index = 1
 
-  = react_component('Course', { show_course_info: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: private.id }, { prerender: false })
+    = react_component('Course', { show_header: true, show_footer: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: private.id }, { prerender: false })
 

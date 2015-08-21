@@ -28,7 +28,7 @@ var Private = React.createClass({
             location_th = (<th className="two-tenths">Lieu</th>);
         }
         return (
-            <table className={"table--striped table--data table-responsive table-responsive--without-th " + (course.get('structure_is_active') ? 'table--hoverable' : '')}>
+            <table className={"flush table--striped table--data table-responsive table-responsive--without-th " + (course.get('structure_is_active') ? 'table--hoverable' : '')}>
                 <thead className="gray-light">
                     <tr>
                         <th className={"soft--left " + (this.props.show_location ? 'three-tenths' : '')}>

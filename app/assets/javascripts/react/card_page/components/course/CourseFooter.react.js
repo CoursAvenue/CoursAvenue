@@ -17,6 +17,7 @@ var CourseFooter = React.createClass({
     },
 
     getDescription: function getDescription (course) {
+        if (this.props.hide_description) { return; }
         if (course.get('description')) {
             return (<div className="last-p-flush soft--sides hidden" id={"course-description-" + course.get('id')}>
                         <div className="soft--top"
@@ -36,7 +37,7 @@ var CourseFooter = React.createClass({
         }
     },
     render: function render () {
-        var price_button, description_button;
+        var padding_class, price_button, description_button;
         var course = this.state.course_store.getCourseByID(this.props.course_id);
         if (course.get('price_group_prices') && course.get('price_group_prices').length > 0) {
             price_button = (<a href="javascript:void(0)"
@@ -56,7 +57,8 @@ var CourseFooter = React.createClass({
                                     </a>);
 
         }
-        return (<div className="push--bottom bordered--bottom soft--bottom">
+        padding_class = (price_button || description_button ? "soft--bottom soft--top" : '');
+        return (<div className={"bordered--bottom " + padding_class}>
                     <div className="soft--sides">
                         {description_button}{price_button}
                     </div>

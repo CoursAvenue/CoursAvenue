@@ -99,8 +99,11 @@
 .border-color-orange    { border-color  : $orange !important; }
 .border-color-blue-green{ border-color  : $blue-green !important; }
 .border-color-green     { border-color  : $green !important; }
+.border-color-blue-darker { border-color  : darken($blue, 5%) !important; }
+.border-color-pink-darker { border-color  : darken($pink, 5%) !important; }
 .border-color-dark-blue { border-color  : $dark_blue !important; }
 .border-color-yellow    { border-color  : $yellow !important; }
+.border-color-yellow-darker { border-color  : darken($yellow, 5%) !important; }
 .border-color-black-transparent { border-color: rgba(0,0,0,0.2) !important}
 
 /*------------------------------------*\
@@ -140,8 +143,10 @@
 .gray-very-light    { color: #CCC; }
 .bg-red             { background-color: $red; }
 .bg-blue-info       { background-color: $blue-info; }
+.bg-dark-blue       { background-color: $dark-blue; }
 .bg-blue            { background-color: $blue; }
 .bg-blue-green      { background-color: $blue-green; }
+.bg-pink            { background-color: $pink; }
 .bg-green           { background-color: $green-success; }
 .bg-dark-gray       { background-color: $gray; }
 .bg-gray            { background-color: $gray-light; }

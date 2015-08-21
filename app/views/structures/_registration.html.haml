@@ -10,10 +10,10 @@
     .grid
       - if @structure.phone_numbers.any?
         .grid__item.text--center{ class: (@structure.phone_numbers.any? and @structure.website.present? ? 'one-half' : 'one-whole') }>
-          = link_to 'Téléphone', '#phone-numbers', data: { behavior: 'modal', width: 350, padding: 0, logger: 'phone_number', structure_id: @structure.id }, class: 'palm-text--center palm-one-whole palm-push--top btn btn--white-transparent btn--white-transparent--white btn--full btn--small'
+          = link_to 'Afficher le téléphone', '#phone-numbers', data: { behavior: 'modal', width: 350, padding: 0, logger: 'phone_number', structure_id: @structure.id }, class: 'palm-text--center palm-one-whole palm-push--top btn btn--white-transparent btn--white-transparent--white btn--full btn--small'
       - if @structure.website.present?
         .grid__item.text--center{ class: (@structure.phone_numbers.any? and @structure.website.present? ? 'one-half' : 'one-whole') }>
-          = link_to 'Site Internet', URLHelper.fix_url(@structure.website), target: '_blank', rel: 'nofollow', data: { logger: 'website', structure_id: @structure.id }, class: 'palm-text--center palm-one-whole palm-push--top btn btn--white-transparent btn--white-transparent--white btn--full btn--small'
+          = link_to 'Visiter le site Internet', URLHelper.fix_url(@structure.website), target: '_blank', rel: 'nofollow', data: { logger: 'website', structure_id: @structure.id }, class: 'palm-text--center palm-one-whole palm-push--top btn btn--white-transparent btn--white-transparent--white btn--full btn--small'
 
 #phone-numbers.hidden.panel
   .panel__header.soft-half--ends.soft--sides
