@@ -49,8 +49,4 @@
         Bugsnag.notifyReleaseStages = ["staging", "production"]
     :javascript
         window.prerenderReady = false;
-    - if !@prerender_not_ready
-      :javascript
-          $(function() {
-              window.prerenderReady = true;
-          });
+

@@ -89,11 +89,6 @@
         $(function() {
             moment.locale('#{I18n.locale.to_s}')
         })
-    - if !@prerender_not_ready
-      :javascript
-          $(function() {
-              window.prerenderReady = true;
-          });
     - if on_pro_subdomain?
       = intercom_script_tag
     = render 'layouts/typekit'
