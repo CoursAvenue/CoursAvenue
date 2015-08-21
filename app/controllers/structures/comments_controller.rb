@@ -80,7 +80,15 @@ class Structures::CommentsController < ApplicationController
   def create_from_email
     comment_params = {}
     params.each do |name, value|
-      comment_params[name.split('comment_').last] = value if name.starts_with? 'comment_'
+      # For an unknown reason, the param look like:
+      # { comment_author_name: 'Foo', comment: { email: 'foo@bar.com' } }
+      if value.is_a? Hash
+        value.each do |_name, _value|
+          comment_params[_name] = _value
+        end
+      else
+        comment_params[name.split('comment_').last] = value if name.starts_with? 'comment_'
+      end
     end
     @structure = Structure.friendly.find(params[:structure_id])
     # In case the validation fails, we want to have the `@participation_request`
