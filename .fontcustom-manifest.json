@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "4f601041ebdf825c5b3e9cc3c9cf1f668159fe4f810a5467a9d4ad223f3e8dea",
-    "current": "4f601041ebdf825c5b3e9cc3c9cf1f668159fe4f810a5467a9d4ad223f3e8dea"
+    "previous": "18894a441969e3b3c5916e89dacbfac6a287fcce5f6a3a5f95b996201defafd9",
+    "current": "18894a441969e3b3c5916e89dacbfac6a287fcce5f6a3a5f95b996201defafd9"
   },
   "fonts": [
     "app/assets/fonts/CoursAvenueIconFont.ttf",
@@ -105,6 +105,10 @@
     "contact": {
       "codepoint": 61713,
       "source": "app/assets/images/icons/svg/contact.svg"
+    },
+    "coursavenue-marker-logo": {
+      "codepoint": 61802,
+      "source": "app/assets/images/icons/svg/coursavenue-marker-logo.svg"
     },
     "credit-card": {
       "codepoint": 61714,
@@ -297,6 +301,10 @@
     "quotes": {
       "codepoint": 61755,
       "source": "app/assets/images/icons/svg/quotes.svg"
+    },
+    "quotes-copy": {
+      "codepoint": 61801,
+      "source": "app/assets/images/icons/svg/quotes copy.svg"
     },
     "reload": {
       "codepoint": 61756,

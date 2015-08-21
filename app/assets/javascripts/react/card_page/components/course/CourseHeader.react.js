@@ -1,5 +1,4 @@
 var CourseStore   = require('../../stores/CourseStore'),
-    SubjectList   = require('../../../search_page_app/components/cards/SubjectList'),
     FluxBoneMixin = require("../../../mixins/FluxBoneMixin");
 
 var CourseHeader = React.createClass({
@@ -35,14 +34,14 @@ var CourseHeader = React.createClass({
                 subjects = _.map(course.get('child_subjects'), function(subject) {
                     var city = (course.get('places') && course.get('places')[0].city ? course.get('places')[0].city : 'paris');
                     return (<a href={Routes.search_page_path(subject.root_slug, subject.slug, city)}
-                               className={"search-page-card__subject bg-" + subject.root_slug +"-on-hover"}
+                               className={"search-page-card__subject white bg-" + subject.root_slug}
                                target="_blank">
                                 {subject.name}
                             </a>);
                 });
             }
 
-            return (<div className="soft--sides">
+            return (<div className="soft--sides soft--top">
                         { this.getPrice(course) }
                         <h3 className="push-half--bottom">{course.get('name')}</h3>
                         <div className="push-half--bottom">{ subjects }</div>

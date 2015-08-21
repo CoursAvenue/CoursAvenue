@@ -14,39 +14,27 @@
   %h5.text--center Planning avec inscription en ligne
   .grid
     .grid__item.eight-twelfths.palm-one-whole>
-      .bg-white.soft--top.bordered
-        = render partial: 'structures/plannings', locals: { dont_register: true }
+      = render partial: 'structures/plannings', locals: { dont_register: true }
 
     .grid__item.four-twelfths.palm-one-whole>
-      %div{ data: { behavior: 'sticky', old_width: 'true', offset_top: '39' } }
-        = react_component('Map', { markers: @structure.places.includes(:city).map(&:to_react_json) } )
-        .bg-white.soft--ends.bordered--sides.bordered--bottom
-          .soft--sides
-            %h3.push-half--top= 'Adresse'.pluralize(@structure.places.length)
-            - @structure.places.each_with_index do |place, index|
-              .push--bottom
-                .line-height-1-5
-                  %strong= "#{index + 1} #{place.name}"
-                  %br
-                  = place.address
-                - if place.info.present?
-                  %div
-                    %i= place.info
-
-      .bg-white.soft--ends.bordered--sides.bordered--bottom
-        - if @structure.comments_count > 0
-          .soft--sides
-            %h3= "#{@structure.comments_count} avis"
-            - @structure.comments.order('created_at DESC').first(3).each do |comment|
-              .push--bottom
-                %h6.quoted.inline-block.push-half--bottom
-                  = comment.title
-                .read-more{ itemprop: 'reviewBody', data: { behavior: 'read-more' } }
-                  = simple_format comment.content
-                .text--right.flush
-                  Il y a #{distance_of_time_in_words_to_now comment.created_at} par #{comment.author_name}
-            .text--center.push--bottom
-              = link_to 'Voir tous les avis', structure_path(@structure), class: 'btn btn--white btn--full'
+      .push--bottom{ data: { behavior: 'sticky', old_width: 'true', offset_top: '39' } }
+        = render 'structures/places'
+      - if @structure.comments_count > 0
+        .bg-pink.soft--sides.soft-half--ends.bordered--top.bordered--sides.white.border-color-pink-darker
+          %h2.flush
+            %i.fa.fa-comment.v-middle
+            %span.v-middle= "#{@structure.comments_count} avis"
+        .bg-white.soft--top.soft--sides.bordered--sides.bordered--bottom
+          - @structure.comments.order('created_at DESC').first(3).each do |comment|
+            .push--bottom
+              %h6.quoted.inline-block.push-half--bottom
+                = comment.title
+              .read-more{ itemprop: 'reviewBody', data: { behavior: 'read-more' } }
+                = simple_format comment.content
+              .text--right.flush
+                Il y a #{distance_of_time_in_words_to_now comment.created_at} par #{comment.author_name}
+          .text--center.push--bottom
+            = link_to 'Voir tous les avis', structure_path(@structure), class: 'btn btn--white btn--full'
 
   .grid.push--top
     .grid__item.eight-twelfths.palm-one-whole>

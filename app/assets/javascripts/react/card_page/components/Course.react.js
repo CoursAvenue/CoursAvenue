@@ -52,11 +52,14 @@ var Course = React.createClass({
                                                 course_id={this.props.course_id || this.props.indexable_card_id} />);
                     break;
             }
-            if (this.props.show_course_info) {
+            if (this.props.show_header) {
                 course_header = (<CourseHeader key={this.props.course_id + 'header'}
                                                course_id={this.props.course_id || this.props.indexable_card_id} />);
+            }
+            if (this.props.show_footer) {
                 course_footer = (<CourseFooter key={this.props.course_id + 'footer'}
-                                               course_id={this.props.course_id || this.props.indexable_card_id} />);
+                                  hide_description={this.props.hide_description}
+                                         course_id={this.props.course_id || this.props.indexable_card_id} />);
             }
         } else {
             spinner = (<div className="spinner">

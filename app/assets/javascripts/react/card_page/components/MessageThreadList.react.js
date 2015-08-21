@@ -55,45 +55,34 @@ var MessageThreadList = React.createClass({
         });
         return (
             <div id="messages-publics">
-                <div className="push-half--bottom soft--sides">
-                    <div>
-                        <h2 className="v-middle flush inline-block">
-                            Posez une question publique ({ this.state.thread_store.length })
-                        </h2>
-                        <i className="v-middle delta fa-question-circle" data-toggle="popover" data-content="<div className='f-size-normal'>Questions et témoignages recueillis auprès de la communauté d'élèves.</div>" data-html="true"></i>
+                <h2 className="bg-blue-green soft--sides soft-half--ends white flush">
+                    <i className="fa-quotes v-middle"></i>&nbsp;
+                    <span className="v-middle">
+                        Questions à la communauté ({ this.state.thread_store.length })
+                    </span>
+                </h2>
+                <div className="bg-white bordered--sides bordered--bottom soft--sides soft--bottom">
+                    <div className='epsilon soft--ends'>
+                        {"Posez ici vos questions concernant " + this.state.structure_store.get('name') + " ou une activité. Le professeur ou d’autres élèves comme vous pourront y répondre."}
                     </div>
-                    <div className='epsilon soft-half--ends'>
-                        {"Vous pouvez poser vos questions à " + (this.state.structure_store.get('about') || 'ce professeur') + " et à ses pratiquants avant de vous inscrire :"}
-                    </div>
-                </div>
-                <div className='bg-blue-green'>
-                    <div className="input flush soft">
+                    <div className="input flush">
                         <textarea name="community_message_thread[message]"
                                   className="one-whole input--large"
                                   data-behavior='autoresize'
                                   placeholder='Posez vos questions ou réponses ici.' />
                     </div>
-                    <div className='flexbox palm-block palm-one-whole soft hard--top'>
-                        <div className='flexbox__item palm-block palm-one-whole one-whole soft--right white'>
-                            Inutile de poser une question sur les coordonnées de contact&nbsp;:&nbsp;
-                            <a href="javascript:void(0)" className="link--white"
-                               onClick={this.scrollToTop}>
-                               accéder au téléphone et au site Internet
-                            </a>
-                        </div>
-                        <div className='flexbox__item palm-block palm-one-whole'>
-                            <button type="submit"
-                                    className="nowrap btn palm-one-whole palm-push--top btn--white-transparent btn--white-transparent--white"
-                                    data-disable-with="Message en cours d'envoi..."
-                                    onClick={this.submitThread}>
-                                { button_content }
-                            </button>
-                        </div>
+                    <div className="soft-half--top">
+                        <button type="submit"
+                                className="nowrap btn palm-one-whole palm-push--top btn--blue-green"
+                                data-disable-with="Message en cours d'envoi..."
+                                onClick={this.submitThread}>
+                            { button_content }
+                        </button>
                     </div>
+                    <article className={(threads.length > 0 ? "soft hard--bottom" : '')}>
+                        { threads }
+                    </article>
                 </div>
-                <article className="soft">
-                    { threads }
-                </article>
             </div>
         );
     }
