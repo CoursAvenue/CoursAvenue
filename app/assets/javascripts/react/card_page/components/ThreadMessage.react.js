@@ -12,6 +12,13 @@ var ThreadMessage = React.createClass({
         $(this.getDOMNode()).find('[data-behavior=read-more]').readMore();
     },
 
+    componentDidUpdate: function componentDidUpdate () {
+        if (this.state.show_reply_form) {
+            var $textarea = $(this.getDOMNode()).find('textarea');
+            $textarea.textareaResizer();
+        }
+    },
+
     submitReplyToThread: function submitReplyToThread () {
         if (CoursAvenue.currentUser().isLogged()) {
             var $textarea = $(this.getDOMNode()).find('textarea');

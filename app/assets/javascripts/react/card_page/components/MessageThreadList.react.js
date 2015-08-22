@@ -9,6 +9,8 @@ var MessageThreadList = React.createClass({
     mixins: [ FluxBoneMixin('thread_store') ],
 
     componentDidMount: function componentDidMount() {
+        var $textarea = $(this.getDOMNode()).find('textarea');
+        $textarea.textareaResizer();
         StructureActionCreators.setStructure(this.props.structure);
     },
 
