@@ -33,6 +33,16 @@ CourseCard = React.createClass({
         });
     },
 
+    // A card should only be updated if the favorite is being toggled.
+    // We test if the attribute is present and not its value because its value can be false.
+    shouldComponentUpdate: function shouldComponentUpdate () {
+        if (this.options.index != this.props.card.getVisibleIndex() ||
+            !_.isUndefined(this.props.card.changedAttributes().favorite)){
+            return true;
+        }
+        return false;
+    },
+
     onMouseEnter: function onMouseEnter () {
         if (this.props.is_popup) { return; }
         CardActionCreators.cardHovered({ card: this.props.card, hovered: true });
@@ -174,12 +184,6 @@ CourseCard = React.createClass({
         window.open(new_location);
     },
 
-    // A card should only be updated if the favorite is being toggled.
-    // We test if the attribute is present and not its value because its value can be false.
-    shouldComponentUpdate: function shouldComponentUpdate () {
-        return (!_.isUndefined(this.props.card.changedAttributes().favorite))
-    },
-
     render: function render () {
         var course_information, course_location;
             gift_classes = { gray: this.props.card.get('is_open_for_trial')}
@@ -193,16 +197,16 @@ CourseCard = React.createClass({
             }
             course_location = (<CourseLocation follow_links={this.props.follow_links} card={this.props.card} rankingInfo={ this.props.card.get('_rankingInfo') } address={ this.props.card.get('place_address') } />);
         }
-        var options = {
+        this.options = {
             onMouseEnter: this.onMouseEnter,
             onMouseLeave: this.onMouseLeave,
             onClick:      this.goToCourse,
             classes:      this.props.width_class + ' ' + popup_class,
-            index:        this.props.index
+            index:        this.props.card.getVisibleIndex()
         }
 
         return (
-            <Card {...options}>
+            <Card {...this.options}>
                 <div className="bg-white search-page-card__content">
                   {this.headerCard()}
                     <div className="soft-half--sides soft-half--bottom">
