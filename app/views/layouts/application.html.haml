@@ -85,7 +85,6 @@
         Bugsnag.releaseStage = '#{Rails.env}';
         Bugsnag.notifyReleaseStages = ["staging", "production"]
     :javascript
-        window.prerenderReady = false;
         $(function() {
             moment.locale('#{I18n.locale.to_s}')
         })
