@@ -2,7 +2,9 @@ class Guide::QuestionSerializer < ActiveModel::Serializer
   delegate :attributes, to: :object
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'Guide::QuestionSerializer/' + object.cache_key
+  end
 
   has_many :answers, serializer: Guide::AnswerSerializer
 end

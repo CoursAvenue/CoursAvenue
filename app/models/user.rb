@@ -308,6 +308,14 @@ class User < ActiveRecord::Base
     user.reload.destroy
   end
 
+  def public_name
+    if first_name.present? or last_name.present?
+      last_name.present? ? ("#{first_name} #{last_name[0]}.".strip) : first_name
+    else
+      generated_fake_name
+    end
+  end
+
   def name
     if full_name.present?
       full_name

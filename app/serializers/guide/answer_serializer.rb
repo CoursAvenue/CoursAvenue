@@ -2,7 +2,9 @@ class Guide::AnswerSerializer < ActiveModel::Serializer
   delegate :ponderation, to: :object, allow_nil: true
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'Guide::AnswerSerializer/' + object.cache_key
+  end
 
   attributes *(Guide::Answer.attribute_names.map(&:to_sym) + [:subjects, :ponderation])
 
