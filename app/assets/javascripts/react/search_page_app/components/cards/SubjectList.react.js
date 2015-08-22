@@ -37,7 +37,7 @@ Subject_list = React.createClass({
         var subject_nodes = _.map(this.props.subject_list, function(subject, index) {
             return (
                 <Subject colored={this.props.colored}
-                         follow_links={this.props.follow_links}
+                    follow_links={this.props.follow_links}
                          subject={ subject } key={ index } />
             );
         }, this);
