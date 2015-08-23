@@ -4,13 +4,12 @@ var SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
 var ActionTypes = SearchPageConstants.ActionTypes;
 
 var SignInHelper = {
-    // url:            '',
     title:          'Connectez-vous !',
     type:           'info',
     icon:           'sign-in fa',
     sign_in:        true,
     cookie_key:     'info-connection-after-favorites',
-    description:    'En vous connectant, vos favoris seront enregistré dans votre compte.',
+    description:    'En vous connectant, vos favoris seront enregistrés dans votre compte.',
     call_to_action: 'Se connecter',
 };
 
@@ -65,9 +64,9 @@ var HelperCollection = Backbone.Collection.extend({
 
         if (sign_in_card) { return sign_in_card; }
 
-        return _.sample(_.reject(this.models, function (helper) {
+        return _.reject(this.models, function (helper) {
             return helper.hasBeenDismissed();
-        }));
+        })[0];
     },
 
     dispatchCallback: function dispatchCallback (payload) {
