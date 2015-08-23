@@ -219,7 +219,7 @@ var MapComponent = React.createClass({
         if (card.get('visible')) {
             return L.divIcon({
                 className: 'map-box-marker map-box-marker__' + card.get('root_subject'),
-                html: '<div>' + (this.state.card_store.indexOf(card) + 1) + '</div>'
+                html: '<div>' + (card.getVisibleIndex()) + '</div>'
             });
         } else {
             return L.divIcon({
