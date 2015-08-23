@@ -23,6 +23,7 @@ namespace :scheduler do
         end
       end
     end
+
     # $ rake scheduler:prerender:refresh_structures
     desc 'Prerender pages and save them to S3.1'
     task :refresh_structures => :environment do
@@ -31,6 +32,17 @@ namespace :scheduler do
       Rails.application.routes.default_url_options[:protocol] = Rails.env.production? ? 'https' : 'http'
       Structure.find_each do |structure|
         PrerenderRenewer.delay.renew_url structure_url(structure, subdomain: 'www')
+      end
+    end
+
+    # $ rake scheduler:prerender:refresh_structures
+    desc 'Prerender pages and save them to S3.1'
+    task :refresh_cards => :environment do
+      include Rails.application.routes.url_helpers
+      Rails.application.routes.default_url_options[:host] = 'coursavenue.com'
+      Rails.application.routes.default_url_options[:protocol] = Rails.env.production? ? 'https' : 'http'
+      IndexableCard.with_course.find_each do |card|
+        PrerenderRenewer.delay.renew_url structure_indexable_card_url(card.structure, card, subdomain: 'www')
       end
     end
 
