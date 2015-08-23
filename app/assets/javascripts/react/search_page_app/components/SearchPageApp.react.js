@@ -48,6 +48,7 @@ SearchPageApp = React.createClass({
 
     componentDidMount: function componentDidMount() {
         if (this.props.show_subject_panel) {
+            FilterActionCreators.showRootPanel();
             FilterActionCreators.toggleSubjectFilter();
         }
         // We have to trigger this action on when the app is mounted because the action is triggered
