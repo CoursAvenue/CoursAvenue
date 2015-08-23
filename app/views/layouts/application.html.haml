@@ -84,10 +84,11 @@
     :javascript
         Bugsnag.releaseStage = '#{Rails.env}';
         Bugsnag.notifyReleaseStages = ["staging", "production"]
-    :javascript
         $(function() {
             moment.locale('#{I18n.locale.to_s}')
         })
     - if on_pro_subdomain?
       = intercom_script_tag
+    :javascript
+        window.prerenderReady = false;
     = render 'layouts/typekit'
