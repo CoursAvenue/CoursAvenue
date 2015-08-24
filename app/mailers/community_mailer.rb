@@ -74,6 +74,16 @@ class CommunityMailer < ActionMailer::Base
       reply_to: generate_reply_to(@admin)
   end
 
+  def notify_sleeping(structure)
+    raise 'not implemented' # TODO: Remove this
+    return if structure.nil? or structure.email.nil?
+    @structure = structure
+
+    mail to: @structure.email,
+      subject: I18n.t('community.emails.notify_sleeping')
+
+  end
+
   private
 
   def set_global_variables
