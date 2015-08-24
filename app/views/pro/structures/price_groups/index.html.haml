@@ -12,16 +12,16 @@
           %i.fa.fa-plus
           Ajouter une grille tarifaire
 
-  - if @structure.courses.detect(&:has_free_trial_lesson?)
-    .grid--full.text--center.soft--ends.bordered--ends.push--bottom.palm-text--left
-      .grid__item.seven-tenths.palm-one-whole>
-        = simple_form_for [:pro, @structure], html: { data: { behavior: 'live-form' } }, remote: true do |f|
-          .flexbox.palm-block
-            .flexbox__item.nowrap.palm-block
-              %label.label--large.f-weight-bold.soft--left
-                Nombre de cours d'essai par personne
-            .flexbox__item.palm-block
-              = f.input :trial_courses_policy, as: :select, collection: ['1_trial', '2_trials', '3_trials'], label_method: lambda{ |policy| I18n.t("structures.trial_courses_policy.#{policy}") }, input_html: { class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush' }, include_blank: false
+  -# - if @structure.courses.detect(&:has_free_trial_lesson?)
+  -#   .grid--full.text--center.soft--ends.bordered--ends.push--bottom.palm-text--left
+  -#     .grid__item.seven-tenths.palm-one-whole>
+  -#       = simple_form_for [:pro, @structure], html: { data: { behavior: 'live-form' } }, remote: true do |f|
+  -#         .flexbox.palm-block
+  -#           .flexbox__item.nowrap.palm-block
+  -#             %label.label--large.f-weight-bold.soft--left
+  -#               Nombre de cours d'essai par personne
+  -#           .flexbox__item.palm-block
+  -#             = f.input :trial_courses_policy, as: :select, collection: ['1_trial', '2_trials', '3_trials'], label_method: lambda{ |policy| I18n.t("structures.trial_courses_policy.#{policy}") }, input_html: { class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush' }, include_blank: false
 
   %h3 Pour les cours collectifs et particuliers
   %p#regulars-empty-message{ class: (@structure.price_groups.for_regular_courses.empty? ? '': 'hidden') }

@@ -4,7 +4,7 @@
   .panel
     .visuallyhidden= link_to 'Définir les tarifs', new_pro_structure_price_group_path(@structure, course_type: (course.is_training? ? 'training' : 'regular'), name: course.name, course_id: course.id), class: 'fancybox.ajax', data: { type: 'course-price-group-creation', behavior: 'modal', width: '1000', top_ratio: 0.2, padding: '0', close_click: 'false' }
     .flexbox
-      .flexbox__item.v-top.two-twelfths.text--center.bordered--right>
+      .flexbox__item.v-top.two-twelfths.text--center.bordered--right.palm-block.palm-one-whole>
         - if course.media
           = image_tag course.media.image.url(:thumbnail)
           = link_to 'Choisir une autre image', choose_media_pro_structure_course_path(@structure, course), class: 'fancybox.ajax', data: { behavior: 'modal', padding: '0', width: 750 }
@@ -14,7 +14,7 @@
               %i.fa-camera.fa-4x
             Choisir une image
 
-      .flexbox__item.v-top.ten-twelfths>
+      .flexbox__item.v-top.ten-twelfths.palm-block.palm-one-whole>
         .soft-half--ends
           = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { data: { behavior: 'live-form' } } do |f|
             .push-half--bottom.soft-half--sides

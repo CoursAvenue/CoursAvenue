@@ -9,7 +9,7 @@
         .flexbox__item.v-middle.soft--left.palm-text--center.relative
           .visuallyhidden--lap-and-up
             - if current_pro_admin
-              %a.cursor-pointer.west.absolute.white{ data: { behavior: 'toggle-responsive-menu' } }
+              %a.cursor-pointer.west.absolute.white{ style: 'line-height: 60px;', data: { behavior: 'toggle-responsive-menu' } }
                 %i.fa-menu.fa-2x
             .coursavenue-header-logo.coursavenue-header-logo--white
           = link_to '', root_path, class: 'visuallyhidden--palm v-middle coursavenue-header-logo coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
@@ -57,7 +57,7 @@
       .main-container.flexbox.pro-public-top-menu
         .flexbox__item.v-middle.soft--left
           .visuallyhidden--lap-and-up.text--center
-            %a.push-half--left.cursor-pointer.west.absolute.white{ data: { behavior: 'toggle-responsive-menu' } }
+            %a.push-half--left.cursor-pointer.west.absolute.white{ style: 'line-height: 60px;', data: { behavior: 'toggle-responsive-menu' } }
               %i.fa-menu.fa-2x
             .coursavenue-header-logo.coursavenue-header-logo--white
           = link_to '', root_path, class: 'visuallyhidden--palm v-middle coursavenue-header-logo coursavenue-header-logo--white', title: 'Recrutez de nouveaux élèves'
