@@ -12,6 +12,10 @@ var StructureModel = Backbone.Model.extend({
 var SimilarProfileStore = Backbone.Collection.extend({
     model: StructureModel,
 
+    comparator: function comparator (profile) {
+        return (- parseInt(profile.get('search_score'), 10));
+    },
+
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback', 'searchSuccess', 'searchError');
         this.dispatchToken = CardPageDispatcher.register(this.dispatchCallback);
