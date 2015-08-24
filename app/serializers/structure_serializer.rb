@@ -3,14 +3,15 @@ class StructureSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
   cached
+  # Make sure to update the version when updating the serializer attributes / methods.
   def cache_key
-    'StructureSerializer/' + object.cache_key
+    'StructureSerializer/' + object.cache_key + '/v1'
   end
 
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_thumb_url_2x, :logo_large_url,
               :data_url, :query_params, :structure_type, :highlighted_comment_title,
               :has_promotion, :is_open_for_trial, :cover_media, :subjects,
-              :cities_text, :min_price_amount, :about
+              :cities_text, :min_price_amount, :about, :latitude, :longitude
 
   has_many :places,            serializer: PlaceSerializer
   has_many :preloaded_medias,  serializer: MediaSerializer
