@@ -66,7 +66,7 @@ var SimilarProfileList = React.createClass({
             );
         });
 
-        // if (_.isEmpty(profiles)) { return false; }
+        if (_.isEmpty(profiles)) { return false; }
 
         return (
             <div className='bordered bg-white'>
