@@ -65,11 +65,11 @@
         padding    : 0.9em;
     }
     .search-page-card__favorite--activated .fa-heart {
-        @include animation(scaleFade 0.4s forwards);
+        opacity: 0;
+        @include transform(scale(4));
+        @include animation(scaleFade 0.3s cubic-bezier(0.3, 1.04, 0.44, 1.15));
     }
     @include keyframes(scaleFade) {
-        0% { opacity: 1; @include transform(scale(1)); }
-        70% { opacity: 1; @include transform(scale(2)); }
         100% { opacity: 1; @include transform(scale(1)); }
     }
     .search-page-card__price {
