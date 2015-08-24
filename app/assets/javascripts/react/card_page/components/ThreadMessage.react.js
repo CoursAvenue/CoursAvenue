@@ -39,8 +39,8 @@ var ThreadMessage = React.createClass({
         if (this.props.answers) {
             content_class = 'delta line-height-1-3';
             avatar_size   = '80';
-            answers = _.map(this.props.answers, function(message) {
-                return (<ThreadMessage message={message} />);
+            answers = _.map(this.props.answers, function(message, index) {
+                return (<ThreadMessage key={ index } message={message} />);
             });
             if (this.state.show_reply_form == false) {
                 reply_link = (<div className="text--right"><a onClick={this.showReplyForm} className="btn btn--small btn--white">

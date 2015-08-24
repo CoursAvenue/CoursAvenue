@@ -29,7 +29,7 @@ var Lesson = React.createClass({
         }
         var infos = [];
         if (course.get('teaches_at_home')) {
-            infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
+            infos.push((<div key={ infos.length } className='push-half--right push-half--bottom inline-block v-middle'>
                             <i className='delta fa fa-house v-middle'></i>
                             <div className='inline-block v-middle'>
                                 &nbsp;Se déplace à domicile
@@ -37,28 +37,28 @@ var Lesson = React.createClass({
                         </div>));
         }
         if (course.get('on_appointment')) {
-            infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
+            infos.push((<div key={ infos.length } className='push-half--right push-half--bottom inline-block v-middle'>
                             <i className='delta fa fa-phone v-middle'></i>
                             <div className='inline-block v-middle'>
                                 &nbsp;Pas de créneau précis, uniquement sur demande
                             </div>
                         </div>));
         }
-        infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
+        infos.push((<div key={ infos.length } className='push-half--right push-half--bottom inline-block v-middle'>
                         <i className='delta fa fa-repeat v-middle'></i>
                         <div className='inline-block v-middle'>
                             &nbsp;{course.get('frequency')}
                         </div>
                     </div>));
         if (course.get('cant_be_joined_during_year')) {
-            infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
+            infos.push((<div key={ infos.length } className='push-half--right push-half--bottom inline-block v-middle'>
                             <i className='delta fa fa-forbidden v-middle'></i>
                             <div className='inline-block v-middle'>
                                 &nbsp;{"Pas d'inscription en cours d'année"}
                             </div>
                         </div>));
         } else {
-            infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
+            infos.push((<div key={ infos.length } className='push-half--right push-half--bottom inline-block v-middle'>
                             <i className='delta fa fa-calendar v-middle'></i>
                             <div className='inline-block v-middle'>
                                 &nbsp;{"Inscriptions tout au long de l'année"}
@@ -66,7 +66,7 @@ var Lesson = React.createClass({
                         </div>));
         }
         if (course.get('no_class_during_holidays')) {
-            infos.push((<div className='push-half--right push-half--bottom inline-block v-middle'>
+            infos.push((<div key={ infos.length } className='push-half--right push-half--bottom inline-block v-middle'>
                             <i className='delta fa fa-forbidden v-middle'></i>
                             <div className='inline-block v-middle'>
                                 &nbsp;{"Pas de cours pendant les vacances scolaires"}

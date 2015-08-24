@@ -34,7 +34,7 @@ var CommentList = React.createClass({
                 comments = this.state.comment_store.map(function(comment, index) {
                     var hr;
                     if (index > 0) { hr = (<hr className="push--ends nine-twelfths margin-left-auto" />); }
-                    return (<div>
+                    return (<div key={ index }>
                               {hr}
                               <Comment comment={comment} key={comment.get('id')}/>
                             </div>);

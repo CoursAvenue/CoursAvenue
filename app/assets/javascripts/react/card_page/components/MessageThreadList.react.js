@@ -48,7 +48,7 @@ var MessageThreadList = React.createClass({
         threads = this.state.thread_store.map(function(thread, index) {
             var hr;
             if (index > 0) { hr = (<hr className="push--ends nine-twelfths margin-left-auto" />); }
-            return (<div>
+            return (<div key={ index }>
                         {hr}
                         <Thread thread={thread} key={thread.get('id')}/>
                     </div>);

@@ -1,7 +1,7 @@
 var PriceGroup = React.createClass({
 
     getRows: function getRows (prices) {
-        return _.map(prices, function(price) {
+        return _.map(prices, function(price, index) {
             var amount;
             if (price.amount && price.promo_amount) {
                 amount = (<div>
@@ -13,7 +13,7 @@ var PriceGroup = React.createClass({
             } else if (price.promo_amount) {
                 amount = (<span>{COURSAVENUE.helperMethods.readableAmount(price.promo_amount, (price.promo_amount_type || '€'))}</span>);
             }
-            return (<tr>
+            return (<tr key={ index }>
                         <td className='soft--left' data-th="Formule">
                               <div>
                                   { price.libelle }&nbsp;

@@ -31,9 +31,9 @@ var CourseHeader = React.createClass({
         var course = this.state.course_store.getCourseByID(this.props.course_id);
         if (course) {
             if (course.get('child_subjects')) {
-                subjects = _.map(course.get('child_subjects'), function(subject) {
+                subjects = _.map(course.get('child_subjects'), function(subject, index) {
                     var city = (course.get('places') && course.get('places')[0].city ? course.get('places')[0].city : 'paris');
-                    return (<a href={Routes.search_page_path(subject.root_slug, subject.slug, city)}
+                    return (<a key={ index } href={Routes.search_page_path(subject.root_slug, subject.slug, city)}
                                className={"search-page-card__subject white bg-" + subject.root_slug}
                                target="_blank">
                                 {subject.name}
