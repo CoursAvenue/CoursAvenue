@@ -41,6 +41,7 @@
           = f.hidden_field :commentable_id
           - if @participation_request
             = f.hidden_field :certified, value: true
+            = f.hidden_field :course_id, value: @participation_request.course.id
 
           .input
             %div.control-label
