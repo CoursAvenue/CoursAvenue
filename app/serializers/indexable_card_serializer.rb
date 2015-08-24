@@ -13,7 +13,7 @@ class IndexableCardSerializer < ActiveModel::Serializer
   has_many :price_group_prices,  serializer: PriceSerializer
 
   def price_group_prices
-    object.course.price_group_prices.order('price ASC')
+    object.course.price_group_prices.order('amount DESC')
   end
 
   def plannings
