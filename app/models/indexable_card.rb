@@ -155,7 +155,7 @@ class IndexableCard < ActiveRecord::Base
 
     add_attribute :header_image do
       if course and course.media
-        course.media.url(:search_thumbnail)
+        course.media.image.url(:search_thumbnail)
       elsif structure.medias.any?
         image = structure.medias.cover_first.images_first.first.image
         image.url(:search_thumbnail)
