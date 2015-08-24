@@ -229,8 +229,22 @@ var CardCollection = Backbone.Collection.extend({
         if (LocationStore.get('bounds')) {
             data.insideBoundingBox = LocationStore.get('bounds').toString();
         }
-        if (LocationStore.get('address') && LocationStore.get('address').size == 3) {
-            data.aroundPrecision = 5000;
+        switch(LocationStore.get('zoom') || LocationStore.getInitialZoom()) {
+            case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+                data.aroundPrecision = 1000000; break;
+            case 8:  data.aroundPrecision = 500000; break;
+            case 9:  data.aroundPrecision = 100000; break;
+            case 10: data.aroundPrecision = 20000; break;
+            case 11: data.aroundPrecision = 10000; break;
+            case 12: data.aroundPrecision = 5000; break;
+            case 13: data.aroundPrecision = 4000; break;
+            case 14: data.aroundPrecision = 2000; break;
+            case 15: data.aroundPrecision = 1000; break;
+            case 16: data.aroundPrecision = 750; break;
+            case 17: data.aroundPrecision = 500; break;
+            case 18: data.aroundPrecision = 500; break;
+            case 19: data.aroundPrecision = 100; break;
+            default: data.aroundPrecision = 5000; break;
         }
         if (LocationStore.get('user_location')) {
             data.aroundLatLng = LocationStore.get('user_location').latitude + ',' + LocationStore.get('user_location').longitude;
@@ -244,7 +258,6 @@ var CardCollection = Backbone.Collection.extend({
             // In this case, we don't have specific location,
             // it's the user that is moving the map by hand
             data.aroundLatLng = LocationStore.get('bounds_center').lat + ',' + LocationStore.get('bounds_center').lng
-            data.aroundPrecision = 2000;
         }
 
         // Do not filter by line if a stop is selected, because if a stop is selected,

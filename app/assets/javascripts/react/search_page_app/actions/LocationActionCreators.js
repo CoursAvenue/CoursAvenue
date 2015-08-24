@@ -3,6 +3,14 @@ var SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     ActionTypes          = SearchPageConstants.ActionTypes;
 
 module.exports = {
+    // zoom: 12
+    updateZoom: function updateZoom (zoom) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.UPDATE_BOUNDS_ZOOM,
+            data: zoom
+        });
+    },
+
     // center: { lat: .., lng: ... }
     updateBoundsCenter: function updateBoundsCenter (center) {
         SearchPageDispatcher.dispatch({

@@ -35,13 +35,14 @@ var MapComponent = React.createClass({
         this.visible_marker_layer = new L.featureGroup();
         // this.metro_layer          = new L.featureGroup();
         this.map = L.mapbox.map(this.getDOMNode(), this.props.mapId || 'mapbox.streets', { scrollWheelZoom: false })
-                          .setView(this.props.center, (this.state.location_store.getCitySlug() == 'paris' ? 12 : 13))
+                          .setView(this.props.center, (this.state.location_store.getInitialZoom()))
                           .addLayer(this.small_marker_layer)
                           .addLayer(this.visible_marker_layer)
                           // .addLayer(this.metro_layer);
     },
 
     setEventsListeners: function setEventsListeners () {
+        this.map.on('zoomend', this.updateZoom);
         this.map.on('moveend', this.searchCardsWithNewBounds);
         this.map.on('popupclose', function(location) {
             _.each(this.visible_marker_layer.getLayers(), function(marker) {
@@ -131,6 +132,10 @@ var MapComponent = React.createClass({
                               });
         this.map.addLayer(this.location_marker);
         this.map.setView([location.latitude, location.longitude]);
+    },
+
+    updateZoom: function updateZoom (first_load) {
+        LocationActionCreators.updateZoom(this.map.getZoom());
     },
 
     searchCardsWithNewBounds: function searchCardsWithNewBounds (first_load) {

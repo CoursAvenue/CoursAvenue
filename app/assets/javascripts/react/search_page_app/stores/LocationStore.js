@@ -27,6 +27,9 @@ var LocationStore = Backbone.Model.extend({
                 this.unset('user_location');
                 this.set('address', payload.data);
                 break;
+            case ActionTypes.UPDATE_BOUNDS_ZOOM:
+                this.set('zoom', payload.data);
+                break;
             case ActionTypes.UPDATE_BOUNDS_CENTER:
                 // If the user starts moving the map, we remove default address
                 // set on load to let the user decide of its results
@@ -69,6 +72,13 @@ var LocationStore = Backbone.Model.extend({
 
     isFilteredByAddress: function isFilteredByAddress (payload) {
         return !_.isUndefined(this.get('address')) && this.get('address').is_address;
+    },
+
+    getInitialZoom: function getInitialZoom () {
+        if (this.get('address') && !this.get('address').is_address) {
+            return (this.get('address').size == 3 ? 12 : 14);
+        }
+        return 13;
     },
 
     getCitySlug: function getCitySlug () {
