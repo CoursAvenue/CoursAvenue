@@ -6,3 +6,4 @@ fr:
       notify_answer_from_teacher: "Communauté d'entraide %{structure_name}"
       notify_answer_from_member: "Communauté d'entraide %{structure_name}"
       notify_answer_from_member_to_teacher: "Votre communauté d'entraide a répondu à %{sender_name}"
+      notify_sleeping: "Vous avez reçu une question publique sur CoursAvenue"

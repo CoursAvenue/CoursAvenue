@@ -41,7 +41,7 @@ class Course < ActiveRecord::Base
   before_save :update_structure_vertical_pages_breadcrumb
 
   after_save   :reindex_plannings unless Rails.env.test?
-  after_save   :update_indexable_cards unless Rails.env.test?
+  # after_save   :update_indexable_cards unless Rails.env.test?
 
   ######################################################################
   # Scopes                                                             #

@@ -47,7 +47,7 @@ class Planning < ActiveRecord::Base
   has_many :subjects,       through: :course
   has_many :reservations,   as: :reservable
 
-  belongs_to :indexable_card
+  belongs_to :indexable_card, dependent: :destroy
 
   ######################################################################
   # Callbacks                                                          #
@@ -62,12 +62,10 @@ class Planning < ActiveRecord::Base
   before_save :set_structure_if_blank
 
   after_save    :update_structure_meta_datas
-  after_save    :update_indexable_cards
+  # after_save    :update_indexable_cards
 
-  before_destroy :destroy_indexable_cards
-  before_destroy :update_indexable_cards
-
-  # before_destroy :remove_from_jobs
+  # before_destroy :destroy_indexable_cards
+  # before_destroy :update_indexable_cards
 
   ######################################################################
   # Validations                                                        #
@@ -505,15 +503,6 @@ class Planning < ActiveRecord::Base
         errors.add(:end_date, 'Le cours ne peut pas être dans le passé.')
       end
     end
-  end
-
-  # Remove the current planning from Delayed Jobs on deletion.
-  #
-  # TODO: Profile length of method.
-  # @return nil
-  def remove_from_jobs
-    jobs = Delayed::Job.select { |job| YAML.load(job.handler).object == self }
-    jobs.each(&:destroy)
   end
 
   # Destroy card if it was the only planning attached to it

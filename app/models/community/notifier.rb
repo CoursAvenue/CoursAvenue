@@ -60,4 +60,13 @@ class Community::Notifier
 
     CommunityMailer.delay.notify_answer_from_member_to_teacher(admin, @message, @thread)
   end
+
+  private
+
+  def notify_sleeping
+    structure = @community.structure
+    if structure.is_sleeping? and structure.email.present?
+      CommunityMailer.delay.notify_sleeping_of_question(structure, @thread)
+    end
+  end
 end
