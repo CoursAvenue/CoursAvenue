@@ -242,6 +242,24 @@ class Structure < ActiveRecord::Base
       end
     end
 
+    add_attribute :subjects do
+      subjects = []
+      if self.courses.any?
+        subjects = self.courses.includes(:subjects).flat_map(&:subjects).uniq
+      else
+        subjects = self.subjects.at_depth(2).uniq
+      end
+
+      subjects.map do |subject|
+        {
+          name: subject.name,
+          slug: subject.slug,
+          slug_name: "#{subject.slug}:#{subject.name}",
+          root_slug: subject.root.slug
+        }
+      end
+    end
+
     attribute :search_score
   end
 
