@@ -1,4 +1,5 @@
 var _                   = require('lodash'),
+    FluxBoneMixin       = require('../../mixins/FluxBoneMixin'),
     SimilarProfileStore = require('../stores/SimilarProfileStore');
 
 var SimilarProfile = React.createClass({
@@ -51,6 +52,13 @@ var SimilarProfile = React.createClass({
 });
 
 var SimilarProfileList = React.createClass({
+
+    mixins: [ FluxBoneMixin('similar_profile_store') ],
+
+    getInitialState: function getInitialState () {
+        return { similar_profile_store: SimilarProfileStore };
+    },
+
     render: function render () {
         var profiles = SimilarProfileStore.map(function (profile, index) {
             return (
