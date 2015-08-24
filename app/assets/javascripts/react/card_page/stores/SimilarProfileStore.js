@@ -45,7 +45,7 @@ var SimilarProfileStore = Backbone.Collection.extend({
         this.loading = false;
         this.error   = false;
 
-        this.reset(data);
+        this.reset(data.hits);
     },
 
     searchError: function searchError (data) {
