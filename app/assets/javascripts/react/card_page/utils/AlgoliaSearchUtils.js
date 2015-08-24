@@ -19,6 +19,12 @@ module.exports = {
         // card_search_helper.addExclude('id', data.structure_id);
         card_search_helper.addExclude('slug', data.structure_slug);
 
+        if (data.subjects) {
+            _.each(data.subjects, function (subject) {
+                card_search_helper.addDisjunctiveRefine('subjects.slug', subject.slug);
+            });
+        }
+
         card_search_helper.on('result', successCallback);
         card_search_helper.on('error', errorCallback);
 
