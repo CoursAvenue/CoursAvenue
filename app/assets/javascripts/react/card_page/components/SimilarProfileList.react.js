@@ -37,7 +37,7 @@ var SimilarProfile = React.createClass({
                         </div>
                         <div className='grid__item v-middle four-fifths soft-half--left opacity-hidden-on-hover__wrapper'>
                             <h6 className='hide-for-fout flush line-height-1-5 text-ellipsis'>
-                                <a href={ Routes.structure_path(profile.id) } className='muted-link'>{ profile.get('name') }</a>
+                                <a href={ Routes.structure_path(profile.get('slug')) } className='muted-link'>{ profile.get('name') }</a>
                             </h6>
                             <div className='hide-for-fout line-height-1-5'>
                                 <i> { cities_text } </i>
