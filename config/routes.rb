@@ -292,19 +292,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
 
-        resources :user_profiles, controller: 'structures/user_profiles', path: 'repertoire' do
-          collection do
-            post :import_batch_emails
-          end
-        end
-        resources :bulk_user_profile_jobs, controller: 'structures/bulk_user_profile_jobs', path: 'bulk', only: [:create, :index, :new]
         resources :tags, controller: 'structures/tags', path: 'tags'
-        resources :user_profile_imports, only: [:new, :create], controller: 'structures/user_profile_imports', path: 'import-carnet-adresses' do
-          member do
-            get   :choose_headers
-            patch :import
-          end
-        end
         resources :invited_teachers, only: [:index, :new, :destroy], controller: 'structures/invited_teachers', path: 'parrainage-professeurs' do
           collection do
             post :bulk_create
@@ -590,7 +578,9 @@ CoursAvenue::Application.routes.draw do
       resource  :community             , only: [:show]                                     , controller: 'structures/community'      , path: 'communaute' do
         resources :message_threads, only: [:show, :index, :create, :update], controller: 'structures/community/message_threads'
       end
-      resources :indexable_cards       , only: [:show]                                      , controller: 'structures/indexable_cards', path: 'cours'
+      resources :indexable_cards       , only: [:show]                                      , controller: 'structures/indexable_cards', path: 'cours' do
+        resource :favorite, only: [:create, :destroy], controller: 'structures/indexable_cards/favorite', path: 'favoris'
+      end
       resources :comments              , only: [:create, :new, :show, :index, :update]      , controller: 'structures/comments'       , path: 'avis' do
         collection do
           get :create_from_email

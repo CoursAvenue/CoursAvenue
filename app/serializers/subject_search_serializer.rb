@@ -2,7 +2,9 @@ class SubjectSearchSerializer < ActiveModel::Serializer
   attributes :type, :name, :slug, :depth, :root, :parent
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'SubjectSearchSerializer/' + object.cache_key
+  end
 
   def type
     'subject'

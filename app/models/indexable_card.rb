@@ -11,6 +11,7 @@ class IndexableCard < ActiveRecord::Base
   belongs_to :course
 
   has_many :plannings
+  has_many :user_favorites, class_name: 'User::Favorite', dependent: :destroy
 
   has_and_belongs_to_many :subjects
 
@@ -33,7 +34,7 @@ class IndexableCard < ActiveRecord::Base
     ignorePlurals true
     removeWordsIfNoResults 'allOptional'
 
-    attributesForFaceting %w(subjects.name root_subject subjects.slug planning_periods
+    attributesForFaceting %w(id subjects.name root_subject subjects.slug planning_periods
                              structure_slug audiences subjects.slug_name levels card_type
                              metro_stops metro_lines active)
 
@@ -48,7 +49,7 @@ class IndexableCard < ActiveRecord::Base
       ignorePlurals true
       removeWordsIfNoResults 'allOptional'
 
-      attributesForFaceting %w(subjects.name root_subject subjects.slug planning_periods
+      attributesForFaceting %w(id subjects.name root_subject subjects.slug planning_periods
                                structure_slug audiences subjects.slug_name levels card_type
                                metro_stops metro_lines active)
 

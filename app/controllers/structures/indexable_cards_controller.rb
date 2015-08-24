@@ -1,14 +1,14 @@
 # encoding: utf-8
 class Structures::IndexableCardsController < ApplicationController
 
+  before_action :set_structure_and_card
+
   # GET /etablissements
   # GET /paris
   # GET /danse--paris
   # GET /danse/danse-orientale--paris
   def show
-    @structure           = Structure.friendly.find params[:structure_id]
     @structure_decorator = @structure.decorate
-    @indexable_card      = @structure.indexable_cards.includes(:place, :course).where(IndexableCard.arel_table[:slug].eq(params[:id]).or(IndexableCard.arel_table[:id].eq(params[:id]))).first
     # 301 for Google
     if @indexable_card.nil?
       redirect_to structure_path(@structure), status: 301
@@ -21,5 +21,12 @@ class Structures::IndexableCardsController < ApplicationController
       format.html
       format.json { render json: @indexable_card, serializer: IndexableCardSerializer }
     end
+  end
+
+  private
+
+  def set_structure_and_card
+    @structure           = Structure.friendly.find params[:structure_id]
+    @indexable_card      = @structure.indexable_cards.includes(:place, :course).where(IndexableCard.arel_table[:slug].eq(params[:id]).or(IndexableCard.arel_table[:id].eq(params[:id]))).first
   end
 end

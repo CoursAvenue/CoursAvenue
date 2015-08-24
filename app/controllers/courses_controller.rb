@@ -16,5 +16,6 @@ class CoursesController < ApplicationController
       @subject      = Subject.find(params[:subject_id] || params[:root_subject_id])
       @root_subject = @subject.root
     end
+    @favorite_cards = current_user.present? ? current_user.favorites.cards.pluck(:indexable_card_id) : []
   end
 end

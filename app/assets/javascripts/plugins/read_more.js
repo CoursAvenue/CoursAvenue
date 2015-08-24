@@ -47,7 +47,7 @@
                 this.$element.addClass('read-more transition-all-500');
                 this.read_more_link = $('<a>').text(this.options.read_more_text).attr('href','javascript:void(0)');
                 this.expandable_indicator = $('<div>').addClass('expandable-indicator');
-                this.$element.after(this.expandable_indicator);
+                this.$element.append(this.expandable_indicator);
                 this.$element.after(this.read_more_link);
                 this.read_more_link.click(function() {
                     this.$element.css('max-height', this.original_height + 'px');

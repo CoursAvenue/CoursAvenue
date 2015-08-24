@@ -11,12 +11,22 @@ var HelpCard = React.createClass({
     },
 
     callToAction: function callToAction () {
-        if (this.props.helper.get('type') == 'info') {
-            return (
-                <a href={ this.props.helper.get('url') } className='btn btn--blue-info' target='_blank'>
-                    { this.props.helper.get('call_to_action') }
-                </a>
-            );
+        var helper = this.props.helper;
+
+        if (helper.get('type') == 'info') {
+            if (helper.get('sign_in')) {
+                return (
+                    <a href='javascript:void(0)' className='btn btn--blue-info' onClick={ CoursAvenue.signIn }>
+                        { helper.get('call_to_action') }
+                    </a>
+                );
+            } else {
+                return (
+                    <a href={ helper.get('url') } className='btn btn--blue-info' target='_blank'>
+                        { helper.get('call_to_action') }
+                    </a>
+                );
+            }
         } else {
             return '';
         }
@@ -36,7 +46,9 @@ var HelpCard = React.createClass({
                 <div className={ content_class }>
                     <div className='search-page-card__content-top relative soft--top'>
                         <div className='search-page-card__dismiss north east absolute'>
-                            <a href='javascript:void(0)' onClick={ this.dismiss }>
+                            <a href='javascript:void(0)'
+                            onClick={ this.dismiss }
+                          className="link-not-outlined">
                                 <i className="fa fa-times"></i>
                             </a>
                         </div>
@@ -49,7 +61,7 @@ var HelpCard = React.createClass({
                     </div>
 
                     <div className="soft-half--sides soft-half--bottom text--center search-page-card__content-bottom--help">
-                        <h4>{ helper.get('description') }</h4>
+                        <h4 dangerouslySetInnerHTML={{__html: helper.get('description') }}></h4>
 
                         { this.callToAction() }
 

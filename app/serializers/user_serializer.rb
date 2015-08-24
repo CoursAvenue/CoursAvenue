@@ -2,13 +2,20 @@ class UserSerializer < ActiveModel::Serializer
   include ApplicationHelper
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'UserSerializer/' + object.cache_key
+  end
 
   attributes :id, :email, :name, :first_name, :last_name, :avatar_url, :slug,
-             :favorite_structure_ids, :last_messages_sent, :created_at, :gender, :phone_number
+             :favorite_structure_ids, :last_messages_sent, :created_at, :gender, :phone_number,
+             :favorite_card_ids
 
   def favorite_structure_ids
-    object.followings.map(&:structure_id)
+    object.favorites.pluck(:structure_id).compact
+  end
+
+  def favorite_card_ids
+    object.favorites.pluck(:indexable_card_id).compact
   end
 
   def last_messages_sent

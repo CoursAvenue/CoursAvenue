@@ -3,7 +3,9 @@ class StructureSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'StructureSerializer/' + object.cache_key
+  end
 
   attributes :id, :name, :slug, :comments_count, :logo_thumb_url, :logo_thumb_url_2x, :logo_large_url,
               :data_url, :query_params, :structure_type, :highlighted_comment_title,

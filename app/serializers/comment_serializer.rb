@@ -2,6 +2,11 @@ class CommentSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::DateHelper
 
+  cached
+  def cache_key
+    'CommentSerializer/' + object.cache_key
+  end
+
   attributes :id, :content, :title, :author_name, :course_name, :created_at, :rating,
              :created_at_for_human, :comment_url, :avatar_url, :created_at_iso, :certified,
              :simple_format_content, :has_avatar

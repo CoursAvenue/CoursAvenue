@@ -298,7 +298,7 @@ France
           format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitations, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
         end
       else
-        format.html { render 'pro/structures/new' }
+        format.html { render :new_sleeping }
       end
     end
   end

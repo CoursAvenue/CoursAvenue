@@ -6,6 +6,16 @@ module.exports = {
     /*
      * @params data: { card: CardModel }
      */
+    filterByCardIds: function filterByCardIds (ids) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.FILTER_BY_CARD_IDS,
+            data: ids
+        });
+    },
+
+    /*
+     * @params data: { card: CardModel }
+     */
     cardHovered: function cardHovered (hovered) {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.CARD_HOVERED,
@@ -68,6 +78,13 @@ module.exports = {
     toggleDismiss: function dismissHelp (data) {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.TOGGLE_DISMISS_HELP,
+            data: data,
+        });
+    },
+
+    toggleFavorite: function toggleFavorite (data) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.TOGGLE_FAVORITE,
             data: data,
         });
     },

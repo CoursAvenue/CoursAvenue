@@ -4,4 +4,5 @@
       = user_top_menu_link 'dashboard'     , dashboard_user_path(@user)              , current: current_tab
       = user_top_menu_link 'inscriptions'  , user_participation_requests_path(@user) , current: current_tab
       = user_top_menu_link 'inbox'         , user_conversations_path(@user)          , current: current_tab
+      = user_top_menu_link 'favorites'     , user_followings_path(@user)             , current: current_tab
       = user_top_menu_link 'profile'       , edit_user_path(@user)                   , current: current_tab

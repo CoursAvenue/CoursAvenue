@@ -32,6 +32,7 @@ CoursAvenue = new Backbone.Marionette.Application({
 
     setCurrentUser: function setCurrentUser (user_attributes) {
         this.user.set(user_attributes);
+        $(window).trigger('user:connection', user_attributes);
     },
 
     currentUser: function currentUser () {

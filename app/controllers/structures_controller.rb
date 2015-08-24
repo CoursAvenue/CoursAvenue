@@ -45,7 +45,7 @@ class StructuresController < ApplicationController
   # POST structure/:id/add_to_favorite
   # Create a following for the structure and the current_user
   def add_to_favorite
-    @structure.followings.create(user: current_user)
+    @structure.user_favorites.create(user: current_user)
     AdminMailer.delay.user_is_now_following_you(@structure, current_user)
     respond_to do |format|
       format.html { redirect_to structure_path(@structure), notice: "#{@structure.name} a été ajouté à vos favoris"}
@@ -56,7 +56,7 @@ class StructuresController < ApplicationController
   # POST structure/:id/remove_from_favorite
   # Destroy the existing following between the structure and the current_user
   def remove_from_favorite
-    @structure.followings.where(user_id: current_user.id).first.try(:destroy)
+    @structure.user_favorites.where(user_id: current_user.id).first.try(:destroy)
     respond_to do |format|
       format.html { redirect_to user_followings_path(current_user), notice: "#{@structure.name} n'est plus dans vos favoris"}
       format.json { render json: { succes: true } }

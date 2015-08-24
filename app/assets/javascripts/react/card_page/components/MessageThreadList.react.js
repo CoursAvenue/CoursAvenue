@@ -55,7 +55,7 @@ var MessageThreadList = React.createClass({
         });
         return (
             <div id="messages-publics">
-                <h2 className="bg-blue-green soft--sides soft-half--ends white flush">
+                <h2 className="bg-pink bordered--sides bordered--top border-color-pink-darker soft--sides soft-half--ends white flush">
                     <i className="fa-quotes v-middle"></i>&nbsp;
                     <span className="v-middle">
                         Questions à la communauté ({ this.state.thread_store.length })
@@ -63,7 +63,7 @@ var MessageThreadList = React.createClass({
                 </h2>
                 <div className="bg-white bordered--sides bordered--bottom soft--sides soft--bottom">
                     <div className='epsilon soft--ends'>
-                        {"Posez ici vos questions concernant " + this.state.structure_store.get('name') + " ou une activité. Le professeur ou d’autres élèves comme vous pourront y répondre."}
+                        {"Posez ici vos questions concernant " + this.state.structure_store.get('name') + " ou l’activité qui vous intéresse. Le professeur ou d’autres élèves comme vous pourront y répondre."}
                     </div>
                     <div className="input flush">
                         <textarea name="community_message_thread[message]"
@@ -73,7 +73,7 @@ var MessageThreadList = React.createClass({
                     </div>
                     <div className="soft-half--top">
                         <button type="submit"
-                                className="nowrap btn palm-one-whole palm-push--top btn--blue-green"
+                                className="nowrap btn palm-one-whole palm-push--top btn--white"
                                 data-disable-with="Message en cours d'envoi..."
                                 onClick={this.submitThread}>
                             { button_content }

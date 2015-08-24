@@ -1,5 +1,6 @@
 var CardStore              = require('../stores/CardStore'),
     HelpStore              = require('../stores/HelpStore'),
+    UserStore              = require('../stores/UserStore'),
     SearchPageDispatcher   = require('../dispatcher/SearchPageDispatcher'),
     LocationActionCreators = require("../actions/LocationActionCreators"),
     SubjectActionCreators  = require("../actions/SubjectActionCreators"),
@@ -12,11 +13,14 @@ var CardStore              = require('../stores/CardStore'),
 
 ResultList = React.createClass({
     mixins: [
-        FluxBoneMixin('card_store')
+        FluxBoneMixin(['card_store', 'user_store'])
     ],
 
     // Bootstraping data
     componentWillMount: function componentWillMount() {
+        if (this.props.cards_id) {
+            CardActionCreators.filterByCardIds(this.props.cards_id);
+        }
         LocationActionCreators.filterByAddress(this.props.address);
         if (this.props.per_page) {
             CardActionCreators.updateNbCardsPerPage(this.props.per_page);
@@ -30,7 +34,7 @@ ResultList = React.createClass({
     },
 
     getInitialState: function getInitialState() {
-        return { card_store: CardStore, per_line: 4 };
+        return { card_store: CardStore, user_store: UserStore, per_line: 4 };
     },
 
     getCardClass: function getCardClass () {
@@ -45,13 +49,13 @@ ResultList = React.createClass({
     render: function render () {
         var fake_cards, no_results;
         this.helper_card_position = this.helper_card_position || (Math.ceil(Math.random() * 5) + 2);
+        this.helper_card = (this.helper_card && !this.helper_card.get('dissmissed') ? this.helper_card : HelpStore.getCard());
         if (this.state.card_store.first_loading) {
             fake_cards = [(<EmptyCard />), (<EmptyCard />), (<EmptyCard />),
                           (<EmptyCard />), (<EmptyCard />), (<EmptyCard />),
                           (<EmptyCard />), (<EmptyCard />), (<EmptyCard />)];
         } else {
             var card_class = this.getCardClass();
-            var helper_cards = HelpStore.getUnseenCards();
             var cards = this.state.card_store.where({ visible: true }).map(function(card, index) {
                 return (
                   <CourseCard follow_links={this.props.follow_links} width_class={card_class} card={ card } index={this.state.card_store.indexOf(card) + 1} key={ card.get('id') }/>
@@ -61,12 +65,15 @@ ResultList = React.createClass({
                 no_results = (<Suggestions />);
             }
 
-            if (helper_cards.length > 0 && CardStore.current_page == 1) {
-                var helper_card = (
-                    <HelpCard helper={ helper_cards[0] } key={ helper_cards[0].get('type') } width_class={ card_class } />
-                )
+            if (CardStore.current_page == 1 && this.helper_card) {
+                var card = (
+                    <HelpCard
+                        helper={ this.helper_card }
+                           key={ this.helper_card.get('type') }
+                   width_class={ card_class } />
+                );
 
-                cards.splice(this.helper_card_position, 0, helper_card);
+                cards.splice((this.helper_card.get('index') || this.helper_card_position), 0, card);
                 cards.splice(-1, 1);
             }
         }

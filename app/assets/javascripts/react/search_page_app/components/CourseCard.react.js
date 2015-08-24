@@ -2,10 +2,20 @@ var SubjectList        = require('./cards/SubjectList.react'),
     CourseInformation  = require('./cards/CourseInformation.react'),
     CourseLocation     = require('./cards/CourseLocation.react'),
     CardActionCreators = require("../actions/CardActionCreators"),
+    UserStore          = require('../stores/UserStore'),
+    FluxBoneMixin      = require("../../mixins/FluxBoneMixin"),
     Card               = require('./Card'),
     Rating             = require('./cards/Rating.react');
 
 CourseCard = React.createClass({
+
+    mixins: [
+        FluxBoneMixin('user_store')
+    ],
+
+    getInitialState: function getInitialState() {
+        return { user_store: UserStore };
+    },
 
     componentDidMount: function componentDidMount () {
         $(this.getDOMNode()).find('.search-page-card__course-title, .search-page-card__structure-name').dotdotdot({
@@ -64,6 +74,22 @@ CourseCard = React.createClass({
         }
     },
 
+    toggleFavorite: function toggleFavorite (event) {
+        CardActionCreators.toggleFavorite({ card: this.props.card });
+        event.stopPropagation();
+    },
+
+    favoriteLink: function favoriteLink () {
+        var favorite_class = 'fa ' + ( this.props.card.get('favorite') ?  'fa-heart red' : 'fa-heart-o');
+        return (<div className='search-page-card__favorite north east absolute'>
+                    <a href='javascript:void(0)'
+                    onClick={ this.toggleFavorite }
+                  className='white fa-2x cursor-pointer link-not-outlined'>
+                        <i className={ favorite_class }></i>
+                    </a>
+                </div>);
+    },
+
     headerCard: function headerCard () {
         var starting_price, starting_price_class, price;
         if (this.props.card.get('has_course')) {
@@ -74,12 +100,12 @@ CourseCard = React.createClass({
             }
             starting_price_class = (this.props.card.get('starting_price') == 0 ? 'search-page-card__price--free' : '')
             price = (<div className={'search-page-card__price ' + starting_price_class}>{starting_price}</div>);
-
             return (<div>
                         <div className="search-page-card__content-top">
                             <div className="relative">
                                 {price}
                                 {this.headerImage()}
+                                {this.favoriteLink()}
                             </div>
                             {this.headerLogo()}
                             <div className="search-page-card__structure-name soft-half--sides gray">
@@ -98,6 +124,7 @@ CourseCard = React.createClass({
             return (<div className="relative">
                         <div className="search-page-card__content-top search-page-card__content-top--sleeping text--center">
                             {this.headerLogo()}
+                            {this.favoriteLink()}
                         </div>
                         <h4 className="flush text--center soft-half--sides">
                             {this.cardName()}
@@ -147,9 +174,10 @@ CourseCard = React.createClass({
         window.open(new_location);
     },
 
-    // A card do not have to be updated when created.
+    // A card should only be updated if the favorite is being toggled.
+    // We test if the attribute is present and not its value because its value can be false.
     shouldComponentUpdate: function shouldComponentUpdate () {
-        return false;
+        return (!_.isUndefined(this.props.card.changedAttributes().favorite))
     },
 
     render: function render () {

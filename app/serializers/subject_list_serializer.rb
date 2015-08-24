@@ -1,7 +1,9 @@
 class SubjectListSerializer < ActiveModel::Serializer
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'SubjectListSerializer/' + object.cache_key
+  end
 
   attributes :name, :slug, :root_slug
 

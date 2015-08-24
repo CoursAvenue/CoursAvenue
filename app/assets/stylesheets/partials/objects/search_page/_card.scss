@@ -1,3 +1,4 @@
+
 .search-page__card-popup {
     padding: 0 !important;
     width  : 300px;
@@ -46,7 +47,7 @@
             top      : 5px;
         }
     }
-    .search-page-card__number{
+    .search-page-card__number {
         color      : #ABABAB;
         font-weight: bold;
     }
@@ -54,6 +55,14 @@
         opacity       : 0.6;
         font-weight   : bold;
         padding       : 0.9em;
+    }
+    .search-page-card__content-top--sleeping .search-page-card__favorite .fa-heart-o {
+        color: #CCC;
+    }
+    .search-page-card__favorite {
+        i:hover.fa-heart-o { @extend .fa-heart; color: $red !important; }
+        line-height: normal;
+        padding    : 0.9em;
     }
     .search-page-card__price {
         position        : absolute;

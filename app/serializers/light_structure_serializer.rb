@@ -3,7 +3,9 @@ class LightStructureSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'LightStructureSerializer/' + object.cache_key
+  end
 
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
              :logo_thumb_url, :data_url,

@@ -3,7 +3,9 @@ class PlanningSerializer < ActiveModel::Serializer
   include PricesHelper
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'PlanningSerializer/' + object.cache_key
+  end
 
   attributes :id, :date, :duration, :time_slot, :levels, :audiences, :place_id,
              :course_id, :info, :address, :address_with_info, :address_name, :home_place_id,

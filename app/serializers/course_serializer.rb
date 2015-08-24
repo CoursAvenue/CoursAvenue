@@ -1,7 +1,9 @@
 class CourseSerializer < ActiveModel::Serializer
 
-  # cached
-  # delegate :cache_key, to: :object
+  cached
+  def cache_key
+    'CourseSerializer/' + object.cache_key
+  end
 
   attributes :id, :name, :description, :db_type, :structure_id,
              :is_individual, :is_lesson, :frequency, :on_appointment,

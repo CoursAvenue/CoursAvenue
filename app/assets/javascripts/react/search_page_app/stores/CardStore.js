@@ -4,6 +4,7 @@ var _                    = require('lodash'),
     FilterStore          = require('../stores/FilterStore'),
     LocationStore        = require('../stores/LocationStore'),
     TimeStore            = require('../stores/TimeStore'),
+    UserStore            = require('../stores/UserStore'),
     PriceStore           = require('../stores/PriceStore'),
     AudienceStore        = require('../stores/AudienceStore'),
     LevelStore           = require('../stores/LevelStore'),
@@ -15,7 +16,28 @@ var _                    = require('lodash'),
 
 var ActionTypes = SearchPageConstants.ActionTypes;
 
-var CardModel = Backbone.Model.extend({});
+var CardModel = Backbone.Model.extend({
+    defaults: function defaults () {
+        return {
+            favorite: false,
+        };
+    },
+
+    initialize: function initialize () {
+        _.bindAll(this, 'toggleFavorite');
+    },
+
+    toggleFavorite: function toggleFavorite () {
+        var favorite = this.get('favorite');
+        this.set('favorite', !favorite);
+    },
+
+    index: function index () {
+        if (!this.collection) { return (-1); }
+
+        return this.collection.indexOf(this);
+    },
+});
 
 var CardCollection = Backbone.Collection.extend({
     HITS_PER_PAGES          : 16,
@@ -26,10 +48,10 @@ var CardCollection = Backbone.Collection.extend({
     error        :   false,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'searchSuccess', 'searchError', 'fetchDataFromServer');
+	_.bindAll(this, 'dispatchCallback', 'searchSuccess', 'searchError', 'fetchDataFromServer');
 
-        // Register the store to the dispatcher, so it calls our callback on new actions.
-        this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
+	// Register the store to the dispatcher, so it calls our callback on new actions.
+	this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
         this.current_page = 1;
         this.total_pages  = 1;
         this.context      = 'course';
@@ -39,6 +61,9 @@ var CardCollection = Backbone.Collection.extend({
     // The function called everytime there's a new action dispatched.
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+            case ActionTypes.FILTER_BY_CARD_IDS:
+                this.filtered_ids = payload.data;
+                break;
             case ActionTypes.TOGGLE_DAY_SELECTION:
             case ActionTypes.TOGGLE_PERIOD_SELECTION:
             case ActionTypes.TOGGLE_PERIODS_SELECTION:
@@ -116,13 +141,16 @@ var CardCollection = Backbone.Collection.extend({
             case ActionTypes.DISMISS_HELP:
                 this.updateCardsShownRegardingPages();
                 break;
+            case ActionTypes.TOGGLE_FAVORITE:
+                payload.data.card.toggleFavorite();
+                this.trigger('change');
+                break;
         }
     },
 
     fetchDataFromServer: function fetchDataFromServer (reset_page_nb) {
         if (reset_page_nb) { this.current_page = 1; }
         this.error   = false;
-
 
         // Call the algolia search.
         AlgoliaSearchUtils.searchCards(this.algoliaFilters(), this.searchSuccess, this.searchError);
@@ -140,6 +168,9 @@ var CardCollection = Backbone.Collection.extend({
         _.each(data.hits, function(hit, index) {
             hit.batch_page = batch_page;
             hit.page       = (batch_page * this.NB_PAGE_LOADED_PER_BATCH) - this.NB_PAGE_LOADED_PER_BATCH + (Math.floor(index / this.HITS_PER_PAGES) + 1);
+            if (_.includes(UserStore.favorites(), hit.id)) {
+                hit.favorite = true;
+            }
         }.bind(this));
         // We reset results if the search was made for page 1
         if (this.batchPage() == 1) {
@@ -208,6 +239,9 @@ var CardCollection = Backbone.Collection.extend({
             });
         }
 
+        if (this.filtered_ids) {
+            data.ids = this.filtered_ids;
+        }
         if (TimeStore.isFiltered()) {
             if (data.context == 'course') {
                 data.planning_periods = TimeStore.algoliaFilters()
