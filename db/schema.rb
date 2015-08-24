@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150824135152) do
+ActiveRecord::Schema.define(version: 20150824162625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -232,10 +232,12 @@ ActiveRecord::Schema.define(version: 20150824135152) do
     t.boolean  "certified"
     t.string   "slug"
     t.datetime "deleted_at"
+    t.integer  "course_id"
   end
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
   add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+  add_index "comments", ["course_id"], name: "index_comments_on_course_id", using: :btree
   add_index "comments", ["status"], name: "index_comments_on_status", using: :btree
   add_index "comments", ["type", "status"], name: "index_comments_on_type_and_status", using: :btree
 

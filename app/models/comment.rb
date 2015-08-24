@@ -5,12 +5,13 @@ class Comment < ActiveRecord::Base
 
   acts_as_paranoid
 
-  attr_accessible :commentable, :commentable_id, :commentable_type, :content, :type
+  attr_accessible :commentable, :commentable_id, :commentable_type, :content, :type, :course_id
 
   ######################################################################
   # Relations                                                          #
   ######################################################################
   belongs_to :commentable, polymorphic: true, touch: true
+  belongs_to :course
 
   ######################################################################
   # Validations                                                        #
