@@ -54,6 +54,7 @@
         = react_component('CommentList', { structure: @serialized_structure })
       - if @is_sleeping
         = render partial: 'structures/sleeping_content', locals: { medias: @medias }
+
       .bg-white.bordered
         .soft.beta.bordered--bottom.f-weight-400 Ces articles pourraient vous intéresser
         .flexbox
