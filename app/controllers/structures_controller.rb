@@ -57,7 +57,6 @@ class StructuresController < ApplicationController
   # Destroy the existing following between the structure and the current_user
   def remove_from_favorite
     @structure.user_favorites.where(user_id: current_user.id).first.try(:destroy)
-    @serialized_structure = StructureSerializer.new(@structure)
     respond_to do |format|
       format.html { redirect_to user_followings_path(current_user), notice: "#{@structure.name} n'est plus dans vos favoris"}
       format.json { render json: { succes: true } }
