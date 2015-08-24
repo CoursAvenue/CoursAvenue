@@ -86,6 +86,11 @@ CourseCard = React.createClass({
 
     toggleFavorite: function toggleFavorite (event) {
         CardActionCreators.toggleFavorite({ card: this.props.card });
+        $fav = $(this.getDOMNode()).find('.search-page-card__favorite');
+        $fav.addClass('search-page-card__favorite--activated');
+        setTimeout(function() {
+            $fav.removeClass('search-page-card__favorite--activated');
+        }, 500);
         event.stopPropagation();
     },
 
