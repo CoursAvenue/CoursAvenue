@@ -203,6 +203,37 @@ class Structure < ActiveRecord::Base
   scope :active_and_enabled  , -> { where(active: true, enabled: true) }
 
   ######################################################################
+  # Algolia                                                            #
+  ######################################################################
+
+  algoliasearch per_environment: true, disable_indexing: Rails.env.text? do
+    attributesToIndex ['id', 'name', 'slug', 'cities_text']
+    attributesForFaceting ['id']
+    ranking ['geo']
+
+    attribute :id
+    attribute :name
+    attribute :slug
+    attribute :cities_text
+
+    add_attribute :active do
+      active and enabled
+    end
+
+    add_attribute :_geoloc do
+      if self.present? and self.longitude.present?
+        { lat: self.latitude, lng: self.longitude }
+      end
+    end
+
+    add_attribute :has_logo do
+      self.logo?
+    end
+
+    attribute :search_score
+  end
+
+  ######################################################################
   # Solr                                                               #
   ######################################################################
   # :nocov:
