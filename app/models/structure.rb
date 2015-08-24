@@ -206,7 +206,7 @@ class Structure < ActiveRecord::Base
   # Algolia                                                            #
   ######################################################################
 
-  algoliasearch per_environment: true, disable_indexing: Rails.env.text? do
+  algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
     attributesToIndex ['id', 'name', 'slug', 'cities_text']
     attributesForFaceting ['id']
     ranking ['geo']
@@ -228,6 +228,18 @@ class Structure < ActiveRecord::Base
 
     add_attribute :has_logo do
       self.logo?
+    end
+
+    add_attribute :avatar do
+      if self.logo.present?
+        self.logo.url(:thumb)
+      end
+    end
+
+    add_attribute :logo_url do
+      if self.logo.present?
+        self.logo.url
+      end
     end
 
     attribute :search_score
