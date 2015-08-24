@@ -21,10 +21,10 @@ var SimilarProfile = React.createClass({
         var style = { height: '70px' };
         var cities_text;
 
-        if (profile.get('cities_text')) {
+        if (profile.get('cities_text') && profile.get('cities_text').length > 40) {
             cities_text = profile.get('cities_text').substring(0, 37) + '...'
         } else {
-            cities_text = '';
+            cities_text = profile.get('cities_text') || '';
         }
 
         return (
