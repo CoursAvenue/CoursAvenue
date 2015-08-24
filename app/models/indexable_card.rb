@@ -183,19 +183,35 @@ class IndexableCard < ActiveRecord::Base
     attribute :planning_periods_fr
 
     add_attribute :audiences do
-      self.course_audiences.map(&:name) if self.course_audiences
+      if self.course
+        self.course_audiences.map(&:name) if self.course_audiences
+      elsif
+        [Audience::ADULT.name]
+      end
     end
 
     add_attribute :audiences_fr do
-      self.course_audiences.map{|a| I18n.t(a.name) } if self.course_audiences
+      if self.course
+        self.course_audiences.map{|a| I18n.t(a.name) } if self.course_audiences
+      elsif
+        [I18n.t(Audience::ADULT.name)]
+      end
     end
 
     add_attribute :levels do
-      self.course_levels.map(&:name) if self.course_levels
+      if self.course
+        self.course_levels.map(&:name) if self.course_levels
+      elsif
+        [Level::ALL.name, Level::BEGINNER.name, Level::INTERMEDIATE.name]
+      end
     end
 
     add_attribute :levels_fr do
-      self.course_levels.map{|l| I18n.t(l.name) } if self.course_levels
+      if self.course
+        self.course_levels.map{|l| I18n.t(l.name) } if self.course_levels
+      else
+        [I18n.t(Level::ALL.name), I18n.t(Level::BEGINNER.name), I18n.t(Level::INTERMEDIATE.name)]
+      end
     end
 
     attribute :card_type
