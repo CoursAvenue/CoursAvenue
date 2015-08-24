@@ -44,7 +44,7 @@
     %h5#informations Étiquettes de disciplines
     %div
       %div{ data: { behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects' } }
-        = structure_form.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: { class: 'input--large', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true }, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
+        = structure_form.association :subjects, as: :select, collection: Subject.roots.stars.order('name ASC'), input_html: { class: 'input--large', style: 'width: 74%;', id: 'parent-subjects', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' }, multiple: true }, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: { class: 'flush--bottom' }, label_html: { class: 'label--large' }
         #descendants-subjects
           .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}>
             %label.control-label.label--large> Sous disciplines
