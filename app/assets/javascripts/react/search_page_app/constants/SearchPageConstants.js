@@ -46,6 +46,7 @@ module.exports = {
 
         UPDATE_FILTERS:                       null,
         UPDATE_BOUNDS:                        null,
+        UPDATE_BOUNDS_CENTER:                 null,
 
         LOCATE_USER:                          null,
 

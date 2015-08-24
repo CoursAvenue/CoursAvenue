@@ -49,7 +49,8 @@ module.exports = {
             facets      : ['subjects.slug_name'],
             hitsPerPage : data.hitsPerPage || 160,
             distinct    : false,
-            aroundRadius: 100000 // 100km
+            aroundRadius: 100000, // 100km
+            aroundPrecision: data.aroundPrecision || 1250 // meters
         };
 
         if (!window.is_mobile && data.insideBoundingBox) {
@@ -59,6 +60,8 @@ module.exports = {
         if (data.aroundLatLng && !(data.aroundLatLng && !this.inBoundingBox(data.insideBoundingBox, data.aroundLatLng))) {
             card_search_state.aroundLatLng   = data.aroundLatLng;
             card_search_state.getRankingInfo = true;
+        } else {
+
         }
         if (data.sort_by == 'proximity') {
             index = 'IndexableCard_' + ENV.SERVER_ENVIRONMENT;

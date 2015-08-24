@@ -22,7 +22,7 @@ var MapComponent = React.createClass({
     componentDidMount: function componentDidMount () {
         this.createMap();
         this.setEventsListeners();
-        this.searchCardsWithNewBounds();
+        this.searchCardsWithNewBounds(true);
     },
 
     createMap: function createMap () {
@@ -133,13 +133,18 @@ var MapComponent = React.createClass({
         this.map.setView([location.latitude, location.longitude]);
     },
 
-    searchCardsWithNewBounds: function searchCardsWithNewBounds (leaflet_data) {
+    searchCardsWithNewBounds: function searchCardsWithNewBounds (first_load) {
         // ----- We add guard to prevent from updating bounds when a popup is opened
         if (this.popup && this.popup._isOpen) { return; }
 
         if (SearchPageDispatcher.isDispatching()) {
             _.defer(this.searchCardsWithNewBounds, leaflet_data);
             return;
+        }
+        // We need the first bound center to be the one given by the bootstrap
+        // updateBoundsCenter will trigger the unset of the bootstrap address
+        if (first_load != true) {
+            LocationActionCreators.updateBoundsCenter(this.map.getBounds().getCenter());
         }
         LocationActionCreators.updateBounds([
             [this.map.getBounds()._southWest.lat, this.map.getBounds()._southWest.lng],

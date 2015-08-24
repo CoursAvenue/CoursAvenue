@@ -229,12 +229,22 @@ var CardCollection = Backbone.Collection.extend({
         if (LocationStore.get('bounds')) {
             data.insideBoundingBox = LocationStore.get('bounds').toString();
         }
+        if (LocationStore.get('address') && LocationStore.get('address').size == 3) {
+            data.aroundPrecision = 5000;
+        }
         if (LocationStore.get('user_location')) {
             data.aroundLatLng = LocationStore.get('user_location').latitude + ',' + LocationStore.get('user_location').longitude;
         } else if (MetroStopStore.getSelectedStop()) {
             data.aroundLatLng = MetroStopStore.getSelectedStop().coordinates().toString();
         } else if (LocationStore.isFilteredByAddress() && LocationStore.get('address')) {
             data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
+        } else if (LocationStore.get('address')) {
+            data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
+        } else if (MetroLineStore.getSelectedLines().length == 0){ // Don't set center if you select metro line
+            // In this case, we don't have specific location,
+            // it's the user that is moving the map by hand
+            data.aroundLatLng = LocationStore.get('bounds_center').lat + ',' + LocationStore.get('bounds_center').lng
+            data.aroundPrecision = 2000;
         }
 
         // Do not filter by line if a stop is selected, because if a stop is selected,

@@ -29,7 +29,8 @@ class City < ActiveRecord::Base
 
   attr_accessible :name, :image, :iso_code, :zip_code, :region_name, :region_code, :department_name,
                   :department_code, :commune_name, :commune_code, :latitude, :longitude, :acuracy,
-                  :title, :subtitle, :description
+                  :title, :subtitle, :description,
+                  :size # [1, 2, 3], small, medium, big. It will affect the aroundPrecision on Algolia search
 
 
   store_accessor            :meta_data, :associated_zip_codes

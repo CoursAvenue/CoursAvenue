@@ -29,7 +29,7 @@
                                      show_subject_panel: (params[:show_subject_panel].present?),
                                      favorite_cards: @favorite_cards,
                                      logged_in: current_user.present?,
-                                     address: { name: @city.name, latitude: @city.latitude, longitude: @city.longitude, city: @city.name, city: @city.slug, is_address: false } },
+                                     address: { size: @city.size, name: @city.name, latitude: @city.latitude, longitude: @city.longitude, city: @city.name, city: @city.slug, is_address: false } },
                                      { prerender: false })
 = content_for :scripts do
   :javascript

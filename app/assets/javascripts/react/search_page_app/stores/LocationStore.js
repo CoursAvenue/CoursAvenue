@@ -27,6 +27,14 @@ var LocationStore = Backbone.Model.extend({
                 this.unset('user_location');
                 this.set('address', payload.data);
                 break;
+            case ActionTypes.UPDATE_BOUNDS_CENTER:
+                // If the user starts moving the map, we remove default address
+                // set on load to let the user decide of its results
+                if (this.get('address') && this.get('address').is_address == false) {
+                    this.unset('address');
+                }
+                this.set('bounds_center', payload.data);
+                break;
             case ActionTypes.UPDATE_BOUNDS:
                 this.set('bounds', payload.data);
                 break;

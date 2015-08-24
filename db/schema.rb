@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819145606) do
+ActiveRecord::Schema.define(version: 20150824135152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,8 +147,8 @@ ActiveRecord::Schema.define(version: 20150819145606) do
 
   create_table "cities", force: true do |t|
     t.string   "name"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.string   "slug"
     t.string   "iso_code"
     t.string   "zip_code"
@@ -169,6 +169,7 @@ ActiveRecord::Schema.define(version: 20150819145606) do
     t.text     "subtitle"
     t.text     "description"
     t.hstore   "meta_data"
+    t.integer  "size",               default: 1
   end
 
   add_index "cities", ["name"], name: "index_cities_on_name", using: :btree

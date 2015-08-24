@@ -3,6 +3,14 @@ var SearchPageDispatcher = require('../dispatcher/SearchPageDispatcher'),
     ActionTypes          = SearchPageConstants.ActionTypes;
 
 module.exports = {
+    // center: { lat: .., lng: ... }
+    updateBoundsCenter: function updateBoundsCenter (center) {
+        SearchPageDispatcher.dispatch({
+            actionType: ActionTypes.UPDATE_BOUNDS_CENTER,
+            data: center
+        });
+    },
+
     updateBounds: function updateBounds (bounds) {
         SearchPageDispatcher.dispatch({
             actionType: ActionTypes.UPDATE_BOUNDS,
