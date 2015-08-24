@@ -207,8 +207,8 @@ class Structure < ActiveRecord::Base
   ######################################################################
 
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
-    attributesToIndex ['id', 'name', 'slug', 'cities_text']
-    attributesForFaceting ['id']
+    attributesForFaceting ['id', 'subjects.slug']
+    attributesToIndex ['id', 'name', 'slug', 'cities_text', 'active']
     ranking ['geo']
 
     attribute :id
