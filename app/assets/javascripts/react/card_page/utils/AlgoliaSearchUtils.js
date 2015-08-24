@@ -16,8 +16,7 @@ module.exports = {
 
         var card_search_helper = algoliasearchHelper(client, structure_index, state);
 
-        // card_search_helper.addExclude('id', data.structure_id);
-        card_search_helper.addExclude('slug', data.structure_slug);
+        card_search_helper.addExclude('id', data.structure_id);
 
         if (data.subjects) {
             _.each(data.subjects, function (subject) {
