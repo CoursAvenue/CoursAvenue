@@ -74,7 +74,7 @@ var MapComponent = React.createClass({
                 (card_is_hovered && marker.card.get('id') == card_id)) {
                 marker.setIcon(L.divIcon({
                     className: 'relative on-top map-box-marker map-box-marker__' + marker.card.get('root_subject'),
-                    html: '<div>' + (this.state.card_store.indexOf(marker.card) + 1) + '</div>'
+                    html: '<div>' + (marker.card.getVisibleIndex()) + '</div>'
                 }));
             } else {
                 marker.setIcon(L.divIcon({
@@ -96,7 +96,7 @@ var MapComponent = React.createClass({
             var marker = L.marker([card.get('_geoloc').lat, card.get('_geoloc').lng], {
                 icon: L.divIcon({
                     className: 'map-box-marker map-box-marker__' + card.get('root_subject'),
-                    html: '<div>' + (this.state.card_store.indexOf(card) + 1) + '</div>'
+                    html: '<div>' + (card.getVisibleIndex()) + '</div>'
                 })
             });
             marker.card = card;

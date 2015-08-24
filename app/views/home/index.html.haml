@@ -3,10 +3,9 @@
     = ""
     = JSON.pretty_generate(@google_search_box_metadata).html_safe
 
-- coordinates = (request.safe_location and request.safe_location.latitude != 0 ? request.safe_location.coordinates : [48.8592, 2.3417])
 - city_slug   = (request.safe_location and request.safe_location.city.present? ? request.safe_location.city.downcase : 'paris')
 .search-page-filters__panel-height.relative.text--center.palm-height-auto.soft--ends
-  = react_component('SearchPageAppMap', { center: coordinates }, { class: ' absolute north west height-100-percent one-whole' })
+  = react_component('SearchPageAppMap', { center: [48.8592, 2.3417] }, { class: ' absolute north west height-100-percent one-whole' })
   - %w(danse theatre-scene musique-chant cuisine-vins yoga-bien-etre-sante sports-arts-martiaux photo-video deco-mode-bricolage dessin-peinture-arts-plastiques).each do |slug|
     .transition-all-300.invisible.absolute.north.west.height-100-percent.one-whole.bg-cover.on-top{ style: "background-image: url('#{Subject.find(slug).image.url(:homepage)}')", data: { slug: slug, curtain: true } }
   .home-page-curtain.absolute.north.west.height-100-percent.one-whole.on-top
@@ -62,7 +61,7 @@
   .relative.push--ends
     %h4.beta.push-half--bottom Vous cherchez un stage, un atelier ?
     .epsilon
-      Sur une journée ou plusieurs semaine, trouvez le cours de loisirs ponctuel qui vous correspond le mieux.
+      Sur une journée ou plusieurs semaines, trouvez le cours de loisirs ponctuel qui vous correspond le mieux.
   .soft--top
     = link_to 'Voir les stages et ateliers', root_search_page_without_subject_path(city_slug, locate_user: 'on', type: 'training'), class: 'btn btn--white-transparent btn--white-transparent--white'
 

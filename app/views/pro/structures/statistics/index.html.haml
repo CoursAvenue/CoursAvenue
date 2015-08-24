@@ -4,8 +4,8 @@
 %h1 Statistiques
 
 %div{ data: { behavior: 'wizard-helper', content: t('statistics.wizard.premium_infos') } }
-  .grid.push--bottom
-    .grid__item.one-third.text--center.v-middle.hard>
+  .grid--full.push--bottom
+    .grid__item.one-third.text--center.v-middle.hard.palm-one-whole.palm-text--left>
       .inline-block.cursor-pointer{ data: { behavior: 'toggle-premium-serie' } }
         .v-middle.lbl.lbl--red.v-middle.lbl--chip
         .v-middle.inline-block.text--left
@@ -14,7 +14,7 @@
             = @website_planning_views_count
           %div.f-weight-500
             %i Sur votre site Internet
-    .grid__item.one-third.text--center.v-middle.hard>
+    .grid__item.one-third.text--center.v-middle.hard.palm-one-whole.palm-text--left>
       .inline-block.cursor-pointer.nowrap{ data: { behavior: 'toggle-premium-serie' } }
         .v-middle.lbl.lbl--blue.v-middle.lbl--chip
         .v-middle.inline-block.text--left
@@ -23,7 +23,7 @@
             = @views_total_count
           %div.f-weight-500
             %i Sur le moteur de recherche CoursAvenue
-    .grid__item.one-third.text--center.v-middle.hard>
+    .grid__item.one-third.text--center.v-middle.hard.palm-one-whole.palm-text--left>
       .inline-block.cursor-pointer{ data: { behavior: 'toggle-premium-serie' } }
         .v-middle.lbl.lbl--green.v-middle.lbl--chip
         .v-middle.inline-block.text--left

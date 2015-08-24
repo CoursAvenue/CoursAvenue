@@ -32,6 +32,12 @@ var CardModel = Backbone.Model.extend({
         this.set('favorite', !favorite);
     },
 
+    getVisibleIndex: function getVisibleIndex () {
+        if (!this.collection) { return (-1); }
+
+        return this.collection.where({ visible: true }).indexOf(this) + 1;
+    },
+
     index: function index () {
         if (!this.collection) { return (-1); }
 

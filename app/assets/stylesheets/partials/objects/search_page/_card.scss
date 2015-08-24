@@ -60,9 +60,17 @@
         color: #CCC;
     }
     .search-page-card__favorite {
-        i:hover.fa-heart-o { @extend .fa-heart; color: $red !important; }
+        i:hover.fa-heart-o { color: $red !important; }
         line-height: normal;
         padding    : 0.9em;
+    }
+    .search-page-card__favorite--activated .fa-heart {
+        @include animation(scaleFade 0.4s forwards);
+    }
+    @include keyframes(scaleFade) {
+        0% { opacity: 1; @include transform(scale(1)); }
+        70% { opacity: 1; @include transform(scale(2)); }
+        100% { opacity: 1; @include transform(scale(1)); }
     }
     .search-page-card__price {
         position        : absolute;

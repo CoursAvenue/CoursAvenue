@@ -3,7 +3,9 @@ class Community::MessageSerializer < ActiveModel::Serializer
   include ActionView::Helpers::DateHelper
 
   cached
-  delegate :cache_key, to: :object
+  def cache_key
+    'Community::MessageSerializer/' + object.cache_key
+  end
 
   attributes :id, :thread_id, :content, :created_at, :created_at_iso,
              :author_name, :avatar_url, :has_avatar
@@ -37,7 +39,7 @@ class Community::MessageSerializer < ActiveModel::Serializer
   end
 
   def author_name
-    object.sender.name
+    object.sender.public_name
   end
 
   def thread_id

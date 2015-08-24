@@ -103,6 +103,10 @@ class ::Admin < ActiveRecord::Base
     self.structure.logo.url(format)
   end
 
+  def public_name
+    name
+  end
+
   def name
     if self.structure
       structure.name

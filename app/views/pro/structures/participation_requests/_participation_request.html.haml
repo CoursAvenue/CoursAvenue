@@ -40,7 +40,7 @@
     .grid--full
       .grid__item.soft-half--right.one-third.palm-one-whole.text--right.palm-text--left.visuallyhidden--palm>
         = image_tag participation_request.user.avatar_url, class: 'rounded--circle', height: 60, width: 60
-      .grid__item.one-whole.two-thirds.palm-one-whole.soft-half--left>
+      .grid__item.one-whole.two-thirds.palm-one-whole.soft-half--left.palm-hard>
         %strong
           = participation_request.user.name
           - if participation_request.nb_participants > 1
@@ -51,7 +51,7 @@
   %td.soft--ends.v-top{ data: { th: 'Détails' } }
     %div= participation_request_decorator.details
   %td.soft--ends.v-top{ data: { th: 'Source' } }
-    .text--center
+    .text--center.palm-text--left
       - if participation_request.from_personal_website?
         %strong.blue Votre site
       - else

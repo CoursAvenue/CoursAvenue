@@ -25,7 +25,7 @@
           .grid
             .grid__item.v-top.one-fifth.text--center.palm-one-whole>
               - if @structure.logo.present?
-                = image_tag @structure.logo.url(:small_thumb_100), height: 100, width: 100, data: { src2x: @structure.logo.url(:thumb) }, class: 'rounded--circle'
+                = image_tag @structure.logo.url(:small_thumb_100), height: 100, width: 100, data: { src2x: @structure.logo.url(:thumb) }
               - else
                 .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{@structure.dominant_root_subject.slug}" }
                   %i.fa.fa-user-big.alpha

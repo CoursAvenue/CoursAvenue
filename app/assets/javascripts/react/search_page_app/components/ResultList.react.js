@@ -58,7 +58,10 @@ ResultList = React.createClass({
             var card_class = this.getCardClass();
             var cards = this.state.card_store.where({ visible: true }).map(function(card, index) {
                 return (
-                  <CourseCard follow_links={this.props.follow_links} width_class={card_class} card={ card } index={this.state.card_store.indexOf(card) + 1} key={ card.get('id') }/>
+                  <CourseCard follow_links={this.props.follow_links}
+                               width_class={card_class}
+                                      card={ card }
+                                       key={ card.get('id') }/>
                 )
             }.bind(this));
             if (cards.length == 0) {

@@ -49,6 +49,7 @@ Subject = React.createClass({
         return (
             <a className={"hide-for-fout search-page-card__subject search-page-card__subject--" + this.props.subject.root_slug + additionnal_class}
                onClick={ this.selectSubject }
+               target={this.props.follow_links ? '_blank' : ''}
                href={this.url()}>
                 { this.props.subject.name }
             </a>

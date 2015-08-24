@@ -42,6 +42,9 @@
           - if @course.description.present?
             .epsilon.line-height-1-3.read-more{ data: { behavior: 'read-more', height: '240' } }
               = simple_format @course.description
+          - elsif @structure.description.present?
+            .epsilon.line-height-1-3.read-more{ data: { behavior: 'read-more', height: '240' } }
+              = simple_format @structure.description
           - else
             %p Pas de description.
 
