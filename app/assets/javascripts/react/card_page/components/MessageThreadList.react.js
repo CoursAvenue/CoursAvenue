@@ -60,7 +60,7 @@ var MessageThreadList = React.createClass({
                 <h2 className="bg-pink bordered--sides bordered--top border-color-pink-darker soft--sides soft-half--ends white flush">
                     <i className="fa-quotes v-middle"></i>&nbsp;
                     <span className="v-middle">
-                        Questions à la communauté ({ this.state.thread_store.length })
+                        Questions Réponses ({ this.state.thread_store.length })
                     </span>
                 </h2>
                 <div className="bg-white bordered--sides bordered--bottom soft--sides soft--bottom">
