@@ -70,7 +70,7 @@ var SimilarProfileList = React.createClass({
 
         return (
             <div className='bordered bg-white'>
-                <h4 className='flush soft bordered--bottom'>Ces profiles pourraient vous intéresser</h4>
+                <h4 className='flush soft bordered--bottom'>Ces profils pourraient vous intéresser</h4>
                 <div className='soft'>
                     { profiles }
                 </div>
