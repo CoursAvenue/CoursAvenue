@@ -75,9 +75,9 @@
         .flexbox.relative.search-page-filters__panel-half-height
           .flexbox__item.v-middle
             - if index % 2 == 0
-              = link_to "Cours de #{vertical_page.subject_name.downcase}", vertical_page_path(vertical_page.root_subject, vertical_page), class: 'white semi-muted-link'
+              = link_to "Cours de #{vertical_page.subject_name.downcase}", vertical_page_path(vertical_page.root_subject, vertical_page), class: 'white semi-muted-link block'
             - else
-              = link_to "Cours de #{vertical_page.subject_name.downcase} à Paris", vertical_page_with_city_path(vertical_page.root_subject, vertical_page, 'paris'), class: 'white semi-muted-link'
+              = link_to "Cours de #{vertical_page.subject_name.downcase} à Paris", vertical_page_with_city_path(vertical_page.root_subject, vertical_page, 'paris'), class: 'white semi-muted-link block'
 
 .main-container.main-container--medium.mega-soft--ends
   %h2.text--center.push--top.push-half--bottom.f-size-big.f-weight-400 Laissez-vous guider
