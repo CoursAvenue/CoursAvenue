@@ -54,6 +54,7 @@ var LocationFilterChoicePanel = React.createClass({
             },
             source: engine.ttAdapter()
         });
+        $(this.getDOMNode()).find('.tt-input').focus();
     },
 
     filterByAddress: function filterByAddress (event, address) {
