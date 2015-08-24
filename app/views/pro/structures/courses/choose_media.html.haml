@@ -8,7 +8,7 @@
     = simple_form_for [:pro, @structure, @course], url: add_image_pro_structure_course_path(@structure, @course), method: :patch, as: :course, html: { autocomplete: 'false', id: 'choose-image-course-form' } do |f|
       = f.filepicker_field :media, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true, class: "filepicker-dragdrop text--center", drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft-double--ends text--center push--bottom", drag_text: "Glissez votre image ici ou cliquez pour ajouter une image", id: 'filepicker'
 
-  - @structure.medias.images.each do |media|
+  - @structure.medias.each do |media|
     .soft-half.inline-block.one-half.v-middle>
       = link_to pro_structure_course_path(@structure, @course, course: { media_id: media.id }), method: :patch, class: 'block black-curtain__fading-in-on-hover relative' do
         .black-curtain.north.west.one-whole.absolute.invisible.fade-in-on-hover.transition-all-300.text--center
