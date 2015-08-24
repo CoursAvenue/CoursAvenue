@@ -32,7 +32,12 @@ var SimilarProfileStore = Backbone.Collection.extend({
 
     loadSimilarProfiles: function loadSimilarProfiles () {
         this.loading = true;
-        var filters = {};
+        var filters = {
+            aroundLatLng:   StructureStore.get('latitude') + ',' + StructureStore.get('longitude'),
+            structure_id:   StructureStore.get('id'),
+            structure_slug: StructureStore.get('slug'),
+        };
+
         AlgoliaSearchUtils.searchSimilarSubject(filters, this.searchSuccess, this.searchError);
     },
 
