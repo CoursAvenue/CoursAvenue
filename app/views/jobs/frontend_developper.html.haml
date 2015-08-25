@@ -35,13 +35,13 @@
 
         %p.delta.palm-epsilon.line-height-1-7
           Notre application Web est développée avec Ruby On Rails côté back-end. Côté front-end nous utilisons
-          = link_to 'Backbone.js', 'http://backbonejs.org/', target: :_blank, class: 'semi-muted-link'
-          et
-          = link_to 'Marionette.js', 'http://marionettejs.com/', target: :_blank, class: 'semi-muted-link'
+          %strong= link_to 'React', 'http://facebook.github.io/react/', target: :_blank, class: 'semi-muted-link', rel: 'nofollow'
+          avec une architecture
+          %strong= link_to 'Flux', 'http://facebook.github.io/flux/', target: :_blank, class: 'semi-muted-link', rel: 'nofollow'
           pour le JavaScript ainsi que
-          = link_to 'le framework orienté objet Inuit.css ', 'https://github.com/csswizardry/inuit.css/', target: :_blank, class: 'semi-muted-link f-weight-bold'
+          = link_to 'le framework orienté objet Inuit.css ', 'https://github.com/csswizardry/inuit.css/', target: :_blank, class: 'semi-muted-link f-weight-bold', rel: 'nofollow'
           pour le CSS. Nous sommes hébergés sur Heroku et nous pratiquons le déploiement continu à l’aide de
-          = link_to 'CircleCI.', 'https://circleci.com/', target: :_blank, class: 'semi-muted-link'
+          = link_to 'CircleCI.', 'https://circleci.com/', target: :_blank, class: 'semi-muted-link', rel: 'nofollow'
           Nous sommes des
           %strong jeunes passionnés
           et utilisons les technos les plus adaptées à nos besoins, et
@@ -84,6 +84,8 @@
         = image_tag 'jobs/logos/git.png', height: 80, class: 'push--ends push--right grayscale cursor-help', data: { behavior: 'popover', content: 'GIT', placement: 'top', src2x: asset_path('jobs/logos/git@2x.png') }
         = image_tag 'jobs/logos/responsive.png', height: 80, class: 'push--ends push--right grayscale cursor-help', data: { behavior: 'popover', content: 'Responsive Web Design', placement: 'top', src2x: asset_path('jobs/logos/responsive@2x.png') }
         = image_tag 'jobs/logos/backbone.png', height: 80, class: 'push--ends push--right grayscale cursor-help', data: { behavior: 'popover', content: 'Backbone.js', placement: 'top', src2x: asset_path('jobs/logos/backbone@2x.png') }
+        = image_tag 'http://facebook.github.io/flux/img/flux_logo.svg', height: 80, class: 'push--ends push--right grayscale cursor-help', data: { behavior: 'popover', content: 'Flux', placement: 'top', src2x: asset_path('jobs/logos/backbone@2x.png') }
+        = image_tag 'http://facebook.github.io/react/img/logo.svg', height: 80, class: 'push--ends push--right grayscale cursor-help', data: { behavior: 'popover', content: 'React', placement: 'top', src2x: asset_path('jobs/logos/backbone@2x.png') }
 
       %h3.island-top.bordered--bottom.soft--bottom.f-weight-300
         %i.fa.fa-heart-o
@@ -115,20 +117,27 @@
       %ul.delta.palm-epsilon.line-height-1-7.no-bullet-list
         %li
           %strong Ta machine de travail :
-          = link_to 'vous la choisirez en nous rejoignant !', 'http://store.apple.com/fr', target: :_blank
+          = link_to 'vous la choisirez en nous rejoignant !', 'http://store.apple.com/fr', target: :_blank, rel: 'nofollow'
         %li
           %strong Les bureaux :
-          pour le moment nous avons
-          = link_to 'la vue sur la Seine', 'http://instagram.com/p/swtuGmHr3D/', target: :_blank
-          et
-          = link_to 'la Tour Eiffel,', 'http://instagram.com/p/gqT2Lvnr5b/', target: :_blank
-          mais cela va changer d’ici peu.
+          Nous partageons nos bureaux avec
+          = link_to "d'autres startups.", 'http://infinit.paris/', target: :_blank, rel: 'nofollow'
         %li
           %strong Contrat :
           CDI ou Stage
         %li
           %strong Lieu :
-          = link_to '193 rue de Bercy / Gare de Lyon, Paris ', 'http://maps.google.com/?q=193%20rue%20de%20Bercy,%20Paris ', target: :_blank
+          = link_to '25 rue Titon, Paris 11 ', 'http://maps.google.com/?q=193%20rue%20de%20Bercy,%20Paris ', target: :_blank, rel: 'nofollow'
+          %div
+            .metro-line.metro-line-9 9
+            Rue des Boulets
+          %div
+            .metro-line.metro-line-8 8
+            Faidherbe - Chaligny
+          %div
+            .metro-line.metro-line-8 8
+            .metro-line.metro-line-1 1
+            Reuilly - Diderot
       = render partial: 'jobs/side_map'
 
   .text--center.island
