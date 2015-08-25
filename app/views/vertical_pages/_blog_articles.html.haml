@@ -1,5 +1,7 @@
-- articles.each do |article|
-  .grid__item.one-third.palm-one-whole.push--bottom>
-    = link_to blog_article_path(article), class: 'block link-colored-on-hover', title: article.title do
-      = image_tag article.image.url(:similar_article), class: 'block one-whole hoverable-media'
-      %h4.text--center.tk-lexia.f-style-itali--fullc.f-weight-normal.flush.delta.soft-half--top.line-height-1-3= article.title
+.flexbox.palm-block
+  - articles.each do |article|
+    %a.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: "background-image: url(\"#{article.image.url(:user_index_vertical)}\");", href: blog_article_path(article) }>
+      .search-page-filters__image-button-curtain
+      .relative.flexbox.search-page-filters__panel-height
+        .flexbox__item.v-middle.soft--sides.hide-for-fout= article.title
+
