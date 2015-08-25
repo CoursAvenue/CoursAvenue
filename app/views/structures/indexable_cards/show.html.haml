@@ -16,7 +16,8 @@
 = content_for :meta_description do
   = "#{@course.name} avec #{@structure.name} à #{@place.name} : Cours d'essai gratuits, avis des élèves, reservation en ligne."
 - home_place = (@course.is_private? ? @course.home_place : nil)
-.soft--sides.soft-half--top.soft--bottom.palm-hard
+= render 'course_header'
+.soft--sides.soft-half--top.soft--bottom.palm-hard#presentation
   .grid--full.soft--top.push--bottom
     .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
       .bg-white.bordered.push--bottom
@@ -48,7 +49,7 @@
           - else
             %p Pas de description.
 
-      .soft--sides.soft-half--ends.bg-blue.white.border-color-blue-darker.bordered--sides.bordered--top
+      .soft--sides.soft-half--ends.bg-blue.white.border-color-blue-darker.bordered--sides.bordered--top#planning
         .grid
           .grid__item.one-half.palm-one-whole.v-middle>
             %h2.flush
@@ -87,7 +88,7 @@
       = react_component('CommentList', { structure: StructureSerializer.new(@structure) })
 
     .grid__item.four-twelfths.palm-one-whole.palm-hard>
-      %div{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#coursavenue-footer' } }
+      .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#coursavenue-footer' } }
         .push--bottom
           = render partial: 'structures/registration'
           - home_place_map_attributes = {}
