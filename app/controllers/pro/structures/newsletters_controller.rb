@@ -12,6 +12,16 @@ class Pro::Structures::NewslettersController < ApplicationController
   def new
     if params[:id].present?
       @newsletter = @structure.newsletters.friendly.find params[:id]
+    elsif params[:with_courses].present?
+      planning_as_html = 'Lorem Ipsum' # TODO: Generate planning here.
+
+      @newsletter = @structure.newsletters.create(
+	layout_id: Newsletter::Layout.first.id,
+	state: 'draft',
+	title: '[Brouillon] Mon planning'
+      )
+      @newsletter.blocs.create(type: 'Newsletter::Bloc::Image')
+      @newsletter.blocs.create(type: 'Newsletter::Bloc::Text', content: planning_as_html)
     end
 
     @mailing_lists = @structure.mailing_lists
