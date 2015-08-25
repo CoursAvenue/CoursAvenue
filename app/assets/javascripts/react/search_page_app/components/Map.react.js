@@ -143,7 +143,7 @@ var MapComponent = React.createClass({
         if (this.popup && this.popup._isOpen) { return; }
 
         if (SearchPageDispatcher.isDispatching()) {
-            _.defer(this.searchCardsWithNewBounds, leaflet_data);
+            _.defer(this.searchCardsWithNewBounds);
             return;
         }
         // We need the first bound center to be the one given by the bootstrap
