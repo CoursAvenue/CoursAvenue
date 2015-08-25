@@ -53,23 +53,32 @@ var Favorite = React.createClass({
     },
 
     showConnectionPrompt: function showConnectionPrompt () {
-        debugger
+        $(this.getDOMNode()).find('#connection-prompt').slideDown();
+    },
+
+    logIn: function logIn () {
+        CoursAvenue.signIn({
+            success: function success () { location.reload(); }
+        });
     },
 
     render: function render () {
-        var iconClasses = cx('fa', {
+        var iconClasses = cx('fa push--right', {
             'red':        this.isFavorited(),
             'fa-heart':   this.isFavorited(),
             'fa-heart-o': !this.isFavorited(),
         });
 
+        var page_type = (this.props.type == 'indexable_card' ? 'ce cours' : 'cette page');
+
         return (
-            <div className='bg-white bordered push--bottom soft'>
+            <div className='bg-white bordered push--bottom soft text--center'>
                 <a href='javascript:void(0)' className='delta flush' onClick={ this.toggleFavorite }>
                     <i className={ iconClasses }></i>
                     Ajouter aux favoris
                 </a>
                 <div id='connection-prompt' className='hidden'>
+                    <h4>Veuillez <a href='javascript:void(0)' onClick={ this.logIn } >vous connecter</a> pour ajouter { page_type } en favoris.</h4>
                 </div>
             </div>
         );
