@@ -30,6 +30,12 @@ var CourseStore = Backbone.Collection.extend({
             case ActionTypes.POPULATE_INDEXABLE_CARD:
                 this.loadIndexableCard(payload.data.structure_id, payload.data.indexable_card_id);
                 break;
+            case ActionTypes.REMOVE_CARD_TO_FAVORITES:
+                this.removeFromFavorites(payload.data);
+                break;
+            case ActionTypes.ADD_CARD_TO_FAVORITES:
+                this.addToFavorites(payload.data);
+                break;
         }
     },
 

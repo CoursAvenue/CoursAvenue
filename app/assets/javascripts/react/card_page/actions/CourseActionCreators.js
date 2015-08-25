@@ -16,4 +16,18 @@ module.exports = {
             data: { structure_id: structure_id, indexable_card_id: indexable_card_id }
         });
     },
+
+    addToFavorites: function addToFavorites (structure_id, indexable_card_id) {
+        CardPageDispatcher.dispatch({
+            actionType: ActionTypes.ADD_CARD_TO_FAVORITES,
+            data: { structure_id: structure_id, indexable_card_id: indexable_card_id }
+        });
+    },
+
+    removeFromFavorites: function removeFromFavorites (structure_id, indexable_card_id) {
+        CardPageDispatcher.dispatch({
+            actionType: ActionTypes.REMOVE_CARD_TO_FAVORITES,
+            data: { structure_id: structure_id, indexable_card_id: indexable_card_id }
+        });
+    },
 };
