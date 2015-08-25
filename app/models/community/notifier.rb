@@ -14,7 +14,7 @@ class Community::Notifier
 
     if Rails.env.production?
       User.where(email: 'nim.izadi@gmail.com').first.delay.
-        send_sms("Nouveau réponse publique pour #{@community.structure.name}", '0607653323')
+        send_sms("Nouveau question publique pour #{@community.structure.name}", '0607653323')
     end
   end
 
