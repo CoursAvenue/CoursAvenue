@@ -1,7 +1,7 @@
 .bg-yellow.soft--sides.soft-half--ends.bordered--top.bordered--sides.white.border-color-yellow-darker
   %h2.flush
     %i.fa.fa-map-marker.v-middle
-    %span.v-middle Lieu
+    %span.v-middle= (@structure.places.count > 1 ? 'Lieux' : 'Lieu')
 = react_component('Map', { markers: @structure.places.includes(:city).map(&:to_react_json) } )
 .bg-white.soft--top.bordered--sides.bordered--bottom
   .soft--sides
