@@ -25,6 +25,12 @@ class StructuresController < ApplicationController
     @serialized_structure = StructureSerializer.new(@structure)
     @city                 = @structure.city
 
+    if current_user
+      @favorited = current_user.favorites.structures.where(structure_id: @structure.id).present?
+    else
+      @favorited = false
+    end
+
     @medias = @structure.medias.cover_first.videos_first
     @is_sleeping = @structure.is_sleeping
   end

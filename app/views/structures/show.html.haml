@@ -73,6 +73,9 @@
       .push--bottom.on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true' } }
         .bg-white.push--bottom
           = render 'registration'
+
+      = react_component('Favorite', { logged_in: current_user.present?, type: 'structure', favorited: @favorited })
+
       .push--bottom= render 'places'
 
       - unless @is_sleeping

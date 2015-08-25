@@ -18,6 +18,12 @@ class Structures::IndexableCardsController < ApplicationController
     @place                = @indexable_card.place.decorate
     @serialized_structure = StructureSerializer.new(@structure)
 
+    if current_user
+      @favorited = current_user.favorites.cards.where(indexable_card_id: @indexable_card.id).present?
+    else
+      @favorited = false
+    end
+
     respond_to do |format|
       format.html
       format.json { render json: @indexable_card, serializer: IndexableCardSerializer }

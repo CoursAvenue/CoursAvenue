@@ -90,6 +90,8 @@
           - if @course.teaches_at_home? and home_place
             - home_place_map_attributes = { home: { latitude: home_place.latitude, longitude: home_place.longitude, radius: home_place.radius } }
 
+      = react_component('Favorite', { logged_in: current_user.present?, type: 'indexable_card', favorited: @favorited })
+
       .bg-white.push--bottom
         .bg-yellow.soft--sides.soft-half--ends.bordered--top.bordered--sides.white
           %h2.flush
