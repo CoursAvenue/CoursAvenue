@@ -264,7 +264,7 @@ fr:
       less_than_or_equal_to: "doit être inférieur ou égal à %{count}"
       odd: "doit être impair"
       even: "doit être pair"
-      taken: "Oups... vous avez déjà créé un compte avec cet e-mail. Pour l'activer, vérifiez dans votre boîte de réception."
+      taken: "déjà pris"
       record_invalid: "La validation a échoué : %{errors}"
 
     template: &errors_template

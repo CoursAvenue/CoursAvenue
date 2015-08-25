@@ -27,7 +27,7 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
     @structure.delay.duplicate_structure
 
     if @structure.admins.length == 0
-      @admin     = Admin.new params[:admin]
+      @admin = Admin.new params[:admin]
     end
     respond_to do |format|
       if @structure.admins.length > 0
@@ -35,9 +35,9 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
         format.html { redirect_to someone_already_took_control_pro_structure_path(@structure) }
       elsif @admin.save
         @structure.delay.index
-        @admin.send_confirmation_instructions
+        sign_in @admin
         SuperAdminMailer.delay.new_admin_has_signed_up(@admin)
-        format.html { redirect_to waiting_for_activation_pro_admins_path(email: @admin.unconfirmed_email), notice: 'Un email de confirmation vient de vous être envoyé' }
+        format.html { redirect_to edit_pro_structure_path(@structure), notice: 'Bienvenue !' }
       else
         format.html { render 'new' }
       end
