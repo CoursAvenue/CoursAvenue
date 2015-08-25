@@ -18,7 +18,7 @@
             = link_to 'Réactiver mon compte', enabling_confirmation_pro_structure_path(@structure), class: 'btn btn--yellow btn--small fancybox.ajax', data: { behavior: 'modal', width: '500', padding: '0' }
             %span.push-half--sides= '|'
           - if current_pro_admin and current_pro_admin.super_admin?
-            = link_to 'Supprimer ce profil', pro_structure_path(@structure), class: 'btn btn--red btn--small', data: { method: :delete, confirm: 'Êtes-vous sûr ?'}
+            = link_to 'Supprimer ce profil', ask_for_pro_deletion_pro_structure_path(@structure), class: 'btn btn--red btn--small fancybox.ajax', data: { behavior: 'modal', width: '500', padding: '0' }
             %span.push-half--sides= '|'
           - if @structure.is_sleeping?
             %span.v-middle.lbl.lbl--red{ data: { toggle: 'popover', content: "Vous venez de prendre le contrôle de votre profil : complétez-le pendant que l'équipe CoursAvenue vérifie votre identité. Vous recevrez un e-mail dès que c'est validé !  Les modifications que vous avez apportées deviendront alors directement visibles sur votre profil public.", trigger: 'hover' } } En attente de validation

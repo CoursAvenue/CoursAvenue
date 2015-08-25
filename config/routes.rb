@@ -194,6 +194,7 @@ CoursAvenue::Application.routes.draw do
           post :update_duplicates
         end
         member do
+          get   :ask_for_pro_deletion
           get   :confirm_email
           post  :resend_confirmation_instructions
           get   :dashboard

@@ -314,6 +314,11 @@ France
     CrmSync.delay.destroy(@structure.email) if @structure.is_sleeping
     SuperAdminMailer.delay.has_destroyed(@structure)
     AdminMailer.delay.structure_has_been_destroy(@structure)
+    if params[:slug_to_associate].present?
+      associate_structure = Structure.find(params[:slug_to_associate])
+      friendly_id = FriendlyId::Slug.where(slug: @structure.slug, sluggable_type: 'Structure').first_or_create
+      friendly_id.update_column :sluggable_id, associate_structure.id
+    end
     respond_to do |format|
       if @structure.destroy
         if current_pro_admin.super_admin?
@@ -329,6 +334,13 @@ France
 
   # GET member
   def ask_for_deletion
+    if request.xhr?
+      render layout: false
+    end
+  end
+
+  # GET member
+  def ask_for_pro_deletion
     if request.xhr?
       render layout: false
     end
