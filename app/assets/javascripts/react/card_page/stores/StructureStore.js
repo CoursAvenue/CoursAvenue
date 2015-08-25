@@ -29,7 +29,7 @@ var StructureStore = Backbone.Model.extend({
             url: Routes.add_to_favorite_structure_path(data.structure_id, { format: 'json' }),
             type: 'POST',
             success: function success (response) {
-                debugger
+                this.set('favorited', true);
             }.bind(this),
         });
         // $.post(Routes.add_to_favorite_structure_path(data.structure_id, { format: 'json' }));
@@ -40,7 +40,7 @@ var StructureStore = Backbone.Model.extend({
             url: Routes.remove_from_favorite_structure_path(data.structure_id, { format: 'json' }),
             type: 'POST',
             success: function success (response) {
-                debugger
+                this.set('favorited', false);
             }.bind(this),
         });
         // $.post(Routes.remove_from_favorite_structure_path(data.structure_id, { format: 'json' }));
