@@ -53,7 +53,7 @@ module.exports = {
             aroundPrecision: data.aroundPrecision || 1250 // meters
         };
 
-        if (!window.is_mobile && data.insideBoundingBox) {
+        if (!window.is_mobile && data.insideBoundingBox && !data.ids) {
             card_search_state.insideBoundingBox = data.insideBoundingBox.toString();
         }
         // Do not search on aroundLatLng if it is not inside bounding box

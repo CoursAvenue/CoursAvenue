@@ -254,7 +254,7 @@ var CardCollection = Backbone.Collection.extend({
             data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
         } else if (LocationStore.get('address')) {
             data.aroundLatLng = LocationStore.get('address').latitude + ',' + LocationStore.get('address').longitude;
-        } else if (MetroLineStore.getSelectedLines().length == 0){ // Don't set center if you select metro line
+        } else if (MetroLineStore.getSelectedLines().length == 0 && LocationStore.get('bounds_center')){ // Don't set center if you select metro line
             // In this case, we don't have specific location,
             // it's the user that is moving the map by hand
             data.aroundLatLng = LocationStore.get('bounds_center').lat + ',' + LocationStore.get('bounds_center').lng
