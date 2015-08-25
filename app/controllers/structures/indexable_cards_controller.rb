@@ -14,8 +14,9 @@ class Structures::IndexableCardsController < ApplicationController
       redirect_to structure_path(@structure), status: 301
       return
     end
-    @course              = @indexable_card.course
-    @place               = @indexable_card.place.decorate
+    @course               = @indexable_card.course
+    @place                = @indexable_card.place.decorate
+    @serialized_structure = StructureSerializer.new(@structure)
 
     respond_to do |format|
       format.html
