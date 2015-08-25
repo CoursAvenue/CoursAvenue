@@ -9,6 +9,13 @@
 = content_for :head do
   %link{ rel: 'canonical', href: structure_url(@structure) }
 
+- if @structure.medias.count > 0
+  = content_for :meta_image do
+    = @structure.medias.cover_first.videos_first.first.image.try(:url)
+- elsif @structure.logo.present?
+  = content_for :meta_image do
+    = @structure.logo.url
+
 = render 'meta_information'
 
 - if !current_user and params[:waiting_for_activation]
