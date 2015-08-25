@@ -183,8 +183,8 @@
 .on-under-top      { z-index    : 900 !important; }
 .z-index-1         { z-index    : 1 !important; }
 .z-index-under     { z-index    : -1 !important; }
-.absolute          { position   : absolute; }
-.fixed             { position   : fixed; }
+.absolute          { position   : absolute !important; }
+.fixed             { position   : fixed !important; }
 .west              { left       : 0 !important; }
 .east              { right      : 0 !important; }
 .north             { top        : 0 !important; }

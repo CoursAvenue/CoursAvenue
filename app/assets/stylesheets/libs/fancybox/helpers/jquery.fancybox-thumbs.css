@@ -3,7 +3,7 @@
 	left: 0;
 	width: 100%;
 	overflow: hidden;
-	z-index: 8050;
+	z-index: 805000;
 }
 
 #fancybox-thumbs.bottom {
@@ -47,9 +47,9 @@
 }
 
 #fancybox-thumbs ul li img {
-	display: block;
-	position: relative;
-	border: 0;
-	padding: 0;
-	max-width: none;
+  display: block;
+  position: relative;
+  border: 0;
+  padding: 0;
+  max-width: none;
 }

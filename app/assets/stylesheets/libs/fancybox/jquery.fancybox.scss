@@ -21,7 +21,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 8020;
+    z-index: 802000;
 }
 
 .fancybox-skin {
@@ -35,7 +35,7 @@
 }
 
 .fancybox-opened {
-    z-index: 8030;
+    z-index: 803000;
 }
 
 .fancybox-opened .fancybox-skin {
@@ -88,7 +88,7 @@
     background-position: 0 -108px;
     opacity: 0.8;
     cursor: pointer;
-    z-index: 8060;
+    z-index: 806000;
 }
 
 #fancybox-loading div {
@@ -101,8 +101,7 @@
     position: absolute;
     top     : 10px;
     right   : 10px;
-    color   : #CCC;
-    font-size: 22px;
+    color   : #EEEEEE;
     cursor  : pointer;
     z-index : 8040;
     @include text-shadow(-1px -1px 1px white, 1px 1px 1px white);
@@ -190,7 +189,7 @@
     left: 0;
     overflow: hidden;
     display: none;
-    z-index: 8010;
+    z-index: 801000;
     background: image-url('libs/fancybox/fancybox_overlay.png');
 }
 
@@ -212,7 +211,7 @@
     font: normal 13px/20px "Helvetica Neue",Helvetica,Arial,sans-serif;
     position: relative;
     text-shadow: none;
-    z-index: 8050;
+    z-index: 805000;
 }
 
 .fancybox-opened .fancybox-title {
@@ -224,7 +223,7 @@
     bottom: 0;
     right: 50%;
     margin-bottom: -35px;
-    z-index: 8050;
+    z-index: 805000;
     text-align: center;
 }
 
