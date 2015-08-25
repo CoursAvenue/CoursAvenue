@@ -15,8 +15,37 @@ var StructureStore = Backbone.Model.extend({
             case ActionTypes.SET_STRUCTURE:
                 this.set(payload.data);
                 break;
+            case ActionTypes.REMOVE_STRUCTURE_TO_FAVORITES:
+                this.removeFromFavorites(payload.data);
+                break;
+            case ActionTypes.ADD_STRUCTURE_TO_FAVORITES:
+                this.addToFavorites(payload.data);
+                break;
         }
-    }
+    },
+
+    addToFavorites: function addToFavorites (data) {
+        $.ajax({
+            url: Routes.add_to_favorite_structure_path(data.structure_id, { format: 'json' }),
+            type: 'POST',
+            success: function success (response) {
+                debugger
+            }.bind(this),
+        });
+        // $.post(Routes.add_to_favorite_structure_path(data.structure_id, { format: 'json' }));
+    },
+
+    removeFromFavorites: function removeFromFavorites (data) {
+        $.ajax({
+            url: Routes.remove_from_favorite_structure_path(data.structure_id, { format: 'json' }),
+            type: 'POST',
+            success: function success (response) {
+                debugger
+            }.bind(this),
+        });
+        // $.post(Routes.remove_from_favorite_structure_path(data.structure_id, { format: 'json' }));
+    },
+
 });
 
 module.exports = new StructureStore();
