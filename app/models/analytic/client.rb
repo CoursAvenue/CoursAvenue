@@ -53,6 +53,16 @@ class Analytic::Client
       for_structure(structure_id).to_a
   end
 
+  # Retrieve all the metrics for all the structures
+  #
+  # @param start_date   The start date, by default 15 days ago.
+  # @param end_date     The end date, by defautl yesterday.
+  #
+  # @return an OpenStruct with the data.
+  def total_hits(start_date = 15.days.ago, end_date = 1.day.ago)
+    Analytic::Hit.results(profile, start_date: start_date, end_date: end_date).to_a
+  end
+
   # Retrieve all the metrics for the supplied structure and given page_name.
   #
   # @param structure_id The structure id

@@ -218,7 +218,9 @@
                 shadow: false
             },
             series: [
-              { name: "Demande d'infos", data: #{@messages_per_months.map{|date, count| count}} }
+              { name: "Tel", data: #{@telephone_per_months.map{|date, count| count}} },
+              { name: "Site", data: #{@website_per_months.map{|date, count| count}} },
+              { name: "Messages", data: #{@messages_per_months.map{|date, count| count}} }
             ]
         });
     });
