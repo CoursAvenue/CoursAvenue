@@ -44,7 +44,7 @@
             Alertes SMS
         .grid__item.three-quarters.palm-one-whole>
           .checkbox-at-left
-            = form.input :sms_opt_in, as: :boolean, label_html: { class: 'label--large hard--bottom' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, label: 'Recevoir un SMS à chaque nouvel inscrit au '
+            = form.input :sms_opt_in, as: :boolean, label_html: { class: 'nowrap label--large hard--bottom' }, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, label: 'Recevoir un SMS à chaque nouvel inscrit au '
             = form.input :principal_mobile_id, as: :select, collection: @structure.phone_numbers.select(&:mobile?), label_method: :number, label: false, input_html: { class: 'input--large' }, wrapper_html: { class: 'inline-block v-middle flush' }, include_blank: false
 
   %hr.push--ends
