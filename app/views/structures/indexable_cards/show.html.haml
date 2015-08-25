@@ -77,11 +77,6 @@
               %i.delta.fa.fa-levels.v-middle
               %span.v-middle= join_levels_text(@course)
 
-      -# - if @course.price_group
-      -#   .push--bottom.bg-white.bordered
-      -#     %h2.soft.flush Tarifs
-      -#     = render partial: 'price_groups/price_group', locals: { price_group: @course.price_group }
-
       .push--bottom
         = react_component('MessageThreadList', { structure: StructureSerializer.new(@structure), indexable_card_id: @indexable_card.id })
 
