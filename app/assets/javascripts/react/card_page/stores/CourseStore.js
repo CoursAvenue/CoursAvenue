@@ -30,6 +30,12 @@ var CourseStore = Backbone.Collection.extend({
             case ActionTypes.POPULATE_INDEXABLE_CARD:
                 this.loadIndexableCard(payload.data.structure_id, payload.data.indexable_card_id);
                 break;
+            case ActionTypes.REMOVE_CARD_TO_FAVORITES:
+                this.removeFromFavorites(payload.data);
+                break;
+            case ActionTypes.ADD_CARD_TO_FAVORITES:
+                this.addToFavorites(payload.data);
+                break;
         }
     },
 
@@ -48,7 +54,31 @@ var CourseStore = Backbone.Collection.extend({
     loadIndexableCard: function loadIndexableCard (structure_id, course_id) {
         var course = this.add({ structure_id: structure_id, id: course_id, type: 'indexable_card' });
         course.fetch();
-    }
+    },
+
+    addToFavorites: function addToFavorites (data) {
+        $.ajax({
+            url: Routes.structure_indexable_card_favorite_path(
+                data.structure_id, data.indexable_card_id, { format: 'json' }
+            ),
+            type: 'POST',
+            success: function success (response) {
+                this.first().set('favorited', true);
+            }.bind(this),
+        });
+    },
+
+    removeFromFavorites: function removeFromFavorites (data) {
+        $.ajax({
+            url: Routes.structure_indexable_card_favorite_path(
+                data.structure_id, data.indexable_card_id, { format: 'json' }
+            ),
+            type: 'DELETE',
+            success: function success (response) {
+                this.first().set('favorited', false);
+            }.bind(this),
+        });
+    },
 });
 
 module.exports = new CourseStore();

@@ -78,9 +78,9 @@
               %span.v-middle= join_levels_text(@course)
 
       .push--bottom
-        = react_component('MessageThreadList', { structure: StructureSerializer.new(@structure), indexable_card_id: @indexable_card.id })
+        = react_component('MessageThreadList', { structure: @serialized_structure, indexable_card_id: @indexable_card.id })
 
-      = react_component('CommentList', { structure: StructureSerializer.new(@structure) })
+      = react_component('CommentList', { structure: @serialized_structure })
 
     .grid__item.four-twelfths.palm-one-whole.palm-hard>
       .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#coursavenue-footer' } }
@@ -89,6 +89,8 @@
           - home_place_map_attributes = {}
           - if @course.teaches_at_home? and home_place
             - home_place_map_attributes = { home: { latitude: home_place.latitude, longitude: home_place.longitude, radius: home_place.radius } }
+
+      = react_component('Favorite', { logged_in: current_user.present?, type: 'indexable_card', favorited: @favorited })
 
       .bg-white.push--bottom
         .bg-yellow.soft--sides.soft-half--ends.bordered--top.bordered--sides.white
