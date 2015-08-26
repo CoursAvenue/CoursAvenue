@@ -40,7 +40,6 @@ var Menubar = React.createClass({
     },
 
     render: function render () {
-        var new_context_url = location.pathname + '?type=' + this.newContext();
         return (
             <div className='bg-white search-page-map__menu-bar'>
                 <div className='flexbox palm-block'>
@@ -60,8 +59,8 @@ var Menubar = React.createClass({
                                         </a>
                                     </li>
                                     <li className="nowrap">
-                                        <a href={new_context_url} className=""
-                                           onClick={this.changeContext}>
+                                        <a href='javascript:void(0)'
+                                        onClick={this.changeContext}>
                                            {this.newContextTitle()}
                                         </a>
                                     </li>
