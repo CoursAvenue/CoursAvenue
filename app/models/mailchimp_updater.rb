@@ -4,7 +4,7 @@ class MailchimpUpdater
     return {
       user:               '34fb5a48e8',
       structure:          '79f30bcce9',
-      sleeping_structure: '8318169fe4'
+      sleeping_structure: 'f896ec23c0'
     }
   end
 
@@ -45,7 +45,8 @@ class MailchimpUpdater
   end
 
   def self.update_sleeping_structures(structure)
-    Gibbon::API.lists.subscribe({id: list_id[:sleeping_structure],
+    gibbon = Gibbon::API.new(ENV['MAILCHIMP_API_KEY_2'])
+    gibbon.lists.subscribe({id: list_id[:sleeping_structure],
                                  email: { email: structure.main_contact.email},
                                  merge_vars: {
                                    :ACTIVE      => 'Yes'

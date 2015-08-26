@@ -857,15 +857,12 @@ class Structure < ActiveRecord::Base
   end
 
   SEARCH_SCORE_COEF = {
-    :medias         => 3,
-    :plannings      => 5,
-    :ratings        => 3,
-    :logo           => 2,
-    :response_rate  => 3,
-    :response_time  => 3,
-    :external_links => 1,
-    :promotions     => 5,
-    :pure_player    => 15
+    comments:       3,
+    logo:           2,
+    response_rate:  3,
+    response_time:  3,
+    external_links: 1,
+    pure_player:    5
   }
 
   # Compute a search score for ordering
@@ -878,31 +875,17 @@ class Structure < ActiveRecord::Base
       return search_score
     else
       score = 0
-      ## Medias
-      if medias.count > 1
-        score += (2 * SEARCH_SCORE_COEF[:medias])
-      elsif medias.count == 1
-        score += (1 * SEARCH_SCORE_COEF[:medias])
-      end
-      ## Plannings
-      if courses.detect(&:is_published?)
-        if courses.select(&:is_published?).detect(&:price_group)
-          score += (2 * SEARCH_SCORE_COEF[:plannings])
-        else
-          score += (1 * SEARCH_SCORE_COEF[:plannings])
-        end
-      end
-      ## Ratings
+      ## Comments
       if comments_count > 15
-        score += (3 * SEARCH_SCORE_COEF[:ratings])
+        score += (3 * SEARCH_SCORE_COEF[:comments])
       elsif comments_count > 5
-        score += (2 * SEARCH_SCORE_COEF[:ratings])
+        score += (2 * SEARCH_SCORE_COEF[:comments])
       elsif comments_count > 0
-        score += (1 * SEARCH_SCORE_COEF[:ratings])
+        score += (1 * SEARCH_SCORE_COEF[:comments])
       end
       ## Logo
       if logo.present?
-        score += (1 * SEARCH_SCORE_COEF[:logo])
+        score += SEARCH_SCORE_COEF[:logo]
       end
       ## External_links
       if facebook_url.present? or website.present?
@@ -919,10 +902,6 @@ class Structure < ActiveRecord::Base
         score += (2 * SEARCH_SCORE_COEF[:response_time])
       elsif response_time and response_time.to_i < 120
         score += (1 * SEARCH_SCORE_COEF[:response_time])
-      end
-      ## Promotions
-      if prices.select{|p| p.promo_amount.present?}.any?
-        score += (2 * SEARCH_SCORE_COEF[:promotions])
       end
       ## Pure player
       if pure_player?
