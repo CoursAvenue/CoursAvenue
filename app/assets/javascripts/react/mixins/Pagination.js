@@ -37,8 +37,10 @@ module.exports = function (store_name, action_creator) {
                 if (_.isUndefined(page)) { return; }
                 // Go to the closest data-react-class, because a pagination will always be
                 // encapsulated inside a react component
-                $.scrollTo($(this.getDOMNode()).closest('[data-react-class]'), { easing: 'easeOutCubic', duration: 500 });
-                action_creator.goToPage(page);
+                $.scrollTo($(this.getDOMNode()).closest('[data-react-class]'), { easing: 'easeOutCubic', duration: 300 });
+                setTimeout(function() {
+                    action_creator.goToPage(page);
+                }, 150);
             }.bind(this)
         },
 
@@ -46,16 +48,20 @@ module.exports = function (store_name, action_creator) {
             if (this.state[store_name].isFirstPage()) { return; }
             // Go to the closest data-react-class, because a pagination will always be
             // encapsulated inside a react component
-            $.scrollTo($(this.getDOMNode()).closest('[data-react-class]'), { easing: 'easeOutCubic', duration: 500 });
-            action_creator.goToPreviousPage();
+            $.scrollTo($(this.getDOMNode()).closest('[data-react-class]'), { easing: 'easeOutCubic', duration: 300 });
+            setTimeout(function() {
+                action_creator.goToPreviousPage();
+            }, 150);
         },
 
         goToNextPage: function goToNextPage () {
             if (this.state[store_name].isLastPage()) { return; }
             // Go to the closest data-react-class, because a pagination will always be
             // encapsulated inside a react component
-            $.scrollTo($(this.getDOMNode()).closest('[data-react-class]'), { easing: 'easeOutCubic', duration: 500 });
-            action_creator.goToNextPage();
+            $.scrollTo($(this.getDOMNode()).closest('[data-react-class]'), { easing: 'easeOutCubic', duration: 300 });
+            setTimeout(function() {
+                action_creator.goToNextPage();
+            }, 150);
         },
 
         /* we want to show buttons for the first and last pages, and the
