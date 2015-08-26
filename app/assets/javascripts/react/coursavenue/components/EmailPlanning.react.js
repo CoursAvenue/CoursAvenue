@@ -1,5 +1,5 @@
 var _                    = require('lodash'),
-    Course               = require('../../card_page/components/course.react'),
+    Course               = require('../../card_page/components/Course.react'),
     CourseActionCreators = require('../../card_page/actions/CourseActionCreators');
 
 var EmailPlanning = React.createClass({
