@@ -235,10 +235,12 @@ var BookPopup = React.createClass({
         if (this.props.course.get('db_type') == 'Course::Training') {
             price_libelle = 'Prix du stage : ' + COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price_amount'));
         } else {
-            if (this.props.course.get('min_price_amount') == 0) {
-                price_libelle = 'Essai gratuit';
-            } else {
-                price_libelle = 'Essai à ' + COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price_amount'));
+            if (!this.props.course.get('no_trial')) {
+                if (this.props.course.get('min_price_amount') == 0) {
+                    price_libelle = 'Essai gratuit';
+                } else {
+                    price_libelle = 'Essai à ' + COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price_amount'));
+                }
             }
             if (this.props.course.get('on_appointment')) {
                 date_label = "Quand voulez-vous venir ? ";

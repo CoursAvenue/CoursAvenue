@@ -10,6 +10,7 @@ class CourseDecorator < Draper::Decorator
   #    Une séance : 18€
   #    Stage : 67€
   def first_session_detail(with_popover=false)
+    return "1ère séance" if object.no_trial?
     return "Essai gratuit" if is_open_for_trial?
     return "Séance d'essai" if price_group.nil?
     detail_html = ''

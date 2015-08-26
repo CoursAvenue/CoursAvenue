@@ -2,12 +2,12 @@ class CourseSerializer < ActiveModel::Serializer
 
   cached
   def cache_key
-    'CourseSerializer/' + object.cache_key + 'v2'
+    'CourseSerializer/' + object.cache_key + 'v3'
   end
 
   attributes :id, :name, :description, :db_type, :structure_id, :structure_slug,
              :is_individual, :is_lesson, :frequency, :on_appointment,
-             :is_open_for_trial, :min_price_amount,
+             :is_open_for_trial, :min_price_amount, :no_trial,
              :teaches_at_home, :accepts_payment, :start_date, :end_date, :structure_is_active
 
   has_many :plannings,           serializer: PlanningSerializer
