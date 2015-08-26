@@ -108,13 +108,15 @@ CourseCard = React.createClass({
     headerCard: function headerCard () {
         var starting_price, starting_price_class, price;
         if (this.props.card.get('has_course')) {
-            if (this.props.card.get('card_type') == 'course') {
-                starting_price = (this.props.card.get('starting_price') == 0 ? 'Essai gratuit' : 'Essai à ' + this.props.card.get('starting_price') + '€');
-            } else {
-                starting_price = (this.props.card.get('starting_price') == 0 ? 'Essai gratuit' : 'Atelier à ' + this.props.card.get('starting_price') + '€');
+            if (!this.props.card.get('no_trial')) {
+                if (this.props.card.get('card_type') == 'course') {
+                    starting_price = (this.props.card.get('starting_price') == 0 ? 'Essai gratuit' : 'Essai à ' + this.props.card.get('starting_price') + '€');
+                } else {
+                    starting_price = (this.props.card.get('starting_price') == 0 ? 'Essai gratuit' : 'Atelier à ' + this.props.card.get('starting_price') + '€');
+                }
+                starting_price_class = (this.props.card.get('starting_price') == 0 ? 'search-page-card__price--free' : '')
+                price = (<div className={'search-page-card__price ' + starting_price_class}>{starting_price}</div>);
             }
-            starting_price_class = (this.props.card.get('starting_price') == 0 ? 'search-page-card__price--free' : '')
-            price = (<div className={'search-page-card__price ' + starting_price_class}>{starting_price}</div>);
             return (<div>
                         <div className="search-page-card__content-top">
                             <div className="relative">

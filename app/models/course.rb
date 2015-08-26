@@ -41,6 +41,7 @@ class Course < ActiveRecord::Base
   before_save :update_structure_vertical_pages_breadcrumb
 
   after_save   :reindex_plannings unless Rails.env.test?
+  after_save   :remove_price_if_no_trial
   # after_save   :update_indexable_cards unless Rails.env.test?
 
   ######################################################################
@@ -63,7 +64,7 @@ class Course < ActiveRecord::Base
   validates :name, length: { maximum: 255 }
 
   attr_accessible :name, :type, :description,
-                  :active, :info, :media_id,
+                  :active, :info, :media_id, :no_trial,
                   :frequency, :is_individual,
                   :cant_be_joined_during_year,
                   :no_class_during_holidays,
@@ -406,5 +407,11 @@ class Course < ActiveRecord::Base
 
   def update_indexable_cards
     IndexableCard.delay.update_from_course(self)
+  end
+
+  def remove_price_if_no_trial
+    if no_trial
+      prices.map(&:destroy)
+    end
   end
 end

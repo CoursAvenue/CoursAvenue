@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150824162625) do
+ActiveRecord::Schema.define(version: 20150826152954) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -329,6 +329,7 @@ ActiveRecord::Schema.define(version: 20150824162625) do
     t.datetime "deleted_at"
     t.boolean  "accepts_payment"
     t.integer  "media_id"
+    t.boolean  "no_trial"
   end
 
   add_index "courses", ["is_open_for_trial"], name: "index_courses_on_is_open_for_trial", using: :btree

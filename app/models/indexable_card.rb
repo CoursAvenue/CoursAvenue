@@ -114,6 +114,10 @@ class IndexableCard < ActiveRecord::Base
     attribute :place_name
     attribute :place_address
 
+    add_attribute :no_trial do
+      course.no_trial if course
+    end
+
     add_attribute :root_subject do
       roots = subjects.map { |s| s.root.slug }.uniq
       roots.first

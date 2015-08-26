@@ -13,6 +13,7 @@
 #content.hidden
   = simple_form_for [:pro, @structure, @course], url: url, as: :course, html: { id: 'course-form' }, remote: true do |f|
     = f.input :type, as: :hidden
+    = f.input :no_trial, as: :hidden
     .panel
       .panel__header.soft
         %h4.flush.inline-block.v-middle
@@ -66,12 +67,14 @@
                 %div{ data: { el: true, hidden: (!price.persisted? and index > 0) } }
                   = f.simple_fields_for :prices, price, child_index: index do |price_form|
                     = price_form.input :type, as: :hidden
+                    = price_form.input :_destroy, as: :hidden, input_html: { value: '0', data: { delete_price: true } }
                     - if @course.is_training?
                       = price_form.input :number, as: :hidden
                     - if @course.is_lesson? or @course.is_private?
                       %select.push-half--right.input--large.inline-block.v-middle{ data: { trial_select: true } }
-                        %option{ value: 'free'    , selected: price.free? } Gratuit
-                        %option{ value: 'not-free', selected: !price.free? } Payante
+                        %option{ value: 'free'    , selected: !@course.no_trial? && price.free? } Gratuit
+                        %option{ value: 'not-free', selected: !@course.no_trial? && !price.free? } Payante
+                        %option{ value: 'none'    , selected: @course.no_trial? } Pas de séance d'essai
                     %div.inline-block.v-middle{ class: (@course.is_lesson? and price.free? ? 'hidden' : ''), data: { trial_price_input: true } }
                       - if @course.is_lesson? or @course.is_private?
                         %span.label--large.v-middle Tarif :
@@ -187,11 +190,18 @@
         $('#content').show();
     }, 400);
     $('[data-trial-select]').change(function() {
-        if ($(this).val() == 'free') {
-            $('[data-amount]').val(0);
-            $('[data-trial-price-input]').addClass('hidden');
-        } else {
-            $('[data-trial-price-input]').removeClass('hidden');
+        switch($(this).val()) {
+            case 'not-free':
+                $('[data-trial-price-input]').removeClass('hidden');
+                break;
+            case 'free':
+                $('[data-amount]').val(0);
+                $('[data-trial-price-input]').addClass('hidden');
+                break;
+            case 'none':
+                $('#course_no_trial').val('1')
+                $('[data-trial-price-input]').addClass('hidden');
+                break;
         }
     });
     $('[data-behavior=show-more-on-demand]').showMoreOnDemand();
