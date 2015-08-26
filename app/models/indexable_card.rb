@@ -443,12 +443,11 @@ class IndexableCard < ActiveRecord::Base
     free_trial:      4,
     plannings:       3,
     prices:          2,
-    promotions:      2,
+    promotions:      4  ,
     medias:          3,
     course_media:    10,
-    teaches_at_home: -5,
+    teaches_at_home: -10,
     week_days:       3,
-    no_pictures:     -10
   }
 
   # @return Integer
@@ -460,7 +459,7 @@ class IndexableCard < ActiveRecord::Base
     score_to_add += SEARCH_SCORE_COEF[:prices]    if course and course.price_group_prices.count > 0
     ## Promotions
     if course and course.price_group_prices.select{ |p| p.promo_amount.present? }.any?
-      score_to_add += (2 * SEARCH_SCORE_COEF[:promotions])
+      score_to_add += SEARCH_SCORE_COEF[:promotions]
     end
 
     if course and course.has_free_trial_lesson?
@@ -473,8 +472,6 @@ class IndexableCard < ActiveRecord::Base
     end
     if structure.medias.count > 0
       score_to_add += SEARCH_SCORE_COEF[:medias]
-    else
-      score_to_add += SEARCH_SCORE_COEF[:no_pictures]
     end
 
     score = structure.search_score.to_i + score_to_add
