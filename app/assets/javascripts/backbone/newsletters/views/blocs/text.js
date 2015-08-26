@@ -24,12 +24,17 @@ Newsletter.module('Views.Blocs', function(Module, App, Backbone, Marionette, $, 
             '$textarea' : '[data-type=redactor]'
         },
         events: {
-            'keyup input'     : 'silentSave',
-            'keyup textarea'  : 'silentSave',
-            'change input'    : 'silentSave',
-            'change textarea' : 'silentSave'
+            'update:content textarea' : 'updateContent',
+            'keyup input'             : 'silentSave',
+            'keyup textarea'          : 'silentSave',
+            'change input'            : 'silentSave',
+            'change textarea'         : 'silentSave'
         },
 
+        updateContent: function updateContent () {
+            this.model.set('content', this.ui.$textarea.val());
+            this.silentSave();
+        },
         initialize: function initialize () {
             var positionLabel = this.model.collection.where({ type: this.model.get('type') }).indexOf(this.model) + 1
             if (this.model.collection.multiBloc) {

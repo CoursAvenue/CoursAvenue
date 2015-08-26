@@ -68,10 +68,11 @@ var Lesson = React.createClass({
         if (course) {
             plannings = _.map(course.get('plannings'), function(planning, index) {
                 return (<Planning planning={planning}
-                                  dont_register={this.props.dont_register}
-                                  show_location={this.props.show_location}
-                                  course={course}
-                                  key={index} />);
+                        show_planning_link={this.props.show_planning_link}
+                             dont_register={this.props.dont_register}
+                             show_location={this.props.show_location}
+                                    course={course}
+                                      key={index} />);
             }.bind(this));
         }
         if (this.props.show_location) {

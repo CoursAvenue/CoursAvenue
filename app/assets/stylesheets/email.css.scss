@@ -164,3 +164,11 @@ div {
 .fix-class {
     overflow-x: inherit;
 }
+
+.visuallyhidden--lap-and-up {
+    position: static !important;
+    clip    : auto !important;
+    height  : auto !important;
+    width   : auto !important;
+    margin  : inherit !important;
+}

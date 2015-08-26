@@ -789,7 +789,6 @@ body .redactor-box-fullscreen {
   line-height: 1.6em;
 }
 .redactor-editor a {
-  color: #15c;
   text-decoration: underline;
 }
 .redactor-editor object,
@@ -803,7 +802,7 @@ body .redactor-box-fullscreen {
 .redactor-editor img {
   height: auto;
 }
-.redactor-editor div,
+/*.redactor-editor div,*/
 .redactor-editor p,
 .redactor-editor ul,
 .redactor-editor ol,

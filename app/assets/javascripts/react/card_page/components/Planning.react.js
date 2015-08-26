@@ -7,12 +7,21 @@ var LessonPlanning = React.createClass({
         course  : React.PropTypes.object.isRequired
     },
 
+    componentDidMount: function componentDidMount () {
+        if (window.location.hash) {
+            var planning_id = parseInt(window.location.hash.replace('#', ''), 10);
+            if (planning_id == this.props.planning.id) {
+                this.bookPlanning();
+            }
+        }
+    },
+
     bookPlanning: function bookPlanning () {
         // We generate a random key to make sure a new is created every time.
         var popup = (<BookPopup planning={this.props.planning}
-                                dont_register={this.props.dont_register}
-                                course={this.props.course}
-                                key={Math.random()}/>);
+                           dont_register={this.props.dont_register}
+                                  course={this.props.course}
+                                     key={Math.random()}/>);
         if ($('#mfp-hide').length == 0) { $('body').append('<div id="mfp-hide" class="center-block relative" style="max-width: 530px;">'); }
         var rendered_popup = React.render(popup, $('#mfp-hide')[0]);
         $.magnificPopup.open({
@@ -48,20 +57,25 @@ var LessonPlanning = React.createClass({
     },
 
     render: function render () {
-        var location_td, subscribe_button, time;
+        var location_td, subscribe_button, time, href;
         if (this.props.course.get('structure_is_active')) {
+            if (this.props.show_planning_link) {
+                href = Routes.structure_website_structure_path(this.props.course.get('structure_slug')) + '#' + this.props.planning.id
+            }
             if (this.props.planning.info) {
                 subscribe_button = (<div>
-                            <div data-content={this.props.planning.info}
-                                 data-html="true"
-                                 data-toggle="popover"
-                                 data-trigger="hover"
-                                 className="btn btn--full btn--small btn--blue-green">
+                            <a href={href}
+                       data-content={this.props.planning.info}
+                          data-html="true"
+                        data-toggle="popover"
+                       data-trigger="hover"
+                                  className="btn btn--full btn--small btn--blue-green">
                                 {"M'inscrire"}
-                            </div>
+                            </a>
                         </div>);
             } else {
-                var subscribe_button = (<div className="btn btn--full btn--small btn--green">{"M'inscrire"}</div>);
+                var subscribe_button = (<a href={href}
+                                      className="btn btn--full btn--small btn--green">{"M'inscrire"}</a>);
             }
         }
         if (this.props.show_location) {
@@ -84,13 +98,13 @@ var LessonPlanning = React.createClass({
                 onClick={this.props.course.get('structure_is_active') ? this.bookPlanning : null}>
                 <td itemScope=""
                     itemType="http://data-vocabulary.org/Event"
-                    className="soft--left nowrap">
+                    className="soft--left nowrap v-middle">
                     <div>
                         <meta content={this.props.course.get('name')} itemProp="summary" />
                         {this.props.planning.date}&nbsp;{ time }
                     </div>
                 </td>
-                <td>
+                <td className="v-middle">
                     <div>
                         {this.props.planning.levels}
                         <span className="visuallyhidden--lap-and-up">
@@ -98,11 +112,11 @@ var LessonPlanning = React.createClass({
                         </span>
                     </div>
                 </td>
-                <td className="visuallyhidden--palm">
+                <td className="visuallyhidden--palm v-middle">
                     <div>{this.props.planning.audiences}</div>
                 </td>
                 { location_td }
-                <td className={(this.props.course.get('structure_is_active') ? '' : 'hidden')}>
+                <td className={'v-middle ' + (this.props.course.get('structure_is_active') ? '' : 'hidden')}>
                     { subscribe_button }
                 </td>
             </tr>

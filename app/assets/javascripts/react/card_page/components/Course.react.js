@@ -40,18 +40,21 @@ var Course = React.createClass({
                     course_planning = (<Lesson show_location={this.props.show_location}
                                          hide_header_details={this.props.hide_header_details}
                                                dont_register={this.props.dont_register}
+                                          show_planning_link={this.props.show_planning_link}
                                                    course_id={this.props.course_id || this.props.indexable_card_id} />);
                     break;
                 case 'Course::Training':
                     course_planning = (<Training show_location={this.props.show_location}
                                            hide_header_details={this.props.hide_header_details}
                                                  dont_register={this.props.dont_register}
+                                            show_planning_link={this.props.show_planning_link}
                                                      course_id={this.props.course_id || this.props.indexable_card_id} />);
                     break;
                 case 'Course::Private':
                     course_planning = (<Private show_location={this.props.show_location}
                                           hide_header_details={this.props.hide_header_details}
                                                 dont_register={this.props.dont_register}
+                                           show_planning_link={this.props.show_planning_link}
                                                     course_id={this.props.course_id || this.props.indexable_card_id} />);
                     break;
             }

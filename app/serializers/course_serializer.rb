@@ -2,10 +2,10 @@ class CourseSerializer < ActiveModel::Serializer
 
   cached
   def cache_key
-    'CourseSerializer/' + object.cache_key + 'v1'
+    'CourseSerializer/' + object.cache_key + 'v2'
   end
 
-  attributes :id, :name, :description, :db_type, :structure_id,
+  attributes :id, :name, :description, :db_type, :structure_id, :structure_slug,
              :is_individual, :is_lesson, :frequency, :on_appointment,
              :is_open_for_trial, :min_price_amount,
              :teaches_at_home, :accepts_payment, :start_date, :end_date, :structure_is_active
@@ -52,5 +52,9 @@ class CourseSerializer < ActiveModel::Serializer
 
   def structure_is_active
     (object.structure.active? && object.structure.enabled? && !object.structure.is_sleeping?)
+  end
+
+  def structure_slug
+    object.structure.slug
   end
 end
