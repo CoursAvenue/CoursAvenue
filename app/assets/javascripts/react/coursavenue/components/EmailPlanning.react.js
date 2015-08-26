@@ -25,7 +25,7 @@ var EmailPlanning = React.createClass({
                                                             course_id={course.id} />);
         }, this);
         setTimeout(function() {
-            $('[data-type="redactor"]').redactor('insert.set', '');
+            $('[data-type="redactor"]').redactor('insert.set', '<div></div>');
             $('[data-type="redactor"]').redactor('insert.htmlWithoutClean', course_string);
             setTimeout(function() {
                 $('[data-type="redactor"]').trigger('update:content');
