@@ -153,10 +153,12 @@ CourseCard = React.createClass({
         var url =  '';
         if (this.props.card.get('has_course')) {
             url = Routes.structure_indexable_card_path(this.props.card.get('structure_slug'), this.props.card.get('slug'));
+            course_name = this.props.card.get('course_name');
+            course_name = course_name.charAt(0).toUpperCase() + course_name.slice(1);
             return (<a className={this.props.card.get('root_subject') + "-color-on-hover search-page-card__course-title muted-link"}
                        target="_blank"
                        href={url}>
-                      {this.props.card.get('course_name')}
+                      {course_name}
                   </a>);
         } else {
             url = Routes.structure_path(this.props.card.get('structure_slug'));

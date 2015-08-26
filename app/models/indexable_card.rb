@@ -440,22 +440,42 @@ class IndexableCard < ActiveRecord::Base
   private
 
   SEARCH_SCORE_COEF = {
-    free_trial: 15,
-    plannings:  3,
-    prices:     2,
-    subjects:   2
+    free_trial:      4,
+    plannings:       3,
+    prices:          2,
+    promotions:      2,
+    medias:          3,
+    course_media:    10,
+    teaches_at_home: -5,
+    week_days:       3,
+    no_pictures:     -10
   }
 
   # @return Integer
   def compute_popularity
     score_to_add = 0
-    score_to_add += plannings.count * SEARCH_SCORE_COEF[:plannings]
-    score_to_add += course.price_group_prices.count * SEARCH_SCORE_COEF[:prices] if course
-    score_to_add += subjects.count * SEARCH_SCORE_COEF[:prices]
+    score_to_add += plannings.map(&:week_day).uniq.length * SEARCH_SCORE_COEF[:week_days]
+    score_to_add += SEARCH_SCORE_COEF[:teaches_at_home] if course and course.is_private? and course.teaches_at_home
+    score_to_add += SEARCH_SCORE_COEF[:plannings] if plannings.count > 0
+    score_to_add += SEARCH_SCORE_COEF[:prices]    if course and course.price_group_prices.count > 0
+    ## Promotions
+    if course and course.price_group_prices.select{ |p| p.promo_amount.present? }.any?
+      score_to_add += (2 * SEARCH_SCORE_COEF[:promotions])
+    end
+
     if course and course.has_free_trial_lesson?
       score_to_add += SEARCH_SCORE_COEF[:free_trial]
     end
-    score_to_add += rand(15) # Let's add some randomeness!
+
+    ## Medias
+    if course and course.media
+      score_to_add += SEARCH_SCORE_COEF[:course_media]
+    end
+    if structure.medias.count > 0
+      score_to_add += SEARCH_SCORE_COEF[:medias]
+    else
+      score_to_add += SEARCH_SCORE_COEF[:no_pictures]
+    end
 
     score = structure.search_score.to_i + score_to_add
     self.update_column :popularity, score

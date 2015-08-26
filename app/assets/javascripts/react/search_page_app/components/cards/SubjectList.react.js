@@ -22,7 +22,8 @@ Subject_list = React.createClass({
                     $dot_node.append($('<i class="fa fa-circle"></i>'));
                     $dot_node.attr('data-toggle', 'popover')
                              .attr('data-placement', 'top')
-                             .attr('data-content', _.map(original_content, function(a) {return $(a).text()}).join(', '));
+                             .attr('data-html', 'true')
+                             .attr('data-content', '<div style="min-width: 200px;">' + _.map(original_content, function(a) { return $(a).text() }).join(', ') +  '</div>');
                     $(this).append($dot_node);
                 }
             }

@@ -162,6 +162,25 @@ var CardCollection = Backbone.Collection.extend({
         AlgoliaSearchUtils.searchCards(this.algoliaFilters(), this.searchSuccess, this.searchError);
     }.debounce(150),
 
+    // Prevent from having card with same structure on same page
+    reorder: function reorder (models) {
+        var array = [];
+        var seen_ids = [];
+        models_length = models.length;
+        _.each(models, function(model, index) {
+            if (seen_ids.indexOf(model.structure_id) != -1) {
+                new_index = index + 15;
+                array.push({ index: new_index, model: model });
+            } else {
+                array.push({ index: index, model: model });
+            }
+            seen_ids.push(model.structure_id);
+        });
+        array = _.sortBy(array, 'index');
+        array = _.sortBy(array, function(card) { return !card.model.has_course; });
+        return _.pluck(array, 'model');
+    },
+
     searchSuccess: function searchSuccess (data) {
         this.first_loading = false;
         this.error         = false;
@@ -171,7 +190,9 @@ var CardCollection = Backbone.Collection.extend({
         this.total_pages   = Math.ceil(data.nbHits / this.HITS_PER_PAGES);
         // We affect batch page to results to be able to know if we have to load results of a specific page
         var batch_page = this.batchPage();
-        _.each(data.hits, function(hit, index) {
+
+        var new_hits = this.reorder(data.hits);
+        _.each(new_hits, function(hit, index) {
             hit.batch_page = batch_page;
             hit.page       = (batch_page * this.NB_PAGE_LOADED_PER_BATCH) - this.NB_PAGE_LOADED_PER_BATCH + (Math.floor(index / this.HITS_PER_PAGES) + 1);
             if (_.includes(UserStore.favorites(), hit.id)) {
@@ -180,11 +201,11 @@ var CardCollection = Backbone.Collection.extend({
         }.bind(this));
         // We reset results if the search was made for page 1
         if (this.batchPage() == 1) {
-            this.reset(data.hits, { silent: true });
+            this.reset(new_hits, { silent: true });
         } else {
-            this.add(data.hits, { silent: true });
+            this.add(new_hits, { silent: true });
         }
-        if (data.hits.length > 0) { this.updateCardsShownRegardingPages(); }
+        if (new_hits.length > 0) { this.updateCardsShownRegardingPages(); }
         this.trigger('reset');
         this.trigger('search:done');
     },
