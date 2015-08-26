@@ -61,23 +61,25 @@ var SubjectAutocompleteFilter = React.createClass({
         }
     },
 
-    goToStructure: function goToStructure () {
-        debugger
+    goToStructure: function goToStructure (structure_slug) {
+        return function() {
+            window.location = Routes.structure_path(structure_slug);
+        }
     },
 
     structures: function structures () {
         if (!this.state.autocomplete_store.get('structures')) { return; }
-        return this.state.autocomplete_store.get('structures').map(function(subject, index) {
+        return this.state.autocomplete_store.get('structures').map(function(structure, index) {
             return (<div className={cx("flexbox search-page__input-suggestion search-page__input-suggestion--structures flexbox search-page__input-suggestion--bordered", {
                                       'search-page__input-suggestion--active': (this.state.autocomplete_store.get('selected_index') == index && this.state.autocomplete_store.get('selected_list_name') == 'structures')
                                     })}
                          onMouseOver={this.hoverResult('structures', index)}
-                         onClick={this.goToStructure}>
+                         onClick={this.goToStructure(structure.get('slug'))}>
                         <div className="flexbox__item visuallyhidden--palm v-middle">
-                            <img className="block rounded--circle" height="50" width="50" src={subject.get('avatar')} />
+                            <img className="block rounded--circle" height="45" width="45" src={structure.get('avatar')} />
                         </div>
                         <div className="flexbox__item one-whole v-middle white soft--sides"
-                            dangerouslySetInnerHTML={{__html: subject.get('_highlightResult').name.value }}>
+                            dangerouslySetInnerHTML={{__html: structure.get('_highlightResult').name.value }}>
                         </div>
                         <div className="flexbox__item v-middle blue-green text--right soft-half--right">
                             <i className="fa fa-chevron-right"></i>
