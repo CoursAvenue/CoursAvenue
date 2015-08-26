@@ -169,7 +169,7 @@ var CardCollection = Backbone.Collection.extend({
         models_length = models.length;
         _.each(models, function(model, index) {
             if (seen_ids.indexOf(model.structure_id) != -1) {
-                new_index = index + 15;
+                new_index = index + 20;
                 array.push({ index: new_index, model: model });
             } else {
                 array.push({ index: index, model: model });
