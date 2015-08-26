@@ -34,15 +34,15 @@
 th, td { padding: 0; }
 table { margin-bottom: 0; }
 div {
-    color: #333333!important;;
+    color: #333333!important;
 }
 .white-box{
-    border: 1px solid #DBDBDB!important;;
+    border: 1px solid #DBDBDB!important;
     @include border-radius(4px);
 }
 
 .coursavenue-email-body {
-    width                   : 100%!important;;
+    width                   : 100%!important;
     background              : #f8f8f8;
     -webkit-font-smoothing  : antialiased;
     -webkit-text-size-adjust: none;
@@ -55,17 +55,17 @@ div {
     .email-title {
         padding-top: 10px;
         font-size  : 12px;
-        color      : #AAAAAA!important;;
+        color      : #AAAAAA!important;
         a {
             text-decoration: underline;
             background     : none;
-            color          : #AAAAAA!important;;
+            color          : #AAAAAA!important;
             padding        : 0;
             border         : none;
         }
     }
     p.logo-subtitle {
-        color            : #333333!important;;
+        color            : #333333!important;
         font-size        : 12px;
         line-height      : 19px;
         font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
@@ -78,7 +78,7 @@ div {
     .title {
         font-size        : 16px;
         line-height      : 25px;
-        color            : #333!important;;
+        color            : #333!important;
         font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
         margin-top       : 0;
         padding-bottom    : 1em;
@@ -101,7 +101,7 @@ div {
             padding-bottom: 5px;
         }
         p, ul, .p {
-            color            : #333333!important;;
+            color            : #333333!important;
             font-size        : 14px;
             line-height      : 19px;
             font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
@@ -116,16 +116,16 @@ div {
             text-decoration: none;
         }
         a.btn {
-            color: black!important;;
+            color: black;
         }
         a.btn.btn--blue, a.btn.btn--green {
-            color: white!important;;
+            color: white!important;
         }
         a.btn.btn--yellow {
-            color: darken($yellow, 35%)!important;;
+            color: darken($yellow, 35%)!important;
         }
         a.muted-link {
-            color: inherit!important;;
+            color: inherit!important;
         }
     }
     .under-content {
@@ -137,7 +137,7 @@ div {
     }
     .email-footer {
         div {
-            color            : #959595!important;;
+            color            : #959595!important;
             font-size        : 12px;
             line-height      : 19px;
             font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
@@ -147,7 +147,7 @@ div {
         }
         a {
             font-size      : 12px;
-            color          : darken($beige, 40%)!important;;
+            color          : darken($beige, 40%)!important;
             text-decoration: underline;
         }
     }

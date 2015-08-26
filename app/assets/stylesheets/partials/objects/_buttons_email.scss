@@ -25,13 +25,13 @@
     padding         : 0.8em;
     font-size       : 12px;
     border          : 1px solid #DEDEDE;
-    background-color: #fefefe !important;
+    background-color: #fefefe;
     color           : #555555;
 }
 
 // Danger and error appear as red
 // Success appears as green
-.btn--green, .btn--blue {
+.btn--blue-green, .btn--green, .btn--blue {
     text-transform: uppercase;
     background-color: $blue-green !important;
     border          : none;

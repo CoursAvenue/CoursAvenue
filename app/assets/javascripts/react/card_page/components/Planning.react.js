@@ -75,7 +75,7 @@ var LessonPlanning = React.createClass({
                         </div>);
             } else {
                 var subscribe_button = (<a href={href}
-                                      className="btn btn--full btn--small btn--green">{"M'inscrire"}</a>);
+                                      className="btn btn--full btn--small btn--blue-green">{"M'inscrire"}</a>);
             }
         }
         if (this.props.show_location) {
