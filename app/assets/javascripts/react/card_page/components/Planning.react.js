@@ -49,18 +49,20 @@ var LessonPlanning = React.createClass({
 
     render: function render () {
         var location_td, subscribe_button, time;
-        if (this.props.planning.info) {
-            subscribe_button = (<div>
-                        <div data-content={this.props.planning.info}
-                             data-html="true"
-                             data-toggle="popover"
-                             data-trigger="hover"
-                             className="btn btn--full btn--small btn--blue-green">
-                            {"M'inscrire"}
-                        </div>
-                    </div>);
-        } else {
-            var subscribe_button = (<div className="btn btn--full btn--small btn--green">{"M'inscrire"}</div>);
+        if (this.props.course.get('structure_is_active')) {
+            if (this.props.planning.info) {
+                subscribe_button = (<div>
+                            <div data-content={this.props.planning.info}
+                                 data-html="true"
+                                 data-toggle="popover"
+                                 data-trigger="hover"
+                                 className="btn btn--full btn--small btn--blue-green">
+                                {"M'inscrire"}
+                            </div>
+                        </div>);
+            } else {
+                var subscribe_button = (<div className="btn btn--full btn--small btn--green">{"M'inscrire"}</div>);
+            }
         }
         if (this.props.show_location) {
             location_td = (<td className="two-tenths"><div>{this.props.planning.address_name}</div></td>);
