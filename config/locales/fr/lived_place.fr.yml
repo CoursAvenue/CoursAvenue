@@ -1,9 +1,0 @@
-fr:
-  activerecord:
-    models:
-      lived_place: Lieu
-    attributes:
-      lived_place:
-        zip_code: Code postal
-        city: Ville
-        radius: Rayon

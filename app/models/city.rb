@@ -8,9 +8,6 @@ class City < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  has_many :lived_places
-  has_many :users, through: :lived_places
-
   has_many :places
   has_many :structures, through: :places
   has_many :courses   , through: :structures

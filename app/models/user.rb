@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
                   :birthdate, :phone_number, :zip_code, :city_id, :passion_zip_code, :passion_city_id, :passions_attributes, :description,
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
-                  :lived_places_attributes, :delivery_email_status, :sign_up_at,
+                  :delivery_email_status, :sign_up_at,
                   :test_name, :interested_at, :token,
                   :subscription_from, :community_notification_opt_in
 
@@ -52,8 +52,6 @@ class User < ActiveRecord::Base
   has_many :user_profiles
   has_many :structures, through: :user_profiles
 
-  has_many :lived_places
-  has_many :cities, through: :lived_places
   has_many :favorites, class_name: 'User::Favorite', dependent: :destroy
 
   has_many :orders, class_name: 'Order::Pass'
@@ -74,10 +72,6 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :passions,
                                  reject_if: lambda {|attributes| attributes['subject_id'].blank? },
-                                 allow_destroy: true
-
-  accepts_nested_attributes_for :lived_places,
-                                 reject_if: :lived_place_invalid?,
                                  allow_destroy: true
 
   ######################################################################
@@ -551,14 +545,6 @@ class User < ActiveRecord::Base
 
   def check_if_was_invited
     InvitedUser.where(type: 'InvitedUser::Student', email: self.email).map(&:inform_proposer)
-  end
-
-  # Tells wether a lived_place should be rejected
-  # @param  attributes nested in params
-  #
-  # @return Boolean
-  def lived_place_invalid?(attributes)
-    attributes['zip_code'].blank? or attributes['city_id'].blank?
   end
 
   # Change the email to force it to be downcase

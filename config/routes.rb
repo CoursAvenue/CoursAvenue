@@ -530,7 +530,6 @@ CoursAvenue::Application.routes.draw do
       resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
       resources :messages     , controller: 'users/messages'
       resources :conversations, controller: 'users/conversations'
-      resources :lived_places, only: [:destroy], controller: 'users/lived_places'
       resources :passions, only: [:index, :destroy], controller: 'users/passions' do
         collection do
           get :offers
