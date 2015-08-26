@@ -23,7 +23,7 @@ module.exports = {
         }, {
             indexName: 'Structure_' + ENV.SERVER_ENVIRONMENT,
             query: full_text_search,
-            params: _.extend({ hitsPerPage: 15, facets: '*'}, { aroundLatLngViaIP: true,
+            params: _.extend({ hitsPerPage: 15, facets: '*', facetFilters: 'active:true' }, { aroundLatLngViaIP: true,
                                                                 aroundPrecision: 5000,
                                                                 aroundRadius: 50000, /* 50km */ })
         }];
