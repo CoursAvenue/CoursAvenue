@@ -12,21 +12,8 @@ var Lesson = React.createClass({
         return { course_store: CourseStore };
     },
 
-    render: function render () {
-        var location_th, plannings;
-        var course = this.state.course_store.getCourseByID(this.props.course_id);
-        if (course) {
-            plannings = _.map(course.get('plannings'), function(planning, index) {
-                return (<Planning planning={planning}
-                                  dont_register={this.props.dont_register}
-                                  show_location={this.props.show_location}
-                                  course={course}
-                                  key={index} />);
-            }.bind(this));
-        }
-        if (this.props.show_location) {
-            location_th = (<th className="two-tenths">Lieu</th>);
-        }
+    getInfos: function getInfos (course) {
+        if (this.props.hide_header_details) { return; }
         var infos = [];
         if (course.get('teaches_at_home')) {
             infos.push((<div key={ infos.length } className='push-half--right push-half--bottom inline-block v-middle'>
@@ -73,11 +60,27 @@ var Lesson = React.createClass({
                             </div>
                         </div>));
         }
-
+        return infos;
+    },
+    render: function render () {
+        var location_th, plannings;
+        var course = this.state.course_store.getCourseByID(this.props.course_id);
+        if (course) {
+            plannings = _.map(course.get('plannings'), function(planning, index) {
+                return (<Planning planning={planning}
+                                  dont_register={this.props.dont_register}
+                                  show_location={this.props.show_location}
+                                  course={course}
+                                  key={index} />);
+            }.bind(this));
+        }
+        if (this.props.show_location) {
+            location_th = (<th className="two-tenths">Lieu</th>);
+        }
         return (
             <div>
                 <div className="soft--sides">
-                    {infos}
+                    {this.getInfos(course)}
                 </div>
                 <table className={"flush table--striped table--data table-responsive table-responsive--without-th " + (course.get('structure_is_active') ? 'table--hoverable' : '')}>
                     <thead className="gray-light">

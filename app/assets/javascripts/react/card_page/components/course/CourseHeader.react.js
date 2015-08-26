@@ -12,6 +12,7 @@ var CourseHeader = React.createClass({
     },
 
     getPrice: function getPrice (course) {
+        if (this.props.hide_header_details) { return; }
         var price;
         if (!course || !course.get('min_price_amount')) { return; }
 
@@ -26,25 +27,28 @@ var CourseHeader = React.createClass({
                     {price}
                 </div>);
     },
+    getSubjects: function getSubjects (course) {
+        if (this.props.hide_header_details) { return; }
+        if (course.get('child_subjects')) {
+            subjects = _.map(course.get('child_subjects'), function(subject, index) {
+                var city = (course.get('places') && course.get('places')[0].city ? course.get('places')[0].city : 'paris');
+                return (<a key={ index } href={Routes.search_page_path(subject.root_slug, subject.slug, city)}
+                           className={"search-page-card__subject white bg-" + subject.root_slug}
+                           target="_blank">
+                            {subject.name}
+                        </a>);
+            });
+            return (<div className="push-half--bottom">{ subjects }</div>);
+        }
+    },
     render: function render () {
         var subjects;
         var course = this.state.course_store.getCourseByID(this.props.course_id);
         if (course) {
-            if (course.get('child_subjects')) {
-                subjects = _.map(course.get('child_subjects'), function(subject, index) {
-                    var city = (course.get('places') && course.get('places')[0].city ? course.get('places')[0].city : 'paris');
-                    return (<a key={ index } href={Routes.search_page_path(subject.root_slug, subject.slug, city)}
-                               className={"search-page-card__subject white bg-" + subject.root_slug}
-                               target="_blank">
-                                {subject.name}
-                            </a>);
-                });
-            }
-
             return (<div className="soft--sides soft--top">
                         { this.getPrice(course) }
                         <h3 className="push-half--bottom">{course.get('name')}</h3>
-                        <div className="push-half--bottom">{ subjects }</div>
+                        { this.getSubjects(course) }
                     </div>);
         } else {
             return (<div></div>);

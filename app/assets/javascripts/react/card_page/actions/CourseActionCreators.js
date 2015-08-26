@@ -3,6 +3,13 @@ var CardPageDispatcher = require('../dispatcher/CardPageDispatcher'),
     ActionTypes        = CardPageConstants.ActionTypes;
 
 module.exports = {
+    bootstrapCourse: function bootstrapCourse (course) {
+        CardPageDispatcher.dispatch({
+            actionType: ActionTypes.BOOTSTRAP_COURSE,
+            data: course
+        });
+    },
+
     populateCourse: function populateCourse (structure_id, course_id) {
         CardPageDispatcher.dispatch({
             actionType: ActionTypes.POPULATE_COURSE,

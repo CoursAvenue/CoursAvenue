@@ -3,6 +3,7 @@ var keyMirror = require('keymirror');
 module.exports = {
 
     ActionTypes: keyMirror({
+        BOOTSTRAP_COURSE:              null,
         POPULATE_COURSE:               null,
         POPULATE_INDEXABLE_CARD:       null,
 

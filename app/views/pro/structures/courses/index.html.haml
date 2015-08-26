@@ -15,6 +15,9 @@
     %div.push-half--top
       = link_to "Dates de fermeture d'été", configure_openings_pro_structure_courses_path(@structure, subdomain: 'www'), class: 'btn btn--white btn--small fancybox.ajax', data: { behavior: 'modal', width: '650', padding: '0' }
 
+-# .text--center
+-#   = link_to 'Annoncez votre nouveau planning par e-mail', new_pro_structure_newsletter_path(with_courses: true), class: 'btn btn--green'
+
 #trainings-header.bg-white.soft--top
   %h3{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } } Stages &amp; ateliers
 #training-list

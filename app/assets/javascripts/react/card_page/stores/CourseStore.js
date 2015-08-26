@@ -24,6 +24,9 @@ var CourseStore = Backbone.Collection.extend({
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
+            case ActionTypes.BOOTSTRAP_COURSE:
+                this.add(payload.data);
+                break;
             case ActionTypes.POPULATE_COURSE:
                 this.loadCourse(payload.data.structure_id, payload.data.course_id);
                 break;

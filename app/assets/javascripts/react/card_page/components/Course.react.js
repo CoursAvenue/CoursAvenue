@@ -38,23 +38,28 @@ var Course = React.createClass({
             switch(course_model.get('db_type')) {
                 case 'Course::Lesson':
                     course_planning = (<Lesson show_location={this.props.show_location}
+                                         hide_header_details={this.props.hide_header_details}
                                                dont_register={this.props.dont_register}
-                                               course_id={this.props.course_id || this.props.indexable_card_id} />);
+                                                   course_id={this.props.course_id || this.props.indexable_card_id} />);
                     break;
                 case 'Course::Training':
                     course_planning = (<Training show_location={this.props.show_location}
-                                                dont_register={this.props.dont_register}
-                                                course_id={this.props.course_id || this.props.indexable_card_id} />);
+                                           hide_header_details={this.props.hide_header_details}
+                                                 dont_register={this.props.dont_register}
+                                                     course_id={this.props.course_id || this.props.indexable_card_id} />);
                     break;
                 case 'Course::Private':
                     course_planning = (<Private show_location={this.props.show_location}
+                                          hide_header_details={this.props.hide_header_details}
                                                 dont_register={this.props.dont_register}
-                                                course_id={this.props.course_id || this.props.indexable_card_id} />);
+                                                    course_id={this.props.course_id || this.props.indexable_card_id} />);
                     break;
             }
             if (this.props.show_header) {
+                this.props.hide_header_details = (_.isBoolean(this.props.hide_header_details) ? this.props.hide_header_details : false);
                 course_header = (<CourseHeader key={this.props.course_id + 'header'}
-                                               course_id={this.props.course_id || this.props.indexable_card_id} />);
+                               hide_header_details={this.props.hide_header_details}
+                                         course_id={this.props.course_id || this.props.indexable_card_id} />);
             }
             if (this.props.show_footer) {
                 course_footer = (<CourseFooter key={this.props.course_id + 'footer'}

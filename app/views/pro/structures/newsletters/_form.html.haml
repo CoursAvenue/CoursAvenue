@@ -17,3 +17,6 @@
               structure: #{ { name: @structure.name, url: (@structure.website || structure_url(@structure, subdomain: 'www')) }.to_json }
           }
       };
+
+- if params[:with_courses].present?
+  = react_component('EmailPlanning', { structure_id: @structure.id, courses: [CourseSerializer.new(@structure.courses.lessons.first)] }, { prerender: false })

@@ -18,3 +18,4 @@ Favorite                  = require('./card_page/components/Favorite.react');
 UserGuideApp              = require('./user_guide/components/UserGuide.react');
 
 Map                       = require('./coursavenue/components/Map.react');
+EmailPlanning             = require('./coursavenue/components/EmailPlanning.react');
