@@ -70,11 +70,11 @@
               .flexbox.relative.search-page-filters__panel-half-height
                 .flexbox__item.v-middle.gamma= article.title
     .grid__item.four-twelfths.palm-one-whole.visuallyhidden--palm>
-      .push--bottom.on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true' } }
-        .bg-white.push--bottom
+      .push--bottom
+        .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true' } }
           = render 'registration'
 
-      = react_component('Favorite', { logged_in: current_user.present?, type: 'structure', favorited: @favorited })
+      -# = react_component('Favorite', { logged_in: current_user.present?, type: 'structure', favorited: @favorited })
 
       .push--bottom= render 'places'
 

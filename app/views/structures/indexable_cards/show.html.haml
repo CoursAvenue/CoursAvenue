@@ -83,20 +83,20 @@
       = react_component('CommentList', { structure: @serialized_structure })
 
     .grid__item.four-twelfths.palm-one-whole.palm-hard>
-      .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#coursavenue-footer' } }
-        .push--bottom
+      .push--bottom
+        .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#coursavenue-footer' } }
           = render partial: 'structures/registration'
-          - home_place_map_attributes = {}
-          - if @course.teaches_at_home? and home_place
-            - home_place_map_attributes = { home: { latitude: home_place.latitude, longitude: home_place.longitude, radius: home_place.radius } }
 
-      = react_component('Favorite', { logged_in: current_user.present?, type: 'indexable_card', favorited: @favorited })
+      -# = react_component('Favorite', { logged_in: current_user.present?, type: 'indexable_card', favorited: @favorited })
 
       .bg-white.push--bottom
         .bg-yellow.soft--sides.soft-half--ends.bordered--top.bordered--sides.white
           %h2.flush
             %i.fa.fa-map-marker.v-middle
             %span.v-middle Lieu
+        - home_place_map_attributes = {}
+        - if @course.teaches_at_home? and home_place
+          - home_place_map_attributes = { home: { latitude: home_place.latitude, longitude: home_place.longitude, radius: home_place.radius } }
         = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
                                           root_subject: dominant_root_subject_slug,
                                           metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
