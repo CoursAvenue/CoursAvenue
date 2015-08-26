@@ -21,19 +21,19 @@ var SubjectAutocompleteFilter = React.createClass({
         };
     },
 
-    hoverResult: function hoverResult (result_index) {
+    hoverResult: function hoverResult (list_name, result_index) {
         return function() {
-            SubjectActionCreators.selectSuggestion(result_index);
+            SubjectActionCreators.selectSuggestion(list_name, result_index);
         }.bind(this);
     },
 
     subjects: function subjects () {
         if (!this.state.autocomplete_store.get('subjects')) { return; }
         return this.state.autocomplete_store.get('subjects').map(function(subject, index) {
-            return (<div className={cx("flexbox search-page__input-suggestion flexbox search-page__input-suggestion--bordered", {
-                                      'search-page__input-suggestion--active': this.state.autocomplete_store.get('selected_subject_index') == (index + 1)
+            return (<div className={cx("flexbox search-page__input-suggestion search-page__input-suggestion--subjects flexbox search-page__input-suggestion--bordered", {
+                                      'search-page__input-suggestion--active': (this.state.autocomplete_store.get('selected_index') == index && this.state.autocomplete_store.get('selected_list_name') == 'subjects')
                                     })}
-                         onMouseOver={this.hoverResult(index + 1)}
+                         onMouseOver={this.hoverResult('subjects', index)}
                          onClick={this.selectSubject}>
                         <div className="flexbox__item visuallyhidden--palm v-middle">
                             <img className="block" height="45" width="80" src={subject.get('small_image_url')} />
@@ -49,7 +49,7 @@ var SubjectAutocompleteFilter = React.createClass({
     },
 
     selectSubject: function selectSubject (subject) {
-        var subject = this.state.autocomplete_store.get('subjects').at(this.state.autocomplete_store.get('selected_subject_index') - 1);
+        var subject = this.state.autocomplete_store.get('subjects').at(this.state.autocomplete_store.get('selected_index') - 1);
         if (this.props.navigate) {
             if (event.metaKey || event.ctrlKey) {
               window.open(Routes.search_page_path(subject.get('root'), subject.get('slug'), 'paris'));
@@ -60,6 +60,32 @@ var SubjectAutocompleteFilter = React.createClass({
             SubjectActionCreators.selectSubject(subject.toJSON());
         }
     },
+
+    goToStructure: function goToStructure () {
+        debugger
+    },
+
+    structures: function structures () {
+        if (!this.state.autocomplete_store.get('structures')) { return; }
+        return this.state.autocomplete_store.get('structures').map(function(subject, index) {
+            return (<div className={cx("flexbox search-page__input-suggestion search-page__input-suggestion--structures flexbox search-page__input-suggestion--bordered", {
+                                      'search-page__input-suggestion--active': (this.state.autocomplete_store.get('selected_index') == index && this.state.autocomplete_store.get('selected_list_name') == 'structures')
+                                    })}
+                         onMouseOver={this.hoverResult('structures', index)}
+                         onClick={this.goToStructure}>
+                        <div className="flexbox__item visuallyhidden--palm v-middle">
+                            <img className="block rounded--circle" height="50" width="50" src={subject.get('avatar')} />
+                        </div>
+                        <div className="flexbox__item one-whole v-middle white soft--sides"
+                            dangerouslySetInnerHTML={{__html: subject.get('_highlightResult').name.value }}>
+                        </div>
+                        <div className="flexbox__item v-middle blue-green text--right soft-half--right">
+                            <i className="fa fa-chevron-right"></i>
+                        </div>
+                    </div>)
+        }, this);
+    },
+
 
     searchFullText: function searchFullText (event) {
         if (this.props.navigate) {
@@ -83,7 +109,6 @@ var SubjectAutocompleteFilter = React.createClass({
             'search-page-filters-wrapper--full': this.state.location_store.get('fullscreen'),
             'search-page-filters-wrapper--fullscreen height-100-percent': (this.props.fullscreen || window.is_mobile)
         });
-        var subjects = this.subjects();
         if ((this.props.fullscreen || window.is_mobile)) { height_class = 'height-100-percent'; }
         full_text_search = "Tous les cours pour \"" + this.state.autocomplete_store.get('full_text_search') + "\"";
         if (this.state.autocomplete_store.get('total_cards')) {
@@ -94,9 +119,9 @@ var SubjectAutocompleteFilter = React.createClass({
               <div className="text--left main-container main-container--1000">
                   <div className={"v-middle input-with-button " + height_class}>
                       <div className={cx("flexbox search-page__input-suggestion search-page__input-suggestion--bordered", {
-                                          'search-page__input-suggestion--active': this.state.autocomplete_store.get('selected_subject_index') == 0
+                                          'search-page__input-suggestion--active': (!this.state.autocomplete_store.get('selected_list_name'))
                                         })}
-                           onMouseOver={this.hoverResult(0)}
+                           onMouseOver={this.hoverResult(null, 0)}
                            onClick={this.searchFullText}>
                           <div className="flexbox__item v-middle text--center">
                               <i className="fa fa-search white"></i>
@@ -108,10 +133,20 @@ var SubjectAutocompleteFilter = React.createClass({
                               <i className="fa fa-chevron-right"></i>
                           </div>
                       </div>
-                      <div className="blue-green f-weight-600 search-page__input-suggestion-label">
-                          DISCIPLINES
+                      <div className="grid">
+                          <div className="grid grid__item two-thirds palm-one-whole">
+                              <div className="blue-green f-weight-600 search-page__input-suggestion-label">
+                                  DISCIPLINES
+                              </div>
+                              {this.subjects()}
+                          </div>
+                          <div className="grid grid__item one-third palm-one-whole">
+                              <div className="blue-green f-weight-600 search-page__input-suggestion-label">
+                                  PROFESSEURS, ÉCOLES, ASSOCIATIONS
+                              </div>
+                              {this.structures()}
+                          </div>
                       </div>
-                      {subjects}
                   </div>
               </div>
 

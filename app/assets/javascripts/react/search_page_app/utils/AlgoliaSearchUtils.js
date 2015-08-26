@@ -20,6 +20,12 @@ module.exports = {
             query: full_text_search,
             params: _.extend({ hitsPerPage: 10, facets: '*'},
                              (insideBoundingBox ? { insideBoundingBox: insideBoundingBox} : { aroundLatLngViaIP: true }))
+        }, {
+            indexName: 'Structure_' + ENV.SERVER_ENVIRONMENT,
+            query: full_text_search,
+            params: _.extend({ hitsPerPage: 15, facets: '*'}, { aroundLatLngViaIP: true,
+                                                                aroundPrecision: 5000,
+                                                                aroundRadius: 50000, /* 50km */ })
         }];
         client.search(queries, callback);
         // return subject_index.search(full_text_search, data);

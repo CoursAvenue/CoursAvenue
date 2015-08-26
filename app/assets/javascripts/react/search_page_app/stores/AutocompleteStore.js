@@ -12,7 +12,7 @@ var AutocompleteStore = Backbone.Model.extend({
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback', 'searchDone');
         this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
-        this.set('selected_subject_index', 0);
+        this.set('selected_index', 0);
         this.select_highlighted_suggestion = false;
     },
 
@@ -29,13 +29,33 @@ var AutocompleteStore = Backbone.Model.extend({
                 this.searchResults();
                 break;
             case ActionTypes.FULL_TEXT_SELECT_SUGGESTION:
-                this.set('selected_subject_index', payload.data);
+                this.set('selected_list_name', payload.data.list_name);
+                this.set('selected_index', payload.data.index);
                 break;
             case ActionTypes.FULL_TEXT_SELECT_NEXT_SUGGESTION:
-                this.set('selected_subject_index', this.get('selected_subject_index') + 1);
+                if (!this.get('selected_list_name')) {
+                    this.set('selected_list_name', 'subjects');
+                    this.set('selected_index', 0);
+                } else {
+                    this.set('selected_index', this.get('selected_index') + 1);
+                }
                 break;
             case ActionTypes.FULL_TEXT_SELECT_PREVIOUS_SUGGESTION:
-                this.set('selected_subject_index', this.get('selected_subject_index') - 1);
+                if (this.get('selected_list_name') == 'subjects' && this.get('selected_index') == 0) {
+                    this.unset('selected_list_name');
+                } else {
+                    this.set('selected_index', this.get('selected_index') - 1);
+                }
+                break;
+            case ActionTypes.FULL_TEXT_SELECT_PREVIOUS_SUGGESTION_LIST:
+                if (this.get('selected_list_name') == 'structures') {
+                    this.set('selected_list_name', 'subjects');
+                }
+                break;
+            case ActionTypes.FULL_TEXT_SELECT_NEXT_SUGGESTION_LIST:
+                if (this.get('selected_list_name') == 'subjects') {
+                    this.set('selected_list_name', 'structures');
+                }
                 break;
             case ActionTypes.FULL_TEXT_SELECT_HIGHLIGHTED_SUGGESTION:
                 this.set({ select_highlighted_suggestion: true });
@@ -45,7 +65,7 @@ var AutocompleteStore = Backbone.Model.extend({
 
     searchResults: function searchResults () {
         var insideBoundingBox;
-        this.set('selected_subject_index', 0);
+        this.set('selected_index', 0);
         if (LocationStore.get('bounds')) {
             insideBoundingBox = LocationStore.get('bounds').toString();
         }
@@ -58,10 +78,12 @@ var AutocompleteStore = Backbone.Model.extend({
             this.trigger('change');
             return;
         }
-        var subjects = content.results[0];
-        var cards    = content.results[1];
+        var subjects   = content.results[0];
+        var cards      = content.results[1];
+        var structures = content.results[2];
         this.set('total_cards', cards.nbHits);
         this.set('subjects', new Backbone.Collection(subjects.hits));
+        this.set('structures', new Backbone.Collection(structures.hits));
         this.trigger('change');
     }.debounce(250),
 

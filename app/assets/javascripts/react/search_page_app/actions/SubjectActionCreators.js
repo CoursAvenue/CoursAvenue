@@ -52,10 +52,22 @@ module.exports = {
         });
     },
 
-    selectSuggestion: function selectSuggestion (index) {
+    selectPreviousSuggestionList: function selectPreviousSuggestionList () {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.FULL_TEXT_SELECT_PREVIOUS_SUGGESTION_LIST
+        });
+    },
+
+    selectNextSuggestionList: function selectNextSuggestionList () {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.FULL_TEXT_SELECT_NEXT_SUGGESTION_LIST
+        });
+    },
+
+    selectSuggestion: function selectSuggestion (list_name, index) {
         SearchPageDispatcher.dispatch({
             actionType: SearchPageConstants.ActionTypes.FULL_TEXT_SELECT_SUGGESTION,
-            data: index
+            data: { list_name: list_name, index: index}
         });
     },
 

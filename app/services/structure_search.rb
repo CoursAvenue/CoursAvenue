@@ -78,11 +78,7 @@ class StructureSearch
       if params[:order_by] == 'is_open_for_trial'
         order_by :is_open_for_trial, :desc
       end
-      if params[:root_subject_id].present? and ROOT_SUBJECT_ID_SUPPORTED.include?(params[:root_subject_id])
-        order_by "search_score_#{params[:root_subject_id]}".underscore.to_sym, :desc
-      else
-        order_by :search_score, :desc
-      end
+      order_by :search_score, :desc
       order_by :has_admin, :desc
 
       paginate page: (params[:page].present? ? params[:page] : 1), per_page: (params[:per_page] || 18)

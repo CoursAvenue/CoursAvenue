@@ -71,9 +71,15 @@ var SubjectSearchInput = React.createClass({
         // If arrow down
         } else if (event.keyCode == 40) {
             SubjectActionCreators.selectNextSuggestion();
+        // If arrow right
+        } else if (event.keyCode == 39) {
+            SubjectActionCreators.selectNextSuggestionList();
         // If arrow up
         } else if (event.keyCode == 38) {
             SubjectActionCreators.selectPreviousSuggestion();
+        // If arrow left
+        } else if (event.keyCode == 37) {
+            SubjectActionCreators.selectPreviousSuggestionList();
         }
     },
 

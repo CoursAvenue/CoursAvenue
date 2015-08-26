@@ -32,6 +32,8 @@ module.exports = {
         FULL_TEXT_SELECT_NEXT_SUGGESTION:     null,
         FULL_TEXT_SELECT_PREVIOUS_SUGGESTION: null,
         FULL_TEXT_SELECT_SUGGESTION:          null,
+        FULL_TEXT_SELECT_PREVIOUS_SUGGESTION_LIST: null,
+        FULL_TEXT_SELECT_NEXT_SUGGESTION_LIST:     null,
 
         UNSET_FILTER:                         null,
 

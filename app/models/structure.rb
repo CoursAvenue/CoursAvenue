@@ -207,9 +207,11 @@ class Structure < ActiveRecord::Base
   ######################################################################
 
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
+    customRanking ['desc(search_score)']
+
     attributesForFaceting ['id', 'subjects.slug']
     attributesToIndex ['id', 'name', 'slug', 'cities_text', 'active']
-    ranking ['geo']
+    ranking ['typo', 'geo', 'words', 'proximity', 'attribute', 'exact', 'custom']
 
     attribute :id
     attribute :name
@@ -260,7 +262,9 @@ class Structure < ActiveRecord::Base
       end
     end
 
-    attribute :search_score
+    attribute :search_score do
+      search_score.to_i
+    end
   end
 
   ######################################################################
