@@ -18,6 +18,7 @@ module CoursAvenue
       'Access-Control-Allow-Origin' => '*',
       'Access-Control-Request-Method' => '*'
     }
+    config.middleware.delete ActiveRecord::Migration::CheckPending
     config.middleware.insert_before ActionDispatch::Static, Rack::SslEnforcer, ignore: /.*widget_ext.*/ if Rails.env.production?
 
     # S3 = AWS::S3.new(
