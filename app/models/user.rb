@@ -520,6 +520,15 @@ class User < ActiveRecord::Base
     end
   end
 
+  # @return Subject at depth 2
+  def dominant_subject
+    if participation_requests.any? and (_subjects = participation_requests.map(&:course).flat_map(&:subjects)).any?
+      return _subjects.group_by{ |subject| subject.root }.values.max_by(&:size).first.root
+    elsif structures.any?
+      return structures.first.dominant_root_subject
+    end
+  end
+
   private
 
   def generated_fake_name
