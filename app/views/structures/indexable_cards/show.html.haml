@@ -89,7 +89,7 @@
 
     .grid__item.four-twelfths.palm-one-whole.palm-hard>
       .push--bottom
-        .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#coursavenue-footer' } }
+        .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#coursavenue-footer', update_on_scroll: 'true' } }
           = render partial: 'structures/registration'
 
       -# = react_component('Favorite', { logged_in: current_user.present?, type: 'indexable_card', favorited: @favorited })
