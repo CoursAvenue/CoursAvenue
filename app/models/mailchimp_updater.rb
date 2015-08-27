@@ -60,15 +60,15 @@ class MailchimpUpdater
   def self.get_subject_name(subject)
     return '' if subject.nil?
     {
-      'danse' => 'Danse'
-      'theatre-scene' => 'Théâtre'
-      'yoga-bien-etre-sante' => 'Yoga et bien-être'
-      'musique-chant' => 'Musique'
-      'dessin-peinture-arts-plastiques' => 'Dessin'
-      'sports-arts-martiaux' => 'Sports'
-      'cuisine-vins' => 'Cuisine'
-      'photo-video' => 'Photo et vidéo'
-      'deco-mode-bricolage' => 'Déco'
+      'danse'                           => 'Danse',
+      'theatre-scene'                   => 'Théâtre',
+      'yoga-bien-etre-sante'            => 'Yoga et bien-être',
+      'musique-chant'                   => 'Musique',
+      'dessin-peinture-arts-plastiques' => 'Dessin',
+      'sports-arts-martiaux'            => 'Sports',
+      'cuisine-vins'                    => 'Cuisine',
+      'photo-video'                     => 'Photo et vidéo',
+      'deco-mode-bricolage'             => 'Déco'
     }[subject.slug]
   end
 end
