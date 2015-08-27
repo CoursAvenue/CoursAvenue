@@ -490,7 +490,7 @@ class ParticipationRequest < ActiveRecord::Base
   end
 
   def reject_participants attributes
-    return (attributes[:price_id].blank? or attributes[:number].blank? or attributes[:number] == '0')
+    return (attributes[:number].blank? or attributes[:number] == '0')
   end
 
   # Set the date to the start_date of the planning if no date is given
