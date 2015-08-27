@@ -1,6 +1,7 @@
 $(function() {
     // Setting default settings of Fancybox
     $.fancybox.defaults.tpl.closeBtn = '<a title="Fermer" class="fancybox-item fancybox-close fa-times fixed north east push fa-2x" href="javascript:;"></a>';
+    $.fancybox.defaults.maxHeight = window.innerHeight - 150;
     $.fancybox.defaults.afterShow = function () {
         $.each(COURSAVENUE.initialize_callbacks, function(i, func) { func(); });
     };
@@ -43,7 +44,6 @@ $(function() {
                 topRatio    : parseFloat(top_ratio),
                 openSpeed   : 300,
                 maxWidth    : 1200,
-                maxHeight   : (window.innerHeight - 150),
                 fitToView   : false,
                 width       : width,
                 height      : height,
