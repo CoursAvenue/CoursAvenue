@@ -67,7 +67,6 @@
     }
     h2 {
         font-family: 'lexia';
-        @extend .f-style-italic;
         @extend .f-weight-400;
         @extend .bordered--bottom;
         padding-bottom: 10px;
