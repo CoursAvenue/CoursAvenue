@@ -13,7 +13,7 @@ class IndexableCardSerializer < ActiveModel::Serializer
   has_many :price_group_prices,  serializer: PriceSerializer
 
   def price_group_prices
-    object.course.price_group_prices.order('amount ASC')
+    object.course.price_group_prices.order('amount ASC') if object.course
   end
 
   def plannings
@@ -21,7 +21,7 @@ class IndexableCardSerializer < ActiveModel::Serializer
   end
 
   def min_price
-    PriceSerializer.new(object.course.prices.order('amount ASC').first) if object.course.prices.any?
+    PriceSerializer.new(object.course.prices.order('amount ASC').first) if object.course and object.course.prices.any?
   end
 
   def structure_is_active
@@ -29,27 +29,27 @@ class IndexableCardSerializer < ActiveModel::Serializer
   end
 
   def db_type
-    object.course.type
+    object.course.type if object.course
   end
 
   def teaches_at_home
-    object.course.teaches_at_home
+    object.course.teaches_at_home if object.course
   end
 
   def on_appointment
-    object.course.on_appointment
+    object.course.on_appointment if object.course
   end
 
   def frequency
-    I18n.t(object.course.frequency) if object.course.frequency.present?
+    I18n.t(object.course.frequency) if object.course and object.course.frequency.present?
   end
 
   def cant_be_joined_during_year
-    object.course.cant_be_joined_during_year
+    object.course.cant_be_joined_during_year if object.course
   end
 
   def no_class_during_holidays
-    object.course.no_class_during_holidays
+    object.course.no_class_during_holidays if object.course
   end
 
 end
