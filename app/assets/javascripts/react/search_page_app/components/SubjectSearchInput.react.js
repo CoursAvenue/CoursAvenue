@@ -36,14 +36,20 @@ var SubjectSearchInput = React.createClass({
         FilterActionCreators.clearFullTextAndCloseSearchInputPanel();
     },
 
-    selectSubject: function selectSubject (subject) {
-        var subject = this.state.autocomplete_store.get('subjects').at(this.state.autocomplete_store.get('selected_subject_index') - 1);
+    selectSubject: function selectSubject () {
+        var subject = this.state.autocomplete_store.get('subjects').at(this.state.autocomplete_store.get('selected_index'));
         if (this.props.navigate) {
             window.location = Routes.search_page_path(subject.get('root'), subject.get('slug'), 'paris');
         } else {
             SubjectActionCreators.selectSubject(subject.toJSON());
         }
     },
+
+    selectStructure: function selectStructure () {
+        var structure = this.state.autocomplete_store.get('structures').at(this.state.autocomplete_store.get('selected_index'));
+        window.location = Routes.structure_path(structure.get('slug'));
+    },
+
     executeSearchFullText: function executeSearchFullText () {
         if (this.props.navigate) {
             if (event.metaKey || event.ctrlKey) {
@@ -62,11 +68,13 @@ var SubjectSearchInput = React.createClass({
             FilterActionCreators.clearFullTextAndCloseSearchInputPanel();
         // If hitting enter
         } else if (event.keyCode == 13) {
-            if (this.state.autocomplete_store.get('selected_subject_index') == 0) {
+            if (this.state.autocomplete_store.get('selected_list_name') == 'subjects') {
+                this.selectSubject();
+            } else if (this.state.autocomplete_store.get('selected_list_name') == 'structures') {
+                this.selectStructure();
+            } else {
                 this.executeSearchFullText();
                 FilterActionCreators.closeFilterPanel();
-            } else {
-                this.selectSubject()
             }
         // If arrow down
         } else if (event.keyCode == 40) {
