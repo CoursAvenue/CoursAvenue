@@ -123,3 +123,13 @@
     .blog-feed__content {
         font-size: 14px;
     }
+.yellow-box {
+    p:last-child {
+        margin-bottom: 0;
+    }
+    blockquote {
+        color       : white;
+        border-color: white;
+        margin      : 0;
+    }
+}
