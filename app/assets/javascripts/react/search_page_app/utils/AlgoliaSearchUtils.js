@@ -24,7 +24,7 @@ module.exports = {
             indexName: 'Structure_' + ENV.SERVER_ENVIRONMENT,
             query: full_text_search,
             params: _.extend({ hitsPerPage: 15, facets: '*', facetFilters: 'active:true' }, { aroundLatLngViaIP: true,
-                                                                aroundPrecision: 5000 })
+                                                                aroundPrecision: 5000, aroundRadius: 1000000 })
         }];
         client.search(queries, callback);
         // return subject_index.search(full_text_search, data);
