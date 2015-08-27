@@ -16,7 +16,7 @@ class Pro::Structures::NewslettersController < ApplicationController
       @newsletter = @structure.newsletters.create(
         layout_id: Newsletter::Layout.first.id,
         state: 'draft',
-        title: 'Planning 2015 / 2016'
+        title: 'Nouveau planning 2015 - 2016'
       )
       @newsletter.blocs.create(type: 'Newsletter::Bloc::Image')
       @newsletter.blocs.create(type: 'Newsletter::Bloc::Text')
