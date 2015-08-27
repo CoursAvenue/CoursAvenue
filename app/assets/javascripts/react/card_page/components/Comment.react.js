@@ -1,8 +1,25 @@
+var StructureStore = require('../stores/StructureStore');
+
 var Comment = React.createClass({
 
+    componentDidMount: function componentDidMount () {
+        if (this.refs.reply) {
+            $(React.findDOMNode(this.refs.reply)).readMore();
+        }
+    },
+
     render: function render () {
-        var avatar;
-        // {this.props.comment.get('certified')}
+        var avatar, reply;
+        if (this.props.comment.get('reply') && !_.isEmpty(this.props.comment.get('reply').simple_format_content)) {
+            reply = (<div data-behavior="read-more" ref="reply">
+                        <div className="f-weight-600 gray push-half--ends">
+                            Réponse de {StructureStore.get('name')}
+                        </div>
+                        <div className="line-height-1-3"
+               dangerouslySetInnerHTML={{__html: this.props.comment.get('reply').simple_format_content }}>
+                        </div>
+                     </div>);
+        }
         if (this.props.comment.get('has_avatar')) {
             avatar = (<img src={this.props.comment.get('avatar_url')}
                            className="center-block push-half--bottom rounded--circle"
@@ -37,6 +54,7 @@ var Comment = React.createClass({
                       <meta itemProp='worstRating' content={1} />
                       <meta itemProp='bestRating' content={5} />
                     </span>
+                    {reply}
                 </div>
             </div>
         );

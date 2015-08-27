@@ -11,4 +11,5 @@
         Vous avez répondu publiquement à cet avis
       - else
         #{structure} a répondu à cet avis
-  .milli= simple_format reply.content
+  .read-more{ data: { behavior: 'read-more', height: '80' } }
+    = simple_format reply.content

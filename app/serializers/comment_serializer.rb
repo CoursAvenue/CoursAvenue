@@ -1,6 +1,5 @@
 class CommentSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
-  include ActionView::Helpers::DateHelper
 
   cached
   def cache_key
