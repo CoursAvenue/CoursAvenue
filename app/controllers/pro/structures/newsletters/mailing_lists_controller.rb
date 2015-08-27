@@ -4,6 +4,23 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
   before_action :authenticate_pro_admin!
   before_action :set_structure_and_newsletter
 
+  def edit
+    @newsletter   = @structure.newsletters.find(params[:newsletter_id])
+    @mailing_list = @structure.mailing_lists.find params[:id]
+    render layout: false
+  end
+
+  def update
+    @newsletter   = @structure.newsletters.find(params[:newsletter_id])
+    @mailing_list = @structure.mailing_lists.find params[:id]
+    if params[:emails].present?
+      UserProfile.batch_create(@structure, params[:emails], { newsletter_id: @newsletter.id, mailing_list_tag: @mailing_list.tag })
+    end
+    respond_to do |format|
+      @mailing_list.update_attributes(mailing_list_params)
+      format.html { redirect_to mailing_list_pro_structure_newsletter_path(@structure, @newsletter)}
+    end
+  end
 
   def file_import
     @user_profile_import = @structure.user_profile_imports.build
@@ -113,4 +130,9 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
   def required_params
     params.require(:mailing_list).permit(:all_profiles)
   end
+
+  def mailing_list_params
+    params.require(:mailing_list).permit(:name)
+  end
+
 end

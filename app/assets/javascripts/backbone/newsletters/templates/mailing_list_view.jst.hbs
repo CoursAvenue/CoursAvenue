@@ -1,6 +1,10 @@
-<div id="mailing-list-{{ id }}" class="bordered--top">
-    <input type='radio' {{#if selected}}checked{{/if}} id='mailing_list_all_profiles_{{ id }}' name='mailing_list' value='{{ id }}' class="v-middle input--large one--whole" />
-    <label class="inline-block v-middle soft-half--ends label--large" for='mailing_list_all_profiles_{{ id }}'>{{ name }} ({{ recipient_count }} {{ pluralize recipient_count 'élève' 'élèves' }})</label>
+<div id="mailing-list-{{ id }}" class="bordered--top flexbox">
+    <div class="flexbox__item">
+        <input type='radio' {{#if selected}}checked{{/if}} id='mailing_list_all_profiles_{{ id }}' name='mailing_list' value='{{ id }}' class="v-middle input--large one--whole" />
+        <label class="inline-block v-middle soft-half--ends label--large" for='mailing_list_all_profiles_{{ id }}'>{{ name }} ({{ recipient_count }} {{ pluralize recipient_count 'élève' 'élèves' }})</label>
+    </div>
+    <div class="flexbox__item text--right">
+        <a class="fancybox.ajax push-half--left v-middle" href="{{ edit_url }}" data-width="700" data-padding='0' data-behavior="modal">Voir / Modifier / Ajouter des contacts</a>
+    </div>
 
-    <a class="fancybox.ajax push-half--left v-middle" href="{{ edit_url }}" data-width="400" data-behavior="modal">Voir</a>
 </div>

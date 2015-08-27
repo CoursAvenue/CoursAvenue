@@ -19,6 +19,13 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
         onChildviewSelected: function onChildviewSelected (mailing_list_view) {
             this.trigger('selected', { model: mailing_list_view.model });
+        },
+
+        childViewOptions: function childViewOptions (model, index) {
+            return {
+                model: model,
+                newsletter: this.model
+            }
         }
     });
 });

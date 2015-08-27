@@ -1,9 +1,0 @@
-%h3
-  = @mailing_list.name
-  = "(#{pluralize(@mailing_list.recipient_count, 'élève')})"
-%ul.block-list
-  - @mailing_list.user_profiles.each do |user_profile|
-    %li= user_profile.email
-
-- if @mailing_list.recipient_count == 0
-  = link_to 'Supprimer', pro_structure_mailing_list_path(@structure, @mailing_list), remote: true, method: :delete, data: { disable_with: 'Supression en cours...' }
