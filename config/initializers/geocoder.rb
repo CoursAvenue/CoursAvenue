@@ -12,9 +12,6 @@ if Rails.env.production?
     :api_key => ENV['GOOGLE_MAPS_API_KEY'],
     :use_https => true,
 
-    # to use an API key:
-    # :api_key => '',
-
     # geocoding service request timeout, in seconds (default 3):
     :timeout => 5,
 
