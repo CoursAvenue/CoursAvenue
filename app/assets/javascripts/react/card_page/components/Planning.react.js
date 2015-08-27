@@ -65,6 +65,7 @@ var LessonPlanning = React.createClass({
             if (this.props.planning.info) {
                 subscribe_button = (<div>
                             <a href={href}
+                             target="_blank"
                        data-content={this.props.planning.info}
                           data-html="true"
                         data-toggle="popover"
