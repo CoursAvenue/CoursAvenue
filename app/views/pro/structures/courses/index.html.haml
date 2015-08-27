@@ -16,9 +16,11 @@
       = link_to "Dates de fermeture d'été", configure_openings_pro_structure_courses_path(@structure, subdomain: 'www'), class: 'btn btn--white btn--small fancybox.ajax', data: { behavior: 'modal', width: '650', padding: '0' }
 
 - if @structure.courses.any?
-  .alert--info.alert.soft.one-whole.text--center
-    %h2.white Partagez votre nouveau planning 2015-2016 à tous vos élèves
-    = link_to 'Envoyer mon planning par e-mail', new_pro_structure_newsletter_path(with_courses: true), class: 'btn btn--white-transparent btn--white-transparent--white btn--bigger'
+  .alert--info.alert.soft.one-whole.flexbox
+    .flexbox__item.v-middle.one-whole
+      %h3.flush.white Partagez votre planning 2015-2016 à vos élèves
+    .flexbox__item.v-middle
+      = link_to 'Envoyer mon planning par e-mail', new_pro_structure_newsletter_path(with_courses: true), class: 'btn btn--white-transparent btn--white-transparent--white nowrap'
 
 #trainings-header.bg-white.soft--top
   %h3{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } } Stages &amp; ateliers
