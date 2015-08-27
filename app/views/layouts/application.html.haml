@@ -2,6 +2,7 @@
 %html.no-js{ lang: 'fr', prefix: 'og:http://opengraphprotocol.org/schema fb:http://www.facebook.com/2008/fbml' }
   %head
     = render 'layouts/prevent_fout'
+    = stylesheet_link_tag 'application', media: 'all'
     = yield :right_after_head
 
     = render 'shared/meta_information'
@@ -21,9 +22,11 @@
 
     %link{ href: asset_path('favicon.ico'), rel: 'shortcut icon', type: 'image/ico' }
     %link{ href: asset_path('favicon.png'), rel: 'apple-touch-icon' }
-    = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag 'modernizr'
     = csrf_meta_tags unless response.cache_control[:public]
+    -# Typekit-cache: https://github.com/morris/typekit-cache/
+    :javascript
+      !function(t,e,n,a,s,o,r,i){n&&(o=n[a],o&&(r=t.createElement("style"),r.innerHTML=o,t.getElementsByTagName("head")[0].appendChild(r)),i=e.setAttribute,e.setAttribute=function(t,r,p,u){"string"==typeof r&&r.match(s)&&(p=new XMLHttpRequest,p.open("GET",r,!0),p.onreadystatechange=function(){4===p.readyState&&(u=p.responseText,u!==o&&(n[a]=u))},p.send(null),e.setAttribute=i,o)||i.apply(this,arguments)})}(document,Element.prototype,localStorage,"tk","//use.typekit.net");
 
   %body
     - unless response.cache_control[:public]
