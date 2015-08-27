@@ -1,7 +1,11 @@
 = simple_form_for [:pro, @structure, @newsletter, @mailing_list], url: pro_structure_newsletter_mailing_list_path(@structure, @newsletter, @mailing_list), as: :mailing_list do |f|
   .panel
-    .panel__header.soft-half
-      = f.input :name, label: 'Nom de la liste', input_html: { class: 'v-middle', disabled: @mailing_list.all_profiles? }, label_html: { class: 'v-middle' }
+    .panel__header.soft
+      - if @mailing_list.all_profiles?
+        = f.input :name, as: :hidden
+        %h4.flush= @mailing_list.name
+      - else
+        = f.input :name, label: 'Nom de la liste', input_html: { class: 'v-middle' }, label_html: { class: 'v-middle' }, wrapper_html: { class: 'flush' }
     .panel__body.soft
       %label.push-half--bottom.block Ajouter des e-mails
       %textarea.input--large.push-half--bottom.one-whole{ name: 'emails', placeholder: 'Ex. : emiliedupont@gmail.com, clement@orange.fr, jimmy@hotmail.com, etc.', rows: '3' }
@@ -11,6 +15,4 @@
       %ul.block-list
         - @mailing_list.user_profiles.each do |user_profile|
           %li.hard--left= user_profile.email
-
-      - if @mailing_list.recipient_count == 0
-        = link_to 'Supprimer', pro_structure_mailing_list_path(@structure, @mailing_list), remote: true, method: :delete, data: { disable_with: 'Supression en cours...' }
+      = link_to 'Supprimer la liste', pro_structure_mailing_list_path(@structure, @mailing_list), remote: true, method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette liste ?', disable_with: 'Supression en cours...' }
