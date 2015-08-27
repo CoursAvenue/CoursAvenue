@@ -34,7 +34,6 @@ var SimiliarCardList = React.createClass({
     },
 
     render: function render () {
-        debugger
         var pages = _.chunk(SimilarCardStore.models, 4).map(function (cards, index) {
             return (
                 <SlidingPage cards={ cards } key={ index } />
