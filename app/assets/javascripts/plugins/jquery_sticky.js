@@ -92,7 +92,7 @@
         },
 
         onScroll: function onScroll () {
-            if (this.options.updateOnScroll) { this.calculateElementTop(); }
+            if (this.options.updateOnScroll) { this.calculateElementTop(); this.calculateStopAtHeight(); }
             this.scroll_top  = $(this.options.scrollContainer).scrollTop();
             this.fixed       = this.$element.hasClass("sticky");
 
