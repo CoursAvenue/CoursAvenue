@@ -47,7 +47,11 @@ var SubjectSearchInput = React.createClass({
 
     selectStructure: function selectStructure () {
         var structure = this.state.autocomplete_store.get('structures').at(this.state.autocomplete_store.get('selected_index'));
-        window.location = Routes.structure_path(structure.get('slug'));
+        if (event.metaKey || event.ctrlKey) {
+            window.open(Routes.structure_path(structure.get('slug')));
+        } else {
+            window.location = Routes.structure_path(structure.get('slug'));
+        }
     },
 
     executeSearchFullText: function executeSearchFullText () {

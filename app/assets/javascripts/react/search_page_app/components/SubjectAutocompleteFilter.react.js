@@ -62,8 +62,12 @@ var SubjectAutocompleteFilter = React.createClass({
     },
 
     goToStructure: function goToStructure (structure_slug) {
-        return function() {
-            window.location = Routes.structure_path(structure_slug);
+        return function(event) {
+            if (event.metaKey || event.ctrlKey) {
+                window.open(Routes.structure_path(structure_slug));
+            } else {
+                window.location = Routes.structure_path(structure_slug);
+            }
         }
     },
 
