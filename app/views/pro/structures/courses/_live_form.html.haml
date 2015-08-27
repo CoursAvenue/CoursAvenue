@@ -7,7 +7,7 @@
       .flexbox__item.v-top.two-twelfths.text--center.bordered--right.palm-block.palm-one-whole>
         - if course.media
           = image_tag course.media.image.url(:thumbnail)
-          = link_to 'Choisir une autre image', choose_media_pro_structure_course_path(@structure, course), class: 'fancybox.ajax', data: { behavior: 'modal', padding: '0', width: 750 }
+          = link_to 'Choisir une autre image', choose_media_pro_structure_course_path(@structure, course), class: 'block soft-half--sides fancybox.ajax', data: { behavior: 'modal', padding: '0', width: 750 }
         - else
           = link_to choose_media_pro_structure_course_path(@structure, course), class: 'soft block gray epsilon f-weight-500 v-middle bg-gray-light bordered--bottom fancybox.ajax', data: { behavior: 'modal', padding: '0', width: 750 } do
             .text--center
