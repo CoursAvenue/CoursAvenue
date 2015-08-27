@@ -18,7 +18,7 @@
 - if @structure.courses.any?
   .alert--info.alert.soft.one-whole.text--center
     %h2.white Partagez votre nouveau planning 2015-2016 à tous vos élèves
-    = link_to 'Envoyer mon planning par e-mail', new_pro_structure_newsletter_path(with_courses: true), class: 'btn btn--white-transparent btn--white-transparent--white'
+    = link_to 'Envoyer mon planning par e-mail', new_pro_structure_newsletter_path(with_courses: true), class: 'btn btn--white-transparent btn--white-transparent--white btn--bigger'
 
 #trainings-header.bg-white.soft--top
   %h3{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } } Stages &amp; ateliers
