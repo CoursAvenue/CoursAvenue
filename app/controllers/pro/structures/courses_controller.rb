@@ -32,9 +32,9 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def index
-    @trainings = @structure.courses.trainings.order('name ASC')
-    @lessons   = @structure.courses.lessons.order('name ASC')
-    @privates  = @structure.courses.privates.order('name ASC')
+    @trainings = @structure.courses.trainings.order('name ASC').includes(:media)
+    @lessons   = @structure.courses.lessons.order('name ASC').includes(:media, plannings: [:place])
+    @privates  = @structure.courses.privates.order('name ASC').includes(:media, :place)
   end
 
   def regular
