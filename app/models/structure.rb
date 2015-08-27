@@ -466,7 +466,11 @@ class Structure < ActiveRecord::Base
   end
 
   def address
-    "#{street}, #{city.name}"
+    if street.present? and city.present?
+      "#{street}, #{city.name}"
+    elsif places.any?
+      places.first.address
+    end
   end
 
   def parent_subjects
