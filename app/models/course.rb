@@ -60,7 +60,7 @@ class Course < ActiveRecord::Base
   ######################################################################
   validates :type, :name  , presence: true
   validates :subjects     , presence: true
-  validates :prices       , presence: true
+  validates :prices       , presence: true, unless: -> (course) { course.no_trial? }
   validates :name, length: { maximum: 255 }
 
   attr_accessible :name, :type, :description,
