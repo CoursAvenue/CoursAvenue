@@ -42,12 +42,20 @@ var CourseHeader = React.createClass({
         }
     },
     render: function render () {
-        var subjects;
+        var subjects, href;
         var course = this.state.course_store.getCourseByID(this.props.course_id);
         if (course) {
+            if (course.get('indexable_card_slug')) {
+                href = Routes.structure_indexable_card_path(course.get('structure_slug'), course.get('indexable_card_slug'));
+            }
             return (<div className="soft--sides soft--top">
                         { this.getPrice(course) }
-                        <h3 className="push-half--bottom">{course.get('name')}</h3>
+                        <h3 className="push-half--bottom">
+                              <a className="semi-muted-link"
+                                      href={href}>
+                                      {course.get('name')}
+                              </a>
+                        </h3>
                         { this.getSubjects(course) }
                     </div>);
         } else {
