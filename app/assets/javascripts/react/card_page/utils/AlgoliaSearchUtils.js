@@ -11,12 +11,13 @@ module.exports = {
             aroundLatLng: data.aroundLatLng,
             distinct:     true,
             aroundRadius: 100000, // 100km
-            facets: '*',
+            facets: '*'
         };
 
         var card_search_helper = algoliasearchHelper(client, structure_index, state);
 
         card_search_helper.addExclude('id', data.structure_id);
+        card_search_helper.addRefine('active', 'true');
 
         if (data.subjects) {
             _.each(data.subjects, function (subject) {
