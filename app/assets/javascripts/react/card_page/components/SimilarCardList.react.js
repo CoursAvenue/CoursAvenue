@@ -6,17 +6,18 @@ var _                = require('lodash'),
 var SlidingPage = React.createClass({
     render: function render () {
         if (!this.props.cards) { return false; }
+        var width_class = 'grid__item one-third';
         var cards = this.props.cards.map(function (card, index) {
             return (
                 <Card card={ card }
-                       key={ index }
+               width_class={ width_class }
               follow_links={ true }
                        key={ index } />
             );
         });
 
         return (
-            <div>
+            <div className='grid'>
                 { cards }
             </div>
         );
@@ -34,7 +35,7 @@ var SimiliarCardList = React.createClass({
     },
 
     render: function render () {
-        var pages = _.chunk(SimilarCardStore.models, 4).map(function (cards, index) {
+        var pages = _.chunk(SimilarCardStore.models, 3).map(function (cards, index) {
             return (
                 <SlidingPage cards={ cards } key={ index } />
             );

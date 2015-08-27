@@ -138,7 +138,8 @@
 .soft--sides.soft-half--top.soft--bottom.palm-hard
   .grid--full.soft--top.push--bottom
     .bg-white.bordered.push--bottom
-      = react_component('SimilarCardList')
+      .soft.search-page-content
+        = react_component('SimilarCardList')
 
 = content_for :scripts do
   -# This is used when a user make a reservation.
