@@ -135,6 +135,11 @@
       - unless @structure.is_sleeping?
         .bg-white.bordered.push--bottom.soft= render 'structures/response_stats'
 
+.soft--sides.soft-half--top.soft--bottom.palm-hard
+  .grid--full.soft--top.push--bottom
+    .bg-white.bordered.push--bottom
+      = react_component('SimilarCardList')
+
 = content_for :scripts do
   -# This is used when a user make a reservation.
   -# The confirmation popup will ask to update logo if the user does not have one already.

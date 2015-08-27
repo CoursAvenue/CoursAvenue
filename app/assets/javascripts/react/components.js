@@ -13,6 +13,7 @@ Course                    = require('./card_page/components/Course.react');
 CommentList               = require('./card_page/components/CommentList.react');
 MessageThreadList         = require('./card_page/components/MessageThreadList.react');
 SimilarProfileList        = require('./card_page/components/SimilarProfileList.react');
+SimilarCardList           = require('./card_page/components/SimilarCardList.react');
 Favorite                  = require('./card_page/components/Favorite.react');
 
 UserGuideApp              = require('./user_guide/components/UserGuide.react');
