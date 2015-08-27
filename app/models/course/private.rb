@@ -69,16 +69,19 @@ class Course::Private < Course
   #
   # @return nil
   def create_hidden_plannings
-    if on_appointment_changed?
+    if on_appointment_changed? or audience_ids_changed?
       self.plannings.map(&:destroy)
       if self.on_appointment
         (0..6).each do |week_day|
-          self.plannings.create(week_day: week_day,
-                                visible: false,
-                                start_time: Time.parse('2000-01-01 06:00:00 UTC'),
-                                start_date: Date.yesterday,
-                                end_time: Time.parse('2000-01-01 23:00:00 UTC'),
-                                end_date: Date.today + 100.years)
+          self.plannings.create(
+            week_day: week_day,
+            visible: false,
+            start_time: Time.parse('2000-01-01 06:00:00 UTC'),
+            start_date: Date.yesterday,
+            end_time: Time.parse('2000-01-01 23:00:00 UTC'),
+            end_date: Date.today + 100.years,
+            audience_ids: self.audience_ids
+          )
         end
       end
     end
