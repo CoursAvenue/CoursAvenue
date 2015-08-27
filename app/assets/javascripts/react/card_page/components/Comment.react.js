@@ -6,6 +6,7 @@ var Comment = React.createClass({
         if (this.refs.reply) {
             $(React.findDOMNode(this.refs.reply)).readMore();
         }
+        $(React.findDOMNode(this.refs.comment_wrapper)).readMore();
     },
 
     render: function render () {
@@ -42,7 +43,9 @@ var Comment = React.createClass({
                 <div className="grid__item palm-one-whole nine-twelfths">
                     <h6 className="push-half--bottom">{this.props.comment.get('title')}</h6>
                     <div className="line-height-1-3"
-                         dangerouslySetInnerHTML={{__html: this.props.comment.get('simple_format_content') }}>
+                               ref="comment_wrapper"
+                       data-height="250"
+           dangerouslySetInnerHTML={{__html: this.props.comment.get('simple_format_content') }}>
                     </div>
                     <div itemProp='datePublished'
                          content={this.props.comment.get('created_at_iso')}
