@@ -1,7 +1,7 @@
 .team-wrapper {
     .team {
         opacity: 1;
-        @include transition(opacity linear 150ms);
+        transition: opacity linear 150ms;
     }
     &:hover {
         .team {
@@ -20,7 +20,7 @@
 .team__nicolas {
     height: 400px;
     width : 158px;
-    @include background-size((158px * 2 ) 400px);
+    background-size: (158px * 2 ) 400px;
     @include background-image-retina('pages/equipe/nicolas.png', 'pages/equipe/nicolas@2x.png');
     &:hover { background-position: -157px 0px; }
 }
@@ -28,7 +28,7 @@
     height     : 400px;
     width      : 270px;
     margin-left: -35px;
-    @include background-size((270px * 2 ) 400px);
+    background-size: (270px * 2 ) 400px;
     @include background-image-retina('pages/equipe/nima.png', 'pages/equipe/nima@2x.png');
     &:hover { background-position: -273px 0px; }
 }
@@ -36,7 +36,7 @@
     height     : 420px;
     width      : 180px;
     margin-left: -15px;
-    @include background-size((180px * 2 ) 420px);
+    background-size: (180px * 2 ) 420px;
     @include background-image-retina('pages/equipe/anne.png', 'pages/equipe/anne@2x.png');
     &:hover { background-position: -195px 0px; }
 }
@@ -44,7 +44,7 @@
     height     : 400px;
     width      : 175px;
     margin-left: -40px;
-    @include background-size((175px * 2 ) 400px);
+    background-size: (175px * 2 ) 400px;
     @include background-image-retina('pages/equipe/benjamin.png', 'pages/equipe/benjamin@2x.png');
     &:hover { background-position: -195px 0px; }
 }
@@ -52,7 +52,7 @@
     height     : 400px;
     width      : 160px;
     margin-left: -70px;
-    @include background-size((160px * 2 ) 400px);
+    background-size: (160px * 2 ) 400px;
     @include background-image-retina('pages/equipe/olivier.png', 'pages/equipe/olivier@2x.png');
     &:hover { background-position: -173px 0px; }
 }
@@ -60,7 +60,7 @@
     height     : 450px;
     width      : 145px;
     margin-left: -40px;
-    @include background-size((145px * 2 ) 450px);
+    background-size: (145px * 2 ) 450px;
     @include background-image-retina('pages/equipe/camille.png', 'pages/equipe/camille@2x.png');
     &:hover { background-position: -168px 0px; }
 }
@@ -68,7 +68,7 @@
     height     : 400px;
     width      : 200px;
     margin-left: -40px;
-    @include background-size((200px * 2 ) 400px);
+    background-size: (200px * 2 ) 400px;
     @include background-image-retina('pages/equipe/aliou.png', 'pages/equipe/aliou@2x.png');
     &:hover { background-position: -222px 0px; }
 }

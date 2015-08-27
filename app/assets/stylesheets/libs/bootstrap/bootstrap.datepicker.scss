@@ -9,7 +9,7 @@
  */
 .datepicker {
     direction : ltr;
-    @include border-radius(4px);
+    border-radius: 4px;
 }
 .datepicker-inline {
     width: 220px;

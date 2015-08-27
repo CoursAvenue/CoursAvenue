@@ -2,14 +2,14 @@
     min-height: 130px;
 }
 .white-box, .blue-box {
-    @include border-radius($brand-round);
+    border-radius: $brand-round;
 }
 .blue-box .textarea-counter { color: white!important; }
 .white-box {
     background: white;
     border    : 1px solid #DDD;
     &.white-box--rounded {
-        @include border-radius(10em);
+        border-radius: 10em;
     }
 }
 
@@ -17,7 +17,7 @@
 .transparant-white-box {
     background-color: transparentize(black, 0.6);
     border          : 2px solid white;
-    @include transition(all 200ms linear);
+    transition: all 200ms linear;
 }
 .yellow-box                    { background-color: $yellow }
 .orange-box                    { background-color: $orange; }
@@ -54,7 +54,7 @@
     &, a { color: white }
 }
 .white-box--rounded {
-    @include border-radius(5em);
+    border-radius: 5em;
 }
 .white-box--small {
     @extend .white-box;
@@ -89,7 +89,7 @@
     // border-top      : 1px solid #1D1D1D;
     border-bottom   : 1px solid #1D1D1D;
     background-color: $pro-header-color;
-    @include background-image(linear-gradient($pro-header-color, #4C4F50));
+    background-image: linear-gradient($pro-header-color, #4C4F50);
 }
     .gray-box__footer {
         background: $pane-background-color;

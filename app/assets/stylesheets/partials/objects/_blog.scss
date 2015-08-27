@@ -5,13 +5,13 @@
        %i.fa-chevron-right
  */
 .blog_article__image-icon {
-    @include border-radius(50px);
-    width      : 46px;
-    height     : 46px;
-    margin-left: -23px;
-    margin-top : -23px;
-    line-height: 46px;
-    font-size  : 14px;
+    border-radius: 50px;
+    width        : 46px;
+    height       : 46px;
+    margin-left  : -23px;
+    margin-top   : -23px;
+    line-height  : 46px;
+    font-size    : 14px;
     &.blog_article__image-icon--double {
         width      : 60px;
         height     : 60px;

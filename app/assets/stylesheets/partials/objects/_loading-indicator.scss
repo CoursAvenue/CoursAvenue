@@ -4,5 +4,5 @@
     background-position: center center;
     background-color   : white;
     background-image   : image-url('gifs/loading-indicator.gif');
-    @include background-size(35px);
+    background-size: 35px;
 }

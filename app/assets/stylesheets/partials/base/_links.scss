@@ -44,7 +44,7 @@ a.selected, a.active {
 
 .link-colored-on-hover {
     color: inherit;
-    @include transition(all 0.3s ease-in-out);
+    transition: all 0.3s ease-in-out;
     &:hover {
         text-decoration: none;
         color          : $orange;

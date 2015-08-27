@@ -13,8 +13,9 @@
     padding     : 1em;
     z-index     : 1000000;
     border      : 1px solid black;
-    @include border-radius(0);
-    @include border-bottom-radius($brand-round);
+    border-radius: 0;
+    border-bottom-left-radius: $brand-round;
+    border-bottom-right-radius: $brand-round;
     background-color: $green-success;
     border-color    : darken($green-success, 5%);
     &.notice {

@@ -30,7 +30,6 @@
     only screen and (        min-device-pixel-ratio: 2),
     only screen and (                min-resolution: 192dpi),
     only screen and (                min-resolution: 2dppx) {
-      // @include background-size(image-width($image) auto);
       background-image: image-url($image_2x);
     }
 }

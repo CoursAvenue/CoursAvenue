@@ -1,6 +1,6 @@
 .gm-style {
     div {
-        @include box-shadow(none!important);
+        box-shadow: none!important;
     }
     .infoBox {
         position        : relative;
@@ -12,7 +12,7 @@
         border          : 1px solid #DDD;
         padding         : 5px;
         color           : #393C3D;
-        @include border-radius($brand-round);
+        border-radius: $brand-round;
         > img {
           display: none;
         }
@@ -53,7 +53,7 @@
         z-index    : 10;
         cursor     : pointer;
         padding-left: 1px;
-        @include border-radius(10px);
+        border-radius: 10px;
         i {
             font-size: 17px;
         }

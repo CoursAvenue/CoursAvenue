@@ -21,7 +21,7 @@
         border: 1px solid $blue-green;
     }
     input, button {
-        @include border-radius(0px !important);
+        border-radius: 0px !important;
     }
     .input--large, .tt-hint, .tt-input {
         font-size     : 14px;

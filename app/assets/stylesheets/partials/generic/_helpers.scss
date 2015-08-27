@@ -2,9 +2,9 @@
     EFFECTS
 \*------------------------------------*/
 .blur-image-on-hover {
-    &:hover img { @include filter(blur(5px)); }
+    &:hover img { filter: blur(5px); }
 }
-.blur { @include filter(blur(10px)); }
+.blur { filter: blur(10px); }
 /*------------------------------------*\
     WIDTHS & HEIGHTS
 \*------------------------------------*/
@@ -41,24 +41,24 @@
 /*------------------------------------*\
     RADIUS
 \*------------------------------------*/
-.rounded--none         { @include border-radius(0!important); }
-.rounded--left         { @include border-left-radius($brand-round!important); }
-.rounded--left--double { @include border-left-radius($brand-round * 2!important); }
-.rounded-left--none    { @include border-left-radius(0!important); }
-.rounded-right--none   { @include border-right-radius(0!important); }
-.rounded-top--none     { @include border-top-radius(0!important); }
-.rounded               { @include border-radius($brand-round); }
-.rounded--top          { @include border-top-radius($brand-round); }
-.rounded--bottom       { @include border-bottom-radius($brand-round); }
-.rounded--top--double  { @include border-top-radius($brand-round * 2); }
-.rounded--bottom       { @include border-bottom-radius($brand-round); }
-.rounded--double       { @include border-radius($brand-round * 2); }
-.rounded--thick        { @include border-radius(1em !important); }
-.rounded--circle       { @include border-radius(100% !important); }
+.rounded--none         { border-radius: 0!important; }
+.rounded--left         { border-bottom-left-radius: $brand-round!important; border-top-left-radius: $brand-round!important; }
+.rounded--left--double { border-bottom-left-radius: $brand-round * 2!important; border-top-left-radius: $brand-round * 2!important; }
+.rounded-left--none    { border-bottom-left-radius: 0!important; border-top-left-radius: 0!important; }
+.rounded-right--none   { border-top-right-radius: 0!important; border-bottom-right-radius: 0!important; }
+.rounded-top--none     { border-top-right-radius: 0!important; border-top-left-radius: 0!important; }
+.rounded               { border-radius: $brand-round; }
+.rounded--top          { border-top-left-radius: $brand-round; border-top-right-radius: $brand-round; }
+.rounded--bottom       { border-bottom-left-radius: $brand-round; border-bottom-right-radius: $brand-round; }
+.rounded--top--double  { border-top-left-radius: $brand-round * 2; border-top-right-radius: $brand-round * 2; }
+.rounded--bottom       { border-bottom-left-radius: $brand-round; border-bottom-right-radius: $brand-round; }
+.rounded--double       { border-radius: $brand-round * 2; }
+.rounded--thick        { border-radius: 1em !important; }
+.rounded--circle       { border-radius: 100% !important; }
 .rounded--circle-100   {
-    @include border-radius(100px !important);
-    height: 100px;
-    width: 100px;
+    border-radius: 100px !important;
+    height       : 100px;
+    width        : 100px;
     &, i { line-height: 100px; }
 }
 
@@ -202,16 +202,16 @@
 .bg-position-center { background-position: center !important; }
 .bg-position-top    { background-position: top; }
 .bg-fixed   { background-attachment: fixed; }
-.bg-cover   { @include background-size(cover); }
-.bg-contain { @include background-size(contain !important); }
+.bg-cover   { background-size: cover; }
+.bg-contain { background-size: contain !important; }
 
-.opacity-30  { @include opacity(0.3);  }
-.opacity-50  { @include opacity(0.50); }
-.opacity-75  { @include opacity(0.75); }
-.invisible   { @include opacity(0);    }
+.opacity-30  { opacity: 0.3;  }
+.opacity-50  { opacity: 0.50; }
+.opacity-75  { opacity: 0.75; }
+.invisible   { opacity: 0;    }
 
 .fade-in-on-hover {
-    @include transition(all 150ms linear);
+    transition: all 150ms linear;
     &:hover { opacity: 1; }
 }
 
@@ -271,19 +271,19 @@
 .very-soft--bottom  { padding-bottom: 5px; }
 .island-top { margin-top: $base-spacing-unit * 3.5; }
 .mega-soft--top    {
-    @include transition(padding 200ms linear);
+    transition: padding 200ms linear;
     @include media-query(desk-wide) { padding-top: $base-spacing-unit * 3.5; }
     @include small-height { padding-top: $base-spacing-unit !important; }
     padding-top: $base-spacing-unit * 3 !important;
 }
 .mega-soft--bottom {
-    @include transition(padding 200ms linear);
+    transition: padding 200ms linear;
     @include media-query(desk-wide) { padding-bottom: $base-spacing-unit * 3.5; }
     @include small-height { padding-bottom: $base-spacing-unit; }
     padding-bottom: $base-spacing-unit * 3 !important;
 }
 .mega-soft--ends {
-    @include transition(padding 200ms linear);
+    transition: padding 200ms linear;
     @include media-query(desk-wide) {
         padding-top   : $base-spacing-unit * 3.5 !important;
         padding-bottom: $base-spacing-unit * 3.5 !important;
@@ -326,13 +326,13 @@
 }
 
 .opacity-hidden-on-hover__wrapper {
-    .opacity-hidden-on-hover__child         { opacity: 0; @include transition(opacity 300ms ease-in-out); }
+    .opacity-hidden-on-hover__child         { opacity: 0; transition: opacity 300ms ease-in-out; }
     &:hover .opacity-hidden-on-hover__child { opacity: 1; }
 }
 
 .show-on-hover__wrapper {
     &.show-on-hover__wrapper--black-curtain {
-        @include transition(background 200ms ease-in-out);
+        transition: background 200ms ease-in-out;
         height    : 100%;
         width     : 100%;
         background: rgba(0, 0, 0, 0.3);
@@ -348,20 +348,20 @@
 }
 .shadowed--bottom-on-hover {
     &:hover {
-        @include box-shadow(0 2px 3px rgba(56,67,67,0.2));
+        box-shadow: 0 2px 3px rgba(56,67,67,0.2);
     }
 }
 .z-index-1 { z-index: 1; }
 .z-index-3 { z-index: 3; }
-.shadowed--bottom         { @include box-shadow(0 2px 3px rgba(56,67,67,0.2)); }
-.soft-black-box-shadow    { @include box-shadow(rgba(0,0,0,0.25) 0 1px 3px 0); }
-.black-box-shadow         { @include box-shadow(0px 0px 31px #555555); }
-.white-text-shadow        { @include text-shadow(0 0 2px #FFF, 0 0 12px #FFF, 0 0 22px #FFF, 0 0 42px #FFF, 0 0 92px #FFF); }
-.black-text-shadow        { @include text-shadow(0 0 2px #000, 0 0 12px #000, 0 0 22px #000, 0 0 42px #000, 0 0 92px #000); }
-.soft-black-text-shadow   { @include text-shadow(0px 2px 2px #444, 0px 2px 15px #444); }
-.smooth-black-text-shadow { @include text-shadow(0px 0px 2px #444); }
+.shadowed--bottom         { box-shadow: 0 2px 3px rgba(56,67,67,0.2); }
+.soft-black-box-shadow    { box-shadow: rgba(0,0,0,0.25) 0 1px 3px 0; }
+.black-box-shadow         { box-shadow: 0px 0px 31px #555555; }
+.white-text-shadow        { text-shadow: 0 0 2px #FFF, 0 0 12px #FFF, 0 0 22px #FFF, 0 0 42px #FFF, 0 0 92px #FFF; }
+.black-text-shadow        { text-shadow: 0 0 2px #000, 0 0 12px #000, 0 0 22px #000, 0 0 42px #000, 0 0 92px #000; }
+.soft-black-text-shadow   { text-shadow: 0px 2px 2px #444, 0px 2px 15px #444; }
+.smooth-black-text-shadow { text-shadow: 0px 0px 2px #444; }
 .image-drop-shadow        {
-    @include vendor(filter, drop-shadow(4px 4px 5px #CCCCCC));
+    filter: drop-shadow(4px 4px 5px #CCCCCC);
 }
 
 .highlight {
@@ -392,9 +392,9 @@
     }
 }
 
-.transition-all-linear { @include transition(all 250ms linear); }
+.transition-all-linear { transition: all 250ms linear; }
 
-.text-shadow-white { @include text-shadow(0px 0px 6px #FFF, 0px 0px 6px #FFF, 0px 0px 6px #FFF, 0px 0px 6px #FFF) }
+.text-shadow-white { text-shadow: 0px 0px 6px #FFF, 0px 0px 6px #FFF, 0px 0px 6px #FFF, 0px 0px 6px #FFF; }
 
 .premium-banner {
     position   : absolute;
@@ -448,9 +448,9 @@
 .last-p-flush p:last-child     { margin-bottom: 0; }
 .last-div-hard div:last-child  { padding: 0; }
 .zoom-on-hover {
-    @include transition(all 100ms ease-in-out);
+    transition: all 100ms ease-in-out;
     &:hover {
-        @include transform(scale(1.05, 1.05));
+        transform: scale(1.05, 1.05);
     }
 }
 .sticky.bordered--bottom-on-stick    { border-bottom : 1px solid $gray-lighter; }
@@ -473,7 +473,7 @@
 // Add the following inside a div that has a background-image
 // .black-curtain.north.west.one-whole.absolute
 .black-curtain {
-    @include transition(background 150ms linear);
+    transition: background 150ms linear;
     background: rgba(0,0,0,.5);
     &.black-curtain--soft { background: rgba(0,0,0,.2); }
     height    : 100%;
@@ -490,7 +490,7 @@
 }
 
 .grayscale {
-    @include transition(all 200ms linear);
+    transition: all 200ms linear;
     @include prefix(filter, grayscale(100%));
     &:hover {
         @include prefix(filter, grayscale(0));
@@ -595,11 +595,11 @@
 
 .gradient-black-to-white {
     background: transparent;
-    @include background-image(linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)));
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
 }
 .gradient-black-to-transparent-bottom-up {
     background: transparent;
-    @include background-image(linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)));
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
 }
 
 .column-count-2 { @include prefix('column-count', 2); }
@@ -617,9 +617,9 @@
 /*------------------------------------*\
     TRANSITIONS
 \*------------------------------------*/
-.transition-all-300 { @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
-.transition-all-500 { @include transition(all 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
-.transition-all-900 { @include transition(all 900ms cubic-bezier(0.190, 1.000, 0.220, 1.000)); }
+.transition-all-300 { transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000); }
+.transition-all-500 { transition: all 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000); }
+.transition-all-900 { transition: all 900ms cubic-bezier(0.190, 1.000, 0.220, 1.000); }
 .animate-to-left {
     left: -1000px !important;
 }
@@ -640,11 +640,6 @@
     100% { transform:rotate(0deg) scale(1);   }
 }
 
-.flex-center {
-    @include display-flex;
-    @include align-items(center);
-    @include justify-content(center);
-}
 .vertical-delimiter {
     display       : inline-block;
     vertical-align: middle;
@@ -656,7 +651,7 @@
 
 .gray-box {
     .expandable-indicator {
-        @include background-image(linear-gradient(top, transparentize($pane-background-color, 1) 0%, transparentize($pane-background-color, 0.1) 50%, transparentize($pane-background-color, 0.1) 50%, $pane-background-color 100%));
+        background-image: linear-gradient(top, transparentize($pane-background-color, 1) 0%, transparentize($pane-background-color, 0.1) 50%, transparentize($pane-background-color, 0.1) 50%, $pane-background-color 100%);
     }
 }
 .expandable-indicator {
@@ -664,8 +659,8 @@
     width: 100%;
     height: 3em;
     bottom: 0;
-    @include background-image(linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.9) 50%, #FFFFFF 100%));
+    background-image: linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.9) 50%, #FFFFFF 100%);
 }
 .sticky {
-    @include box-shadow(0 2px 2px -1px rgba(0,0,0,.1));
+    box-shadow: 0 2px 2px -1px rgba(0,0,0,.1);
 }

@@ -28,10 +28,10 @@
             @include media-query(palm) {
                 width    : 100%;
             }
-            font-size   : 17px;
-            line-height : 1.5em;
-            font-weight : 600;
-            @include border-radius(40px);
+            font-size    : 17px;
+            line-height  : 1.5em;
+            font-weight  : 600;
+            border-radius: 40px;
             &:hover .fa-search { color: white; }
             &::-webkit-input-placeholder { color: #777777 !important; } /* WebKit browsers */
             &:-moz-placeholder           { color: #777777 !important; } /* Mozilla Firefox 4 to 18 */
@@ -79,7 +79,7 @@
         background-position: center;
         background-repeat  : no-repeat;
         @include background-image-retina('logos/logo_white.png', 'logos/logo_white@2x.png');
-        @include background-size(100%);
+        background-size: 100%;
         width  : 150px;
         height : $header-height;
         display: inline-block;
@@ -103,7 +103,7 @@
         @include background-image-retina('pro/homepage/bg.jpg', 'pro/homepage/bg@2x.jpg');
     }
     .header--pro__link {
-        @include transition(all 200ms linear);
+        transition: all 200ms linear;
         border-color: transparentize(white, 0.2);
         &:hover {
             border-color   : white;

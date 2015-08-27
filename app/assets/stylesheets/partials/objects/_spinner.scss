@@ -30,20 +30,20 @@
     position     : absolute;
     top          : 0;
     left         : 0;
-    @include animation(sk-bounce 3.0s infinite ease-in-out);
+    animation: sk-bounce 3.0s infinite ease-in-out;
 }
 
 .double-bounce2 {
-    @include animation-delay(-1.0s);
+    animation-delay: -1.0s;
 }
 .double-bounce3 {
-    @include animation-delay(-2.0s);
+    animation-delay: -2.0s;
 }
 
-@include keyframes(sk-bounce) {
+@keyframes sk-bounce {
     0%, 66%, 100% {
-        @include transform(scale(0.0));
+        transform: scale(0.0);
     } 33% {
-        @include transform(scale(1.0));
+        transform: scale(1.0);
     }
 }

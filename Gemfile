@@ -153,6 +153,7 @@ gem 'draper'                    , '~> 1.4.0'
 # allows sharing of handlebars templates
 gem 'sht_rails'                 , '~> 0.2.2'
 gem 'sass-rails'                , '~> 5.0.1'
+gem 'autoprefixer-rails'        , '~> 5.2.1.3'
 gem 'coffee-rails'              , '~> 4.1.0'
 gem 'haml'                      , '~> 4.0.6'
 gem 'uglifier'                  , '>= 2.7.1'
@@ -164,10 +165,9 @@ gem 'activesupport-json_encoder', '~> 1.1.0'
 gem 'font-awesome-rails'        , '~> 4.3.0.0'
 # Load jQuery
 gem 'jquery-rails'              , '~> 3.1.2 '
-# Load Compass utilities
-gem 'compass'                   , '~> 1.0.3'
-gem 'compass-rails'             , '~> 2.0.4'
 # Load Inuit CSS
+gem 'compass'                   , '~>1.0.3'
+gem 'compass-rails'             , '~> 2.0.4'
 gem 'compass-inuit'             , '~>5.0.2'
 # Enable haml
 

@@ -3,15 +3,15 @@
     background-color: $site-background-color;
     opacity         : 1;
     border          : 1px solid #EEE;
-    @include border-radius($brand-round);
+    border-radius: $brand-round;
 }
 
 #fancybox-loading div {
-    @include background-size(20px);
+    background-size: 20px;
 }
 
 .fancybox-close {
-    @include text-shadow(none !important);
+    text-shadow: none !important;
 }
 
 @include media-query(palm) {

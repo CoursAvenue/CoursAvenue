@@ -38,7 +38,7 @@ div {
 }
 .white-box{
     border: 1px solid #DBDBDB!important;
-    @include border-radius(4px);
+    border-radius: 4px;
 }
 
 .coursavenue-email-body {

@@ -64,9 +64,10 @@
         border       : 1px solid $beige-dark; // To prevent size to change on hover
         border-bottom: none;
         a {
-            padding     : 0.4em 1em;
-            color        : $brand-color;
-            @include border-top-radius(3px);
+            padding                : 0.4em 1em;
+            color                  : $brand-color;
+            border-top-left-radius : 3px;
+            border-top-right-radius: 3px;
         }
         &:hover {
             background-color   : $beige;

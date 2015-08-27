@@ -89,7 +89,7 @@ $rer_line_b_color      : #468FCC;
     color       : $metro_line_m_color;
     font-weight : bold;
     padding-left: 5px;
-    @include text-shadow(0 0 2px white, 0 0 2px white, 0 0 2px white);
+    text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white;
 }
 .metro-line-m-for-map {
     background-color: white;

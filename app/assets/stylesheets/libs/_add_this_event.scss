@@ -42,6 +42,6 @@
         color      : $brand-color !important;
         font-size  : inherit;
         font-family: inherit;
-        @include box-shadow(none);
+        box-shadow: none;
     }
 }
