@@ -81,7 +81,7 @@ Newsletter.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                                    this.$('form'),
                                    null,
                                    { changeTriggers:
-                                      { '': 'keyup change', '[contenteditable]': 'blur' } });
+                                      { '': 'change', '[contenteditable]': 'blur' } });
         },
 
         // TODO: Save newsletter title before update.
