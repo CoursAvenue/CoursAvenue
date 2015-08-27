@@ -22,4 +22,5 @@ end
 #   use Rack::CanonicalHost, 'www.coursavenue.com', ignore: ['pro.coursavenue.com']
 # end
 
+delete ActiveRecord::Migration::CheckPending
 run CoursAvenue::Application
