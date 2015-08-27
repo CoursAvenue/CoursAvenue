@@ -37,6 +37,11 @@
                 .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{@structure.dominant_root_subject.slug}" }
                   %i.fa.fa-user-big.alpha
             .grid__item.v-top.four-fifths.palm-one-whole>
+              - if @structure.comments_count and @structure.comments_count > 0
+                .float--right.epsilon
+                  = link_to '#avis', class: 'muted-link blue-green f-weight-bold', data: { behavior: 'scroll-to', offset_top: '-50' } do
+                    = "#{@structure.comments_count} avis"
+                    %i.fa.fa-coursavenue-marker-logo
               %h1.flush= @structure.name
               .delta.f-weight-500.push-half--bottom.gray= @structure_decorator.structure_type
 
@@ -56,7 +61,7 @@
       .push--bottom
         = react_component('MessageThreadList', { structure: @serialized_structure })
 
-      .push--bottom#avis
+      .push--bottom
         = react_component('CommentList', { structure: @serialized_structure })
       - if @is_sleeping
         = render partial: 'structures/sleeping_content', locals: { medias: @medias }

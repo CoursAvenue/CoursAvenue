@@ -43,7 +43,7 @@ var CommentList = React.createClass({
             }
         }
         return (
-            <div>
+            <div id="avis">
                 <div className="grid--full bg-blue-green bordered--sides bordered--top border-color-blue-green-darker soft--sides soft-half--ends white">
                     <div className="grid__item v-middle one-half">
                         <h2 className="flush">

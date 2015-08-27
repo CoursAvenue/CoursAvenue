@@ -71,7 +71,7 @@ var MessageThreadList = React.createClass({
                         <textarea name="community_message_thread[message]"
                                   className="one-whole input--large"
                                   data-behavior='autoresize'
-                                  placeholder='Posez vos questions ou réponses ici.' />
+                                  placeholder='Posez vos questions ici.' />
                     </div>
                     <div className="soft-half--top">
                         <button type="submit"
