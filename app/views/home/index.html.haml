@@ -41,6 +41,16 @@
   %a.bg-dessin-peinture-arts-plastiques.btn--dessin-peinture-arts-plastiques.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('dessin-peinture-arts-plastiques', 'paris', locate_user: 'on'), data: { behavior: 'update-home-page', slug: 'dessin-peinture-arts-plastiques', text: "d'arts" } }>
     %i.fa-dessin-peinture-arts-plastiques.fa-4x
 
+.flexbox.palm-block.relative
+  %a.flexbox__item.muted-link.v-middle.search-page-filters__location-panel.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.bg-cover{ style: 'background-image: url(https://res-1.cloudinary.com/hf7d0gbjr/image/upload/s--2g811JVg--/v1438327058/e5g1ez7hftbxi4tnlqm3.jpg); ', href: guide_path(Guide.first) }>
+    .search-page-filters__image-button-curtain
+    .relative.flexbox.search-page-filters__panel-height
+      .flexbox__item.v-middle.soft--sides.hide-for-fout
+        %i.fa.fa-family.fa-5x
+        .alpha C’est la rentrée !
+        .gamma.push--bottom Trouvez une activité pour vos enfants grâce à notre guide interactif.
+        .tk-proximanova.f-size-16.btn.btn--white-transparent.btn--white-transparent--white.inline-block Suivre le guide
+
 .flexbox.palm-block
   %a.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-theatre.jpg");', href: root_search_page_without_subject_path('paris', groupe: 1, show_subject_panel: 'true') }>
     .search-page-filters__image-button-curtain
@@ -55,25 +65,6 @@
     .relative.flexbox.search-page-filters__panel-height
       .flexbox__item.v-middle.soft--sides.hide-for-fout Arts créatifs
 
-.flexbox.palm-block.relative
-  %a.flexbox__item.muted-link.v-middle.search-page-filters__location-panel.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.bg-cover{ style: 'background-image: url(https://res-1.cloudinary.com/hf7d0gbjr/image/upload/s--2g811JVg--/v1438327058/e5g1ez7hftbxi4tnlqm3.jpg); ', href: guide_path(Guide.first) }>
-    .search-page-filters__image-button-curtain
-    .relative.flexbox.search-page-filters__panel-height
-      .flexbox__item.v-middle.soft--sides.hide-for-fout
-        %i.fa.fa-family.fa-5x
-        .alpha C’est la rentrée !
-        .gamma.push--bottom Trouvez une activité pour vos enfants grâce à notre guide interactif.
-        .tk-proximanova.f-size-16.btn.btn--white-transparent.btn--white-transparent--white.inline-block Suivre le guide
-  .flexbox.absolute.north.west
-    .flexbox__item.f-size-12.bg-danse &nbsp;
-    .flexbox__item.f-size-12.bg-theatre-scene &nbsp;
-    .flexbox__item.f-size-12.bg-musique-chant &nbsp;
-    .flexbox__item.f-size-12.bg-cuisine-vins &nbsp;
-    .flexbox__item.f-size-12.bg-yoga-bien-etre-sante &nbsp;
-    .flexbox__item.f-size-12.bg-sports-arts-martiaux &nbsp;
-    .flexbox__item.f-size-12.bg-photo-video &nbsp;
-    .flexbox__item.f-size-12.bg-deco-mode-bricolage &nbsp;
-    .flexbox__item.f-size-12.bg-dessin-peinture-arts-plastiques &nbsp;
 
 .text--center.relative
   .bg-blue-green.palm-block.relative.soft-double.palm-one-whole.white>
