@@ -22,6 +22,6 @@
       - else
         %a.btn.btn--green{ onclick: 'window.location.reload();'} Parfait !
 
-  - if @place.latitude.nil?
+  - if @place.latitude.present?
     :javascript
       window.ReactRailsUJS.mountComponents();
