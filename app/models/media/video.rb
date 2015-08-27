@@ -48,12 +48,8 @@ class Media::Video < Media
     read_attribute(:url_html).html_safe
   end
 
-  def url(version = :original)
-    if self.image.present?
-      self.image.url(version)
-    else
-      read_attribute(:url).gsub(/^http:/, 'https:') if read_attribute(:url)
-    end
+  def url
+    read_attribute(:url).gsub(/^http:/, 'https:') if read_attribute(:url)
   end
 
   private
