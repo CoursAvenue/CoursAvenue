@@ -202,10 +202,10 @@
   border          : 1px solid #ccc;
   padding         : 2px;
   vertical-align  : middle;
-  @include box-sizing(border-box);
-  @include border-radius(3px);
+  box-sizing      : border-box;
+  border-radius: 3px;
   @include font-size(14px);
-  @include box-shadow(inset 0 1px 1px rgba(0,0,0,0.075),0 0 0 #000);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 0 #000;
 
 }
 .chosen-container-multi .chosen-choices li {

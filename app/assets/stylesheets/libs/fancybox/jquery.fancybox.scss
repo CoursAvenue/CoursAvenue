@@ -104,7 +104,7 @@
     color   : #EEEEEE;
     cursor  : pointer;
     z-index : 8040;
-    @include text-shadow(-1px -1px 1px white, 1px 1px 1px white);
+    text-shadow: -1px -1px 1px white, 1px 1px 1px white;
     &:hover {
         text-decoration: none;
         color          : #AAAAAA;
@@ -258,7 +258,7 @@
     width           : 40em;
     margin-left     : -20em;
     margin-bottom   : 0.5em;
-    @include border-radius(20px)
+    border-radius   : 20px;
 }
 
 .fancybox-title-inside-wrap {
@@ -293,5 +293,5 @@
 
 // -------- Overrides
 .fancybox-skin, .fancybox-inner {
-    @include border-radius($brand-round);
+    border-radius: $brand-round;
 }

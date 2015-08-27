@@ -19,7 +19,7 @@ input, textarea {
     border        : 1px solid #E3E3E3;
     padding       : 6px 9px;
     vertical-align: middle;
-    @include border-radius(2px);
+    border-radius: 2px;
 }
 
 .input--medium {
@@ -85,14 +85,14 @@ textarea, input {
     background-color: #fcfcfc;
     border          : 2px solid #ebebeb;
     color           : #666666;
-    @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+    transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
     &::-webkit-input-placeholder { color: #AAAAAA !important; font-weight: 400; } /* WebKit browsers */
     &:-moz-placeholder           { color: #AAAAAA !important; font-weight: 400; opacity: 1; } /* Mozilla Firefox 4 to 18 */
     &::-moz-placeholder          { color: #AAAAAA !important; font-weight: 400; opacity: 1; } /* Mozilla Firefox 19+ */
     &:-ms-input-placeholder      { color: #AAAAAA !important; font-weight: 400; } /* Internet Explorer 10+ */
 }
 input[type="checkbox"] {
-    @include transition(none);
+    transition: none;
 }
 textarea:focus, input:focus {
     outline         : none;
@@ -124,19 +124,24 @@ textarea:focus, input:focus {
         background-color: #EFEFEF;
     }
     .input-prefix {
-        border-right     : none;
-        @include border-left-radius($brand-round);
+        border-right             : none;
+        border-top-left-radius   : $brand-round;
+        border-bottom-left-radius: $brand-round;
     }
     .input-suffix {
-        border-left     : none;
-        @include border-right-radius($brand-round);
+        border-left               : none;
+        border-top-right-radius   : $brand-round;
+        border-bottom-right-radius: $brand-round;
     }
     input {
-        @include border-right-radius(0);
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
     }
     .input-prefix + input {
-        @include border-left-radius(0);
-        @include border-right-radius($brand-round);
+        border-top-left-radius    : 0;
+        border-bottom-left-radius : 0;
+        border-top-right-radius   : $brand-round;
+        border-bottom-right-radius: $brand-round;
     }
     .input.select {
         width: 100%;
@@ -145,13 +150,13 @@ textarea:focus, input:focus {
             width         : 100%;
             padding-top   : 6px;
             padding-bottom: 6px;
-            @include border-radius(0);
+            border-radius: 0;
         }
     }
 }
 .input-with-button {
-    input { @include border-right-radius(0); }
-    .btn { @include border-left-radius(0); }
+    input { border-bottom-right-radius: 0; border-top-right-radius: 0; }
+    .btn { border-bottom-left-radius: 0; border-top-left-radius: 0; }
 }
 .input-with-icon {
     position: relative;

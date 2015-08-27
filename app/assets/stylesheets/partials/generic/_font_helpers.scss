@@ -109,7 +109,7 @@
 
 .break-word { word-wrap: break-word; }
 
-.no-text-shadow    { @include text-shadow(none); }
+.no-text-shadow    { text-shadow: none; }
 .no-text-transform { text-transform: none; }
 .text-ellipsis {
     text-overflow: ellipsis;

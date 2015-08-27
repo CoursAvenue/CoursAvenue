@@ -24,7 +24,8 @@
     top     : 0px;
     left    : 0px;
     display : block;
-    @include border-bottom-radius($brand-round);
+    border-bottom-left-radius: $brand-round;
+    border-bottom-right-radius: $brand-round;
 }
 .aList {
     /* List of autocomplete choices */
@@ -44,7 +45,8 @@
     background-color: $alternative-background;
 }
 .aLim:last-child {
-    @include border-bottom-radius($brand-round);
+    border-bottom-left-radius: $brand-round;
+    border-bottom-right-radius: $brand-round;
 }
 .aLim {
     /* List item choice */

@@ -15,7 +15,7 @@
             width    : 100%;
             border-top   : 2px solid $beige;
             border-bottom: 2px solid $beige;
-            @include transition(border-color 250ms);
+            transition: border-color 250ms;
         }
         &:hover a {
             text-decoration : none;
@@ -50,7 +50,7 @@ body {
     position: relative;
     // http://matthewlein.com/ceaser/
     // easeOutExpo
-    @include transition(left 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+    transition: left 700ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
     left: 0;
 }
 body.side-menu-opened {
@@ -82,7 +82,7 @@ body.side-menu-opened {
     right         : -1px;
     overflow      : hidden;
     padding-bottom: 150px;
-    @include transition(width 150ms ease);
+    transition: width 150ms ease;
     ul {
         margin      : 0;
         list-style  : none;
@@ -91,12 +91,12 @@ body.side-menu-opened {
             border      : 1px solid transparent;
             border-right: none;
             &.active {
-                @include box-shadow(0 2px 3px rgba(56,67,67,0.2));
+                box-shadow: 0 2px 3px rgba(56,67,67,0.2);
             }
             font-weight: 500;
             .side-menu-link {
                 color: #999999;
-                @include transition(all 150ms linear);
+                transition: all 150ms linear;
             }
             &.active, &:hover {
                 .side-menu-link { color: #555555; }
@@ -112,7 +112,7 @@ body.side-menu-opened {
     a {
         outline: none;
         color  : rgba(255, 255, 255, 0.8);
-        @include transition(all 150ms linear);
+        transition: all 150ms linear;
         &:hover {
             color: white;
         }

@@ -1,7 +1,7 @@
 .alert {
     padding         : 8px 14px;
     display         : inline-block;
-    @include border-radius($brand-round);
+    border-radius: $brand-round;
 }
 .alert--info {
     @extend .alert;

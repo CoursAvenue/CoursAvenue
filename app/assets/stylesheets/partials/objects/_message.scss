@@ -10,7 +10,7 @@
 
 .message__body {
     border  : 1px solid $gray-smooth;
-    @include border-radius($brand-round);
+    border-radius: $brand-round;
 }
 .message__appendix {
     position: relative;

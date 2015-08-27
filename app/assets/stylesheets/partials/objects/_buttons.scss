@@ -35,7 +35,7 @@
     line-height     : 1.2;
     font-weight     : 700;
     padding         : 0.7em 1.5em;
-    @include border-radius($brand-round);
+    border-radius: $brand-round;
     border          : 1px solid #DEDEDE;
     background-color: #fefefe;
     color           : #555555;
@@ -59,7 +59,7 @@
     background-color: white;
     @extend .btn-hover-transition;
     &::after, &.btn--active { background-color: #BBBBBB; }
-    &::after { @include border-radius(0!important); }
+    &::after { border-radius: 0!important; }
     &.disabled:hover, &:disabled, &[disabled] { background-color: #f2f2f2; }
 }
 
@@ -124,7 +124,7 @@
 }
 
 .btn--social {
-    @include text-shadow(-1px -1px 0 darken($facebook-blue, 5%));
+    text-shadow: -1px -1px 0 darken($facebook-blue, 5%);
     color           : white;
     vertical-align  : middle;
     display         : inline-block;
@@ -154,7 +154,7 @@
     overflow        : hidden;
     border-color    : darken($facebook-blue, 3%);
     background-color: $facebook-blue;
-    @include background-image(linear-gradient(lighten($facebook-blue, 8%), $facebook-blue));
+    background-image: linear-gradient(lighten($facebook-blue, 8%), $facebook-blue);
     padding         : 0.5em 0.6em;
     &:hover {
         background-color: lighten($facebook-blue, 5%);
@@ -194,7 +194,7 @@
     .btn, .btn.active {
         display: table-cell;
         padding: 0.8em;
-        @include border-radius(0);
+        border-radius: 0;
         &.btn--small {
             padding: 0.5em;
         }
@@ -213,17 +213,17 @@
         background-color: $blue-green;
         border          : 1px solid $blue-green;
         color           : white !important;
-        @include text-shadow(none);
+        text-shadow: none;
         & + .btn.active {
             border-left: none;
         }
     }
 
     .btn:first-child, .btn:first-of-type {
-        @include border-left-radius($brand-round);
+        border-top-left-radius: $brand-round; border-bottom-left-radius: $brand-round;
     }
     .btn:last-child, .btn:last-of-type {
-        @include border-right-radius($brand-round);
+        border-top-right-radius: $brand-round; border-bottom-right-radius: $brand-round;
     }
     input {
         display: none;
@@ -241,9 +241,9 @@
     border     : 2px solid white;
     background : transparent;
     line-height: 0.9em;
-    @include text-shadow(none);
+    text-shadow: none;
     @extend .btn-hover-transition;
-    @include transition(all 200ms linear);
+    transition: all 200ms linear;
     &:hover {
         border-color    : #22b69e!important;
         background-color: $blue-green;
@@ -272,7 +272,7 @@
 
 .btn-with-hidden-icon {
     i {
-        @include transition(all 250ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+        transition: all 250ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
         opacity: 0;
     }
     &:hover, &.btn--active {
@@ -282,7 +282,7 @@
 .btn-hover-transition {
     position  : relative;
     z-index   : 1;
-    @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+    transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
     &:hover { &, i { color: white; } }
     &:hover::after { width: 100%; }
     &::after {
@@ -293,8 +293,8 @@
         content   : '';
         position  : absolute;
         z-index   : -1;
-        @include border-radius(2px);
-        @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+        border-radius: 2px;
+        transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
     }
 }
 .btn-hover-transition--bottom-up {
@@ -318,7 +318,7 @@
         text-align : center;
         color      : white;
         border     : 2px solid white;
-        @include border-radius(2px);
+        border-radius: 2px;
     }
 }
 .btn-white-to-blue {

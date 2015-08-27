@@ -9,7 +9,7 @@
   text-align: left;
   background-color: #ffffff;
   background-clip: padding-box;
-  @include border-radius(2px);
+  border-radius: 2px;
   -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   white-space: normal;

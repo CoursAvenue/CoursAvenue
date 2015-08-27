@@ -5,8 +5,8 @@ $map-height   : 480px;
     @include media-query(palm) { height: auto; }
 }
 .search-page-map-small-map__minimize-button {
-    @include transform(rotate(-90deg) translateX(1px));
-    @include border-bottom-left-radius(3px);
+    transform: rotate(-90deg) translateX(1px);
+    border-bottom-left-radius: 3px;
 }
 .search-page-map__fullscreen-button {
     font-weight : 600;
@@ -32,10 +32,10 @@ $map-height   : 480px;
 }
 .search-page-filters__map-container-curtain {
     background-color: rgba(17, 202, 175, 0.1);
-    @include transform(scale(0));
+    transform: scale(0);
 }
 .search-page-filters__map-container-curtain--active {
-    @include transform(scale(1));
+    transform: scale(1);
 }
 .search-page-filters-wrapper {
     height  : $map-height + $header-height;
@@ -43,28 +43,28 @@ $map-height   : 480px;
     width   : 100%;
     top     : 0;
     z-index : 1000;
-    @include transform(translateY(150%));
-    @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+    transform: translateY(150%);
+    transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
     &.search-page-filters-wrapper--fullscreen {
-        @include transform(scale(1, 0));
+        transform: scale(1, 0);
         @include prefix(transform-origin, bottom);
         &.search-page-filters-wrapper--active {
-            @include transform(scale(1));
+            transform: scale(1);
         }
     }
 }
     .search-page-filters-wrapper--from-left-to-right, .search-page-filters-wrapper--from-right-to-left {
-        @include transform(translateY(0));
-        .search-page-filters-wrapper--active{ @include transform(translateX(100%)); }
+        transform: translateY(0);
+        .search-page-filters-wrapper--active{ transform: translateX(100%); }
     }
     .search-page-filters-wrapper--from-left-to-right {
-        @include transform(translateX(-100%));
+        transform: translateX(-100%);
     }
     .search-page-filters__subject-panel.search-page-filters-wrapper--from-left-to-right {
-        @include transform(translateX(-600%));
+        transform: translateX(-600%);
     }
     .search-page-filters-wrapper--from-right-to-left {
-        @include transform(translateX(100%));
+        transform: translateX(100%);
     }
 
     .search-page-filters-wrapper--full .search-page-filters__panel-height,
@@ -73,7 +73,7 @@ $map-height   : 480px;
         height: 80vh;
     }
     .search-page-filters-wrapper--active {
-        @include transform(translateY(0));
+        transform: translateY(0);
         z-index : 1001;
       }
 
@@ -143,16 +143,16 @@ $map-height   : 480px;
         font-size: 0.6em;
     }
         .search-page-filter__subject-page-before {
-            @include transform(translateX(100%));
+            transform: translateX(100%);
         }
         .search-page-filter__subject-page-after  {
-            @include transform(translateX(-100%));
+            transform: translateX(-100%);
         }
         .search-page-filter__subject-page {
-            @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+            transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
         }
         .search-page-filter__subject-page--active {
-            @include transform(translateX(0));
+            transform: translateX(0);
         }
         .search-page-filter__subject-pages-bullet {
             color : rgba(255, 255, 255, 0.5);
@@ -229,7 +229,7 @@ $map-height   : 480px;
     }
     .search-page-filters__panel-half-height { height: $map-height / 2; }
     .search-page-filters__image-button {
-        @include background-size(cover);
+        background-size: cover;
         background-position: center;
         cursor: pointer;
         position   : relative;
@@ -248,7 +248,7 @@ $map-height   : 480px;
             top: 0;
         }
         .search-page-filters__image-icon, .search-page-filters__image-text {
-            @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+            transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
             top     : -30px;
             position: relative;
         }
@@ -271,7 +271,7 @@ $map-height   : 480px;
         }
     }
         .search-page-filters__image-button-curtain {
-            @include transition(all 300ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+            transition: all 300ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
             content : '';
             display : block;
             width   : 100%;
@@ -302,8 +302,8 @@ $map-height   : 480px;
     vertical-align  : middle;
     font-size       : 0.9em;
     margin          : 3px;
+    border-radius   : 1em;
     &:hover { text-decoration: none; }
-    @include border-radius(1em);
 }
     .search-page__result-info--dot-dot-dot {
         i:first-child { margin-right: 0.4em; }
@@ -331,20 +331,20 @@ $map-height   : 480px;
     right        : 0;
     margin-right : 15px;
     margin-bottom: 15px;
-    @include transform(scale(0));
+    transform: scale(0);
     @include prefix(transform-origin, bottom right);
-    @include transition(all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+    transition: all 500ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
     &.search-page-small-map--visible {
-        @include transform(scale(1));
+        transform: scale(1);
     }
     .leaflet-control-zoom {
         opacity: 0.5;
-        @include transition(all 300ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+        transition: all 300ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
         &:hover { opacity: 1; }
     }
     .leaflet-control-zoom-in, .leaflet-control-zoom-out {
         width: 24px;
-        @include background-size(24px 260px);
+        background-size: 24px 260px;
     }
 }
 
@@ -362,9 +362,9 @@ $map-height   : 480px;
     z-index         : 1000000000;
     background-color: #FFFFFF;
     padding         : 0;
-    @include border-radius(3px);
-    > div:first-child { @include border-left-radius(3px); }
-    > div:last-child  { @include border-right-radius(3px); }
+    border-radius: 3px;
+    > div:first-child { border-top-left-radius: 3px; border-bottom-left-radius: 3px; }
+    > div:last-child  { border-top-right-radius: 3px; border-bottom-right-radius: 3px; }
 }
     .search-page-filter {
         vertical-align  : middle;
@@ -393,7 +393,7 @@ $map-height   : 480px;
         width: 1.2em;
         height: 1em;
         i {
-            @include transition(all 250ms cubic-bezier(0.190, 1.000, 0.220, 1.000));
+            transition: all 250ms cubic-bezier(0.190, 1.000, 0.220, 1.000);
             left         : 0;
             margin-bottom: 1px;
             position     : absolute;
@@ -507,7 +507,7 @@ $map-height   : 480px;
             padding      : 0.2em;
             font-size    : 1.8em;
             line-height  : 2em;
-            @include border-radius(2px);
+            border-radius: 2px;
             &.search-page__input-suggestion--structures {
                 font-size    : 1.3em;
                 line-height  : 1.1em;

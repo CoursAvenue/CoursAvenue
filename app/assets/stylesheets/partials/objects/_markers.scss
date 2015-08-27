@@ -1,25 +1,25 @@
 .map-box-marker__user {
-    margin-left: -7px !important;
-    margin-top : -8px !important;
-    width     : 16px !important;
-    height    : 16px !important;
-    border    : solid rgba(255, 255, 255, 0.8) 4px;
+    margin-left     : -7px !important;
+    margin-top      : -8px !important;
+    width           : 16px !important;
+    height          : 16px !important;
+    border          : solid rgba(255, 255, 255, 0.8) 4px;
     background-color: $blue-green;
-    @include border-radius(30px);
+    border-radius   : 30px;
     > div {
-        padding    : 8px;
-        border     : 10px solid transparentize($blue-green, 0.5);
-        width      : 32px !important;
-        height     : 32px !important;
-        margin-left: -14px;
-        margin-top : -14px;
-        @include border-radius(30px);
-        @include animation(breath 8s infinite ease-in-out);
+        padding      : 8px;
+        border       : 10px solid transparentize($blue-green, 0.5);
+        width        : 32px !important;
+        height       : 32px !important;
+        margin-left  : -14px;
+        margin-top   : -14px;
+        border-radius: 30px;
+        animation    : breath 8s infinite ease-in-out;
     }
 }
-@include keyframes(breath) {
-    0%, 100% { @include transform(scale(1)); }
-    50% { @include transform(scale(0.7)); }
+@keyframes breath {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(0.7); }
 }
 
 .map-box-marker--circle {
@@ -67,7 +67,7 @@
         top       : -40px;
     }
     &::before {
-        @include transform(scale(1.06) rotate(2deg) translate(-0.5%, 1%));
+        transform: scale(1.06) rotate(2deg) translate(-0.5%, 1%);
     }
     i {
         color: white;
@@ -85,7 +85,7 @@
     }
 }
     .map-box-marker--active {
-        &::before{ @include transform(scale(1.12) rotate(3deg) translate(-0.5%, 1%)); }
+        &::before{ transform: scale(1.12) rotate(3deg) translate(-0.5%, 1%); }
         &::after{ color: white; }
         z-index: 1000;
     }
