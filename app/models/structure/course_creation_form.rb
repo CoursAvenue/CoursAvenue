@@ -177,6 +177,11 @@ class Structure::CourseCreationForm
       return false
     end
 
+    @structure.street   = @place.street
+    @structure.city_id  = @place.city_id
+    @structure.zip_code = @place.zip_code
+    @structure.save
+
     true
   end
 

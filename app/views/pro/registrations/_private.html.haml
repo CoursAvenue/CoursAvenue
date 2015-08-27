@@ -110,7 +110,7 @@
         .grid__item.one-third.text--right.v-middle.palm-text--left.palm-one-whole>
           = f.label :place_home_radius, label: Place.human_attribute_name(:radius), class: 'label--large v-middle'
         .grid__item.v-middle.two-thirds.palm-one-whole>
-          = f.input :place_home_radius, label: false, input_html: { class: 'input--large one-whole' }, wrapper_html: { class: 'flush inline-block v-middle' }
+          = f.input :place_home_radius, label: false, input_html: { class: 'input--large one-whole', style: 'width: 4em' }, wrapper_html: { class: 'flush inline-block v-middle' }
           %label.label--large.inline-block.v-middle km
 
     %div{ data: { private: { place: true } }, class: (@course_creation_form.teaches_at_place ? '' : 'hidden') }
