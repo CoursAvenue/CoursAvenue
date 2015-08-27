@@ -1220,6 +1220,8 @@ class Structure < ActiveRecord::Base
     self.enabled = false
     save
 
+    SuperAdminMailer.delay.alert_for_disabling_structure(self)
+
     create_intercom_event('Active <-> Inactive')
   end
 
