@@ -3,7 +3,11 @@
     %h4.flush Vérifier l'adresse
     %p.flush.epsilon L'emplacement sur la carte est-il juste ?
   .panel__body
-    = react_component('Map', { markers: [ @place.to_react_json ] })
+    - if @place.latitude.nil?
+      - @place.geocode
+      - @place.save
+    - if @place.latitude.present?
+      = react_component('Map', { markers: [ @place.to_react_json ] })
     .soft
       %p.flush
         %strong= @place.street
@@ -18,5 +22,6 @@
       - else
         %a.btn.btn--green{ onclick: 'window.location.reload();'} Parfait !
 
-  :javascript
-    window.ReactRailsUJS.mountComponents();
+  - if @place.latitude.nil?
+    :javascript
+      window.ReactRailsUJS.mountComponents();
