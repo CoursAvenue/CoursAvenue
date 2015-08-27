@@ -4,7 +4,7 @@ var _                   = require('lodash'),
     client              = algoliasearch(ENV['ALGOLIA_APPLICATION_ID'], ENV['ALGOLIA_SEARCH_API_KEY']);
 
 module.exports = {
-    searchSimilarSubject: function searchSimilarSubject(data, successCallback, errorCallback) {
+    searchSimilarSubject: function searchSimilarSubject (data, successCallback, errorCallback) {
         var structure_index = 'Structure_' + ENV.SERVER_ENVIRONMENT;
         var state = {
             hitsPerPage:  data.hitsPerPage || 20,

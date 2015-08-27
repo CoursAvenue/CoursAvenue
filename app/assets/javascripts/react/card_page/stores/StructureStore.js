@@ -32,7 +32,6 @@ var StructureStore = Backbone.Model.extend({
                 this.set('favorited', true);
             }.bind(this),
         });
-        // $.post(Routes.add_to_favorite_structure_path(data.structure_id, { format: 'json' }));
     },
 
     removeFromFavorites: function removeFromFavorites (data) {
@@ -43,7 +42,6 @@ var StructureStore = Backbone.Model.extend({
                 this.set('favorited', false);
             }.bind(this),
         });
-        // $.post(Routes.remove_from_favorite_structure_path(data.structure_id, { format: 'json' }));
     },
 
 });
