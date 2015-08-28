@@ -123,7 +123,7 @@ class Newsletter < ActiveRecord::Base
 
     message = {
       html:       body,
-      subject:    email_object,
+      subject:    email_object || title,
       from_email: NEWSLETTER_FROM_EMAIL,
       from_name: sender_name,
       to: recipients.map(&:to_mandrill_recipient),
