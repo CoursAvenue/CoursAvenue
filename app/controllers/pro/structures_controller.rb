@@ -260,6 +260,11 @@ France
         end
       end
     end
+  rescue Cloudinary::CarrierWave::UploadError => exception
+    respond_to do |format|
+      format.html { redirect_to (params[:return_to] || edit_pro_structure_path(@structure)),
+                    error: 'Votre ficher est trop large.' }
+    end
   end
 
   def crop_logo
