@@ -14,7 +14,7 @@ var LessonPanel = React.createClass({
     },
 
     closePanel: function closePanel () {
-        FilterActionCreators.closeTimeFilter();
+        FilterActionCreators.closeFilterPanel();
         // We search ONLY when the panel is closed
         FilterActionCreators.search();
     },

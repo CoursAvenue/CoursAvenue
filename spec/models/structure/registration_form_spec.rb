@@ -39,6 +39,23 @@ describe Structure::RegistrationForm do
       it { expect(subject.save).to be_truthy }
     end
   end
+
+  describe 'existing_admin?' do
+    subject { Structure::RegistrationForm.new(valid_params) }
+
+    context 'when the admin does not exist' do
+      it { expect(subject.existing_admin?).to be_falsy }
+    end
+
+    context 'when the admin exists' do
+      it 'returns the existing admin' do
+        structure = FactoryGirl.create(:structure)
+        structure.admins.create(email: subject.admin_email, password: subject.admin_password)
+
+        expect(subject.existing_admin?).to be_truthy
+      end
+    end
+  end
 end
 
 def valid_params

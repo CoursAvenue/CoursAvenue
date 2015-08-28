@@ -9,6 +9,12 @@ class Pro::RegistrationsController < Pro::ProController
   def create
     @registration_form = Structure::RegistrationForm.new(registration_params)
 
+    if (admin = @registration_form.existing_admin?) and admin.valid_password?(@registration_form.admin_password)
+      sign_in admin
+      redirect_to pro_structure_path(admin.structure), notice: 'Vous avez été connecté avec succés.'
+      return
+    end
+
     if @registration_form.save
       sign_in @registration_form.admin
       redirect_to new_course_pro_registrations_path(
