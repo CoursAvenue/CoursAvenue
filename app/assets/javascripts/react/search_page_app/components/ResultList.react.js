@@ -77,7 +77,9 @@ ResultList = React.createClass({
                 );
 
                 cards.splice((this.helper_card.get('index') || this.helper_card_position), 0, card);
-                cards.splice(-1, 1);
+                if (CardStore.length > CardStore.HITS_PER_PAGES) {
+                    cards.splice(-1, 1);
+                }
             }
         }
         return (

@@ -33,7 +33,7 @@ class IndexableCard::Creator
     return create_cards if @structure.indexable_cards.empty?
     new_cards = []
 
-    # We start by updating the existing cards:
+    # We start by updating the existing cards.
     new_cards += @structure.indexable_cards.includes(:course).with_course.map do |card|
       IndexableCard.update_from_course(card.course)
     end
