@@ -2,10 +2,10 @@
 class Pro::Structures::CoursesController < Pro::ProController
   layout 'admin'
 
-  before_action :authenticate_pro_admin!
+  before_action :authenticate_pro_admin!, except: [:index]
   before_action :load_structure
 
-  load_and_authorize_resource :structure, find_by: :slug
+  load_and_authorize_resource :structure, find_by: :slug, except: [:index]
 
   def new
     @course = @structure.courses.build(type: params[:type])
@@ -32,6 +32,17 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def index
+    authenticate_pro_admin! if !current_pro_admin
+    if current_pro_admin and !current_pro_admin.super_admin
+      @structure = current_pro_admin.structure
+    else
+      @structure = Structure.find(params[:structure_id])
+    end
+    if @structure.slug != params[:structure_id]
+      redirect_to pro_structure_courses_path(@structure)
+      return
+    end
+
     @trainings = @structure.courses.trainings.order('name ASC').includes(:media)
     @lessons   = @structure.courses.lessons.order('name ASC').includes(:media, plannings: [:place])
     @privates  = @structure.courses.privates.order('name ASC').includes(:media, :place)
