@@ -53,15 +53,19 @@ var SimiliarCardList = React.createClass({
         return { card_store: SimilarCardStore, current_page: 0 };
     },
 
-    nextPage: function nextPage () {
+    nextPage: function nextPage (total_pages) {
         return function () {
-            this.setState({ current_page: this.state.current_page + 1 });
+            if ((this.state.current_page + 1) < total_pages) {
+                this.setState({ current_page: this.state.current_page + 1 });
+            }
         }.bind(this);
     },
 
-    prevPage: function prevPage () {
+    prevPage: function prevPage (total_pages) {
         return function () {
-            this.setState({ current_page: this.state.current_page - 1 });
+            if ((this.state.current_page - 1) >= 0) {
+                this.setState({ current_page: this.state.current_page - 1 });
+            }
         }.bind(this);
     },
 
@@ -74,8 +78,8 @@ var SimiliarCardList = React.createClass({
             return (
                 <SlidingPage cards={ cards }
                            visible={ index == this.state.current_page }
-                          prevPage={ this.prevPage() }
-                          nextPage={ this.nextPage() }
+                          prevPage={ this.prevPage(total_pages) }
+                          nextPage={ this.nextPage(total_pages) }
                                key={ index } />
             );
         }.bind(this));
