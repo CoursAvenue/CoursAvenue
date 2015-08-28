@@ -12,8 +12,8 @@ var Card = Backbone.Model.extend({
     },
 
     getVisibleIndex: function getVisibleIndex () {
-        debugger
-        return 0;
+        if (!this.collection) { return 0 };
+        return this.collection.indexOf(this) + 1;
     },
 });
 
