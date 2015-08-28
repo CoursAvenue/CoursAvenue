@@ -7,7 +7,7 @@ var _                    = require('lodash'),
 var SlidingPage = React.createClass({
     render: function render () {
         if (!this.props.cards) { return false; }
-        var width_class = 'grid__item one-third';
+        var width_class = 'grid__item one-quarter';
         var cards = this.props.cards.map(function (card, index) {
             return (
                 <Card card={ card }
