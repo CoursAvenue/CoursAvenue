@@ -115,7 +115,7 @@ RSpec.describe Newsletter, type: :model do
       body = MailerPreviewer.preview(NewsletterMailer.send_newsletter(subject, nil))
 
       expect(mandrill_message[:html]).to       eq(body)
-      expect(mandrill_message[:subject]).to    eq(subject.email_object)
+      expect(mandrill_message[:subject]).to    eq(subject.email_object || subject.title)
       expect(mandrill_message[:from_email]).to eq(Newsletter::NEWSLETTER_FROM_EMAIL)
       expect(mandrill_message[:from_name]).to  eq(subject.sender_name)
     end
