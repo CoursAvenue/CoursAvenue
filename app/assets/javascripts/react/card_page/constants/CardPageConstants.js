@@ -6,6 +6,7 @@ module.exports = {
         BOOTSTRAP_COURSE:              null,
         POPULATE_COURSE:               null,
         POPULATE_INDEXABLE_CARD:       null,
+        BOOTSTRAP_SIMILAR_PROFILES:    null,
 
         SUBMIT_REQUEST:                null,
         SUBMIT_NEW_THREAD:             null,

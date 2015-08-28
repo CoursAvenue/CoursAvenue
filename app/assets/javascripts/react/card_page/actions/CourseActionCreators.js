@@ -37,4 +37,11 @@ module.exports = {
             data: { structure_id: structure_id, indexable_card_id: indexable_card_id }
         });
     },
+
+    bootstrapSimilarProfiles: function bootstrapSimilarProfiles (data) {
+        CardPageDispatcher.dispatch({
+            actionType: ActionTypes.BOOTSTRAP_SIMILAR_PROFILES,
+            data: data
+        });
+    },
 };

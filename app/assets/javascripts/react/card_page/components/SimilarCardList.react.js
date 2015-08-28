@@ -1,7 +1,7 @@
-var _                = require('lodash'),
-    Card             = require('../../search_page_app/components/CourseCard'),
-    CourseStore      = require('../stores/CourseStore'),
-    SimilarCardStore = require('../stores/SimilarCardStore');
+var _                    = require('lodash'),
+    Card                 = require('../../search_page_app/components/CourseCard'),
+    CourseActionCreators = require('../actions/CourseActionCreators'),
+    SimilarCardStore     = require('../stores/SimilarCardStore');
 
 var SlidingPage = React.createClass({
     render: function render () {
@@ -27,14 +27,19 @@ var SlidingPage = React.createClass({
 var SimiliarCardList = React.createClass({
 
     mixins: [
-        FluxBoneMixin(['card_store', 'course_store'])
+        FluxBoneMixin(['card_store'])
     ],
 
+    componentWillMount: function componentWillMount () {
+        CourseActionCreators.bootstrapSimilarProfiles(this.props.card);
+    },
+
     getInitialState: function getInitialState () {
-        return { card_store: SimilarCardStore, course_store: CourseStore };
+        return { card_store: SimilarCardStore };
     },
 
     render: function render () {
+        if (SimilarCardStore.isEmpty()) { return false; }
         var pages = _.chunk(SimilarCardStore.models, 3).map(function (cards, index) {
             return (
                 <SlidingPage cards={ cards } key={ index } />
