@@ -1,4 +1,5 @@
 var _                    = require('lodash'),
+    cx                   = require('classnames/dedupe'),
     Card                 = require('../../search_page_app/components/CourseCard'),
     CourseActionCreators = require('../actions/CourseActionCreators'),
     SimilarCardStore     = require('../stores/SimilarCardStore');
@@ -16,8 +17,12 @@ var SlidingPage = React.createClass({
             );
         });
 
+        var classes = cx('grid text--center', {
+            'hidden': !this.props.visible
+        });
+
         return (
-            <div className='grid'>
+            <div className={ classes }>
                 { cards }
             </div>
         );
@@ -42,7 +47,7 @@ var SimiliarCardList = React.createClass({
         if (SimilarCardStore.isEmpty()) { return false; }
         var pages = _.chunk(SimilarCardStore.models, 3).map(function (cards, index) {
             return (
-                <SlidingPage cards={ cards } key={ index } />
+                <SlidingPage cards={ cards } visible={ index == 0 } key={ index } />
             );
         });
 
