@@ -62,6 +62,9 @@ var MetroStopStore = Backbone.Collection.extend({
             case ActionTypes.SELECT_METRO_STOP:
                 this.selectMetroStop(payload.data);
                 break;
+	    case ActionTypes.BOOTSTRAP_SELECT_METRO_STOP:
+		this.bootstrapSelectMetroStop(payload.data);
+		break;
             case ActionTypes.UNSET_FILTER:
                 if (payload.data == 'metro') {
                     this.unsetStop();
@@ -88,6 +91,18 @@ var MetroStopStore = Backbone.Collection.extend({
             this.reset(results.hits);
             this.trigger('change');
         }.bind(this));
+    },
+
+    bootstrapSelectMetroStop: function bootstrapSelectMetroStop (metro_stop_slug) {
+	index.search('', {
+	    facets:      '*',
+	    facetFilters: ['slug:' + metro_stop_slug],
+	    hitsPerPage: 1,
+	}, function(err, results) {
+	    this.reset(results.hits);
+	    this.last().toggleSelection();
+	    this.trigger('change');
+	}.bind(this));
     },
 
     selectMetroStop: function selectMetroStop (metro_stop_slug) {

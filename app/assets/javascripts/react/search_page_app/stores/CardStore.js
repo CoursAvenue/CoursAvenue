@@ -281,6 +281,9 @@ var CardCollection = Backbone.Collection.extend({
             data.aroundLatLng = LocationStore.get('bounds_center').lat + ',' + LocationStore.get('bounds_center').lng
         }
 
+	if (MetroStopStore.getSelectedStop()) {
+	    data.metro_stop = MetroStopStore.getSelectedStop().get('slug');
+	}
         // Do not filter by line if a stop is selected, because if a stop is selected,
         // we'll filter around a location
         if (MetroLineStore.getSelectedLines().length > 0 && !MetroStopStore.getSelectedStop()) {
