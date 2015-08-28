@@ -47,7 +47,7 @@ module.exports = {
 
         if (data.subjects) {
             _.each(data.subjects, function (subject) {
-                card_search_helper.addDisjunctiveRefine('subjects.slug', subject.slug);
+                card_search_helper.addDisjunctiveRefine('subjects.slug', subject);
             });
         }
 
