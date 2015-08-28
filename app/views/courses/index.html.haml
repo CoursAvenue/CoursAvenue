@@ -52,8 +52,8 @@
 
   - if @root_subject.nil?
     - Subject.roots.stars.each do |root_subject|
-      = link_to "#{root_subject.name} à #{@city.name} (#{@city.zip_code})", root_search_page_path(root_subject, @city)
+      = link_to "#{root_subject.name} à #{@city.name} (#{@city.zip_code})".html_safe, root_search_page_path(root_subject, @city)
   - elsif @subject.root?
     - @root_subject.descendants.each do |subject|
-      = link_to "#{subject.name} à #{@city.name} (#{@city.zip_code})", search_page_path(@root_subject, subject, @city)
+      = link_to "#{subject.name} à #{@city.name} (#{@city.zip_code})".html_safe, search_page_path(@root_subject, subject, @city)
 
