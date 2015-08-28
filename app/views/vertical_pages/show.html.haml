@@ -13,7 +13,7 @@
 .relative.search-page-filters__panel-height.palm-height-auto
   .soft--ends.absolute.north.west.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto.z-index-10000
     .flexbox__item.v-middle
-      %h1.white.text--center.f-size-really-big= @vertical_page_decorator.page_h1(@city, @neighborhood)
+      %h1.soft--sides.white.text--center.f-size-really-big= @vertical_page_decorator.page_h1(@city, @neighborhood)
       .main-container.main-container--medium.white.text--center
         - if @vertical_page.caption
           %h4.center-block
@@ -21,6 +21,7 @@
         .soft--top
           = @vertical_page_decorator.button(@subject, @city, @neighborhood)
 
+  - map_zoom = 12 if @city and @city.size == 3
   - map_zoom = 14 if @city and @city.size != 3
   - map_zoom = 15 if @neighborhood
   = react_component('MapContainer', { zoom: map_zoom, center: [(@neighborhood || @city || @paris).latitude, (@neighborhood || @city || @paris).longitude] })
@@ -86,16 +87,17 @@
     %h2.soft--bottom.alpha.text--center Vous cherchez près d'une station de métro en particulier ?
     .soft--sides
       - @neighborhood.nearby_metro_stops.includes(:lines).each do |stop|
-        .inline-block.one-quarter.push-half--bottom>
+        .inline-block.one-third.push-half--bottom>
           - stop.lines.each do |line|
             = MetroLineDecorator.new(line).chip(true)
           %strong= link_to stop.name, @vertical_page_decorator.metro_search_link(@subject, @city, @neighborhood, stop), class: 'v-middle semi-muted-link'
 
-- if (@city.slug == 'paris' and !@subject.root?) or @city.neighborhoods.any?
+- if @city and ((@city.slug == 'paris' and !@subject.root?) or @city.neighborhoods.any?)
   .soft--top.bordered--top
     %h2.alpha.text--center.soft--bottom Découvrez les cours par quartier
   .text--center
-    - (@city.neighborhoods || City::Neighborhood.find_each).each_with_index do |neighborhood, index|
+    - neighborhoods = (@city.neighborhoods.any? ? @city.neighborhoods : City::Neighborhood.all)
+    - neighborhoods.each_with_index do |neighborhood, index|
       .inline-block.flush.gamma.v-middle.search-page-filters__image-button.palm-one-whole.palm-block.bg-cover{ class: ( (index % 5 < 3) ? 'one-third' : 'one-half'), style: "background-image: url('#{neighborhood.image.url(:homepage_small)}');" }>
         .search-page-filters__image-button-curtain
         .flexbox.relative.search-page-filters__panel-half-height
