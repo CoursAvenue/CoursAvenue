@@ -138,8 +138,8 @@
 .soft--sides.soft-half--top.soft--bottom.palm-hard
   .grid--full.soft--top.push--bottom
     .bg-white.bordered.push--bottom
-      .soft.search-page-content
-        = react_component('SimilarCardList', { card: { id: @indexable_card.id, slug: @indexable_card.slug, subjects: @indexable_card.subjects.pluck(:slug) } })
+      .soft
+        = react_component('SimilarCardList', { card:  @card_redux })
 
 = content_for :scripts do
   -# This is used when a user make a reservation.

@@ -17,6 +17,13 @@ class Structures::IndexableCardsController < ApplicationController
     @course               = @indexable_card.course
     @place                = @indexable_card.place.decorate
     @serialized_structure = StructureSerializer.new(@structure)
+    @card_redux = {
+      id: @indexable_card.id,
+      slug: @indexable_card.slug,
+      subjects: @indexable_card.subjects.pluck(:slug),
+      position: { lat: @indexable_card.place_latitude, lng: @indexable_card.place_longitude }
+    }
+
 
     if current_user
       @favorited = current_user.favorites.cards.where(indexable_card_id: @indexable_card.id).present?

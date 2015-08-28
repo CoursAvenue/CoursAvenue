@@ -43,8 +43,9 @@ var SimilarCardStore = Backbone.Collection.extend({
         if (!this.card) { return ; }
         this.loading = true;
         var filters = {
-            indexable_card_id: this.card.id,
             subjects:          this.card.subjects,
+            indexable_card_id: this.card.id,
+            aroundLatLng: this.card.position.lat + ',' + this.card.position.lng,
         };
 
         AlgoliaSearchUtils.searchSimilarCards(filters, this.searchSuccess, this.searchError);
