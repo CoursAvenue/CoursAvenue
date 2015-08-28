@@ -32,6 +32,10 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def index
+    # So...
+    # Nico sent this email: "Nouveau : envoyez votre planning à tous vos contacts"
+    # The sent to: https://pro.coursavenue.com/etablissements/soraya-saadi-association-feminissime-orient/cours
+    # So we have to redirect the user to HIS structure
     authenticate_pro_admin! if !current_pro_admin
     if current_pro_admin and !current_pro_admin.super_admin
       @structure = current_pro_admin.structure
