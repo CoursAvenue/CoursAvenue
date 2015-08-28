@@ -124,7 +124,6 @@ describe Pro::StructuresController do
     #
     #   before do
     #     request.env["HTTP_REFERER"] = pro_root_path
-    #     structure.duplicate_structure
     #     structure.reload
     #
     #     sign_in admin
