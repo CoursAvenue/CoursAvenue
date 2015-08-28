@@ -17,8 +17,8 @@
   = "#{@course.name} avec #{@structure.name} à #{@place.name} : Cours d'essai gratuits, avis des élèves, reservation en ligne."
 - home_place = (@course.is_private? ? @course.home_place : nil)
 = render 'course_header'
-.soft--sides.soft-half--top.soft--bottom.palm-hard#presentation
-  .grid--full.soft--top.push--bottom
+.soft--sides.soft-half--top.palm-hard#presentation
+  .grid--full.soft--top
     .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
       .bg-white.bordered.push--bottom
         .soft
@@ -89,7 +89,7 @@
 
     .grid__item.four-twelfths.palm-one-whole.palm-hard>
       .push--bottom
-        .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#coursavenue-footer', update_on_scroll: 'true' } }
+        .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#card-suggestions', update_on_scroll: 'true' } }
           = render partial: 'structures/registration'
 
       -# = react_component('Favorite', { logged_in: current_user.present?, type: 'indexable_card', favorited: @favorited })
@@ -135,11 +135,10 @@
       - unless @structure.is_sleeping?
         .bg-white.bordered.push--bottom.soft= render 'structures/response_stats'
 
-.soft--sides.soft-half--top.soft--bottom.palm-hard
-  .grid--full.soft--top.push--bottom
-    .bg-white.bordered.push--bottom
-      .soft
-        = react_component('SimilarCardList', { card:  @card_redux })
+.soft-double.soft--bottom.palm-hard#card-suggestions
+  .grid--full.push--bottom
+    %h2.text--center D'autres cours qui peuvent vous plaire
+    = react_component('SimilarCardList', { card:  @card_redux })
 
 = content_for :scripts do
   -# This is used when a user make a reservation.

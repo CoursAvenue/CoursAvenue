@@ -7,7 +7,7 @@ var _                    = require('lodash'),
 var SlidingPage = React.createClass({
     render: function render () {
         if (!this.props.cards) { return false; }
-        var width_class = 'grid__item one-quarter';
+        var width_class = 'grid__item v-middle one-quarter palm-one-whole';
         var cards = this.props.cards.map(function (card, index) {
             return (
                 <Card card={ card }
@@ -17,16 +17,16 @@ var SlidingPage = React.createClass({
             );
         });
 
-        var classes = cx('grid text--center', this.props.classes);
+        var classes = cx('grid center-block relative', this.props.classes);
 
         return (
             <div className={ classes }>
-                <a className='grid_item one-eight' onClick={ this.props.prevPage } href='javascript:void(0)'>
-                    <i className='fa fa-chevron-left'></i>
+                <a className='link-not-outlined grid_item v-middle muted-link one-eighth visuallyhidden--palm inline-block text--center' onClick={ this.props.prevPage } href='javascript:void(0)'>
+                    <i className='fa fa-3x gray-light fa-chevron-left'></i>
                 </a>
                 { cards }
-                <a className='grid_item one-eight' onClick={ this.props.nextPage } href='javascript:void(0)'>
-                    <i className='fa fa-chevron-right'></i>
+                <a className='link-not-outlined grid_item v-middle muted-link one-eighth visuallyhidden--palm inline-block text--center' onClick={ this.props.nextPage } href='javascript:void(0)'>
+                    <i className='fa fa-3x gray-light fa-chevron-right'></i>
                 </a>
             </div>
         );
@@ -91,7 +91,7 @@ var SimiliarCardList = React.createClass({
 
         var style = { height: '500px' };
         return (
-            <div className='text--center relative overflow-hidden' style={ style }>
+            <div className='relative overflow-hidden' style={ style }>
                 { pages }
             </div>
         );
