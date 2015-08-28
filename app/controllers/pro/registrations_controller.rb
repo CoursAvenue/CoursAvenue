@@ -3,6 +3,11 @@ class Pro::RegistrationsController < Pro::ProController
   layout 'home'
 
   def new
+    if current_pro_admin.present? and current_pro_admin.structure.present? and
+        !current_pro_admin.super_admin?
+      redirect_to pro_structure_admin(current_pro_admin.structure)
+      return
+    end
     @registration_form = Structure::RegistrationForm.new
   end
 
