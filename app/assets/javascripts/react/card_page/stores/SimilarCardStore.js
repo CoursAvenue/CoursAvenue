@@ -21,26 +21,30 @@ var SimilarCardStore = Backbone.Collection.extend({
     model: Card,
 
     initialize: function initialize () {
-        _.bindAll(this, 'dispatchCallback', 'searchSuccess', 'searchError');
+        _.bindAll(this, 'dispatchCallback', 'setCard', 'searchSuccess', 'searchError');
         this.dispatchToken = CardPageDispatcher.register(this.dispatchCallback);
+        this.card = null;
     },
 
     dispatchCallback: function dispatchCallback (payload) {
         switch(payload.actionType) {
-            case ActionTypes.POPULATE_INDEXABLE_CARD:
-                CardPageDispatcher.waitFor([CourseStore.dispatchToken]);
-                this.loadSimilarCards();
+            case ActionTypes.BOOTSTRAP_SIMILAR_PROFILES:
+                this.setCard(payload.data);
                 break;
         }
     },
 
+    setCard: function setCard (card) {
+        this.card = card;
+        this.loadSimilarCards();
+    },
+
     loadSimilarCards: function loadSimilarCards () {
+        if (!this.card) { return ; }
         this.loading = true;
         var filters = {
-            indexable_card_id: CourseStore.first().get('id'),
-            // aroundLatLng:   StructureStore.get('latitude') + ',' + StructureStore.get('longitude'),
-            // structure_id:   StructureStore.get('id'),
-            // structure_slug: StructureStore.get('slug'),
+            indexable_card_id: this.card.id,
+            subjects:          this.card.subjects,
         };
 
         AlgoliaSearchUtils.searchSimilarCards(filters, this.searchSuccess, this.searchError);
