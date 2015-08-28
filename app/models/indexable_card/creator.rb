@@ -33,6 +33,11 @@ class IndexableCard::Creator
     return create_cards if @structure.indexable_cards.empty?
     new_cards = []
 
+    # We start by updating the existing cards:
+    new_cards += @structure.indexable_cards.includes(:course).with_course.map do |card|
+      IndexableCard.update_from_course(card.course)
+    end
+
     # If structure did not have courses we delete all cards only associate to subjects
     # If a structure has courses, we want to have cards only for his courses
     if @structure.indexable_cards.with_course.empty? and new_courses.any?

@@ -149,4 +149,10 @@ class SuperAdminMailer < ActionMailer::Base
     mail to: 'kryqhl33@incoming.intercom.io',
          subject: 'Demande de rappel'
   end
+
+  def alert_for_disabling_structure(structure)
+    @structure = structure
+    mail to: 'kryqhl33@incoming.intercom.io',
+      subject: "La structure #{structure.name} a été désactivée"
+  end
 end
