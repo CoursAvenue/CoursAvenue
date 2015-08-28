@@ -22,10 +22,6 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
   def create
     @structure = Structure.friendly.find params[:admin][:structure_id]
 
-    # Duplicate structure in case an admin takes control of a structure and afterwards
-    # we want to rollback
-    @structure.delay.duplicate_structure
-
     if @structure.admins.length == 0
       @admin = Admin.new params[:admin]
     end

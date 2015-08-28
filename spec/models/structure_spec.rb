@@ -220,48 +220,9 @@ describe Structure do
   end
 
   context 'sleeping' do
-    describe '#duplicate_structure' do
-
-      let(:structure)            { FactoryGirl.create(:sleeping_structure) }
-
-      # We start the spec by reloading the spec so it is created at that moment
-      # and not when we access it for the first time in the assertion.
-      it 'creates a new structure' do
-        structure.reload
-
-        expect { structure.duplicate_structure }.to change { Structure.count }.by(1)
-      end
-
-      it "doesn't create two new structures" do
-        structure.duplicate_structure
-
-        expect { structure.duplicate_structure }.to_not change { Structure.count }
-      end
-
-      it 'associates the new structure with the current structure' do
-        sleeping_structure = structure.duplicate_structure
-
-        expect(sleeping_structure).to_not be_nil
-        expect(sleeping_structure.controled_structure).to eq structure
-      end
-
-      it 'makes the current structure inactive' do
-        structure.duplicate_structure
-
-        expect(structure.active).to be false
-      end
-
-      it 'makes the new structure active' do
-        structure.duplicate_structure
-
-        expect(structure.sleeping_structure.active).to be true
-      end
-    end
-
     describe '#wake_up!' do
       let(:structure)            { FactoryGirl.create(:sleeping_structure) }
       let(:admin)                { FactoryGirl.create(:admin) }
-      let(:sleeping_structure)   { structure.duplicate_structure }
 
       before(:each) do
         admin.structure = structure
@@ -269,8 +230,6 @@ describe Structure do
 
         admin.save
         structure.save
-
-        sleeping_structure.reload
       end
 
       it 'wakes itself' do
@@ -283,13 +242,6 @@ describe Structure do
         structure.wake_up!
 
         expect(structure.active).to be true
-      end
-
-      it 'destroys the sleeping structure' do
-        structure.wake_up!
-
-        structure.reload
-        expect(structure.sleeping_structure).to be nil
       end
     end
   end
