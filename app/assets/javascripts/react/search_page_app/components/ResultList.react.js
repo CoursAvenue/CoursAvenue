@@ -68,17 +68,19 @@ ResultList = React.createClass({
                 no_results = (<Suggestions />);
             }
 
-            if (CardStore.current_page == 1 && this.helper_card) {
-                var card = (
-                    <HelpCard
-                        helper={ this.helper_card }
-                           key={ this.helper_card.get('type') }
-                   width_class={ card_class } />
-                );
+            if (!this.props.hide_help_card) {
+                if (CardStore.current_page == 1 && this.helper_card) {
+                    var card = (
+                        <HelpCard
+                            helper={ this.helper_card }
+                               key={ this.helper_card.get('type') }
+                       width_class={ card_class } />
+                    );
 
-                cards.splice((this.helper_card.get('index') || this.helper_card_position), 0, card);
-                if (CardStore.length > CardStore.HITS_PER_PAGES) {
-                    cards.splice(-1, 1);
+                    cards.splice((this.helper_card.get('index') || this.helper_card_position), 0, card);
+                    if (CardStore.length > CardStore.HITS_PER_PAGES) {
+                        cards.splice(-1, 1);
+                    }
                 }
             }
         }

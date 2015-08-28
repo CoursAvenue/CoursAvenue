@@ -16,6 +16,7 @@ class Structures::IndexableCardsController < ApplicationController
     end
     @course               = @indexable_card.course
     @place                = @indexable_card.place.decorate
+    @city                 = @place.city
     @serialized_structure = StructureSerializer.new(@structure)
 
     if current_user

@@ -48,7 +48,8 @@ var MapComponent = React.createClass({
                       </div>
                   </div>
               </div>
-              <Map center={this.props.center} />
+              <Map center={this.props.center}
+                     zoom={this.props.zoom} />
           </div>
         );
     }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150826165838) do
+ActiveRecord::Schema.define(version: 20150828090853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,11 +170,27 @@ ActiveRecord::Schema.define(version: 20150826165838) do
     t.text     "description"
     t.hstore   "meta_data"
     t.integer  "size",               default: 1
+    t.integer  "parent_city_id"
   end
 
   add_index "cities", ["name"], name: "index_cities_on_name", using: :btree
+  add_index "cities", ["parent_city_id"], name: "index_cities_on_parent_city_id", using: :btree
   add_index "cities", ["slug"], name: "index_cities_on_slug", unique: true, using: :btree
   add_index "cities", ["zip_code"], name: "index_cities_on_zip_code", using: :btree
+
+  create_table "city_neighborhoods", force: true do |t|
+    t.string   "name"
+    t.string   "image"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "slug"
+    t.integer  "city_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "city_neighborhoods", ["city_id"], name: "index_city_neighborhoods_on_city_id", using: :btree
+  add_index "city_neighborhoods", ["slug"], name: "index_city_neighborhoods_on_slug", using: :btree
 
   create_table "city_subject_infos", force: true do |t|
     t.integer  "city_id"

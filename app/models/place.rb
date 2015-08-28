@@ -109,6 +109,12 @@ class Place < ActiveRecord::Base
     }
   end
 
+  def neighboroods
+    Rails.cache.fetch ['Place#neighboroods/v1', self] do
+      City::Neighborhood.near([latitude, longitude], 1, units: :km)
+    end
+  end
+
   private
 
   # Only geocode if :

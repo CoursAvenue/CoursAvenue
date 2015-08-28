@@ -75,7 +75,9 @@ var LocationStore = Backbone.Model.extend({
     },
 
     getInitialZoom: function getInitialZoom () {
-        if (this.get('address') && !this.get('address').is_address) {
+        if (this.get('address') && this.get('address').is_neighborhood) {
+            return 15;
+        } else if (this.get('address') && !this.get('address').is_address) {
             return (this.get('address').size == 3 ? 12 : 14);
         }
         return 13;

@@ -606,10 +606,13 @@ CoursAvenue::Application.routes.draw do
     resources :reply_token, only: [:show]
 
     ########### Vertical pages ###########
-    get 'cours/:id--:city_id'                        , to: 'vertical_pages#show_with_city'  , as: :root_vertical_page_with_city
-    get 'cours/:id'                                  , to: 'vertical_pages#show_root'       , as: :root_vertical_page
-    get 'cours/:root_subject_id/:id'                 , to: 'vertical_pages#show'            , as: :vertical_page
-    get 'cours/:root_subject_id/:id/:city_id'        , to: 'vertical_pages#show_with_city'  , as: :vertical_page_with_city
+    get 'cours/:id--:city_id'                                 , to: 'vertical_pages#show_with_city'          , as: :root_vertical_page_with_city
+    get 'cours/:id--:city_id/:neighborhood_id'                , to: 'vertical_pages#show_with_neighborhood'  , as: :root_vertical_page_with_neighborhood
+    get 'cours/:id'                                           , to: 'vertical_pages#show_root'               , as: :root_vertical_page
+    get 'cours/:root_subject_id/:id'                          , to: 'vertical_pages#show'                    , as: :vertical_page
+    get 'cours/:root_subject_id/:id/:city_id'                 , to: 'vertical_pages#show_with_city'          , as: :vertical_page_with_city
+    get 'cours/:root_subject_id/:id/:city_id/:neighborhood_id', to: 'vertical_pages#show_with_neighborhood'  , as: :vertical_page_with_neighborhood
+
     get 'cours-de-:id'                               , to: 'vertical_pages#redirect_to_show'
     get 'cours-de-:id-a/:city_id--:old_slug'         , to: 'redirect#structures_index'
     get 'guide-des-disciplines'                      , to: 'vertical_pages#index'           , as: :vertical_pages
