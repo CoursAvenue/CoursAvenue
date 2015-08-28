@@ -106,7 +106,7 @@ class Structure < ActiveRecord::Base
 
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,
-                  :place_ids, :name,
+                  :place_ids, :name, :slug,
                   :website, :facebook_url,
                   :contact_email,
                   :description, :subject_ids, :active,

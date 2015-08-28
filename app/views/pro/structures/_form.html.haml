@@ -38,6 +38,8 @@
 
   %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.name') } }
     = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+    - if current_pro_admin.super_admin?
+      = structure_form.input :slug, label: 'Chemin de la structure', wrapper_html: {class: 'flush--bottom'}, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
     = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: { class: 'input--large', style: 'max-width: 29em;' }, label_html: { class: 'label--large' }, wrapper_html: { class: 'flush--bottom' }
   %hr.push--ends
   %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.subjects') } }
