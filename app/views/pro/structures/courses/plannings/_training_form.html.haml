@@ -8,12 +8,15 @@
   - if f.object.errors.include? :start_date
     .alert.alert-error.flush= f.object.errors.messages[:start_date].to_sentence
 
+-# We wait for the datepicker to initialize first before doing weird shit.
 :javascript
-  $('#end-date').tooltip();
-  $('#start-date').change(function() {
-      if ($('#start-date').val().length > 0) {
-          $('#end-date').attr('placeholder', $('#start-date').val());
-          $('#end-date').datepicker('setStartDate', $('#start-date').datepicker('getDate'));
-      }
-  });
-  $('#start-date').change();
+  setTimeout(function() {
+      $('#end-date').tooltip();
+      $('#start-date').change(function() {
+          if ($('#start-date').val().length > 0) {
+              $('#end-date').attr('placeholder', $('#start-date').val());
+              $('#end-date').datepicker('setStartDate', $('#start-date').datepicker('getDate'));
+          }
+      });
+      $('#start-date').change();
+  }, 500);
