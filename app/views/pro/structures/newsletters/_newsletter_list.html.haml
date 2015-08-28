@@ -9,7 +9,7 @@
         Statut :
         %strong= newsletter.status
 
-    .flexbox__item.v-middle.text--right
+    .flexbox__item.v-middle.text--right.nowrap
       - if newsletter.sent? or newsletter.sending?
         = succeed ' ' do
           = link_to metrics_pro_structure_newsletter_path(@structure, newsletter), class: 'btn' do

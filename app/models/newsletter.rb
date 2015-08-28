@@ -147,6 +147,7 @@ class Newsletter < ActiveRecord::Base
   #
   # @return a Boolean
   def ready?
+    return false if self.email_object.blank?
     return false if self.mailing_list.nil?
     return false if self.mailing_list.recipient_count == 0
 

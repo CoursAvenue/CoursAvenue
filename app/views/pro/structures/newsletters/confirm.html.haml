@@ -14,4 +14,11 @@
         .two-thirds.soft-half--left.inline-block>
           = submit_tag 'Envoyer', class: 'btn btn--full btn--green soft-half--ends', data: { disable_with: 'Envoi en cours...' }
   - else
-    %h3.text--center.flush Vous devez choisir une liste de diffusion avant l'envoi
+    - if @newsletter.email_object.blank?
+      %h3.text--center.push-half--bottom Vous devez choisir un objet à votre e-mail avant l'envoi.
+      .text--center
+        = link_to 'Choisir un objet', edit_pro_structure_newsletter_path(@structure, @newsletter), class: 'btn btn--green'
+    - else
+      %h3.text--center.push-half--bottom Vous devez choisir une liste de diffusion avant l'envoi.
+      .text--center
+        = link_to 'Choisir une liste de diffusion', mailing_list_pro_structure_newsletter_path(@structure, @newsletter), class: 'btn btn--green'

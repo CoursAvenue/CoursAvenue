@@ -18,7 +18,7 @@ class Pro::Structures::Newsletters::MailingListsController < ApplicationControll
     end
     respond_to do |format|
       @mailing_list.update_attributes(mailing_list_params)
-      format.html { redirect_to mailing_list_pro_structure_newsletter_path(@structure, @newsletter)}
+      format.html { redirect_to mailing_list_pro_structure_newsletter_path(@structure, @newsletter) }
     end
   end
 
