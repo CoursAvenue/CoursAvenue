@@ -33,6 +33,12 @@ class Structure::RegistrationForm
     valid? ? persist! : false
   end
 
+  def existing_admin?
+    admin = Admin.where(email: admin_email).first
+    return false if admin.nil?
+    admin
+  end
+
   private
 
   # Create the Structure and the Admin.
