@@ -1,3 +1,12 @@
+.participant-plus {
+    height       : 40px;
+    width        : 40px;
+    line-height  : 2.6em;
+    font-size    : 0.9em;
+    border       : 3px solid white;
+    border-radius: 40px;
+}
+
 .comment-avatar-80 {
     @extend .fa-user;
     text-align   : center;

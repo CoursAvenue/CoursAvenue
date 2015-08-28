@@ -8,6 +8,7 @@ SubjectSearchInput        = require('./search_page_app/components/SubjectSearchI
 SubjectAutocompleteFilter = require('./search_page_app/components/SubjectAutocompleteFilter.react');
 SubjectList               = require('./search_page_app/components/cards/SubjectList.react');
 
+NewThreadTextarea         = require('./card_page/components/NewThreadTextarea.react');
 CardPageMap               = require('./card_page/components/Map.react');
 Course                    = require('./card_page/components/Course.react');
 CommentList               = require('./card_page/components/CommentList.react');
