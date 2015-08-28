@@ -23,7 +23,13 @@ var SlidingPage = React.createClass({
 
         return (
             <div className={ classes }>
+                <a className='grid_item one-eight' onClick={ this.props.prevPage } href='javascript:void(0)'>
+                    <i className='fa fa-chevron-left'></i>
+                </a>
                 { cards }
+                <a className='grid_item one-eight' onClick={ this.props.nextPage } href='javascript:void(0)'>
+                    <i className='fa fa-chevron-right'></i>
+                </a>
             </div>
         );
     },
@@ -39,17 +45,40 @@ var SimiliarCardList = React.createClass({
         CourseActionCreators.bootstrapSimilarProfiles(this.props.card);
     },
 
+    getDefaultProps: function getDefaultProps () {
+        return { per_page: 3 };
+    },
+
     getInitialState: function getInitialState () {
-        return { card_store: SimilarCardStore };
+        return { card_store: SimilarCardStore, current_page: 0 };
+    },
+
+    nextPage: function nextPage () {
+        return function () {
+            this.setState({ current_page: this.state.current_page + 1 });
+        }.bind(this);
+    },
+
+    prevPage: function prevPage () {
+        return function () {
+            this.setState({ current_page: this.state.current_page - 1 });
+        }.bind(this);
     },
 
     render: function render () {
         if (SimilarCardStore.isEmpty()) { return false; }
-        var pages = _.chunk(SimilarCardStore.models, 3).map(function (cards, index) {
+        var total_pages = Math.ceil(SimilarCardStore.length / this.props.per_page);
+
+        var pages = _.chunk(SimilarCardStore.models, this.props.per_page).map(function (cards, index) {
+
             return (
-                <SlidingPage cards={ cards } visible={ index == 0 } key={ index } />
+                <SlidingPage cards={ cards }
+                           visible={ index == this.state.current_page }
+                          prevPage={ this.prevPage() }
+                          nextPage={ this.nextPage() }
+                               key={ index } />
             );
-        });
+        }.bind(this));
 
         return (
             <div className='text--center'>
