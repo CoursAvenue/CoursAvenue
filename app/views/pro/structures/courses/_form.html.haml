@@ -190,6 +190,7 @@
         $('#content').show();
     }, 400);
     $('[data-trial-select]').change(function() {
+        $('#course_no_trial').val('0')
         switch($(this).val()) {
             case 'not-free':
                 $('[data-trial-price-input]').removeClass('hidden');
