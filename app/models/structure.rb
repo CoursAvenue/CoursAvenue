@@ -1258,9 +1258,9 @@ class Structure < ActiveRecord::Base
   end
 
   def encode_uris
-    self.website      = URI.encode(URI.decode(website))      if website.present? and website_changed?
-    self.facebook_url = URI.encode(URI.decode(facebook_url)) if facebook_url.present? and facebook_url_changed?
-    self.widget_url   = URI.encode(URI.decode(widget_url))   if widget_url.present? and widget_url_changed?
+    self.website      = URI.encode(URI.decode(website.strip))      if website.present? and website_changed?
+    self.facebook_url = URI.encode(URI.decode(facebook_url.strip)) if facebook_url.present? and facebook_url_changed?
+    self.widget_url   = URI.encode(URI.decode(widget_url.strip))   if widget_url.present? and widget_url_changed?
   end
 
   def should_generate_new_friendly_id?
