@@ -849,19 +849,6 @@ class Structure < ActiveRecord::Base
     self.is_sleeping = false
     self.active      = true
 
-    if sleeping_structure
-      sleeping_slug           = sleeping_structure.slug
-      sleeping_structure.slug = sleeping_structure.slug + "-old"
-      sleeping_structure.save
-
-      friendly_id_slug = FriendlyId::Slug.where(slug: sleeping_slug,
-                                                sluggable_type: 'Structure').first_or_initialize
-      friendly_id_slug.sluggable_id = self.id
-      friendly_id_slug.save
-
-      sleeping_structure.destroy
-    end
-
     save(validate: false)
     delay.index
 
@@ -962,34 +949,6 @@ class Structure < ActiveRecord::Base
     else
       ([city] + places.map(&:city)).group_by{ |c| c }.values.max_by(&:size).first
     end
-  end
-
-  # Duplicate Structure into a new structure that will be hidden.
-  #
-  # @return a new Structure
-  def duplicate_structure
-    unless sleeping_structure.present?
-      sleeping_structure = dup
-
-      phone_numbers.each do |phone|
-        sleeping_structure.phone_numbers.build(number: phone.number, phone_type: phone.phone_type)
-      end
-
-      sleeping_structure.stripe_customer_id = nil
-      sleeping_structure.places             = places.map(&:dup)
-      sleeping_structure.subjects           = root_subjects_from_string(self) + child_subjects_from_string(self)
-
-      sleeping_structure.is_sleeping        = true
-      sleeping_structure.save
-      sleeping_structure.delay.index
-
-      self.sleeping_structure          = sleeping_structure
-      self.active = false
-
-      save
-    end
-
-    sleeping_structure
   end
 
   def is_sleeping
