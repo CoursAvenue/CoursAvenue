@@ -776,13 +776,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Return all the Metric associated with this structure
-  #
-  # @return The Metric
-  def metrics
-    Metric.where(structure_id: id)
-  end
-
   SEARCH_SCORE_COEF = {
     comments:       3,
     logo:           2,
