@@ -276,7 +276,7 @@ class ParticipationRequest < ActiveRecord::Base
   end
 
   def nb_participants
-    participants.map(&:number).reduce(&:+) || 0
+    participants.map(&:number).reduce(0, &:+)
   end
 
   # The cost of this Participation Request in Euros.
