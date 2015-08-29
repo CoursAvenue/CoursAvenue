@@ -57,6 +57,11 @@ var SubjectStore = Backbone.Collection.extend({
             case ActionTypes.CLEAR_ALL_THE_DATA:
                 this.unsetFilter('full_text_search');
                 break;
+            case ActionTypes.REMOVE_LAST_FILTER:
+                if (this == payload.data) {
+                    this.unsetFilter('full_text_search');
+                }
+                break;
             case ActionTypes.UNSET_FILTER:
                 this.unsetFilter(payload.data);
                 break;

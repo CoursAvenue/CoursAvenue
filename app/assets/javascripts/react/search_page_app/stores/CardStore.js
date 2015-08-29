@@ -396,7 +396,7 @@ var CardCollection = Backbone.Collection.extend({
     // Store the "last" filter that was changed so it can be reverted if there are no more results.
     setLastFilterChanged: function setLastFilterChanged () {
         var stores = [
-            SubjectStore, FilterStore, LocationStore, TimeStore, UserStore, PriceStore,
+            SubjectStore, LocationStore, TimeStore, PriceStore,
             AudienceStore, LevelStore, MetroStopStore, MetroLineStore
         ];
 

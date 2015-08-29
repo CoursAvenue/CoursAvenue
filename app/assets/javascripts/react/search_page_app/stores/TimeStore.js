@@ -79,6 +79,11 @@ var TimeStore = Backbone.Collection.extend({
             case ActionTypes.UNSET_FILTER:
                 this.unsetFilter(payload.data);
                 break;
+            case ActionTypes.REMOVE_LAST_FILTER:
+                if (this == payload.data) {
+                    this.unsetFilter('time_store');
+                }
+                break;
         }
     },
 

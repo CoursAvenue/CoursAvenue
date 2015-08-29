@@ -169,7 +169,7 @@ module.exports = {
         });
     },
 
-    remoteLastFilter: function remoteLastFilter (filter) {
+    removeLastFilter: function removeLastFilter (filter) {
         SearchPageDispatcher.dispatch({
             actionType: SearchPageConstants.ActionTypes.REMOVE_LAST_FILTER,
             data: filter,

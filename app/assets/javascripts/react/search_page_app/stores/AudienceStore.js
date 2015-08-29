@@ -41,6 +41,11 @@ var AudienceStore = Backbone.Collection.extend({
             case ActionTypes.UNSET_FILTER:
                 if (payload.data == 'audiences') { this.unsetAudiences(); }
                 break;
+            case ActionTypes.REMOVE_LAST_FILTER:
+                if (this == payload.data) {
+                    this.unsetAudiences();
+                }
+                break;
         }
     },
 

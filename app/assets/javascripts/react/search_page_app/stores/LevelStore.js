@@ -41,6 +41,11 @@ var LevelStore = Backbone.Collection.extend({
             case ActionTypes.UNSET_FILTER:
                 if (payload.data == 'levels') { this.unsetLevels(); }
                 break;
+            case ActionTypes.REMOVE_LAST_FILTER:
+                if (this == payload.data) {
+                    this.unsetLevels();
+                }
+                break;
         }
     },
 

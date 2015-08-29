@@ -47,6 +47,11 @@ var MetroLineStore = Backbone.Collection.extend({
             case ActionTypes.SELECT_ADDRESS:
                 this.unsetSelectedLines();
                 break;
+            case ActionTypes.REMOVE_LAST_FILTER:
+                if (this == payload.data) {
+                    this.unsetSelectedLines();
+                }
+                break;
         }
     },
 

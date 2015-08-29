@@ -72,6 +72,11 @@ var MetroStopStore = Backbone.Collection.extend({
             case ActionTypes.SELECT_ADDRESS:
                 this.unsetStop();
                 break;
+            case ActionTypes.REMOVE_LAST_FILTER:
+                if (this == payload.data) {
+                    this.unsetStop();
+                }
+                break;
         }
     },
 

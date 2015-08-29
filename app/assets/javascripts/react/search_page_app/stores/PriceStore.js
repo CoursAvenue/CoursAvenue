@@ -22,6 +22,11 @@ var PriceStore = Backbone.Model.extend({
             case ActionTypes.UNSET_FILTER:
                 if (payload.data == 'price') { this.unset('bounds'); }
                 break;
+            case ActionTypes.REMOVE_LAST_FILTER:
+                if (this == payload.data) {
+                    this.unset('bounds');
+                }
+                break;
         }
     },
 

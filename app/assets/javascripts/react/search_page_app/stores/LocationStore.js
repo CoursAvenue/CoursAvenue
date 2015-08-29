@@ -58,6 +58,12 @@ var LocationStore = Backbone.Model.extend({
             case ActionTypes.TOGGLE_MAP_FULLSCREEN:
                 this.set({ fullscreen: !this.get('fullscreen') });
                 break;
+            case ActionTypes.REMOVE_LAST_FILTER:
+                if (this == payload.data) {
+                    this.unset('user_location');
+                    this.unset('address');
+                }
+                break;
         }
     },
 
