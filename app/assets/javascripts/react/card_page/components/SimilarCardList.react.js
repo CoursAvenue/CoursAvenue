@@ -74,15 +74,14 @@ var SimiliarCardList = React.createClass({
         var pages = _.chunk(SimilarCardStore.models, this.props.per_page).map(function (cards, index) {
 
             var page_class = cx('search-page-filter__subject-page absolute north west one-whole', {
-                'search-page-filter__subject-page-before':  index <  this.state.current_page,
+                'search-page-filter__subject-page-before':  index >  this.state.current_page,
                 'search-page-filter__subject-page--active': index == this.state.current_page,
-                'search-page-filter__subject-page-after':   index >  this.state.current_page,
+                'search-page-filter__subject-page-after':   index <  this.state.current_page,
             });
 
             return (
                 <SlidingPage cards={ cards }
                            classes={ page_class }
-                           visible={ index == this.state.current_page }
                           prevPage={ this.prevPage(total_pages) }
                           nextPage={ this.nextPage(total_pages) }
                                key={ index } />
