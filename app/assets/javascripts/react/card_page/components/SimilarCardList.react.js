@@ -22,11 +22,11 @@ var SlidingPage = React.createClass({
         return (
             <div className={ classes }>
                 <a className='link-not-outlined grid_item v-middle muted-link one-eighth visuallyhidden--palm inline-block text--center' onClick={ this.props.prevPage } href='javascript:void(0)'>
-                    <i className='fa fa-3x gray-light fa-chevron-left'></i>
+                    <i className={ cx('fa fa-3x gray-light fa-chevron-left', { visuallyhidden: this.props.current_page == 0 }) }></i>
                 </a>
                 { cards }
                 <a className='link-not-outlined grid_item v-middle muted-link one-eighth visuallyhidden--palm inline-block text--center' onClick={ this.props.nextPage } href='javascript:void(0)'>
-                    <i className='fa fa-3x gray-light fa-chevron-right'></i>
+                    <i className={ cx('fa fa-3x gray-light fa-chevron-right', { visuallyhidden: (this.props.current_page + 1) == this.props.total_pages }) }></i>
                 </a>
             </div>
         );
@@ -82,6 +82,8 @@ var SimiliarCardList = React.createClass({
             return (
                 <SlidingPage cards={ cards }
                            classes={ page_class }
+                      current_page={ index }
+                       total_pages={ total_pages }
                           prevPage={ this.prevPage(total_pages) }
                           nextPage={ this.nextPage(total_pages) }
                                key={ index } />
