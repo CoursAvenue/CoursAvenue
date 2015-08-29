@@ -54,14 +54,16 @@ var CardCollection = Backbone.Collection.extend({
     error        :   false,
 
     initialize: function initialize () {
-	_.bindAll(this, 'dispatchCallback', 'searchSuccess', 'searchError', 'fetchDataFromServer');
+	_.bindAll(this, 'dispatchCallback', 'searchSuccess', 'searchError', 'fetchDataFromServer',
+              'setLastFilterChanged');
 
 	// Register the store to the dispatcher, so it calls our callback on new actions.
-	this.dispatchToken = SearchPageDispatcher.register(this.dispatchCallback);
-        this.current_page = 1;
-        this.total_pages  = 1;
-        this.context      = 'course';
-        this.sort_by      = 'by_popularity_desc';
+	this.dispatchToken       = SearchPageDispatcher.register(this.dispatchCallback);
+    this.current_page        = 1;
+    this.total_pages         = 1;
+    this.context             = 'course';
+    this.sort_by             = 'by_popularity_desc';
+    this.last_filter_changed = null;
     },
 
     // The function called everytime there's a new action dispatched.
@@ -157,6 +159,8 @@ var CardCollection = Backbone.Collection.extend({
     fetchDataFromServer: function fetchDataFromServer (reset_page_nb) {
         if (reset_page_nb) { this.current_page = 1; }
         this.error   = false;
+
+        this.setLastFilterChanged();
 
         // Call the algolia search.
         AlgoliaSearchUtils.searchCards(this.algoliaFilters(), this.searchSuccess, this.searchError);
@@ -387,7 +391,26 @@ var CardCollection = Backbone.Collection.extend({
             this.fetchDataFromServer(false);
         }
         this.trigger('change:visible');
-    }
+    },
+
+    // Store the "last" filter that was changed so it can be reverted if there are no more results.
+    setLastFilterChanged: function setLastFilterChanged () {
+        var stores = [
+            SubjectStore, FilterStore, LocationStore, TimeStore, UserStore, PriceStore,
+            AudienceStore, LevelStore, MetroStopStore, MetroLineStore
+        ];
+
+        var last_changed = _.filter(stores, function(store) {
+            if (_.isArray(store.models)) {
+                return _.any(store.models, function (model) {
+                    return model.hasChanged();
+                });
+            } else {
+                return store.hasChanged();
+            }
+        });
+        this.last_filter_changed = _.first(last_changed);
+    },
 });
 
 module.exports = new CardCollection();

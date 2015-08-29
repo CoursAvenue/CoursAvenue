@@ -65,7 +65,7 @@ ResultList = React.createClass({
                 )
             }.bind(this));
             if (cards.length == 0) {
-                no_results = (<Suggestions />);
+                no_results = (<Suggestions last_filter_changed={ CardStore.last_filter_changed }/>);
             }
 
             if (CardStore.current_page == 1 && this.helper_card && CardStore.length > 0) {
