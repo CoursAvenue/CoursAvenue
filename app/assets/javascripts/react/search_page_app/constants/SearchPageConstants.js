@@ -5,6 +5,7 @@ module.exports = {
     ActionTypes: keyMirror({
         SEARCH:                               null,
         CLEAR_ALL_THE_DATA:                   null,
+        REMOVE_LAST_FILTER:                   null,
         FILTERS__MAP_BOUNDS_CHANGED:          null,
 
         CHANGE_CONTEXT:                       null,

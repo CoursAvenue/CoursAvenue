@@ -167,5 +167,12 @@ module.exports = {
             actionType: SearchPageConstants.ActionTypes.UNSET_FILTER,
             data: filter_key
         });
-    }
+    },
+
+    remoteLastFilter: function remoteLastFilter (filter) {
+        SearchPageDispatcher.dispatch({
+            actionType: SearchPageConstants.ActionTypes.REMOVE_LAST_FILTER,
+            data: filter,
+        });
+    },
 };

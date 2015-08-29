@@ -3,7 +3,7 @@ var FilterActionCreators = require('../actions/FilterActionCreators');
 Suggestions = React.createClass({
 
     showMoreResults: function showMoreResults () {
-        FilterActionCreators.clearAllTheData();
+        FilterActionCreators.removeLastFilter(this.props.last_filter_changed);
         FilterActionCreators.search();
     },
 
