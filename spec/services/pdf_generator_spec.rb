@@ -9,7 +9,7 @@ describe PDFGenerator do
   end
 
   describe '.generate_invoice' do
-    let(:invoice)  { FactoryGirl.create(:subscriptions_invoice, :payed) }
+    let(:invoice)  { FactoryGirl.build_stubbed(:subscriptions_invoice, :payed) }
     let(:template) { 'pro/subscriptions/invoices.pdf.haml' }
 
     before do
@@ -21,7 +21,7 @@ describe PDFGenerator do
     end
 
     it 'generates the invoice as PDF' do
-      locals    = invoice.send(:pdf_template_locals)
+      locals    = { :@invoice => invoice, :@structure => invoice.structure }
       generated = PDFGenerator.generate_invoice(invoice, template, locals)
 
       expect(generated).to be_truthy
@@ -29,7 +29,7 @@ describe PDFGenerator do
   end
 
   describe '.generate_gift_certificate_voucher' do
-    let(:voucher) { FactoryGirl.create(:gift_certificate_voucher) }
+    let(:voucher) { FactoryGirl.build_stubbed(:gift_certificate_voucher) }
 
     it 'does nothing if the voucher is not defined' do
       expect(PDFGenerator.generate_gift_certificate_voucher(nil)).to be_nil
