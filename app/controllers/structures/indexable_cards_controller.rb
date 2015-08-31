@@ -50,7 +50,7 @@ class Structures::IndexableCardsController < ApplicationController
   private
 
   def set_structure_and_card
-    @structure           = Structure.with_deletedincludes(places: [:city]).friendly.find(params[:structure_id])
+    @structure           = Structure.with_deleted.includes(places: [:city]).friendly.find(params[:structure_id])
     @indexable_card      = @structure.indexable_cards.includes(:place, :course).where(IndexableCard.arel_table[:slug].eq(params[:id]).or(IndexableCard.arel_table[:id].eq(params[:id]))).first
   end
 end
