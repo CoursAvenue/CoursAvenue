@@ -49,11 +49,6 @@ describe IndexableCard::Creator do
           expect { subject.update_cards; structure.reload }.
             to change { structure.indexable_cards.count }.by(1)
         end
-
-        it 'associates the new card with the place' do
-          cards = subject.update_cards
-          expect(cards.first.place).to eq(new_place)
-        end
       end
     end
   end

@@ -90,6 +90,13 @@ class Structures::ParticipationRequestsController < ApplicationController
   end
 
   def book_and_send_message
+    # We use the same routes from structures/participation_request#show and structures#show, so we
+    # differentiate using the course_type and manyally set the course_id if necessary.
+    if params[:participation_request][:course_type] == 'indexable_card'
+      card = IndexableCard.find(params[:participation_request][:course_id])
+      params[:participation_request][:course_id] = card.course.id
+    end
+
     @participation_request = ParticipationRequest.create_and_send_message params[:participation_request], current_user
     respond_to do |format|
       if @participation_request.persisted?
