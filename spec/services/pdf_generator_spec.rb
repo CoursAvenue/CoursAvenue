@@ -2,6 +2,8 @@ require 'rails_helper'
 
 describe PDFGenerator do
   before do
+    allow_any_instance_of(ApplicationController).to receive(:render_to_string).
+      and_return(Faker::Lorem.sentence)
     allow_any_instance_of(WickedPdf).to receive(:pdf_from_string).
       and_return(Faker::Lorem.sentence)
   end
