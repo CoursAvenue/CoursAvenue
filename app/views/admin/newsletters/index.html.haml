@@ -2,7 +2,7 @@
 
 = render partial: 'pro/shared/activity_tabs', locals: { current: 'newsletters' }
 
-%h1.text--center= "#{Newsletter.sent.map{|n| n.recipients.count}.reduce(&:+)} emails ont été envoyées"
+%h1.text--center= "#{Newsletter.sent.map{|n| n.recipients.count}.reduce(&:+)} emails ont été envoyés"
 .text--center.push-half--ends= paginate @newsletters, window: 1, outer_window: 3
 %table.table--striped
   %thead
