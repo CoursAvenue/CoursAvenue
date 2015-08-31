@@ -165,7 +165,7 @@ class Structures::CommentsController < ApplicationController
     end
     if @comment.subjects.any?
       @user.subjects << @comment.subjects
-    else
+    elsif @comment.structure.present?
       @user.subjects << @comment.structure.subjects
     end
     @user.save
