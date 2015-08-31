@@ -44,27 +44,25 @@ class IndexableCard::Creator
     # If structure did not have courses we delete all cards only associate to subjects
     # If a structure has courses, we want to have cards only for his courses
     if @structure.indexable_cards.with_course.empty? and new_courses.any?
-      @structure.indexable_cards.map(&:destroy)
+      @structure.indexable_cards.each(&:destroy)
     end
 
     # We start by updating the existing cards.
-    new_cards += @structure.indexable_cards.includes(:course).with_course.map do |card|
+    @structure.indexable_cards.includes(:course).with_course.each do |card|
       IndexableCard.delay.update_from_course(card.course)
     end
 
     # We then create the cards from the new courses.
-    new_cards += new_courses.map do |course|
+    new_courses.each do |course|
       @structure.indexable_cards.delay.create_from_course(course)
     end
 
     # Finally, if we don't have any courses, we create cards from places.
     if @structure.courses.empty?
-      new_cards += new_places.flat_map do |place|
+      new_places.flat_map do |place|
         @structure.indexable_cards.delay.create_from_place(place)
       end
     end
-
-    new_cards
   end
 
   private
