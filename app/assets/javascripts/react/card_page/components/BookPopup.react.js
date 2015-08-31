@@ -109,6 +109,7 @@ var BookPopup = React.createClass({
                 planning_id            : this.props.planning.id,
                 message                : { body: $dom_node.find('[name="message[body]"]').val() },
                 user                   : user_params,
+                course_type            : this.props.course.get('type'),
                 participants_attributes: [ {
                     number: $dom_node.find('[name="participation_request[participants_attributes][0][number]"]').val()
                 } ]
