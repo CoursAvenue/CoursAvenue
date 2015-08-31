@@ -8,16 +8,6 @@ class Structures::IndexableCardsController < ApplicationController
   # GET /danse--paris
   # GET /danse/danse-orientale--paris
   def show
-    if @structure.deleted?
-      if @structure.dominant_subject.present?
-        path = subject_courses_path@struture.dominant_subject
-      else
-        path = root_path
-      end
-      redirect_to path, notice: "Ce cours n'existe plus.", status: 301
-      return
-    end
-
     @structure_decorator = @structure.decorate
     # 301 for Google
     if @indexable_card.nil?
@@ -50,7 +40,7 @@ class Structures::IndexableCardsController < ApplicationController
   private
 
   def set_structure_and_card
-    @structure           = Structure.with_deleted.includes(places: [:city]).friendly.find(params[:structure_id])
+    @structure           = Structure.includes(places: [:city]).friendly.find(params[:structure_id])
     @indexable_card      = @structure.indexable_cards.includes(:place, :course).where(IndexableCard.arel_table[:slug].eq(params[:id]).or(IndexableCard.arel_table[:id].eq(params[:id]))).first
   end
 end
