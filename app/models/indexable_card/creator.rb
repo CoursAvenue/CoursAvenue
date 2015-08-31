@@ -14,14 +14,14 @@ class IndexableCard::Creator
 
     # We loop on each course and create a card from there.
     courses.each do |course|
-      @structure.delay.indexable_cards.create_from_course(course)
+      @structure.indexable_cards.create_from_course(course)
     end
 
     # If the Structure doesn't have any courses ( / is not active), we create "placeholder" cards
     # combining places and subjects.
     if courses.empty?
       places.each do |place|
-        @structure.delay.indexable_cards.create_from_place(place)
+        @structure.indexable_cards.create_from_place(place)
       end
     end
   end
@@ -49,18 +49,19 @@ class IndexableCard::Creator
 
     # We start by updating the existing cards.
     new_cards += @structure.indexable_cards.includes(:course).with_course.map do |card|
-      IndexableCard.delay.update_from_course(card.course)
+      IndexableCard.update_from_course(card.course)
     end
 
-    # We then create the cards from the new courses.
+    # We start by creating the cards from courses since the associated places will
+    # also be in the `new_places`.
     new_cards += new_courses.map do |course|
-      @structure.delay.indexable_cards.create_from_course(course)
+      @structure.indexable_cards.create_from_course(course)
     end
 
-    # Finally, if we don't have any courses, we create cards from places.
     if @structure.courses.empty?
+      # We then create the new cards for the places and subjects not associated with a course.
       new_cards += new_places.flat_map do |place|
-        @structure.indexable_cards.delay.create_from_place(place)
+        @structure.indexable_cards.create_from_place(place)
       end
     end
 
