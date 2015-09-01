@@ -5,7 +5,7 @@ class ReplyToken < ActiveRecord::Base
   # Constants                                                          #
   ######################################################################
 
-  REPLY_TYPES = %w(participation_request conversation comment)
+  REPLY_TYPES = %w(participation_request conversation comment community)
 
   ######################################################################
   # Macros                                                             #
