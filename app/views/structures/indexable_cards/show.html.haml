@@ -133,13 +133,17 @@
                     = MetroLineDecorator.new(line).chip
                   %strong= link_to stop.name, root_search_page_path(dominant_root_subject_slug, (@city || 'paris'), metro_stop: stop.slug), class: 'v-middle semi-muted-link'
           - cache [@indexable_card, 'structures/indexable_cards/show/vertical_pages'] do
-            - if @place.neighboroods.any?
-              .soft--sides.visuallyhiddenn
-                %h4.push-half--bottom Quartiers
+            .soft--sides.visuallyhiddenn
+              %h4.push-half--bottom Quartiers
+              - if @place.neighboroods.any?
                 - @course.subjects.each do |subject|
                   - vertical_page = subject.vertical_pages.first
                   - @place.neighboroods.each do |neighborood|
                     %div= link_to "Cours de #{vertical_page.subject_name.downcase} à #{neighborood.name} (#{@city.name} - #{@city.zip_code})", vertical_page_with_neighborhood_path(subject.root, vertical_page, (@city || 'paris'), neighborood)
+              - elsif @city
+                - @course.subjects.each do |subject|
+                  - vertical_page = subject.vertical_pages.first
+                  %div= link_to "Cours de #{vertical_page.subject_name.downcase} à #{@city.name} - #{@city.zip_code}", vertical_page_with_city_path(subject.root, vertical_page, @city)
 
       - unless @structure.is_sleeping?
         .bg-white.bordered.push--bottom.soft= render 'structures/response_stats'
