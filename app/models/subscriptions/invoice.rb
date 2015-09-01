@@ -5,9 +5,10 @@ class Subscriptions::Invoice < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :stripe_invoice_id, :structure, :subscription, :payed_at
+  attr_accessible :stripe_invoice_id, :structure, :subscription, :payed_at, :customer
 
   belongs_to :structure
+  belongs_to :customer, class_name: 'Structure::Customer', foreign_key: 'structure_customer_id'
   belongs_to :subscription
 
   ######################################################################
@@ -30,6 +31,7 @@ class Subscriptions::Invoice < ActiveRecord::Base
 
     structure    = subscription.structure
     create!(structure:         structure,
+            customer:          structure.customer || structure.create_customer,
             payed_at:          Time.at(stripe_invoice.date.to_i),
             subscription:      subscription,
             stripe_invoice_id: stripe_invoice.id)

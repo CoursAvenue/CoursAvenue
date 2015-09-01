@@ -22,9 +22,11 @@ class Subscription < ActiveRecord::Base
     :cancelation_reason_stopping_activity,
     :cancelation_reason_didnt_have_return_on_investment,
     :cancelation_reason_too_hard_to_use,
-    :cancelation_reason_other
+    :cancelation_reason_other,
+    :customer
 
   belongs_to :structure
+  belongs_to :customer,     class_name: 'Structure::Customer',   foreign_key: 'structure_customer_id'
   belongs_to :plan,         class_name: 'Subscriptions::Plan',   foreign_key: 'subscriptions_plan_id'
   belongs_to :coupon,       class_name: 'Subscriptions::Coupon', foreign_key: 'subscriptions_coupon_id'
   has_many   :invoices,     class_name: 'Subscriptions::Invoice'
@@ -67,12 +69,12 @@ class Subscription < ActiveRecord::Base
   #
   # @return nil or a Stripe::Subscription.
   def stripe_subscription
-    if stripe_subscription_id.nil? or structure.nil? or structure.stripe_customer.nil?
+    if stripe_subscription_id.nil? or customer.nil? or customer.stripe_customer.nil?
       return nil
     end
 
     # TODO: Remove explicit api key.
-    structure.stripe_customer.subscriptions.retrieve(stripe_subscription_id, { api_key: Stripe.api_key })
+    customer.stripe_customer.subscriptions.retrieve(stripe_subscription_id, { api_key: Stripe.api_key })
   end
 
   # Wether the subscription is canceled or not.
@@ -104,8 +106,8 @@ class Subscription < ActiveRecord::Base
   def charge!(token = nil, coupon = nil)
     error_code_value = nil
     begin
-      customer = structure.stripe_customer || structure.create_stripe_customer(token)
-      return nil if customer.nil?
+      stripe_customer = self.customer.stripe_customer || self.customer.create_stripe_customer(token)
+      return nil if stripe_customer.nil?
 
       options = {
         plan:      self.plan.stripe_plan_id,
@@ -117,7 +119,7 @@ class Subscription < ActiveRecord::Base
         self.coupon = coupon
       end
 
-      _subscription = customer.subscriptions.create(options, { api_key: Stripe.api_key })
+      _subscription = stripe_customer.subscriptions.create(options, { api_key: Stripe.api_key })
 
       self.stripe_subscription_id = _subscription.id
       self.charged_at             = DateTime.now
@@ -142,12 +144,12 @@ class Subscription < ActiveRecord::Base
   #
   # @return
   def cancel!(options = { at_period_end: true })
-    if stripe_subscription_id.nil? or structure.nil? or structure.stripe_customer.nil? or canceled?
+    if stripe_subscription_id.nil? or customer.nil? or customer.stripe_customer.nil? or canceled?
       return false
     end
 
     # TODO: Remove explicit api key.
-    subscription = structure.stripe_customer.subscriptions.retrieve(stripe_subscription_id, { api_key: Stripe.api_key }).delete(at_period_end: options[:at_period_end])
+    subscription = customer.stripe_customer.subscriptions.retrieve(stripe_subscription_id, { api_key: Stripe.api_key }).delete(at_period_end: options[:at_period_end])
 
     self.canceled_at = Time.current
 
@@ -217,7 +219,7 @@ class Subscription < ActiveRecord::Base
 
     expiration_delay = current_period_end - Time.now
     Rails.cache.fetch ["Subscription#next_amount", self], expires_in: expiration_delay.to_i do
-      Stripe::Invoice.upcoming(customer: structure.stripe_customer_id).amount_due / 100.0
+      Stripe::Invoice.upcoming(customer: customer.stripe_customer_id).amount_due / 100.0
     end
   end
 
@@ -227,7 +229,7 @@ class Subscription < ActiveRecord::Base
   def coupon_end_date
     return nil if !coupon
     return coupon_ends_at if coupon_ends_at.present?
-    if (discount = Stripe::Invoice.upcoming(customer: structure.stripe_customer_id).discount)
+    if (discount = Stripe::Invoice.upcoming(customer: customer.stripe_customer_id).discount)
       coupon_ends_at = Time.at(discount.end || discount.start)
       save
     end
@@ -241,7 +243,7 @@ class Subscription < ActiveRecord::Base
     return nil if stripe_subscription_id.nil? or canceled? or coupon.nil? or !coupon.valid?
 
     # Update current customer with coupon
-    stripe_customer        = structure.stripe_customer
+    stripe_customer        = customer.stripe_customer
     stripe_customer.coupon = coupon.stripe_coupon_id
     stripe_customer.save
 

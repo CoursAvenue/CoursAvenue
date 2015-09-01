@@ -6,7 +6,6 @@ class Structure < ActiveRecord::Base
   include Concerns::IdentityCacheFetchHelper
   include Concerns::SMSSender
   include Concerns::ReminderEmailStatus
-  include Concerns::StripeCustomer
   include StructuresHelper
   include HasSubjects
   include ActsAsCommentable
@@ -103,6 +102,8 @@ class Structure < ActiveRecord::Base
   has_one :community, dependent: :destroy
 
   has_one :duplicate_list, class_name: 'Structure::DuplicateList', dependent: :destroy
+
+  has_one :customer, class_name: 'Structure::Customer', dependent: :destroy
 
   attr_reader :delete_logo, :logo_filepicker_url
   attr_accessible :structure_type, :street, :zip_code, :city_id,
@@ -981,13 +982,6 @@ class Structure < ActiveRecord::Base
     articles
   end
 
-  # Whether the Structure is subscribed (with stripe) or not.
-  #
-  # @return a Boolean
-  def premium?
-    stripe_customer.present?
-  end
-
   # Retrieve the Stripe managed account.
   #
   # @return nil or a Stripe::Account
@@ -1087,7 +1081,7 @@ class Structure < ActiveRecord::Base
   end
 
   def premium?
-    (subscription and subscription.active?)
+    customer.present? and customer.active?
   end
 
   # Here in case we want to have a specific column to store the `subdomain_slug`

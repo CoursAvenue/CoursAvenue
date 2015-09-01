@@ -4,6 +4,9 @@ class Structure::Customer < ActiveRecord::Base
 
   belongs_to :structure
 
+  has_one :subscription
+  has_many :invoices, class_name: 'Subscription::Invoice'
+
   delegate :email, to: :structure, prefix: true
   delegate :name,  to: :structure, prefix: true
 
@@ -42,6 +45,14 @@ class Structure::Customer < ActiveRecord::Base
     self.save
 
     stripe_customer
+  end
+
+  # TODO: Find a better name for this.
+  # Wether the customer is on stripe and has an active subscription
+  #
+  # @return boolean
+  def active?
+    stripe_customer and subscription and subscription.active?
   end
 
   private

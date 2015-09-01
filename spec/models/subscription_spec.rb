@@ -31,6 +31,7 @@ RSpec.describe Subscription, type: :model, with_stripe: true do
     context "when there's a stripe_subscription_id" do
       let(:plan)      { FactoryGirl.create(:subscriptions_plan, :monthly) }
       let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
+      let(:customer)  { FactoryGirl.create(:structure_customer, structure: structure) }
       let(:token)     { stripe_helper.generate_card_token }
 
       subject { plan.create_subscription!(structure) }
@@ -50,6 +51,7 @@ RSpec.describe Subscription, type: :model, with_stripe: true do
   describe '#canceled?' do
     let(:plan)      { FactoryGirl.create(:subscriptions_plan, :monthly) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
+    let(:customer)  { FactoryGirl.create(:structure_customer, structure: structure) }
 
     context 'when not canceled' do
       let(:token) { stripe_helper.generate_card_token }
@@ -70,6 +72,7 @@ RSpec.describe Subscription, type: :model, with_stripe: true do
   describe '#active?' do
     let(:plan)      { FactoryGirl.create(:subscriptions_plan, :monthly) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
+    let(:customer)  { FactoryGirl.create(:structure_customer, structure: structure) }
 
     context 'when canceled' do
       subject { FactoryGirl.create(:subscription, :canceled) }
@@ -104,6 +107,7 @@ RSpec.describe Subscription, type: :model, with_stripe: true do
   describe '#charge!' do
     let!(:plan)      { FactoryGirl.create(:subscriptions_plan, :monthly) }
     let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
+    let(:customer)  { FactoryGirl.create(:structure_customer, structure: structure) }
     let(:token)     { stripe_helper.generate_card_token }
 
     subject         { plan.create_subscription!(structure) }
@@ -129,14 +133,16 @@ RSpec.describe Subscription, type: :model, with_stripe: true do
 
     context "when there is a Stripe customer" do
       before do
-        structure.create_stripe_customer(token)
+        structure.create_customer
+        customer.create_stripe_customer(token)
+
+        customer.reload
         structure.reload
       end
 
       it 'creates a stripe subscription' do
         subject.charge!
 
-        expect(subject.stripe_subscription).to_not be_nil
         expect(subject.stripe_subscription).to be_a(Stripe::Subscription)
       end
     end
