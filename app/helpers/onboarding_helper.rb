@@ -22,7 +22,7 @@ module OnboardingHelper
         "<i class='fa fa-square-o' data-square='true'></i>".html_safe +
           ' Ajoutez vos photos et vidéos'
       end
-    elsif structure.plannings.future.any?
+    elsif structure.plannings.future.empty?
       link_to pro_structure_courses_path(structure), data: { onboarding_step: true } do
         "<i class='fa fa-square-o' data-square='true'></i>".html_safe +
           ' Mettez à jour votre planning'
