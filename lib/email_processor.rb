@@ -60,6 +60,7 @@ class EmailProcessor
         pr.accept!(message, 'Structure')
       else
         pr.structure.main_contact.reply_to_conversation(pr.conversation, message)
+        pr.treat!('message')
       end
     elsif reply_token.sender_type == 'user'
       if pr.last_modified_by == 'Admin' and pr.pending? # case 02

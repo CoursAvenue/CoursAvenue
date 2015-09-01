@@ -156,26 +156,6 @@ CoursAvenue::Application.routes.draw do
       end
       resources :subscriptions_sponsorships, only: [:show], path: 'parrainage'
 
-      resources :subscription_plans, only: [:index, :update], path: 'abonnements' do
-        collection do
-          # get :premium_tracking, path: 'suivi-premium'
-          # get :unsubscribed_tracking, path: 'suivi-desabo'
-          # get :download
-        end
-        member do
-          get :stat_info
-        end
-      end
-      resources :payments, path: 'paiement', only: [] do
-        collection do
-          post :paypal_notification
-          get  :paypal_confirmation
-          get  :be2bill_confirmation
-          post :be2bill_notification
-          post :be2bill_placeholder
-        end
-      end
-
       get 'nouveau-dormant', to: 'structures#new_sleeping', as: :add_sleeping_structure
       resources :registrations, only: [:new, :create], path: 'inscriptions' do
         collection do
