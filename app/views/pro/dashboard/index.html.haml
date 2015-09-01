@@ -37,6 +37,7 @@
       %h6.flush dont #{number_with_delimiter User.where(User.arel_table[:created_at].gt(Date.today).and(User.arel_table[:delivery_email_status].eq(nil))).count} aujourd'hui
       %div et #{number_with_delimiter User.where(User.arel_table[:created_at].gt(7.days.ago).and(User.arel_table[:delivery_email_status].eq(nil))).count} les 7 derniers jours
 
+#admins-ratio
 #admins-cumul
 #comments-cumul
 
@@ -104,40 +105,21 @@
   = javascript_include_tag 'libs/highcharts/highcharts'
   = javascript_include_tag 'libs/highcharts/modules/exporting'
 
-- if params[:more].present?
+- if params[:ratio]
   = content_for :scripts do
     :javascript
       $(function() {
           new Highcharts.Chart({
-              chart: { renderTo: 'students', type: 'column' },
+              chart: { renderTo: 'admins-ratio', type: 'spline' },
               title: { text: null },
-              xAxis: { categories: #{@students.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-              yAxis: { title: { text: ''}},
-              series: [{ data: #{@students.map{|date, count| (count > 10000 ? 100 : count)}} }]
-          });
-          new Highcharts.Chart({
-              chart: { renderTo: 'medias', type: 'column' },
-              title: { text: null },
-              xAxis: { categories: #{@medias_dates.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+              xAxis: { categories: #{@teachers_per_weeks.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
               yAxis: { title: { text: ''}},
               series: [
-                { data: #{@videos.sort.map{|date, count| count}},
-                  name: 'Vidéos'
-                 },
-                { data: #{@images.sort.map{|date, count| (count > 1200 ? 10 : count)}},
-                  name: 'Photos'
-                }
+                { data: #{@teachers_per_weeks.map{|date, count| count}},
+                  name: 'NB profs contacté différent'
+                 }
               ]
           });
-          new Highcharts.Chart({
-              chart: { renderTo: 'messages', type: 'column' },
-              title: { text: null },
-              xAxis: { categories: #{@messages.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-              yAxis: { title: { text: ''}},
-              series: [{ data: #{@messages.map{|date, count| count}} }]
-          });
-      });
-
 = content_for :scripts do
   :javascript
     $(function() {
@@ -183,7 +165,7 @@
         new Highcharts.Chart({
             chart: { renderTo: 'messages-months', type: 'column' },
             title: { text: "Actions / mois" },
-            xAxis: { categories: #{@messages_per_months.map{|date, count| date}} },
+            xAxis: { categories: #{@messages_per_weeks.map{|date, count| date}} },
             yAxis: {
               title: { text: ''},
               stackLabels: {
@@ -218,9 +200,9 @@
                 shadow: false
             },
             series: [
-              { name: "Tel", data: #{@telephone_per_months.map{|date, count| count}} },
-              { name: "Site", data: #{@website_per_months.map{|date, count| count}} },
-              { name: "Messages", data: #{@messages_per_months.map{|date, count| count}} }
+              { name: "Tel", data: #{@telephone_per_weeks.map{|date, count| count}} },
+              { name: "Site", data: #{@website_per_weeks.map{|date, count| count}} },
+              { name: "Messages", data: #{@messages_per_weeks.map{|date, count| count}} }
             ]
         });
     });
