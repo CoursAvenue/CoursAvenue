@@ -6,7 +6,10 @@
 
   .soft-half.inline-block.one-half.v-middle>
     = simple_form_for [:pro, @structure, @course], url: add_image_pro_structure_course_path(@structure, @course), method: :patch, as: :course, html: { autocomplete: 'false', id: 'choose-image-course-form' } do |f|
-      = f.filepicker_field :media, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true, class: "filepicker-dragdrop text--center", drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft-double--ends text--center push--bottom", drag_text: "Glissez votre image ici ou cliquez pour ajouter une image", id: 'filepicker'
+      = f.filepicker_field :media, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true,
+        mimetypes: 'image/*', class: "filepicker-dragdrop text--center",
+        drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft-double--ends text--center push--bottom",
+        drag_text: "Glissez votre image ici ou cliquez pour ajouter une image", id: 'filepicker'
 
   - @structure.medias.each do |media|
     .soft-half.inline-block.one-half.v-middle>
