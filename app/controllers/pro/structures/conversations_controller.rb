@@ -76,6 +76,10 @@ class Pro::Structures::ConversationsController < ApplicationController
       @message_thread.reply!(@admin, params[:conversation][:message][:body])
     else
       @admin.reply_to_conversation(@conversation, params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
+      if @conversation.participation_request_id.present?
+          pr = ParticipationRequest.where(id: @conversation.participation_request_id).first
+          pr.treat!('message') if pr.present?
+      end
     end
     respond_to do |format|
       if params[:conversation][:message][:body].blank?
