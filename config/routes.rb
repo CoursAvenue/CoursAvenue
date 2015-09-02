@@ -538,7 +538,6 @@ CoursAvenue::Application.routes.draw do
       end
       collection do
         post :recommendation
-        get :search
       end
       resources :participation_requests, only: [:create, :edit]                             , controller: 'structures/participation_requests' do
         member do

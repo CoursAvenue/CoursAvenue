@@ -1,5 +1,10 @@
 class Community::MessageThreadsSerializer < ActiveModel::Serializer
 
+  cached
+  def cache_key
+    'Community::MessageThreadsSerializer/' + object.cache_key + '/' + object.conversation.cache_key
+  end
+
   attributes :id, :community_id, :question, :answers
 
   has_one :question, serializer: Community::MessageSerializer
