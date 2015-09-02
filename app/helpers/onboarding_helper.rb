@@ -2,10 +2,10 @@ module OnboardingHelper
   def admin_current_onboarding_step(structure)
     if !structure.main_contact.confirmed?
       link_to confirm_email_pro_structure_path(structure),
-             data: { onboarding_step: true, behavior: 'modal', padding: '0', width: 500 },
-             class: 'fancybox.ajax' do
-        "<i class='fa fa-square-o' data-square='true'></i>".html_safe +
-          ' Confirmez votre adresse e-mail'
+        data: { onboarding_step: true, behavior: 'modal', padding: '0', width: 500 },
+        class: 'fancybox.ajax' do
+          "<i class='fa fa-square-o' data-square='true'></i>".html_safe +
+            ' Confirmez votre adresse e-mail'
       end
     elsif !structure.profile_completed?
       link_to edit_pro_structure_path(structure), data: { onboarding_step: true } do
