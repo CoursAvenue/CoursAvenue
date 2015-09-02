@@ -265,6 +265,11 @@ class Structure < ActiveRecord::Base
     attribute :search_score do
       search_score.to_i
     end
+
+    add_attribute :dominant_root_subject_slug do
+      dominant_root_subject.try(:slug)
+    end
+
   end
 
   ######################################################################
