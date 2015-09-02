@@ -57,7 +57,7 @@ var CommentStore = Backbone.Collection.extend({
             this.loading     = false;
             this.reset(data.comments);
         }.bind(this), 'json');
-    }
+    }.debounce(150)
 });
 
 module.exports = new CommentStore();
