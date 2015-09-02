@@ -16,7 +16,7 @@ class Users::ParticipationRequestsController < ApplicationController
     @participation_request = @user.participation_requests.find(params[:id]).decorate
     @structure             = @participation_request.structure
     if @structure.deleted?
-      redirect_to user_participation_requests_path(current_user),
+      redirect_to user_participation_requests_path(@user),
         notice: 'Cet établissement a supprimé son compte CoursAvenue.',
         status: 301
       return
