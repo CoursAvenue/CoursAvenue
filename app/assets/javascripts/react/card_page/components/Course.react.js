@@ -24,10 +24,10 @@ var Course = React.createClass({
 
     // Bootstraping data
     bootsrapData: function bootsrapData() {
-        if (this.props.course_id) {
-            CourseActionCreators.populateCourse(this.props.structure_id, this.props.course_id);
-        } else if (this.props.indexable_card_id) {
+        if (this.props.indexable_card_id) {
             CourseActionCreators.populateIndexableCard(this.props.structure_id, this.props.indexable_card_id);
+        } else {
+            CourseActionCreators.populateCourses(this.props.structure_id);
         }
     },
 

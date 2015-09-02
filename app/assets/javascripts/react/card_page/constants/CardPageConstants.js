@@ -4,7 +4,7 @@ module.exports = {
 
     ActionTypes: keyMirror({
         BOOTSTRAP_COURSE:              null,
-        POPULATE_COURSE:               null,
+        POPULATE_COURSES:              null,
         POPULATE_INDEXABLE_CARD:       null,
         BOOTSTRAP_SIMILAR_PROFILES:    null,
 

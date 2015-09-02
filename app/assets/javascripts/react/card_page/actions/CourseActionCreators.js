@@ -10,9 +10,9 @@ module.exports = {
         });
     },
 
-    populateCourse: function populateCourse (structure_id, course_id) {
+    populateCourses: function populateCourses (structure_id, course_id) {
         CardPageDispatcher.dispatch({
-            actionType: ActionTypes.POPULATE_COURSE,
+            actionType: ActionTypes.POPULATE_COURSES,
             data: { structure_id: structure_id, course_id: course_id }
         });
     },

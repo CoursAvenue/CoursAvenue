@@ -11,28 +11,9 @@ class Structures::CoursesController < ApplicationController
 
   def index
     @structure = Structure.friendly.find params[:structure_id]
-    if params[:course_type].present?
-      @courses = @structure.courses.send(params[:course_type]).order('name ASC')
-    else
-      @courses = @structure.courses.order('name ASC')
-    end
-    # Reject courses that does not have upcoming plannings if it is a training
-    # if params[:course_type] == 'trainings'
-    @courses = @courses.reject{ |course| course.plannings.future.empty? }
-    # end
-
-    @json_courses = []
-    @courses.each do |course|
-      @json_courses << CourseSerializer.new(course, {
-        root: false,
-        structure: @structure
-      })
-    end
+    @courses   = @structure.courses
     respond_to do |format|
-      # We use courses root to be able to add meta.
-      # It's used in the structureProfile backbone app.
-      format.json { render json: { courses: @json_courses } }
-      format.html { redirect_to structure_path(@structure)}
+      format.json { render json: @courses, each_serializer: CourseSerializer }
     end
   end
 end
