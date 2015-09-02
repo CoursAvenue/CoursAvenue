@@ -20,7 +20,8 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :conversation, class_name: 'Mailboxer::Conversation', foreign_key: 'mailboxer_conversation_id', touch: true
+  belongs_to :conversation, class_name: 'Mailboxer::Conversation', foreign_key:
+    'mailboxer_conversation_id', touch: true, dependent: :destroy
   belongs_to :planning
   belongs_to :city
   belongs_to :course
@@ -57,7 +58,7 @@ class ParticipationRequest < ActiveRecord::Base
   before_save       :update_times
   after_save        :update_structure_response_rate
 
-  after_destroy     :destroy_conversation_attached, :touch_user
+  after_destroy     :touch_user
 
   ######################################################################
   # Validation                                                         #
