@@ -152,15 +152,12 @@ context "scheduler:participation_requests", with_mail: true do
       end
 
       context 'not created the previous day' do
-        let(:pending_pr)   { FactoryGirl.create(:participation_request, :last_modified_by_structure) }
-        let(:pending_pr_2) { FactoryGirl.create(:participation_request, :last_modified_by_structure) }
-
-        before do
-          pending_pr.update_column   :updated_at, Date.today
-          pending_pr_2.update_column :updated_at, 2.days.ago
-        end
+        let(:pending_pr)   { FactoryGirl.build_stubbed(:participation_request, :last_modified_by_structure) }
+        let(:pending_pr_2) { FactoryGirl.build_stubbed(:participation_request, :last_modified_by_structure) }
 
         it "does not send an email for pending request" do
+          pending_pr.updated_at = Date.today
+          pending_pr_2.updated_at = 2.days.ago
           task_name = 'scheduler:participation_requests:remind_user_for_participation_requests_1'
           expect do
             Rake::Task[task_name].invoke
