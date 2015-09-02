@@ -12,15 +12,15 @@ module OnboardingHelper
         "<i class='fa fa-square-o' data-square='true'></i>".html_safe +
           ' Ajoutez votre description et votre logo'
       end
+    elsif structure.medias.select(&:persisted?).empty?
+      link_to pro_structure_medias_path(structure), data: { onboarding_step: true } do
+        "<i class='fa fa-square-o' data-square='true'></i>".html_safe +
+          ' Ajoutez vos photos et vidéos'
+      end
     elsif structure.comments.empty? and structure.comment_notifications.empty?
       link_to recommendations_pro_structure_path(structure), data: { onboarding_step: true } do
         "<i class='fa fa-square-o' data-square='true'></i>".html_safe +
           ' Boostez votre bouche-à-oreille'
-      end
-    elsif structure.medias.empty?
-      link_to pro_structure_medias_path(structure), data: { onboarding_step: true } do
-        "<i class='fa fa-square-o' data-square='true'></i>".html_safe +
-          ' Ajoutez vos photos et vidéos'
       end
     elsif structure.plannings.future.empty?
       link_to pro_structure_courses_path(structure), data: { onboarding_step: true } do
