@@ -68,7 +68,7 @@ ResultList = React.createClass({
                 no_results = (<Suggestions />);
             }
 
-            if (CardStore.current_page == 1 && this.helper_card) {
+            if (CardStore.current_page == 1 && this.helper_card && CardStore.length > 0) {
                 var card = (
                     <HelpCard
                         helper={ this.helper_card }

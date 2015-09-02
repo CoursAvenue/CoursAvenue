@@ -13,7 +13,7 @@ class StructureWebsiteParticipationRequestMailer < ActionMailer::Base
     @message = participation_request.conversation.messages.first
     retrieve_participation_request_variables(participation_request)
     mail to: @user.email,
-         from: "#{@structure.name} <hello@coursavenue.com>",
+         from: "#{strip_name(@structure.name)} <hello@coursavenue.com>",
          subject: "Demande d'inscription envoyée - #{@structure.name}",
          reply_to: generate_reply_to('admin')
   end
@@ -41,7 +41,7 @@ class StructureWebsiteParticipationRequestMailer < ActionMailer::Base
     retrieve_participation_request_variables(participation_request)
     @message = message if message
     mail to: @user.email, subject: "Inscription acceptée - #{@structure.name}",
-         from: "#{@structure.name} <hello@coursavenue.com>",
+         from: "#{strip_name(@structure.name)} <hello@coursavenue.com>",
          reply_to: generate_reply_to('user')
   end
 
@@ -77,7 +77,7 @@ class StructureWebsiteParticipationRequestMailer < ActionMailer::Base
     retrieve_participation_request_variables(participation_request)
     @message = message if message
     mail to: @user.email, subject: "Inscription acceptée - #{@structure.name}",
-         from: "#{@structure.name} <hello@coursavenue.com>",
+         from: "#{strip_name(@structure.name)} <hello@coursavenue.com>",
          reply_to: generate_reply_to('user')
   end
 
@@ -88,7 +88,7 @@ class StructureWebsiteParticipationRequestMailer < ActionMailer::Base
     retrieve_participation_request_variables(participation_request)
     @message = message
     mail to: @user.email, subject: "Inscription annulée - #{@structure.name}",
-         from: "#{@structure.name} <hello@coursavenue.com>",
+         from: "#{strip_name(@structure.name)} <hello@coursavenue.com>",
          reply_to: generate_reply_to('user')
   end
 
@@ -127,6 +127,18 @@ class StructureWebsiteParticipationRequestMailer < ActionMailer::Base
     @reply_token.save
 
     return "#{@participation_request.user.name} <#{@reply_token.token}@#{CoursAvenue::Application::MANDRILL_REPLY_TO_DOMAIN}>"
+  end
+
+  # https://gist.github.com/aliou/4e84aaf8b22706915767
+  # Mandrill doesn't like some characters in the `from` attribute. In this mailer, we are using the
+  # structure's name in this mailer, so we also need to format it.
+  def strip_name(structure_name = "")
+    name = structure_name.dup
+    ["\"", "(", ",", ":", ";", "<", ">", "["].each do |char|
+      name.tr!(char, '')
+    end
+
+    name
   end
 
 end

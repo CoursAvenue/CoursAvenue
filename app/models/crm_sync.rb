@@ -25,7 +25,7 @@ class CrmSync
     end
     # results can be nil...
     if results and ((results['errors'] and results['errors'].any?) or (results['field-errors'] and results['field-errors'].any?))
-      structure_hash_info = { structure_slug: structure.slug, structure_name: structure.name }
+      structure_hash_info = { structure_slug: structure.slug, structure_name: structure.name, website: structure.website }
       Bugsnag.notify(RuntimeError.new("CrmSync error"), results.merge(structure_hash_info))
     end
     structure.unlock_crm!
