@@ -115,7 +115,7 @@
                                             metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
                                            { prerender: false })
 
-          .soft--ends.bordered--sides.bordered--bottom
+          .soft--ends.bordered--sides.bordered--bottom.bg-white
             %div.soft--sides.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
               %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos, placement: 'left' } }
                 %h4.flush= @place.name.slice(0,1).capitalize + @place.name.slice(1..-1)
@@ -141,7 +141,7 @@
                       = MetroLineDecorator.new(line).chip
                     %span.v-middle= stop.name
       - unless @structure.is_sleeping?
-        .bg-white.bordered.push--bottom.soft= render 'structures/response_stats'
+        .bg-white.bordered--bottom.bordered--sides.push--bottom.soft= render 'structures/response_stats'
 
 .soft-double.soft--bottom.palm-hard#card-suggestions
   .grid--full.push--bottom
