@@ -146,6 +146,7 @@
                 - if @place.neighboroods.any?
                   - @course.subjects.each do |subject|
                     - vertical_page = subject.vertical_pages.first
+                    - next if vertical_page.nil?
                     - @place.neighboroods.each do |neighborood|
                       %div= link_to "Cours de #{vertical_page.subject_name.downcase} à #{neighborood.name} (#{@city.name} - #{@city.zip_code})", vertical_page_with_neighborhood_path(subject.root, vertical_page, (@city || 'paris'), neighborood)
                 - elsif @city
