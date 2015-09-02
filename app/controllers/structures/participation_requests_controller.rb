@@ -10,7 +10,10 @@ class Structures::ParticipationRequestsController < ApplicationController
   # https://github.com/ging/social_stream/blob/master/base/app/controllers/messages_controller.rb
   def create
     @structure = Structure.friendly.find params[:structure_id]
-    if params[:participation_request][:user] and params[:participation_request][:user][:phone_number].present? and params[:participation_request][:user][:phone_number].length < 30
+    if params[:participation_request][:user] and
+        params[:participation_request][:user][:phone_number].present? and
+        params[:participation_request][:user][:phone_number].length < 30 and
+        current_user.present?
       current_user.phone_number = params[:participation_request][:user][:phone_number]
       current_user.save
     end
@@ -87,6 +90,13 @@ class Structures::ParticipationRequestsController < ApplicationController
   end
 
   def book_and_send_message
+    # We use the same routes from structures/participation_request#show and structures#show, so we
+    # differentiate using the course_type and manyally set the course_id if necessary.
+    if params[:participation_request][:course_type] == 'indexable_card'
+      card = IndexableCard.find(params[:participation_request][:course_id])
+      params[:participation_request][:course_id] = card.course.id
+    end
+
     @participation_request = ParticipationRequest.create_and_send_message params[:participation_request], current_user
     respond_to do |format|
       if @participation_request.persisted?

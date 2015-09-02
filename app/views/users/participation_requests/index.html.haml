@@ -17,7 +17,7 @@
               %br
               calendrier
         %tbody
-          - @user.participation_requests.upcoming.order('date ASC').each do |participation_request|
+          - @user.participation_requests.upcoming.order('date ASC').reject { |pr| pr.structure.deleted? }.each do |participation_request|
             = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request}
     - else
       %p Vous n'avez pas d'inscription en cours.
@@ -36,5 +36,5 @@
               %th Adresse
               %th Professeur
           %tbody
-            - @user.participation_requests.past.each do |participation_request|
+            - @user.participation_requests.past.reject { |pr| pr.structure.deleted? }.each do |participation_request|
               = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request, calendar: false }

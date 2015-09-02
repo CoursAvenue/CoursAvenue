@@ -14,14 +14,14 @@ class IndexableCard::Creator
 
     # We loop on each course and create a card from there.
     courses.each do |course|
-      @structure.indexable_cards.create_from_course(course)
+      @structure.indexable_cards.delay.create_from_course(course)
     end
 
     # If the Structure doesn't have any courses ( / is not active), we create "placeholder" cards
     # combining places and subjects.
     if courses.empty?
       places.each do |place|
-        @structure.indexable_cards.create_from_place(place)
+        @structure.indexable_cards.delay.create_from_place(place)
       end
     end
   end
@@ -44,28 +44,25 @@ class IndexableCard::Creator
     # If structure did not have courses we delete all cards only associate to subjects
     # If a structure has courses, we want to have cards only for his courses
     if @structure.indexable_cards.with_course.empty? and new_courses.any?
-      @structure.indexable_cards.map(&:destroy)
+      @structure.indexable_cards.each(&:destroy)
     end
 
     # We start by updating the existing cards.
-    new_cards += @structure.indexable_cards.includes(:course).with_course.map do |card|
-      IndexableCard.update_from_course(card.course)
+    @structure.indexable_cards.includes(:course).with_course.each do |card|
+      IndexableCard.delay.update_from_course(card.course)
     end
 
-    # We start by creating the cards from courses since the associated places will
-    # also be in the `new_places`.
-    new_cards += new_courses.map do |course|
-      @structure.indexable_cards.create_from_course(course)
+    # We then create the cards from the new courses.
+    new_courses.each do |course|
+      @structure.indexable_cards.delay.create_from_course(course)
     end
 
+    # Finally, if we don't have any courses, we create cards from places.
     if @structure.courses.empty?
-      # We then create the new cards for the places and subjects not associated with a course.
-      new_cards += new_places.flat_map do |place|
-        @structure.indexable_cards.create_from_place(place)
+      new_places.flat_map do |place|
+        @structure.indexable_cards.delay.create_from_place(place)
       end
     end
-
-    new_cards
   end
 
   private

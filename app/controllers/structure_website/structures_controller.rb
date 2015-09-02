@@ -6,6 +6,7 @@ class StructureWebsite::StructuresController < StructureWebsiteController
     @structure           = Structure.friendly.find(params[:id])
     @structure_decorator = @structure.decorate
     @city                = @structure.city
+    @return_to_url       = request.referer.present? ? request.referer : @structure.website
   end
 
   def reviews

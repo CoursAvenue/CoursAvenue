@@ -216,7 +216,7 @@ CourseCard = React.createClass({
 
         return (
             <Card {...this.options}>
-                <div className="bg-white search-page-card__content">
+                <div className="cursor-pointer bg-white search-page-card__content">
                   {this.headerCard()}
                     <div className="soft-half--sides soft-half--bottom">
                         {this.subjectList()}

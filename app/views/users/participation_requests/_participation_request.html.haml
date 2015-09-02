@@ -36,7 +36,7 @@
           = link_to 'Voir sur la carte', URI.encode("http://maps.google.com/?q=#{place.address}"), target: :_blank
         - if place.info.present? or place.private_info.present?
           %div
-            %span.has-tooltip{ data: { toggle: 'popover', content: place_decorator.popover_place_infos, html: 'true', placement: 'top', trigger: 'hover' } }
+            %span.has-tooltip{ data: { toggle: 'popover', content: place_decorator.popover_place_infos(true), html: 'true', placement: 'top', trigger: 'hover' } }
               Comment y accéder
     %br
   - if !hide_teacher_column

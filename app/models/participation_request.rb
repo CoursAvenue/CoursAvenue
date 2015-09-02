@@ -20,7 +20,8 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :conversation, class_name: 'Mailboxer::Conversation', foreign_key: 'mailboxer_conversation_id', touch: true
+  belongs_to :conversation, class_name: 'Mailboxer::Conversation', foreign_key:
+    'mailboxer_conversation_id', touch: true, dependent: :destroy
   belongs_to :planning
   belongs_to :city
   belongs_to :course
@@ -57,7 +58,7 @@ class ParticipationRequest < ActiveRecord::Base
   before_save       :update_times
   after_save        :update_structure_response_rate
 
-  after_destroy     :destroy_conversation_attached, :touch_user
+  after_destroy     :touch_user
 
   ######################################################################
   # Validation                                                         #
@@ -84,7 +85,7 @@ class ParticipationRequest < ActiveRecord::Base
   # @return ParticipationRequest
   def self.create_and_send_message(request_attributes, user)
     structure = Structure.friendly.find request_attributes[:structure_id]
-    request_attributes[:message][:body] = StringHelper.replace_contact_infos(request_attributes[:message][:body])
+    # request_attributes[:message][:body] = StringHelper.replace_contact_infos(request_attributes[:message][:body])
     request_attributes      = self.set_start_time(request_attributes)
     participants_attributes = { participants_attributes: (request_attributes['participants_attributes'] || [{ number: 1}]) }
     new_request_attributes  = request_attributes.slice(*ParticipationRequest.attribute_names.map(&:to_sym))
@@ -134,7 +135,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def accept!(message_body, last_modified_by='Structure')
-    message_body = StringHelper.replace_contact_infos(message_body)
+    # message_body = StringHelper.replace_contact_infos(message_body)
     self.last_modified_by    = last_modified_by
     self.state               = 'accepted'
     message                  = reply_to_conversation(message_body, last_modified_by)
@@ -373,7 +374,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return the new participation request.
   def rebook!(options)
-    options[:message][:body] = StringHelper.replace_contact_infos(options[:message][:body])
+    # options[:message][:body] = StringHelper.replace_contact_infos(options[:message][:body])
     new_attributes = ParticipationRequest.set_start_time(options)
 
     new_attributes.merge!({

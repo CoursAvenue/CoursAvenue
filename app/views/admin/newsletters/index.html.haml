@@ -1,0 +1,28 @@
+= side_menu_currently_at 'activity'
+
+= render partial: 'pro/shared/activity_tabs', locals: { current: 'newsletters' }
+
+%h1.text--center= "#{Newsletter.sent.map{|n| n.recipients.count}.reduce(&:+)} emails ont été envoyés"
+.text--center.push-half--ends= paginate @newsletters, window: 1, outer_window: 3
+%table.table--striped
+  %thead
+    %tr
+      %th.four-twelfths Structure
+      %th.four-twelfths Objet de l'email
+      %th.one-twelfth Recipients
+      %th.one-twelfth Date
+      %th.one-twelfth Status
+  %tbody
+    - @newsletters.each do |newsletter|
+      - structure = newsletter.structure
+      %tr
+        %td= link_to structure.name, pro_structure_newsletters_path(structure), target: :_blank
+        %td= newsletter.email_object
+        %td= newsletter.recipients.count
+        %td.nowrap
+          = l(newsletter.created_at.to_date, format: :short)
+          = l(newsletter.created_at, format: :short)
+        %td= newsletter.state
+
+%hr.push--ends
+.text--center.push--ends= paginate @newsletters, window: 1, outer_window: 3

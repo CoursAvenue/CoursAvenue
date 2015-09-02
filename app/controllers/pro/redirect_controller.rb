@@ -8,8 +8,9 @@ class Pro::RedirectController < ApplicationController
       redirect_to new_pro_admin_session_url(subdomain: 'pro')
     end
   end
+
   def structures_jpo_index
-    redirect_to pro_structure_course_opens_url(params[:structure_id], subdomain: 'pro'), status: 301
+    redirect_to pro.structure_courses_path(params[:structure_id], subdomain: 'pro'), status: 301
   end
 
   def structure_dashboard

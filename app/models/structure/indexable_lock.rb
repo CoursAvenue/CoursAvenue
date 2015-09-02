@@ -5,6 +5,9 @@ class Structure::IndexableLock < ActiveRecord::Base
   validate :locked, presence: true
   validate :structure, presence: true
 
+  scope :locked,   -> { where(locked: true) }
+  scope :unlocked, -> { where(locked: false) }
+
   def lock!
     return if locked?
 

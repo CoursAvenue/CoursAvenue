@@ -49,7 +49,7 @@ var SubjectAutocompleteFilter = React.createClass({
     },
 
     selectSubject: function selectSubject (subject) {
-        var subject = this.state.autocomplete_store.get('subjects').at(this.state.autocomplete_store.get('selected_index') - 1);
+        var subject = this.state.autocomplete_store.get('subjects').at(this.state.autocomplete_store.get('selected_index'));
         if (this.props.navigate) {
             if (event.metaKey || event.ctrlKey) {
               window.open(Routes.search_page_path(subject.get('root'), subject.get('slug'), 'paris'));

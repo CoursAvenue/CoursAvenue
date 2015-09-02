@@ -22,9 +22,10 @@ class Pro::DashboardController < Pro::ProController
     @admins_hash    = hash_of_days.merge(@admins_hash)   # .reject{|key, value| value == 0}
     @users          = User.order("DATE_TRUNC('week', sign_up_at) ASC").group("DATE_TRUNC('week', sign_up_at)").count
 
-    @messages_per_months = {}
-    @telephone_per_months = {}
-    @website_per_months = {}
+    @messages_per_weeks = {}
+    @telephone_per_weeks = {}
+    @website_per_weeks = {}
+    @teachers_per_weeks = {}
     weeks = []
     16.times do |i|
       weeks << Date.today - (i * 7).days
@@ -35,68 +36,35 @@ class Pro::DashboardController < Pro::ProController
       raw_data = @client.total_hits(beginning_of_week.beginning_of_week, beginning_of_week.end_of_week)
 
       if (beginning_of_week - Date.today).to_i == 0
-        conv_count     = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week)).and(
-                                      Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])) ).count
-        tel_count = Rails.cache.fetch("pro/dashboard/tel_count#{Date.today.to_s}") { raw_data.inject(0) { |sum, data| sum + data.metric3.to_i } }
+        convs    = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week)).and(
+                                      Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])) )
+        conv_count = convs.count
+        tel_count     = Rails.cache.fetch("pro/dashboard/tel_count#{Date.today.to_s}") { raw_data.inject(0) { |sum, data| sum + data.metric3.to_i } }
         website_count = Rails.cache.fetch("pro/dashboard/website_count#{Date.today.to_s}") { raw_data.inject(0) { |sum, data| sum + data.metric4.to_i } }
+        if params[:ratio]
+          structure_ids = raw_data.map(&:dimension1).uniq.reject{|structure_id| begin Structure.with_deleted.find(structure_id).main_contact.nil? rescue nil end}
+          teachers_count = (structure_ids && convs.map{ |conv| conv.recipients.select{|r| r.is_a? Admin}.map(&:structure_id) }).length
+        end
       else
         tel_count      = Rails.cache.fetch("pro/dashboard/tel_count#{((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week).to_s}")     { raw_data.inject(0) { |sum, data| sum + data.metric3.to_i } }
         website_count  = Rails.cache.fetch("pro/dashboard/website_count#{((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week).to_s}") { raw_data.inject(0) { |sum, data| sum + data.metric4.to_i } }
-        conv_count = Rails.cache.fetch "pro/dashboard/conv_count/#{((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week).to_s}" do
+        convs = Rails.cache.fetch "pro/dashboard/conv_count/#{((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week).to_s}/v2" do
           Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week)).and(
-                                        Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])) ).count
+                                        Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])) )
+        end
+        conv_count = convs.count
+        if params[:ratio]
+          teachers_count = Rails.cache.fetch "pro/dashboard/teachers_count/#{((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week).to_s}/v2" do
+            structure_ids = raw_data.map(&:dimension1).uniq.reject{|structure_id| begin Structure.with_deleted.find(structure_id).main_contact.nil? rescue nil end}
+            (structure_ids && convs.map{ |conv| conv.recipients.select{|r| r.is_a? Admin}.map(&:structure_id) }).length
+          end
         end
       end
 
-      @messages_per_months[I18n.l(beginning_of_week)]  = conv_count
-      @telephone_per_months[I18n.l(beginning_of_week)] = tel_count
-      @website_per_months[I18n.l(beginning_of_week)]   = website_count
-    end
-
-    if params[:more].present?
-      @students   = User.where( User.arel_table[:sign_up_at].gt(Date.today - 2.month) ).order('DATE(sign_up_at) ASC').group('DATE(sign_up_at)').count
-      @videos     = Media::Video.where( Media::Video.arel_table[:created_at].gt(Date.today - 1.month) ).order('DATE(created_at) ASC').group('DATE(created_at)').count
-      @images     = Media::Image.where( Media::Image.arel_table[:created_at].gt(Date.today - 1.month) ).order('DATE(created_at) ASC').group('DATE(created_at)').count
-      @medias_dates = (@videos.map(&:first) + @images.map(&:first)).uniq.sort
-      @medias_dates.each do |date|
-        @videos[date] ||= 0
-        @images[date] ||= 0
-      end
-    end
-    @messages = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today - 2.months).and(
-                                              Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])) )
-                                       .order('DATE(created_at) ASC').group('DATE(created_at)').count
-  end
-
-  def metrics
-    @messages_per_months = {}
-    @telephone_per_months = {}
-    @website_per_months = {}
-    weeks = []
-    20.times do |i|
-      weeks << Date.today - (i * 7).days
-    end
-    @client = ::Analytic::Client.new
-    weeks.reverse.each do |beginning_of_week|
-      raw_data = @client.total_hits(beginning_of_week.beginning_of_week, beginning_of_week.end_of_week)
-
-      if (beginning_of_week - Date.today).to_i == 0
-        conv_count = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week)).and(
-                                      Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])) ).count
-        tel_count  = raw_data.inject(0) { |sum, data| sum + data.metric3.to_i }
-        website_count  = raw_data.inject(0) { |sum, data| sum + data.metric4.to_i }
-      else
-        tel_count      = Rails.cache.fetch("pro/dashboard/tel_count#{((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week).to_s}")     { raw_data.inject(0) { |sum, data| sum + data.metric3.to_i } }
-        website_count  = Rails.cache.fetch("pro/dashboard/website_count#{((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week).to_s}") { raw_data.inject(0) { |sum, data| sum + data.metric4.to_i } }
-        conv_count = Rails.cache.fetch "pro/dashboard/conv_count/#{((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week).to_s}" do
-          Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:created_at].in(((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week)).and(
-                                        Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])) ).count
-        end
-      end
-
-      @messages_per_months[I18n.l(beginning_of_week)]  = conv_count
-      @telephone_per_months[I18n.l(beginning_of_week)] = tel_count
-      @website_per_months[I18n.l(beginning_of_week)]   = website_count
+      @messages_per_weeks[I18n.l(beginning_of_week)]  = conv_count
+      @telephone_per_weeks[I18n.l(beginning_of_week)] = tel_count
+      @website_per_weeks[I18n.l(beginning_of_week)]   = website_count
+      @teachers_per_weeks[I18n.l(beginning_of_week)]  = teachers_count
     end
   end
 end

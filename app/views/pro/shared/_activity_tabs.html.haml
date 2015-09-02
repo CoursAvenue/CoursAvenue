@@ -10,3 +10,5 @@
       = link_to "Derniers avis", pro_comments_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
     %li{ class: current == 'sms' ? 'active' : '' }
       = link_to "SMS", pro_sms_loggers_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
+    %li{ class: current == 'newsletters' ? 'active' : '' }
+      = link_to "Newsletters", admin_newsletters_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'

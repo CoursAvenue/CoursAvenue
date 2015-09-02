@@ -11,14 +11,20 @@
 - dominant_root_subject_slug = @course.dominant_root_subject.try(:slug)
 
 = content_for :title do
-  = truncate_html("#{@course.name} avec #{@structure.name} à #{@place.name} | CoursAvenue.com", length: 75)
+  - if @place.present?
+    = truncate_html("#{@course.name} avec #{@structure.name} à #{@place.name} | CoursAvenue.com", length: 75)
+  - else
+    = truncate_html("#{@course.name} avec #{@structure.name} | CoursAvenue.com", length: 75)
 
 = content_for :meta_description do
-  = "#{@course.name} avec #{@structure.name} à #{@place.name} : Cours d'essai gratuits, avis des élèves, reservation en ligne."
+  - if @place.present?
+    = "#{@course.name} avec #{@structure.name} à #{@place.name} : Cours d'essai gratuits, avis des élèves, reservation en ligne."
+  - else
+    = "#{@course.name} avec #{@structure.name} : Cours d'essai gratuits, avis des élèves, reservation en ligne."
 - home_place = (@course.is_private? ? @course.home_place : nil)
 = render 'course_header'
-.soft--sides.soft-half--top.soft--bottom.palm-hard#presentation
-  .grid--full.soft--top.push--bottom
+.soft--sides.soft-half--top.palm-hard#presentation
+  .grid--full.soft--top
     .grid__item.eight-twelfths.palm-one-whole.soft-half--right.palm-hard>
       .bg-white.bordered.push--bottom
         .soft
@@ -89,64 +95,71 @@
 
     .grid__item.four-twelfths.palm-one-whole.palm-hard>
       .push--bottom
-        .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#coursavenue-footer', update_on_scroll: 'true' } }
+        .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#card-suggestions', update_on_scroll: 'true' } }
           = render partial: 'structures/registration'
 
       -# = react_component('Favorite', { logged_in: current_user.present?, type: 'indexable_card', favorited: @favorited })
 
-      .bg-white.push--bottom
-        .bg-yellow.soft--sides.soft-half--ends.bordered--top.bordered--sides.white
-          %h2.flush
-            %i.fa.fa-map-marker.v-middle
-            %span.v-middle Lieu
+      - if (@course.teaches_at_home? and home_place) or @place.present?
+        .bg-white.push--bottom
+          .bg-yellow.soft--sides.soft-half--ends.bordered--top.bordered--sides.white
+            %h2.flush
+              %i.fa.fa-map-marker.v-middle
+              %span.v-middle Lieu
         - home_place_map_attributes = {}
         - if @course.teaches_at_home? and home_place
           - home_place_map_attributes = { home: { latitude: home_place.latitude, longitude: home_place.longitude, radius: home_place.radius } }
-        = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
-                                          root_subject: dominant_root_subject_slug,
-                                          metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
-                                         { prerender: false })
+        - if @place.present?
+          = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
+                                            root_subject: dominant_root_subject_slug,
+                                            metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
+                                           { prerender: false })
 
-        .soft--ends.bordered--sides.bordered--bottom
-          %div.soft--sides.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
-            %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos, placement: 'left' } }
-              %h4.flush= @place.name.slice(0,1).capitalize + @place.name.slice(1..-1)
-              %span.f-weight-500= @place.address
-            - if @course.teaches_at_home? and home_place
-              %h4.flush--bottom.push--top
-                Se déplace à domicile
-              %span.f-weight-500 À #{home_place.city.name} dans un rayon de #{home_place.radius}km
+          .soft--ends.bordered--sides.bordered--bottom
+            %div.soft--sides.push-half--bottom{ style: "min-width: 80px;", itemprop: "location", itemscope: true, itemtype: "http://data-vocabulary.org/Organization" }
+              %div{ itemprop: 'name', data: { toggle: "popover", html: "true", trigger: "hover", content: @place.popover_place_infos, placement: 'left' } }
+                %h4.flush= @place.name.slice(0,1).capitalize + @place.name.slice(1..-1)
+                %span.f-weight-500= @place.address
+              - if @course.teaches_at_home? and home_place
+                %h4.flush--bottom.push--top
+                  Se déplace à domicile
+                %span.f-weight-500 À #{home_place.city.name} dans un rayon de #{home_place.radius}km
 
-            %span{ itemprop: 'address', itemscope: true, itemtype: 'http://data-vocabulary.org/Address'}
-              %meta{ itemprop: 'street-address', content: @place.address }
-              %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }
-                %meta{ itemprop: 'latitude', content: @place.latitude }
-                %meta{ itemprop: 'longitude', content: @place.longitude }
+              %span{ itemprop: 'address', itemscope: true, itemtype: 'http://data-vocabulary.org/Address'}
+                %meta{ itemprop: 'street-address', content: @place.address }
+                %span{ itemprop: 'geo', itemscope: true, itemtype: 'http://data-vocabulary.org/Geo' }
+                  %meta{ itemprop: 'latitude', content: @place.latitude }
+                  %meta{ itemprop: 'longitude', content: @place.longitude }
 
-          - if @place.nearby_metro_stops.any?
-            %hr.push--ends
-            .soft--sides
-              %h4.push-half--bottom Transports
-              - @place.nearby_metro_stops.includes(:lines).each do |stop|
-                %div.push-half--bottom
-                  - stop.lines.each do |line|
-                    = MetroLineDecorator.new(line).chip
-                  %strong= link_to stop.name, root_search_page_path(dominant_root_subject_slug, (@city || 'paris'), metro_stop: stop.slug), class: 'v-middle semi-muted-link'
-          - cache [@indexable_card, 'structures/indexable_cards/show/vertical_pages'] do
-            .soft--sides.visuallyhiddenn
-              %h4.push-half--bottom Quartiers
-              - if @place.neighboroods.any?
-                - @course.subjects.each do |subject|
-                  - vertical_page = subject.vertical_pages.first
-                  - @place.neighboroods.each do |neighborood|
-                    %div= link_to "Cours de #{vertical_page.subject_name.downcase} à #{neighborood.name} (#{@city.name} - #{@city.zip_code})", vertical_page_with_neighborhood_path(subject.root, vertical_page, (@city || 'paris'), neighborood)
-              - elsif @city
-                - @course.subjects.each do |subject|
-                  - vertical_page = subject.vertical_pages.first
-                  %div= link_to "Cours de #{vertical_page.subject_name.downcase} à #{@city.name} - #{@city.zip_code}", vertical_page_with_city_path(subject.root, vertical_page, @city)
+            - if @place.nearby_metro_stops.any?
+              %hr.push--ends
+              .soft--sides
+                %h4.push-half--bottom Transports
+                - @place.nearby_metro_stops.includes(:lines).each do |stop|
+                  %div.push-half--bottom
+                    - stop.lines.each do |line|
+                      = MetroLineDecorator.new(line).chip
+                    %strong= link_to stop.name, root_search_page_path(dominant_root_subject_slug, (@city || 'paris'), metro_stop: stop.slug), class: 'v-middle semi-muted-link'
+            - cache [@indexable_card, 'structures/indexable_cards/show/vertical_pages'] do
+              .soft--sides.visuallyhiddenn
+                %h4.push-half--bottom Quartiers
+                - if @place.neighboroods.any?
+                  - @course.subjects.each do |subject|
+                    - vertical_page = subject.vertical_pages.first
+                    - @place.neighboroods.each do |neighborood|
+                      %div= link_to "Cours de #{vertical_page.subject_name.downcase} à #{neighborood.name} (#{@city.name} - #{@city.zip_code})", vertical_page_with_neighborhood_path(subject.root, vertical_page, (@city || 'paris'), neighborood)
+                - elsif @city
+                  - @course.subjects.each do |subject|
+                    - vertical_page = subject.vertical_pages.first
+                    %div= link_to "Cours de #{vertical_page.subject_name.downcase} à #{@city.name} - #{@city.zip_code}", vertical_page_with_city_path(subject.root, vertical_page, @city)
 
       - unless @structure.is_sleeping?
-        .bg-white.bordered.push--bottom.soft= render 'structures/response_stats'
+        .bg-white.bordered--bottom.bordered--sides.push--bottom.soft= render 'structures/response_stats'
+
+.soft-double.soft--bottom.palm-hard#card-suggestions
+  .grid--full.push--bottom
+    %h2.text--center D'autres cours qui peuvent vous plaire
+    = react_component('SimilarCardList', { card:  @card_redux })
 
 = content_for :scripts do
   -# This is used when a user make a reservation.
