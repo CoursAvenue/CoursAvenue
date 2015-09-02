@@ -5,7 +5,7 @@ ResultList                = require('./search_page_app/components/ResultList.rea
 SearchPageApp             = require('./search_page_app/components/SearchPageApp.react');
 SearchPageAppMap          = require('./search_page_app/components/Map.react');
 SubjectSearchInput        = require('./search_page_app/components/SubjectSearchInput.react');
-SubjectAutocompleteFilter = require('./search_page_app/components/SubjectAutocompleteFilter.react');
+AutocompleteFilter        = require('./search_page_app/components/AutocompleteFilter.react');
 SubjectList               = require('./search_page_app/components/cards/SubjectList.react');
 
 CardPageMap               = require('./card_page/components/Map.react');
