@@ -534,32 +534,39 @@ class Structure < ActiveRecord::Base
     medias.images.cover.first || medias.images.first
   end
 
-  # Simulating relations
-  def audiences
-    return [] unless audience_ids.present?
-    audience_ids.map{ |audience_id| Audience.find(audience_id) }
-  end
-
-  def audience_ids
-    return [] unless meta_data and meta_data['audience_ids']
-    meta_data['audience_ids'].split(',').map(&:to_i)
-  end
-
-  def levels
-    return [] unless level_ids.present?
-    level_ids.map{ |level_id| Level.find(level_id) }
-  end
-
-  def level_ids
-    return [] unless meta_data and meta_data['level_ids']
-    meta_data['level_ids'].split(',').map(&:to_i)
-  end
-
   ######################################################################
   # Meta data caching                                                  #
   ######################################################################
 
-  # TODO: Drop the structure cache_key?
+  # Simulating relations
+  def audiences
+    audience_key = [plannings.with_deleted.maximum(:updated_at) +
+		    courses.with_deleted.privates.maximum(:updated_at)].max.to_i
+    audience_ids = Rails.cache.fetch("#{ cache_key }/audience_ids/#{ audience_key }") do
+      (plannings.map(&:audience_ids) + courses.privates.map(&:audience_ids)).flatten.uniq
+    end
+
+    return [] if audience_ids.empty?
+    Audience.find(audience_ids)
+
+    return [] unless audience_ids.present?
+    audience_ids.map{ |audience_id| Audience.find(audience_id) }
+  end
+
+  def levels
+    level_key = [plannings.with_deleted.maximum(:updated_at) +
+		    courses.with_deleted.privates.maximum(:updated_at)].max.to_i
+    level_ids = Rails.cache.fetch("#{ cache_key }/level_ids/#{ level_key }") do
+      (plannings.map(&:level_ids) + courses.privates.map(&:level_ids)).flatten.uniq
+    end
+
+    return [] if level_ids.empty?
+    Level.find(level_ids)
+
+    return [] unless level_ids.present?
+    level_ids.map{ |level_id| Level.find(level_id) }
+  end
+
   def gives_group_courses
     # We add the last updated courses date to the key changes with the courses.
     Rails.cache.fetch("#{ cache_key }/gives_group_courses/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
@@ -602,16 +609,8 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  def update_planning_meta_datas
-    # Store level and audiences ids as coma separated string values: "1,3,5"
-    self.level_ids                = (plannings.collect(&:level_ids) + courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
-    self.audience_ids             = (plannings.collect(&:audience_ids) + courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
-    save(validate: false)
-  end
-
   # Tells if the structure is based in Paris and around
   #
-  # TODO: use cache?
   # @return Boolean
   def parisian?
     Rails.cache.fetch("#{ cache_key }/parisian/#{ places.with_deleted.maximum(:updated_at).to_i }") do
