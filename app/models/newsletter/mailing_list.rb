@@ -4,7 +4,7 @@ class Newsletter::MailingList < ActiveRecord::Base
 
   attr_accessible :name, :filters, :all_profiles, :tag
 
-  has_many :newsletters
+  has_many :newsletters, foreign_key: :newsletter_mailing_list_id
   belongs_to :structure
 
   validates :name, presence: true
