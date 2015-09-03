@@ -53,9 +53,11 @@ $rer_line_b_color      : #468FCC;
     line-height: 1em;
     &.metro-line--large {
         line-height: 1.85em;
+	.metro-line__bis {
+	    top     : -12px;
+	}
     }
     .metro-line__bis {
-        top     : -12px;
         position: relative;
     }
 }

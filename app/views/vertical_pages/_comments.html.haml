@@ -3,21 +3,20 @@
     - review_group.each do |review|
       .grid__item.one-half.palm-one-whole.lap-one-half>
         - cache [review, 'vertical_page/show'] do
-          .flexbox.push--bottom
-            .flexbox__item.soft--left.v-top.text--center.visuallyhidden--palm>
+          .grid.push--bottom
+            .grid__item.soft--left.v-top.text--center.visuallyhidden--palm.three-twelfths>
               = link_to structure_url(review.structure, subdomain: 'www'), class: 'block media-photo', target: :_blank, class: 'muted-link' do
-                = image_tag (review.user || User.active.with_avatar.sample).avatar_url(:thumb), class: 'block rounded--circle', width: 60, height: 60
-              .soft-half--top.break-all
-                = review.author_name
-            .flexbox__item.soft--sides.v-top.palm-one-whole>
-              .message__body.soft-half.message__appendix.gray-box
-                %p.epsilon.push-half--bottom.quoted
-                  %strong= review.title
-                %p
-                  = truncate(review.content, length: 500)
-                %p.text--right.flush
-                  %i
-                    À propos de
-                    = link_to structure_url(review.structure, subdomain: 'www'), target: :_blank do
-                      = "#{review.structure.name} | #{review.course_name}"
+                = (review.user || User.with_avatar.order("RANDOM()").first).decorate.avatar(80)
+              .soft-half--top.nowrap
+                %strong.line-height-1-5= review.author_name
+            .grid__item.soft--sides.v-top.palm-one-whole.nine-twelfths>
+              %p.epsilon.push-half--bottom
+                %strong= review.title
+              %p.line-height-1-3
+                = truncate(review.content, length: 500)
+              %p.text--right.flush
+                %i
+                  À propos de
+                  = link_to structure_url(review.structure, subdomain: 'www'), target: :_blank do
+                    = "#{review.structure.name} | #{review.course_name}"
 

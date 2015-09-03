@@ -55,7 +55,13 @@ CourseCard = React.createClass({
 
     headerImage: function headerImage () {
         if (this.props.card.get('header_image')) {
-            return (<img className="search-page-card__image" src={this.props.card.get('header_image')} />);
+            if (this.props.lazyload) {
+                return (<img className="search-page-card__image"
+                         data-behavior="lazy-load"
+                         data-original={this.props.card.get('header_image')} />);
+            } else {
+                return (<img className="search-page-card__image" src={this.props.card.get('header_image')} />);
+            }
         } else {
             return (<div className={"text--center search-page-card__image bg-" + this.props.card.get('root_subject')}>
                         <i className={'fa-' + this.props.card.get('root_subject')}></i>
@@ -66,7 +72,13 @@ CourseCard = React.createClass({
     headerLogo: function headerLogo () {
         if (this.props.card.get('has_course')) {
             if (this.props.card.get('structure_logo_url')) {
-                return (<img className="search-page-card__structure-logo" src={this.props.card.get('structure_logo_url')} />);
+                if (this.props.lazyload) {
+                    return (<img className="search-page-card__structure-logo"
+                             data-original={this.props.card.get('structure_logo_url')}
+                             data-behavior="lazy-load" />);
+                } else {
+                    return (<img className="search-page-card__structure-logo" src={this.props.card.get('structure_logo_url')} />);
+                }
             } else {
                 return (<div className={"search-page-card__structure-logo white text--center bg-" + this.props.card.get('root_subject')}>
                           <i className="fa fa-user-big"></i>
@@ -74,7 +86,13 @@ CourseCard = React.createClass({
             }
         } else {
             if (this.props.card.get('structure_logo_large_url')) {
-                return (<img className="search-page-card__structure-logo--sleeping" src={this.props.card.get('structure_logo_large_url')} />);
+                if (this.props.lazyload) {
+                    return (<img className="search-page-card__structure-logo--sleeping"
+                             data-original={this.props.card.get('structure_logo_large_url')}
+                             data-behavior="lazy-load" />);
+                } else {
+                    return (<img className="search-page-card__structure-logo--sleeping" src={this.props.card.get('structure_logo_large_url')} />);
+                }
             } else {
                 var class_names = "search-page-card__structure-sleeping-logo-icon ";
                 class_names    += this.props.card.get('root_subject') + '-color ';
@@ -216,7 +234,7 @@ CourseCard = React.createClass({
 
         return (
             <Card {...this.options}>
-                <div className="bg-white search-page-card__content">
+                <div className="cursor-pointer bg-white search-page-card__content">
                   {this.headerCard()}
                     <div className="soft-half--sides soft-half--bottom">
                         {this.subjectList()}

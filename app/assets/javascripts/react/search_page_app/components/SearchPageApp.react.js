@@ -2,7 +2,7 @@ var MapContainer              = require('./MapContainer.react'),
     SmallMap                  = require("./SmallMap.react"),
     ResultList                = require('./ResultList.react'),
     SubjectFilter             = require('./SubjectFilter.react'),
-    SubjectAutocompleteFilter = require('./SubjectAutocompleteFilter.react'),
+    AutocompleteFilter = require('./AutocompleteFilter.react'),
     LocationFilter            = require('./LocationFilter.react'),
     TimeFilter                = require('./TimeFilter.react'),
     MoreFilter                = require('./MoreFilter.react'),
@@ -67,7 +67,7 @@ SearchPageApp = React.createClass({
 
                   <MapContainer center={this.props.map_center} />
 
-                  <SubjectAutocompleteFilter />
+                  <AutocompleteFilter />
                   <SubjectFilter />
                   <LocationFilter />
                   <TimeFilter />

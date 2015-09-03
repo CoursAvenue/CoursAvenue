@@ -3,11 +3,20 @@ var _                   = require('lodash'),
     SimilarProfileStore = require('../stores/SimilarProfileStore');
 
 var SimilarProfile = React.createClass({
+
+    componentDidMount: function componentDidMount () {
+        $(React.findDOMNode(this.refs.image)).lazyload({effect: 'fadeIn'});
+    },
+
     image: function image () {
         var profile = this.props.profile;
         if (profile.get('avatar')) {
             return (
-                <img className='rounded--circle block center-block bordered' src={ profile.get('avatar') } width={ 60 } height={ 60 } />
+                <img className='rounded--circle block center-block bordered'
+                           ref="image"
+                 data-original={ profile.get('avatar') }
+                         width={ 60 }
+                        height={ 60 } />
             );
         } else {
             return (

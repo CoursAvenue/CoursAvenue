@@ -46,6 +46,7 @@ class MailchimpUpdater
   end
 
   def self.update_sleeping_structures(structure)
+    return if structure.main_contact.nil?
     gibbon = Gibbon::API.new(ENV['MAILCHIMP_API_KEY_2'])
     gibbon.lists.subscribe({id: list_id[:sleeping_structure],
                                  email: { email: structure.main_contact.email},

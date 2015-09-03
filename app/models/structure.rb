@@ -109,7 +109,7 @@ class Structure < ActiveRecord::Base
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :slug,
                   :website, :facebook_url,
-                  :contact_email,
+		  :contact_email, :show_trainings_first,
                   :description, :subject_ids, :active,
                   # active: for tests profile, eg. L'atelier de Nima, etc.
                   # And for duplicated sleeping structures (when an admin takes control of a sleeping profile)
@@ -123,14 +123,12 @@ class Structure < ActiveRecord::Base
                   :teaches_at_home, :teaches_at_home_radius, # in KM
                   # "Name of the subject,slug-of-the-subject;Name,slug"
                   :subjects_string, :parent_subjects_string, :course_subjects_string,
-                  :gives_group_courses, :gives_individual_courses,
-                  :gives_non_professional_courses, :gives_professional_courses,
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason,
                   :order_recipient, :delivery_email_status, :trial_courses_policy,
-                  :sleeping_structure, :premium, :cities_text, :sms_opt_in,
+		  :sleeping_structure, :premium, :sms_opt_in,
                   :principal_mobile_id, :pure_player # Helps to know which actors are big on the market
 
   accepts_nested_attributes_for :places,
@@ -143,22 +141,17 @@ class Structure < ActiveRecord::Base
 
 
   # To store hashes into hstore
-  store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
-                             :has_promotion, :has_free_trial_course, :has_promotion,
-                             :course_names, :highlighted_comment_title, :min_price_amount,
-                             :max_price_libelle, :level_ids, :audience_ids, :busy,
-                             :response_rate, :response_time, :gives_non_professional_courses,
-                             :gives_professional_courses,
-                             :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score,
-                             :search_score_updated_at, :is_sleeping, :sleeping_email_opt_in,
-                             :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient,
-                             :status, :vertical_pages_breadcrumb, :is_parisian,
-                             :close_io_lead_id, :sponsorship_token
+  store_accessor :meta_data, :course_names, :highlighted_comment_title, :min_price_amount,
+			     :max_price_libelle, :level_ids, :audience_ids, :busy,
+			     :response_rate, :response_time,
+			     :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score,
+			     :search_score_updated_at, :is_sleeping, :sleeping_email_opt_in,
+			     :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient,
+			     :status, :vertical_pages_breadcrumb,
+			     :close_io_lead_id, :sponsorship_token
 
-  define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
-                                          :has_free_trial_course, :has_promotion, :gives_non_professional_courses,
-                                          :gives_professional_courses, :is_sleeping, :sleeping_email_opt_in,
-                                          :promo_code_sent, :is_parisian
+  define_boolean_accessor_for :meta_data, :is_sleeping, :sleeping_email_opt_in,
+					  :promo_code_sent
 
   mount_uploader :logo, StructureLogoUploader
 
@@ -266,6 +259,11 @@ class Structure < ActiveRecord::Base
     attribute :search_score do
       search_score.to_i
     end
+
+    add_attribute :dominant_root_subject_slug do
+      dominant_root_subject.try(:slug)
+    end
+
   end
 
   ######################################################################
@@ -537,61 +535,81 @@ class Structure < ActiveRecord::Base
     medias.images.cover.first || medias.images.first
   end
 
+  ######################################################################
+  # Meta data caching                                                  #
+  ######################################################################
+
   # Simulating relations
   def audiences
+    audience_key = [plannings.with_deleted.maximum(:updated_at) +
+		    courses.with_deleted.privates.maximum(:updated_at)].max.to_i
+    audience_ids = Rails.cache.fetch("#{ cache_key }/audience_ids/#{ audience_key }") do
+      (plannings.map(&:audience_ids) + courses.privates.map(&:audience_ids)).flatten.uniq
+    end
+
+    return [] if audience_ids.empty?
+    Audience.find(audience_ids)
+
     return [] unless audience_ids.present?
     audience_ids.map{ |audience_id| Audience.find(audience_id) }
   end
 
-  def audience_ids
-    return [] unless meta_data and meta_data['audience_ids']
-    meta_data['audience_ids'].split(',').map(&:to_i)
-  end
-
   def levels
+    level_key = [plannings.with_deleted.maximum(:updated_at) +
+		    courses.with_deleted.privates.maximum(:updated_at)].max.to_i
+    level_ids = Rails.cache.fetch("#{ cache_key }/level_ids/#{ level_key }") do
+      (plannings.map(&:level_ids) + courses.privates.map(&:level_ids)).flatten.uniq
+    end
+
+    return [] if level_ids.empty?
+    Level.find(level_ids)
+
     return [] unless level_ids.present?
     level_ids.map{ |level_id| Level.find(level_id) }
   end
 
-  def level_ids
-    return [] unless meta_data and meta_data['level_ids']
-    meta_data['level_ids'].split(',').map(&:to_i)
+  def has_promotion
+    Rails.cache.fetch("#{ cache_key }/has_promotion/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
+      courses.detect(&:has_promotion?).present?
+    end
+  end
+  alias_method :has_promotion?, :has_promotion
+
+  def has_free_trial_course
+    Rails.cache.fetch("#{ cache_key }/has_free_trial_course/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
+      courses.detect(&:has_free_trial_lesson?).present?
+    end
+  end
+  alias_method :has_free_trial_course?, :has_free_trial_course
+
+  def course_names
+    Rails.cache.fetch("#{ cache_key }/course_names/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
+      courses.map(&:name).uniq.join(', ')
+    end
   end
 
-  ######################################################################
-  # Meta data update                                                   #
-  ######################################################################
-  def update_course_meta_datas
-    self.gives_group_courses      = courses.select{|course| !course.is_individual? }.any?
-    self.gives_individual_courses = courses.select(&:is_individual?).any?
-    self.has_promotion            = courses.detect(&:has_promotion?).present?
-    self.has_free_trial_course    = courses.detect(&:has_free_trial_lesson?).present?
-    self.course_names             = courses.map(&:name).uniq.join(', ')
-    best_price = course_prices.where(Price.arel_table[:amount].gt(0)).order('amount ASC').first
-    self.min_price_amount = best_price.amount if best_price
-    save(validate: false)
-  end
-
-  def update_planning_meta_datas
-    # Store level and audiences ids as coma separated string values: "1,3,5"
-    self.level_ids                = (plannings.collect(&:level_ids) + courses.privates.collect(&:level_ids)).flatten.uniq.sort.join(',')
-    self.audience_ids             = (plannings.collect(&:audience_ids) + courses.privates.collect(&:audience_ids)).flatten.uniq.sort.join(',')
-    save(validate: false)
-  end
-
-  def update_place_meta_datas
-    self.is_parisian = self.parisian?
-    update_cities_text
+  def min_price_amount
+    Rails.cache.fetch("#{ cache_key }/min_price_amount/#{ course_prices.with_deleted.maximum(:updated_at).to_i }") do
+      course_prices.pluck(:amount).compact.select { |p| p > 0 }.min
+    end
   end
 
   # Tells if the structure is based in Paris and around
   #
-  # TODO: use cache?
   # @return Boolean
   def parisian?
-    places.any?(&:parisian?)
+    Rails.cache.fetch("#{ cache_key }/parisian/#{ places.with_deleted.maximum(:updated_at).to_i }") do
+      places.any?(&:parisian?)
+    end
   end
+  alias_method :is_parisian,  :parisian?
+  alias_method :is_parisian?, :parisian?
 
+  def cities_text
+    Rails.cache.fetch("#{ cache_key }/parisian/#{ places.with_deleted.maximum(:updated_at).to_i }") do
+      places.map(&:city).map(&:name).uniq.join(', ')
+    end
+  end
 
   # TODO this method doesn't actually work:
   # according to the rspec tests, the resulting
@@ -608,7 +626,8 @@ class Structure < ActiveRecord::Base
     tag_list = user_profile.tags.map(&:name)
     tag_list = tag_list + tags
     tag(user_profile, with: tag_list.uniq.join(','), on: :tags)
-    user_profile.delay.index # If we index right away, it won't index the last tags added...
+    # If we index right away, it won't index the last tags added...
+    user_profile.delay.index if user_profile.persisted?
   end
 
   def create_tag tag_name
@@ -938,10 +957,12 @@ class Structure < ActiveRecord::Base
   #
   # @return City
   def dominant_city
-    if plannings.any?
-      dominant_city_from_planning
-    else
-      ([city] + places.map(&:city)).group_by{ |c| c }.values.max_by(&:size).first
+    Rails.cache.fetch ["Structure#dominant_city", self, plannings.maximum(:updated_at)] do
+      if plannings.any?
+	dominant_city_from_planning
+      else
+	([city] + places.map(&:city)).group_by{ |c| c }.values.max_by(&:size).first
+      end
     end
   end
 
@@ -1098,13 +1119,12 @@ class Structure < ActiveRecord::Base
   # @return whether the generation was added to the queue or not.
   def generate_cards
     return if deleted_at.present?
-
-    if indexable_lock.nil?
-      create_indexable_lock
-    end
-
-    return if indexable_lock.locked?
-    lock_cards!
+    # if indexable_lock.nil?
+    #   create_indexable_lock
+    # end
+    #
+    # return if indexable_lock.locked?
+    # lock_cards!
 
     delayed_generate_cards
   end
@@ -1139,10 +1159,6 @@ class Structure < ActiveRecord::Base
       website_planning_page_view_data = client.page_views(self.id, 'website/planning', 2.months.ago)
       website_planning_page_view_data.map(&:pageviews).reduce(&:+)
     end
-  end
-
-  def update_cities_text
-    update_column :cities_text, places.map(&:city).map(&:name).uniq.join(', ')
   end
 
   # Whether or not we should disable the current structure.
@@ -1223,7 +1239,6 @@ class Structure < ActiveRecord::Base
 
   def set_active_to_true
     self.active              = true
-    self.gives_group_courses = true
   end
 
   def subscribe_to_crm

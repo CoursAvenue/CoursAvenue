@@ -31,13 +31,19 @@ var CourseHeader = React.createClass({
         if (this.props.hide_header_details) { return; }
         if (course.get('child_subjects')) {
             subjects = _.map(course.get('child_subjects'), function(subject, index) {
+                var url, classes = "search-page-card__subject white bg-" + subject.root_slug;
                 var city = (course.get('places') && course.get('places')[0].city ? course.get('places')[0].city : 'paris');
-                return (<a key={ index } href={Routes.search_page_path(subject.root_slug, subject.slug, city)}
-                           className={"search-page-card__subject white bg-" + subject.root_slug}
+                if (this.props.dont_register) {
+                    classes += " muted-link";
+                } else {
+                    url = Routes.search_page_path(subject.root_slug, subject.slug, city);
+                }
+                return (<a key={ index } href={url}
+                           className={classes}
                            target="_blank">
                             {subject.name}
                         </a>);
-            });
+            }, this);
             return (<div className="push-half--bottom">{ subjects }</div>);
         }
     },

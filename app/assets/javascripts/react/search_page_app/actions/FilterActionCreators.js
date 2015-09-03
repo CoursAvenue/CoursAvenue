@@ -162,6 +162,13 @@ module.exports = {
         });
     },
 
+    bootstrapSelectMetroStop: function selectMetroStop (data) {
+	SearchPageDispatcher.dispatch({
+	    actionType: SearchPageConstants.ActionTypes.BOOTSTRAP_SELECT_METRO_STOP,
+	    data: data
+	});
+    },
+
     unsetFilter: function unsetFilter (filter_key) {
         SearchPageDispatcher.dispatch({
             actionType: SearchPageConstants.ActionTypes.UNSET_FILTER,

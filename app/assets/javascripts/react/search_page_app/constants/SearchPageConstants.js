@@ -28,6 +28,7 @@ module.exports = {
         SELECT_METRO_LINES:                   null,
         SELECT_METRO_LINE:                    null,
         SELECT_METRO_STOP:                    null,
+	BOOTSTRAP_SELECT_METRO_STOP:          null,
         INIT_SEARCH_FULL_TEXT:                null,
         FULL_TEXT_SELECT_NEXT_SUGGESTION:     null,
         FULL_TEXT_SELECT_PREVIOUS_SUGGESTION: null,

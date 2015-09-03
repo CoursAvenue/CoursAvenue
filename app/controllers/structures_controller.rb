@@ -35,19 +35,6 @@ class StructuresController < ApplicationController
     @is_sleeping = @structure.is_sleeping
   end
 
-  # Used for search on typeahead dropdown
-  # GET /etablissements/search.json
-  def search
-    @structures = Rails.cache.fetch "StructuresController#search/#{params[:name]}" do
-      StructureSearch.search(params).results
-    end
-    respond_to do |format|
-      format.json do
-        render json: @structures, each_serializer: StructureTypeaheadSerializer
-      end
-    end
-  end
-
   # POST structure/:id/add_to_favorite
   # Create a following for the structure and the current_user
   def add_to_favorite

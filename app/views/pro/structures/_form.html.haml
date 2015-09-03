@@ -55,36 +55,6 @@
         .input_field_error.red.text--right= @structure.errors[:children_subjects].to_sentence
 
   %hr.push--ends
-  %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.courses') } }
-    %h5 Cours proposés
-    .input
-      %label.text--left.hard--top.label--large.control-label> Type de cours
-      .input-container>
-        = structure_form.input :gives_group_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-        = structure_form.input :gives_individual_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left ' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large hard--bottom' }
-
-    .input#teaches-at-home{ class: @structure.gives_individual_courses ? '' : 'hidden'}
-      %label.control-label.label--large.inline-block.v-middle{ for: 'structure_teaches_at_home' }> Je me déplace à domicile autour de
-      .input-container.v-middle>
-        = structure_form.input :teaches_at_home, as: :boolean, include_blank: false, input_html: { class: 'input--large' }, label: false, wrapper_html: { class: 'inline-block v-middle flush' }
-        - @home_places.each_with_index do |place, child_index|
-          = structure_form.simple_fields_for :places, place, child_index: child_index, html: { class: 'inline-block' } do |place_form|
-            = place_form.input :type, as: :hidden
-            = place_form.input :zip_code, input_html: { placeholder: 'Code postal', class: 'one-whole', style: 'width: 7em', data: { behavior: 'city-autocomplete', el: "#place_city_id_#{child_index}" } }, label: false, wrapper_html: { class: 'inline-block v-middle flush' }
-            = place_form.input :city_id, collection: [place.city], label: false, selected: place.city, wrapper_html: { class: 'flush--top inline-block v-middle flush' }, input_html: { id: "place_city_id_#{child_index}"}
-            %label.inline-block.v-middle dans un rayon de
-            = place_form.input :radius, input_html: { style: 'width: 5em;' }, wrapper_html: {class: 'inline-block v-middle flush'}, label: false
-          %label.label--large.inline-block.v-middle{ for: 'structure_teaches_at_home_radius' } km
-
-
-    .input.push--top
-      %label.text--left.hard--top.label--large.control-label> Public
-      .input-container>
-        = structure_form.input :gives_non_professional_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-        = structure_form.input :gives_professional_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left ' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-
-
-  %hr.push--ends
   %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.funding_types') } }
 
     %h5 Financements acceptés
@@ -97,13 +67,6 @@
       = structure_form.label :description, class: 'label--large'
       .input-container>
         = structure_form.input :description, label: false, wrapper_html: { class: 'flush one-whole' }, input_html: { style: 'height: 130px;', id: 'description-textarea', class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
-  - if @structure.comments_count >= 5
-    %hr.push--ends
-    %div
-      %h5 Autre
-      %div
-        = structure_form.input :widget_status, as: :select, collection: Structure::WIDGET_STATUS, label_method: lambda{|status| t("structures.widget_status.#{status}")}, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-        = structure_form.input :widget_url, as: :string, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
   %div
     = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }

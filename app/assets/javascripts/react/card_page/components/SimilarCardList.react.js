@@ -5,6 +5,19 @@ var _                    = require('lodash'),
     SimilarCardStore     = require('../stores/SimilarCardStore');
 
 var SlidingPage = React.createClass({
+
+    componentDidMount: function componentDidMount () {
+        var lazy_options = { effect: 'fadeIn' };
+        if (this.props.current_page > 0) {
+            lazy_options.event = 'lazy:load';
+        }
+        $(this.getDOMNode()).find('[data-behavior=lazy-load]').lazyload(lazy_options);
+    },
+
+    componentDidUpdate: function componentDidUpdate () {
+        $(this.getDOMNode()).find('[data-behavior=lazy-load]').trigger('lazy:load');
+    },
+
     render: function render () {
         if (!this.props.cards) { return false; }
         var width_class = 'grid__item v-middle one-quarter palm-one-whole';
@@ -13,6 +26,7 @@ var SlidingPage = React.createClass({
                 <Card card={ card }
                width_class={ width_class }
               follow_links={ true }
+                  lazyload={ true }
                        key={ index } />
             );
         });

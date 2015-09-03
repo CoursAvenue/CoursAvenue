@@ -142,7 +142,7 @@ $(function() {
             return false;
         }
     });
-    $('[data-behavior="lazy-load"]').lazyload();
+    $('[data-behavior="lazy-load"]').lazyload({effect: 'fadeIn'});
 
     if ($('[data-behavior=parallax]').length > 0) {
         $(window).scroll(function () {

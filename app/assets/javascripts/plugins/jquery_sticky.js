@@ -109,6 +109,7 @@
                 this.unFixIt();
             }
         },
+
         unFixIt: function unFixIt () {
             this.$element.css('top', 0);
             this.$element.parent().find("[data-sticky-placeholder]").remove();

@@ -8,6 +8,10 @@ class City < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
+  belongs_to :parent_city, class_name: 'City'
+
+  has_many :sub_cities, class_name: 'City', foreign_key: 'parent_city_id'
+  has_many :neighborhoods
   has_many :places
   has_many :structures, through: :places
   has_many :courses   , through: :structures
@@ -48,6 +52,22 @@ class City < ActiveRecord::Base
     end
   end
   # :nocov:
+
+  def description
+    if read_attribute(:description).present?
+      read_attribute(:description)
+    elsif parent_city
+      parent_city.description
+    end
+  end
+
+  def subtitle
+    if read_attribute(:subtitle).present?
+      read_attribute(:subtitle)
+    elsif parent_city
+      parent_city.subtitle
+    end
+  end
 
   def to_gmap_json
     { lng: self.longitude, lat: self.latitude }

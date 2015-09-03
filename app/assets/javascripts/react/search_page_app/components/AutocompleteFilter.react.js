@@ -7,7 +7,7 @@ var FilterActionCreators     = require('../actions/FilterActionCreators'),
     FluxBoneMixin            = require("../../mixins/FluxBoneMixin"),
     cx                       = require('classnames/dedupe');
 
-var SubjectAutocompleteFilter = React.createClass({
+var AutocompleteFilter = React.createClass({
 
     mixins: [
         FluxBoneMixin(['autocomplete_store', 'filter_store', 'location_store']),
@@ -74,13 +74,21 @@ var SubjectAutocompleteFilter = React.createClass({
     structures: function structures () {
         if (!this.state.autocomplete_store.get('structures')) { return; }
         return this.state.autocomplete_store.get('structures').map(function(structure, index) {
+            var avatar;
+            if (structure.get('avatar')) {
+                avatar = (<img className="block rounded--circle autocomplete-structure-logo" height="45" width="45" src={structure.get('avatar')} />);
+            } else {
+                avatar = (<div className={"inline-block autocomplete-structure-logo rounded--circle text--center white bg-" + structure.get('dominant_root_subject_slug')}>
+                              <i className="fa fa-user-big delta"></i>
+                          </div>);
+            }
             return (<div className={cx("flexbox search-page__input-suggestion search-page__input-suggestion--structures flexbox search-page__input-suggestion--bordered", {
                                       'search-page__input-suggestion--active': (this.state.autocomplete_store.get('selected_index') == index && this.state.autocomplete_store.get('selected_list_name') == 'structures')
                                     })}
                          onMouseOver={this.hoverResult('structures', index)}
                          onClick={this.goToStructure(structure.get('slug'))}>
                         <div className="flexbox__item visuallyhidden--palm v-middle">
-                            <img className="block rounded--circle" height="45" width="45" src={structure.get('avatar')} />
+                            {avatar}
                         </div>
                         <div className="flexbox__item one-whole v-middle white soft--sides"
                             dangerouslySetInnerHTML={{__html: structure.get('_highlightResult').name.value }}>
@@ -161,4 +169,4 @@ var SubjectAutocompleteFilter = React.createClass({
     },
 });
 
-module.exports = SubjectAutocompleteFilter;
+module.exports = AutocompleteFilter;

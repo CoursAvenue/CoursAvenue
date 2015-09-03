@@ -15,6 +15,9 @@ var Course = Backbone.Model.extend({
 });
 var CourseStore = Backbone.Collection.extend({
     model: Course,
+    url: function url () {
+        return Routes.structure_courses_path(this.structure_id);
+    },
 
     initialize: function initialize () {
         _.bindAll(this, 'dispatchCallback');
@@ -27,8 +30,8 @@ var CourseStore = Backbone.Collection.extend({
             case ActionTypes.BOOTSTRAP_COURSE:
                 this.add(payload.data);
                 break;
-            case ActionTypes.POPULATE_COURSE:
-                this.loadCourse(payload.data.structure_id, payload.data.course_id);
+            case ActionTypes.POPULATE_COURSES:
+                this.loadCourses(payload.data.structure_id);
                 break;
             case ActionTypes.POPULATE_INDEXABLE_CARD:
                 this.loadIndexableCard(payload.data.structure_id, payload.data.indexable_card_id);
@@ -49,9 +52,12 @@ var CourseStore = Backbone.Collection.extend({
         return this.course_cache[course_id];
     },
 
-    loadCourse: function loadCourse (structure_id, course_id) {
-        var course = this.add({ structure_id: structure_id, id: course_id });
-        course.fetch();
+    loadCourses: function loadCourses (structure_id) {
+        if (!this.courses_loaded) {
+            this.courses_loaded = true;
+            this.structure_id = structure_id;
+            this.fetch();
+        }
     },
 
     loadIndexableCard: function loadIndexableCard (structure_id, course_id) {

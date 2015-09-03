@@ -21,4 +21,4 @@
                 %span{ itemprop: 'title' }= vertical_page_subject_name
       %li.f-weight-600.gray-light{ itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb' }
         %span.gray-light.f-weight-600{ itemprop: 'title' }
-          = @structure.name
+          = truncate(@structure.name, length: 60)

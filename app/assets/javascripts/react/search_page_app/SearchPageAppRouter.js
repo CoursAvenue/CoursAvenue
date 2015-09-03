@@ -12,11 +12,13 @@ var _                      = require('lodash'),
     SubjectStore           = require('./stores/SubjectStore');
 
 // Params that we store in URLs
+// name is the name of the param in the URL
 var PARAMS_IN_SEARCH = {
     'group_subject.group_id': { name: 'groupe'     , actionMethod: SubjectActionCreators.selectGroupSubjectById },
     context                 : { name: 'type'       , actionMethod: FilterActionCreators.changeContext },
     full_text_search        : { name: 'discipline' , actionMethod: FilterActionCreators.initSearchFullText },
     metro_lines             : { name: 'metros[]'   , actionMethod: FilterActionCreators.selectMetroLines },
+    metro_stop              : { name: 'metro_stop' , actionMethod: FilterActionCreators.bootstrapSelectMetroStop },
     planning_periods        : { name: 'plannings[]', actionMethod: TimeActionCreators.togglePeriodsSelection },
     audiences               : { name: 'public[]'   , actionMethod: AudienceActionCreators.setAudiences },
     levels                  : { name: 'niveau[]'   , actionMethod: LevelActionCreators.setLevels },

@@ -56,29 +56,3 @@
         });
         Stripe.setPublishableKey("#{ Rails.configuration.stripe[:publishable_key] }");
     }());
-
-#structure-profile-menu.visuallyhidden--palm.one-whole.west.fixed.on-top{ style: 'top: -100px;', data: { behavior: 'header-stick-on-scroll' } }
-  - cache [@structure, 'structure_website/structure/show/sticker_header'] do
-    .bg-dark-gray
-      .main-container.soft--sides
-        .top-page-menu
-          %ul.nav.flush.v-middle.inline-block
-            - if @structure.plannings.trainings_future.any?
-              %li.soft-half
-                %a.link-not-outlined.muted-link.white{ href: '#stages-ateliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Stages & ateliers
-            - if @structure.courses.lessons.any?
-              %li.soft-half
-                %a.link-not-outlined.muted-link.white{ href: '#cours-collectifs', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours réguliers
-            - if @structure.courses.privates.any?
-              %li.soft-half
-                %a.link-not-outlined.muted-link.white{ href: '#cours-particuliers', data: { behavior: 'scroll-to', offset_top: '-55' } } Cours particuliers
-            %li.soft-half
-              = link_to 'Messages publics', structure_path(@structure, anchor: 'messages-publics'), class: 'muted-link white', target: :_blank
-            %li.soft-half
-              = link_to 'Avis', structure_path(@structure, anchor: 'avis'), class: 'muted-link white', target: :_blank
-
-= content_for :scripts do
-  :javascript
-      $(function() {
-          $('body').addClass('relative').scrollspy({ target: '#structure-profile-menu .top-page-menu', offset: 85 })
-      });

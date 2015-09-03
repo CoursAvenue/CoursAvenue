@@ -96,7 +96,7 @@ input[type="checkbox"] {
 }
 textarea:focus, input:focus {
     outline         : none;
-    border-color    : white;
+    border-color    : transparentize($blue-green, 0.5);
 }
 
 .input--white {

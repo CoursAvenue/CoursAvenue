@@ -83,7 +83,7 @@ var ThreadStore = Backbone.Collection.extend({
             this.loading     = false;
             this.reset(data);
         }.bind(this), 'json');
-    }
+    }.debounce(150) // Prevent from double loading
 });
 
 module.exports = new ThreadStore();

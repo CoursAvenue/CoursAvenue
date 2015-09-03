@@ -20,7 +20,7 @@ class Ratp::Stop < ActiveRecord::Base
   # TODO: Enable indexing when it will be needed.
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
-    attributesForFaceting ['metro_lines.line']
+    attributesForFaceting ['metro_lines.line', 'slug']
 
     attribute :id
     attribute :slug

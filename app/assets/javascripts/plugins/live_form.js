@@ -73,13 +73,14 @@
             }, 2500);
         },
         submitForm: function submitForm (event) {
-            if (this.previous_value == event.currentTarget.value) { return; }
+	    // Because it's different when it's checkboxes
+	    if (event.currentTarget.type != 'checkbox' && this.previous_value == event.currentTarget.value) { return; }
             this.flashSaving();
             this.$form.submit().on('ajax:complete', function() {
                 this.flashSaved();
                 this.previous_value = event.currentTarget.value;
             }.bind(this));
-        }.debounce(500)
+	}.debounce(100)
     };
 
     // A really lightweight plugin wrapper around the constructor,

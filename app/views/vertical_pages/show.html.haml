@@ -4,64 +4,70 @@
   - title = "Danse, Théâtre, Musique, Yoga..."
 
 = content_for :title do
-  - if @city
-    = @vertical_page_decorator.page_title(@city)
-  - else
-    = @vertical_page_decorator.page_title
+  = @vertical_page_decorator.page_title(@city, @neighborhood)
 
 = content_for :meta_description do
-  - if @city
-    = "#{@vertical_page_decorator.page_h1} à #{@city.name} (#{@city.department_code}) : toutes les écoles de #{@vertical_page.subject_name.downcase} à #{@city.name}, stages, cours d'essai gratuits, plannings, tarifs, conseils, avis, promotions"
-  - else
-    = "#{@vertical_page_decorator.page_h1} : toutes les cours de #{@vertical_page.subject_name.downcase}, stages, cours d'essai gratuits, plannings, tarifs, conseils, avis, promotions"
+  = @vertical_page_decorator.page_meta_description(@city, @neighborhood)
 
 - @paris = City.find('paris')
 .relative.search-page-filters__panel-height.palm-height-auto
-  .soft--ends.absolute.north.west.on-top-of-the-world.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto
+  .soft--ends.absolute.north.west.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto.z-index-10000
     .flexbox__item.v-middle
+      %h1.soft--sides.white.text--center.f-size-really-big= @vertical_page_decorator.page_h1(@city, @neighborhood)
       .main-container.main-container--medium.white.text--center
-        %h1.f-size-really-big= @vertical_page_decorator.page_h1(@city)
         - if @vertical_page.caption
           %h4.center-block
             = @vertical_page.caption
         .soft--top
-          - if @subject.root?
-            = link_to root_search_page_path(@subject.root, (@city || 'paris'), locate_user: (@city ? '' : 'on')), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
-              %i.fa.fa-map-marker
-              Voir les cours #{@city ? "à #{@city.name}" : 'autour de moi'}
-          - else
-            = link_to search_page_path(@subject.root, @subject, (@city || 'paris'), locate_user: (@city ? '' : 'on')), class: 'btn btn--blue-green btn--large see-all-courses-tracker'do
-              %i.fa.fa-map-marker
-              Voir les cours #{@city ? "à #{@city.name}" : 'autour de moi'}
-  = react_component('MapContainer', { center: [(@city || @paris).latitude, (@city || @paris).longitude] })
+          = @vertical_page_decorator.button(@subject, @city, @neighborhood)
+
+  - map_zoom = 12 if @city and @city.size == 3
+  - map_zoom = 14 if @city and @city.size != 3
+  - map_zoom = 15 if @neighborhood
+  = react_component('MapContainer', { zoom: map_zoom, center: [(@neighborhood || @city || @paris).latitude, (@neighborhood || @city || @paris).longitude] })
 .main-container.main-container--medium.soft--ends
   .soft-half--left= render partial: 'vertical_pages/breadcrumb'
   .grid
     .grid__item.six-tenths.palm-one-whole>
-      = react_component('ResultList', { root_subject: (@root_subject ? @root_subject : nil),
-                                        subject: (@subject and @subject != @root_subject ? @subject : nil),
-                                        address: { name: (@city || @paris).name, latitude: (@city || @paris).latitude, longitude: (@city || @paris).longitude, city: (@city || @paris).name, is_address: false },
+      - root_subject = @subject.root
+      = react_component('ResultList', { root_subject: (root_subject ? root_subject : nil),
+                                        hide_help_card: true,
+                                        subject: (@subject and @subject != root_subject ? @subject : nil),
+                                        address: { name: (@neighborhood || @city || @paris).name, latitude: (@neighborhood || @city || @paris).latitude, longitude: (@neighborhood || @city || @paris).longitude, city: (@neighborhood || @city || @paris).name, is_address: false , is_neighborhood: @neighborhood.present? },
                                         per_line: 2,
                                         per_page: 14,
                                         follow_links: true })
     .grid__item.four-tenths.palm-one-whole.palm-push--top>
+      - if @city
+        %h2= @city.subtitle
+        .epsilon.line-height-1-5
+          = simple_format @city.description
       - if @vertical_page.content.present?
-        %h2
-          = @vertical_page.title
+        %h2= @vertical_page.title
         .epsilon.line-height-1-5
           = @vertical_page.content.html_safe
       - else
         - if @subject.good_to_know.present?
           %h3 Bon à savoir / Qu'est-ce que c'est ?
-          %p= @subject.good_to_know
+          %p.epsilon.line-height-1-5= @subject.good_to_know
         - if @subject.needed_meterial.present?
           %h3 Les bienfaits
-          %p= @subject.needed_meterial
+          %p.epsilon.line-height-1-5= @subject.needed_meterial
         - if @subject.tips.present?
           %h3 Matériel à prévoir
-          %p= @subject.tips
+          %p.epsilon.line-height-1-5= @subject.tips
+      - if @city
+        -# SUBCITIES => Paris 1, Paris 2, etc.
+        - if @city.sub_cities.any?
+          - @city.sub_cities.order('zip_code ASC').each do |sub_city|
+            %div
+              - if @subject.is_root?
+                = link_to "Cours de #{@vertical_page.subject_name.downcase} à #{sub_city.name}", root_vertical_page_with_city_path(@vertical_page, sub_city), class: 'epsilon line-height-1-7'
+              - else
+                = link_to "Cours de #{@vertical_page.subject_name.downcase} à #{sub_city.name}", vertical_page_with_city_path(@subject.root, @vertical_page, sub_city), class: 'epsilon line-height-1-7'
+
       - if @subject.depth == 2
-        = render partial: 'vertical_pages/siblings'
+        .soft--top= render partial: 'vertical_pages/siblings'
       - unless @city
         %h3= "Les lieux les plus recherchés"
         .push--bottom
@@ -73,43 +79,58 @@
               - else
                 = link_to "Cours de #{@vertical_page.subject_name.downcase} à #{city.name}", vertical_page_with_city_path(@subject.root, @vertical_page, city), class: 'epsilon line-height-1-7'
 
+  .text--center.push--ends
+    = @vertical_page_decorator.button(@subject, @city, @neighborhood, true)
+
+- if @neighborhood
+  .bg-white.soft-double
+    %h2.soft--bottom.alpha.text--center Vous cherchez près d'une station de métro en particulier ?
+    .soft--sides
+      - @neighborhood.nearby_metro_stops.includes(:lines).each do |stop|
+        .inline-block.one-third.push-half--bottom>
+          - stop.lines.each do |line|
+            = MetroLineDecorator.new(line).chip(true)
+          %strong= link_to stop.name, @vertical_page_decorator.metro_search_link(@subject, @city, @neighborhood, stop), class: 'v-middle semi-muted-link'
+
+- if @city and ((@city.slug == 'paris' and !@subject.root?) or @city.neighborhoods.any?)
+  .soft--top.bordered--top
+    %h2.alpha.text--center.soft--bottom Découvrez les cours par quartier
   .text--center
-    - if @subject.root?
-      = link_to root_search_page_path(@subject.root, (@city || 'paris'), locate_user: (@city ? '' : 'on')), class: 'btn btn--blue-green btn--large see-all-courses-tracker' do
-        %i.fa.fa-map-marker
-        Voir tous les cours #{@city ? "à #{@city.name} (#{@city.zip_code})" : 'autour de moi'}
-    - else
-      = link_to search_page_path(@subject.root, @subject, (@city || 'paris'), locate_user: (@city ? '' : 'on')), class: 'btn btn--blue-green btn--large see-all-courses-tracker' do
-        %i.fa.fa-map-marker
-        Voir tous les cours #{@city ? "à #{@city.name} (#{@city.zip_code})" : 'autour de moi'}
+    - neighborhoods = (@city.neighborhoods.any? ? @city.neighborhoods : City::Neighborhood.all)
+    - neighborhoods.each_with_index do |neighborhood, index|
+      .inline-block.flush.gamma.v-middle.search-page-filters__image-button.palm-one-whole.palm-block.bg-cover{ class: ( (index % 5 < 3) ? 'one-third' : 'one-half'), style: "background-image: url('#{neighborhood.image.url(:homepage_small)}');" }>
+        .search-page-filters__image-button-curtain
+        .flexbox.relative.search-page-filters__panel-half-height
+          .flexbox__item.v-middle
+            = link_to neighborhood.name, vertical_page_with_neighborhood_path(@vertical_page.root_subject, @vertical_page, neighborhood.city, neighborhood), class: 'white semi-muted-link', title: neighborhood.name
+
 = content_for :scripts do
   :javascript
     window.is_mobile = COURSAVENUE.helperMethods.isMobile.any();
 
 
 - if @subject.depth == 0
-  .home-screen-promotion-wrapper
-    .main-container.main-container--medium.soft--ends
-      %h2.soft--bottom.f-weight-300 #{@subject.name} : plus de disciplines
-      - cache [@subject, 'vertical_pages/subjects/depth_1'] do
-        = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.children.includes(:vertical_pages) }
+  .soft--top
+    %h2.text--center.alpha #{@subject.name} : plus de disciplines
+    - cache [@city, @subject, 'vertical_pages/subjects/depth_1'] do
+      = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.children.includes(:vertical_pages) }
 
 - unless @subject.depth == 2
-  .soft--ends{ class: (@subject.depth == 0 ? '' : 'home-screen-promotion-wrapper') }
-    .main-container.main-container--medium
-      %h2.soft--bottom.f-weight-300 #{@subject.name} : tous les styles
-      - cache [@subject, 'vertical_pages/subjects/depth_2'] do
-        = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.descendants.at_depth(2).includes(:vertical_pages) }
+  .soft--top
+    %h2.text--center.alpha #{@subject.name} : tous les styles
+    - cache [@city, @subject, 'vertical_pages/subjects/depth_2'] do
+      = render partial: 'vertical_pages/subjects', locals: { subjects: @subject.descendants.at_depth(2).includes(:vertical_pages) }
 
 - if @vertical_page.reviews.any?
-  %div{ class: (@subject.depth == 0 || @subject.depth == 2 ? 'home-screen-promotion-wrapper' : '') }
-    .main-container.main-container--medium.soft--ends
-      %h2.soft--bottom.f-weight-300 #{@vertical_page.title} : sélection d'avis
+  .bg-white.soft-double.bordered--top
+    .main-container
+      %h2.text--center.alpha Sélection d'avis de la communauté
       = render partial: 'vertical_pages/comments', locals: { comments: @vertical_page.reviews }
 
 - if @vertical_page.blog_articles.any?
-  %div{ class: (@subject.depth == 0 || @subject.depth == 2 ? '' : 'home-screen-promotion-wrapper') }
-    %h2.text--center.soft--bottom.f-weight-300 Ces articles pourraient vous intéresser
+  %hr
+  %div
+    %h2.text--center.alpha Ces articles pourraient vous intéresser
     = render partial: 'vertical_pages/blog_articles', locals: { articles: @vertical_page.blog_articles }
 
 = content_for :scripts do

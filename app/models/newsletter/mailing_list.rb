@@ -4,7 +4,7 @@ class Newsletter::MailingList < ActiveRecord::Base
 
   attr_accessible :name, :filters, :all_profiles, :tag
 
-  has_many :newsletters
+  has_many :newsletters, foreign_key: :newsletter_mailing_list_id
   belongs_to :structure
 
   validates :name, presence: true
@@ -113,6 +113,6 @@ class Newsletter::MailingList < ActiveRecord::Base
   #
   # @return an Array of UserProfiles
   def tagged_profiles
-    structure.user_profiles.tagged_with(self.tag)
+    structure.user_profiles.tagged_with(self.tag).where(subscribed: true)
   end
 end

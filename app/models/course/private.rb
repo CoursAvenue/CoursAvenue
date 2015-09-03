@@ -10,8 +10,6 @@ class Course::Private < Course
   ######################################################################
   after_initialize :default_values
 
-  after_create :set_gives_individual_courses_if_false
-
   after_save :create_hidden_plannings
   before_save :set_start_and_end_date
 
@@ -108,15 +106,5 @@ class Course::Private < Course
       self.audiences = [Audience::ADULT] if self.audiences.empty?
       self.levels    = [Level::ALL]      if self.levels.empty?
     end
-  end
-
-  # If a user creates a private course, then by default, it will set the teaches
-  # at home flag of structure to true.
-  #
-  # @return nil
-  def set_gives_individual_courses_if_false
-    self.structure.gives_individual_courses = true
-    self.structure.save
-    nil
   end
 end

@@ -540,6 +540,9 @@ France
   end
 
   def load_structure
+    if params[:id] == '_REPLACE_THIS_' and current_pro_admin
+      params[:id] = current_pro_admin.structure.slug
+    end
     @structure = Structure.friendly.find(params[:id]) if params[:id].present?
   end
 
