@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150903185107) do
+ActiveRecord::Schema.define(version: 20150903213400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -592,12 +592,6 @@ ActiveRecord::Schema.define(version: 20150903185107) do
     t.hstore   "meta_data"
   end
 
-  create_table "keywords", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "mailboxer_conversation_opt_outs", force: true do |t|
     t.integer "unsubscriber_id"
     t.string  "unsubscriber_type"
@@ -1090,26 +1084,6 @@ ActiveRecord::Schema.define(version: 20150903185107) do
 
   add_index "reply_tokens", ["token"], name: "index_reply_tokens_on_token", unique: true, using: :btree
 
-  create_table "reservation_loggers", force: true do |t|
-    t.integer  "course_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "reservations", force: true do |t|
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "user_id"
-    t.integer  "reservable_id"
-    t.string   "reservable_type"
-  end
-
-  create_table "search_term_logs", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "sessions", force: true do |t|
     t.string   "session_id", null: false
     t.text     "data"
@@ -1189,7 +1163,6 @@ ActiveRecord::Schema.define(version: 20150903185107) do
     t.boolean  "gmaps"
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
-    t.integer  "comments_count",                         default: 0
     t.text     "facebook_url"
     t.boolean  "no_facebook"
     t.boolean  "no_website"
@@ -1570,16 +1543,6 @@ ActiveRecord::Schema.define(version: 20150903185107) do
     t.integer  "homepage_position"
     t.integer  "depth"
   end
-
-  create_table "visitors", force: true do |t|
-    t.string   "fingerprint"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.hstore   "address_name"
-    t.hstore   "subject_id"
-  end
-
-  add_index "visitors", ["fingerprint"], name: "index_visitors_on_fingerprint", using: :btree
 
   create_table "website_page_articles", force: true do |t|
     t.integer  "website_page_id"

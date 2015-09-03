@@ -1,6 +1,5 @@
 # encoding: utf-8
 class StructuresController < ApplicationController
-  include FilteredSearchProvider
   include StructuresHelper
   include ApplicationHelper
 
@@ -22,7 +21,7 @@ class StructuresController < ApplicationController
   # GET /etablissements/:id
   def show
     @structure_decorator  = @structure.decorate
-    @serialized_structure = StructureSerializer.new(@structure)
+    @serialized_structure = SmallStructureSerializer.new(@structure)
     @city                 = @structure.city
 
     if current_user

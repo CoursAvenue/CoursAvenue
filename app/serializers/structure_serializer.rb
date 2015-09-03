@@ -24,17 +24,6 @@ class StructureSerializer < ActiveModel::Serializer
     MediaSerializer.new(preloaded_medias.first) if preloaded_medias.any?
   end
 
-  def places
-    if @options and @options[:place_ids].present?
-      place_ids = @options[:place_ids]
-      object.places.where( Place.arel_table[:id].eq_any(place_ids) )
-    elsif @options and @options[:query] and @options[:query][:lat] and @options[:query][:lng]
-      object.places_around @options[:query][:lat].to_f, @options[:query][:lng].to_f, (@options[:query][:radius] || 5)
-    else
-      object.places
-    end
-  end
-
   def highlighted_comment_title
     (object.highlighted_comment || object.comments.first).try(:title) if object.comments_count > 0
   end

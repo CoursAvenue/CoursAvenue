@@ -1,5 +1,5 @@
 class SubjectsController < ApplicationController
-  include SubjectSeeker, FilteredSearchProvider
+  include SubjectSeeker
   layout 'pages'
 
   respond_to :json

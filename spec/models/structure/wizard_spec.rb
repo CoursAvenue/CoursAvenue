@@ -116,14 +116,12 @@ describe Structure::Wizard do
       context 'widget_status is not defined' do
         it 'is not completed' do
           structure.widget_status = nil
-          structure.comments_count = 6
           expect(widget_status_wizard.completed?.call(structure)).to be(false)
         end
       end
       context 'widget_status is defined' do
         it 'is not completed' do
           structure.widget_status = Structure::WIDGET_STATUS.last
-          structure.comments_count = 6
           expect(widget_status_wizard.completed?.call(structure)).to be(true)
         end
       end
@@ -141,7 +139,6 @@ describe Structure::Wizard do
     context :has_more_than_five_recommandations do
       context 'widget_status is set to installed and widget_url is not defined' do
         it 'is not completed' do
-          structure.comments_count = 6
           structure.widget_status = 'installed'
           structure.widget_url = nil
           expect(widget_url_wizard.completed?.call(structure)).to be(false)
@@ -151,7 +148,6 @@ describe Structure::Wizard do
         it 'is not completed' do
           structure.widget_status = 'installed'
           structure.widget_url = 'http://lazdlaz.com'
-          structure.comments_count = 6
           expect(widget_url_wizard.completed?.call(structure)).to be(true)
         end
       end

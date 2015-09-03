@@ -1,6 +1,5 @@
 # encoding: utf-8
 class StructureWebsite::StructuresController < StructureWebsiteController
-  include FilteredSearchProvider
 
   def show
     @structure           = Structure.friendly.find(params[:id])

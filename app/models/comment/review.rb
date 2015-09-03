@@ -39,8 +39,6 @@ class Comment::Review < Comment
   before_save      :downcase_email
   before_save      :sanatize_content
 
-  after_save       :update_comments_count
-
   after_create     :create_user, if: -> { self.user.nil? }
   after_create     :send_email
   after_create     :affect_structure_to_user
@@ -48,7 +46,6 @@ class Comment::Review < Comment
   after_create     :complete_comment_notification
   after_create     :create_or_update_user_profile
 
-  after_destroy    :update_comments_count
   after_destroy    :remove_highlighted_comment_id_from_commentable
 
   ######################################################################
@@ -147,11 +144,6 @@ class Comment::Review < Comment
     else
       self.user == user
     end
-  end
-
-  # Update rating of the commentable (course, or structure)
-  def update_comments_count
-    self.commentable.update_comments_count
   end
 
   def highlighted?

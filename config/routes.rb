@@ -91,15 +91,6 @@ CoursAvenue::Application.routes.draw do
           get :preview
         end
       end
-      resources :metrics, only: [] do
-        collection do
-          get :comments
-          get :admins_count
-          get :comments_count
-          get :reco_count
-          get :users_count
-        end
-      end
 
       resources :sms_loggers, only: [:index]
       resources :comments, only: [:edit, :update, :index] do
@@ -115,7 +106,6 @@ CoursAvenue::Application.routes.draw do
           get :zip_code_search
         end
       end
-      resources :keywords, only: [:index, :create, :destroy]
       resources :search_term_logs, only: [:index]
       resources :subjects do
         member do
@@ -414,7 +404,6 @@ CoursAvenue::Application.routes.draw do
           end
         end
       end
-      resources :visitors, only: [:index, :show]
       resources :users, only: [:index]
       resources :comment_notifications, only: [:index]
       resources :conversations        , only: [:index]
@@ -522,8 +511,6 @@ CoursAvenue::Application.routes.draw do
     end
     resources :emails, only: [:create]
 
-    resources :visitors, only: [:create, :update, :index]
-
     resources :locations, only: [:index]
 
     resources :statistics, only: [:create]
@@ -578,11 +565,6 @@ CoursAvenue::Application.routes.draw do
       resources :medias                , only: [:index]                                     , controller: 'structures/medias'
     end
 
-    resources :courses, only: [:index], path: 'cours' do
-      resources :reservations, only: [:new, :create] # Redirection 301 in controller
-    end
-
-    resources :keywords, only: [:index]
     resources :reply_token, only: [:show]
 
     ########### Vertical pages ###########
@@ -622,7 +604,6 @@ CoursAvenue::Application.routes.draw do
       resources :courses, only: [:index], path: 'cours'
     end
 
-    resources :reservation_loggers, only: [:create]
     resources :click_logs, only: [:create]
     resources :guides, only: [:show] do
       member do
