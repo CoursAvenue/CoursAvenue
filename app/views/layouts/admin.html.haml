@@ -32,6 +32,11 @@
             - if current_pro_admin
               .drop-down__el.drop-down__el--left
                 %ul.drop-down__el-inner-box.text--left
+		  - if current_pro_admin and current_pro_admin.super_admin?
+		    %li.nowrap.text--left
+		      = link_to @structure.decorate.search_url, target: :_blank do
+			%i.fa-eye.soft-half--right
+			Voir sur le moteur de recherche (SUPER ADMIN)
                   - if @structure.main_contact
                     %li.nowrap.text--left
                       = link_to edit_pro_structure_admin_path(@structure, @structure.main_contact) do

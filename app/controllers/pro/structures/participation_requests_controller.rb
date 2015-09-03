@@ -16,8 +16,8 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     @participation_requests = @structure.participation_requests
     # Select participation request that have the right label id (some could have been flagged as inapropriate
     # and therefore have a different label_id)
-    @upcoming_participation_requests = @participation_requests.upcoming
-    @past_participation_requests     = @participation_requests.order('date DESC').past
+    @upcoming_participation_requests = @participation_requests.upcoming.reject { |pr| pr.user.deleted? }
+    @past_participation_requests     = @participation_requests.order('date DESC').past.reject { |pr| pr.user.deleted? }
   end
 
   # GET pro/etablissements/:structure_id/inscriptions-via-carte-bleu
@@ -35,6 +35,12 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   # GET pro/etablissements/:structure_id/participation_request/:id
   def show
     @participation_request = @structure.participation_requests.find(params[:id]).decorate
+    if @participation_request.user.deleted?
+      redirect_to pro_structure_participation_requests_path(@structure),
+        notice: 'Cet utilisateur à supprimer son compte CoursAvenue',
+        status: 301
+      return
+    end
     @user                  = @participation_request.user
   end
 

@@ -37,7 +37,6 @@ class Course < ActiveRecord::Base
   before_save :sanatize_description
   before_save :update_open_for_trial
   before_save :set_has_promotion
-  before_save :update_structure_meta_datas
   before_save :update_structure_vertical_pages_breadcrumb
 
   after_save   :reindex_plannings unless Rails.env.test?
@@ -399,10 +398,6 @@ class Course < ActiveRecord::Base
 
   def update_structure_vertical_pages_breadcrumb
     self.structure.delay.update_vertical_pages_breadcrumb
-  end
-
-  def update_structure_meta_datas
-    structure.delay.update_course_meta_datas
   end
 
   def update_indexable_cards

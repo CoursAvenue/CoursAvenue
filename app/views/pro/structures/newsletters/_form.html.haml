@@ -19,5 +19,11 @@
       };
 
 - if params[:with_courses].present?
-  = react_component('EmailPlanning', { structure_id: @structure.id, courses: ActiveModel::ArraySerializer.new(@structure.courses.reject{|c| c.plannings.future.count == 0 }, each_serializer: CourseSerializer) }, { prerender: false })
+  - if @structure.show_trainings_first
+    - courses = @structure.courses.trainings.reject{|c| c.plannings.future.count == 0 }
+    - courses += @structure.courses.regulars.reject{|c| c.plannings.future.count == 0 }
+  - else
+    - courses = @structure.courses.regulars.reject{|c| c.plannings.future.count == 0 }
+    - courses += @structure.courses.trainings.reject{|c| c.plannings.future.count == 0 }
+  = react_component('EmailPlanning', { structure_id: @structure.id, courses: ActiveModel::ArraySerializer.new(courses, each_serializer: CourseSerializer)}, { prerender: false })
 
