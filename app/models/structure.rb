@@ -122,7 +122,6 @@ class Structure < ActiveRecord::Base
                   :teaches_at_home, :teaches_at_home_radius, # in KM
                   # "Name of the subject,slug-of-the-subject;Name,slug"
                   :subjects_string, :parent_subjects_string, :course_subjects_string,
-                  :gives_group_courses, :gives_individual_courses,
                   :gives_non_professional_courses, :gives_professional_courses,
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
@@ -142,8 +141,7 @@ class Structure < ActiveRecord::Base
 
 
   # To store hashes into hstore
-  store_accessor :meta_data, :gives_group_courses,
-                             :course_names, :highlighted_comment_title, :min_price_amount,
+  store_accessor :meta_data, :course_names, :highlighted_comment_title, :min_price_amount,
                              :max_price_libelle, :level_ids, :audience_ids, :busy,
                              :response_rate, :response_time, :gives_non_professional_courses,
                              :gives_professional_courses,
@@ -566,21 +564,6 @@ class Structure < ActiveRecord::Base
     return [] unless level_ids.present?
     level_ids.map{ |level_id| Level.find(level_id) }
   end
-
-  def gives_group_courses
-    # We add the last updated courses date to the key changes with the courses.
-    Rails.cache.fetch("#{ cache_key }/gives_group_courses/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
-      courses.reject(&:is_individual?).any?
-    end
-  end
-  alias_method :gives_group_courses?, :gives_group_courses
-
-  def gives_individual_courses
-    Rails.cache.fetch("#{ cache_key }/gives_individual_courses/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
-      courses.select(&:is_individual?).any?
-    end
-  end
-  alias_method :gives_individual_courses?, :gives_individual_courses
 
   def has_promotion
     Rails.cache.fetch("#{ cache_key }/has_promotion/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
@@ -1266,7 +1249,6 @@ class Structure < ActiveRecord::Base
 
   def set_active_to_true
     self.active              = true
-    self.gives_group_courses = true
   end
 
   def subscribe_to_crm

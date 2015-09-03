@@ -57,11 +57,6 @@
   %hr.push--ends
   %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.courses') } }
     %h5 Cours proposés
-    .input
-      %label.text--left.hard--top.label--large.control-label> Type de cours
-      .input-container>
-        = structure_form.input :gives_group_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
-        = structure_form.input :gives_individual_courses, as: :boolean, wrapper_class: { class: 'checkbox-at-left ' }, input_html: { class: 'input--large' }, label_html: { class: 'label--large hard--bottom' }
 
     .input#teaches-at-home{ class: @structure.gives_individual_courses ? '' : 'hidden'}
       %label.control-label.label--large.inline-block.v-middle{ for: 'structure_teaches_at_home' }> Je me déplace à domicile autour de
