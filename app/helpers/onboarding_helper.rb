@@ -37,7 +37,7 @@ module OnboardingHelper
     status -= 20 if !structure.main_contact.confirmed?
     status -= 20 if !structure.profile_completed?
     status -= 20 if structure.medias.select(&:persisted?).empty?
-    status -= 20 if structure.comments.select(&:persisted?).empty?
+    status -= 20 if structure.comments.empty? and structure.comment_notifications.empty?
     status -= 20 if structure.plannings.future.select(&:persisted?).empty?
 
     status
