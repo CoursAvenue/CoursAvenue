@@ -583,8 +583,7 @@ class Structure < ActiveRecord::Base
   end
 
   def min_price_amount
-    Rails.cache.fetch("#{ cache_key }/min_price_amount/#{ courses_prices.with_deleted.maximum(:updated_at).to_i }") do
-      # course_prices.where(Price.arel_table[:amount].gt(0)).order('amount ASC').first
+    Rails.cache.fetch("#{ cache_key }/min_price_amount/#{ course_prices.with_deleted.maximum(:updated_at).to_i }") do
       course_prices.pluck(:amount).compact.select { |p| p > 0 }.min
     end
   end
