@@ -4,6 +4,7 @@
   - else
     = @subject.root.name
 = simple_form_for [:pro, @subject] do |f|
-  = f.input :name
+  = f.input :name, label: 'Nom', label_html: { class: 'v-middle' }, input_html: { class: 'v-middle' }
+  = f.input :remote_image_url, label: "Url de l'image", label_html: { class: 'v-middle' }, input_html: { class: 'v-middle' }
   = f.submit 'Enregistrer', class: 'btn btn--full btn--green', data: { disable_with: "En cours d'enregistrement" }
 
