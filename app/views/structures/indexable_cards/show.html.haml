@@ -152,6 +152,7 @@
                   - elsif @city
                     - @course.subjects.each do |subject|
                       - vertical_page = subject.vertical_pages.first
+                      - next if vertical_page.nil?
                       %div= link_to "Cours de #{vertical_page.subject_name.downcase} à #{@city.name} - #{@city.zip_code}", vertical_page_with_city_path(subject.root, vertical_page, @city)
 
         - unless @structure.is_sleeping?
