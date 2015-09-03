@@ -113,6 +113,6 @@ class Newsletter::MailingList < ActiveRecord::Base
   #
   # @return an Array of UserProfiles
   def tagged_profiles
-    structure.user_profiles.tagged_with(self.tag)
+    structure.user_profiles.tagged_with(self.tag).where(subscribed: true)
   end
 end
