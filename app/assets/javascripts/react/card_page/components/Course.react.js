@@ -61,6 +61,7 @@ var Course = React.createClass({
             if (this.props.show_header) {
                 this.props.hide_header_details = (_.isBoolean(this.props.hide_header_details) ? this.props.hide_header_details : false);
                 course_header = (<CourseHeader key={this.props.course_id + 'header'}
+                                     dont_register={this.props.dont_register}
                                hide_header_details={this.props.hide_header_details}
                                          course_id={this.props.course_id || this.props.indexable_card_id} />);
             }
