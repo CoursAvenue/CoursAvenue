@@ -61,7 +61,6 @@ class Planning < ActiveRecord::Base
 
   before_save :set_structure_if_blank
 
-  after_save    :update_structure_meta_datas
   # after_save    :update_indexable_cards
 
   # before_destroy :destroy_indexable_cards
@@ -511,10 +510,6 @@ class Planning < ActiveRecord::Base
     return nil if indexable_card.nil?
     indexable_card.destroy if indexable_card.plannings.count == 1
     nil
-  end
-
-  def update_structure_meta_datas
-    structure.delay.update_planning_meta_datas
   end
 
   def update_indexable_cards
