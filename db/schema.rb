@@ -811,6 +811,48 @@ ActiveRecord::Schema.define(version: 20150907111849) do
 
   add_index "participations_users", ["participation_id", "user_id"], name: "index_participations_users_on_participation_id_and_user_id", using: :btree
 
+  create_table "passions", force: true do |t|
+    t.integer  "user_id"
+    t.string   "passion_frequency_ids"
+    t.boolean  "practiced",               default: true
+    t.string   "passion_expectation_ids"
+    t.string   "passion_reason_ids"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "info"
+    t.string   "level_ids"
+    t.string   "passion_for_ids"
+    t.string   "passion_time_slot_ids"
+  end
+
+  create_table "passions_subjects", id: false, force: true do |t|
+    t.integer "passion_id"
+    t.integer "subject_id"
+  end
+
+  add_index "passions_subjects", ["passion_id", "subject_id"], name: "index_passions_subjects_on_passion_id_and_subject_id", using: :btree
+
+  create_table "payment_customers", force: true do |t|
+    t.string   "stripe_customer_id"
+    t.integer  "client_id"
+    t.string   "client_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "payment_customers", ["stripe_customer_id"], name: "index_payment_customers_on_stripe_customer_id", using: :btree
+
+  create_table "payment_notifications", force: true do |t|
+    t.text     "params"
+    t.integer  "structure_id"
+    t.string   "order_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "type"
+    t.integer  "user_id"
+    t.string   "product_type"
+  end
+
   create_table "phone_numbers", force: true do |t|
     t.string   "number"
     t.string   "phone_type"
