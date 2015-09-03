@@ -23,6 +23,7 @@
         %h1.flush.f-weight-bold.f-size-really-big.white.soft--sides
           Vous n'avez pas encore de favoris.
         .soft--top
-          = link_to root_search_page_without_subject_path(city_slug, locate_user: 'on'), class: 'btn btn--green btn--large' do
+          -# = link_to root_search_page_without_subject_path(city_slug, locate_user: 'on'), class: 'btn btn--green btn--large' do
+          = link_to root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--green btn--large' do
             %i.fa.fa-map-marker
             Trouver des favoris
