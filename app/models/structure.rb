@@ -562,41 +562,41 @@ class Structure < ActiveRecord::Base
   # TODO: Drop the structure cache_key?
   def gives_group_courses
     # We add the last updated courses date to the key changes with the courses.
-    Rails.cache.fetch("#{ cache_key }/gives_group_courses/#{ courses.maximum(:updated_at).to_i }") do
+    Rails.cache.fetch("#{ cache_key }/gives_group_courses/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
       courses.reject(&:is_individual?).any?
     end
   end
   alias_method :gives_group_courses?, :gives_group_courses
 
   def gives_individual_courses
-    Rails.cache.fetch("#{ cache_key }/give_individual_courses/#{ courses.maximum(:updated_at).to_i }") do
+    Rails.cache.fetch("#{ cache_key }/give_individual_courses/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
       courses.select(&:is_individual?).any?
     end
   end
   alias_method :give_individual_courses?, :give_individual_courses
 
   def has_promotion
-    Rails.cache.fetch("#{ cache_key }/has_promotion/#{ courses.maximum(:updated_at).to_i }") do
+    Rails.cache.fetch("#{ cache_key }/has_promotion/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
       courses.detect(&:has_promotion?).present?
     end
   end
   alias_method :has_promotion?, :has_promotion
 
   def has_free_trial_course
-    Rails.cache.fetch("#{ cache_key }/has_free_trial_course/#{ courses.maximum(:updated_at).to_i }") do
+    Rails.cache.fetch("#{ cache_key }/has_free_trial_course/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
       courses.detect(&:has_free_trial_lesson?).present?
     end
   end
   alias_method :has_free_trial_course?, :has_free_trial_course
 
   def course_names
-    Rails.cache.fetch("#{ cache_key }/course_names/#{ courses.maximum(:updated_at).to_i }") do
+    Rails.cache.fetch("#{ cache_key }/course_names/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
       courses.map(&:name).uniq.join(', ')
     end
   end
 
   def min_price_amount
-    Rails.cache.fetch("#{ cache_key }/min_price_amount/#{ courses_prices.maximum(:updated_at).to_i }") do
+    Rails.cache.fetch("#{ cache_key }/min_price_amount/#{ courses_prices.with_deleted.maximum(:updated_at).to_i }") do
       # course_prices.where(Price.arel_table[:amount].gt(0)).order('amount ASC').first
       course_prices.pluck(:amount).compact.select { |p| p > 0 }.min
     end
