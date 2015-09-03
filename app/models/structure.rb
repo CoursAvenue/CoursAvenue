@@ -129,7 +129,7 @@ class Structure < ActiveRecord::Base
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason,
                   :order_recipient, :delivery_email_status, :trial_courses_policy,
-                  :sleeping_structure, :premium, :cities_text, :sms_opt_in,
+		  :sleeping_structure, :premium, :sms_opt_in,
                   :principal_mobile_id, :pure_player # Helps to know which actors are big on the market
 
   accepts_nested_attributes_for :places,
@@ -150,12 +150,12 @@ class Structure < ActiveRecord::Base
                              :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score,
                              :search_score_updated_at, :is_sleeping, :sleeping_email_opt_in,
                              :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient,
-                             :status, :vertical_pages_breadcrumb, :is_parisian,
+			     :status, :vertical_pages_breadcrumb,
                              :close_io_lead_id, :sponsorship_token
 
   define_boolean_accessor_for :meta_data, :gives_non_professional_courses,
                                           :gives_professional_courses, :is_sleeping, :sleeping_email_opt_in,
-                                          :promo_code_sent, :is_parisian
+					  :promo_code_sent
 
   mount_uploader :logo, StructureLogoUploader
 
@@ -609,19 +609,23 @@ class Structure < ActiveRecord::Base
     save(validate: false)
   end
 
-  def update_place_meta_datas
-    self.is_parisian = self.parisian?
-    update_cities_text
-  end
-
   # Tells if the structure is based in Paris and around
   #
   # TODO: use cache?
   # @return Boolean
   def parisian?
-    places.any?(&:parisian?)
+    Rails.cache.fetch("#{ cache_key }/parisian/#{ places.with_deleted.maximum(:updated_at).to_i }") do
+      places.any?(&:parisian?)
+    end
   end
+  alias_method :is_parisian,  :parisian?
+  alias_method :is_parisian?, :parisian?
 
+  def cities_text
+    Rails.cache.fetch("#{ cache_key }/parisian/#{ places.with_deleted.maximum(:updated_at).to_i }") do
+      places.map(&:city).map(&:name).uniq.join(', ')
+    end
+  end
 
   # TODO this method doesn't actually work:
   # according to the rspec tests, the resulting
@@ -1183,10 +1187,6 @@ class Structure < ActiveRecord::Base
       website_planning_page_view_data = client.page_views(self.id, 'website/planning', 2.months.ago)
       website_planning_page_view_data.map(&:pageviews).reduce(&:+)
     end
-  end
-
-  def update_cities_text
-    update_column :cities_text, places.map(&:city).map(&:name).uniq.join(', ')
   end
 
   # Whether or not we should disable the current structure.

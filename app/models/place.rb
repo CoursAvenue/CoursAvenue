@@ -28,7 +28,6 @@ class Place < ActiveRecord::Base
 
   after_save   :geocode_if_needs_to unless Rails.env.test?
   after_save   :touch_relations
-  before_destroy :update_structure_meta_datas
 
   ######################################################################
   # Scopes                                                             #
@@ -135,7 +134,6 @@ class Place < ActiveRecord::Base
   end
 
   def touch_relations
-    self.structure.update_place_meta_datas
     self.plannings.map(&:touch)
     self.indexable_cards.map(&:touch)
   end
