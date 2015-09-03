@@ -11,12 +11,12 @@
     - index = 0
     - if @structure.show_trainings_first
       - @structure.courses.trainings.each_with_index do |training|
-	- next if training.plannings.future.count == 0
-	- if index == 0
-	  %h2.soft--top.soft--sides#stages-ateliers Stages
-	- index = 1
+        - next if training.plannings.future.count == 0
+        - if index == 0
+          %h2.soft--top.soft--sides#stages-ateliers Stages
+        - index = 1
 
-	= react_component('Course', { show_header: true, show_footer: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: training.id }, { prerender: false })
+        = react_component('Course', { show_header: true, show_footer: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: training.id }, { prerender: false })
 
     - index = 0
     - @structure.courses.lessons.each_with_index do |lesson|
@@ -38,9 +38,9 @@
 
     - if !@structure.show_trainings_first
       - @structure.courses.trainings.each_with_index do |training|
-	- next if training.plannings.future.count == 0
-	- if index == 0
-	  %h2.soft--top.soft--sides#stages-ateliers Stages
-	- index = 1
+        - next if training.plannings.future.count == 0
+        - if index == 0
+          %h2.soft--top.soft--sides#stages-ateliers Stages
+        - index = 1
 
-	= react_component('Course', { show_header: true, show_footer: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: training.id }, { prerender: false })
+        = react_component('Course', { show_header: true, show_footer: true, dont_register: dont_register, show_location: true, structure_id: @structure.id, course_id: training.id }, { prerender: false })
