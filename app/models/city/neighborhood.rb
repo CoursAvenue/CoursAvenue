@@ -10,7 +10,7 @@ class City::Neighborhood < ActiveRecord::Base
 
   belongs_to :city
 
-  attr_accessible :name, :latitude, :longitude, :city_id,
+  attr_accessible :name, :description, :latitude, :longitude, :city_id,
                   :image, :remote_image_url
 
   mount_uploader :image, VerticalPageImageUploader

@@ -38,7 +38,11 @@
                                         per_page: 14,
                                         follow_links: true })
     .grid__item.four-tenths.palm-one-whole.palm-push--top>
-      - if @city
+      - if @neighborhood
+        %h2= @neighborhood.name
+        .epsilon.line-height-1-5
+          = @neighborhood.description
+      - elsif @city
         %h2= @city.subtitle
         .epsilon.line-height-1-5
           = simple_format @city.description
