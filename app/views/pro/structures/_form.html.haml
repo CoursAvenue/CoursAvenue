@@ -67,13 +67,6 @@
       = structure_form.label :description, class: 'label--large'
       .input-container>
         = structure_form.input :description, label: false, wrapper_html: { class: 'flush one-whole' }, input_html: { style: 'height: 130px;', id: 'description-textarea', class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
-  - if @structure.comments_count >= 5
-    %hr.push--ends
-    %div
-      %h5 Autre
-      %div
-        = structure_form.input :widget_status, as: :select, collection: Structure::WIDGET_STATUS, label_method: lambda{|status| t("structures.widget_status.#{status}")}, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
-        = structure_form.input :widget_url, as: :string, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
 
   %div
     = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom', data: { disable_with: "En cours d'enregistrement" }
