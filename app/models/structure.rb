@@ -959,10 +959,12 @@ class Structure < ActiveRecord::Base
   #
   # @return City
   def dominant_city
-    if plannings.any?
-      dominant_city_from_planning
-    else
-      ([city] + places.map(&:city)).group_by{ |c| c }.values.max_by(&:size).first
+    Rails.cache.fetch ["Structure#dominant_city", self, plannings.maximum(:updated_at)] do
+      if plannings.any?
+	dominant_city_from_planning
+      else
+	([city] + places.map(&:city)).group_by{ |c| c }.values.max_by(&:size).first
+      end
     end
   end
 

@@ -194,4 +194,7 @@ class StructureDecorator < Draper::Decorator
     I18n.t("structures.structure_type_contact.#{(object.structure_type.present? ? object.structure_type : 'structures.other')}")
   end
 
+  def search_url
+    h.root_search_page_without_subject_url(object.dominant_city, zoom: '15', discipline: object.name, subdomain: 'www')
+  end
 end
