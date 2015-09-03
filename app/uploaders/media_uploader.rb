@@ -86,8 +86,6 @@ class MediaUploader < CarrierWave::Uploader::Base
     transformations << { width: 300, height: 220, crop: :fill }
     if model.mediable.is_open_for_trial?
       transformations << { overlay: "essai-gratuit", width: 184, height: 35, gravity: :south_east, y: 20 }
-    elsif model.mediable.has_promotion?
-      transformations << { overlay: "promotion", width: 167, height: 35, gravity: :south_east, y: 20 }
     else
       transformations << { overlay: "decouvrir", width: 167, height: 35, gravity: :south_east, y: 20 }
     end

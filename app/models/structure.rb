@@ -140,7 +140,7 @@ class Structure < ActiveRecord::Base
 
 
   # To store hashes into hstore
-  store_accessor :meta_data, :course_names, :highlighted_comment_title, :min_price_amount,
+  store_accessor :meta_data, :highlighted_comment_title, :min_price_amount,
                              :max_price_libelle, :level_ids, :audience_ids, :busy,
                              :response_rate, :response_time,
                              :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score,
@@ -266,118 +266,6 @@ class Structure < ActiveRecord::Base
   end
 
   ######################################################################
-  # Solr                                                               #
-  ######################################################################
-  # :nocov:
-  searchable do
-
-    integer :search_score do
-      compute_search_score
-    end
-
-    text :name, boost: 5
-
-    text :course_names do
-      courses.map(&:name)
-    end
-
-    text :subjects, boost: 5 do
-      subject_array = []
-      self.subjects.uniq.each do |subject|
-        subject_array << subject
-        subject_array << subject.parent        if subject.parent
-        subject_array << subject.grand_parent  if subject.grand_parent
-      end
-      subject_array.uniq.map(&:name)
-    end
-
-    string :email_status do
-      if email_status.nil?
-        email_status
-      else
-        'more_than_fifteen_recommendations'
-      end
-    end
-
-    latlon :location, multiple: true do
-      places.map do |place|
-        Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
-      end
-    end
-
-    integer :id
-
-    # Here we store event the subject at depth 2 for pro admin dashboard purpose.
-    integer :subject_ids, multiple: true do
-      subject_ids = []
-      self.used_subjects.uniq.each do |subject|
-        subject_ids << subject.id
-        subject_ids << subject.parent.id if subject.parent
-        subject_ids << subject.root.id if subject.root
-      end
-      subject_ids.compact.uniq
-    end
-
-    string :subject_slugs, multiple: true do
-      subject_slugs = []
-      self.used_subjects.uniq.each do |subject|
-        subject_slugs << subject.slug
-        subject_slugs << subject.parent.slug if subject.parent
-        subject_slugs << subject.root.slug if subject.root
-      end
-      subject_slugs.uniq
-    end
-
-    string :structure_type do
-      self.structure_type.split('.').last if self.structure_type
-    end
-
-    integer :funding_type_ids, multiple: true
-
-    boolean :is_open_for_trial do
-      self.is_open_for_trial?
-    end
-
-    boolean :premium
-
-    boolean :has_premium_prices
-
-    integer :nb_courses do
-      courses.select(&:is_published?).count
-    end
-
-    integer :nb_comments do
-      self.comments_count
-    end
-    boolean :has_comment do
-      self.comments_count > 0
-    end
-    boolean :has_logo do
-      self.logo?
-    end
-
-    boolean :medias_count do
-      self.medias.count
-    end
-
-    boolean :is_sleeping do
-      self.is_sleeping.present?
-    end
-
-    boolean :sleeping_email_opt_in
-    boolean :active do
-      (active && enabled)
-    end
-
-    string :zip_codes, multiple: true do
-      (self.places.map(&:zip_code) << self.zip_code).uniq
-    end
-  end
-  # :nocov:
-
-  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
-
-  ######################################################################
   # Caching                                                            #
   ######################################################################
 
@@ -489,26 +377,6 @@ class Structure < ActiveRecord::Base
 
     return [] unless level_ids.present?
     level_ids.map{ |level_id| Level.find(level_id) }
-  end
-
-  def has_promotion
-    Rails.cache.fetch("#{ cache_key }/has_promotion/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
-      courses.detect(&:has_promotion?).present?
-    end
-  end
-  alias_method :has_promotion?, :has_promotion
-
-  def has_free_trial_course
-    Rails.cache.fetch("#{ cache_key }/has_free_trial_course/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
-      courses.detect(&:has_free_trial_lesson?).present?
-    end
-  end
-  alias_method :has_free_trial_course?, :has_free_trial_course
-
-  def course_names
-    Rails.cache.fetch("#{ cache_key }/course_names/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
-      courses.map(&:name).uniq.join(', ')
-    end
   end
 
   def min_price_amount

@@ -1,63 +1,42 @@
-= side_menu_currently_at 'vertical_pages'
+= side_menu_currently_at 'subjects'
 
-.panel
-  .panel__header.soft
-    %h3.flush Pages verticales
-  .panel__body.soft--ends
-    .text--center.push-half--bottom
-      = link_to 'Éditer les villes', pro_cities_path, class: 'btn btn--green'
-    %table.table--data.table--striped.white-box#dataTable
-      %thead
-        %tr
-          %th Discipline 1
-          %th Discipline 2
-          %th Discipline 3
-          %th # profil
-          %th Image
-          %th
-          %th
-      %tbody
-        - @structure_search.facet(:subject_ids).rows.each do |facet|
-          - subject = Subject.find(facet.value)
-          %tr
-            %td= subject.root.name
-            %td
-              - if subject.depth == 1
-                = link_to subject.name, "##{subject.slug}"
-              - elsif subject.depth == 2
-                = link_to subject.parent.name, "##{subject.parent.slug}"
-            %td
-              - if subject.depth == 2
-                = subject.name
-            %td= facet.count
-            %td{data: {value: subject.image.present? ? '0' : '1'}}
-              - if subject.image.present?
-                %i.fa-check
-            %td.nowrap
-              = link_to edit_pro_subject_path(subject) do
-                - if subject.title.present? and subject.good_to_know.present?
-                  %i.fa-check
-                Editer
-            %td.nowrap
-              - subject.vertical_pages.each do |vertical_page|
-                = link_to 'Lien', vertical_page_url(subject.root, vertical_page), target: :_blank
+%h1 Disciplines
 
-    %h2 Disciplines niveau 2
-    %table.table--data.table--striped.white-box#dataTable{style: 'margin-bottom: 1000px;'}
-      %thead
-        %tr
-          %th Maman
-          %th Enfant
-          %th Image
-          %th
-          %th
-      %tbody
-        - Subject.at_depth(1).each do |subject|
-          %tr{id: subject.slug}
-            %td= subject.root.name
-            %td= subject.name
-            %td{data: {value: subject.image.present? ? '0' : '1'}}
-              - if subject.image.present?
-                %i.fa-check
-            %td= link_to 'Editer', edit_pro_subject_path(subject)
+%table.table--data.table--striped.white-box#dataTable
+  %thead
+    %tr
+      %th Discipline 1
+      %th Discipline 2
+      %th Discipline 3
+      %th.nowrap
+        C0
+        %i.fa-info-circle.cursor-pointer{ data: { toggle: 'popover', content: 'Pas de logo / Profil incomplet / (il est possible que ces profils aient des recos) / Pas de reco', placement: 'top', trigger: 'hover' } }
+      %th.nowrap
+        C1
+        %i.fa-info-circle.cursor-pointer{ data: { toggle: 'popover', content: 'Moins de 5 recos', placement: 'top', trigger: 'hover' } }
+      %th.nowrap
+        C2
+        %i.fa-info-circle.cursor-pointer{ data: { toggle: 'popover', content: 'Plus de 5 recos', placement: 'top', trigger: 'hover' } }
+      %th
+  %tbody
+    - @subjects.each do |subject|
+      - cache [subject, 'pro/subjects/all'] do
+        %tr{ data: { subject: { id: subject.id } } }
+          %td= subject.root.name
+          %td
+            - if subject.depth == 1
+              = subject.name
+            - elsif subject.depth == 2
+              = subject.parent.name
+          %td
+            - if subject.depth == 2
+              = subject.name
+          %td.complet-0
+          %td.complet-1
+          %td.complet-2
 
+          %td.nowrap
+            = link_to 'Editer', edit_name_pro_subject_path(subject), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'
+            - if subject.depth == 1
+              \/
+              = link_to 'Ajouter un enfant', new_pro_subject_path(parent_id: subject.id), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'

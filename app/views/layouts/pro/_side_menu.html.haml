@@ -8,7 +8,7 @@
         = pro_side_menu_link 'subscription_plans', pro_subscriptions_plans_url(subdomain: 'pro'),  current: current_tab, icon: 'fa-2x fa-credit-card'
         = pro_side_menu_link 'pages',              admin_blog_articles_url(subdomain: 'pro'),      current: current_tab, icon: 'fa-2x fa-book'
         = pro_side_menu_link 'invitations',        pro_invited_users_url(subdomain: 'pro'),        current: current_tab, icon: 'fa fa-2x fa-group'
-        = pro_side_menu_link 'subjects',           all_pro_subjects_url(subdomain: 'pro'),         current: current_tab, icon: 'fa fa-2x fa-chevron-down'
+        = pro_side_menu_link 'subjects',           pro_subjects_url(subdomain: 'pro'),         current: current_tab, icon: 'fa fa-2x fa-chevron-down'
         = pro_side_menu_link 'emailings',          pro_emailings_url(subdomain: 'pro'),            current: current_tab, icon: 'fa-2x fa-send'
         = pro_side_menu_link 'guides',             pro_guides_path(subdomain: 'pro'),              current: current_tab, icon: 'fa-2x fa-bars'
       - else

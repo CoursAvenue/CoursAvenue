@@ -19,9 +19,7 @@
     -# Ex: YOGA SATTVA PARIS - Essai GRATUIT - CoursAvenue.com
     - cache [@structure, 'structure/show/meta/title'] do
       - if @structure.is_open_for_trial?
-        #{@structure.name.gsub('&', 'et')} - Essais GRATUIT - CoursAvenue.com
-      - elsif @structure.has_promotion?
-        #{@structure.name.gsub('&', 'et')} - PROMOTIONS - CoursAvenue.com
+        #{@structure.name.gsub('&', 'et')} - Essais gratuit - CoursAvenue.com
       - else
         #{@structure.name.gsub('&', 'et')} - CoursAvenue.com
 
@@ -31,5 +29,4 @@
     - cache [@structure, 'structure/show/meta/description/v2'] do
       - infos = []
       - infos << "Cours d'Essai Gratuits" if @structure.is_open_for_trial?
-      - infos << "Promotions"             if @structure.has_promotion?
       #{t("#{(@structure.structure_type.present? ? @structure.structure_type : 'independant')}_for_meta_description")} #{@structure.name} à #{@structure.city.try(:name)} : #{infos.any? ? "#{infos.join(' & ')}." : ''} Réservez gratuitement et consultez les #{@structure.comments_count} avis, notés 5 sur 5 sur CoursAvenue.

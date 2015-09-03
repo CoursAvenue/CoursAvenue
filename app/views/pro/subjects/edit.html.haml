@@ -1,36 +1,10 @@
-= side_menu_currently_at 'Pages verticales'
+%h3
+  - if @subject.parent
+    = "#{@subject.root.name} / #{@subject.parent.name}"
+  - else
+    = @subject.root.name
+= simple_form_for [:pro, @subject] do |f|
+  = f.input :name, label: 'Nom', label_html: { class: 'v-middle' }, input_html: { class: 'v-middle' }
+  = f.input :remote_image_url, label: "Url de l'image", label_html: { class: 'v-middle' }, input_html: { class: 'v-middle' }
+  = f.submit 'Enregistrer', class: 'btn btn--full btn--green', data: { disable_with: "En cours d'enregistrement" }
 
-- if @subject.image.present?
-  = image_tag @subject.image.url, height: 100
-
-%div
-  %h3.inline-block= @subject.name
-  -# .inline-block= link_to 'Voir la page', vertical_page_url_for(@subject), target: :_blank
-.form-white-box
-  = simple_form_for [:pro, @subject], remote: true do |f|
-    = f.input :image
-    = f.input :title
-    = f.input :subtitle
-    = f.input :good_to_know, input_html: { data: { behavior: 'autoresize'} }
-    = f.input :needed_meterial, input_html: { data: { behavior: 'autoresize'} }
-    = f.input :tips, input_html: { data: { behavior: 'autoresize'} }
-    = f.submit 'Enregistrer', class: 'btn btn--full btn--green', data: { disable_with: "En cours d'enregistrement" }
-
--# %div
--#   %h3.inline-block= "#{@city.name} / #{@subject.name}"
--#   .inline-block= link_to 'Voir la page', vertical_page_url_for(@subject, @city), target: :_blank
-
--# .form-white-box
--#   = simple_form_for @city_subject_info, url: pro_city_subject_infos_path, method: :post, remote: true do |f|
--#     = f.input :subject_id , as: :hidden
--#     = f.input :city_id , as: :hidden
--#     = f.input :where_to_practice, input_html: { data: { behavior: 'autoresize'} }
--#     = f.input :where_to_suit_up, input_html: { data: { behavior: 'autoresize'} }
--#     = f.input :average_price, input_html: { data: { behavior: 'autoresize'} }
--#     = f.input :tips, input_html: { data: { behavior: 'autoresize'} }
--#     = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }
-
-
-%h4.push--bottom Textes relatifs aux villes
-- @paris = City.find 'paris'
-= link_to 'Paris', new_pro_city_subject_info_path(city_id: @paris.id, subject_id: @subject.id), class: 'btn'
