@@ -369,10 +369,6 @@ class Structure < ActiveRecord::Base
       (active && enabled)
     end
 
-    boolean :has_admin do
-      self.has_admin?
-    end
-
     string :zip_codes, multiple: true do
       (self.places.map(&:zip_code) << self.zip_code).uniq
     end
@@ -431,10 +427,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  def has_admin?
-    main_contact and main_contact.persisted?
-  end
-
   def main_contact
     admins.first
   end
@@ -451,20 +443,6 @@ class Structure < ActiveRecord::Base
     subjects.uniq.map(&:parent).uniq
   end
 
-  def contact_name
-    if admins.any?
-      admins.first.name
-    end
-  end
-
-  def description_for_meta
-    description.gsub(/\r\n\r\n/, ' ').html_safe if description
-  end
-
-  def independant?
-    structure_type == 'structures.independant'
-  end
-
   def ratio_from_original_from_large
     600.0 / 450.0
   end
@@ -473,41 +451,11 @@ class Structure < ActiveRecord::Base
     read_attribute(:crop_width) || 600
   end
 
-  def has_cropping_attributes?
-    return false if crop_width == 0
-    !crop_x.blank? && !crop_y.blank? && !crop_width.blank?
-  end
-
   # Tell if the profile is complete
   #
   # @return Boolean
   def profile_completed?
     logo? and description.present?
-  end
-
-  def has_installed_widget?
-    widget_status == 'installed'
-  end
-
-
-  # Returns the image that goes aside of the profile page
-  # If there are videos, they will be put in cover so we return the cover image
-  # But if there is no video, we return the second image
-  #
-  # @return Media
-  def side_cover_image
-    if medias.videos.any?
-      medias.images.cover.first
-    else
-      medias.images.reject{|image| image.cover? }.first
-    end
-  end
-
-  # Returns the cover image if there is one, else the first image
-  #
-  # @return Media
-  def cover_image
-    medias.images.cover.first || medias.images.first
   end
 
   ######################################################################

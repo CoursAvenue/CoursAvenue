@@ -274,10 +274,6 @@ class Course < ActiveRecord::Base
     'Cours'
   end
 
-  def description_for_meta
-    self.description.gsub(/\r\n\r\n/, ' ').html_safe if self.description
-  end
-
   def contact_email
     self.structure.contact_email
   end

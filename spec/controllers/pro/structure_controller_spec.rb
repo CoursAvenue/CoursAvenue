@@ -10,17 +10,6 @@ describe Pro::StructuresController do
   end
 
   context 'member' do
-    describe "GET #update_widget_status" do
-      it "redirects" do
-        get :update_widget_status, id: admin.structure.slug
-        expect(response).to be_redirect
-      end
-      it "updates the widget status" do
-        get :update_widget_status, id: admin.structure.slug, status: Structure::WIDGET_STATUS.first
-        expect(assigns(:structure).widget_status).to eq Structure::WIDGET_STATUS.first
-      end
-    end
-
     describe "GET #signature" do
       it "redirects" do
         get :signature, id: admin.structure.slug

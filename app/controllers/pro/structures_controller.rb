@@ -86,28 +86,6 @@ class Pro::StructuresController < Pro::ProController
   end
 
   # GET member
-  # Set the widget status
-  # params
-  #   :status
-  def update_widget_status
-    if params[:status] and Structure::WIDGET_STATUS.include? params[:status]
-      @structure.update_column :widget_status, params[:status]
-    end
-    if params[:status] == 'need_help'
-      notice = 'Merci pour votre réponse, notre équipe vous contactera au plus vite pour vous aider'
-    else
-      notice = 'Merci pour votre réponse.'
-    end
-    respond_to do |format|
-      if @structure.has_installed_widget?
-        format.html { redirect_to(dashboard_pro_structure_path(@structure), notice: notice) }
-      else
-        format.html { redirect_to(widget_pro_structure_path(@structure), notice: notice) }
-      end
-    end
-  end
-
-  # GET member
   def widget
     respond_to do |format|
       format.html
