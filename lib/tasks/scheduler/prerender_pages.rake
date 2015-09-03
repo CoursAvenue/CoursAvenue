@@ -5,17 +5,25 @@ namespace :scheduler do
     # $ rake scheduler:prerender:refresh_vertical_pages
     desc 'Prerender pages and save them to S3.1'
     task :refresh_vertical_pages => :environment do
+      bar = ProgressBar.new(VerticalPage.count)
       include Rails.application.routes.url_helpers
       Rails.application.routes.default_url_options[:host] = 'coursavenue.com'
       Rails.application.routes.default_url_options[:protocol] = Rails.env.production? ? 'https' : 'http'
       VerticalPage.find_each do |vertical_page|
+        bar.increment!
         next if vertical_page.subject.nil?
         if vertical_page.subject and vertical_page.subject.is_root?
           PrerenderRenewer.delay.renew_url(root_vertical_page_url(vertical_page, subdomain: 'www', protocol: 'https', host: 'coursavenue.com'))
+          City::Neighborhood.find_each do |neighborhood|
+            PrerenderRenewer.delay.renew_url(root_vertical_page_with_city_url(vertical_page, neighborhood.city, neighborhood, subdomain: 'www', protocol: 'https', host: 'coursavenue.com'))
+          end
           %w(paris marseille lyon toulouse nice nantes bordeaux lille).each do |city_slug|
             PrerenderRenewer.delay.renew_url(root_vertical_page_with_city_url(vertical_page, city_slug, subdomain: 'www', protocol: 'https', host: 'coursavenue.com'))
           end
         else
+          City::Neighborhood.find_each do |neighborhood|
+            PrerenderRenewer.delay.renew_url(vertical_page_with_neighborhood_url(vertical_page.subject.root, vertical_page, neighborhood.city, neighborhood, subdomain: 'www', protocol: 'https', host: 'coursavenue.com'))
+          end
           PrerenderRenewer.delay.renew_url(vertical_page_url(vertical_page.subject.root, vertical_page, subdomain: 'www', protocol: 'https', host: 'coursavenue.com'))
           %w(paris marseille lyon toulouse nice nantes bordeaux lille).each do |city_slug|
             PrerenderRenewer.delay.renew_url(vertical_page_with_city_url(vertical_page.subject.root, vertical_page, city_slug, subdomain: 'www', protocol: 'https', host: 'coursavenue.com'))
@@ -30,7 +38,9 @@ namespace :scheduler do
       include Rails.application.routes.url_helpers
       Rails.application.routes.default_url_options[:host] = 'coursavenue.com'
       Rails.application.routes.default_url_options[:protocol] = Rails.env.production? ? 'https' : 'http'
+      bar = ProgressBar.new(Structure.count)
       Structure.find_each do |structure|
+        bar.increment!
         PrerenderRenewer.delay.renew_url structure_url(structure, subdomain: 'www')
       end
     end
@@ -41,7 +51,9 @@ namespace :scheduler do
       include Rails.application.routes.url_helpers
       Rails.application.routes.default_url_options[:host] = 'coursavenue.com'
       Rails.application.routes.default_url_options[:protocol] = Rails.env.production? ? 'https' : 'http'
+      bar = ProgressBar.new(IndexableCard.count)
       IndexableCard.with_course.find_each do |card|
+        bar.increment!
         PrerenderRenewer.delay.renew_url structure_indexable_card_url(card.structure, card, subdomain: 'www')
       end
     end
@@ -60,7 +72,9 @@ namespace :scheduler do
       CITIES.each do |city|
         PrerenderRenewer.delay.renew_url root_search_page_without_subject_url(city, subdomain: 'www')
       end
+      bar = ProgressBar.new(Subject.count)
       Subject.find_each do |subject|
+        bar.increment!
         CITIES.each do |city|
           if subject.is_root?
             PrerenderRenewer.delay.renew_url root_search_page_url(subject, city, subdomain: 'www')
