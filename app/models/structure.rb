@@ -122,7 +122,6 @@ class Structure < ActiveRecord::Base
                   :teaches_at_home, :teaches_at_home_radius, # in KM
                   # "Name of the subject,slug-of-the-subject;Name,slug"
                   :subjects_string, :parent_subjects_string, :course_subjects_string,
-                  :gives_non_professional_courses, :gives_professional_courses,
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
@@ -142,17 +141,15 @@ class Structure < ActiveRecord::Base
 
   # To store hashes into hstore
   store_accessor :meta_data, :course_names, :highlighted_comment_title, :min_price_amount,
-                             :max_price_libelle, :level_ids, :audience_ids, :busy,
-                             :response_rate, :response_time, :gives_non_professional_courses,
-                             :gives_professional_courses,
-                             :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score,
-                             :search_score_updated_at, :is_sleeping, :sleeping_email_opt_in,
-                             :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient,
+			     :max_price_libelle, :level_ids, :audience_ids, :busy,
+			     :response_rate, :response_time,
+			     :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score,
+			     :search_score_updated_at, :is_sleeping, :sleeping_email_opt_in,
+			     :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient,
 			     :status, :vertical_pages_breadcrumb,
-                             :close_io_lead_id, :sponsorship_token
+			     :close_io_lead_id, :sponsorship_token
 
-  define_boolean_accessor_for :meta_data, :gives_non_professional_courses,
-                                          :gives_professional_courses, :is_sleeping, :sleeping_email_opt_in,
+  define_boolean_accessor_for :meta_data, :is_sleeping, :sleeping_email_opt_in,
 					  :promo_code_sent
 
   mount_uploader :logo, StructureLogoUploader
