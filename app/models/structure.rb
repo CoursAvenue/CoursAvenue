@@ -142,8 +142,7 @@ class Structure < ActiveRecord::Base
 
 
   # To store hashes into hstore
-  store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
-                             :has_promotion, :has_free_trial_course, :has_promotion,
+  store_accessor :meta_data, :gives_group_courses,
                              :course_names, :highlighted_comment_title, :min_price_amount,
                              :max_price_libelle, :level_ids, :audience_ids, :busy,
                              :response_rate, :response_time, :gives_non_professional_courses,
@@ -154,8 +153,7 @@ class Structure < ActiveRecord::Base
                              :status, :vertical_pages_breadcrumb, :is_parisian,
                              :close_io_lead_id, :sponsorship_token
 
-  define_boolean_accessor_for :meta_data, :has_promotion, :gives_group_courses, :gives_individual_courses,
-                                          :has_free_trial_course, :has_promotion, :gives_non_professional_courses,
+  define_boolean_accessor_for :meta_data, :gives_non_professional_courses,
                                           :gives_professional_courses, :is_sleeping, :sleeping_email_opt_in,
                                           :promo_code_sent, :is_parisian
 
@@ -558,17 +556,50 @@ class Structure < ActiveRecord::Base
   end
 
   ######################################################################
-  # Meta data update                                                   #
+  # Meta data caching                                                  #
   ######################################################################
-  def update_course_meta_datas
-    self.gives_group_courses      = courses.select{|course| !course.is_individual? }.any?
-    self.gives_individual_courses = courses.select(&:is_individual?).any?
-    self.has_promotion            = courses.detect(&:has_promotion?).present?
-    self.has_free_trial_course    = courses.detect(&:has_free_trial_lesson?).present?
-    self.course_names             = courses.map(&:name).uniq.join(', ')
-    best_price = course_prices.where(Price.arel_table[:amount].gt(0)).order('amount ASC').first
-    self.min_price_amount = best_price.amount if best_price
-    save(validate: false)
+
+  # TODO: Drop the structure cache_key?
+  def gives_group_courses
+    # We add the last updated courses date to the key changes with the courses.
+    Rails.cache.fetch("#{ cache_key }/gives_group_courses/#{ courses.maximum(:updated_at).to_i }") do
+      courses.reject(&:is_individual?).any?
+    end
+  end
+  alias_method :gives_group_courses?, :gives_group_courses
+
+  def gives_individual_courses
+    Rails.cache.fetch("#{ cache_key }/give_individual_courses/#{ courses.maximum(:updated_at).to_i }") do
+      courses.select(&:is_individual?).any?
+    end
+  end
+  alias_method :give_individual_courses?, :give_individual_courses
+
+  def has_promotion
+    Rails.cache.fetch("#{ cache_key }/has_promotion/#{ courses.maximum(:updated_at).to_i }") do
+      courses.detect(&:has_promotion?).present?
+    end
+  end
+  alias_method :has_promotion?, :has_promotion
+
+  def has_free_trial_course
+    Rails.cache.fetch("#{ cache_key }/has_free_trial_course/#{ courses.maximum(:updated_at).to_i }") do
+      courses.detect(&:has_free_trial_lesson?).present?
+    end
+  end
+  alias_method :has_free_trial_course?, :has_free_trial_course
+
+  def course_names
+    Rails.cache.fetch("#{ cache_key }/course_names/#{ courses.maximum(:updated_at).to_i }") do
+      courses.map(&:name).uniq.join(', ')
+    end
+  end
+
+  def min_price_amount
+    Rails.cache.fetch("#{ cache_key }/min_price_amount/#{ courses_prices.maximum(:updated_at).to_i }") do
+      # course_prices.where(Price.arel_table[:amount].gt(0)).order('amount ASC').first
+      course_prices.pluck(:amount).compact.select { |p| p > 0 }.min
+    end
   end
 
   def update_planning_meta_datas
