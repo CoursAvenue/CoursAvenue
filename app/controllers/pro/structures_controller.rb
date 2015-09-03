@@ -61,16 +61,6 @@ class Pro::StructuresController < Pro::ProController
     redirect_to root_path, notice: 'Vous avez bien été désabonné'
   end
 
-  # GET collection
-  def sleepings
-    params[:opt_in] ||= 'true'
-    if params[:opt_in] == 'true'
-      @structures = StructureSearch.search({ is_sleeping: true, has_admin: true, page: params[:page], radius: 10000, active: false }).results
-    else
-      @structures = StructureSearch.search({ is_sleeping: true, sleeping_email_opt_in: false, page: params[:page], radius: 10000 }).results
-    end
-  end
-
   # PUT etablissements/:id/wake_up
   # Changed is_sleeping from true to false
   def wake_up
@@ -115,28 +105,6 @@ class Pro::StructuresController < Pro::ProController
       else
         format.json { render json: { done: true }  }
       end
-    end
-  end
-
-  # GET collection
-  #   format :json
-  # Returns the best structures located near Paris
-  # Used on Pro::HomeController#index
-  def best
-    @admin      = ::Admin.new
-    latitude, longitude, radius = 48.8540, 2.3417, 5
-    @structures = StructureSearch.search({ lat: latitude,
-                                           lng: longitude,
-                                           radius: radius,
-                                           sort: 'rating_desc',
-                                           has_logo: true,
-                                           per_page: 30,
-                                           bbox: true }).results
-
-    @latlng = StructureSearch.retrieve_location(params)
-
-    respond_to do |format|
-      format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: 50, location: @latlng } }
     end
   end
 

@@ -76,7 +76,6 @@
         %h3= "Les lieux les plus recherchés"
         .push--bottom
           - @cities.each do |city|
-            - next if StructureSearch.search(lat: city.latitude, lng: city.longitude).total < 10
             %div
               - if @subject.is_root?
                 = link_to "Cours de #{@vertical_page.subject_name.downcase} à #{city.name}", root_vertical_page_with_city_path(@vertical_page, city), class: 'epsilon line-height-1-7'

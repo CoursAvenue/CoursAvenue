@@ -462,30 +462,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  # Give structures around the user not filtered on subjects
-  # @param limit=3   Integer # of structures that should be returned
-  # @param params={} Hash    eventualparams for the search
-  #
-  # @return Array of Structure
-  def around_structures_all_subjects(limit=3, _params={}, radius_start=0)
-    @city = city || City.find('paris')
-
-    @structures = [] # The structures we will return at the ed
-    (radius_start..7).each do |index|
-      @structures << StructureSearch.search({lat: @city.latitude,
-                                            lng: @city.longitude,
-                                            # Radius will increment from 2.7 to > 1000
-                                            radius: Math.exp(index),
-                                            sort: 'premium',
-                                            has_logo: true,
-                                            per_page: limit
-                                          }.merge(_params)).results
-      @structures = @structures.flatten.uniq
-      break if @structures.length >= limit
-    end
-    return @structures[0..(limit - 1)]
-  end
-
   # Tells if the user is based in Paris and around
   #
   # @return Boolean

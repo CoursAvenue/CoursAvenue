@@ -90,7 +90,7 @@ class RedirectController < ApplicationController
   end
 
   # GET 'cours/:id--:city_id'
-  def vertical_pages__show_with_city
+  def root_vertical_pages__show_with_city
     redirect_to root_vertical_page_with_city_url(params.merge(subdomain: 'www'))
   end
   # GET 'cours/:id'

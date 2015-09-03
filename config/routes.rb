@@ -150,9 +150,7 @@ CoursAvenue::Application.routes.draw do
       end
       resources :structures, path: 'etablissements' do
         collection do
-          get :sleepings
           get :stars
-          get :best
           get :inscription, to: :new
           post :import
           get :imported_structures
@@ -562,11 +560,11 @@ CoursAvenue::Application.routes.draw do
     resources :reply_token, only: [:show]
 
     ########### Vertical pages ###########
-    get 'cours/:id--:city_id'                                 , to: 'vertical_pages#show_with_city'          , as: :root_vertical_page_with_city
+    get 'cours/:id--:city_id'                                 , to: 'vertical_pages#show'          , as: :root_vertical_page_with_city
     get 'cours/:id--:city_id/:neighborhood_id'                , to: 'vertical_pages#show_with_neighborhood'  , as: :root_vertical_page_with_neighborhood
     get 'cours/:id'                                           , to: 'vertical_pages#show_root'               , as: :root_vertical_page
     get 'cours/:root_subject_id/:id'                          , to: 'vertical_pages#show'                    , as: :vertical_page
-    get 'cours/:root_subject_id/:id/:city_id'                 , to: 'vertical_pages#show_with_city'          , as: :vertical_page_with_city
+    get 'cours/:root_subject_id/:id/:city_id'                 , to: 'vertical_pages#show'          , as: :vertical_page_with_city
     get 'cours/:root_subject_id/:id/:city_id/:neighborhood_id', to: 'vertical_pages#show_with_neighborhood'  , as: :vertical_page_with_neighborhood
 
     get 'cours-de-:id'                               , to: 'vertical_pages#redirect_to_show'
@@ -740,7 +738,7 @@ CoursAvenue::Application.routes.draw do
   get 'ville/:id',                                                   to: 'redirect#city'
 
   ########### Vertical pages ###########
-  get 'cours/:id--:city_id'                        , to: 'redirect#vertical_pages__show_with_city'
+  get 'cours/:id--:city_id'                        , to: 'redirect#root_vertical_pages__show_with_city'
   get 'cours/:id'                                  , to: 'redirect#vertical_pages__show_root'
   get 'cours/:root_subject_id/:id'                 , to: 'redirect#vertical_pages__show'
   get 'cours/:root_subject_id/:id/:city_id'        , to: 'redirect#vertical_pages__show_with_city'
