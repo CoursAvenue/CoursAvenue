@@ -1,7 +1,7 @@
 = user_menu_currently_at 'favorites'
 
+- @city = @user.city || City.find('paris')
 - if @user.favorites.cards.any?
-  - @city = @user.city || City.find('paris')
   - first_card_place = @user.favorites.cards.detect{|f| f.indexable_card.place }.indexable_card.place.city
   = react_component('MapContainer', { center: [first_card_place.latitude, first_card_place.longitude] })
   .main-container.main-container--1000
@@ -11,10 +11,8 @@
                                       follow_links: true })
   = react_component('SmallMap', { center: [@city.latitude, @city.longitude] })
 - else
-  - coordinates = (request.safe_location and request.safe_location.latitude != 0 ? request.safe_location.coordinates : [48.8592, 2.3417])
-  - city_slug   = (request.safe_location and request.safe_location.city.present? ? request.safe_location.city.downcase : 'paris')
   .search-page-filters__panel-height.relative.text--center.palm-height-auto.soft--ends
-    = react_component('SearchPageAppMap', { center: coordinates }, { class: ' absolute north west height-100-percent one-whole' })
+    = react_component('SearchPageAppMap', { center: [48.8592, 2.3417] }, { class: ' absolute north west height-100-percent one-whole' })
     - %w(danse theatre-scene musique-chant cuisine-vins yoga-bien-etre-sante sports-arts-martiaux photo-video deco-mode-bricolage dessin-peinture-arts-plastiques).each do |slug|
       .transition-all-300.invisible.absolute.north.west.height-100-percent.one-whole.bg-cover.on-top{ style: "background-image: url('#{Subject.find(slug).image.url(:homepage)}')", data: { slug: slug, curtain: true } }
     .home-page-curtain.absolute.north.west.height-100-percent.one-whole.on-top
@@ -23,7 +21,6 @@
         %h1.flush.f-weight-bold.f-size-really-big.white.soft--sides
           Vous n'avez pas encore de favoris.
         .soft--top
-          -# = link_to root_search_page_without_subject_path(city_slug, locate_user: 'on'), class: 'btn btn--green btn--large' do
-          = link_to root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--green btn--large' do
+          = link_to root_search_page_without_subject_path(@city.slug, locate_user: 'on'), class: 'btn btn--green btn--large' do
             %i.fa.fa-map-marker
             Trouver des favoris
