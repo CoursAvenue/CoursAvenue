@@ -569,11 +569,11 @@ class Structure < ActiveRecord::Base
   alias_method :gives_group_courses?, :gives_group_courses
 
   def gives_individual_courses
-    Rails.cache.fetch("#{ cache_key }/give_individual_courses/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
+    Rails.cache.fetch("#{ cache_key }/gives_individual_courses/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
       courses.select(&:is_individual?).any?
     end
   end
-  alias_method :give_individual_courses?, :give_individual_courses
+  alias_method :gives_individual_courses?, :gives_individual_courses
 
   def has_promotion
     Rails.cache.fetch("#{ cache_key }/has_promotion/#{ courses.with_deleted.maximum(:updated_at).to_i }") do
