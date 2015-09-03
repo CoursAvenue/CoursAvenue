@@ -23,7 +23,11 @@
       = link_to 'Envoyer mon planning par e-mail', new_pro_structure_newsletter_path(with_courses: true), class: 'btn btn--white-transparent btn--white-transparent--white nowrap'
 
 #trainings-header.bg-white.soft--top
-  %h3{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } } Stages &amp; ateliers
+  .push-half--bottom{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } }
+    %h3.flush.inline-block.v-middle Stages &amp; ateliers
+    = simple_form_for [:pro, @structure], url: pro_structure_path(@structure), remote: true, html: { class: 'push--left inline-block v-middle', data: { behavior: 'live-form' } } do |f|
+      = f.input :show_trainings_first, label: false, wrapper_html: { class: 'inline-block flush v-middle' }
+      %label.v-middle.inline-block{ for: 'structure_show_trainings_first' } Afficher les stages &amp; ateliers en premier sur votre planning
 #training-list
   - @trainings.each do |course|
     = render partial: 'pro/structures/courses/live_form', locals: { course: course, structure: @structure }

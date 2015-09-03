@@ -108,7 +108,7 @@ class Structure < ActiveRecord::Base
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :slug,
                   :website, :facebook_url,
-                  :contact_email,
+		  :contact_email, :show_trainings_first,
                   :description, :subject_ids, :active,
                   # active: for tests profile, eg. L'atelier de Nima, etc.
                   # And for duplicated sleeping structures (when an admin takes control of a sleeping profile)
