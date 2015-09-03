@@ -35,6 +35,12 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   # GET pro/etablissements/:structure_id/participation_request/:id
   def show
     @participation_request = @structure.participation_requests.find(params[:id]).decorate
+    if @participation_request.user.deleted?
+      redirect_to pro_structure_participation_requests_path(@structure),
+        notice: 'Cet utilisateur à supprimer son compte CoursAvenue',
+        status: 301
+      return
+    end
     @user                  = @participation_request.user
   end
 
