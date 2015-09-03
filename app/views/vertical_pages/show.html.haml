@@ -41,7 +41,7 @@
       - if @neighborhood
         %h2= @neighborhood.name
         .epsilon.line-height-1-5
-          = @neighborhood.description
+          %p= @neighborhood.description
       - elsif @city
         %h2= @city.subtitle
         .epsilon.line-height-1-5
