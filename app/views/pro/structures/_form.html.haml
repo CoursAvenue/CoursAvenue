@@ -54,11 +54,6 @@
       - if @structure.errors[:children_subjects].present?
         .input_field_error.red.text--right= @structure.errors[:children_subjects].to_sentence
 
-  %hr.push--ends
-  %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.funding_types') } }
-
-    %h5 Financements acceptés
-    = structure_form.input :funding_type_ids, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: { class: 'input--large', style: 'width: 74%;', multiple: true, data: { behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id), label_html: { class: 'label--large' }, wrapper_html: { class: ' flush--bottom' }
 
   %hr.push--ends
   %div{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.description') } }

@@ -88,7 +88,7 @@
 
 - if @neighborhood
   .bg-white.soft-double
-    %h2.soft--bottom.alpha.text--center Vous cherchez près d'une station de métro en particulier ?
+    %h2.soft--bottom.alpha.text--center Vous cherchez près d'une station de métro ?
     .soft--sides
       - @neighborhood.nearby_metro_stops.includes(:lines).each do |stop|
         .inline-block.one-third.push-half--bottom>
