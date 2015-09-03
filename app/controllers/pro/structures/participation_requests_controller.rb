@@ -74,8 +74,10 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
 
   # GET pro/etablissements/:structure_id/participation_request/:id/accept_form
   def accept_form
-    @participation_request = @structure.participation_requests.find(params[:id])
-    render layout: false
+    @participation_request = @structure.participation_requests.find(params[:id]).decorate
+    if request.xhr?
+      render layout: false
+    end
   end
 
   # PUT pro/etablissements/:structure_id/participation_request/:id/modify_date
