@@ -1112,13 +1112,12 @@ class Structure < ActiveRecord::Base
   # @return whether the generation was added to the queue or not.
   def generate_cards
     return if deleted_at.present?
-
-    if indexable_lock.nil?
-      create_indexable_lock
-    end
-
-    return if indexable_lock.locked?
-    lock_cards!
+    # if indexable_lock.nil?
+    #   create_indexable_lock
+    # end
+    #
+    # return if indexable_lock.locked?
+    # lock_cards!
 
     delayed_generate_cards
   end
