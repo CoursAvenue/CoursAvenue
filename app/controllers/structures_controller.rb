@@ -73,23 +73,6 @@ class StructuresController < ApplicationController
     end
   end
 
-  def log_search
-    if params[:name].present?
-      # Log search terms
-      SearchTermLog.create(name: params[:name]) unless cookies["search_term_logs_#{params[:name]}"].present?
-      cookies["search_term_logs_#{params[:name]}"] = { value: params[:name], expires: 12.hours.from_now }
-    end
-    SearchTermLog.create(name: "FILTRE: Age")           if params[:audience_ids].present? or params[:min_age_for_kids].present? or params[:max_age_for_kids].present?
-    SearchTermLog.create(name: "FILTRE: Niveau")        if params[:level_ids].present?
-    SearchTermLog.create(name: "FILTRE: Prix")          if params[:max_price].present? or params[:min_price].present?
-    SearchTermLog.create(name: "FILTRE: Prix")          if params[:max_price].present? or params[:min_price].present? or params[:price_type].present?
-    SearchTermLog.create(name: "FILTRE: Type de cours") if params[:course_types].present?
-    SearchTermLog.create(name: "FILTRE: Dates")         if params[:week_days].present? or params[:start_date].present? or params[:end_date].present? or params[:start_hour].present? or params[:end_hour].present?
-    SearchTermLog.create(name: "FILTRE: Promo")         if params[:discount_types].present?
-    SearchTermLog.create(name: "FILTRE: Cours d'essai") if params[:trial_course_amount].present?
-  end
-
-
   # Private: Set the current structure for the relevant routes
   # by fetching by its id or its slug.
   #

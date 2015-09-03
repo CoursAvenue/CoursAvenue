@@ -106,7 +106,6 @@ CoursAvenue::Application.routes.draw do
           get :zip_code_search
         end
       end
-      resources :search_term_logs, only: [:index]
       resources :subjects do
         collection do
           get :descendants

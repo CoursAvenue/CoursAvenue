@@ -22,12 +22,6 @@
 <% end %>
 COURSAVENUE.helperMethods.reinitializePlugins();
 
-<% if @structure.has_premium_prices %>
-  $('#price-group-premium-ribbon').show();
-<% else %>
-  $('#price-group-premium-ribbon').hide();
-<% end %>
-
 <% if @course %>
   <%-# Show big red sign %>
   <% if @course.is_training? %>

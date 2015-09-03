@@ -286,16 +286,6 @@ class Course < ActiveRecord::Base
     false
   end
 
-  def has_premium_prices?
-    return Rails.cache.fetch ['Course#has_premium_prices?', self] do
-      if price_group.nil?
-        false
-      else
-        price_group.has_premium_prices?
-      end
-    end
-  end
-
   def can_be_published?
     plannings.any? and price_group.present?
   end

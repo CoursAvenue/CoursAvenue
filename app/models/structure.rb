@@ -556,15 +556,6 @@ class Structure < ActiveRecord::Base
     save
   end
 
-  # Return wether the structure has any premium prices
-  #
-  # @return Boolean
-  def has_premium_prices
-    # [false, true].any?  # => true
-    # [false, false].any? # => false
-    price_groups.map(&:has_premium_prices?).any?
-  end
-
   # Return main admin mailbox
   #
   # @return Mailbox
