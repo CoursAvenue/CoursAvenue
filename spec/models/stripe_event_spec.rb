@@ -12,9 +12,10 @@ RSpec.describe StripeEvent, type: :model, with_stripe: true do
   let(:stripe_helper)  { StripeMock.create_test_helper }
   let(:plan)           { FactoryGirl.create(:subscriptions_plan) }
   let(:structure)      { FactoryGirl.create(:structure, :with_contact_email) }
+  let(:customer)       { structure.customer }
   let(:token)          { stripe_helper.generate_card_token }
   let!(:subscription)  { plan.create_subscription!(structure) }
-  let(:stripe_invoice) { Stripe::Invoice.upcoming(customer: structure.stripe_customer_id) }
+  let(:stripe_invoice) { Stripe::Invoice.upcoming(customer: customer.stripe_customer_id) }
   let(:stripe_event)   { StripeMock.mock_webhook_event('invoice.payment_succeeded', stripe_invoice.as_json) }
 
   before do
@@ -109,7 +110,7 @@ RSpec.describe StripeEvent, type: :model, with_stripe: true do
           Stripe::Charge.create({
             amount:   plan.amount * 100,
             currency: Subscription::CURRENCY,
-            customer: structure.stripe_customer_id
+            customer: customer.stripe_customer_id
           })
         end
 
@@ -141,7 +142,7 @@ RSpec.describe StripeEvent, type: :model, with_stripe: true do
           Stripe::Charge.create({
             amount:   plan.amount * 100,
             currency: Subscription::CURRENCY,
-            customer: structure.stripe_customer_id
+            customer: customer.stripe_customer_id
           })
         end
 
@@ -173,7 +174,7 @@ RSpec.describe StripeEvent, type: :model, with_stripe: true do
           Stripe::Charge.create({
             amount:   plan.amount * 100,
             currency: Subscription::CURRENCY,
-            customer: structure.stripe_customer_id
+            customer: customer.stripe_customer_id
           })
         end
 
@@ -197,7 +198,7 @@ RSpec.describe StripeEvent, type: :model, with_stripe: true do
 
       context 'customer.subscription.created' do
         let(:event_type)   { 'customer.subscription.created' }
-        let(:customer)     { structure.stripe_customer }
+        let(:customer)     { customer.stripe_customer }
         let(:stripe_event) { StripeMock.mock_webhook_event(event_type, customer.as_json) }
 
         subject do
@@ -211,7 +212,7 @@ RSpec.describe StripeEvent, type: :model, with_stripe: true do
 
       context 'customer.deleted' do
         let(:event_type)   { 'customer.deleted' }
-        let(:customer)     { structure.stripe_customer }
+        let(:customer)     { customer.stripe_customer }
         let(:stripe_event) { StripeMock.mock_webhook_event(event_type, customer.as_json) }
 
         subject do
@@ -223,14 +224,14 @@ RSpec.describe StripeEvent, type: :model, with_stripe: true do
 
           structure.reload
 
-          expect(structure.stripe_customer).to be_nil
-          expect(structure.stripe_customer_id).to be_nil
+          expect(customer.stripe_customer).to be_nil
+          expect(customer.stripe_customer_id).to be_nil
         end
       end
 
       context 'account.updated' do
         let(:event_type)   { 'account.updated' }
-        let(:account)      { structure.stripe_managed_account }
+        let(:account)      { customer.stripe_managed_account }
         let(:stripe_event) { StripeMock.mock_webhook_event(event_type, account.as_json) }
 
         before do
