@@ -9,14 +9,15 @@ class Teacher < ActiveRecord::Base
   has_many   :courses, through: :plannings
 
   attr_reader :delete_image
-  attr_accessible :name, :description, :image, :structure_id
+  attr_accessible :name, :description, :image, :structure_id, :remote_image_url,
+                  :old_image
 
-  has_attached_file :image,
+  mount_uploader :image, TeacherUploader
+
+  has_attached_file :old_image,
                      styles: { normal: '150x' },
-                     default_url: ActionController::Base.helpers.asset_path('avatars/original/missing.png'),
-                     processors: [:thumbnail, :paperclip_optimizer]
+                     default_url: ActionController::Base.helpers.asset_path('avatars/original/missing.png')
 
-  validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
   ######################################################################
   # Validations                                                        #

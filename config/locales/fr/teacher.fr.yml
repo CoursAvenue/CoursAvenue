@@ -7,5 +7,5 @@ fr:
         other: Professeurs
     attributes:
       teacher:
-        name: Prénom + Nom
-        description: Description
+        name: Nom du professeur
+        description: Présentation

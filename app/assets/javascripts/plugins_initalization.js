@@ -49,7 +49,7 @@ $(function() {
                 height      : height,
                 autoSize    : false,
                 autoResize  : true,
-                afterClose  : after_close_reload,
+                afterClose  : _.after($.fancybox.defaults.afterClose, after_close_reload),
                 helpers : {
                     overlay: {
                         locked: false,
