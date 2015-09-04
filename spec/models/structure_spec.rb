@@ -353,51 +353,17 @@ describe Structure do
   context 'Stripe', with_stripe: true do
     let(:stripe_helper) { StripeMock.create_test_helper }
 
-    it_behaves_like 'StripeCustomer'
-
-    describe '#create_stripe_customer' do
-      context 'when the token is not provided' do
-        it 'returns nil' do
-          expect(subject.create_stripe_customer(nil)).to eq(nil)
-        end
-      end
-
-      context 'when the token is provided' do
-        let(:token)         { stripe_helper.generate_card_token }
-        let(:stripe_helper) { StripeMock.create_test_helper }
-
-        it 'returns a new Stripe::Customer' do
-          stripe_customer_type = Stripe::Customer
-          stripe_customer      = subject.create_stripe_customer(token)
-
-          expect(stripe_customer).to be_a(stripe_customer_type)
-        end
-
-        it 'saves the stripe customer id' do
-          stripe_customer = subject.create_stripe_customer(token)
-
-          expect(subject.stripe_customer_id).to eq(stripe_customer.id)
-        end
-      end
-    end
-
     describe '#premium?' do
       context 'when not premium' do
         it { expect(subject.premium?).to be_falsy }
       end
 
       context 'when premium' do
-        subject             { FactoryGirl.create(:structure, :with_contact_email) }
-        let(:plan)          { FactoryGirl.create(:subscriptions_plan) }
-        let(:stripe_helper) { StripeMock.create_test_helper }
-        let(:token)     { stripe_helper.generate_card_token }
-
-        before do
-          subscription = plan.create_subscription!(subject)
-          subscription.charge!(token)
+        it '' do
+          allow_any_instance_of(Structure::Customer).to receive(:active?).and_return(true)
+          subject.create_customer
+          expect(structure.premium?).to be_truthy
         end
-
-        it { expect(subject.premium?).to be_truthy }
       end
     end
 

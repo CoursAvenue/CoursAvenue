@@ -152,7 +152,7 @@ class StripeEvent < ActiveRecord::Base
     customer = charge.customer
     customer = customer.id if customer.class != String
 
-    structure = Structure.where(stripe_customer_id: customer).first
+    structure = Structure::Customer.where(stripe_customer_id: customer).first
 
     if structure.present?
       subscription = structure.subscription

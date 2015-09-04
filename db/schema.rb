@@ -1150,6 +1150,16 @@ ActiveRecord::Schema.define(version: 20150903185107) do
 
   add_index "stripe_events", ["stripe_event_id"], name: "index_stripe_events_on_stripe_event_id", unique: true, using: :btree
 
+  create_table "structure_customers", force: true do |t|
+    t.integer  "structure_id"
+    t.string   "stripe_customer_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  add_index "structure_customers", ["structure_id"], name: "index_structure_customers_on_structure_id", using: :btree
+
   create_table "structure_duplicate_lists", force: true do |t|
     t.integer  "structure_id"
     t.hstore   "metadata"
@@ -1341,9 +1351,11 @@ ActiveRecord::Schema.define(version: 20150903185107) do
     t.datetime "trial_ends_at"
     t.datetime "coupon_ends_at"
     t.datetime "charged_at"
+    t.integer  "structure_customer_id"
   end
 
   add_index "subscriptions", ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true, using: :btree
+  add_index "subscriptions", ["structure_customer_id"], name: "index_subscriptions_on_structure_customer_id", using: :btree
   add_index "subscriptions", ["structure_id"], name: "index_subscriptions_on_structure_id", using: :btree
   add_index "subscriptions", ["subscriptions_coupon_id"], name: "index_subscriptions_on_subscriptions_coupon_id", using: :btree
   add_index "subscriptions", ["subscriptions_plan_id"], name: "index_subscriptions_on_subscriptions_plan_id", using: :btree
@@ -1369,9 +1381,11 @@ ActiveRecord::Schema.define(version: 20150903185107) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
-    t.boolean  "generated",         default: false
+    t.boolean  "generated",             default: false
+    t.integer  "structure_customer_id"
   end
 
+  add_index "subscriptions_invoices", ["structure_customer_id"], name: "index_subscriptions_invoices_on_structure_customer_id", using: :btree
   add_index "subscriptions_invoices", ["structure_id"], name: "index_subscriptions_invoices_on_structure_id", using: :btree
   add_index "subscriptions_invoices", ["subscription_id"], name: "index_subscriptions_invoices_on_subscription_id", using: :btree
 

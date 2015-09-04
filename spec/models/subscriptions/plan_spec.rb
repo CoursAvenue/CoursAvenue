@@ -39,11 +39,7 @@ RSpec.describe Subscriptions::Plan, type: :model, with_stripe: true do
 
   describe '#stripe_plan' do
     context 'when stripe_plan_id is not defined' do
-      subject do
-        plan = FactoryGirl.build(:subscriptions_plan, :empty)
-        plan.save(validate: false)
-        plan
-      end
+      subject { FactoryGirl.build_stubbed(:subscriptions_plan, :empty) }
 
       it 'returns nil' do
         expect(subject.stripe_plan).to be_nil
@@ -79,11 +75,7 @@ RSpec.describe Subscriptions::Plan, type: :model, with_stripe: true do
 
   describe '#delete_stripe_plan!' do
     context "when there's no plan" do
-      subject do
-        plan = FactoryGirl.build(:subscriptions_plan, :empty)
-        plan.save(validate: false)
-        plan
-      end
+      subject { plan = FactoryGirl.build(:subscriptions_plan, :empty) }
 
       it 'returns nil' do
         expect(subject.delete_stripe_plan!).to be_nil
@@ -110,13 +102,12 @@ RSpec.describe Subscriptions::Plan, type: :model, with_stripe: true do
   end
 
   describe '#create_subscription!' do
-    let(:structure) { FactoryGirl.create(:structure, :with_contact_email) }
+    let(:structure) { FactoryGirl.build_stubbed(:structure, :with_contact_email) }
 
     it 'creates a new subscription' do
       subscription = subject.create_subscription!(structure)
 
-      expect(subscription).to_not                 be_nil
-      expect(subscription).to                     be_a(Subscription)
+      expect(subscription).to     be_a(Subscription)
     end
 
     it 'creates a subscription with a trial period' do
@@ -155,7 +146,7 @@ RSpec.describe Subscriptions::Plan, type: :model, with_stripe: true do
 
   describe '#monthly_amount' do
     context "when it's a monthly plan" do
-      subject { FactoryGirl.create(:subscriptions_plan, :monthly) }
+      subject { FactoryGirl.build_stubbed(:subscriptions_plan, :monthly) }
 
       it 'returns the plan amount' do
         expect(subject.monthly_amount).to eq(subject.amount)
@@ -174,24 +165,24 @@ RSpec.describe Subscriptions::Plan, type: :model, with_stripe: true do
 
   describe '#monthly?' do
     context 'when the interval is monthly' do
-      subject { FactoryGirl.create(:subscriptions_plan, :monthly) }
+      subject { FactoryGirl.build_stubbed(:subscriptions_plan, :monthly) }
       it { expect(subject.monthly?).to be_truthy }
     end
 
     context 'when the interval is yearly' do
-      subject { FactoryGirl.create(:subscriptions_plan, :yearly) }
+      subject { FactoryGirl.build_stubbed(:subscriptions_plan, :yearly) }
       it { expect(subject.monthly?).to be_falsy }
     end
   end
 
   describe '#yearly?' do
     context 'when the interval is yearly' do
-      subject { FactoryGirl.create(:subscriptions_plan, :yearly) }
+      subject { FactoryGirl.build_stubbed(:subscriptions_plan, :yearly) }
       it { expect(subject.yearly?).to be_truthy }
     end
 
     context 'when the interval is monthly' do
-      subject { FactoryGirl.create(:subscriptions_plan, :monthly) }
+      subject { FactoryGirl.build_stubbed(:subscriptions_plan, :monthly) }
       it { expect(subject.yearly?).to be_falsy }
     end
   end
