@@ -53,7 +53,6 @@ class User < ActiveRecord::Base
 
   has_many :favorites, class_name: 'User::Favorite', dependent: :destroy
 
-  has_many :orders, class_name: 'Order::Pass'
   has_many :participation_requests
 
   # I have sponsored many users

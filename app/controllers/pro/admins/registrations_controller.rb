@@ -30,7 +30,6 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
         SuperAdminMailer.delay.someone_tried_to_take_control_of_existing_structure(@structure, params[:admin][:email])
         format.html { redirect_to someone_already_took_control_pro_structure_path(@structure) }
       elsif @admin.save
-        @structure.delay.index
         sign_in @admin
         SuperAdminMailer.delay.new_admin_has_signed_up(@admin)
         format.html { redirect_to edit_pro_structure_path(@structure), notice: 'Bienvenue !' }

@@ -10,9 +10,10 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- PRO
   # ---------------------------------------------
   constraints subdomain: 'pro' do
+    # For super admin
     namespace :admin do
-      resources :press_articles
       resources :users, only: [:index]
+      resources :press_articles
       resources :newsletters, only: [:index]
       resources :blog_articles, controller: 'blog/articles', path: 'blog' do
         resources :medias, controller: 'blog/articles/medias'
@@ -24,6 +25,8 @@ CoursAvenue::Application.routes.draw do
         resources :message_threads, only: [:index], controller: 'community/message_threads'
       end
     end
+
+    # For pros
     namespace :pro, path: '' do
       root :to => 'home#index'
 

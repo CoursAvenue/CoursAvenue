@@ -21,12 +21,6 @@ class Media < ActiveRecord::Base
   validates :caption, length: { maximum: 255 }
 
   ######################################################################
-  # Callbacks                                                          #
-  ######################################################################
-  after_destroy :index_structure
-  after_create  :index_structure
-
-  ######################################################################
   # Scopes                                                             #
   ######################################################################
   scope :images,       -> { where( type: "Media::Image" ) }
@@ -72,10 +66,4 @@ class Media < ActiveRecord::Base
     end
   end
 
-  private
-
-  # Reindex structure because we keep track of its media count
-  def index_structure
-    self.mediable.delay.index if self.mediable and self.mediable.is_a? Structure
-  end
 end

@@ -53,7 +53,6 @@ class Structure < ActiveRecord::Base
   has_many :courses                   , dependent: :destroy
   has_many :plannings                 , through: :courses
   has_many :cities                    , through: :places
-  has_many :reservations,         as: :reservable
   has_many :comment_notifications     , dependent: :destroy
   has_many :sticker_demands           , dependent: :destroy
   has_many :user_favorites, class_name: 'User::Favorite'
@@ -62,7 +61,6 @@ class Structure < ActiveRecord::Base
   has_many :price_groups              , dependent: :destroy
   has_many :course_prices             , through: :courses, source: :prices
   has_many :prices                    , through: :price_groups
-  has_many :orders, class_name: 'Order::Premium'
   has_many :participation_requests
 
   define_has_many_for :funding_type
@@ -417,8 +415,6 @@ class Structure < ActiveRecord::Base
     tag_list = user_profile.tags.map(&:name)
     tag_list = tag_list + tags
     tag(user_profile, with: tag_list.uniq.join(','), on: :tags)
-    # If we index right away, it won't index the last tags added...
-    user_profile.delay.index if user_profile.persisted?
   end
 
   def create_tag tag_name
@@ -630,7 +626,6 @@ class Structure < ActiveRecord::Base
     self.active      = true
 
     save(validate: false)
-    delay.index
 
     AdminMailer.delay.you_have_control_of_your_account(self)
     true

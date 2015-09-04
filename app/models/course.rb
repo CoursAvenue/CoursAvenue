@@ -39,9 +39,7 @@ class Course < ActiveRecord::Base
   before_save :set_has_promotion
   before_save :update_structure_vertical_pages_breadcrumb
 
-  after_save   :reindex_plannings unless Rails.env.test?
   after_save   :remove_price_if_no_trial
-  # after_save   :update_indexable_cards unless Rails.env.test?
 
   ######################################################################
   # Scopes                                                             #
@@ -216,11 +214,6 @@ class Course < ActiveRecord::Base
     nil
   end
 
-  def reindex_plannings
-    self.plannings.map{ |p| p.delay.index }
-  end
-  handle_asynchronously :reindex_plannings
-
   # If the user sets the `open_for_trial` flag to true or false on the course itself,
   # we change all the plannings flag
   #
@@ -251,10 +244,6 @@ class Course < ActiveRecord::Base
 
   def update_structure_vertical_pages_breadcrumb
     self.structure.delay.update_vertical_pages_breadcrumb
-  end
-
-  def update_indexable_cards
-    IndexableCard.delay.update_from_course(self)
   end
 
   def remove_price_if_no_trial
