@@ -193,11 +193,6 @@ CoursAvenue::Application.routes.draw do
         end
 
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
-        resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures' do
-          member do
-            get 'export'
-          end
-        end
         resources :invoices, only: [:index], controller: 'structures/invoices', path: 'factures' do
           member do
             get :download
@@ -473,7 +468,7 @@ CoursAvenue::Application.routes.draw do
       resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
       resources :messages     , controller: 'users/messages'
       resources :conversations, controller: 'users/conversations'
-      resources :orders, only: [:index, :show], controller: 'users/orders', path: 'mes-factures'
+      resources :passions, only: [:index], controller: 'users/passions'
       resources :participation_requests, only: [:index, :show], controller: 'users/participation_requests', path: 'mes-inscriptions'
     end
     resources :emails, only: [:create]
