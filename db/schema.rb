@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150904092715) do
+ActiveRecord::Schema.define(version: 20150904093814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -421,10 +421,10 @@ ActiveRecord::Schema.define(version: 20150904092715) do
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "header_image_file_name"
-    t.string   "header_image_content_type"
-    t.integer  "header_image_file_size"
-    t.datetime "header_image_updated_at"
+    t.string   "old_header_image_file_name"
+    t.string   "old_header_image_content_type"
+    t.integer  "old_header_image_file_size"
+    t.datetime "old_header_image_updated_at"
     t.string   "section_metadata_one"
     t.string   "section_metadata_two"
     t.string   "section_metadata_three"
@@ -432,6 +432,7 @@ ActiveRecord::Schema.define(version: 20150904092715) do
     t.string   "header_url"
     t.string   "call_to_action_text"
     t.string   "call_to_action_url"
+    t.string   "header_image"
   end
 
   create_table "emails", force: true do |t|
