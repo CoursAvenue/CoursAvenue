@@ -83,7 +83,8 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   # PUT pro/etablissements/:structure_id/participation_request/:id/modify_date
   def modify_date
     @participation_request = @structure.participation_requests.find(params[:id])
-    @participation_request.modify_date!(params[:participation_request][:message][:body], params[:participation_request], 'Structure')
+    body = params[:participation_request][:message].present? ? params[:participation_request][:message][:body] : ''
+    @participation_request.modify_date!(body, params[:participation_request], 'Structure')
     respond_to do |format|
       format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: 'Le changement a bien été pris en compte' }
     end
