@@ -195,6 +195,6 @@ class StructureDecorator < Draper::Decorator
   end
 
   def search_url
-    h.root_search_page_without_subject_url(object.dominant_city, zoom: '15', discipline: object.name, subdomain: 'www')
+    h.root_search_page_without_subject_url(object.dominant_city || 'paris', zoom: '15', discipline: object.name, subdomain: 'www')
   end
 end
