@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150904083823) do
+ActiveRecord::Schema.define(version: 20150904092715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,8 +147,8 @@ ActiveRecord::Schema.define(version: 20150904083823) do
 
   create_table "cities", force: true do |t|
     t.string   "name"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.string   "slug"
     t.string   "iso_code"
     t.string   "zip_code"
@@ -161,15 +161,11 @@ ActiveRecord::Schema.define(version: 20150904083823) do
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "acuracy"
-    t.string   "image_file_name"
-    t.string   "image_content_type"
-    t.integer  "image_file_size"
-    t.datetime "image_updated_at"
     t.text     "title"
     t.text     "subtitle"
     t.text     "description"
     t.hstore   "meta_data"
-    t.integer  "size",               default: 1
+    t.integer  "size",            default: 1
     t.integer  "parent_city_id"
   end
 
@@ -963,12 +959,13 @@ ActiveRecord::Schema.define(version: 20150904083823) do
     t.text     "url"
     t.text     "description"
     t.date     "published_at"
-    t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
+    t.string   "old_logo_file_name"
+    t.string   "old_logo_content_type"
+    t.integer  "old_logo_file_size"
+    t.datetime "old_logo_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "logo"
   end
 
   create_table "press_releases", force: true do |t|

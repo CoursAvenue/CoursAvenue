@@ -1,6 +1,5 @@
 # encoding: utf-8
-class Pro::PressArticlesController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
+class Admin::PressArticlesController < Admin::AdminController
 
   def index
     @press_articles = PressArticle.all
@@ -22,7 +21,7 @@ class Pro::PressArticlesController < Pro::ProController
     @press_article = PressArticle.new params[:press_article]
     respond_to do |format|
       if @press_article.save
-        format.html { redirect_to pro_press_articles_path }
+        format.html { redirect_to admin_press_articles_path }
       else
         format.html { render action: :new }
       end
@@ -33,7 +32,7 @@ class Pro::PressArticlesController < Pro::ProController
     @press_article = PressArticle.find params[:id]
     respond_to do |format|
       if @press_article.update_attributes params[:press_article]
-        format.html { redirect_to pro_press_articles_path }
+        format.html { redirect_to admin_press_articles_path }
       else
         format.html { render action: :edit }
       end
@@ -44,7 +43,7 @@ class Pro::PressArticlesController < Pro::ProController
     @press_article = PressArticle.find params[:id]
     @press_article.destroy
     respond_to do |format|
-      format.html { redirect_to pro_press_articles_path, notice: "Supprimé !" }
+      format.html { redirect_to admin_press_articles_path, notice: "Supprimé !" }
     end
   end
 end

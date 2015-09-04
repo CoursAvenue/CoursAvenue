@@ -1,6 +1,5 @@
 # encoding: utf-8
-class Admin::Blog::CategoriesController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
+class Admin::Blog::CategoriesController < Admin::AdminController
 
   def new
     @category = blog_category_class.new

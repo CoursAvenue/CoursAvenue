@@ -14,6 +14,7 @@ class Teacher < ActiveRecord::Base
 
   mount_uploader :image, TeacherUploader
 
+  # TODO: remove after deploy
   has_attached_file :old_image,
                      styles: { normal: '150x' },
                      default_url: ActionController::Base.helpers.asset_path('avatars/original/missing.png')

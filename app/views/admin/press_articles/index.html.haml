@@ -6,7 +6,7 @@
   .flexbox__item.v-middle
     %h1.flush Articles de presse
   .flexbox__item.v-middle.text--right
-    = link_to new_pro_press_article_path, class: 'btn btn--green' do
+    = link_to new_admin_press_article_path, class: 'btn btn--green' do
       %i.fa.fa-plus
       Ajouter un article de presse
 
@@ -23,6 +23,6 @@
             = press_article.title
           %p.flush
             = press_article.description
-        = link_to 'Editer', edit_pro_press_article_path(press_article)
+        = link_to 'Editer', edit_admin_press_article_path(press_article)
         \/
-        = link_to 'Supprimer', pro_press_article_path(press_article), method: :delete
+        = link_to 'Supprimer', admin_press_article_path(press_article), method: :delete

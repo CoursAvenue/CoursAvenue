@@ -11,6 +11,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   constraints subdomain: 'pro' do
     namespace :admin do
+      resources :press_articles
       resources :newsletters, only: [:index]
       resources :blog_articles, controller: 'blog/articles', path: 'blog' do
         resources :medias, controller: 'blog/articles/medias'
@@ -81,7 +82,7 @@ CoursAvenue::Application.routes.draw do
       end
 
       resources :press_releases, path: 'communiques-de-presse'
-      resources :press_articles
+
       resources :flyers, only: [:index, :update]
       resources :faqs do
         collection do
