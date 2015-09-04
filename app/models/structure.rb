@@ -658,35 +658,6 @@ class Structure < ActiveRecord::Base
     true
   end
 
-  #
-  # Rollback with sleeping attributes
-  # that CoursAvenue team has validated his profile.
-  #
-  # @return Boolean saved or not
-  def return_to_sleeping_mode!
-
-    phone_numbers.map(&:destroy)
-    sleeping_structure.phone_numbers.each do |phone|
-      phone_numbers.create(number: phone.number, phone_type: phone.phone_type)
-    end
-
-    self.places        = sleeping_structure.places.map(&:dup)
-    self.subjects      = root_subjects_from_string(sleeping_structure) + child_subjects_from_string(sleeping_structure)
-    self.logo          = sleeping_structure.logo
-
-    teachers.map(&:destroy)
-    courses.map(&:destroy)
-    price_groups.map(&:destroy)
-    medias.map(&:destroy)
-    AdminMailer.delay.you_dont_have_control_of_your_account(self, main_contact.email)
-    main_contact.delete
-
-    sleeping_structure.destroy
-    structure.is_sleeping = true
-
-    save
-  end
-
   # If admin wanted to go premium, we send promo_code the day later only if
   # the structure is still not premium
   #

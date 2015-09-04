@@ -163,7 +163,6 @@ CoursAvenue::Application.routes.draw do
           get   :dashboard
           get   :edit_order_recipient
           get   :someone_already_took_control, path: 'quelqu-un-a-deja-le-control'
-          get   :dont_want_to_take_control_of_my_sleeping_account, path: 'me-desabonner'
           get   :add_subjects
           get   :ask_for_deletion
           get   :confirm_deletion
@@ -171,12 +170,10 @@ CoursAvenue::Application.routes.draw do
           get   :edit_contact, path: 'informations-contact'
           get   :logo
           get   :payment_confirmation, path: 'confirmation-paiement'
-          get   :premium_modal
           get   :recommendations, path: 'recommendations'
           get   :signature
           get   :communication
           patch :wake_up
-          patch :return_to_sleeping_mode
           get   :widget
           get   :wizard
           match :widget_ext, controller: 'structures', via: [:options, :get], as: 'widget_ext'
@@ -186,7 +183,6 @@ CoursAvenue::Application.routes.draw do
           post  :update
           get   :website_planning, path: 'planning-sur-mon-site'
           get   :website_planning_parameters, path: 'parametre-de-mon-planning-sur-mon-site'
-          get   :premium # redirect to subscriptions
           get   :enabling_confirmation
           patch :enable
           get   :cards
@@ -230,7 +226,6 @@ CoursAvenue::Application.routes.draw do
         # Old subscriptions with Be2Bill
         resources :subscription_plans, only: [:new, :index, :destroy], controller: 'structures/subscription_plans', path: 'abonnements' do
           collection do
-            get :choose_premium, path: 'choisir-un-abonnement'
             get :paypal_express_checkout
             get :paypal_confirmation
           end

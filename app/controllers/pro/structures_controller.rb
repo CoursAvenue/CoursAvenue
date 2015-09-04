@@ -4,14 +4,12 @@ class Pro::StructuresController < Pro::ProController
 
   before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best,
                                                    :payment_confirmation_be2_bill,
-                                                   :dont_want_to_take_control_of_my_sleeping_account,
                                                    :someone_already_took_control]
 
   before_action :load_structure
 
   authorize_resource :structure, except: [:new, :new_sleeping, :create,
                                           :widget_ext, :best, :payment_confirmation_be2_bill,
-                                          :dont_want_to_take_control_of_my_sleeping_account,
                                           :someone_already_took_control]
 
   # We add update in case the update fails and we need the variable in the view
@@ -51,28 +49,11 @@ class Pro::StructuresController < Pro::ProController
   def someone_already_took_control
   end
 
-  # GET etablissements/:id/dont_want_to_take_control_of_my_sleeping_account
-  # No login required
-  def dont_want_to_take_control_of_my_sleeping_account
-    @structure.sleeping_email_opt_in = false
-    @structure.sleeping_email_opt_out_reason = params[:reason]
-    @structure.save
-    @structure.index
-    redirect_to root_path, notice: 'Vous avez bien été désabonné'
-  end
-
   # PUT etablissements/:id/wake_up
   # Changed is_sleeping from true to false
   def wake_up
     @structure.wake_up!
     redirect_to request.referrer, notice: 'Le profil est réveillé !'
-  end
-
-  # PUT etablissements/:id/return_to_sleeping_mode
-  # Rollback to sleeping attributes
-  def return_to_sleeping_mode
-    @structure.return_to_sleeping_mode!
-    redirect_to pro_structure_path(@structure), notice: 'Rollback du profil effectué !'
   end
 
   # GET member
@@ -298,20 +279,9 @@ France
     end
   end
 
-  # GET member
-  def choose_premium
-  end
-
   # Get etablissements/:id/premium
   def premium
     redirect_to pro_structure_subscription_plans_path(@structure), status: 301
-  end
-
-  # GET member
-  def premium_modal
-    if request.xhr?
-      render layout: false
-    end
   end
 
   # GET structure/:id/communication
