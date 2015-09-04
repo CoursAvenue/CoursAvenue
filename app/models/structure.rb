@@ -200,6 +200,7 @@ class Structure < ActiveRecord::Base
 
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
     customRanking ['desc(search_score)']
+    removeWordsIfNoResults 'allOptional'
 
     attributesForFaceting ['id', 'subjects.slug', 'active']
     attributesToIndex ['id', 'name', 'slug', 'cities_text', 'active']
@@ -526,8 +527,8 @@ class Structure < ActiveRecord::Base
   # _params   - Params of the search, {} by default
   #
   # @return Array [Structure]
-  def similar_profiles(limit=3, _params={})
-    StructureSearch.similar_profile(self, limit, _params)
+  def similar_profiles(limit=3)
+    StructureSearch.similar_profile(self, limit)
   end
 
   # Return highlighted comment if has one

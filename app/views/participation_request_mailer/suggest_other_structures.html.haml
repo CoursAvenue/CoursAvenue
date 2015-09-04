@@ -13,7 +13,7 @@
 
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600' }
   %tr{ valign: 'top' }
-    - @structure.similar_profiles(3, { medias_count: 1 }).each do |similar_profile|
+    - @structure.similar_profiles(3).each do |similar_profile|
       %td.content-block{ width: '200', colspan: '2', style: 'padding-bottom: 0' }
         = link_to structure_url(similar_profile, subdomain: 'www') do
           .p
