@@ -3,13 +3,75 @@
     %h4.flush
       Accepter la demande d'inscription
   .panel__body.soft
-    = simple_form_for [:pro, @structure, @participation_request], url: accept_pro_structure_participation_request_path(@structure, @participation_request), html: { id: 'participation-request-form' } do |f|
-      = f.error_notification
-      = f.fields_for :message, @message, class: 'message__body message__appendix' do |message_form|
-        = message_form.input :body, input_html: { placeholder: "Ajouter un message facultatif pour l'élève...", style: 'height: 100px', class: 'input--large one-whole', id: 'participation-request-message', data: { behavior: 'autoresize' } }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+    .soft--sides.soft--bottom
+      = simple_form_for [:pro, @structure, @participation_request], url: modify_date_pro_structure_participation_request_path(@structure, @participation_request) do |f|
+        .grid__full.soft-half--ends
+          .grid__item.v-middle.six-tenths.hard>
+            <label for='request-date'>Vous confirmez l'inscription pour le</label>
+          .grid__item.v-middle.three-tenths.hard>
+            %input.datepicker-input.v-middle{ name: 'participation_request[date]', data: { behavior: 'datepicker' }, id: 'request-date' }
 
-      .grid
-        .grid__item.one-third.palm-one-whole.palm-push--bottom>
-          %a.btn.btn--gray.btn--full{ onclick: '$.fancybox.close()' } Fermer
-        .grid__item.two-thirds.palm-one-whole>
-          = f.submit 'Accepter', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }
+        .grid
+          .grid__item.three-tenths.palm-one-whole.palm-push--bottom>
+            %a.btn.btn--full{ href: '#', onclick: '$.fancybox.close();' } Fermer
+          .grid__item.seven-tenths.palm-one-whole>
+            = f.submit 'Confirmer', class: 'nowrap btn--full btn btn--green', data: { disable_with: 'Envoi en cours...' }, id: 'date-submit'
+
+  :javascript
+      // IMPORTANT: Initialize datepicker to have correct format
+      COURSAVENUE.datepicker_initializer();
+
+      $(document).ready(function () {
+          var $datepicker = $('#request-date');
+          var current_start_date = new Date();
+          var datepicker_options = {
+              format: COURSAVENUE.constants.DATE_FORMAT,
+              weekStart: 1,
+              language: 'fr',
+              autoclose: true,
+              todayHighlight: true,
+              startDate: current_start_date,
+          };
+
+          $datepicker.datepicker(datepicker_options).on('changeDate', function (event) {
+              var date_string = moment(event.date).format('Do MMM');
+              $('#date-submit').val('Confirmer pour le ' + date_string);
+          });
+          var planning = #{ @participation_request.planning.to_json };
+          var course_plannings = #{ @participation_request.course.plannings.to_json };
+          var course = #{ @participation_request.course.to_json };
+          var course_type = "#{ @participation_request.course.class.to_s }";
+
+          // Setting the start date of the picker.
+          if (planning.start_date) {
+              var new_start_date = moment(planning.start_date, 'YYYY-MM-DD').toDate();
+              if (current_start_date < new_start_date) {
+                  current_start_date = new_start_date;
+              }
+              $datepicker.datepicker('setStartDate', current_start_date);
+          }
+
+          // Setting the selected date.
+          var formatted_date = COURSAVENUE.helperMethods.nextWeekDay(planning.week_day);
+          if (formatted_date.toDate() < current_start_date) {
+              var days_to_add = 0;
+              var new_date = moment(current_start_date).day(planning.week_day);
+              if (new_date.toDate() < current_start_date) { days_to_add = 7; }
+              formatted_date = new_date.day(planning.week_day + days_to_add);
+          }
+          $datepicker.datepicker('update', formatted_date.toDate());
+
+          // Disable days of the week.
+          var days_of_week = [0, 1, 2, 3, 4, 5, 6];
+          if (course_type == 'Course::Private') {
+              var days = _.pluck(course_plannings, 'week_day');
+              _.each(days, function (day) {
+                if (days_of_week.indexOf(day) != -1) {
+                    days_of_week.splice(days_of_week.indexOf(day), 1);
+                }
+              });
+          } else {
+              days_of_week.splice(days_of_week.indexOf(planning.week_day), 1);
+          }
+          $datepicker.datepicker('setDaysOfWeekDisabled', days_of_week);
+      });
