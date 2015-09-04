@@ -74,7 +74,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
 
   # GET pro/etablissements/:structure_id/participation_request/:id/accept_form
   def accept_form
-    @participation_request = @structure.participation_requests.find(params[:id]).decorate
+    @participation_request = @structure.participation_requests.find(params[:id])
     if request.xhr?
       render layout: false
     end
