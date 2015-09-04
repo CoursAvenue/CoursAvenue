@@ -25,7 +25,7 @@ gem 'closeio'             , '~> 2.0.6'
 # gem 'unicorn'
 # gem 'puma'
 gem 'passenger',          '~> 5.0.4'
-gem 'algoliasearch-rails', '~> 1.11.17'
+gem 'algoliasearch-rails', '~> 1.14.1'
 gem 'google-api-client'  , '~> 0.8.2'
 
 # Database
