@@ -3,6 +3,8 @@ class Payment::Customer < ActiveRecord::Base
 
   belongs_to :client, polymorphic: true
 
+  has_one :subscription
+
   delegate :name,  to: :client, allow_nil: true
   delegate :email, to: :client, allow_nil: true
 
