@@ -109,21 +109,6 @@ describe Pro::StructuresController do
   end
 
   context 'collection' do
-    describe "GET #best" do
-      it "'s a success" do
-        get :best, format: :json
-        expect(response).to be_success
-      end
-    end
-
-    # describe "GET #stars" do
-    #   it "'s a success" do
-    #     admin.super_admin = true
-    #     get :stars
-    #     expect(response).to be_success
-    #   end
-    # end
-
     describe "GET #index" do
       it "'s forbidden" do
         get :index
