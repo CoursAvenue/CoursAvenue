@@ -36,47 +36,6 @@ class Media < ActiveRecord::Base
   scope :cover,        -> { where( cover: true) }
   scope :cover_first,  -> { order('cover DESC NULLS LAST') }
 
-  # ------------------------------------------------------------------------------------ Search attributes
-  # :nocov:
-  searchable do
-    latlon :location, multiple: true do
-      if self.mediable.is_a? Structure
-        self.mediable.places.collect do |place|
-          Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
-        end
-      end
-    end
-
-    string :type
-
-    boolean :star
-
-    boolean :comments_count do
-      self.mediable.comments_count if self.mediable.is_a? Structure
-    end
-
-    string :subject_slugs, multiple: true do
-      if self.mediable.is_a? Structure
-        subject_slugs = []
-        if self.subjects.empty?
-          self.mediable.subjects.uniq.each do |subject|
-            subject_slugs << subject.root.slug
-            subject_slugs << subject.slug
-          end
-        else
-          self.subjects.uniq.each do |subject|
-            subject_slugs << subject.root.slug
-            subject_slugs << subject.slug
-          end
-        end
-        subject_slugs.uniq
-      end
-    end
-  end
-  # :nocov:
-
-  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
-
   def url_html(options={})
     read_attribute(:url_html).try(:html_safe)
   end

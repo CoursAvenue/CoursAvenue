@@ -2,14 +2,6 @@
 class Admin::UsersController < Admin::AdminController
 
   def index
-    # if params[:with_comments]
-    #   @users = UserSearch.search(active: true, has_comments: true, page: params[:page], name: params[:name]).results
-    # elsif params[:inactive]
-    #   @users = UserSearch.search(active: true, has_confirmed: false, page: params[:page], name: params[:name]).results
-    # else
-    #   @users = UserSearch.search(active: true, page: params[:page], name: params[:name]).results
-    # end
-
     @users = User.page(params[:page])
     mc_arel = Mailboxer::Conversation.arel_table
     @messages_graph = Mailboxer::Conversation.where(mc_arel[:created_at].gt(1.months.ago).and(

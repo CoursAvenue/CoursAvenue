@@ -31,35 +31,6 @@ class UserProfile < ActiveRecord::Base
   scope :with_name,  -> { where( UserProfile.arel_table[:first_name].not_eq('').or(
                                  UserProfile.arel_table[:last_name].not_eq('')) )}
 
-  ######################################################################
-  # Search attributes                                                  #
-  ######################################################################
-  # :nocov:
-  searchable do
-    text :email
-    text :first_name, boost: 5
-    text :last_name , boost: 5
-    text :notes
-    text :phone
-    text :mobile_phone
-    text :tag_names do
-      self.tags.map(&:name).join(' ')
-    end
-
-    # for sorting in user_profiles table
-    string :email
-    string :first_name
-    string :last_name
-
-    string :tag_names, multiple: true do
-      self.tags.map(&:name)
-    end
-
-    integer :structure_id
-    integer :id
-  end
-  # :nocov:
-
   def name
     self.full_name
   end

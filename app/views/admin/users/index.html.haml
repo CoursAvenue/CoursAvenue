@@ -16,10 +16,6 @@
     Croissance messages : #{((@messages_cumul[Date.today] - @messages_cumul[Date.today - 1.month]).to_f / @messages_cumul[Date.today - 1.month].to_f * 100).round(1)}%
   #users-cumul
 
-.text--center.push--ends
-  = link_to 'Avec avis', admin_users_path(with_comments: true), class: 'btn btn--blue btn--small push-half--right'
-  = link_to 'Inactif', admin_users_path(inactive: true), class: 'btn btn--blue btn--small'
-
 .text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
 %table.table--striped.table-responsive#dataTable
   %thead

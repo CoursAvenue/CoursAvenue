@@ -55,12 +55,6 @@ class Subject < ActiveRecord::Base
   mount_uploader :image, VerticalPageImageUploader
 
   # :nocov:
-  searchable do
-    text :name
-  end
-  # :nocov:
-
-  # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do
     attributesForFaceting [:depth, :parent, :root, :slug]
 
