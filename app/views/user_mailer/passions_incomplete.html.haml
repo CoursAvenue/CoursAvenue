@@ -10,7 +10,7 @@
   Pour cela, connectez-vous et renseignez vos disciplines :
 
 .p.action
-  = link_to 'Renseigner mes passions', user_passions_url(@user, subdomain: 'www', utm_source: 'email', utm_campaign: 'passions', utm_medium: 'monday_email'), class: 'btn btn--green'
+  = link_to 'Renseigner mes passions', passions_user_url(@user, subdomain: 'www', utm_source: 'email', utm_campaign: 'passions', utm_medium: 'monday_email'), class: 'btn btn--green'
 
 .p.blue.blue-tip
   Trucs & astuces : si votre profil n'est pas complet, renseignez en priorité vos informations personnelles, votre photo, et toutes vos passions.

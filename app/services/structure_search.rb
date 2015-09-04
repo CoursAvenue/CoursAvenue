@@ -3,11 +3,9 @@ class StructureSearch
   def self.similar_profile structure, limit=4
     # Choose parent subjects that are used if the profile has courses
     used_subjects = []
-    if structure.courses.any?
-      used_subjects = structure.courses.includes(:subjects).flat_map(&:subjects).uniq
-    else
-      used_subjects = structure.subjects.at_depth(2).uniq
-    end
+    used_subjects = structure.courses.includes(:subjects).flat_map(&:subjects)
+    used_subjects = (used_subjects.any? ? used_subjects : structure.subjects.at_depth(2))
+
     results = Structure.raw_search(used_subjects.map(&:name).join(' '), { aroundLatLng: "#{structure.latitude},#{structure.longitude}",
                                              aroundPrecision: 2000,
                                              hitsPerPage: limit,

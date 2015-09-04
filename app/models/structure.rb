@@ -25,7 +25,6 @@ class Structure < ActiveRecord::Base
   DISABLE_ON_PR_NOT_ANSWERED_COUNT = 2
   NB_STRUCTURE_PER_PAGE = 25
   STRUCTURE_STATUS      = %w(SA SAS SASU EURL SARL)
-  TRIAL_COURSES_POLICY  = %w(1_trial 2_trials 3_trials)
   STRUCTURE_TYPES       = ['structures.company',
                           'structures.independant',
                           'structures.association',
@@ -123,7 +122,7 @@ class Structure < ActiveRecord::Base
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason,
-                  :order_recipient, :delivery_email_status, :trial_courses_policy,
+                  :order_recipient, :delivery_email_status,
                   :sleeping_structure, :premium, :sms_opt_in,
                   :principal_mobile_id, :pure_player # Helps to know which actors are big on the market
 
@@ -173,7 +172,6 @@ class Structure < ActiveRecord::Base
   before_save   :sanatize_description
   before_save   :encode_uris
 
-  after_save    :update_open_for_trial_courses_if_neesds
   after_save    :geocode_if_needs_to    unless Rails.env.test?
   after_save    :subscribe_to_crm_with_delay
 
@@ -184,7 +182,6 @@ class Structure < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
 
-  scope :is_open_for_trial   , -> { where(arel_table[:trial_courses_policy].matches('%_trial%') ) }
   scope :sleeping            , -> { where("meta_data -> 'is_sleeping' = 'true'") }
   scope :with_logo           , -> { where.not( logo: nil ) }
   scope :with_media          , -> { joins(:medias).uniq }
@@ -691,13 +688,6 @@ class Structure < ActiveRecord::Base
     self.courses.open_for_trial.any?
   end
 
-  # Subjects actually associated to courses
-  # OR structure subjects if there is no courses
-  def used_subjects
-    ss = self.courses.flat_map(&:subjects)
-    (ss.any? ? ss : subjects)
-  end
-
   def update_intercom_status
     new_status = CrmSync.structure_status_for_intercom(self)
     if self.status != new_status
@@ -1053,16 +1043,6 @@ class Structure < ActiveRecord::Base
     return nil if name.nil?
     if name.match(/((?:[-a-z0-9]+\.)+[a-z]{2,4})(?: |\Z|,)/i) or name.match(/ point com( |$)/i)
       errors.add :name, "Le nom ne peut pas contenir votre site internet"
-    end
-    nil
-  end
-
-  # Set is_open_for_trial to false if trial_courses_policy changed and is set to nil
-  #
-  # @return nil
-  def update_open_for_trial_courses_if_neesds
-    if trial_courses_policy_changed? and trial_courses_policy.blank?
-      courses.open_for_trial.map{ |c| c.is_open_for_trial = false; c.save }
     end
     nil
   end

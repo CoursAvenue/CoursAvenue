@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150904130757) do
+ActiveRecord::Schema.define(version: 20150904135933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1125,7 +1125,6 @@ ActiveRecord::Schema.define(version: 20150904130757) do
     t.string   "logo"
     t.string   "sleeping_logo"
     t.string   "remote_logo_url"
-    t.string   "trial_courses_policy"
     t.integer  "sleeping_structure_id"
     t.text     "course_subjects_string"
     t.boolean  "premium"

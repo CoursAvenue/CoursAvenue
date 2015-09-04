@@ -98,69 +98,6 @@ class StructureDecorator < Draper::Decorator
     object.funding_types.map{ |funding_type| I18n.t(funding_type.name)}.join(', ')
   end
 
-  def promotion_popover
-    courses = object.courses.regulars.select{ |course| course.has_promotion? }
-    output  = ''
-    output  << "<div><strong>#{courses.length} #{'cours régulier'.pluralize(courses.length)} :</strong></div>" if courses.any?
-    list_item_start = (courses.length > 1 ? '- ' : '')
-    courses.each do |course|
-      output << "<div>#{list_item_start}#{course.name}</div>"
-    end
-    trainings = object.courses.trainings.select{ |course| course.has_promotion? }
-    output  << "<div class='push-half--top'><strong>#{trainings.length} #{'stage'.pluralize(trainings.length)} :</strong></div>" if trainings.any?
-    list_item_start = (trainings.length > 1 ? '- ' : '')
-    trainings.each do |training|
-      output << "<div>#{list_item_start}#{training.name}</div>"
-    end
-    output
-  end
-
-  def trial_courses_popover
-    courses = object.courses.open_for_trial.regulars
-    output  = ''
-    header_policy = I18n.t("structures.trial_courses_policy.#{object.trial_courses_policy}_nb_given")
-    output  << "<div class='push-half--bottom'><strong>#{header_policy}</strong></div>"
-    output  << "<div><strong>#{courses.length} #{'cours régulier'.pluralize(courses.length)} :</strong></div>" if courses.any?
-    list_item_start = (courses.length > 1 ? '- ' : '')
-    courses.each do |course|
-      output << "<div>#{list_item_start}#{course.name}</div>"
-    end
-    trainings = object.courses.open_for_trial.trainings
-    output  << "<div class='push-half--top'><strong>#{trainings.length} #{'stage'.pluralize(trainings.length)} :</strong></div>" if trainings.any?
-    list_item_start = (trainings.length > 1 ? '- ' : '')
-    trainings.each do |training|
-      output << "<div>#{list_item_start}#{training.name}</div>"
-    end
-    output
-  end
-
-  def group_courses_popover(options={})
-    courses = object.courses.lessons
-    output  = ''
-    output  << "<div><strong>#{courses.length} #{'cours collectif'.pluralize(courses.length)} :</strong></div>" if courses.any?
-    list_item_start = (courses.length > 1 ? '- ' : '')
-    courses.each do |course|
-      output << "<div>#{list_item_start}#{course.name}</div>"
-    end
-    trainings = object.courses.trainings
-    list_item_start = (trainings.length > 1 ? '- ' : '')
-    output  << "<div class='#{courses.any? ? 'push-half--top' : ''}'><strong>#{trainings.length} #{'stage'.pluralize(trainings.length)} :</strong></div>" if trainings.any?
-    trainings.each do |training|
-      output << "<div>#{list_item_start}#{training.name}</div>"
-    end
-    output
-  end
-
-  def individual_courses_popover(options={})
-    courses = object.courses.privates
-    output  = "<div><strong>#{courses.length} #{'cours particulier'.pluralize(courses.length)} :</strong></div>" if courses.any?
-    list_item_start = (courses.length > 1 ? '- ' : '')
-    courses.each do |course|
-      output << "<div>#{list_item_start}#{course.name}</div>"
-    end
-    output
-  end
-
   # @return something like:
   #   06 07 65 33 23
   #   <br>
