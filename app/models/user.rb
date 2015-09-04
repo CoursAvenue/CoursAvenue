@@ -354,39 +354,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  # A url to the /structures page of courses that correspond to user's passion
-  #
-  # @return string the url
-  def around_courses_url
-    if city
-      root_search_page_without_subject_path(city)
-    else
-      root_search_page_without_subject_path('paris')
-    end
-  end
-
-  def around_courses_search
-    subject_array    = self.passions.map(&:subjects).compact.flatten
-    @course_search ||= CourseSearch.search({lat: self.city.latitude,
-                                          lng: self.city.longitude,
-                                          radius: 6,
-                                          per_page: 1,
-                                          subject_slugs: subject_array.map(&:slug)
-                                      })
-
-  end
-
-  def around_courses_count
-    return 0 unless self.city
-    around_courses_search.total
-  end
-
-  def around_trial_courses_count
-    return 0 unless self.city
-    return 0 if around_courses_search.facet(:has_free_trial_lesson).rows.last.nil?
-    around_courses_search.facet(:has_free_trial_lesson).rows.last.count
-  end
-
   def send_welcome_email
     UserMailer.delay.welcome(self)
   end

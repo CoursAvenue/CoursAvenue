@@ -4,15 +4,6 @@ class SubjectsController < ApplicationController
 
   respond_to :json
 
-  def search
-    @subjects = Rails.cache.fetch "SubjectsController#search/#{params[:name]}" do
-      SubjectSearch.search(name: params[:name]).results
-    end
-    respond_to do |format|
-      format.json { render json: @subjects, each_serializer: SubjectSearchSerializer }
-    end
-  end
-
   def show
     @subject = Subject.fetch_by_id_or_slug params[:id]
     if @subject.vertical_pages.any?

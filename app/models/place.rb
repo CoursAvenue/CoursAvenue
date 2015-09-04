@@ -24,8 +24,6 @@ class Place < ActiveRecord::Base
   ######################################################################
   after_create :affect_subjects
 
-  before_save  :reindex_structure_and_places
-
   after_save   :geocode_if_needs_to unless Rails.env.test?
   after_save   :touch_relations
 
@@ -130,13 +128,6 @@ class Place < ActiveRecord::Base
       self.save(validate: false)
     end
     return nil
-  end
-
-  def reindex_structure_and_places
-    if self.latitude_changed? or self.longitude_changed?
-      self.structure.delay.index  if self.structure
-    end
-    self.plannings.map{ |planning| planning.delay.index }
   end
 
   def touch_relations

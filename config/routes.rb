@@ -12,6 +12,7 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: 'pro' do
     namespace :admin do
       resources :press_articles
+      resources :users, only: [:index]
       resources :newsletters, only: [:index]
       resources :blog_articles, controller: 'blog/articles', path: 'blog' do
         resources :medias, controller: 'blog/articles/medias'
@@ -375,7 +376,6 @@ CoursAvenue::Application.routes.draw do
           end
         end
       end
-      resources :users, only: [:index]
       resources :comment_notifications, only: [:index]
       resources :conversations        , only: [:index]
 
@@ -568,7 +568,6 @@ CoursAvenue::Application.routes.draw do
       collection do
         get :list
         get :descendants
-        get :search
       end
       resources :structures, only: [:index], path: 'etablissements'
       resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index' # établissement without S

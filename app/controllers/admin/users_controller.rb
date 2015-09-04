@@ -1,20 +1,16 @@
 # encoding: utf-8
-class Pro::UsersController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
-
-  layout 'admin'
-
-  authorize_resource :users
+class Admin::UsersController < Admin::AdminController
 
   def index
-    if params[:with_comments]
-      @users = UserSearch.search(active: true, has_comments: true, page: params[:page], name: params[:name]).results
-    elsif params[:inactive]
-      @users = UserSearch.search(active: true, has_confirmed: false, page: params[:page], name: params[:name]).results
-    else
-      @users = UserSearch.search(active: true, page: params[:page], name: params[:name]).results
-    end
+    # if params[:with_comments]
+    #   @users = UserSearch.search(active: true, has_comments: true, page: params[:page], name: params[:name]).results
+    # elsif params[:inactive]
+    #   @users = UserSearch.search(active: true, has_confirmed: false, page: params[:page], name: params[:name]).results
+    # else
+    #   @users = UserSearch.search(active: true, page: params[:page], name: params[:name]).results
+    # end
 
+    @users = User.page(params[:page])
     mc_arel = Mailboxer::Conversation.arel_table
     @messages_graph = Mailboxer::Conversation.where(mc_arel[:created_at].gt(1.months.ago).and(
                                                     mc_arel[:mailboxer_label_id].eq_any([1,4])))

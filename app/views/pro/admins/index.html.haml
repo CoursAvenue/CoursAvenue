@@ -3,20 +3,12 @@
 = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'admins' }
 %h1 Liste des admins
 
+.push-half--bottom= paginate @admins, window: 2, outer_window: 1
+
 .push-half--bottom
   %input.input--large.one-whole#search-input{ type: 'text', placeholder: 'Cherchez un établissement' }
 
-.push-half--bottom= paginate @admins, window: 2, outer_window: 1
-
-.input
-  %label.v-middle.push-half--right Trier par
-  %select.v-middle#sorting
-    %option{ value: 'created_at_desc', selected: params[:sort] == 'created_at_desc' } Date de création
-    %option{ value: 'comments_count_desc', selected: params[:sort] == 'comments_count_desc' } Nombre d'avis
-
 = link_to 'Voir les structures sans admins', pro_structures_path
-|
-= link_to 'Voir les admins non actifs', pro_admins_path(sort: 'not_confirmed')
 %table.table--striped.table--data.table-responsive#dataTable
   %thead
     %tr
@@ -73,44 +65,30 @@
               - if admin.structure
                 = link_to pro_structure_path(admin.structure), method: :delete, title: 'Supprimer', class: 'btn btn--red', data: {confirm: 'Êtes-vous sur de supprimer cet admin et TOUS ses cours ?'} do
                   %i.fa-trash-o
+
 .push-half--bottom= paginate @admins, window: 2, outer_window: 1
 %script#structure-item-template{:type => 'text/x-handlebars-template'}
   %div{style: 'font-size: 13px;'}
     {{name}}
-    <a href="mailto:{{email}}">({{email}})</a>
-    %br
-    %strong {{structure.name}}
-    ({{structure.comments_count}} avis)
 
 = content_for :scripts do
+  = javascript_include_tag 'https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js'
   :javascript
     $(function() {
-        // Admin search
         var template = Handlebars.compile($('#structure-item-template').html());
-        var engine   = new Bloodhound({
-          datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
-          queryTokenizer: Bloodhound.tokenizers.whitespace,
-          remote: Routes.pro_admins_path({format: 'json'}) + '?name=%QUERY'
-        });
-        engine.initialize();
-        $('#search-input').typeahead({
-            highlight : true
-          }, [
+        var algolia  = algoliasearch('#{ENV["ALGOLIA_APPLICATION_ID"]}', '#{ENV["ALGOLIA_SEARCH_API_KEY"]}');
+        var index    = algolia.initIndex('Structure_' + ENV.SERVER_ENVIRONMENT);
+
+        $('#search-input').typeahead({ highlight : true }, [
           {
             templates: {
                 suggestion: template
             },
             limit: 10,
-            source: engine.ttAdapter()
+            source: index.ttAdapter({hitsPerPage: 5}),
           }
         ]);
         $('#search-input').on('typeahead:selected', function(event, data){
-            window.open('/etablissements/' + data.structure.slug)
-        });
-        $('#sorting').change(function(){
-            var new_location = "#{pro_admins_path}" + '?page=';
-            new_location += '#{params[:page] || 1}';
-            new_location += '&sort=' + this.value;
-            window.location = new_location;
+            window.open('/etablissements/' + data.slug)
         });
     })

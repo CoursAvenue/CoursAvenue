@@ -17,8 +17,8 @@
   #users-cumul
 
 .text--center.push--ends
-  = link_to 'Avec avis', pro_users_path(with_comments: true), class: 'btn btn--blue btn--small push-half--right'
-  = link_to 'Inactif', pro_users_path(inactive: true), class: 'btn btn--blue btn--small'
+  = link_to 'Avec avis', admin_users_path(with_comments: true), class: 'btn btn--blue btn--small push-half--right'
+  = link_to 'Inactif', admin_users_path(inactive: true), class: 'btn btn--blue btn--small'
 
 .text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
 %table.table--striped.table-responsive#dataTable
@@ -104,7 +104,7 @@
         var engine   = new Bloodhound({
           datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
           queryTokenizer: Bloodhound.tokenizers.whitespace,
-          remote: Routes.pro_users_path({format: 'json'}) + '?name=%QUERY'
+          remote: Routes.admin_users_path({format: 'json'}) + '?name=%QUERY'
         });
         engine.initialize();
         $('#search-input').typeahead({
