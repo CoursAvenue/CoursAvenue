@@ -32,6 +32,7 @@
               todayHighlight: true,
               startDate: current_start_date,
           };
+
           $datepicker.datepicker(datepicker_options).on('changeDate', function (event) {
               var date_string = moment(event.date).format('Do MMM');
               $('#date-submit').val('Confirmer pour le ' + date_string);
@@ -46,8 +47,8 @@
               var new_start_date = moment(planning.start_date, 'YYYY-MM-DD').toDate();
               if (current_start_date < new_start_date) {
                   current_start_date = new_start_date;
-                  $datepicker.datepicker('setStartDate', current_start_date);
               }
+              $datepicker.datepicker('setStartDate', current_start_date);
           }
 
           // Setting the selected date.
