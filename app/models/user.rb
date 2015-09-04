@@ -26,8 +26,8 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
                   :name, :first_name, :last_name, :gender, :fb_avatar, :location,
                   :avatar, :remote_avatar_url,
-                  :birthdate, :phone_number, :zip_code, :city_id, :passion_zip_code, :passion_city_id, :passions_attributes, :description,
-                  :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
+                  :birthdate, :phone_number, :zip_code, :city_id, :description,
+                  :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :delivery_email_status, :sign_up_at,
                   :test_name, :interested_at, :token,
@@ -46,7 +46,6 @@ class User < ActiveRecord::Base
   ######################################################################
   has_many :comments, -> { order('created_at DESC') }, class_name: 'Comment::Review'
   has_many :comment_notifications
-  has_many :passions
   has_many :invited_users, foreign_key: :referrer_id, dependent: :destroy
   has_many :user_profiles
   has_many :structures, through: :user_profiles
@@ -66,11 +65,6 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :subjects
 
   belongs_to :city
-  belongs_to :passion_city, class_name: 'City'
-
-  accepts_nested_attributes_for :passions,
-                                 reject_if: lambda {|attributes| attributes['subject_id'].blank? },
-                                 allow_destroy: true
 
   ######################################################################
   # Callbacks                                                          #
@@ -304,21 +298,6 @@ class User < ActiveRecord::Base
     percentage += 25 if self.subjects.any?
     percentage += 25 if self.favorites.any?
     percentage
-  end
-
-  # Params for structures_path regarding the data we have on the user
-  #
-  # @return Hash
-  def around_courses_params
-    if self.city
-      if self.passions.any?
-        { lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subjects).compact.flatten.map(&:slug) }
-      else
-        { lat: self.city.latitude, lng: self.city.longitude }
-      end
-    else
-      {}
-    end
   end
 
   def send_welcome_email

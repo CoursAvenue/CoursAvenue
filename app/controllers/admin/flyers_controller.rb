@@ -1,6 +1,4 @@
-class Pro::FlyersController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
-  layout 'admin'
+class Admin::FlyersController < Admin::AdminController
 
   def index
     @flyers = Flyer.all

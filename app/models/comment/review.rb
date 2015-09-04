@@ -42,7 +42,7 @@ class Comment::Review < Comment
   after_create     :create_user, if: -> { self.user.nil? }
   after_create     :send_email
   after_create     :affect_structure_to_user
-  after_create     :create_passions_for_associated_user
+  after_create     :associate_subjects_to_user
   after_create     :complete_comment_notification
   after_create     :create_or_update_user_profile
 
@@ -194,12 +194,12 @@ class Comment::Review < Comment
     self.user.save(validate: false)
   end
 
-  def create_passions_for_associated_user
+  def associate_subjects_to_user
     self.subjects.each do |child_subject|
-      passion = self.user.passions.build(practiced: true)
-      passion.subjects << child_subject.root
-      passion.subjects << child_subject
+      self.user.subjects << child_subject.root
+      self.user.subjects << child_subject
     end
+    self.user.subjects = self.user.subjects.uniq
     self.user.comments << self
     self.user.save(validate: false)
   end

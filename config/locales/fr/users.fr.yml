@@ -23,7 +23,6 @@ fr:
         sms_opt_in: La veille de vos inscriptions, CoursAvenue vous envoie un résumé par SMS.
         email_promo_opt_in: CoursAvenue propose de temps en temps des offres ou des promotions sur des cours vraiment sympas.
         email_newsletter_opt_in: CoursAvenue a des infos intéressantes sur les nouveautés de son site et sur ses améliorations (newsletters).
-        email_passions_opt_in: "CoursAvenue a du nouveau à me partager concernant mes disciplines \"passions\" (soirées, expo, stages, invitations, etc.)."
         community_notification_opt_in: Les communautés dont je suis membre recoivent une question publique.
   users:
     menu:

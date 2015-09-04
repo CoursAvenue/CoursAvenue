@@ -1,8 +1,5 @@
 - content_for :under_content do
   = render partial: 'user_mailer/structure', locals: { structure: @structure }
 
-- content_for :under_content_2 do
-  = render partial: 'user_mailer/develop_passions', locals: { user: @user }
-
 - content_for :under_content_3 do
   = render 'user_mailer/footer_info'

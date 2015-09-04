@@ -7,5 +7,5 @@
     %div= l(flyer.created_at.to_date)
   %td.nowrap.text--center{ data: { th: 'Traité' } }
     %div
-      = simple_form_for [:pro, flyer], remote: true do |f|
+      = simple_form_for [:admin, flyer], remote: true do |f|
         = f.input :treated, label: false, input_html: { data: { behavior: 'update' } }

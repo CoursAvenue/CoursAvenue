@@ -10,7 +10,7 @@
       %th.text--center Traité
   %tbody
   - @flyers.not_treated.each do |flyer|
-    = render partial: 'pro/flyers/flyer', locals: { flyer: flyer }
+    = render partial: 'admin/flyers/flyer', locals: { flyer: flyer }
 
 %hr.push--ends
 %h3.soft.flush Traité
@@ -22,7 +22,7 @@
       %th.text--center Traité
   %tbody
   - @flyers.treated.each do |flyer|
-    = render partial: 'pro/flyers/flyer', locals: { flyer: flyer }
+    = render partial: 'admin/flyers/flyer', locals: { flyer: flyer }
 
 - content_for :scripts do
   :javascript

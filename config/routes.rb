@@ -13,6 +13,7 @@ CoursAvenue::Application.routes.draw do
     # For super admin
     namespace :admin do
       resources :users, only: [:index]
+      resources :flyers, only: [:index, :update]
       resources :press_articles
       resources :newsletters, only: [:index]
       resources :blog_articles, controller: 'blog/articles', path: 'blog' do
@@ -87,7 +88,6 @@ CoursAvenue::Application.routes.draw do
 
       resources :press_releases, path: 'communiques-de-presse'
 
-      resources :flyers, only: [:index, :update]
       resources :faqs do
         collection do
           get :preview
@@ -126,7 +126,6 @@ CoursAvenue::Application.routes.draw do
 
       resources :invited_users, only: [:index]
       resources :sticker_demands, only: [:index]
-      resources :promotion_codes, path: 'code-promos'
 
       resources :subscriptions,          only: [:index]
       resources :subscriptions_invoices, only: [:index]
@@ -474,12 +473,6 @@ CoursAvenue::Application.routes.draw do
       resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
       resources :messages     , controller: 'users/messages'
       resources :conversations, controller: 'users/conversations'
-      resources :passions, only: [:index, :destroy], controller: 'users/passions' do
-        collection do
-          get :offers
-          get :suggestions
-        end
-      end
       resources :orders, only: [:index, :show], controller: 'users/orders', path: 'mes-factures'
       resources :participation_requests, only: [:index, :show], controller: 'users/participation_requests', path: 'mes-inscriptions'
     end

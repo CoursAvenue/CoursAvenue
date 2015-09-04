@@ -142,12 +142,11 @@ class Structure < ActiveRecord::Base
                              :response_rate, :response_time,
                              :deletion_reasons, :deletion_reasons_text, :other_emails,
                              :is_sleeping, :sleeping_email_opt_in,
-                             :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient,
+                             :sleeping_email_opt_out_reason, :order_recipient,
                              :status, :vertical_pages_breadcrumb,
                              :close_io_lead_id, :sponsorship_token
 
-  define_boolean_accessor_for :meta_data, :is_sleeping, :sleeping_email_opt_in,
-                                          :promo_code_sent
+  define_boolean_accessor_for :meta_data, :is_sleeping, :sleeping_email_opt_in
 
   mount_uploader :logo, StructureLogoUploader
 

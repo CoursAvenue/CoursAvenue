@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150904121144) do
+ActiveRecord::Schema.define(version: 20150904125203) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1439,8 +1439,6 @@ ActiveRecord::Schema.define(version: 20150904121144) do
     t.string   "last_email_sent_at"
     t.string   "last_email_sent_status"
     t.boolean  "super_user",                    default: false
-    t.integer  "passion_city_id"
-    t.string   "passion_zip_code"
     t.string   "delivery_email_status"
     t.datetime "sign_up_at"
     t.string   "avatar"
