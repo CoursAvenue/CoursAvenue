@@ -25,8 +25,6 @@ CoursAvenue::Application.routes.draw do
     namespace :pro, path: '' do
       root :to => 'home#index'
 
-      get '/premium'                            => 'redirect#structures_premium'
-
       get 'livres-blancs'                       => 'home#white_book',         as: 'pages_white_books'
       get 'mailjet_custo'                       => 'home#mailjet_custo'
       get 'pourquoi-etre-recommande'            => 'home#why_be_recommended', as: 'pages_why_be_recommended'
@@ -72,7 +70,6 @@ CoursAvenue::Application.routes.draw do
       end
 
       resources :participation_requests, only: [:index]
-      resources :payment_notifications, only: [:index, :show]
       resources :blog_subscribers, only: [:create], controller: 'blog/subscribers'
       resources :blog_articles, only: [:index, :show], controller: 'blog/articles', path: 'blog' do
         collection do
@@ -169,7 +166,6 @@ CoursAvenue::Application.routes.draw do
           get   :crop_logo
           get   :edit_contact, path: 'informations-contact'
           get   :logo
-          get   :payment_confirmation, path: 'confirmation-paiement'
           get   :recommendations, path: 'recommendations'
           get   :signature
           get   :communication
@@ -221,18 +217,6 @@ CoursAvenue::Application.routes.draw do
             get   :update_payments_form
             get   :choose_plan_and_pay
             resources :subscriptions_sponsorships, only: [:index, :create], controller: 'structures/subscriptions_sponsorships', path: 'parrainage'
-          end
-        end
-        # Old subscriptions with Be2Bill
-        resources :subscription_plans, only: [:new, :index, :destroy], controller: 'structures/subscription_plans', path: 'abonnements' do
-          collection do
-            get :paypal_express_checkout
-            get :paypal_confirmation
-          end
-          member do
-            patch :reactivate
-            get :ask_for_cancellation
-            get :confirm_cancellation
           end
         end
         resources :admins, controller: 'structures/admins' do

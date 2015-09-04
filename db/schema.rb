@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150903213529) do
+ActiveRecord::Schema.define(version: 20150904082546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -853,17 +853,6 @@ ActiveRecord::Schema.define(version: 20150903213529) do
 
   add_index "passions_subjects", ["passion_id", "subject_id"], name: "index_passions_subjects_on_passion_id_and_subject_id", using: :btree
 
-  create_table "payment_notifications", force: true do |t|
-    t.text     "params"
-    t.integer  "structure_id"
-    t.string   "order_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "type"
-    t.integer  "user_id"
-    t.string   "product_type"
-  end
-
   create_table "phone_numbers", force: true do |t|
     t.string   "number"
     t.string   "phone_type"
@@ -1267,37 +1256,6 @@ ActiveRecord::Schema.define(version: 20150903213529) do
   end
 
   add_index "subjects_users", ["user_id", "subject_id"], name: "index_subjects_users_on_user_id_and_subject_id", using: :btree
-
-  create_table "subscription_plan_exports", force: true do |t|
-    t.string   "url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "subscription_plans", force: true do |t|
-    t.string   "plan_type"
-    t.string   "credit_card_number"
-    t.string   "be2bill_alias"
-    t.string   "client_ip"
-    t.boolean  "recurrent",                      default: true
-    t.date     "expires_at"
-    t.date     "renewed_at"
-    t.datetime "canceled_at"
-    t.hstore   "meta_data"
-    t.integer  "structure_id"
-    t.datetime "deleted_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.date     "card_validity_date"
-    t.integer  "promotion_code_id"
-    t.datetime "last_renewal_failed_at"
-    t.hstore   "bo_meta_data"
-    t.string   "paypal_token"
-    t.string   "paypal_payer_id"
-    t.string   "paypal_recurring_profile_token"
-  end
-
-  add_index "subscription_plans", ["structure_id"], name: "index_subscription_plans_on_structure_id", using: :btree
 
   create_table "subscriptions", force: true do |t|
     t.string   "stripe_subscription_id"

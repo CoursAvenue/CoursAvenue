@@ -78,7 +78,6 @@ class Structure < ActiveRecord::Base
 
   has_many :places                   , dependent: :destroy
   has_many :admins                   , dependent: :destroy
-  has_many :subscription_plans       , dependent: :destroy
 
   has_one  :website_parameter
   has_one  :subscription
@@ -518,14 +517,6 @@ class Structure < ActiveRecord::Base
       save(validate: false)
       return response_time
     end
-  end
-
-  # Return current (last) subscription plan
-  #
-  # @return SubscriptionPlan or nil if there is no current SubscriptionPlan
-  def subscription_plan
-    subscription_plan = subscription_plans.order('created_at DESC').first
-    return subscription_plan
   end
 
   #

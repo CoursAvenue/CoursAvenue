@@ -3,13 +3,12 @@ class Pro::StructuresController < Pro::ProController
   before_action :authenticate_pro_super_admin!, only: [:new_sleeping]
 
   before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best,
-                                                   :payment_confirmation_be2_bill,
                                                    :someone_already_took_control]
 
   before_action :load_structure
 
   authorize_resource :structure, except: [:new, :new_sleeping, :create,
-                                          :widget_ext, :best, :payment_confirmation_be2_bill,
+                                          :widget_ext, :best,
                                           :someone_already_took_control]
 
   # We add update in case the update fails and we need the variable in the view
@@ -277,11 +276,6 @@ France
     if request.xhr?
       render layout: false
     end
-  end
-
-  # Get etablissements/:id/premium
-  def premium
-    redirect_to pro_structure_subscription_plans_path(@structure), status: 301
   end
 
   # GET structure/:id/communication
