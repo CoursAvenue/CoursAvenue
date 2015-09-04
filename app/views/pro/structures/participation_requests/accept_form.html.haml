@@ -6,9 +6,9 @@
     .soft--sides.soft--bottom
       = simple_form_for [:pro, @structure, @participation_request], url: modify_date_pro_structure_participation_request_path(@structure, @participation_request) do |f|
         .grid__full.soft-half--ends
-          .grid__item.v-middle.two-thirds.hard>
+          .grid__item.v-middle.six-tenths.hard>
             <label for='request-date'>Vous confirmez l'inscription pour le</label>
-          .grid__item.v-middle.one-third.hard>
+          .grid__item.v-middle.three-tenths.hard>
             %input.datepicker-input.v-middle{ name: 'participation_request[date]', data: { behavior: 'datepicker' }, id: 'request-date' }
 
         .grid
