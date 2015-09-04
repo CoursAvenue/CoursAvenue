@@ -143,8 +143,8 @@ class Structure < ActiveRecord::Base
   store_accessor :meta_data, :highlighted_comment_title, :min_price_amount,
                              :max_price_libelle, :level_ids, :audience_ids, :busy,
                              :response_rate, :response_time,
-                             :deletion_reasons, :deletion_reasons_text, :other_emails, :search_score,
-                             :search_score_updated_at, :is_sleeping, :sleeping_email_opt_in,
+                             :deletion_reasons, :deletion_reasons_text, :other_emails,
+                             :is_sleeping, :sleeping_email_opt_in,
                              :sleeping_email_opt_out_reason, :promo_code_sent, :order_recipient,
                              :status, :vertical_pages_breadcrumb,
                              :close_io_lead_id, :sponsorship_token
@@ -598,11 +598,8 @@ class Structure < ActiveRecord::Base
   #
   # See file 'Score de profil.xlsx' for more info
   # @return Integer
-  def compute_search_score(force=false) # TODO when do we have to compute score ?
-    # Return already stored search score if it has been computed recently
-    if !force and search_score.present? and search_score_updated_at.present? and Date.parse(search_score_updated_at.to_s) > Date.yesterday
-      return search_score
-    else
+  def search_score
+    Rails.cache.fetch("#{ cache_key }/search_score/#{ comments_count }/#{ mailbox.try(:conversation).try(:count) }") do
       score = 0
       ## Comments
       if comments_count > 15
@@ -636,10 +633,6 @@ class Structure < ActiveRecord::Base
       if pure_player?
         score += SEARCH_SCORE_COEF[:pure_player]
       end
-
-      self.search_score            = score
-      self.search_score_updated_at = Time.now
-      save(validate: false)
       return score
     end
   end

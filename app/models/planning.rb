@@ -104,7 +104,7 @@ class Planning < ActiveRecord::Base
   # :nocov:
   searchable do
     integer :search_score do
-      self.course.structure.compute_search_score
+      self.course.structure.search_score
     end
 
     boolean :visible
