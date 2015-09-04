@@ -578,13 +578,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Return all the Metric associated with this structure
-  #
-  # @return The Metric
-  def metrics
-    Metric.where(structure_id: id)
-  end
-
   SEARCH_SCORE_COEF = {
     comments:       3,
     logo:           2,
@@ -650,21 +643,6 @@ class Structure < ActiveRecord::Base
     AdminMailer.delay.you_have_control_of_your_account(self)
     true
   end
-
-  # If admin wanted to go premium, we send promo_code the day later only if
-  # the structure is still not premium
-  #
-  # @return Boolean
-  def send_promo_code!
-    return if self.premium? or self.promo_code_sent?
-    annual_promo_code  = PromotionCode.create(name: "-10% sur l'abonnement annuel", code_id: "GOPREMIUMANNUEL_#{id}", promo_amount: 47, plan_type: 'yearly', expires_at: Date.tomorrow ,max_usage_nb: 1, apply_until: Date.tomorrow)
-    monthyl_promo_code = PromotionCode.create(name: "-20% sur le 1er mois d'abonnement", code_id: "GOPREMIUM_#{id}", promo_amount: 9, plan_type: 'monthly', expires_at: Date.tomorrow ,max_usage_nb: 1, apply_until: Date.tomorrow)
-    AdminMailer.delay.premium_follow_up_with_promo_code(self, monthyl_promo_code, annual_promo_code)
-    self.promo_code_sent = true
-    save(validate: false)
-    true
-  end
-  handle_asynchronously :send_promo_code!, :run_at => Proc.new { Date.tomorrow + 9.hours }
 
   # Return the most used subject or the root subjects that has the most childs.
   #
@@ -911,14 +889,6 @@ class Structure < ActiveRecord::Base
     end
 
     crm_lock.unlock!
-  end
-
-  def planning_page_views_nb
-    Rails.cache.fetch ["Structure#planning_page_views_nb", self], expires_in: 23.hours.from_now do
-      client = ::Analytic.client
-      website_planning_page_view_data = client.page_views(self.id, 'website/planning', 2.months.ago)
-      website_planning_page_view_data.map(&:pageviews).reduce(&:+)
-    end
   end
 
   # Whether or not we should disable the current structure.
