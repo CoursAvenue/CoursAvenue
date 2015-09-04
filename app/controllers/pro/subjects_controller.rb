@@ -11,6 +11,13 @@ class Pro::SubjectsController < Pro::ProController
     @subjects = @roots + @parents + @children
   end
 
+  def all
+    @roots    = Subject.roots.order('name ASC').all
+    @parents  = Subject.at_depth(1).order('name ASC').all
+    @children = Subject.at_depth(2).order('name ASC').all
+    @subjects = @roots + @parents + @children
+  end
+
   def new
     @parent  = Subject.fetch_by_id_or_slug params[:parent_id]
     @subject = @parent.children.build

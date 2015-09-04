@@ -303,12 +303,8 @@ CoursAvenue.module('Views.ParticipationRequests', function(Module, App, Backbone
         },
 
         serializeData: function serializeData () {
-            var courses_open_for_trial = this.courses_collection.select(function(course) { return course.get('is_open_for_trial') == true });
-            var courses_without_open_for_trials = this.courses_collection.select(function(course) { return course.get('is_open_for_trial') != true });
             var data = {
-                trial_courses_policy             : this.model.get('structure').get('trial_courses_policy'),
-                courses_open_for_trial           : _.invoke(courses_open_for_trial, 'toJSON'),
-                courses_without_open_for_trials  : _.invoke(courses_without_open_for_trials, 'toJSON'),
+                regular_courses                  : _.invoke(this.courses_collection.models, 'toJSON'),
                 trainings_without_open_for_trials: this.trainings_collection.toJSON(),
                 cid                              : this.cid,
                 hide_date: this.hide_date,

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150904125203) do
+ActiveRecord::Schema.define(version: 20150904130757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -815,27 +815,6 @@ ActiveRecord::Schema.define(version: 20150904125203) do
 
   add_index "participations_users", ["participation_id", "user_id"], name: "index_participations_users_on_participation_id_and_user_id", using: :btree
 
-  create_table "passions", force: true do |t|
-    t.integer  "user_id"
-    t.string   "passion_frequency_ids"
-    t.boolean  "practiced",               default: true
-    t.string   "passion_expectation_ids"
-    t.string   "passion_reason_ids"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "info"
-    t.string   "level_ids"
-    t.string   "passion_for_ids"
-    t.string   "passion_time_slot_ids"
-  end
-
-  create_table "passions_subjects", id: false, force: true do |t|
-    t.integer "passion_id"
-    t.integer "subject_id"
-  end
-
-  add_index "passions_subjects", ["passion_id", "subject_id"], name: "index_passions_subjects_on_passion_id_and_subject_id", using: :btree
-
   create_table "phone_numbers", force: true do |t|
     t.string   "number"
     t.string   "phone_type"
@@ -997,21 +976,6 @@ ActiveRecord::Schema.define(version: 20150904125203) do
 
   add_index "prices", ["price_group_id"], name: "index_prices_on_price_group_id", using: :btree
   add_index "prices", ["type"], name: "index_prices_on_type", using: :btree
-
-  create_table "promotion_codes", force: true do |t|
-    t.string   "name"
-    t.string   "code_id"
-    t.integer  "promo_amount"
-    t.string   "plan_type"
-    t.date     "expires_at"
-    t.integer  "usage_nb",     default: 0
-    t.integer  "max_usage_nb"
-    t.datetime "canceled_at"
-    t.datetime "deleted_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.date     "apply_until"
-  end
 
   create_table "ratp_lines", force: true do |t|
     t.string   "name"

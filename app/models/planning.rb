@@ -120,13 +120,6 @@ class Planning < ActiveRecord::Base
     return ((end_date || start_date) - start_date).to_i + 1
   end
 
-  # :nocov:
-  def min_price_amount_for(type)
-    price = price_amount_for_scope(type).order('amount ASC').first
-    return 0 unless price
-    price.amount.to_i
-  end
-  # :nocov:
 
   def week_days
     if self.course.is_lesson? or self.course.is_private?
@@ -202,29 +195,6 @@ class Planning < ActiveRecord::Base
   end
 
   private
-
-  # Return the scoped price for a given type.
-  # Used in search
-  def price_amount_for_scope(type)
-    case type
-    when 'per_course'
-      self.course.prices.book_tickets.individual
-    when 'book_ticket'
-      self.course.prices.book_tickets.multiple_only
-    when 'annual_subscription'
-      self.course.prices.subscriptions.annual
-    when 'semestrial_subscription'
-      self.course.prices.subscriptions.semestrial
-    when 'trimestrial_subscription'
-      self.course.prices.subscriptions.trimestrial
-    when 'monthly_subscription'
-      self.course.prices.subscriptions.monthly
-    when 'any_per_course'
-      self.course.prices.book_tickets
-    when 'all_subscriptions'
-      self.course.prices.subscriptions
-    end
-  end
 
   def set_structure_if_blank
     self.structure = self.course.structure if self.course

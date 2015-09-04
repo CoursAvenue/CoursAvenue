@@ -109,8 +109,12 @@ CoursAvenue::Application.routes.draw do
         end
       end
       resources :subjects do
+        member do
+          get :edit_name
+        end
         collection do
           get :descendants
+          get :all
         end
       end
 
@@ -451,13 +455,14 @@ CoursAvenue::Application.routes.draw do
         get :welcome
       end
       member do
-        get    :destroy_confirmation
-        get    :edit_private_infos, path: 'mon-compte'
-        patch  :update_password
-        get  :wizard
-        get  :dashboard
-        get  :choose_password
-        post :recommend_friends
+        get   :passions
+        get   :destroy_confirmation
+        get   :edit_private_infos, path: 'mon-compte'
+        patch :update_password
+        get   :wizard
+        get   :dashboard
+        get   :choose_password
+        post  :recommend_friends
       end
       resources :followings, only: [:index], controller: 'users/followings', path: 'favoris'
       resources :invited_users, only: [:index, :new], controller: 'users/invited_users' do
@@ -468,7 +473,6 @@ CoursAvenue::Application.routes.draw do
       resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
       resources :messages     , controller: 'users/messages'
       resources :conversations, controller: 'users/conversations'
-      resources :passions, only: [:index], controller: 'users/passions'
       resources :participation_requests, only: [:index, :show], controller: 'users/participation_requests', path: 'mes-inscriptions'
     end
     resources :emails, only: [:create]
