@@ -1,4 +1,6 @@
 class Payment::Customer < ActiveRecord::Base
+  acts_as_paranoid
+
   belongs_to :client, polymorphic: true
 
   delegate :name,  to: :client, allow_nil: true
