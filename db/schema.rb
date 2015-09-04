@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150904123609) do
+ActiveRecord::Schema.define(version: 20150904125844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1167,7 +1167,6 @@ ActiveRecord::Schema.define(version: 20150904123609) do
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
     t.boolean  "pure_player",                            default: false
-    t.string   "stripe_customer_id"
     t.string   "stripe_managed_account_id"
     t.string   "stripe_managed_account_secret_key"
     t.string   "stripe_managed_account_publishable_key"
@@ -1177,7 +1176,6 @@ ActiveRecord::Schema.define(version: 20150904123609) do
 
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
-  add_index "structures", ["stripe_customer_id"], name: "index_structures_on_stripe_customer_id", unique: true, using: :btree
   add_index "structures", ["stripe_managed_account_id"], name: "index_structures_on_stripe_managed_account_id", unique: true, using: :btree
   add_index "structures", ["stripe_managed_account_publishable_key"], name: "index_structures_on_stripe_managed_account_publishable_key", unique: true, using: :btree
   add_index "structures", ["stripe_managed_account_secret_key"], name: "index_structures_on_stripe_managed_account_secret_key", unique: true, using: :btree
