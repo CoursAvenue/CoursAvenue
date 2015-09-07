@@ -38,16 +38,16 @@ class Planning < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :course    , touch: true
-  belongs_to :teacher   , touch: true
-  belongs_to :place     , touch: true
+  belongs_to :course        , touch: true
+  belongs_to :teacher       , touch: true
+  belongs_to :place         , touch: true
   belongs_to :structure
+  belongs_to :indexable_card, touch: true , dependent: :destroy
 
   has_many :prices,         through: :course
   has_many :subjects,       through: :course
   has_many :reservations,   as: :reservable
 
-  belongs_to :indexable_card, dependent: :destroy
 
   ######################################################################
   # Callbacks                                                          #
@@ -271,6 +271,9 @@ class Planning < ActiveRecord::Base
   #
   # @return [type] [description]
   def end_date_in_future
+    # For an unknown reason, indexable cards won't save if this is not here and the planning is
+    # in the past...
+    return true if persisted?
     if course.is_training?
       if end_date and end_date < Date.today
         errors.add(:end_date, 'Le cours ne peut pas être dans le passé.')

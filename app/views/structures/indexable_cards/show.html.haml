@@ -70,6 +70,8 @@
             - if @course.prices.any?
               .white.nowrap.delta
                 - if @course.is_training?
+                  - if @course.prices.count > 1
+                    à partir de
                   %strong #{readable_amount(@course.prices.first.amount)}
                 - else
                   - if @course.prices.first.free?

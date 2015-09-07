@@ -2,7 +2,7 @@ class CourseSerializer < ActiveModel::Serializer
 
   cached
   def cache_key
-    'CourseSerializer/' + object.cache_key + '/v4'
+    'CourseSerializer/' + object.cache_key + '/v6'
   end
 
   attributes :id, :name, :description, :db_type, :structure_id, :structure_slug,
@@ -15,8 +15,19 @@ class CourseSerializer < ActiveModel::Serializer
   has_many :price_group_prices,  serializer: PriceSerializer
   has_many :child_subjects,      serializer: SubjectListSerializer
 
+  def price_group_prices
+    if object.is_training? and object.prices.length > 1
+      object.prices.order('amount ASC')
+    else
+      object.price_group_prices.order('amount ASC')
+    end
+  end
+
   def min_price_amount
-    object.prices.order('amount ASC').first.amount if object.prices.any?
+    if object.prices.any?
+      price = object.prices.order('promo_amount ASC, amount ASC').first
+      [price.amount, price.promo_amount].compact.min
+    end
   end
 
   def plannings

@@ -17,7 +17,11 @@ var CourseHeader = React.createClass({
         if (!course || !course.get('min_price_amount')) { return; }
 
         if (course.get('db_type') == 'Course::Training') {
-            price = (<strong>{COURSAVENUE.helperMethods.readableAmount(course.get('min_price_amount'), '€')}</strong>);
+            if (course.get('price_group_prices').length > 1) {
+                price = (<div>À partir de <strong>{COURSAVENUE.helperMethods.readableAmount(course.get('min_price_amount'), '€')}</strong></div>);
+            } else {
+                price = (<strong>{COURSAVENUE.helperMethods.readableAmount(course.get('min_price_amount'), '€')}</strong>);
+            }
         } else if (course.get('min_price_amount') == 0) {
             price = (<strong>{"Cours d'essai gratuit"}</strong>);
         } else {
