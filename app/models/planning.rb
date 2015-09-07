@@ -46,7 +46,6 @@ class Planning < ActiveRecord::Base
 
   has_many :prices,         through: :course
   has_many :subjects,       through: :course
-  has_many :reservations,   as: :reservable
 
 
   ######################################################################

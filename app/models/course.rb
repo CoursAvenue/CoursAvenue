@@ -23,7 +23,6 @@ class Course < ActiveRecord::Base
 
   has_many :comments            , through: :structure
   has_many :participation_requests
-  has_many :reservations        , as: :reservable
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , -> { uniq }, through: :plannings
   has_many :places              , -> { uniq }, through: :plannings
