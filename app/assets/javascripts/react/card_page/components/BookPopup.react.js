@@ -90,10 +90,10 @@ var BookPopup = React.createClass({
     submitRequest: function submitRequest (event) {
         var user_params;
         if (event) { $(event.currentTarget).prop('disabled', true); }
-        if (this.props.dont_register || CoursAvenue.currentUser().isLogged()) {
+        if (this.props.dont_register_user || CoursAvenue.currentUser().isLogged()) {
             $dom_node = $(this.getDOMNode());
             user_params = { phone_number: $dom_node.find('[name="user[phone_number]"]').val() }
-            if (this.props.dont_register) {
+            if (this.props.dont_register_user) {
                 user_params.validate_full = true;
                 user_params.first_name    = $dom_node.find('[name="user[first_name]"]').val();
                 user_params.last_name     = $dom_node.find('[name="user[last_name]"]').val();
@@ -149,7 +149,7 @@ var BookPopup = React.createClass({
      * User do not have to register to CoursAvenue if he is on /reservation page
      */
     userInfo: function userInfo () {
-        if (this.props.dont_register) {
+        if (this.props.dont_register_user) {
             return (<div className="bordered--bottom soft-half--bottom">
                       <div className="soft-half--ends">
                           <label className="f-weight-600 v-middle line-height-2">
