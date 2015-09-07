@@ -33,6 +33,10 @@ ResultList = React.createClass({
         }
     },
 
+    getDefaultProps: function getDefaultProps () {
+        return { show_suggestions: true };
+    },
+
     getInitialState: function getInitialState() {
         return { card_store: CardStore, user_store: UserStore, per_line: 4 };
     },
@@ -64,7 +68,7 @@ ResultList = React.createClass({
                                        key={ card.get('id') }/>
                 )
             }.bind(this));
-            if (cards.length == 0) {
+            if (cards.length == 0 && this.props.show_suggestions) {
                 no_results = (<Suggestions />);
             }
 
