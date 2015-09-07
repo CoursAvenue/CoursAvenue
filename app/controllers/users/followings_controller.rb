@@ -6,7 +6,6 @@ class Users::FollowingsController < ApplicationController
   load_and_authorize_resource :user, find_by: :slug
 
   def index
-    @user       = User.find params[:user_id]
-    @followings = @user.favorites
+    @user = User.includes(:favorites).find(params[:user_id])
   end
 end

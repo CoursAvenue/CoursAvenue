@@ -8,7 +8,8 @@
     = react_component('ResultList', { cards_id: @user.favorites.cards.map(&:indexable_card_id),
                                       per_line: 4,
                                       per_page: 14,
-                                      follow_links: true })
+                                      follow_links: true,
+                                      show_suggestions: false })
   = react_component('SmallMap', { center: [@city.latitude, @city.longitude] })
 - else
   .search-page-filters__panel-height.relative.text--center.palm-height-auto.soft--ends
