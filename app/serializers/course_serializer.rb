@@ -2,7 +2,7 @@ class CourseSerializer < ActiveModel::Serializer
 
   cached
   def cache_key
-    'CourseSerializer/' + object.cache_key + '/v6'
+    'CourseSerializer/' + object.cache_key + '/v7'
   end
 
   attributes :id, :name, :description, :db_type, :structure_id, :structure_slug,
