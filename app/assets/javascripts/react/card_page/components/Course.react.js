@@ -32,7 +32,7 @@ var Course = React.createClass({
     },
 
     showSubscribeButton: function showSubscribeButton () {
-        return (this.props.always_show_registration || this.props.course.get('structure_is_active'));
+        return (this.props.always_show_registration || this.state.course_store.first().get('structure_is_active'));
     },
 
     render: function render () {

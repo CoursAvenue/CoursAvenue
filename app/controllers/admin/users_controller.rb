@@ -2,7 +2,13 @@
 class Admin::UsersController < Admin::AdminController
 
   def index
-    @users = User.page(params[:page])
+    if params[:name].present?
+      @users = User.where(User.arel_table[:email].matches("%#{params[:name]}%")
+                          .or(User.arel_table[:first_name].matches("%#{params[:name]}%"))
+                          .or(User.arel_table[:last_name].matches("%#{params[:name]}%")))
+    else
+      @users = User.page(params[:page])
+    end
     mc_arel = Mailboxer::Conversation.arel_table
     @messages_graph = Mailboxer::Conversation.where(mc_arel[:created_at].gt(1.months.ago).and(
                                                     mc_arel[:mailboxer_label_id].eq_any([1,4])))
