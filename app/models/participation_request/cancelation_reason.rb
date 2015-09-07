@@ -29,8 +29,11 @@ class ParticipationRequest::CancelationReason < ActiveHash::Base
     { id: 13, type: 'user'     , hidden: true,
       name: 'participation_request.cancelation_reason.users.do_not_trust' },
     { id: 14, type: 'user'     , hidden: true,
-      name: 'participation_request.cancelation_reason.users.other' }
-
+      name: 'participation_request.cancelation_reason.users.other' },
+    { id: 15 , type: 'structure',hidden: false,
+      name: 'participation_request.cancelation_reason.structures.account_deleted' },
+    { id: 16 , type: 'users',    hidden: false,
+      name: 'participation_request.cancelation_reason.users.account_deleted' }
   ]
 
 end
