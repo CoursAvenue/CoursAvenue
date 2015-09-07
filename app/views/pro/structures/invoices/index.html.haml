@@ -4,7 +4,7 @@
 
 %h1 Mes factures
 
-- if @structure.invoices.any? or @structure.orders.any?
+- if @structure.invoices.any?
   %table.table--striped.epsilon
     %thead
       %tr
@@ -23,19 +23,6 @@
           %td= number_to_currency(invoice.subscription.plan.amount)
           %td= invoice.stripe_invoice_id
           %td= link_to 'Afficher', invoice.pdf_url
-
-      - @structure.orders.order('created_at ASC').each do |order|
-        %tr
-          %td Premium
-          %td= l(order.created_at, format: :date_short)
-          %td
-            - if order.subscription_plan.payed_through_paypal?
-              Paypal
-            - else
-              Carte bancaire
-          %td= number_to_currency(order.amount)
-          %td= order.public_order_id
-          %td= link_to 'Afficher', order.S3_invoice_path
 
 - else
   %p
