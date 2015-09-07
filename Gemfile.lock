@@ -821,6 +821,9 @@ GEM
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
       equalizer (~> 0.0, >= 0.0.9)
+    voight_kampff (0.2.2)
+      httpclient (~> 2.2)
+      nokogiri (~> 1.6)
     warden (1.2.3)
       rack (>= 1.0)
     wicked_pdf (0.11.0)
@@ -969,6 +972,7 @@ DEPENDENCIES
   truncate_html (~> 0.9.3)
   uglifier (>= 2.7.1)
   virtus (~> 1.0.5)
+  voight_kampff (~> 0.2.2)
   wicked_pdf (~> 0.11.0)
   wkhtmltopdf-binary (~> 0.9.9.3)
 
