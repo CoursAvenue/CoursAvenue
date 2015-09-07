@@ -121,4 +121,9 @@ class SuperAdminMailer < ActionMailer::Base
     mail to: 'kryqhl33@incoming.intercom.io',
       subject: "La structure #{structure.name} a été désactivée"
   end
+
+  def alert_for_user_with_more_than_five_requests(user)
+    @user = user
+    mail subject: "L'utilsateur #{ @user.name } a fait plus de cinq réservations en une semaine"
+  end
 end
