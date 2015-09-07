@@ -683,8 +683,6 @@ CoursAvenue::Application.routes.draw do
     root :to => 'home#index'
 
 
-    # Needed to catch 404 requests in ApplicationController
-    # match "*path", to: "application#routing_error", via: :get
     namespace :structure_website, path: '' do
       resources :structures, path: 'reservation', only: [:show] do
         resources :participation_requests, only: [:create, :update, :show], path: 'inscriptions', controller: 'structures/participation_requests' do
@@ -781,4 +779,8 @@ CoursAvenue::Application.routes.draw do
   # Child subject
   get 'cours-de-:parent_subject_id/:id'            , to: 'subjects#show'       , as: :vertical_subject
   ########### Vertical pages ###########
+
+  # SHOULD ALWAYS BE LAST.
+  # Matches every route that is not described abouve and routes it to an error.
+  match "*path", to: "application#routing_error", via: :get
 end
