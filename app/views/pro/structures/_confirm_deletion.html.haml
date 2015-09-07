@@ -4,12 +4,17 @@
       Confirmez-vous la suppression de votre compte ?
   .panel__body
     .soft
-      %p
+      %p.epsilon
         Avant de supprimer votre profil, voici quelques précisions : CoursAvenue vous permet non seulement d'apparaître sur notre moteur de recherche géolocalisé (plus de 50.000 pages vues par mois, en constante croissance), mais également d'afficher vos témoignages d'élèves pour ceux qui ne vous connaîtraient pas. Chaque semaine, nous intensifions notre communication sur Internet et dans les médias de manière à vous aider à recruter toujours plus d'élèves. Un profil complet vous permet d'optimiser votre présence sur Internet (le 1er moyen de communication) et de gagner en visibilité sur Google.
-      %p
+      %p.epsilon
         Nous serions bien tristes de vous voir partir.
-      %p
+      %p.epsilon
         En confirmant la suppression de votre compte, toutes vos données (avis, planning, photos, messages...) seront définitivement supprimées de manière irréversible.
+      - if @structure.participation_requests.upcoming.any?
+        %p.epsilon.weight--semibold
+          De plus, nous annulerons vos demandes
+          = link_to "d'inscriptions à venir", pro_structure_participation_requests_path(@structure), target: :_blank
+          \.
       .grid
         .grid__item.one-half>
           = link_to 'Confirmer la suppression de mon compte', pro_structure_path(@structure), method: :delete, class: 'btn btn--full btn--red', data: { disable_with: 'Suppression en cours...' }
