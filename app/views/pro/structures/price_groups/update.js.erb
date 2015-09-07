@@ -13,9 +13,3 @@
 <% else %>
     $.fancybox("<%= escape_javascript(render partial: 'pro/structures/price_groups/form') %>", { width: 1100, maxWidth: 1100, padding: 0 });
 <% end %>
-
-<% if @structure.has_premium_prices %>
-  $('#price-group-premium-ribbon').show();
-<% else %>
-  $('#price-group-premium-ribbon').hide();
-<% end %>

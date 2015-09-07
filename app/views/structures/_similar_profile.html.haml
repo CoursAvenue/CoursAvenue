@@ -12,10 +12,6 @@
             .lbl.lbl--yellow.push--left.push--top
               %i.fa-ticket
               Essai gratuit
-          - if structure.premium? and structure.has_promotion?
-            .lbl.lbl--yellow.push--left.push--top
-              %i.fa-star
-              Promotions
       .absolute.text--center.one-whole{ style: 'top: 90px;' }
         .gamma.white.opacity-hidden-on-hover__child Voir le profil
   .grid--full{ data: { similar_profile: true, structure_id: structure.id } }

@@ -19,7 +19,7 @@ class Structures::IndexableCardsController < ApplicationController
       @place = @indexable_card.place.decorate
       @city  = @place.city
     end
-    @serialized_structure = StructureSerializer.new(@structure)
+    @serialized_structure = SmallStructureSerializer.new(@structure)
     @card_redux = {
       id:       @indexable_card.id,
       slug:     @indexable_card.slug,

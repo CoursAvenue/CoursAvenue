@@ -35,10 +35,8 @@ class ::Pro::AdminsController < InheritedResources::Base
   end
 
   def index
-    params[:per_page] = 30
-    @admins = ::AdminSearch.search(params).results
+    @admins = Admin.order('created_at DESC').page(params[:page])
     respond_to do |format|
-      format.json { render json: @admins.to_json(include: :structure) }
       format.html
     end
   end

@@ -126,27 +126,6 @@
     .text--center
       = link_to "Compléter ce profil !", '#gerer-ce-profil', class: 'btn btn--green'
 
-.home-screen-promotion-wrapper.soft
-  .main-container.main-container--medium.soft--sides
-    %h2.text--center.push--bottom.soft--ends.f-weight-300 + de 2 000 profils
-    - StructureSearch.search(per_page: 9, has_logo: true, sort: 'premium').results.each do |structure|
-      .inline-block.one-third.palm-one-whole.lap-one-half>
-        .grid.push--bottom
-          .grid__item.one-quarter.epsilon.v-middle>
-            = link_to structure_url(structure, subdomain: 'www'), class: 'block muted-link media-photo', target: :_blank do
-              = image_tag structure.logo.url(:thumb), class: 'block'
-          .grid__item.three-quarters.v-middle>
-            = link_to structure_url(structure, subdomain: 'www'), target: :_blank, class: 'muted-link block' do
-              %p.flush.epsilon
-                %strong= structure.name
-                %br
-                - if structure.structure_type.present?
-                  = t(structure.structure_type)
-                - else
-                  Association
-                %br
-                %i= truncate(join_parent_subjects_text(structure), length: 36)
-
 .main-container.main-container--medium.soft--ends
   %h2.text--center.push--bottom.soft--ends.f-weight-300 Développez votre bouche à oreille sur Internet
   - CommentSearch.search(per_page: 4, has_avatar: true, has_title: true).results.in_groups_of(2, false).each do |review_group|

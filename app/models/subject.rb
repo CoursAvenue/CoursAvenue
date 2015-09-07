@@ -21,7 +21,6 @@ class Subject < ActiveRecord::Base
     class_name: 'Guide::Answer', association_foreign_key: 'guide_answer_id'
 
   has_many :vertical_pages
-  has_many :passions
   has_many :city_subject_infos
 
   ######################################################################
@@ -53,12 +52,6 @@ class Subject < ActiveRecord::Base
                   :age_advice_older_than_10
 
   mount_uploader :image, VerticalPageImageUploader
-
-  # :nocov:
-  searchable do
-    text :name
-  end
-  # :nocov:
 
   # :nocov:
   algoliasearch per_environment: true, disable_indexing: Rails.env.test? do

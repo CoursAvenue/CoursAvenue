@@ -2,7 +2,7 @@ class IndexableCardSerializer < ActiveModel::Serializer
 
   cached
   def cache_key
-    'IndexableCardSerializer/' + object.cache_key + '/v2'
+    'IndexableCardSerializer/' + object.cache_key + '/v3' + price_group_prices.maximum(:updated_at).to_i.to_s
   end
 
   attributes :id, :structure_is_active, :db_type, :teaches_at_home,
@@ -13,7 +13,13 @@ class IndexableCardSerializer < ActiveModel::Serializer
   has_many :price_group_prices,  serializer: PriceSerializer
 
   def price_group_prices
-    object.course.price_group_prices.order('amount ASC') if object.course
+    if object.course
+      if object.course.is_training? and object.course.prices.length > 1
+        object.course.prices.order('amount ASC')
+      else
+        object.course.price_group_prices.order('amount ASC')
+      end
+    end
   end
 
   def plannings

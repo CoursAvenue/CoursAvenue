@@ -69,6 +69,7 @@ class ParticipationRequest < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
   scope :accepted,                -> { where( state: 'accepted') }
+  scope :not_accepted,            -> { where.not( state: 'accepted') }
   scope :pending,                 -> { where( state: 'pending') }
   scope :treated,                 -> { where( state: 'treated') }
   scope :upcoming,                -> { where( arel_table[:date].gteq(Date.today) ).order("date ASC") }

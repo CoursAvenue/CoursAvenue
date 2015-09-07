@@ -71,12 +71,12 @@
                 = link_to "Cours de #{@vertical_page.subject_name.downcase} à #{sub_city.name}", vertical_page_with_city_path(@subject.root, @vertical_page, sub_city), class: 'epsilon line-height-1-7'
 
       - if @subject.depth == 2
-        .soft--top= render partial: 'vertical_pages/siblings'
+        - cache [@city, @subject, 'vertical_pages/siblings'] do
+          .soft--top= render partial: 'vertical_pages/siblings'
       - unless @city
         %h3= "Les lieux les plus recherchés"
         .push--bottom
           - @cities.each do |city|
-            - next if StructureSearch.search(lat: city.latitude, lng: city.longitude).total < 10
             %div
               - if @subject.is_root?
                 = link_to "Cours de #{@vertical_page.subject_name.downcase} à #{city.name}", root_vertical_page_with_city_path(@vertical_page, city), class: 'epsilon line-height-1-7'

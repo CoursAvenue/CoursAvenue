@@ -57,7 +57,6 @@ class UsersController < InheritedResources::Base
       user.update_attribute :email_opt_in, false
       user.update_attribute :email_promo_opt_in, false
       user.update_attribute :email_newsletter_opt_in, false
-      user.update_attribute :email_passions_opt_in, false
       user.update_attribute :community_notification_opt_in, false
       redirect_to unsubscribed_users_url
     else
@@ -193,7 +192,7 @@ class UsersController < InheritedResources::Base
     params.require(:user).permit(:id, :first_name, :last_name, :gender, :description,
                                  :birthdate, :phone_number, :zip_code, :city_id, :remote_avatar_url,
                                  :password, :password_confirmation, :current_password,
-                                 :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
+                                 :email_promo_opt_in, :email_newsletter_opt_in,
                                  :sms_opt_in, :community_notification_opt_in)
   end
 end

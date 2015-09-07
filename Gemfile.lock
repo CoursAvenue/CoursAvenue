@@ -80,10 +80,10 @@ GEM
     acts-as-taggable-on (3.5.0)
       activerecord (>= 3.2, < 5)
     addressable (2.3.8)
-    algoliasearch (1.4.1)
+    algoliasearch (1.6.1)
       httpclient (~> 2.4)
       json (>= 1.5.1)
-    algoliasearch-rails (1.11.18)
+    algoliasearch-rails (1.14.1)
       algoliasearch (>= 1.2.14)
       json (>= 1.5.1)
     ancestry (2.1.0)
@@ -181,7 +181,7 @@ GEM
       faraday_middleware
       hashie
       json
-    cloudinary (1.0.85)
+    cloudinary (1.1.0)
       aws_cf_signer
       rest-client
     cocaine (0.5.7)
@@ -231,8 +231,6 @@ GEM
     delayed_job_active_record (4.0.3)
       activerecord (>= 3.0, < 5.0)
       delayed_job (>= 3.0, < 4.1)
-    delayed_paperclip (2.9.1)
-      paperclip (>= 3.3)
     delorean (2.1.0)
       chronic
     descendants_tracker (0.0.4)
@@ -576,9 +574,6 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
-    paperclip-optimizer (2.0.0)
-      image_optim (~> 0.19)
-      paperclip (>= 3.4)
     paranoia (2.1.1)
       activerecord (~> 4.0)
     parser (2.1.9)
@@ -845,7 +840,7 @@ DEPENDENCIES
   activerecord-session_store!
   activesupport-json_encoder (~> 1.1.0)
   acts-as-taggable-on (~> 3.5.0)
-  algoliasearch-rails (~> 1.11.17)
+  algoliasearch-rails (~> 1.14.1)
   ancestry (~> 2.1.0)
   asset_sync (~> 1.1.0)
   auto_html (~> 1.6.4)
@@ -868,7 +863,7 @@ DEPENDENCIES
   certified (~> 1.0.0)
   cityhash (~> 0.8.1)
   closeio (~> 2.0.6)
-  cloudinary (~> 1.0.82)
+  cloudinary (~> 1.1.0)
   coffee-rails (~> 4.1.0)
   compass (~> 1.0.3)
   compass-inuit (~> 5.0.2)
@@ -878,7 +873,6 @@ DEPENDENCIES
   database_cleaner (~> 1.2.0)
   delayed_job (~> 4.0.6)
   delayed_job_active_record (~> 4.0.3)
-  delayed_paperclip (~> 2.9.1)
   delorean
   devise (~> 3.5.1)
   dotenv-rails (~> 2.0.0)
@@ -927,7 +921,6 @@ DEPENDENCIES
   omniauth-facebook (~> 2.0.1)
   omnicontacts (~> 0.3.5)
   paperclip (~> 4.2.1)
-  paperclip-optimizer (~> 2.0.0)
   paranoia (~> 2.1.0)
   passenger (~> 5.0.4)
   paypal-recurring (~> 1.1.0)

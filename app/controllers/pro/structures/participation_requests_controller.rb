@@ -13,7 +13,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
 
   # GET pro/etablissements/:structure_id/pass-decouverte-suivi
   def index
-    @participation_requests = @structure.participation_requests
+    @participation_requests = @structure.participation_requests.includes(:course, :planning, user: [:city], participants: [:price])
     # Select participation request that have the right label id (some could have been flagged as inapropriate
     # and therefore have a different label_id)
     @upcoming_participation_requests = @participation_requests.upcoming.reject { |pr| pr.user.deleted? }

@@ -63,31 +63,6 @@ class ::Admin < ActiveRecord::Base
   ######################################################################
   scope :normal, -> { where(super_admin: false) }
 
-  # ------------------------------------
-  # ------------------ Search attributes
-  # ------------------------------------
-  # :nocov:
-  searchable do
-    text :name
-    text :email
-    text :structure_name do
-      self.structure.name if self.structure
-    end
-
-    integer :comments_count do
-      self.structure.comments_count if self.structure
-    end
-
-    date :created_at
-
-    boolean :not_confirmed do
-      self.confirmed?
-    end
-    boolean :super_admin
-  end
-  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
-  # :nocov:
-
   # Override of a Mailboxer method.
   #
   # @return String, the admin email.

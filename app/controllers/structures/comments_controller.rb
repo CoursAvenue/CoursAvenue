@@ -40,11 +40,6 @@ class Structures::CommentsController < ApplicationController
     @structure    = Structure.friendly.find(params[:structure_id])
     @comment      = Comment::Review.find(params[:id])
     @user         = @comment.user
-    @structure_search = StructureSearch.search({ lat: @structure.latitude,
-                                                 lng: @structure.longitude,
-                                                 radius: 7,
-                                                 per_page: 100,
-                                                 bbox: true }).results
 
     respond_to do |format|
       format.json { render json: @comment }

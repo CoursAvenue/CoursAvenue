@@ -26,8 +26,8 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
                   :name, :first_name, :last_name, :gender, :fb_avatar, :location,
                   :avatar, :remote_avatar_url,
-                  :birthdate, :phone_number, :zip_code, :city_id, :passion_zip_code, :passion_city_id, :passions_attributes, :description,
-                  :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
+                  :birthdate, :phone_number, :zip_code, :city_id, :description,
+                  :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :delivery_email_status, :sign_up_at,
                   :test_name, :interested_at, :token,
@@ -45,16 +45,13 @@ class User < ActiveRecord::Base
   # Relations                                                          #
   ######################################################################
   has_many :comments, -> { order('created_at DESC') }, class_name: 'Comment::Review'
-  has_many :reservations
   has_many :comment_notifications
-  has_many :passions
   has_many :invited_users, foreign_key: :referrer_id, dependent: :destroy
   has_many :user_profiles
   has_many :structures, through: :user_profiles
 
   has_many :favorites, class_name: 'User::Favorite', dependent: :destroy
 
-  has_many :orders, class_name: 'Order::Pass'
   has_many :participation_requests
 
   # I have sponsored many users
@@ -68,11 +65,6 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :subjects
 
   belongs_to :city
-  belongs_to :passion_city, class_name: 'City'
-
-  accepts_nested_attributes_for :passions,
-                                 reject_if: lambda {|attributes| attributes['subject_id'].blank? },
-                                 allow_destroy: true
 
   ######################################################################
   # Callbacks                                                          #
@@ -113,38 +105,6 @@ class User < ActiveRecord::Base
   scope :active,   -> { where.not(encrypted_password: '') }
   scope :inactive, -> { where( User.arel_table[:encrypted_password].eq('').or(User.arel_table[:encrypted_password] == nil)) }
   scope :with_avatar, -> { where.not(avatar: nil) }
-
-  # :nocov:
-  searchable do
-    text :first_name
-    text :last_name
-    text :full_name
-    text :email
-
-    string :email
-    boolean :active do
-      self.active?
-    end
-
-    # Here we store event the subject at depth 2 for pro admin dashboard purpose.
-    integer :subject_ids, multiple: true do
-      subject_ids = []
-      self.subjects.uniq.each do |subject|
-        subject_ids << subject.id
-        subject_ids << subject.parent.id if subject.parent
-        subject_ids << subject.root.id if subject.root
-      end
-      subject_ids.compact.uniq
-    end
-
-    boolean :has_comments do
-      comments.any?
-    end
-
-    time :created_at
-
-  end
-  # :nocov:
 
   # Creates a user from Facebook
   #
@@ -340,54 +300,6 @@ class User < ActiveRecord::Base
     percentage
   end
 
-  # Params for structures_path regarding the data we have on the user
-  #
-  # @return Hash
-  def around_courses_params
-    if self.city
-      if self.passions.any?
-        { lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subjects).compact.flatten.map(&:slug) }
-      else
-        { lat: self.city.latitude, lng: self.city.longitude }
-      end
-    else
-      {}
-    end
-  end
-
-  # A url to the /structures page of courses that correspond to user's passion
-  #
-  # @return string the url
-  def around_courses_url
-    if city
-      root_search_page_without_subject_path(city)
-    else
-      root_search_page_without_subject_path('paris')
-    end
-  end
-
-  def around_courses_search
-    subject_array    = self.passions.map(&:subjects).compact.flatten
-    @course_search ||= CourseSearch.search({lat: self.city.latitude,
-                                          lng: self.city.longitude,
-                                          radius: 6,
-                                          per_page: 1,
-                                          subject_slugs: subject_array.map(&:slug)
-                                      })
-
-  end
-
-  def around_courses_count
-    return 0 unless self.city
-    around_courses_search.total
-  end
-
-  def around_trial_courses_count
-    return 0 unless self.city
-    return 0 if around_courses_search.facet(:has_free_trial_lesson).rows.last.nil?
-    around_courses_search.facet(:has_free_trial_lesson).rows.last.count
-  end
-
   def send_welcome_email
     UserMailer.delay.welcome(self)
   end
@@ -461,30 +373,6 @@ class User < ActiveRecord::Base
     else
       nil
     end
-  end
-
-  # Give structures around the user not filtered on subjects
-  # @param limit=3   Integer # of structures that should be returned
-  # @param params={} Hash    eventualparams for the search
-  #
-  # @return Array of Structure
-  def around_structures_all_subjects(limit=3, _params={}, radius_start=0)
-    @city = city || City.find('paris')
-
-    @structures = [] # The structures we will return at the ed
-    (radius_start..7).each do |index|
-      @structures << StructureSearch.search({lat: @city.latitude,
-                                            lng: @city.longitude,
-                                            # Radius will increment from 2.7 to > 1000
-                                            radius: Math.exp(index),
-                                            sort: 'premium',
-                                            has_logo: true,
-                                            per_page: limit
-                                          }.merge(_params)).results
-      @structures = @structures.flatten.uniq
-      break if @structures.length >= limit
-    end
-    return @structures[0..(limit - 1)]
   end
 
   # Tells if the user is based in Paris and around

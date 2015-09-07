@@ -14,3 +14,13 @@
     = render partial: 'pro/teachers/teacher', locals: { teacher: teacher }
   - if @teachers.empty?
     %p Aucun professeur n'est renseigné.
+
+
+= content_for :scripts do
+  :javascript
+  -# This prevent from filepicker to not trigger when opening the popup for the second time
+      $(function() {
+          $.fancybox.defaults.afterClose = function() {
+              $('#filepicker_comm_iframe').remove();
+          };
+      });

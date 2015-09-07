@@ -10,7 +10,6 @@ class UserMailer < ActionMailer::Base
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
-  # Monday email to push the user to fill passions
   def subscribed_to_newsletter(user)
     @user    = user
     mail to: @user.email, subject: "Votre inscription à la newsletter de CoursAvenue.com"
@@ -19,12 +18,6 @@ class UserMailer < ActionMailer::Base
   ######################################################################
   # Email reminder                                                     #
   ######################################################################
-
-  # Monday email to push the user to fill passions
-  def passions_incomplete(user)
-    @user    = user
-    mail to: @user.email, subject: 'Renseignez toutes vos passions sur votre profil'
-  end
 
   # Email sent to the team when a user send a contact message
   def contact(name, email, content)
@@ -78,22 +71,6 @@ class UserMailer < ActionMailer::Base
   def emailing(emailing, to='contact@coursavenue.com')
     @emailing = emailing
     mail to: to, subject: '[Newsletter] Previsualisation'
-  end
-
-  def monthly_newsletter(user)
-    @user       = user
-    @city       = user.city || City.find('paris')
-    @dance_structures   = @user.around_structures_all_subjects(3, { nb_courses: 1, root_subject_id: 'danse', subject_id: 'danse', medias_count: 1 })
-    @dance_structures   = @dance_structures.sort_by{ |a| (a.premium? ? 0 : 1) }
-    @theatre_structures = @user.around_structures_all_subjects(3, { nb_courses: 1, root_subject_id: 'theatre-scene', subject_id: 'theatre-scene', medias_count: 1, without_ids: @dance_structures.map(&:id) })
-    @theatre_structures = @theatre_structures.sort_by{ |a| (a.premium? ? 0 : 1) }
-    @arts_structures    = @user.around_structures_all_subjects(3, { nb_courses: 1, root_subject_id: 'dessin-peinture-arts-plastiques', subject_id: 'dessin-peinture-arts-plastiques', medias_count: 1, without_ids: @dance_structures.map(&:id) + @theatre_structures.map(&:id) })
-    @arts_structures    = @arts_structures.sort_by{ |a| (a.premium? ? 0 : 1) }
-    @yoga_structures    = @user.around_structures_all_subjects(3, { nb_courses: 1, root_subject_id: 'yoga-bien-etre-sante', subject_id: 'yoga-bien-etre-sante', medias_count: 1, without_ids: @dance_structures.map(&:id) + @theatre_structures.map(&:id) + @arts_structures.map(&:id) })
-    @yoga_structures    = @yoga_structures.sort_by{ |a| (a.premium? ? 0 : 1) }
-    @other              = @user.around_structures_all_subjects(6, { nb_courses: 1, medias_count: 1, without_ids: @dance_structures.map(&:id) + @theatre_structures.map(&:id) + @yoga_structures.map(&:id) + @arts_structures.map(&:id) }, 2)
-    @other              = @other.sort_by{ |a| (a.premium? ? 0 : 1) }
-    mail to: @user.email, subject: "☀ Cette année, vivez passionnément à #{@city.name}", from: "\"L'équipe CoursAvenue\" <news@coursavenue.com>"
   end
 
   ######################################################################

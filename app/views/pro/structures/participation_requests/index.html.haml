@@ -35,7 +35,7 @@
             %th.one-twelfths Source
         %tbody
           - @past_participation_requests.each do |participation_request|
-            = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request, show_warning: false }
+            = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request }
 - elsif @structure.courses.any?
   = render partial: 'pro/structures/improve_your_stats', locals: { message: "Vous n'avez pas encore d'inscrit. Quelques conseils pour améliorer vos statistiques : "}
 - else

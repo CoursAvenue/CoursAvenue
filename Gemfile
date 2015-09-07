@@ -25,7 +25,7 @@ gem 'closeio'             , '~> 2.0.6'
 # gem 'unicorn'
 # gem 'puma'
 gem 'passenger',          '~> 5.0.4'
-gem 'algoliasearch-rails', '~> 1.11.17'
+gem 'algoliasearch-rails', '~> 1.14.1'
 gem 'google-api-client'  , '~> 0.8.2'
 
 # Database
@@ -79,10 +79,8 @@ gem 'daemons'                   , '~> 1.2.1'
 gem 'hirefire-resource'         , '~> 0.3.5'
 
 gem 'carrierwave'               , '~> 0.10.0'
-gem 'cloudinary'                , '~> 1.0.82'
+gem 'cloudinary'                , '~> 1.1.0'
 
-# Handle paperclip in background
-gem 'delayed_paperclip'         , '~> 2.9.1'
 # Show progress bars in scripts
 gem 'progress_bar'              , '~> 1.0.3'
 
@@ -203,7 +201,6 @@ group :production, :staging do
   gem 'heroku-deflater'           , '~> 0.5.3'
   # gem 'sprockets-image_compressor', '~> 0.3.0'
   gem 'htmlcompressor'            , '~> 0.1.2'
-  gem 'paperclip-optimizer'       , '~> 2.0.0'
 end
 
 group :test do

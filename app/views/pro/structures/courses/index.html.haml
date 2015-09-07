@@ -54,3 +54,11 @@
 = render 'course_bottom_scripts'
 
 
+= content_for :scripts do
+  :javascript
+  -# This prevent from filepicker to not trigger when opening the popup for the second time
+      $(function() {
+          $.fancybox.defaults.afterClose = function() {
+              $('#filepicker_comm_iframe').remove();
+          };
+      });

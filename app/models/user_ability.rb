@@ -8,7 +8,6 @@ class UserAbility
       else
         can :manage, user
         can :manage, user.comment_notifications
-        can :manage, user.passions
         can :manage, user.comments
         can :manage, user.invited_users
         can :manage, user.mailbox.conversations

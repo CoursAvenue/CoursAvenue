@@ -52,11 +52,9 @@
       COURSAVENUE.datepicker_initializer();
       var regular_courses  = #{ActiveModel::ArraySerializer.new(@structure.courses.regulars, each_serializer: CourseSerializer).to_json};
       var training_courses = #{ActiveModel::ArraySerializer.new(@structure.courses.trainings.reject{ |training| training.plannings.future.empty? }, each_serializer: CourseSerializer).to_json};
-      var structure                   = new CoursAvenue.Models.Structure(#{StructureSerializer.new(@structure).to_json});
       var courses_collection          = new CoursAvenue.Models.CoursesCollection(regular_courses);
       var trainings_collection        = new CoursAvenue.Models.CoursesCollection(training_courses);
-      var participation_request_model = new Backbone.Model({ structure: structure,
-                                                             course_id  : #{@participation_request.course_id},
+      var participation_request_model = new Backbone.Model({ course_id  : #{@participation_request.course_id},
                                                              planning_id: #{@participation_request.course_id},
                                                              start_hour : #{@participation_request.start_time.hour},
                                                              start_min : #{@participation_request.start_time.min} });

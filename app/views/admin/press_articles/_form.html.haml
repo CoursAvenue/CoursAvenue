@@ -1,0 +1,24 @@
+= simple_form_for [:admin, @press_article] do |f|
+  .text--center.push--bottom
+    %img.v-middle.inline-block{ data: { image: true } }
+
+    = f.filepicker_field :remote_logo_url, button_class: 'btn btn--blue-green', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, button_text: 'Ajouter une photo'
+
+  .input.input-daterange.input-group{ data: { behavior: 'datepicker' } }
+    %label.label--large.required.control-label{ for: 'published_date' } Date de publication
+    %input.input-sm.input--large.datepicker-input#published_date{ type: 'text', value: (@press_article.published_at.nil? ? '' : l(@press_article.published_at.to_date)), name: 'press_article[published_at]' }
+
+  = f.input :url, label: 'Lien', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }, as: :string
+  = f.input :title, label: 'Nom', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }, as: :string
+  = f.input :description, label: 'Description', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: 'Enregistrement en cours...' }
+
+= content_for :scripts do
+  = filepicker_js_include_tag
+  :javascript
+    $(function() {
+        $('#press_article_remote_logo_url').change(function() {
+            $('[data-image]').attr('src', this.value);
+        });
+    })

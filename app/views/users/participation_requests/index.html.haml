@@ -3,22 +3,37 @@
 
 .panel
   .panel__body.soft
-    %h3 Mes inscriptions
+    %h1 Mes inscriptions
     - if @user.participation_requests.upcoming.any?
-      %table.table--data.table--striped.table-not-bordered
-        %thead
-          %tr
-            %th Statut
-            %th.three-twelfths Cours et date
-            %th.three-twelfths Adresse
-            %th.four-twelfths Professeur
-            %th.one-twelfth
-              Ajouter au
-              %br
-              calendrier
-        %tbody
-          - @user.participation_requests.upcoming.order('date ASC').reject { |pr| pr.structure.deleted? }.each do |participation_request|
-            = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request}
+      - if @user.participation_requests.upcoming.accepted.any?
+        %h2 À venir
+        %table.table--data.table--striped.table-not-bordered
+          %thead
+            %tr
+              %th Statut
+              %th.three-twelfths Cours et date
+              %th.three-twelfths Adresse
+              %th.four-twelfths Professeur
+              %th.one-twelfth
+                Ajouter au
+                %br
+                calendrier
+          %tbody
+            - @user.participation_requests.upcoming.accepted.order('date ASC').reject { |pr| pr.structure.deleted? }.each do |participation_request|
+              = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request, show_calendar: true }
+
+      - if @user.participation_requests.upcoming.not_accepted.any?
+        %h2 En attente
+        %table.table--data.table--striped.table-not-bordered
+          %thead
+            %tr
+              %th Statut
+              %th.three-twelfths Cours et date
+              %th.three-twelfths Adresse
+              %th.four-twelfths Professeur
+          %tbody
+            - @user.participation_requests.upcoming.not_accepted.order('date ASC').reject { |pr| pr.structure.deleted? }.each do |participation_request|
+              = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request }
     - else
       %p Vous n'avez pas d'inscription en cours.
       = link_to "Réserver mes cours d'essai", root_search_page_without_subject_path('paris'), class: 'btn btn--green'
@@ -37,4 +52,4 @@
               %th Professeur
           %tbody
             - @user.participation_requests.past.reject { |pr| pr.structure.deleted? }.each do |participation_request|
-              = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request, calendar: false }
+              = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request }

@@ -96,11 +96,6 @@
       Photos
     #medias
 
-.text--center
-  = link_to 'Voir plus de stat', pro_dashboard_path(more: true), class: 'btn btn--blue push-half--sides'
-  = link_to 'Mots clés', pro_keywords_path, class: 'btn btn--blue push-half--sides'
-  = link_to 'Mots clés tapé par les utilisateurs', pro_search_term_logs_path, class: 'btn btn--blue push-half--sides'
-
 = content_for :scripts do
   = javascript_include_tag 'libs/highcharts/highcharts'
   = javascript_include_tag 'libs/highcharts/modules/exporting'

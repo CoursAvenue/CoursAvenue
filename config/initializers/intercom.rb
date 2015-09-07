@@ -59,8 +59,6 @@ IntercomRails.config do |config|
     'Code postal'              => Proc.new { |user| ((s = user.structure) ?  s.zip_code : nil) },
     'last_comment_at'          => Proc.new { |user| ((s = user.structure) and s.comments.any? ?  s.comments.order('created_at DESC').first.try(:created_at) : nil) },
     'Email Opt-in'             => Proc.new { |user| user.monday_email_opt_in },
-    'Offre Premium'            => Proc.new { |user| ((s = user.structure) and s.subscription_plan.try(:active?) ?  s.subscription_plan.plan_type : nil) },
-    'premium_ends_at'          => Proc.new { |user| ((s = user.structure) and s.subscription_plan.try(:active?) ?  s.subscription_plan.expires_at : nil) },
     'Inactive'                 => Proc.new { |user| ((s = user.structure) ? !s.enabled : false) },
     'Lien moteur recherche'    => Proc.new { |user| ((s = user.structure) ? s.decorate.search_url : '') },
     # 1 Si un prof a envoyé au moins 1 newsletter,

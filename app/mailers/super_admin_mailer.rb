@@ -13,40 +13,6 @@ class SuperAdminMailer < ActionMailer::Base
     mail subject: "Pass vendu"
   end
 
-  ######################################################################
-  # For premium users                                                  #
-  ######################################################################
-  def someone_canceled_his_subscription(subscription_plan)
-    @structure         = subscription_plan.structure
-    @subscription_plan = subscription_plan
-    mail subject: "#{@structure.name} a résilié son abonnement"
-  end
-
-  def someone_reactivated_his_subscription(subscription_plan)
-    @structure         = subscription_plan.structure
-    @subscription_plan = subscription_plan
-    mail subject: "#{@structure.name} a réactivé son abonnement"
-  end
-
-  # Sent for admin
-  def go_premium structure, offer
-    @structure = structure
-    @offer     = offer
-    mail subject: 'Un professeur est passé premium'
-  end
-
-  def go_premium_fail structure, params
-    @structure = structure
-    @params    = params
-    mail to: 'nima@coursavenue.com', subject: 'Un professeur voulait passer premium mais a échoué'
-  end
-
-  def be2bill_transaction_notifications structure, params
-    @structure = structure
-    @params    = params
-    mail to: 'nima@coursavenue.com', subject: 'Be2Bill transaction notifiaction'
-  end
-
   def inform_admin(subject, text)
     @text = text
     mail subject: subject

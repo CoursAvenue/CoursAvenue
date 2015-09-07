@@ -2,7 +2,7 @@ class Community::MessageThreadsSerializer < ActiveModel::Serializer
 
   cached
   def cache_key
-    'Community::MessageThreadsSerializer/' + object.cache_key + '/' + object.conversation.cache_key
+    'Community::MessageThreadsSerializer/' + object.cache_key + '/' + object.conversation.try(:cache_key).to_s
   end
 
   attributes :id, :community_id, :question, :answers

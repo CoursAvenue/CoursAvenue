@@ -65,9 +65,6 @@ class Structure::RegistrationForm
       return false
     end
 
-    # @admin.send_confirmation_instructions
-    @structure.delay.index
-
     true
   end
 

@@ -1,6 +1,4 @@
-class Admin::NewslettersController < ApplicationController
-  before_action :authenticate_pro_super_admin!
-  layout 'admin'
+class Admin::NewslettersController < Admin::AdminController
 
   def index
     if params[:sent]
