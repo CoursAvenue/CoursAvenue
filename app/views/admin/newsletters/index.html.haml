@@ -14,14 +14,16 @@
       %th.one-twelfth Status
   %tbody
     - @newsletters.each do |newsletter|
-      - structure = newsletter.structure
+      - structure = Structure.with_deleted.find(newsletter.structure_id)
+      - name = structure.name + (structure.deleted? ? " (supprimée le #{ l(structure.deleted_at, format: :date) })" : '')
       %tr
-        %td= link_to structure.name, pro_structure_newsletters_path(structure), target: :_blank
+        %td= link_to name, pro_structure_newsletters_path(structure), target: :_blank
         %td= newsletter.email_object
         %td= newsletter.recipients.count
         %td.nowrap
-          = l(newsletter.created_at.to_date, format: :short)
-          = l(newsletter.created_at, format: :short)
+          - if newsletter.sent_at.present?
+            = l(newsletter.sent_at.to_date, format: :short)
+            = l(newsletter.sent_at, format: :short)
         %td= newsletter.state
 
 %hr.push--ends

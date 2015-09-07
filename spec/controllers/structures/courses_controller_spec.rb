@@ -22,13 +22,6 @@ describe Structures::CoursesController do
         expect(course_ids).to match_array(structure.courses.map(&:id))
       end
     end
-
-    context 'with html format' do
-      it 'redirects to the structure page' do
-        get :index, structure_id: structure.slug
-        expect(response).to redirect_to(structure_path(structure))
-      end
-    end
   end
 
   def response_body
