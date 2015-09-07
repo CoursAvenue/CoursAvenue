@@ -1,0 +1,8 @@
+.p
+  Nouveau message publique pour l'établissement #{ @structure.name }
+
+.p.gray-box.soft-half
+  = @message
+
+.p.action
+  = link_to "Voir la question", structure_url(@structure, anchor: 'messages-publics')

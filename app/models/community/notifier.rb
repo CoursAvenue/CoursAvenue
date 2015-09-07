@@ -34,6 +34,7 @@ class Community::Notifier
     end
 
     CommunityMailer.delay.notify_admin_of_question(admin, @message, @thread)
+    self.delay(run_at: 2.hours.from_now).notify_intercom(@thread)
   end
 
   # Notify the every participants of an answer by the teacher.
@@ -67,6 +68,13 @@ class Community::Notifier
     structure = @community.structure
     if structure.is_sleeping? and structure.email.present?
       CommunityMailer.delay.notify_sleeping_of_question(structure, @thread)
+    end
+  end
+
+  # Notify intercom if there hasn't been an answer to the thread.
+  def notify_intercom(thread)
+    if thread.messages.count == 1
+      IntercomMailer.delay.notify_no_public_reply(thread)
     end
   end
 end
