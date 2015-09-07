@@ -31,6 +31,10 @@ var Course = React.createClass({
         }
     },
 
+    showSubscribeButton: function showSubscribeButton () {
+        return (this.props.always_show_registration || this.props.course.get('structure_is_active'));
+    },
+
     render: function render () {
         var course_header, course_planning, course_footer, spinner;
         var course_model = this.state.course_store.getCourseByID(this.props.course_id || this.props.indexable_card_id)
@@ -38,6 +42,7 @@ var Course = React.createClass({
             switch(course_model.get('db_type')) {
                 case 'Course::Lesson':
                     course_planning = (<Lesson show_location={this.props.show_location}
+                                         showSubscribeButton={this.showSubscribeButton}
                                          hide_header_details={this.props.hide_header_details}
                                           dont_register_user={this.props.dont_register_user}
                                           show_planning_link={this.props.show_planning_link}
@@ -45,6 +50,7 @@ var Course = React.createClass({
                     break;
                 case 'Course::Training':
                     course_planning = (<Training show_location={this.props.show_location}
+                                           showSubscribeButton={this.showSubscribeButton}
                                            hide_header_details={this.props.hide_header_details}
                                             dont_register_user={this.props.dont_register_user}
                                             show_planning_link={this.props.show_planning_link}
@@ -52,6 +58,7 @@ var Course = React.createClass({
                     break;
                 case 'Course::Private':
                     course_planning = (<Private show_location={this.props.show_location}
+                                         showSubscribeButton={this.showSubscribeButton}
                                           hide_header_details={this.props.hide_header_details}
                                           dont_register_user={this.props.dont_register_user}
                                            show_planning_link={this.props.show_planning_link}

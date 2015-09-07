@@ -62,17 +62,19 @@ var Lesson = React.createClass({
         }
         return infos;
     },
+
     render: function render () {
         var location_th, plannings;
         var course = this.state.course_store.getCourseByID(this.props.course_id);
         if (course) {
             plannings = _.map(course.get('plannings'), function(planning, index) {
                 return (<Planning planning={planning}
+                       showSubscribeButton={this.props.showSubscribeButton}
                         show_planning_link={this.props.show_planning_link}
                              dont_register={this.props.dont_register}
                              show_location={this.props.show_location}
                                     course={course}
-                                      key={index} />);
+                                       key={index} />);
             }.bind(this));
         }
         if (this.props.show_location) {
@@ -83,7 +85,7 @@ var Lesson = React.createClass({
                 <div className="soft--sides">
                     {this.getInfos(course)}
                 </div>
-                <table className={"flush table--striped table--data table-responsive table-responsive--without-th " + (course.get('structure_is_active') ? 'table--hoverable' : '')}>
+                <table className={"flush table--striped table--data table-responsive table-responsive--without-th " + (this.props.showSubscribeButton() ? 'table--hoverable' : '')}>
                     <thead className="gray-light">
                         <tr>
                             <th className={"soft--left " + (this.props.show_location ? 'three-tenths' : '')}>
@@ -93,7 +95,7 @@ var Lesson = React.createClass({
                             <th className={(this.props.show_location ? 'two-tenths' : '')}>Public</th>
                             { location_th }
                             <th style={{ width: '8em' }}
-                                className={ course.get('structure_is_active') ? '' : 'hidden'}></th>
+                                className={ this.props.showSubscribeButton() ? '' : 'hidden'}></th>
                         </tr>
                     </thead>
                     <tbody>

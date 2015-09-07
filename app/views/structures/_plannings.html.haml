@@ -1,3 +1,4 @@
+- always_show_registration = false if always_show_registration.nil?
 .soft--sides.soft-half--ends.bg-blue.white.border-color-blue-darker.bordered--sides.bordered--top
   %h2.flush
     %i.fa.fa-clock.v-middle
@@ -16,7 +17,7 @@
           %h2.soft--top.soft--sides#stages-ateliers Stages
         - index = 1
 
-        = react_component('Course', { show_header: true, show_footer: true, dont_register_user: dont_register_user, show_location: true, structure_id: @structure.id, course_id: training.id }, { prerender: false })
+        = react_component('Course', { show_header: true, show_footer: true, always_show_registration: always_show_registration, dont_register_user: dont_register_user, show_location: true, structure_id: @structure.id, course_id: training.id }, { prerender: false })
 
     - index = 0
     - @structure.courses.lessons.each_with_index do |lesson|
@@ -25,7 +26,7 @@
         %h2.soft--top.soft--sides#cours-collectifs Cours collectifs
       - index = 1
 
-      = react_component('Course', { show_header: true, show_footer: true, dont_register_user: dont_register_user, show_location: true, structure_id: @structure.id, course_id: lesson.id }, { prerender: false })
+      = react_component('Course', { show_header: true, show_footer: true, always_show_registration: always_show_registration, dont_register_user: dont_register_user, show_location: true, structure_id: @structure.id, course_id: lesson.id }, { prerender: false })
 
     - index = 0
     - @structure.courses.privates.each_with_index do |private|
@@ -34,7 +35,7 @@
         %h2.soft--top.soft--sides#cours-particuliers Cours particuliers
       - index = 1
 
-      = react_component('Course', { show_header: true, show_footer: true, dont_register_user: dont_register_user, show_location: true, structure_id: @structure.id, course_id: private.id }, { prerender: false })
+      = react_component('Course', { show_header: true, show_footer: true, always_show_registration: always_show_registration, dont_register_user: dont_register_user, show_location: true, structure_id: @structure.id, course_id: private.id }, { prerender: false })
 
     - if !@structure.show_trainings_first
       - @structure.courses.trainings.each_with_index do |training|
@@ -43,4 +44,4 @@
           %h2.soft--top.soft--sides#stages-ateliers Stages
         - index = 1
 
-        = react_component('Course', { show_header: true, show_footer: true, dont_register_user: dont_register_user, show_location: true, structure_id: @structure.id, course_id: training.id }, { prerender: false })
+        = react_component('Course', { show_header: true, show_footer: true, always_show_registration: always_show_registration, dont_register_user: dont_register_user, show_location: true, structure_id: @structure.id, course_id: training.id }, { prerender: false })

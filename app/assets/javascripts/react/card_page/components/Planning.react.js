@@ -58,7 +58,7 @@ var LessonPlanning = React.createClass({
 
     render: function render () {
         var location_td, subscribe_button, time, href;
-        if (this.props.course.get('structure_is_active')) {
+        if (this.props.showSubscribeButton()) {
             if (this.props.show_planning_link) {
                 href = Routes.structure_website_structure_path(this.props.course.get('structure_slug')) + '#' + this.props.planning.id
             }
@@ -93,10 +93,10 @@ var LessonPlanning = React.createClass({
                     </span>);
         }
         return (
-            <tr className={ this.props.course.get('structure_is_active') ? 'cursor-pointer' : '' }
+            <tr className={ this.props.showSubscribeButton() ? 'cursor-pointer' : '' }
                 onMouseLeave={this.unhighlightPlace}
                 onMouseEnter={this.highlightPlace}
-                onClick={this.props.course.get('structure_is_active') ? this.bookPlanning : null}>
+                onClick={this.props.showSubscribeButton() ? this.bookPlanning : null}>
                 <td itemScope=""
                     itemType="http://data-vocabulary.org/Event"
                     className="soft--left nowrap v-middle">
@@ -117,7 +117,7 @@ var LessonPlanning = React.createClass({
                     <div>{this.props.planning.audiences}</div>
                 </td>
                 { location_td }
-                <td className={'v-middle ' + (this.props.course.get('structure_is_active') ? '' : 'hidden')}>
+                <td className={'v-middle ' + (this.props.showSubscribeButton() ? '' : 'hidden')}>
                     { subscribe_button }
                 </td>
             </tr>

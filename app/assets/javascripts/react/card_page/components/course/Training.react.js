@@ -18,6 +18,7 @@ var Training = React.createClass({
         if (course) {
             plannings = _.map(course.get('plannings'), function(planning, index) {
                 return (<Planning planning={planning}
+                       showSubscribeButton={this.props.showSubscribeButton}
                              dont_register={this.props.dont_register}
                         show_planning_link={this.props.show_planning_link}
                              show_location={this.props.show_location}
@@ -29,7 +30,7 @@ var Training = React.createClass({
             location_th = (<th className="two-tenths">Lieu</th>);
         }
         return (
-            <table className={"flush table--striped table--data table-responsive table-responsive--without-th " + (course.get('structure_is_active') ? 'table--hoverable' : '')}>
+            <table className={"flush table--striped table--data table-responsive table-responsive--without-th " + (this.props.showSubscribeButton() ? 'table--hoverable' : '')}>
                 <thead className="gray-light">
                     <tr>
                         <th className={"soft--left " + (this.props.show_location ? 'three-tenths' : '')}>
@@ -39,7 +40,7 @@ var Training = React.createClass({
                         <th className={(this.props.show_location ? 'two-tenths' : '')}>Public</th>
                         { location_th }
                         <th style={{ width: '8em' }}
-                            className={ course.get('structure_is_active') ? '' : 'hidden'}></th>
+                            className={ this.props.showSubscribeButton() ? '' : 'hidden'}></th>
 
                     </tr>
                 </thead>
