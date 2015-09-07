@@ -217,10 +217,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def reservation_for?(reservable)
-    self.reservations.exists?(reservable_id: reservable.id, reservable_type: (reservable.is_a?(Course) ? 'Course' : reservable.class.name))
-  end
-
   def mailboxer_email(object)
     self.email
   end
