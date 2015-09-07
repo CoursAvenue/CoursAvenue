@@ -100,7 +100,7 @@
         .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#card-suggestions', update_on_scroll: 'true' } }
           = render partial: 'structures/registration'
 
-      -# = react_component('Favorite', { logged_in: current_user.present?, type: 'indexable_card', favorited: @favorited })
+      = react_component('Favorite', { logged_in: current_user.present?, type: 'indexable_card', favorited: @favorited })
 
       - if (@course.teaches_at_home? and home_place) or @place.present?
         .bg-white.push--bottom

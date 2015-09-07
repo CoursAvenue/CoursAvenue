@@ -39,7 +39,7 @@ var Favorite = React.createClass({
 
     toggleFavorite: function toggleFavorite () {
         if (!this.state.logged_in) {
-            return this.showConnectionPrompt();
+            return this.logIn();
         }
 
         var creator = (this.props.type == 'indexable_card' ? CourseActionCreators : StructureActionCreators);
@@ -52,18 +52,18 @@ var Favorite = React.createClass({
         }
     },
 
-    showConnectionPrompt: function showConnectionPrompt () {
-        $(this.getDOMNode()).find('#connection-prompt').slideDown();
-    },
-
     logIn: function logIn () {
         CoursAvenue.signIn({
             success: function success () { location.reload(); }
         });
     },
 
+    favText: function favText () {
+        return (this.isFavorited() ? 'Retirer des favoris' : 'Ajouter aux favoris');
+    },
+
     render: function render () {
-        var iconClasses = cx('fa push--right', {
+        var iconClasses = cx('fa push-half--right', {
             'red':        this.isFavorited(),
             'fa-heart':   this.isFavorited(),
             'fa-heart-o': !this.isFavorited(),
@@ -72,15 +72,10 @@ var Favorite = React.createClass({
         var page_type = (this.props.type == 'indexable_card' ? 'ce cours' : 'cette page');
 
         return (
-            <div className='bg-white bordered push--bottom soft text--center'>
-                <a href='javascript:void(0)' className='delta flush' onClick={ this.toggleFavorite }>
-                    <i className={ iconClasses }></i>
-                    Ajouter aux favoris
-                </a>
-                <div id='connection-prompt' className='hidden'>
-                    <h4>Veuillez <a href='javascript:void(0)' onClick={ this.logIn } >vous connecter</a> pour ajouter { page_type } en favoris.</h4>
-                </div>
-            </div>
+            <a href='javascript:void(0)' className='btn btn--white btn--full push--bottom' onClick={ this.toggleFavorite }>
+                <i className={ iconClasses + ' line-height-normal gamma v-middle' }></i>
+                <span className="epsilon v-middle">{this.favText()}</span>
+            </a>
         );
     }
 });
