@@ -269,7 +269,7 @@ var BookPopup = React.createClass({
             price_libelle = 'Prix du stage : ' + (this.state.selected_price_amount || COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price_amount')));
         } else {
             if (!this.props.course.get('no_trial')) {
-                if (this.props.course.get('min_price_amount') == 0) {
+                if (!this.props.course.get('min_price_amount') || this.props.course.get('min_price_amount') == 0) {
                     price_libelle = 'Essai gratuit';
                 } else {
                     price_libelle = 'Essai à ' + COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price_amount'));
