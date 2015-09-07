@@ -28,7 +28,6 @@ describe Structure do
       structure.admins << admin
 
       expect(structure.contact_email).to eq(admin.email)
-      expect(structure.contact_name).to eq(admin.name)
       expect(structure.main_contact).to eq(admin)
     end
   end
