@@ -7,119 +7,95 @@
 = content_for :meta_description do
   Donnez votre avis sur #{@structure.name}
 
-- if @structure.dominant_root_subject
-  - url = asset_path("home_backgrounds/#{@structure.dominant_root_subject.slug}.jpg")
-- else
-  - url = asset_path("home_background#{[2,3,4,5,6,7].sample}.jpg")
 
-.soft.white.bg-cover.soft-black-text-shadow{ style: "background-image: url(#{url})" }
-  .main-container.main-container--medium.soft
-    .grid
+.main-container.soft--ends
+  .two-thirds.lap-one-whole.palm-one-whole.center-block
+    .bg-blue-green.bordered--sides.bordered--top.border-color-blue-green-darker.soft--sides.soft-half--ends.white.flexbox
       - if @structure.logo.present?
-        .grid__item.one-eighth>
+        .flexbox__item.v-middle.soft--right>
           = link_to structure_path(@structure), class: 'muted-link', target: :_blank do
-            = image_tag @structure.logo.url(:thumb)
-      %header.grid__item.seven-eighths>
-        %h1.flush
-          Rédigez votre avis
-        .delta.line-height-1-7
+            = image_tag @structure.logo.url(:thumb), height: 60, width: 60
+
+      .flexbox__item.v-middle.one-whole>
+        %h2.flush
+          Déposez votre avis
           - if @participation_request
             à propos du cours "#{@participation_request.course.name}" de #{@structure.name}
           - else
             à propos de
             = link_to @structure.name, structure_path(@structure), class: 'semi-muted-link', target: :_blank
-        .epsilon Votre expérience est précieuse !
+    .bg-white.soft.bordered--sides.bordered--bottom
+      = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment do |f|
+        - if @participation_request
+          %input{ type: 'hidden', value: @participation_request.id, name: 'participation_request_id'}
+        = f.hidden_field :commentable_type
+        = f.hidden_field :commentable_id
+        - if @participation_request
+          = f.hidden_field :certified, value: true
+          = f.hidden_field :course_id, value: @participation_request.course.id
 
-.main-container.soft--ends
-  .grid
-    .grid__item.two-thirds>
-      .two-thrids.center-block
-        = simple_form_for @comment, url: structure_comments_path(@structure), as: :comment do |f|
-          - if @participation_request
-            %input{ type: 'hidden', value: @participation_request.id, name: 'participation_request_id'}
-          = f.hidden_field :commentable_type
-          = f.hidden_field :commentable_id
-          - if @participation_request
-            = f.hidden_field :certified, value: true
-            = f.hidden_field :course_id, value: @participation_request.course.id
+        .input
+          %label.label--large.control-label.cursor-default.v-middle> Vous êtes globalement
+          .input-container.v-middle>
+            - if @comment.errors[:email].present?
+              .alert.alert--error.push-half--bottom
+                = @comment.errors[:email].first
+            .btn-group{ data: { toggle: 'buttons' } }
+              .btn
+                %label.block.text--center{ class: (@comment.rating == 5 ? 'active' : ''), data: { toggle: 'popover', content: '<div class="black">Super content</div>', placement: 'top', trigger: 'hover', html: 'true' }}>
+                  %i.fa-face-happy.green{ style: 'font-size: 3em;' }
+                  %input{ type: 'radio', name: 'comment[rating]', value: 5, checked: @comment.rating == 5 }
 
-          .input
-            %div.control-label
-              .lbl.lbl--blue
-                %i.fa-eye.soft-half--right
-                Public
-            %h5.inline
-              Déposez votre avis visible de tous
-          .input
-            %label.label--large.control-label.cursor-default.v-middle> Vous êtes globalement
-            .input-container.v-middle>
-              - if @comment.errors[:email].present?
-                .alert.alert--error.push-half--bottom
-                  = @comment.errors[:email].first
-              .btn-group{ data: { toggle: 'buttons' } }
-                .btn
-                  %label.block.text--center{ class: (@comment.rating == 5 ? 'active' : ''), data: { toggle: 'popover', content: '<div class="black">Super content</div>', placement: 'top', trigger: 'hover', html: 'true' }}>
-                    %i.fa-face-happy{ style: 'font-size: 3em;' }
-                    %input{ type: 'radio', name: 'comment[rating]', value: 5, checked: @comment.rating == 5 }
+              .btn
+                %label.block.text--center{ class: (@comment.rating == 3 ? 'active' : ''), data: { toggle: 'popover', content: '<div class="black">Neutre</div>', placement: 'top', trigger: 'hover', html: 'true' }}>
+                  %i.fa-face-neutral{ style: 'font-size: 3em;' }
+                  %input{ type: 'radio', name: 'comment[rating]', value: 3, checked: @comment.rating == 3 }
 
-                .btn
-                  %label.block.text--center{ class: (@comment.rating == 3 ? 'active' : ''), data: { toggle: 'popover', content: '<div class="black">Neutre</div>', placement: 'top', trigger: 'hover', html: 'true' }}>
-                    %i.fa-face-neutral{ style: 'font-size: 3em;' }
-                    %input{ type: 'radio', name: 'comment[rating]', value: 3, checked: @comment.rating == 3 }
-
-                .btn
-                  %label.block.text--center{ class: (@comment.rating == 1 ? 'active' : ''), data: { toggle: 'popover', content: '<div class="black">Pas content</div>', placement: 'top', trigger: 'hover', html: 'true' }}>
-                    %i.fa-face-sad{ style: 'font-size: 3em;' }
-                    %input{ type: 'radio', name: 'comment[rating]', value: 1, checked: @comment.rating == 1 }
-              - if @comment.errors[:rating].any?
-                %p.input_field_error.red
-                  Vous devez choisir une humeur
-          - if @participation_request
-            = f.input :course_name, as: :hidden, input_html: { value: @participation_request.course.name }
-          - else
-            = f.input :course_name, label_html: { class: 'label--large v-top' }, wrapper_html: { class: 'flush--bottom' }, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir', input_html: { class: 'input--large' }
-          = f.input :title, label_html: { class: 'v-top label--large' }, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute", input_html: { class: 'input--large' }
-
-          - if @participation_request
-            .visuallyhidden
-              = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'input--large multiple-select', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' } }, label_html: { class: 'label--large'}, selected: @participation_request.course.subjects.map(&:id)
-          - else
-            = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'input--large multiple-select', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' } }, label_html: { class: 'label--large'}
-
-          .input.flush--bottom<
-            = f.label :content, class: 'v-top label--large'
-            = f.input :content, label: false, input_html: { style: 'height: 150px;', class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => Comment::Review::MIN_NB_WORD_CONTENT, 'good-words-nb' => 60, 'bad-text' => "Votre avis doit comporter au moins #{Comment::Review::MIN_NB_WORD_CONTENT} mots.", 'average-text' => 'Encore quelques mots et votre professeur sera enchanté !', 'good-text' => "Là c'est certain, votre professeur va adorer !"}}, wrapper_html: { class: 'flush' }, required: true
-          %p.field-form-info.flush
-            = link_to 'Astuces pour un avis utile', 'javascript:void(0)', data: { behavior: 'toggleable', el: '#comment_tricks'}
-          - unless current_user
-            = f.input :author_name, label_html: { class: 'v-middle label--large' }, required: true, placeholder: 'Ex. : Stéphanie P.', input_html: { class: 'input--large' }
-
-          %hr.push--top
-          = render partial: 'private_message', locals: { f: f }
-          .text--center
-            = f.submit 'Publier mon avis', class: 'btn btn--large btn--green btn--full', data: { disable_with: "En cours de publication..." }
-
-    .grid__item.one-third>
-      .bordered--left.soft--left
-        #comment_tricks.hidden
-          %h2.push--bottom.f-weight-300 Astuces pour un avis utile
-          %p.epsilon.push-half--bottoms Rédigez votre avis en répondant aux questions suivantes :
-          %ul.epsilon
-            %li Depuis quand suivez-vous ce cours ? / Quand avez-vous suivi ce stage ?
-            %li Quelle est la principale qualité du professeur ?
-            %li Qu’est-ce qui rend ce cours différent des autres ?
-            %li Qu’est-ce que vous avez tiré de ce cours ou de ce stage ? Quels en sont les bénéfices (mieux dans mon corps, moins stressé(e), etc.) ?
-            %li Concrètement, qu’est-ce que vous faites aujourd’hui grâce à ce que vous avez appris ?
-            %li Comment vous êtes-vous senti(e) à la fin du dernier cours ou stage ?
-            %li Racontez une anecdote sympa à partager aux futurs élèves !
-        - if @comments.any?
-          %h2.push--bottom.f-weight-300 Derniers avis
-          %ul.comment-list
-            = render partial: 'comments/comment', collection: @comments, locals: { small_avatar: true }
+              .btn
+                %label.block.text--center{ class: (@comment.rating == 1 ? 'active' : ''), data: { toggle: 'popover', content: '<div class="black">Pas content</div>', placement: 'top', trigger: 'hover', html: 'true' }}>
+                  %i.fa-face-sad.red{ style: 'font-size: 3em;' }
+                  %input{ type: 'radio', name: 'comment[rating]', value: 1, checked: @comment.rating == 1 }
+            - if @comment.errors[:rating].any?
+              %p.input_field_error.red
+                Vous devez choisir une humeur
+        - if @participation_request
+          = f.input :course_name, as: :hidden, input_html: { value: @participation_request.course.name }
         - else
-          %h4 Derniers avis sur CoursAvenue
-          %ul.comment-list
-            = render partial: 'comments/comment', collection: Comment::Review.accepted.order('created_at DESC').limit(4), locals: {small_avatar: true}
+          = f.input :course_name, label_html: { class: 'label--large v-top' }, wrapper_html: { class: 'flush--bottom' }, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir', input_html: { class: 'input--large' }
+        = f.input :title, label_html: { class: 'v-top label--large' }, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute", input_html: { class: 'input--large' }
+
+        - if @participation_request
+          .visuallyhidden
+            = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'input--large multiple-select', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' } }, label_html: { class: 'label--large'}, selected: @participation_request.course.subjects.map(&:id)
+        - else
+          = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2).uniq, multiple: true, input_html: { class: 'input--large multiple-select', data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines' } }, label_html: { class: 'label--large'}
+
+        .input.flush--bottom<
+          = f.label :content, class: 'v-top label--large'
+          = f.input :content, label: false, input_html: { style: 'height: 75px;', class: 'input--large one-whole', data: { behavior: 'text-counter', 'average-words-nb' => Comment::Review::MIN_NB_WORD_CONTENT, 'good-words-nb' => 60, 'bad-text' => "Votre avis doit comporter au moins #{Comment::Review::MIN_NB_WORD_CONTENT} mots.", 'average-text' => 'Encore quelques mots et votre professeur sera enchanté !', 'good-text' => "Là c'est certain, votre professeur va adorer !"}}, wrapper_html: { class: 'flush' }, required: true
+        %p.field-form-info.flush
+          = link_to 'Astuces pour un avis utile', '#comment_tricks', data: { behavior: 'modal', padding: 0, width: 700 }
+        - unless current_user
+          = f.input :author_name, label_html: { class: 'v-middle label--large' }, required: true, placeholder: 'Ex. : Stéphanie P.', input_html: { class: 'input--large' }
+
+        %hr.push--top
+        = render partial: 'private_message', locals: { f: f }
+        .text--center
+          = f.submit 'Publier mon avis', class: 'btn btn--large btn--green btn--full', data: { disable_with: "En cours de publication..." }
+
+#comment_tricks.hidden.panel
+  .panel__header.soft
+    %h2.push--bottom.f-weight-300.flush Astuces pour un avis utile
+  .panel__body.soft
+    %p.epsilon.push-half--bottoms Rédigez votre avis en répondant aux questions suivantes :
+    %ul.epsilon
+      %li.line-height-1-5 Depuis quand suivez-vous ce cours ? / Quand avez-vous suivi ce stage ?
+      %li.line-height-1-5 Quelle est la principale qualité du professeur ?
+      %li.line-height-1-5 Qu’est-ce qui rend ce cours différent des autres ?
+      %li.line-height-1-5 Qu’est-ce que vous avez tiré de ce cours ou de ce stage ? Quels en sont les bénéfices (mieux dans mon corps, moins stressé(e), etc.) ?
+      %li.line-height-1-5 Concrètement, qu’est-ce que vous faites aujourd’hui grâce à ce que vous avez appris ?
+      %li.line-height-1-5 Comment vous êtes-vous senti(e) à la fin du dernier cours ou stage ?
+      %li.line-height-1-5 Racontez une anecdote sympa à partager aux futurs élèves !
 
 = content_for :scripts do
   :javascript
