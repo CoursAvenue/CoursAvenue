@@ -21,7 +21,7 @@ class Emailing < ActiveRecord::Base
                   :emailing_sections, :emailing_sections_attributes,
                   :call_to_action_text, :call_to_action_url
 
-  mount_uploader :image, EmailingUploader
+  mount_uploader :header_image, EmailingUploader
 
   has_attached_file :old_header_image,
                     styles: { large: '600x' },
