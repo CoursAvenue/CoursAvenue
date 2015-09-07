@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150904135933) do
+ActiveRecord::Schema.define(version: 20150907111849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -421,10 +421,6 @@ ActiveRecord::Schema.define(version: 20150904135933) do
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "old_header_image_file_name"
-    t.string   "old_header_image_content_type"
-    t.integer  "old_header_image_file_size"
-    t.datetime "old_header_image_updated_at"
     t.string   "section_metadata_one"
     t.string   "section_metadata_two"
     t.string   "section_metadata_three"
@@ -925,10 +921,6 @@ ActiveRecord::Schema.define(version: 20150904135933) do
     t.text     "url"
     t.text     "description"
     t.date     "published_at"
-    t.string   "old_logo_file_name"
-    t.string   "old_logo_content_type"
-    t.integer  "old_logo_file_size"
-    t.datetime "old_logo_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "logo"
@@ -1305,13 +1297,9 @@ ActiveRecord::Schema.define(version: 20150904135933) do
     t.string   "name"
     t.integer  "admin_id"
     t.integer  "structure_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.text     "description"
-    t.string   "old_image_file_name"
-    t.string   "old_image_content_type"
-    t.integer  "old_image_file_size"
-    t.datetime "old_image_updated_at"
     t.datetime "deleted_at"
     t.string   "image"
   end

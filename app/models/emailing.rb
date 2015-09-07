@@ -23,10 +23,6 @@ class Emailing < ActiveRecord::Base
 
   mount_uploader :header_image, EmailingUploader
 
-  has_attached_file :old_header_image,
-                    styles: { large: '600x' },
-                    convert_options: { large: '-interlace Plane' }
-
   has_many :emailing_sections
 
   accepts_nested_attributes_for :emailing_sections,

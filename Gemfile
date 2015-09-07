@@ -84,9 +84,6 @@ gem 'cloudinary'                , '~> 1.1.0'
 # Show progress bars in scripts
 gem 'progress_bar'              , '~> 1.0.3'
 
-# For image handling
-gem 'paperclip'                 , '~> 4.2.1'
-
 # For handy SQL queries
 # gem 'squeel'                    , '~> 1.1.1'
 
