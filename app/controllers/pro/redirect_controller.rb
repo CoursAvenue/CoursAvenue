@@ -1,7 +1,7 @@
 class Pro::RedirectController < ApplicationController
 
   def structures_jpo_index
-    redirect_to pro.structure_courses_path(params[:structure_id], subdomain: 'pro'), status: 301
+    redirect_to pro_structure_courses_path(params[:structure_id], subdomain: 'pro'), status: 301
   end
 
   def structure_dashboard
