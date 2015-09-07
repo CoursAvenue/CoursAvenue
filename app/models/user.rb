@@ -474,5 +474,4 @@ class User < ActiveRecord::Base
       prs.each { |pr| pr.cancel!(nil, 16, 'User') }
     end
   end
-  handle_asynchronously :cancel_upcoming_participation_requests
 end

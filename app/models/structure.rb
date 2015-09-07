@@ -1101,5 +1101,4 @@ class Structure < ActiveRecord::Base
       prs.each { |pr| pr.cancel!(nil, 15) }
     end
   end
-  handle_asynchronously :cancel_upcoming_participation_requests
 end
