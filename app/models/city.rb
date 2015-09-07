@@ -28,7 +28,7 @@ class City < ActiveRecord::Base
   validates :latitude        , presence: true
   validates :longitude       , presence: true
 
-  attr_accessible :name, :image, :iso_code, :zip_code, :region_name, :region_code, :department_name,
+  attr_accessible :name, :iso_code, :zip_code, :region_name, :region_code, :department_name,
                   :department_code, :commune_name, :commune_code, :latitude, :longitude, :acuracy,
                   :title, :subtitle, :description,
                   :size # [1, 2, 3], small, medium, big. It will affect the aroundPrecision on Algolia search
@@ -36,11 +36,6 @@ class City < ActiveRecord::Base
 
   store_accessor            :meta_data, :associated_zip_codes
   define_array_accessor_for :meta_data, :associated_zip_codes
-
-  has_attached_file :image,
-                    styles: { default: '900x600#', small: '250x200#' }
-
-  validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
   ######################################################################
   # SOLR                                                               #

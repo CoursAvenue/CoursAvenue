@@ -39,9 +39,7 @@ class Course < ActiveRecord::Base
   before_save :set_has_promotion
   before_save :update_structure_vertical_pages_breadcrumb
 
-  after_save   :reindex_plannings unless Rails.env.test?
   after_save   :remove_price_if_no_trial
-  # after_save   :update_indexable_cards unless Rails.env.test?
 
   ######################################################################
   # Scopes                                                             #
@@ -76,139 +74,6 @@ class Course < ActiveRecord::Base
   accepts_nested_attributes_for :prices,
                                  reject_if: :reject_price,
                                  allow_destroy: true
-
-  # ------------------------------------------------------------------------------------ Search attributes
-  # :nocov:
-  searchable do
-    text :name, :boost => 2
-
-    text :structure_name do
-      self.structure.name if self.structure
-    end
-
-    text :planning_info do
-      plannings.map(&:info)
-    end
-
-    text :teachers do
-      plannings.collect{|p| p.teacher.try(:name)}.compact.uniq
-    end
-
-    text :subjects do
-      subject_array = []
-      subjects.each do |subject|
-        subject_array << subject
-        subject_array << subject.parent if subject.parent
-      end
-      subject_array.uniq.map(&:name)
-    end
-
-    integer :subject_ids, multiple: true do
-      subject_ids = []
-      subjects.each do |subject|
-        subject_ids << subject.id
-        subject_ids << subject.parent.id if subject.parent
-      end
-      subject_ids.uniq
-    end
-
-    string :subject_slugs, multiple: true do
-      subject_slugs = []
-      subjects.each do |subject|
-        subject_slugs << subject.slug
-        subject_slugs << subject.parent.slug if subject.parent
-        if subject.grand_parent
-          subject_slugs << subject.grand_parent.slug
-        end
-      end
-      subject_slugs.uniq
-    end
-
-    string :type do
-      case type
-      when 'Course::Lesson'
-        'lesson'
-      when 'Course::Training'
-        'training'
-      end
-    end
-
-    latlon :location, multiple: true do
-      self.places.map do |place|
-        Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
-      end
-    end
-
-    string :zip_codes, multiple: true do
-      self.places.uniq.map(&:zip_code)
-    end
-
-    integer :audience_ids, multiple: true do
-      self.audiences.map(&:id)
-    end
-
-    integer :level_ids, multiple: true do
-      self.levels.map(&:id)
-    end
-
-    string :week_days, multiple: true do
-      plannings.map(&:week_day).uniq.compact
-    end
-
-    integer :min_age_for_kid, multiple: true do
-      plannings.map(&:min_age_for_kid).uniq.compact
-    end
-    integer :max_age_for_kid, multiple: true do
-      plannings.map(&:max_age_for_kid).uniq.compact
-    end
-
-    time :start_time, multiple: true do
-      plannings.map(&:start_time).uniq.compact
-    end
-    time :end_time, multiple: true do
-      plannings.map(&:end_time).uniq.compact
-    end
-
-    boolean :is_open_for_trial
-
-    boolean :has_description do
-      self.description.present?
-    end
-
-    boolean :has_comment do
-      comments.count > 0
-    end
-
-    date :start_date, multiple: true do
-      plannings.map(&:start_date).uniq.compact
-    end
-
-    date :end_date, multiple: true do
-      plannings.map(&:end_date).uniq.compact
-    end
-
-    boolean :has_free_trial_lesson do
-      self.has_free_trial_lesson?
-    end
-
-    boolean :has_admin do
-      self.structure.admins.any? if self.structure
-    end
-
-    integer :nb_comments do
-      comments.count
-    end
-
-    boolean :has_promotion
-
-    boolean :has_package_price
-    boolean :has_trial_lesson
-
-    integer :structure_id
-  end
-  # :nocov:
-
-  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
 
   def audiences
     self.plannings.map(&:audience_ids).flatten.uniq.map{ |audience_id| Audience.find(audience_id) }
@@ -274,10 +139,6 @@ class Course < ActiveRecord::Base
     'Cours'
   end
 
-  def description_for_meta
-    self.description.gsub(/\r\n\r\n/, ' ').html_safe if self.description
-  end
-
   def contact_email
     self.structure.contact_email
   end
@@ -288,16 +149,6 @@ class Course < ActiveRecord::Base
 
   def other_event_type?
     false
-  end
-
-  def has_premium_prices?
-    return Rails.cache.fetch ['Course#has_premium_prices?', self] do
-      if price_group.nil?
-        false
-      else
-        price_group.has_premium_prices?
-      end
-    end
   end
 
   def can_be_published?
@@ -363,11 +214,6 @@ class Course < ActiveRecord::Base
     nil
   end
 
-  def reindex_plannings
-    self.plannings.map{ |p| p.delay.index }
-  end
-  handle_asynchronously :reindex_plannings
-
   # If the user sets the `open_for_trial` flag to true or false on the course itself,
   # we change all the plannings flag
   #
@@ -398,10 +244,6 @@ class Course < ActiveRecord::Base
 
   def update_structure_vertical_pages_breadcrumb
     self.structure.delay.update_vertical_pages_breadcrumb
-  end
-
-  def update_indexable_cards
-    IndexableCard.delay.update_from_course(self)
   end
 
   def remove_price_if_no_trial

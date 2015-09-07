@@ -10,7 +10,11 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- PRO
   # ---------------------------------------------
   constraints subdomain: 'pro' do
+    # For super admin
     namespace :admin do
+      resources :users, only: [:index]
+      resources :flyers, only: [:index, :update]
+      resources :press_articles
       resources :newsletters, only: [:index]
       resources :blog_articles, controller: 'blog/articles', path: 'blog' do
         resources :medias, controller: 'blog/articles/medias'
@@ -22,10 +26,10 @@ CoursAvenue::Application.routes.draw do
         resources :message_threads, only: [:index], controller: 'community/message_threads'
       end
     end
+
+    # For pros
     namespace :pro, path: '' do
       root :to => 'home#index'
-
-      get '/premium'                            => 'redirect#structures_premium'
 
       get 'livres-blancs'                       => 'home#white_book',         as: 'pages_white_books'
       get 'mailjet_custo'                       => 'home#mailjet_custo'
@@ -72,7 +76,6 @@ CoursAvenue::Application.routes.draw do
       end
 
       resources :participation_requests, only: [:index]
-      resources :payment_notifications, only: [:index, :show]
       resources :blog_subscribers, only: [:create], controller: 'blog/subscribers'
       resources :blog_articles, only: [:index, :show], controller: 'blog/articles', path: 'blog' do
         collection do
@@ -84,20 +87,10 @@ CoursAvenue::Application.routes.draw do
       end
 
       resources :press_releases, path: 'communiques-de-presse'
-      resources :press_articles
-      resources :flyers, only: [:index, :update]
+
       resources :faqs do
         collection do
           get :preview
-        end
-      end
-      resources :metrics, only: [] do
-        collection do
-          get :comments
-          get :admins_count
-          get :comments_count
-          get :reco_count
-          get :users_count
         end
       end
 
@@ -115,16 +108,13 @@ CoursAvenue::Application.routes.draw do
           get :zip_code_search
         end
       end
-      resources :keywords, only: [:index, :create, :destroy]
-      resources :search_term_logs, only: [:index]
       resources :subjects do
         member do
           get :edit_name
-          get :completion
         end
         collection do
-          get :all
           get :descendants
+          get :all
         end
       end
 
@@ -140,7 +130,6 @@ CoursAvenue::Application.routes.draw do
 
       resources :invited_users, only: [:index]
       resources :sticker_demands, only: [:index]
-      resources :promotion_codes, path: 'code-promos'
 
       resources :subscriptions,          only: [:index]
       resources :subscriptions_invoices, only: [:index]
@@ -165,9 +154,7 @@ CoursAvenue::Application.routes.draw do
       end
       resources :structures, path: 'etablissements' do
         collection do
-          get :sleepings
           get :stars
-          get :best
           get :inscription, to: :new
           post :import
           get :imported_structures
@@ -181,21 +168,16 @@ CoursAvenue::Application.routes.draw do
           get   :dashboard
           get   :edit_order_recipient
           get   :someone_already_took_control, path: 'quelqu-un-a-deja-le-control'
-          get   :dont_want_to_take_control_of_my_sleeping_account, path: 'me-desabonner'
           get   :add_subjects
           get   :ask_for_deletion
           get   :confirm_deletion
           get   :crop_logo
           get   :edit_contact, path: 'informations-contact'
           get   :logo
-          get   :payment_confirmation, path: 'confirmation-paiement'
-          get   :premium_modal
           get   :recommendations, path: 'recommendations'
           get   :signature
           get   :communication
-          get   :update_widget_status
           patch :wake_up
-          patch :return_to_sleeping_mode
           get   :widget
           get   :wizard
           match :widget_ext, controller: 'structures', via: [:options, :get], as: 'widget_ext'
@@ -205,7 +187,6 @@ CoursAvenue::Application.routes.draw do
           post  :update
           get   :website_planning, path: 'planning-sur-mon-site'
           get   :website_planning_parameters, path: 'parametre-de-mon-planning-sur-mon-site'
-          get   :premium # redirect to subscriptions
           get   :enabling_confirmation
           patch :enable
           get   :cards
@@ -216,11 +197,6 @@ CoursAvenue::Application.routes.draw do
         end
 
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
-        resources :orders, only: [:index, :show], controller: 'structures/orders', path: 'mes-factures' do
-          member do
-            get 'export'
-          end
-        end
         resources :invoices, only: [:index], controller: 'structures/invoices', path: 'factures' do
           member do
             get :download
@@ -244,19 +220,6 @@ CoursAvenue::Application.routes.draw do
             get   :update_payments_form
             get   :choose_plan_and_pay
             resources :subscriptions_sponsorships, only: [:index, :create], controller: 'structures/subscriptions_sponsorships', path: 'parrainage'
-          end
-        end
-        # Old subscriptions with Be2Bill
-        resources :subscription_plans, only: [:new, :index, :destroy], controller: 'structures/subscription_plans', path: 'abonnements' do
-          collection do
-            get :choose_premium, path: 'choisir-un-abonnement'
-            get :paypal_express_checkout
-            get :paypal_confirmation
-          end
-          member do
-            patch :reactivate
-            get :ask_for_cancellation
-            get :confirm_cancellation
           end
         end
         resources :admins, controller: 'structures/admins' do
@@ -414,8 +377,6 @@ CoursAvenue::Application.routes.draw do
           end
         end
       end
-      resources :visitors, only: [:index, :show]
-      resources :users, only: [:index]
       resources :comment_notifications, only: [:index]
       resources :conversations        , only: [:index]
 
@@ -494,13 +455,14 @@ CoursAvenue::Application.routes.draw do
         get :welcome
       end
       member do
-        get    :destroy_confirmation
-        get    :edit_private_infos, path: 'mon-compte'
-        patch  :update_password
-        get  :wizard
-        get  :dashboard
-        get  :choose_password
-        post :recommend_friends
+        get   :passions
+        get   :destroy_confirmation
+        get   :edit_private_infos, path: 'mon-compte'
+        patch :update_password
+        get   :wizard
+        get   :dashboard
+        get   :choose_password
+        post  :recommend_friends
       end
       resources :followings, only: [:index], controller: 'users/followings', path: 'favoris'
       resources :invited_users, only: [:index, :new], controller: 'users/invited_users' do
@@ -511,18 +473,9 @@ CoursAvenue::Application.routes.draw do
       resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
       resources :messages     , controller: 'users/messages'
       resources :conversations, controller: 'users/conversations'
-      resources :passions, only: [:index, :destroy], controller: 'users/passions' do
-        collection do
-          get :offers
-          get :suggestions
-        end
-      end
-      resources :orders, only: [:index, :show], controller: 'users/orders', path: 'mes-factures'
       resources :participation_requests, only: [:index, :show], controller: 'users/participation_requests', path: 'mes-inscriptions'
     end
     resources :emails, only: [:create]
-
-    resources :visitors, only: [:create, :update, :index]
 
     resources :locations, only: [:index]
 
@@ -578,19 +531,14 @@ CoursAvenue::Application.routes.draw do
       resources :medias                , only: [:index]                                     , controller: 'structures/medias'
     end
 
-    resources :courses, only: [:index], path: 'cours' do
-      resources :reservations, only: [:new, :create] # Redirection 301 in controller
-    end
-
-    resources :keywords, only: [:index]
     resources :reply_token, only: [:show]
 
     ########### Vertical pages ###########
-    get 'cours/:id--:city_id'                                 , to: 'vertical_pages#show_with_city'          , as: :root_vertical_page_with_city
+    get 'cours/:id--:city_id'                                 , to: 'vertical_pages#show'          , as: :root_vertical_page_with_city
     get 'cours/:id--:city_id/:neighborhood_id'                , to: 'vertical_pages#show_with_neighborhood'  , as: :root_vertical_page_with_neighborhood
     get 'cours/:id'                                           , to: 'vertical_pages#show_root'               , as: :root_vertical_page
     get 'cours/:root_subject_id/:id'                          , to: 'vertical_pages#show'                    , as: :vertical_page
-    get 'cours/:root_subject_id/:id/:city_id'                 , to: 'vertical_pages#show_with_city'          , as: :vertical_page_with_city
+    get 'cours/:root_subject_id/:id/:city_id'                 , to: 'vertical_pages#show'          , as: :vertical_page_with_city
     get 'cours/:root_subject_id/:id/:city_id/:neighborhood_id', to: 'vertical_pages#show_with_neighborhood'  , as: :vertical_page_with_neighborhood
 
     get 'cours-de-:id'                               , to: 'vertical_pages#redirect_to_show'
@@ -615,14 +563,12 @@ CoursAvenue::Application.routes.draw do
       collection do
         get :list
         get :descendants
-        get :search
       end
       resources :structures, only: [:index], path: 'etablissements'
       resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index' # établissement without S
       resources :courses, only: [:index], path: 'cours'
     end
 
-    resources :reservation_loggers, only: [:create]
     resources :click_logs, only: [:create]
     resources :guides, only: [:show] do
       member do
@@ -765,7 +711,7 @@ CoursAvenue::Application.routes.draw do
   get 'ville/:id',                                                   to: 'redirect#city'
 
   ########### Vertical pages ###########
-  get 'cours/:id--:city_id'                        , to: 'redirect#vertical_pages__show_with_city'
+  get 'cours/:id--:city_id'                        , to: 'redirect#root_vertical_pages__show_with_city'
   get 'cours/:id'                                  , to: 'redirect#vertical_pages__show_root'
   get 'cours/:root_subject_id/:id'                 , to: 'redirect#vertical_pages__show'
   get 'cours/:root_subject_id/:id/:city_id'        , to: 'redirect#vertical_pages__show_with_city'

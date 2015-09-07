@@ -3,7 +3,7 @@
     %li{ class: current == 'offers' ? 'active' : '' }
       = link_to pro_structure_subscriptions_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Offres &amp; abonnements
-    - if @structure.invoices.any? or @structure.orders.any?
+    - if @structure.invoices.any?
       %li{ class: current == 'invoices' ? 'active' : '' }
         = link_to pro_structure_invoices_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
           Factures

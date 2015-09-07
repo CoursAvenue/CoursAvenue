@@ -50,13 +50,6 @@ describe Comment::Review do
 
   context :callbacks do
     let(:comment) { FactoryGirl.build(:comment_review) }
-    context :user_passions do
-      it 'creates a passion for the user' do
-        comment.save
-        expect(comment.user.passions).to_not be_empty
-      end
-    end
-
     context :user_structure do
       it 'creates a passion for the user' do
         comment.save

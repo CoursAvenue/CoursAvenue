@@ -7,31 +7,6 @@ describe Course do
   it { should be_valid }
   it { should have_many(:indexable_cards) }
 
-  describe '#has_promotion?' do
-    it { expect(subject.has_promotion?).to eq false }
-
-    context 'with promotion' do
-      let(:price)       { FactoryGirl.create(:price_subscription, amount: 200) }
-      let(:price_group) { FactoryGirl.build(:price_group) }
-
-      before do
-        price.promo_amount = 10
-        price.save
-
-        price_group.prices    = [price]
-        price_group.structure = subject.structure
-        price_group.save
-
-        subject.price_group = price_group
-        subject.save
-      end
-
-      it 'has a promotion when the amount is set' do
-        expect(subject.has_promotion?).to eq true
-      end
-    end
-  end
-
   context 'lesson' do
     subject(:lesson) { FactoryGirl.create(:lesson) }
 

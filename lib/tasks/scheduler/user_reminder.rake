@@ -6,17 +6,6 @@ namespace :scheduler do
   namespace :users do
     include ConversationsHelper
 
-    # $ rake scheduler:users:send_reminder
-    # Email sent on monday
-    desc 'Send email to admins for inactivity'
-    task :send_reminder => :environment do |t, args|
-      if Time.now.monday?
-        User.active.all.map do |user|
-          UserReminder.status(user)
-        end
-      end
-    end
-
     # Remind users to go recommend
     # $ rake scheduler:users:resend_recommendation_stage_1
     desc 'Re ask users for recommendation'

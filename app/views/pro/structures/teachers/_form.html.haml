@@ -1,16 +1,14 @@
 = simple_form_for [:pro, @structure, @teacher], html: { id: 'teacher-form' } do |f|
   = f.error_notification
-  %div{data: { behavior: 'image-input' } }
-    %img.center-block{src: (@teacher.image? ? @teacher.image.url(:normal) : ''), width: 150}
-    - if @teacher.image?
-      .text--center
-        %a#delete-image.red{href: 'javascript:void(0)'} Supprimer la photo
+  %div
     .input
-      .control-label.label--large Photo du professeur
-      = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: { trigger: true } do
-        %i.fa.fa-picture-o
-        Choisir l'image
-      .visuallyhidden= f.input :image, label: false
+      .control-label.label--large> Photo du professeur
+      .input-container>
+        %img{ src: (@teacher.image? ? @teacher.image.url(:normal) : ''), style: 'max-width: 150px;', data: { image: true } }
+        - if @teacher.image?
+          .text--center
+            %a#delete-image.red{ href: 'javascript:void(0)' } Supprimer la photo
+        = f.filepicker_field :remote_image_url, button_class: 'btn btn--blue-green', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, button_text: 'Ajouter une photo'
   .visuallyhidden= f.input :delete_image, as: :boolean, label: false, id: 'teacher_delete_image'
   = f.input :name, label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
   = f.input :description, input_html: { class: 'input--large', data: { behavior: 'autoresize' } }, label_html: { class: 'label--large' }
@@ -18,9 +16,13 @@
 
 
 :javascript
+  $('#teacher_remote_image_url').change(function() {
+      $('[data-image]').attr('src', this.value);
+  });
   if ($('#delete-image').length > 0) {
       $('#delete-image').click(function(){
           $('#teacher_delete_image')[0].checked = true;
           $('#teacher-form').submit();
       });
   }
+= filepicker_js_include_tag

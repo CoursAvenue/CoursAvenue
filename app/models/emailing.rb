@@ -6,8 +6,6 @@ class Emailing < ActiveRecord::Base
 
   SECTION_METADATA = [
     { title: 'Nom'           , action: :metadata_name },
-    # { title: "Nombre d'avis" , action: :metadata_comment_count },
-    # { title: "Titre avis"    , action: :metadata_comment_title },
     { title: 'À partir de'   , action: :metadata_prices },
     { title: 'Villes'        , action: :metadata_cities },
     { title: 'Discipline'    , action: :metadata_subject }
@@ -17,15 +15,17 @@ class Emailing < ActiveRecord::Base
   # Macros                                                             #
   ######################################################################
 
-  attr_accessible :title, :body, :header_image, :header_url, :header_image_alt, :section_metadata_one,
+  attr_accessible :title, :body, :header_image, :remote_header_image_url,
+                  :header_url, :header_image_alt, :section_metadata_one,
                   :section_metadata_two, :section_metadata_three,
                   :emailing_sections, :emailing_sections_attributes,
                   :call_to_action_text, :call_to_action_url
 
-  has_attached_file :header_image,
+  mount_uploader :image, EmailingUploader
+
+  has_attached_file :old_header_image,
                     styles: { large: '600x' },
-                    convert_options: { large: '-interlace Plane' },
-                    processors: [:thumbnail, :paperclip_optimizer]
+                    convert_options: { large: '-interlace Plane' }
 
   has_many :emailing_sections
 
@@ -35,7 +35,6 @@ class Emailing < ActiveRecord::Base
 
   validates :title, presence: true
   validates :body, presence: true
-  validates_attachment_content_type :header_image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
   after_save :set_defaults
 

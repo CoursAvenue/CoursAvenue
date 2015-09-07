@@ -39,16 +39,13 @@ class Comment::Review < Comment
   before_save      :downcase_email
   before_save      :sanatize_content
 
-  after_save       :update_comments_count
-
   after_create     :create_user, if: -> { self.user.nil? }
   after_create     :send_email
   after_create     :affect_structure_to_user
-  after_create     :create_passions_for_associated_user
+  after_create     :associate_subjects_to_user
   after_create     :complete_comment_notification
   after_create     :create_or_update_user_profile
 
-  after_destroy    :update_comments_count
   after_destroy    :remove_highlighted_comment_id_from_commentable
 
   ######################################################################
@@ -149,11 +146,6 @@ class Comment::Review < Comment
     end
   end
 
-  # Update rating of the commentable (course, or structure)
-  def update_comments_count
-    self.commentable.update_comments_count
-  end
-
   def highlighted?
     self.commentable.highlighted_comment_id == self.id
   end
@@ -202,12 +194,12 @@ class Comment::Review < Comment
     self.user.save(validate: false)
   end
 
-  def create_passions_for_associated_user
+  def associate_subjects_to_user
     self.subjects.each do |child_subject|
-      passion = self.user.passions.build(practiced: true)
-      passion.subjects << child_subject.root
-      passion.subjects << child_subject
+      self.user.subjects << child_subject.root
+      self.user.subjects << child_subject
     end
+    self.user.subjects = self.user.subjects.uniq
     self.user.comments << self
     self.user.save(validate: false)
   end

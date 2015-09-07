@@ -39,21 +39,21 @@ var Course = React.createClass({
                 case 'Course::Lesson':
                     course_planning = (<Lesson show_location={this.props.show_location}
                                          hide_header_details={this.props.hide_header_details}
-                                               dont_register={this.props.dont_register}
+                                          dont_register_user={this.props.dont_register_user}
                                           show_planning_link={this.props.show_planning_link}
                                                    course_id={this.props.course_id || this.props.indexable_card_id} />);
                     break;
                 case 'Course::Training':
                     course_planning = (<Training show_location={this.props.show_location}
                                            hide_header_details={this.props.hide_header_details}
-                                                 dont_register={this.props.dont_register}
+                                            dont_register_user={this.props.dont_register_user}
                                             show_planning_link={this.props.show_planning_link}
                                                      course_id={this.props.course_id || this.props.indexable_card_id} />);
                     break;
                 case 'Course::Private':
                     course_planning = (<Private show_location={this.props.show_location}
                                           hide_header_details={this.props.hide_header_details}
-                                                dont_register={this.props.dont_register}
+                                          dont_register_user={this.props.dont_register_user}
                                            show_planning_link={this.props.show_planning_link}
                                                     course_id={this.props.course_id || this.props.indexable_card_id} />);
                     break;
@@ -61,7 +61,7 @@ var Course = React.createClass({
             if (this.props.show_header) {
                 this.props.hide_header_details = (_.isBoolean(this.props.hide_header_details) ? this.props.hide_header_details : false);
                 course_header = (<CourseHeader key={this.props.course_id + 'header'}
-                                     dont_register={this.props.dont_register}
+                                dont_register_user={this.props.dont_register_user}
                                hide_header_details={this.props.hide_header_details}
                                          course_id={this.props.course_id || this.props.indexable_card_id} />);
             }

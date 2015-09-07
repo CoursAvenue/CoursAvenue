@@ -79,13 +79,6 @@ class PriceGroup < ActiveRecord::Base
     prices.order('amount ASC').first.try(:amount)
   end
 
-  # Tells wether or not the price_group has premium offers
-  #
-  # @return Boolean
-  def has_premium_prices?
-    return (premium_offers.any? or trial.present? or discounts.any? or book_tickets.map(&:promo_amount).compact.any?)
-  end
-
   def offers_text
     offers = []
     offers << 'Essai gratuit'  if trial and trial.free?

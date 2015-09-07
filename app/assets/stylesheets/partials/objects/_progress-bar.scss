@@ -44,7 +44,7 @@
   height           : 20px;
   line-height      : 20px;
   background-color : $beige-darker;
-  background-image: linear-gradient(top, lighten($beige-darker, 5%), $beige-darker);
+  background-image: linear-gradient(to bottom, lighten($beige-darker, 5%), $beige-darker);
   background-repeat: repeat-x;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   border-radius: $brand-round;
@@ -59,7 +59,7 @@
   text-align: center;
   text-shadow: -1px -1px 1px #888;
   background-color: #0e90d2;
-  background-image: linear-gradient(top, #149bdf, #0480be);
+  background-image: linear-gradient(to bottom, #149bdf, #0480be);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff149bdf', endColorstr='#ff0480be', GradientType=0);
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
@@ -83,7 +83,7 @@
 .progress-danger .bar,
 .progress .bar-danger {
   background-color: #dd514c;
-  background-image: linear-gradient(top, #ee5f5b, #c43c35);
+  background-image: linear-gradient(to bottom, #ee5f5b, #c43c35);
   background-repeat: repeat-x;
 }
 .progress-danger.progress-striped .bar,
@@ -104,7 +104,7 @@
 .progress-info .bar,
 .progress .bar-info {
   background-color: #4bb1cf;
-  background-image: linear-gradient(top, #5bc0de, #339bb9);
+  background-image: linear-gradient(to bottom, #5bc0de, #339bb9);
   background-repeat: repeat-x;
 }
 .progress-info.progress-striped .bar,
@@ -115,7 +115,7 @@
 .progress-warning .bar,
 .progress .bar-warning {
   background-color: #faa732;
-  background-image: linear-gradient(top, #fbb450, #f89406);
+  background-image: linear-gradient(to bottom, #fbb450, #f89406);
   background-repeat: repeat-x;
 }
 .progress-warning.progress-striped .bar,

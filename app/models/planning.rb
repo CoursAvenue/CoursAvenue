@@ -38,16 +38,16 @@ class Planning < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :course    , touch: true
-  belongs_to :teacher   , touch: true
-  belongs_to :place     , touch: true
+  belongs_to :course        , touch: true
+  belongs_to :teacher       , touch: true
+  belongs_to :place         , touch: true
   belongs_to :structure
+  belongs_to :indexable_card, touch: true , dependent: :destroy
 
   has_many :prices,         through: :course
   has_many :subjects,       through: :course
   has_many :reservations,   as: :reservable
 
-  belongs_to :indexable_card, dependent: :destroy
 
   ######################################################################
   # Callbacks                                                          #
@@ -98,202 +98,6 @@ class Planning < ActiveRecord::Base
   scope :ordered_by_day,    -> { order('week_day=0, week_day ASC, start_time ASC, start_date ASC') }
   scope :visible,           -> { where(visible: true) }
 
-  ######################################################################
-  # Solr                                                               #
-  ######################################################################
-  # :nocov:
-  searchable do
-    integer :search_score do
-      self.course.structure.compute_search_score
-    end
-
-    boolean :visible
-
-    boolean :is_open_for_trial do
-      course.is_open_for_trial
-    end
-
-    boolean :is_published do
-      self.course.is_published?
-    end
-
-    boolean :active_structure do
-      self.course.structure.active?
-    end
-
-    # ----------------------- For grouping
-    string :structure_id_str do
-      self.course.structure_id.to_s
-    end
-
-    string :place_id_str do
-      if self.place_id
-        self.place_id.to_s
-      elsif self.course.place_id
-        self.course.place_id.to_s
-      end
-    end
-
-    integer :structure_id do
-      self.course.structure_id.to_s
-    end
-
-    # ----------------------- Fulltext search
-    # ----------------------- Course specific info
-    text :course_name do
-      self.course.name
-    end
-
-    text :course_subjects_name do
-      self.course.subjects.uniq.map(&:name)
-    end
-
-    text :course_description do
-      self.course.description
-    end
-
-    text :name, boost: 5 do
-      self.course.structure.name
-    end
-
-    integer :subject_ids, multiple: true do
-      subject_ids = []
-      self.course.subjects.uniq.each do |subject|
-        subject_ids << subject.id
-        subject_ids << subject.root.id if subject.root
-      end
-      subject_ids.compact.uniq
-    end
-
-    string :subject_slugs, multiple: true do
-      subject_slugs = []
-      self.course.subjects.uniq.each do |subject|
-        subject_slugs << subject.slug
-        subject_slugs << subject.parent.slug if subject.parent
-        subject_slugs << subject.root.slug if subject.root
-      end
-      subject_slugs.uniq
-    end
-
-    integer :audience_ids, multiple: true do
-      self.audience_ids
-    end
-
-    integer :level_ids, multiple: true do
-      self.level_ids
-    end
-
-    integer :week_days, multiple: true do
-      self.week_days.compact if self.week_days
-    end
-
-    time :start_time
-    time :end_time
-
-    integer :start_hour do
-      start_time.hour if start_time
-    end
-
-    integer :end_hour do
-      end_time.hour if end_time
-    end
-
-    time :start_date do
-      self.start_date || self.course.start_date
-    end
-
-    time :end_date do
-      if self.course.is_training?
-        self.end_date
-      else # Because regular courses doesn't have start and end_date
-        Date.today + 100.year
-      end
-    end
-
-    string :price_types, multiple: true do
-      price_types = []
-      Price::TYPES.each do |name|
-        price_types << name if price_amount_for_scope(name).any?
-      end
-      price_types
-    end
-
-    integer :training_min_price do
-      if self.course.is_training?
-        price = self.course.prices.book_tickets.order('amount ASC').first
-        if price
-          price.amount.to_i
-        else
-          0
-        end
-      else
-        -1
-      end
-    end
-
-    integer :first_course_min_price do
-      price = self.course.prices.book_ticket_or_trials.order('amount ASC').first
-      if price
-        price.amount.to_i
-      else
-        0
-      end
-    end
-
-    integer :min_age_for_kid
-    integer :max_age_for_kid
-
-    string :course_type do
-      self.course.underscore_name
-    end
-
-    boolean :has_trial_course do
-      self.course.prices.trials.any?
-    end
-
-    integer :trial_course_amount do
-      if self.course.prices.trials.any?
-        self.course.prices.trials.map(&:amount).min.to_i
-      end
-    end
-
-    string :discounts, multiple: true do
-      self.course.prices.discounts.collect{ |discount| discount.libelle.split('.').last }.uniq
-    end
-
-    integer :funding_type_ids, multiple: true do
-      self.course.structure.funding_type_ids
-    end
-
-    string :structure_type do
-      self.course.structure.structure_type.split('.').last if self.course.structure.structure_type
-    end
-
-    integer :nb_comments do
-      self.course.structure.comments_count
-    end
-
-    boolean :has_comment do
-      self.course.structure.comments_count > 0
-    end
-
-    boolean :has_logo do
-      self.course.structure.logo?
-    end
-
-    latlon :location, multiple: true do
-      structure = self.structure || self.course.structure
-      if place
-        Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
-      else # Happens when the planning is out of France for example.
-        Sunspot::Util::Coordinates.new(structure.latitude, structure.longitude)
-      end
-    end
-  end
-  # :nocov:
-
-  handle_asynchronously :solr_index, queue: 'index' unless Rails.env.test?
-
   # Return week day of start date if the course associated to the planning
   # is not a lesson
   #
@@ -316,13 +120,6 @@ class Planning < ActiveRecord::Base
     return ((end_date || start_date) - start_date).to_i + 1
   end
 
-  # :nocov:
-  def min_price_amount_for(type)
-    price = price_amount_for_scope(type).order('amount ASC').first
-    return 0 unless price
-    price.amount.to_i
-  end
-  # :nocov:
 
   def week_days
     if self.course.is_lesson? or self.course.is_private?
@@ -399,29 +196,6 @@ class Planning < ActiveRecord::Base
 
   private
 
-  # Return the scoped price for a given type.
-  # Used in search
-  def price_amount_for_scope(type)
-    case type
-    when 'per_course'
-      self.course.prices.book_tickets.individual
-    when 'book_ticket'
-      self.course.prices.book_tickets.multiple_only
-    when 'annual_subscription'
-      self.course.prices.subscriptions.annual
-    when 'semestrial_subscription'
-      self.course.prices.subscriptions.semestrial
-    when 'trimestrial_subscription'
-      self.course.prices.subscriptions.trimestrial
-    when 'monthly_subscription'
-      self.course.prices.subscriptions.monthly
-    when 'any_per_course'
-      self.course.prices.book_tickets
-    when 'all_subscriptions'
-      self.course.prices.subscriptions
-    end
-  end
-
   def set_structure_if_blank
     self.structure = self.course.structure if self.course
   end
@@ -497,6 +271,9 @@ class Planning < ActiveRecord::Base
   #
   # @return [type] [description]
   def end_date_in_future
+    # For an unknown reason, indexable cards won't save if this is not here and the planning is
+    # in the past...
+    return true if persisted?
     if course.is_training?
       if end_date and end_date < Date.today
         errors.add(:end_date, 'Le cours ne peut pas être dans le passé.')

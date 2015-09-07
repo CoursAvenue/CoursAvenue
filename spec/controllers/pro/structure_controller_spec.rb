@@ -10,17 +10,6 @@ describe Pro::StructuresController do
   end
 
   context 'member' do
-    describe "GET #update_widget_status" do
-      it "redirects" do
-        get :update_widget_status, id: admin.structure.slug
-        expect(response).to be_redirect
-      end
-      it "updates the widget status" do
-        get :update_widget_status, id: admin.structure.slug, status: Structure::WIDGET_STATUS.first
-        expect(assigns(:structure).widget_status).to eq Structure::WIDGET_STATUS.first
-      end
-    end
-
     describe "GET #signature" do
       it "redirects" do
         get :signature, id: admin.structure.slug
@@ -117,50 +106,9 @@ describe Pro::StructuresController do
         expect(response).to be_redirect
       end
     end
-
-    # describe 'PUT #return_to_sleeping_mode' do
-    #   let(:structure) { FactoryGirl.create(:structure) }
-    #   let(:admin)     { FactoryGirl.create(:admin, structure: structure) }
-    #
-    #   before do
-    #     request.env["HTTP_REFERER"] = pro_root_path
-    #     structure.reload
-    #
-    #     sign_in admin
-    #   end
-    #
-    #   it 'puts the structure to sleep' do
-    #     put :return_to_sleeping_mode, id: structure.slug
-    #     structure.reload
-    #
-    #     expect(structure.is_sleeping).to be_truthy
-    #   end
-    #
-    #   it 'redirects to the structure path' do
-    #     put :return_to_sleeping_mode, id: structure.slug
-    #
-    #     expect(response).to be_redirect
-    #   end
-    # end
-
   end
 
   context 'collection' do
-    describe "GET #best" do
-      it "'s a success" do
-        get :best, format: :json
-        expect(response).to be_success
-      end
-    end
-
-    # describe "GET #stars" do
-    #   it "'s a success" do
-    #     admin.super_admin = true
-    #     get :stars
-    #     expect(response).to be_success
-    #   end
-    # end
-
     describe "GET #index" do
       it "'s forbidden" do
         get :index

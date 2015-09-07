@@ -1,9 +1,0 @@
-= simple_form_for [:pro, @promotion_code] do |f|
-  = f.input :name, label_html: { class: 'label--large' }, input_html: { class: 'input--large'}
-  = f.input :code_id, label_html: { class: 'label--large' }, input_html: { class: 'input--large'}
-  = f.input :promo_amount, label_html: { class: 'label--large' }, input_html: { class: 'input--large'}
-  = f.input :plan_type, as: :select, collection: SubscriptionPlan::PLAN_TYPE.map{|plan_type| [SubscriptionPlan::PLAN_TYPE_DESCRIPTION[plan_type], plan_type]}, label_html: { class: 'label--large' }, input_html: { class: 'input--large'}
-  = f.input :expires_at, label_html: { class: 'label--large' }, input_html: { class: 'input--large'}
-  = f.input :apply_until, label_html: { class: 'label--large' }, input_html: { class: 'input--large'}
-  = f.input :max_usage_nb, label_html: { class: 'label--large' }, input_html: { class: 'input--large'}
-  = f.submit 'Enregistrer', class: 'btn btn--full btn--green', data: { disable_with: 'Enregistrement en cours' }

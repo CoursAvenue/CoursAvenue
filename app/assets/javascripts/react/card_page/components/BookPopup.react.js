@@ -90,10 +90,10 @@ var BookPopup = React.createClass({
     submitRequest: function submitRequest (event) {
         var user_params;
         if (event) { $(event.currentTarget).prop('disabled', true); }
-        if (this.props.dont_register || CoursAvenue.currentUser().isLogged()) {
+        if (this.props.dont_register_user || CoursAvenue.currentUser().isLogged()) {
             $dom_node = $(this.getDOMNode());
             user_params = { phone_number: $dom_node.find('[name="user[phone_number]"]').val() }
-            if (this.props.dont_register) {
+            if (this.props.dont_register_user) {
                 user_params.validate_full = true;
                 user_params.first_name    = $dom_node.find('[name="user[first_name]"]').val();
                 user_params.last_name     = $dom_node.find('[name="user[last_name]"]').val();
@@ -111,7 +111,8 @@ var BookPopup = React.createClass({
                 user                   : user_params,
                 course_type            : this.props.course.get('type'),
                 participants_attributes: [ {
-                    number: $dom_node.find('[name="participation_request[participants_attributes][0][number]"]').val()
+                    number  : $dom_node.find('[name="participation_request[participants_attributes][0][number]"]').val(),
+                    price_id: (this.refs.price_select ? this.refs.price_select.getDOMNode().selectedOptions[0].value : null)
                 } ]
             });
         } else {
@@ -148,7 +149,7 @@ var BookPopup = React.createClass({
      * User do not have to register to CoursAvenue if he is on /reservation page
      */
     userInfo: function userInfo () {
-        if (this.props.dont_register) {
+        if (this.props.dont_register_user) {
             return (<div className="bordered--bottom soft-half--bottom">
                       <div className="soft-half--ends">
                           <label className="f-weight-600 v-middle line-height-2">
@@ -231,13 +232,44 @@ var BookPopup = React.createClass({
         }
     },
 
+    updateSelectedPriceState: function updateSelectedPriceState () {
+        this.setState({ selected_price_amount: this.refs.price_select.getDOMNode().selectedOptions[0].text });
+    },
+
+    selectPricesIfTraining: function selectPricesIfTraining () {
+        if (this.props.course.get('db_type') == 'Course::Training' && this.props.course.get('price_group_prices').length > 1) {
+            return (<div className="soft-half--ends bordered--bottom">
+                        <div className="grid--full">
+                            <label className="grid__item f-weight-600 v-middle one-half line-height-2 palm-one-whole">
+                                Quel tarif voulez-vous ?
+                            </label>
+                            <div className="grid__item v-middle one-half palm-one-whole">
+                                <select ref="price_select"
+                                   onChange={this.updateSelectedPriceState} className="one-whole">
+                                    {_.map(this.props.course.get('price_group_prices'), function(price) {
+                                        if (price.promo_amount) {
+                                            var price_amount = COURSAVENUE.helperMethods.readableAmount(price.promo_amount, '€') + ' au lieu de ' + COURSAVENUE.helperMethods.readableAmount(price.amount, '€');
+                                        } else {
+                                            var price_amount = COURSAVENUE.helperMethods.readableAmount(price.amount, '€');
+                                        }
+                                        return (<option value={price.id}>
+                                                  {price_amount + (_.isEmpty(price.info) ? '' : ' (' + price.info + ')')}
+                                                </option>);
+                                    })}
+                                </select>
+                            </div>
+                        </div>
+                    </div>);
+        }
+    },
+
     render: function render () {
         var price_libelle, datepicker = '', place_select, date_label, planning_details, time_select;
         if (this.props.course.get('db_type') == 'Course::Training') {
-            price_libelle = 'Prix du stage : ' + COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price_amount'));
+            price_libelle = 'Prix du stage : ' + (this.state.selected_price_amount || COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price_amount')));
         } else {
             if (!this.props.course.get('no_trial')) {
-                if (this.props.course.get('min_price_amount') == 0) {
+                if (!this.props.course.get('min_price_amount') || this.props.course.get('min_price_amount') == 0) {
                     price_libelle = 'Essai gratuit';
                 } else {
                     price_libelle = 'Essai à ' + COURSAVENUE.helperMethods.readableAmount(this.props.course.get('min_price_amount'));
@@ -313,6 +345,7 @@ var BookPopup = React.createClass({
                                 </select>
                             </div>
                         </div>
+                        {this.selectPricesIfTraining()}
                         { this.userInfo() }
                         <div className="input flush--top push-half--bottom soft-half--top">
                             <div style={{ display: 'none' }}

@@ -2,24 +2,12 @@
 
 %h1 Disciplines
 
-- @paris = City.find('paris')
-%input#zip_code.one-whole.push--bottom{placeholder: 'Zip code'}
-%btn.btn.btn--full.btn--green.push--bottom#load Load !
 %table.table--data.table--striped.white-box#dataTable
   %thead
     %tr
       %th Discipline 1
       %th Discipline 2
       %th Discipline 3
-      %th.nowrap
-        C0
-        %i.fa-info-circle.cursor-pointer{ data: { toggle: 'popover', content: 'Pas de logo / Profil incomplet / (il est possible que ces profils aient des recos) / Pas de reco', placement: 'top', trigger: 'hover' } }
-      %th.nowrap
-        C1
-        %i.fa-info-circle.cursor-pointer{ data: { toggle: 'popover', content: 'Moins de 5 recos', placement: 'top', trigger: 'hover' } }
-      %th.nowrap
-        C2
-        %i.fa-info-circle.cursor-pointer{ data: { toggle: 'popover', content: 'Plus de 5 recos', placement: 'top', trigger: 'hover' } }
       %th
   %tbody
     - @subjects.each do |subject|
@@ -34,51 +22,8 @@
           %td
             - if subject.depth == 2
               = subject.name
-          %td.complet-0
-          %td.complet-1
-          %td.complet-2
-
           %td.nowrap
             = link_to 'Editer', edit_name_pro_subject_path(subject), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'
             - if subject.depth == 1
               \/
               = link_to 'Ajouter un enfant', new_pro_subject_path(parent_id: subject.id), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#load').click(function() {
-            var zip_code = $('#zip_code').val();
-            $('[data-subject-id]').each(function(index, element) {
-                  var $this = $(element);
-                  $.ajax({
-                      type: 'GET',
-                      url: Routes.completion_pro_subject_path($(this).data('subject-id'), {format: 'json'}),
-                      data: {
-                        zip_code: zip_code
-                      },
-                      success: function(response, status, xhr) {
-                          $this.find('.complet-0').text(response[0]);
-                          $this.find('.complet-1').text(response[1]);
-                          $this.find('.complet-2').text(response[2]);
-                      }
-                  });
-            });
-        });
-        $('[data-subject-id]').click(function() {
-              var zip_code = $('#zip_code').val();
-              var $this = $(this);
-              $.ajax({
-                  type: 'GET',
-                  url: Routes.completion_pro_subject_path($(this).data('subject-id'), {format: 'json'}),
-                  data: {
-                    zip_code: zip_code
-                  },
-                  success: function(response, status, xhr) {
-                      $this.find('.complet-0').text(response[0]);
-                      $this.find('.complet-1').text(response[1]);
-                      $this.find('.complet-2').text(response[2]);
-                  }
-              });
-        });
-    });

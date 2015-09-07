@@ -1,5 +1,4 @@
-class Admin::ImagesController < ApplicationController
-  before_action :authenticate_pro_super_admin!
+class Admin::ImagesController < Admin::AdminController
 
   def index
     images = Admin::Image.all.map do |image|

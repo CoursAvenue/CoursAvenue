@@ -1,8 +1,6 @@
 # encoding: utf-8
-class Admin::Blog::Articles::MediasController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
+class Admin::Blog::Articles::MediasController < Admin::AdminController
   before_action :retrieve_article
-  layout 'admin'
 
   def index
     @media  = @article.medias.build

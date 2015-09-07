@@ -1,5 +1,5 @@
 - return if participation_request.course.nil?
-- calendar                        = true if calendar.nil?
+- show_calendar                   = false if show_calendar.nil?
 - participation_request_decorator = participation_request.decorate
 - course                          = participation_request.course
 - course_decorator                = course.decorate
@@ -50,6 +50,6 @@
           - if structure.website.present?
             = "#{structure_decorator.website_link}, ".html_safe
           = link_to 'Message', user_conversation_path(participation_request.user, participation_request.conversation)
-  - if calendar
+  - if show_calendar
     %td.v-middle.nowrap.text--center
       = add_to_calendar_small(participation_request)

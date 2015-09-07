@@ -1,0 +1,11 @@
+%tr
+  %td{ data: { th: 'Image' } }
+    %div
+      = link_to flyer.image.url, data: { behavior: 'fancy', width: '800', height: '600', padding: 0 } do
+        = image_tag flyer.image.url, height: 50
+  %td{ data: { th: 'Date' } }
+    %div= l(flyer.created_at.to_date)
+  %td.nowrap.text--center{ data: { th: 'Traité' } }
+    %div
+      = simple_form_for [:admin, flyer], remote: true do |f|
+        = f.input :treated, label: false, input_html: { data: { behavior: 'update' } }

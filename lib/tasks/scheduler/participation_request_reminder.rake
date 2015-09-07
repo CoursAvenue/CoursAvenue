@@ -164,12 +164,14 @@ namespace :scheduler do
     # $ rake scheduler:participation_requests:alert_intercom_for_non_answered_requests
     desc 'Send email to admins who have user requests not answered'
     task :alert_intercom_for_non_answered_requests => :environment do |t, args|
-      participation_requests = ParticipationRequest.upcoming
+      participation_requests = ParticipationRequest.from_personal_ca
+                                                   .upcoming
                                                    .pending
                                                    .where( ParticipationRequest.arel_table[:created_at].gteq(Date.yesterday.beginning_of_day).and(
                                                            ParticipationRequest.arel_table[:created_at].lt(Date.yesterday.end_of_day).and(
                                                            ParticipationRequest.arel_table[:date].lteq(2.days.from_now.end_of_day))) ).to_a
-      participation_requests += ParticipationRequest.upcoming
+      participation_requests += ParticipationRequest.from_personal_ca
+                                                   .upcoming
                                                    .pending
                                                    .where( ParticipationRequest.arel_table[:created_at].gteq(3.days.ago.beginning_of_day).and(
                                                            ParticipationRequest.arel_table[:created_at].lt(3.days.ago.end_of_day).and(

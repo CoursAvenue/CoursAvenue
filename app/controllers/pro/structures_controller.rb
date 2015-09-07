@@ -3,15 +3,12 @@ class Pro::StructuresController < Pro::ProController
   before_action :authenticate_pro_super_admin!, only: [:new_sleeping]
 
   before_action :authenticate_pro_admin!, except: [:new, :create, :widget_ext, :best,
-                                                   :payment_confirmation_be2_bill,
-                                                   :dont_want_to_take_control_of_my_sleeping_account,
                                                    :someone_already_took_control]
 
   before_action :load_structure
 
   authorize_resource :structure, except: [:new, :new_sleeping, :create,
-                                          :widget_ext, :best, :payment_confirmation_be2_bill,
-                                          :dont_want_to_take_control_of_my_sleeping_account,
+                                          :widget_ext, :best,
                                           :someone_already_took_control]
 
   # We add update in case the update fails and we need the variable in the view
@@ -51,60 +48,11 @@ class Pro::StructuresController < Pro::ProController
   def someone_already_took_control
   end
 
-  # GET etablissements/:id/dont_want_to_take_control_of_my_sleeping_account
-  # No login required
-  def dont_want_to_take_control_of_my_sleeping_account
-    @structure.sleeping_email_opt_in = false
-    @structure.sleeping_email_opt_out_reason = params[:reason]
-    @structure.save
-    @structure.index
-    redirect_to root_path, notice: 'Vous avez bien été désabonné'
-  end
-
-  # GET collection
-  def sleepings
-    params[:opt_in] ||= 'true'
-    if params[:opt_in] == 'true'
-      @structures = StructureSearch.search({ is_sleeping: true, has_admin: true, page: params[:page], radius: 10000, active: false }).results
-    else
-      @structures = StructureSearch.search({ is_sleeping: true, sleeping_email_opt_in: false, page: params[:page], radius: 10000 }).results
-    end
-  end
-
   # PUT etablissements/:id/wake_up
   # Changed is_sleeping from true to false
   def wake_up
     @structure.wake_up!
     redirect_to request.referrer, notice: 'Le profil est réveillé !'
-  end
-
-  # PUT etablissements/:id/return_to_sleeping_mode
-  # Rollback to sleeping attributes
-  def return_to_sleeping_mode
-    @structure.return_to_sleeping_mode!
-    redirect_to pro_structure_path(@structure), notice: 'Rollback du profil effectué !'
-  end
-
-  # GET member
-  # Set the widget status
-  # params
-  #   :status
-  def update_widget_status
-    if params[:status] and Structure::WIDGET_STATUS.include? params[:status]
-      @structure.update_column :widget_status, params[:status]
-    end
-    if params[:status] == 'need_help'
-      notice = 'Merci pour votre réponse, notre équipe vous contactera au plus vite pour vous aider'
-    else
-      notice = 'Merci pour votre réponse.'
-    end
-    respond_to do |format|
-      if @structure.has_installed_widget?
-        format.html { redirect_to(dashboard_pro_structure_path(@structure), notice: notice) }
-      else
-        format.html { redirect_to(widget_pro_structure_path(@structure), notice: notice) }
-      end
-    end
   end
 
   # GET member
@@ -137,28 +85,6 @@ class Pro::StructuresController < Pro::ProController
       else
         format.json { render json: { done: true }  }
       end
-    end
-  end
-
-  # GET collection
-  #   format :json
-  # Returns the best structures located near Paris
-  # Used on Pro::HomeController#index
-  def best
-    @admin      = ::Admin.new
-    latitude, longitude, radius = 48.8540, 2.3417, 5
-    @structures = StructureSearch.search({ lat: latitude,
-                                           lng: longitude,
-                                           radius: radius,
-                                           sort: 'rating_desc',
-                                           has_logo: true,
-                                           per_page: 30,
-                                           bbox: true }).results
-
-    @latlng = StructureSearch.retrieve_location(params)
-
-    respond_to do |format|
-      format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: 50, location: @latlng } }
     end
   end
 
@@ -347,22 +273,6 @@ France
 
   # GET member
   def ask_for_pro_deletion
-    if request.xhr?
-      render layout: false
-    end
-  end
-
-  # GET member
-  def choose_premium
-  end
-
-  # Get etablissements/:id/premium
-  def premium
-    redirect_to pro_structure_subscription_plans_path(@structure), status: 301
-  end
-
-  # GET member
-  def premium_modal
     if request.xhr?
       render layout: false
     end

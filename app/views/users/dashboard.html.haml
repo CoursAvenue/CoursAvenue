@@ -24,7 +24,7 @@
       Inviter mes amis
     .bg-cover{ style: "background-image: url(#{asset_path('users/passions_bg--small.jpg')}); height: 300px;" }
       .relative.one-whole.height-whole
-        %a.soft.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: user_passions_path(@user) }>
+        %a.soft.block.show-on-hover__wrapper.show-on-hover__wrapper--black-curtain{ href: passions_user_path(@user) }>
           .text--center.lbl.lbl--yellow.one-whole
             Cours d'essai gratuits
             %br
@@ -64,7 +64,7 @@
                 %i.fa.fa-check-square-o
                 %span.line-through--gray Mettre à jour mes passions
               - else
-                = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do
+                = link_to passions_user_path(@user), class: 'profile-task-uncomplete' do
                   %i.fa.fa-square-o
                   Mettre à jour mes passions
             %li
@@ -72,7 +72,7 @@
                 %i.fa.fa-check-square-o
                 %span.line-through--gray Ajouter mes favoris
               - else
-                = link_to user_passions_path(@user), class: 'profile-task-uncomplete' do
+                = link_to user_followings_path(@user), class: 'profile-task-uncomplete' do
                   %i.fa.fa-square-o
                   Ajouter mes favoris
 

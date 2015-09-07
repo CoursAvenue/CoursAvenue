@@ -1,0 +1,31 @@
+= side_menu_currently_at 'pro_dashboard'
+
+= render partial: 'pro/shared/dashboard_tabs', locals: { current: 'flyers' }
+%h1 Flyers À traiter
+%table.table--data.table--striped.table-responsive
+  %thead
+    %tr
+      %th.one-half Image
+      %th Date
+      %th.text--center Traité
+  %tbody
+  - @flyers.not_treated.each do |flyer|
+    = render partial: 'admin/flyers/flyer', locals: { flyer: flyer }
+
+%hr.push--ends
+%h3.soft.flush Traité
+%table.table--data.table--striped
+  %thead
+    %tr
+      %th.one-half Image
+      %th Date
+      %th.text--center Traité
+  %tbody
+  - @flyers.treated.each do |flyer|
+    = render partial: 'admin/flyers/flyer', locals: { flyer: flyer }
+
+- content_for :scripts do
+  :javascript
+    $('[data-behavior=update]').change(function() {
+        $(this).closest('form').submit();
+    });

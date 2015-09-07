@@ -1,6 +1,5 @@
 # encoding: utf-8
-class Admin::Blog::ArticlesController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
+class Admin::Blog::ArticlesController < Admin::AdminController
 
   def index
     get_categories

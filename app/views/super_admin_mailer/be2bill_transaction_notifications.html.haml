@@ -1,7 +1,0 @@
-%h1 Be2bill transaction notification
-- if @params[:AMOUNT] and @params[:AMOUNT].respond_to?(:to_i) and @params[:AMOUNT].to_i > 0
-  %h3= @params[:AMOUNT].to_i / 100
-- if @structure
-  %p= link_to @structure.name, pro_structure_url(@structure, subdomain: 'pro')
-
-= debug @params

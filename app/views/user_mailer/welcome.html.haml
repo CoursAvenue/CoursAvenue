@@ -6,6 +6,6 @@
   dans votre profil pour que nous vous proposions des cours adaptés à vos besoins.
 
 .p.action
-  = link_to "Renseigner mes passions", user_passions_url(@user, utm_source: 'email', utm_campaign: 'passions', utm_medium: 'welcome_email'), class: 'btn btn--green'
+  = link_to "Renseigner mes passions", passions_user_url(@user, utm_source: 'email', utm_campaign: 'passions', utm_medium: 'welcome_email'), class: 'btn btn--green'
 
 = render 'shared/mailers/footer'

@@ -1,6 +1,5 @@
 # encoding: utf-8
-class Admin::Blog::AuthorsController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
+class Admin::Blog::AuthorsController < Admin::AdminController
 
   def new
     @author = ::Blog::Author.new

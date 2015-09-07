@@ -1,7 +1,3 @@
-.premium-box.soft.rounded.push--bottom.relative.text--center
-  = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/icons/premium-ribbon.png', class: 'north west absolute on-top', height: 70, width: 70, style: 'width: 70px; height: 70px;'
-  = render partial: 'pro/structures/premium_select', locals: { title: "envoyer des messages groupés à plusieurs élèves ? ", subtitle: "Souscrivez au profil Premium et créez des groupes de discussion avec vos élèves.", label_text: "Envoyer des messages groupés à plusieurs élèves : ", select_collection: ['Actif', 'Non actif'] }
-
 = simple_form_for [:pro, @structure, @message], url: pro_structure_messages_path(@structure, @message), as: :message, remote: request.xhr? do |f|
   - if params[:return_to].present?
     %input{ type: 'hidden', value: params[:return_to], name: 'return_to' }

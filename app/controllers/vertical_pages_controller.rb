@@ -5,7 +5,7 @@ class VerticalPagesController < ApplicationController
   before_action :load_cities
 
   before_action :load_root_vertical_page, only: [:show_root]
-  before_action :load_vertical_page, only: [:show, :show_with_city, :show_with_neighborhood]
+  before_action :load_vertical_page, only: [:show, :show_with_neighborhood]
 
   def redirect_to_show
     @vertical_page = VerticalPage.friendly.find(params[:id])
@@ -26,13 +26,6 @@ class VerticalPagesController < ApplicationController
       redirect_to root_vertical_page_path(@vertical_page), status: 301
     end
     @ancestors               = @subject.ancestors
-  end
-
-  def show_with_city
-    @vertical_page_decorator = @vertical_page.decorate
-    @subject                 = @vertical_page.subject
-    @ancestors               = @subject.ancestors
-    render action: :show
   end
 
   def show_with_neighborhood

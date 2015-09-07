@@ -20,9 +20,6 @@
       .p
         = link_to 'Consultez votre avis ou déposez-en un nouveau', structure_url(@structure)
 
-- content_for :under_content do
-  = render partial: 'user_mailer/develop_passions', locals: { user: @user }
-
 - content_for :under_content_2 do
   = render 'user_mailer/footer_info'
 

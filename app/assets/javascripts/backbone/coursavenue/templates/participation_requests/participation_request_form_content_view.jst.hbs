@@ -1,7 +1,7 @@
 <div class="bordered--bottom f-weight-500">
     <div class="soft--sides soft-half--ends{{#if hide_classes }} visuallyhidden{{/if}}">
         <select name="participation_request[course_id]" class="one-whole  input--large" id="participation_request_courses_select">
-            <option value="">Quel cours vous intéresse ?</option>
+            <option value="">Choisissez un cours</option>
             {{#if trainings_without_open_for_trials}}
                 <optgroup label="Stages & Ateliers">
                   {{#each trainings_without_open_for_trials}}
@@ -9,20 +9,11 @@
                   {{/each}}
                 </optgroup>
             {{/if}}
-            {{#if courses_open_for_trial}}
-                <optgroup label="Cours réguliers avec {{trial_courses_policy}}">
-                    {{#each courses_open_for_trial}}
-                        <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
-                    {{/each}}
-                </optgroup>
-            {{/if}}
-            {{#if courses_without_open_for_trials}}
-                <optgroup label="Cours réguliers sans essai gratuit">
-                    {{#each courses_without_open_for_trials}}
-                        <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
-                    {{/each}}
-                </optgroup>
-            {{/if}}
+            <optgroup label="Cours réguliers">
+                {{#each regular_courses}}
+                    <option data-collection-type="courses" value="{{this.id}}" {{#ifIncludeString ../course_ids this.id}}selected{{/ifIncludeString}}>{{this.name}}</option>
+                {{/each}}
+            </optgroup>
         </select>
         <div data-error="course_id" class="{{#unless errors.course_id}}hidden{{/unless}} input_field_error red f-weight-bold text--right">{{errors.course_id}}</div>
     </div>

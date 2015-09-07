@@ -63,7 +63,7 @@
     = link_to "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'facebook', utm_campaign: 'recommandation')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From recommendation page')" do
       %span.break-all Demander des recommandations
   %p.gray-box.soft.push-half--top.flush--left#facebook-text>
-    Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant :
+    Vous aimez #{@structure.structure_type == 'structures.independant' ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant :
     = link_to new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'facebook', utm_campaign: 'recommandation'), new_structure_comment_url(@structure, subdomain: 'www', utm_source: 'facebook', utm_campaign: 'recommandation'), target: '_blank', class: 'break-all'
     Merci !
 

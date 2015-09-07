@@ -318,36 +318,10 @@ describe Structure do
     end
   end
 
-  describe '#has_admin?' do
-    context "when there's an admin" do
-      subject { FactoryGirl.create(:structure_with_admin) }
-
-      it 'returns true' do
-        expect(subject.has_admin?).to be_truthy
-      end
-    end
-
-    context "when there is no admin" do
-      subject { FactoryGirl.create(:structure) }
-
-      it 'returns true' do
-        expect(subject.has_admin?).to be_falsy
-      end
-    end
-  end
-
   describe '#parent_subjects' do
     let(:parent_subjects) { subject.subjects.uniq.map(&:parent).uniq }
 
     it { expect(subject.parent_subjects).to match_array(parent_subjects) }
-  end
-
-  describe '#independant?' do
-    subject { FactoryGirl.create(:independant_structure) }
-
-    it 'returns true' do
-      expect(subject.independant?).to be_truthy
-    end
   end
 
   context 'Stripe', with_stripe: true do
