@@ -1,6 +1,6 @@
 - profile = 'emilie' if profile.nil?
-- profiles = [{ name: "Emilie, Professeur de yoga chez Yoga Sattva Paris", slug: 'yoga-sattva-paris', bg: asset_path('pro/home_background.jpg'), image_name: 'emilie', quote: "Communiquer sur Internet me prenait trop de temps, <br> je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.", image_width: 350, profile_style: '58', medium: true }]
-- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: asset_path('pro/home_background_alain.jpg'), image_name: 'alain', quote: "Gérer ma présence sur Internet relève du quotidien. Grâce à CoursAvenue, c'est devenu simple et je peux enfin me consacrer à la qualité de mes cours.", image_width: 450, profile_style: '62' }
+- profiles = [{ name: "Emilie, Professeur de yoga chez Yoga Sattva Paris", slug: 'yoga-sattva-paris', bg: asset_path('pro/home_background.jpg'), image_name: 'emilie', quote: "Communiquer sur Internet me prenait trop de temps, <br> je m'éparpillais sans résultat. Avec CoursAvenue, c'est intuitif et efficace, en accord avec mes valeurs.", image_width: 350, medium: true }]
+- profiles << { name: "Alain Pons, formateur en photographie à Clermont-Ferrand", slug: 'alain-pons-photographe', bg: asset_path('pro/home_background_alain.jpg'), image_name: 'alain', quote: "Gérer ma présence sur Internet relève du quotidien. Grâce à CoursAvenue, c'est devenu simple et je peux enfin me consacrer à la qualité de mes cours.", image_width: 450 }
 
 - if profile == 'emilie'
   - selected_profile = profiles.first
@@ -12,8 +12,6 @@
     .main-container{ class: ( selected_profile[:medium] ? 'main-container--medium' : '')}
       %header.grid--full
         .grid__item.soft--top.v-middle.relative.visuallyhidden--palm{ class: ( selected_profile[:medium] ? 'three-tenths' : 'five-twelfths')}>
-          = link_to structure_url(selected_profile[:slug], subdomain: 'www'), class: 'absolute', target: :_blank, id: 'emilie-profile', style: "bottom: -155px; left: #{selected_profile[:profile_style]}%; margin-left: -137px;" do
-            = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/testimonies/#{selected_profile[:image_name]}-profile-small.jpg", class: 'block', width: 275
           = image_tag "https://coursavenue-public.s3.amazonaws.com/public_assets/pro/testimonies/#{selected_profile[:image_name]}-detour.png", class: 'block', width: selected_profile[:image_width], style: 'margin-left: auto'
         .grid__item.v-middle.soft--top.soft--left.palm-one-whole.relative{ class: ( selected_profile[:medium] ? 'seven-tenths' : 'seven-twelfths')}>
           .center-block
@@ -23,14 +21,4 @@
                   = selected_profile[:quote].html_safe
               %p.f-style-italic.f-weight-600
                 = selected_profile[:name]
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#emilie-profile').hover(function() {
-            $(this).stop(true, false).animate({ bottom:  '0' }, 600, 'easeOutExpo');
-        }, function() {
-            $(this).stop(true, false).animate({ bottom: '-155px' }, 600, 'easeOutExpo');
-        });
-    });
 
