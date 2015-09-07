@@ -53,7 +53,8 @@ class ParticipationRequest < ActiveRecord::Base
   before_validation :set_date_if_empty
   before_create     :set_default_attributes
   after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher,
-    :send_sms_to_user, :touch_user, :set_check_for_disable_later
+    :send_sms_to_user, :touch_user, :set_check_for_disable_later,
+    :notify_super_admin_of_more_than_five_requests
 
   before_save       :update_times
   after_save        :update_structure_response_rate
@@ -408,6 +409,13 @@ class ParticipationRequest < ActiveRecord::Base
     end
 
     participation_request
+  end
+
+  def notify_super_admin_of_more_than_five_requests
+    request_count = user.participation_requests.select { |pr| pr.created_at > 1.week.ago }.count
+    if request_count > 5
+      SuperAdminMailer.delay.alert_for_user_with_more_than_five_requests(user)
+    end
   end
 
   private
