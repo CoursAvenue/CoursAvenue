@@ -2,7 +2,7 @@ class IndexableCardSerializer < ActiveModel::Serializer
 
   cached
   def cache_key
-    'IndexableCardSerializer/' + object.cache_key + '/v3' + price_group_prices.maximum(:updated_at).to_i.to_s
+    'IndexableCardSerializer/' + object.cache_key + '/v4' + price_group_prices.maximum(:updated_at).to_i.to_s
   end
 
   attributes :id, :structure_is_active, :db_type, :teaches_at_home,
