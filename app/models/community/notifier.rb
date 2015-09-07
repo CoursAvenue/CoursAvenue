@@ -3,6 +3,9 @@ class Community::Notifier
   # The number of people to notify in one go.
   NOTIFICATION_GROUP_COUNT = 10
 
+  # How long after the initial message we send a notification to intercom.
+  INTERCOM_NOTIFCATION_DELAY = 5.hours
+
   # @param thread     - the thread containing the message.
   # @param message    - the raw message.
   # @param membership - the sender of the message.
@@ -34,7 +37,7 @@ class Community::Notifier
     end
 
     CommunityMailer.delay.notify_admin_of_question(admin, @message, @thread)
-    self.delay(run_at: 2.hours.from_now).notify_intercom(@thread)
+    self.delay(run_at: INTERCOM_NOTIFCATION_DELAY.from_now).notify_intercom(@thread)
   end
 
   # Notify the every participants of an answer by the teacher.
