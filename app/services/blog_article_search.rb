@@ -4,7 +4,7 @@ class BlogArticleSearch
   #
   # <http://stackoverflow.com/questions/6084743/rails-activerecord-building-queries-dynamically>
   def self.search(params)
-    article_cache_key = Blog::Article.with_deleted.maximum(:update_at).to_i
+    article_cache_key = Blog::Article.with_deleted.maximum(:updated_at).to_i
     Rails.cache.fetch("BlogArticleSearch/#{ BlogArticleSearch.params_to_cache_key(params) }/#{ article_cache_key }") do
       page     = params[:page] || 1
       per_page = params[:per_page] || 15
