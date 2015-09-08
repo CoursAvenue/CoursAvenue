@@ -43,7 +43,7 @@ class CommentSearch
 
     # Default query, the one that is always the same.
     comments = Comment::Review.where(status: 'accepted').
-      order(certified: :asc, has_avatar: :desc, created_at: :desc)
+      order(certified: :asc, created_at: :desc)
 
     # Now we actually build the query with the params we have.
     if params[:text].present?
@@ -53,7 +53,7 @@ class CommentSearch
     if params[:lat].present? and params[:lng].present?
       # For some reason, `Place.select(:id, :latitude, :longitude)` and `Place.[...].select(:id)`
       # don't work here, so we have to get the full Place object.
-      place_ids = Place.near([params[:lat], params[:lng]], params[:radius], units: :km).map(&:id)
+      place_ids = Place.near([params[:lat], params[:lng]], radius, units: :km).map(&:id)
       # We start by getting all of the structures associated with comments.
       # We then get all of the places of the structure and finally check if the place is in the
       # right location.
@@ -82,7 +82,7 @@ class CommentSearch
         where('comments_subjects_.subject_id = subjects.id AND subjects.slug = ?', params[:subject_slug])
     end
     # Finally, we paginate the results.
-    articles.page(page).per(per_page)
+    comments.page(page).per(per_page)
   end
 
   def self.retrieve_location params
