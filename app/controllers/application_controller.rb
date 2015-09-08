@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
     rescue_from ActionController::RoutingError,       with: :render_not_found
     rescue_from ActionController::UnknownController,  with: :render_not_found
     rescue_from AbstractController::ActionNotFound,   with: :render_not_found
+    rescue_from ActionView::MissingTemplate,          with: :render_not_found
   end
 
   def authenticate_user!(opts={})
@@ -68,10 +69,7 @@ class ApplicationController < ActionController::Base
         (s = Structure.only_deleted.where(slug: params[:id])).first)
       redirect_to structures_path_for_city_and_subject(s.city, s.dominant_root_subject), status: 301, notice: "Cette page n'existe plus."
     else
-      # Only notify Bugsnag if the request is from a user or from Googlebot.
-      unless (VoightKampff.bot?(request.user_agent) and !request.user_agent.downcase.include?("googlebot"))
-        Bugsnag.notify(exception)
-      end
+      Bugsnag.notify(exception)
       redirect_to root_path, status: 301, notice: "Cette page n'existe plus."
     end
   end
