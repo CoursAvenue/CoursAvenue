@@ -4,7 +4,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   before_action :authenticate_pro_admin!, except: [:show, :edit, :cancel_form, :report_form, :accept,
                                                   :accept_form, :modify_date, :discuss, :cancel,
                                                   :report, :show_user_contacts]
-  authorize_resource :structure, except: [:show, :edit, :cancel_form, :report_form, :accept,
+  load_resource :structure, except: [:show, :edit, :cancel_form, :report_form, :accept,
                                                   :accept_form, :modify_date, :discuss, :cancel,
                                                   :report, :rebook, :show_user_contacts]
   before_action :load_structure
