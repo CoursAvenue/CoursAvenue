@@ -252,6 +252,14 @@ class IndexableCard < ActiveRecord::Base
   end
   # :nocov:
 
+  def self.place_for_card(course)
+    if course.teaches_at_home? and course.try(:home_place)
+      place = course.home_place
+    else
+      place = course.try(:place)
+    end
+  end
+
   # Create cards from a Course
   # TODO: Refactor this so we only create one card instead of several.
   #
@@ -266,13 +274,7 @@ class IndexableCard < ActiveRecord::Base
     course_subjects = course.subjects
 
     cards = course.plannings.group_by(&:place).map do |place, plannings|
-      if place.nil?
-        if course.teaches_at_home? and course.try(:home_place)
-          place = course.home_place
-        else
-          place = course.try(:place)
-        end
-      end
+      place = IndexableCard.place_for_card(course) if place.nil?
       next if place.nil?
       attributes = {
         structure: course.structure,
@@ -303,7 +305,8 @@ class IndexableCard < ActiveRecord::Base
 
     course_subjects = course.subjects
     cards = course.plannings.group_by(&:place).map do |place, plannings|
-      place = course.try(:place) if place.nil?
+      place = IndexableCard.place_for_card(course) if place.nil?
+      next if place.nil?
       attributes = {
         structure: course.structure,
         course:    course,
