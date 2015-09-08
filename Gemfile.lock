@@ -662,7 +662,6 @@ GEM
     react-source (0.13.3)
     redcarpet (3.2.3)
     ref (1.0.5)
-    replicate (1.5.1)
     request_store (1.1.0)
     require_all (1.3.2)
     responders (1.1.2)
@@ -788,6 +787,8 @@ GEM
     sunspot_solr (2.2.0)
     temple (0.6.10)
     terminal-table (1.4.5)
+    textacular (3.2.2)
+      activerecord (>= 3.0, < 5.0)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
@@ -932,7 +933,6 @@ DEPENDENCIES
   rails_12factor (~> 0.0.3)
   rails_best_practices
   react-rails (~> 1.0.0)
-  replicate (~> 1.5.1)
   rmagick (~> 2.13.4)
   roadie (~> 3.0.4)
   roadie-rails (~> 1.0.5)
@@ -956,6 +956,7 @@ DEPENDENCIES
   sunspot-rails-tester (~> 1.0.0)
   sunspot_rails (~> 2.2.0)
   sunspot_solr (~> 2.2.0)
+  textacular (~> 3.0)
   truncate_html (~> 0.9.3)
   uglifier (>= 2.7.1)
   virtus (~> 1.0.5)
