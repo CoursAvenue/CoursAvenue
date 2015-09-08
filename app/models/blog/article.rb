@@ -31,40 +31,6 @@ class Blog::Article < ActiveRecord::Base
   scope :ordered_by_views       , -> { order('page_views DESC') }
   scope :ordered_by_publish_date, -> { order('published_at DESC') }
 
-  ######################################################################
-  # Solr                                                               #
-  ######################################################################
-  # :nocov:
-  searchable do
-    text :title, boost: 5
-    text :description
-    text :content
-    text :category
-    text :subjects do
-      subjects.map(&:name).join(' ')
-    end
-
-    boolean :published
-
-    string :type do
-      (type == 'Blog::Article::UserArticle' ? 'user' : 'pro')
-    end
-    integer :page_views
-    integer :created_at do
-      created_at.to_i
-    end
-    integer :subject_slugs, multiple: true do
-      subject_slugs = []
-      self.subjects.uniq.each do |subject|
-        subject_slugs << subject.slug
-        subject_slugs << subject.parent.slug if subject.parent
-        subject_slugs << subject.root.slug if subject.root
-      end
-      subject_slugs.compact.uniq
-    end
-  end
-  #:nocov:
-
   def self.searchable_language
     'french'
   end
