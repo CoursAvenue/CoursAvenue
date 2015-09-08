@@ -4,7 +4,7 @@ class Community::Notifier
   NOTIFICATION_GROUP_COUNT = 10
 
   # How long after the initial message we send a notification to intercom.
-  INTERCOM_NOTIFCATION_DELAY = 12.hours
+  INTERCOM_NOTIFCATION_DELAY = 5.hours
 
   # @param thread     - the thread containing the message.
   # @param message    - the raw message.
