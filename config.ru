@@ -9,7 +9,7 @@ use Rack::Timeout
 use Rack::Deflater
 use Rack::Attack
 
-Rack::Timeout.timeout = 30
+Rack::Timeout.timeout = 60
 
 use Rack::Cors do
   allow do

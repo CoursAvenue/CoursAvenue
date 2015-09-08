@@ -19,7 +19,7 @@ var LessonPlanning = React.createClass({
     bookPlanning: function bookPlanning () {
         // We generate a random key to make sure a new is created every time.
         var popup = (<BookPopup planning={this.props.planning}
-                           dont_register={this.props.dont_register}
+                      dont_register_user={this.props.dont_register_user}
                                   course={this.props.course}
                                      key={Math.random()}/>);
         if ($('#mfp-hide').length == 0) { $('body').append('<div id="mfp-hide" class="center-block relative" style="max-width: 530px;">'); }

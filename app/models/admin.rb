@@ -56,7 +56,7 @@ class ::Admin < ActiveRecord::Base
   handle_asynchronously :send_confirmation_instructions
 
   before_save    :downcase_email
-  before_destroy :delete_from_intercom if Rails.env.production?
+  before_destroy :delete_from_intercom
 
   ######################################################################
   # Scopes                                                             #
@@ -182,8 +182,10 @@ class ::Admin < ActiveRecord::Base
   def delete_from_intercom
     begin
       intercom_client = IntercomClientFactory.client
-      intercom_client.users.find(user_id: "Admin_#{self.id}").delete
-    rescue
+      intercom_user = intercom_client.users.find(user_id: "Admin_#{self.id}")
+      intercom_client.users.delete(intercom_user)
+    rescue Exception => exception
+      Bugsnag.notify(exception, { admin_id: self.id })
     end
   end
 
