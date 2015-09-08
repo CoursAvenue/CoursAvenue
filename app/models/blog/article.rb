@@ -65,6 +65,10 @@ class Blog::Article < ActiveRecord::Base
   end
   #:nocov:
 
+  def self.searchable_language
+    'french'
+  end
+
   def published_at
     if read_attribute(:published_at).nil?
       self.created_at
