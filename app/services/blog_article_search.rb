@@ -28,7 +28,7 @@ class BlogArticleSearch
           where('blog_articles_subjects.subject_id = subjects.id AND subjects.slug in ?', params[:subject_slugs])
       end
 
-      # Finally, we add the pagination
+      # Finally, we paginate the results.
       articles.page(page).per(per_page)
     end
   end
