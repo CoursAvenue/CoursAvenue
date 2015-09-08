@@ -47,6 +47,9 @@ class ApplicationController < ActionController::Base
   # Redirect user to sign_in path if there is a CanCan AccessDenied exception
   # @param  exception
   def not_allowed(exception)
+    Bugsnag.notify(exception, {
+      custom: { location: 'ApplicationController#now_allowed' }
+    })
     if request.subdomain == 'pro'
       redirect_to new_pro_admin_session_url(subdomain: 'pro'), alert: I18n.t('devise.failure.unauthenticated')
     else
