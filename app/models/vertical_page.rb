@@ -49,7 +49,7 @@ class VerticalPage < ActiveRecord::Base
   end
 
   def blog_articles
-    BlogArticleSearch.search(name: subject_name, per_page: 3, type: 'user').results
+    BlogArticleSearch.search(name: subject_name, per_page: 3, type: 'user')
   end
 
   private
