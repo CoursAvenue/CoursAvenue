@@ -1,40 +1,5 @@
 class CommentSearch
-
-  # params: params
-  #     text:          fulltext
-  #     subject_id:    slug of a subject
-  #     audience_ids:  [1, 2, 3]
-  #     level_ids:     [1, 2, 3]
-  def self.search params
-    params[:sort] ||= 'rating_desc'
-    retrieve_location params
-
-    @search = Sunspot.search(Comment::Review) do
-      fulltext params[:text] if params[:text].present?
-
-      # --------------- Geolocation
-      if params[:lat].present? and params[:lng].present?
-        with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true))
-      end
-
-      with :has_title , params[:has_title]             if params[:has_title]
-      with :has_avatar, params[:has_avatar]            if params[:has_avatar]
-      with :accepted, true
-      with :certified, params[:has_avatar]             if params[:certified]
-
-      # --------------- Subjects
-      with :subject_slug, params[:subject_slug]        if params[:subject_slug]
-
-      paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
-      order_by :certified, :asc
-      order_by :has_avatar, :desc
-      order_by :created_at, :desc
-    end
-
-    @search
-  end
-
-  def self.search_activerecord(params)
+  def self.search(params)
     retrieve_location(params)
 
     page     = params[:page] || 1
@@ -43,7 +8,8 @@ class CommentSearch
 
     # Default query, the one that is always the same.
     comments = Comment::Review.where(status: 'accepted').
-      order(certified: :asc, created_at: :desc)
+      joins(:users).
+      order('comments.certified :asc, users.avatar ASC, users.fb_avatar ASC, comments.created_at :desc').
 
     # Now we actually build the query with the params we have.
     if params[:text].present?
@@ -70,7 +36,8 @@ class CommentSearch
     end
 
     if params[:has_avatar].present?
-      comments = comments.includes(:user).joins(:user).where('users.avatar IS NOT NULL')
+      comments = comments.includes(:user).joins(:user).
+        where('users.avatar IS NOT NULL OR users.fb_avatar IS NOT NULL')
     end
 
     if params[:certified].present?

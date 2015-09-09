@@ -39,7 +39,7 @@ class VerticalPage < ActiveRecord::Base
                                      lng: city.longitude,
                                      radius: 10)
     else
-      reviews = CommentSearch.search_activerecord(text: subject_name, per_page: limit, has_title: true)
+      reviews = CommentSearch.search(text: subject_name, per_page: limit, has_title: true)
     end
     reviews[0..(limit - 1)]
   end

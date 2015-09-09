@@ -16,7 +16,7 @@
     = render partial: 'vertical_pages/subjects', locals: { subjects: Subject.roots.order('position ASC') }
 
 
-- comments = CommentSearch.search(per_page: 4, has_avatar: true, has_title: true).results
+- comments = CommentSearch.search(per_page: 4, has_avatar: true, has_title: true)
 - if comments.any?
   .main-container.main-container--medium.soft--ends
     %h2.soft--bottom.f-weight-300 Sélection d'avis
