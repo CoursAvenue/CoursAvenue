@@ -22,86 +22,89 @@
 
 %hr.push--ends
 %h2 A quoi ressemble ma page planning ?
-%p.delta.line-height-1-3 Cliquez sur ce bouton pour visualiser votre page planning :
+%p.delta.line-height-1-3.inline-block.v-middle.flush Cliquez sur ce bouton pour visualiser votre page planning :
+.text--center.push--left.inline-block.v-middle
+  = link_to structure_website_structure_url(@structure), target: :_blank, class: 'inline-block center-block' do
+    = image_tag 'https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button.png', height: 65, width: 229, class: 'center-block', alt: 'Planning et inscription'
 #planning-button-wrapper.hidden
   <a target="_blank" style='display: block; text-align: center; margin: 0 auto;' href="#{structure_website_structure_url(@structure, subdomain: 'www')}">
   <img alt="Planning et inscription" height="65", width="229" style="height: 65px; width: 229px; margin: 0 auto; display: inline-block" src="https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button.png">
   </a>
-.text--center.push--bottom
-  = link_to structure_website_structure_url(@structure), target: :_blank, class: 'inline-block center-block' do
-    = image_tag 'https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button.png', height: 65, width: 229, class: 'center-block', alt: 'Planning et inscription'
 
 %hr.push--ends
 %h2.push-half--bottom Comment l'installer ?
-%h3 Sur mon site Internet
--# %p.delta.line-height-1-3 Voici comment l'installer, c'est simple et rapide :
+.grid
+  .grid__item.six-tenths.palm-one-whole.v-top.bordered--right.soft--right>
+    %h3 Sur mon site Internet
+    -# %p.delta.line-height-1-3 Voici comment l'installer, c'est simple et rapide :
 
-%ul.delta.line-height-1-3.flush--bottom
-  %li Pour associer votre nouvelle page planning à une rubrique ou un bouton déjà existant sur votre site, associez le lien suivant :
+    %ul.delta.line-height-1-3.flush--bottom
+      %li Pour associer votre nouvelle page planning à une rubrique ou un bouton déjà existant sur votre site, associez le lien suivant :
 
-.push--bottom.soft--left
-  %input.f-weight-bold.bg-gray-light.push-half--top#link-input.text--center.one-whole.input--large{ value: structure_website_structure_url(@structure) }
+    .push--bottom.soft--left
+      %input.f-weight-bold.bg-gray-light.push-half--top#link-input.text--center.one-whole.input--large{ value: structure_website_structure_url(@structure) }
 
-%ul.delta.line-height-1-3
-  %li
-    Pour installer le bouton
-    %strong « Planning & Inscription »
-    CoursAvenue ci-dessus sur votre site Internet, choisissez votre guide :
+    %ul.delta.line-height-1-3
+      %li
+        Pour installer le bouton
+        %strong « Planning & Inscription »
+        CoursAvenue ci-dessus sur votre site Internet, choisissez votre guide :
 
-.text--center.push--bottom
-  %select.input--large#select-install
-    %option{ value: '#empty' } Choisir mon guide d'installation
-    %optgroup{ label: "Je souhaite que l'équipe CoursAvenue l'installe pour moi" }
-      %option{ value: '#coursavenue-form-wrapper' } Envoyer les identifiants de mon site à l'équipe CoursAvenue
-    %optgroup{ label: "Je souhaite demander à mon webmaster" }
-      %option{ value: '#webmaster-form-wrapper' } Envoyer le code par e-mail
-    %optgroup{ label: "Je souhaite l'installer moi-même" }
-      %option{ value: '#webmaster-guide' } Mon site a été développé par un webmaster / Autre
-      %option{ value: '#wordpress-guide' } J'utilise Wordpress
-      %option{ value: '#overblog-guide' } J'utilise Overblog
-      %option{ value: '#blogger-guide' } J'utilise Blogger
-      %option{ value: '#wix-guide' } J'utilise Wix
-      %option{ value: '#google-sites-guide' } J'utilise Google Sites
+    .text--center.push--bottom
+      %select.input--large.one-whole#select-install
+        %option{ value: '#empty' } Choisir mon guide d'installation
+        %optgroup{ label: "Je souhaite que l'équipe CoursAvenue l'installe pour moi" }
+          %option{ value: '#coursavenue-form-wrapper' } Envoyer les identifiants de mon site à l'équipe CoursAvenue
+        %optgroup{ label: "Je souhaite demander à mon webmaster" }
+          %option{ value: '#webmaster-form-wrapper' } Envoyer le code par e-mail
+        %optgroup{ label: "Je souhaite l'installer moi-même" }
+          %option{ value: '#webmaster-guide' } Mon site a été développé par un webmaster / Autre
+          %option{ value: '#wordpress-guide' } J'utilise Wordpress
+          %option{ value: '#overblog-guide' } J'utilise Overblog
+          %option{ value: '#blogger-guide' } J'utilise Blogger
+          %option{ value: '#wix-guide' } J'utilise Wix
+          %option{ value: '#google-sites-guide' } J'utilise Google Sites
 
-= render partial: 'pro/structures/widget_installation_guides', locals: { show_button: false }
+    = render partial: 'pro/structures/widget_installation_guides', locals: { show_button: false }
 
-.gray-box.soft.relative.tab-pane#webmaster-form-wrapper
-  = simple_form_for [:pro, @structure], method: :post, url: ask_webmaster_for_planning_pro_structure_path(@structure) do |f|
-    .grid.push-half--bottom
-      .grid__item.v-middle.three-twelfths.text--right.palm-one-whole>
-        %h4.flush Email de votre webmaster
-      .grid__item.v-middle.nine-twelfths.palm-one-whole>
+    .gray-box.soft.relative.tab-pane#webmaster-form-wrapper
+      = simple_form_for [:pro, @structure], method: :post, url: ask_webmaster_for_planning_pro_structure_path(@structure) do |f|
+        .grid.push-half--bottom
+          .grid__item.v-middle.three-twelfths.text--right.palm-one-whole>
+            %h4.flush Email de votre webmaster
+          .grid__item.v-middle.nine-twelfths.palm-one-whole>
+            .grid
+              .grid__item.three-quarters.v-middle.palm-one-whole>
+                %input.input--large.one-whole{ name: 'email' }
+          %hr.push-half--ends
         .grid
-          .grid__item.three-quarters.v-middle.palm-one-whole>
-            %input.input--large.one-whole{ name: 'email' }
-      %hr.push-half--ends
-    .grid
-      .grid__item.three-twelfths.text--right.palm-one-whole>
-        %h4 Message
-      .grid__item.nine-twelfths.palm-one-whole>
-        %textarea.input--large#webmaster-email-content.one-whole{ name: 'text', rows: 8, data: { behavior: 'autoresize' } }
-          Bonjour,&#x000A;&#x000A;Je souhaiterais ajouter à mon site Internet la page planning de mes activités que j'ai générée grâce à CoursAvenue.com : pouvez-vous l'installer pour moi ?&#x000A;&#x000A;Voici le code pour ajouter le bouton "Planning & inscription" dans ma rubrique planning :&#x000A;&#x000A;<div class="bg-gray-light soft-half bordered text--center push--bottom">__CODE__</div>&#x000A;&#x000A; Merci pour votre aide, à bientôt ! &#x000A;&#x000A;#{@structure.name}
-        .push-half--top
-          = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
+          .grid__item.three-twelfths.text--right.palm-one-whole>
+            %h4 Message
+          .grid__item.nine-twelfths.palm-one-whole>
+            %textarea.input--large#webmaster-email-content.one-whole{ name: 'text', rows: 8, data: { behavior: 'autoresize' } }
+              Bonjour,&#x000A;&#x000A;Je souhaiterais ajouter à mon site Internet la page planning de mes activités que j'ai générée grâce à CoursAvenue.com : pouvez-vous l'installer pour moi ?&#x000A;&#x000A;Voici le code pour ajouter le bouton "Planning & inscription" dans ma rubrique planning :&#x000A;&#x000A;<div class="bg-gray-light soft-half bordered text--center push--bottom">__CODE__</div>&#x000A;&#x000A; Merci pour votre aide, à bientôt ! &#x000A;&#x000A;#{@structure.name}
+            .push-half--top
+              = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
 
-.gray-box.soft.relative.tab-pane#coursavenue-form-wrapper
-  = simple_form_for [:pro, @structure], method: :post, url: ask_webmaster_for_planning_pro_structure_path(@structure) do |f|
-    %input{ type:'hidden', name: 'email', value: 'contact@coursavenue.com' }
-    .grid
-      .grid__item.three-twelfths.text--right.palm-one-whole>
-        %h4 Message
-      .grid__item.nine-twelfths.palm-one-whole>
-        %textarea.input--large#webmaster-email-content.one-whole{ name: 'text', rows: 8, data: { behavior: 'autoresize' } }
-          Bonjour,&#x000A;&#x000A;Je souhaiterais ajouter à mon site Internet la page planning de mes activités que j'ai générée grâce à CoursAvenue.com : pouvez-vous l'installer pour moi ?&#x000A;&#x000A;Pour pouvoir vous connecter à mon site web et ajouter le planning, voici les informations :&#x000A;&#x000A;- Lien de mon site internet :&#x000A;- Prestataire de mon site web (ex. : Wordpress) :&#x000A;- Identifiant :&#x000A;- Mot de passe :&#x000A;- Informations sur l'endroit où installer le bouton "Planning & Inscription" :&#x000A;&#x000A;Merci pour votre aide, à bientôt !&#x000A;&#x000A;#{@structure.name}
-        .push-half--top
-          = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
+    .gray-box.soft.relative.tab-pane#coursavenue-form-wrapper
+      = simple_form_for [:pro, @structure], method: :post, url: ask_webmaster_for_planning_pro_structure_path(@structure) do |f|
+        %input{ type:'hidden', name: 'email', value: 'contact@coursavenue.com' }
+        .grid
+          .grid__item.three-twelfths.text--right.palm-one-whole>
+            %h4 Message
+          .grid__item.nine-twelfths.palm-one-whole>
+            %textarea.input--large#webmaster-email-content.one-whole{ name: 'text', rows: 8, data: { behavior: 'autoresize' } }
+              Bonjour,&#x000A;&#x000A;Je souhaiterais ajouter à mon site Internet la page planning de mes activités que j'ai générée grâce à CoursAvenue.com : pouvez-vous l'installer pour moi ?&#x000A;&#x000A;Pour pouvoir vous connecter à mon site web et ajouter le planning, voici les informations :&#x000A;&#x000A;- Lien de mon site internet :&#x000A;- Prestataire de mon site web (ex. : Wordpress) :&#x000A;- Identifiant :&#x000A;- Mot de passe :&#x000A;- Informations sur l'endroit où installer le bouton "Planning & Inscription" :&#x000A;&#x000A;Merci pour votre aide, à bientôt !&#x000A;&#x000A;#{@structure.name}
+            .push-half--top
+              = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'envoi" }
+  .grid__item.four-tenths.palm-one-whole.v-top>
+    %h3.flush Sur ma page Facebook
+    %p En moins de 5 min !
+    .push--bottom.text--center
+      %a.btn.btn--white{ href: '#facebook-call-to-action-guide', data: { behavior: 'modal', width: 800, padding: 0 } }Voir le guide
 
-%h3.push--top Sur ma page Facebook
-.push--bottom
-  %a.btn{ onclick: '$("#facebook-call-to-action-guide").show(); $.scrollTo($("#facebook-call-to-action-guide"), { easing: "easeOutCubic", duration: 500, offset: { top: -200 } }); $(this).hide();'} Voir le guide
-
-.hidden#facebook-call-to-action-guide
-  = render 'pro/structures/guides/facebook_call_to_action'
+    .hidden#facebook-call-to-action-guide.soft
+      = render 'pro/structures/guides/facebook_call_to_action'
 
 = content_for :scripts do
   :javascript

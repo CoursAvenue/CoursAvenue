@@ -2,12 +2,12 @@ class IndexableCardSerializer < ActiveModel::Serializer
 
   cached
   def cache_key
-    'IndexableCardSerializer/' + object.cache_key + '/v4' + price_group_prices.maximum(:updated_at).to_i.to_s
+    'IndexableCardSerializer/' + object.cache_key + '/v5' + price_group_prices.maximum(:updated_at).to_i.to_s
   end
 
   attributes :id, :structure_is_active, :db_type, :teaches_at_home,
               :on_appointment, :frequency, :cant_be_joined_during_year,
-              :no_class_during_holidays, :min_price
+              :no_class_during_holidays, :min_price, :min_price_amount
 
   has_many :plannings, serializer: PlanningSerializer
   has_many :price_group_prices,  serializer: PriceSerializer
@@ -28,6 +28,13 @@ class IndexableCardSerializer < ActiveModel::Serializer
 
   def min_price
     PriceSerializer.new(object.course.prices.order('amount ASC').first) if object.course and object.course.prices.any?
+  end
+
+  def min_price_amount
+    if object.course and object.course.prices.any?
+      price = object.course.prices.order('promo_amount ASC, amount ASC').first
+      [price.amount, price.promo_amount].compact.min
+    end
   end
 
   def structure_is_active

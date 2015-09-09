@@ -128,7 +128,7 @@
 
 .main-container.main-container--medium.soft--ends
   %h2.text--center.push--bottom.soft--ends.f-weight-300 Développez votre bouche à oreille sur Internet
-  - CommentSearch.search(per_page: 4, has_avatar: true, has_title: true).results.in_groups_of(2, false).each do |review_group|
+  - CommentSearch.search(per_page: 4, has_avatar: true, has_title: true).in_groups_of(2, false).each do |review_group|
     .grid.push--bottom
       - review_group.each do |review|
         .grid__item.one-half.palm-one-whole.lap-one-half>
