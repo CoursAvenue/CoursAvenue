@@ -37,4 +37,8 @@ class Payment::Customer < ActiveRecord::Base
 
     stripe_customer
   end
+
+  def premium?
+    subscription.present? and subscription.active?
+  end
 end

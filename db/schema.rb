@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150904154039) do
+ActiveRecord::Schema.define(version: 20150907111849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -792,9 +792,9 @@ ActiveRecord::Schema.define(version: 20150904154039) do
     t.string   "street"
     t.string   "zip_code"
     t.integer  "city_id"
+    t.string   "stripe_charge_id"
     t.boolean  "from_personal_website",     default: false
     t.string   "token"
-    t.string   "stripe_charge_id"
     t.datetime "charged_at"
     t.datetime "refunded_at"
     t.float    "stripe_fee"
@@ -810,27 +810,6 @@ ActiveRecord::Schema.define(version: 20150904154039) do
   end
 
   add_index "participations_users", ["participation_id", "user_id"], name: "index_participations_users_on_participation_id_and_user_id", using: :btree
-
-  create_table "passions", force: true do |t|
-    t.integer  "user_id"
-    t.string   "passion_frequency_ids"
-    t.boolean  "practiced",               default: true
-    t.string   "passion_expectation_ids"
-    t.string   "passion_reason_ids"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "info"
-    t.string   "level_ids"
-    t.string   "passion_for_ids"
-    t.string   "passion_time_slot_ids"
-  end
-
-  create_table "passions_subjects", id: false, force: true do |t|
-    t.integer "passion_id"
-    t.integer "subject_id"
-  end
-
-  add_index "passions_subjects", ["passion_id", "subject_id"], name: "index_passions_subjects_on_passion_id_and_subject_id", using: :btree
 
   create_table "payment_customers", force: true do |t|
     t.string   "stripe_customer_id"
@@ -926,6 +905,9 @@ ActiveRecord::Schema.define(version: 20150904154039) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
     t.datetime "deleted_at"
     t.integer  "indexable_card_id"
   end
@@ -1219,8 +1201,8 @@ ActiveRecord::Schema.define(version: 20150904154039) do
     t.text     "good_to_know"
     t.text     "needed_meterial"
     t.text     "tips"
-    t.string   "image"
     t.text     "guide_description"
+    t.string   "image"
     t.text     "age_advice_younger_than_5"
     t.text     "age_advice_between_5_and_9"
     t.text     "age_advice_older_than_10"
@@ -1499,8 +1481,6 @@ ActiveRecord::Schema.define(version: 20150904154039) do
     t.string   "webmaster_email"
     t.datetime "webmaster_email_sent_at"
   end
-
-  add_index "website_parameters", ["structure_id"], name: "index_website_parameters_on_structure_id", using: :btree
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
 
