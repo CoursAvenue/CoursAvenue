@@ -822,16 +822,19 @@ ActiveRecord::Schema.define(version: 20150907111849) do
 
   add_index "payment_customers", ["stripe_customer_id"], name: "index_payment_customers_on_stripe_customer_id", using: :btree
 
-  create_table "payment_notifications", force: true do |t|
-    t.text     "params"
+  create_table "payment_merchants", force: true do |t|
+    t.string   "stripe_managed_account_id"
+    t.string   "stripe_managed_account_secret_key"
+    t.string   "stripe_managed_account_publishable_key"
     t.integer  "structure_id"
-    t.string   "order_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "type"
-    t.integer  "user_id"
-    t.string   "product_type"
   end
+
+  add_index "payment_merchants", ["stripe_managed_account_id"], name: "index_payment_merchants_on_stripe_managed_account_id", using: :btree
+  add_index "payment_merchants", ["stripe_managed_account_publishable_key"], name: "merchants_stripe_managed_account_publishable_key", using: :btree
+  add_index "payment_merchants", ["stripe_managed_account_secret_key"], name: "index_payment_merchants_on_stripe_managed_account_secret_key", using: :btree
+  add_index "payment_merchants", ["structure_id"], name: "index_payment_merchants_on_structure_id", using: :btree
 
   create_table "phone_numbers", force: true do |t|
     t.string   "number"
