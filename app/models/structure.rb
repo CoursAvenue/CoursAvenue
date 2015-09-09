@@ -1081,7 +1081,7 @@ class Structure < ActiveRecord::Base
     creator.update_cards
     unlock_cards!
   end
-  handle_asynchronously :delayed_generate_cards, queue: 'indexable_cards'
+  handle_asynchronously :delayed_generate_cards, queue: 'cards'
 
   def create_intercom_event(event_name)
     begin
