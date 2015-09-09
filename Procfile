@@ -1,5 +1,8 @@
 # For Passenger
 web: bundle exec passenger start -p $PORT --max-pool-size ${MAX_POOL_SIZE:-15}
+worker: QUEUE=default bundle exec rake jobs:work
+mailers: QUEUE=mailers bundle exec rake jobs:work
+cards: QUEUE=cards bundle exec rake jobs:work
 
 # For Puma
 # web: bundle exec puma -C config/puma.rb

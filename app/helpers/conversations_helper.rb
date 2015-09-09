@@ -25,7 +25,7 @@ module ConversationsHelper
   #
   # @return Array of Courses
   def conversation_courses(conversation, structure)
-    courses = structure.courses.find(conversation.mailboxer_course_ids.split(',')) if conversation.mailboxer_course_ids.present?
+    courses = structure.courses.with_deleted.find(conversation.mailboxer_course_ids.split(',')) if conversation.mailboxer_course_ids.present?
   end
 
   # Take out the label of the conversation
@@ -56,7 +56,7 @@ module ConversationsHelper
       end
     elsif conversation.mailboxer_label_id == Mailboxer::Label::REQUEST.id
       participation_request = conversation_participation_request(conversation)
-      return (participation_request.pending? and participation_request.last_modified_by != by and !participation_request.past?)
+      return (participation_request.present? and participation_request.pending? and participation_request.last_modified_by != by and !participation_request.past?)
     end
 
     return false

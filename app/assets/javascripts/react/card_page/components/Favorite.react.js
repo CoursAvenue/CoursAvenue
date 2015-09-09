@@ -73,8 +73,8 @@ var Favorite = React.createClass({
 
         return (
             <a href='javascript:void(0)' className='btn btn--white btn--full push--bottom' onClick={ this.toggleFavorite }>
-                <i className={ iconClasses + ' line-height-normal gamma v-middle' }></i>
-                <span className="epsilon v-middle">{this.favText()}</span>
+                <i className={ iconClasses + ' line-height-normal epsilon v-middle' }></i>
+                <span className="v-middle">{this.favText()}</span>
             </a>
         );
     }

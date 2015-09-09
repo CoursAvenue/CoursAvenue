@@ -11,7 +11,7 @@
     .main-container
       .flexbox.push--bottom.relative
         - @categories.each do |category|
-          .flexbox__item.palm-block.palm-one-whole.v-top.one-quarter.inline-block.relative.soft-half--sides.opacity-hidden-on-hover__wrapper
+          .flexbox__item.palm-block.palm-one-whole.v-top.one-quarter.inline-block.relative.soft-half--sides.opacity-hidden-on-hover__wrapper>
             = link_to category_pro_blog_articles_path(category_id: category.slug), class: "block text--center soft #{category.color}-box rounded white f-weight-600 muted-link not-outlined", data: { category: category.slug, parent: true} do
               .delta.push-half--bottom= category.name
               - if category.subtitle
