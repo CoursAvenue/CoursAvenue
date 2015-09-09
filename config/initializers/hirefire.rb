@@ -4,10 +4,10 @@ HireFire::Resource.configure do |config|
   end
 
   config.dyno(:mailers) do
-    HireFire::Macro::Delayed::Job.queue(mapper: :active_record)
+    HireFire::Macro::Delayed::Job.queue(:mailers)
   end
 
   config.dyno(:cards) do
-    HireFire::Macro::Delayed::Job.queue(mapper: :active_record)
+    HireFire::Macro::Delayed::Job.queue(:cards)
   end
 end
