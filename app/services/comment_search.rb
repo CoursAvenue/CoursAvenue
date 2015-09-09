@@ -7,9 +7,8 @@ class CommentSearch
     radius   = params[:radius] || 7
 
     # Default query, the one that is always the same.
-    comments = Comment::Review.where(status: 'accepted').
-      joins(:users).
-      order('comments.certified :asc, users.avatar ASC, users.fb_avatar ASC, comments.created_at :desc').
+    comments = Comment::Review.where(status: 'accepted').includes(:user).joins(:user).
+      order('comments.certified ASC, users.avatar ASC, users.fb_avatar ASC, comments.created_at DESC')
 
     # Now we actually build the query with the params we have.
     if params[:text].present?
