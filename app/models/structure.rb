@@ -166,6 +166,7 @@ class Structure < ActiveRecord::Base
   after_create  :set_default_place_attributes
   after_create  :geocode  unless Rails.env.test?
   after_create  :subscribe_to_crm
+  after_create  :create_community
 
   before_save   :reset_crop_if_changed_logo
   before_save   :strip_name
@@ -1093,5 +1094,9 @@ class Structure < ActiveRecord::Base
     rescue Exception => exception
       Bugsnag.notify(exception, { name: name, slug: slug, id: id })
     end
+  end
+
+  def create_community
+    self.create_community if self.community.nil
   end
 end
