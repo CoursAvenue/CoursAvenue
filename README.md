@@ -250,23 +250,6 @@ $ git push staging my-awesome-branch:master -f && \
 
 ## Production and Staging environments
 
-### Prerender
-
-Depending on the environment, you need to add the `PRERENDER_SERVICE_URL`
-variable:
-```shell
-# Staging
-$ heroku config:set \
-    PRERENDER_SERVICE_URL="http://coursavenue-prerender-staging.herokuapp.com/"
-
-# Production
-$ heroku config:set \
-    PRERENDER_SERVICE_URL="http://coursavenue-prerender.herokuapp.com/"
-```
-
-And finally add the task `rake scheduler:ping` to the scheduler so the Prerender
-service can keep running.
-
 ## Random stuff
 
 ### Delayed Jobs
