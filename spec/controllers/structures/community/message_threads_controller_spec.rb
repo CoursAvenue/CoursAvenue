@@ -4,7 +4,7 @@ describe Structures::Community::MessageThreadsController, community: true do
   include Devise::TestHelpers
 
   let(:structure)  { FactoryGirl.create(:structure) }
-  let!(:community) { FactoryGirl.create(:community, structure: structure) }
+  let!(:community) { structure.community || FactoryGirl.create(:community, structure: structure) }
   let(:user)       { FactoryGirl.create(:user) }
 
   before do
