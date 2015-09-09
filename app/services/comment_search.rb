@@ -8,7 +8,8 @@ class CommentSearch
 
     # Default query, the one that is always the same.
     comments = Comment::Review.where(status: 'accepted').includes(:user).joins(:user).
-      order('comments.certified ASC, users.avatar ASC, users.fb_avatar ASC, comments.created_at DESC')
+      order('comments.certified ASC, users.avatar ASC, users.fb_avatar ASC, comments.created_at DESC').
+      group('users.id')
 
     # Now we actually build the query with the params we have.
     if params[:text].present?
