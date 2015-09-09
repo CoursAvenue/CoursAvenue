@@ -276,6 +276,20 @@ Reinvoke all jobs:
 Delayed::Job.where.not(last_error: nil).each{ |dj| dj.run_at = Time.now; dj.attempts = 0; dj.save! }
 ```
 
+List the different queued jobs:
+```ruby
+# methods is all different methods.
+methods = Delayed::Job.find_each.flat_map do |job|
+    job.handler.split("\n").detect do |line|
+        line.start_with?("method_name:")
+    end.split(' ').second
+end
+
+# Grouped is the methods grouped by the number of them called.
+(grouped = methods.group_by{ |s| s }).each_pair{ |k, v| grouped[k] = v.length }
+grouped = grouped.sort_by { |_, v| v }.to_h
+```
+
 ### Using where with an attribute of type `hstore`:
 
 ```ruby

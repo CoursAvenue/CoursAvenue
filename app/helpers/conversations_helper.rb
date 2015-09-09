@@ -56,7 +56,7 @@ module ConversationsHelper
       end
     elsif conversation.mailboxer_label_id == Mailboxer::Label::REQUEST.id
       participation_request = conversation_participation_request(conversation)
-      return (participation_request.pending? and participation_request.last_modified_by != by and !participation_request.past?)
+      return (participation_request.present? and participation_request.pending? and participation_request.last_modified_by != by and !participation_request.past?)
     end
 
     return false
