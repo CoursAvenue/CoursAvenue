@@ -72,8 +72,9 @@ class Pro::Structures::ConversationsController < ApplicationController
 
     @conversation    = @admin.mailbox.conversations.find params[:id]
 
-    if @message_thread = @structure.community.message_threads.where(mailboxer_conversation_id: @conversation.id).first
-      @message_thread.reply!(@admin, params[:conversation][:message][:body])
+    if @structure.community.present? and @structure.community.message_threads.any?
+      message_thread = @structure.community.message_threads.where(mailboxer_conversation_id: @conversation.id).first
+      message_thread.reply!(@admin, params[:conversation][:message][:body])
     else
       @admin.reply_to_conversation(@conversation, params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
       if @conversation.participation_request_id.present?
