@@ -908,9 +908,6 @@ ActiveRecord::Schema.define(version: 20150907111849) do
     t.integer  "structure_id"
     t.boolean  "visible",               default: true
     t.boolean  "is_in_foreign_country", default: false
-    t.string   "address"
-    t.float    "latitude"
-    t.float    "longitude"
     t.datetime "deleted_at"
     t.integer  "indexable_card_id"
   end
