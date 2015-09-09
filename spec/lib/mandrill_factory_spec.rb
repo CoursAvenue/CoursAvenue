@@ -12,10 +12,12 @@ describe MandrillFactory do
 
   it 'returns a real client in a production env' do
     real_client = Mandrill::API
+    ENV['MANDRILL_API_KEY'] = Faker::Internet.password
 
     switch_to_prod_env do
       expect(MandrillFactory.client).to be_a(real_client)
     end
+    ENV['MANDRILL_API_KEY'] = nil
   end
 
   def switch_to_prod_env
