@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Structures::CommunityController, community: true do
   let(:structure) { FactoryGirl.create(:structure) }
-  let!(:community) { FactoryGirl.create(:community, structure: structure) }
+  let!(:community) { structure.community }
 
   describe 'GET #show' do
     context 'with json format' do
