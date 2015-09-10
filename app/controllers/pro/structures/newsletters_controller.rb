@@ -89,9 +89,9 @@ class Pro::Structures::NewslettersController < ApplicationController
       @newsletter.save!
 
       if params[:send_me_a_copy] == 'on'
-        NewsletterMailer.delay.send_newsletter(@newsletter, @structure.main_contact.email)
+        NewsletterMailer.delay(queue: 'mailers').send_newsletter(@newsletter, @structure.main_contact.email)
       end
-      NewsletterSender.delay.send_newsletter(@newsletter)
+      NewsletterSender.delay(queue: 'mailers').send_newsletter(@newsletter)
       redirect_to pro_structure_newsletters_path(@structure),
         notice: "Votre newsletter est en cours d'envoi."
     else

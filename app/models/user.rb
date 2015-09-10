@@ -299,7 +299,7 @@ class User < ActiveRecord::Base
   end
 
   def send_welcome_email
-    UserMailer.delay.welcome(self)
+    UserMailer.delay(queue: 'mailers').welcome(self)
   end
 
   # Get the user profile associated to the given structure
@@ -460,7 +460,7 @@ class User < ActiveRecord::Base
       message = conversation.messages.first
       # Select the admin who should receive the message
       recipient = message.recipients.detect{ |recipient| recipient.is_a? Admin }
-      MailboxerMessageMailer.delay.new_message_email_to_admin(message, recipient)
+      MailboxerMessageMailer.delay(queue: 'mailers').new_message_email_to_admin(message, recipient)
     end
     nil
   end

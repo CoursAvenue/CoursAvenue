@@ -123,7 +123,7 @@ class Comment::Review < Comment
     self.status          = :waiting_for_deletion
     self.deletion_reason = deletion_reason if deletion_reason
     self.save
-    SuperAdminMailer.delay.ask_for_deletion(self)
+    SuperAdminMailer.delay(queue: 'mailers').ask_for_deletion(self)
   end
 
   def waiting_for_deletion?
@@ -161,7 +161,7 @@ class Comment::Review < Comment
   end
 
   def notify_user
-    UserMailer.delay.comment_has_been_validated(self)
+    UserMailer.delay(queue: 'mailers').comment_has_been_validated(self)
   end
 
   private
@@ -240,11 +240,11 @@ class Comment::Review < Comment
   # @return nil
   def send_email
     if self.accepted?
-      UserMailer.delay.congratulate_for_accepted_comment(self)
-      AdminMailer.delay.congratulate_for_accepted_comment(self)
+      UserMailer.delay(queue: 'mailers').congratulate_for_accepted_comment(self)
+      AdminMailer.delay(queue: 'mailers').congratulate_for_accepted_comment(self)
     else
-      AdminMailer.delay.congratulate_for_comment(self)
-      UserMailer.delay.congratulate_for_comment(self)
+      AdminMailer.delay(queue: 'mailers').congratulate_for_comment(self)
+      UserMailer.delay(queue: 'mailers').congratulate_for_comment(self)
     end
   end
 

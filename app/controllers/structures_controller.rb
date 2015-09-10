@@ -39,7 +39,7 @@ class StructuresController < ApplicationController
   def add_to_favorite
     @structure = Structure.find(params[:id])
     @structure.user_favorites.create(user: current_user)
-    # AdminMailer.delay.user_is_now_following_you(@structure, current_user)
+    # AdminMailer.delay(queue: 'mailers').user_is_now_following_you(@structure, current_user)
     respond_to do |format|
       format.html { redirect_to structure_path(@structure), notice: "#{@structure.name} a été ajouté à vos favoris"}
       format.json { render json: { succes: true } }

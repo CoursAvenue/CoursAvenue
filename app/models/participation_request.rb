@@ -346,8 +346,8 @@ class ParticipationRequest < ActiveRecord::Base
     charge = stripe_charge
     refund = charge.refunds.create
 
-    # ParticipationRequestMailer.delay.send_charge_refunded_to_teacher(self)
-    # ParticipationRequestMailer.delay.send_charge_refunded_to_user(self)
+    # ParticipationRequestMailer.delay(queue: 'mailers').send_charge_refunded_to_teacher(self)
+    # ParticipationRequestMailer.delay(queue: 'mailers').send_charge_refunded_to_user(self)
 
     self.refunded_at =  Time.now
     save
@@ -414,7 +414,7 @@ class ParticipationRequest < ActiveRecord::Base
   def notify_super_admin_of_more_than_five_requests
     request_count = user.participation_requests.select { |pr| pr.created_at > 1.week.ago }.count
     if request_count > 5
-      SuperAdminMailer.delay.alert_for_user_with_more_than_five_requests(user)
+      SuperAdminMailer.delay(queue: 'mailers').alert_for_user_with_more_than_five_requests(user)
     end
   end
 
@@ -519,7 +519,7 @@ class ParticipationRequest < ActiveRecord::Base
                                                         payed_at:              Time.now)
     save
 
-    # ParticipationRequestMailer.delay.send_invoice_to_user(self)
+    # ParticipationRequestMailer.delay(queue: 'mailers').send_invoice_to_user(self)
   end
 
   def mailer

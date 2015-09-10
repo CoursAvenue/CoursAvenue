@@ -61,14 +61,14 @@ class Subscriptions::Sponsorship < ActiveRecord::Base
     self.redeemed            = true
     self.redeeming_structure = sponsored_subscription.structure
     save
-    SubscriptionsSponsorshipMailer.delay.subscription_reedeemed(self)
+    SubscriptionsSponsorshipMailer.delay(queue: 'mailers').subscription_reedeemed(self)
   end
 
   # Send an email to the sponsored structure.
   #
   # @return
   def notify_sponsored(custom_message = nil)
-    SubscriptionsSponsorshipMailer.delay.sponsor_user(self, custom_message)
+    SubscriptionsSponsorshipMailer.delay(queue: 'mailers').sponsor_user(self, custom_message)
   end
 
   # Amount for the sponsored structure

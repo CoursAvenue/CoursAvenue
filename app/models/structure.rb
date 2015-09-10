@@ -625,7 +625,7 @@ class Structure < ActiveRecord::Base
 
     save(validate: false)
 
-    AdminMailer.delay.you_have_control_of_your_account(self)
+    AdminMailer.delay(queue: 'mailers').you_have_control_of_your_account(self)
     true
   end
 
@@ -890,7 +890,7 @@ class Structure < ActiveRecord::Base
     self.enabled = false
     save
 
-    SuperAdminMailer.delay.alert_for_disabling_structure(self)
+    SuperAdminMailer.delay(queue: 'mailers').alert_for_disabling_structure(self)
 
     create_intercom_event('Active <-> Inactive')
   end

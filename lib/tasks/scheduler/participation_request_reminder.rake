@@ -16,7 +16,7 @@ namespace :scheduler do
                                                                    ParticipationRequest.arel_table[:created_at].lt(1.day.ago.end_of_day).and(
                                                                    ParticipationRequest.arel_table[:last_modified_by].eq('User'))) )
       participation_requests.each do |participation_request|
-        ParticipationRequestMailer.delay.you_received_a_request_stage_1(participation_request)
+        ParticipationRequestMailer.delay(queue: 'mailers').you_received_a_request_stage_1(participation_request)
       end
     end
 
@@ -28,7 +28,7 @@ namespace :scheduler do
                                                                    ParticipationRequest.arel_table[:created_at].lt(2.days.ago.end_of_day).and(
                                                                    ParticipationRequest.arel_table[:last_modified_by].eq('User'))) )
       participation_requests.each do |participation_request|
-        ParticipationRequestMailer.delay.you_received_a_request_stage_2(participation_request)
+        ParticipationRequestMailer.delay(queue: 'mailers').you_received_a_request_stage_2(participation_request)
       end
     end
 
@@ -40,7 +40,7 @@ namespace :scheduler do
       participation_requests = ParticipationRequest.treated.where(created_at: yesterday.beginning_of_day..yesterday.end_of_day)
 
       participation_requests.each do |pr|
-        ParticipationRequestMailer.delay.remind_teacher_to_update_state(pr)
+        ParticipationRequestMailer.delay(queue: 'mailers').remind_teacher_to_update_state(pr)
       end
     end
 
@@ -52,7 +52,7 @@ namespace :scheduler do
                                                                    ParticipationRequest.arel_table[:updated_at].lt(Date.today).and(
                                                                    ParticipationRequest.arel_table[:last_modified_by].eq('Structure'))) )
       participation_requests.each do |participation_request|
-        ParticipationRequestMailer.delay.request_has_been_modified_by_teacher_to_user_stage_1(participation_request)
+        ParticipationRequestMailer.delay(queue: 'mailers').request_has_been_modified_by_teacher_to_user_stage_1(participation_request)
       end
     end
 
@@ -64,7 +64,7 @@ namespace :scheduler do
                                                                    ParticipationRequest.arel_table[:updated_at].lt(Date.today - 1.day).and(
                                                                    ParticipationRequest.arel_table[:last_modified_by].eq('Structure'))) )
       participation_requests.each do |participation_request|
-        ParticipationRequestMailer.delay.request_has_been_modified_by_teacher_to_user_stage_2(participation_request)
+        ParticipationRequestMailer.delay(queue: 'mailers').request_has_been_modified_by_teacher_to_user_stage_2(participation_request)
       end
     end
 
@@ -74,7 +74,7 @@ namespace :scheduler do
     task :how_was_the_student => :environment do |t, args|
       participation_requests = ParticipationRequest.accepted.where( ParticipationRequest.arel_table[:date].eq(Date.yesterday) )
       participation_requests.each do |participation_request|
-        ParticipationRequestMailer.delay.how_was_the_student(participation_request)
+        ParticipationRequestMailer.delay(queue: 'mailers').how_was_the_student(participation_request)
       end
     end
 
@@ -85,7 +85,7 @@ namespace :scheduler do
       participation_requests = ParticipationRequest.accepted.where( ParticipationRequest.arel_table[:date].eq(Date.tomorrow))
       # Group request
       participation_requests.group_by(&:structure).each do |structure, participation_requests|
-        ParticipationRequestMailer.delay.recap_for_teacher(structure, participation_requests)
+        ParticipationRequestMailer.delay(queue: 'mailers').recap_for_teacher(structure, participation_requests)
       end
     end
 
@@ -96,7 +96,7 @@ namespace :scheduler do
       participation_requests = ParticipationRequest.accepted.where( ParticipationRequest.arel_table[:date].eq(Date.tomorrow))
       # Group request per user
       participation_requests.group_by(&:user).each do |user, participation_requests|
-        ParticipationRequestMailer.delay.recap_for_user(user, participation_requests)
+        ParticipationRequestMailer.delay(queue: 'mailers').recap_for_user(user, participation_requests)
       end
     end
 
@@ -112,7 +112,7 @@ namespace :scheduler do
 
       # Group request
       participation_requests.each do |participation_request|
-        ParticipationRequestMailer.delay.how_was_the_trial(participation_request)
+        ParticipationRequestMailer.delay(queue: 'mailers').how_was_the_trial(participation_request)
       end
     end
 
@@ -125,7 +125,7 @@ namespace :scheduler do
       # Group request
       participation_requests.each do |participation_request|
         if !participation_request.user.has_left_a_review_on? participation_request.structure
-          ParticipationRequestMailer.delay.how_was_the_trial_stage_1(participation_request)
+          ParticipationRequestMailer.delay(queue: 'mailers').how_was_the_trial_stage_1(participation_request)
         end
       end
     end
@@ -139,7 +139,7 @@ namespace :scheduler do
       # Group request
       participation_requests.each do |participation_request|
         if !participation_request.user.has_left_a_review_on? participation_request.structure
-          ParticipationRequestMailer.delay.how_was_the_trial_stage_1(participation_request)
+          ParticipationRequestMailer.delay(queue: 'mailers').how_was_the_trial_stage_1(participation_request)
         end
       end
     end
@@ -156,7 +156,7 @@ namespace :scheduler do
       participation_requests.each do |participation_request|
         # Don't send if the teacher has sent a message to the user
         return if participation_request.conversation.messages.map(&:sender).uniq.length > 1
-        ParticipationRequestMailer.delay.suggest_other_structures(participation_request.user, participation_request.structure)
+        ParticipationRequestMailer.delay(queue: 'mailers').suggest_other_structures(participation_request.user, participation_request.structure)
       end
     end
 
@@ -177,7 +177,7 @@ namespace :scheduler do
                                                            ParticipationRequest.arel_table[:created_at].lt(3.days.ago.end_of_day).and(
                                                            ParticipationRequest.arel_table[:date].gt(2.days.from_now.end_of_day))) ).to_a
       participation_requests.each do |participation_request|
-        SuperAdminMailer.delay.alert_for_non_answered_participation_request(participation_request)
+        SuperAdminMailer.delay(queue: 'mailers').alert_for_non_answered_participation_request(participation_request)
       end
     end
 

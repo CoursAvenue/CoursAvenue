@@ -27,6 +27,6 @@ class NewsletterSender
   #
   # @return nothing.
   def self.send_preview(newsletter, to)
-    NewsletterMailer.delay.send_newsletter(newsletter, to)
+    NewsletterMailer.delay(queue: 'mailers').send_newsletter(newsletter, to)
   end
 end

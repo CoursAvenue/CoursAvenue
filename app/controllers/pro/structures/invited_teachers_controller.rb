@@ -19,7 +19,7 @@ class ::Pro::Structures::InvitedTeachersController < Pro::ProController
 
     emails.each do |_email|
       invited_user = ::InvitedUser.where(type: 'InvitedUser::Teacher', email: _email, referrer_id: @structure.id, referrer_type: 'Structure', email_text: text).first_or_create
-      InvitedUserMailer.delay.recommand_friends(invited_user)
+      InvitedUserMailer.delay(queue: 'mailers').recommand_friends(invited_user)
     end
 
     respond_to do |format|

@@ -243,9 +243,9 @@ France
   end
 
   def destroy
-    CrmSync.delay.destroy(@structure.email) if @structure.is_sleeping
-    SuperAdminMailer.delay.has_destroyed(@structure)
-    AdminMailer.delay.structure_has_been_destroy(@structure)
+    CrmSync.delay(queue: 'mailers').destroy(@structure.email) if @structure.is_sleeping
+    SuperAdminMailer.delay(queue: 'mailers').has_destroyed(@structure)
+    AdminMailer.delay(queue: 'mailers').structure_has_been_destroy(@structure)
     if params[:slug_to_associate].present?
       associate_structure = Structure.find(params[:slug_to_associate])
       friendly_id = FriendlyId::Slug.where(slug: @structure.slug, sluggable_type: 'Structure').first_or_create
@@ -303,7 +303,7 @@ France
     @website_parameter.webmaster_email_sent_at = DateTime.now
     @website_parameter.save
     email_content = '<div class="p">' + params[:text].gsub(/\r\n\r\n/, '</div><div class="p">').gsub(/\r\n/, '<br>') + '</div>'
-    AdminMailer.delay.ask_webmaster_for_planning(params[:email], email_content, @structure)
+    AdminMailer.delay(queue: 'mailers').ask_webmaster_for_planning(params[:email], email_content, @structure)
     respond_to do |format|
       format.html { redirect_to website_planning_pro_structure_path(@structure), notice: 'Message envoyé' }
     end
