@@ -171,8 +171,8 @@ class Course < ActiveRecord::Base
   #
   # @return Subject at depth 0
   def dominant_root_subject
-    Rails.cache.fetch ["Course#dominant_root_subject", self] do
-      subjects.at_depth(2).group_by(&:root).values.max_by(&:size).try(:first).try(:root)
+    Rails.cache.fetch ["Course#dominant_root_subject/v1", self] do
+      subjects.group_by(&:root).values.max_by(&:size).try(:first).try(:root)
     end
   end
 

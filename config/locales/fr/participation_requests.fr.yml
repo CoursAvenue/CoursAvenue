@@ -33,6 +33,7 @@ fr:
         fake_request: Il s'agit d'une fausse demande d'inscription (réponse masquée)
         do_not_trust: Je n'ai pas confiance en cet élève (réponse masquée)
         other: Autre motif
+        account_deleted: Je supprime mon compte CoursAvenue.
       users:
         impediment: J'ai un empêchement de dernière minute
         already_requested: Je me suis déjà inscrit auprès de ce professeur
@@ -41,6 +42,7 @@ fr:
         sick: Je suis malade / blessé
         do_not_trust: Je n'ai pas confiance en ce professeur (réponse masquée)
         other: Autre motif
+        account_deleted: Je supprime mon compte CoursAvenue.
     pro:
       action_button_text:
         modify_cancel: Modifier / Annuler
