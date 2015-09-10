@@ -728,5 +728,7 @@ CoursAvenue::Application.routes.draw do
 
   # SHOULD ALWAYS BE LAST.
   # Matches every route that is not described abouve and routes it to an error.
-  match "*path", to: "application#routing_error", via: :get
+  if Rails.env.staging? or Rails.env.production?
+    match "*path", to: "application#routing_error", via: :get
+  end
 end
