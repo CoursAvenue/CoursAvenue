@@ -34,10 +34,11 @@ var LocationFilterChoicePanel = React.createClass({
                             latitude : result.geometry.location.lat,
                             longitude: result.geometry.location.lng,
                             name     : result.formatted_address,
-                            city     : (city_component ? city_component.long_name : 'paris')
+                            city     : (city_component ? city_component.long_name : 'paris'),
+                            zoom     : this.zoomFromGoogleType(result.types[0])
                         };
-                    });
-                }
+                    }, this);
+                }.bind(this)
             }
         });
         engine.initialize();
@@ -70,6 +71,40 @@ var LocationFilterChoicePanel = React.createClass({
         FilterActionCreators.closeFilterPanel();
     },
 
+    zoomFromGoogleType: function zoomFromGoogleType (google_type) {
+        // https://developers.google.com/maps/documentation/geocoding/intro#Types
+        switch(google_type) {
+            case 'street_address'             : return 16; // Done
+            case 'route'                      : return 15; // Done
+            case 'intersection'               : return 13;
+            case 'political'                  : return 13;
+            case 'country'                    : return 13;
+            case 'administrative_area_level_1': return 13;
+            case 'administrative_area_level_2': return 13;
+            case 'administrative_area_level_3': return 13;
+            case 'administrative_area_level_4': return 13;
+            case 'administrative_area_level_5': return 13;
+            case 'colloquial_area'            : return 15;
+            case 'locality'                   : return 13; // Done
+            case 'ward'                       : return 13;
+            case 'sublocality'                : return 13;
+            case 'sublocality_level_1'        : return 14; // Done
+            case 'sublocality_level_2'        : return 13;
+            case 'sublocality_level_3'        : return 13;
+            case 'sublocality_level_4'        : return 13;
+            case 'sublocality_level_5'        : return 13;
+            case 'subway_station'             : return 16; // Done
+            case 'neighborhood'               : return 15; // Done
+            case 'premise'                    : return 13;
+            case 'subpremise'                 : return 13;
+            case 'postal_code'                : return 13;
+            case 'natural_feature'            : return 13;
+            case 'airport'                    : return 14; // Done
+            case 'park'                       : return 13;
+            case 'point_of_interest'          : return 13;
+            default                           : return 13;
+        }
+    },
     render: function render () {
         return (
           <div className="relative">

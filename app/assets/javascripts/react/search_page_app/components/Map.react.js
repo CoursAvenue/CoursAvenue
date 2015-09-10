@@ -72,7 +72,9 @@ var MapComponent = React.createClass({
         }.bind(this));
         this.state.location_store.on('all', function() {
             if (this.state.location_store.changed.hasOwnProperty('zoom')) {
-                this.map.setZoom(this.state.location_store.get('zoom'));
+                if (this.map.getZoom() != parseInt(this.state.location_store.get('zoom'), 10)) {
+                    this.map.setZoom(this.state.location_store.get('zoom'));
+                }
             }
             if (this.state.location_store.changed.hasOwnProperty('fullscreen')) {
                 setTimeout(function() { this.map.invalidateSize(); }.bind(this), 10);
@@ -119,7 +121,7 @@ var MapComponent = React.createClass({
         // We close currently popup if there is one
         if (this.popup && this.popup._isOpen) { this.map.closePopup(this.popup); }
         if (!this.state.location_store.get('address')) { return; }
-        this.map.setView([this.state.location_store.get('address').latitude, this.state.location_store.get('address').longitude]);
+        this.map.setView([this.state.location_store.get('address').latitude, this.state.location_store.get('address').longitude], this.state.location_store.get('address').zoom || 13);
         if (this.state.location_store.isFilteredByAddress()) { this.setLocationOnMap(); }
     },
 

@@ -9,7 +9,7 @@ module.exports = {
             actionType: ActionTypes.UPDATE_BOUNDS_ZOOM,
             data: zoom
         });
-    },
+    }.debounce(200),
 
     // center: { lat: .., lng: ... }
     updateBoundsCenter: function updateBoundsCenter (center) {
