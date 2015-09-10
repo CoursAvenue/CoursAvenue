@@ -53,9 +53,23 @@
 
 = render 'course_bottom_scripts'
 
-
 = content_for :scripts do
   :javascript
+    $(function () {
+        if (window.location.hash == '#course') {
+            var query_dict = {};
+            location.search.substr(1).split("&").forEach(function(item) {query_dict[item.split("=")[0]] = item.split("=")[1]})
+            var course_type = decodeURIComponent(query_dict.type);
+
+            if (course_type == 'Course::Lesson') {
+                $('#new-course-lesson').click();
+            } else if (course_type == 'Course::Private') {
+                $('#new-course-private').click();
+            } else if (course_type == 'Course::Training') {
+                $('#new-course-training').click();
+            }
+        }
+    });
   -# This prevent from filepicker to not trigger when opening the popup for the second time
       $(function() {
           $.fancybox.defaults.afterClose = function() {

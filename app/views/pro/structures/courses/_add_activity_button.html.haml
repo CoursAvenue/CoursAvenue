@@ -5,8 +5,8 @@
   .drop-down__el
     %ul.drop-down__el-inner-box.text--left
       %li.nowrap
-        = link_to 'Cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'lesson', lock_overlay: true }
+        = link_to 'Cours collectif', new_pro_structure_course_path(@structure, type: 'Course::Lesson'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'lesson', lock_overlay: true }, id: 'new-course-lesson'
       %li.nowrap
-        = link_to 'Cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'private', lock_overlay: true }
+        = link_to 'Cours particulier', new_pro_structure_course_path(@structure, type: 'Course::Private'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'private', lock_overlay: true }, id: 'new-course-private'
       %li.nowrap
-        = link_to 'Stage ou atelier', new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'training', lock_overlay: true }
+        = link_to 'Stage ou atelier', new_pro_structure_course_path(@structure, type: 'Course::Training'), class: 'fancybox.ajax', data: { behavior: 'modal', width: '750', padding: '0', close_click: 'false', action: 'new_course', course_type: 'training', lock_overlay: true }, id: 'new-course-training'
