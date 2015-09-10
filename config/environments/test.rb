@@ -34,4 +34,7 @@ CoursAvenue::Application.configure do
   ActionMailer::Base.register_interceptor(DevelopmentMailInterceptor)
 
   Faker::Config.locale = :fr
+
+  # TODO: Remove this when upgrading to 4.2
+  config.allow_concurrency = false
 end
