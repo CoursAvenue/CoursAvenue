@@ -5,6 +5,7 @@ var _                      = require('lodash'),
     AudienceActionCreators = require('./actions/AudienceActionCreators'),
     LevelActionCreators    = require('./actions/LevelActionCreators'),
     CardActionCreators     = require('./actions/CardActionCreators'),
+    LocationActionCreators = require('./actions/LocationActionCreators'),
     SliderActionCreators   = require('./actions/SliderActionCreators'),
     SubjectActionCreators  = require('./actions/SubjectActionCreators'),
     LocationStore          = require('./stores/LocationStore'),
@@ -26,7 +27,8 @@ var PARAMS_IN_SEARCH = {
     'training_dates.start'  : { name: 'start_date' , actionMethod: TimeActionCreators.setTrainingStartDate },
     'training_dates.end'    : { name: 'end_date'   , actionMethod: TimeActionCreators.setTrainingEndDate },
     sort_by                 : { name: 'sort'       , actionMethod: FilterActionCreators.updateSorting },
-    actual_page             : { name: 'page'       , actionMethod: CardActionCreators.goToPage, delay: 500 }
+    actual_page             : { name: 'page'       , actionMethod: CardActionCreators.goToPage, delay: 500 },
+    zoom                    : { name: 'zoom'       , actionMethod: LocationActionCreators.updateZoom, delay: 500 }
 };
 
 var SearchPageAppRouter = Backbone.Router.extend({

@@ -71,6 +71,9 @@ var MapComponent = React.createClass({
             }
         }.bind(this));
         this.state.location_store.on('all', function() {
+            if (this.state.location_store.changed.hasOwnProperty('zoom')) {
+                this.map.setZoom(this.state.location_store.get('zoom'));
+            }
             if (this.state.location_store.changed.hasOwnProperty('fullscreen')) {
                 setTimeout(function() { this.map.invalidateSize(); }.bind(this), 10);
             }
