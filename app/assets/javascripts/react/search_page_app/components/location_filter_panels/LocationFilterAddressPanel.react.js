@@ -22,7 +22,7 @@ var LocationFilterChoicePanel = React.createClass({
             datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             remote: {
-                url: 'https://maps.googleapis.com/maps/api/geocode/json?address=%QUERY&components=country:FR&sensor=false&region=fr',
+                url: 'https://maps.googleapis.com/maps/api/geocode/json?address=%QUERY&components=country:FR&sensor=false&region=fr&language=fr',
                 filter: function filter (parsedResponse) {
                     // query = query + ' France';
                     return _.map(parsedResponse.results, function (result) {
