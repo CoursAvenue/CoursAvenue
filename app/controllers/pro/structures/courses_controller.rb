@@ -11,6 +11,8 @@ class Pro::Structures::CoursesController < Pro::ProController
     @course = @structure.courses.build(type: params[:type])
     if request.xhr?
       render partial: 'form', layout: false
+    else
+      redirect_to pro_structure_courses_path(@structure, type: params[:type], anchor: 'course')
     end
   end
 
