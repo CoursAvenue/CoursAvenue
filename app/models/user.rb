@@ -93,6 +93,8 @@ class User < ActiveRecord::Base
   after_save  :update_email_status
   before_save :downcase_email
 
+  before_destroy :cancel_upcoming_participation_requests
+
   ######################################################################
   # Validations                                                        #
   ######################################################################
@@ -465,5 +467,11 @@ class User < ActiveRecord::Base
 
   def subscribe_to_mailchimp
     MailchimpUpdater.delay.update_user(self)
+  end
+
+  def cancel_upcoming_participation_requests
+    if (prs = self.participation_requests.upcoming).any?
+      prs.each { |pr| pr.cancel!(nil, 16, 'User') }
+    end
   end
 end

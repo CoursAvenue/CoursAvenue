@@ -178,6 +178,7 @@ class Structure < ActiveRecord::Base
 
   after_touch   :generate_cards unless Rails.env.test?
   before_destroy :unsubscribe_to_crm
+  before_destroy :cancel_upcoming_participation_requests
 
   ######################################################################
   # Scopes                                                             #
@@ -1093,6 +1094,12 @@ class Structure < ActiveRecord::Base
       )
     rescue Exception => exception
       Bugsnag.notify(exception, { name: name, slug: slug, id: id })
+    end
+  end
+
+  def cancel_upcoming_participation_requests
+    if (prs = self.participation_requests.upcoming).any?
+      prs.each { |pr| pr.cancel!(nil, 15) }
     end
   end
 
