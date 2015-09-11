@@ -6,10 +6,11 @@
 %table.table--striped
   %thead
     %tr
-      %th.six-twelfths Question
+      %th.five-twelfths Question
       %th.four-twelfths Structure
       %th.one-twelfth # réponses
       %th.one-twelfth Date
+      %th.one-twelfth
   %tbody
     - @message_threads.each do |message_thread|
       - structure = message_thread.community.structure
@@ -23,6 +24,9 @@
         %td.nowrap
           = l(message_thread.created_at.to_date, format: :short)
           = l(message_thread.created_at, format: :short)
-
+        %td.nowrap
+          = link_to admin_community_message_thread_path(message_thread), method: :delete,
+            data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette question publique ?' } do
+            %i.fa-trash-o
 %hr.push--ends
 .text--center.push--ends= paginate @message_threads, window: 1, outer_window: 3
