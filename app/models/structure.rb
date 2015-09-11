@@ -147,6 +147,7 @@ class Structure < ActiveRecord::Base
 
   define_boolean_accessor_for :meta_data, :is_sleeping, :sleeping_email_opt_in
 
+  # Make sure to update the Uploader in Admin#avatar_url check.
   mount_uploader :logo, StructureLogoUploader
 
   ######################################################################
