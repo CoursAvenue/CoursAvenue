@@ -1,0 +1,17 @@
+= side_menu_currently_at 'inscriptions'
+
+= render partial: 'pro/structures/participation_requests/tabs', locals: { current: 'past' }
+
+%h1 Inscriptions passées et expirées
+- if @participation_requests.any?
+  %table.table--data.table--striped.table-not-bordered.table-responsive
+    %thead
+      %tr
+        %th.three-twelfths Statut
+        %th.two-twelfths Cours et date
+        %th.four-twelfths Participant
+        %th.two-twelfths Détails
+        %th.one-twelfths Source
+    %tbody
+      - @participation_requests.each do |participation_request|
+        = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request }

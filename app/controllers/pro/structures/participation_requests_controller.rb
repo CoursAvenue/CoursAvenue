@@ -13,11 +13,22 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
 
   # GET pro/etablissements/:structure_id/pass-decouverte-suivi
   def index
-    @participation_requests = @structure.participation_requests.includes(:course, :planning, user: [:city], participants: [:price])
-    # Select participation request that have the right label id (some could have been flagged as inapropriate
-    # and therefore have a different label_id)
-    @upcoming_participation_requests = @participation_requests.upcoming.reject { |pr| pr.user.nil? || pr.course.nil? }
-    @past_participation_requests     = @participation_requests.order('date DESC').past.reject { |pr| pr.user.nil? || pr.course.nil? }
+    @participation_requests = @structure.
+      participation_requests.includes(:course, :planning, user: [:city], participants: [:price])
+    @not_treated = @participation_requests.upcoming.pending.reject { |pr| pr.user.nil? || pr.course.nil? }
+    @treated     = @participation_requests.upcoming.treated.reject { |pr| pr.user.nil? || pr.course.nil? }
+  end
+
+  def upcoming
+    @participation_requests = @structure.participation_requests.
+      includes(:course, :planning, user: [:city], participants: [:price]).
+      upcoming.accepted.reject { |pr| pr.user.nil? || pr.course.nil? }
+  end
+
+  def past
+    @participation_requests = @structure.participation_requests.
+      includes(:course, :planning, user: [:city], participants: [:price]).
+      past.reject { |pr| pr.user.nil? || pr.course.nil? }
   end
 
   # GET pro/etablissements/:structure_id/inscriptions-via-carte-bleu
@@ -134,7 +145,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   private
 
   def load_structure
-    @structure = Structure.friendly.find(params[:structure_id])
+    @structure = Structure.includes(:participation_requests).friendly.find(params[:structure_id])
   end
 
   # The missing informations for the Stripe managed account.

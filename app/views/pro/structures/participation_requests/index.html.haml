@@ -2,29 +2,11 @@
 
 = render partial: 'pro/structures/participation_requests/tabs', locals: { current: 'index' }
 
-%h1 Inscriptions
-- if @structure.participation_requests.any?
-  %h3 Inscriptions à venir
-  - if @upcoming_participation_requests.any?
-    %table.table--data.table--striped.table-not-bordered.table-responsive
-      %thead
-        %tr
-          %th.three-twelfths Statut
-          %th.two-twelfths Cours et date
-          %th.four-twelfths Participant
-          %th.two-twelfths Détails
-          %th.one-twelfths Source
-      %tbody
-        - @upcoming_participation_requests.each do |participation_request|
-          = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request }
-  - else
-    = render partial: 'pro/structures/improve_your_stats', locals: { message: "Vous n'avez pas d'inscriptions à venir. Quelques conseils pour améliorer vos statistiques : "}
-  - if @past_participation_requests.any?
-    %hr.push--ends
-    %p.flush
-      = link_to "Voir tout l'historique des inscriptions", '#', data: { behavior: 'show-long-version', 'long-version' => '#previous-subscriptions'}
-    .hidden#previous-subscriptions
-      %h3 Inscriptions passées
+%h1 Inscriptions à traiter
+- if @not_treated.any? or @treated.any?
+  - if @not_treated.any?
+    %h3 Inscriptions non traitées
+    - if @not_treated.any?
       %table.table--data.table--striped.table-not-bordered.table-responsive
         %thead
           %tr
@@ -34,10 +16,25 @@
             %th.two-twelfths Détails
             %th.one-twelfths Source
         %tbody
-          - @past_participation_requests.each do |participation_request|
+          - @not_treated.each do |participation_request|
             = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request }
+  - if @treated.any?
+    %h3 Inscriptions traitées mais non confirmées
+    - if @treated.any?
+      %table.table--data.table--striped.table-not-bordered.table-responsive
+        %thead
+          %tr
+            %th.three-twelfths Statut
+            %th.two-twelfths Cours et date
+            %th.four-twelfths Participant
+            %th.two-twelfths Détails
+            %th.one-twelfths Source
+        %tbody
+          - @treated.each do |participation_request|
+            = render partial: 'pro/structures/participation_requests/participation_request', locals: { participation_request: participation_request }
+
 - elsif @structure.courses.any?
-  = render partial: 'pro/structures/improve_your_stats', locals: { message: "Vous n'avez pas encore d'inscrit. Quelques conseils pour améliorer vos statistiques : "}
+  = render partial: 'pro/structures/improve_your_stats', locals: { message: "Vous n'avez pas d'inscriptions à venir. Quelques conseils pour améliorer vos statistiques : "}
 - else
   .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.delta.text--center
     %p
