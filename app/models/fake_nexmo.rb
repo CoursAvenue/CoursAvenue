@@ -8,5 +8,10 @@ module FakeNexmo
       Rails.logger.debug "[FakeNexmo][send_message] from: #{options[:from]}, \
       to: #{options[:to]}, message: #{options[:message]}"
     end
+
+    def get_message(id)
+      Rails.logger.debug "[FakeNexmo][get_message] checking message #{ id }"
+      { id: id }
+    end
   end
 end
