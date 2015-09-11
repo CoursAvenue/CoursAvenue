@@ -128,10 +128,12 @@ class ParticipationRequestMailer < ActionMailer::Base
   end
 
   def recap_for_teacher(structure, participation_requests)
-    @participation_requests = participation_requests
-    @structure              = @participation_requests.first.structure
-    @admin                  = @structure.main_contact
-    @nb_users               = @participation_requests.map(&:user).uniq.count
+    @participation_requests         = participation_requests
+    @treated_participation_requests = structure.participation_requests.treated.where(date: Date.tomorrow)
+    @pending_participation_requests = structure.participation_requests.pending.where(date: Date.tomorrow)
+    @structure                      = @participation_requests.first.structure
+    @admin                          = @structure.main_contact
+    @nb_users                       = @participation_requests.map(&:user).uniq.count
     mail to: @admin.email, subject: "Pour mémoire - Inscriptions pour demain"
   end
 
