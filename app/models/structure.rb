@@ -624,6 +624,7 @@ class Structure < ActiveRecord::Base
     self.active      = true
 
     save(validate: false)
+    self.generate_cards
 
     AdminMailer.delay(queue: 'mailers').you_have_control_of_your_account(self)
     true
