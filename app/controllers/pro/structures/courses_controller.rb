@@ -20,10 +20,19 @@ class Pro::Structures::CoursesController < Pro::ProController
   # @params { course: { media: 'filepickerurl' } }
   def add_image
     @course = @structure.courses.friendly.find params[:id]
-    media_image = Media::Image.create filepicker_url: params[:course][:media], remote_image_url: params[:course][:media], mediable: @structure
-    @course.media = media_image
-    @course.save
-    redirect_to pro_structure_courses_path(@structure), notice: 'Le cours a bien été mis à jour'
+    begin
+      media_image = Media::Image.create filepicker_url: params[:course][:media], remote_image_url: params[:course][:media], mediable: @structure
+    rescue Cloudinary::CarrierWave::UploadError => exception
+      # TODO: Check after Rails update.
+      # For some reason, the regular `redirect_to ..., error: '...'` doesn't seem to work here.
+      # So we manually set the error flash message.
+      flash[:error] = 'La taille de votre fichier est trop grande, veuillez la réduire et rééssayer.'
+      redirect_to pro_structure_courses_path(@structure)
+    else
+      @course.media = media_image
+      @course.save
+      redirect_to pro_structure_courses_path(@structure), notice: 'Le cours a bien été mis à jour'
+    end
   end
 
   def choose_media

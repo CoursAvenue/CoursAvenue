@@ -10,12 +10,28 @@ class Pro::Structures::Medias::ImagesController < Pro::ProController
   end
 
   def create
-    params[:media_image][:url].split(',').each do |filepicker_url|
-      media_image = Media::Image.create filepicker_url: filepicker_url, remote_image_url: filepicker_url, mediable: @structure
-    end
-    respond_to do |format|
-      format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Vos images ont bien été ajoutées !' }
-      format.js { render nothing: true }
+    begin
+      params[:media_image][:url].split(',').each do |filepicker_url|
+        media_image = Media::Image.create(
+          filepicker_url: filepicker_url,
+          remote_image_url: filepicker_url,
+          mediable: @structure
+        )
+      end
+    rescue Cloudinary::CarrierWave::UploadError => exception
+      # TODO: Check after Rails update.
+      # For some reason, the regular `redirect_to ..., error: '...'` doesn't seem to work here.
+      # So we manually set the error flash message.
+      flash[:error] = 'La taille de votre fichier est trop grande, veuillez la réduire et rééssayer.'
+      respond_to do |format|
+        format.html { redirect_to pro_structure_medias_path(@structure) }
+        format.js { render nothing: true }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Vos images ont bien été ajoutées !' }
+        format.js { render nothing: true }
+      end
     end
   end
 
