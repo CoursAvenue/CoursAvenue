@@ -129,7 +129,7 @@ class ApplicationController < ActionController::Base
 
   def prerender_agent?
     return false unless request.env.keys.include?('HTTP_USER_AGENT')
-    @is_prerender ||= request["HTTP_USER_AGENT"].include?('Prerender')
+    @is_prerender ||= request.env["HTTP_USER_AGENT"].include?('Prerender')
   end
 
   protected
