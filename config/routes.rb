@@ -25,7 +25,7 @@ CoursAvenue::Application.routes.draw do
       resource  :community             , only: [:show]                                     , controller: 'structures/community'      , path: 'communaute' do
         resources :message_threads, only: [:index, :destroy], controller: 'community/message_threads'
       end
-      resources :sms_loggers, only: [:index]
+      resources :sms_loggers, only: [:index, :show]
     end
 
     # For pros
