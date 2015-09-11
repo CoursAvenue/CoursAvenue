@@ -167,4 +167,8 @@ class ParticipationRequestDecorator < Draper::Decorator
     end
     message
   end
+
+  def upcoming?
+    object.date > Date.current
+  end
 end

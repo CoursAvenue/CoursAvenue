@@ -68,13 +68,12 @@ class Pro::Structures::ConversationsController < ApplicationController
   end
 
   def update
-    params[:conversation][:message][:body] = StringHelper.replace_contact_infos(params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
-
     @conversation    = @admin.mailbox.conversations.find params[:id]
 
     if @structure.community.present? and @structure.community.message_threads.any? and
       (message_thread = @structure.community.message_threads.where(mailboxer_conversation_id: @conversation.id).first)
-      message_thread.reply!(@admin, params[:conversation][:message][:body])
+      message_body = StringHelper.replace_contact_infos(params[:conversation][:message][:body])
+      message_thread.reply!(@admin, message_body)
     else
       @admin.reply_to_conversation(@conversation, params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
       if @conversation.participation_request_id.present?

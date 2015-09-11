@@ -25,6 +25,40 @@
         %br
         = "- #{participation_request.user.name}"
 
+- if @treated_participation_requests.any? or @pending_participation_requests.any?
+  .p
+    Pour information,
+    - if @treated_participation_requests.any? and @pending_participation_requests.any?
+      - if (count = @treated_participation_requests.count) > 1
+        vous avez #{ count } inscriptions à venir traitées mais non confirmées,
+      - else
+        vous avez une inscription à venir traitée mais non confirmée,
+      et
+      - if (count = @pending_participation_requests.count) > 1
+        #{ count } demandes non traitées.
+      - else
+        une demande non traitée.
+
+    - elsif @treated_participation_requests.any?
+      - if (count = @treated_participation_requests.count) > 1
+        vous avez #{ count } inscriptions à venir traitées mais non confirmées.
+      - else
+        vous avez une inscription à venir traitée mais non confirmée.
+
+    - elsif @pending_participation_requests.any?
+      - if (count = @pending_participation_requests.count) > 1
+        #{ count } demandes non traitées.
+      - else
+        une demande non traitée.
+
+    - if (@treated_participation_requests.count + @pending_participation_requests.count) > 1
+      Confirmez-les au plus vite :
+    - else
+      Confirmez-la au plus vite :
+
+  .p.action
+    = link_to 'Confirmer mes inscriptions', pro_structure_participation_requests_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
+
 .p
   - if @nb_users > 1
     Pour toute annulation, avertissez votre élève dès maintenant :

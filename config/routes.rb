@@ -368,6 +368,8 @@ CoursAvenue::Application.routes.draw do
           end
           collection do
             get :paid_requests, path: 'transactions-cb'
+            get :upcoming, path: 'a-venir'
+            get :past,     path: 'deja-passee'
           end
         end
         resources :gift_certificates, only: [:index, :edit, :new, :create, :destroy, :update], controller: 'structures/gift_certificates', path: 'bons-cadeaux' do

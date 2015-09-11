@@ -24,6 +24,10 @@
               });
       - else
         = participation_request_decorator.status_for('Structure')
+      - if participation_request.treated? and participation_request_decorator.upcoming?
+        %div.push-half--ends
+          = link_to 'Confirmer la demande', accept_form_pro_structure_participation_request_path(@structure, participation_request),
+            class: 'btn btn--green btn--white-transparent--green btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
       %div
         = link_to 'Voir la demande', pro_structure_participation_request_path(participation_request.structure, participation_request), class: "btn btn--white btn--small"
 
