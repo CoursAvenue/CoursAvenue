@@ -5,9 +5,12 @@
   - if shared_comment and shared_comment.user and shared_comment.user.has_avatar?
     = content_for :meta_image do
       = shared_comment.user.avatar_url
+  - elsif @structure.medias.count > 0
+    = content_for :meta_image do
+      = @structure.medias.cover_first.videos_first.first.image.try(:url)
   - elsif @structure.logo.present?
     = content_for :meta_image do
-      = @structure.logo.url(:thumb)
+      = @structure.logo.url
 
   - if shared_comment
     = content_for :title do
@@ -15,6 +18,12 @@
     = content_for :meta_description do
       = truncate(shared_comment.content, length: 300)
 - else
+  - if @structure.medias.count > 0
+    = content_for :meta_image do
+      = @structure.medias.cover_first.videos_first.first.image.try(:url)
+  - elsif @structure.logo.present?
+    = content_for :meta_image do
+      = @structure.logo.url
   = content_for :title do
     -# Ex: YOGA SATTVA PARIS - Essai GRATUIT - CoursAvenue.com
     - cache [@structure, 'structure/show/meta/title'] do
