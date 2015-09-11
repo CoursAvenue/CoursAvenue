@@ -165,7 +165,8 @@ CoursAvenue::Application.routes.draw do
           get   :ask_for_pro_deletion
           get   :confirm_email
           post  :resend_confirmation_instructions
-          get   :dashboard
+          get   :dashboard, path: 'tableau-de-bord'
+          get   :old_dashboard_path, path: 'dashboard', to: 'redirect#old_dashboard_path'
           get   :edit_order_recipient
           get   :someone_already_took_control, path: 'quelqu-un-a-deja-le-control'
           get   :add_subjects
