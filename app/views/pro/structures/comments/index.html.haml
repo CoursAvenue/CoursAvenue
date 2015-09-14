@@ -4,21 +4,15 @@
 %div{ data: { behavior: 'wizard-helper', content: t('comments.wizard.infos') } }
   .grid.push--bottom
     .grid__item.v-middle.one-half.palm-one-whole>
-      %h1.flush Avis
+      %h1.flush
+	Avis
+	- if @structure.comments.any?
+	  = "(#{@structure.comments.count})"
     - if @structure.comments.any?
       .grid__item.v-middle.text--right.one-half.palm-one-whole.palm-text--left>
         = link_to recommendations_pro_structure_path(@structure), class: 'btn btn--green' do
           %i.fa.fa-plus
           Obtenir plus d'avis
-  -# - if @structure.comments.any?
-  -#   .grid--full.text--center.soft--ends.bordered--ends.push--bottom
-  -#     .grid__item.seven-tenths>
-  -#       = simple_form_for [:pro, @structure], html: { data: { behavior: 'live-form' } }, remote: true do |f|
-  -#         .flexbox.palm-block
-  -#           .flexbox__item.nowrap.palm-block
-  -#             %label.label--large.f-weight-bold.soft--left= Structure.human_attribute_name :highlighted_comment_id
-  -#           .flexbox__item.palm-block
-  -#             = f.input :highlighted_comment_id, as: :select, collection: @structure.comments.accepted.order('created_at DESC').reject{ |comment| comment.title.blank? }, label_method: lambda{ |comment| "\"#{comment.title}\"" }, input_html: { class: 'input--large one-whole' }, label: false, wrapper_html: { class: 'flush' }, include_blank: 'Aucun avis'
 
   - if @waiting_for_deletion_comments.any?
     %h3 Avis en attente de suppression par l'équipe CoursAvenue
@@ -40,7 +34,6 @@
           %i.fa.fa-plus
           Demander des recommandations
   - elsif @comments.any?
-    %h3 Vous avez #{@structure.comments_count} avis
     .text--center.push-half--ends= paginate @comments, window: 1, outer_window: 3
     %ul.comment-list
       - @comments.each do |review|
