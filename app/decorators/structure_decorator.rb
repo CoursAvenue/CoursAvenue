@@ -11,7 +11,7 @@ class StructureDecorator < Draper::Decorator
   end
 
   def structure_type
-    I18n.t(object.structure_type) if object.structure_type.present? and object.structure_type != 'object.structure_type'
+    I18n.t(object.structure_type) if object.structure_type.present? and object.structure_type != 'structures.other'
   end
 
   def all_subjects_slugs
