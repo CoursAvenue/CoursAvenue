@@ -165,7 +165,7 @@ class User < ActiveRecord::Base
   # @return a Boolean, whether the sms was sent or not.
   def send_sms_reminder
     if phone_number and sms_opt_in?
-      _participation_requests = participation_requests.where(date: Date.tomorrow, state: 'accepted')
+      _participation_requests = participation_requests.tomorrow
       return false if _participation_requests.empty?
 
       if _participation_requests.length > 1
