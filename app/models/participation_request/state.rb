@@ -8,6 +8,12 @@ class ParticipationRequest::State < ActiveRecord::Base
   store_accessor :metadata, :events
 
   # TODO: Refactor this using `define_method`.
+
+  # The state is pending by default, thanks to the database.
+  def pending?
+    self.state == 'pending'
+  end
+
   def accept!
     self.state = 'accepted'
     self.accepted_at = DateTime.current
