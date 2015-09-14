@@ -1,4 +1,4 @@
-class CommentSearch
+class CommentSearch < BaseSearch
   def self.search(params)
     retrieve_location(params)
 
@@ -103,7 +103,7 @@ class CommentSearch
     comments.page(page).per(per_page)
   end
 
-  def self.retrieve_location params
+  def self.retrieve_location(params)
     if params[:lat].blank? or params[:lng].blank?
       params[:lat] = 48.8592
       params[:lng] = 2.3417

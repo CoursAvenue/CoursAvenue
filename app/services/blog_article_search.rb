@@ -1,4 +1,4 @@
-class BlogArticleSearch
+class BlogArticleSearch < BaseSearch
   # ActiveRecord doesn't build the actual query until we tried to use the results, so we can
   # manually create the query and simply return it.
   #
