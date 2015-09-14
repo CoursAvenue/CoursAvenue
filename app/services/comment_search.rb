@@ -1,5 +1,49 @@
-class CommentSearch < BaseSearch
-  def self.search(params)
+class CommentSearch
+
+  # params: params
+  #     text:          fulltext
+  #     subject_id:    slug of a subject
+  #     audience_ids:  [1, 2, 3]
+  #     level_ids:     [1, 2, 3]
+  def self.search params
+    params[:sort] ||= 'rating_desc'
+    retrieve_location params
+
+    @search = Sunspot.search(Comment::Review) do
+      fulltext params[:text] if params[:text].present?
+
+      # --------------- Geolocation
+      if params[:lat].present? and params[:lng].present?
+        with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true))
+      end
+
+      with :has_title , params[:has_title]             if params[:has_title]
+      with :has_avatar, params[:has_avatar]            if params[:has_avatar]
+      with :accepted, true
+      with :certified, params[:has_avatar]             if params[:certified]
+
+      # --------------- Subjects
+      with :subject_slug, params[:subject_slug]        if params[:subject_slug]
+
+      paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
+      order_by :certified, :asc
+      order_by :has_avatar, :desc
+      order_by :created_at, :desc
+    end
+
+    @search
+  end
+
+  def self.retrieve_location params
+    if params[:lat].blank? or params[:lng].blank?
+      params[:lat] = 48.8592
+      params[:lng] = 2.3417
+    end
+
+    [params[:lat], params[:lng]]
+  end
+
+  def self.search_activerecords(params)
     comment_cache_key = Comment::Review.with_deleted.maximum(:updated_at).to_i
     params_cache_key = params_to_cache_key(params)
     Rails.cache.fetch("CommentSearch/#{ params_cache_key }/#{ comment_cache_key }") do
@@ -57,14 +101,5 @@ class CommentSearch < BaseSearch
       # Finally, we paginate and return the results.
       comments.page(page).per(per_page).to_a
     end
-  end
-
-  def self.retrieve_location(params)
-    if params[:lat].blank? or params[:lng].blank?
-      params[:lat] = 48.8592
-      params[:lng] = 2.3417
-    end
-
-    [params[:lat], params[:lng]]
   end
 end
