@@ -5,7 +5,7 @@
 .hidden
   = simple_form_for [:pro, @structure, @image], url: pro_structure_images_path(@structure), html: { id: 'image-form', class: 'inline-block v-middle' } do |f|
     = f.error_notification
-    = f.filepicker_field :url, multiple: true, button_text: 'Ajouter une photo', button_class: 'fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, mimetypes: 'image/*'
+    = f.filepicker_field :url, multiple: true, button_text: 'Ajouter une photo', button_class: 'fa', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, mimetypes: 'image/*', max_files: 10
 .grid.push--bottom{ data: { behavior: 'wizard-helper', content: t('pro.medias.wizard.infos')} }
   .grid__item.v-middle.one-half.palm-one-whole>
     %h1.flush Photos &amp; Vidéos
