@@ -15,7 +15,8 @@
   %tbody
     - @sms_loggers.each do |sms_logger|
       %tr
-        %td= link_to l(sms_logger.created_at.to_date), admin_sms_logger_path(sms_logger)
+        %td= sms_logger.created_at.to_date
+        -# %td= link_to l(sms_logger.created_at.to_date), admin_sms_logger_path(sms_logger)
         %td= sms_logger.text.html_safe
         %td= PhoneNumberDecorator.new(PhoneNumber.new(number: sms_logger.number)).formatted_number
         %td= sms_logger.sender_type
