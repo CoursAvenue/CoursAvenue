@@ -5,9 +5,9 @@
   #{@structure.name} | Tout le planning des cours. Réservation en ligne.
 
 .main-container.relative
-  - if @return_to_url.present?
+  - if @structure.website.present?
     .absolute.north.west.push-half--top.soft-half--left
-      = link_to URLHelper.fix_url(@return_to_url), class: 'gray' do
+      = link_to URLHelper.fix_url(@structure.website), class: 'gray' do
         %i.fa.fa-chevron-left.blue-green
         Revenir au site
   %h1.soft--top.text--center.flush= @structure.name

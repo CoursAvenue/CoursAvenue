@@ -93,6 +93,8 @@ class User < ActiveRecord::Base
   after_save  :update_email_status
   before_save :downcase_email
 
+  before_destroy :cancel_upcoming_participation_requests
+
   ######################################################################
   # Validations                                                        #
   ######################################################################
@@ -297,7 +299,7 @@ class User < ActiveRecord::Base
   end
 
   def send_welcome_email
-    UserMailer.delay.welcome(self)
+    UserMailer.delay(queue: 'mailers').welcome(self)
   end
 
   # Get the user profile associated to the given structure
@@ -458,12 +460,18 @@ class User < ActiveRecord::Base
       message = conversation.messages.first
       # Select the admin who should receive the message
       recipient = message.recipients.detect{ |recipient| recipient.is_a? Admin }
-      MailboxerMessageMailer.delay.new_message_email_to_admin(message, recipient)
+      MailboxerMessageMailer.delay(queue: 'mailers').new_message_email_to_admin(message, recipient)
     end
     nil
   end
 
   def subscribe_to_mailchimp
     MailchimpUpdater.delay.update_user(self)
+  end
+
+  def cancel_upcoming_participation_requests
+    if (prs = self.participation_requests.upcoming).any?
+      prs.each { |pr| pr.cancel!(nil, 16, 'User') }
+    end
   end
 end

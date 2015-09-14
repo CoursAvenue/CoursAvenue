@@ -5,6 +5,6 @@ class Blog::Subscriber::ProSubscriber < Blog::Subscriber
   private
 
   def send_email
-    AdminMailer.delay.subscribed_to_blog(self.email)
+    AdminMailer.delay(queue: 'mailers').subscribed_to_blog(self.email)
   end
 end

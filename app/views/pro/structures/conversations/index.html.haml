@@ -36,10 +36,18 @@
           %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
           - if conversation_request_count > 0
             %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::REQUEST.id), value: Mailboxer::Label::REQUEST.id } Inscriptions (#{conversation_request_count})
+          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::PUBLIC_QUESTION.id), value: Mailboxer::Label::PUBLIC_QUESTION.id } Questions publiques (#{conversation_public_question_count})
       .grid__item.palm-one-whole.two-thirds.text--center.last-div-hard>
         = paginate @conversations, window: 1, outer_window: 3
     - @conversations.each do |conversation|
       = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }
+  - elsif params[:conversation_label_id].present? and @conversations.empty?
+    .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.delta.text--center
+      %p
+        Vous n'avez pas de message de ce type.
+      %div
+        = link_to pro_structure_conversations_path(@structure), class: 'btn btn--green' do
+          Retourner aux Messages
   - else
     = render partial: 'pro/structures/improve_your_stats', locals: { message: "Vous n'avez pas de message. Quelques conseils pour améliorer vos statistiques : "}
 

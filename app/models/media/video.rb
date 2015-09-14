@@ -9,7 +9,7 @@ class Media::Video < Media
     'youtube' => {
       pattern: /https?:\/\/(www.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/watch\?feature=player_embedded&v=)([A-Za-z0-9_-]*)(\&\S+)?(\S)*/,
       key: 3,
-      video_thumbnail: "https://img.youtube.com/vi/__ID__/0.jpg"
+      video_thumbnail: "http://img.youtube.com/vi/__ID__/mqdefault.jpg"
     },
     'dailymotion' => {
       pattern: /https?:\/\/www\.dailymotion\.com.*\/video\/(.+)_*/,

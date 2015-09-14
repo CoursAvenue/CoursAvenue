@@ -60,8 +60,8 @@ class GiftCertificate::Voucher < ActiveRecord::Base
   private
 
   def send_emails
-    GiftCertificateMailer.delay.voucher_confirmation_to_user(self)
-    GiftCertificateMailer.delay.voucher_created_to_teacher(self)
+    GiftCertificateMailer.delay(queue: 'mailers').voucher_confirmation_to_user(self)
+    GiftCertificateMailer.delay(queue: 'mailers').voucher_created_to_teacher(self)
   end
 
   # Create a uniq random token.

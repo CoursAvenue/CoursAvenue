@@ -25,7 +25,7 @@ class Users::SponsorshipsController < Pro::ProController
       user = User.create_or_find_from_email(_email)
       sponsorship = @user.sponsorships.create(sponsored_user: user)
 
-      UserMailer.delay.sponsor_user(@user, _email, sponsorship_url(sponsorship.promo_code, subdomain: 'www'), text)
+      UserMailer.delay(queue: 'mailers').sponsor_user(@user, _email, sponsorship_url(sponsorship.promo_code, subdomain: 'www'), text)
     end
 
     respond_to do |format|

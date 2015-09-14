@@ -122,7 +122,7 @@ class StripeEvent < ActiveRecord::Base
     return false if invoice.nil?
 
     invoice.subscription.resume! if invoice.subscription.paused?
-    SubscriptionMailer.delay.invoice_creation_notification(invoice)
+    SubscriptionMailer.delay(queue: 'mailers').invoice_creation_notification(invoice)
 
     true
   end
@@ -157,7 +157,7 @@ class StripeEvent < ActiveRecord::Base
     if structure.present?
       subscription = structure.subscription
 
-      SuperAdminMailer.delay.alert_charge_disputed(structure, dispute_reason, dispute_status)
+      SuperAdminMailer.delay(queue: 'mailers').alert_charge_disputed(structure, dispute_reason, dispute_status)
       subscription.pause!
       true
     else
@@ -183,8 +183,8 @@ class StripeEvent < ActiveRecord::Base
     if structure.present?
       subscription = structure.subscription
 
-      SuperAdminMailer.delay.alert_charge_withdrawn(structure, dispute_reason, dispute_reason)
-      SubscriptionMailer.delay.subscription_canceled(structure, subscription)
+      SuperAdminMailer.delay(queue: 'mailers').alert_charge_withdrawn(structure, dispute_reason, dispute_reason)
+      SubscriptionMailer.delay(queue: 'mailers').subscription_canceled(structure, subscription)
       subscription.cancel!
       true
     else
@@ -211,7 +211,7 @@ class StripeEvent < ActiveRecord::Base
     if structure.present?
       subscription = structure.subscription
 
-      SuperAdminMailer.delay.alert_charge_reinstated(structure, dispute_reason, dispute_reason)
+      SuperAdminMailer.delay(queue: 'mailers').alert_charge_reinstated(structure, dispute_reason, dispute_reason)
       subscription.cancel!
       true
     else

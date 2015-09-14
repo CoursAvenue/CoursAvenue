@@ -19,7 +19,7 @@ class Users::InvitedUsersController < ApplicationController
 
     emails.each do |_email|
       invited_user = InvitedUser::Student.where(invitation_for: nil, email: _email, referrer_id: @user.id, referrer_type: 'User', email_text: text).first_or_create
-      InvitedUserMailer.delay.recommand_friends(invited_user)
+      InvitedUserMailer.delay(queue: 'mailers').recommand_friends(invited_user)
     end
 
     respond_to do |format|

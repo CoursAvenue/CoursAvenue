@@ -25,7 +25,7 @@ module ConversationsHelper
   #
   # @return Array of Courses
   def conversation_courses(conversation, structure)
-    courses = structure.courses.find(conversation.mailboxer_course_ids.split(',')) if conversation.mailboxer_course_ids.present?
+    courses = structure.courses.with_deleted.find(conversation.mailboxer_course_ids.split(',')) if conversation.mailboxer_course_ids.present?
   end
 
   # Take out the label of the conversation

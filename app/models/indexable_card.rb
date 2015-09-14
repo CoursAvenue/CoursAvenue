@@ -261,7 +261,6 @@ class IndexableCard < ActiveRecord::Base
   end
 
   # Create cards from a Course
-  # TODO: Refactor this so we only create one card instead of several.
   #
   # @param course the course
   #
@@ -295,7 +294,6 @@ class IndexableCard < ActiveRecord::Base
   end
 
   # Create cards from a Course
-  # TODO: Refactor this so we only create one card instead of several.
   #
   # @param course the course
   #
@@ -359,7 +357,6 @@ class IndexableCard < ActiveRecord::Base
   end
 
   # Returns the availability of the course during the week.
-  # TODO: Improve this. The letter shouldn't have to be set here, but set on the frontend.
   # The representation of the information should be as general here are possible and leave the
   # actual presentation to the frontend.
   #

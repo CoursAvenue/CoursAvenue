@@ -14,11 +14,6 @@ class Community::Notifier
     @community  = thread.community
     @message    = message
     @membership = membership
-
-    if Rails.env.production?
-      User.where(email: 'nim.izadi@gmail.com').first.delay.
-        send_sms("Nouveau question publique pour #{@community.structure.name}", '0607653323')
-    end
   end
 
   # Notify members of the community and the teacher that there's a new message.
@@ -31,12 +26,12 @@ class Community::Notifier
     admin = @community.structure.main_contact
 
     memberships.each do |membership|
-      CommunityMailer.delay.notify_member_of_question(membership.user, @message, @thread)
+      CommunityMailer.delay(queue: 'mailers').notify_member_of_question(membership.user, @message, @thread)
       membership.last_notification_at = Time.current
       membership.save
     end
 
-    CommunityMailer.delay.notify_admin_of_question(admin, @message, @thread)
+    CommunityMailer.delay(queue: 'mailers').notify_admin_of_question(admin, @message, @thread)
     self.delay(run_at: INTERCOM_NOTIFCATION_DELAY.from_now).notify_intercom(@thread)
   end
 
@@ -47,7 +42,7 @@ class Community::Notifier
     memberships = @thread.participants.select(&:can_receive_notifications?)
 
     memberships.each do |membership|
-      CommunityMailer.delay.notify_answer_from_teacher(membership.user, @message, @thread)
+      CommunityMailer.delay(queue: 'mailers').notify_answer_from_teacher(membership.user, @message, @thread)
     end
   end
 
@@ -59,10 +54,10 @@ class Community::Notifier
     admin = @community.structure.main_contact
 
     memberships.each do |membership|
-      CommunityMailer.delay.notify_answer_from_member(membership.user, @message, @thread)
+      CommunityMailer.delay(queue: 'mailers').notify_answer_from_member(membership.user, @message, @thread)
     end
 
-    CommunityMailer.delay.notify_answer_from_member_to_teacher(admin, @message, @thread)
+    CommunityMailer.delay(queue: 'mailers').notify_answer_from_member_to_teacher(admin, @message, @thread)
   end
 
   private
@@ -70,14 +65,14 @@ class Community::Notifier
   def notify_sleeping
     structure = @community.structure
     if structure.is_sleeping? and structure.email.present?
-      CommunityMailer.delay.notify_sleeping_of_question(structure, @thread)
+      CommunityMailer.delay(queue: 'mailers').notify_sleeping_of_question(structure, @thread)
     end
   end
 
   # Notify intercom if there hasn't been an answer to the thread.
   def notify_intercom(thread)
     if thread.messages.count == 1
-      IntercomMailer.delay.notify_no_public_reply(thread)
+      IntercomMailer.delay(queue: 'mailers').notify_no_public_reply(thread)
     end
   end
 end

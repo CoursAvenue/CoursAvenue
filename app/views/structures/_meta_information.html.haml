@@ -1,14 +1,14 @@
+- if @structure.medias.count > 0
+  = content_for :meta_image do
+    = @structure.medias.cover_first.videos_first.first.image.try(:url)
+- elsif @structure.logo.present?
+  = content_for :meta_image do
+    = @structure.logo.url
+
 -# If params[:c] is present, it means a teacher wants to share on Facebook and
 -# wants to link to profile page but wants to have comment info as meta data
 - if params[:c].present?
   - shared_comment = Comment::Review.find(params[:c])
-  - if shared_comment and shared_comment.user and shared_comment.user.has_avatar?
-    = content_for :meta_image do
-      = shared_comment.user.avatar_url
-  - elsif @structure.logo.present?
-    = content_for :meta_image do
-      = @structure.logo.url(:thumb)
-
   - if shared_comment
     = content_for :title do
       = "«#{shared_comment.title}» par #{shared_comment.author_name}"

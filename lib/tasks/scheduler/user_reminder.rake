@@ -26,7 +26,7 @@ namespace :scheduler do
     task :celebrate_comment_anniversary => :environment do |t, args|
       date = 1.year.ago
       Comment::Review.where(created_at:  date.beginning_of_day..date.end_of_day).each do |comment|
-        UserMailer.delay.comment_anniversary(comment)
+        UserMailer.delay(queue: 'mailers').comment_anniversary(comment)
       end
     end
 

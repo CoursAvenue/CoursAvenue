@@ -1,0 +1,14 @@
+= side_menu_currently_at 'activity'
+
+= render partial: 'pro/shared/activity_tabs', locals: { current: 'sms' }
+
+%h2 Message à #{ @sms.sender.name }
+%pre.soft.epsilon= @sms.text.html_safe
+
+%hr.push--ends
+
+%h2 Statut
+- if @status.nil?
+  %h3 Erreur lors de l'envoi
+- else
+  %pre.soft.epsilon= JSON.pretty_generate(@status)

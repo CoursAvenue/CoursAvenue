@@ -15,7 +15,7 @@
 
 .grid--full.push--bottom.message
   .grid__item.palm-one-whole.palm-block.palm-text--center.two-twelfths.v-top.v-top>
-    = image_tag user.avatar_url(:normal), class: 'center-block push-half--bottom rounded--circle', width: 100
+    = image_tag first_message.sender.avatar_url(:normal), class: 'center-block push-half--bottom rounded--circle', width: 100
     .text--center
       = "#{l(local_time(first_message.created_at).to_date, format: :short)} à #{l(local_time(first_message.created_at), format: :short)}"
   .grid__item.palm-one-whole.palm-block.palm-text--center.ten-twelfths.v-top>

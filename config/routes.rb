@@ -23,8 +23,9 @@ CoursAvenue::Application.routes.draw do
       resources :blog_authors, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/authors', path: 'blog/auteurs'
       resources :images, only: [:index, :create]
       resource  :community             , only: [:show]                                     , controller: 'structures/community'      , path: 'communaute' do
-        resources :message_threads, only: [:index], controller: 'community/message_threads'
+        resources :message_threads, only: [:index, :destroy], controller: 'community/message_threads'
       end
+      resources :sms_loggers, only: [:index, :show]
     end
 
     # For pros
@@ -94,7 +95,6 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
-      resources :sms_loggers, only: [:index]
       resources :comments, only: [:edit, :update, :index] do
         member do
           patch :recover
@@ -165,7 +165,8 @@ CoursAvenue::Application.routes.draw do
           get   :ask_for_pro_deletion
           get   :confirm_email
           post  :resend_confirmation_instructions
-          get   :dashboard
+          get   :dashboard, path: 'tableau-de-bord'
+          get   :old_dashboard_path, path: 'dashboard', to: 'redirect#old_dashboard_path'
           get   :edit_order_recipient
           get   :someone_already_took_control, path: 'quelqu-un-a-deja-le-control'
           get   :add_subjects
@@ -342,6 +343,7 @@ CoursAvenue::Application.routes.draw do
             get :regular, path: 'reguliers'
             get :configure_openings
             patch :update_openings
+            post :generate_cards
           end
           member do
             get   :choose_media
@@ -367,6 +369,8 @@ CoursAvenue::Application.routes.draw do
           end
           collection do
             get :paid_requests, path: 'transactions-cb'
+            get :upcoming, path: 'a-venir'
+            get :past,     path: 'deja-passee'
           end
         end
         resources :gift_certificates, only: [:index, :edit, :new, :create, :destroy, :update], controller: 'structures/gift_certificates', path: 'bons-cadeaux' do
@@ -728,5 +732,7 @@ CoursAvenue::Application.routes.draw do
 
   # SHOULD ALWAYS BE LAST.
   # Matches every route that is not described abouve and routes it to an error.
-  match "*path", to: "application#routing_error", via: :get
+  if Rails.env.staging? or Rails.env.production?
+    match "*path", to: "application#routing_error", via: :get
+  end
 end

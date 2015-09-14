@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
 
   layout 'users'
 
-  helper_method :mobile_device?, :layout_locals, :on_pro_subdomain?
+  helper_method :mobile_device?, :layout_locals, :on_pro_subdomain?,
+    :prerender_agent?
 
   before_filter :update_sanitized_params, if: :devise_controller?
 
@@ -124,6 +125,11 @@ class ApplicationController < ActionController::Base
 
   def mixpanel_tracker
     @tracker ||= MixpanelClientFactory.client
+  end
+
+  def prerender_agent?
+    return false unless request.env.keys.include?('HTTP_USER_AGENT')
+    @is_prerender ||= request.env["HTTP_USER_AGENT"].include?('Prerender')
   end
 
   protected

@@ -38,7 +38,7 @@ class CommentNotification < ActiveRecord::Base
     if self.user.email_opt_in
       self.status = 'resend_stage_1'
       self.save
-      UserMailer.delay.ask_for_recommandations_stage_1(self)
+      UserMailer.delay(queue: 'mailers').ask_for_recommandations_stage_1(self)
     end
   end
 
@@ -46,7 +46,7 @@ class CommentNotification < ActiveRecord::Base
     if self.user.email_opt_in
       self.status = 'resend_stage_2'
       self.save
-      UserMailer.delay.ask_for_recommandations_stage_2(self)
+      UserMailer.delay(queue: 'mailers').ask_for_recommandations_stage_2(self)
     end
   end
 
@@ -54,14 +54,14 @@ class CommentNotification < ActiveRecord::Base
     if self.user.email_opt_in
       self.status = 'resend_stage_3'
       self.save
-      UserMailer.delay.ask_for_recommandations_stage_3(self)
+      UserMailer.delay(queue: 'mailers').ask_for_recommandations_stage_3(self)
     end
   end
 
   private
 
   def ask_for_recommandations
-    UserMailer.delay.ask_for_recommandations(self)
+    UserMailer.delay(queue: 'mailers').ask_for_recommandations(self)
   end
 
   private

@@ -21,7 +21,7 @@ namespace :scheduler do
         if conversation_waiting_for_reply?(conversation)
           admin = conversation.recipients.select{|recipient| recipient.is_a? Admin }.first
           next if admin.nil?
-          AdminMailer.delay.message_information_reminder_1(conversation, admin)
+          AdminMailer.delay(queue: 'mailers').message_information_reminder_1(conversation, admin)
         end
       end
     end
@@ -37,7 +37,7 @@ namespace :scheduler do
         if conversation_waiting_for_reply?(conversation)
           admin = conversation.recipients.select{|recipient| recipient.is_a? Admin }.first
           next if admin.nil?
-          AdminMailer.delay.message_information_reminder_2(conversation, admin)
+          AdminMailer.delay(queue: 'mailers').message_information_reminder_2(conversation, admin)
         end
       end
     end

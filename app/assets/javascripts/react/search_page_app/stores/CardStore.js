@@ -250,7 +250,8 @@ var CardCollection = Backbone.Collection.extend({
         if (LocationStore.get('bounds')) {
             data.insideBoundingBox = LocationStore.get('bounds').toString();
         }
-        switch(LocationStore.get('zoom') || LocationStore.getInitialZoom()) {
+        data.zoom = LocationStore.get('zoom') || LocationStore.getInitialZoom();
+        switch(data.zoom) {
             case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
                 data.aroundPrecision = 1000000; break;
             case 8:  data.aroundPrecision = 500000; break;

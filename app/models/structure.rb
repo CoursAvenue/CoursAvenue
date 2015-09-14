@@ -147,6 +147,7 @@ class Structure < ActiveRecord::Base
 
   define_boolean_accessor_for :meta_data, :is_sleeping, :sleeping_email_opt_in
 
+  # Make sure to update the Uploader in Admin#avatar_url check.
   mount_uploader :logo, StructureLogoUploader
 
   ######################################################################
@@ -178,6 +179,7 @@ class Structure < ActiveRecord::Base
 
   after_touch   :generate_cards unless Rails.env.test?
   before_destroy :unsubscribe_to_crm
+  before_destroy :cancel_upcoming_participation_requests
 
   ######################################################################
   # Scopes                                                             #
@@ -623,8 +625,9 @@ class Structure < ActiveRecord::Base
     self.active      = true
 
     save(validate: false)
+    self.generate_cards
 
-    AdminMailer.delay.you_have_control_of_your_account(self)
+    AdminMailer.delay(queue: 'mailers').you_have_control_of_your_account(self)
     true
   end
 
@@ -838,6 +841,10 @@ class Structure < ActiveRecord::Base
       create_indexable_lock
     end
 
+    if indexable_lock.too_old?
+      indexable_lock.unlock!
+    end
+
     return if indexable_lock.locked?
     lock_cards!
 
@@ -889,7 +896,7 @@ class Structure < ActiveRecord::Base
     self.enabled = false
     save
 
-    SuperAdminMailer.delay.alert_for_disabling_structure(self)
+    SuperAdminMailer.delay(queue: 'mailers').alert_for_disabling_structure(self)
 
     create_intercom_event('Active <-> Inactive')
   end
@@ -1081,7 +1088,7 @@ class Structure < ActiveRecord::Base
     creator.update_cards
     unlock_cards!
   end
-  handle_asynchronously :delayed_generate_cards, queue: 'indexable_cards'
+  handle_asynchronously :delayed_generate_cards, queue: 'cards'
 
   def create_intercom_event(event_name)
     begin
@@ -1093,6 +1100,12 @@ class Structure < ActiveRecord::Base
       )
     rescue Exception => exception
       Bugsnag.notify(exception, { name: name, slug: slug, id: id })
+    end
+  end
+
+  def cancel_upcoming_participation_requests
+    if (prs = self.participation_requests.upcoming).any?
+      prs.each { |pr| pr.cancel!(nil, 15) }
     end
   end
 

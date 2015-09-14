@@ -22,4 +22,11 @@ class Structure::IndexableLock < ActiveRecord::Base
     self.locked = false
     save
   end
+
+  # Wether the lock is too old, meaning that it has been locked for longer than a day.
+  #
+  # @return a Boolean
+  def too_old?
+    locked? and locked_at < 1.day.ago
+  end
 end

@@ -74,7 +74,8 @@ class ::Admin < ActiveRecord::Base
     self.structure.logo.url(:thumb)
   end
 
-  def avatar_url(format=:thumb)
+  def avatar_url(format = :thumb)
+    format = :thumb if ! StructureLogoUploader.versions.keys.include?(format)
     self.structure.logo.url(format)
   end
 

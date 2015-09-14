@@ -26,20 +26,20 @@ class InvitedUser < ActiveRecord::Base
   def inform_proposer
     self.registered = true
     self.save
-    InvitedUserMailer.delay.inform_invitation_success(self)
+    InvitedUserMailer.delay(queue: 'mailers').inform_invitation_success(self)
   end
 
   def send_invitation_stage_1
     return unless self.referrer.email_opt_in
     self.email_status =  'resend_stage_1'
     self.save
-    InvitedUserMailer.delay.send_invitation_stage_1(self)
+    InvitedUserMailer.delay(queue: 'mailers').send_invitation_stage_1(self)
   end
 
   def send_invitation_stage_2
     self.email_status =  'resend_stage_2'
     self.save
-    InvitedUserMailer.delay.send_invitation_stage_2(self)
+    InvitedUserMailer.delay(queue: 'mailers').send_invitation_stage_2(self)
   end
 
   def referrer

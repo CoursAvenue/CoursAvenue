@@ -12,6 +12,6 @@ class Blog::Subscriber::UserSubscriber < Blog::Subscriber
     self.user = User.where(email: self.email).first_or_create
     user.save(validate: false)
     self.save
-    UserMailer.delay.subscribed_to_blog(user)
+    UserMailer.delay(queue: 'mailers').subscribed_to_blog(user)
   end
 end

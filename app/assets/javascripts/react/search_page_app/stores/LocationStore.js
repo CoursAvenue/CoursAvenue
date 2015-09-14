@@ -25,6 +25,7 @@ var LocationStore = Backbone.Model.extend({
                 break;
             case ActionTypes.SELECT_ADDRESS:
                 this.unset('user_location');
+                if (payload.data.zoom) { this.set('zoom', payload.data.zoom, { silent: true }); }
                 this.set('address', payload.data);
                 break;
             case ActionTypes.UPDATE_BOUNDS_ZOOM:

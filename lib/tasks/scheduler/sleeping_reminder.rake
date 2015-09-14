@@ -13,11 +13,11 @@ namespace :scheduler do
       next if (Date.today.yday % 10) != 0
       Structure.where(active: true).each do |structure|
         next if !structure.is_sleeping
-        AdminMailer.delay.take_control_of_your_account(structure)
+        AdminMailer.delay(queue: 'mailers').take_control_of_your_account(structure)
         if structure.other_emails.present?
           structure.other_emails.split(';').each do |email|
             next if email == structure.contact_email
-            AdminMailer.delay.take_control_of_your_account(structure, email)
+            AdminMailer.delay(queue: 'mailers').take_control_of_your_account(structure, email)
           end
         end
       end
