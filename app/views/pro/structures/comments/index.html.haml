@@ -5,9 +5,9 @@
   .grid.push--bottom
     .grid__item.v-middle.one-half.palm-one-whole>
       %h1.flush
-	Avis
-	- if @structure.comments.any?
-	  = "(#{@structure.comments.count})"
+        Avis
+  - if @structure.comments.any?
+    = "(#{@structure.comments.count})"
     - if @structure.comments.any?
       .grid__item.v-middle.text--right.one-half.palm-one-whole.palm-text--left>
         = link_to recommendations_pro_structure_path(@structure), class: 'btn btn--green' do
