@@ -108,6 +108,10 @@ class Comment::Review < Comment
   end
   # :nocov:
 
+  def self.searchable_language
+    'french'
+  end
+
   def recover!
     self.status = :accepted
     self.save

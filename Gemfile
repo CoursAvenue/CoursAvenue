@@ -289,10 +289,14 @@ gem 'omnicontacts', '~> 0.3.5'
 # Email sending for teachers
 gem 'mandrill-api'
 
+# Google Analytics integration.
 gem 'legato', '~> 0.4.0'
 
-gem 'replicate', '~> 1.5.1'
-
+# Payments
 gem 'stripe', '~> 1.20.1'
 
+# Form object.
 gem 'virtus', '~> 1.0.5'
+
+# Full text search.
+gem 'textacular', '~> 3.0'

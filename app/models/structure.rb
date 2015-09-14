@@ -706,12 +706,12 @@ class Structure < ActiveRecord::Base
   def associate_blog_articles(nb_articles_to_show = 3)
     if vertical_pages_breadcrumb.present?
       dominant_subject_name = vertical_pages_breadcrumb.split('|').last.split(';').last
-      articles = BlogArticleSearch.search(name: dominant_subject_name, per_page: nb_articles_to_show, type: 'user').results
+      articles = BlogArticleSearch.search(name: dominant_subject_name, per_page: nb_articles_to_show, type: 'user')
     else
-      articles = BlogArticleSearch.search(per_page: nb_articles_to_show, type: 'user', subject_slugs: self.decorate.all_subjects_slugs).results
+      articles = BlogArticleSearch.search(per_page: nb_articles_to_show, type: 'user', subject_slugs: self.decorate.all_subjects_slugs)
     end
-    articles += BlogArticleSearch.search(per_page: nb_articles_to_show - articles.length, type: 'user').results if articles.length < 3
-    articles
+    articles += BlogArticleSearch.search(per_page: nb_articles_to_show - articles.length, type: 'user') if articles.length < 3
+    articles.first(nb_articles_to_show)
   end
 
   # Whether the Structure is subscribed (with stripe) or not.
