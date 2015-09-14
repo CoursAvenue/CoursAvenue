@@ -37,9 +37,9 @@ class VerticalPage < ActiveRecord::Base
                                      has_title: true,
                                      lat: city.latitude,
                                      lng: city.longitude,
-                                     radius: 10).results
+                                     radius: 10)
     else
-      reviews = CommentSearch.search(text: subject_name, per_page: limit, has_title: true).results
+      reviews = CommentSearch.search(text: subject_name, per_page: limit, has_title: true)
     end
     reviews[0..(limit - 1)]
   end
@@ -49,7 +49,7 @@ class VerticalPage < ActiveRecord::Base
   end
 
   def blog_articles
-    BlogArticleSearch.search(name: subject_name, per_page: 3, type: 'user').results
+    BlogArticleSearch.search(name: subject_name, per_page: 3, type: 'user')
   end
 
   private

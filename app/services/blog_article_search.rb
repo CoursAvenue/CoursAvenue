@@ -1,25 +1,36 @@
-class BlogArticleSearch
+class BlogArticleSearch < BaseSearch
+  # ActiveRecord doesn't build the actual query until we tried to use the results, so we can
+  # manually create the query and simply return it.
+  #
+  # <http://stackoverflow.com/questions/6084743/rails-activerecord-building-queries-dynamically>
+  def self.search(params)
+    article_cache_key = Blog::Article.with_deleted.maximum(:updated_at).to_i
+    params_cache_key  = params_to_cache_key(params)
+    Rails.cache.fetch("BlogArticleSearch/#{ params_cache_key }/#{ article_cache_key }") do
+      page     = params[:page] || 1
+      per_page = params[:per_page] || 15
 
-  # params: params
-  #     name:          fulltext
-  #     subject_id:    slug of a subject
-  #     audience_ids:  [1, 2, 3]
-  #     level_ids:     [1, 2, 3]
-  def self.search params
-    params[:sort] ||= 'rating_desc'
+      # Default query, the one that is always the same.
+      articles = Blog::Article.where(published: true).
+        order(page_views: :desc, created_at: :desc)
 
-    @search = Sunspot.search(Blog::Article) do
-      fulltext params[:name]           if params[:name].present?
-      paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
-      with(:subject_slugs).any_of               params[:subject_slugs] if params[:subject_slugs].present?
+      # Now we actually build the query with the params we have.
+      if params[:name].present?
+        articles = articles.basic_search(params[:name])
+      end
 
-      with :type, params[:type] if params[:type].present?
-      with :published, true
+      if params[:type].present?
+        type = (params[:type] == 'user' ? 'Blog::Article::UserArticle' : 'Blog::Article::ProArticle')
+        articles = articles.where(type: type)
+      end
 
-      order_by :page_views, :desc
-      order_by :created_at, :desc
+      if params[:subject_slugs].present?
+        articles = articles.includes(:subjects).joins(:subjects).
+          where('blog_articles_subjects.subject_id = subjects.id AND subjects.slug in ?', params[:subject_slugs])
+      end
+
+      # Finally, we paginate and return the results.
+      articles.page(page).per(per_page).to_a
     end
-
-    @search
   end
 end
