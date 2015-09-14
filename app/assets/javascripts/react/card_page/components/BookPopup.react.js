@@ -89,9 +89,12 @@ var BookPopup = React.createClass({
 
     submitRequest: function submitRequest (event) {
         var user_params;
+        var $dom_node = $(this.getDOMNode());
+        if ($dom_node.find('[name="message[body]"]').val() == "") {
+            return ;
+        }
         if (event) { $(event.currentTarget).prop('disabled', true); }
         if (this.props.dont_register_user || CoursAvenue.currentUser().isLogged()) {
-            $dom_node = $(this.getDOMNode());
             user_params = { phone_number: $dom_node.find('[name="user[phone_number]"]').val() }
             if (this.props.dont_register_user) {
                 user_params.validate_full = true;
@@ -143,6 +146,24 @@ var BookPopup = React.createClass({
                       <option value="4s5">45</option>
                   </select>
                 </div>);
+    },
+
+    checkMessageContent: function checkMessageContent (event) {
+        var button = $(this.getDOMNode()).find('button');
+        var message = $(this.getDOMNode()).find('#empty-message-alert');
+        if ($(this.getDOMNode()).find('textarea').val().trim() == "") {
+            button.prop('disabled', true);
+            message.slideDown();
+        } else {
+            button.prop('disabled', false);
+            message.slideUp();
+        }
+    },
+
+    addDefaultMessage: function addDefaultMessage () {
+        var message = "Bonjour,\n\nJe souhaiterais m'inscrire pour une première séance : pouvez-vous m'envoyer toute information utile (tenue exigée, matériel requis, etc.) ?\n\nMerci et à très bientôt !";
+        $(this.getDOMNode()).find('textarea').val(message);
+        this.checkMessageContent();
     },
 
     /*
@@ -362,8 +383,13 @@ var BookPopup = React.createClass({
                                       className="one-whole input--large"
                                       style={{ height: '135px' }}
                                       data-behavior="autoresize"
+                                      onChange={ this.checkMessageContent }
                                       defaultValue={"Bonjour,\n\nJe souhaiterais m'inscrire pour une première séance : pouvez-vous m'envoyer toute information utile (tenue exigée, matériel requis, etc.) ?\n\nMerci et à très bientôt !"}>
                             </textarea>
+                        </div>
+
+                        <div id='empty-message-alert' className='f-weight-bold soft-half--bottom red hidden'>
+                            Veuillez renseigner un message. <a href='javascript:void(0)' className='blue' onClick={ this.addDefaultMessage }>Remettre le message par défault.</a>
                         </div>
 
                         <button onClick={this.submitRequest}

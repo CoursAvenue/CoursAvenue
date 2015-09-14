@@ -97,7 +97,7 @@ class Structures::ParticipationRequestsController < ApplicationController
       params[:participation_request][:course_id] = card.course.id
     end
 
-    @participation_request = ParticipationRequest.create_and_send_message params[:participation_request], current_user
+    @participation_request = ParticipationRequest.create_and_send_message(params[:participation_request], current_user)
     respond_to do |format|
       if @participation_request.persisted?
         format.json { render json: { succes: true, popup_to_show: render_to_string(partial: 'structures/participation_requests/request_sent', formats: [:html]) } }
