@@ -19,9 +19,11 @@ class CommentSearch < BaseSearch
         comments = comments.basic_search(params[:text])
       end
 
+      # TODO: This is too slow because there are too many Places in the radius most of the time
+      # (e.g. in Paris).
       if params[:lat].present? and params[:lng].present?
-        # For some reason, `Place.select(:id, :latitude, :longitude)` and `Place.[...].select(:id)`
-        # don't work here, so we have to get the full Place object.
+        # Because we are using geolocation search, `Place.select(:id, :latitude, :longitude)` and
+        # `Place.[...].select(:id)` don't work here, so we have to get the full Place object.
         place_ids = Place.near([params[:lat], params[:lng]], radius, units: :km).map(&:id)
         # We start by getting all of the structures associated with comments.
         # We then get all of the places of the structure and finally check if the place is in the
