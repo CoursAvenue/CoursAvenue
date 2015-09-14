@@ -18,11 +18,10 @@ FactoryGirl.define do
 
     trait :accepted_state do
       association :state, factory: [:participation_request_state, :accepted]
-      state 'accepted'
     end
 
     trait :pending_state do
-      state 'pending'
+      association :state, factory: [:participation_request_state]
     end
 
     trait :with_participants do
