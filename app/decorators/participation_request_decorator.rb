@@ -8,13 +8,13 @@ class ParticipationRequestDecorator < Draper::Decorator
     if pending? and past?
       I18n.t('participation_request.state.expired')
     else
-      I18n.t("participation_request.state.#{state}")
+      I18n.t("participation_request.state.#{state.state}")
     end
   end
 
   # Accepté|En attente|Annulé
   def long_status_name(resource_name="Structure")
-    status = I18n.t("participation_request.state.to_#{resource_name.downcase}.long_description.#{participation_request.state}")
+    status = I18n.t("participation_request.state.to_#{resource_name.downcase}.long_description.#{participation_request.state.state}")
     if participation_request.treated?
       status += participation_request.treat_method == 'message' ?  ' (un message vous a été envoyé)' : ' (vos coordonnées de contact ont été visualisées)'
     end

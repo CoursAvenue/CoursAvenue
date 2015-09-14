@@ -11,7 +11,7 @@
 - if @participation_request.past? and @participation_request.accepted?
   = render "state_past"
 - else
-  = render "state_#{ @participation_request.state }"
+  = render "state_#{ @participation_request.state.state }"
 
 .grid--full.push--bottom.message
   .grid__item.palm-one-whole.palm-block.palm-text--center.two-twelfths.v-top.v-top>
