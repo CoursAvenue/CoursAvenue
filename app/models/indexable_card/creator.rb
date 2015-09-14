@@ -65,6 +65,15 @@ class IndexableCard::Creator
     end
   end
 
+  def self.create_missing_cards
+    Structure.includes(:indexable_cards, courses: [:plannings]).active_and_enabled.select do |s|
+      s.indexable_cards.count == 0 and s.courses.count > 0 and s.plannings.count > 0 and
+        (!s.indexable_lock.locked? or (s.indexable_lock.too_old?))
+    end.flat_map(&:courses).each do |course|
+      IndexableCard.delay(queue: 'cards').create_from_course(course)
+    end
+  end
+
   private
 
   # The courses not represented in the cards.
