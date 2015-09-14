@@ -565,7 +565,7 @@ describe Structure do
     context "when the generation is locked" do
       before do
         subject.create_indexable_lock
-	# subject.indexable_lock.lock!
+        # subject.indexable_lock.lock!
       end
 
       it 'does nothing' do
