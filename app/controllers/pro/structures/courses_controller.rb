@@ -153,6 +153,15 @@ class Pro::Structures::CoursesController < Pro::ProController
     end
   end
 
+  def generate_cards
+    @structure.courses.each do |course|
+      IndexableCard.delay(queue: 'cards', priority: 10).create_from_course(course)
+    end
+
+    redirect_to pro_structure_courses_path(@structure),
+      notice: 'Les résultats sont dans la queue de mise a jour'
+  end
+
   private
 
   def load_structure

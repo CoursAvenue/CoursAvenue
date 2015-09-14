@@ -343,6 +343,7 @@ CoursAvenue::Application.routes.draw do
             get :regular, path: 'reguliers'
             get :configure_openings
             patch :update_openings
+            post :generate_cards
           end
           member do
             get   :choose_media
