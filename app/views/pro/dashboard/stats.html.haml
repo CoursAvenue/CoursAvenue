@@ -1,0 +1,58 @@
+= side_menu_currently_at 'pro_dashboard'
+= render partial: 'pro/shared/dashboard_tabs', locals: { current: 'dashboard' }
+
+#stats
+
+= content_for :scripts do
+  = javascript_include_tag 'libs/highcharts/highcharts'
+  = javascript_include_tag 'libs/highcharts/modules/exporting'
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        new Highcharts.Chart({
+            chart: { renderTo: 'stats', type: 'column', height: 1000 },
+            title: { text: "Répartition" },
+            xAxis: { categories: #{@months.map{|date| l(Date.parse(date.to_s), format: :short)}} },
+            yAxis: {
+              title: { text: ''},
+              stackLabels: {
+                  enabled: true,
+                  style: {
+                      fontWeight: 'bold',
+                      color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                  }
+              }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black, 0 0 3px black'
+                        }
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            series: [
+              { name: "1", data: #{@one_req.map{|date, count| count}} },
+              { name: "2-4", data: #{@two_req.map{|date, count| count}} },
+              { name: "5", data: #{@five_more_req.map{|date, count| count}} },
+              { name: "0", data: #{@no_req.map{|date, count| count}} }
+            ]
+        });
+    });
+

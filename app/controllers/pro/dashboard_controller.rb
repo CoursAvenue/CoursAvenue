@@ -67,5 +67,27 @@ class Pro::DashboardController < Pro::ProController
       @teachers_per_weeks[I18n.l(beginning_of_week)]  = teachers_count
     end
   end
-end
 
+  def stats
+    @no_req, @one_req, @two_req, @five_more_req = {}, {}, {}, {}, {}
+    date = Date.today.beginning_of_month
+    @months = [date]
+    4.times do |i|
+      @months << date - i.month
+    end
+
+    @months.reverse!
+    @months.each do |beginning_of_month|
+      invalidate_cache = rand if beginning_of_month.end_of_month > Date.today
+      reqs = Rails.cache.fetch("pro/dashboard/stats/reqs/#{beginning_of_month.to_s}/#{invalidate_cache}") do
+        ParticipationRequest.where(created_at: (beginning_of_month)..beginning_of_month.end_of_month).group('structure_id').count
+      end
+      @one_req[beginning_of_month]       = reqs.select{|a,b| b == 1}.length
+      @two_req[beginning_of_month]       = reqs.select{|a,b| b > 1 && b < 5}.length
+      @five_more_req[beginning_of_month] = reqs.select{|a,b| b > 5}.length
+      admin_count = Admin.where(Admin.arel_table[:created_at].lt(beginning_of_month.end_of_month)).count
+      @no_req[beginning_of_month] = admin_count - @one_req[beginning_of_month] - @two_req[beginning_of_month] - @five_more_req[beginning_of_month]
+    end
+  end
+
+ end

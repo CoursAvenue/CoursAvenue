@@ -43,6 +43,7 @@ CoursAvenue::Application.routes.draw do
       get 'presse'                              => redirect('presse', subdomain: 'www', status: 301)
       get 'journees-portes-ouvertes'            => redirect('pages/portes-ouvertes-cours-loisirs', status: 301)
       get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
+      get '/dashboard-2'                        => 'dashboard#stats'
       get 'cours-d-essai-gratuits'              => 'home#free_trial',         as: 'pages_free_trial'
 
       # Redirect old pages
