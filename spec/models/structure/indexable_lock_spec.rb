@@ -41,14 +41,31 @@ RSpec.describe Structure::IndexableLock, type: :model do
         expect { subject.unlock! }.to_not change { subject.locked? }
       end
     end
+
+    context 'when lock' do
+      subject { FactoryGirl.create(:structure_indexable_lock, :locked) }
+
+      it 'unlocks' do
+        subject.unlock!
+        expect(subject.locked?).to be_falsy
+      end
+    end
   end
 
-  context 'when lock' do
-    subject { FactoryGirl.create(:structure_indexable_lock, :locked) }
+  describe 'too_old?' do
+    context 'when the lock is unlocked' do
+      subject { FactoryGirl.build_stubbed(:structure_indexable_lock, :unlocked) }
+      it { expect(subject.too_old?).to be_falsy }
+    end
 
-    it 'unlocks' do
-      subject.unlock!
-      expect(subject.locked?).to be_falsy
+    context 'when it has been less than a day ago' do
+      subject { FactoryGirl.build_stubbed(:structure_indexable_lock, locked_at: 1.hour.ago) }
+      it { expect(subject.too_old?).to be_falsy }
+    end
+
+    it 'returns true' do
+      lock = FactoryGirl.build_stubbed(:structure_indexable_lock, :locked, locked_at: 2.days.ago)
+      expect(lock.too_old?).to be_truthy
     end
   end
 end
