@@ -3,11 +3,13 @@
 = render partial: 'pro/shared/activity_tabs', locals: { current: 'participation_requests' }
 
 .grid.push--bottom
-  .grid__item.palm-one-whole.one-third>
+  .grid__item.palm-one-whole.one-quarter>
     = link_to 'Inscrpts en attente', pro_participation_requests_path(state: 'pending'), class: ['btn btn--full', (params[:state] == 'pending' ? 'btn--blue' : '')]
-  .grid__item.palm-one-whole.one-third>
+  .grid__item.palm-one-whole.one-quarter>
+    = link_to 'Inscrpts traitées', pro_participation_requests_path(state: 'treated'), class: ['btn btn--full', (params[:state] == 'treated' ? 'btn--blue' : '')]
+  .grid__item.palm-one-whole.one-quarter>
     = link_to 'Inscrpts annulées', pro_participation_requests_path(state: 'canceled'), class: ['btn btn--full', (params[:state] == 'canceled' ? 'btn--blue' : '')]
-  .grid__item.palm-one-whole.one-third>
+  .grid__item.palm-one-whole.one-quarter>
     = link_to 'Inscrpts validées', pro_participation_requests_path(state: 'accepted'), class: ['btn btn--full', (params[:state] == 'accepted' ? 'btn--blue' : '')]
 
 %h1 Inscriptions
