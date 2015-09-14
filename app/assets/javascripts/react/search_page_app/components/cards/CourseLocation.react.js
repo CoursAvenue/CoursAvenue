@@ -59,11 +59,13 @@ CourseDistance = React.createClass({
     },
 
     location: function location () {
-        if (this.state.filter_store.isFilteringAroundLocation()) {
-            return this.distanceStr();
-        } else {
-            return this.addressStr();
-        }
+        return this.addressStr();
+        // We can't use distanceStr because we use geoPrecision
+        // if (this.state.filter_store.isFilteringAroundLocation()) {
+        //     return this.distanceStr();
+        // } else {
+        //     return this.addressStr();
+        // }
     },
 
     distanceStr: function distanceStr () {
