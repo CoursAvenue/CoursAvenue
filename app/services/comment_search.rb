@@ -31,7 +31,7 @@ class CommentSearch
       order_by :created_at, :desc
     end
 
-    @search
+    @search.results
   end
 
   def self.retrieve_location params
