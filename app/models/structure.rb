@@ -708,7 +708,7 @@ class Structure < ActiveRecord::Base
       articles = BlogArticleSearch.search(per_page: nb_articles_to_show, type: 'user', subject_slugs: self.decorate.all_subjects_slugs)
     end
     articles += BlogArticleSearch.search(per_page: nb_articles_to_show - articles.length, type: 'user') if articles.length < 3
-    articles
+    articles.first(nb_articles_to_show)
   end
 
   # Whether the Structure is subscribed (with stripe) or not.
