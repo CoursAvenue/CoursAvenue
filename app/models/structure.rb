@@ -841,6 +841,10 @@ class Structure < ActiveRecord::Base
       create_indexable_lock
     end
 
+    if indexable_lock.too_old?
+      indexable_lock.unlock!
+    end
+
     return if indexable_lock.locked?
     lock_cards!
 
