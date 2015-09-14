@@ -18,7 +18,7 @@ class ParticipationRequest::State < ActiveRecord::Base
     self.state = 'accepted'
     self.accepted_at = DateTime.current
 
-    add_event({ state: 'state', date: accepted_at })
+    add_event({ state: 'accepted', date: accepted_at })
 
     save
   end
@@ -31,7 +31,7 @@ class ParticipationRequest::State < ActiveRecord::Base
     self.state = 'canceled'
     self.canceled_at = DateTime.current
 
-    add_event({ state: 'state', date: accepted_at })
+    add_event({ state: 'canceled', date: accepted_at })
 
     save
   end
@@ -44,7 +44,7 @@ class ParticipationRequest::State < ActiveRecord::Base
     self.state = 'treated'
     self.treated_at = DateTime.current
 
-    add_event({ state: 'state', date: accepted_at })
+    add_event({ state: 'treated', date: accepted_at })
 
     save
   end
