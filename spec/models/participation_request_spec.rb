@@ -14,7 +14,6 @@ describe ParticipationRequest do
   let(:user)                  { FactoryGirl.create(:user) }
   let(:message)               { Faker::Lorem.paragraph }
 
-
   describe '#create_and_send_message' do
     it 'saves it' do
       request_attributes = {
