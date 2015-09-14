@@ -1,7 +1,7 @@
 # encoding: utf-8
 module CommentsHelper
   def structure_comment_url(comment)
-    structure_url(comment.structure, anchor: "recommandation-#{comment.id}", subdomain: 'www')
+    structure_url(comment.structure, subdomain: 'www')
   end
 
   def share_comment_url(comment, provider = :facebook)
