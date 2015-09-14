@@ -26,7 +26,7 @@ class BlogArticleSearch < BaseSearch
 
       if params[:subject_slugs].present?
         articles = articles.includes(:subjects).joins(:subjects).
-          where('blog_articles_subjects.subject_id = subjects.id AND subjects.slug in ?', params[:subject_slugs])
+          where('blog_articles_subjects.subject_id = subjects.id AND subjects.slug in (?)', params[:subject_slugs])
       end
 
       # Finally, we paginate and return the results.
