@@ -89,10 +89,10 @@ context "scheduler:participation_requests", with_mail: true do
       context 'for an accepted request' do
         it "sends a recap email for teachers day before a request" do
           accepted_pr = FactoryGirl.create(:participation_request, date: Date.tomorrow)
-          accepted_pr.accept!
+          accepted_pr.state.accept!
 
           accepted_pr2 = FactoryGirl.create(:participation_request, date: 2.days.from_now)
-          accepted_pr2.accept!
+          accepted_pr2.state.accept!
 
           expect do
             Rake::Task['scheduler:participation_requests:recap_for_teacher'].invoke

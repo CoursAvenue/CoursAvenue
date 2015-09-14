@@ -37,7 +37,7 @@ RSpec.describe ReplyToken, type: :model do
 
       context 'when the participation request is pending' do
         before do
-          participation_request.state = 'accepted'
+          participation_request.state.accept!
           participation_request.save
         end
 
