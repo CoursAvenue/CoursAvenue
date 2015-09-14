@@ -99,8 +99,8 @@ class CommentSearch < BaseSearch
       comments = comments.includes(:subjects).joins(:subjects).
         where('comments_subjects_.subject_id = subjects.id AND subjects.slug = ?', params[:subject_slug])
     end
-    # Finally, we paginate the results.
-    comments.page(page).per(per_page)
+    # Finally, we paginate and return the results.
+    comments.page(page).per(per_page).to_a
   end
 
   def self.retrieve_location(params)

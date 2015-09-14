@@ -5,7 +5,8 @@ class BlogArticleSearch < BaseSearch
   # <http://stackoverflow.com/questions/6084743/rails-activerecord-building-queries-dynamically>
   def self.search(params)
     article_cache_key = Blog::Article.with_deleted.maximum(:updated_at).to_i
-    Rails.cache.fetch("BlogArticleSearch/#{ BlogArticleSearch.params_to_cache_key(params) }/#{ article_cache_key }") do
+    params_cache_key  = params_to_cache_key(params)
+    Rails.cache.fetch("BlogArticleSearch/#{ params_cache_key }/#{ article_cache_key }") do
       page     = params[:page] || 1
       per_page = params[:per_page] || 15
 
@@ -28,13 +29,8 @@ class BlogArticleSearch < BaseSearch
           where('blog_articles_subjects.subject_id = subjects.id AND subjects.slug in ?', params[:subject_slugs])
       end
 
-      # Finally, we paginate the results.
-      articles.page(page).per(per_page)
+      # Finally, we paginate and return the results.
+      articles.page(page).per(per_page).to_a
     end
-  end
-
-  # TODO: Make sure the attributes are always in the same order and return the same string.
-  def self.params_to_cache_key(params)
-    params.to_param
   end
 end
