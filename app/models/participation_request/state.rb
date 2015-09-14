@@ -54,10 +54,18 @@ class ParticipationRequest::State < ActiveRecord::Base
   end
 
   def get_events
+    return [] if self.events.nil?
+
+    JSON.parse(self.events)
   end
 
   private
 
   def add_event(event)
+    _events = get_events
+    _events << event
+
+    self.events = JSON.generate(_events)
+    save
   end
 end
