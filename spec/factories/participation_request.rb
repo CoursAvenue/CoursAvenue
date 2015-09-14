@@ -5,17 +5,19 @@ FactoryGirl.define do
     structure         { FactoryGirl.create(:structure_with_admin) }
     course
     planning
-    state             'pending'
     date              { 3.days.from_now }
     start_time        { Time.now }
     end_time          { Time.now + 3.hours }
     last_modified_by 'User'
+
+    association :state, factory: :participation_request_state
 
     trait :last_modified_by_structure do
       last_modified_by 'Structure'
     end
 
     trait :accepted_state do
+      association :state, factory: [:participation_request_state, :accepted]
       state 'accepted'
     end
 

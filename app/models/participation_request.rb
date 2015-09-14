@@ -42,6 +42,7 @@ class ParticipationRequest < ActiveRecord::Base
   has_many :participants, class_name: 'ParticipationRequest::Participant'
   has_many :prices, through: :participants
   has_one :invoice, class_name: 'ParticipationRequest::Invoice'
+  has_one :state, class_name: 'ParticipationRequest::State', dependent: :destroy
 
   accepts_nested_attributes_for :participants,
     reject_if: :reject_participants,
@@ -52,9 +53,14 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   before_validation :set_date_if_empty
   before_create     :set_default_attributes
-  after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher,
-    :send_sms_to_user, :touch_user, :set_check_for_disable_later,
-    :notify_super_admin_of_more_than_five_requests
+
+  after_create :send_email_to_teacher
+  after_create :send_email_to_user
+  after_create :send_sms_to_teacher
+  after_create :send_sms_to_user
+  after_create :touch_user
+  after_create :set_check_for_disable_later
+  after_create :notify_super_admin_of_more_than_five_requests
 
   before_save       :update_times
   after_save        :update_structure_response_rate
@@ -69,19 +75,33 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :accepted,                -> { where( state: 'accepted') }
-  scope :not_accepted,            -> { where.not( state: 'accepted') }
-  scope :pending,                 -> { where( state: 'pending') }
-  scope :treated,                 -> { where( state: 'treated') }
+  scope :accepted,                -> { joins(:state).where("participation_request_states.state LIKE 'accepted'") }
+  scope :not_accepted,            -> { joins(:state).where("participation_request_states.state NOT LIKE 'accepted'") }
+  scope :pending,                 -> { joins(:state).where("participation_request_states.state LIKE 'pending'") }
+  scope :treated,                 -> { joins(:state).where("participation_request_states.state LIKE 'treated'") }
+  scope :canceled,                -> { joins(:state).where("participation_request_states.state LIKE 'canceled'") }
   scope :upcoming,                -> { where( arel_table[:date].gteq(Date.today) ).order("date ASC") }
   scope :past,                    -> { where( arel_table[:date].lt(Date.today) ).order("date ASC") }
-  scope :canceled,                -> { where( arel_table[:state].eq('canceled') ) }
-  scope :tomorrow,                -> { where( state: 'accepted', date: Date.tomorrow ) }
+  scope :tomorrow,                -> { accepted.where(date: Date.tomorrow) }
   scope :structure_not_responded, -> { where.not( structure_responded: true ) }
   scope :charged,                 -> { where.not( charged_at: nil ) }
   scope :from_personal_website,   -> { where( from_personal_website: true ) }
   scope :from_personal_ca,        -> { where.not( from_personal_website: true ) }
 
+  ######################################################################
+  # Delegations                                                        #
+  ######################################################################
+
+  delegate :pending?, to: :state, prefix: false
+  delegate :treated?, to: :state, prefix: false
+  delegate :accepted?, to: :state, prefix: false
+  delegate :canceled?, to: :state, prefix: false
+
+  delegate :treat!, to: :state, prefix: false
+  delegate :accept!, to: :state, prefix: false
+  delegate :cancel!, to: :state, prefix: false
+
+  ######################################################################
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
   #
   # @return ParticipationRequest
@@ -108,28 +128,12 @@ class ParticipationRequest < ActiveRecord::Base
     participation_request
   end
 
-  # @return Boolean is the request accepted?
-  def accepted?
-    self.state == 'accepted'
-  end
-
-  # @return Boolean is the request canceled?
-  def canceled?
-    self.state == 'canceled'
-  end
-
-  # @return Boolean is the request pending?
-  def pending?
-    self.state == 'pending'
-  end
-
-  #
   # Tells if the resource type is waiting for an answer
   # @param resource_type='Structure' [type] [description]
   #
   # @return Boolean
   def pending_for?(resource_type='Structure')
-    (self.state == 'pending' and self.last_modified_by != resource_type)
+    (self.state.pending? and self.last_modified_by != resource_type)
   end
 
   # Accept request and send a message to user.
@@ -139,7 +143,7 @@ class ParticipationRequest < ActiveRecord::Base
   def accept!(message_body, last_modified_by='Structure')
     # message_body = StringHelper.replace_contact_infos(message_body)
     self.last_modified_by    = last_modified_by
-    self.state               = 'accepted'
+    self.state.accept!
     message                  = reply_to_conversation(message_body, last_modified_by)
     self.structure_responded = true if last_modified_by == 'Structure'
     save
@@ -153,19 +157,6 @@ class ParticipationRequest < ActiveRecord::Base
     elsif self.last_modified_by == 'User'
       mailer.delay.request_has_been_accepted_by_user_to_teacher(self, message)
     end
-  end
-
-  # Set state of PR to treated: it means the teacher did something with the PR
-  #
-  # @return Boolean
-  def treat!(method = 'infos')
-    self.state = 'treated'
-    self.treat_method = method
-    save
-  end
-
-  def treated?
-    self.state == 'treated'
   end
 
   #
@@ -192,7 +183,7 @@ class ParticipationRequest < ActiveRecord::Base
     self.assign_attributes new_params
     # Set old_course_id to nil if the user don't change it and modify just the date
     self.old_course_id       = (self.course_id_was == self.course_id ? nil : self.course_id_was)
-    self.state               = 'accepted'
+    self.state.accept!
     if message_body.present?
       message = reply_to_conversation(message_body, last_modified_by) if message_body.present?
     end
@@ -237,7 +228,7 @@ class ParticipationRequest < ActiveRecord::Base
     # message_body               = StringHelper.replace_contact_infos(message_body)
     self.cancelation_reason_id = cancelation_reason_id
     self.last_modified_by      = last_modified_by
-    self.state                 = 'canceled'
+    self.state.cancel!
     message                    = reply_to_conversation(message_body, last_modified_by)
     self.structure_responded   = true if last_modified_by == 'Structure'
     save
@@ -370,7 +361,7 @@ class ParticipationRequest < ActiveRecord::Base
   end
 
   def unanswered?
-    self.created_at < 2.days.ago and self.state == 'pending' and
+    self.created_at < 2.days.ago and self.state.pending? and
       self.conversation.messages.length < 2 and self.last_modified_by == 'User'
   end
 
@@ -424,12 +415,12 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return nil
   def set_default_attributes
-    self.state            ||= 'pending'
     self.last_modified_by ||= 'User'
     self.start_time       ||= self.planning.start_time if self.planning and self.start_time.nil?
     self.end_time         ||= self.planning.end_time   if self.planning
     self.end_time         ||= self.start_time + 1.hour if self.start_time
     self.course           ||= self.planning.course     if self.planning
+    self.create_state
     nil
   end
 

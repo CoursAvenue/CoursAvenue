@@ -1,4 +1,6 @@
 class ParticipationRequest::State < ActiveRecord::Base
+  POSSIBLE_STATES = %w(pending treated accepted canceled)
+
   include Concerns::HstoreHelper
 
   belongs_to :participation_request
@@ -40,9 +42,10 @@ class ParticipationRequest::State < ActiveRecord::Base
     self.state == 'canceled'
   end
 
-  def treat!
+  def treat!(method = 'infos')
     self.state = 'treated'
     self.treated_at = DateTime.current
+    self.treat_method = method
 
     add_event({ state: 'treated', date: accepted_at })
 
