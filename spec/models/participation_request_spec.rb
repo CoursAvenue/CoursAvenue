@@ -376,7 +376,7 @@ describe ParticipationRequest do
 
     it 'has a pending state' do
       new_pr = subject.rebook!(request_attributes)
-      expect(new_pr).to be_pending?
+      expect(new_pr).to be_pending
     end
   end
 
