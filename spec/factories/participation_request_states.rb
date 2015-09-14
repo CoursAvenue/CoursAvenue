@@ -7,17 +7,17 @@ FactoryGirl.define do
     treated_at nil
     canceled_at nil
 
-    trait :accepted_state do
+    trait :accepted do
       state 'accepted'
       accepted_at 1.hour.ago
     end
 
-    trait :canceled_state do
+    trait :canceled do
       state 'canceled'
       canceled_at 1.hour.ago
     end
 
-    trait :treated_state do
+    trait :treated do
       state 'treated'
       treated_at 1.hour.ago
     end
