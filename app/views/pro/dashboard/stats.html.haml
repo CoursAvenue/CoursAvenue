@@ -48,9 +48,9 @@
                 shadow: false
             },
             series: [
-              { name: "1", data: #{@one_req.map{|date, count| count}} },
-              { name: "2-4", data: #{@two_req.map{|date, count| count}} },
               { name: "5", data: #{@five_more_req.map{|date, count| count}} },
+              { name: "2-4", data: #{@two_req.map{|date, count| count}} },
+              { name: "1", data: #{@one_req.map{|date, count| count}} },
               { name: "0", data: #{@no_req.map{|date, count| count}} }
             ]
         });
