@@ -13,10 +13,10 @@ class ParticipationRequest::Conversation < ActiveRecord::Base
   # @param message The message sent.
   #
   # @return Wether the message was sent or not.
-  def send_request!(message)
+  def send_request!(message, sender = user)
     return false if message.nil?
 
-    receipt = user.send_message_with_label(structure.main_contact, message,
+    receipt = sender.send_message_with_label(structure.main_contact, message,
       I18n.t(Mailboxer::Label::REQUEST.name), Mailboxer::Label::REQUEST.id)
     self.mailboxer_conversation = receipt.conversation
     receipt.conversation.update_column(:participation_request_id, participation_request.id)
