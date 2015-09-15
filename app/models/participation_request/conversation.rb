@@ -19,6 +19,7 @@ class ParticipationRequest::Conversation < ActiveRecord::Base
     receipt = user.send_message_with_label(structure.main_contact, message,
       I18n.t(Mailboxer::Label::REQUEST.name), Mailboxer::Label::REQUEST.id)
     self.mailboxer_conversation = receipt.conversation
+    receipt.conversation.update_column(:participation_request_id, participation_request.id)
     save
   end
 
