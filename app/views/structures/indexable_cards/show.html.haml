@@ -8,7 +8,7 @@
   = content_for :meta_image do
     = @structure.medias.cover_first.videos_first.first.image.try(:url)
 
-- dominant_root_subject_slug = @course.dominant_root_subject.try(:slug)
+- dominant_root_subject_slug = (@course.dominant_root_subject.try(:slug) || @structure.dominant_root_subject.try(:slug))
 
 = content_for :title do
   - if @place.present?
