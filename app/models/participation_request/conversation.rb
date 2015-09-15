@@ -41,9 +41,9 @@ class ParticipationRequest::Conversation < ActiveRecord::Base
     return false if message_body.nil? or replied_by.nil?
 
     replier = (replied_by == 'Structure' ? structure.main_contact : user)
-    mailboxer_conversation.update_column(:lock_email_notification_once, true)
-    message = replier.reply_to_conversation(mailboxer_conversation, message_body)
+    self.mailboxer_conversation.update_column(:lock_email_notification_once, true)
+    receipt = replier.reply_to_conversation(mailboxer_conversation, message_body)
 
-    message
+    receipt.message
   end
 end

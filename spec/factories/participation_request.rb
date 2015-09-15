@@ -27,9 +27,16 @@ FactoryGirl.define do
     trait :with_participants do
       after(:build) do |pr|
         3.times do
-          pr.participants << FactoryGirl.create(:participation_request_participant, participation_request: pr)
+          pr.participants << FactoryGirl.create(:participation_request_participant,
+                                                participation_request: pr)
         end
       end
+    end
+
+    after(:create) do |participation_request|
+      participation_request.conversation = FactoryGirl.create(
+        :participation_request_conversation, participation_request: participation_request)
+      participation_request.conversation.send_request!(Faker::Lorem.paragraph)
     end
   end
 end

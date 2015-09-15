@@ -10,18 +10,15 @@ class ParticipationRequest < ActiveRecord::Base
   STATE                 = %w(accepted treated pending canceled)
   PARAMS_THAT_MODIFY_PR = %w(date start_time end_time planning_id course_id)
 
-  attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
-    :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
-    :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
-    :old_course_id, :structure_responded, :street, :zip_code, :city_id, :at_student_home,
-    :participants_attributes, :structure_id, :from_personal_website, :token, :charged_at,
-    :stripe_fee
+  attr_accessible :state, :date, :start_time, :end_time, :planning_id, :last_modified_by,
+    :course_id, :user, :structure, :cancelation_reason_id, :report_reason_id, :report_reason_text,
+    :reported_at, :old_course_id, :structure_responded, :street, :zip_code, :city_id,
+    :at_student_home, :participants_attributes, :structure_id, :from_personal_website, :token,
+    :charged_at, :stripe_fee
 
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :conversation, class_name: 'Mailboxer::Conversation', foreign_key:
-    'mailboxer_conversation_id', touch: true, dependent: :destroy
   belongs_to :planning
   belongs_to :city
   belongs_to :course
@@ -110,14 +107,13 @@ class ParticipationRequest < ActiveRecord::Base
     participants_attributes = { participants_attributes: (request_attributes['participants_attributes'] || [{ number: 1}]) }
     new_request_attributes  = request_attributes.slice(*ParticipationRequest.attribute_names.map(&:to_sym))
     new_request_attributes  = new_request_attributes.merge(participants_attributes)
-    participation_request   = ParticipationRequest.new new_request_attributes
-
+    participation_request   = ParticipationRequest.new(new_request_attributes)
     participation_request.user = user
     participation_request.save
     if participation_request.persisted?
       structure.create_or_update_user_profile_for_user(user, UserProfile::DEFAULT_TAGS[:participation_request])
-      create_conversation if self.conversation.nil?
-      conversation.send_request!(message)
+      conversation = (participation_request.conversation or participation_request.create_conversation)
+      conversation.send_request!(request_attributes[:message][:body])
     end
     participation_request
   end
@@ -138,6 +134,7 @@ class ParticipationRequest < ActiveRecord::Base
     # message_body = StringHelper.replace_contact_infos(message_body)
     self.last_modified_by    = last_modified_by
     self.state.accept!
+    create_conversation if conversation.nil?
     message = conversation.reply!(message_body, last_modified_by)
     self.structure_responded = true if last_modified_by == 'Structure'
     save
@@ -145,6 +142,8 @@ class ParticipationRequest < ActiveRecord::Base
     if chargeable?
       charge!
     end
+
+    ParticipationRequest::Notifier.new(self).notify_request_accepted(last_modified_by, message)
 
     if self.last_modified_by == 'Structure'
       mailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)
@@ -179,6 +178,7 @@ class ParticipationRequest < ActiveRecord::Base
     self.old_course_id       = (self.course_id_was == self.course_id ? nil : self.course_id_was)
     self.state.accept!
     if message_body.present?
+      create_conversation if conversation.nil?
       message = conversation.reply!(message_body, last_modified_by)
     end
     self.structure_responded = true if last_modified_by == 'Structure'
@@ -203,7 +203,8 @@ class ParticipationRequest < ActiveRecord::Base
   # @return Boolean
   def discuss!(message_body, discussed_by='Structure')
     # message_body             = StringHelper.replace_contact_infos(message_body)
-    message = conersation.reply!(message_body, discussed_by)
+    create_conversation if conversation.nil?
+    message = conversation.reply!(message_body, discussed_by)
     treat!('message') if pending?
     self.structure_responded = true if discussed_by == 'Structure'
     save
@@ -223,6 +224,7 @@ class ParticipationRequest < ActiveRecord::Base
     self.cancelation_reason_id = cancelation_reason_id
     self.last_modified_by      = last_modified_by
     self.state.cancel!
+    create_conversation if conversation.nil?
     message                    = conversation.reply!(message_body, last_modified_by)
     self.structure_responded   = true if last_modified_by == 'Structure'
     save
@@ -387,7 +389,7 @@ class ParticipationRequest < ActiveRecord::Base
       recipients = self.user
       _conversation = (participation_request.conversation or
                        participation_request.create_conversation)
-      _conversation.send_request(options[:message][:body], self.structure)
+      _conversation.send_request!(options[:message][:body], self.structure.main_contact)
     end
 
     participation_request

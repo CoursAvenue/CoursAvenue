@@ -260,17 +260,6 @@ describe ParticipationRequest, pr: true do
   end
 
   describe '#accept!', with_mail: true do
-    it 'changes the status to accepted' do
-      participation_request.accept!(message, 'User')
-      expect(participation_request.accepted?).to be_truthy
-    end
-
-    it 'sends a message' do
-      expect{ participation_request.accept!(message) }.to change {
-        participation_request.reload.conversation.messages.length
-      }.by(1)
-    end
-
     context "when the participation request is not free", with_stripe: true do
       before(:all) { StripeMock.start }
       after(:all)  { StripeMock.stop }
@@ -379,5 +368,4 @@ describe ParticipationRequest, pr: true do
       expect(new_pr).to be_pending
     end
   end
-
 end

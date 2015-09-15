@@ -29,6 +29,16 @@ class ParticipationRequest::Notifier
     true
   end
 
+  def notify_request_accepted(accepted_by, message)
+    if accepted_by == 'Structure'
+      mailer.delay(queue: 'mailers').request_has_been_accepted_by_teacher_to_user(
+        @participation_request, message)
+    else
+      mailer.delay(queue: 'mailers').request_has_been_accepted_by_user_to_teacher(
+        @participation_request, message)
+    end
+  end
+
   private
 
   def mailer
