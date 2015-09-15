@@ -15,7 +15,7 @@ class Admin::Community::MessageThreadsController < ApplicationController
         format.html { redirect_to admin_community_message_threads_path,
                       notice: 'Question supprimée avec succés.' }
       else
-        format.html { redirect_to admin_community_message_threads_path
+        format.html { redirect_to admin_community_message_threads_path,
                       error: 'Une erreur est survenue, veuillez rééssayer.' }
       end
     end
