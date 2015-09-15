@@ -9,6 +9,8 @@ class ParticipationRequest::State < ActiveRecord::Base
 
   store_accessor :metadata, :events
 
+  after_create :add_creation_event
+
   # TODO: Refactor this using `define_method`.
 
   # The state is pending by default, thanks to the database.
@@ -70,5 +72,9 @@ class ParticipationRequest::State < ActiveRecord::Base
 
     self.events = JSON.generate(_events)
     save
+  end
+
+  def add_creation_event
+    add_event({ state: 'created', date: created_at.to_i })
   end
 end
