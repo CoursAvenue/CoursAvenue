@@ -31,9 +31,5 @@ FactoryGirl.define do
         end
       end
     end
-
-    after(:build) do |participation_request|
-      participation_request.conversation = FactoryGirl.create(:conversation_with_messages)
-    end
   end
 end
