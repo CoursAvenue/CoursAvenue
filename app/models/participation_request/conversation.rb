@@ -11,12 +11,16 @@ class ParticipationRequest::Conversation < ActiveRecord::Base
   # The message starting the conversation.
   #
   # @param message The message sent.
+  # @param sender  The message sender. By default the user but can be the structure if the pr is
+  # rebooked.
   #
   # @return Wether the message was sent or not.
   def send_request!(message, sender = user)
     return false if message.nil?
 
-    receipt = sender.send_message_with_label(structure.main_contact, message,
+    recipient = (sender == user ? structure.main_contact : user)
+
+    receipt = sender.send_message_with_label(recipient, message,
       I18n.t(Mailboxer::Label::REQUEST.name), Mailboxer::Label::REQUEST.id)
     self.mailboxer_conversation = receipt.conversation
     receipt.conversation.update_column(:participation_request_id, participation_request.id)
