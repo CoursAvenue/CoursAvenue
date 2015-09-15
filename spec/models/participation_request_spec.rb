@@ -2,7 +2,7 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-describe ParticipationRequest do
+describe ParticipationRequest, pr: true do
 
   it { should have_one(:invoice).class_name('ParticipationRequest::Invoice') }
 

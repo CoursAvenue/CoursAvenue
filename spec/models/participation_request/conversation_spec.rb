@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ParticipationRequest::Conversation, type: :model do
+RSpec.describe ParticipationRequest::Conversation, type: :model, pr: true do
   context 'associations' do
     it { should belong_to(:participation_request) }
     it { should belong_to(:mailboxer_conversation) }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ParticipationRequest::State, type: :model do
+RSpec.describe ParticipationRequest::State, type: :model, pr: true do
   describe '#accept!' do
     it 'changes the state to accepted' do
       prs = FactoryGirl.create(:participation_request_state)
