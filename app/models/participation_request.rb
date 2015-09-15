@@ -54,10 +54,6 @@ class ParticipationRequest < ActiveRecord::Base
   before_validation :set_date_if_empty
   before_create     :set_default_attributes
 
-  after_create :send_email_to_teacher
-  after_create :send_email_to_user
-  after_create :send_sms_to_teacher
-  after_create :send_sms_to_user
   after_create :touch_user
   after_create :set_check_for_disable_later
   after_create :notify_super_admin_of_more_than_five_requests

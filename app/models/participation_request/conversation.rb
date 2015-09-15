@@ -21,6 +21,10 @@ class ParticipationRequest::Conversation < ActiveRecord::Base
     self.mailboxer_conversation = receipt.conversation
     receipt.conversation.update_column(:participation_request_id, participation_request.id)
     save
+
+    ParticipationRequest::Notifier.new(participation_request).notify_request_creation
+
+    true
   end
 
   # Reply to the conversation.
