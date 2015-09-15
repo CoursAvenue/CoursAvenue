@@ -29,10 +29,14 @@ class VerticalPagesController < ApplicationController
   end
 
   def show_with_neighborhood
+    if params[:neighborhood_id] == 'undefined'
+      redirect_to vertical_page_path(@vertical_page.subject.root, @vertical_page)
+      return
+    end
     @vertical_page_decorator = @vertical_page.decorate
     @subject                 = @vertical_page.subject
     @ancestors               = @subject.ancestors
-    @neighborhood            = City::Neighborhood.find(params[:neighborhood_id])
+    @neighborhood = City::Neighborhood.find(params[:neighborhood_id])
     render action: :show
   end
 
