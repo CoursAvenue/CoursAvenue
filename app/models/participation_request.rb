@@ -42,7 +42,9 @@ class ParticipationRequest < ActiveRecord::Base
   has_many :participants, class_name: 'ParticipationRequest::Participant'
   has_many :prices, through: :participants
   has_one :invoice, class_name: 'ParticipationRequest::Invoice'
-  has_one :state, class_name: 'ParticipationRequest::State', dependent: :destroy
+
+  has_one :state,        class_name: 'ParticipationRequest::State',        dependent: :destroy
+  has_one :conversation, class_name: 'ParticipationRequest::Conversation', dependent: :destroy
 
   accepts_nested_attributes_for :participants,
     reject_if: :reject_participants,
@@ -102,7 +104,7 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return ParticipationRequest
   def self.create_and_send_message(request_attributes, user)
-    structure = Structure.friendly.find request_attributes[:structure_id]
+    structure = Structure.friendly.find(request_attributes[:structure_id])
     # request_attributes[:message][:body] = StringHelper.replace_contact_infos(request_attributes[:message][:body])
     request_attributes      = self.set_start_time(request_attributes)
     participants_attributes = { participants_attributes: (request_attributes['participants_attributes'] || [{ number: 1}]) }
@@ -110,16 +112,12 @@ class ParticipationRequest < ActiveRecord::Base
     new_request_attributes  = new_request_attributes.merge(participants_attributes)
     participation_request   = ParticipationRequest.new new_request_attributes
 
-    participation_request.user      = user
-    if participation_request.valid?
-      # Create and send conversation
+    participation_request.user = user
+    participation_request.save
+    if participation_request.persisted?
       structure.create_or_update_user_profile_for_user(user, UserProfile::DEFAULT_TAGS[:participation_request])
-      recipients                         = structure.main_contact
-      receipt                            = user.send_message_with_label(recipients, request_attributes[:message][:body], I18n.t(Mailboxer::Label::REQUEST.name), Mailboxer::Label::REQUEST.id)
-      conversation                       = receipt.conversation
-      participation_request.conversation = conversation
-      participation_request.save
-      conversation.update_column :participation_request_id, participation_request.id
+      create_conversation if self.conversation.nil?
+      conversation.send_request!(message)
     end
     participation_request
   end
@@ -140,7 +138,7 @@ class ParticipationRequest < ActiveRecord::Base
     # message_body = StringHelper.replace_contact_infos(message_body)
     self.last_modified_by    = last_modified_by
     self.state.accept!
-    message                  = reply_to_conversation(message_body, last_modified_by)
+    message = conversation.reply!(message_body, last_modified_by)
     self.structure_responded = true if last_modified_by == 'Structure'
     save
 
@@ -181,7 +179,7 @@ class ParticipationRequest < ActiveRecord::Base
     self.old_course_id       = (self.course_id_was == self.course_id ? nil : self.course_id_was)
     self.state.accept!
     if message_body.present?
-      message = reply_to_conversation(message_body, last_modified_by) if message_body.present?
+      message = conversation.reply!(message_body, last_modified_by)
     end
     self.structure_responded = true if last_modified_by == 'Structure'
 
@@ -205,7 +203,7 @@ class ParticipationRequest < ActiveRecord::Base
   # @return Boolean
   def discuss!(message_body, discussed_by='Structure')
     # message_body             = StringHelper.replace_contact_infos(message_body)
-    message                  = reply_to_conversation(message_body, discussed_by)
+    message = conersation.reply!(message_body, discussed_by)
     treat!('message') if pending?
     self.structure_responded = true if discussed_by == 'Structure'
     save
@@ -225,7 +223,7 @@ class ParticipationRequest < ActiveRecord::Base
     self.cancelation_reason_id = cancelation_reason_id
     self.last_modified_by      = last_modified_by
     self.state.cancel!
-    message                    = reply_to_conversation(message_body, last_modified_by)
+    message                    = conversation.reply!(message_body, last_modified_by)
     self.structure_responded   = true if last_modified_by == 'Structure'
     save
 
@@ -384,15 +382,12 @@ class ParticipationRequest < ActiveRecord::Base
     participation_request = ParticipationRequest.new(new_attributes)
     participation_request.user = self.user
 
+    participation_request.save
     if participation_request.valid?
       recipients = self.user
-      receipt    = structure.main_contact.send_message_with_label(
-        recipients, options[:message][:body], I18n.t(Mailboxer::Label::REQUEST.name),
-        Mailboxer::Label::REQUEST.id)
-      conversation = receipt.conversation
-      participation_request.conversation = conversation
-      participation_request.save
-      conversation.update_column(:participation_request_id, participation_request.id)
+      _conversation = (participation_request.conversation or
+                       participation_request.create_conversation)
+      _conversation.send_request(options[:message][:body], self.structure)
     end
 
     participation_request
@@ -452,19 +447,6 @@ class ParticipationRequest < ActiveRecord::Base
   # @return nil
   def send_sms_to_teacher
     structure.notify_new_participation_request_via_sms(self)
-  end
-
-  def reply_to_conversation(message_body, last_modified_by)
-    # message_body = StringHelper.replace_contact_infos(message_body)
-    if message_body.present?
-      self.conversation.update_column :lock_email_notification_once, true
-      if last_modified_by == 'Structure'
-        receipt = self.structure.main_contact.reply_to_conversation(self.conversation, message_body)
-      else
-        receipt = self.user.reply_to_conversation(self.conversation, message_body)
-      end
-      message = receipt.message
-    end
   end
 
   # We destroy the Mailboxer::Conversation object attached to the PR

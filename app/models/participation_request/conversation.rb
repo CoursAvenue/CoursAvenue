@@ -37,10 +37,13 @@ class ParticipationRequest::Conversation < ActiveRecord::Base
   # @param replier
   #
   # @return Wether the message was sent or not.
-  def reply!(message, replied_by = 'Structure')
-    return false if message.nil? or replied_by.nil?
+  def reply!(message_body, replied_by = 'Structure')
+    return false if message_body.nil? or replied_by.nil?
 
     replier = (replied_by == 'Structure' ? structure.main_contact : user)
-    replier.reply_to_conversation(mailboxer_conversation, message)
+    mailboxer_conversation.update_column(:lock_email_notification_once, true)
+    message = replier.reply_to_conversation(mailboxer_conversation, message_body)
+
+    message
   end
 end
