@@ -89,7 +89,8 @@ class ApplicationController < ActionController::Base
   #
   # @return ActionController::RoutingError
   def routing_error
-    raise ActionController::RoutingError.new(params[:path])
+    # raise ActionController::RoutingError.new(params[:path])
+    redirect_to root_path, status: 301, notice: "Cette page n'existe plus."
   end
 
   # Check wether the devise is mobile or not
