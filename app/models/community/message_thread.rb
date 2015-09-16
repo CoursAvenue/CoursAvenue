@@ -40,7 +40,8 @@ class Community::MessageThread < ActiveRecord::Base
 
     if replier.is_a?(Admin)
       Community::Notifier.new(self, message, nil).notify_answer_from_teacher
-    else
+    elsif self.approved?
+      # Only notfiy the community of an answer if the thread is approved.
       membership = community.memberships.where(user: replier).first ||
         community.memberships.create(user: replier)
       Community::Notifier.new(self, message, membership).notify_answer_from_member
