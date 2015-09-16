@@ -41,6 +41,7 @@ class Structure < ActiveRecord::Base
   ######################################################################
   belongs_to :city
   belongs_to :principal_mobile, class_name: 'PhoneNumber'
+  belongs_to :admin
 
   has_many :invited_users             , foreign_key: :referrer_id, dependent: :destroy
   has_many :invited_teachers          , -> { where(type: 'InvitedUser::Teacher') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
@@ -74,7 +75,6 @@ class Structure < ActiveRecord::Base
   has_many :emailing_sections, through: :emailing_section_bridge
 
   has_many :places                   , dependent: :destroy
-  has_many :admins                   , dependent: :destroy
 
   has_one  :website_parameter
   has_one  :subscription
@@ -112,7 +112,7 @@ class Structure < ActiveRecord::Base
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
-                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason,
+                  :sleeping_email_opt_in, :sleeping_email_opt_out_reason,
                   :order_recipient, :delivery_email_status,
                   :premium, :sms_opt_in,
                   :principal_mobile_id, :pure_player # Helps to know which actors are big on the market
@@ -131,12 +131,12 @@ class Structure < ActiveRecord::Base
                              :max_price_libelle, :level_ids, :audience_ids, :busy,
                              :response_rate, :response_time,
                              :deletion_reasons, :deletion_reasons_text, :other_emails,
-                             :is_sleeping, :sleeping_email_opt_in,
+                             :sleeping_email_opt_in,
                              :sleeping_email_opt_out_reason, :order_recipient,
                              :status, :vertical_pages_breadcrumb,
                              :close_io_lead_id, :sponsorship_token
 
-  define_boolean_accessor_for :meta_data, :is_sleeping, :sleeping_email_opt_in
+  define_boolean_accessor_for :meta_data, :sleeping_email_opt_in
 
   # Make sure to update the Uploader in Admin#avatar_url check.
   mount_uploader :logo, StructureLogoUploader
@@ -175,7 +175,7 @@ class Structure < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
 
-  scope :sleeping            , -> { where("meta_data -> 'is_sleeping' = 'true'") }
+  scope :sleeping            , -> { where(admin: nil) }
   scope :with_logo           , -> { where.not( logo: nil ) }
   scope :with_media          , -> { joins(:medias).uniq }
   scope :with_logo_and_media , -> { with_logo.with_media }
@@ -281,29 +281,29 @@ class Structure < ActiveRecord::Base
   def contact_email
     if read_attribute(:contact_email).present?
       read_attribute(:contact_email)
-    elsif admins.any?
-      admins.first.email
+    elsif admin
+      admin.email
     end
   end
 
   def contact_mobile_phone
     if read_attribute(:contact_mobile_phone).present?
       read_attribute(:contact_mobile_phone)
-    elsif admins.any?
-      admins.first.mobile_phone_number
+    elsif admin
+      admin.mobile_phone_number
     end
   end
 
   def contact_phone
     if read_attribute(:contact_phone).present?
       read_attribute(:contact_phone)
-    elsif admins.any?
-      admins.first.phone_number
+    elsif admin
+      admin.phone_number
     end
   end
 
   def main_contact
-    admins.first
+    admin
   end
 
   def address
@@ -661,7 +661,7 @@ class Structure < ActiveRecord::Base
   end
 
   def is_sleeping
-    self.main_contact.nil? or self.meta_data['is_sleeping'] == 'true'
+    self.admin.nil?
   end
 
   def is_open_for_trial?

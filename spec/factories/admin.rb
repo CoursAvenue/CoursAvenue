@@ -3,9 +3,7 @@
 FactoryGirl.define do
 
   factory :admin do
-    structure
-
-    name     { Faker::Name.name }
+    name     { Faker::Name.name + rand.to_s }
     email    { Faker::Internet.email }
 
     phone_number            '0104050104'
@@ -15,6 +13,10 @@ FactoryGirl.define do
 
     password                'zpdajdpzaojdxd'
     password_confirmation   'zpdajdpzaojdxd'
+
+    after(:build) do |admin|
+      admin.structure = FactoryGirl.create(:structure)
+    end
 
     factory :admin_from_facebook do
       uid              { Faker::Number.number(6) }

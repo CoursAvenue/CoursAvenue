@@ -19,13 +19,11 @@ describe Structure do
   let(:structure) { FactoryGirl.create(:structure) }
 
   it { should be_valid }
-  it { expect(structure.active).to be true}
 
   context 'contact' do
     it 'returns admin contact' do
       admin = FactoryGirl.create(:admin)
-      admin.structure_id = structure.id
-      structure.admins << admin
+      structure.admin = admin
 
       expect(structure.contact_email).to eq(admin.email)
       expect(structure.main_contact).to eq(admin)
@@ -214,33 +212,6 @@ describe Structure do
         attributes = { id: 4,  number: '' }
         subject.send :reject_phone_number, attributes
         expect(attributes[:_destroy]).to eq 1
-      end
-    end
-  end
-
-  context 'sleeping' do
-    describe '#wake_up!' do
-      let(:structure)            { FactoryGirl.create(:sleeping_structure) }
-      let(:admin)                { FactoryGirl.create(:admin) }
-
-      before(:each) do
-        admin.structure = structure
-        structure.admins << admin
-
-        admin.save
-        structure.save
-      end
-
-      it 'wakes itself' do
-        structure.wake_up!
-
-        expect(structure.is_sleeping).to be false
-      end
-
-      it 'activates itself' do
-        structure.wake_up!
-
-        expect(structure.active).to be true
       end
     end
   end

@@ -55,9 +55,10 @@ class Structure::RegistrationForm
       return false
     end
 
-    @admin = @structure.admins.create(
-      email: @admin_email,
-      password: @admin_password
+    @admin = Admin.create(
+      structure: @structure,
+      email:     @admin_email,
+      password:  @admin_password
     )
 
     if !@admin.persisted?

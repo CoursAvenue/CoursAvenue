@@ -105,7 +105,7 @@ class Pro::StructuresController < Pro::ProController
 
   # POST member
   def resend_confirmation_instructions
-    @structure.main_contact.send_confirmation_instructions
+    @structure.admin.send_confirmation_instructions
     redirect_to edit_pro_structure_path(@structure)
   end
 
@@ -136,7 +136,7 @@ France
   end
 
   def edit_contact
-    @admin            = @structure.main_contact
+    @admin            = @structure.admin
     @has_mobile_phone = @structure.phone_numbers.detect { |number| @structure.uses_mobile?(number.number) }.present?
     5.times { @structure.phone_numbers.build }
   end
@@ -152,7 +152,7 @@ France
   end
 
   def update
-    @admin     = @structure.main_contact
+    @admin     = @structure.admin
     if params[:structure] && params[:structure].delete(:delete_logo) == '1'
       @structure.remove_logo!
     end
@@ -425,7 +425,7 @@ France
   #
   # @return an Array of Array of [page_name, URL]
   def retrieve_facebook_pages
-    @admin ||= @structure.main_contact
+    @admin ||= @structure.admin
     return @facebook_pages = [] if @admin.nil?
     if @admin.from_facebook?
       pages = @admin.facebook_pages

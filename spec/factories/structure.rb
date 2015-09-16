@@ -2,7 +2,7 @@
 FactoryGirl.define do
 
   factory :structure do
-    name               { Faker::Name.name + ' institute' }
+    name               { Faker::Name.name + rand.to_s }
 
     street             'Paris'
     zip_code           '75014'
@@ -20,7 +20,7 @@ FactoryGirl.define do
 
     factory :structure_with_admin do
       after(:build) do |structure|
-        structure.admins << FactoryGirl.build(:admin)
+        structure.admin = FactoryGirl.build(:admin)
       end
     end
 
@@ -53,9 +53,7 @@ FactoryGirl.define do
 
     factory :sleeping_structure do
       after(:build) do |structure|
-        structure.is_sleeping = true
-        structure.active      = true
-        structure.admins      = []
+        structure.admin = nil
       end
     end
 
