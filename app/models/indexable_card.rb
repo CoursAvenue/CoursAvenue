@@ -79,7 +79,7 @@ class IndexableCard < ActiveRecord::Base
     end
 
     add_attribute :active do
-      (self.structure.active && self.structure.enabled)
+      self.structure.enabled
     end
 
     add_attribute :name do

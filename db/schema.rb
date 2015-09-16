@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150911152153) do
+ActiveRecord::Schema.define(version: 20150916121240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1087,7 +1087,6 @@ ActiveRecord::Schema.define(version: 20150911152153) do
     t.string   "zip_code"
     t.text     "description"
     t.integer  "city_id"
-    t.boolean  "active",                                 default: false
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
@@ -1118,7 +1117,6 @@ ActiveRecord::Schema.define(version: 20150911152153) do
     t.string   "logo"
     t.string   "sleeping_logo"
     t.string   "remote_logo_url"
-    t.integer  "sleeping_structure_id"
     t.text     "course_subjects_string"
     t.boolean  "premium"
     t.boolean  "sms_opt_in",                             default: false

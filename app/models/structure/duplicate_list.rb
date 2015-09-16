@@ -16,7 +16,7 @@ class Structure::DuplicateList < ActiveRecord::Base
 
   # TODO: Check if this works without Solr.
   def self.save_potential_duplicates
-    Structure.active_and_enabled.each do |structure|
+    Structure.enabled.each do |structure|
       duplicates = StructureSearch.potential_duplicates(structure)
       next if duplicates.empty?
 

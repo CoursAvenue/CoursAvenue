@@ -80,12 +80,6 @@ class Structure < ActiveRecord::Base
   has_one  :subscription
   has_many :invoices, class_name: 'Subscriptions::Invoice'
 
-  # The structure that is not modified when an admin takes control.
-  has_one :sleeping_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
-
-  # The structure that is editable by the admin.
-  belongs_to :controled_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
-
   has_many :newsletters
   has_many :mailing_lists, class_name: 'Newsletter::MailingList'
 
@@ -105,10 +99,7 @@ class Structure < ActiveRecord::Base
                   :place_ids, :name, :slug,
                   :website, :facebook_url,
                   :contact_email, :show_trainings_first,
-                  :description, :subject_ids, :active,
-                  # active: for tests profile, eg. L'atelier de Nima, etc.
-                  # And for duplicated sleeping structures (when an admin takes control of a sleeping profile)
-                  :has_validated_conditions,
+                  :description, :subject_ids,
                   :logo, :remote_logo_url,
                   :funding_type_ids,
                   :crop_x, :crop_y, :crop_width,
@@ -123,7 +114,7 @@ class Structure < ActiveRecord::Base
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
                   :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason,
                   :order_recipient, :delivery_email_status,
-                  :sleeping_structure, :premium, :sms_opt_in,
+                  :premium, :sms_opt_in,
                   :principal_mobile_id, :pure_player # Helps to know which actors are big on the market
 
   accepts_nested_attributes_for :places,
@@ -162,7 +153,6 @@ class Structure < ActiveRecord::Base
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
-  before_create :set_active_to_true
 
   after_create  :set_default_place_attributes
   after_create  :geocode  unless Rails.env.test?
@@ -189,7 +179,7 @@ class Structure < ActiveRecord::Base
   scope :with_logo           , -> { where.not( logo: nil ) }
   scope :with_media          , -> { joins(:medias).uniq }
   scope :with_logo_and_media , -> { with_logo.with_media }
-  scope :active_and_enabled  , -> { where(active: true, enabled: true) }
+  scope :enabled             , -> { where(enabled: true) }
 
   ######################################################################
   # Algolia                                                            #
@@ -209,7 +199,7 @@ class Structure < ActiveRecord::Base
     attribute :cities_text
 
     add_attribute :active do
-      active and enabled
+      enabled
     end
 
     add_attribute :_geoloc do
@@ -617,20 +607,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Disables the sleeping structure and activates the current structure.
-  #
-  # @return Boolean saved or not
-  def wake_up!
-    self.is_sleeping = false
-    self.active      = true
-
-    save(validate: false)
-    self.generate_cards
-
-    AdminMailer.delay(queue: 'mailers').you_have_control_of_your_account(self)
-    true
-  end
-
   # Return the most used subject or the root subjects that has the most childs.
   #
   # @return Subject at depth 0
@@ -949,10 +925,6 @@ class Structure < ActiveRecord::Base
       [:name, :zip_code, :street],
       [:name, :id],
     ]
-  end
-
-  def set_active_to_true
-    self.active              = true
   end
 
   def subscribe_to_crm

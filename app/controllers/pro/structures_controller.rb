@@ -48,13 +48,6 @@ class Pro::StructuresController < Pro::ProController
   def someone_already_took_control
   end
 
-  # PUT etablissements/:id/wake_up
-  # Changed is_sleeping from true to false
-  def wake_up
-    @structure.wake_up!
-    redirect_to request.referrer, notice: 'Le profil est réveillé !'
-  end
-
   # GET member
   def widget
     respond_to do |format|
@@ -95,7 +88,7 @@ class Pro::StructuresController < Pro::ProController
 
   # GET collection
   def index
-    @structures = Structure.order('structures.created_at DESC').where(sleeping_structure_id: nil).page(params[:page] || 1).per(50)
+    @structures = Structure.order('structures.created_at DESC').page(params[:page] || 1).per(50)
     @importer = StructureImporter.new
   end
 
