@@ -8,22 +8,12 @@ describe Community::Notifier, community: true, with_mail: true do
   let!(:message)    { Faker::Lorem.paragraph(10) }
   let!(:thread)     { community.ask_question!(user, Faker::Lorem.paragraph(5)) }
 
-  describe '#notify_question' do
+  describe '#notify_admin' do
     subject { Community::Notifier.new(thread, message, membership) }
 
-    it 'sends an email to the teacher' do
+    it 'sends an email to the admin' do
       expect(CommunityMailer).to receive(:notify_admin_of_question).once
-      subject.notify_question
-    end
-
-    it 'sends an email to ten members of the community who can receive notifications' do
-      5.times do
-        user = FactoryGirl.create(:user)
-        membership = community.memberships.create(user: user)
-      end
-
-      expect(CommunityMailer).to receive(:notify_member_of_question).exactly(6).times
-      subject.notify_question
+      subject.notify_admin
     end
   end
 
