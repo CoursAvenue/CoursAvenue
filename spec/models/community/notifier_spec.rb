@@ -27,6 +27,20 @@ describe Community::Notifier, community: true, with_mail: true do
     end
   end
 
+  describe '#notify_members' do
+    subject { Community::Notifier.new(thread, message, membership) }
+
+    it 'sends an email to ten members of the community who can receive notifications' do
+      5.times do
+        user = FactoryGirl.create(:user)
+        membership = community.memberships.create(user: user)
+      end
+
+      expect(CommunityMailer).to receive(:notify_member_of_question).exactly(6).times
+      subject.notify_members
+    end
+  end
+
   describe '#notify_answer_from_teacher' do
     subject { Community::Notifier.new(thread, message, membership) }
 
