@@ -94,7 +94,7 @@ class Planning < ActiveRecord::Base
   scope :future,            -> { where( arel_table[:end_date].gteq(Date.today).or(
                                         arel_table[:end_date].eq(nil)) ) }
   scope :past,              -> { where( arel_table[:end_date].lteq(Date.today) ) }
-  scope :ordered_by_day,    -> { order('week_day=0, week_day ASC, start_date ASC, start_time ASC') }
+  scope :ordered_by_day,    -> { order('week_day=0, week_day ASC, start_time ASC, start_date ASC') }
   scope :visible,           -> { where(visible: true) }
 
   # Return week day of start date if the course associated to the planning
