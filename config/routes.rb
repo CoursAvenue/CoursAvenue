@@ -600,6 +600,7 @@ CoursAvenue::Application.routes.draw do
     get 'mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
     get 'conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
     get 'cours-d-essai-gratuits'        => 'pages#free_trial',           as: 'pages_free_trial'
+    get 'humans',                       to: 'home#humans'
 
     # Jobs
     get 'jobs'                          => 'jobs#index'

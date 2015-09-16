@@ -38,6 +38,12 @@ class HomeController < ApplicationController
     end
   end
 
+  def humans
+    respond_to do |format|
+      format.text { render text: 'On recrute! RDV sur www.coursavenue.com/jobs.' }
+    end
+  end
+
   private
 
   def layout_locals
