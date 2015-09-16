@@ -258,7 +258,7 @@ var BookPopup = React.createClass({
     },
 
     selectPricesIfTraining: function selectPricesIfTraining () {
-        if (this.props.course.get('db_type') == 'Course::Training' && this.props.course.get('price_group_prices').length > 1) {
+        if ((this.props.course.get('db_type') == 'Course::Training' || this.props.course.get('no_trial')) && this.props.course.get('price_group_prices').length > 1) {
             return (<div className="soft-half--ends bordered--bottom">
                         <div className="grid--full">
                             <label className="grid__item f-weight-600 v-middle one-half line-height-2 palm-one-whole">
