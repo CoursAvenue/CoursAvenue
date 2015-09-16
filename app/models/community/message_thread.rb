@@ -30,6 +30,15 @@ class Community::MessageThread < ActiveRecord::Base
     save
   end
 
+  def approve!
+    return if self.approved?
+
+    self.approved = true
+    save
+
+    Community::Notifier.new(thread, message, membership).notify_members
+  end
+
   # Reply to the conversation.
   #
   # @return self
