@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150916142542) do
+ActiveRecord::Schema.define(version: 20150916143019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -291,6 +291,7 @@ ActiveRecord::Schema.define(version: 20150916142542) do
     t.integer  "community_membership_id"
     t.datetime "deleted_at"
     t.integer  "indexable_card_id"
+    t.boolean  "approved",                  default: false
   end
 
   add_index "community_message_threads", ["community_id"], name: "index_community_message_threads_on_community_id", using: :btree

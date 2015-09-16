@@ -11,6 +11,7 @@ class Community::MessageThread < ActiveRecord::Base
 
   delegate :messages, to: :conversation, allow_nil: true
 
+  scope :approved,     -> { where(approved: true) }
   scope :to_community, -> { where(to_community: true) }
   scope :to_teacher,   -> { where(to_community: false) }
 
