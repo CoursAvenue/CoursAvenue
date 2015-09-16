@@ -1,7 +1,8 @@
 FactoryGirl.define do
   factory :community_message_thread, :class => 'Community::MessageThread' do
     community nil
-    public { false }
+    approved false
+    to_community true
   end
 
 end
