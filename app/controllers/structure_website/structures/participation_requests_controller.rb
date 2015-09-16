@@ -9,10 +9,11 @@ class StructureWebsite::Structures::ParticipationRequestsController < StructureW
   # For an example of a message controller see:
   # https://github.com/ging/social_stream/blob/master/base/app/controllers/messages_controller.rb
   def create
-    @user              = User.where(email: request_params[:user][:email].downcase.gsub(' ', '')).first_or_initialize(validate: false)
+    @user              = User.with_deleted.where(email: request_params[:user][:email].downcase.gsub(' ', '')).first_or_initialize(validate: false)
     @user.phone_number = request_params[:user][:phone_number]
     @user.first_name   = request_params[:user][:first_name]
     @user.last_name    = request_params[:user][:last_name]
+    @user.deleted_at   = nil
     @user.save(validate: false)
 
     if request_params[:stripe_token].present?

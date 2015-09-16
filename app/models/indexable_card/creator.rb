@@ -74,7 +74,7 @@ class IndexableCard::Creator
     #   -> Have courses
     #   -> Have plannings
     #   -> Are not currently creating cards
-    Structure.includes(:indexable_cards, courses: [:plannings]).active_and_enabled.select do |s|
+    Structure.includes(:indexable_cards, :indexable_lock, courses: [:plannings]).active_and_enabled.select do |s|
       s.indexable_cards.count == 0 and s.courses.count > 0 and s.plannings.count > 0 and
         (!s.indexable_lock.locked? or (s.indexable_lock.too_old?))
     end.flat_map(&:courses).each do |course|

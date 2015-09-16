@@ -28,7 +28,7 @@ class Media::Video < Media
   ######################################################################
   validates :url, url: true
   validates :url, presence: true
-  validates :url, uniqueness: true
+  validates :url, uniqueness: { scope: :mediable_id }
   validate :authorized_url
 
   ######################################################################
