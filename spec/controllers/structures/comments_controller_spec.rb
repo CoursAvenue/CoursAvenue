@@ -87,7 +87,7 @@ describe Structures::CommentsController do
     end
     context 'I add a private message' do
       it 'sends a private message' do
-        expect(structure.main_contact.messages).to be_empty
+        expect(structure.admin.messages).to be_empty
         post :create, structure_id: structure.id,
                       comment: {
                         rating:            4,

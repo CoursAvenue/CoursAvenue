@@ -1,7 +1,7 @@
 = content_for :content do
 
   - if @structure
-    - if @structure.main_contact.present?
+    - if @structure.admin.present?
       = render partial: 'pro/admins/onboarding/status_bar'
 
     .darkgray-box.flexbox.print--hidden.on-top-of-the-world
@@ -35,13 +35,13 @@
                       = link_to @structure.decorate.search_url, target: :_blank do
                         %i.fa-eye.soft-half--right
                         Voir sur le moteur de recherche (SUPER ADMIN)
-                  - if @structure.main_contact
+                  - if @structure.admin
                     %li.nowrap.text--left
-                      = link_to edit_pro_structure_admin_path(@structure, @structure.main_contact) do
+                      = link_to edit_pro_structure_admin_path(@structure, @structure.admin) do
                         %i.fa-cogs.soft-half--right
                         = t('pro.structures.side_menu.account')
                   %li.nowrap.text--left
-                    = link_to new_pro_structure_invited_teacher_path(@structure, @structure.main_contact) do
+                    = link_to new_pro_structure_invited_teacher_path(@structure, @structure.admin) do
                       %i.fa-gift.soft-half--right
                       = t('pro.structures.side_menu.share')
                   %li.nowrap.text--left

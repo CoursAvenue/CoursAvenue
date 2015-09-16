@@ -4,7 +4,7 @@ describe Pro::Structures::ParticipationRequestsController do
   include Devise::TestHelpers
 
   let(:structure) { FactoryGirl.create(:structure_with_admin) }
-  let(:admin) { structure.main_contact }
+  let(:admin) { structure.admin }
 
   before { sign_in admin }
 

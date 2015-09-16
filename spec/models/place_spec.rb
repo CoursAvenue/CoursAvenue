@@ -8,9 +8,9 @@ describe Place do
 
   it { should be_valid }
 
-  describe '#main_contact' do
+  describe '#admin' do
     it 'returns the first contact' do
-      expect(subject.main_contact).to eq(subject.contacts.first)
+      expect(subject.admin).to eq(subject.contacts.first)
     end
   end
 

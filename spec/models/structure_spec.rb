@@ -26,7 +26,7 @@ describe Structure do
       structure.admin = admin
 
       expect(structure.contact_email).to eq(admin.email)
-      expect(structure.main_contact).to eq(admin)
+      expect(structure.admin).to eq(admin)
     end
   end
 
@@ -221,7 +221,7 @@ describe Structure do
       subject { FactoryGirl.create(:structure_with_admin) }
 
       it 'returns the admin email' do
-        expect(subject.contact_email).to eq(subject.main_contact.email)
+        expect(subject.contact_email).to eq(subject.admin.email)
       end
     end
 
@@ -245,7 +245,7 @@ describe Structure do
       subject { FactoryGirl.create(:structure_with_admin) }
 
       it 'returns the admin mobile phone' do
-        expect(subject.contact_mobile_phone).to eq(subject.main_contact.mobile_phone_number)
+        expect(subject.contact_mobile_phone).to eq(subject.admin.mobile_phone_number)
       end
     end
 
@@ -269,7 +269,7 @@ describe Structure do
       subject { FactoryGirl.create(:structure_with_admin) }
 
       it 'returns the admin phone' do
-        expect(subject.contact_phone).to eq(subject.main_contact.phone_number)
+        expect(subject.contact_phone).to eq(subject.admin.phone_number)
       end
     end
 

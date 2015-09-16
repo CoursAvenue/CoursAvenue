@@ -19,7 +19,7 @@
         %td
           = l(structure.created_at.to_date)
         %td.text--center
-          - if structure.main_contact.present?
+          - if structure.admin.present?
             %i.fa.fa-check.green
         %td.nowrap
           = link_to 'Public', structure_url(structure, subdomain: 'www')

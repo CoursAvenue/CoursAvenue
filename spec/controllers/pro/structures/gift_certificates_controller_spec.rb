@@ -11,7 +11,7 @@ describe Pro::Structures::GiftCertificatesController, type: :controller do
   it { should use_before_action(:set_structure) }
 
   let!(:structure)    { FactoryGirl.create(:structure_with_admin, :with_contact_email) }
-  let!(:admin)        { structure.main_contact }
+  let!(:admin)        { structure.admin }
   let!(:plan)         { FactoryGirl.create(:subscriptions_plan, :monthly, :module) }
   let!(:subscription) { FactoryGirl.create(:subscription, :canceled, structure: structure, plan: plan) }
 

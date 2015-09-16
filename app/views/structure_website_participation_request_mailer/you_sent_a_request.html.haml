@@ -9,9 +9,9 @@
 .p
   Si vous n'avez pas de réponse de notre part dans les 48h, n'hésitez pas à nous contacter directement
   - if @structure.phone_numbers.any?
-    (e-mail : #{@structure.main_contact.email})
+    (e-mail : #{@structure.admin.email})
   - else
-    (tél. : #{@structure.phone_numbers.map(&:number).join(', ')} / e-mail : @structure.main_contact.email)
+    (tél. : #{@structure.phone_numbers.map(&:number).join(', ')} / e-mail : @structure.admin.email)
   ou répondez directement à cet e-mail.
 .p
   Et si finalement vous souhaitez modifier ou annuler votre séance, accédez à votre page dédiée :

@@ -59,7 +59,7 @@ class EmailProcessor
       if pr.last_modified_by == 'User' and pr.pending? # (case 01)
         pr.accept!(message, 'Structure')
       else
-        pr.structure.main_contact.reply_to_conversation(pr.conversation, message)
+        pr.structure.admin.reply_to_conversation(pr.conversation, message)
         pr.treat!('message')
       end
     elsif reply_token.sender_type == 'user'
@@ -92,9 +92,9 @@ class EmailProcessor
 
     if comment.associated_message
       conversation = comment.associated_message.conversation
-      structure.main_contact.reply_to_conversation(conversation, message)
+      structure.admin.reply_to_conversation(conversation, message)
     else
-      structure.main_contact.send_message_with_label(comment.user, message, 'Réponse à votre avis',
+      structure.admin.send_message_with_label(comment.user, message, 'Réponse à votre avis',
                                                      Mailboxer::Label::COMMENT.id)
     end
   end

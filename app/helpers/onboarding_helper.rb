@@ -1,6 +1,6 @@
 module OnboardingHelper
   def admin_current_onboarding_step(structure)
-    if !structure.main_contact.confirmed?
+    if !structure.admin.confirmed?
       link_to confirm_email_pro_structure_path(structure),
         data: { onboarding_step: true, behavior: 'modal', padding: '0', width: 500 },
         class: 'fancybox.ajax' do
@@ -34,7 +34,7 @@ module OnboardingHelper
 
   def admin_current_onboarding_percentage(structure)
     status = 100
-    status -= 20 if !structure.main_contact.confirmed?
+    status -= 20 if !structure.admin.confirmed?
     status -= 20 if !structure.profile_completed?
     status -= 20 if structure.medias.select(&:persisted?).empty?
     status -= 20 if structure.comments.empty? and structure.comment_notifications.empty?

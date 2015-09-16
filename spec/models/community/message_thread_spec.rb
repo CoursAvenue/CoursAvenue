@@ -44,7 +44,7 @@ RSpec.describe Community::MessageThread, type: :model, community: true do
     end
 
     context "when the replier is the structure's admin" do
-      let(:admin)   { structure.main_contact }
+      let(:admin)   { structure.admin }
       let(:message) { Faker::Lorem.paragraph(10) }
 
       it 'adds a message to the conversation' do

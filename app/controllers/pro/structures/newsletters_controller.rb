@@ -89,7 +89,7 @@ class Pro::Structures::NewslettersController < ApplicationController
       @newsletter.save!
 
       if params[:send_me_a_copy] == 'on'
-        NewsletterMailer.delay(queue: 'mailers').send_newsletter(@newsletter, @structure.main_contact.email)
+        NewsletterMailer.delay(queue: 'mailers').send_newsletter(@newsletter, @structure.admin.email)
       end
       NewsletterSender.delay(queue: 'mailers').send_newsletter(@newsletter)
       redirect_to pro_structure_newsletters_path(@structure),

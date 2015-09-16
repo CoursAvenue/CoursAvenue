@@ -20,7 +20,7 @@ class Community::MessageThread < ActiveRecord::Base
   def send_message!(message)
     message = StringHelper.replace_email_and_phones(message)
     user = membership.user
-    admin = community.structure.main_contact
+    admin = community.structure.admin
 
     receipt = user.send_message_with_label(admin, message,
       I18n.t(Mailboxer::Label::PUBLIC_QUESTION.name), Mailboxer::Label::PUBLIC_QUESTION.id)

@@ -11,7 +11,7 @@ describe Pro::SubscriptionsSponsorshipsController, with_stripe: true do
   let(:plan)          { FactoryGirl.create(:subscriptions_plan) }
 
   let(:structure)    { FactoryGirl.create(:structure_with_admin, :with_contact_email) }
-  let(:admin)        { structure.main_contact }
+  let(:admin)        { structure.admin }
   let(:token)        { stripe_helper.generate_card_token }
   let(:subscription) { plan.create_subscription!(structure) }
 

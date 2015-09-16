@@ -99,6 +99,6 @@ class Pro::Structures::ConversationsController < ApplicationController
   end
 
   def get_admin
-    @admin = @structure.main_contact
+    @admin = @structure.admin
   end
 end

@@ -3,7 +3,7 @@
   .input-with-icon.v-middle
     %input.one-whole.input--large{ disabled: true, value: @admin.email}>
     %i.fa-check.green
-  = link_to 'Modifier', modify_email_pro_structure_admin_path(@structure, @structure.main_contact), class: 'v-middle btn btn--orange fancybox.ajax', data: { behavior: 'modal', padding: '0', width: 500 }
+  = link_to 'Modifier', modify_email_pro_structure_admin_path(@structure, @structure.admin), class: 'v-middle btn btn--orange fancybox.ajax', data: { behavior: 'modal', padding: '0', width: 500 }
 .input#unconfirmed-email-wrapper{ style: (@admin.unconfirmed_email? ? '' : 'display: none;')}
   .control-label> &nbsp;
   .input-container>

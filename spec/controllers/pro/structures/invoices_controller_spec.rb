@@ -12,7 +12,7 @@ RSpec.describe Pro::Structures::InvoicesController, type: :controller, with_stri
 
   let(:stripe_helper) { StripeMock.create_test_helper }
   let!(:structure)    { FactoryGirl.create(:structure_with_admin, :with_contact_email) }
-  let!(:admin)        { structure.main_contact }
+  let!(:admin)        { structure.admin }
   let(:plan)          { FactoryGirl.create(:subscriptions_plan) }
   let(:token)         { stripe_helper.generate_card_token }
 

@@ -127,7 +127,7 @@ class Structures::CommentsController < ApplicationController
   private
 
   def create_private_message
-    @recipient    = @comment.structure.main_contact
+    @recipient    = @comment.structure.admin
     @receipt      = @comment.user.send_message_with_label(@recipient,
                                                           params[:private_message],
                                                           (params[:subject].present? ? params[:subject] : 'Message personnel suite à ma recommandation'),

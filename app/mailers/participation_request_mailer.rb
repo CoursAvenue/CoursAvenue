@@ -132,7 +132,7 @@ class ParticipationRequestMailer < ActionMailer::Base
     @treated_participation_requests = structure.participation_requests.treated.where(date: Date.tomorrow)
     @pending_participation_requests = structure.participation_requests.pending.where(date: Date.tomorrow)
     @structure                      = @participation_requests.first.structure
-    @admin                          = @structure.main_contact
+    @admin                          = @structure.admin
     @nb_users                       = @participation_requests.map(&:user).uniq.count
     mail to: @admin.email, subject: "Pour mémoire - Inscriptions pour demain"
   end
@@ -151,7 +151,7 @@ class ParticipationRequestMailer < ActionMailer::Base
     @user                  = @participation_request.user
     @structure             = @participation_request.structure
     @course                = @participation_request.course
-    @admin                 = @structure.main_contact
+    @admin                 = @structure.admin
 
     mail to: @admin.email, subject: "Avez-vous convenu d'une date avec #{ @user.name }?"
   end
@@ -239,7 +239,7 @@ class ParticipationRequestMailer < ActionMailer::Base
     @course                          = participation_request.course
     @place                           = participation_request.place
     @structure                       = participation_request.structure
-    @admin                           = participation_request.structure.main_contact
+    @admin                           = participation_request.structure.admin
     @user                            = participation_request.user
     @conversation                    = participation_request.conversation
     if participation_request.date < 2.days.from_now

@@ -1,4 +1,4 @@
-# encoding: utf-8
+ # encoding: utf-8
 class Structure < ActiveRecord::Base
   include Concerns::HstoreHelper
   include Concerns::ActiveHashHelper
@@ -302,10 +302,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  def main_contact
-    admin
-  end
-
   def address
     if street.present? and city.present?
       "#{street}, #{city.name}"
@@ -432,19 +428,19 @@ class Structure < ActiveRecord::Base
   end
 
   def email_opt_in
-    main_contact.email_opt_in
+    admin.email_opt_in
   end
 
   def email
-    (main_contact ? main_contact.email : contact_email)
+    (admin ? admin.email : contact_email)
   end
 
-  # Compute the reponse rate of the main_contact
+  # Compute the reponse rate of the admin
   #
   # @return Integer [0-100] that is the percentage. Ex: 67
   def compute_response_rate
-    return if main_contact.nil?
-    conversations = main_contact.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
+    return if admin.nil?
+    conversations = admin.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
     number_of_conversations = conversations.length
     if number_of_conversations == 0
       self.response_rate = nil
@@ -472,8 +468,8 @@ class Structure < ActiveRecord::Base
   #
   # @return Integer that is the average number of hours between each responses. Ex: 14
   def compute_response_time
-    return if main_contact.nil?
-    conversations      = main_contact.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
+    return if admin.nil?
+    conversations      = admin.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
     if conversations.length == 0
       self.response_time = nil
       save(validate: false)
@@ -537,9 +533,9 @@ class Structure < ActiveRecord::Base
   #
   # @return Mailbox
   def mailbox
-    return nil if main_contact.nil?
+    return nil if admin.nil?
     return @mailbox if @mailbox
-    return @mailbox = main_contact.mailbox
+    return @mailbox = admin.mailbox
   end
 
   # Return all conversations that are information demand AND are unanswered
@@ -671,7 +667,7 @@ class Structure < ActiveRecord::Base
   def update_intercom_status
     new_status = CrmSync.structure_status_for_intercom(self)
     if self.status != new_status
-      if self.main_contact
+      if self.admin
         create_intercom_event("#{self.status} -> #{new_status}")
       end
       self.update_columns meta_data: self.meta_data.merge('status' => new_status)
@@ -1067,8 +1063,8 @@ class Structure < ActiveRecord::Base
       intercom_client = IntercomClientFactory.client
       intercom_client.events.create(
         event_name: event_name, created_at: Time.now.to_i,
-        email: self.main_contact.email,
-        user_id: "Admin_#{self.main_contact.id}"
+        email: self.admin.email,
+        user_id: "Admin_#{self.admin.id}"
       )
     rescue Exception => exception
       Bugsnag.notify(exception, { name: name, slug: slug, id: id })

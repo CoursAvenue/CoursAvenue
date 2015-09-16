@@ -1,4 +1,4 @@
-= simple_form_for [:pro, @structure.main_contact], html: { autocomplete: 'false', class: 'wizard-form' }, remote: true do |f|
+= simple_form_for [:pro, @structure.admin], html: { autocomplete: 'false', class: 'wizard-form' }, remote: true do |f|
   %label À quel numéro doit-on appeler pour faire une réservation ?
   = f.input :phone_number, label: 'Numéro de fixe', placeholder: 'Ex: 01 20 03 45 64'
   = f.input :mobile_phone_number, label: 'Numéro de portable', placeholder: 'Ex: 06 20 03 45 64'

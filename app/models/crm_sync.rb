@@ -3,17 +3,17 @@
 class CrmSync
 
   def self.update(structure)
-    admin = structure.main_contact
+    admin = structure.admin
     if admin.nil?
       results = CrmSync.create_sleeping_contact(structure)
     else
       if structure.close_io_lead_id.present?
         existing_lead = self.client.find_lead structure.close_io_lead_id
       else
-        existing_lead = self.client.list_leads("email:\"#{structure.main_contact.email.downcase.strip}\"")['data'].first
+        existing_lead = self.client.list_leads("email:\"#{structure.admin.email.downcase.strip}\"")['data'].first
       end
       if existing_lead and existing_lead[:contacts]
-        existing_contact    = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].any? && contact_data[:emails].first[:email] == structure.main_contact.email.strip.downcase }
+        existing_contact    = existing_lead[:contacts].detect{ |contact_data| contact_data[:emails].any? && contact_data[:emails].first[:email] == structure.admin.email.strip.downcase }
         existing_contact_id = existing_contact[:id] if existing_contact
         data                = self.data_for_structure(structure, existing_contact_id)
         results             = self.client.update_lead(existing_lead['id'], data)
@@ -93,7 +93,7 @@ class CrmSync
   end
 
   def self.data_for_structure(structure, existing_contact_id=nil)
-    admin = structure.main_contact
+    admin = structure.admin
     contact = { name:   structure.name,
                 phones: structure.phone_numbers.uniq.map{|pn| { phone: pn.international_format, type: 'office' } }.reject{|hash| hash[:phone].length < 10 or hash[:phone].length > 15},
                 emails: [{ email: admin.email.downcase.strip, type: 'office' }]
@@ -110,7 +110,7 @@ class CrmSync
   end
 
   def self.structure_custom_datas(structure)
-    admin = structure.main_contact
+    admin = structure.admin
     custom_datas = {}
     custom_datas[:facebook_url]                     = structure.facebook_url if structure.facebook_url.present?
     custom_datas['1. Profil public']                = Rails.application.routes.url_helpers.structure_url(structure, subdomain: 'www', host: 'coursavenue.com')
@@ -127,9 +127,9 @@ class CrmSync
   end
 
   def self.structure_status(structure)
-    if structure.main_contact.nil?
+    if structure.admin.nil?
       "Dormant"
-    elsif structure.main_contact && !structure.main_contact.confirmed?
+    elsif structure.admin && !structure.admin.confirmed?
       'Non actif'
     elsif structure.plannings.future.empty?
       'Incomplet'
@@ -141,9 +141,9 @@ class CrmSync
   end
 
   def self.structure_status_for_intercom(structure)
-    if structure.main_contact.nil?
+    if structure.admin.nil?
       "Dormant"
-    elsif structure.main_contact && !structure.main_contact.confirmed?
+    elsif structure.admin && !structure.admin.confirmed?
       'Non actif'
     elsif structure.description.nil? or structure.description.length < 2
       'Sans description'

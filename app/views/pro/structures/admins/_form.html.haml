@@ -31,7 +31,7 @@
       %i.fa-envelope-o
       Mes notifications
 
-    %input{type: 'hidden', name: 'return_to', value: notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro')}
+    %input{type: 'hidden', name: 'return_to', value: notifications_pro_structure_admin_url(@structure, @structure.admin, subdomain: 'pro')}
     .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.admins.wizard.notifications') } }
       .grid
         .grid__item.one-third>
