@@ -1,3 +1,4 @@
+# By default, a message thread is not approved. (See schema).
 class Community::MessageThread < ActiveRecord::Base
   acts_as_paranoid
 
@@ -5,17 +6,17 @@ class Community::MessageThread < ActiveRecord::Base
 
   belongs_to :community
   belongs_to :indexable_card
-  belongs_to :membership, class_name: 'Community::Membership', foreign_key: 'community_membership_id'
+  belongs_to :membership, class_name: 'Community::Membership',
+    foreign_key: 'community_membership_id'
   belongs_to :conversation, class_name: 'Mailboxer::Conversation',
     foreign_key: 'mailboxer_conversation_id'
 
   delegate :messages, to: :conversation, allow_nil: true
 
-  scope :approved,     -> { where(approved: true) }
-  scope :to_community, -> { where(to_community: true) }
-  scope :to_teacher,   -> { where(to_community: false) }
+  scope :approved, -> { where(approved: true) }
 
-  # Send a mewssage to the teacher and the community.
+  # Send a message to the teacher and the community.
+  #
   # @return
   def send_message!(message)
     message = StringHelper.replace_email_and_phones(message)
