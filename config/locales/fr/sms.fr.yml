@@ -10,7 +10,7 @@ fr:
           A bientot ! PS : pour modifier/annuler : %{url}
       day_before_reminder:
         multiple_course: >
-          Rappel : vous avez #{nb_courses} cours demain et le premier commence à %{start_time}.
+          Rappel : vous avez %{nb_courses} cours demain et le premier commence à %{start_time}.
           CoursAvenue vous souhaite une très belle séance ! Pour l'annuler, connectez-vous ("Mes inscriptions")."
         one_course:
           with_address: >
