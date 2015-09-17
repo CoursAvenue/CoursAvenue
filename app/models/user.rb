@@ -170,7 +170,7 @@ class User < ActiveRecord::Base
 
       if _participation_requests.length > 1
         message = I18n.t('sms.users.day_before_reminder.multiple_course',
-                         _participation_requests: _participation_requests.length,
+                         nb_courses: _participation_requests.length,
                          start_time: I18n.l(_participation_requests.first.start_time, format: :short))
       else
         message = _participation_requests.first.decorate.sms_reminder_message
