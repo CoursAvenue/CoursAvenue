@@ -62,10 +62,5 @@ describe Pro::StructuresController do
       patch :enable, id: structure.slug
       expect(response).to redirect_to(pro_structure_path(structure))
     end
-
-    it 'shows a notice' do
-      patch :enable, id: structure.slug
-      expect(flash[:notice]).to be_present
-    end
   end
 end
