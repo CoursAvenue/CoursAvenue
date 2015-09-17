@@ -38,7 +38,7 @@ class IndexableCard < ActiveRecord::Base
 
     attributesForFaceting %w(id subjects.name root_subject subjects.slug planning_periods
                              structure_slug audiences subjects.slug_name levels card_type
-                             metro_stops metro_lines active)
+                             metro_stops metro_lines)
 
     add_slave 'IndexableCard_by_popularity_desc', per_environment: true do
       customRanking ['desc(popularity)']
@@ -54,7 +54,7 @@ class IndexableCard < ActiveRecord::Base
 
       attributesForFaceting %w(id subjects.name root_subject subjects.slug planning_periods
                                structure_slug audiences subjects.slug_name levels card_type
-                               metro_stops metro_lines active)
+                               metro_stops metro_lines)
 
     end
 
@@ -76,10 +76,6 @@ class IndexableCard < ActiveRecord::Base
 
     add_attribute :city_zip_code do
       self.place.try(:city).try(:zip_code)
-    end
-
-    add_attribute :active do
-      self.structure.enabled
     end
 
     add_attribute :name do

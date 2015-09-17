@@ -74,7 +74,6 @@ module.exports = {
             index = 'IndexableCard_' + data.sort_by + '_' + ENV.SERVER_ENVIRONMENT;
         }
         var card_search_helper = algoliasearchHelper(client, index, card_search_state);
-        card_search_helper.addRefine('active', true);
 
         if (data.group_subject)    {
             _.each(data.group_subject.root_slugs, function(root_subject) {
