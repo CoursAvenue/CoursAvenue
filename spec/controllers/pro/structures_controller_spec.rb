@@ -45,8 +45,8 @@ describe Pro::StructuresController do
   end
 
   describe 'PATCH #enable' do
-    let(:structure) { FactoryGirl.create(:structure, :disabled) }
-    let!(:admin) { FactoryGirl.create(:admin, structure: structure) }
+    let(:structure) { FactoryGirl.create(:structure_with_admin, :disabled) }
+    let!(:admin) { structure.admin }
 
     before do
       sign_in admin
