@@ -20,7 +20,6 @@ class Community::Notifier
     memberships = @community.memberships.includes(:user).
       select(&:can_receive_notifications?).take(NOTIFICATION_GROUP_COUNT)
     memberships -= [ @membership ] # We remove the user who sent the message.
-    admin = @community.structure.main_contact
 
     memberships.each do |membership|
       CommunityMailer.delay(queue: 'mailers').notify_member_of_question(membership.user, @message, @thread)
@@ -30,6 +29,7 @@ class Community::Notifier
   end
 
   def notify_admin
+    admin = @community.structure.main_contact
     CommunityMailer.delay(queue: 'mailers').notify_admin_of_question(admin, @message, @thread)
     self.delay(run_at: INTERCOM_NOTIFCATION_DELAY.from_now).notify_intercom(@thread)
   end
