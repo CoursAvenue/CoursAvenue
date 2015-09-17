@@ -36,7 +36,7 @@ class Community::MessageThread < ActiveRecord::Base
     self.approved = true
     save
 
-    Community::Notifier.new(thread, message, membership).notify_members
+    Community::Notifier.new(self, messages.last.body, nil).notify_members
   end
 
   # Reply to the conversation.
