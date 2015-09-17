@@ -5,7 +5,7 @@ class MakeStructureAdminsRelationBelongsTo < ActiveRecord::Migration
     add_index :structures, :admin_id
     Admin.find_each do |admin|
       bar.increment!
-      s = admin.structure
+      s = Structure.where(id:admin.structure_id).first
       next if s.nil?
       s.update_column :admin_id, admin.id
     end
