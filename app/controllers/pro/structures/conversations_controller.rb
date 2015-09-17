@@ -68,22 +68,22 @@ class Pro::Structures::ConversationsController < ApplicationController
   end
 
   def update
-    @conversation    = @admin.mailbox.conversations.find params[:id]
+    @conversation    = @admin.mailbox.conversations.find(params[:id])
 
     if @structure.community.present? and @structure.community.message_threads.any? and
       (message_thread = @structure.community.message_threads.where(mailboxer_conversation_id: @conversation.id).first)
       message_body = StringHelper.replace_contact_infos(params[:conversation][:message][:body])
       message_thread.reply!(@admin, message_body)
     else
-      @admin.reply_to_conversation(@conversation, params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
-      if @conversation.participation_request_id.present?
-          pr = ParticipationRequest.where(id: @conversation.participation_request_id).first
-          pr.treat!('message') if pr.present? and pr.pending?
-      end
+      prc = ParticipationRequest::Conversation.where(mailboxer_conversation_id: params[:id]).first
+      pr = prc.participation_request
+      prc.reply!(params[:conversation][:message][:body]) unless params[:conversation][:message][:body].blank?
+      pr.treat!('message') if (pr.present? and pr.pending?)
     end
+
     respond_to do |format|
       if params[:conversation][:message][:body].blank?
-        format.html { redirect_to pro_structure_conversation_path(@structure, @conversation), error: 'Vous devez mettre un text pour répondre' }
+        format.html { redirect_to pro_structure_conversation_path(@structure, @conversation), error: 'Vous devez mettre un texte pour répondre' }
         format.js
       else
         format.html { redirect_to pro_structure_conversation_path(@structure, @conversation) }

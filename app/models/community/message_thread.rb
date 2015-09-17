@@ -11,10 +11,6 @@ class Community::MessageThread < ActiveRecord::Base
 
   delegate :messages, to: :conversation, allow_nil: true
 
-  #################################################################################################
-  # See in Notifier to remove sms to Nima.                                                        #
-  #################################################################################################
-
   # Send a mewssage to the teacher and the community.
   # @return
   def send_message!(message)

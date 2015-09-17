@@ -15,7 +15,7 @@
         %strong Statut
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;'}
       .p.hard
-        = I18n.t("participation_request.state.#{participation_request.state}")
+        = I18n.t("participation_request.state.#{participation_request.state.state}")
         - if participation_request.canceled? and participation_request.cancelation_reason and !participation_request.cancelation_reason.hidden
           %strong= "(#{t(participation_request.cancelation_reason.name)})"
   - if participation_request.from_personal_website?

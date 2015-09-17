@@ -11,7 +11,7 @@
 - if @participation_request.past? and @participation_request.accepted?
   = render "state_past"
 - else
-  = render "state_#{ @participation_request.state }"
+  = render "state_#{ @participation_request.state.state }"
 
 .grid--full.push--bottom.message
   .grid__item.palm-one-whole.palm-block.palm-text--center.two-twelfths.v-top.v-top>
@@ -54,5 +54,5 @@
   = render partial: 'pro/structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
 
 %h3 Discussion avec #{@user.name}
-= render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation }
+= render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation.mailboxer_conversation }
 = render partial: 'messages/message', collection: @participation_request.conversation.messages.order('created_at DESC').reject(&:new_record?)

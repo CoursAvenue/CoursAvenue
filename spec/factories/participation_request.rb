@@ -5,34 +5,38 @@ FactoryGirl.define do
     structure         { FactoryGirl.create(:structure_with_admin) }
     course
     planning
-    state             'pending'
     date              { 3.days.from_now }
     start_time        { Time.now }
     end_time          { Time.now + 3.hours }
     last_modified_by 'User'
+
+    association :state, factory: :participation_request_state
 
     trait :last_modified_by_structure do
       last_modified_by 'Structure'
     end
 
     trait :accepted_state do
-      state 'accepted'
+      association :state, factory: [:participation_request_state, :accepted]
     end
 
     trait :pending_state do
-      state 'pending'
+      association :state, factory: [:participation_request_state]
     end
 
     trait :with_participants do
       after(:build) do |pr|
         3.times do
-          pr.participants << FactoryGirl.create(:participation_request_participant, participation_request: pr)
+          pr.participants << FactoryGirl.create(:participation_request_participant,
+                                                participation_request: pr)
         end
       end
     end
 
-    after(:build) do |participation_request|
-      participation_request.conversation = FactoryGirl.create(:conversation_with_messages)
+    after(:create) do |participation_request|
+      participation_request.conversation = FactoryGirl.create(
+        :participation_request_conversation, participation_request: participation_request)
+      participation_request.conversation.send_request!(Faker::Lorem.paragraph)
     end
   end
 end

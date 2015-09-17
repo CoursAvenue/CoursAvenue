@@ -26,7 +26,8 @@ class Community::Notifier
     admin = @community.structure.main_contact
 
     memberships.each do |membership|
-      CommunityMailer.delay(queue: 'mailers').notify_member_of_question(membership.user, @message, @thread)
+      CommunityMailer.delay(queue: 'mailers').notify_member_of_question(
+        membership.user, @message, @thread)
       membership.last_notification_at = Time.current
       membership.save
     end
@@ -42,7 +43,8 @@ class Community::Notifier
     memberships = @thread.participants.select(&:can_receive_notifications?)
 
     memberships.each do |membership|
-      CommunityMailer.delay(queue: 'mailers').notify_answer_from_teacher(membership.user, @message, @thread)
+      CommunityMailer.delay(queue: 'mailers').notify_answer_from_teacher(
+        membership.user, @message, @thread)
     end
   end
 
@@ -54,10 +56,12 @@ class Community::Notifier
     admin = @community.structure.main_contact
 
     memberships.each do |membership|
-      CommunityMailer.delay(queue: 'mailers').notify_answer_from_member(membership.user, @message, @thread)
+      CommunityMailer.delay(queue: 'mailers').notify_answer_from_member(
+        membership.user, @message, @thread)
     end
 
-    CommunityMailer.delay(queue: 'mailers').notify_answer_from_member_to_teacher(admin, @message, @thread)
+    CommunityMailer.delay(queue: 'mailers').notify_answer_from_member_to_teacher(
+      admin, @message, @thread)
   end
 
   private

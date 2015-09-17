@@ -2,7 +2,7 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-describe ParticipationRequest do
+describe ParticipationRequest, pr: true do
 
   it { should have_one(:invoice).class_name('ParticipationRequest::Invoice') }
 
@@ -14,6 +14,12 @@ describe ParticipationRequest do
   let(:user)                  { FactoryGirl.create(:user) }
   let(:message)               { Faker::Lorem.paragraph }
 
+  context 'delegations' do
+    it { should delegate_method(:pending?).to(:state) }
+    it { should delegate_method(:treated?).to(:state) }
+    it { should delegate_method(:accepted?).to(:state) }
+    it { should delegate_method(:canceled?).to(:state) }
+  end
 
   describe '#create_and_send_message' do
     it 'saves it' do
@@ -28,39 +34,6 @@ describe ParticipationRequest do
       expect(pr).to be_persisted
     end
 
-  end
-
-  describe '#accepted?' do
-    it 'is accepted' do
-      subject.state = 'accepted'
-      expect(subject.accepted?).to be_truthy
-    end
-    it 'is not accepted' do
-      subject.state = 'canceled'
-      expect(subject.accepted?).to be_falsy
-    end
-  end
-
-  describe '#pending?' do
-    it 'is pending' do
-      subject.state = 'pending'
-      expect(subject.pending?).to be_truthy
-    end
-    it 'is not pending' do
-      subject.state = 'canceled'
-      expect(subject.pending?).to be_falsy
-    end
-  end
-
-  describe '#canceled?' do
-    it 'is canceled' do
-      subject.state = 'canceled'
-      expect(subject.canceled?).to be_truthy
-    end
-    it 'is not canceled' do
-      subject.state = 'pending'
-      expect(subject.canceled?).to be_falsy
-    end
   end
 
   describe '#past?' do
@@ -287,17 +260,6 @@ describe ParticipationRequest do
   end
 
   describe '#accept!', with_mail: true do
-    it 'changes the status to accepted' do
-      participation_request.accept!(message, 'User')
-      expect(participation_request.accepted?).to be_truthy
-    end
-
-    it 'sends a message' do
-      expect{ participation_request.accept!(message) }.to change {
-        participation_request.reload.conversation.messages.length
-      }.by(1)
-    end
-
     context "when the participation request is not free", with_stripe: true do
       before(:all) { StripeMock.start }
       after(:all)  { StripeMock.stop }
@@ -383,7 +345,7 @@ describe ParticipationRequest do
   describe '#rebook!' do
     let(:request_attributes) { { message: { body: Faker::Lorem.paragraph(5) },
                                     date: I18n.l(1.week.from_now.to_date) } }
-    subject { FactoryGirl.create(:participation_request, created_at: 3.days.ago, state: 'accepted') }
+    subject { FactoryGirl.create(:participation_request, :accepted_state, created_at: 3.days.ago) }
 
     it 'creates a new participation request' do
       new_pr = subject.rebook!(request_attributes)
@@ -403,8 +365,7 @@ describe ParticipationRequest do
 
     it 'has a pending state' do
       new_pr = subject.rebook!(request_attributes)
-      expect(new_pr.state).to eq('pending')
+      expect(new_pr).to be_pending
     end
   end
-
 end

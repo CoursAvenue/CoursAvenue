@@ -10,18 +10,15 @@ class ParticipationRequest < ActiveRecord::Base
   STATE                 = %w(accepted treated pending canceled)
   PARAMS_THAT_MODIFY_PR = %w(date start_time end_time planning_id course_id)
 
-  attr_accessible :state, :date, :start_time, :end_time, :mailboxer_conversation_id,
-    :planning_id, :last_modified_by, :course_id, :user, :structure, :conversation,
-    :cancelation_reason_id, :report_reason_id, :report_reason_text, :reported_at,
-    :old_course_id, :structure_responded, :street, :zip_code, :city_id, :at_student_home,
-    :participants_attributes, :structure_id, :from_personal_website, :token, :charged_at,
-    :stripe_fee
+  attr_accessible :state, :date, :start_time, :end_time, :planning_id, :last_modified_by,
+    :course_id, :user, :structure, :cancelation_reason_id, :report_reason_id, :report_reason_text,
+    :reported_at, :old_course_id, :structure_responded, :street, :zip_code, :city_id,
+    :at_student_home, :participants_attributes, :structure_id, :from_personal_website, :token,
+    :charged_at, :stripe_fee
 
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :conversation, class_name: 'Mailboxer::Conversation', foreign_key:
-    'mailboxer_conversation_id', touch: true, dependent: :destroy
   belongs_to :planning
   belongs_to :city
   belongs_to :course
@@ -43,6 +40,9 @@ class ParticipationRequest < ActiveRecord::Base
   has_many :prices, through: :participants
   has_one :invoice, class_name: 'ParticipationRequest::Invoice'
 
+  has_one :state,        class_name: 'ParticipationRequest::State',        dependent: :destroy
+  has_one :conversation, class_name: 'ParticipationRequest::Conversation', dependent: :destroy
+
   accepts_nested_attributes_for :participants,
     reject_if: :reject_participants,
     allow_destroy: false
@@ -52,9 +52,10 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   before_validation :set_date_if_empty
   before_create     :set_default_attributes
-  after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher,
-    :send_sms_to_user, :touch_user, :set_check_for_disable_later,
-    :notify_super_admin_of_more_than_five_requests
+
+  after_create :touch_user
+  after_create :set_check_for_disable_later
+  after_create :notify_super_admin_of_more_than_five_requests
 
   before_save       :update_times
   after_save        :update_structure_response_rate
@@ -69,67 +70,60 @@ class ParticipationRequest < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :accepted,                -> { where( state: 'accepted') }
-  scope :not_accepted,            -> { where.not( state: 'accepted') }
-  scope :pending,                 -> { where( state: 'pending') }
-  scope :treated,                 -> { where( state: 'treated') }
+  scope :accepted,                -> { joins(:state).where("participation_request_states.state LIKE 'accepted'") }
+  scope :not_accepted,            -> { joins(:state).where("participation_request_states.state NOT LIKE 'accepted'") }
+  scope :pending,                 -> { joins(:state).where("participation_request_states.state LIKE 'pending'") }
+  scope :treated,                 -> { joins(:state).where("participation_request_states.state LIKE 'treated'") }
+  scope :canceled,                -> { joins(:state).where("participation_request_states.state LIKE 'canceled'") }
   scope :upcoming,                -> { where( arel_table[:date].gteq(Date.today) ).order("date ASC") }
   scope :past,                    -> { where( arel_table[:date].lt(Date.today) ).order("date ASC") }
-  scope :canceled,                -> { where( arel_table[:state].eq('canceled') ) }
-  scope :tomorrow,                -> { where( state: 'accepted', date: Date.tomorrow ) }
+  scope :tomorrow,                -> { accepted.where(date: Date.tomorrow) }
   scope :structure_not_responded, -> { where.not( structure_responded: true ) }
   scope :charged,                 -> { where.not( charged_at: nil ) }
   scope :from_personal_website,   -> { where( from_personal_website: true ) }
   scope :from_personal_ca,        -> { where.not( from_personal_website: true ) }
 
+  ######################################################################
+  # Delegations                                                        #
+  ######################################################################
+
+  delegate :pending?, to: :state, prefix: false
+  delegate :treated?, to: :state, prefix: false
+  delegate :accepted?, to: :state, prefix: false
+  delegate :canceled?, to: :state, prefix: false
+
+  delegate :treat!, to: :state, prefix: false
+  delegate :accept!, to: :state, prefix: false
+  delegate :cancel!, to: :state, prefix: false
+
+  ######################################################################
   # Create a ParticipationRequest if everything is correct, and if it is, it also create a conversation
   #
   # @return ParticipationRequest
   def self.create_and_send_message(request_attributes, user)
-    structure = Structure.friendly.find request_attributes[:structure_id]
+    structure = Structure.friendly.find(request_attributes[:structure_id])
     # request_attributes[:message][:body] = StringHelper.replace_contact_infos(request_attributes[:message][:body])
     request_attributes      = self.set_start_time(request_attributes)
     participants_attributes = { participants_attributes: (request_attributes['participants_attributes'] || [{ number: 1}]) }
     new_request_attributes  = request_attributes.slice(*ParticipationRequest.attribute_names.map(&:to_sym))
     new_request_attributes  = new_request_attributes.merge(participants_attributes)
-    participation_request   = ParticipationRequest.new new_request_attributes
-
-    participation_request.user      = user
-    if participation_request.valid?
-      # Create and send conversation
+    participation_request   = ParticipationRequest.new(new_request_attributes)
+    participation_request.user = user
+    participation_request.save
+    if participation_request.persisted?
       structure.create_or_update_user_profile_for_user(user, UserProfile::DEFAULT_TAGS[:participation_request])
-      recipients                         = structure.main_contact
-      receipt                            = user.send_message_with_label(recipients, request_attributes[:message][:body], I18n.t(Mailboxer::Label::REQUEST.name), Mailboxer::Label::REQUEST.id)
-      conversation                       = receipt.conversation
-      participation_request.conversation = conversation
-      participation_request.save
-      conversation.update_column :participation_request_id, participation_request.id
+      conversation = (participation_request.conversation or participation_request.create_conversation)
+      conversation.send_request!(request_attributes[:message][:body])
     end
     participation_request
   end
 
-  # @return Boolean is the request accepted?
-  def accepted?
-    self.state == 'accepted'
-  end
-
-  # @return Boolean is the request canceled?
-  def canceled?
-    self.state == 'canceled'
-  end
-
-  # @return Boolean is the request pending?
-  def pending?
-    self.state == 'pending'
-  end
-
-  #
   # Tells if the resource type is waiting for an answer
   # @param resource_type='Structure' [type] [description]
   #
   # @return Boolean
   def pending_for?(resource_type='Structure')
-    (self.state == 'pending' and self.last_modified_by != resource_type)
+    (self.state.pending? and self.last_modified_by != resource_type)
   end
 
   # Accept request and send a message to user.
@@ -139,8 +133,9 @@ class ParticipationRequest < ActiveRecord::Base
   def accept!(message_body, last_modified_by='Structure')
     # message_body = StringHelper.replace_contact_infos(message_body)
     self.last_modified_by    = last_modified_by
-    self.state               = 'accepted'
-    message                  = reply_to_conversation(message_body, last_modified_by)
+    self.state.accept!
+    create_conversation if conversation.nil?
+    message = conversation.reply!(message_body, last_modified_by)
     self.structure_responded = true if last_modified_by == 'Structure'
     save
 
@@ -148,24 +143,13 @@ class ParticipationRequest < ActiveRecord::Base
       charge!
     end
 
+    ParticipationRequest::Notifier.new(self).notify_request_accepted(last_modified_by, message)
+
     if self.last_modified_by == 'Structure'
       mailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
       mailer.delay.request_has_been_accepted_by_user_to_teacher(self, message)
     end
-  end
-
-  # Set state of PR to treated: it means the teacher did something with the PR
-  #
-  # @return Boolean
-  def treat!(method = 'infos')
-    self.state = 'treated'
-    self.treat_method = method
-    save
-  end
-
-  def treated?
-    self.state == 'treated'
   end
 
   #
@@ -192,9 +176,10 @@ class ParticipationRequest < ActiveRecord::Base
     self.assign_attributes new_params
     # Set old_course_id to nil if the user don't change it and modify just the date
     self.old_course_id       = (self.course_id_was == self.course_id ? nil : self.course_id_was)
-    self.state               = 'accepted'
+    self.state.accept!
     if message_body.present?
-      message = reply_to_conversation(message_body, last_modified_by) if message_body.present?
+      create_conversation if conversation.nil?
+      message = conversation.reply!(message_body, last_modified_by)
     end
     self.structure_responded = true if last_modified_by == 'Structure'
 
@@ -218,7 +203,8 @@ class ParticipationRequest < ActiveRecord::Base
   # @return Boolean
   def discuss!(message_body, discussed_by='Structure')
     # message_body             = StringHelper.replace_contact_infos(message_body)
-    message                  = reply_to_conversation(message_body, discussed_by)
+    create_conversation if conversation.nil?
+    message = conversation.reply!(message_body, discussed_by)
     treat!('message') if pending?
     self.structure_responded = true if discussed_by == 'Structure'
     save
@@ -237,8 +223,9 @@ class ParticipationRequest < ActiveRecord::Base
     # message_body               = StringHelper.replace_contact_infos(message_body)
     self.cancelation_reason_id = cancelation_reason_id
     self.last_modified_by      = last_modified_by
-    self.state                 = 'canceled'
-    message                    = reply_to_conversation(message_body, last_modified_by)
+    self.state.cancel!
+    create_conversation if conversation.nil?
+    message                    = conversation.reply!(message_body, last_modified_by)
     self.structure_responded   = true if last_modified_by == 'Structure'
     save
 
@@ -370,7 +357,7 @@ class ParticipationRequest < ActiveRecord::Base
   end
 
   def unanswered?
-    self.created_at < 2.days.ago and self.state == 'pending' and
+    self.created_at < 2.days.ago and self.state.pending? and
       self.conversation.messages.length < 2 and self.last_modified_by == 'User'
   end
 
@@ -397,15 +384,12 @@ class ParticipationRequest < ActiveRecord::Base
     participation_request = ParticipationRequest.new(new_attributes)
     participation_request.user = self.user
 
+    participation_request.save
     if participation_request.valid?
       recipients = self.user
-      receipt    = structure.main_contact.send_message_with_label(
-        recipients, options[:message][:body], I18n.t(Mailboxer::Label::REQUEST.name),
-        Mailboxer::Label::REQUEST.id)
-      conversation = receipt.conversation
-      participation_request.conversation = conversation
-      participation_request.save
-      conversation.update_column(:participation_request_id, participation_request.id)
+      _conversation = (participation_request.conversation or
+                       participation_request.create_conversation)
+      _conversation.send_request!(options[:message][:body], self.structure.main_contact)
     end
 
     participation_request
@@ -424,12 +408,12 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return nil
   def set_default_attributes
-    self.state            ||= 'pending'
     self.last_modified_by ||= 'User'
     self.start_time       ||= self.planning.start_time if self.planning and self.start_time.nil?
     self.end_time         ||= self.planning.end_time   if self.planning
     self.end_time         ||= self.start_time + 1.hour if self.start_time
     self.course           ||= self.planning.course     if self.planning
+    self.create_state
     nil
   end
 
@@ -465,19 +449,6 @@ class ParticipationRequest < ActiveRecord::Base
   # @return nil
   def send_sms_to_teacher
     structure.notify_new_participation_request_via_sms(self)
-  end
-
-  def reply_to_conversation(message_body, last_modified_by)
-    # message_body = StringHelper.replace_contact_infos(message_body)
-    if message_body.present?
-      self.conversation.update_column :lock_email_notification_once, true
-      if last_modified_by == 'Structure'
-        receipt = self.structure.main_contact.reply_to_conversation(self.conversation, message_body)
-      else
-        receipt = self.user.reply_to_conversation(self.conversation, message_body)
-      end
-      message = receipt.message
-    end
   end
 
   # We destroy the Mailboxer::Conversation object attached to the PR

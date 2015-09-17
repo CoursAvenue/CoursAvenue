@@ -87,15 +87,13 @@ context "scheduler:participation_requests", with_mail: true do
 
     describe 'recap_for_teacher' do
       context 'for an accepted request' do
-        let(:accepted_pr)   { FactoryGirl.create(:participation_request, :accepted_state) }
-        let(:accepted_pr_2) { FactoryGirl.create(:participation_request, :accepted_state) }
-
-        before do
-          accepted_pr.date = Date.tomorrow
-          accepted_pr.save
-        end
-
         it "sends a recap email for teachers day before a request" do
+          accepted_pr = FactoryGirl.create(:participation_request, date: Date.tomorrow)
+          accepted_pr.state.accept!
+
+          accepted_pr2 = FactoryGirl.create(:participation_request, date: 2.days.from_now)
+          accepted_pr2.state.accept!
+
           expect do
             Rake::Task['scheduler:participation_requests:recap_for_teacher'].invoke
           end.to change { ActionMailer::Base.deliveries.count }.by(1)
@@ -103,18 +101,9 @@ context "scheduler:participation_requests", with_mail: true do
       end
 
       context 'for a pending request' do
-        let(:accepted_pr) { FactoryGirl.create(:participation_request, :accepted_state) }
-        let(:pending_pr)  { FactoryGirl.create(:participation_request, :pending_state) }
-
-        before do
-          accepted_pr.date = 2.days.from_now
-          accepted_pr.save
-
-          pending_pr.date = Date.tomorrow
-          pending_pr.save
-        end
-
         it "does not send an email for pending request" do
+          accepted_pr = FactoryGirl.create(:participation_request, :accepted_state, date: 2.days.from_now)
+          pending_pr = FactoryGirl.create(:participation_request, :pending_state, date: Date.tomorrow)
           expect do
             Rake::Task['scheduler:participation_requests:recap_for_teacher'].invoke
           end.to change { ActionMailer::Base.deliveries.count }.by(0)
