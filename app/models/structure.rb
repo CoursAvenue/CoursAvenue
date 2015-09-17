@@ -656,9 +656,10 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  def is_sleeping
+  def is_sleeping?
     self.admin.nil?
   end
+  alias_method :is_sleeping, :is_sleeping?
 
   def is_open_for_trial?
     self.courses.open_for_trial.any?
