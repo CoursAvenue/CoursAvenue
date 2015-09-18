@@ -19,7 +19,6 @@ class Community < ActiveRecord::Base
     thread = membership.message_threads.create(community: self)
     thread.update_column(:indexable_card_id, indexable_card_id.to_i) if indexable_card_id
     thread.send_message!(message)
-    Community::Notifier.new(thread, message, membership).notify_admin
 
     thread
   end

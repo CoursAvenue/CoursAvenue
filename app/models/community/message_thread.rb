@@ -39,6 +39,7 @@ class Community::MessageThread < ActiveRecord::Base
     self.approved = true
     save
 
+    Community::Notifier.new(self, message, membership).notify_admin
     Community::Notifier.new(self, messages.last.body, nil).notify_members
   end
 
