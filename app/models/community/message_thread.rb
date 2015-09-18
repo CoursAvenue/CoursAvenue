@@ -64,6 +64,18 @@ class Community::MessageThread < ActiveRecord::Base
     self
   end
 
+  # Change the current conversation to a private message and delete the current thread.
+  #
+  # @return the conversation
+  def privatize!
+    conversation.mailboxer_label_id = Mailboxer::Label::INFORMATION.id
+    conversation.save
+
+    self.destroy!
+
+    conversation
+  end
+
   # Every person that as a message in the thread.
   #
   # @return an array of Community::Membership.

@@ -71,16 +71,31 @@ RSpec.describe Community::MessageThread, type: :model, community: true do
       expect { thread.approve! }.to change { thread.approved }.from(false).to(true)
     end
 
-    # it 'notifies the admin' do
-    #   expect_any_instance_of(Community::Notifier).to receive(:notify_admin)
-    #   thread = community.ask_question!(user, Faker::Lorem.paragraph(10))
-    #   thread.approve!
-    # end
+    it 'notifies the admin' do
+      expect_any_instance_of(Community::Notifier).to receive(:notify_admin)
+      thread = community.ask_question!(user, Faker::Lorem.paragraph(10))
+      thread.approve!
+    end
 
     it 'notifies the community members' do
       expect_any_instance_of(Community::Notifier).to receive(:notify_members)
       thread = community.ask_question!(user, Faker::Lorem.paragraph(10))
       thread.approve!
+    end
+  end
+
+  describe '#privatize!' do
+    it 'changes the conversation label' do
+      thread = community.ask_question!(user, Faker::Lorem.paragraph(10))
+      conversation = thread.conversation
+      expect { thread.privatize! }.to change { conversation.mailboxer_label_id }.
+        from(Mailboxer::Label::PUBLIC_QUESTION.id).to(Mailboxer::Label::INFORMATION.id)
+    end
+
+    it 'deletes the current thread' do
+      thread = community.ask_question!(user, Faker::Lorem.paragraph(10))
+      thread.privatize!
+      expect(thread.deleted?).to be_truthy
     end
   end
 
