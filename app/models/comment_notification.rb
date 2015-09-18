@@ -61,7 +61,9 @@ class CommentNotification < ActiveRecord::Base
   private
 
   def ask_for_recommandations
-    UserMailer.delay(queue: 'mailers').ask_for_recommandations(self)
+    if self.user.email_opt_in
+      UserMailer.delay(queue: 'mailers').ask_for_recommandations(self)
+    end
   end
 
   private
