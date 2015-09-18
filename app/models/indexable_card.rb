@@ -21,6 +21,8 @@ class IndexableCard < ActiveRecord::Base
   delegate :name, :comments_count, :slug,             to: :structure, prefix: true, allow_nil: true
   delegate :name, :latitude, :longitude, :address,    to: :place,     prefix: true, allow_nil: true
 
+  delegate :no_trial, to: :course, prefix: false, allow_nil: true
+
   scope :with_course, -> { where.not(course_id: nil) }
   scope :with_place,  -> { where.not(place_id: nil) }
 
