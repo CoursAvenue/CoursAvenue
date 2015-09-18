@@ -52,6 +52,6 @@ class Pro::Structures::MessagesController < ApplicationController
   end
 
   def get_admin
-    @admin = @structure.main_contact
+    @admin = @structure.admin
   end
 end

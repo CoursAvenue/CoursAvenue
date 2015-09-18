@@ -17,7 +17,7 @@
     %br
     = link_to 'Voir la demande', pro_structure_participation_request_url(@structure, @participation_request, subdomain: 'pro')
     %br
-    Infos : #{@structure.phone_numbers.map(&:number).join(', ')}, #{@structure.main_contact.email}
+    Infos : #{@structure.phone_numbers.map(&:number).join(', ')}, #{@structure.admin.email}
 - else
   .p
     %strong A contacter :
@@ -26,7 +26,7 @@
     %br
     = link_to 'Voir la demande', pro_structure_participation_request_url(@structure, @participation_request, subdomain: 'pro')
     %br
-    Infos : #{@structure.phone_numbers.map(&:number).join(', ')}, #{@structure.main_contact.email}
+    Infos : #{@structure.phone_numbers.map(&:number).join(', ')}, #{@structure.admin.email}
   .p
     Elève : "#{@user.full_name}"
     %br

@@ -23,7 +23,7 @@
         %strong
           - if @structure.phone_numbers.any?
             Tél.&nbsp;: #{@structure.phone_numbers.map(&:number).join(', ')} /
-          E-mail&nbsp;: #{@structure.main_contact.email}
+          E-mail&nbsp;: #{@structure.admin.email}
         %br
         \- Professeur :
         %strong

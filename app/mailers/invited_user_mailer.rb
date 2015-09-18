@@ -25,7 +25,7 @@ class InvitedUserMailer < ActionMailer::Base
   def inform_invitation_success(invited_user)
     @referrer      = invited_user.referrer
     @invited_email = invited_user.email
-    referrer_email = (invited_user.referrer_type == 'Structure' ? @referrer.main_contact.email : @referrer.email)
+    referrer_email = (invited_user.referrer_type == 'Structure' ? @referrer.admin.email : @referrer.email)
     mail to: referrer_email, subject: "Félicitations ! Votre parrainage a bien été pris en compte",
          template_name: "#{invited_user.referrer_type.downcase}/#{invited_user.type.split('::').last.downcase}/inform_invitation_success"
   end

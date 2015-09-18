@@ -1,2 +1,2 @@
-= simple_form_for [:pro, @structure.main_contact], html: { autocomplete: 'false', class: 'wizard-form' }, remote: true do |f|
+= simple_form_for [:pro, @structure.admin], html: { autocomplete: 'false', class: 'wizard-form' }, remote: true do |f|
   = f.input :name, label: 'Comment vous appelez-vous ?', placeholder: 'Prénom + Nom'

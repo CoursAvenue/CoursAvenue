@@ -9,7 +9,7 @@
   %strong Envoyé :
   #{I18n.l(local_time(@newsletter.sent_at), format: :long_human)}
   à
-  = link_to pluralize(@newsletter.recipients.count, 'élève'), "#details", data: { behavior: 'scroll-to' }, class: 'f-weight-600'
+  = link_to pluralize(@newsletter.recipient_count, 'élève'), "#details", data: { behavior: 'scroll-to' }, class: 'f-weight-600'
 %p.delta
   %strong Liste de diffusion :
   #{@newsletter.mailing_list}

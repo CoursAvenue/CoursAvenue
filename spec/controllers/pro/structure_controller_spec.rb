@@ -83,29 +83,6 @@ describe Pro::StructuresController do
         expect(response).to be_redirect
       end
     end
-
-    describe 'PUT #wake_up' do
-      let(:structure) { FactoryGirl.create(:sleeping_structure) }
-      let(:admin)     { FactoryGirl.create(:admin, structure: structure) }
-
-      before do
-        request.env["HTTP_REFERER"] = pro_root_path
-        sign_in admin
-      end
-
-      it 'wakes the structure up' do
-        put :wake_up, id: structure.slug
-        structure.reload
-
-        expect(structure.is_sleeping?).to be_falsy
-      end
-
-      it 'redirects to the previous url' do
-        put :wake_up, id: structure.slug
-
-        expect(response).to be_redirect
-      end
-    end
   end
 
   context 'collection' do

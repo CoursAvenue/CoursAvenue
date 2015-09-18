@@ -43,7 +43,7 @@ class Place < ActiveRecord::Base
                   :street, :zip_code, :city, :city_id,
                   :latitude, :longitude, :gmaps, :radius, :last_geocode_try, :subject_ids
 
-  def main_contact
+  def admin
     self.contacts.first
   end
 

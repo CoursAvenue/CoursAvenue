@@ -136,7 +136,7 @@
             .flexbox__item.soft--left.v-top.text--center>
               = link_to structure_url(review.structure, subdomain: 'www'), class: 'block media-photo', target: :_blank, class: 'muted-link' do
                 = image_tag review.user.avatar_url(:thumb), class: 'block rounded--circle', width: 60, height: 60
-              .milli.soft-half--top
+              .soft-half--top
                 = review.author_name
             .flexbox__item.soft--sides.v-top>
               .message__body.soft-half.message__appendix.gray-box

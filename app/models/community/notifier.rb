@@ -50,7 +50,7 @@ class Community::Notifier
   # @return
   def notify_answer_from_member
     memberships = @thread.participants.select(&:can_receive_notifications?) - [ @membership ]
-    admin = @community.structure.main_contact
+    admin = @community.structure.admin
 
     memberships.each do |membership|
       CommunityMailer.delay(queue: 'mailers').notify_answer_from_member(membership.user, @message, @thread)

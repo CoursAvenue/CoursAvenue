@@ -16,7 +16,7 @@ class Structures::MessagesController < ApplicationController
         @user.save
       end
       @structure.create_or_update_user_profile_for_user(@user, UserProfile::DEFAULT_TAGS[:contacts])
-      @recipients   = @structure.main_contact
+      @recipients   = @structure.admin
       if duplicate_message?(@user, params[:message], @structure)
         @conversation = nil
       else

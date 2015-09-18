@@ -1,6 +1,6 @@
 .p
-  #{@email} a essayé de prendre le contrôle de #{@structure.name} en vain car #{@structure.main_contact.email || @structure.main_contact.unconfirmed_email} contrôle déjà cet établissement
+  #{@email} a essayé de prendre le contrôle de #{@structure.name} en vain car #{@structure.admin.email || @structure.admin.unconfirmed_email} contrôle déjà cet établissement
 
-- if !@structure.main_contact.confirmed?
+- if !@structure.admin.confirmed?
   .p
-    Par contre, #{@structure.main_contact.unconfirmed_email} n'a pas encore confirmé son e-mail...
+    Par contre, #{@structure.admin.unconfirmed_email} n'a pas encore confirmé son e-mail...

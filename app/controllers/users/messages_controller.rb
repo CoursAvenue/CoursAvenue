@@ -22,7 +22,7 @@ class Users::MessagesController < ApplicationController
   end
 
   def create
-    @recipients   = Structure.friendly.find(params[:message][:recipients]).main_contact if params[:message].has_key? :recipients
+    @recipients   = Structure.friendly.find(params[:message][:recipients]).admin if params[:message].has_key? :recipients
     @receipt      = @user.send_message_with_label(@recipients, params[:message][:body], params[:message][:subject], Mailboxer::Label::INFORMATION.id) if @recipients
     @conversation = @receipt.conversation if @receipt
     respond_to do |format|

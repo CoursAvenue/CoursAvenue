@@ -42,7 +42,7 @@ class Pro::DashboardController < Pro::ProController
         tel_count     = Rails.cache.fetch("pro/dashboard/tel_count#{Date.today.to_s}") { raw_data.inject(0) { |sum, data| sum + data.metric3.to_i } }
         website_count = Rails.cache.fetch("pro/dashboard/website_count#{Date.today.to_s}") { raw_data.inject(0) { |sum, data| sum + data.metric4.to_i } }
         if params[:ratio]
-          structure_ids = raw_data.map(&:dimension1).uniq.reject{|structure_id| begin Structure.with_deleted.find(structure_id).main_contact.nil? rescue nil end}
+          structure_ids = raw_data.map(&:dimension1).uniq.reject{|structure_id| begin Structure.with_deleted.find(structure_id).admin.nil? rescue nil end}
           teachers_count = (structure_ids && convs.map{ |conv| conv.recipients.select{|r| r.is_a? Admin}.map(&:structure_id) }).length
         end
       else
@@ -55,7 +55,7 @@ class Pro::DashboardController < Pro::ProController
         conv_count = convs.count
         if params[:ratio]
           teachers_count = Rails.cache.fetch "pro/dashboard/teachers_count/#{((beginning_of_week.beginning_of_week)..beginning_of_week.end_of_week).to_s}/v2" do
-            structure_ids = raw_data.map(&:dimension1).uniq.reject{|structure_id| begin Structure.with_deleted.find(structure_id).main_contact.nil? rescue nil end}
+            structure_ids = raw_data.map(&:dimension1).uniq.reject{|structure_id| begin Structure.with_deleted.find(structure_id).admin.nil? rescue nil end}
             (structure_ids && convs.map{ |conv| conv.recipients.select{|r| r.is_a? Admin}.map(&:structure_id) }).length
           end
         end

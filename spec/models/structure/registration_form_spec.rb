@@ -50,7 +50,7 @@ describe Structure::RegistrationForm do
     context 'when the admin exists' do
       it 'returns the existing admin' do
         structure = FactoryGirl.create(:structure)
-        structure.admins.create(email: subject.admin_email, password: subject.admin_password)
+        structure.admin = Admin.create(structure: structure, email: subject.admin_email, password: subject.admin_password)
 
         expect(subject.existing_admin?).to be_truthy
       end

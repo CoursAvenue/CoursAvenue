@@ -21,11 +21,10 @@ class ::Admin < ActiveRecord::Base
                   :password, :password_confirmation, :remember_me,
                   :civility, :name,
                   :phone_number, :mobile_phone_number,
-                  :structure_id,
                   :email_opt_in,
                   :student_action_email_opt_in, :newsletter_email_opt_in,
                   :monday_email_opt_in, :stats_email, :delivery_email_status,
-                  :sms_opt_in, :structure_attributes
+                  :sms_opt_in, :structure_attributes, :structure
 
   store_accessor :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in,
                                        :monday_email_opt_in, :stats_email
@@ -36,7 +35,7 @@ class ::Admin < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :structure
+  has_one :structure
   accepts_nested_attributes_for :structure
 
   ######################################################################

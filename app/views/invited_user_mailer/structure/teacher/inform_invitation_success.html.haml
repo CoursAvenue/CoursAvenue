@@ -15,4 +15,4 @@
   = render 'admin_mailer/shared/footer_info'
 
 - content_for :footer do
-  %p= link_to 'Gérer mes préférences e-mails', notifications_pro_structure_admin_url(@referrer, @referrer.main_contact, subdomain: 'pro')
+  %p= link_to 'Gérer mes préférences e-mails', notifications_pro_structure_admin_url(@referrer, @referrer.admin, subdomain: 'pro')

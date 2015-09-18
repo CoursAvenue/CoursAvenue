@@ -107,7 +107,7 @@ class StructureWebsiteParticipationRequestMailer < ActionMailer::Base
     @course                          = participation_request.course
     @place                           = participation_request.place
     @structure                       = participation_request.structure
-    @admin                           = participation_request.structure.main_contact
+    @admin                           = participation_request.structure.admin
     @user                            = participation_request.user
     @conversation                    = participation_request.conversation
   end

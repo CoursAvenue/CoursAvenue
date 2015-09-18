@@ -6,22 +6,22 @@ class Pro::Structures::AdminsController < Pro::ProController
   load_and_authorize_resource :structure, find_by: :slug
 
   def show
-    @admin     = @structure.admins.find(params[:id])
+    @admin     = @structure.admin
     redirect_to edit_pro_structure_admin_path(@structure, @admin)
   end
 
   def edit
-    @admin     = @structure.admins.find(params[:id])
+    @admin     = @structure.admin
     @confirmed = @admin.confirmed?
   end
 
   def modify_email
-    @admin     = @structure.admins.find(params[:id])
+    @admin     = @structure.admin
     render layout: false
   end
 
   def notifications
-    @admin = @structure.admins.find(params[:id])
+    @admin = @structure.admin
     redirect_to edit_pro_structure_admin_path(@structure, @admin)
   end
 

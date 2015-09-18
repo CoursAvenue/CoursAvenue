@@ -183,7 +183,6 @@ CoursAvenue::Application.routes.draw do
           get   :recommendations, path: 'recommendations'
           get   :signature
           get   :communication
-          patch :wake_up
           get   :widget
           get   :wizard
           match :widget_ext, controller: 'structures', via: [:options, :get], as: 'widget_ext'

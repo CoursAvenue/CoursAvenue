@@ -10,12 +10,12 @@ describe Pro::SubscriptionsSponsorshipsController, with_stripe: true do
   let(:stripe_helper) { StripeMock.create_test_helper }
   let(:plan)          { FactoryGirl.create(:subscriptions_plan) }
 
-  let(:structure)    { FactoryGirl.create(:structure_with_admin, :with_contact_email) }
-  let(:admin)        { structure.main_contact }
+  let(:structure)    { FactoryGirl.create(:structure_with_admin) }
+  let(:admin)        { structure.admin }
   let(:token)        { stripe_helper.generate_card_token }
   let(:subscription) { plan.create_subscription!(structure) }
 
-  let(:sponsor_structure)    { FactoryGirl.create(:structure_with_admin, :with_contact_email) }
+  let(:sponsor_structure)    { FactoryGirl.create(:structure_with_admin) }
   let(:sponsor_token)        { stripe_helper.generate_card_token }
   let(:sponsor_subscription) { plan.create_subscription!(sponsor_structure) }
 
