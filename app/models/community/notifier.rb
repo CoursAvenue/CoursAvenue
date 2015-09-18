@@ -29,7 +29,7 @@ class Community::Notifier
   end
 
   def notify_admin
-    admin = @community.structure.main_contact
+    admin = @community.structure.admin
     CommunityMailer.delay(queue: 'mailers').notify_admin_of_question(admin, @message, @thread)
     self.delay(run_at: INTERCOM_NOTIFCATION_DELAY.from_now).notify_intercom(@thread)
   end
