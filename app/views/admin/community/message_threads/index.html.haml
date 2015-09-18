@@ -6,11 +6,11 @@
 %table.table--striped
   %thead
     %tr
-      %th.five-twelfths Question
+      %th.four-twelfths Question
       %th.four-twelfths Structure
       %th.one-twelfth # réponses
       %th.one-twelfth Date
-      %th.one-twelfth
+      %th.two-twelfths
   %tbody
     - @message_threads.each do |message_thread|
       - structure = message_thread.community.structure
@@ -25,11 +25,19 @@
           = l(message_thread.created_at.to_date, format: :short)
           = l(message_thread.created_at, format: :short)
         %td.nowrap
-          = link_to approve_admin_community_message_thread_path(message_thread), method: :post,
-            data: { confirm: 'Êtes-vous sûr de vouloir approuver cette question publique ?' } do
-            %i.fa-check
-          = link_to admin_community_message_thread_path(message_thread), method: :delete,
-            data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette question publique ?' } do
-            %i.fa-trash-o
+          - unless message_thread.approved?
+            = link_to approve_admin_community_message_thread_path(message_thread), method: :post,
+              data: { confirm: 'Êtes-vous sûr de vouloir approuver cette question publique ?' } do
+              Valider et envoyer à tous
+            %br
+            = link_to privatize_admin_community_message_thread_path(message_thread), method: :post,
+              data: { confirm: 'Êtes-vous sûr de vouloir changer cette question publique en privée ?' } do
+              Valider et envoyer seulement au prof
+            %br
+            = link_to admin_community_message_thread_path(message_thread), method: :delete,
+              data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette question publique ?' } do
+              Refuser
+          - else
+            Approuvé
 %hr.push--ends
 .text--center.push--ends= paginate @message_threads, window: 1, outer_window: 3

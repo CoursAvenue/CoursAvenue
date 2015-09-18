@@ -26,6 +26,7 @@ CoursAvenue::Application.routes.draw do
         resources :message_threads, only: [:index, :destroy], controller: 'community/message_threads' do
           member do
             post :approve
+            post :privatize
           end
         end
       end
