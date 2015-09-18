@@ -81,7 +81,7 @@ class UserMailer < ActionMailer::Base
   # For comments                                                       #
   ######################################################################
   def ask_for_recommandations(comment_notification)
-    return if comment_notification.complete?
+    return if (comment_notification.complete? || !comment_notification.user.email_opt_in)
     @structure  = comment_notification.structure
     @email      = comment_notification.user.email
     @user       = comment_notification.user
