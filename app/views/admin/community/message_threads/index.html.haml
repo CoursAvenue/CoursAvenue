@@ -25,6 +25,9 @@
           = l(message_thread.created_at.to_date, format: :short)
           = l(message_thread.created_at, format: :short)
         %td.nowrap
+          = link_to approve_admin_community_message_thread_path(message_thread), method: :post,
+            data: { confirm: 'Êtes-vous sûr de vouloir approuver cette question publique ?' } do
+            %i.fa-check
           = link_to admin_community_message_thread_path(message_thread), method: :delete,
             data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette question publique ?' } do
             %i.fa-trash-o

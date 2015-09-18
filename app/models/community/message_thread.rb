@@ -30,6 +30,9 @@ class Community::MessageThread < ActiveRecord::Base
     save
   end
 
+  # Approve and notify members.
+  #
+  # @return
   def approve!
     return if self.approved?
 
