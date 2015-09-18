@@ -254,7 +254,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
 
-        resources :mailing_lists, only: [:destroy], controller: 'structures/mailing_lists'
+        resources :mailing_lists, controller: 'structures/mailing_lists'
 
         resources :newsletters, only: [:index, :new, :create, :edit, :update, :destroy], controller: 'structures/newsletters' do
           resources :blocs, only: [:create, :update, :destroy], controller: 'structures/newsletters/blocs' do
