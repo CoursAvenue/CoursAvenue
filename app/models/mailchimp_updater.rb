@@ -58,6 +58,20 @@ class MailchimpUpdater
                                  })
 
   end
+
+  def self.put_sleeping_structures(structure)
+    gibbon = Gibbon::API.new(ENV['MAILCHIMP_API_KEY_2'])
+    next if structure.contact_email.blank?
+    next if structure.main_contact.present?
+    gibbon.lists.subscribe({id: list_id[:sleeping_structure], email: { email: structure.contact_email}, merge_vars: { :SLUG => structure.slug },double_optin: false,update_existing: true})
+    if structure.other_emails.present?
+      sleeping_emails = structure.other_emails.split(';').reject(&:blank?)
+      sleeping_emails.each do |email|
+        gibbon.lists.subscribe({id: list_id[:sleeping_structure], email: { email: email}, merge_vars: { :SLUG => structure.slug },double_optin: false,update_existing: true})
+      end
+    end
+  end
+
   def self.get_subject_name(subject)
     return '' if subject.nil?
     {
