@@ -255,7 +255,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
 
-        resources :mailing_lists, controller: 'structures/mailing_lists' do
+        resources :mailing_lists, controller: 'structures/mailing_lists', path: 'listes-de-diffusion' do
           resources :user_profiles, only: [:destroy], controller: 'structures/mailing_lists/user_profiles'
         end
 
