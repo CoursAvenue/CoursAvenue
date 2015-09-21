@@ -17,6 +17,10 @@
 
     position: relative;
     margin  : 3em auto;
+    &.spinner--half {
+        width   : 20px;
+        height  : 20px;
+    }
 }
 
 .double-bounce1 { background-color: $blue-green; }

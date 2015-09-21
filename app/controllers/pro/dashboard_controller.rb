@@ -72,15 +72,23 @@ class Pro::DashboardController < Pro::ProController
     @no_req, @one_req, @two_req, @five_more_req = {}, {}, {}, {}, {}
     date = Date.today.beginning_of_month
     @months = [date]
-    4.times do |i|
+    6.times do |i|
       @months << date - i.month
     end
 
     @months.reverse!
+    @client = ::Analytic::Client.new
     @months.each do |beginning_of_month|
+      raw_data = @client.total_hits(beginning_of_month, beginning_of_month.end_of_month)
       invalidate_cache = rand if beginning_of_month.end_of_month > Date.today
       reqs = Rails.cache.fetch("pro/dashboard/stats/reqs/#{beginning_of_month.to_s}/#{invalidate_cache}") do
-        ParticipationRequest.where(created_at: (beginning_of_month)..beginning_of_month.end_of_month).group('structure_id').count
+        _data = ParticipationRequest.where(created_at: (beginning_of_month)..beginning_of_month.end_of_month).group('structure_id').count
+        raw_data.group_by{|raw| raw.dimension1 }.each do |structure_id, data|
+          next if Structure.with_deleted.find(structure_id.to_i).main_contact.nil?
+          _data[structure_id.to_i] ||= 0
+          _data[structure_id.to_i] += data.inject(0) { |sum, data| sum + data.metric3.to_i + data.metric4.to_i }
+        end
+        _data
       end
       @one_req[beginning_of_month]       = reqs.select{|a,b| b == 1}.length
       @two_req[beginning_of_month]       = reqs.select{|a,b| b > 1 && b < 5}.length

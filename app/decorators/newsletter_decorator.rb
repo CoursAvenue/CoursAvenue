@@ -40,7 +40,11 @@ class NewsletterDecorator < Draper::Decorator
   end
 
   def recipient_count
-    object.mailing_list.recipient_count
+    if object.mailing_list.present?
+      object.mailing_list.recipient_count
+    else
+      object.recipients.count
+    end
   end
 
   def recipients(limit = 50, offset = 0)

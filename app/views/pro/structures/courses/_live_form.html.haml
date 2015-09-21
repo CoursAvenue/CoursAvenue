@@ -17,6 +17,13 @@
       .flexbox__item.v-top.ten-twelfths.palm-block.palm-one-whole>
         .soft-half--ends
           = simple_form_for [:pro, structure, course], url: pro_structure_course_path(structure, course), as: :course, remote: true, html: { data: { behavior: 'live-form' } } do |f|
+            - if course.indexable_cards.empty?
+              .cursor-help.float--right.soft-half--right{ data: { toggle: 'popover', placement: 'left', content: "Votre cours apparaitra sur CoursAvenue d'ici quelques minutes." } }
+                .spinner.flush--ends.spinner--half.v-middle.inline-block
+                  .double-bounce1
+                  .double-bounce2
+                  .double-bounce3
+                %i.v-middle.f-weight-bold Création en cours...
             .push-half--bottom.soft-half--sides
               %h4.inline-block.line-height-normal.v-middle.flush--bottom.push-half--right{ data: { toggle: 'popover', title: course.name, content: "<p class='flush'><strong>Description</strong></p>#{truncate_html(simple_format(course.description), length: 1000)}", html: 'true', trigger: 'hover' } }
                 = truncate course.name, length: (course.is_lesson? ? 50 : 80)

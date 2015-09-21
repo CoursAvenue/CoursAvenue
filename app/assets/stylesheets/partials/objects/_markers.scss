@@ -157,3 +157,10 @@
             color: $color-sports;
         }
     }
+    .map-box-marker__culture-sciences-nature, .map-box-marker__langues-soutien-scolaire {
+        @extend .sports-arts-martiaux-color;
+        &::before { color: darken($color-sports, 8%); }
+        &.map-box-marker--active div {
+            color: $color-sports;
+        }
+    }
