@@ -7,7 +7,9 @@ class Mailboxer::ConversationQuery
       query = query.with_label(params[:conversation_label_id].to_i)
     else
       # Otherwise, we select everything but the public questions.
-      query = query.without_label(Mailboxer::Label::PUBLIC_QUESTION.id)
+      unless params[:read].present?
+        query = query.without_label(Mailboxer::Label::PUBLIC_QUESTION.id)
+      end
     end
 
     # Finally, depending on the read param, we filter by their read status.
