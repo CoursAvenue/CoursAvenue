@@ -204,7 +204,7 @@ group :test do
   gem 'sunspot-rails-tester', '~> 1.0.0'
   gem 'simplecov',            '~> 0.9.1'
   gem 'database_cleaner',     '~> 1.2.0'
-  gem 'capybara',             '~> 2.2.1'
+  gem 'capybara',             '~> 2.5.0'
   gem 'rspec-instafail',      '~> 0.2.6', require: false
   gem 'shoulda-matchers',     '~> 2.8.0', require: false
 end

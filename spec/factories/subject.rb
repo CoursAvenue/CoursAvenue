@@ -40,5 +40,13 @@ FactoryGirl.define do
     trait :with_tips do
       tips { Faker::Lorem.paragraph }
     end
+
+    trait :star do
+      position 1
+    end
+
+    trait :root do
+      ancestry_depth 0
+    end
   end
 end
