@@ -1,0 +1,26 @@
+- if @current_tab[:id] != 'unread_public_questions'
+  - selection_method = (params[:read].present? ? :reject : :select)
+  - selection_block  = Proc.new { |c| c.is_unread?(@structure.admin) }
+
+  - conversation_information_count  = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).send(selection_method, &selection_block).count
+  - conversation_comment_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).send(selection_method, &selection_block).count
+  - conversation_conversation_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).send(selection_method, &selection_block).count
+  - conversation_request_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::REQUEST.id).send(selection_method, &selection_block).count
+
+  .push--bottom
+    .inline-block.palm-block
+      .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}
+      %strong.push--right Inscription (#{conversation_request_count})
+    .inline-block.palm-block
+      .push-half--left.palm-flush.lbl.lbl--small.lbl--chip{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
+      %strong.push--right Demande d'info (#{conversation_information_count})
+    .inline-block.palm-block
+      .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}
+      %strong.push--right Avis (#{conversation_comment_count})
+    .inline-block.palm-block
+      .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}
+      %strong Conversation (#{conversation_conversation_count})
+.grid
+  .grid__item.palm-one-whole.one-third.palm-text--center>
+  .grid__item.palm-one-whole.two-thirds.text--center.last-div-hard>
+    = paginate @conversations, window: 1, outer_window: 3
