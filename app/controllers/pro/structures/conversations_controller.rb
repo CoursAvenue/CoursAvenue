@@ -3,7 +3,7 @@ class Pro::Structures::ConversationsController < ApplicationController
   # https://github.com/ging/social_stream/blob/master/base/app/controllers/conversations_controller.rb
   before_action :authenticate_pro_admin!
   load_and_authorize_resource :structure
-  before_action :get_structure, :get_admin
+  before_action :get_structure
 
   include ConversationsHelper
 
@@ -53,13 +53,15 @@ class Pro::Structures::ConversationsController < ApplicationController
   end
 
   def index
-    if params[:conversation_label_id].present?
-      @conversations = @admin.mailbox.conversations.where(mailboxer_label_id: params[:conversation_label_id])
-    elsif @admin
-      @conversations = @admin.mailbox.conversations
+    if params[:conversation_label_id].to_i == Mailboxer::Label::PUBLIC_QUESTION.id
+      @current_tab = { id: 'unread_public_questions', name: 'Messages publiques non lus' }
+    elsif params[:read].present?
+      @current_tab = { id: 'treated_conversations', name: 'Messages traités' }
     else
-      @conversations = []
+      @current_tab = { id: 'unread_conversations', name: 'Messages non lus' }
     end
+    @conversations = Mailboxer::ConversationQuery.build(@admin.mailbox.conversations, @structure, params)
+
     @conversations = Kaminari.paginate_array(@conversations).page(params[:page] || 1).per(15)
   end
 
@@ -95,10 +97,7 @@ class Pro::Structures::ConversationsController < ApplicationController
   private
 
   def get_structure
-    @structure = Structure.friendly.find params[:structure_id]
-  end
-
-  def get_admin
+    @structure = Structure.friendly.find(params[:structure_id])
     @admin = @structure.admin
   end
 end
