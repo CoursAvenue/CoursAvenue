@@ -4,10 +4,11 @@
 
 .flexbox.push--bottom
   .flexbox__item.v-middle
-    %h1.flush Newsletters
+    %h1.flush Listes de diffusion
   .flexbox__item.v-middle.text--right
     - if @mailing_lists.any?
-      = link_to new_pro_structure_mailing_list_path(@structure), class: 'btn btn--green' do
+      = link_to new_pro_structure_mailing_list_path(@structure), class: 'btn btn--green fancybox.ajax',
+        data: { behavior: 'modal', width: 700, padding: 0 } do
         %i.fa.fa-plus
         Créer une liste de diffusion
 

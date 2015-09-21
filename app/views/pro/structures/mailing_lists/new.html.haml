@@ -1,0 +1,2 @@
+= simple_form_for [:pro, @structure, @mailing_list], url: pro_structure_mailing_lists_path(@structure), as: :mailing_list do |f|
+  = render partial: 'pro/structures/newsletters/mailing_lists/form', locals: { f: f  }

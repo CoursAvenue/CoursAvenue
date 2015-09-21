@@ -15,6 +15,8 @@ class Newsletter::MailingList < ActiveRecord::Base
 
   before_validation :set_name, on: :create
 
+  scope :all_profiles, -> { where("metadata -> 'all_profiles' LIKE 'true'") }
+
   # Create the recipients to send the Newsletter to.
   #
   # @param newsletter The newsletter to create the recipients to.

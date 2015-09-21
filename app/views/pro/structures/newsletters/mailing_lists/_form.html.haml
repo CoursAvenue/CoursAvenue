@@ -9,9 +9,16 @@
     %label.push-half--bottom.block Ajouter des e-mails
     %textarea.input--large.push-half--bottom.one-whole{ name: 'emails', placeholder: 'Ex. : emiliedupont@gmail.com, clement@orange.fr, jimmy@hotmail.com, etc.', rows: '3' }
     = f.submit 'Enregistrer', class: 'btn btn--blue-green btn--full', data: { disable_with: 'Enregistrement en cours...' }
-    %hr.push-half--ends
-    %h5.flush E-mails de la liste
-    %ul.block-list
+    - if @mailing_list.persisted?
+      %hr.push-half--ends
+      %h5.flush E-mails de la liste
       - @mailing_list.user_profiles.each do |user_profile|
-        %li.hard--left= user_profile.email
-    = link_to 'Supprimer la liste', pro_structure_mailing_list_path(@structure, @mailing_list), remote: true, method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette liste ?', disable_with: 'Supression en cours...' }
+        .flexbox.push-half--ends{ id: "user_profile_#{ user_profile.id }" }
+          .flexbox__item.v-middle= user_profile.email
+          .flexbox__item.v-middle.text--right
+            = link_to pro_structure_mailing_list_user_profile_path(@structure, @mailing_list, user_profile), remote: true, method: :delete,
+              data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette email de la liste ?', disable_with: 'Supression en cours...' } do
+              %i.fa.fa-trash-o
+        %hr
+      = link_to 'Supprimer la liste', pro_structure_mailing_list_path(@structure, @mailing_list), remote: true, method: :delete,
+        data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette liste ?', disable_with: 'Supression en cours...' }
