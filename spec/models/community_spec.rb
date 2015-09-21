@@ -33,10 +33,5 @@ RSpec.describe Community, type: :model, community: true do
     it 'returns a new message thread' do
       expect(subject.ask_question!(user, message)).to be_a(Community::MessageThread)
     end
-
-    it 'notifies the admin' do
-      expect_any_instance_of(Community::Notifier).to receive(:notify_admin)
-      subject.ask_question!(user, message)
-    end
   end
 end

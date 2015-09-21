@@ -107,6 +107,7 @@ RSpec.describe Community::MessageThread, type: :model, community: true do
     subject { community.ask_question!(user, Faker::Lorem.paragraph(10)) }
 
     before do
+      subject.approve!
       subject.reply!(user1, message)
       subject.reply!(user2, message)
       subject.reply!(user3, message)

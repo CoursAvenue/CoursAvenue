@@ -35,6 +35,7 @@ describe Community::Notifier, community: true, with_mail: true do
     subject { Community::Notifier.new(thread, message, membership) }
 
     before do
+      thread.approve!
       3.times do
         user = FactoryGirl.create(:user)
         thread.reply!(user, Faker::Lorem.paragraph(10))
@@ -42,7 +43,7 @@ describe Community::Notifier, community: true, with_mail: true do
     end
 
     it 'sends an email to every participant of the thread' do
-      expect(CommunityMailer).to receive(:notify_answer_from_teacher).exactly(4).times
+      expect(CommunityMailer).to receive(:notify_answer_from_teacher).exactly(3).times
       subject.notify_answer_from_teacher
     end
   end
@@ -51,6 +52,7 @@ describe Community::Notifier, community: true, with_mail: true do
     subject { Community::Notifier.new(thread, message, membership) }
 
     before do
+      thread.approve!
       3.times do
         user = FactoryGirl.create(:user)
         thread.reply!(user, Faker::Lorem.paragraph(10))
