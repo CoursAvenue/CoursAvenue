@@ -89,3 +89,25 @@
 .yoga-bien-etre-sante-color-on-hover:hover            { color: $color-yoga; }
 
 
+.bg-langues-soutien-scolaire-on-hover:hover               { background-color: $color-yoga !important; color: white; }
+.bg-langues-soutien-scolaire                              { background-color: $color-yoga !important; }
+.btn--langues-soutien-scolaire {
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: darken($color-yoga, 10%); }
+}
+.langues-soutien-scolaire-border-color                    { border-color: $color-yoga !important; }
+.langues-soutien-scolaire-color                           { color: $color-yoga; }
+.langues-soutien-scolaire-color-on-hover:hover            { color: $color-yoga; }
+
+
+.bg-culture-sciences-nature-on-hover:hover               { background-color: $color-yoga !important; color: white; }
+.bg-culture-sciences-nature                              { background-color: $color-yoga !important; }
+.btn--culture-sciences-nature {
+    @extend .btn-hover-transition;
+    &::after, &.btn--active { background-color: darken($color-yoga, 10%); }
+}
+.culture-sciences-nature-border-color                    { border-color: $color-yoga !important; }
+.culture-sciences-nature-color                           { color: $color-yoga; }
+.culture-sciences-nature-color-on-hover:hover            { color: $color-yoga; }
+
+
