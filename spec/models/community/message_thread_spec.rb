@@ -55,6 +55,50 @@ RSpec.describe Community::MessageThread, type: :model, community: true do
 
   end
 
+  describe 'approve!' do
+    context 'when it was not already approved' do
+      it 'doesn not do anything' do
+        thread = community.ask_question!(user, Faker::Lorem.paragraph(10))
+        thread.approved = true
+        thread.save
+
+        expect(thread.approve!).to be_falsy
+      end
+    end
+
+    it 'approves the thread' do
+      thread = community.ask_question!(user, Faker::Lorem.paragraph(10))
+      expect { thread.approve! }.to change { thread.approved }.from(false).to(true)
+    end
+
+    it 'notifies the admin' do
+      expect_any_instance_of(Community::Notifier).to receive(:notify_admin)
+      thread = community.ask_question!(user, Faker::Lorem.paragraph(10))
+      thread.approve!
+    end
+
+    it 'notifies the community members' do
+      expect_any_instance_of(Community::Notifier).to receive(:notify_members)
+      thread = community.ask_question!(user, Faker::Lorem.paragraph(10))
+      thread.approve!
+    end
+  end
+
+  describe '#privatize!' do
+    it 'changes the conversation label' do
+      thread = community.ask_question!(user, Faker::Lorem.paragraph(10))
+      conversation = thread.conversation
+      expect { thread.privatize! }.to change { conversation.mailboxer_label_id }.
+        from(Mailboxer::Label::PUBLIC_QUESTION.id).to(Mailboxer::Label::INFORMATION.id)
+    end
+
+    it 'deletes the current thread' do
+      thread = community.ask_question!(user, Faker::Lorem.paragraph(10))
+      thread.privatize!
+      expect(thread.deleted?).to be_truthy
+    end
+  end
+
   describe '#participants' do
     let(:user1) { FactoryGirl.create(:user) }
     let(:user2) { FactoryGirl.create(:user) }
@@ -63,6 +107,7 @@ RSpec.describe Community::MessageThread, type: :model, community: true do
     subject { community.ask_question!(user, Faker::Lorem.paragraph(10)) }
 
     before do
+      subject.approve!
       subject.reply!(user1, message)
       subject.reply!(user2, message)
       subject.reply!(user3, message)

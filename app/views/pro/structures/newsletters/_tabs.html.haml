@@ -1,0 +1,8 @@
+= content_for :top_menu do
+  %ul.nav.flush
+    %li{ class: current == 'newsletter' ? 'active' : '' }
+      = link_to pro_structure_newsletters_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
+        Newsletters
+    %li{ class: current == 'mailling-lists' ? 'active' : '' }
+      = link_to pro_structure_mailing_lists_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
+        Listes de diffusion

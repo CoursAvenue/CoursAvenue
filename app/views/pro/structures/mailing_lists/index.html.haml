@@ -1,0 +1,18 @@
+= side_menu_currently_at 'newsletters'
+
+= render partial: 'pro/structures/newsletters/tabs', locals: { current: 'mailling-lists' }
+
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Listes de diffusion
+  .flexbox__item.v-middle.text--right
+    - if @mailing_lists.any?
+      = link_to new_pro_structure_mailing_list_path(@structure), class: 'btn btn--green fancybox.ajax',
+        data: { behavior: 'modal', width: 700, padding: 0 } do
+        %i.fa.fa-plus
+        Créer une liste de diffusion
+
+- if @mailing_lists.any?
+  = render 'mailing_list_list'
+- else
+  = render "mailing_list_empty"

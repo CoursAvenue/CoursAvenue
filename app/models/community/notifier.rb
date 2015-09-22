@@ -16,21 +16,20 @@ class Community::Notifier
     @membership = membership
   end
 
-  # Notify members of the community and the teacher that there's a new message.
-  #
-  # @return
-  def notify_question
+  def notify_members
     memberships = @community.memberships.includes(:user).
       select(&:can_receive_notifications?).take(NOTIFICATION_GROUP_COUNT)
     memberships -= [ @membership ] # We remove the user who sent the message.
-    admin = @community.structure.admin
 
     memberships.each do |membership|
       CommunityMailer.delay(queue: 'mailers').notify_member_of_question(membership.user, @message, @thread)
       membership.last_notification_at = Time.current
       membership.save
     end
+  end
 
+  def notify_admin
+    admin = @community.structure.admin
     CommunityMailer.delay(queue: 'mailers').notify_admin_of_question(admin, @message, @thread)
     self.delay(run_at: INTERCOM_NOTIFCATION_DELAY.from_now).notify_intercom(@thread)
   end

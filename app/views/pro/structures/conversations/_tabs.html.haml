@@ -1,8 +1,14 @@
 = content_for :top_menu do
   %ul.nav.flush
-    %li{ class: current == 'conversations' ? 'active' : '' }
-      = link_to pro_structure_conversations_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
-        Messages
-    %li{ class: current == 'newsletter' ? 'active' : '' }
-      = link_to pro_structure_newsletters_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
-        Newsletters
+    %li{ class: current == 'unread_conversations' ? 'active' : '' }
+      = link_to pro_structure_conversations_path(@structure),
+        class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
+        Messages non lus
+    %li{ class: current == 'unread_public_questions' ? 'active' : '' }
+      = link_to pro_structure_conversations_path(@structure, conversation_label_id: Mailboxer::Label::PUBLIC_QUESTION.id),
+        class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
+        Questions publiques en attente de réponses
+    %li{ class: current == 'treated_conversations' ? 'active' : '' }
+      = link_to pro_structure_conversations_path(@structure, read: true),
+        class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
+        Tout les messages traités

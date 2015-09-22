@@ -282,13 +282,13 @@ ActiveRecord::Schema.define(version: 20150922100440) do
 
   create_table "community_message_threads", force: true do |t|
     t.integer  "community_id"
-    t.boolean  "public"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "mailboxer_conversation_id"
     t.integer  "community_membership_id"
     t.datetime "deleted_at"
     t.integer  "indexable_card_id"
+    t.boolean  "approved",                  default: false
   end
 
   add_index "community_message_threads", ["community_id"], name: "index_community_message_threads_on_community_id", using: :btree

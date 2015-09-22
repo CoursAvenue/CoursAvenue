@@ -30,6 +30,7 @@
     %tbody
       - plan.subscriptions.each do |subscription|
         - structure = subscription.structure
+        - next if structure.nil?
         %tr
           %td.seven-twelfths
             = link_to structure.name, pro_structure_subscriptions_path(structure), target: :_blank
