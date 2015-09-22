@@ -1,4 +1,4 @@
-# encoding: utf-8
+ # encoding: utf-8
 class Structure < ActiveRecord::Base
   include Concerns::HstoreHelper
   include Concerns::ActiveHashHelper
@@ -41,6 +41,7 @@ class Structure < ActiveRecord::Base
   ######################################################################
   belongs_to :city
   belongs_to :principal_mobile, class_name: 'PhoneNumber'
+  belongs_to :admin
 
   has_many :invited_users             , foreign_key: :referrer_id, dependent: :destroy
   has_many :invited_teachers          , -> { where(type: 'InvitedUser::Teacher') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
@@ -74,17 +75,10 @@ class Structure < ActiveRecord::Base
   has_many :emailing_sections, through: :emailing_section_bridge
 
   has_many :places                   , dependent: :destroy
-  has_many :admins                   , dependent: :destroy
 
   has_one  :website_parameter
   has_one  :subscription
   has_many :invoices, class_name: 'Subscriptions::Invoice'
-
-  # The structure that is not modified when an admin takes control.
-  has_one :sleeping_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
-
-  # The structure that is editable by the admin.
-  belongs_to :controled_structure, class_name: 'Structure', foreign_key: :sleeping_structure_id
 
   has_many :newsletters
   has_many :mailing_lists, class_name: 'Newsletter::MailingList'
@@ -105,10 +99,7 @@ class Structure < ActiveRecord::Base
                   :place_ids, :name, :slug,
                   :website, :facebook_url,
                   :contact_email, :show_trainings_first,
-                  :description, :subject_ids, :active,
-                  # active: for tests profile, eg. L'atelier de Nima, etc.
-                  # And for duplicated sleeping structures (when an admin takes control of a sleeping profile)
-                  :has_validated_conditions,
+                  :description, :subject_ids,
                   :logo, :remote_logo_url,
                   :funding_type_ids,
                   :crop_x, :crop_y, :crop_width,
@@ -121,9 +112,9 @@ class Structure < ActiveRecord::Base
                   :highlighted_comment_id,
                   :deletion_reasons, :deletion_reasons_text,
                   :phone_numbers_attributes, :places_attributes, :other_emails, :last_geocode_try,
-                  :is_sleeping, :sleeping_email_opt_in, :sleeping_email_opt_out_reason,
+                  :sleeping_email_opt_in, :sleeping_email_opt_out_reason,
                   :order_recipient, :delivery_email_status,
-                  :sleeping_structure, :premium, :sms_opt_in,
+                  :premium, :sms_opt_in,
                   :principal_mobile_id, :pure_player # Helps to know which actors are big on the market
 
   accepts_nested_attributes_for :places,
@@ -140,12 +131,12 @@ class Structure < ActiveRecord::Base
                              :max_price_libelle, :level_ids, :audience_ids, :busy,
                              :response_rate, :response_time,
                              :deletion_reasons, :deletion_reasons_text, :other_emails,
-                             :is_sleeping, :sleeping_email_opt_in,
+                             :sleeping_email_opt_in,
                              :sleeping_email_opt_out_reason, :order_recipient,
                              :status, :vertical_pages_breadcrumb,
                              :close_io_lead_id, :sponsorship_token
 
-  define_boolean_accessor_for :meta_data, :is_sleeping, :sleeping_email_opt_in
+  define_boolean_accessor_for :meta_data, :sleeping_email_opt_in
 
   # Make sure to update the Uploader in Admin#avatar_url check.
   mount_uploader :logo, StructureLogoUploader
@@ -162,7 +153,6 @@ class Structure < ActiveRecord::Base
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
-  before_create :set_active_to_true
 
   after_create  :set_default_place_attributes
   after_create  :geocode  unless Rails.env.test?
@@ -185,11 +175,11 @@ class Structure < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
 
-  scope :sleeping            , -> { where("meta_data -> 'is_sleeping' = 'true'") }
+  scope :sleeping            , -> { where(admin: nil) }
   scope :with_logo           , -> { where.not( logo: nil ) }
   scope :with_media          , -> { joins(:medias).uniq }
   scope :with_logo_and_media , -> { with_logo.with_media }
-  scope :active_and_enabled  , -> { where(active: true, enabled: true) }
+  scope :enabled             , -> { where(enabled: true) }
 
   ######################################################################
   # Algolia                                                            #
@@ -209,7 +199,7 @@ class Structure < ActiveRecord::Base
     attribute :cities_text
 
     add_attribute :active do
-      active and enabled
+      enabled
     end
 
     add_attribute :_geoloc do
@@ -284,36 +274,28 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  def comments_count
-    comments.count
-  end
-
   def contact_email
     if read_attribute(:contact_email).present?
       read_attribute(:contact_email)
-    elsif admins.any?
-      admins.first.email
+    elsif admin
+      admin.email
     end
   end
 
   def contact_mobile_phone
     if read_attribute(:contact_mobile_phone).present?
       read_attribute(:contact_mobile_phone)
-    elsif admins.any?
-      admins.first.mobile_phone_number
+    elsif admin
+      admin.mobile_phone_number
     end
   end
 
   def contact_phone
     if read_attribute(:contact_phone).present?
       read_attribute(:contact_phone)
-    elsif admins.any?
-      admins.first.phone_number
+    elsif admin
+      admin.phone_number
     end
-  end
-
-  def main_contact
-    admins.first
   end
 
   def address
@@ -442,19 +424,19 @@ class Structure < ActiveRecord::Base
   end
 
   def email_opt_in
-    main_contact.email_opt_in
+    admin.email_opt_in
   end
 
   def email
-    (main_contact ? main_contact.email : contact_email)
+    (admin ? admin.email : contact_email)
   end
 
-  # Compute the reponse rate of the main_contact
+  # Compute the reponse rate of the admin
   #
   # @return Integer [0-100] that is the percentage. Ex: 67
   def compute_response_rate
-    return if main_contact.nil?
-    conversations = main_contact.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
+    return if admin.nil?
+    conversations = admin.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
     number_of_conversations = conversations.length
     if number_of_conversations == 0
       self.response_rate = nil
@@ -482,8 +464,8 @@ class Structure < ActiveRecord::Base
   #
   # @return Integer that is the average number of hours between each responses. Ex: 14
   def compute_response_time
-    return if main_contact.nil?
-    conversations      = main_contact.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
+    return if admin.nil?
+    conversations      = admin.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
     if conversations.length == 0
       self.response_time = nil
       save(validate: false)
@@ -547,9 +529,9 @@ class Structure < ActiveRecord::Base
   #
   # @return Mailbox
   def mailbox
-    return nil if main_contact.nil?
+    return nil if admin.nil?
     return @mailbox if @mailbox
-    return @mailbox = main_contact.mailbox
+    return @mailbox = admin.mailbox
   end
 
   # Return all conversations that are information demand AND are unanswered
@@ -617,20 +599,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Disables the sleeping structure and activates the current structure.
-  #
-  # @return Boolean saved or not
-  def wake_up!
-    self.is_sleeping = false
-    self.active      = true
-
-    save(validate: false)
-    self.generate_cards
-
-    AdminMailer.delay(queue: 'mailers').you_have_control_of_your_account(self)
-    true
-  end
-
   # Return the most used subject or the root subjects that has the most childs.
   #
   # @return Subject at depth 0
@@ -684,9 +652,10 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  def is_sleeping
-    self.main_contact.nil? or self.meta_data['is_sleeping'] == 'true'
+  def is_sleeping?
+    self.admin.nil?
   end
+  alias_method :is_sleeping, :is_sleeping?
 
   def is_open_for_trial?
     self.courses.open_for_trial.any?
@@ -695,7 +664,7 @@ class Structure < ActiveRecord::Base
   def update_intercom_status
     new_status = CrmSync.structure_status_for_intercom(self)
     if self.status != new_status
-      if self.main_contact
+      if self.admin
         create_intercom_event("#{self.status} -> #{new_status}")
       end
       self.update_columns meta_data: self.meta_data.merge('status' => new_status)
@@ -951,10 +920,6 @@ class Structure < ActiveRecord::Base
     ]
   end
 
-  def set_active_to_true
-    self.active              = true
-  end
-
   def subscribe_to_crm
     return if crm_locked?
     lock_crm!
@@ -1095,8 +1060,8 @@ class Structure < ActiveRecord::Base
       intercom_client = IntercomClientFactory.client
       intercom_client.events.create(
         event_name: event_name, created_at: Time.now.to_i,
-        email: self.main_contact.email,
-        user_id: "Admin_#{self.main_contact.id}"
+        email: self.admin.email,
+        user_id: "Admin_#{self.admin.id}"
       )
     rescue Exception => exception
       Bugsnag.notify(exception, { name: name, slug: slug, id: id })

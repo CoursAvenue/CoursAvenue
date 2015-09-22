@@ -43,3 +43,8 @@
                             pro_structure_conversations_url(@structure, subdomain: 'pro'),
                             current: current_tab,
                             icon: 'fa fa-2x fa-envelope-o'
+
+      = pro_side_menu_link 'newsletters',
+                            pro_structure_newsletters_path(@structure, subdomain: 'pro'),
+                            current: current_tab,
+                            icon: 'fa-2x fa-send'

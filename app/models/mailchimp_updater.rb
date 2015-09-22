@@ -32,7 +32,7 @@ class MailchimpUpdater
 
   def self.update_structure(structure)
     Gibbon::API.lists.subscribe({id: MailchimpUpdater.list_id[:structure],
-                                 email: { email: structure.main_contact.email},
+                                 email: { email: structure.admin.email},
                                  merge_vars: {
                                    :NAME      => structure.name,
                                    :PARISIAN  => (structure.parisian? ? 'Oui' : 'Non'),
@@ -46,10 +46,10 @@ class MailchimpUpdater
   end
 
   def self.update_sleeping_structures(structure)
-    return if structure.main_contact.nil?
+    return if structure.admin.nil?
     gibbon = Gibbon::API.new(ENV['MAILCHIMP_API_KEY_2'])
     gibbon.lists.subscribe({id: list_id[:sleeping_structure],
-                                 email: { email: structure.main_contact.email},
+                                 email: { email: structure.admin.email},
                                  merge_vars: {
                                    :ACTIVE      => 'Yes'
                                  },

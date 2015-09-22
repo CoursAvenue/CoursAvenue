@@ -10,9 +10,9 @@
       %p.flush Temps de réponse
     .grid__item.v-middle.one-half>
       %strong= response_time_in_words @structure
-- if @structure.main_contact and @structure.main_contact.current_sign_in_at
+- if @structure.admin and @structure.admin.current_sign_in_at
   .grid--full.epsilon.line-height-1-5
     .grid__item.v-middle.one-half.gray>
       %p.flush Dernière activité
     .grid__item.v-middle.one-half>
-      %strong= l(@structure.main_contact.current_sign_in_at, format: :date).capitalize
+      %strong= l(@structure.admin.current_sign_in_at, format: :date).capitalize

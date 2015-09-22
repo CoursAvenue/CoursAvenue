@@ -125,9 +125,9 @@
                     Envoyé avec ♥ depuis le siège de CoursAvenue
                   - if content_for? :footer
                     = yield :footer
-                  - elsif @structure and @structure.main_contact
+                  - elsif @structure and @structure.admin
                     .text--center
-                      = link_to 'Préférences e-mail', edit_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro'), class: 'fix-class'
+                      = link_to 'Préférences e-mail', edit_pro_structure_admin_url(@structure, @structure.admin, subdomain: 'pro'), class: 'fix-class'
                   - elsif @user
                     %div
                       - if @user.active?

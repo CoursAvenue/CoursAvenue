@@ -1,0 +1,8 @@
+.bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.text--center
+  %p.delta.line-height-1-7
+    Vous n'avez pas encore de mailing list.
+  %div
+    = link_to new_pro_structure_mailing_list_path(@structure), class: 'btn btn--green fancybox.ajax', 
+      data: { behavior: 'modal', width: 700, padding: 0 } do
+      %i.fa.fa-plus
+      Créer une liste de diffusion

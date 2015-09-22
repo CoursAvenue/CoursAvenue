@@ -18,14 +18,14 @@ class AdminMailer < ActionMailer::Base
   def commercial_email(structure)
     return
     @structure = structure
-    # mail to: @structure.main_contact.email,
+    # mail to: @structure.admin.email,
     #      subject: "★ Dernier jour à -50%",
     #      from: "L'équipe CoursAvenue <contact@coursavenue.com>"
   end
 
   def subscription_renewal_failed(structure)
     @structure = structure
-    mail to: @structure.main_contact.email,
+    mail to: @structure.admin.email,
          subject: 'Il y a un problème avec votre abonnement CoursAvenue',
          from: 'CoursAvenue Premium <premium@coursavenue.com>'
   end
@@ -33,7 +33,7 @@ class AdminMailer < ActionMailer::Base
   def your_premium_account_has_been_activated(subscription_plan)
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
-    mail to: @structure.main_contact.email,
+    mail to: @structure.admin.email,
          subject: 'Votre profil Premium est activé',
          from: 'CoursAvenue Premium <premium@coursavenue.com>'
   end
@@ -42,7 +42,7 @@ class AdminMailer < ActionMailer::Base
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
     @similar_profiles  = @structure.similar_profiles(2)
-    mail to: @structure.main_contact.email,
+    mail to: @structure.admin.email,
          subject: 'Votre profil Premium a été renouvelé',
          from: 'CoursAvenue Premium <premium@coursavenue.com>'
   end
@@ -50,14 +50,14 @@ class AdminMailer < ActionMailer::Base
   def subscription_has_been_canceled(subscription_plan)
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
-    mail to: @structure.main_contact.email,
+    mail to: @structure.admin.email,
          subject: 'Résiliation de votre profil Premium'
   end
 
   def subscription_has_been_reactivated(subscription_plan)
     @structure         = subscription_plan.structure
     @subscription_plan = subscription_plan
-    mail to: @structure.main_contact.email,
+    mail to: @structure.admin.email,
          subject: 'Votre réabonnement au Premium a bien été pris en compte'
   end
 
@@ -66,15 +66,15 @@ class AdminMailer < ActionMailer::Base
     @structure          = structure
     @monthly_promo_code = monthyl_promo_code
     @annual_promo_code  = annual_promo_code
-    mail to: @structure.main_contact.email, subject: "Que s'est-il passé ?"
+    mail to: @structure.admin.email, subject: "Que s'est-il passé ?"
   end
 
   def user_is_now_following_you(structure, user)
-    return if structure.main_contact.nil?
+    return if structure.admin.nil?
     @structure        = structure
     @user             = user
     @similar_profiles = @structure.similar_profiles(2)
-    mail to: @structure.main_contact.email, subject: "Votre profil vient d'être ajouté en favori"
+    mail to: @structure.admin.email, subject: "Votre profil vient d'être ajouté en favori"
   end
 
   def message_information_reminder_1(conversation, admin)
@@ -104,12 +104,12 @@ class AdminMailer < ActionMailer::Base
   ######################################################################
   def stickers_has_been_ordered(sticker_demand)
     @structure = sticker_demand.structure
-    mail to: @structure.main_contact.email, subject: 'Votre commande d’autocollants a bien été prise en compte'
+    mail to: @structure.admin.email, subject: 'Votre commande d’autocollants a bien été prise en compte'
   end
 
   def stickers_has_been_sent(sticker_demand)
     @structure = sticker_demand.structure
-    mail to: @structure.main_contact.email, subject: "Vos autocollants viennent d'être expédiés"
+    mail to: @structure.admin.email, subject: "Vos autocollants viennent d'être expédiés"
   end
 
   ######################################################################
@@ -119,7 +119,7 @@ class AdminMailer < ActionMailer::Base
   def congratulate_for_accepted_comment(comment)
     @comment   = comment
     @structure = @comment.structure
-    @admin     = @structure.main_contact
+    @admin     = @structure.admin
     @conversation = @comment
     mail to: @comment.commentable.contact_email,
       subject: "Vous avez reçu un avis de #{@comment.author_name}",
@@ -136,7 +136,7 @@ class AdminMailer < ActionMailer::Base
     @structure          = structure
     deletion_reason_key = deletion_reason.split('.').last
     @email_text         = I18n.t("comments.recover_email_texts.#{deletion_reason_key}")
-    mail to: @structure.main_contact.email, subject: "Votre demande de modification d'avis a bien été prise en compte"
+    mail to: @structure.admin.email, subject: "Votre demande de modification d'avis a bien été prise en compte"
   end
 
   ######################################################################
@@ -145,7 +145,7 @@ class AdminMailer < ActionMailer::Base
 
   def you_have_control_of_your_account(structure)
     @structure        = structure
-    mail to: structure.main_contact.email,
+    mail to: structure.admin.email,
          subject: "Votre profil est maintenant à vous !"
   end
 
@@ -157,9 +157,9 @@ class AdminMailer < ActionMailer::Base
 
   # When user destroy his Structure
   def structure_has_been_destroy(structure)
-    return if structure.main_contact.nil?
+    return if structure.admin.nil?
     @structure = structure
-    mail to: @structure.main_contact.email,
+    mail to: @structure.admin.email,
          subject: "Votre profil vient d'être supprimé"
   end
 
@@ -170,7 +170,7 @@ class AdminMailer < ActionMailer::Base
     @structure    = structure
     @total_wanted = total_wanted
     @error_emails = error_emails
-    mail to: @structure.main_contact.email, subject: 'Votre import est terminé.'
+    mail to: @structure.admin.email, subject: 'Votre import est terminé.'
   end
 
   def import_batch_user_profiles_finished_from_newsletter(structure, newsletter, total_wanted, error_emails)
@@ -178,7 +178,7 @@ class AdminMailer < ActionMailer::Base
     @total_wanted = total_wanted
     @error_emails = error_emails
     @newsletter   = newsletter
-    mail to: @structure.main_contact.email, subject: 'Votre import est terminé.'
+    mail to: @structure.admin.email, subject: 'Votre import est terminé.'
   end
 
   ######################################################################

@@ -1,0 +1,8 @@
+- @mailing_lists.each do |list|
+  .flexbox.push-half--bottom.hoverable.transition-all-300.soft{ id: "mailing-list-#{ list.id }" }
+    .flexbox__item
+      %h4 #{ list.name } (#{ pluralize(list.recipient_count, 'élève') })
+    .flexbox__item.text--right
+      = link_to "Voir / Modifier / Ajouter des contacts", edit_pro_structure_mailing_list_path(@structure, list),
+        class: 'fancybox.ajax', data: { behavior: 'modal', width: 700, padding: 0 }
+    %hr

@@ -18,7 +18,7 @@
         - if recipients.first
           %strong.epsilon= truncate((recipients.first.name || recipients.first.email), length: 18)
           %soan.visuallyhidden--palm= "(#{pluralize conversation.messages.count, 'message'})"
-        - if conversation.is_unread?(structure.main_contact)
+        - if conversation.is_unread?(structure.admin)
           .lbl--small.white.lbl.lbl--yellow NON LU
       %p.flush.line-height-1-7.f-weight-500
         - if participation_request and !participation_request.past?

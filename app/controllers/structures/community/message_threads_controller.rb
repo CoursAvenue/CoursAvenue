@@ -3,7 +3,7 @@ class Structures::Community::MessageThreadsController < ApplicationController
   before_filter :load_structure_and_community
 
   def index
-    @message_threads = @community.message_threads.includes(:conversation)
+    @message_threads = @community.message_threads.approved.includes(:conversation)
 
     respond_to do |format|
       format.html { redirect_to structure_path(@structure) }

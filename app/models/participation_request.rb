@@ -53,7 +53,7 @@ class ParticipationRequest < ActiveRecord::Base
   before_validation :set_date_if_empty
   before_create     :set_default_attributes
   after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher,
-    :send_sms_to_user, :touch_user, :set_check_for_disable_later,
+    :touch_user, :set_check_for_disable_later,
     :notify_super_admin_of_more_than_five_requests
 
   before_save       :update_times
@@ -98,7 +98,7 @@ class ParticipationRequest < ActiveRecord::Base
     if participation_request.valid?
       # Create and send conversation
       structure.create_or_update_user_profile_for_user(user, UserProfile::DEFAULT_TAGS[:participation_request])
-      recipients                         = structure.main_contact
+      recipients                         = structure.admin
       receipt                            = user.send_message_with_label(recipients, request_attributes[:message][:body], I18n.t(Mailboxer::Label::REQUEST.name), Mailboxer::Label::REQUEST.id)
       conversation                       = receipt.conversation
       participation_request.conversation = conversation
@@ -147,6 +147,8 @@ class ParticipationRequest < ActiveRecord::Base
     if chargeable?
       charge!
     end
+
+    send_sms_to_user
 
     if self.last_modified_by == 'Structure'
       mailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)
@@ -399,7 +401,7 @@ class ParticipationRequest < ActiveRecord::Base
 
     if participation_request.valid?
       recipients = self.user
-      receipt    = structure.main_contact.send_message_with_label(
+      receipt    = structure.admin.send_message_with_label(
         recipients, options[:message][:body], I18n.t(Mailboxer::Label::REQUEST.name),
         Mailboxer::Label::REQUEST.id)
       conversation = receipt.conversation
@@ -472,7 +474,7 @@ class ParticipationRequest < ActiveRecord::Base
     if message_body.present?
       self.conversation.update_column :lock_email_notification_once, true
       if last_modified_by == 'Structure'
-        receipt = self.structure.main_contact.reply_to_conversation(self.conversation, message_body)
+        receipt = self.structure.admin.reply_to_conversation(self.conversation, message_body)
       else
         receipt = self.user.reply_to_conversation(self.conversation, message_body)
       end

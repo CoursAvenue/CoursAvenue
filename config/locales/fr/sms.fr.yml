@@ -3,10 +3,10 @@ fr:
     users:
       new_participation_request:
         with_address: >
-          Félicitations ! Votre demande d'inscription vient d'etre transmise : "%{course_name}" avec %{structure_name} le %{day} à %{start_time} - %{address}.
+          Félicitations ! Votre demande d'inscription vient d'être acceptée : "%{course_name}" avec %{structure_name} le %{day} à %{start_time} - %{address}.
           A bientot ! PS : pour modifier/annuler : %{url}
         without_address: >
-          Félicitations ! Votre demande d'inscription vient d'etre transmise : "%{course_name}" avec %{structure_name} le %{day} à %{start_time}.
+          Félicitations ! Votre demande d'inscription vient d'être acceptée : "%{course_name}" avec %{structure_name} le %{day} à %{start_time}.
           A bientot ! PS : pour modifier/annuler : %{url}
       day_before_reminder:
         multiple_course: >

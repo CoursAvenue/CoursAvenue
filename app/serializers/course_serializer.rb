@@ -63,7 +63,7 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def structure_is_active
-    (object.structure.active? && object.structure.enabled? && !object.structure.is_sleeping?)
+    (object.structure.enabled? && !object.structure.is_sleeping?)
   end
 
   def structure_slug

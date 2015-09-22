@@ -23,7 +23,12 @@ CoursAvenue::Application.routes.draw do
       resources :blog_authors, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/authors', path: 'blog/auteurs'
       resources :images, only: [:index, :create]
       resource  :community             , only: [:show]                                     , controller: 'structures/community'      , path: 'communaute' do
-        resources :message_threads, only: [:index, :destroy], controller: 'community/message_threads'
+        resources :message_threads, only: [:index, :destroy], controller: 'community/message_threads' do
+          member do
+            post :approve
+            post :privatize
+          end
+        end
       end
       resources :sms_loggers, only: [:index, :show]
     end
@@ -179,7 +184,6 @@ CoursAvenue::Application.routes.draw do
           get   :recommendations, path: 'recommendations'
           get   :signature
           get   :communication
-          patch :wake_up
           get   :widget
           get   :wizard
           match :widget_ext, controller: 'structures', via: [:options, :get], as: 'widget_ext'
@@ -251,7 +255,9 @@ CoursAvenue::Application.routes.draw do
           end
         end
 
-        resources :mailing_lists, only: [:destroy], controller: 'structures/mailing_lists'
+        resources :mailing_lists, controller: 'structures/mailing_lists', path: 'listes-de-diffusion' do
+          resources :user_profiles, only: [:destroy], controller: 'structures/mailing_lists/user_profiles'
+        end
 
         resources :newsletters, only: [:index, :new, :create, :edit, :update, :destroy], controller: 'structures/newsletters' do
           resources :blocs, only: [:create, :update, :destroy], controller: 'structures/newsletters/blocs' do

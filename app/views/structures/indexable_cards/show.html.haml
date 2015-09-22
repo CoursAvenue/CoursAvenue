@@ -114,7 +114,8 @@
           - if @place.present?
             = react_component('CardPageMap', { latitude: @place.latitude, longitude: @place.longitude,
                                               root_subject: dominant_root_subject_slug,
-                                              metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops, each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
+                                              metro_stops: ActiveModel::ArraySerializer.new(@place.nearby_metro_stops.includes(:lines),
+                                                each_serializer: MetroStopSerializer) }.merge(home_place_map_attributes),
                                              { prerender: false })
 
             .soft--ends.bordered--sides.bordered--bottom

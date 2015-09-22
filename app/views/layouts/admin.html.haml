@@ -1,7 +1,7 @@
 = content_for :content do
 
   - if @structure
-    - if @structure.main_contact.present?
+    - if @structure.admin.present?
       = render partial: 'pro/admins/onboarding/status_bar'
 
     .darkgray-box.flexbox.print--hidden.on-top-of-the-world
@@ -20,8 +20,6 @@
           - if current_pro_admin and current_pro_admin.super_admin?
             = link_to 'Supprimer ce profil', ask_for_pro_deletion_pro_structure_path(@structure), class: 'btn btn--red btn--small fancybox.ajax', data: { behavior: 'modal', width: '500', padding: '0' }
             %span.push-half--sides= '|'
-          - if @structure.is_sleeping?
-            %span.v-middle.lbl.lbl--red{ data: { toggle: 'popover', content: "Vous venez de prendre le contrôle de votre profil : complétez-le pendant que l'équipe CoursAvenue vérifie votre identité. Vous recevrez un e-mail dès que c'est validé !  Les modifications que vous avez apportées deviendront alors directement visibles sur votre profil public.", trigger: 'hover' } } En attente de validation
 
           .inline-block.v-middle.drop-down__wrapper
             = link_to structure_url(@structure, subdomain: 'www'), target: :_blank, class: 'white block soft-half--ends muted-link f-weight-bold', title: 'Voir&nbsp;mon&nbsp;profil&nbsp;public', data: { toggle: 'tooltip', placement: 'right', html: true } do
@@ -37,13 +35,13 @@
                       = link_to @structure.decorate.search_url, target: :_blank do
                         %i.fa-eye.soft-half--right
                         Voir sur le moteur de recherche (SUPER ADMIN)
-                  - if @structure.main_contact
+                  - if @structure.admin
                     %li.nowrap.text--left
-                      = link_to edit_pro_structure_admin_path(@structure, @structure.main_contact) do
+                      = link_to edit_pro_structure_admin_path(@structure, @structure.admin) do
                         %i.fa-cogs.soft-half--right
                         = t('pro.structures.side_menu.account')
                   %li.nowrap.text--left
-                    = link_to new_pro_structure_invited_teacher_path(@structure, @structure.main_contact) do
+                    = link_to new_pro_structure_invited_teacher_path(@structure, @structure.admin) do
                       %i.fa-gift.soft-half--right
                       = t('pro.structures.side_menu.share')
                   %li.nowrap.text--left

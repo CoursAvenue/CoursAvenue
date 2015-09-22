@@ -8,7 +8,7 @@ describe Structures::Community::MessageThreadsController, community: true do
   let(:user)       { FactoryGirl.create(:user) }
 
   before do
-    5.times { community.message_threads.create }
+    5.times { t = community.ask_question!(user, Faker::Lorem.paragraph); t.approve! }
   end
 
   describe 'GET #index' do
@@ -16,7 +16,7 @@ describe Structures::Community::MessageThreadsController, community: true do
       it 'renders the community message threads' do
         get :index, structure_id: structure.slug, format: :json
         thread_ids = response_body.map { |t| t['id'] }
-        expect(thread_ids).to match_array(community.message_threads.map(&:id))
+        expect(thread_ids).to match_array(community.message_threads.approved.map(&:id))
       end
     end
 

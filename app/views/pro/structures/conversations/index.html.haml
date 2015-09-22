@@ -1,47 +1,15 @@
 = side_menu_currently_at 'messages'
 
-= render partial: 'pro/structures/conversations/tabs', locals: { current: 'conversations' }
+= render partial: 'pro/structures/conversations/tabs', locals: { current: @current_tab[:id] }
 
-%h1 Messages
+%h1= @current_tab[:name]
 
 %div{ data: { behavior: 'wizard-helper', content: t('messages.wizard.index') } }
   - if @conversations.any?
-    - conversation_information_count  = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).count
-    - conversation_comment_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).count
-    - conversation_conversation_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::CONVERSATION.id).count
-    - conversation_request_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::REQUEST.id).count
-    - conversation_public_question_count = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::PUBLIC_QUESTION.id).count
-    .push--bottom
-      .inline-block.palm-block
-        .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::REQUEST.color}"}
-        %strong.push--right Inscription (#{conversation_request_count})
-      .inline-block.palm-block
-        .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::PUBLIC_QUESTION.color}"}
-        %strong.push--right Question publique (#{conversation_public_question_count})
-      .inline-block.palm-block
-        .push-half--left.palm-flush.lbl.lbl--small.lbl--chip{ class: "lbl--#{Mailboxer::Label::INFORMATION.color}"}
-        %strong.push--right Demande d'info (#{conversation_information_count})
-      .inline-block.palm-block
-        .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::COMMENT.color}"}
-        %strong.push--right Avis (#{conversation_comment_count})
-      .inline-block.palm-block
-        .push-half--left.palm-flush.lbl--small.lbl--chip.lbl{ class: "lbl--#{Mailboxer::Label::CONVERSATION.color}"}
-        %strong Conversation (#{conversation_conversation_count})
-    .grid
-      .grid__item.palm-one-whole.one-third.palm-text--center>
-        %select#conversation_label{ name: 'conversation_label_id' }
-          %option{ value: '' } Tous les messages
-          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::INFORMATION.id), value: Mailboxer::Label::INFORMATION.id } Demandes d'informations (#{conversation_information_count})
-          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::COMMENT.id), value: Mailboxer::Label::COMMENT.id } Avis déposés (#{conversation_comment_count})
-          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::CONVERSATION.id), value: Mailboxer::Label::CONVERSATION.id } Conversations (#{conversation_conversation_count})
-          - if conversation_request_count > 0
-            %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::REQUEST.id), value: Mailboxer::Label::REQUEST.id } Inscriptions (#{conversation_request_count})
-          %option{ selected: (params[:conversation_label_id].to_i == Mailboxer::Label::PUBLIC_QUESTION.id), value: Mailboxer::Label::PUBLIC_QUESTION.id } Questions publiques (#{conversation_public_question_count})
-      .grid__item.palm-one-whole.two-thirds.text--center.last-div-hard>
-        = paginate @conversations, window: 1, outer_window: 3
+    = render partial: 'conversation_navigation', locals: { current_tab: @current_tab }
     - @conversations.each do |conversation|
       = render partial: 'pro/conversations/conversation', locals: { conversation: conversation }
-  - elsif params[:conversation_label_id].present? and @conversations.empty?
+  - elsif (params[:conversation_label_id].present? or params[:read].present?) and @conversations.empty?
     .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.delta.text--center
       %p
         Vous n'avez pas de message de ce type.
@@ -64,11 +32,3 @@
         %p Pour pouvoir envoyer votre premier message, vous devez d'abord avoir reçu des recommandations ou avoir utilisé notre outil de demande automatique dans lequel vous avez renseigné les emails de vos élèves.
         .text--center
           = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#conversation_label').change(function() {
-            window.location = '?conversation_label_id=' + $(this).val()
-        });
-    });

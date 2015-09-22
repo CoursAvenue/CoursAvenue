@@ -36,7 +36,7 @@
               = render partial: 'users/participation_requests/participation_request', locals: { participation_request: participation_request }
     - else
       %p Vous n'avez pas d'inscription en cours.
-      = link_to "Réserver mes cours d'essai", root_search_page_without_subject_path('paris'), class: 'btn btn--green'
+      = link_to "Réserver mes cours d'essai", root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--green'
 
     - if @user.participation_requests.past.any?
       %hr.push--ends

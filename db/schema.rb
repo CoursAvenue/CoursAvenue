@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150911152153) do
+ActiveRecord::Schema.define(version: 20150922151005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,7 +44,6 @@ ActiveRecord::Schema.define(version: 20150911152153) do
     t.integer  "invitation_limit"
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
-    t.integer  "structure_id"
     t.string   "civility"
     t.string   "phone_number"
     t.string   "mobile_phone_number"
@@ -68,7 +67,6 @@ ActiveRecord::Schema.define(version: 20150911152153) do
   add_index "admins", ["invitation_token"], name: "index_admin_users_on_invitation_token", using: :btree
   add_index "admins", ["invited_by_id"], name: "index_admin_users_on_invited_by_id", using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
-  add_index "admins", ["structure_id"], name: "index_admins_on_structure_id", using: :btree
 
   create_table "blog_articles", force: true do |t|
     t.string   "title"
@@ -233,8 +231,8 @@ ActiveRecord::Schema.define(version: 20150911152153) do
     t.integer  "rating"
     t.integer  "commentable_id"
     t.string   "commentable_type"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "title"
     t.integer  "user_id"
     t.string   "course_name"
@@ -246,6 +244,7 @@ ActiveRecord::Schema.define(version: 20150911152153) do
     t.string   "slug"
     t.datetime "deleted_at"
     t.integer  "course_id"
+    t.integer  "comments_count",        default: 0
   end
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
@@ -284,13 +283,13 @@ ActiveRecord::Schema.define(version: 20150911152153) do
 
   create_table "community_message_threads", force: true do |t|
     t.integer  "community_id"
-    t.boolean  "public"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "mailboxer_conversation_id"
     t.integer  "community_membership_id"
     t.datetime "deleted_at"
     t.integer  "indexable_card_id"
+    t.boolean  "approved",                  default: false
   end
 
   add_index "community_message_threads", ["community_id"], name: "index_community_message_threads_on_community_id", using: :btree
@@ -1087,7 +1086,6 @@ ActiveRecord::Schema.define(version: 20150911152153) do
     t.string   "zip_code"
     t.text     "description"
     t.integer  "city_id"
-    t.boolean  "active",                                 default: false
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
@@ -1118,7 +1116,6 @@ ActiveRecord::Schema.define(version: 20150911152153) do
     t.string   "logo"
     t.string   "sleeping_logo"
     t.string   "remote_logo_url"
-    t.integer  "sleeping_structure_id"
     t.text     "course_subjects_string"
     t.boolean  "premium"
     t.boolean  "sms_opt_in",                             default: false
@@ -1131,8 +1128,11 @@ ActiveRecord::Schema.define(version: 20150911152153) do
     t.string   "stripe_managed_account_publishable_key"
     t.boolean  "enabled",                                default: true
     t.boolean  "show_trainings_first",                   default: true
+    t.integer  "admin_id"
+    t.integer  "comments_count",                         default: 0
   end
 
+  add_index "structures", ["admin_id"], name: "index_structures_on_admin_id", using: :btree
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
   add_index "structures", ["stripe_customer_id"], name: "index_structures_on_stripe_customer_id", unique: true, using: :btree

@@ -51,8 +51,9 @@
 
       .push--bottom= render partial: 'structures/plannings'
 
-      .push--bottom
-        = react_component('MessageThreadList', { structure: @serialized_structure })
+      - if @structure.admin.present?
+        .push--bottom
+          = react_component('MessageThreadList', { structure: @serialized_structure })
 
       .push--bottom
         = react_component('CommentList', { structure: @serialized_structure })

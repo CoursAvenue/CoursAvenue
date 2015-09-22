@@ -27,7 +27,7 @@
         .p.hard
           - if structure.phone_numbers.any?
             Tél. : #{structure.phone_numbers.map(&:number).join(', ')} /
-          E-mail : #{structure.main_contact.email}
+          E-mail : #{structure.admin.email}
 
   %tr{ class: (participation_request.from_personal_website? ? 'table-row-alternate-color' : ''), valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;'}

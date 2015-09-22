@@ -3,7 +3,11 @@ class AdminSerializer < ActiveModel::Serializer
 
   cached
   def cache_key
-    'AdminSerializer/' + object.cache_key
+    'AdminSerializer/' + object.cache_key + '/v1'
+  end
+
+  def structure_id
+    object.structure.try(:id)
   end
 
   def structure_slug

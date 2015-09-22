@@ -17,7 +17,7 @@
           Vous souhaitez prendre le contrôle du profil
           %strong "#{@structure.name}"
           ? Malheureusement, l'utilisateur
-          %strong "#{@structure.admins.first.email || @structure.admins.first.unconfirmed_email}"
+          %strong "#{@structure.admin.email || @structure.admin.unconfirmed_email}"
           l'a déjà fait avant vous. Si vous le connaissez, rapprochez-vous de lui pour gérer ensemble votre profil (nous n'autorisons qu'un seul administrateur).
 
         %p.epsilon

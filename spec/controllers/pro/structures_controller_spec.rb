@@ -45,8 +45,8 @@ describe Pro::StructuresController do
   end
 
   describe 'PATCH #enable' do
-    let(:structure) { FactoryGirl.create(:structure, :disabled) }
-    let!(:admin) { FactoryGirl.create(:admin, structure: structure) }
+    let(:structure) { FactoryGirl.create(:structure_with_admin, :disabled) }
+    let!(:admin) { structure.admin }
 
     before do
       sign_in admin
@@ -61,11 +61,6 @@ describe Pro::StructuresController do
     it 'redirects to the structure' do
       patch :enable, id: structure.slug
       expect(response).to redirect_to(pro_structure_path(structure))
-    end
-
-    it 'shows a notice' do
-      patch :enable, id: structure.slug
-      expect(flash[:notice]).to be_present
     end
   end
 end

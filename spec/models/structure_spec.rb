@@ -19,16 +19,14 @@ describe Structure do
   let(:structure) { FactoryGirl.create(:structure) }
 
   it { should be_valid }
-  it { expect(structure.active).to be true}
 
   context 'contact' do
     it 'returns admin contact' do
       admin = FactoryGirl.create(:admin)
-      admin.structure_id = structure.id
-      structure.admins << admin
+      structure.admin = admin
 
       expect(structure.contact_email).to eq(admin.email)
-      expect(structure.main_contact).to eq(admin)
+      expect(structure.admin).to eq(admin)
     end
   end
 
@@ -50,25 +48,7 @@ describe Structure do
     end
   end
 
-  context 'comments' do
-    it 'retrieves course comments' do
-      comment = structure.comments.create FactoryGirl.attributes_for(:comment_review)
-      expect(structure.comments).to include(comment)
-    end
-  end
-
-  it 'updates comments_count' do
-    @structure = FactoryGirl.create(:structure)
-    FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    expect(@structure.reload.comments_count).to eq(1)
-    FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    expect(@structure.reload.comments_count).to eq(2)
-    FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    expect(@structure.reload.comments_count).to eq 3
-  end
-
   context 'tagging' do
-
     describe 'add_tags_on' do
       let(:structure) { FactoryGirl.create(:structure_with_user_profiles_with_tags) }
       let(:user_profile) { structure.user_profiles.first }
@@ -218,39 +198,12 @@ describe Structure do
     end
   end
 
-  context 'sleeping' do
-    describe '#wake_up!' do
-      let(:structure)            { FactoryGirl.create(:sleeping_structure) }
-      let(:admin)                { FactoryGirl.create(:admin) }
-
-      before(:each) do
-        admin.structure = structure
-        structure.admins << admin
-
-        admin.save
-        structure.save
-      end
-
-      it 'wakes itself' do
-        structure.wake_up!
-
-        expect(structure.is_sleeping).to be false
-      end
-
-      it 'activates itself' do
-        structure.wake_up!
-
-        expect(structure.active).to be true
-      end
-    end
-  end
-
   describe '#contact_email' do
     context 'with an admin' do
       subject { FactoryGirl.create(:structure_with_admin) }
 
       it 'returns the admin email' do
-        expect(subject.contact_email).to eq(subject.main_contact.email)
+        expect(subject.contact_email).to eq(subject.admin.email)
       end
     end
 
@@ -274,7 +227,7 @@ describe Structure do
       subject { FactoryGirl.create(:structure_with_admin) }
 
       it 'returns the admin mobile phone' do
-        expect(subject.contact_mobile_phone).to eq(subject.main_contact.mobile_phone_number)
+        expect(subject.contact_mobile_phone).to eq(subject.admin.mobile_phone_number)
       end
     end
 
@@ -298,7 +251,7 @@ describe Structure do
       subject { FactoryGirl.create(:structure_with_admin) }
 
       it 'returns the admin phone' do
-        expect(subject.contact_phone).to eq(subject.main_contact.phone_number)
+        expect(subject.contact_phone).to eq(subject.admin.phone_number)
       end
     end
 

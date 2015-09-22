@@ -59,8 +59,11 @@ class VerticalPagesController < ApplicationController
 
   def load_vertical_page
     @vertical_page = VerticalPage.friendly.find(params[:id])
-    @city          = City.find(params[:city_id]) if params[:city_id]
-    if @vertical_page.slug != params[:id]
+    if params[:city_id] and params[:city_id] != 'undefined'
+      @city = City.find(params[:city_id])
+    end
+
+    if @vertical_page.slug != params[:id] or params[:city_id] == 'undefined'
       if @city
         redirect_to vertical_page_with_city_path(@vertical_page.subject.root, @vertical_page, @city), status: 301
       else

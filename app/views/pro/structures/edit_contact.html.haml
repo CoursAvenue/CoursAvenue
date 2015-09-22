@@ -7,7 +7,7 @@
 
   .soft--sides{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.contacts.coordinates') } }
     %h5 Coordonnées de réservation
-    - if @structure.main_contact
+    - if @structure.admin
       = render "pro/structures/admins/change_email"
     - else
       = form.input :contact_email, label: 'Email principal', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }

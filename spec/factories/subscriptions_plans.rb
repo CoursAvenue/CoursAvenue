@@ -1,11 +1,11 @@
 FactoryGirl.define do
   factory :subscriptions_plan, class: 'Subscriptions::Plan' do
-    name           { Faker::Name.name }
+    name           { Faker::Name.name + rand.to_s }
     amount         { (15..30).to_a.sample }
     interval       [ 'month', 'year' ].sample
     stripe_plan_id { "#{name.parameterize}" }
     plan_type      { Subscriptions::Plan::PLAN_TYPES.sample }
-    public_name    { Faker::Name.name }
+    public_name    { Faker::Name.name + rand.to_s }
 
     trait :empty do
       name nil
