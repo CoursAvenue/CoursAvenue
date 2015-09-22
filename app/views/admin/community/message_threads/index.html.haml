@@ -14,6 +14,7 @@
   %tbody
     - @message_threads.each do |message_thread|
       - structure = message_thread.community.structure
+      - next if message_thread.messages.nil?
       - message = message_thread.messages.order('created_at ASC').first
       %tr
         %td
