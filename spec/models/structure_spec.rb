@@ -48,25 +48,7 @@ describe Structure do
     end
   end
 
-  context 'comments' do
-    it 'retrieves course comments' do
-      comment = structure.comments.create FactoryGirl.attributes_for(:comment_review)
-      expect(structure.comments).to include(comment)
-    end
-  end
-
-  it 'updates comments_count' do
-    @structure = FactoryGirl.create(:structure)
-    FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    expect(@structure.reload.comments_count).to eq(1)
-    FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    expect(@structure.reload.comments_count).to eq(2)
-    FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-    expect(@structure.reload.comments_count).to eq 3
-  end
-
   context 'tagging' do
-
     describe 'add_tags_on' do
       let(:structure) { FactoryGirl.create(:structure_with_user_profiles_with_tags) }
       let(:user_profile) { structure.user_profiles.first }

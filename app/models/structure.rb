@@ -274,10 +274,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  def comments_count
-    comments.count
-  end
-
   def contact_email
     if read_attribute(:contact_email).present?
       read_attribute(:contact_email)
