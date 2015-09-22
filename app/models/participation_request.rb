@@ -53,7 +53,7 @@ class ParticipationRequest < ActiveRecord::Base
   before_validation :set_date_if_empty
   before_create     :set_default_attributes
   after_create      :send_email_to_teacher, :send_email_to_user, :send_sms_to_teacher,
-    :send_sms_to_user, :touch_user, :set_check_for_disable_later,
+    :touch_user, :set_check_for_disable_later,
     :notify_super_admin_of_more_than_five_requests
 
   before_save       :update_times
@@ -147,6 +147,8 @@ class ParticipationRequest < ActiveRecord::Base
     if chargeable?
       charge!
     end
+
+    send_sms_to_user
 
     if self.last_modified_by == 'Structure'
       mailer.delay.request_has_been_accepted_by_teacher_to_user(self, message)

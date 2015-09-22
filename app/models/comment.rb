@@ -10,7 +10,7 @@ class Comment < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :commentable, polymorphic: true, touch: true
+  belongs_to :commentable, polymorphic: true, touch: true, counter_cache: :comments_count
   belongs_to :course
 
   ######################################################################
