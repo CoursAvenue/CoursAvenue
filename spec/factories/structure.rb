@@ -13,6 +13,7 @@ FactoryGirl.define do
 
     subjects { [ FactoryGirl.create(:subject), FactoryGirl.create(:subject_with_grand_parent) ] }
 
+    comments_count 0
     after(:build) do |structure|
       structure.places   << FactoryGirl.build(:place, structure: structure)
       structure.save
