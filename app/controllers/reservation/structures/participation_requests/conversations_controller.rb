@@ -1,4 +1,4 @@
-class Reservation::Structures::ParticipationRequests::ConversationsController < StructureWebsiteController
+class Reservation::Structures::ParticipationRequests::ConversationsController < ReservationController
   include ConversationsHelper
 
   load_resource :participation_request, find_by: :token

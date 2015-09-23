@@ -1,4 +1,4 @@
-class Reservation::Structures::GiftCertificateVouchersController < StructureWebsiteController
+class Reservation::Structures::GiftCertificateVouchersController < ReservationController
 
   before_filter :load_structure
 

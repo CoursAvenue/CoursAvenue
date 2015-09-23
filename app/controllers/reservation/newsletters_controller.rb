@@ -1,4 +1,4 @@
-class Reservation::NewslettersController < StructureWebsiteController
+class Reservation::NewslettersController < ReservationController
 
   def unsubscribe
     if params[:md_email].present?

@@ -1,4 +1,4 @@
-class Reservation::Structures::ParticipationRequestsController < StructureWebsiteController
+class Reservation::Structures::ParticipationRequestsController < ReservationController
   include ConversationsHelper
 
   layout 'reservations/empty'
