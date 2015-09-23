@@ -23,16 +23,6 @@ GIT
     rails-dev-boost (0.3.0)
       railties (>= 3.0)
 
-GIT
-  remote: git://github.com/wanelo/stripe-ruby-mock.git
-  revision: 5ec5dda994975a95653ce9f0a15f7f3316a185d8
-  ref: 5ec5dda994975a95653ce9f0a15f7f3316a185d8
-  specs:
-    stripe-ruby-mock (2.1.1)
-      dante (>= 0.2.0)
-      jimson-temp
-      stripe (= 1.20.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -770,10 +760,13 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    stripe (1.20.1)
+    stripe (1.27.1)
       json (~> 1.8.1)
-      mime-types (>= 1.25, < 3.0)
       rest-client (~> 1.4)
+    stripe-ruby-mock (2.2.0)
+      dante (>= 0.2.0)
+      jimson-temp
+      stripe (>= 1.27.0)
     sunspot (2.2.0)
       pr_geohash (~> 1.0)
       rsolr (~> 1.0.7)
@@ -950,8 +943,8 @@ DEPENDENCIES
   simple_form (~> 3.1.0)
   simplecov (~> 0.9.1)
   sitemap_generator (~> 5.0.5)
-  stripe (~> 1.20.1)
-  stripe-ruby-mock!
+  stripe (~> 1.27.1)
+  stripe-ruby-mock (~> 2.2.0)
   sunspot (~> 2.2.0)
   sunspot-rails-tester (~> 1.0.0)
   sunspot_rails (~> 2.2.0)
