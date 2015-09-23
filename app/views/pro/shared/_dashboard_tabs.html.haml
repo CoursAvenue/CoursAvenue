@@ -16,3 +16,5 @@
       = link_to "Flyers", admin_flyers_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
     %li{ class: current == 'duplicates' ? 'active' : '' }
       = link_to "Doublon", duplicates_pro_structures_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
+    %li{ class: current == 'places' ? 'active' : '' }
+      = link_to "Lieux mal localisés", admin_places_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'

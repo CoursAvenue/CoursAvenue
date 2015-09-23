@@ -11,7 +11,7 @@ class Structures::CoursesController < ApplicationController
 
   def index
     @structure = Structure.friendly.find params[:structure_id]
-    @courses   = @structure.courses
+    @courses   = @structure.courses.order(name: :asc)
     respond_to do |format|
       format.json { render json: @courses, each_serializer: CourseSerializer }
     end

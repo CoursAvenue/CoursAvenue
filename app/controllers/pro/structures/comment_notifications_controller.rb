@@ -10,14 +10,7 @@ class Pro::Structures::CommentNotificationsController < Pro::ProController
     emails = params[:emails].scan(regexp).uniq
     text = '<div class="p">' + params[:text].gsub(/\r\n\r\n/, '</div><div class="p">').gsub(/\r\n/, '<br>') + '</div>'
     emails.each do |_email|
-      if (user = User.where(User.arel_table[:email].matches(_email)).first).nil?
-        user             = User.force_create(email: _email)
-        user.structures << @structure
-        user.subjects   << @structure.subjects
-        user.save(validate: false)
-      end
-      notification           = user.comment_notifications.build structure: @structure, text: text
-      notification.save
+      CommentNotification.delay.create_from_email(_email, @structure, text)
     end
     respond_to do |format|
       format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés.' : nil) }

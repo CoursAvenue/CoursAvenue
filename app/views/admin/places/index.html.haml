@@ -1,0 +1,18 @@
+= side_menu_currently_at 'pro_dashboard'
+
+= render partial: 'pro/shared/dashboard_tabs', locals: { current: 'places' }
+
+.push-half--bottom= paginate @places, window: 2, outer_window: 1
+
+%table.table--data.table--striped
+  %thead
+    %tr
+      %th Nom
+      %th Etablissement
+  %tbody
+    - @places.each do |place|
+      %tr
+        %td= place.name
+        %td= link_to place.structure.name, pro_structure_places_path(place.structure)
+
+.push-half--bottom= paginate @places, window: 2, outer_window: 1

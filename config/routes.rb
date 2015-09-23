@@ -31,6 +31,7 @@ CoursAvenue::Application.routes.draw do
         end
       end
       resources :sms_loggers, only: [:index, :show]
+      resources :places, only: [:index]
     end
 
     # For pros

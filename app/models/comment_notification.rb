@@ -58,6 +58,24 @@ class CommentNotification < ActiveRecord::Base
     end
   end
 
+  # Create a comment notification just from an email.
+  #
+  # @return The CommentNotification.
+  def self.create_from_email(email, structure, text)
+    return nil if (email.nil? or structure.nil? or text.nil?)
+
+    if (user = User.where(email: email).first).nil?
+      user = User.force_create(email: email)
+      user.structures << structure
+      user.subjects << structure.subjects
+      user.save(validate: false)
+    end
+    notification = user.comment_notifications.build(structure: structure, text: text)
+    notification.save
+
+    notification
+  end
+
   private
 
   def ask_for_recommandations
@@ -65,8 +83,6 @@ class CommentNotification < ActiveRecord::Base
       UserMailer.delay(queue: 'mailers').ask_for_recommandations(self)
     end
   end
-
-  private
 
   def structure_has_to_be_present
     if notification_for.nil? and structure.nil?
