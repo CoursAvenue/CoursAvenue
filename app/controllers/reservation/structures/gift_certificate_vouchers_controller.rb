@@ -1,4 +1,4 @@
-class StructureWebsite::Structures::GiftCertificateVouchersController < StructureWebsiteController
+class Reservation::Structures::GiftCertificateVouchersController < StructureWebsiteController
 
   before_filter :load_structure
 
@@ -26,10 +26,10 @@ class StructureWebsite::Structures::GiftCertificateVouchersController < Structur
 
     respond_to do |format|
       if @voucher.persisted? and @voucher.charged?
-        format.html { redirect_to structure_website_structure_gift_certificate_voucher_path(@structure, @voucher),
+        format.html { redirect_to reservation_structure_gift_certificate_voucher_path(@structure, @voucher),
                       notice: 'Votre Bon cadeau a été créé avec succés.' }
       else
-        format.html { redirect_to structure_website_structure_gift_certificate_vouchers_path(@structure),
+        format.html { redirect_to reservation_structure_gift_certificate_vouchers_path(@structure),
                       error: 'Une erreur est survenue lors de la création de votre bon cadeau, veuillez rééssayer.' }
       end
     end

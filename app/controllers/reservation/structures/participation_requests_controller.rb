@@ -1,7 +1,7 @@
-class StructureWebsite::Structures::ParticipationRequestsController < StructureWebsiteController
+class Reservation::Structures::ParticipationRequestsController < StructureWebsiteController
   include ConversationsHelper
 
-  layout 'structure_websites/empty'
+  layout 'reservations/empty'
 
   skip_before_filter :verify_authenticity_token, only: [:create]
   before_filter      :load_structure
@@ -24,11 +24,11 @@ class StructureWebsite::Structures::ParticipationRequestsController < StructureW
     respond_to do |format|
       if @participation_request.persisted?
         format.json { render json: { succes: true,
-                                     popup_to_show: render_to_string(partial: 'structure_website/structures/participation_requests/request_sent',
+                                     popup_to_show: render_to_string(partial: 'reservation/structures/participation_requests/request_sent',
                                      formats: [:html]) } }
       else
         format.json { render json: { succes: false,
-                                     popup_to_show: render_to_string(partial: 'structure_website/structures/participation_requests/request_already_sent',
+                                     popup_to_show: render_to_string(partial: 'reservation/structures/participation_requests/request_already_sent',
                                      formats: [:html]) },
                                      status: :unprocessable_entity }
       end

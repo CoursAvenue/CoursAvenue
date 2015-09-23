@@ -21,13 +21,13 @@
   Accédez à votre page d'inscription pour envoyer votre confirmation :
 
 .p.action
-  = link_to "Accepter / Proposer une autre date / Refuser", structure_website_structure_participation_request_url(@participation_request.structure, @participation_request.token, subdomain: 'www'), class: 'btn btn--green'
+  = link_to "Accepter / Proposer une autre date / Refuser", reservation_structure_participation_request_url(@participation_request.structure, @participation_request.token, subdomain: 'www'), class: 'btn btn--green'
 
 - if @message
   .soft--bottom
     = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
 
-= render partial: 'structure_website_participation_request_mailer/user_footer'
+= render partial: 'reservation_participation_request_mailer/user_footer'
 
 - content_for :under_content do
   = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: @participation_request }

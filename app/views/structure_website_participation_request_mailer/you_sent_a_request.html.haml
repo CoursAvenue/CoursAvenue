@@ -22,9 +22,9 @@
     vous ne serez débité uniquement quand votre réservation aura été confirmée.
 
 .p.action
-  = link_to "Envoyer un message / Modifier / Annuler", structure_website_structure_participation_request_url(@participation_request.structure, @participation_request.token, subdomain: 'www'), class: 'btn btn--green'
+  = link_to "Envoyer un message / Modifier / Annuler", reservation_structure_participation_request_url(@participation_request.structure, @participation_request.token, subdomain: 'www'), class: 'btn btn--green'
 
-= render partial: 'structure_website_participation_request_mailer/user_footer'
+= render partial: 'reservation_participation_request_mailer/user_footer'
 
 - content_for :under_content do
   = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: @participation_request }

@@ -26,7 +26,7 @@ class Pro::Structures::WebsitePages::ArticlesController < Pro::ProController
     @article = @website_page.articles.build(article_params)
     respond_to do |format|
       if @article.save
-        format.html { redirect_to pro_structure_website_pages_path(@structure) }
+        format.html { redirect_to pro_reservation_pages_path(@structure) }
       else
         format.html { render action: :new }
       end
@@ -37,7 +37,7 @@ class Pro::Structures::WebsitePages::ArticlesController < Pro::ProController
     @article = @website_page.articles.find(params[:id])
     respond_to do |format|
       if @article.update_attributes(article_params)
-        format.html { redirect_to pro_structure_website_pages_path(@structure) }
+        format.html { redirect_to pro_reservation_pages_path(@structure) }
       else
         format.html { render action: :edit }
       end
@@ -47,7 +47,7 @@ class Pro::Structures::WebsitePages::ArticlesController < Pro::ProController
   def destroy
     @article = @website_page.articles.find(params[:id])
     @article.destroy
-    redirect_to pro_structure_website_pages_path(@structure)
+    redirect_to pro_reservation_pages_path(@structure)
   end
 
   private

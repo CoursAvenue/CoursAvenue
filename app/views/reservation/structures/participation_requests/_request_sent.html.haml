@@ -14,4 +14,4 @@
       = @structure.name
     %hr.push--ends
     .text--center
-      = link_to "Voir ma demande d'inscription", structure_website_structure_participation_request_url(@participation_request.structure, @participation_request.token), class: 'btn btn--green', target: :_blank
+      = link_to "Voir ma demande d'inscription", reservation_structure_participation_request_url(@participation_request.structure, @participation_request.token), class: 'btn btn--green', target: :_blank

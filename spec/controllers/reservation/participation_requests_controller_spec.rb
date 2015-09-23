@@ -2,7 +2,7 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-describe StructureWebsite::Structures::ParticipationRequestsController, type: :controller, with_stripe: true do
+describe Reservation::Structures::ParticipationRequestsController, type: :controller, with_stripe: true do
   include Devise::TestHelpers
 
   before(:all) { StripeMock.start }

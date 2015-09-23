@@ -24,10 +24,10 @@
 %h2 A quoi ressemble ma page planning ?
 %p.delta.line-height-1-3.inline-block.v-middle.flush Cliquez sur ce bouton pour visualiser votre page planning :
 .text--center.push--left.inline-block.v-middle
-  = link_to structure_website_structure_url(@structure), target: :_blank, class: 'inline-block center-block' do
+  = link_to reservation_structure_url(@structure), target: :_blank, class: 'inline-block center-block' do
     = image_tag 'https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button.png', height: 65, width: 229, class: 'center-block', alt: 'Planning et inscription'
 #planning-button-wrapper.hidden
-  <a target="_blank" style='display: block; text-align: center; margin: 0 auto;' href="#{structure_website_structure_url(@structure, subdomain: 'www')}">
+  <a target="_blank" style='display: block; text-align: center; margin: 0 auto;' href="#{reservation_structure_url(@structure, subdomain: 'www')}">
   <img alt="Planning et inscription" height="65", width="229" style="height: 65px; width: 229px; margin: 0 auto; display: inline-block" src="https://dqggv9zcmarb3.cloudfront.net/external/coursavenue-planning-button.png">
   </a>
 
@@ -42,7 +42,7 @@
       %li Pour associer votre nouvelle page planning à une rubrique ou un bouton déjà existant sur votre site, associez le lien suivant :
 
     .push--bottom.soft--left
-      %input.f-weight-bold.bg-gray-light.push-half--top#link-input.text--center.one-whole.input--large{ value: structure_website_structure_url(@structure) }
+      %input.f-weight-bold.bg-gray-light.push-half--top#link-input.text--center.one-whole.input--large{ value: reservation_structure_url(@structure) }
 
     %ul.delta.line-height-1-3
       %li
@@ -110,7 +110,7 @@
   :javascript
       $(function() {
           $('#link-input').change(function() {
-              $(this).val('#{structure_website_structure_url(@structure)}')
+              $(this).val('#{reservation_structure_url(@structure)}')
           });
           var button_code = $('#planning-button-wrapper').html().trim().replace(/\n/g, '').replace(/  /g, '');
           $('#webmaster-email-content').val($('#webmaster-email-content').val().replace('__CODE__', button_code.replace(/</g, '&lt;').replace(/>/g, '&gt;')));

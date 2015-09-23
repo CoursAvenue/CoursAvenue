@@ -12,7 +12,7 @@
 .p A tout moment, suivez l'état de vos inscriptions ou modifiez-les depuis votre compte :
 
 .p.action
-  = link_to "Gérer mes inscriptions", structure_website_structure_participation_request_url(@structure, @participation_request, subdomain: 'www'), class: 'btn btn--green'
+  = link_to "Gérer mes inscriptions", reservation_structure_participation_request_url(@structure, @participation_request, subdomain: 'www'), class: 'btn btn--green'
 
 - root_subject = @participation_request.course.subjects.first.try(:root)
 - city         = (@place ? @place.city.slug : 'paris' )
