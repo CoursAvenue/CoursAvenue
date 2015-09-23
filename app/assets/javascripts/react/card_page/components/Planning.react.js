@@ -60,7 +60,7 @@ var LessonPlanning = React.createClass({
         var location_td, subscribe_button, time, href;
         if (this.props.showSubscribeButton()) {
             if (this.props.show_planning_link) {
-                href = Routes.structure_website_structure_path(this.props.course.get('structure_slug')) + '#' + this.props.planning.id
+                href = Routes.reservation_structure_path(this.props.course.get('structure_slug')) + '#' + this.props.planning.id
             }
             if (this.props.planning.info) {
                 subscribe_button = (<div>

@@ -33,7 +33,7 @@ var RequestStore = Backbone.Model.extend({
         // It means that the Request is for unregistered users, then it has to
         // go to a different path
         if (this.get('user').validate_full) {
-            return Routes.structure_website_structure_participation_requests_path({
+            return Routes.reservation_structure_participation_requests_path({
               type:         this.get('course_type'),
               structure_id: this.get('structure_id'),
             });

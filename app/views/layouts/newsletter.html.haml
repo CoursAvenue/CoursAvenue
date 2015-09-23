@@ -64,4 +64,4 @@
                   - if content_for? :footer
                     = yield :footer
                   - if @structure
-                    = link_to 'Se désinscrire', "#", 'data-mandrill-href' => "*|UNSUB:#{unsubscribe_structure_website_newsletters_url(subdomain: @structure.subdomain_slug)}|*"
+                    = link_to 'Se désinscrire', "#", 'data-mandrill-href' => "*|UNSUB:#{unsubscribe_reservation_newsletters_url(subdomain: @structure.subdomain_slug)}|*"

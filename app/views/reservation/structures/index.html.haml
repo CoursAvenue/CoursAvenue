@@ -4,7 +4,7 @@
 = content_for :meta_description do
   = truncate @structure.description, length: 150
 
-= render partial: 'structure_website/structures/header'
+= render partial: 'reservation/structures/header'
 
 .main-container.main-container--medium.push--top
   - if @structure.medias.any?

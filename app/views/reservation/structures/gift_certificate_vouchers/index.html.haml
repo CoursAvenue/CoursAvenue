@@ -23,7 +23,7 @@
           €
         %h2{ data: { type: 'gift-name' } }
         %p{ data: { type: 'gift-description' } }
-        = simple_form_for @voucher, url: structure_website_structure_gift_certificate_vouchers_path(@structure), html: { id: 'gift_certificate_voucher_form' } do |f|
+        = simple_form_for @voucher, url: reservation_structure_gift_certificate_vouchers_path(@structure), html: { id: 'gift_certificate_voucher_form' } do |f|
           = f.input :stripe_token, as: :hidden
           = f.input :gift_certificate_id, as: :hidden
           .grid

@@ -3,7 +3,7 @@
   %head
     = yield :right_after_head
 
-    = render 'layouts/structure_websites/meta_information'
+    = render 'layouts/reservations/meta_information'
 
     - if Rails.env.production?
       - if request.subdomain == 'pro'

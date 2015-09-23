@@ -65,7 +65,7 @@ class StructuresController < ApplicationController
 
   def get_layout
     if action_name == 'reviews'
-      'structure_websites/website'
+      'reservations/website'
     elsif action_name == 'index'
       'search'
     else

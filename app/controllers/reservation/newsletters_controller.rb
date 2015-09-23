@@ -1,4 +1,4 @@
-class StructureWebsite::NewslettersController < StructureWebsiteController
+class Reservation::NewslettersController < StructureWebsiteController
 
   def unsubscribe
     if params[:md_email].present?
@@ -7,7 +7,7 @@ class StructureWebsite::NewslettersController < StructureWebsiteController
         user_profile.save
       end
     end
-    redirect_to structure_website_planning_path, notice: 'Vous êtes bien désinscrit'
+    redirect_to reservation_planning_path, notice: 'Vous êtes bien désinscrit'
   end
 
 end

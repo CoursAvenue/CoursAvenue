@@ -17,7 +17,7 @@
             .text--center
               %strong= @user.name
           .grid__item.ten-twelfths.message__body.message__appendix.soft-half.gray-box.palm-one-whole>
-            = simple_form_for [@participation_request, @participation_request.conversation], url: structure_website_structure_participation_request_conversation_path(@participation_request.structure, @participation_request, @participation_request.conversation), as: :conversation do |f|
+            = simple_form_for [@participation_request, @participation_request.conversation], url: reservation_structure_participation_request_conversation_path(@participation_request.structure, @participation_request, @participation_request.conversation), as: :conversation do |f|
               %input{ name: 'return_to', value: request.path, type: 'hidden' }
               = f.error_notification
               = f.fields_for :message, @message do |message_form|
