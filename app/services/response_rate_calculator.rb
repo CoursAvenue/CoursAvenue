@@ -15,7 +15,7 @@ class ResponseRateCalculator
   def update
     return if @admin.nil?
 
-    @structure.response_rate = response_rate.round
+    @structure.response_rate = response_rate
     @structure.response_time = response_time
     @structure.save(validate: false)
   end
@@ -27,10 +27,12 @@ class ResponseRateCalculator
     replied_conversation_count = replied_participations.count + replied_conversations.count
 
     if conversations_total_count == 0
-      response_rate = nil
+      rate = nil
     else
-      response_rate = (replied_conversation_count.to_f / conversations_total_count.to_f) * 100
+      rate = ((replied_conversation_count.to_f / conversations_total_count.to_f) * 100).round
     end
+
+    rate
   end
 
   def response_time
@@ -49,6 +51,24 @@ class ResponseRateCalculator
       end
       delta_hours << delta
     end
+
+
+    replied_participations.each do |pr|
+      if pr.treated_at.present?
+        delta = ((pr.treated_at - pr.created_at).abs.round / 60) / 60
+      else
+        delta = ((pr.updated_at - pr.created_at).abs.round / 60) / 60
+      end
+      delta_hours << delta
+    end
+
+    if delta_hours.empty?
+      avg_duration = nil
+    else
+      avg_duration = (delta_hours.reduce(&:+).to_f / (delta_hours.length.to_f)).round
+    end
+
+    avg_duration
   end
 
   def participation_requests
