@@ -2,13 +2,25 @@ class ResponseRateCalculator
   LIMIT = 6.months
 
   def self.update_for(structure)
-    self.new(structure).update
+    if structure.admin.present?
+      self.new(structure).update
+    end
   end
 
   def initialize(structure)
     @structure = structure
     @admin = structure.admin
   end
+
+  def update
+    return if @admin.nil?
+
+    @structure.response_rate = response_rate.round
+    @structure.response_time = response_time
+    @structure.save(validate: false)
+  end
+
+  private
 
   def response_rate
     conversations_total_count = participation_requests.count + conversations.count
@@ -23,14 +35,6 @@ class ResponseRateCalculator
 
   def response_time
   end
-
-  def update
-    @structure.response_rate = response_rate
-    @structure.response_time = response_time
-    @structure.save(validate: false)
-  end
-
-  private
 
   def participation_requests
     @participation_requests ||= @structure.participation_requests.where(created_at: period)
