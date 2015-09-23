@@ -34,6 +34,21 @@ class ResponseRateCalculator
   end
 
   def response_time
+    delta_hours = []
+    replied_conversations.each do |conversation|
+      if conversation.read_attribute(:treated_by_phone)
+        first_message = conversation.messages.minimum(:created_at)
+        delta = ( (conversation.read_attribute(:treated_at) - first_message).abs.round / 60 ) / 60
+      else
+        admin_message = conversation.messages.where(sender_type: 'Admin').minimum(:created_at)
+        user_message = conversation.messages.where(sender_type: 'User').minimum(:created_at)
+
+        next if (admin_message.nil? or user_message.nil?)
+
+        delta = ((admin_message - user_message).abs.round / 60) / 60
+      end
+      delta_hours << delta
+    end
   end
 
   def participation_requests
@@ -45,16 +60,17 @@ class ResponseRateCalculator
   end
 
   def conversations
-    @conversations ||= @admin.mailbox.conversations.includes(:messages).where(mailboxer_label_id: [
-      Mailboxer::Label::INFORMATION.id, Mailboxer::Label::PUBLIC_QUESTION.id
+    @conversations ||= @admin.mailbox.conversations.includes(messages: :sender).where(
+      mailboxer_label_id: [
+        Mailboxer::Label::INFORMATION.id, Mailboxer::Label::PUBLIC_QUESTION.id
     ], created_at: period)
   end
 
   def replied_conversations
     conversations.select do |conversation|
-      # We consider a conversation replied when the recipients include the admin (actual reply) or
+      # We consider a conversation replied when the repliers include the admin (actual reply) or
       # when the admin treated the conversation by phone (implicit reply).
-      conversation.recipients.include?(@admin) or conversation.read_attribute(:treated_by_phone)
+      conversation.read_attribute(:treated_by_phone) or conversation.messages.map(&:sender).include?(@admin)
     end
   end
 
