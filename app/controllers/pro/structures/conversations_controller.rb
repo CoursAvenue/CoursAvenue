@@ -16,7 +16,6 @@ class Pro::Structures::ConversationsController < ApplicationController
     @conversation.update_column :treated_by_phone, true
     @conversation.update_column :treated_at, Time.now
     @conversation.update_column :updated_at, Time.now
-    @structure.delay.compute_response_time
     @structure.delay.compute_response_rate
     respond_to do |format|
       format.html { redirect_to pro_structure_conversations_path(@structure), notice: "La demande est considérée comme traitée" }
@@ -29,7 +28,6 @@ class Pro::Structures::ConversationsController < ApplicationController
     @conversation.update_column :flagged, params[:flag]
     @conversation.update_column :flagged_at, Time.now
     @conversation.update_column :mailboxer_label_id, Mailboxer::Label::CONVERSATION
-    @structure.delay.compute_response_time
     @structure.delay.compute_response_rate
     respond_to do |format|
       format.html { redirect_to pro_structure_conversations_path(@structure), notice: "Le message a été signalé" }

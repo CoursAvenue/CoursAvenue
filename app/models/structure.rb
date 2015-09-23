@@ -436,65 +436,7 @@ class Structure < ActiveRecord::Base
   # @return Integer [0-100] that is the percentage. Ex: 67
   def compute_response_rate
     return if admin.nil?
-    conversations = admin.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
-    number_of_conversations = conversations.length
-    if number_of_conversations == 0
-      self.response_rate = nil
-      save(validate: false)
-      return nil
-    else
-      # Select conversations that have :
-      # More than 1 message and the number of sender is more than 1. It will mean that there has been a response.
-      number_of_conversations_with_answers = 0
-      conversations.select do |conversation|
-        # A conversation will be considered as treated if there is an answer OR
-        # if there is the flag treated_by_phone
-        if conversation.messages.map(&:sender).uniq.length > 1 or
-          conversation.read_attribute(:treated_by_phone) == true
-          number_of_conversations_with_answers += 1
-        end
-      end
-      self.response_rate = ((number_of_conversations_with_answers.to_f / number_of_conversations.to_f) * 100).round
-      save(validate: false)
-      return response_rate
-    end
-  end
-
-  # Compute the time between each response in hours
-  #
-  # @return Integer that is the average number of hours between each responses. Ex: 14
-  def compute_response_time
-    return if admin.nil?
-    conversations      = admin.mailbox.conversations.where(subject: I18n.t(Mailboxer::Label::INFORMATION.name))
-    if conversations.length == 0
-      self.response_time = nil
-      save(validate: false)
-      return nil
-    else
-      # Select conversations that have :
-      # More than 1 message and the number of sender is more than 1. It will mean that there has been a response.
-      delta_hours = []
-      conversations.select do |conversation|
-        # We consider treated_by_phone status to be faster because user can set this flag
-        # only if the message haven't been answered
-        if conversation.read_attribute(:treated_by_phone) == true
-          first_message_created_at = conversation.messages.order('created_at ASC').first.created_at
-          delta = ( (conversation.read_attribute(:treated_at) - first_message_created_at).abs.round / 60 ) / 60
-        elsif conversation.messages.count > 1
-          first_message_of_admin = conversation.messages.order('created_at ASC').detect{|m| m.sender.is_a? Admin }
-          first_message_of_user  = conversation.messages.order('created_at ASC').detect{|m| m.sender.is_a? User }
-          next if first_message_of_admin.nil? or first_message_of_user.nil?
-          creation_dates = [first_message_of_admin.created_at, first_message_of_user.created_at]
-          # (Time 1 - Time 2) => number of seconds between the two times
-          # / 60 => To minutes | / 60 to hours
-          delta = ((creation_dates[1] - creation_dates[0]).abs.round / 60) / 60
-        end
-        delta_hours << delta if delta
-      end
-      self.response_time = (delta_hours.reduce(&:+).to_f / (delta_hours.length.to_f)).round if delta_hours.any?
-      save(validate: false)
-      return response_time
-    end
+    Structure::ResponseRateCalculator.new(self).update
   end
 
   #
