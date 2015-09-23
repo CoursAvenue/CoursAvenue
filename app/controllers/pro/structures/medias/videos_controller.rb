@@ -11,8 +11,9 @@ class Pro::Structures::Medias::VideosController < Pro::ProController
   end
 
   def create
-    @structure      = Structure.friendly.find params[:structure_id]
-    @video          = Media::Video.new params[:media_video]
+    @structure = Structure.friendly.find(params[:structure_id])
+    @video     = Media::Video.new(params[:media_video])
+
     @video.mediable = @structure
     respond_to do |format|
       if @video.save

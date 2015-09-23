@@ -15,6 +15,7 @@ fr:
       errors:
         messages:
           invalid: n'est pas valide
+          not_found: n'existe pas
       wizard:
         infos: >
           <p><strong>Les photos et vidéos attirent plus d'élèves</strong></p>
