@@ -1,11 +1,5 @@
-class ResponseRateCalculator
+class Structure::ResponseRateCalculator
   LIMIT = 6.months
-
-  def self.update_for(structure)
-    if structure.admin.present?
-      self.new(structure).update
-    end
-  end
 
   def initialize(structure)
     @structure = structure
