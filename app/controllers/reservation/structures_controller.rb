@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Reservation::StructuresController < StructureWebsiteController
+class Reservation::StructuresController < ReservationController
 
   def show
     @structure           = Structure.friendly.find(params[:id])

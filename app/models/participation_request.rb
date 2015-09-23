@@ -531,7 +531,7 @@ class ParticipationRequest < ActiveRecord::Base
 
   def mailer
     if from_personal_website?
-      StructureWebsiteParticipationRequestMailer
+      ReservationParticipationRequestMailer
     else
       ParticipationRequestMailer
     end

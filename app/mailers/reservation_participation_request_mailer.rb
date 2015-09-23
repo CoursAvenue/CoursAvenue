@@ -1,5 +1,5 @@
 # encoding: utf-8
-class StructureWebsiteParticipationRequestMailer < ActionMailer::Base
+class ReservationParticipationRequestMailer < ActionMailer::Base
   include ::ActionMailerWithTextPart
   include Roadie::Rails::Automatic
 

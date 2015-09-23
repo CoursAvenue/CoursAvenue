@@ -1,4 +1,4 @@
-class StructureWebsiteController < ApplicationController
+class ReservationController < ApplicationController
 
   layout 'reservations/website'
 
