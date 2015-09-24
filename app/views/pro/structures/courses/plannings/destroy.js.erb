@@ -2,7 +2,7 @@
     $("#course-<%= @course.id %>").replaceWith('<%= escape_javascript(render partial: "pro/structures/courses/live_form", locals: { course: @course, structure: @structure }) %>')
     $('#course-<%= @course.id %>').yellowFade();
 <% else %>
-    $('#planning-<%= @planning.id %>').remove();
+    $('#planning-<%= params[:id] %>').remove();
     COURSAVENUE.helperMethods.flash("Créneau supprimé", 'success');
 <% end %>
 
