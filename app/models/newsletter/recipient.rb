@@ -1,8 +1,5 @@
 class Newsletter::Recipient < ActiveRecord::Base
   belongs_to :user_profile
-  def user_profile
-    UserProfile.unscope{ super }
-  end
 
   belongs_to :newsletter
 
