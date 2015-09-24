@@ -1,6 +1,7 @@
 # encoding: utf-8
 class UserProfile < ActiveRecord::Base
   acts_as_taggable_on :tags
+  acts_as_paranoid
 
   PER_PAGE_CRM = 20
   DEFAULT_TAGS = {
