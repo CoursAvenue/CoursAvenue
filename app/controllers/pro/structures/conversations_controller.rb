@@ -35,7 +35,16 @@ class Pro::Structures::ConversationsController < ApplicationController
   end
 
   def show
-    @conversation = @admin.mailbox.conversations.find(params[:id])
+    @conversation = @admin.mailbox.conversations.includes(:messages).find(params[:id])
+    user_message = @conversation.messages.detect { |m| m.sender_type == 'User' }
+
+    if user_message.present? and (user = User.only_deleted.where(id: user_message.sender_id).first)
+      redirect_to pro_structure_conversations_path(@structure),
+        notice: 'Cet utilisateur à supprimer son compte CoursAvenue',
+        status: 301
+      return
+    end
+
     @conversation.mark_as_read(@admin)
     @participation_request = conversation_participation_request(@conversation)
     @is_xhr = request.xhr?
