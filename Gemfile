@@ -137,8 +137,8 @@ gem 'sitemap_generator'         , '~> 5.0.5'
 gem 'gibbon'                    , '~> 1.1.5'
 
 # Transform external CSS stylesheets into inline CSS for emails
-gem 'roadie'                    , '~> 3.0.4'
-gem 'roadie-rails'              , '~> 1.0.5'
+gem 'roadie'                    , '~> 3.0.5'
+gem 'roadie-rails'              , '~> 1.0.6'
 
 gem 'browserify-rails'          , '~> 1.0.1'
 gem 'react-rails'               , '~> 1.0.0'
