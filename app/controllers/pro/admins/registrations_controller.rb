@@ -20,16 +20,17 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-    @structure = Structure.friendly.find params[:admin][:structure_id]
+    @structure = Structure.friendly.find params[:admin].delete(:structure_id)
 
     if !@structure.admin
       @admin = Admin.new params[:admin]
+      @admin.structure = @structure
     end
     respond_to do |format|
-      if @structure.admin
+      if @structure.admin.persisted?
         SuperAdminMailer.delay(queue: 'mailers').someone_tried_to_take_control_of_existing_structure(@structure, params[:admin][:email])
         format.html { redirect_to someone_already_took_control_pro_structure_path(@structure) }
-      elsif @admin.save
+      elsif (@admin and @admin.save)
         sign_in @admin
         SuperAdminMailer.delay(queue: 'mailers').new_admin_has_signed_up(@admin)
         format.html { redirect_to edit_pro_structure_path(@structure), notice: 'Bienvenue !' }
