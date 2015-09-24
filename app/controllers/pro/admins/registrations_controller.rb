@@ -22,7 +22,7 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
   def create
     @structure = Structure.friendly.find params[:admin][:structure_id]
 
-    if @structure.admin
+    if !@structure.admin
       @admin = Admin.new params[:admin]
     end
     respond_to do |format|
