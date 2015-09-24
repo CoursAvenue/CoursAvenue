@@ -18,6 +18,11 @@ var BookPopup = React.createClass({
     componentDidMount: function componentDidMount () {
         var $datepicker_input = $(this.getDOMNode()).find('[data-behavior=datepicker]');
         this.initializeDatepicker($datepicker_input);
+        var $phonenumber_input = $(this.getDOMNode()).find('[data-behavior=phone-format]');
+        $phonenumber_input.formatter({
+            'pattern': '{{99}} {{99}} {{99}} {{99}} {{99}}',
+            'persistent': true
+        });
         this.state.request_store.unset('errors');
     },
 
@@ -216,6 +221,7 @@ var BookPopup = React.createClass({
                                   </div>
                                   <input type="text" className="one-whole hard--right"
                                          name="user[phone_number]"
+                                         data-behavior='phone-format'
                                          placeholder="Votre téléphone (confidentiel)" />
                               </div>
                               <div className="red f-weight-bold">
@@ -241,6 +247,7 @@ var BookPopup = React.createClass({
                                        data-content="Nous vous recommandons de laisser votre numéro de portable : si la séance est annulée ou modifiée, un SMS pourra vous être envoyé."
                                        data-trigger="hover"
                                        data-placement="left"
+                                       data-behavior='phone-format'
                                        data-original-title=""
                                        title=""
                                        defaultValue={(CoursAvenue.currentUser() ? CoursAvenue.currentUser().get('phone_number') : '')}/>

@@ -1,6 +1,7 @@
 # encoding: utf-8
 class UserProfile < ActiveRecord::Base
   acts_as_taggable_on :tags
+  acts_as_paranoid
 
   PER_PAGE_CRM = 20
   DEFAULT_TAGS = {
@@ -11,7 +12,11 @@ class UserProfile < ActiveRecord::Base
   }
 
   belongs_to :structure
+  # Allows us to use the user even if deleted.
   belongs_to :user
+  def user
+    User.unscoped{ super }
+  end
   has_many :newsletter_recipients, class_name: 'Newsletter::Recipient'
 
   attr_accessible :email, :first_name, :last_name, :birthdate, :notes, :phone, :mobile_phone,

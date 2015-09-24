@@ -1,4 +1,5 @@
 class Mailboxer::ConversationQuery
+
   def self.build(relation, structure, params = {})
     query = new(relation)
 
@@ -12,11 +13,16 @@ class Mailboxer::ConversationQuery
       end
     end
 
-    # Finally, depending on the read param, we filter by their read status.
+    # Then, depending on the read param, we filter by their read status.
     if params[:read].present?
       query = query.read_for(structure.admin)
     else
       query = query.unread_for(structure.admin)
+    end
+
+    # Finaly we filter out the conversation where the user has deleted its account.
+    query.reject! do |cv|
+      ApplicationController.helpers.conversation_has_deleted_user?(cv)
     end
 
     query

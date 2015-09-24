@@ -142,6 +142,7 @@ class ParticipationRequest < ActiveRecord::Base
     self.state               = 'accepted'
     message                  = reply_to_conversation(message_body, last_modified_by)
     self.structure_responded = true if last_modified_by == 'Structure'
+    self.treated_at          = Time.now if self.treated_at.nil?
     save
 
     if chargeable?
@@ -161,8 +162,9 @@ class ParticipationRequest < ActiveRecord::Base
   #
   # @return Boolean
   def treat!(method = 'infos')
-    self.state = 'treated'
+    self.state        = 'treated'
     self.treat_method = method
+    self.treated_at   = Time.now if self.treated_at.nil?
     save
   end
 
@@ -199,6 +201,7 @@ class ParticipationRequest < ActiveRecord::Base
       message = reply_to_conversation(message_body, last_modified_by) if message_body.present?
     end
     self.structure_responded = true if last_modified_by == 'Structure'
+    self.treated_at          = Time.now if self.treated_at.nil?
 
     # If we change the course type, make sure to update the date.
     if self.old_course_id.present? and new_params[:date].present?
@@ -223,6 +226,7 @@ class ParticipationRequest < ActiveRecord::Base
     message                  = reply_to_conversation(message_body, discussed_by)
     treat!('message') if pending?
     self.structure_responded = true if discussed_by == 'Structure'
+    self.treated_at          = Time.now if self.treated_at.nil?
     save
     if discussed_by == 'Structure'
       mailer.delay.request_has_been_discussed_by_teacher_to_user(self, message)
@@ -242,6 +246,7 @@ class ParticipationRequest < ActiveRecord::Base
     self.state                 = 'canceled'
     message                    = reply_to_conversation(message_body, last_modified_by)
     self.structure_responded   = true if last_modified_by == 'Structure'
+    self.treated_at            = Time.now if self.treated_at.nil?
     save
 
     if self.invoice.present?
@@ -526,7 +531,7 @@ class ParticipationRequest < ActiveRecord::Base
 
   def mailer
     if from_personal_website?
-      StructureWebsiteParticipationRequestMailer
+      ReservationParticipationRequestMailer
     else
       ParticipationRequestMailer
     end

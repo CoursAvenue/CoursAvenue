@@ -1,12 +1,12 @@
 = content_for :top_menu do
   %ul.nav.flush
     %li{ class: current == 'website' ? 'active' : '' }
-      = link_to pro_structure_website_parameters_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
+      = link_to pro_reservation_parameters_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
         Site Internet
     - if @structure.premium? and @structure.subscription.plan.website_plan?
       %li{ class: current == 'parameters' ? 'active' : '' }
-        = link_to edit_pro_structure_website_parameter_path(@structure, @structure.website_parameter), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
+        = link_to edit_pro_reservation_parameter_path(@structure, @structure.website_parameter), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
           Paramètres
       %li{ class: current == 'pages' ? 'active' : '' }
-        = link_to pro_structure_website_pages_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
+        = link_to pro_reservation_pages_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends' do
           Pages personnalisées

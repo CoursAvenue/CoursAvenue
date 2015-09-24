@@ -1,7 +1,7 @@
 - if @article.new_record?
-  - url = pro_structure_website_page_articles_path(@structure, @website_page)
+  - url = pro_reservation_page_articles_path(@structure, @website_page)
 - else
-  - url = pro_structure_website_page_article_path(@structure, @website_page, @article)
+  - url = pro_reservation_page_article_path(@structure, @website_page, @article)
 = simple_form_for [:pro, @structure, @website_page, @article], url: url do |f|
   %p.flush
     %strong.label--large Titre de l'article

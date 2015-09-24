@@ -1,0 +1,9 @@
+= content_for :right_after_head do
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
+
+= content_for :content do
+  = yield
+
+= render :template => 'layouts/reservations/application'
+
+#coursavenue-footer

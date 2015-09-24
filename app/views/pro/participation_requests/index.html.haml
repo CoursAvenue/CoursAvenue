@@ -12,6 +12,9 @@
 
 %h1 Inscriptions
 
+.text--center
+  %h3 Il y a eu #{ pluralize(@previous_day_count, 'demande') } d'inscription hier.
+
 %table.table--striped.table--data.table-responsive
   %thead
     %tr

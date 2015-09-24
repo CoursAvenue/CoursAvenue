@@ -1,0 +1,33 @@
+- content_for :email_title do
+  REPONDEZ AU DESSUS DE CETTE LIGNE
+  %br
+  Acceptez la nouvelle proposition de #{@structure.name} en répondant directement à cet e-mail
+  %hr
+
+.p
+  Bonjour #{@user.first_name},
+
+.p
+  - if @participation_request.old_course_id.present?
+    Nous souhaitons vous proposer un autre cours et vous invitons à assister à une séance de
+    %strong "#{@course.name}"
+    le
+  - else
+    Il n'y a pas de place disponible au cours "#{@course.name}" au créneau que vous avez demandé, mais nous vous proposons de venir le
+
+  %strong= "#{@participation_request_decorator.day_and_hour}"
+  - if @place
+    au #{@place.address} (#{@place.name}).
+  Accédez à votre page d'inscription pour envoyer votre confirmation :
+
+.p.action
+  = link_to "Accepter / Proposer une autre date / Refuser", reservation_structure_participation_request_url(@participation_request.structure, @participation_request.token, subdomain: 'www'), class: 'btn btn--green'
+
+- if @message
+  .soft--bottom
+    = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
+
+= render partial: 'reservation_participation_request_mailer/user_footer'
+
+- content_for :under_content do
+  = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: @participation_request }

@@ -16,7 +16,7 @@ class Pro::Structures::WebsiteParametersController < Pro::ProController
 
   def update
     @website_parameter.update_attributes website_parameter_params
-    redirect_to edit_pro_structure_website_parameter_path(@structure, @website_parameter),
+    redirect_to edit_pro_reservation_parameter_path(@structure, @website_parameter),
                 notice: 'Vos paramètres ont bien été pris en compte'
   end
 

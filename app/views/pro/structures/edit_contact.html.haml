@@ -21,7 +21,9 @@
               %label.control-label.label--large{ for: "phone_number_number_#{i}" }> Téléphone
               .input-container>
                 .input-with-icon.inline-block
-                  = phone_number_form.input :number, label: false, input_html: { class: 'input--large one-whole', style: 'width: 11em;', id: "phone_number_number_#{i}" }, wrapper_html: { class: 'inline-block v-middle flush' }
+                  = phone_number_form.input :number, label: false,
+                    input_html: { class: 'input--large one-whole', style: 'width: 11em;', id: "phone_number_number_#{i}", data: { behavior: 'phone-format' }  },
+                    wrapper_html: { class: 'inline-block v-middle flush' }
                   %i.fa.fa-phone-o.delta
                 .input-with-icon.inline-block
                   = phone_number_form.input :info, label: false, input_html: { placeholder: 'Ajoutez toute info utile', class: 'input--large one-whole', style: 'width: 15em;' }, wrapper_html: { class: 'inline-block v-middle flush' }

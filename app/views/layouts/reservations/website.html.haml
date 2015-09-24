@@ -1,0 +1,14 @@
+= content_for :right_after_head do
+  %meta{ name: 'robots', content: 'noindex, nofollow' }
+
+= content_for :content do
+  = yield
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          $(document.body).on('coursavenue:started', function() {
+              CoursAvenue.statistic.logView(#{@structure.id}, 'website');
+          });
+      });
+= render template: '/layouts/reservations/application'

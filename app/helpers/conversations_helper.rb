@@ -86,4 +86,10 @@ module ConversationsHelper
     return duplicate.present?
   end
 
+  def conversation_has_deleted_user?(conversation)
+    user_message = conversation.messages.detect { |message| message.sender_type == 'User' }
+    user = User.only_deleted.where(id: user_message.sender_id).first
+
+    (user.present? and user.deleted?)
+  end
 end

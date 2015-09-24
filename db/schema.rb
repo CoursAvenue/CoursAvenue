@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150923085208) do
+ActiveRecord::Schema.define(version: 20150924133035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -800,6 +800,7 @@ ActiveRecord::Schema.define(version: 20150923085208) do
     t.float    "stripe_fee"
     t.boolean  "at_student_home",           default: false
     t.string   "treat_method"
+    t.datetime "treated_at"
   end
 
   add_index "participation_requests", ["stripe_charge_id"], name: "index_participation_requests_on_stripe_charge_id", unique: true, using: :btree
@@ -1332,18 +1333,19 @@ ActiveRecord::Schema.define(version: 20150923085208) do
   add_index "user_profile_imports", ["newsletter_mailing_list_id"], name: "index_user_profile_imports_on_newsletter_mailing_list_id", using: :btree
 
   create_table "user_profiles", force: true do |t|
-    t.integer "structure_id"
-    t.integer "user_id"
-    t.string  "email"
-    t.string  "first_name"
-    t.string  "last_name"
-    t.date    "birthdate"
-    t.text    "notes"
-    t.string  "phone"
-    t.string  "mobile_phone"
-    t.text    "address"
-    t.boolean "subscribed",                 default: true
-    t.integer "newsletter_mailing_list_id"
+    t.integer  "structure_id"
+    t.integer  "user_id"
+    t.string   "email"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.date     "birthdate"
+    t.text     "notes"
+    t.string   "phone"
+    t.string   "mobile_phone"
+    t.text     "address"
+    t.boolean  "subscribed",                 default: true
+    t.integer  "newsletter_mailing_list_id"
+    t.datetime "deleted_at"
   end
 
   add_index "user_profiles", ["newsletter_mailing_list_id"], name: "index_user_profiles_on_newsletter_mailing_list_id", using: :btree

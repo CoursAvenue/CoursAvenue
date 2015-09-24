@@ -85,7 +85,7 @@ class Structures::ParticipationRequestsController < ApplicationController
     if current_user
       @participation_request_url = user_participation_requests_path(@user)
     else
-      @participation_request_url = structure_website_structure_participation_request_path(@participation_request.structure, @participation_request)
+      @participation_request_url = reservation_structure_participation_request_path(@participation_request.structure, @participation_request)
     end
   end
 

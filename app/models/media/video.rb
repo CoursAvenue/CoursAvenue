@@ -1,7 +1,9 @@
 class Media::Video < Media
   require 'net/http'
+  require 'oembed'
 
   mount_uploader :image, MediaUploader
+  ACCEPTED_PROVIDERS = ['youtube', 'dailymotion', 'vimeo']
 
   # pattern is the regex to match the url
   # key is the regex match key to get the id
@@ -30,6 +32,7 @@ class Media::Video < Media
   validates :url, presence: true
   validates :url, uniqueness: { scope: :mediable_id }
   validate :authorized_url
+  validate :existing_video
 
   ######################################################################
   # Callbacks                                                          #
@@ -55,31 +58,19 @@ class Media::Video < Media
   private
 
   def update_thumbnail
-    if self.provider_name
-      if self.provider_name == 'vimeo'
-        url = URI.parse(FILTER_REGEX[self.provider_name][:video_thumbnail].gsub('__ID__', self.provider_id))
-        req = Net::HTTP::Get.new(url.path)
-        res = Net::HTTP.start(url.host, url.port) do |http|
-          http.request(req)
-        end
-        thumbnail_url = JSON.parse(res.body).first['thumbnail_large']
-      else
-        thumbnail_url = FILTER_REGEX[self.provider_name][:video_thumbnail].gsub('__ID__', self.provider_id)
-      end
-      self.remote_image_url = thumbnail_url.gsub(/^http:/, 'https:')
-      self.save
-      self.update_column(:thumbnail_url, thumbnail_url)
-    end
+    thumbnail_url = oembed.thumbnail_url
+
+    self.remote_image_url = thumbnail_url.gsub(/^http:/, 'https:')
+    self.save
+    self.update_column(:thumbnail_url, thumbnail_url)
   end
 
   def update_provider
-    FILTER_REGEX.each do |provider_name, filter_regex|
-      match = self.url.match(filter_regex[:pattern])
-      if match
-        self.update_column :provider_id, match[filter_regex[:key]]
-        self.update_column :provider_name, provider_name
-      end
-    end
+    filter = FILTER_REGEX[oembed.provider_name.downcase]
+    match  = self.url.match(filter[:pattern])
+
+    self.update_column(:provider_id, match[filter[:key]])
+    self.update_column(:provider_name, oembed.provider_name.downcase)
   end
 
   def fix_url
@@ -96,5 +87,25 @@ class Media::Video < Media
     matches = FILTER_REGEX.map { |_, v| url.match(v[:pattern]) }.any?
 
     errors.add(:url, I18n.t('pro.medias.errors.messages.invalid')) unless matches
+  end
+
+  def existing_video
+    errors.add(:url, I18n.t('pro.medias.errors.messages.not_found')) if oembed.nil?
+  end
+
+  def oembed
+    dm_provider = OEmbed::Provider.new("http://www.dailymotion.com/services/oembed")
+    dm_provider << "http://*.dailymotion.com/*"
+    dm_provider << "https://*.dailymotion.com/*"
+
+    OEmbed::Providers.register(OEmbed::Providers::Youtube, OEmbed::Providers::Vimeo, dm_provider)
+
+    begin
+      response = OEmbed::Providers.get(self.url)
+    rescue OEmbed::NotFound => exception
+      response = nil
+    end
+
+    response
   end
 end

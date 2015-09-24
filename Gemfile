@@ -300,3 +300,6 @@ gem 'virtus', '~> 1.0.5'
 
 # Full text search.
 gem 'textacular', '~> 3.0'
+
+# Validation of YouTube videos.
+gem 'ruby-oembed', '~> 0.8.14', require: false

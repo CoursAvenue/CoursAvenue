@@ -1,6 +1,6 @@
 - if @current_tab[:id] != 'unread_public_questions'
   - selection_method = (params[:read].present? ? :reject : :select)
-  - selection_block  = Proc.new { |c| c.is_unread?(@structure.admin) }
+  - selection_block  = Proc.new { |c| c.is_unread?(@structure.admin) and !conversation_has_deleted_user?(c) }
 
   - conversation_information_count  = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::INFORMATION.id).send(selection_method, &selection_block).count
   - conversation_comment_count      = @admin.mailbox.conversations.where(mailboxer_label_id: Mailboxer::Label::COMMENT.id).send(selection_method, &selection_block).count

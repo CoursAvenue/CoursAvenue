@@ -16,7 +16,6 @@ class Pro::Structures::ConversationsController < ApplicationController
     @conversation.update_column :treated_by_phone, true
     @conversation.update_column :treated_at, Time.now
     @conversation.update_column :updated_at, Time.now
-    @structure.delay.compute_response_time
     @structure.delay.compute_response_rate
     respond_to do |format|
       format.html { redirect_to pro_structure_conversations_path(@structure), notice: "La demande est considérée comme traitée" }
@@ -29,7 +28,6 @@ class Pro::Structures::ConversationsController < ApplicationController
     @conversation.update_column :flagged, params[:flag]
     @conversation.update_column :flagged_at, Time.now
     @conversation.update_column :mailboxer_label_id, Mailboxer::Label::CONVERSATION
-    @structure.delay.compute_response_time
     @structure.delay.compute_response_rate
     respond_to do |format|
       format.html { redirect_to pro_structure_conversations_path(@structure), notice: "Le message a été signalé" }
@@ -37,7 +35,16 @@ class Pro::Structures::ConversationsController < ApplicationController
   end
 
   def show
-    @conversation = @admin.mailbox.conversations.find(params[:id])
+    @conversation = @admin.mailbox.conversations.includes(:messages).find(params[:id])
+    user_message = @conversation.messages.detect { |m| m.sender_type == 'User' }
+
+    if user_message.present? and (user = User.only_deleted.where(id: user_message.sender_id).first)
+      redirect_to pro_structure_conversations_path(@structure),
+        notice: 'Cet utilisateur à supprimer son compte CoursAvenue',
+        status: 301
+      return
+    end
+
     @conversation.mark_as_read(@admin)
     @participation_request = conversation_participation_request(@conversation)
     @is_xhr = request.xhr?

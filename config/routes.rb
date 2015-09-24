@@ -643,7 +643,7 @@ CoursAvenue::Application.routes.draw do
     root :to => 'home#index'
 
 
-    namespace :structure_website, path: '' do
+    namespace :reservation, path: '' do
       resources :structures, path: 'reservation', only: [:show] do
         resources :participation_requests, only: [:create, :update, :show], path: 'inscriptions', controller: 'structures/participation_requests' do
           resources :conversations, controller: 'structures/participation_requests/conversations'
@@ -675,10 +675,10 @@ CoursAvenue::Application.routes.draw do
 
 
   # ---------------------------------------------
-  # -------------------------- STRUCTURE WEBSITES
+  # ---------------------------------- RESERVATION
   # ---------------------------------------------
   constraints DomainConstraint.new do
-    namespace :structure_website, path: '' do
+    namespace :reservation, path: '' do
       get '/'       , to: 'structures#show'
       get 'planning' => redirect('/')
       get 'reviews' , to: 'structures#reviews' , as: :reviews, path: 'livre-d-or'
