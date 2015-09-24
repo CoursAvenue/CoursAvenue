@@ -156,7 +156,7 @@ GEM
     byebug (4.0.5)
       columnize (= 0.9.0)
     callsite (0.0.11)
-    cancancan (1.10.1)
+    cancancan (1.12.0)
     capybara (2.2.1)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -850,7 +850,7 @@ DEPENDENCIES
   bullet (~> 4.14.0)
   bust_rails_etags (~> 0.0.5)
   byebug
-  cancancan (~> 1.10.1)
+  cancancan (~> 1.12.0)
   capybara (~> 2.2.1)
   carrierwave (~> 0.10.0)
   certified (~> 1.0.0)

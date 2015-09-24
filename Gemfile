@@ -106,7 +106,7 @@ gem 'inherited_resources'       , '~> 1.6.0'
 gem 'mailboxer'                 , '~> 0.12.5'
 
 # For authorizations
-gem 'cancancan'                 , '~> 1.10.1'
+gem 'cancancan'                 , '~> 1.12.0'
 # gem 'cancan'                    , '~> 1.6.10'
 # For authentication
 gem 'devise'                    , '~> 3.5.1'
