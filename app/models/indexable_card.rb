@@ -309,12 +309,12 @@ class IndexableCard < ActiveRecord::Base
         place:     place,
       }
       card = existing_cards.detect{ |c| c.place == place } || new(attributes)
-
       card.plannings = plannings
 
       card.subjects = course_subjects.uniq.compact
       card.save
 
+      existing_cards -= [card]
       card
     end
 
