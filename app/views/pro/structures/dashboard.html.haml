@@ -18,7 +18,7 @@
 %h1 Tableau de bord
 .grid
   .grid__item.palm-one-whole.one-half.bordered--right{ data: { behavior: 'wizard-helper', content: t('pro.structures.wizard_helper.dashboard.profile_completion')} }>
-    - cache "pro/structures/dashboard/completion/#{@profile_percentage}/v2" do
+    - cache ["pro/structures/dashboard/completion/#{@profile_percentage}/v2", @structure] do
       %h4.push-half--bottom Votre profil est complété à #{@profile_percentage}%
       .text--center.progress.push-half--bottom{style: "width: 280px;"}
         - if @profile_percentage == 0
