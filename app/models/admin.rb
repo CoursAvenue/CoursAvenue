@@ -56,6 +56,7 @@ class ::Admin < ActiveRecord::Base
 
   before_save    :downcase_email
   before_destroy :delete_from_intercom
+  before_destroy :decay_email
 
   ######################################################################
   # Scopes                                                             #
@@ -191,5 +192,10 @@ class ::Admin < ActiveRecord::Base
 
   def update_mailchimp_sleeping
     MailchimpUpdater.delay.update_sleeping_structures(structure)
+  end
+
+  # Suffix the admin email with old, so the email address is usable by a new admin.
+  def decay_email
+    self.update_column(:email, self.email + '_old')
   end
 end
