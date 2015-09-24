@@ -1,33 +1,49 @@
 - content_for :email_title do
-  Votre demande d'inscription au cours "#{@participation_request.course.name}" vient d'être transmise à "#{@structure.name}".
+  Demande d'inscription envoyée
 
-.p
-  Bonjour #{@user.name},
+- content_for :under_content_no_box do
+  %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+    %tr
+      %td.content-block{ colspan: '2' }
+        .soft.text--center
+          .epsilon.blue-green Demande d'inscription envoyée
+        .bg-blue-green.soft
+          .p.white
+            Bonjour #{@user.name},
+          .epsilon.line-height-1-5.white.hard--bottom.f-weight-600
+            Votre demande d'inscription au cours "#{@course.name}" vient d'être transmise à #{@structure.name}
 
-.p
-  Votre demande d'inscription au cours "#{@course.name}" vient d'être transmise à #{@structure.name} qui dispose de 48h pour l'accepter, la refuser ou vous proposer une autre séance. Mais en général, la plupart des professeurs mettent moins de temps que ça !
+    %tr
+      %td.v-middle.content-block.text--right{ width: '75' }
+        .soft-half--right
+          = image_tag "icons/clock.png", alt: 'Clock', width: "36", height: "36"
+      %td.v-middle.content-block{ width: '525' }
+        .soft--sides.soft--top
+          .p
+            %strong #{@structure.name}
+            à jusqu'au
+            %strong #{l(2.days.from_now, format: :date)}
+            pour accepter votre demande.
+    %tr
+      %td.v-middle.content-block.text--right{ width: '75' }
+        .soft-half--right
+          = image_tag "icons/sms.png", alt: 'Clock', width: "38", height: "45"
+      %td.v-middle.content-block{ width: '525' }
+        .soft--sides
+          .p.hard--bottom
+            Nous vous informerons par <strong>email</strong>
+            - if @user.phone_number.present?
+              et <strong>SMS</strong> (au #{PhoneNumberDecorator.new(PhoneNumber.new(number: @user.phone_number)).formatted_number})
+            dès que #{@structure.name} accepte votre demande.
+    %tr
+      %td.content-block{ colspan: '2' }
+        .soft-half--sides.soft--top
+          .bordered.soft-half--sides= render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: @participation_request }
 
-.p Dès que #{@structure.name} répond à votre demande, nous vous enverrons un email. Pour l'instant, il s'agit d'une inscription non confirmée.
+        .p.action.soft--sides.soft--top
+          = link_to "Voir mon inscription", structure_website_structure_participation_request_url(@structure, @participation_request, subdomain: 'www'), class: 'btn btn--green btn--full'
 
-.p A tout moment, suivez l'état de vos inscriptions ou modifiez-les depuis votre compte :
-
-.p.action
-  = link_to "Gérer mes inscriptions", reservation_structure_participation_request_url(@structure, @participation_request, subdomain: 'www'), class: 'btn btn--green'
-
-- root_subject = @participation_request.course.subjects.first.try(:root)
-- city         = (@place ? @place.city.slug : 'paris' )
-.p
-  Avez-vous pensé à vous inscrire à plus de cours ? Continuez à naviguer sur le
-  - if root_subject
-    = link_to 'moteur de recherche CoursAvenue', root_search_page_path(@participation_request.course.subjects.first.root, 'paris')
-  - else
-    = link_to 'moteur de recherche CoursAvenue', root_search_page_without_subject_path('paris')
-  et inscrivez-vous aux séances qui vous intéressent, de manière à augmenter vos chances de trouver votre cours idéal.
-
-= render 'shared/mailers/footer'
-
-- content_for :under_content do
-  = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: @participation_request }
+        .soft--sides= render 'shared/mailers/footer'
 
 - content_for :under_content_gray do
   = render 'participation_request_mailer/shared/user_faq'
