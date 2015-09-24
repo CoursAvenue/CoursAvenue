@@ -121,6 +121,17 @@ $(function() {
         $(this).find('input').prop('checked', true);
     })
 
+    COURSAVENUE.mobile_phone_number_initializer = function () {
+        $('[data-behavior=phone-format]').each(function () {
+            console.log('mobile phone ici');
+            $(this).formatter({
+                'pattern': '{{99}} {{99}} {{99}} {{99}} {{99}}',
+                'persistent': true
+            })
+        });
+    };
+    COURSAVENUE.initialize_callbacks.push(COURSAVENUE.mobile_phone_number_initializer);
+
     // Initialize all callbacks
     COURSAVENUE.reinitializePlugins = function() {
         $.each(COURSAVENUE.initialize_callbacks, function(i, func) { func(); });
