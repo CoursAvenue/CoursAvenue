@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Pro::GuidesController, user_guide: true do
+describe Admin::GuidesController, user_guide: true do
   include Devise::TestHelpers
 
   it { should use_before_action(:authenticate_pro_super_admin!) }
@@ -47,7 +47,7 @@ describe Pro::GuidesController, user_guide: true do
     context 'html format' do
       it 'redirects to the guide' do
         get :show, id: guide.slug
-        expect(response).to redirect_to(edit_pro_guide_path(guide))
+        expect(response).to redirect_to(edit_admin_guide_path(guide))
       end
     end
 
@@ -106,7 +106,7 @@ describe Pro::GuidesController, user_guide: true do
       it 'redirect to the subject edition form' do
         post :create, params
         guide = Guide.last
-        expect(response).to redirect_to(edit_subjects_pro_guide_path(guide))
+        expect(response).to redirect_to(edit_subjects_admin_guide_path(guide))
       end
     end
   end
@@ -155,7 +155,7 @@ describe Pro::GuidesController, user_guide: true do
 
       it 'redirect to the subject edition form' do
         patch :update, { id: guide.id, guide: valid_updated_guide_params(guide) }
-        expect(response).to redirect_to(edit_subjects_pro_guide_path(guide))
+        expect(response).to redirect_to(edit_subjects_admin_guide_path(guide))
       end
     end
   end
@@ -170,7 +170,7 @@ describe Pro::GuidesController, user_guide: true do
 
     it 'redirects to the guide list' do
       delete :destroy, id: guide.id
-      expect(response).to redirect_to(pro_guides_path)
+      expect(response).to redirect_to(admin_guides_path)
     end
   end
 
@@ -204,7 +204,7 @@ describe Pro::GuidesController, user_guide: true do
 
     it 'redirects to the guides index page' do
       patch :update_subjects, { id: guide.id, guide: { subjects_attributes: valid_subject_params } }
-      expect(response).to redirect_to(pro_guides_path)
+      expect(response).to redirect_to(admin_guides_path)
     end
   end
 

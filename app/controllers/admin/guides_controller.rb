@@ -1,6 +1,4 @@
-class Pro::GuidesController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
-
+class Admin::GuidesController < Admin::AdminController
   def index
     @guides = Guide.all
   end
@@ -9,7 +7,7 @@ class Pro::GuidesController < Pro::ProController
     @guide = Guide.find(params[:id])
 
     respond_to do |format|
-      format.html { redirect_to edit_pro_guide_path(@guide) }
+      format.html { redirect_to edit_admin_guide_path(@guide) }
       format.json { render json: @guide }
     end
   end
@@ -30,7 +28,7 @@ class Pro::GuidesController < Pro::ProController
     @guide = Guide.new(guide_params)
 
     if @guide.save
-      redirect_to edit_subjects_pro_guide_path(@guide)
+      redirect_to edit_subjects_admin_guide_path(@guide)
     else
       render :new
     end
@@ -49,7 +47,7 @@ class Pro::GuidesController < Pro::ProController
     @guide = Guide.find(params[:id])
 
     if @guide.update_attributes(guide_params)
-      redirect_to edit_subjects_pro_guide_path(@guide)
+      redirect_to edit_subjects_admin_guide_path(@guide)
     else
       render :edit
     end
@@ -59,9 +57,9 @@ class Pro::GuidesController < Pro::ProController
     @guide = Guide.find(params[:id])
 
     if @guide.destroy
-      redirect_to pro_guides_path, notice: 'Guide supprimé'
+      redirect_to admin_guides_path, notice: 'Guide supprimé'
     else
-      redirect_to pro_guides_path, error: 'Une erreur est survenue, veuillez rééssayer'
+      redirect_to admin_guides_path, error: 'Une erreur est survenue, veuillez rééssayer'
     end
   end
 
@@ -74,7 +72,7 @@ class Pro::GuidesController < Pro::ProController
     @guide = Guide.find(params[:id])
 
     if @guide.update_attributes(subjects_params)
-      redirect_to pro_guides_path
+      redirect_to admin_guides_path
     else
       render :edit_subjects
     end

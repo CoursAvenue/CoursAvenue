@@ -1,4 +1,4 @@
-- form_url = @guide.persisted? ? pro_guide_path(@guide) : pro_guides_path
+- form_url = @guide.persisted? ? admin_guide_path(@guide) : admin_guides_path
 - colors = ['#f0c15c', '#ec9f53', '#f6705f', '#d85f79', '#c66fa2', '#4f99d0', '#3ec5dd', '#375b76', '#d5905c']
 
 = simple_form_for @guide, url: form_url do |f|

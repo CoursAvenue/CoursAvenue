@@ -1,13 +1,13 @@
 = side_menu_currently_at 'guides'
 
-= link_to edit_pro_guide_path(@guide) do
+= link_to edit_admin_guide_path(@guide) do
   &larr; Modifier le guide
 
 %h2 #{@guide.title} : Disciplines
 
 %h4 Ajoutez une description et des informations selon l'age de l'élève.
 
-= simple_form_for @guide, url: update_subjects_pro_guide_path(@guide.slug) do |f|
+= simple_form_for @guide, url: update_subjects_admin_guide_path(@guide.slug) do |f|
   - @subjects.each_with_index do |subject, index|
     = f.simple_fields_for :subjects, subject, child_index: index do |sf|
       = sf.input :name, disabled: true, label: 'Discipline', label_html: { class: 'v-middle' }, input_html: { class: 'v-middle' }

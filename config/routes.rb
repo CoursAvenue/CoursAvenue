@@ -32,6 +32,12 @@ CoursAvenue::Application.routes.draw do
       end
       resources :sms_loggers, only: [:index, :show]
       resources :places, only: [:index]
+      resources :guides do
+        member do
+          get :edit_subjects
+          patch :update_subjects
+        end
+      end
     end
 
     # For pros
@@ -418,13 +424,6 @@ CoursAvenue::Application.routes.draw do
 
       get "/contacts/:importer/callback", to: "contacts#callback"
       get "/contacts/failure",            to: "contacts#failure"
-
-      resources :guides do
-        member do
-          get :edit_subjects
-          patch :update_subjects
-        end
-      end
 
     end
   end

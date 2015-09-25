@@ -1,6 +1,6 @@
 - @guides.each do |guide|
   .flexbox.push-half--bottom.hoverable.transition-all-300.soft
-    = link_to edit_pro_guide_path(guide), class: 'flexbox__item v-middle muted-link' do
+    = link_to edit_admin_guide_path(guide), class: 'flexbox__item v-middle muted-link' do
       %h4.push-half--bottom
         = guide.title
     .flexbox__item.v-middle.text--right
@@ -9,10 +9,10 @@
           %i.fa.fa-eye
           Voir
       = succeed ' ' do
-        = link_to edit_pro_guide_path(guide), class: 'btn' do
+        = link_to edit_admin_guide_path(guide), class: 'btn' do
           %i.fa.fa-pencil
           Modifier
       = succeed ' ' do
-        = link_to pro_guide_path(guide), class: 'btn btn--red', method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce guide' } do
+        = link_to admin_guide_path(guide), class: 'btn btn--red', method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce guide' } do
           %i.fa.fa-trash
           Supprimer
