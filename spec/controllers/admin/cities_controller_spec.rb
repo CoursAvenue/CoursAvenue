@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Pro::CitiesController do
+describe Admin::CitiesController do
   include Devise::TestHelpers
 
   context 'not connected' do
