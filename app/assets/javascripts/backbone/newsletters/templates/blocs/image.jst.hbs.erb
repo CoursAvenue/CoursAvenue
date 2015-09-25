@@ -3,7 +3,7 @@
 </div>
 
 <div class="text--center">
-  <img class='hidden bordered' data-fpimage='true' src='{{ image }}'>
+  <img style="max-width: 750px;" class='hidden bordered' data-fpimage='true' src='{{ image }}'>
 
   <div class="filepicker-wrapper {{#if image }} hidden {{/if}}">
       <input data-type='filepicker-dragdrop' id='{{ index }}_remote_image_url' data-fp-class="filepicker-dragdrop text--center" data-fp-button-class="hidden filepicker-btn" data-fp-drag-class="flush--left push-half--bottom one-whole f-weight-500 soft--ends text--center push--bottom" data-fp-drag-text="Glissez votre image ici ou cliquez pour choisir" name='remote_image_url' data-fp-apikey="<%= ENV['FILEPICKER_API_KEY'] %>" data-fp-mimetypes="image/*" data-fp-container="modal" data-fp-button-text="Choisir mon image"/>
