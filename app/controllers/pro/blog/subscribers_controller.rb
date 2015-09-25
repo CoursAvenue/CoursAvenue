@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Pro::Blog::SubscribersController < Pro::ProController
+class Pro::Blog::SubscribersController < Pro::PublicController
 
   def create
     respond_to do |format|

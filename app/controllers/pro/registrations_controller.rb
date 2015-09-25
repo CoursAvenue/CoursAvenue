@@ -1,4 +1,4 @@
-class Pro::RegistrationsController < Pro::ProController
+class Pro::RegistrationsController < Pro::PublicController
   helper StructuresHelper
   layout 'home'
 
