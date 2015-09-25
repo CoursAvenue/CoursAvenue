@@ -49,6 +49,12 @@ CoursAvenue::Application.routes.draw do
           get :send_preview, path: 'send'
         end
       end
+
+      resources :cities, only: [:index, :edit, :update], path: 'villes' do
+        collection do
+          get :zip_code_search
+        end
+      end
     end
 
     # For pros
@@ -127,11 +133,6 @@ CoursAvenue::Application.routes.draw do
 
       resources :vertical_pages, path: 'pages-verticales'
       resources :city_subject_infos, only: [:new, :create]
-      resources :cities, only: [:index, :edit, :update], path: 'villes' do
-        collection do
-          get :zip_code_search
-        end
-      end
       resources :subjects do
         member do
           get :edit_name
