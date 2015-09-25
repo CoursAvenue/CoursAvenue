@@ -11,12 +11,20 @@ class Pro::Structures::Medias::ImagesController < Pro::ProController
 
   def create
     begin
-      params[:media_image][:url].split(',').each do |filepicker_url|
-        media_image = Media::Image.create(
+      images = params[:media_image][:url].split(',')
+      should_delay = (images.count > 10)
+
+      images.each do |filepicker_url|
+        image_params = {
           filepicker_url: filepicker_url,
           remote_image_url: filepicker_url,
           mediable: @structure
-        )
+        }
+        if should_delay
+          Media::Image.delay(priority: 10).create(image_params)
+        else
+          Media::Image.create(image_params)
+        end
       end
     rescue Cloudinary::CarrierWave::UploadError => exception
       # TODO: Check after Rails update.
