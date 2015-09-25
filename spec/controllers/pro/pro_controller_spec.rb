@@ -17,5 +17,4 @@ describe Pro::ProController do
   end
 
   it { should use_before_action(:authenticate_pro_admin!) }
-  it { should use_before_action(:load_structure) }
 end
