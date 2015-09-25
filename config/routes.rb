@@ -55,6 +55,16 @@ CoursAvenue::Application.routes.draw do
           get :zip_code_search
         end
       end
+
+      resources :subjects do
+        member do
+          get :edit_name
+        end
+        collection do
+          get :descendants
+          get :all
+        end
+      end
     end
 
     # For pros
@@ -133,16 +143,6 @@ CoursAvenue::Application.routes.draw do
 
       resources :vertical_pages, path: 'pages-verticales'
       resources :city_subject_infos, only: [:new, :create]
-      resources :subjects do
-        member do
-          get :edit_name
-        end
-        collection do
-          get :descendants
-          get :all
-        end
-      end
-
       resources :invited_users, only: [:index]
       resources :sticker_demands, only: [:index]
 

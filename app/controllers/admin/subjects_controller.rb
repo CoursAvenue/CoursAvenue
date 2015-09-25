@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Pro::SubjectsController < Pro::ProController
+class Admin::SubjectsController < Admin::AdminController
   include SubjectSeeker
 
   before_action :authenticate_pro_super_admin!, except: :descendants
@@ -31,7 +31,7 @@ class Pro::SubjectsController < Pro::ProController
     Rails.cache.delete "Pro::SubjectsController#descendants::#{@subject.parent.try(:id)}"
     Rails.cache.delete "Pro::SubjectsController#descendants::#{@subject.root.id}"
     respond_to do |format|
-      format.html { redirect_to pro_subjects_path }
+      format.html { redirect_to admin_subjects_path }
     end
   end
 
@@ -47,7 +47,7 @@ class Pro::SubjectsController < Pro::ProController
     respond_to do |format|
       if @subject.update_attributes params[:subject]
         format.js { render nothing: true }
-        format.html { redirect_to pro_subjects_path }
+        format.html { redirect_to admin_subjects_path }
       else
         format.html { render action: :edit }
       end

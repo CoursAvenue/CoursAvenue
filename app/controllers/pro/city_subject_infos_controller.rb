@@ -26,7 +26,7 @@ class Pro::CitySubjectInfosController < Pro::ProController
     @city_subject_info.update_attributes params[:city_subject_info]
     respond_to do |format|
       format.js { render nothing: true }
-      format.html { redirect_to pro_subjects_path }
+      format.html { redirect_to admin_subjects_path }
     end
   end
 end
