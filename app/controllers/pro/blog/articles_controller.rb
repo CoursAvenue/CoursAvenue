@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Pro::Blog::ArticlesController < Pro::ProController
+class Pro::Blog::ArticlesController < Pro::PublicController
 
   before_action :load_categories
   before_action :load_article, only: [:show]
@@ -7,7 +7,7 @@ class Pro::Blog::ArticlesController < Pro::ProController
   layout 'pro_blog'
 
   def index
-    @articles   = ::Blog::Article::ProArticle.ordered_by_publish_date.published.page(params[:page] || 1).per(5)
+    @articles = ::Blog::Article::ProArticle.ordered_by_publish_date.published.page(params[:page] || 1).per(5)
   end
 
   def show

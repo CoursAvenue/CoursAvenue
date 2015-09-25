@@ -1,4 +1,4 @@
-class Pro::HomeController < Pro::ProController
+class Pro::HomeController < Pro::PublicController
 
   layout :get_layout
 
