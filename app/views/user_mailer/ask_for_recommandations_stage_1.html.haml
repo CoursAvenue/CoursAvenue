@@ -17,10 +17,6 @@
   .p.action
     = link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, utm_source: 'email', utm_campaign: 'recommandation', utm_medium: 'stage_1'), class: 'btn btn--green'
 
-  - content_for :under_content_no_box do
-    %hr
-    = render 'recommandations_form'
-
   = render 'shared/mailers/footer'
 
 = content_for :footer do
