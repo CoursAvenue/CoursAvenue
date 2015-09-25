@@ -1,8 +1,6 @@
 # encoding: utf-8
-class Pro::EmailingsController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
+class Admin::EmailingsController < Admin::AdminController
   before_action :set_preview, only: [:preview, :code]
-  layout 'admin'
 
   def index
     @emailings = Emailing.all.sort
@@ -19,7 +17,8 @@ class Pro::EmailingsController < Pro::ProController
 
   def show
     @emailing = Emailing.find params[:id]
-    @sections = ActiveModel::ArraySerializer.new(@emailing.emailing_sections, each_serializer: EmailingSectionSerializer)
+    @sections = ActiveModel::ArraySerializer.new(
+      @emailing.emailing_sections, each_serializer: EmailingSectionSerializer)
   end
 
   def create
@@ -27,7 +26,7 @@ class Pro::EmailingsController < Pro::ProController
 
     respond_to do |format|
       if @emailing.save
-        format.html { redirect_to pro_emailing_path(@emailing), notice: 'Bien enregistré' }
+        format.html { redirect_to admin_emailing_path(@emailing), notice: 'Bien enregistré' }
       else
         format.html { render action: :edit }
       end
@@ -47,7 +46,7 @@ class Pro::EmailingsController < Pro::ProController
 
     respond_to do |format|
       if @emailing.update_attributes params[:emailing]
-        format.html { redirect_to pro_emailing_path(@emailing), notice: 'Bien enregistré' }
+        format.html { redirect_to admin_emailing_path(@emailing), notice: 'Bien enregistré' }
       else
         format.html { render action: :edit }
       end
@@ -59,9 +58,9 @@ class Pro::EmailingsController < Pro::ProController
 
     respond_to do |format|
       if @emailing.destroy
-        format.html { redirect_to pro_emailings_path, notice: 'Supprimé' }
+        format.html { redirect_to admin_emailings_path, notice: 'Supprimé' }
       else
-        format.html { redirect_to pro_emailings_path, notice: 'Il y eu un problème' }
+        format.html { redirect_to admin_emailings_path, notice: 'Il y eu un problème' }
       end
     end
   end
@@ -77,7 +76,7 @@ class Pro::EmailingsController < Pro::ProController
     to = params[:to].present? ? params[:to] : 'contact@coursavenue.com'
 
     UserMailer.emailing(@emailing, to).deliver
-    redirect_to pro_emailing_path(@emailing), notice: 'La previsualisation a bien été envoyée'
+    redirect_to admin_emailing_path(@emailing), notice: 'La previsualisation a bien été envoyée'
   end
 
   private

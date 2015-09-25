@@ -3,8 +3,6 @@ require 'rails_helper'
 describe Admin::GuidesController, user_guide: true do
   include Devise::TestHelpers
 
-  it { should use_before_action(:authenticate_pro_super_admin!) }
-
   let!(:admin) { FactoryGirl.create(:super_admin) }
   before { sign_in admin }
 

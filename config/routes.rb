@@ -32,10 +32,21 @@ CoursAvenue::Application.routes.draw do
       end
       resources :sms_loggers, only: [:index, :show]
       resources :places, only: [:index]
+
       resources :guides do
         member do
           get :edit_subjects
           patch :update_subjects
+        end
+      end
+
+      resources :emailings do
+        resources :sections, only: [:index]
+        resources :bridges, only: [:update]
+        member do
+          get :preview
+          get :code
+          get :send_preview, path: 'send'
         end
       end
     end
@@ -128,16 +139,6 @@ CoursAvenue::Application.routes.draw do
         collection do
           get :descendants
           get :all
-        end
-      end
-
-      resources :emailings do
-        resources :sections, only: [:index]
-        resources :bridges, only: [:update]
-        member do
-          get :preview
-          get :code
-          get :send_preview, path: 'send'
         end
       end
 

@@ -1,4 +1,4 @@
-= simple_form_for [:pro, @emailing] do |f|
+= simple_form_for [:admin, @emailing] do |f|
   = f.input :title, label: 'Phrase grise de header', placeholder: 'Ex. : Cours près de chez vous', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
   = f.input :header_image, input_html: { class: 'v-middle'}, label: 'Image header (600x244)', label_html: { class: 'label--large v-middle' }
   - if @emailing.header_image.present?
