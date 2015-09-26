@@ -17,18 +17,18 @@ class Subscription < ActiveRecord::Base
   ######################################################################
 
   attr_accessor :stripe_token, :promo_code, :stripe_bank_token, :bank_account_number
-  attr_accessible :structure, :coupon, :plan, :stripe_subscription_id, :trial_ends_at, :charged_at,
+  attr_accessible :payment_customer, :coupon, :plan, :stripe_subscription_id, :trial_ends_at, :charged_at,
     :cancelation_reason_dont_want_more_students,
     :cancelation_reason_stopping_activity,
     :cancelation_reason_didnt_have_return_on_investment,
     :cancelation_reason_too_hard_to_use,
     :cancelation_reason_other
 
-  belongs_to :structure
-  belongs_to :plan,         class_name: 'Subscriptions::Plan',   foreign_key: 'subscriptions_plan_id'
-  belongs_to :coupon,       class_name: 'Subscriptions::Coupon', foreign_key: 'subscriptions_coupon_id'
-  has_many   :invoices,     class_name: 'Subscriptions::Invoice'
-  has_many   :sponsorships, class_name: 'Subscriptions::Sponsorship'
+  belongs_to :payment_customer, class_name: 'Payment::Customer'
+  belongs_to :plan,             class_name: 'Subscriptions::Plan',   foreign_key: 'subscriptions_plan_id'
+  belongs_to :coupon,           class_name: 'Subscriptions::Coupon', foreign_key: 'subscriptions_coupon_id'
+  has_many   :invoices,         class_name: 'Subscriptions::Invoice'
+  has_many   :sponsorships,     class_name: 'Subscriptions::Sponsorship'
 
   store_accessor :metadata,
     :cancelation_reason_dont_want_more_students,
@@ -67,12 +67,14 @@ class Subscription < ActiveRecord::Base
   #
   # @return nil or a Stripe::Subscription.
   def stripe_subscription
-    if stripe_subscription_id.nil? or structure.nil? or structure.stripe_customer.nil?
+    if stripe_subscription_id.nil? or payment_customer.nil? or payment_customer.stripe_customer.nil?
       return nil
     end
 
     # TODO: Remove explicit api key.
-    structure.stripe_customer.subscriptions.retrieve(stripe_subscription_id, { api_key: Stripe.api_key })
+    payment_customer.stripe_customer.subscriptions.retrieve(
+      stripe_subscription_id, { api_key: Stripe.api_key }
+    )
   end
 
   # Wether the subscription is canceled or not.
@@ -104,7 +106,7 @@ class Subscription < ActiveRecord::Base
   def charge!(token = nil, coupon = nil)
     error_code_value = nil
     begin
-      customer = structure.stripe_customer || structure.create_stripe_customer(token)
+      customer = payment_customer.stripe_customer || payment_customer.create_stripe_customer(token)
       return nil if customer.nil?
 
       options = {
@@ -142,12 +144,12 @@ class Subscription < ActiveRecord::Base
   #
   # @return
   def cancel!(options = { at_period_end: true })
-    if stripe_subscription_id.nil? or structure.nil? or structure.stripe_customer.nil? or canceled?
+    if stripe_subscription_id.nil? or payment_customer.nil? or payment_customer.stripe_customer.nil? or canceled?
       return false
     end
 
     # TODO: Remove explicit api key.
-    subscription = structure.stripe_customer.subscriptions.retrieve(stripe_subscription_id, { api_key: Stripe.api_key }).delete(at_period_end: options[:at_period_end])
+    subscription = payment_customer.stripe_customer.subscriptions.retrieve(stripe_subscription_id, { api_key: Stripe.api_key }).delete(at_period_end: options[:at_period_end])
 
     self.canceled_at = Time.current
 
@@ -217,7 +219,7 @@ class Subscription < ActiveRecord::Base
 
     expiration_delay = current_period_end - Time.now
     Rails.cache.fetch ["Subscription#next_amount", self], expires_in: expiration_delay.to_i do
-      Stripe::Invoice.upcoming(customer: structure.stripe_customer_id).amount_due / 100.0
+      Stripe::Invoice.upcoming(customer: payment_customer.stripe_customer_id).amount_due / 100.0
     end
   end
 
@@ -227,7 +229,7 @@ class Subscription < ActiveRecord::Base
   def coupon_end_date
     return nil if !coupon
     return coupon_ends_at if coupon_ends_at.present?
-    if (discount = Stripe::Invoice.upcoming(customer: structure.stripe_customer_id).discount)
+    if (discount = Stripe::Invoice.upcoming(customer: payment_customer.stripe_customer_id).discount)
       coupon_ends_at = Time.at(discount.end || discount.start)
       save
     end
@@ -241,7 +243,7 @@ class Subscription < ActiveRecord::Base
     return nil if stripe_subscription_id.nil? or canceled? or coupon.nil? or !coupon.valid?
 
     # Update current customer with coupon
-    stripe_customer        = structure.stripe_customer
+    stripe_customer        = payment_customer.stripe_customer
     stripe_customer.coupon = coupon.stripe_coupon_id
     stripe_customer.save
 

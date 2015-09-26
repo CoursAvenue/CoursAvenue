@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
   include Concerns::MessagableWithLabel
   include Concerns::SMSSender
   include Concerns::ReminderEmailStatus
-  include Concerns::StripeCustomer
   include ActsAsUnsubscribable
   include Concerns::HasRandomToken
   include Rails.application.routes.url_helpers

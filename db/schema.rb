@@ -792,9 +792,9 @@ ActiveRecord::Schema.define(version: 20150924133035) do
     t.string   "street"
     t.string   "zip_code"
     t.integer  "city_id"
+    t.string   "stripe_charge_id"
     t.boolean  "from_personal_website",     default: false
     t.string   "token"
-    t.string   "stripe_charge_id"
     t.datetime "charged_at"
     t.datetime "refunded_at"
     t.float    "stripe_fee"
@@ -811,6 +811,31 @@ ActiveRecord::Schema.define(version: 20150924133035) do
   end
 
   add_index "participations_users", ["participation_id", "user_id"], name: "index_participations_users_on_participation_id_and_user_id", using: :btree
+
+  create_table "payment_customers", force: true do |t|
+    t.string   "stripe_customer_id"
+    t.integer  "client_id"
+    t.string   "client_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  add_index "payment_customers", ["stripe_customer_id"], name: "index_payment_customers_on_stripe_customer_id", using: :btree
+
+  create_table "payment_merchants", force: true do |t|
+    t.string   "stripe_managed_account_id"
+    t.string   "stripe_managed_account_secret_key"
+    t.string   "stripe_managed_account_publishable_key"
+    t.integer  "structure_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "payment_merchants", ["stripe_managed_account_id"], name: "index_payment_merchants_on_stripe_managed_account_id", using: :btree
+  add_index "payment_merchants", ["stripe_managed_account_publishable_key"], name: "merchants_stripe_managed_account_publishable_key", using: :btree
+  add_index "payment_merchants", ["stripe_managed_account_secret_key"], name: "index_payment_merchants_on_stripe_managed_account_secret_key", using: :btree
+  add_index "payment_merchants", ["structure_id"], name: "index_payment_merchants_on_structure_id", using: :btree
 
   create_table "phone_numbers", force: true do |t|
     t.string   "number"
@@ -1124,7 +1149,6 @@ ActiveRecord::Schema.define(version: 20150924133035) do
     t.integer  "principal_mobile_id"
     t.datetime "deleted_at"
     t.boolean  "pure_player",                            default: false
-    t.string   "stripe_customer_id"
     t.string   "stripe_managed_account_id"
     t.string   "stripe_managed_account_secret_key"
     t.string   "stripe_managed_account_publishable_key"
@@ -1137,7 +1161,6 @@ ActiveRecord::Schema.define(version: 20150924133035) do
   add_index "structures", ["admin_id"], name: "index_structures_on_admin_id", using: :btree
   add_index "structures", ["principal_mobile_id"], name: "index_structures_on_principal_mobile_id", using: :btree
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
-  add_index "structures", ["stripe_customer_id"], name: "index_structures_on_stripe_customer_id", unique: true, using: :btree
   add_index "structures", ["stripe_managed_account_id"], name: "index_structures_on_stripe_managed_account_id", unique: true, using: :btree
   add_index "structures", ["stripe_managed_account_publishable_key"], name: "index_structures_on_stripe_managed_account_publishable_key", unique: true, using: :btree
   add_index "structures", ["stripe_managed_account_secret_key"], name: "index_structures_on_stripe_managed_account_secret_key", unique: true, using: :btree
@@ -1181,8 +1204,8 @@ ActiveRecord::Schema.define(version: 20150924133035) do
     t.text     "good_to_know"
     t.text     "needed_meterial"
     t.text     "tips"
-    t.string   "image"
     t.text     "guide_description"
+    t.string   "image"
     t.text     "age_advice_younger_than_5"
     t.text     "age_advice_between_5_and_9"
     t.text     "age_advice_older_than_10"
@@ -1214,8 +1237,10 @@ ActiveRecord::Schema.define(version: 20150924133035) do
     t.datetime "trial_ends_at"
     t.datetime "coupon_ends_at"
     t.datetime "charged_at"
+    t.integer  "payment_customer_id"
   end
 
+  add_index "subscriptions", ["payment_customer_id"], name: "index_subscriptions_on_payment_customer_id", using: :btree
   add_index "subscriptions", ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true, using: :btree
   add_index "subscriptions", ["structure_id"], name: "index_subscriptions_on_structure_id", using: :btree
   add_index "subscriptions", ["subscriptions_coupon_id"], name: "index_subscriptions_on_subscriptions_coupon_id", using: :btree
@@ -1460,8 +1485,6 @@ ActiveRecord::Schema.define(version: 20150924133035) do
     t.string   "webmaster_email"
     t.datetime "webmaster_email_sent_at"
   end
-
-  add_index "website_parameters", ["structure_id"], name: "index_website_parameters_on_structure_id", using: :btree
 
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", name: "mb_opt_outs_on_conversations_id", column: "conversation_id"
 

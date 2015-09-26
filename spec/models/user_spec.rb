@@ -1,12 +1,9 @@
 # -*- encoding : utf-8 -*-
 require 'rails_helper'
 require 'carrierwave/test/matchers'
-require 'stripe_mock'
 
 describe User do
   include CarrierWave::Test::Matchers
-
-  it_behaves_like 'StripeCustomer'
 
   context 'associations' do
     it { should have_many(:community_memberships).class_name('Community::Membership') }
