@@ -305,27 +305,6 @@ France
     end
   end
 
-  # GET structures/duplicates
-  def duplicates
-    per_page = params[:per_page].present? ? params[:per_page].to_i : 20
-    page     = params[:page].present? ? params[:page].to_i : 1
-    offset   = (page - 1) * per_page
-
-    @duplicate_lists   = Structure::DuplicateList.includes(:structure).joins(:structure).
-      order('structures.created_at DESC').limit(per_page).offset(offset)
-    @pagination_scope = OpenStruct.new(
-      current_page: page,
-      limit_value: per_page,
-      total_pages: (Structure::DuplicateList.count / per_page.to_f).ceil
-    )
-    @last_update = Structure::DuplicateList.pluck(:updated_at).max
-  end
-
-  def update_duplicates
-    Structure::DuplicateList.delay.save_potential_duplicates
-    redirect_to duplicates_pro_structures_path, notice: 'La recherche de doublon est en cours.'
-  end
-
   private
 
   # Return the next wizard regarding the params passed (skip: true)

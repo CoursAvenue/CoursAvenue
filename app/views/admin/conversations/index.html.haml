@@ -8,5 +8,5 @@
   - next if structure.nil?
   = link_to pro_structure_conversation_path(structure, conversation), class: 'muted-link' do
     - cache [conversation, 'pro/conversations'] do
-      = render partial: 'pro/conversations/conversation', locals: { conversation: conversation, structure: structure }
+      = render partial: 'admin/conversations/conversation', locals: { conversation: conversation, structure: structure }
 .text--center.push-half--ends= paginate @conversations, window: 1, outer_window: 3

@@ -5,9 +5,7 @@ describe Admin::AdminController do
 
   let(:admin) { FactoryGirl.create(:super_admin) }
 
-  before do
-    sign_in admin
-  end
+  before { sign_in admin }
 
   controller(Admin::AdminController) do
     def index

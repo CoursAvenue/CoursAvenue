@@ -1,6 +1,6 @@
 = side_menu_currently_at 'Derniers avis'
 .white-box.islet
-  = simple_form_for [:pro, @comment], url: pro_comment_path(@comment) do |f|
+  = simple_form_for [:admin, @comment], url: admin_comment_path(@comment) do |f|
     = f.input :author_name
     = f.input :email
     = f.input :course_name

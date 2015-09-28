@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Pro::CommentsController < InheritedResources::Base
+class Admin::CommentsController < InheritedResources::Base
   before_action :authenticate_pro_admin!
 
   load_and_authorize_resource :comment
@@ -25,14 +25,14 @@ class Pro::CommentsController < InheritedResources::Base
   def update
     @comment = Comment::Review.find params[:id]
     @comment.update_attributes params[:comment_review]
-    redirect_to pro_comments_path(anchor: "recommandation-#{@comment.id}")
+    redirect_to admin_comments_path(anchor: "recommandation-#{@comment.id}")
   end
 
   def recover
     @comment   = Comment::Review.find params[:id]
     @comment.recover!
     AdminMailer.delay(queue: 'mailers').recommandation_has_been_recovered(@comment.structure, @comment.deletion_reason)
-    redirect_to pro_comments_path, notice: "L'avis a été rétabli"
+    redirect_to admin_comments_path, notice: "L'avis a été rétabli"
   end
 
 end

@@ -12,8 +12,10 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: 'pro' do
     # For super admin
     namespace :admin do
-      get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
-      get '/dashboard-2'                        => 'dashboard#stats'
+
+
+      get '/dashboard'   => 'dashboard#index', as: 'dashboard'
+      get '/dashboard-2' => 'dashboard#stats'
 
       resources :admins, only: [:index, :edit, :update] do
         member do
@@ -23,10 +25,12 @@ CoursAvenue::Application.routes.draw do
 
       resources :structures, path: 'etablissements' do
         collection do
+          get :duplicates
           get :imported_structures
           get :stars
 
           post :import
+          post :update_duplicates
         end
 
         member do
@@ -45,7 +49,7 @@ CoursAvenue::Application.routes.draw do
       resources :blog_categories, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/categories'
       resources :blog_authors, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/authors', path: 'blog/auteurs'
       resources :images, only: [:index, :create]
-      resource  :community             , only: [:show]                                     , controller: 'structures/community'      , path: 'communaute' do
+      resource  :community, only: [:show], controller: 'structures/community', path: 'communaute' do
         resources :message_threads, only: [:index, :destroy], controller: 'community/message_threads' do
           member do
             post :approve
@@ -86,8 +90,17 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
-      resources :comment_notifications, only: [:index]
-      resources :invited_users, only: [:index]
+      resources :comment_notifications,  only: [:index]
+      resources :conversations,          only: [:index]
+      resources :invited_users,          only: [:index]
+      resources :sticker_demands,        only: [:index]
+      resources :participation_requests, only: [:index]
+
+      resources :comments, only: [:edit, :update, :index] do
+        member do
+          patch :recover
+        end
+      end
 
     end
 
@@ -138,7 +151,6 @@ CoursAvenue::Application.routes.draw do
         resources :medias, controller: 'portraits/medias'
       end
 
-      resources :participation_requests, only: [:index]
       resources :blog_subscribers, only: [:create], controller: 'blog/subscribers'
       resources :blog_articles, only: [:index, :show], controller: 'blog/articles', path: 'blog' do
         collection do
@@ -157,15 +169,8 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
-      resources :comments, only: [:edit, :update, :index] do
-        member do
-          patch :recover
-        end
-      end
-
       resources :vertical_pages, path: 'pages-verticales'
       resources :city_subject_infos, only: [:new, :create]
-      resources :sticker_demands, only: [:index]
 
       resources :subscriptions,          only: [:index]
       resources :subscriptions_invoices, only: [:index]
@@ -190,8 +195,6 @@ CoursAvenue::Application.routes.draw do
       resources :structures, path: 'etablissements' do
         collection do
           get :inscription, to: :new
-          get :duplicates
-          post :update_duplicates
         end
         member do
           get   :confirm_email
@@ -413,8 +416,6 @@ CoursAvenue::Application.routes.draw do
           end
         end
       end
-      resources :conversations        , only: [:index]
-
       get '/auth/facebook/callback', to: 'admins#facebook_auth_callback'
       get '/auth/failure',           to: 'admins#facebook_auth_failure'
 

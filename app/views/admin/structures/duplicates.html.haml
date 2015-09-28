@@ -5,7 +5,7 @@
 .text--center.push--bottom
   - if @last_update.present?
     .push-half--bottom Dernière mise-a-jour: #{ l(@last_update.to_date) }
-  = link_to 'Mettre à jour', update_duplicates_pro_structures_path, class: 'btn btn--blue-green', method: :post
+  = link_to 'Mettre à jour', update_duplicates_admin_structures_path, class: 'btn btn--blue-green', method: :post
 
 %table.table--striped.table--data#dataTable
   %thead

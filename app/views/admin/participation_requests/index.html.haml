@@ -4,16 +4,13 @@
 
 .grid.push--bottom
   .grid__item.palm-one-whole.one-third>
-    = link_to 'Inscrpts en attente', pro_participation_requests_path(state: 'pending'), class: ['btn btn--full', (params[:state] == 'pending' ? 'btn--blue' : '')]
+    = link_to 'Inscrpts en attente', admin_participation_requests_path(state: 'pending'), class: ['btn btn--full', (params[:state] == 'pending' ? 'btn--blue' : '')]
   .grid__item.palm-one-whole.one-third>
-    = link_to 'Inscrpts annulées', pro_participation_requests_path(state: 'canceled'), class: ['btn btn--full', (params[:state] == 'canceled' ? 'btn--blue' : '')]
+    = link_to 'Inscrpts annulées', admin_participation_requests_path(state: 'canceled'), class: ['btn btn--full', (params[:state] == 'canceled' ? 'btn--blue' : '')]
   .grid__item.palm-one-whole.one-third>
-    = link_to 'Inscrpts validées', pro_participation_requests_path(state: 'accepted'), class: ['btn btn--full', (params[:state] == 'accepted' ? 'btn--blue' : '')]
+    = link_to 'Inscrpts validées', admin_participation_requests_path(state: 'accepted'), class: ['btn btn--full', (params[:state] == 'accepted' ? 'btn--blue' : '')]
 
 %h1 Inscriptions
-
-.text--center
-  %h3 Il y a eu #{ pluralize(@previous_day_count, 'demande') } d'inscription hier.
 
 %table.table--striped.table--data.table-responsive
   %thead
