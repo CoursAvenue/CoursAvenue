@@ -3,7 +3,7 @@
 = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'structures' }
 
 .text--center
-  = simple_form_for @importer, url: import_pro_structures_path do |f|
+  = simple_form_for @importer, url: import_admin_structures_path do |f|
     = f.input :file, as: :file, label: 'Importer un fichier', input_html: { id: 'import_file_input', class: 'visuallyhidden' }, label_html: { class: 'btn btn--green text--center' }
 
 .push-half--bottom= paginate @structures, window: 2, outer_window: 1
@@ -32,7 +32,7 @@
           \/
           = link_to "Lien d'inscription", new_pro_admin_structure_registration_path(structure)
           \/
-          = link_to "Supprimer", pro_structure_path(structure), method: :delete, class: 'red'
+          = link_to "Supprimer", ask_for_pro_deletion_admin_structure_path(structure), class: 'red fancybox.ajax', data: { behavior: 'modal', width: '500', padding: '0' }
 
 .push-half--bottom= paginate @structures, window: 2, outer_window: 1
 

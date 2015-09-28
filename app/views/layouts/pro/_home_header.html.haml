@@ -14,7 +14,7 @@
     %li.palm-block.palm-text--center.line-height-1-7.soft--right
       - if current_pro_admin
         - if current_pro_admin.super_admin?
-          = link_to 'Espace super admin', pro_dashboard_path, class: 'header--pro__link white muted-link btn btn--white-transparent btn--small'
+          = link_to 'Espace super admin', admin_dashboard_path, class: 'header--pro__link white muted-link btn btn--white-transparent btn--small'
         - elsif current_pro_admin.structure.present?
           = link_to 'Mon profil', dashboard_pro_structure_path(current_pro_admin.structure), class: 'header--pro__link white muted-link btn btn--white-transparent btn--small'
       - else

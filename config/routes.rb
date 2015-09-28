@@ -12,6 +12,29 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: 'pro' do
     # For super admin
     namespace :admin do
+      get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
+      get '/dashboard-2'                        => 'dashboard#stats'
+
+      resources :admins, only: [:index, :edit, :update] do
+        member do
+          patch 'confirm'
+        end
+      end
+
+      resources :structures, path: 'etablissements' do
+        collection do
+          get :imported_structures
+          get :stars
+
+          post :import
+        end
+
+        member do
+          get :ask_for_pro_deletion
+        end
+      end
+      get 'nouveau-dormant', to: 'structures#new_sleeping', as: :add_sleeping_structure
+
       resources :users, only: [:index]
       resources :flyers, only: [:index, :update]
       resources :press_articles
@@ -66,11 +89,6 @@ CoursAvenue::Application.routes.draw do
       resources :comment_notifications, only: [:index]
       resources :invited_users, only: [:index]
 
-      resources :admins, only: [:index, :edit, :update] do
-        member do
-          patch 'confirm'
-        end
-      end
     end
 
     # For pros
@@ -87,8 +105,6 @@ CoursAvenue::Application.routes.draw do
       get 'nos-convictions'                     => 'home#convictions',        as: 'pages_convictions'
       get 'presse'                              => redirect('presse', subdomain: 'www', status: 301)
       get 'journees-portes-ouvertes'            => redirect('pages/portes-ouvertes-cours-loisirs', status: 301)
-      get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
-      get '/dashboard-2'                        => 'dashboard#stats'
       get 'cours-d-essai-gratuits'              => 'home#free_trial',         as: 'pages_free_trial'
 
       # Redirect old pages
@@ -165,7 +181,6 @@ CoursAvenue::Application.routes.draw do
       end
       resources :subscriptions_sponsorships, only: [:show], path: 'parrainage'
 
-      get 'nouveau-dormant', to: 'structures#new_sleeping', as: :add_sleeping_structure
       resources :registrations, only: [:new, :create], path: 'inscriptions' do
         collection do
           get :new_course
@@ -174,15 +189,11 @@ CoursAvenue::Application.routes.draw do
       end
       resources :structures, path: 'etablissements' do
         collection do
-          get :stars
           get :inscription, to: :new
-          post :import
-          get :imported_structures
           get :duplicates
           post :update_duplicates
         end
         member do
-          get   :ask_for_pro_deletion
           get   :confirm_email
           post  :resend_confirmation_instructions
           get   :dashboard, path: 'tableau-de-bord'

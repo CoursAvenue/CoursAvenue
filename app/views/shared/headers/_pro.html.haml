@@ -9,7 +9,7 @@
         - if current_pro_admin
           %li.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
             - if current_pro_admin.super_admin?
-              = link_to 'Espace super admin', pro_dashboard_path, class: 'btn btn--green btn--small'
+              = link_to 'Espace super admin', admin_dashboard_path, class: 'btn btn--green btn--small'
             - else
               = link_to 'Mon profil', dashboard_pro_structure_path(current_pro_admin.structure), class: 'btn btn--green btn--small'
             %ul.drop-down__el

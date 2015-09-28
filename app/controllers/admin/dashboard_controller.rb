@@ -1,7 +1,5 @@
 # encoding: utf-8
-class Pro::DashboardController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
-
+class Admin::DashboardController < Admin::AdminController
   def index
     @admins   = Admin.where( Admin.arel_table[:created_at].gt(Date.today - 1.months) ).order('DATE(created_at) ASC').group('DATE(admins.created_at)').count
     @comments = Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today - 1.months) ).order('DATE(created_at) ASC').group('DATE(comments.created_at)').count

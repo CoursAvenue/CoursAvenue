@@ -2,16 +2,16 @@
   %ul.push--top
     - if current_pro_admin and current_pro_admin.super_admin?
       - if !@structure
-        = pro_side_menu_link 'pro_dashboard',      pro_dashboard_url(subdomain: 'pro'),           current: current_tab, icon: 'fa-2x fa-dashboard'
+        = pro_side_menu_link 'pro_dashboard',    admin_dashboard_url(subdomain: 'pro'),         current: current_tab, icon: 'fa-2x fa-dashboard'
         = pro_side_menu_link 'activity',           pro_conversations_url(subdomain: 'pro'),       current: current_tab, icon: 'fa-2x fa-pulse-rate'
         = pro_side_menu_link 'subscription_plans', pro_subscriptions_plans_url(subdomain: 'pro'), current: current_tab, icon: 'fa-2x fa-credit-card'
         = pro_side_menu_link 'pages',              admin_blog_articles_url(subdomain: 'pro'),     current: current_tab, icon: 'fa-2x fa-book'
-        = pro_side_menu_link 'invitations',        admin_invited_users_url(subdomain: 'pro'),       current: current_tab, icon: 'fa fa-2x fa-group'
-        = pro_side_menu_link 'subjects',           admin_subjects_url(subdomain: 'pro'),            current: current_tab, icon: 'fa fa-2x fa-chevron-down'
-        = pro_side_menu_link 'emailings',          admin_emailings_url(subdomain: 'pro'),           current: current_tab, icon: 'fa-2x fa-send'
+        = pro_side_menu_link 'invitations',        admin_invited_users_url(subdomain: 'pro'),     current: current_tab, icon: 'fa fa-2x fa-group'
+        = pro_side_menu_link 'subjects',           admin_subjects_url(subdomain: 'pro'),          current: current_tab, icon: 'fa fa-2x fa-chevron-down'
+        = pro_side_menu_link 'emailings',          admin_emailings_url(subdomain: 'pro'),         current: current_tab, icon: 'fa-2x fa-send'
         = pro_side_menu_link 'guides',             admin_guides_path(subdomain: 'pro'),           current: current_tab, icon: 'fa-2x fa-bars'
       - else
-        = pro_side_menu_link 'pro_dashboard',      pro_dashboard_url(subdomain: 'pro'),           current: current_tab, icon: 'fa fa-2x fa-dashboard'
+        = pro_side_menu_link 'pro_dashboard',    admin_dashboard_url(subdomain: 'pro'),         current: current_tab, icon: 'fa fa-2x fa-dashboard'
 
     - if @structure
       = pro_side_menu_link 'statistics',
