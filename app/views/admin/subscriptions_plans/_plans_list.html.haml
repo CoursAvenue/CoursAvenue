@@ -33,7 +33,7 @@
         - next if structure.nil?
         %tr
           %td.seven-twelfths
-            = link_to structure.name, admin_structure_subscriptions_path(structure), target: :_blank
+            = link_to structure.name, pro_structure_subscriptions_path(structure), target: :_blank
           %td.three-twelfths= l(subscription.created_at)
           %td.one-twelfths.text--center
             = structure.newsletters.sent.count
