@@ -5,9 +5,7 @@ describe Pro::StructuresController do
 
   let(:admin) { FactoryGirl.create(:admin) }
 
-  before do
-    sign_in admin
-  end
+  before { sign_in admin }
 
   context 'member' do
     describe "GET #signature" do
@@ -80,15 +78,6 @@ describe Pro::StructuresController do
     describe "PUT #update" do
       it "'s a success" do
         patch :update, id: admin.structure.slug, structure: {}
-        expect(response).to be_redirect
-      end
-    end
-  end
-
-  context 'collection' do
-    describe "GET #index" do
-      it "'s forbidden" do
-        get :index
         expect(response).to be_redirect
       end
     end

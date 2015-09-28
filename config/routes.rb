@@ -13,7 +13,6 @@ CoursAvenue::Application.routes.draw do
     # For super admin
     namespace :admin do
 
-
       get '/dashboard'   => 'dashboard#index', as: 'dashboard'
       get '/dashboard-2' => 'dashboard#stats'
 
