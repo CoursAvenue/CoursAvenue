@@ -7,7 +7,7 @@
     %h1.flush Codes promo
   .flexbox__item.v-middle.text--right
     - if @coupons.any?
-      = link_to new_pro_subscriptions_coupon_path, class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '500', padding: '0' } do
+      = link_to new_admin_subscriptions_coupon_path, class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '500', padding: '0' } do
         %i.fa.fa-plus
         Ajouter un code promo
 

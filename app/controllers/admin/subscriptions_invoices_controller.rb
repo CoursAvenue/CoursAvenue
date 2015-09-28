@@ -1,5 +1,4 @@
-class Pro::SubscriptionsInvoicesController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
+class Admin::SubscriptionsInvoicesController < Admin::AdminController
 
   def index
     @user_invoices = ParticipationRequest::Invoice.all.includes(:participation_request)

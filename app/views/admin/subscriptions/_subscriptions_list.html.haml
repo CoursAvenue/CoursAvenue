@@ -1,5 +1,6 @@
 .soft--sides.soft--top
   - @subscriptions.each do |subscription|
+    - next if subscription.structure.nil?
     .flexbox.push--bottom
       .flexbox__item.v-middle
         %h4.flush--bottom

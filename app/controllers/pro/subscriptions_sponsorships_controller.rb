@@ -1,4 +1,4 @@
-class Pro::SubscriptionsSponsorshipsController < ApplicationController
+class Pro::SubscriptionsSponsorshipsController < Pro::PublicController
   layout 'home'
 
   def show

@@ -1,10 +1,10 @@
 = content_for :top_menu do
   %ul.nav.flush
     %li{ class: current == 'subscriptions' ? 'active' : '' }
-      = link_to 'Abonnements', pro_subscriptions_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
+      = link_to 'Abonnements', admin_subscriptions_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
     %li{ class: current == 'plans' ? 'active' : '' }
-      = link_to 'Offres', pro_subscriptions_plans_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
+      = link_to 'Offres', admin_subscriptions_plans_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
     %li{ class: current == 'coupons' ? 'active' : '' }
-      = link_to 'Code Promos', pro_subscriptions_coupons_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
+      = link_to 'Code Promos', admin_subscriptions_coupons_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
     %li{ class: current == 'invoices' ? 'active' : '' }
-      = link_to 'Factures', pro_subscriptions_invoices_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
+      = link_to 'Factures', admin_subscriptions_invoices_path, class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'

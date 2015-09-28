@@ -101,6 +101,18 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
+      resources :subscriptions, only: [:index]
+      resources :subscriptions_plans do
+        member do
+          get :subscriptions
+        end
+      end
+      resources :subscriptions_invoices, only: [:index]
+      resources :subscriptions_coupons, only: [:index, :new, :create, :destroy, :show] do
+        member do
+          get :check
+        end
+      end
     end
 
     # For pros
@@ -171,18 +183,6 @@ CoursAvenue::Application.routes.draw do
       resources :vertical_pages, path: 'pages-verticales'
       resources :city_subject_infos, only: [:new, :create]
 
-      resources :subscriptions,          only: [:index]
-      resources :subscriptions_invoices, only: [:index]
-      resources :subscriptions_coupons, only: [:index, :new, :create, :destroy, :show] do
-        member do
-          get :check
-        end
-      end
-      resources :subscriptions_plans do
-        member do
-          get :subscriptions
-        end
-      end
       resources :subscriptions_sponsorships, only: [:show], path: 'parrainage'
 
       resources :registrations, only: [:new, :create], path: 'inscriptions' do

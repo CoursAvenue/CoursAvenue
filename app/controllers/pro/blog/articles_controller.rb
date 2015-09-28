@@ -7,7 +7,8 @@ class Pro::Blog::ArticlesController < Pro::PublicController
   layout 'pro_blog'
 
   def index
-    @articles = ::Blog::Article::ProArticle.ordered_by_publish_date.published.page(params[:page] || 1).per(5)
+    @articles = ::Blog::Article::ProArticle.ordered_by_publish_date.published.
+      page(params[:page] || 1).per(5)
   end
 
   def show

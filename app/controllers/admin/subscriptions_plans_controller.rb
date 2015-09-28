@@ -1,6 +1,4 @@
-class Pro::SubscriptionsPlansController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
-
+class Admin::SubscriptionsPlansController < Admin::AdminController
   def index
     @monthly_plans = Subscriptions::Plan.monthly.decorate
     @yearly_plans  = Subscriptions::Plan.yearly.decorate
@@ -21,7 +19,7 @@ class Pro::SubscriptionsPlansController < Pro::ProController
 
     respond_to do |format|
       if @plan.save
-        format.html { redirect_to pro_subscriptions_plans_path, notice: 'Offre bien créée', status: 201 }
+        format.html { redirect_to admin_subscriptions_plans_path, notice: 'Offre bien créée', status: 201 }
         format.js
       else
         format.html { render action: :new }
@@ -34,7 +32,9 @@ class Pro::SubscriptionsPlansController < Pro::ProController
     @plan    = Subscriptions::Plan.find params[:id]
     @edition = true
 
-    render layout: false
+    if request.xhr?
+      render layout: false
+    end
   end
 
   def update
@@ -42,7 +42,7 @@ class Pro::SubscriptionsPlansController < Pro::ProController
 
     respond_to do |format|
       if @plan.update_attributes permitted_params and @plan.update_stripe_plan!
-        format.html { redirect_to pro_subscriptions_plans_path, notice: 'Offre bien mise a jour', status: 200 }
+        format.html { redirect_to admin_subscriptions_plans_path, notice: 'Offre bien mise a jour', status: 200 }
         format.js
       else
         format.html { render action: :new }
@@ -56,10 +56,10 @@ class Pro::SubscriptionsPlansController < Pro::ProController
 
     respond_to do |format|
       if @plan.delete_stripe_plan! and @plan.destroy
-        format.html { redirect_to pro_subscriptions_plans_path,
+        format.html { redirect_to admin_subscriptions_plans_path,
                       notice: 'Offre supprimée.' }
       else
-        format.html { redirect_to pro_subscriptions_plans_path,
+        format.html { redirect_to admin_subscriptions_plans_path,
                       error: "Erreur lors de la suppression de l'offre, veillez rééssayer." }
       end
     end
@@ -70,7 +70,9 @@ class Pro::SubscriptionsPlansController < Pro::ProController
     @plan          = Subscriptions::Plan.includes(:subscriptions).find(params[:id])
     @subscriptions = @plan.subscriptions
 
-    render layout: false
+    if request.xhr?
+      render layout: false
+    end
   end
 
   private

@@ -1,5 +1,4 @@
-class Pro::SubscriptionsCouponsController < Pro::ProController
-  before_action :authenticate_pro_super_admin!
+class Admin::SubscriptionsCouponsController < Admin::AdminController
 
   def index
     @coupons = Subscriptions::Coupon.all
@@ -19,7 +18,7 @@ class Pro::SubscriptionsCouponsController < Pro::ProController
 
     respond_to do |format|
       if @coupon.save
-        format.html { redirect_to pro_subscriptions_coupons_path, notice: 'Code promo bien créé' }
+        format.html { redirect_to admin_subscriptions_coupons_path, notice: 'Code promo bien créé' }
         format.js
       else
         format.html { render action: :new }
@@ -57,10 +56,10 @@ class Pro::SubscriptionsCouponsController < Pro::ProController
 
     respond_to do |format|
       if @coupon.delete_stripe_coupon! and @coupon.destroy
-        format.html { redirect_to pro_subscriptions_coupons_path,
+        format.html { redirect_to admin_subscriptions_coupons_path,
                       notice: 'Code promo supprimé.' }
       else
-        format.html { redirect_to pro_subscriptions_coupons_path,
+        format.html { redirect_to admin_subscriptions_coupons_path,
                       error: "Erreur lors de la suppression du code promo, veuillez rééssayer." }
       end
     end

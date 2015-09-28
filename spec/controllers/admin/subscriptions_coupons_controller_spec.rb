@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'stripe_mock'
 
-describe Pro::SubscriptionsCouponsController, with_stripe: true do
+describe Admin::SubscriptionsCouponsController, with_stripe: true do
   include Devise::TestHelpers
 
   let!(:admin)     { FactoryGirl.create(:super_admin) }

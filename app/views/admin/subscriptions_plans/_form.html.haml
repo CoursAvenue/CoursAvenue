@@ -1,4 +1,4 @@
-= simple_form_for [:pro, @plan], remote: true do |form|
+= simple_form_for [:admin, @plan], remote: true do |form|
   .panel
     .panel__body.soft
       = form.input :name, label:"Nom de l'offre sur Stripe", input_html: { class: 'input--large', style: 'width: 20em;' }, label_html: { class: 'label--large' }
