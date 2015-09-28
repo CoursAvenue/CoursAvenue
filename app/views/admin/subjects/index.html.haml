@@ -36,7 +36,7 @@
           %td.complet-2
 
           %td.nowrap
-            = link_to 'Editer', edit_name_admin_subject_path(subject), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'
+            = link_to 'Editer', edit_admin_subject_path(subject), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'
             - if subject.depth == 1
               \/
               = link_to 'Ajouter un enfant', new_admin_subject_path(parent_id: subject.id), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'
