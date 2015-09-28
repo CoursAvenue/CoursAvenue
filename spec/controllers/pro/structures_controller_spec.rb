@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe Pro::StructuresController do
+  include Devise::TestHelpers
+
   describe 'PATCH #enable' do
     let(:structure) { FactoryGirl.create(:structure_with_admin, :disabled) }
     let!(:admin) { structure.admin }
