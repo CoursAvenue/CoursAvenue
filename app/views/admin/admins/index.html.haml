@@ -57,9 +57,9 @@
                 .switch-button.on
                   Actif
               - else
-                = link_to 'Inactif', confirm_pro_admin_path(admin), class: 'switch-button off', method: :patch
+                = link_to 'Inactif', confirm_admin_admin_path(admin), class: 'switch-button off', method: :patch
               &nbsp;
-              = link_to edit_pro_admin_path(admin), title: 'Modifier', class: 'btn btn--warning' do
+              = link_to edit_admin_admin_path(admin), title: 'Modifier', class: 'btn btn--warning' do
                 %i.fa-pencil
               &nbsp;
               - if admin.structure
