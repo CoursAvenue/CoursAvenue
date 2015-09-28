@@ -62,6 +62,9 @@ CoursAvenue::Application.routes.draw do
           get :all
         end
       end
+
+      resources :comment_notifications, only: [:index]
+      resources :invited_users, only: [:index]
     end
 
     # For pros
@@ -140,7 +143,6 @@ CoursAvenue::Application.routes.draw do
 
       resources :vertical_pages, path: 'pages-verticales'
       resources :city_subject_infos, only: [:new, :create]
-      resources :invited_users, only: [:index]
       resources :sticker_demands, only: [:index]
 
       resources :subscriptions,          only: [:index]
@@ -394,7 +396,6 @@ CoursAvenue::Application.routes.draw do
           end
         end
       end
-      resources :comment_notifications, only: [:index]
       resources :conversations        , only: [:index]
 
       get '/auth/facebook/callback', to: 'admins#facebook_auth_callback'
