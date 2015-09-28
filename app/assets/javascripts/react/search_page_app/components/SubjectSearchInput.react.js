@@ -54,7 +54,7 @@ var SubjectSearchInput = React.createClass({
         }
     },
 
-    executeSearchFullText: function executeSearchFullText () {
+    executeSearchFullText: function executeSearchFullText (event) {
         if (this.props.navigate) {
             if (event.metaKey || event.ctrlKey) {
               window.open(Routes.root_search_page_without_subject_path('paris', { discipline: this.state.autocomplete_store.get('full_text_search') }));
@@ -77,7 +77,7 @@ var SubjectSearchInput = React.createClass({
             } else if (this.state.autocomplete_store.get('selected_list_name') == 'structures') {
                 this.selectStructure();
             } else {
-                this.executeSearchFullText();
+                this.executeSearchFullText(event);
                 FilterActionCreators.closeFilterPanel();
             }
         // If arrow down
