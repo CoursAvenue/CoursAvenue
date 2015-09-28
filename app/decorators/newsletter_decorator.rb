@@ -49,12 +49,13 @@ class NewsletterDecorator < Draper::Decorator
 
   def recipients(limit = 50, offset = 0)
     object.recipients.includes(:user_profile).limit(limit).offset(offset).map do |recipient|
+      next if recipient.user_profile.nil?
       {
         email:  recipient.email,
         name:   recipient.user_profile.user.name,
         clicks: recipient.clicks,
         opens:  recipient.opens
       }
-    end
+    end.compact
   end
 end
