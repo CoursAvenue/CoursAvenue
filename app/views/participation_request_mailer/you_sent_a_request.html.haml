@@ -41,7 +41,7 @@
           .bordered.soft-half--sides= render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: @participation_request }
 
         .p.action.soft--sides.soft--top
-          = link_to "Voir mon inscription", structure_website_structure_participation_request_url(@structure, @participation_request, subdomain: 'www'), class: 'btn btn--green btn--full'
+          = link_to "Voir mon inscription", reservation_structure_participation_request_url(@structure, @participation_request, subdomain: 'www'), class: 'btn btn--green btn--full'
 
         .soft--sides= render 'shared/mailers/footer'
 
