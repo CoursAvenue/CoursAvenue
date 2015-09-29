@@ -70,8 +70,9 @@ class ApplicationController < ActionController::Base
   # @param  exception
   def render_not_found(exception)
     if params[:id] and ((s = Structure.only_deleted.where(id: params[:id]).first) or
-        (s = Structure.only_deleted.where(slug: params[:id])).first)
-      redirect_to structures_path_for_city_and_subject(s.city, s.dominant_root_subject), status: 301, notice: "Cette page n'existe plus."
+        (s = Structure.only_deleted.where(slug: params[:id]).first))
+      redirect_to structures_path_for_city_and_subject(s.city, s.dominant_root_subject),
+        status: 301, notice: "Cette page n'existe plus."
     else
       Bugsnag.notify(exception)
       redirect_to root_path, status: 301, notice: "Cette page n'existe plus."
