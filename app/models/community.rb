@@ -32,9 +32,24 @@ class Community < ActiveRecord::Base
   #
   # @return
   def generate_memberships
-    users = structure.user_profiles.includes(:user).map(&:user)
-    users += structure.participation_requests.accepted.includes(:user).map(&:user)
-    users += structure.comments.includes(:user).map(&:user)
+    # Don't bother creating memberships if the structure is not defined.
+    # This should never happen since we create the communities from the structure using
+    # `structure.create_community`, but Fuck You Rails.
+    return if structure.nil?
+
+    users = []
+    if structure.user_profiles.any?
+      users += structure.user_profiles.includes(:user).map(&:user)
+    end
+
+    if structure.participation_requests.any?
+      users += structure.participation_requests.accepted.includes(:user).map(&:user)
+    end
+
+    if structure.comments.any?
+      users += structure.comments.includes(:user).map(&:user)
+    end
+
     users = users.uniq.compact
 
     users.map do |user|
