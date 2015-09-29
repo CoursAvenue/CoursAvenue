@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Pro::ContactsController do
+describe Pro::Structures::ContactsController do
   include Devise::TestHelpers
 
   let(:structure) { FactoryGirl.create(:structure_with_admin) }

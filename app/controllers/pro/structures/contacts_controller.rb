@@ -1,5 +1,5 @@
 # Controller used when structure import contacts.
-class Pro::ContactsController < Pro::ProController
+class Pro::Structures::ContactsController < Pro::ProController
 
   def callback
     @contacts = request.env['omnicontacts.contacts'].reject do |contact|

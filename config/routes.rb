@@ -436,8 +436,8 @@ CoursAvenue::Application.routes.draw do
       end
       devise_for :admins, controllers: { sessions: 'pro/admins/sessions', registrations: 'pro/admins/registrations', passwords: 'pro/admins/passwords', confirmations: 'pro/admins/confirmations'}, path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/', :confirmation => 'verification'}#, :password => 'secret', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
 
-      get "/contacts/:importer/callback", to: "contacts#callback"
-      get "/contacts/failure",            to: "contacts#failure"
+      get "/contacts/:importer/callback", to: "structures/contacts#callback"
+      get "/contacts/failure",            to: "structures/contacts#failure"
 
     end
   end
