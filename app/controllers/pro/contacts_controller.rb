@@ -1,3 +1,4 @@
+# Controller used when structure import contacts.
 class Pro::ContactsController < Pro::ProController
 
   def callback
@@ -14,7 +15,7 @@ class Pro::ContactsController < Pro::ProController
     @error_message = "Erreur: Veuillez rééssayer."
     respond_to do |format|
       format.json { render json: { message: @error_message }, status: 422 }
-      format.html { render }
+      format.html { render layout: 'empty_body' }
     end
   end
 end
