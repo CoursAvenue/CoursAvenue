@@ -5,7 +5,7 @@
 - if @pages.empty?
   .bordered.bordered--dash.bordered--larger.f-weight-500.mega-soft--ends.soft--sides.text--center
     %p.delta.line-height-1-3 Vous n'avez pas de page personnalisée. Créez-la pour l'afficher sur votre site Internet :
-    = link_to new_pro_reservation_page_path(@structure), class: 'btn btn--green' do
+    = link_to new_pro_structure_website_page_path(@structure), class: 'btn btn--green' do
       %i.fa.fa-plus
       Créer une page personnalisée
 - else
@@ -13,7 +13,7 @@
     .grid__item.v-middle.six-tenths.palm-one-whole>
       %h1.flush Mes pages personnalisées
     .grid__item.v-middle.text--right.four-tenths.palm-one-whole.palm-text--left>
-      = link_to new_pro_reservation_page_path(@structure), class: 'btn btn--green' do
+      = link_to new_pro_structure_website_page_path(@structure), class: 'btn btn--green' do
         %i.fa.fa-plus
         Ajouter une page personnalisée
   - @pages.each_with_index do |page, index|
@@ -21,26 +21,26 @@
       %hr
     %h4.inline-block= page.title
     .inline-block.soft-half--left
-      = link_to edit_pro_reservation_page_path(@structure, page) do
+      = link_to edit_pro_structure_website_page_path(@structure, page) do
         %i.fa-pencil
         Modifier
       %span.v-middle /
-      = link_to pro_reservation_page_path(@structure, page), method: :delete, data: { confirm: 'Voulez-vous vraiment supprimer cette page ?' } do
+      = link_to pro_structure_website_page_path(@structure, page), method: :delete, data: { confirm: 'Voulez-vous vraiment supprimer cette page ?' } do
         %i.fa-trash-o
         Supprimer
     - page.articles.each do |article|
       .soft--left.hide-images
         %h5.flush.inline-block.v-middle= article.title
         .inline-block.soft-half--left
-          = link_to edit_pro_reservation_page_article_path(@structure, page, article) do
+          = link_to edit_pro_structure_website_page_article_path(@structure, page, article) do
             %i.fa-pencil
             Modifier
           %span.v-middle /
-          = link_to pro_reservation_page_article_path(@structure, page, article), method: :delete, data: { confirm: 'Voulez-vous vraiment supprimer cet article ?' } do
+          = link_to pro_structure_website_page_article_path(@structure, page, article), method: :delete, data: { confirm: 'Voulez-vous vraiment supprimer cet article ?' } do
             %i.fa-trash-o
             Supprimer
     .soft--left
-      = link_to new_pro_reservation_page_article_path(@structure, page), class: 'btn btn--green btn--small' do
+      = link_to new_pro_structure_website_page_article_path(@structure, page), class: 'btn btn--green btn--small' do
         %i.fa.fa-plus
         Ajouter un article
 
