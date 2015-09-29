@@ -52,7 +52,8 @@ class ApplicationController < ActionController::Base
       custom: { location: 'ApplicationController#now_allowed' }
     })
     if request.subdomain == 'pro'
-      redirect_to new_pro_admin_session_url(subdomain: 'pro'), alert: I18n.t('devise.failure.unauthenticated')
+      redirect_to new_pro_admin_session_url(subdomain: 'pro'),
+        alert: I18n.t('devise.failure.unauthenticated')
     else
       redirect_to root_url(subdomain: 'www'), alert: I18n.t('devise.failure.unauthenticated')
     end
@@ -63,7 +64,8 @@ class ApplicationController < ActionController::Base
   # @param  exception
   def render_timeout(exception)
     Bugsnag.notify(exception)
-    redirect_to request.referer || root_path, status: 301, notice: "La requête a mis trop de temps, veuillez réessayer."
+    redirect_to (request.referer || root_path), status: 301,
+      notice: "La requête a mis trop de temps, veuillez réessayer."
   end
 
   # Redirect users if there is a not found resource
