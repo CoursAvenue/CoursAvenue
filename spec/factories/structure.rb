@@ -82,7 +82,7 @@ FactoryGirl.define do
       enabled false
     end
 
-    trait :soft_deleted do
+    trait :deleted do
       deleted_at { 1.hour.from_now }
     end
   end

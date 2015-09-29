@@ -28,7 +28,7 @@ describe ApplicationController do
   describe 'GET #show -> render_not_found' do
     context 'when the structure has been deleted' do
       it 'redirects to the most relevant search page' do
-        structure = FactoryGirl.create(:structure, :soft_deleted)
+        structure = FactoryGirl.create(:structure, :deleted)
         get :show, id: structure.slug
 
         expect(response).to redirect_to(root_search_page_path(
@@ -36,7 +36,7 @@ describe ApplicationController do
       end
 
       it 'redirects with permanent move code' do
-        structure = FactoryGirl.create(:structure, :soft_deleted)
+        structure = FactoryGirl.create(:structure, :deleted)
         get :show, id: structure.slug
 
         expect(response).to have_http_status(:moved_permanently)
