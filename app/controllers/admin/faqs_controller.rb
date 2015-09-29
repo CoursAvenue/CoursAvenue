@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Pro::FaqsController < Pro::ProController
+class Admin::FaqsController < Admin::AdminController
   before_action :authenticate_pro_super_admin!
 
   layout :resolve_layout
@@ -37,7 +37,7 @@ class Pro::FaqsController < Pro::ProController
 
     respond_to do |format|
       if @section.save
-        format.html { redirect_to pro_faqs_path }
+        format.html { redirect_to admin_faqs_path }
       else
         format.html { render action: :edit }
       end
@@ -48,7 +48,7 @@ class Pro::FaqsController < Pro::ProController
     @section = ::Faq::Section.find params[:id]
     respond_to do |format|
       if @section.update_attributes params[:faq_section]
-        format.html { redirect_to pro_faqs_path }
+        format.html { redirect_to admin_faqs_path }
       else
         format.html { render action: :new }
       end
@@ -59,7 +59,7 @@ class Pro::FaqsController < Pro::ProController
     @section = ::Faq::Section.find params[:id]
     @section.destroy
     respond_to do |format|
-      format.html { redirect_to pro_faqs_path, notice: 'Supprimé !' }
+      format.html { redirect_to admin_faqs_path, notice: 'Supprimé !' }
     end
   end
 

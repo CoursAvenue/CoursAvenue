@@ -113,6 +113,13 @@ CoursAvenue::Application.routes.draw do
           get :check
         end
       end
+
+      resources :faqs do
+        collection do
+          get :preview
+        end
+      end
+
     end
 
     # For pros
@@ -173,12 +180,6 @@ CoursAvenue::Application.routes.draw do
       end
 
       resources :press_releases, path: 'communiques-de-presse'
-
-      resources :faqs do
-        collection do
-          get :preview
-        end
-      end
 
       resources :vertical_pages, path: 'pages-verticales'
       resources :city_subject_infos, only: [:new, :create]

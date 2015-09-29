@@ -5,10 +5,10 @@
 %h1 FAQs
 
 .float--right
-  = link_to new_pro_faq_path(type: 'pro'), class: 'btn btn--green' do
+  = link_to new_admin_faq_path(type: 'pro'), class: 'btn btn--green' do
     %i.fa.fa-plus
     Ajouter une section
-  = link_to preview_pro_faqs_path(type: 'pro'), class: 'btn', target: :_blank do
+  = link_to preview_admin_faqs_path(type: 'pro'), class: 'btn', target: :_blank do
     %i.fa-eye
     Voir la FAQ Prof
 %h2.flush FAQ Profs
@@ -24,16 +24,16 @@
       %td= section.position if section.position.present?
       %td= section.title
       %td.nowrap
-        = link_to 'Modifier', edit_pro_faq_path(section), class: 'orange'
+        = link_to 'Modifier', edit_admin_faq_path(section), class: 'orange'
         \/
-        = link_to 'Supprimer', pro_faq_path(section), method: :delete, data: { confirm: "Êtes-vous sûr de vouloir supprimer cette section d'FAQ ?" }, class: 'red'
+        = link_to 'Supprimer', admin_faq_path(section), method: :delete, data: { confirm: "Êtes-vous sûr de vouloir supprimer cette section d'FAQ ?" }, class: 'red'
 
 %hr.push--ends
 .float--right
-  = link_to new_pro_faq_path(type: 'user'), class: 'btn btn--green' do
+  = link_to new_admin_faq_path(type: 'user'), class: 'btn btn--green' do
     %i.fa.fa-plus
     Ajouter une section
-  = link_to preview_pro_faqs_path(type: 'user'), class: 'btn', target: :_blank do
+  = link_to preview_admin_faqs_path(type: 'user'), class: 'btn', target: :_blank do
     %i.fa-eye
     Voir la FAQ élèves
 
@@ -50,6 +50,6 @@
       %td= section.position if section.position.present?
       %td= section.title
       %td.nowrap
-        = link_to 'Modifier', edit_pro_faq_path(section), class: 'orange'
+        = link_to 'Modifier', edit_admin_faq_path(section), class: 'orange'
         \/
-        = link_to 'Supprimer', pro_faq_path(section), method: :delete, data: { confirm: "Êtes-vous sûr de vouloir supprimer cette section d'FAQ ?" }, class: 'red'
+        = link_to 'Supprimer', admin_faq_path(section), method: :delete, data: { confirm: "Êtes-vous sûr de vouloir supprimer cette section d'FAQ ?" }, class: 'red'
