@@ -49,10 +49,11 @@ class ApplicationController < ActionController::Base
   # @param  exception
   def not_allowed(exception)
     Bugsnag.notify(exception, {
-      custom: { location: 'ApplicationController#now_allowed' }
+      custom: { location: 'ApplicationController#not_allowed' }
     })
     if request.subdomain == 'pro'
-      redirect_to new_pro_admin_session_url(subdomain: 'pro'), alert: I18n.t('devise.failure.unauthenticated')
+      redirect_to new_pro_admin_session_url(subdomain: 'pro'),
+        alert: I18n.t('devise.failure.unauthenticated')
     else
       redirect_to root_url(subdomain: 'www'), alert: I18n.t('devise.failure.unauthenticated')
     end
@@ -63,15 +64,17 @@ class ApplicationController < ActionController::Base
   # @param  exception
   def render_timeout(exception)
     Bugsnag.notify(exception)
-    redirect_to request.referer || root_path, status: 301, notice: "La requête a mis trop de temps, veuillez réessayer."
+    redirect_to (request.referer || root_path), status: 301,
+      notice: "La requête a mis trop de temps, veuillez réessayer."
   end
 
   # Redirect users if there is a not found resource
   # @param  exception
   def render_not_found(exception)
     if params[:id] and ((s = Structure.only_deleted.where(id: params[:id]).first) or
-        (s = Structure.only_deleted.where(slug: params[:id])).first)
-      redirect_to structures_path_for_city_and_subject(s.city, s.dominant_root_subject), status: 301, notice: "Cette page n'existe plus."
+        (s = Structure.only_deleted.where(slug: params[:id]).first))
+      redirect_to root_search_page_path(s.dominant_root_subject, s.city, subdomain: 'www'),
+        status: 301, notice: "Cette page n'existe plus."
     else
       Bugsnag.notify(exception)
       redirect_to root_path, status: 301, notice: "Cette page n'existe plus."

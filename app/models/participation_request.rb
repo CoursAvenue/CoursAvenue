@@ -190,10 +190,15 @@ class ParticipationRequest < ActiveRecord::Base
   # @return Boolean
   def modify_date!(message_body, new_params, last_modified_by='Structure')
     # message_body          = StringHelper.replace_contact_infos(message_body)
-    new_params            = ParticipationRequest.set_start_time(new_params)
+    planning_has_changed  = (new_params[:planning_id].present? and
+                             new_params[:planning_id].to_i != self.planning_id)
+    if !planning_has_changed
+      new_params = ParticipationRequest.set_start_time(new_params)
+    end
+
     self.last_modified_by = last_modified_by
     # We don not update_attributes because self.course_id_was won't work...
-    self.assign_attributes new_params
+    self.assign_attributes(new_params)
     # Set old_course_id to nil if the user don't change it and modify just the date
     self.old_course_id       = (self.course_id_was == self.course_id ? nil : self.course_id_was)
     self.state               = 'accepted'
@@ -495,7 +500,7 @@ class ParticipationRequest < ActiveRecord::Base
   # If start_hour and start_min are passed, we transform it into a start_time
   # @return request_attributes without start_hour and start_min but with start_time
   def self.set_start_time(request_attributes)
-    if request_attributes[:planning_id].blank? and request_attributes[:start_hour] and request_attributes[:start_min]
+    if request_attributes[:start_hour] and request_attributes[:start_min]
       # Be careful to add 0 at the end to remove local time.
       request_attributes[:start_time] = Time.new(2000, 1, 1, request_attributes[:start_hour].to_i, request_attributes[:start_min].to_i, 0, 0)
       request_attributes.delete(:start_hour)

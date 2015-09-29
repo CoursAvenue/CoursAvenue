@@ -20,10 +20,6 @@
     %br
     = @structure.name
 
-- content_for :under_content_no_box do
-  %hr
-  = render 'recommandations_form'
-
 = content_for :footer do
   .p
     Vous recevez cet email car #{@structure.name} est inscrit sur CoursAvenue et vous demande de lui rédiger une recommandation sur ses cours.

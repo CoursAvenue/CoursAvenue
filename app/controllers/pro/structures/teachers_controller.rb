@@ -42,7 +42,7 @@ class Pro::Structures::TeachersController < InheritedResources::Base
 
   def update
     if params[:teacher] && params[:teacher].delete(:delete_image) == '1'
-      resource.image.clear
+      resource.remove_image!
     end
     update! do |success, failure|
       success.html { redirect_to pro_structure_teachers_path(@structure) }

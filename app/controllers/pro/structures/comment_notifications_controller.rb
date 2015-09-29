@@ -7,7 +7,7 @@ class Pro::Structures::CommentNotificationsController < Pro::ProController
     @structure      = Structure.friendly.find params[:structure_id]
     params[:emails] ||= ''
     regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
-    emails = params[:emails].scan(regexp).uniq
+    emails = params[:emails].scan(regexp).map(&:downcase).uniq
     text = '<div class="p">' + params[:text].gsub(/\r\n\r\n/, '</div><div class="p">').gsub(/\r\n/, '<br>') + '</div>'
     emails.each do |_email|
       CommentNotification.delay.create_from_email(_email, @structure, text)

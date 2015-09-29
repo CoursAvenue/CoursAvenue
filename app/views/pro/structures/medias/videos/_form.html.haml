@@ -2,7 +2,9 @@
   = f.error_notification
   = f.input :url, wrapper_html: {class: 'flush--bottom'}, as: :string, label: '<i class="fa fa-link"></i>&nbsp;Lien video'.html_safe, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
   %p.field-form-info.blue-green
-    Collez le lien de la page internet de la vidéo provenant de : YouTube, Vimeo ou DailyMotion
+    Collez le lien de la page internet de la vidéo provenant de : YouTube, Vimeo ou DailyMotion.
+    %br
+    = link_to 'Assurez vous que votre video soit bien visible.', 'https://support.google.com/youtube/answer/157177?hl=fr', target: '_blank'
   = f.submit 'Enregistrer', class: 'btn--full btn btn--green', data: { disable_with: "En cours d'enregistrement" }
 
 :javascript

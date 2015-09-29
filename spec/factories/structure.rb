@@ -81,5 +81,9 @@ FactoryGirl.define do
     trait :disabled do
       enabled false
     end
+
+    trait :deleted do
+      deleted_at { 1.hour.from_now }
+    end
   end
 end
