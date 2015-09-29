@@ -84,7 +84,7 @@ class Pro::DashboardController < Pro::ProController
       reqs = Rails.cache.fetch("pro/dashboard/stats/reqs/#{beginning_of_month.to_s}/#{invalidate_cache}") do
         _data = ParticipationRequest.where(created_at: (beginning_of_month)..beginning_of_month.end_of_month).group('structure_id').count
         raw_data.group_by{|raw| raw.dimension1 }.each do |structure_id, data|
-          next if Structure.with_deleted.find(structure_id.to_i).main_contact.nil?
+          next if Structure.with_deleted.find(structure_id.to_i).admin.nil?
           _data[structure_id.to_i] ||= 0
           _data[structure_id.to_i] += data.inject(0) { |sum, data| sum + data.metric3.to_i + data.metric4.to_i }
         end
