@@ -1,9 +1,9 @@
 # encoding: utf-8
-class Pro::SectionsController < Pro::ProController
+class Admin::SectionsController < Admin::AdminController
   before_action :authenticate_pro_super_admin!
 
   def index
-    @emailing = Emailing.find params[:id]
+    @emailing = Emailing.find(params[:emailing_id])
     @sections = @emailing.emailing_sections
 
     respond_to do |format|
