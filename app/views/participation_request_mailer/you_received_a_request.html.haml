@@ -15,8 +15,8 @@
         .soft.text--center
           .epsilon.blue-green Nouvelle demande d'inscription
         .bg-blue-green.soft
-          .p.white
-            Bonjour,
+          .delta.white
+            Bonne nouvelle !
           .epsilon.line-height-1-5.white.hard--bottom
             #{@user.name.capitalize} souhaiterait s'inscrire au cours
             %strong= @participation_request.course.name
@@ -30,14 +30,9 @@
       %td.v-middle.content-block{ width: '525' }
         .soft--sides.soft--top
           .p
-            Vous avez jusqu'au
-            %strong= "#{I18n.l(@reply_limit_date, format: :semi_short)}"
-            pour répondre à sa demande :
+            Pour garantir le meilleur niveau de service à nos utilisateurs, répondez avant le
+            %strong= "#{ I18n.l(@reply_limit_date, format: :semi_short) } :"
 
-    %tr
-      %td.content-block{ colspan: '2' }
-        .p.action.soft--sides
-          = link_to "Accepter / Proposer une autre date / Refuser", pro_structure_participation_request_url(@admin.structure, @participation_request, subdomain: 'pro'), class: 'btn btn--green'
     %tr
       %td.content-block{ colspan: '2' }
         - if @message
@@ -45,17 +40,11 @@
         .soft-half--sides.soft--top
           .bordered= render partial: 'participation_request_mailer/shared/participation_recap', locals: { participation_request: @participation_request }
 
+    %tr
+      %td.content-block{ colspan: '2' }
+        .p.action.soft--sides.soft--top
+          = link_to "Accepter / Proposer une autre date / Refuser", pro_structure_participation_request_url(@admin.structure, @participation_request, subdomain: 'pro'), class: 'btn btn--green'
+
+    %tr
+      %td.content-block{ colspan: '2' }
         .soft--sides.soft--top= render 'shared/mailers/footer'
-
-- content_for :under_content_gray do
-  .title
-    = link_to "Foire aux questions", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'
-  .p.soft-half--bottom.bordered--bottom
-    = link_to "Que faire après avoir reçu une demande d'information d'un élève potentiel ?", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'
-  .p.soft-half--ends.bordered--bottom
-    = link_to "Que faire s'il ne s'agit pas d'une véritable demande d'information ?", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'
-  .p.soft-half--ends.bordered--bottom
-    = link_to "Que se passe-t-il si je laisse expirer une demande d'information ?", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'
-  .p.soft-half--ends
-    = link_to "Comment faire pour recevoir encore plus de demandes d'information ?", pro_pages_questions_url(subdomain: 'pro'), class: 'muted-link'
-
