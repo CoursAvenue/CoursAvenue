@@ -1,7 +1,7 @@
 = side_menu_currently_at 'Villes'
 %h3 Édition de #{@city.name}
 .form-white-box
-  = simple_form_for [:pro, @city] do |f|
+  = simple_form_for [:admin, @city] do |f|
     = f.input :title
     = f.input :subtitle
     = f.input :description, input_html: { data: { behavior: 'autoresize' } }

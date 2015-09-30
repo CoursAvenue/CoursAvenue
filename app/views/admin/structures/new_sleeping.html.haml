@@ -7,7 +7,7 @@
       Création d'un dormant
 
 .main-container
-  = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post, html: { class: 'push--ends' } do |f|
+  = simple_form_for [:admin, @structure], url: pro_structures_path, method: :post, html: { class: 'push--ends' } do |f|
     .grid.push-half--bottom
       .grid__item.one-third.text--right.v-middle>
         %label.epsilon{ for: 'structure_name' }> Nom de la structure
