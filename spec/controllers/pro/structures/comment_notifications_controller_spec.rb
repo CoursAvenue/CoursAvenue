@@ -4,6 +4,17 @@ describe Pro::Structures::CommentNotificationsController do
   include ActionDispatch::TestProcess
   include Devise::TestHelpers
 
+  describe 'GET #index' do
+    it do
+      admin = FactoryGirl.create(:admin)
+      structure = admin.structure
+
+      sign_in admin
+      get :index, structure_id: structure.slug
+      expect(response).to have_http_status(:success)
+    end
+  end
+
   describe 'POST #create' do
     it 'creates the comment notifications' do
       admin = FactoryGirl.create(:admin)

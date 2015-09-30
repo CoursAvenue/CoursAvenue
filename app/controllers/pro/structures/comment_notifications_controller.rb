@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Pro::Structures::CommentNotificationsController < Pro::ProController
-  before_action               :authenticate_pro_admin!
   load_and_authorize_resource :structure, find_by: :slug
 
   def create
@@ -13,22 +12,28 @@ class Pro::Structures::CommentNotificationsController < Pro::ProController
       CommentNotification.delay.create_from_email(_email, @structure, text)
     end
     respond_to do |format|
-      format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés.' : nil) }
+      format.html {
+        redirect_to (params[:redirect_to] || recommendations_pro_structure_path(@structure)),
+                    notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés.' : nil)
+      }
     end
   end
 
   def index
-    @comment_notifications     = Kaminari.paginate_array(@structure.comment_notifications).page(params[:page] || 1).per(100)
+    @comment_notifications = Kaminari.paginate_array(@structure.comment_notifications).
+      page(params[:page] || 1).per(100)
   end
 
   def destroy
-    @structure            = Structure.friendly.find params[:structure_id]
-    @comment_notification = @structure.comment_notifications.find params[:id]
+    @structure            = Structure.friendly.find(params[:structure_id])
+    @comment_notification = @structure.comment_notifications.find(params[:id])
     respond_to do |format|
       if current_pro_admin.super_admin? && @comment_notification.destroy
-        format.html { redirect_to pro_structure_comment_notifications_path(@structure), notice: 'Élève supprimé' }
+        format.html { redirect_to pro_structure_comment_notifications_path(@structure),
+                      notice: 'Élève supprimé' }
       else
-        format.html { redirect_to pro_structure_comment_notifications_path(@structure), alert: 'Vous ne pouvez pas supprimer cet élève' }
+        format.html { redirect_to pro_structure_comment_notifications_path(@structure),
+                      alert: 'Vous ne pouvez pas supprimer cet élève' }
       end
     end
   end

@@ -1,7 +1,5 @@
 # encoding: utf-8
 class Pro::Structures::CoursesController < Pro::ProController
-  layout 'admin'
-
   before_action :authenticate_pro_admin!, except: [:index]
   before_action :load_structure
 

@@ -6,7 +6,7 @@
   .flexbox__item.v-middle
     %h1.flush Articles de presse
   .flexbox__item.v-middle.text--right
-    = link_to new_pro_press_release_path, class: 'btn btn--green' do
+    = link_to new_admin_press_release_path, class: 'btn btn--green' do
       %i.fa.fa-plus
       Ajouter un CP
 %table.table--data.table--striped
@@ -26,8 +26,8 @@
         - if press_release.published?
           %i.fa-check.green
       %td.nowrap
-        = link_to 'Modifier', edit_pro_press_release_path(press_release), class: 'orange'
+        = link_to 'Modifier', edit_admin_press_release_path(press_release), class: 'orange'
         \/
-        = link_to 'Supprimer', pro_press_release_path(press_release), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette press_release ?' }, class: 'red'
+        = link_to 'Supprimer', admin_press_release_path(press_release), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cette press_release ?' }, class: 'red'
         \/
         = link_to 'Voir', press_release_url(press_release, subdomain: 'www'), target: :_blank
