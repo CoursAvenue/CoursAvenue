@@ -1,8 +1,5 @@
 # encoding: utf-8
 class Pro::Structures::WebsiteParametersController < Pro::ProController
-
-  before_action :authenticate_pro_admin!
-
   load_and_authorize_resource :structure, find_by: :slug
 
   before_action :get_or_create_parameter

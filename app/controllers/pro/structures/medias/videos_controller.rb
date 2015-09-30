@@ -17,10 +17,11 @@ class Pro::Structures::Medias::VideosController < Pro::ProController
     @video.mediable = @structure
     respond_to do |format|
       if @video.save
-        format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Photo / vidéo bien ajoutée !' }
+        format.html { redirect_to pro_structure_medias_path(@structure),
+                        notice: 'Photo / vidéo bien ajoutée !' }
       else
         format.html { redirect_to pro_structure_medias_path(@structure),
-                                  flash: { error: @video.errors.full_messages.first } }
+                        flash: { error: @video.errors.full_messages.first } }
       end
     end
   end
@@ -45,7 +46,8 @@ class Pro::Structures::Medias::VideosController < Pro::ProController
     @video.cover = true
     @video.save
     respond_to do |format|
-      format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Votre vidéo est maintenant visible par défaut sur votre page profil' }
+      format.html { redirect_to pro_structure_medias_path(@structure),
+                      notice: 'Votre vidéo est maintenant visible par défaut sur votre page profil' }
     end
   end
 

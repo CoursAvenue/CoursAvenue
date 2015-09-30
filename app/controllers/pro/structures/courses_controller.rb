@@ -19,7 +19,9 @@ class Pro::Structures::CoursesController < Pro::ProController
   def add_image
     @course = @structure.courses.friendly.find params[:id]
     begin
-      media_image = Media::Image.create filepicker_url: params[:course][:media], remote_image_url: params[:course][:media], mediable: @structure
+      media_image = Media::Image.create(
+        filepicker_url: params[:course][:media], remote_image_url: params[:course][:media],
+        mediable: @structure)
     rescue Cloudinary::CarrierWave::UploadError => exception
       # TODO: Check after Rails update.
       # For some reason, the regular `redirect_to ..., error: '...'` doesn't seem to work here.
@@ -44,7 +46,7 @@ class Pro::Structures::CoursesController < Pro::ProController
     # So...
     # Nico sent this email: "Nouveau : envoyez votre planning à tous vos contacts"
     # The sent to: https://pro.coursavenue.com/etablissements/soraya-saadi-association-feminissime-orient/cours
-    # So we have to redirect the user to HIS structure
+    # So we have to redirect the user to ITS structure
     authenticate_pro_admin! if !current_pro_admin
     if current_pro_admin and !current_pro_admin.super_admin
       @structure = current_pro_admin.structure
@@ -87,7 +89,8 @@ class Pro::Structures::CoursesController < Pro::ProController
       course.end_date   = Time.at(course_param[:end_date_unix].to_i).to_date
       course.save
     end
-    redirect_to pro_structure_courses_path(@structure), notice: 'Vos dates de fermetures ont été mises à jour'
+    redirect_to pro_structure_courses_path(@structure),
+      notice: 'Vos dates de fermetures ont été mises à jour'
   end
 
   def edit
@@ -111,7 +114,8 @@ class Pro::Structures::CoursesController < Pro::ProController
     @course.structure = @structure
     respond_to do |format|
       if @course.save
-        format.html { redirect_to pro_structure_course_prices_path(@structure, @course), notice: 'Vous pouvez maintenant définir les tarifs pour ce cours' }
+        format.html { redirect_to pro_structure_course_prices_path(@structure, @course),
+                        notice: 'Vous pouvez maintenant définir les tarifs pour ce cours' }
         format.js
       else
         format.html { render action: :new}
@@ -127,7 +131,8 @@ class Pro::Structures::CoursesController < Pro::ProController
     end
     respond_to do |format|
       if @course.update_attributes course_attributes
-        format.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours a bien été mis à jour' }
+        format.html { redirect_to pro_structure_courses_path(@structure),
+                        notice: 'Le cours a bien été mis à jour' }
         format.json { render json: {}, status: 200 }
         format.js
       else
@@ -142,10 +147,12 @@ class Pro::Structures::CoursesController < Pro::ProController
     @course = Course.friendly.find params[:id]
     respond_to do |format|
       if @course.destroy
-        format.html { redirect_to pro_structure_courses_path(@structure), notice: "Le cours a bien été supprimé" }
+        format.html { redirect_to pro_structure_courses_path(@structure),
+                        notice: "Le cours a bien été supprimé" }
         format.js
       else
-        format.html { redirect_to pro_structure_courses_path(@structure), alert: "Une erreur s'est produite" }
+        format.html { redirect_to pro_structure_courses_path(@structure),
+                        alert: "Une erreur s'est produite" }
         format.js
       end
     end

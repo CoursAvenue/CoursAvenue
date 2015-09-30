@@ -1,4 +1,4 @@
-# Controller used when structure import contacts.
+# Controller used when the structure admin imports contacts from Gmail.
 class Pro::Structures::ContactsController < Pro::ProController
 
   def callback

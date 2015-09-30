@@ -14,9 +14,6 @@
     = render partial: 'pro/structures/courses/add_activity_button'
     -# %div.push-half--top
     -#   = link_to "Dates de fermeture d'été", configure_openings_pro_structure_courses_path(@structure, subdomain: 'www'), class: 'btn btn--white btn--small fancybox.ajax', data: { behavior: 'modal', width: '650', padding: '0' }
-    - if current_pro_admin.super_admin?
-      %div.push-half--top
-        = link_to "Mettre a jour les résultats", generate_cards_pro_structure_courses_path(@structure, subdomain: 'www'), method: :post, class: 'btn btn--white btn--small'
 
 - if @structure.courses.any?
   .alert--info.alert.soft.one-whole.flexbox.palm-block

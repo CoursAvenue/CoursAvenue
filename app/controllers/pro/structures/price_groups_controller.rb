@@ -1,8 +1,4 @@
 # encoding: utf-8
-class Pro::Structures::PriceGroupsController < Pro::ProController
-  layout 'admin'
-
-  before_action :authenticate_pro_admin!
   load_and_authorize_resource :structure
 
   def index
@@ -146,5 +142,4 @@ class Pro::Structures::PriceGroupsController < Pro::ProController
       @courses = @structure.courses.trainings.select{ |course| course.price_group.nil? }
     end
   end
-
 end

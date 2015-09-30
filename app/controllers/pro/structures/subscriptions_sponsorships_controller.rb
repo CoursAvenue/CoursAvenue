@@ -1,6 +1,6 @@
 class Pro::Structures::SubscriptionsSponsorshipsController < Pro::ProController
   load_and_authorize_resource :structure, find_by: :slug
-  before_action :authenticate_pro_admin!, :set_subscription
+  before_action :set_subscription
 
   def index
     if @subscription.nil? or ! @subscription.active?

@@ -1,8 +1,5 @@
 # encoding: utf-8
 class Pro::Structures::WebsitePages::ArticlesController < Pro::ProController
-  layout 'admin'
-
-  before_action :authenticate_pro_admin!
   load_and_authorize_resource :structure, find_by: :slug
   before_action :set_page
 
