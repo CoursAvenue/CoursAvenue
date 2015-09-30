@@ -1,13 +1,22 @@
-.bg-blue-green.rounded.soft.white.epsilon.push--bottom#pr-confirmation-form
-  %h3.push-half--bottom Traitez la demande d'inscription avant 48h
+.text--center.bg-blue-green.rounded.soft.white.epsilon.push--bottom#pr-confirmation-form
+  %h3.push-half--bottom
+    Traitez la demande d'inscription avant 48h
   .delta.push-half--bottom
-    Si la demande vous convient, cliquez sur "Accepter" pour que le participant reçoive un mail de confirmation. Si vous souhaitez au contraire discuter avec le participant, accédez à ses coordonnées ou envoyez-lui un message :
+    Un e-mail sera envoyé au participant pour le prévenir de votre réponse :
   .delta.push-half--bottom
     = link_to 'Accepter', accept_form_pro_structure_participation_request_path(@participation_request.structure, @participation_request),
-      class: 'btn btn--white-transparent btn--white-transparent--green fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
-    = link_to 'Voir les coordonnées', show_user_contacts_pro_structure_participation_request_path(@participation_request.structure, @participation_request),
-      class: 'btn btn--white-transparent btn--white-transparent--white fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0, 'after-close-reload' => true }
-    = link_to 'Envoyer un message', edit_pro_structure_participation_request_path(@structure, @participation_request, discuss_only: true),
-      class: 'btn btn--white-transparent btn--white-transparent fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
-    = link_to 'Annuler', cancel_form_pro_structure_participation_request_path(@structure, @participation_request),
-      class: 'btn btn--white-transparent--red btn--white-transparent fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+      class: 'btn push-half--sides btn--white-transparent btn--white-transparent--green fancybox.ajax', data: { behavior: 'modal', width: 600, padding: 0 }
+    = link_to 'Modifier la date', edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request, show_course_select: true),
+      class: 'btn push-half--sides btn--white-transparent btn--white-transparent--green fancybox.ajax', data: { behavior: 'modal', width: 600, padding: 0 }
+    = link_to 'Refuser', cancel_form_pro_structure_participation_request_path(@structure, @participation_request),
+      class: 'btn push-half--sides btn--white-transparent--red btn--white-transparent fancybox.ajax', data: { behavior: 'modal', width: 600, padding: 0 }
+
+  %h3.push-half--ends
+    Besoin de discuter avant de répondre ?
+  .delta.push-half--bottom
+    Contactez directement le participant pour discuter et convenir d’une date :
+  .delta.push-half--bottom
+    = link_to 'Voir les coordonnées', show_user_contacts_pro_structure_participation_request_path(@structure, @participation_request),
+      class: 'btn push-half--sides btn--white-transparent btn--white-transparent--green fancybox.ajax', data: { behavior: 'modal', width: 600, padding: 0 }
+    = link_to 'Envoyer un message', edit_pro_structure_participation_request_path(@participation_request.structure, @participation_request, discuss_only: true),
+      class: 'btn push-half--sides btn--white-transparent btn--white-transparent--green fancybox.ajax', data: { behavior: 'modal', width: 600, padding: 0 }

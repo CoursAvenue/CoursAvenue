@@ -84,11 +84,26 @@ class ParticipationRequestDecorator < Draper::Decorator
   # 28 janvier de 11h00 à 12h30
   # OR
   # 28 janvier à 11h00 if it does not have planning (on appointment)
-  def day_and_hour(with_end_time=true)
+  def day_and_hour(with_end_time = true)
     if (object.course.is_private? and object.course.on_appointment?) or !with_end_time
       "#{I18n.l(object.date, format: :semi_long)} à #{I18n.l(object.start_time, format: :short).gsub('00', '')}"
     else
       "#{I18n.l(object.date, format: :semi_long)} de #{I18n.l(object.start_time, format: :short).gsub('00', '')} à #{I18n.l(object.end_time, format: :short).gsub('00', '')}"
+    end
+  end
+
+  def formatted_date
+    date = I18n.l(object.date, format: :semi_longer)
+    time = I18n.l(object.start_time, format: :short).gsub('00', '')
+
+    "le #{ date } à #{ time }"
+  end
+
+  def formatted_place
+    if object.at_student_home?
+      "Au domicile de l'élève"
+    elsif object.place.present?
+      "#{object.place.name}, #{object.place.address}"
     end
   end
 

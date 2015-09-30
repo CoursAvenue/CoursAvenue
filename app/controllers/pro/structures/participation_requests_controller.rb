@@ -76,7 +76,11 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   # PUT pro/etablissements/:structure_id/participation_request/:id/accept
   def accept
     @participation_request = @structure.participation_requests.find(params[:id])
-    message_body = params[:participation_request][:message][:body] if params[:participation_request] and params[:participation_request][:message]
+
+    if params[:participation_request] and params[:participation_request][:message]
+      message_body = params[:participation_request][:message][:body]
+    end
+
     @participation_request.accept!(message_body, 'Structure')
     respond_to do |format|
       format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: "Votre confirmation vient d'être envoyée" }
@@ -97,7 +101,8 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
     body = params[:participation_request][:message].present? ? params[:participation_request][:message][:body] : ''
     @participation_request.modify_date!(body, params[:participation_request], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: 'Le changement a bien été pris en compte' }
+      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request),
+                      notice: 'Le changement a bien été pris en compte' }
     end
   end
 
