@@ -30,8 +30,10 @@ class Place < ActiveRecord::Base
   ######################################################################
   # Scopes                                                             #
   ######################################################################
-  scope :publics,                -> { where( type: 'Place::Public' ) }
-  scope :homes,                  -> { where( type: 'Place::Home' ) }
+  scope :publics,        -> { where( type: 'Place::Public' ) }
+  scope :homes,          -> { where( type: 'Place::Home' ) }
+  # Order the places by course type (lessons, privates and then trainings)
+  scope :course_type_order, -> { includes(plannings: [:course]).order('courses.type') }
 
   accepts_nested_attributes_for :contacts,
                                 reject_if: lambda {|attributes| attributes.values.compact.reject(&:blank?).empty?},
@@ -59,7 +61,6 @@ class Place < ActiveRecord::Base
   def is_home?
     false
   end
-
 
   # Affect subjects to place if there is no subjects after creation
   #

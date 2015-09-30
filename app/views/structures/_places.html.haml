@@ -6,7 +6,7 @@
 = react_component('Map', { markers: places.map(&:to_react_json) } )
 .bg-white.soft--top.bordered--sides.bordered--bottom
   .soft--sides
-    - places.each_with_index do |place, index|
+    - places.course_type_order.each_with_index do |place, index|
       .push--bottom.flexbox
         .flexbox__item.v-top.soft-half--right
           .map-box-marker.map-box-marker--inline{ class: "map-box-marker__#{place.dominant_root_subject.try(:slug)}" }

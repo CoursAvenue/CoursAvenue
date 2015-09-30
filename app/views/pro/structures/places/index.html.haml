@@ -24,5 +24,5 @@
           %i.fa-info
         %th.three-twelfths
     %tbody
-      - @places.each_with_index do |place, index|
+      - @places.course_type_order.each_with_index do |place, index|
         = render partial: 'pro/structures/places/place', locals: { place: place, structure: @structure, index: index }
