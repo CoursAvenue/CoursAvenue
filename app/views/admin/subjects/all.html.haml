@@ -1,0 +1,29 @@
+= side_menu_currently_at 'subjects'
+
+%h1 Disciplines
+
+%table.table--data.table--striped.white-box#dataTable
+  %thead
+    %tr
+      %th Discipline 1
+      %th Discipline 2
+      %th Discipline 3
+      %th
+  %tbody
+    - @subjects.each do |subject|
+      - cache [subject, 'pro/subjects/all'] do
+        %tr{ data: { subject: { id: subject.id } } }
+          %td= subject.root.name
+          %td
+            - if subject.depth == 1
+              = subject.name
+            - elsif subject.depth == 2
+              = subject.parent.name
+          %td
+            - if subject.depth == 2
+              = subject.name
+          %td.nowrap
+            = link_to 'Editer', edit_name_admin_subject_path(subject), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'
+            - if subject.depth == 1
+              \/
+              = link_to 'Ajouter un enfant', new_admin_subject_path(parent_id: subject.id), data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax'

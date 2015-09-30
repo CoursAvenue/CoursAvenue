@@ -1,4 +1,4 @@
-class Pro::Admins::OnboardingController < ApplicationController
+class Pro::Admins::OnboardingController < Pro::Public
   before_action :render_step, except: [:update]
 
   private

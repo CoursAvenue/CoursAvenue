@@ -1,0 +1,47 @@
+- url = @section.persisted? ? admin_faq_path : admin_faqs_path
+- section_count = Faq::Section.where(type: (params[:type] == 'user' ? 'Faq::Section::User' : 'Faq::Section::Pro')).count
+- position_collection = (1..(section_count > 0 ? section_count : 1)).to_a
+
+= simple_form_for [:admin, @section], url: url, as: :faq_section do |f|
+  = f.input :title, label: 'Titre de la section', placeholder: 'Guide de démarage', input_html: { class: 'input--large' }, label_html: { class: 'label--large' }
+  = f.input :type, label: 'Type de la section', as: :select, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }, collection: Faq::Section::TYPES, label_method: lambda { |section| section[:title] }, value_method: lambda { |section| section[:type] }, selected: (@section.pro? ? 'Faq::Section::Pro' : 'Faq::Section::User')
+  = f.input :position, label: 'Position de la section', as: :select, collection: position_collection, input_html: { class: 'input--large' }, label_html: { class: 'label--large' }, include_blank: false
+
+  %hr
+  %div{ data: { behavior: 'show-more-on-demand' } }
+    - @section.questions.each_with_index do |question, i|
+      = f.simple_fields_for :questions, question, child_index: i do |question_form|
+        %div{ class: (!question.persisted? ? 'hidden': ''), data: { el: true, hidden: !question.persisted? } }
+          = question_form.input :question, label: 'Question', placeholder: 'Un profil CoursAvenue, pour quoi faire ?', label_html: { class: 'label--large' }, input_html: { class: 'input--large' }
+          = question_form.input :answer, label: false, placeholder: 'Créez gratuitement votre profil CoursAvenue pour...', input_html: { class: 'one-whole' }
+
+          .text--right
+            %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+              %i.fa-trash-o
+              Supprimer la question
+          %hr.push-half--ends
+    .push--ends
+      %a{ href: 'javascript:void(0)', data: { trigger: true } }>
+        %i.fa.fa-plus
+        Ajouter une question
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
+
+= content_for :scripts do
+  :javascript
+      $(document).ready(function() {
+          $('textarea').redactor({
+              buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
+                'link', 'alignment', 'horizontalrule', 'image'],
+              formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
+              lang: 'fr',
+              plugins: ['imagemanager'],
+              imageUpload: Routes.admin_images_path({
+                  'authenticity_token': $('meta[name=csrf-token]').attr('content')
+              }),
+              imageManagerJson: Routes.admin_images_path(),
+          });
+      });
+
+:css
+  #cke_faq_section_questions_attributes_1_answer, #cke_faq_section_questions_attributes_2_answer, #cke_faq_section_questions_attributes_3_answer, #cke_faq_section_questions_attributes_4_answer, #cke_faq_section_questions_attributes_5_answer, #cke_faq_section_questions_attributes_6_answer, #cke_faq_section_questions_attributes_7_answer, #cke_faq_section_questions_attributes_8_answer, #cke_faq_section_questions_attributes_9_answer, #cke_faq_section_questions_attributes_10_answer, #cke_faq_section_questions_attributes_11_answer, #cke_faq_section_questions_attributes_12_answer, #cke_faq_section_questions_attributes_13_answer { width: 100% !important; }

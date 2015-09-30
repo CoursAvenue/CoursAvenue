@@ -23,7 +23,7 @@
             %strong.delta{ id: "conversation-countdown-#{conversation.id}" }
         %div
           - if participation_request
-            = link_to 'Répondre maintenant', pro_structure_participation_request_path(@structure, participation_request), class: 'btn btn--green btn--small'
+            = link_to 'Répondre maintenant', pro_structure_public_participation_request_path(@structure, participation_request), class: 'btn btn--green btn--small'
           - else
             = link_to 'Répondre maintenant', pro_structure_conversation_path(@structure, conversation), class: 'btn btn--green btn--small'
       = content_for :scripts do

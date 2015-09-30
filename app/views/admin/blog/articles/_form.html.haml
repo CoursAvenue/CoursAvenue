@@ -62,7 +62,7 @@
   %hr.push--ends
   %h2 Partie pour les portraits
   - @image = Media::Image.new mediable: @article
-  = simple_form_for [:pro, @article, @image], url: admin_blog_article_medias_path(@article), html: { id: 'image-form' } do |f|
+  = simple_form_for [:admin, @article, @image], url: admin_blog_article_medias_path(@article), html: { id: 'image-form' } do |f|
     = f.error_notification
     .text--center
       = f.filepicker_field :url, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true, class: "filepicker-dragdrop text--center", drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft--ends text--center push--bottom", drag_text: "Glissez votre image ici ou cliquez pour changer de logo", multiple: true
@@ -95,7 +95,7 @@
           .show-on-hover.absolute.absolute--center.text--center
             %i.fa-eye.fa-4x.white
         .soft-half
-          = simple_form_for [:pro, @article, media], url: admin_blog_article_media_path(@article, media), remote: true, as: :media, html: { data: { behavior: 'live-form' } } do |f|
+          = simple_form_for [:admin, @article, media], url: admin_blog_article_media_path(@article, media), remote: true, as: :media, html: { data: { behavior: 'live-form' } } do |f|
             = f.input :caption, as: :string, label: false, input_html: { class: 'one-whole media_caption input--large', placeholder: 'Position' }, wrapper_html: { class: 'flush--top push-half--bottom' }
           = link_to admin_blog_article_media_path(@article, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, title: 'Supprimer', class: 'btn btn--small btn--red' do
             Supprimer

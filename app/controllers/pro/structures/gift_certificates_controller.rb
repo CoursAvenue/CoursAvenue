@@ -1,5 +1,7 @@
 class Pro::Structures::GiftCertificatesController < ApplicationController
-  before_action :authenticate_pro_admin!, :set_structure
+  before_action :authenticate_pro_admin!
+  before_action :set_structure
+
   authorize_resource :structure
 
   layout 'admin'

@@ -1,0 +1,9 @@
+.panel
+  .panel__header.soft
+    .delta.line-height-normal
+      Supprimer le compte
+  .panel__body.soft
+    %h4.push-half--bottom Avec quel slug ce prof est associé
+    = simple_form_for [:admin, @structure], url: admin_structure_path(@structure), method: :delete do |f|
+      %input.one-whole.push-half--bottom{ name: 'slug_to_associate' }
+      = f.submit 'Supprimer mon compte', class: 'btn btn--red btn--full'

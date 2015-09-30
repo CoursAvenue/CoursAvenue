@@ -1,0 +1,88 @@
+= simple_form_for [:admin, @emailing] do |f|
+  = f.input :title, label: 'Phrase grise de header', placeholder: 'Ex. : Cours près de chez vous', input_html: { class: 'input--large'}, label_html: { class: 'label--large' }
+  = f.input :header_image, input_html: { class: 'v-middle'}, label: 'Image header (600x244)', label_html: { class: 'label--large v-middle' }
+  - if @emailing.header_image.present?
+    = image_tag @emailing.header_image.url
+  = f.input :header_url, input_html: { class: 'v-middle', value: @emailing.header_url || 'https://www.coursavenue.com'}, label: "Lien de l'image", label_html: { class: 'label--large v-middle' }
+  = f.input :header_image_alt, label: "ALT de l'image", placeholder: "Texte qui apparaîtra si l'image n'est pas chargé", label_html: { class: 'label--large v-middle' }, input_html: { class: 'input--large v-middle' }
+  = f.input :body, label: false, input_html: { class: 'one-whole input--large' }
+  .flexbox
+    .flexbox__item.one-quarter
+      .control-label.label--large= f.label :call_to_action_text, "Call to action bouton"
+    .flexbox__item.soft-half--right
+      = f.input :call_to_action_text, label: false, placeholder: "Voir tous les cours gratuits", input_html: { class: 'input--large one-whole v-middle' }
+    .flexbox__item
+      = f.input :call_to_action_url, label: false, placeholder: "https://www.coursavenue.com/paris", input_html: { class: 'input--large one-whole v-middle' }
+
+  -# = f.input :section_metadata_one, as: :select, collection: Emailing::SECTION_METADATA, label: 'Texte 1 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }, selected: (@emailing.section_metadata_one || 'metadata_name')
+  .visuallyhidden= f.input :section_metadata_two, as: :select, collection: Emailing::SECTION_METADATA, label: 'Texte 2 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }, selected: (@emailing.section_metadata_two || 'metadata_cities')
+  -# = f.input :section_metadata_three, as: :select, collection: Emailing::SECTION_METADATA, label: 'Texte 3 à afficher sous la section', label_method: lambda { |section| section[:title] } , value_method: lambda { |section| section[:action] }, selected: (@emailing.section_metadata_three || 'metadata_cities')
+
+  %div{ data: { behavior: 'show-more-on-demand' } }
+    - @emailing.emailing_sections.each_with_index do |section, i|
+      = f.simple_fields_for :emailing_sections, section, child_index: i do |section_form|
+        %div{ class: (!section.persisted? ? 'hidden' : ''), data: { el: true, hidden: !section.persisted? } }
+          %hr
+          = section_form.association :structures, as: :select, collection: Structure.with_logo_and_media, input_html: { class: 'input--large', multiple: false,
+            data: { behavior: 'chosen', structures: i } }, placeholder: 'Choisir une structure', label_method: :name, label_html: { class: 'one-whole label--large' }
+          .text--right
+            %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+              %i.fa-trash-o
+              Supprimer
+          Ou
+          = section_form.association :indexable_cards, as: :select, collection: @cards, input_html: { class: 'input--large', multiple: false, data: { behavior: 'chosen', cards: i } },
+            placeholder: 'Choisir un cours', label_html: { class: 'one-whole label--large' }, label: 'Cours'
+          .text--right
+            %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+              %i.fa-trash-o
+              Supprimer
+          Ou
+          = section_form.association :indexable_cards, as: :select, collection: @cards, input_html: { class: 'input--large', multiple: false, data: { behavior: 'chosen' } },
+            placeholder: 'Choisir un cours', label_method: lambda { |card| card[:name] } , label_html: { class: 'one-whole label--large' }, label: 'Cours'
+          .text--right
+            %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+              %i.fa-trash-o
+              Supprimer
+    %p
+      %a{ href: 'javascript:void(0)', data: { trigger: true } }>
+        %i.fa.fa-plus
+        Ajouter une section
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
+
+= content_for :scripts do
+  :javascript
+      $(document).ready(function() {
+          // Populate indexable card select input.
+          $('[data-behavior=chosen]').change(function (event) {
+              var structure_id = $(event.target.selectedOptions).val();
+              var url = Routes.cards_pro_structure_path(structure_id, { format: 'json' });
+
+              var card_select = $('[data-cards=' + $(event.target).data('structures') + ']');
+
+              $.ajax({
+                  type: 'GET',
+                  url: url,
+                  success: function(response, status, xhr) {
+                    response.cards.forEach(function(card) {
+                      var option = new Option(card.name, card.id);
+                      card_select.append($(option));
+                      card_select.trigger('chosen:updated');
+                    });
+                  }.bind(this),
+              });
+
+          });
+      });
+
+      $('[name=emailing\\[body\\]]').redactor({
+          buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
+            'link', 'alignment', 'horizontalrule', 'image'],
+          formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
+          lang: 'fr',
+          plugins: ['imagemanager'],
+          imageUpload: Routes.admin_images_path({
+              'authenticity_token': $('meta[name=csrf-token]').attr('content')
+          }),
+          imageManagerJson: Routes.admin_images_path(),
+      });

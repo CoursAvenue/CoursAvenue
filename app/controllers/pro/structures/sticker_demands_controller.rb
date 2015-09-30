@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Pro::Structures::StickerDemandsController < Pro::ProController
-  before_action               :authenticate_pro_admin!
   before_action               :authenticate_pro_super_admin!, only: [:sent]
   load_and_authorize_resource :structure, find_by: :slug
 

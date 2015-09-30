@@ -23,32 +23,6 @@ class ::Pro::AdminsController < InheritedResources::Base
   def waiting_for_activation
   end
 
-  def confirm
-    @admin = ::Admin.find(params[:id])
-    respond_to do |format|
-      if @admin.confirm!
-        format.html { redirect_to pro_admins_path }
-      else
-        format.html { redirect_to pro_admins_path, alert: 'Admin could not have been confirmed.' }
-      end
-    end
-  end
-
-  def index
-    @admins = Admin.order('created_at DESC').page(params[:page])
-    respond_to do |format|
-      format.html
-    end
-  end
-
-  def edit
-    @admin     = ::Admin.find(params[:id])
-    @structure = @admin.structure
-    if @structure.nil?
-      redirect_to request.referrer || root_path, alert: "Pas d'admin pour cet établissement"
-    end
-  end
-
   def update
     @admin = ::Admin.find(params[:id])
 
@@ -64,19 +38,6 @@ class ::Pro::AdminsController < InheritedResources::Base
         format.js { render nothing: true }
       else
         format.html { render action: :edit }
-      end
-    end
-  end
-
-  def destroy
-    @admin     = ::Admin.find(params[:id])
-    @structure = @admin.structure
-    if params[:delete_structure]
-      @structure.destroy
-    end
-    destroy! do |format|
-      format.html do
-        redirect_to pro_admins_path, notice: 'Admin correctement supprimé.'
       end
     end
   end
@@ -123,7 +84,9 @@ class ::Pro::AdminsController < InheritedResources::Base
     if admin.sign_in_count == 1
       edit_pro_structure_path(admin.structure)
     else
-      session['pro_admin_return_to'].gsub('__STRUCTURE_ID__', admin.structure.slug) if session['pro_admin_return_to'].present? and admin.structure.present?
+      if session['pro_admin_return_to'].present? and admin.structure.present?
+        session['pro_admin_return_to'].gsub('__STRUCTURE_ID__', admin.structure.slug)
+      end
       session['pro_admin_return_to'] || dashboard_pro_structure_path(admin.structure)
     end
   end

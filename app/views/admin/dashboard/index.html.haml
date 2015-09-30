@@ -1,0 +1,205 @@
+= side_menu_currently_at 'pro_dashboard'
+= render partial: 'pro/shared/dashboard_tabs', locals: { current: 'dashboard' }
+
+.text--center.push--bottom
+  = link_to 'Ajouter un profil dormant', admin_add_sleeping_structure_path, class: 'btn btn--small soft--sides btn--green'
+.grid
+  .grid__item.palm-one-whole.one-quarter.bordered--right>
+    .soft-half.text--center
+      %h3.flush= "#{number_with_delimiter Admin.normal.count} profs"
+      %h6.flush dont #{number_with_delimiter Admin.where( Admin.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+      %div et #{number_with_delimiter Admin.where( Admin.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
+  .grid__item.palm-one-whole.one-quarter.bordered--right>
+    .soft-half.text--center
+      %h3.flush= "#{number_with_delimiter Comment::Review.count} avis"
+      %h6.flush dont #{number_with_delimiter Comment::Review.where( Comment::Review.arel_table[:created_at].gt(Date.today) ).count} aujourd'hui
+      %div et #{number_with_delimiter Comment::Review.where( Comment::Review.arel_table[:created_at].gt(7.days.ago) ).count} les 7 derniers jours
+  .grid__item.palm-one-whole.one-quarter.bordered--right>
+    .soft-half.text--center
+      %h3.flush= "#{number_with_delimiter Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id])).count} mess"
+      %h6.flush
+        dont
+        = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id]).and(Mailboxer::Conversation.arel_table[:created_at].gt(Date.today)) ).count
+        aujourd'hui
+      %div
+        et
+        = Mailboxer::Conversation.where(Mailboxer::Conversation.arel_table[:mailboxer_label_id].eq_any([Mailboxer::Label::INFORMATION.id, Mailboxer::Label::REQUEST.id]).and(Mailboxer::Conversation.arel_table[:created_at].gt(7.days.ago)) ).count
+        les 7 derniers jours
+  .grid__item.palm-one-whole.one-quarter>
+    .soft-half.text--center
+      %h3.flush= "#{number_with_delimiter User.active.count} élèves"
+      %h6.flush dont #{number_with_delimiter User.active.where( User.arel_table[:sign_up_at].gt(Date.today) ).count} aujourd'hui
+      %div et #{number_with_delimiter User.active.where( User.arel_table[:sign_up_at].gt(7.days.ago) ).count} les 7 derniers jours
+.grid
+  .grid__item.center-block>
+    .soft-half.text--center
+      %h3.flush= "Base email exploitable : #{number_with_delimiter User.where(delivery_email_status: nil).count}"
+      %h6.flush dont #{number_with_delimiter User.where(User.arel_table[:created_at].gt(Date.today).and(User.arel_table[:delivery_email_status].eq(nil))).count} aujourd'hui
+      %div et #{number_with_delimiter User.where(User.arel_table[:created_at].gt(7.days.ago).and(User.arel_table[:delivery_email_status].eq(nil))).count} les 7 derniers jours
+
+#admins-ratio
+#admins-cumul
+#comments-cumul
+
+%hr.push--ends
+.text--center
+  #messages-months
+
+%hr.push--ends
+%h3
+  %i.fa-map-marker
+  Professeurs enregistrés / Avis laissés (non cumulé)
+.text--center
+  .gamma
+    = Admin.normal.count
+    profs
+    \/
+    = Comment::Review.count
+    avis
+  #admins
+
+.text--center
+  .gamma
+    = Admin.normal.count
+    profs
+
+- if params[:more].present?
+  %hr.push--ends
+  %h3
+    %i.fa-envelope-o
+    Demande d'infos
+  .text--center
+    .gamma
+      = Mailboxer::Conversation.where( subject: I18n.t(Mailboxer::Label::INFORMATION.name) ).count
+      Messages
+    #messages
+
+  %hr.push--ends
+  %h3
+    %i.fa-group
+    Élèves notifiés pour avis
+  .text--center
+    .gamma
+      = User.count
+      élèves
+    #students
+
+  %hr.push--ends
+  %h3
+    %i.fa-youtube-play
+    Photos & Vidéos
+  .text--center
+    .gamma
+      = Media::Video.count
+      Vidéos /
+      = Media::Image.count
+      Photos
+    #medias
+
+= content_for :scripts do
+  = javascript_include_tag 'libs/highcharts/highcharts'
+  = javascript_include_tag 'libs/highcharts/modules/exporting'
+
+- if params[:ratio]
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          new Highcharts.Chart({
+              chart: { renderTo: 'admins-ratio', type: 'spline' },
+              title: { text: null },
+              xAxis: { categories: #{@teachers_per_weeks.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+              yAxis: { title: { text: ''}},
+              series: [
+                { data: #{@teachers_per_weeks.map{|date, count| count}},
+                  name: 'NB profs contacté différent'
+                 }
+              ]
+          });
+      });
+= content_for :scripts do
+  :javascript
+    $(function() {
+        new Highcharts.Chart({
+            chart: { renderTo: 'admins-cumul', type: 'spline' },
+            title: { text: null },
+            xAxis: { categories: #{@admins_cumul_hash.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [
+              { data: #{@admins_cumul_hash.map{|date, count| count}},
+                name: 'Profs cumul'
+               }
+            ]
+        });
+
+        new Highcharts.Chart({
+            chart: { renderTo: 'comments-cumul', type: 'spline' },
+            title: { text: null },
+            xAxis: { categories: #{@comments_cumul_hash.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [
+              { data: #{@comments_cumul_hash.map{|date, count| count}},
+                name: 'Avis cumul'
+               }
+            ]
+        });
+
+        new Highcharts.Chart({
+            chart: { renderTo: 'admins', type: 'column' },
+            title: { text: null },
+            xAxis: { categories: #{@comments_hash.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [
+              { data: #{@admins_hash.map{|date, count| count}},
+                name: 'Profs inscrits'
+               },
+              { data: #{@comments_hash.map{|date, count| count}},
+                name: 'Avis'
+              }
+            ]
+        });
+
+        new Highcharts.Chart({
+            chart: { renderTo: 'messages-months', type: 'column' },
+            title: { text: "Actions / mois" },
+            xAxis: { categories: #{@messages_per_weeks.map{|date, count| date}} },
+            yAxis: {
+              title: { text: ''},
+              stackLabels: {
+                  enabled: true,
+                  style: {
+                      fontWeight: 'bold',
+                      color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                  }
+              }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black, 0 0 3px black'
+                        }
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            series: [
+              { name: "Tel", data: #{@telephone_per_weeks.map{|date, count| count}} },
+              { name: "Site", data: #{@website_per_weeks.map{|date, count| count}} },
+              { name: "Messages", data: #{@messages_per_weeks.map{|date, count| count}} }
+            ]
+        });
+    });
+

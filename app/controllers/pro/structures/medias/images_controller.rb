@@ -1,8 +1,6 @@
 # encoding: utf-8
 class Pro::Structures::Medias::ImagesController < Pro::ProController
-  before_action :authenticate_pro_admin!
   before_action :retrieve_structure
-  layout 'admin'
 
   def index
     @media     = @structure.medias.build
@@ -37,7 +35,8 @@ class Pro::Structures::Medias::ImagesController < Pro::ProController
       end
     else
       respond_to do |format|
-        format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Vos images ont bien été ajoutées !' }
+        format.html { redirect_to pro_structure_medias_path(@structure),
+                        notice: 'Vos images ont bien été ajoutées !' }
         format.js { render nothing: true }
       end
     end
@@ -58,7 +57,8 @@ class Pro::Structures::Medias::ImagesController < Pro::ProController
     @image.cover = true
     @image.save
     respond_to do |format|
-      format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Votre image est maintenant visible par défaut sur votre page profil' }
+      format.html { redirect_to pro_structure_medias_path(@structure),
+                      notice: 'Votre image est maintenant visible par défaut sur votre page profil' }
     end
   end
 

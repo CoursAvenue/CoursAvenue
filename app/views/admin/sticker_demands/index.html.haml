@@ -1,0 +1,35 @@
+= side_menu_currently_at 'pro_dashboard'
+
+= render partial: 'pro/shared/dashboard_tabs', locals: { current: 'sticker_demands' }
+
+%h1 Stickers à envoyer
+%table.table--striped.table-responsive
+  %thead
+    %tr
+      %th Structure
+      %th Rond
+      %th Carré
+      %th Adresse
+      %th Date de la demande
+      %th
+  %tbody
+    - @sticker_demands.not_sent.each do |sticker_demand|
+      = render partial: 'admin/sticker_demands/sticker_demand',
+                locals: { sticker_demand: sticker_demand }
+
+%hr.push--ends
+
+%h2 Envoyé
+%table.table--striped
+  %thead
+    %tr
+      %th Structure
+      %th Rond
+      %th Carré
+      %th Adresse
+      %th Date de la demande
+      %th
+  %tbody
+    - @sticker_demands.sent.each do |sticker_demand|
+      = render partial: 'admin/sticker_demands/sticker_demand',
+                locals: { sticker_demand: sticker_demand }

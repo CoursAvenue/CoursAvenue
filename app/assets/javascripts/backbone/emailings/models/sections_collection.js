@@ -4,13 +4,11 @@ Emailing.module('Models', function(Module, App, Backbone, Marionette, $, _) {
 
         url: function url () {
             var id = window.coursavenue.bootstrap.id;
-            return Routes.pro_emailing_sections_path(id);
+            return Routes.admin_emailing_sections_path(id);
         },
 
         parse: function parse (data) {
             return data;
         }
-
     });
 });
-

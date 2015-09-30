@@ -15,7 +15,7 @@ class Pro::Admins::SessionsController < Devise::SessionsController
     elsif admin.structure
       dashboard_pro_structure_path(admin.structure)
     elsif admin.super_admin?
-      pro_dashboard_path
+      admin_dashboard_path
     else
       root_path
     end

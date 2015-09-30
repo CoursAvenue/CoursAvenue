@@ -8,7 +8,7 @@ describe PDFGenerator do
 
   describe '.generate_invoice' do
     let(:invoice)  { FactoryGirl.create(:subscriptions_invoice, :payed) }
-    let(:template) { 'pro/subscriptions/invoices.pdf.haml' }
+    let(:template) { 'admin/subscriptions/invoices.pdf.haml' }
 
     before do
       allow_any_instance_of(AWS::S3::S3Object).to receive(:write).and_return(true)

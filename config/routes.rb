@@ -12,6 +12,32 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: 'pro' do
     # For super admin
     namespace :admin do
+
+      get '/dashboard'   => 'dashboard#index', as: 'dashboard'
+      get '/dashboard-2' => 'dashboard#stats'
+
+      resources :admins, only: [:index, :edit, :update] do
+        member do
+          patch 'confirm'
+        end
+      end
+
+      resources :structures, path: 'etablissements' do
+        collection do
+          get :duplicates
+          get :imported_structures
+          get :stars
+
+          post :import
+          post :update_duplicates
+        end
+
+        member do
+          get :ask_for_pro_deletion
+        end
+      end
+      get 'nouveau-dormant', to: 'structures#new_sleeping', as: :add_sleeping_structure
+
       resources :users, only: [:index]
       resources :flyers, only: [:index, :update]
       resources :press_articles
@@ -22,7 +48,7 @@ CoursAvenue::Application.routes.draw do
       resources :blog_categories, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/categories'
       resources :blog_authors, only: [:new, :create, :edit, :update, :destroy], controller: 'blog/authors', path: 'blog/auteurs'
       resources :images, only: [:index, :create]
-      resource  :community             , only: [:show]                                     , controller: 'structures/community'      , path: 'communaute' do
+      resource  :community, only: [:show], controller: 'structures/community', path: 'communaute' do
         resources :message_threads, only: [:index, :destroy], controller: 'community/message_threads' do
           member do
             post :approve
@@ -32,6 +58,68 @@ CoursAvenue::Application.routes.draw do
       end
       resources :sms_loggers, only: [:index, :show]
       resources :places, only: [:index]
+
+      resources :guides do
+        member do
+          get :edit_subjects
+          patch :update_subjects
+        end
+      end
+
+      resources :emailings do
+        resources :sections, only: [:index]
+        resources :bridges, only: [:update]
+        member do
+          get :preview
+          get :code
+          get :send_preview, path: 'send'
+        end
+      end
+
+      resources :cities, only: [:index, :edit, :update], path: 'villes' do
+        collection do
+          get :zip_code_search
+        end
+      end
+
+      resources :subjects do
+        collection do
+          get :descendants
+          get :all
+        end
+      end
+
+      resources :comment_notifications,  only: [:index]
+      resources :conversations,          only: [:index]
+      resources :invited_users,          only: [:index]
+      resources :sticker_demands,        only: [:index]
+      resources :participation_requests, only: [:index]
+
+      resources :comments, only: [:edit, :update, :index] do
+        member do
+          patch :recover
+        end
+      end
+
+      resources :subscriptions, only: [:index]
+      resources :subscriptions_plans do
+        member do
+          get :subscriptions
+        end
+      end
+      resources :subscriptions_invoices, only: [:index]
+      resources :subscriptions_coupons, only: [:index, :new, :create, :destroy, :show] do
+        member do
+          get :check
+        end
+      end
+
+      resources :faqs do
+        collection do
+          get :preview
+        end
+      end
+
     end
 
     # For pros
@@ -48,8 +136,6 @@ CoursAvenue::Application.routes.draw do
       get 'nos-convictions'                     => 'home#convictions',        as: 'pages_convictions'
       get 'presse'                              => redirect('presse', subdomain: 'www', status: 301)
       get 'journees-portes-ouvertes'            => redirect('pages/portes-ouvertes-cours-loisirs', status: 301)
-      get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
-      get '/dashboard-2'                        => 'dashboard#stats'
       get 'cours-d-essai-gratuits'              => 'home#free_trial',         as: 'pages_free_trial'
 
       # Redirect old pages
@@ -83,7 +169,6 @@ CoursAvenue::Application.routes.draw do
         resources :medias, controller: 'portraits/medias'
       end
 
-      resources :participation_requests, only: [:index]
       resources :blog_subscribers, only: [:create], controller: 'blog/subscribers'
       resources :blog_articles, only: [:index, :show], controller: 'blog/articles', path: 'blog' do
         collection do
@@ -96,63 +181,11 @@ CoursAvenue::Application.routes.draw do
 
       resources :press_releases, path: 'communiques-de-presse'
 
-      resources :faqs do
-        collection do
-          get :preview
-        end
-      end
-
-      resources :comments, only: [:edit, :update, :index] do
-        member do
-          patch :recover
-        end
-      end
-
       resources :vertical_pages, path: 'pages-verticales'
       resources :city_subject_infos, only: [:new, :create]
-      resources :cities, only: [:index, :edit, :update], path: 'villes' do
-        collection do
-          get :zip_code_search
-        end
-      end
-      resources :subjects do
-        member do
-          get :edit_name
-        end
-        collection do
-          get :descendants
-          get :all
-        end
-      end
 
-      resources :emailings do
-        resources :sections, only: [:index]
-        resources :bridges, only: [:update]
-        member do
-          get :preview
-          get :code
-          get :send_preview, path: 'send'
-        end
-      end
-
-      resources :invited_users, only: [:index]
-      resources :sticker_demands, only: [:index]
-
-      resources :subscriptions,          only: [:index]
-      resources :subscriptions_invoices, only: [:index]
-      resources :subscriptions_coupons, only: [:index, :new, :create, :destroy, :show] do
-        member do
-          get :check
-        end
-      end
-      resources :subscriptions_plans do
-        member do
-          get :subscriptions
-        end
-      end
       resources :subscriptions_sponsorships, only: [:show], path: 'parrainage'
 
-      get 'nouveau-dormant', to: 'structures#new_sleeping', as: :add_sleeping_structure
       resources :registrations, only: [:new, :create], path: 'inscriptions' do
         collection do
           get :new_course
@@ -161,15 +194,9 @@ CoursAvenue::Application.routes.draw do
       end
       resources :structures, path: 'etablissements' do
         collection do
-          get :stars
           get :inscription, to: :new
-          post :import
-          get :imported_structures
-          get :duplicates
-          post :update_duplicates
         end
         member do
-          get   :ask_for_pro_deletion
           get   :confirm_email
           post  :resend_confirmation_instructions
           get   :dashboard, path: 'tableau-de-bord'
@@ -362,7 +389,16 @@ CoursAvenue::Application.routes.draw do
           resources :plannings, controller: 'structures/courses/plannings'
           resources :book_tickets, only: [:edit, :index, :destroy]
         end
-        resources :participation_requests, only: [:edit, :index, :show], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
+
+        resources :participation_requests, only: [:index], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
+          collection do
+            get :upcoming,      path: 'a-venir'
+            get :past,          path: 'deja-passee'
+            get :paid_requests, path: 'transactions-cb'
+          end
+        end
+
+        resources :public_participation_requests, only: [:edit, :show], controller: 'structures/public_participation_requests', path: 'suivi-inscriptions' do
           member do
             get   :cancel_form
             get   :accept_form
@@ -375,12 +411,8 @@ CoursAvenue::Application.routes.draw do
             patch :rebook
             patch :signal_user_absence
           end
-          collection do
-            get :paid_requests, path: 'transactions-cb'
-            get :upcoming, path: 'a-venir'
-            get :past,     path: 'deja-passee'
-          end
         end
+
         resources :gift_certificates, only: [:index, :edit, :new, :create, :destroy, :update], controller: 'structures/gift_certificates', path: 'bons-cadeaux' do
           collection do
             get :install_guide
@@ -389,9 +421,6 @@ CoursAvenue::Application.routes.draw do
           end
         end
       end
-      resources :comment_notifications, only: [:index]
-      resources :conversations        , only: [:index]
-
       get '/auth/facebook/callback', to: 'admins#facebook_auth_callback'
       get '/auth/failure',           to: 'admins#facebook_auth_failure'
 
@@ -406,25 +435,15 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
-      resources :admins do
+      resources :admins, except: [:index]  do
         collection do
           get :waiting_for_activation, path: 'activez-votre-compte'
-        end
-        member do
-          patch 'confirm'
         end
       end
       devise_for :admins, controllers: { sessions: 'pro/admins/sessions', registrations: 'pro/admins/registrations', passwords: 'pro/admins/passwords', confirmations: 'pro/admins/confirmations'}, path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/', :confirmation => 'verification'}#, :password => 'secret', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
 
-      get "/contacts/:importer/callback", to: "contacts#callback"
-      get "/contacts/failure",            to: "contacts#failure"
-
-      resources :guides do
-        member do
-          get :edit_subjects
-          patch :update_subjects
-        end
-      end
+      get "/contacts/:importer/callback", to: "structures/contacts#callback"
+      get "/contacts/failure",            to: "structures/contacts#failure"
 
     end
   end

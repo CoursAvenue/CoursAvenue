@@ -1,0 +1,43 @@
+.soft--sides.soft--top
+  - @plans.each do |plan|
+    .flexbox.push--bottom
+      .flexbox__item.v-middle
+        = link_to edit_admin_subscriptions_plan_path(plan), class: 'fancybox.ajax', data: { behavior: 'modal', width: '700', padding: '0' } do
+          %h4.flush--bottom
+            = plan.name
+            %span.caps.bg-green.white.smaller-print active
+
+        = link_to 'Voir sur Stripe', "#{ stripe_dashboard_url }/plans/#{plan.stripe_plan_id}", target: :_blank
+
+      .flexbox__item.v-middle.text--right
+        = succeed ' ' do
+          = link_to subscriptions_admin_subscriptions_plan_path(plan), class: 'btn btn--bigger fancybox.ajax', data: { behavior: 'modal', width: '700', padding: '0' } do
+            %i.fa.fa-th-list
+        = succeed ' ' do
+          = link_to admin_subscriptions_plan_path(plan), class: 'btn btn--bigger btn--red', method: :delete, data: { confirm: 'Êtes sûr de vouloir de supprimer cette offre ? Elle sera aussi supprimée de Stripe.' } do
+            %i.fa-trash-o
+
+    %hr
+- @plans.each do |plan|
+  %h4= plan.name
+  %table.table--data.table--striped.table--hoverable
+    %thead
+      %tr
+        %th Structure
+        %th Depuis
+        %th.text--center Newsletter envoyée
+        %th.text--center À payé
+    %tbody
+      - plan.subscriptions.each do |subscription|
+        - structure = subscription.structure
+        - next if structure.nil?
+        %tr
+          %td.seven-twelfths
+            = link_to structure.name, pro_structure_subscriptions_path(structure), target: :_blank
+          %td.three-twelfths= l(subscription.created_at)
+          %td.one-twelfths.text--center
+            = structure.newsletters.sent.count
+          %td.one-twelfths.text--center
+            - if subscription.stripe_subscription_id.present?
+              %i.fa.fa-check.green
+

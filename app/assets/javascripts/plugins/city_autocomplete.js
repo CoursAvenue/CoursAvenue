@@ -48,7 +48,7 @@
                 this.current_val = this.element.value;
                 var value = this.element.value;
                 this.request = $.ajax({
-                    url: Routes.zip_code_search_pro_cities_path({format: 'json'}),
+                    url: Routes.zip_code_search_admin_cities_path({format: 'json'}),
                     dataType: 'json',
                     data: {
                         term: value

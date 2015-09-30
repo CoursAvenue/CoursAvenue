@@ -115,11 +115,11 @@
                   - if comment.persisted? and can?(:destroy, comment)
                     - if comment.waiting_for_deletion?
                       %li.nowrap
-                        = link_to recover_pro_comment_path(comment), method: :patch do
+                        = link_to recover_admin_comment_path(comment), method: :patch do
                           %i.fa-check
                           Rétablir
                     %li.nowrap
-                      = link_to edit_pro_comment_path(comment) do
+                      = link_to edit_admin_comment_path(comment) do
                         %i.fa-pencil
                         Modifier
                     %li.nowrap

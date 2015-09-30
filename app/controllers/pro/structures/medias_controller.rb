@@ -1,11 +1,8 @@
 # encoding: utf-8
 class Pro::Structures::MediasController < Pro::ProController
-  before_action :authenticate_pro_admin!
-
   # Because edit lets you choose if the media will be on the vertical page
   before_action :authenticate_pro_super_admin!, only: [:edit]
   before_action :load_structure
-  layout 'admin'
 
   def index
     @media     = @structure.medias.build
@@ -17,7 +14,8 @@ class Pro::Structures::MediasController < Pro::ProController
     @media     = Media.find params[:id]
     @media.destroy
     respond_to do |format|
-      format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Photo / vidéo bien supprimé.' }
+      format.html { redirect_to pro_structure_medias_path(@structure),
+                      notice: 'Photo / vidéo bien supprimé.' }
     end
   end
 
@@ -30,7 +28,8 @@ class Pro::Structures::MediasController < Pro::ProController
     @media     = Media.find params[:id]
     @media.update_attributes(params[:media])
     respond_to do |format|
-      format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Photo / vidéo bien starré.' }
+      format.html { redirect_to pro_structure_medias_path(@structure),
+                      notice: 'Photo / vidéo bien starré.' }
       format.js   { render nothing: true }
     end
   end

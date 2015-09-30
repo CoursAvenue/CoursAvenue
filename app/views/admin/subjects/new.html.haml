@@ -1,0 +1,7 @@
+%h3= "Enfant de : #{@subject.root.name} / #{@subject.parent.name}"
+
+= simple_form_for [:admin, @subject] do |f|
+  = f.input :name, label: 'Nom', label_html: { class: 'v-middle' }, input_html: { class: 'v-middle' }
+  = f.input :remote_image_url, label: "Url de l'image", label_html: { class: 'v-middle' }, input_html: { class: 'v-middle' }
+  = f.input :ancestry, as: :hidden
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement" }

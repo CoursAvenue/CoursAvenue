@@ -13,7 +13,7 @@
   Pour continuer à recevoir de nouveaux élèves, nous vous conseillons de répondre maintenant :
 
 .p.action
-  = link_to "Accepter / Proposer une autre date / Refuser", pro_structure_participation_request_url(@admin.structure, @participation_request, subdomain: 'pro'), class: 'btn btn--green'
+  = link_to "Accepter / Proposer une autre date / Refuser", pro_structure_public_participation_request_url(@admin.structure, @participation_request, subdomain: 'pro'), class: 'btn btn--green'
 
 - if @message
   .soft--bottom

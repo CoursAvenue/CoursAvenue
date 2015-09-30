@@ -1,11 +1,6 @@
 class Pro::Structures::Comments::CommentRepliesController < Pro::ProController
-
-  before_action :authenticate_pro_admin!
   load_and_authorize_resource :structure, find_by: :slug
   before_action :load_comment
-
-  layout 'admin'
-
 
   def new
     @comment_reply = Comment::Reply.new commentable: @comment
@@ -23,9 +18,14 @@ class Pro::Structures::Comments::CommentRepliesController < Pro::ProController
     end
     if @comment.associated_message
       @conversation = @comment.associated_message.conversation
-      @structure.admin.reply_to_conversation(@conversation, params[:comment_reply][:content]) if params[:comment_reply][:content].present?
+      if params[:comment_reply][:content].present?
+        @structure.admin.reply_to_conversation(@conversation, params[:comment_reply][:content])
+      end
     else
-      @structure.admin.send_message_with_label(@comment.user, params[:comment_reply][:content], 'Réponse à votre avis', Mailboxer::Label::COMMENT.id)
+      @structure.admin.send_message_with_label(
+        @comment.user, params[:comment_reply][:content], 'Réponse à votre avis',
+        Mailboxer::Label::COMMENT.id
+      )
     end
     respond_to do |format|
       format.html { redirect_to pro_structure_comments_path(@structure) }

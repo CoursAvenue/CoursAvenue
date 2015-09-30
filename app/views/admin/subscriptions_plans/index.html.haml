@@ -1,0 +1,19 @@
+= side_menu_currently_at 'subscription_plans'
+
+= render partial: 'pro/shared/subscriptions_tabs', locals: { current: 'plans' }
+
+- any_plans = @plans.any?
+
+.flexbox.push--bottom
+  .flexbox__item.v-middle
+    %h1.flush Offres
+  .flexbox__item.v-middle.text--right
+    - if any_plans
+      = link_to new_admin_subscriptions_plan_path, class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal', width: '700', padding: '0' } do
+        %i.fa.fa-plus
+        Ajouter une offre
+
+- if any_plans
+  = render 'plans_list'
+- else
+  = render 'plans_empty'

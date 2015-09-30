@@ -1,0 +1,16 @@
+.soft--sides.soft--top
+  %table.table--data.table--striped
+    %thead
+      %tr
+        %th Nom
+        %th Description
+        %th
+    %tbody
+      - @coupons.each do |coupon|
+        %tr
+          %td= coupon.stripe_coupon_id
+          %td= coupon.name
+          %td
+            = link_to 'Voir sur Stripe', "https://dashboard.stripe.com/test/coupons/#{coupon.stripe_coupon_id}", target: :_blank
+            = link_to admin_subscriptions_coupon_path(coupon), class: 'btn btn--red btn--small', method: :delete, data: { confirm: 'Êtes sûr de vouloir de supprimer ce code promo ? Il sera aussi supprimé de Stripe.' } do
+              %i.fa-trash-o

@@ -1,4 +1,6 @@
 class Pro::ProController < ApplicationController
-  layout 'admin'
   helper OnboardingHelper
+  layout 'admin'
+
+  before_action :authenticate_pro_admin!
 end

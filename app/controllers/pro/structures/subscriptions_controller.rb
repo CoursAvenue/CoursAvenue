@@ -1,8 +1,6 @@
 class Pro::Structures::SubscriptionsController < Pro::ProController
-  before_action :authenticate_pro_admin!, :set_structure
+  before_action :set_structure
   load_and_authorize_resource :structure, find_by: :slug
-
-  layout 'admin'
 
   def index
     if @structure.subscription.present?

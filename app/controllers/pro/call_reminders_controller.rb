@@ -5,7 +5,9 @@ class Pro::CallRemindersController < Pro::ProController
 
   def new
     @call_reminder = CallReminder.new
-    render layout: false
+    if request.xhr?
+      render layout: false
+    end
   end
 
   def index

@@ -1,0 +1,108 @@
+- form_url = @guide.persisted? ? admin_guide_path(@guide) : admin_guides_path
+- colors = ['#f0c15c', '#ec9f53', '#f6705f', '#d85f79', '#c66fa2', '#4f99d0', '#3ec5dd', '#375b76', '#d5905c']
+
+= simple_form_for @guide, url: form_url do |f|
+  = f.input :title, label: 'Titre', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.title') }
+  = f.input :description, label: 'Description', label_html: { class: 'label--large' }, input_html: { placeholder: t('guides.placeholder.description') }
+  = f.input :call_to_action, label: 'Accroche', label_html: { class: 'label--large' }, input_html: { placeholder: t('guides.placeholder.call_to_action') }
+  = f.input :age_dependant, label: "Dependant de l'age ?", label_html: { class: 'label--large' }, input_html: { data: { behavior: 'toggle-restrictions' } }
+
+  .text--center
+    - if @guide.image.present?
+      = image_tag @guide.image.url(:default), data: { fpimage: true }
+    - else
+      %img{ data: { fpimage: true } }
+    = f.filepicker_field :remote_image_url, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true, class: "filepicker-dragdrop text--center", drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft--ends text--center push--bottom", drag_text: "Glissez votre image ici ou cliquez pour changer d'image", onchange: 'onPhotoUpload(event)'
+
+  %hr.push--top
+
+  %div{ data: { behavior: 'show-more-on-demand' } }
+    = f.simple_fields_for :questions, @guide.questions do |qf|
+      - question = qf.object
+      - selected_color = question.color || colors.sample
+      %div{ class: (question.persisted? ? '': 'hidden'), data: { el: true, hidden: (!question.persisted? and qf.index > 0) } }
+        = qf.input :content, label: 'Question', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.question.content') }
+        = qf.input :ponderation, label: 'Ponderation', input_html: { placeholder: '0', class: 'v-middle' }, label_html: { class: 'v-middle' }
+        = qf.input :position, label: 'Position', input_html: { placeholder: (qf.index + 1), class: 'v-middle' }, label_html: { class: 'v-middle' }
+        .visuallyhidden
+          = qf.input :color, input_html: { value: selected_color, data: { color_value: true, id: qf.index } }
+
+        .input
+          %label.control-label>
+            Couleur
+          .grid.three-quarters.flush>
+            - colors.each do |color|
+              .grid__item.one-tenth.cursor-pointer{ data: { color: color, id: qf.index },
+                style: 'background-color: ' + color + '; min-width: 10px; min-height: 10px; margin: 2px;' + (selected_color == color ? 'border: 2px solid black;' : '')  }>
+
+        %a.cursor-pointer.v-middle.push-half--bottom{ href: 'javascript:void(0);', data: { toggle: true } }
+          %i.fa-eye
+          Voir les réponses
+        .bordered.bordered--dash.bordered--larger.f-weight-500{ class: (question.answers.map(&:content).any? ? '' : 'hidden'), data: { content: true } }
+          = qf.simple_fields_for :answers, question.answers do |af|
+            - answer = af.object
+            .grid.soft--top.soft--ends
+              .grid__item.one-quarter
+                .soft--left.text--center
+                  - if answer.image.present?
+                    = image_tag answer.image.url, class: 'block', data: { fpimage: true }
+                    = af.filepicker_field :remote_image_url, services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: false, button_text: "Changer l'image",
+                      button_class: 'btn btn--blue-green btn--small push-half--top filepicker', onchange: 'onPhotoUpload(event)'
+                  - else
+                    %img{ data: { fpimage: true } }
+                    = af.filepicker_field :remote_image_url, button_class: 'hidden', services: 'COMPUTER,FACEBOOK,INSTAGRAM,DROPBOX,BOX,FLICKR,PICASA,URL', dragdrop: true,
+                      class: "filepicker-dragdrop text--center", drag_class: "flush--left push-half--bottom one-whole f-weight-500 soft-half--ends text--center push--bottom",
+                      drag_text: "Glissez ou cliquez ici pour changer votre image", onchange: 'onPhotoUpload(event)'
+              .grid__item.seven-tenths
+                = af.input :content, label: 'Reponse', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: t('guides.placeholder.answer.content') }
+                = af.input :subject_ids, as: :select, collection: Subject.order('position ASC'), label: 'Disciplines', label_method: :name,
+                  input_html: { data: { behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', autocomplete: "off" }, multiple: true }
+                = af.input :position, label: 'Position', label_html: { class: 'label--large' }, input_html: { class: 'input--large', placeholder: (af.index + 1) }
+
+            %hr.push-half--ends
+
+        .text--right.very-soft--top
+          %a.cursor-pointer.v-middle{ href: 'javascript:void(0);', data: { clear: true } }
+            %i.fa-trash-o
+            Supprimer la question
+        %hr.push-half--ends
+
+    .push--ends
+      %a{ href: 'javascript:void(0)', data: { trigger: true } }>
+        %i.fa.fa-plus
+        Ajouter une question
+
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', data: { disable_with: "En cours d'enregistrement"}
+
+- content_for :scripts do
+  = filepicker_js_include_tag
+
+  :javascript
+    function onPhotoUpload(event) {
+        var image = $(event.target).siblings('[data-fpimage]');
+        $(image).attr('src', event.fpfile.url);
+    }
+
+    $(document).ready(function() {
+        $('[data-toggle]').click(function(event) {
+            event.preventDefault();
+            $(this).siblings('[data-content]').slideToggle()
+        });
+
+        $('[data-color]').click(function(event) {
+            event.preventDefault();
+
+            $(this).siblings('[data-color]').css('border', '');
+            $(this).addClass('selected').css('border', '2px solid black');
+
+            var index = $(this).data('id');
+            $('input[data-id=' + index + ']').val($(this).data('color'));
+        });
+
+    //  $('#guide_description').redactor({
+    //      buttons: ['formatting', 'bold', 'italic', 'unorderedlist', 'orderedlist',
+    //        'link', 'alignment', 'horizontalrule', 'image'],
+    //      formatting: ['p', 'blockquote', 'h1', 'h2', 'h3'],
+    //      lang: 'fr'
+    //  });
+    });

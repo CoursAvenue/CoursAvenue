@@ -1,0 +1,12 @@
+= side_menu_currently_at 'activity'
+
+= render partial: 'pro/shared/activity_tabs', locals: { current: params[:info] ? 'info_messages' : 'all_messages' }
+
+.text--center.push-half--ends= paginate @conversations, window: 1, outer_window: 3
+- @conversations.each do |conversation|
+  - structure = conversation.recipients.select{|r| r.is_a? Admin}.first.try(:structure)
+  - next if structure.nil?
+  = link_to pro_structure_conversation_path(structure, conversation), class: 'muted-link' do
+    - cache [conversation, 'pro/conversations'] do
+      = render partial: 'admin/conversations/conversation', locals: { conversation: conversation, structure: structure }
+.text--center.push-half--ends= paginate @conversations, window: 1, outer_window: 3
