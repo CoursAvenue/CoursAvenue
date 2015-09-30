@@ -7,16 +7,16 @@
       - if !participation_request.canceled?
         - if participation_request.pending? and participation_request.last_modified_by == 'User'
           %li.nowrap
-            = link_to accept_pro_structure_participation_request_path(participation_request.structure, participation_request), method: :patch, class: 'green nowrap' do
+            = link_to accept_pro_structure_public_participation_request_path(participation_request.structure, participation_request), method: :patch, class: 'green nowrap' do
               %i.fa-check
               Accepter l'inscription
 
         %li.nowrap
-          = link_to edit_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
+          = link_to edit_pro_structure_public_participation_request_path(participation_request.structure, participation_request), class: 'orange nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
             %i.fa-clock
             Proposer une autre date
       - if !participation_request.canceled?
         %li.nowrap
-          = link_to cancel_form_pro_structure_participation_request_path(participation_request.structure, participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
+          = link_to cancel_form_pro_structure_public_participation_request_path(participation_request.structure, participation_request), class: 'red nowrap fancybox.ajax', data: { behavior: 'modal', width: 800, padding: 0 } do
             %i.fa-times
             Annuler l'inscription

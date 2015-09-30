@@ -85,7 +85,7 @@ describe Pro::Structures::PublicParticipationRequestsController do
       pr = FactoryGirl.create(:participation_request)
       structure = pr.structure
 
-      put :accept, structure_id: structure.slug, id: pr.token 
+      put :accept, structure_id: structure.slug, id: pr.token
       expect(response).to redirect_to(
         pro_structure_public_participation_request_path(pr.structure, pr))
     end

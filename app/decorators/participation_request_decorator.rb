@@ -13,7 +13,7 @@ class ParticipationRequestDecorator < Draper::Decorator
   end
 
   # Accepté|En attente|Annulé
-  def long_status_name(resource_name="Structure")
+  def long_status_name(resource_name = "Structure")
     status = I18n.t("participation_request.state.to_#{resource_name.downcase}.long_description.#{participation_request.state}")
     if participation_request.treated?
       status += participation_request.treat_method == 'message' ?  ' (un message vous a été envoyé)' : ' (vos coordonnées de contact ont été visualisées)'
@@ -23,7 +23,7 @@ class ParticipationRequestDecorator < Draper::Decorator
   end
 
   # <strong class="red">Annulé</strong>
-  def status_for resource='Structure'
+  def status_for(resource = 'Structure')
     if object.pending? and !object.past?
       html = "<strong class='#{color} has-tooltip'"
       html << "data-toggle='popover'"
@@ -119,7 +119,7 @@ class ParticipationRequestDecorator < Draper::Decorator
   end
 
   def sms_message_for_new_request_to_teacher
-    pr_url = h.pro_structure_participation_request_url(object.structure, object, subdomain: 'pro')
+    pr_url = h.pro_structure_public_participation_request_url(object.structure, object, subdomain: 'pro')
     bitly  = Bitly.client.shorten(pr_url)
     message = I18n.t('sms.structures.new_participation_request',
                      user_name: object.user.name,

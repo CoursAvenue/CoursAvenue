@@ -5,4 +5,4 @@
   .delta.push-half--bottom
     %strong #{@user.name} n'assistera pas à la séance "#{@participation_request.course.name}" le #{@participation_request.day_and_hour(false)}
   .delta.push-half--bottom
-    = link_to 'Modifier', edit_pro_structure_participation_request_path(@structure, @participation_request, show_course_select: true, new_date: true), class: 'btn btn--white-transparent--orange btn--white-transparent btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }
+    = link_to 'Modifier', edit_pro_structure_public_participation_request_path(@structure, @participation_request, show_course_select: true, new_date: true), class: 'btn btn--white-transparent--orange btn--white-transparent btn--small fancybox.ajax', data: { behavior: 'modal', width: 500, padding: 0 }

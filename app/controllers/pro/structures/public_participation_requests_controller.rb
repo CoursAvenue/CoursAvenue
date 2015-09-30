@@ -50,7 +50,7 @@ class Pro::Structures::PublicParticipationRequestsController < Pro::PublicContro
     message_body = params[:participation_request][:message][:body] if params[:participation_request] and params[:participation_request][:message]
     @participation_request.accept!(message_body, 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: "Votre confirmation vient d'être envoyée" }
+      format.html { redirect_to pro_structure_public_participation_request_path(@structure, @participation_request), notice: "Votre confirmation vient d'être envoyée" }
     end
   end
 
@@ -68,7 +68,7 @@ class Pro::Structures::PublicParticipationRequestsController < Pro::PublicContro
     body = params[:participation_request][:message].present? ? params[:participation_request][:message][:body] : ''
     @participation_request.modify_date!(body, params[:participation_request], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: 'Le changement a bien été pris en compte' }
+      format.html { redirect_to pro_structure_public_participation_request_path(@structure, @participation_request), notice: 'Le changement a bien été pris en compte' }
     end
   end
 
@@ -77,7 +77,7 @@ class Pro::Structures::PublicParticipationRequestsController < Pro::PublicContro
     @participation_request = @structure.participation_requests.find(params[:id])
     @participation_request.discuss!(params[:participation_request][:message][:body], 'Structure')
     respond_to do |format|
-      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: 'Le changement a bien été pris en compte' }
+      format.html { redirect_to pro_structure_public_participation_request_path(@structure, @participation_request), notice: 'Le changement a bien été pris en compte' }
     end
   end
 
@@ -88,7 +88,7 @@ class Pro::Structures::PublicParticipationRequestsController < Pro::PublicContro
 
     action_performed = @participation_request.charged? and @participation_request.refunded? ? 'remboursée' : 'refusée'
     respond_to do |format|
-      format.html { redirect_to pro_structure_participation_request_path(@structure, @participation_request), notice: "La demande d'inscription a bien été #{ action_performed }" }
+      format.html { redirect_to pro_structure_public_participation_request_path(@structure, @participation_request), notice: "La demande d'inscription a bien été #{ action_performed }" }
     end
   end
 
@@ -102,14 +102,14 @@ class Pro::Structures::PublicParticipationRequestsController < Pro::PublicContro
   def rebook
     @participation_request = @structure.participation_requests.find(params[:id])
     @new_pr = @participation_request.rebook!(participation_request_new_class_params)
-    redirect_to pro_structure_participation_request_path(@structure, @new_pr),
+    redirect_to pro_structure_public_participation_request_path(@structure, @new_pr),
       notice: 'Votre nouvelle séance a été programmée avec succès.'
   end
 
   # PATCH pro/etablissements/:structure_id/participation_request/:id/signal_user_absence
   def signal_user_absence
     @participation_request = @structure.participation_requests.find(params[:id])
-    redirect_to pro_structure_participation_request_path(@structure, @participation_request),
+    redirect_to pro_structure_public_participation_request_path(@structure, @participation_request),
       notice: "Merci de nous avoir signalé l'absence de ce participant, nous allons prendre contact avec lui."
   end
 

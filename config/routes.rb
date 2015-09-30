@@ -411,8 +411,6 @@ CoursAvenue::Application.routes.draw do
             patch :rebook
             patch :signal_user_absence
           end
-          collection do
-          end
         end
 
         resources :gift_certificates, only: [:index, :edit, :new, :create, :destroy, :update], controller: 'structures/gift_certificates', path: 'bons-cadeaux' do

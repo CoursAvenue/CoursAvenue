@@ -26,6 +26,6 @@
         %td{ data: { th: 'Eleve' } }
           %div= link_to participation_request.user.name, user_participation_request_url(participation_request.user, participation_request, subdomain: 'www'), target: :_blank
         %td{ data: { th: 'Prof' } }
-          %div= link_to participation_request.structure.name, pro_structure_participation_request_path(participation_request.structure, participation_request), target: :_blank
+          %div= link_to participation_request.structure.name, pro_structure_public_participation_request_path(participation_request.structure, participation_request), target: :_blank
 
 .text--center.push-half--ends= paginate @participation_requests, window: 1, outer_window: 3

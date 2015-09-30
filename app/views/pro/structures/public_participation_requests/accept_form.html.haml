@@ -4,7 +4,7 @@
       Accepter la demande d'inscription
   .panel__body.soft
     .soft--sides.soft--bottom
-      = simple_form_for [:pro, @structure, @participation_request], url: modify_date_pro_structure_participation_request_path(@structure, @participation_request) do |f|
+      = simple_form_for [:pro, @structure, @participation_request], url: modify_date_pro_structure_public_participation_request_path(@structure, @participation_request) do |f|
         .grid__full.soft-half--ends
           .grid__item.v-middle.six-tenths.hard>
             <label for='request-date'>Vous confirmez l'inscription pour le</label>

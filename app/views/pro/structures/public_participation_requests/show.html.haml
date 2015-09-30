@@ -9,7 +9,7 @@
 
 %h1.palm-text--center Demande d'inscription de #{ @user.name }
 - if @participation_request.past? and @participation_request.accepted?
-  = render "state_past"
+  = render 'state_past'
 - else
   = render "state_#{ @participation_request.state }"
 
@@ -51,7 +51,7 @@
           %li.epsilon.f-weight-500.white.soft-half--ends= @user.name
 
 .push--bottom
-  = render partial: 'pro/structures/participation_requests/table_recap', locals: { participation_request: @participation_request }
+  = render partial: 'pro/structures/public_participation_requests/table_recap', locals: { participation_request: @participation_request }
 
 %h3 Discussion avec #{@user.name}
 = render partial: 'pro/structures/conversations/form', locals: { conversation: @participation_request.conversation }

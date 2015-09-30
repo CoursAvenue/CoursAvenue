@@ -27,7 +27,7 @@
   pour répondre à sa demande :
 
 .p.action
-  = link_to "Accepter / Proposer une autre date / Refuser", pro_structure_participation_request_url(@admin.structure, @participation_request, subdomain: 'pro'), class: 'btn btn--green'
+  = link_to "Accepter / Proposer une autre date / Refuser", pro_structure_public_participation_request_url(@admin.structure, @participation_request, subdomain: 'pro'), class: 'btn btn--green'
 
 - if @message
   = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user }

@@ -11,7 +11,7 @@
     %td.v-top.content-block{ width: '65%', style: 'padding: 8px 4px;' }
       .p.hard
         = participation_request.user.name
-        = "(#{link_to 'voir les coordonnées', pro_structure_participation_request_url(@structure, @participation_request, subdomain: 'pro')})".html_safe
+        = "(#{link_to 'voir les coordonnées', pro_structure_public_participation_request_url(@structure, @participation_request, subdomain: 'pro')})".html_safe
   %tr{ valign: 'top' }
     %td.v-top.content-block{ width: '35%', style: 'padding: 8px 4px;' }
       .p.hard

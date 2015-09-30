@@ -22,7 +22,7 @@
         %td= sms_logger.sender_type
         %td
           - if sms_logger.sender.is_a? Structure
-            = link_to sms_logger.sender.name, pro_structure_participation_requests_path(sms_logger.sender)
+            = link_to sms_logger.sender.name, pro_structure_public_participation_requests_path(sms_logger.sender)
           - else
             = link_to sms_logger.sender.name, user_participation_requests_url(sms_logger.sender, subdomain: 'www')
 
