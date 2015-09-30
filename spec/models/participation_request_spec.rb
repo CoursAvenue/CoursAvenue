@@ -330,11 +330,6 @@ describe ParticipationRequest do
   end
 
   describe '#modify_date!' do
-    it 'changes the status to accepted' do
-      participation_request.modify_date!(message, { date: Date.tomorrow.to_s }, 'User')
-      expect(participation_request.accepted?).to be_truthy
-    end
-
     it 'sends a message' do
       expect{ participation_request.modify_date!(message, { date: Date.tomorrow.to_s }, 'User') }.
         to change { participation_request.reload.conversation.messages.length }.by(1)
