@@ -1,0 +1,11 @@
+= content_for :top_menu do
+  %ul.nav.flush
+    %li{ class: current == 'index' ? 'active' : '' }
+      = link_to "Inscriptions à traiter", pro_structure_participation_requests_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
+    %li{ class: current == 'upcoming' ? 'active' : '' }
+      = link_to "Inscriptions confirmées", upcoming_pro_structure_participation_requests_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
+    - if @structure.participation_requests.past.any?
+      %li{ class: current == 'past' ? 'active' : '' }
+        = link_to "Inscriptions passées ou expirées", past_pro_structure_participation_requests_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'
+    -# %li{ class: current == 'transactions' ? 'active' : '' }
+    -#   = link_to "Transactions CB", paid_requests_pro_structure_participation_requests_path(@structure), class: 'muted-link epsilon f-weight-500 soft--sides soft-half--ends'

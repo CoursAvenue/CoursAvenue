@@ -389,7 +389,16 @@ CoursAvenue::Application.routes.draw do
           resources :plannings, controller: 'structures/courses/plannings'
           resources :book_tickets, only: [:edit, :index, :destroy]
         end
-        resources :participation_requests, only: [:edit, :index, :show], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
+
+        resources :participation_requests, only: [:index], controller: 'structures/participation_requests', path: 'suivi-inscriptions' do
+          collection do
+            get :upcoming,      path: 'a-venir'
+            get :past,          path: 'deja-passee'
+            get :paid_requests, path: 'transactions-cb'
+          end
+        end
+
+        resources :public_participation_requests, only: [:edit, :show], controller: 'structures/public_participation_requests', path: 'suivi-inscriptions' do
           member do
             get   :cancel_form
             get   :accept_form
@@ -403,11 +412,9 @@ CoursAvenue::Application.routes.draw do
             patch :signal_user_absence
           end
           collection do
-            get :paid_requests, path: 'transactions-cb'
-            get :upcoming, path: 'a-venir'
-            get :past,     path: 'deja-passee'
           end
         end
+
         resources :gift_certificates, only: [:index, :edit, :new, :create, :destroy, :update], controller: 'structures/gift_certificates', path: 'bons-cadeaux' do
           collection do
             get :install_guide
