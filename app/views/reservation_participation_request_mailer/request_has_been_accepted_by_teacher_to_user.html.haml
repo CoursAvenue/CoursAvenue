@@ -28,7 +28,7 @@
       - if @message
         = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user }
       .soft-half--sides.soft--top
-        .bordered= render partial: 'email_user_recap', locals: { participation_request: @participation_request.decorate }
+        .bordered= render partial: 'participation_request_mailer/email_user_recap', locals: { participation_request: @participation_request.decorate }
 
   %tr
     %td.content-block{ colspan: '2' }
