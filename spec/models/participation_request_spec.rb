@@ -335,6 +335,11 @@ describe ParticipationRequest do
         to change { participation_request.reload.conversation.messages.length }.by(1)
     end
 
+    it 'sets the previously planned date' do
+      participation_request.modify_date!(message, { date: Date.tomorrow.to_s }, 'User')
+      expect(participation_request.previously_planned_at).to_not be_nil
+    end
+
     it 'modify the date' do
       participation_request.modify_date!(message, { date: Date.tomorrow.to_s }, 'User')
       expect(participation_request.date).to eq Date.tomorrow

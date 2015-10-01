@@ -190,6 +190,11 @@ class ParticipationRequest < ActiveRecord::Base
   # @return Boolean
   def modify_date!(message_body, new_params, last_modified_by='Structure')
     # message_body          = StringHelper.replace_contact_infos(message_body)
+
+    # We set the previous date by merging he date and start_time attributes.
+    self.previously_planned_at = self.date.to_datetime.in_time_zone('Paris').
+      change(hour: self.start_time.hour, min: self.start_time.min)
+
     planning_has_changed  = (new_params[:planning_id].present? and
                              new_params[:planning_id].to_i != self.planning_id)
     if !planning_has_changed
