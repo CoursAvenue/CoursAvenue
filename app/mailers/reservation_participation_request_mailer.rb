@@ -81,6 +81,24 @@ class ReservationParticipationRequestMailer < ActionMailer::Base
          reply_to: generate_reply_to('user')
   end
 
+  def request_date_has_been_modified_by_user_to_teacher(participation_request, message = nil)
+    retrieve_participation_request_variables(participation_request)
+    @message = message if message
+    mail to: @admin.email, subject: "Changement de date - #{@user.name}",
+         from: "#{strip_name(@user.name)} <hello@coursavenue.com>",
+         reply_to: generate_reply_to('admin')
+  end
+
+  def request_date_has_been_modified_by_teacher_to_user(participation_request, message = nil)
+    return request_has_been_modified_by_teacher_to_user(participation_request, message)
+
+    retrieve_participation_request_variables(participation_request)
+    @message = message if message
+    mail to: @user.email, subject: "Changement de date - #{@structure.name}",
+         from: "#{strip_name(@structure.name)} <hello@coursavenue.com>",
+         reply_to: generate_reply_to('user')
+  end
+
   ######################################################################
   # Request has been canceled                                          #
   ######################################################################
@@ -110,6 +128,11 @@ class ReservationParticipationRequestMailer < ActionMailer::Base
     @admin                           = participation_request.structure.admin
     @user                            = participation_request.user
     @conversation                    = participation_request.conversation
+    if participation_request.date < 2.days.from_now
+      @reply_limit_date = participation_request.date
+    else
+      @reply_limit_date = 2.days.from_now.to_date
+    end
   end
 
   # Generate the reply_to address using ReplyTokens.
@@ -131,7 +154,7 @@ class ReservationParticipationRequestMailer < ActionMailer::Base
 
   # https://gist.github.com/aliou/4e84aaf8b22706915767
   # Mandrill doesn't like some characters in the `from` attribute. In this mailer, we are using the
-  # structure's name in this mailer, so we also need to format it.
+  # structure's name, so we also need to format it.
   def strip_name(structure_name = "")
     name = structure_name.dup
     ["\"", "(", ",", ":", ";", "<", ">", "["].each do |char|

@@ -1,0 +1,46 @@
+- content_for :email_title do
+  REPONDEZ AU DESSUS DE CETTE LIGNE
+  %br
+  Acceptez la nouvelle proposition de #{@user.name} en répondant directement à cet e-mail
+  %hr
+
+- content_for :under_content_no_box do
+  %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+    %tr
+      %td.content-block{ colspan: '2' }
+        .soft.text--center
+          .epsilon.blue-green #{ @user.name } vous propose une nouvelle date
+        .bg-blue-green.soft
+          .delta.white
+            Bonjour #{ @structure.name },
+          .epsilon.line-height-1-5.white.hard--bottom
+            #{@user.name.capitalize} vous propose une nouvelle date pour la séance de
+            %strong= @participation_request.course.name
+            le
+            %strong= "#{@participation_request_decorator.day_and_hour(false)}"
+
+    %tr
+      %td.v-middle.content-block.text--right{ width: '75' }
+        .soft-half--right
+          = image_tag "icons/clock.png", alt: 'Clock', width: "36", height: "36"
+      %td.v-middle.content-block{ width: '525' }
+        .soft--sides.soft--top
+          .p
+            Pour garantir le meilleur niveau de service à nos utilisateurs, répondez avant le
+            %strong= "#{ I18n.l(@reply_limit_date, format: :semi_short) } :"
+
+    %tr
+      %td.content-block{ colspan: '2' }
+        - if @message
+          = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user }
+        .soft-half--sides.soft--top
+          .bordered= render partial: 'email_recap', locals: { participation_request: @participation_request.decorate }
+
+    %tr
+      %td.content-block{ colspan: '2' }
+        .p.action.soft--sides.soft--top
+          = link_to "Accepter / Proposer une autre date / Refuser", pro_structure_participation_request_url(@admin.structure, @participation_request, subdomain: 'pro'), class: 'btn btn--green'
+
+    %tr
+      %td.content-block{ colspan: '2' }
+        .soft--sides.soft--top= render 'shared/mailers/footer'
