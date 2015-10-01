@@ -14,20 +14,22 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   # GET pro/etablissements/:structure_id/pass-decouverte-suivi
   def index
     @participation_requests = @structure.
-      participation_requests.includes(:course, :planning, user: [:city], participants: [:price])
+      participation_requests.includes(:course, :planning, participants: [:price]).order(date: :desc)
     @not_treated = @participation_requests.upcoming.pending.reject { |pr| pr.user.nil? || pr.course.nil? }
     @treated     = @participation_requests.upcoming.treated.reject { |pr| pr.user.nil? || pr.course.nil? }
   end
 
   def upcoming
     @participation_requests = @structure.participation_requests.
-      includes(:course, :planning, user: [:city], participants: [:price]).
+      includes(:course, :planning, user: [:structures], participants: [:price]).
+      order(date: :desc).
       upcoming.accepted.reject { |pr| pr.user.nil? || pr.course.nil? }
   end
 
   def past
     @participation_requests = @structure.participation_requests.
-      includes(:course, :planning, user: [:city], participants: [:price]).
+      includes(:course, :planning, user: [:structures], participants: [:price]).
+      order(date: :desc).
       past.reject { |pr| pr.user.nil? || pr.course.nil? }
   end
 
@@ -145,7 +147,7 @@ class Pro::Structures::ParticipationRequestsController < ApplicationController
   private
 
   def load_structure
-    @structure = Structure.includes(:participation_requests).friendly.find(params[:structure_id])
+    @structure = Structure.friendly.find(params[:structure_id])
   end
 
   # The missing informations for the Stripe managed account.

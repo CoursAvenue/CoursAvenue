@@ -366,7 +366,7 @@ class User < ActiveRecord::Base
     if read_attribute(:city_id)
       City.find(read_attribute(:city_id))
     elsif structures.any?
-      cities = structures.map(&:city) + structures.map(&:places).flatten.map(&:city)
+      cities = structures.includes(:city).map(&:city) + structures.includes(places: [:city]).map(&:places).flatten.map(&:city)
       cities.group_by{ |city| city }.values.max_by(&:size).first
     else
       nil
