@@ -107,7 +107,6 @@ class ParticipationRequestMailer < ActionMailer::Base
   end
 
   def request_date_has_been_modified_by_teacher_to_user(participation_request, message = nil)
-    return request_has_been_modified_by_teacher_to_user(participation_request, message)
     retrieve_participation_request_variables(participation_request)
     @message = message if message
     mail to: @user.email, subject: "#{@structure.name} vous propose une nouvelle date",
