@@ -35,7 +35,7 @@
       .p.action.soft--sides.soft--top
         En cas d'annulation, de modification ou pour envoyer un message à #{@structure.name}, connectez-vous :
       .p.action.soft--sides
-        = link_to 'Voir mes inscriptions', reservation_structure_participation_request_url(@participation_request.structure, @participation_request.token, subdomain: 'www'), class: 'btn btn--green'
+        = link_to 'Voir mes inscriptions', user_participation_request_url(@participation_request.user, @participation_request, subdomain: 'www'), class: 'btn btn--green'
 
   %tr
     %td.content-block{ colspan: '2' }
