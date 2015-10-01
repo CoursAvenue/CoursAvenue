@@ -58,9 +58,9 @@ class Pro::Structures::CoursesController < Pro::ProController
       return
     end
 
-    @trainings = @structure.courses.trainings.order('name ASC').includes(:media, :place)
-    @lessons   = @structure.courses.lessons.order('name ASC').includes(:media, plannings: [:place])
-    @privates  = @structure.courses.privates.order('name ASC').includes(:media, :place)
+    @trainings = @structure.courses.trainings.order('name ASC').includes(:media, :indexable_cards, :prices)
+    @lessons   = @structure.courses.lessons.order('name ASC').includes(:media, :indexable_cards, plannings: [:place])
+    @privates  = @structure.courses.privates.order('name ASC').includes(:media, :indexable_cards, :place)
   end
 
   def regular

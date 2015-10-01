@@ -18,13 +18,6 @@
       %div.push-half--top
         = link_to "Mettre a jour les résultats", generate_cards_pro_structure_courses_path(@structure, subdomain: 'www'), method: :post, class: 'btn btn--white btn--small'
 
-- if @structure.courses.any?
-  .alert--info.alert.soft.one-whole.flexbox.palm-block
-    .flexbox__item.palm-block.palm-text--center.v-middle.one-whole
-      %h3.flush.white Partagez votre planning 2015-2016 à vos élèves
-    .flexbox__item.palm-block.palm-text--center.v-middle
-      = link_to 'Envoyer mon planning par e-mail', new_pro_structure_newsletter_path(with_courses: true), class: 'btn btn--white-transparent btn--white-transparent--white nowrap'
-
 #trainings-header.bg-white.soft--top
   .push-half--bottom{ class: @trainings.any? ? '' : 'hidden', data: { 'course-container-title' => true } }
     %h3.flush.inline-block.v-middle Stages &amp; ateliers
