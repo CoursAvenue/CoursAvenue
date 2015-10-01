@@ -229,6 +229,7 @@ class ParticipationRequest < ActiveRecord::Base
       mailer.delay.request_date_has_been_modified_by_teacher_to_user(self, message)
     elsif self.last_modified_by == 'User'
       mailer.delay.request_date_has_been_modified_by_user_to_teacher(self, message)
+      mailer.delay.request_date_has_been_modified_confirmation_to_user(self, message)
     end
   end
 

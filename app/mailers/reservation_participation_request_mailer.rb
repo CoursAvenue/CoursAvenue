@@ -89,6 +89,13 @@ class ReservationParticipationRequestMailer < ActionMailer::Base
          reply_to: generate_reply_to('admin')
   end
 
+  def request_date_has_been_modified_confirmation_to_user(participation_request, message = nil)
+    retrieve_participation_request_variables(participation_request)
+    @message = message if message
+    mail to: @user.email,
+         subject: "Votre changement de date a bien été transmit à #{ @structure.name }"
+  end
+
   def request_date_has_been_modified_by_teacher_to_user(participation_request, message = nil)
     return request_has_been_modified_by_teacher_to_user(participation_request, message)
 

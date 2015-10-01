@@ -35,13 +35,32 @@
       .p.hard
         = participation_request.course.name
 
-  %tr{ valign: 'top' }
-    %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;' }
-      .p.hard--bottom.soft--left
-        %strong Jour et heure
-    %td.v-top.content-block{ width: '75%', style: 'padding: 8px 4px;' }
-      .p.hard
-        %strong= participation_request.day_and_hour(false)
+  - if updated_date
+    %tr{ valign: 'top' }
+      %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;' }
+        .p.hard--bottom.soft--left
+          %strong Ancien créneau
+      %td.v-top.content-block{ width: '75%', style: 'padding: 8px 4px;' }
+        .p.hard
+          - previous_time = participation_request.previously_planned_at.to_time
+          - previous_date = participation_request.previously_planned_at.to_date
+          = "#{ l(previous_date, format: :semi_long) } à #{ l(previous_time, format: :short).gsub('00', '') }"
+
+    %tr{ valign: 'top' }
+      %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;' }
+        .p.hard--bottom.soft--left
+          %strong Nouveau créneau
+      %td.v-top.content-block{ width: '75%', style: 'padding: 8px 4px;' }
+        .p.hard
+          %strong= participation_request.day_and_hour(false)
+  - else
+    %tr{ valign: 'top' }
+      %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;' }
+        .p.hard--bottom.soft--left
+          %strong Jour et heure
+      %td.v-top.content-block{ width: '75%', style: 'padding: 8px 4px;' }
+        .p.hard
+          %strong= participation_request.day_and_hour(false)
 
   - if participation_request.at_student_home?
     %tr.table-row-alternate-color{ valign: 'top' }
