@@ -11,12 +11,13 @@ module.exports = {
             aroundLatLng: data.aroundLatLng,
             distinct:     true,
             aroundRadius: 100000, // 100km
-            facets: '*'
+            facets: ['id', 'active'],
+            disjunctiveFacets: ['subjects.slug']
         };
 
         var card_search_helper = algoliasearchHelper(client, structure_index, state);
 
-        card_search_helper.addExclude('id', data.structure_id);
+        card_search_helper.addFacetExclusion('id', data.structure_id);
         card_search_helper.addRefine('active', 'true');
 
         if (data.subjects) {
@@ -38,12 +39,13 @@ module.exports = {
             aroundLatLng: data.aroundLatLng,
             distinct: true,
             aroundRadius: 100000,
-            facets: '*',
+            facets: ['id'],
+            disjunctiveFacets: ['subjects.slug']
         };
 
         var card_search_helper = algoliasearchHelper(client, structure_index, state);
 
-        card_search_helper.addExclude('id', data.indexable_card_id);
+        card_search_helper.addFacetExclusion('id', data.indexable_card_id);
 
         if (data.subjects) {
             _.each(data.subjects, function (subject) {
