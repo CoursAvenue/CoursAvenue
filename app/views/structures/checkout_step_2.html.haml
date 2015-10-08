@@ -1,0 +1,21 @@
+= render partial: 'structures/checkout_header', locals: { current: 2 }
+
+- @partipation_request = ParticipationRequest.new(structure: @structure)
+.main-container.main-container--1000.center-block.soft--top
+  .grid
+    .grid__item.one-third>
+      = render partial: 'structures/checkout_structure_description'
+    .grid__item.two-thirds>
+      = simple_form_for [@structure, @partipation_request] do |f|
+        .grid
+          .grid__item.one-third.v-middle>
+            %label Quel cours voulez-vous suivre ?
+          .grid__item.two-thirds.v-middle>
+            - plannings = @structure.courses.regulars.reject{|c| c.plannings.empty? }.map{ |c| [c.name, c.plannings.ordered_by_day.map{|p| p.decorate.week_day_name + ' ' + p.decorate.time_slot }] }
+            = f.input :planning_id, label: false, as: :grouped_select, collection: plannings, group_method: :last, blank: false, selected: params[:planning]
+
+        .grid
+          .grid__item.one-third.v-middle>
+            %label Quel séance vous intéresse ?
+          .grid__item.two-thirds.v-middle>
+            = f.input :planning, label: false

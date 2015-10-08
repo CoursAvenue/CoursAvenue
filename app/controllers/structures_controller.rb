@@ -18,6 +18,13 @@ class StructuresController < ApplicationController
     redirect_to structure_path(@structure)
   end
 
+  def checkout_step_1
+  end
+  def checkout_step_2
+  end
+  def checkout_step_3
+  end
+
   # GET /etablissements/:id
   def show
     @structure_decorator  = @structure.decorate
@@ -64,7 +71,9 @@ class StructuresController < ApplicationController
   private
 
   def get_layout
-    if action_name == 'reviews'
+    if %(checkout_step_1 checkout_step_2 checkout_step_3).include?(action_name)
+      'empty'
+    elsif action_name == 'reviews'
       'reservations/website'
     elsif action_name == 'index'
       'search'

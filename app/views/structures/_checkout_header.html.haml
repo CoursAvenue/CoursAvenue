@@ -1,0 +1,25 @@
+.center-block.text--center.bg-white.bordered--top
+  .v-middle.text--center.soft-half.inline-block.f-weight-600{ style: 'width: 10em;', class: ( current == 1 ? 'bg-site-background' : '') }
+    .bordered.rounded--circle.inline-block{ style: 'line-height: 2.4em; height: 2.5em; width: 2.5em; margin-bottom: 5px;', class: ( current == 1 ? 'bg-dark-gray white' : 'bg-green') }
+      - if current == 1
+        1
+      - else
+        %i.fa.fa-check.white
+    %br
+    Inscription
+  .v-middle.text--center.soft-half.inline-block.f-weight-600{ style: 'width: 2.5em;' }
+    %i.fa.fa-chevron-right
+  .v-middle.text--center.soft-half.inline-block.f-weight-600{ style: 'width: 10em;', class: ( current == 2 ? 'bg-site-background' : '') }
+    .bordered.rounded--circle.inline-block{ style: 'line-height: 2.4em; height: 2.5em; width: 2.5em; margin-bottom: 5px;', class: ( current == 2 ? 'bg-dark-gray white' : (current == 3 ? 'bg-green' : '')) }
+      - if current == 3
+        %i.fa.fa-check.white
+      - else
+        2
+    %br
+    Demande
+  .v-middle.text--center.soft-half.inline-block.f-weight-600{ style: 'width: 2.5em;' }
+    %i.fa.fa-chevron-right
+  .v-middle.text--center.soft-half.inline-block.f-weight-600{ style: 'width: 10em;', class: ( current == 3 ? 'bg-site-background' : '') }
+    .bordered.rounded--circle.inline-block{ style: 'line-height: 2.4em; height: 2.5em; width: 2.5em; margin-bottom: 5px;', class: ( current == 3 ? 'bg-dark-gray white' : '') } 3
+    %br
+    Envoi

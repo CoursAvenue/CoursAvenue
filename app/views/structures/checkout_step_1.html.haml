@@ -1,0 +1,26 @@
+= render partial: 'structures/checkout_header', locals: { current: 1 }
+
+.center-block.soft--top{ style: 'max-width: 500px;'}
+  %h1.text--center
+    Devenez membre pour contacter
+    %br
+    #{@structure.name} et tous les professeurs
+  .grid
+    .grid__item.one-third>
+      = render partial: 'structures/checkout_structure_description'
+    .grid__item.two-thirds>
+      Connexion Facebook
+      %div
+        %input
+      %div
+        %input
+      %div
+        %input
+      %div
+        %input
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          // mixpanel.track("Test 1 | Step 1 ", { });
+      });

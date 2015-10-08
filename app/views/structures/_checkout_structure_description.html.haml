@@ -1,0 +1,6 @@
+- if @structure.logo.present?
+  = image_tag @structure.logo.url(:thumb), height: 150, width: 150, data: { src2x: @structure.logo.url(:thumb) }
+- else
+  .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{@structure.dominant_root_subject.slug}" }
+    %i.fa.fa-user-big.alpha
+
