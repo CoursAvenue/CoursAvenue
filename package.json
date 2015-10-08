@@ -12,8 +12,8 @@
         "reactify"              : "^1.1.0",
         "keymirror"             : "~0.1.0",
         "react-leaflet"         : "~0.6.2",
-        "algoliasearch"         : "~3.7.7",
-        "algoliasearch-helper"  : "~2.1.0",
+        "algoliasearch"         : "~3.8.1",
+        "algoliasearch-helper"  : "~2.4.0",
         "envify"                : "~3.4.0",
         "classnames"            : "~>2.1.2",
         "query-string"          : "~>2.3.0"
