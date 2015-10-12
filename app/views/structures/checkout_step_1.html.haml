@@ -19,7 +19,7 @@
       $(function() {
           new CoursAvenue.Views.SignUpView({ after_sign_in_popup: '', el: $('#sign-up'),
             success: function() {
-                window.location = Routes.checkout_step_2_structure_path('#{@structure.slug}');
+                window.location = Routes.checkout_step_2_structure_path('#{@structure.slug}', { planning: '#{params[:planning]}' });
             } });
           // mixpanel.track("Test 1 | Step 1 ", { });
       });

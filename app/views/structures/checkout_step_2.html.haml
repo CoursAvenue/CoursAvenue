@@ -23,7 +23,7 @@
         - if params[:planning].present?
           - planning = Planning.find(params[:planning])
         - else
-        - planning = @structure.courses.regulars.reject{|c| c.plannings.empty? }.flat_map{ |c| c.plannings.ordered_by_day }.first
+          - planning = @structure.courses.regulars.reject{|c| c.plannings.empty? }.flat_map{ |c| c.plannings.ordered_by_day }.first
         - next_start_time = DateTime.new(planning.next_date.year, planning.next_date.month, planning.next_date.day)
 
         %input{ style: 'width: 8em;', name: 'participation_request[date]', data: { behavior: 'datepicker', start_date: l(Date.today) }, value: l(next_start_time.to_date)  }
