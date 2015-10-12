@@ -19,14 +19,19 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 CoursAvenue.trigger('user:signed:up');
                 func();
             });
-            this.$el.css('width', this.options.width + 'px');
-            $.magnificPopup.open({
-                  items: {
-                      src: this.$el,
-                      type: 'inline'
-                  }
-            });
-            Backbone.Validation.bind(this);
+            this.options.el = options.el;
+            if (options.el) {
+                options.el.append(this.$el);
+            } else {
+                this.$el.css('width', this.options.width + 'px');
+                $.magnificPopup.open({
+                      items: {
+                          src: this.$el,
+                          type: 'inline'
+                      }
+                });
+                Backbone.Validation.bind(this);
+            }
             this.render();
         },
 

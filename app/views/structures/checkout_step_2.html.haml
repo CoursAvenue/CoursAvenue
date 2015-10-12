@@ -1,21 +1,150 @@
-= render partial: 'structures/checkout_header', locals: { current: 2 }
+= content_for :right_after_head do
+  %meta{ name: 'robots', content: 'noindex,follow' }
+
+.step-1= render partial: 'structures/checkout_header', locals: { current: 2 }
+.step-2.hidden= render partial: 'structures/checkout_header', locals: { current: 3 }
 
 - @partipation_request = ParticipationRequest.new(structure: @structure)
-.main-container.main-container--1000.center-block.soft--top
-  .grid
-    .grid__item.one-third>
-      = render partial: 'structures/checkout_structure_description'
-    .grid__item.two-thirds>
-      = simple_form_for [@structure, @partipation_request] do |f|
-        .grid
-          .grid__item.one-third.v-middle>
-            %label Quel cours voulez-vous suivre ?
-          .grid__item.two-thirds.v-middle>
-            - plannings = @structure.courses.regulars.reject{|c| c.plannings.empty? }.map{ |c| [c.name, c.plannings.ordered_by_day.map{|p| p.decorate.week_day_name + ' ' + p.decorate.time_slot }] }
-            = f.input :planning_id, label: false, as: :grouped_select, collection: plannings, group_method: :last, blank: false, selected: params[:planning]
+- @partipation_request.participants.build
 
-        .grid
-          .grid__item.one-third.v-middle>
-            %label Quel séance vous intéresse ?
-          .grid__item.two-thirds.v-middle>
-            = f.input :planning, label: false
+= simple_form_for [@structure, @partipation_request] do |f|
+  .grid.step-1.center-block.soft--top{ style: 'max-width: 800px;' }
+    .grid__item.four-twelfths.text--right.soft--right>
+      = render partial: 'structures/checkout_structure_description'
+    .grid__item.eight-twelfths>
+      %input{ name: 'participation_request[structure_id]', type: 'hidden', value: @structure.id }
+      .push--bottom
+        %label.f-weight-bold.line-height-1-5.block Quel cours voulez-vous suivre ?
+        - plannings = @structure.courses.regulars.reject{|c| c.plannings.empty? }.map{ |c| [c.name, c.plannings.ordered_by_day.map{|p| [p.decorate.week_day_name + ' ' + p.decorate.time_slot, p.id] }] }
+        = f.input :planning_id, label: false, as: :grouped_select, collection: plannings, group_method: :last, blank: false, selected: params[:planning], wrapper_html: { class: 'flush' }
+
+      .push--bottom
+        %label.f-weight-bold.line-height-1-5.block Quel jour voulez-vous venir ?
+        %input{ style: 'width: 8em;', name: 'participation_request[date]', data: { behavior: 'datepicker', start_date: l(Date.today) } }
+      .push--bottom
+        %label.f-weight-bold.line-height-1-5.block Combien serez-vous ?
+        = f.simple_fields_for :participants do |p_f|
+          = p_f.input :number, label: false, as: :select, collection: (1..5).to_a, default: 1, wrapper_html: { class: 'flush' }
+
+      .push--bottom
+        %label.f-weight-bold.line-height-1-5.block Quel est votre numéro de téléphone ?
+        %p.flush
+          %i Celles-ci n'apparaîtront jamais sur le site et ne seront communiquées qu'aux professeurs avec lesquels vous souhaitez prendre des cours.
+        %input{ style: 'width: 20em;', placeholder: 'Ex. 06 07 65 33 23', name: 'user[phone_number]' }
+        .phone-number-error.red.hidden
+          %strong Vous devez renseigner votre numéro de téléphone
+      .push--bottom
+        %label.f-weight-bold.line-height-1-5.block Accompagnez votre demande d'un petit message :
+        %textarea{ style: 'width: 20em; height: 8em', name: 'participation_request[message][body]' }
+        .message-error.red.hidden
+          %strong Vous devez laisser un message pour envoyer votre demande
+      .btn.btn--green.btn--full{ data: { behavior: 'show-step-2' } } Envoyer ma demande
+  .step-2.main-container.hidden
+    .text--center.soft--top
+      %h4
+        Pour contacter #{@structure.name} et autant de professeurs que vous souhaitez, vous avez besoin d'un Pass élève.
+        %br
+        Ce pass élève coûte 19 euros si un professeur accepte votre demande, rien sinon ! Ce pass comprend :
+    .grid.push--bottom
+      .grid__item.one-quarter.text--center>
+        %div
+          = image_tag 'test/checkout-image-1.png', height: 50
+        .f-weight-500 Contact illimité de professeurs pendant 30 jours
+      .grid__item.one-quarter.text--center>
+        %div
+          = image_tag 'test/checkout-image-2.png', height: 50
+        .f-weight-500 19 € débité seulement si un professeur accepte votre demande
+      .grid__item.one-quarter.text--center>
+        %div
+          = image_tag 'test/checkout-image-3.png', height: 50
+        .f-weight-500 Réponse de votre prof en 9 heures (moyenne constatée)
+      .grid__item.one-quarter.text--center>
+        %div
+          = image_tag 'test/checkout-image-4.png', height: 50
+        .f-weight-500 Service client sympa et disponible à votre écoute
+    .grid.center-block.soft--top{ style: 'max-width: 800px;' }
+      .grid__item.four-twelfths.text--right.soft--right>
+        = render partial: 'structures/checkout_structure_description'
+      .grid__item.eight-twelfths>
+        .center-block{ style: 'max-width: 350px;' }
+          .white-box.soft
+            .text--center
+              %h4.flush Pass élève : 19 €
+              %p
+                %strong Empreinte de votre carte bancaire*
+            .alert--error.one-whole.push--bottom.text--center{ style: 'display: none;' }
+              Vous avez besoin du Pass Élève pour envoyer votre demande
+            .push-half--bottom
+              .input-with-icon
+                %input.credit-card-number.one-whole{ placeholder: 'Numéro de carte' }
+                %i.fa.fa-credit-card
+            .flexbox.push-half--bottom
+              .flexbox__item.nowrap.soft-half--right
+                Date d'expiration
+              .flexbox__item
+                %input.credit-card-expiry.one-whole{ placeholder: 'MM / AAAA'}
+            .push-half--bottom
+              .input-with-icon
+                %input.credit-card-cvc.one-whole{ placeholder: 'Code de sécurité', type: 'tel' }
+                %i.cursor-help.fa.fa-lock{ data: { toggle: 'popover', content: 'Le code de sécurité est imprimé au dos de votre carte bancaire : ce sont les 3 derniers chiffres', placement: 'left' } }
+            .text--center
+              = f.submit 'Payer', class: 'btn btn--green btn--full', data: { disable_with: 'Envoi en cours...' }
+              %div.epsilon.soft-half--top
+                %strong Paiement sécurisé
+                %i.fa.fa-lock
+              .soft-half--top
+                Notre site est sécurisé made in France par
+                %br
+                = image_tag 'test/credit_mutuel.png', height: 15
+          .soft-half--top
+            *Votre carte bancaire ne sera débitée de 19 € que si un professeur accepte votre demande de cours et une fois seulement (même si plusieurs professeurs acceptent votre demande)
+
+%footer.main-footer.soft.white.push--top
+  .main-container
+    .text--center
+      = image_tag 'logos/logo_white@2x.png', height: 25, class: 'muted center-block push--ends'
+      %p.push--bottom.epsilon
+        %strong Rejoignez-nous sur
+      %p
+        = link_to 'https://www.facebook.com/CoursAvenue', target: :_blank, rel: :nofollow, class: 'push--right' do
+          %i.fa.fa-2x.fa-facebook
+        = link_to 'http://twitter.com/CoursAvenue', target: :_blank, rel: :nofollow, class: 'push--right' do
+          %i.fa-2x.fa-twitter
+        = link_to 'https://instagram.com/coursavenue', target: :_blank, rel: :nofollow do
+          %i.fa-2x.fa-instagram
+      %p.push-half--bottom.gray-very-light.epsilon
+        © CoursAvenue 2015
+
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('form').submit(function() {
+            if ($('.credit-card-number').val().length < 10 ||
+                $('.credit-card-expiry').val().length < 4 ||
+                $('.credit-card-cvc').val().length < 3) {
+                $('.alert--error').slideDown();
+                return false;
+            }
+            return true;
+        });
+        $('.credit-card-number').payment('formatCardNumber');
+        $('.credit-card-expiry').payment('formatCardExpiry');
+        $('.credit-card-cvc').payment('formatCardCVC');
+        $('[data-behavior=show-step-2]').click(function() {
+            if ($('[name="user[phone_number]"]').val().length == 0) {
+                $('.phone-number-error').show();
+                return;
+            } else { $('.phone-number-error').hide(); }
+            if ($('[name="participation_request[message][body]"]').val().length == 0) {
+                $('.message-error').show();
+                return;
+            } else { $('.message-error').hide(); }
+            $('.step-1').hide();
+            $('.step-2').show();
+        });
+        $('[data-behavior=show-step-1]').click(function() {
+            $('.step-1').show();
+            $('.step-2').hide();
+        });
+    });

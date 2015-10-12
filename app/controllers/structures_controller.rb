@@ -19,10 +19,23 @@ class StructuresController < ApplicationController
   end
 
   def checkout_step_1
+    if current_user
+      redirect_to checkout_step_2_structure_path(@structure), error: 'Vous devez être connecté pour continuer.'
+    end
   end
+
   def checkout_step_2
+    if current_user.nil?
+      redirect_to checkout_step_1_structure_path(@structure), error: 'Vous devez être connecté pour continuer.'
+    end
   end
+
   def checkout_step_3
+    if current_user.nil? or params[:participation_request_id].blank?
+      redirect_to checkout_step_1_structure_path(@structure), error: 'Vous devez être connecté pour continuer.'
+    else
+      @participation_request = @structure.participation_requests.find(params[:participation_request_id])
+    end
   end
 
   # GET /etablissements/:id

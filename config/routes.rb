@@ -501,9 +501,9 @@ CoursAvenue::Application.routes.draw do
         post :add_to_favorite
         post :remove_from_favorite
         get  :reviews, path: 'livre-d-or'
-        get  :checkout_step_1
-        get  :checkout_step_2
-        get  :checkout_step_3
+        get  :checkout_step_1, path: 'inscription'
+        get  :checkout_step_2, path: 'mise-en-relation'
+        get  :checkout_step_3, path: 'inscription-envoyee'
       end
       collection do
         post :recommendation
