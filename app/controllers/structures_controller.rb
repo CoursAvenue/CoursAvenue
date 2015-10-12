@@ -20,7 +20,7 @@ class StructuresController < ApplicationController
 
   def checkout_step_1
     if current_user
-      redirect_to checkout_step_2_structure_path(@structure), error: 'Vous devez être connecté pour continuer.'
+      redirect_to checkout_step_2_structure_path(@structure, planning: params[:planning]), error: 'Vous devez être connecté pour continuer.'
     end
   end
 
