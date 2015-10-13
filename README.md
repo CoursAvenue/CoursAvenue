@@ -40,7 +40,7 @@ The old readme is available [here](doc/README.md).
 
 ## Setup script
 
-A setup script is available. Just run `./script/setup` to get started.
+A setup script is available. Just run `./bin/setup` to get started.
 
 ### Ruby
 We use [Rbenv][rbenv] to locally manage our ruby version. The version is defined
