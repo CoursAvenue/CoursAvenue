@@ -1,3 +1,4 @@
+- cookies[:test] = '100_dolls_pass'
 - @paris = City.find('paris')
 .relative.search-page-filters__panel-height.palm-height-auto
   .soft--ends.absolute.north.west.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto.z-index-10000
@@ -87,3 +88,17 @@
             .line-height-1-3.epsilon.quoted= truncate(comments[2].content, length: 180)
             .push-half--top.text--right
               %strong= "Par #{comments[2].author_name}"
+
+- @indexable_card = @subject.indexable_cards.sample
+- @card_redux = { id: @indexable_card.id, slug: @indexable_card.slug, subjects: @indexable_card.subjects.pluck(:slug), position: { lat: @city.latitude, lng: @city.longitude } }
+
+.soft-double.soft--bottom.palm-hard#card-suggestions
+  .grid--full.push--bottom
+    %h2.text--center Plus de #{@subject.courses.count} séances ouvertes toute l'année
+    = react_component('SimilarCardList', { card:  @card_redux })
+
+= content_for :scripts do
+  :javascript
+      $(function() {
+          mixpanel.track("TEST PASS | Landed", { subject: "#{@subject.name}" });
+      });

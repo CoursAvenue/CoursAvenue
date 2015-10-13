@@ -46,28 +46,31 @@
           %strong Vous devez laisser un message pour envoyer votre demande
       .btn.btn--green.btn--full{ data: { behavior: 'show-step-2' } } Envoyer ma demande
   .step-2.main-container.hidden
-    .text--center.soft--top
-      %h4
-        Pour contacter #{@structure.name} et autant de professeurs que vous souhaitez, vous avez besoin d'un Pass élève.
-        %br
-        Ce pass élève coûte 19 euros si un professeur accepte votre demande, rien sinon ! Ce pass comprend :
-    .grid.push--bottom
-      .grid__item.one-quarter.text--center>
-        %div
-          = image_tag 'test/checkout-image-1.png', height: 50
-        .f-weight-500 Contact illimité de professeurs pendant 30 jours
-      .grid__item.one-quarter.text--center>
-        %div
-          = image_tag 'test/checkout-image-2.png', height: 50
-        .f-weight-500 19 € débité seulement si un professeur accepte votre demande
-      .grid__item.one-quarter.text--center>
-        %div
-          = image_tag 'test/checkout-image-3.png', height: 50
-        .f-weight-500 Réponse de votre prof en 9 heures (moyenne constatée)
-      .grid__item.one-quarter.text--center>
-        %div
-          = image_tag 'test/checkout-image-4.png', height: 50
-        .f-weight-500 Service client sympa et disponible à votre écoute
+    - if cookies[:test] == '100_dolls_pass'
+      Blidablou
+    - else
+      .text--center.soft--top
+        %h4
+          Pour contacter #{@structure.name} et autant de professeurs que vous souhaitez, vous avez besoin d'un Pass élève.
+          %br
+          Ce pass élève coûte 19 euros si un professeur accepte votre demande, rien sinon ! Ce pass comprend :
+      .grid.push--bottom
+        .grid__item.one-quarter.text--center>
+          %div
+            = image_tag 'test/checkout-image-1.png', height: 50
+          .f-weight-500 Contact illimité de professeurs pendant 30 jours
+        .grid__item.one-quarter.text--center>
+          %div
+            = image_tag 'test/checkout-image-2.png', height: 50
+          .f-weight-500 19 € débité seulement si un professeur accepte votre demande
+        .grid__item.one-quarter.text--center>
+          %div
+            = image_tag 'test/checkout-image-3.png', height: 50
+          .f-weight-500 Réponse de votre prof en 9 heures (moyenne constatée)
+        .grid__item.one-quarter.text--center>
+          %div
+            = image_tag 'test/checkout-image-4.png', height: 50
+          .f-weight-500 Service client sympa et disponible à votre écoute
     .grid.center-block.soft--top{ style: 'max-width: 800px;' }
       .grid__item.four-twelfths.text--right.soft--right>
         = render partial: 'structures/checkout_structure_description'
@@ -121,10 +124,17 @@
       %p.push-half--bottom.gray-very-light.epsilon
         © CoursAvenue 2015
 
+- if cookies[:test] == '100_dolls_pass'
+  :javascript
+    var test_name = "TEST PASS"
+- else
+  :javascript
+    var test_name = "TEST 1"
 
 = content_for :scripts do
   :javascript
     $(function() {
+        mixpanel.track(test_name + " | Checkout 2", { });
         $('form').submit(function() {
             if ($('.credit-card-number').val().length < 10 ||
                 $('.credit-card-expiry').val().length < 4 ||
@@ -146,6 +156,7 @@
                 $('.message-error').show();
                 return;
             } else { $('.message-error').hide(); }
+            mixpanel.track(test_name + " | Checkout 3", { });
             $('.step-1').hide();
             $('.step-2').show();
         });
@@ -154,3 +165,4 @@
             $('.step-2').hide();
         });
     });
+

@@ -21,5 +21,17 @@
             success: function() {
                 window.location = Routes.checkout_step_2_structure_path('#{@structure.slug}', { planning: '#{params[:planning]}' });
             } });
-          // mixpanel.track("Test 1 | Step 1 ", { });
       });
+
+- if cookies[:test] == '100_dolls_pass'
+  = content_for :scripts do
+    :javascript
+        $(function() {
+            mixpanel.track("TEST PASS | Checkout 1", { });
+        });
+- else
+  = content_for :scripts do
+    :javascript
+        $(function() {
+            mixpanel.track("TEST 1 | Checkout 1", { });
+        });

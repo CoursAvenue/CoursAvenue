@@ -39,11 +39,11 @@ module.exports = {
             aroundLatLng: data.aroundLatLng,
             distinct: true,
             aroundRadius: 100000,
-            facets: ['id'],
+            facets: ['id', 'has_course'],
             disjunctiveFacets: ['subjects.slug']
         };
-
         var card_search_helper = algoliasearchHelper(client, structure_index, state);
+        card_search_helper.addFacetRefinement('has_course', true);
 
         card_search_helper.addFacetExclusion('id', data.indexable_card_id);
 
