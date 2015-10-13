@@ -26,6 +26,7 @@ class VerticalPagesController < ApplicationController
       redirect_to root_vertical_page_path(@vertical_page), status: 301
     end
     @ancestors               = @subject.ancestors
+    render 'test_landing'
   end
 
   def show_with_neighborhood

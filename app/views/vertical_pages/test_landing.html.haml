@@ -1,0 +1,89 @@
+- @paris = City.find('paris')
+.relative.search-page-filters__panel-height.palm-height-auto
+  .soft--ends.absolute.north.west.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto.z-index-10000
+    .flexbox__item.v-middle
+      %h1.soft--sides.white.text--center.f-size-really-big
+        Des centaines de cours de #{@subject.name}
+      %h2.soft--sides.white.text--center
+        Une seule formule pour vous lancer.
+      .main-container.main-container--medium.white.text--center
+        %h4.center-block
+          Votre pass vous permet de tester gratuitement et à votre propre rythme chacun des #{@subject.courses.count} cours de #{@subject.name} à Paris. Une fois votre cours idéal trouvé, utilisez votre pass qui vous donne droit à 1 mois de séances. Si aucun cours ne vous convient, nous vous remboursons sans délai.
+      .text--center
+        = link_to "Obtenir mon pass #{@subject.name}", '', class: 'btn btn--blue-green btn--bigger'
+
+  - map_zoom = 12 if @city and @city.size == 3
+  - map_zoom = 14 if @city and @city.size != 3
+  - map_zoom = 15 if @neighborhood
+  = react_component('MapContainer', { zoom: map_zoom, center: [(@neighborhood || @city || @paris).latitude, (@neighborhood || @city || @paris).longitude] })
+
+.main-container.soft--ends
+  %h2.text--center.alpha.soft--ends.f-weight-300
+    Pass à 99€ - 762 séances de théâtre ouvertes à l'essai - 1 mois de cours inclus - Satisfait ou remboursé - Valable à vie
+
+  .grid.push--bottom
+    .grid__item.one-third.text--center>
+      %h4.gamma Obtenez votre pass
+
+      %p Renseignez vos coordonnées avant de procéder au paiement. Rassurez-vous : si aucun cours ne vous convient, nous vous remboursons immédiatement et sans motif de votre part.
+    .grid__item.one-third.text--center>
+      %h4.gamma Essayez différentes séances
+
+      %p Grâce aux 10 000 avis de la communauté, inscrivez-vous directement en ligne aux séances de votre choix et en fonction de vos critères : lieu, créneau horaire, niveau, etc.
+    .grid__item.one-third.text--center>
+      %h4.gamma Suivez 1 mois de cours
+
+      %p Dès qu'un cours vous convient, fournissez le code de votre pass au professeur pour bénéficier d'1 mois d'abonnement et commencer une pratique régulière.
+
+  .text--center.push--bottom.soft--bottom
+    = link_to "Obtenir mon pass #{@subject.name}", '', class: 'btn btn--blue-green btn--bigger'
+
+  - comments = CommentSearch.search(subject_slug: @subject.slug)
+  .grid.push--bottom
+    .grid__item.one-third>
+      .flexbox.green-box.text--center.white{ style: 'height: 30em;' }>
+        .flexbox__item
+          .alpha 10 000 avis
+          .gamma de la communauté
+    .grid__item.one-third>
+      .flexbox.v-top.white-box{ style: 'height: 30em;' }>
+        .flexbox__item
+          %div
+            = link_to structure_path(comments[0].structure), class: 'block', target: :_blank do
+              = image_tag comments[0].structure.logo.url(:thumbnail_email_cropped), height: 200, class: 'one-whole block'
+          .soft
+            .line-height-1-3.epsilon.quoted= truncate(comments[0].content, length: 180)
+            .push-half--top.text--right
+              %strong= "Par #{comments[0].author_name}"
+    .grid__item.one-third>
+      .flexbox.yellow-box.text--center.white{ style: 'height: 30em;' }>
+        .flexbox__item
+          .alpha #{@subject.courses.count}
+          .gamma séances de #{@subject.name} vous sont ouvertes
+  .grid
+    .grid__item.one-third>
+      .flexbox.v-top.white-box{ style: 'height: 30em;' }>
+        .flexbox__item
+          %div
+            = link_to structure_path(comments[1].structure), class: 'block', target: :_blank do
+              = image_tag comments[1].structure.logo.url(:thumbnail_email_cropped), height: 200, class: 'one-whole block'
+          .soft
+            .line-height-1-3.epsilon.quoted= truncate(comments[1].content, length: 180)
+            .push-half--top.text--right
+              %strong= "Par #{comments[1].author_name}"
+    .grid__item.one-third.white>
+      .flexbox.dark-blue-box.text--center.white{ style: 'height: 30em;' }>
+        .flexbox__item
+          .alpha 96%
+          .gamma de nos utilisateurs sont
+          .beta satisfaits
+    .grid__item.one-third>
+      .flexbox.v-top.white-box{ style: 'height: 30em;' }>
+        .flexbox__item
+          %div
+            = link_to structure_path(comments[2].structure), class: 'block', target: :_blank do
+              = image_tag comments[2].structure.logo.url(:thumbnail_email_cropped), height: 200, class: 'one-whole block'
+          .soft
+            .line-height-1-3.epsilon.quoted= truncate(comments[2].content, length: 180)
+            .push-half--top.text--right
+              %strong= "Par #{comments[2].author_name}"
