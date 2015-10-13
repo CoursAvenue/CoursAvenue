@@ -35,8 +35,7 @@
                   = link_to '#avis', class: 'muted-link blue-green f-weight-bold', data: { behavior: 'scroll-to', offset_top: '-50' } do
                     = "#{@structure.comments_count} avis"
                     %i.fa.fa-coursavenue-marker-logo
-              %h1.flush
-                = ab_test('structure_name', "#{@structure.name }-1", "#{@structure.name }-2")
+              %h1.flush= @structure.name
               .delta.f-weight-500.push-half--bottom.gray= @structure_decorator.structure_type
 
               = react_component('SubjectList', { classes: 'search-page-card__subjects-wrapper text--left', follow_links: true, colored: true, subject_list: ActiveModel::ArraySerializer.new(@structure.subjects.at_depth(2).uniq, each_serializer: SubjectListSerializer) })
