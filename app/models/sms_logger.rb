@@ -2,7 +2,7 @@ class SmsLogger < ActiveRecord::Base
 
   belongs_to :sender, polymorphic: true
 
-  attr_accessible :number, :text, :sender
+  attr_accessible :number, :text, :sender, :nexmo_message_id
 
   # Return the status of the message from Nexmo.
   #
