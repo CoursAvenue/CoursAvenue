@@ -303,3 +303,6 @@ gem 'textacular', '~> 3.0'
 
 # Validation of YouTube videos.
 gem 'ruby-oembed', '~> 0.8.14', require: false
+
+# AB testing
+gem 'split', '~> 1.2.1'
