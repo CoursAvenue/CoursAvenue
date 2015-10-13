@@ -6,7 +6,7 @@ class City::Neighborhood < ActiveRecord::Base
   extend FriendlyId
   include Concerns::HstoreHelper
 
-  friendly_id :name, use: [:slugged, :finders]
+  friendly_id :name, use: [:slugged, :finders, :history]
 
   belongs_to :city
 
