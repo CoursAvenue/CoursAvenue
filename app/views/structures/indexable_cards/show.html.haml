@@ -36,11 +36,8 @@
                 .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{dominant_root_subject_slug}" }
                   %i.fa.fa-user-big.alpha
             .grid__item.v-top.four-fifths.palm-one-whole>
-              - if @structure.comments_count and @structure.comments_count > 0
-                .float--right.epsilon
-                  = link_to '#avis', class: 'muted-link blue-green f-weight-bold', data: { behavior: 'scroll-to', offset_top: '-50' } do
-                    = "#{@structure.comments_count} avis"
-                    %i.fa.fa-coursavenue-marker-logo
+              .float--right.epsilon
+                = image_tag 'test/check.png', height: 30, width: 30, class: 'block', data: { toggle: 'popover', content: 'Profil vérifié' }
               %h1.flush= @indexable_card.name
               %h2.delta.flush
                 Par
