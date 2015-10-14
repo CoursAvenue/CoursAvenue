@@ -3,7 +3,7 @@
 
 = render partial: 'structures/checkout_header', locals: { current: 1 }
 
-.center-block.soft--ends{ style: 'max-width: 800px;' }
+.center-block.push--bottom.soft--ends{ style: 'max-width: 800px;' }
   %h1.text--center
     Devenez membre pour contacter
     %br
@@ -12,8 +12,12 @@
     .grid__item.one-third.text--right.soft--right>
       = render partial: 'structures/checkout_structure_description'
     .grid__item.two-thirds>
-      #sign-up.white-box{ style: 'max-width: 400px;' }
+      #sign-up.bg-white.bordered--sides.bordered--bottom{ style: 'max-width: 400px;' }
 
+= render 'structures/checkout_footer'
+
+:css
+  .panel__header { display: none; }
 = content_for :scripts do
   :javascript
       $(function() {

@@ -1,21 +1,31 @@
 .inline-block
-  .text--center
+  .text--center.relative
     - if @structure.logo.present?
       = image_tag @structure.logo.url(:large), data: { src2x: @structure.logo.url(:thumb) }, class: 'one-whole block push--bottom'
     - else
       .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{@structure.dominant_root_subject.slug}" }
         %i.fa.fa-user-big.alpha
+    .absolute.south.west.soft-half
+      %i.fa.fa-star.yellow
+      %i.fa.fa-star.yellow
+      %i.fa.fa-star.yellow
+      %i.fa.fa-star.yellow
+      %i.fa.fa-star.yellow
+      %strong 5 (#{@structure.comments.count} avis)
   .white-box.soft.text--left
     %h4= @structure.name
     %div.push-half--bottom
       %i.fa.fa-check.green
       Coordonnées vérifiées
+    %div.push-half--bottom
+      %i.fa.fa-check.green
+      1ère séance offerte !
     %div
       .flexbox
         .flexbox__item.v-middle
           %i.fa.fa-clock.v-middle
         .flexbox__item.v-middle
-          %span.v-middle Réponds en
+          %span.v-middle Répond en
           %br
           %strong.v-middle quelques heures
 
