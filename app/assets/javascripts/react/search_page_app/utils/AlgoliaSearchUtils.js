@@ -55,6 +55,8 @@ module.exports = {
                            'root_subject', 'subjects.slug', 'planning_periods',
                            'trainings_end_date', 'trainings', 'audiences',
                            'levels', 'starting_price', 'id', 'metro_lines'],
+            disjunctiveFacets: ['root_subject', 'planning_periods', 'audiences',
+                                'levels', 'id', 'metro_lines'],
             hitsPerPage : data.hitsPerPage || 160,
             distinct    : false,
             aroundRadius: 100000, // 100km
