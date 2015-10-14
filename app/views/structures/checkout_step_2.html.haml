@@ -28,7 +28,8 @@
         .grid__item.one-quarter.text--center>
           %div
             = image_tag 'test/checkout-image-1.png', height: 50
-          .f-weight-500= ab_test(:pass, "Contact illimité de professeurs pendant 30 jours", "Inscription en ligne gratuite sans frais supplémentaire")
+          .f-weight-500
+            = ab_test(:pass, "Contact illimité de professeurs pendant 30 jours", "Inscription en ligne gratuite sans frais supplémentaire")
         .grid__item.one-quarter.text--center>
           %div
             = image_tag 'test/checkout-image-2.png', height: 50
@@ -50,26 +51,28 @@
 
         %input{ name: 'participation_request[structure_id]', type: 'hidden', value: @structure.id }
         .push--bottom
-          - if params[:planning].present? and (planning = @structure.plannings.where(id: params[:planning]).first)
-            %h4
-              %strong= planning.course.name
-              %br
-              = planning.decorate.week_day_name + ' ' + planning.decorate.time_slot
-            = f.input :planning_id, as: :hidden, input_html: { value: params[:planning] }
-          - else
-            %label.f-weight-bold.line-height-1-5.block Quel cours voulez-vous suivre ?
-            - plannings = @structure.courses.regulars.reject{|c| c.plannings.empty? }.map{ |c| [c.name, c.plannings.ordered_by_day.map{|p| [p.decorate.week_day_name + ' ' + p.decorate.time_slot, p.id] }] }
-            = f.input :planning_id, label: false, as: :grouped_select, collection: plannings, group_method: :last, blank: false, selected: params[:planning], wrapper_html: { class: 'flush' }
+          - if @course
+            .push--bottom
+              %h3
+                %i.fa.fa-check.green
+                = @course.name
+              - if @course.plannings.visible.any?
+                %label.f-weight-bold.line-height-1-5.block À quelle séance voulez-vous assiter ?
+                = f.input :planning_id, label: false, as: :select, collection: @course.plannings.map{|p| [p.decorate.week_day_name + ' ' + p.decorate.time_slot, p.id] }, include_blank: false, selected: params[:planning], wrapper_html: { class: 'flush' }
 
-        .push--bottom
-          %label.f-weight-bold.line-height-1-5.block Quel jour vous conviendrait ?
-          - if params[:planning].present?
-            - planning = Planning.find(params[:planning])
+            .push--bottom
+              %label.f-weight-bold.line-height-1-5.block Quel jour vous conviendrait ?
+              - if params[:planning].present?
+                - planning = Planning.find(params[:planning])
+              - else
+                - planning = @structure.courses.regulars.reject{|c| c.plannings.empty? }.flat_map{ |c| c.plannings.ordered_by_day }.first
+              - next_start_time = DateTime.new(planning.next_date.year, planning.next_date.month, planning.next_date.day)
+              %input{ style: 'width: 8em;', name: 'participation_request[date]', data: { behavior: 'datepicker', start_date: l(Date.today) }, value: l(next_start_time.to_date)  }
           - else
-            - planning = @structure.courses.regulars.reject{|c| c.plannings.empty? }.flat_map{ |c| c.plannings.ordered_by_day }.first
-          - next_start_time = DateTime.new(planning.next_date.year, planning.next_date.month, planning.next_date.day)
+            .push--bottom
+              %label.f-weight-bold.line-height-1-5.block Quel cours voulez-vous suivre ?
+              = f.input :course_id, label: false, as: :select, collection: @structure.courses, include_blank: '', selected: params[:planning], wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole' }
 
-          %input{ style: 'width: 8em;', name: 'participation_request[date]', data: { behavior: 'datepicker', start_date: l(Date.today) }, value: l(next_start_time.to_date)  }
         .push--bottom
           %label.f-weight-bold.line-height-1-5.block Combien serez-vous ?
           = f.simple_fields_for :participants do |p_f|
@@ -96,7 +99,8 @@
         .center-block{ style: 'max-width: 350px;' }
           .white-box.soft
             .text--center
-              %h4.flush Pass élève : 19 €
+              %h4.flush
+                = ab_test(:test, "Pass élève : 19 €", (@course.has_free_trial_lesson? || @course.prices.first.nil? ? "Prix de la séance : gratuite" : "Prix de la séance : #{@course.prices.first.amount.to_i}€"))
               %p
                 %strong Empreinte de votre carte bancaire*
             .alert--error.one-whole.push--bottom.text--center{ style: 'display: none;' }
@@ -124,7 +128,11 @@
                 %br
                 = image_tag 'test/credit_mutuel.png', height: 15
           .soft-half--top
-            *Votre carte bancaire ne sera débitée de 19 € que si un professeur accepte votre demande de cours et une fois seulement (même si plusieurs professeurs acceptent votre demande)
+
+            - if @course.has_free_trial_lesson? || @course.prices.first.nil?
+              = ab_test("*Votre carte bancaire ne sera débitée de 19 € que si un professeur accepte votre demande de cours et une fois seulement (même si plusieurs professeurs acceptent votre demande)", "*Séance gratuite : rien ne sera débité sauf si vous ne vous présentez pas à la séance (19€)")
+            - else
+              = ab_test("*Votre carte bancaire ne sera débitée de 19 € que si un professeur accepte votre demande de cours et une fois seulement (même si plusieurs professeurs acceptent votre demande)", "*#{@course.prices.first.amount.to_i}€ débit débité si un professeur accepte votre demande")
 
 = render 'structures/checkout_footer'
 
@@ -139,6 +147,10 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('#participation_request_course_id').change(function() {
+            CoursAvenue.showFullPageLoader();
+            window.location = Routes.checkout_step_2_structure_path("#{@structure.slug}", { course: $('#participation_request_course_id').val() })
+        });
         mixpanel.track(test_name + " | Checkout 2", { });
         $('form').submit(function() {
             if ($('.credit-card-number').val().length < 10 ||

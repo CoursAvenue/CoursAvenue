@@ -25,6 +25,12 @@ class StructuresController < ApplicationController
   end
 
   def checkout_step_2
+    if params[:planning].present?
+      @planning = @structure.plannings.find(params[:planning])
+      @course   = @planning.course
+    elsif params[:course].present?
+      @course = @structure.courses.find(params[:course])
+    end
     if current_user.nil?
       redirect_to checkout_step_1_structure_path(@structure), error: 'Vous devez être connecté pour continuer.'
     end
