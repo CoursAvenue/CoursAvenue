@@ -99,8 +99,9 @@
         .center-block{ style: 'max-width: 350px;' }
           .white-box.soft
             .text--center
-              %h4.flush
-                = ab_test(:test, "Pass élève : 19 €", (@course.has_free_trial_lesson? || @course.prices.first.nil? ? "Prix de la séance : gratuite" : "Prix de la séance : #{@course.prices.first.amount.to_i}€"))
+              - if @course
+                %h4.flush
+                  = ab_test(:pass, "Pass élève : 19 €", (@course.has_free_trial_lesson? || @course.prices.first.nil? ? "Prix de la séance : gratuite" : "Prix de la séance : #{@course.prices.first.amount.to_i}€"))
               %p
                 %strong Empreinte de votre carte bancaire*
             .alert--error.one-whole.push--bottom.text--center{ style: 'display: none;' }
@@ -128,11 +129,11 @@
                 %br
                 = image_tag 'test/credit_mutuel.png', height: 15
           .soft-half--top
-
-            - if @course.has_free_trial_lesson? || @course.prices.first.nil?
-              = ab_test("*Votre carte bancaire ne sera débitée de 19 € que si un professeur accepte votre demande de cours et une fois seulement (même si plusieurs professeurs acceptent votre demande)", "*Séance gratuite : rien ne sera débité sauf si vous ne vous présentez pas à la séance (19€)")
-            - else
-              = ab_test("*Votre carte bancaire ne sera débitée de 19 € que si un professeur accepte votre demande de cours et une fois seulement (même si plusieurs professeurs acceptent votre demande)", "*#{@course.prices.first.amount.to_i}€ débit débité si un professeur accepte votre demande")
+            - if @course
+              - if @course.has_free_trial_lesson? || @course.prices.first.nil?
+                = ab_test(:pass, "*Votre carte bancaire ne sera débitée de 19 € que si un professeur accepte votre demande de cours et une fois seulement (même si plusieurs professeurs acceptent votre demande)", "*Séance gratuite : rien ne sera débité sauf si vous ne vous présentez pas à la séance (19€)")
+              - else
+                = ab_test(:pass, "*Votre carte bancaire ne sera débitée de 19 € que si un professeur accepte votre demande de cours et une fois seulement (même si plusieurs professeurs acceptent votre demande)", "*#{@course.prices.first.amount.to_i}€ débit débité si un professeur accepte votre demande")
 
 = render 'structures/checkout_footer'
 
