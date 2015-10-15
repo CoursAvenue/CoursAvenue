@@ -5,90 +5,127 @@
   .soft--ends.absolute.north.west.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto.z-index-10000
     .flexbox__item.v-middle
       %h1.soft--sides.white.text--center.f-size-really-big
-        Des centaines de cours de #{@vertical_page.subject_name}
-      %h2.soft--sides.white.text--center
-        Une seule formule pour vous lancer.
+        - if @subject.slug == 'dessin-peinture-arts-plastiques'
+          Des centaines de cours d'arts plastiques.
+        - elsif @subject.slug == 'theatre-scene'
+          Des centaines de cours de théâtre
+        - elsif @subject.slug == 'yoga-bien-etre-sante'
+          Des centaines de cours de yoga & de bien-être
+        - else
+          Des centaines de cours de #{@vertical_page.subject_name}.
+        %br
+        Une seule formule pour se lancer.
       .main-container.main-container--medium.white.text--center
         %h4.center-block
-          Votre pass vous permet de tester gratuitement et à votre propre rythme chacun des #{@subject.indexable_cards.count * 3} cours de #{@vertical_page.subject_name} à Paris. Une fois votre cours idéal trouvé, utilisez votre pass qui vous donne droit à 1 mois de séances. Si aucun cours ne vous convient, nous vous remboursons sans délai.
+          Le Pass #{@vertical_page.subject_name} permet de tester gratuitement chacun des #{@subject.indexable_cards.count * 3} cours de #{@vertical_page.subject_name} à #{@city.name} : une fois le cours idéal trouvé, suivez-le pendant 1 mois sans frais supplémentaire. Si aucun cours ne vous convient, nous vous remboursons sans délai.
       .text--center
-        = link_to "Obtenir mon pass #{@vertical_page.subject_name}", '', class: 'btn btn--blue-green btn--bigger'
+        = link_to "Obtenir mon pass", '', class: 'btn btn--blue-green btn--bigger'
+        = link_to "Offrir le Pass", '', class: 'btn btn--white-transparent btn--white-transparent--white btn--bigger push--left'
 
   - map_zoom = 12 if @city and @city.size == 3
   - map_zoom = 14 if @city and @city.size != 3
   - map_zoom = 15 if @neighborhood
   = react_component('MapContainer', { zoom: map_zoom, center: [(@neighborhood || @city || @paris).latitude, (@neighborhood || @city || @paris).longitude] })
 
+.text--center.bg-white.soft
+  %strong.epsilon Pass à 99€
+  %strong.epsilon.soft--sides.blue-green •
+  -# %strong.epsilon #{@subject.indexable_cards.count * 3} séances de #{@vertical_page.subject_name} ouvertes à l'essai - 1 mois de cours inclus -
+  %strong.epsilon Satisfait ou remboursé
+  %strong.epsilon.soft--sides.blue-green •
+  %strong.epsilon Valable à vie
 .main-container.soft--ends
-  %h2.text--center.alpha.soft--ends.f-weight-300
-    Pass à 99€ - #{@subject.indexable_cards.count * 3} séances de #{@vertical_page.subject_name} ouvertes à l'essai - 1 mois de cours inclus - Satisfait ou remboursé - Valable à vie
 
   .grid.push--bottom
     .grid__item.one-third.text--center>
-      %h4.gamma Obtenez votre pass
+      .soft--ends
+        = image_tag 'test/test2-logo1.png', height: 100
+      %h4.gamma Obtenez votre Pass
 
-      %p Renseignez vos coordonnées avant de procéder au paiement. Rassurez-vous : si aucun cours ne vous convient, nous vous remboursons immédiatement et sans motif de votre part.
+      %p Renseignez vos coordonnées avant de régler les 99€. Rassurez-vous : si aucun cours ne vous convient, nous vous remboursons sans délai.
     .grid__item.one-third.text--center>
+      .soft--ends
+        = image_tag 'test/test2-logo2.png', height: 100
       %h4.gamma Essayez différentes séances
 
-      %p Grâce aux 10 000 avis de la communauté, inscrivez-vous directement en ligne aux séances de votre choix et en fonction de vos critères : lieu, créneau horaire, niveau, etc.
+      %p Grâce aux 10 000 avis, inscrivez-vous directement en ligne en fonction de vos critères : lieu, créneau horaire, niveau, etc.
     .grid__item.one-third.text--center>
+      .soft--ends
+        = image_tag 'test/test2-logo3.png', height: 100
       %h4.gamma Suivez 1 mois de cours
 
-      %p Dès qu'un cours vous convient, fournissez le code de votre pass au professeur pour bénéficier d'1 mois d'abonnement et commencer une pratique régulière.
+      %p Dès qu'un cours vous convient, fournissez le code de votre Pass au professeur pour bénéficier d'1 mois d'abonnement et commencer une pratique régulière.
 
   .text--center.push--bottom.soft--bottom
-    = link_to "Obtenir mon pass #{@vertical_page.subject_name}", '', class: 'btn btn--blue-green btn--bigger'
+    = link_to "Obtenir mon pass", '', class: 'btn btn--blue-green btn--bigger'
+    = link_to "Offrir le Pass", '', class: 'btn btn--white btn--bigger push--left'
 
-  - comments = CommentSearch.search(subject_slug: @subject.slug)
+
+  - _comments = CommentSearch.search(subject_slug: @subject.slug, per_page: 50)
+  - comments  = _comments.group_by(&:structure).map(&:last).map(&:first)
+  - if comments.length == 2
+    - comments << (_comments - comments).sample
+  - elsif comments.length == 1
+    - comments << (_comments - comments).sample
+    - comments << (_comments - comments).sample
+  - elsif comments.length == 0
+    - comments << _comments
   .grid.push--bottom
     .grid__item.one-third>
-      .flexbox.green-box.text--center.white{ style: 'height: 30em;' }>
+      .flexbox.green-box.text--center.white{ style: 'height: 20em;' }>
         .flexbox__item.soft--sides
+          %i.fa.fa-3x.fa-comment.push--bottom
           .alpha 10 000 avis
           .gamma de la communauté
     .grid__item.one-third>
-      .flexbox.v-top.white-box{ style: 'height: 30em;' }>
-        .flexbox__item
-          %div
-            = link_to structure_path((comments[0] || Comment.offset(3).last(1).first).structure), class: 'block', target: :_blank do
-              = image_tag (comments[0] || Comment.offset(3).last(1).first).structure.logo.url(:thumbnail_email_cropped), height: 200, class: 'one-whole block'
+      .flexbox.v-top.white-box{ style: 'height: 20em;' }>
+        .flexbox__item.v-top
+          - image_url = (comments[0] || Comment.offset(3).last(1).first).structure.logo.url(:thumbnail_email_cropped)
+          = link_to '', structure_path((comments[0] || Comment.offset(3).last(1).first).structure), class: 'bg-cover block', target: :_blank, style: "background-image: url('#{image_url}'); height: 10em;"
           .soft
-            .line-height-1-3.epsilon.quoted= truncate((comments[0] || Comment.offset(3).last(1).first).content, length: 180)
-            .push-half--top.text--right
+            .line-height-1-3.quoted= truncate((comments[0] || Comment.offset(3).last(1).first).content, length: 150)
+            .float--right
               %strong= "Par #{(comments[0] || Comment.offset(3).last(1).first).author_name}"
     .grid__item.one-third>
-      .flexbox.yellow-box.text--center.white{ style: 'height: 30em;' }>
+      .flexbox.yellow-box.text--center.white{ style: 'height: 20em;' }>
         .flexbox__item.soft--sides
+          %i.fa.fa-3x.fa-time.push--bottom
           .alpha #{@subject.indexable_cards.count * 3}
-          .gamma séances de #{@vertical_page.subject_name} vous sont ouvertes
+          .gamma séances vous sont ouvertes
   .grid
     .grid__item.one-third>
-      .flexbox.v-top.white-box{ style: 'height: 30em;' }>
-        .flexbox__item
-          %div
-            = link_to structure_path((comments[1] || Comment.offset(1).last(1).first).structure), class: 'block', target: :_blank do
-              = image_tag (comments[1] || Comment.offset(1).last(1).first).structure.logo.url(:thumbnail_email_cropped), height: 200, class: 'one-whole block'
+      .flexbox.v-top.white-box{ style: 'height: 20em;' }>
+        .flexbox__item.v-top
+          - image_url = (comments[1] || Comment.offset(1).last(1).first).structure.logo.url(:thumbnail_email_cropped)
+          = link_to '', structure_path((comments[1] || Comment.offset(1).last(1).first).structure), class: 'bg-cover block', target: :_blank, style: "background-image: url('#{image_url}'); height: 10em;"
           .soft
-            .line-height-1-3.epsilon.quoted= truncate((comments[1] || Comment.offset(1).last(1).first).content, length: 180)
-            .push-half--top.text--right
+            .line-height-1-3.quoted= truncate((comments[1] || Comment.offset(1).last(1).first).content, length: 150)
+            .float--right
               %strong= "Par #{(comments[1] || Comment.offset(1).last(1).first).author_name}"
     .grid__item.one-third.white>
-      .flexbox.dark-blue-box.text--center.white{ style: 'height: 30em;' }>
+      .flexbox.dark-blue-box.text--center.white{ style: 'height: 20em;' }>
         .flexbox__item
+          %i.fa.fa-3x.fa-face-happy.push--bottom
           .alpha 96%
-          .gamma de nos utilisateurs sont
-          .beta satisfaits
+          .gamma de nos utilisateurs sont satisfaits
     .grid__item.one-third>
-      .flexbox.v-top.white-box{ style: 'height: 30em;' }>
-        .flexbox__item
-          %div
-            = link_to structure_path((comments[2] || Comment.offset(2).last(1).first).structure), class: 'block', target: :_blank do
-              = image_tag (comments[2] || Comment.offset(2).last(1).first).structure.logo.url(:thumbnail_email_cropped), height: 200, class: 'one-whole block'
+      .flexbox.v-top.white-box{ style: 'height: 20em;' }>
+        .flexbox__item.v-top
+          - image_url = (comments[2] || Comment.offset(2).last(1).first).structure.logo.url(:thumbnail_email_cropped)
+          = link_to '', structure_path((comments[2] || Comment.offset(2).last(1).first).structure), class: 'bg-cover block', target: :_blank, style: "background-image: url('#{image_url}'); height: 10em;"
           .soft
-            .line-height-1-3.epsilon.quoted= truncate((comments[2] || Comment.offset(2).last(1).first).content, length: 180)
-            .push-half--top.text--right
+            .line-height-1-3.quoted= truncate((comments[2] || Comment.offset(2).last(1).first).content, length: 150)
+            .float--right
               %strong= "Par #{(comments[2] || Comment.offset(2).last(1).first).author_name}"
+
+- if @descendants
+  .soft--top
+    - @descendants.each_with_index do |vertical_page, index|
+      %h5.inline-block.flush.gamma.muted-link.v-middle.search-page-filters__image-button.palm-one-whole.palm-block.bg-cover{ class: ((index % 5 < 3) ? 'one-third' : 'one-half'), style: "background-image: url('#{vertical_page.image.url(:homepage_small)}');" }>
+        .search-page-filters__image-button-curtain
+        .flexbox.relative.search-page-filters__panel-half-height
+          .flexbox__item.v-middle
+            = link_to "Cours de #{vertical_page.subject_name.downcase}", vertical_page_path(vertical_page.root_subject, vertical_page), class: 'white semi-muted-link block'
 
 - @indexable_card = @subject.indexable_cards.sample
 - @card_redux = { id: @indexable_card.id, slug: @indexable_card.slug, subjects: @indexable_card.subjects.pluck(:slug), position: { lat: @city.latitude, lng: @city.longitude } }

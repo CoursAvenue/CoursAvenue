@@ -57,7 +57,7 @@
                 %i.fa.fa-check.green
                 = @course.name
               - if @course.plannings.visible.any?
-                %label.f-weight-bold.line-height-1-5.block À quelle séance voulez-vous assiter ?
+                %label.f-weight-bold.line-height-1-5.block À quelle séance voulez-vous assister ?
                 = f.input :planning_id, label: false, as: :select, collection: @course.plannings.map{|p| [p.decorate.week_day_name + ' ' + p.decorate.time_slot, p.id] }, include_blank: false, selected: params[:planning], wrapper_html: { class: 'flush' }
 
             .push--bottom
