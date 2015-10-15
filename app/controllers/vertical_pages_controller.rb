@@ -7,7 +7,7 @@ class VerticalPagesController < ApplicationController
   before_action :load_root_vertical_page, only: [:show_root]
   before_action :load_vertical_page, only: [:show, :show_with_neighborhood]
 
-  SUBJECT_FOR_TEST = %w(techniques-vocales danse danse-orientale danse-contemporaine-moderne jazz-street-jazz-modern-jazz tango-argentin hip-hop-break-dance danse-africaine-afro-jazz danse-classique danse-indienne-bollywood dessin-peinture-arts-plastiques dessin peinture decouverte-dessin-peinture croquis modelage crayon-mine-fusain aquarelle-lavis qi-gong salsa-bachata-chacha théâtre theatre-amateurs improvisation-theatrale art-dramatique mise-en-scene-expression-scenique comedie-humour yoga-bien-etre-sante hatha-yoga relaxation-detente respiration estime-de-soi-confiance zumba)
+  SUBJECT_FOR_TEST = %w(theatre-scene techniques-vocales danse danse-orientale danse-contemporaine-moderne jazz-street-jazz-modern-jazz tango-argentin hip-hop-break-dance danse-africaine-afro-jazz danse-classique danse-indienne-bollywood dessin-peinture-arts-plastiques dessin peinture decouverte-dessin-peinture croquis modelage crayon-mine-fusain aquarelle-lavis qi-gong salsa-bachata-chacha théâtre theatre-amateurs improvisation-theatrale art-dramatique mise-en-scene-expression-scenique comedie-humour yoga-bien-etre-sante hatha-yoga relaxation-detente respiration estime-de-soi-confiance zumba)
   SUBJECT_1_DESCENDANTS = {
     'danse'                           => %w(danse-orientale danse-contemporaine danse-jazz tango-argentin danse-hip-hop-et-de-break-dance),
     'dessin-peinture-arts-plastiques' => %w(peinture decouverte-du-dessin-et-de-la-peinture croquis modelage dessin-au-crayon),
@@ -25,6 +25,7 @@ class VerticalPagesController < ApplicationController
     @vertical_page_decorator = @vertical_page.decorate
     if SUBJECT_FOR_TEST.include?(@subject.slug)
       @descendants = SUBJECT_1_DESCENDANTS[@subject.slug].map{|slug| VerticalPage.find(slug)}
+      @test_landing = true
       render 'test_landing'
     else
       render action: :show
@@ -34,11 +35,9 @@ class VerticalPagesController < ApplicationController
   def show
     @vertical_page_decorator = @vertical_page.decorate
     @subject                 = @vertical_page.subject
-    if @subject.root?
-      redirect_to root_vertical_page_path(@vertical_page), status: 301
-    end
     @ancestors               = @subject.ancestors
     if SUBJECT_FOR_TEST.include?(@subject.slug)
+      @test_landing = true
       render 'test_landing'
     end
   end
