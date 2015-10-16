@@ -1,0 +1,97 @@
+= content_for :right_after_head do
+  %meta{ name: 'robots', content: 'noindex,follow' }
+
+.step-2= render partial: 'structures/checkout_header_bis', locals: { current: 2 }
+
+.soft--ends.main-container
+  %h1.text--center
+    Réserver votre 1ère séance avec
+  - if false # cookies[:test] == '100_dolls_pass'
+    Blidablou
+  - else
+    .text--center.soft--top
+      %h4
+        Lorem ipsum
+        %br
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam sequi nemo mollitia, maxime minima animi. Nam reiciendis, distinctio? Officia possimus perferendis laborum quibusdam maxime, fugit delectus adipisci repudiandae molestias ad.
+    .grid.push--bottom
+      .grid__item.one-quarter.text--center>
+        %div
+          = image_tag 'test/checkout-image-1.png', height: 50
+        .f-weight-500
+          Contact illimité de professeurs pendant 30 jours
+      .grid__item.one-quarter.text--center>
+        %div
+          = image_tag 'test/checkout-image-2.png', height: 50
+        .f-weight-500 19€ déduits de votre 1er abonnement si vous souhaitez en faire une pratique régulière
+      .grid__item.one-quarter.text--center>
+        %div
+          = image_tag 'test/checkout-image-3.png', height: 50
+        .f-weight-500 Réponse de votre prof en 9 heures (moyenne constatée)
+      .grid__item.one-quarter.text--center>
+        %div
+          = image_tag 'test/checkout-image-4.png', height: 50
+        .f-weight-500 Service client sympa et disponible à votre écoute
+.main-container
+  .grid.center-block.soft--top{ style: 'max-width: 800px;' }
+    .eight-twelfths.center-block>
+      .center-block{ style: 'max-width: 350px;' }
+        .white-box.soft
+          .text--center
+            %p
+              %strong Empreinte de votre carte bancaire*
+          .alert--error.one-whole.push--bottom.text--center{ style: 'display: none;' }
+            Vous avez besoin du Pass Élève pour envoyer votre demande
+          .push-half--bottom
+            .input-with-icon
+              %input.credit-card-number.one-whole{ placeholder: 'Numéro de carte' }
+              %i.fa.fa-credit-card
+          .flexbox.push-half--bottom
+            .flexbox__item.nowrap.soft-half--right
+              Date d'expiration
+            .flexbox__item
+              %input.credit-card-expiry.one-whole{ placeholder: 'MM / AAAA'}
+          .push-half--bottom
+            .input-with-icon
+              %input.credit-card-cvc.one-whole{ placeholder: 'Code de sécurité', type: 'tel' }
+              %i.cursor-help.fa.fa-lock{ data: { toggle: 'popover', content: 'Le code de sécurité est imprimé au dos de votre carte bancaire : ce sont les 3 derniers chiffres', placement: 'left' } }
+          .text--center
+            = link_to 'Payer', checkout_step_3_collection_structures_path, class: 'btn btn btn--green btn--full'
+            %div.epsilon.soft-half--top
+              %strong Paiement sécurisé
+              %i.fa.fa-lock
+            .soft-half--top
+              Notre site est sécurisé made in France par
+              %br
+              = image_tag 'test/credit_mutuel.png', height: 15
+        .soft-half--top.push--bottom
+          *Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus nulla adipisci aliquam provident eveniet, reprehenderit pariatur voluptatem magnam iste sed voluptate expedita, ducimus impedit quaerat! Soluta deleniti sint ipsam eveniet!
+
+= render 'structures/checkout_footer'
+
+
+- if cookies[:test] == '100_dolls_pass'
+  :javascript
+    var test_name = "TEST PASS"
+- else
+  :javascript
+    var test_name = "TEST 1"
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        mixpanel.track(test_name + " | Checkout 2", { });
+        $('#submit').click(function() {
+            if ($('.credit-card-number').val().length < 10 ||
+                $('.credit-card-expiry').val().length < 4 ||
+                $('.credit-card-cvc').val().length < 3) {
+                $('.alert--error').slideDown();
+                return false;
+            }
+            return true;
+        });
+        $('.credit-card-number').payment('formatCardNumber');
+        $('.credit-card-expiry').payment('formatCardExpiry');
+        $('.credit-card-cvc').payment('formatCardCVC');
+    });
+

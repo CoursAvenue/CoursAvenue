@@ -5,7 +5,10 @@ class StructuresController < ApplicationController
 
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
 
-  before_filter :set_current_structure, except: [:index, :search, :typeahead, :add_to_favorite, :remove_from_favorite]
+  before_filter :set_current_structure, except: [:index, :search, :typeahead,
+                                                 :add_to_favorite, :remove_from_favorite,
+                                                 :checkout_step_1_collection, :checkout_step_2_collection,
+                                                 :checkout_step_3_collection]
   before_filter :authenticate_pro_admin!, only: [:toggle_pure_player]
 
   respond_to :json
@@ -16,6 +19,28 @@ class StructuresController < ApplicationController
     @structure.pure_player = (@structure.pure_player? ? false : true)
     @structure.save
     redirect_to structure_path(@structure)
+  end
+
+  def checkout_step_1_collection
+    if current_user
+      if params[:gift].present?
+        redirect_to checkout_step_2_collection_structures_path(gift: true), error: 'Vous devez être connecté pour continuer.'
+      else
+        redirect_to checkout_step_2_collection_structures_path, error: 'Vous devez être connecté pour continuer.'
+      end
+    end
+  end
+
+  def checkout_step_2_collection
+    if current_user.nil?
+      redirect_to checkout_step_1_collection_structures_path, error: 'Vous devez être connecté pour continuer.'
+    end
+  end
+
+  def checkout_step_3_collection
+    if current_user.nil?
+      redirect_to checkout_step_1_collection_structures_path, error: 'Vous devez être connecté pour continuer.'
+    end
   end
 
   def checkout_step_1
@@ -90,7 +115,7 @@ class StructuresController < ApplicationController
   private
 
   def get_layout
-    if %(checkout_step_1 checkout_step_2 checkout_step_3).include?(action_name)
+    if %(checkout_step_1 checkout_step_2 checkout_step_3 checkout_step_1_collection checkout_step_2_collection checkout_step_3_collection).include?(action_name)
       'empty'
     elsif action_name == 'reviews'
       'reservations/website'

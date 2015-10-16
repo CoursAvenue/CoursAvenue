@@ -19,8 +19,8 @@
         %h4.center-block
           Le Pass #{@vertical_page.subject_name} permet de tester gratuitement chacun des #{@subject.indexable_cards.count * 3} cours de #{@vertical_page.subject_name} à #{@city.name} : une fois le cours idéal trouvé, suivez-le pendant 1 mois sans frais supplémentaire. Si aucun cours ne vous convient, nous vous remboursons sans délai.
       .text--center
-        = link_to "Obtenir mon pass", '', class: 'btn btn--blue-green btn--bigger'
-        = link_to "Offrir le Pass", '', class: 'btn btn--white-transparent btn--white-transparent--white btn--bigger push--left'
+        = link_to "Obtenir mon pass", checkout_step_1_collection_structures_path, class: 'btn btn--blue-green btn--bigger'
+        = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(gift: true), class: 'btn btn--white-transparent btn--white-transparent--white btn--bigger push--left'
 
   - map_zoom = 12 if @city and @city.size == 3
   - map_zoom = 14 if @city and @city.size != 3
@@ -57,8 +57,8 @@
       %p Dès qu'un cours vous convient, fournissez le code de votre Pass au professeur pour bénéficier d'1 mois d'abonnement et commencer une pratique régulière.
 
   .text--center.push--bottom.soft--bottom
-    = link_to "Obtenir mon pass", '', class: 'btn btn--blue-green btn--bigger'
-    = link_to "Offrir le Pass", '', class: 'btn btn--white btn--bigger push--left'
+    = link_to "Obtenir mon pass", checkout_step_1_collection_structures_path, class: 'btn btn--blue-green btn--bigger'
+    = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(gift: true), class: 'btn btn--white btn--bigger push--left'
 
 
   - _comments = CommentSearch.search(subject_slug: @subject.slug, per_page: 50)
@@ -89,7 +89,7 @@
     .grid__item.one-third>
       .flexbox.yellow-box.text--center.white{ style: 'height: 20em;' }>
         .flexbox__item.soft--sides
-          %i.fa.fa-3x.fa-time.push--bottom
+          %i.fa.fa-3x.fa-list.push--bottom
           .alpha #{@subject.indexable_cards.count * 3}
           .gamma séances vous sont ouvertes
   .grid
