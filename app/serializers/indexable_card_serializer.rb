@@ -71,6 +71,6 @@ class IndexableCardSerializer < ActiveModel::Serializer
   end
 
   def dominant_root_subject_vp_slug
-    object.dominant_root_subject.vertical_pages.first.slug
+    object.course.dominant_root_subject.vertical_pages.first.slug
   end
 end
