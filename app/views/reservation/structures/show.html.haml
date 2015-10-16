@@ -56,3 +56,5 @@
         });
         Stripe.setPublishableKey("#{ Rails.configuration.stripe[:publishable_key] }");
     }());
+:javascript
+  window.city = '#{@structure.city.slug}'
