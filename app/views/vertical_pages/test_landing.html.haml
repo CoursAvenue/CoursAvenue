@@ -4,7 +4,7 @@
 .relative.search-page-filters__panel-height.palm-height-auto
   .soft--ends.absolute.north.west.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto.z-index-10000
     .flexbox__item.v-middle
-      %h1.soft--sides.white.text--center.f-size-really-big
+      %h1.soft--sides.white.text--center.f-size-really-big.line-height-1-3
         - if @subject.slug == 'dessin-peinture-arts-plastiques'
           Des centaines de cours d'arts plastiques.
         - elsif @subject.slug == 'theatre-scene'
@@ -17,10 +17,11 @@
         Une seule formule pour se lancer.
       .main-container.main-container--medium.white.text--center
         %h4.center-block
-          Le Pass #{@vertical_page.subject_name} permet de tester gratuitement chacun des #{@subject.indexable_cards.count * 3} cours de #{@vertical_page.subject_name} à #{@city.name} : une fois le cours idéal trouvé, suivez-le pendant 1 mois sans frais supplémentaire. Si aucun cours ne vous convient, nous vous remboursons sans délai.
+          Le Pass #{@vertical_page.subject_name} permet de tester gratuitement chacune des #{@subject.indexable_cards.count * 3} séances de #{@vertical_page.subject_name} à Paris. Dès qu'un cours vous convient, faites-en part à votre professeur qui déduira les 99€ du Pass de votre 1er abonnement. Si vous ne trouvez rien, nous vous remboursons sans délai. Ainsi, votre Pass ne vous coûte rien.
+
       .text--center
-        = link_to "Obtenir mon pass", checkout_step_1_collection_structures_path, class: 'btn btn--blue-green btn--bigger'
-        = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(gift: true), class: 'btn btn--white-transparent btn--white-transparent--white btn--bigger push--left'
+        = link_to "Obtenir mon pass", checkout_step_1_collection_structures_path(subject: @subject.slug), class: 'btn btn--blue-green btn--bigger'
+        = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(subject: @subject.slug, gift: true), class: 'btn btn--white-transparent btn--white-transparent--white btn--bigger push--left'
 
   - map_zoom = 12 if @city and @city.size == 3
   - map_zoom = 14 if @city and @city.size != 3
@@ -31,7 +32,7 @@
   %strong.epsilon Pass à 99€
   %strong.epsilon.soft--sides.blue-green •
   -# %strong.epsilon #{@subject.indexable_cards.count * 3} séances de #{@vertical_page.subject_name} ouvertes à l'essai - 1 mois de cours inclus -
-  %strong.epsilon Satisfait ou remboursé
+  %strong.epsilon Déduit de votre 1er abonnement ou remboursé
   %strong.epsilon.soft--sides.blue-green •
   %strong.epsilon Valable à vie
 .main-container.soft--ends
@@ -42,7 +43,7 @@
         = image_tag 'test/test2-logo1.png', height: 100
       %h4.gamma Obtenez votre Pass
 
-      %p Renseignez vos coordonnées avant de régler les 99€. Rassurez-vous : si aucun cours ne vous convient, nous vous remboursons sans délai.
+      %p Renseignez vos coordonnées avant de régler votre Pass à 99€ : si un cours vous plaît, les 99€ seront déduits de votre 1er abonnement. Sinon, nous vous remboursons sans délai.
     .grid__item.one-third.text--center>
       .soft--ends
         = image_tag 'test/test2-logo2.png', height: 100
@@ -52,13 +53,13 @@
     .grid__item.one-third.text--center>
       .soft--ends
         = image_tag 'test/test2-logo3.png', height: 100
-      %h4.gamma Suivez 1 mois de cours
-
-      %p Dès qu'un cours vous convient, fournissez le code de votre Pass au professeur pour bénéficier d'1 mois d'abonnement et commencer une pratique régulière.
+      %h4.gamma Abonnez-vous sans frais
+      %p
+        Dès qu'un cours vous convient, fournissez le numéro de votre pass au professeur qui déduira les 99€ de votre 1er abonnement : ainsi, votre Pass ne vous coûte rien !
 
   .text--center.push--bottom.soft--bottom
-    = link_to "Obtenir mon pass", checkout_step_1_collection_structures_path, class: 'btn btn--blue-green btn--bigger'
-    = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(gift: true), class: 'btn btn--white btn--bigger push--left'
+    = link_to "Obtenir mon pass", checkout_step_1_collection_structures_path(subject: @subject.slug), class: 'btn btn--blue-green btn--bigger'
+    = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(subject: @subject.slug, gift: true), class: 'btn btn--white btn--bigger push--left'
 
 
   - _comments = CommentSearch.search(subject_slug: @subject.slug, per_page: 50)

@@ -33,7 +33,7 @@ module.exports = {
     },
 
     searchSimilarCards: function searchSimilarCards (data, successCallback, errorCallback) {
-        var structure_index = 'IndexableCard_' + ENV.SERVER_ENVIRONMENT;
+        var structure_index = 'IndexableCard_by_popularity_desc_' + ENV.SERVER_ENVIRONMENT;
         var state = {
             hitsPerPage: data.hitsPerPage || 12,
             aroundLatLng: data.aroundLatLng,

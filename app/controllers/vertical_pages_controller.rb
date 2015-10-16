@@ -23,7 +23,7 @@ class VerticalPagesController < ApplicationController
     @subject       = @vertical_page.subject
     @ancestors     = @subject.ancestors
     @vertical_page_decorator = @vertical_page.decorate
-    if SUBJECT_FOR_TEST.include?(@subject.slug)
+    if @city and @city.slug.include?('paris') and SUBJECT_FOR_TEST.include?(@subject.slug)
       @descendants = SUBJECT_1_DESCENDANTS[@subject.slug].map{|slug| VerticalPage.find(slug)}
       @test_landing = true
       render 'test_landing'

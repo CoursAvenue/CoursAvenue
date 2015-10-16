@@ -1,6 +1,12 @@
 = content_for :right_after_head do
   %meta{ name: 'robots', content: 'noindex,follow' }
 
+.absolute.north.east.soft.on-top
+  %span.soft-half--right Une question ?
+  %i.fa.fa-phone
+  09 82 24 27 74
+
+
 = render partial: 'structures/checkout_header_bis', locals: { current: 1 }
 
 .center-block.push--bottom.soft--ends{ style: 'max-width: 800px;' }
@@ -8,9 +14,26 @@
     Devenez membre pour contacter
     %br
     tous les professeurs
-  #sign-up.center-block.bg-white.bordered--sides.bordered--bottom{ style: 'max-width: 400px;' }
+  .grid--full
+    - if @subject
+      .grid__item.one-third>
+        = image_tag @subject.vertical_pages.first.image.url(:small), class: 'block one-whole'
+        .white-box.soft.text--left
+          %h4 Pass #{@subject.name} Paris
+          %div.push-half--bottom
+            %i.fa.fa-check.green
+            #{@subject.indexable_cards.count * 3} séances
+          %div.push-half--bottom
+            %i.fa.fa-check.green
+            #{@subject.comments.count} avis
+          %div.push-half--bottom
+            %i.fa.fa-check.green
+            #{@subject.indexable_cards.count} lieux
+    .grid__item.two-thirds>
+      #sign-up.center-block.bg-white.bordered--sides.bordered--bottom{ style: 'max-width: 400px;' }
 
-= render 'structures/checkout_footer'
+= render 'structures/checkout_footer_bis'
+
 
 :css
   .panel__header { display: none; }
