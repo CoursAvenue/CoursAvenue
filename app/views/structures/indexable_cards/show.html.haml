@@ -91,6 +91,18 @@
               %span.v-middle= join_levels_text(@course)
 
       .push--bottom
+        .text--center.relative
+          .bg-blue-green.palm-block.relative.soft.palm-one-whole.white>
+            .absolute.north.west.height-100-percent.one-whole.fa-map-marker.fa-10x.soft--top.blue-green--slightly-darker
+            .relative.push--ends
+              %h4.beta.push-half--bottom Ce cours n'est pas à votre goût ?
+              .delta.f-weight-bold.line-height-1-3
+                #{ @structure.name } a d'autres cours disponibles sur sa page profile.
+            %div
+              = link_to 'Voir la page profile', structure_path(@structure),
+                class: 'btn btn--white-transparent btn--white-transparent--white'
+
+      .push--bottom
         = react_component('MessageThreadList', { structure: @serialized_structure, indexable_card_id: @indexable_card.id })
 
       = react_component('CommentList', { structure: @serialized_structure })
