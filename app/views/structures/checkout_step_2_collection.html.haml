@@ -3,36 +3,37 @@
 
 .step-2= render partial: 'structures/checkout_header_bis', locals: { current: 2 }
 
-- if params[:gift]
-%div Informations concernant le bénéficiaire du Pass
-%div
-  Nous vous enverrons le Pass Zumba par e-mail que vous pourrez ensuite offrir au bénéficiaire. Nous pourrons également l'envoyer pour vous.
-%div
-  %input{ type: 'checkbox' }
-  Je ne sais pas encore à qui l'offrir, je renseignerai ces informations plus tard
 
-.grid
-  .grid__item.one-half>
-    Prénom du bénéficiaire
-  .grid__item.one-half>
-    %input.one-whole{ type: 'text' }
-.grid
-  .grid__item.one-half>
-    Nom du bénéficiaire
-  .grid__item.one-half>
-    %input.one-whole{ type: 'text' }
-.grid
-  .grid__item.one-half>
-    E-mail du bénéficiaire
-  .grid__item.one-half>
-    %input.one-whole{ type: 'text' }
-.grid
-  .grid__item.one-half>
-    Téléphone du bénéficiaire
-  .grid__item.one-half>
-    %input.one-whole{ type: 'text' }
+.main-container.soft--ends
+  - if params[:gift]
+    .white-box.center-block.soft{ style: 'max-width: 600px;' }
+      %h3.push-half--bottom Informations concernant le bénéficiaire du Pass
+      %div
+        Nous vous enverrons le Pass Zumba par e-mail que vous pourrez ensuite offrir au bénéficiaire. Nous pourrons également l'envoyer pour vous.
+      .soft-half--ends
+        %input#someone-else{ type: 'checkbox' }
+        %label{ for: 'someone-else' } Je ne sais pas encore à qui l'offrir, je renseignerai ces informations plus tard
 
-.main-container.soft--bottom
+      .grid.push-half--bottom
+        .grid__item.one-half.v-middle>
+          %label{ for: 'input-1' } Prénom du bénéficiaire
+        .grid__item.one-half.v-middle>
+          %input#input-1.one-whole{ type: 'text' }
+      .grid.push-half--bottom
+        .grid__item.one-half.v-middle>
+          %label{ for: 'input-2' } Nom du bénéficiaire
+        .grid__item.one-half.v-middle>
+          %input#input-2.one-whole{ type: 'text' }
+      .grid.push-half--bottom
+        .grid__item.one-half.v-middle>
+          %label{ for: 'input-3' } E-mail du bénéficiaire
+        .grid__item.one-half.v-middle>
+          %input#input-3.one-whole{ type: 'text' }
+      .grid.push-half--bottom
+        .grid__item.one-half.v-middle>
+          %label{ for: 'input-4' } Téléphone du bénéficiaire
+        .grid__item.one-half.v-middle>
+          %input#input-4.one-whole{ type: 'text' }
   .grid.center-block.soft--top{ style: 'max-width: 800px;' }
     .grid__item.one-half>
       .white-box.soft
@@ -101,7 +102,6 @@
 
 = render 'structures/checkout_footer_bis'
 
-
 = content_for :scripts do
   :javascript
     $(function() {
@@ -128,5 +128,3 @@
   %p.epsilon.line-height-1-3
     Merci de votre intérêt pour le Pass #{@subject.name} ! Il sera disponible dans quelques jours, nous vous enverrons un e-mail dès le lancement. En attendant, vous pouvez parcourir tous les cours de #{@subject.name} à Paris :
   = link_to 'Voir tous les cours à Paris', search_page_path(@subject.root, @subject, 'paris'), class: 'btn btn--blue-green'
-= link_to 'Voir tous les cours à Paris', search_page_path(@subject.root, @subject, 'paris'), class: 'btn btn--blue-green'
-
