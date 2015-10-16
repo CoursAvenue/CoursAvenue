@@ -25,9 +25,11 @@ class VerticalPagesController < ApplicationController
 
     @descendants = SUBJECT_1_DESCENDANTS[@subject.slug].map{|slug| VerticalPage.find(slug)} if SUBJECT_1_DESCENDANTS[@subject.slug]
     @test_landing = true
-    render 'test_landing'
-
-    # render action: :show
+    if current_pro_admin
+      render action: :show
+    else
+      render 'test_landing'
+    end
   end
 
   def show
@@ -35,7 +37,9 @@ class VerticalPagesController < ApplicationController
     @subject                 = @vertical_page.subject
     @ancestors               = @subject.ancestors
     @test_landing = true
-    render 'test_landing'
+    if !current_pro_admin
+      render 'test_landing'
+    end
   end
 
   def show_with_neighborhood
