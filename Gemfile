@@ -142,7 +142,7 @@ gem 'roadie-rails'              , '~> 1.0.6'
 
 gem 'browserify-rails'          , '~> 1.0.1'
 gem 'react-rails'               , '~> 1.0.0'
-gem 'handlebars_assets'         , '~> 0.20.1'
+gem 'handlebars_assets'         , '~> 0.21.0'
 # Decorator
 gem 'draper'                    , '~> 1.4.0'
 # allows sharing of handlebars templates
@@ -252,7 +252,7 @@ end
 
 gem 'dotenv-rails', '~> 2.0.0'
 
-gem 'rmagick', '~> 2.15.4', require: 'RMagick'
+gem 'rmagick', '~> 2.15.4', require: 'rmagick'
 
 # Rails 4 upgrade
 gem 'actionpack-action_caching', '~> 1.1.1'
@@ -303,3 +303,6 @@ gem 'textacular', '~> 3.0'
 
 # Validation of YouTube videos.
 gem 'ruby-oembed', '~> 0.8.14', require: false
+
+# AB testing
+gem 'split', '~> 1.2.1'

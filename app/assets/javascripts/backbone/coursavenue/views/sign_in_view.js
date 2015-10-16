@@ -16,14 +16,17 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 CoursAvenue.trigger('user:signed:in');
                 func();
             });
-
-            this.$el.css('width', this.options.width + 'px');
-            $.magnificPopup.open({
-                  items: {
-                      src: this.$el,
-                      type: 'inline'
-                  }
-            });
+            if (options.el) {
+                options.el.append(this.$el);
+            } else {
+                this.$el.css('width', this.options.width + 'px');
+                $.magnificPopup.open({
+                      items: {
+                          src: this.$el,
+                          type: 'inline'
+                      }
+                });
+            }
             this.render();
         },
 

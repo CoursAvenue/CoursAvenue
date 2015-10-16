@@ -52,16 +52,22 @@
         .grid__item.one-fifth.visuallyhidden--palm>
           %p.push-half--bottom.epsilon
             %strong Disciplines
-          %ul.no-bullet-list.line-height-2
-            %li= link_to 'Danse', root_search_page_url('danse', 'paris', subdomain: 'www'), title: 'Cours de Danse à Paris'
-            %li= link_to 'Théâtre & Scène', root_search_page_url('theatre-scene', 'paris', subdomain: 'www'), title: 'Cours de Théâtre & Scène à Paris'
-            %li= link_to 'Yoga, Bien-être & Santé', root_search_page_url('yoga-bien-etre-sante', 'paris', subdomain: 'www'), title: 'Cours de Yoga, Bien-être & Santé à Paris'
-            %li= link_to 'Musique & Chant', root_search_page_url('musique-chant', 'paris', subdomain: 'www'), title: 'Cours de Musique & Chant à Paris'
-            %li= link_to 'Dessin, Peinture & Arts', root_search_page_url('dessin-peinture-arts-plastiques', 'paris', subdomain: 'www'), title: 'Cours de Dessin, Peinture & Arts à Paris'
-            %li= link_to 'Sports', root_search_page_url('sports-arts-martiaux', 'paris', subdomain: 'www'), title: 'Cours de Sports & Arts martiaux à Paris'
-            %li= link_to 'Cuisine & Vins', root_search_page_url('cuisine-vins', 'paris', subdomain: 'www'), title: 'Cours de Cuisine & Vins à Paris'
-            %li= link_to 'Photo & Vidéo', root_search_page_url('photo-video', 'paris', subdomain: 'www'), title: 'Cours de Photo & Vidéo à Paris'
-            %li= link_to 'Déco, Mode & Bricolage', root_search_page_url('deco-mode-bricolage', 'paris', subdomain: 'www'), title: 'Cours de Déco, Mode & Bricolage à Paris'
+          - if @test_landing
+            %ul.no-bullet-list.line-height-2
+              %li= link_to 'Danse', root_vertical_page_with_city_path('danse', 'paris', subdomain: 'www')
+              %li= link_to 'Dessin', root_vertical_page_with_city_path('dessin-de-peinture-et-d-arts-plastiques', 'paris', subdomain: 'www')
+              %li= link_to 'Yoga & bien être', root_vertical_page_with_city_path('theatre-et-de-scene', 'paris', subdomain: 'www')
+          - else
+            %ul.no-bullet-list.line-height-2
+              %li= link_to 'Danse', root_search_page_url('danse', 'paris', subdomain: 'www'), title: 'Cours de Danse à Paris'
+              %li= link_to 'Théâtre & Scène', root_search_page_url('theatre-scene', 'paris', subdomain: 'www'), title: 'Cours de Théâtre & Scène à Paris'
+              %li= link_to 'Yoga, Bien-être & Santé', root_search_page_url('yoga-bien-etre-sante', 'paris', subdomain: 'www'), title: 'Cours de Yoga, Bien-être & Santé à Paris'
+              %li= link_to 'Musique & Chant', root_search_page_url('musique-chant', 'paris', subdomain: 'www'), title: 'Cours de Musique & Chant à Paris'
+              %li= link_to 'Dessin, Peinture & Arts', root_search_page_url('dessin-peinture-arts-plastiques', 'paris', subdomain: 'www'), title: 'Cours de Dessin, Peinture & Arts à Paris'
+              %li= link_to 'Sports', root_search_page_url('sports-arts-martiaux', 'paris', subdomain: 'www'), title: 'Cours de Sports & Arts martiaux à Paris'
+              %li= link_to 'Cuisine & Vins', root_search_page_url('cuisine-vins', 'paris', subdomain: 'www'), title: 'Cours de Cuisine & Vins à Paris'
+              %li= link_to 'Photo & Vidéo', root_search_page_url('photo-video', 'paris', subdomain: 'www'), title: 'Cours de Photo & Vidéo à Paris'
+              %li= link_to 'Déco, Mode & Bricolage', root_search_page_url('deco-mode-bricolage', 'paris', subdomain: 'www'), title: 'Cours de Déco, Mode & Bricolage à Paris'
 
     .text--center
       %p.push--bottom.epsilon

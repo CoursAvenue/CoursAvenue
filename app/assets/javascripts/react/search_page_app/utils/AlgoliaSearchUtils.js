@@ -51,7 +51,12 @@ module.exports = {
         var index;
         data = data || {};
         var card_search_state = {
-            facets      : ['subjects.slug_name'],
+            facets      : ['subjects.slug_name', 'has_course', 'card_type',
+                           'root_subject', 'subjects.slug', 'planning_periods',
+                           'trainings_end_date', 'trainings', 'audiences',
+                           'levels', 'starting_price', 'id', 'metro_lines'],
+            disjunctiveFacets: ['root_subject', 'planning_periods', 'audiences',
+                                'levels', 'id', 'metro_lines'],
             hitsPerPage : data.hitsPerPage || 160,
             distinct    : false,
             aroundRadius: 100000, // 100km
@@ -74,15 +79,17 @@ module.exports = {
             index = 'IndexableCard_' + data.sort_by + '_' + ENV.SERVER_ENVIRONMENT;
         }
         var card_search_helper = algoliasearchHelper(client, index, card_search_state);
+        // Show ONLY cards with courses
+        card_search_helper.addFacetRefinement('has_course', true);
 
         if (data.group_subject)    {
             _.each(data.group_subject.root_slugs, function(root_subject) {
                 card_search_helper.addDisjunctiveRefine('root_subject', root_subject);
             });
         }
-        if (data.root_subject)     { card_search_helper.addRefine('root_subject', data.root_subject.slug); }
-        if (data.subject)          { card_search_helper.addRefine('subjects.slug', data.subject.slug); }
-        if (data.context)          { card_search_helper.addRefine('card_type', data.context); }
+        if (data.root_subject)     { card_search_helper.addFacetRefinement('root_subject', data.root_subject.slug); }
+        if (data.subject)          { card_search_helper.addFacetRefinement('subjects.slug', data.subject.slug); }
+        if (data.context)          { card_search_helper.addFacetRefinement('card_type', data.context); }
         if (!_.isUndefined(data.full_text_search)) { card_search_helper.setQuery(data.full_text_search); }
         if (data.planning_periods && data.context == 'course') {
             _.each(data.planning_periods, function(period) {

@@ -36,11 +36,8 @@
                 .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{dominant_root_subject_slug}" }
                   %i.fa.fa-user-big.alpha
             .grid__item.v-top.four-fifths.palm-one-whole>
-              - if @structure.comments_count and @structure.comments_count > 0
-                .float--right.epsilon
-                  = link_to '#avis', class: 'muted-link blue-green f-weight-bold', data: { behavior: 'scroll-to', offset_top: '-50' } do
-                    = "#{@structure.comments_count} avis"
-                    %i.fa.fa-coursavenue-marker-logo
+              .float--right.epsilon
+                = image_tag 'test/check.png', height: 30, width: 30, class: 'block', data: { toggle: 'popover', content: 'Profil vérifié' }
               %h1.flush= @indexable_card.name
               %h2.delta.flush
                 Par
@@ -100,7 +97,7 @@
         .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#card-suggestions', update_on_scroll: 'true' } }
           = render partial: 'structures/registration'
 
-      = react_component('Favorite', { logged_in: current_user.present?, type: 'indexable_card', favorited: @favorited })
+      -# = react_component('Favorite', { logged_in: current_user.present?, type: 'indexable_card', favorited: @favorited })
 
       - if (@course.teaches_at_home? and home_place) or @place.present?
         .bg-white.push--bottom
@@ -170,3 +167,8 @@
   -# This is used when a user make a reservation.
   -# The confirmation popup will ask to update logo if the user does not have one already.
   = filepicker_js_include_tag
+
+  :javascript
+      $(function() {
+          mixpanel.track("PASS | Landing cours");
+      });

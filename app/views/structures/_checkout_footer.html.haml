@@ -1,0 +1,28 @@
+.bg-white.soft--ends
+  .main-container.main-container--1000.soft
+    .grid
+      .grid__item.one-third.text--center.palm--one-whole>
+        %h4.push-half--bottom Confiance
+        %p.soft--sides A ce jour 135 593 élèves nous ont fait confiance pour trouver leurs professeurs
+      .grid__item.one-third.text--center.palm--one-whole>
+        %h4.push-half--bottom Qualité
+        %p.soft--sides Avis de nos clients collectés par avis-verifies.com
+      .grid__item.one-third.text--center.palm--one-whole>
+        %h4.push-half--bottom Efficacité
+        %p.soft--sides Un élève trouve son professeur en moyenne en 9 heures
+
+%footer.main-footer.soft.white
+  .main-container
+    .text--center
+      = image_tag 'logos/logo_white@2x.png', height: 25, class: 'muted center-block push--ends'
+      %p.push--bottom.epsilon
+        %strong Rejoignez-nous sur
+      %p
+        = link_to 'https://www.facebook.com/CoursAvenue', target: :_blank, rel: :nofollow, class: 'push--right' do
+          %i.fa.fa-2x.fa-facebook
+        = link_to 'http://twitter.com/CoursAvenue', target: :_blank, rel: :nofollow, class: 'push--right' do
+          %i.fa-2x.fa-twitter
+        = link_to 'https://instagram.com/coursavenue', target: :_blank, rel: :nofollow do
+          %i.fa-2x.fa-instagram
+      %p.push-half--bottom.gray-very-light.epsilon
+        © CoursAvenue 2015

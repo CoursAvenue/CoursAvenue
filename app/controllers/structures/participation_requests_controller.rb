@@ -101,7 +101,8 @@ class Structures::ParticipationRequestsController < ApplicationController
     respond_to do |format|
       if @participation_request.persisted?
         format.json { render json: { succes: true, popup_to_show: render_to_string(partial: 'structures/participation_requests/request_sent', formats: [:html]) } }
-        format.html { redirect_to user_conversation_path(current_user, @conversation) }
+        # format.html { redirect_to user_conversation_path(current_user, @conversation) }
+        format.html { redirect_to checkout_step_3_structure_path(@structure, participation_request_id: @participation_request.id) }
       else
         format.json { render json: { succes: false, popup_to_show: render_to_string(partial: 'structures/participation_requests/request_already_sent', formats: [:html]) }, status: :unprocessable_entity }
         format.html { redirect_to structure_path(@structure, message_body: params[:participation_request][:message][:body]), alert: "Vous avez déjà envoyé ce message" }

@@ -1,7 +1,7 @@
 {
   "checksum": {
-    "previous": "18894a441969e3b3c5916e89dacbfac6a287fcce5f6a3a5f95b996201defafd9",
-    "current": "18894a441969e3b3c5916e89dacbfac6a287fcce5f6a3a5f95b996201defafd9"
+    "previous": "3ceceabe58329be03113963d69320271e1c93fa8d79184683199e3d0b61ce655",
+    "current": "3ceceabe58329be03113963d69320271e1c93fa8d79184683199e3d0b61ce655"
   },
   "fonts": [
     "app/assets/fonts/CoursAvenueIconFont.ttf",
@@ -350,9 +350,9 @@
       "codepoint": 61766,
       "source": "app/assets/images/icons/svg/sports-arts-martiaux.svg"
     },
-    "star": {
-      "codepoint": 61767,
-      "source": "app/assets/images/icons/svg/star.svg"
+    "star-o": {
+      "codepoint": 61803,
+      "source": "app/assets/images/icons/svg/star-o.svg"
     },
     "tag": {
       "codepoint": 61768,

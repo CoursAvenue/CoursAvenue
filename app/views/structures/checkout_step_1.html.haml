@@ -1,0 +1,41 @@
+= content_for :right_after_head do
+  %meta{ name: 'robots', content: 'noindex,follow' }
+
+= render partial: 'structures/checkout_header', locals: { current: 1 }
+
+.center-block.push--bottom.soft--ends{ style: 'max-width: 800px;' }
+  %h1.text--center
+    Devenez membre pour contacter
+    %br
+    #{@structure.name} et tous les professeurs
+  .grid
+    .grid__item.one-third.text--right.soft--right>
+      = render partial: 'structures/checkout_structure_description'
+    .grid__item.two-thirds>
+      #sign-up.bg-white.bordered--sides.bordered--bottom{ style: 'max-width: 400px;' }
+
+= render 'structures/checkout_footer'
+
+:css
+  .panel__header { display: none; }
+= content_for :scripts do
+  :javascript
+      $(function() {
+          new CoursAvenue.Views.SignUpView({ after_sign_in_popup: '', el: $('#sign-up'),
+            success: function() {
+                window.location = Routes.checkout_step_2_structure_path('#{@structure.slug}', { planning: '#{params[:planning]}' });
+            } });
+      });
+
+- if cookies[:test] == '100_dolls_pass'
+  = content_for :scripts do
+    :javascript
+        $(function() {
+            mixpanel.track("TEST PASS | Checkout 1", { });
+        });
+- else
+  = content_for :scripts do
+    :javascript
+        $(function() {
+            mixpanel.track("TEST 1 | Checkout 1", { });
+        });

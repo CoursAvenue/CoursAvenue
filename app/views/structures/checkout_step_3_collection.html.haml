@@ -1,0 +1,15 @@
+= content_for :right_after_head do
+  %meta{ name: 'robots', content: 'noindex,follow' }
+
+= render partial: 'structures/checkout_header_bis', locals: { current: 3 }
+
+.text--center.soft--ends
+  %h1 Félicitation, votre demande a été envoyée.
+
+
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        mixpanel.track(test_name + " | Success", { });
+    });

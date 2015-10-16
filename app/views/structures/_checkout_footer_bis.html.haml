@@ -1,0 +1,40 @@
+.bg-white.soft--ends
+  .main-container.main-container--1000.soft
+    .grid
+      .grid__item.one-third.text--center.palm--one-whole>
+        .push-half--bottom
+          %i.fa.fa-5x.fa-star-o
+        %h4.push-half--bottom Qualité
+        %p.soft--sides Avis de nos clients collectés par avis-verifies.com
+      .grid__item.one-third.text--center.palm--one-whole>
+        .push-half--bottom
+          %i.fa.fa-5x.fa-eur
+        - if params[:gift]
+          %h4.push-half--bottom Cadeau idéal
+
+          %p.soft--sides A l'issue de ses séances d'essai, dès qu'un cours lui convient, le bénéficiaire du Pass déduira du prix de l'abonnement souscrit auprès du professeur de son choix le montant du Pass (99€). Par exemple, un abonnement trimestriel à 250€ lui reviendra à 151€ seulement.
+        - else
+          %h4.push-half--bottom Economique
+          %p.soft--sides
+            Si à l'issue de vos séances d'essai un cours vous convient, abonnez-vous directement auprès du professeur qui déduira le montant de votre Pass. Si rien ne vous plaît, nous vous remboursons. Dans tous les cas, votre Pass ne vous coûte rien !
+      .grid__item.one-third.text--center.palm--one-whole>
+        .push-half--bottom
+          %i.fa.fa-5x.fa-bolt
+        %h4.push-half--bottom Efficacité
+        %p.soft--sides A ce jour, 46 893 élèves nous ont fait confiance pour trouver leur cours idéal
+
+%footer.main-footer.soft.white
+  .main-container
+    .text--center
+      = image_tag 'logos/logo_white@2x.png', height: 25, class: 'muted center-block push--ends'
+      %p.push--bottom.epsilon
+        %strong Rejoignez-nous sur
+      %p
+        = link_to 'https://www.facebook.com/CoursAvenue', target: :_blank, rel: :nofollow, class: 'push--right' do
+          %i.fa.fa-2x.fa-facebook
+        = link_to 'http://twitter.com/CoursAvenue', target: :_blank, rel: :nofollow, class: 'push--right' do
+          %i.fa-2x.fa-twitter
+        = link_to 'https://instagram.com/coursavenue', target: :_blank, rel: :nofollow do
+          %i.fa-2x.fa-instagram
+      %p.push-half--bottom.gray-very-light.epsilon
+        © CoursAvenue 2015

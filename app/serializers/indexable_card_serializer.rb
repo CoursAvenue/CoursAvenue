@@ -2,13 +2,13 @@ class IndexableCardSerializer < ActiveModel::Serializer
 
   cached
   def cache_key
-    'IndexableCardSerializer/' + object.cache_key + '/v7/' + price_group_prices.maximum(:updated_at).to_i.to_s
+    'IndexableCardSerializer/' + object.cache_key + '/v8/' + price_group_prices.maximum(:updated_at).to_i.to_s
   end
 
-  attributes :id, :structure_is_active, :db_type, :teaches_at_home,
+  attributes :id, :structure_is_active, :structure_slug, :db_type, :teaches_at_home,
               :on_appointment, :frequency, :cant_be_joined_during_year,
               :no_class_during_holidays, :min_price, :min_price_amount,
-              :no_trial
+              :no_trial, :dominant_root_subject_vp_slug
 
   has_many :plannings, serializer: PlanningSerializer
   has_many :price_group_prices,  serializer: PriceSerializer
@@ -66,4 +66,11 @@ class IndexableCardSerializer < ActiveModel::Serializer
     object.course.no_class_during_holidays if object.course
   end
 
+  def structure_slug
+    object.structure.slug
+  end
+
+  def dominant_root_subject_vp_slug
+    object.dominant_root_subject.vertical_pages.first.slug
+  end
 end

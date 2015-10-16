@@ -1,0 +1,133 @@
+= content_for :right_after_head do
+  %meta{ name: 'robots', content: 'noindex,follow' }
+
+.step-2= render partial: 'structures/checkout_header_bis', locals: { current: 2 }
+
+
+.main-container.soft--ends
+  - if params[:gift]
+    .white-box.center-block.soft{ style: 'max-width: 600px;' }
+      %h3.push-half--bottom Informations concernant le bénéficiaire du Pass
+      %div
+        Nous vous enverrons le Pass Zumba par e-mail que vous pourrez ensuite offrir au bénéficiaire. Nous pourrons également l'envoyer pour vous.
+      .soft-half--ends
+        %input#someone-else{ type: 'checkbox' }
+        %label{ for: 'someone-else' } Je ne sais pas encore à qui l'offrir, je renseignerai ces informations plus tard
+
+      .grid.push-half--bottom
+        .grid__item.one-half.v-middle>
+          %label{ for: 'input-1' } Prénom du bénéficiaire
+        .grid__item.one-half.v-middle>
+          %input#input-1.one-whole{ type: 'text' }
+      .grid.push-half--bottom
+        .grid__item.one-half.v-middle>
+          %label{ for: 'input-2' } Nom du bénéficiaire
+        .grid__item.one-half.v-middle>
+          %input#input-2.one-whole{ type: 'text' }
+      .grid.push-half--bottom
+        .grid__item.one-half.v-middle>
+          %label{ for: 'input-3' } E-mail du bénéficiaire
+        .grid__item.one-half.v-middle>
+          %input#input-3.one-whole{ type: 'text' }
+      .grid.push-half--bottom
+        .grid__item.one-half.v-middle>
+          %label{ for: 'input-4' } Téléphone du bénéficiaire
+        .grid__item.one-half.v-middle>
+          %input#input-4.one-whole{ type: 'text' }
+  .grid.center-block.soft--top{ style: 'max-width: 800px;' }
+    .grid__item.one-half>
+      .white-box.soft
+        %h3 Récapitulatif
+        .grid.push-half--bottom.epsilon
+          .grid__item.four-tenths>
+            Offre
+          .grid__item.six-tenths.text--right>
+            %strong Pass #{@subject.try(:name)} Paris
+        %hr.push-half--ends
+        .grid.push-half--bottom.epsilon
+          .grid__item.four-tenths>
+            Validité
+          .grid__item.six-tenths.text--right>
+            %strong Illimitée
+        %hr.push-half--ends
+        .grid.push-half--bottom
+          .grid__item.four-tenths.epsilon>
+            Coût du Pass
+          .grid__item.six-tenths.text--right>
+            %strong.epsilon Aucun frais
+            %br
+            %i Prix du pass déduit si vous souscrivez à un abonnement auprès d'un professeur
+        %hr.push-half--ends
+        .grid.push-half--bottom
+          .grid__item.four-tenths.epsilon>
+            Remboursement
+          .grid__item.six-tenths.text--right>
+            %strong.epsilon A tout moment
+            %br
+            %i Si aucun cours ne vous convient, votre Pass est remboursé
+        %hr.push-half--ends
+        .grid.push-half--bottom.epsilon
+          .grid__item.four-tenths>
+            Tarif
+          .grid__item.six-tenths.text--right>
+            %strong 99€
+
+    .grid__item.one-half>
+      .center-block{ style: 'max-width: 350px;' }
+        .white-box.soft
+          %h3 Paiement par carte bleue
+          .alert--error.one-whole.push--bottom.text--center{ style: 'display: none;' }
+            Vous devez remplir tous les champs
+          .push-half--bottom
+            .input-with-icon
+              %input.credit-card-number.one-whole{ placeholder: 'Numéro de carte' }
+              %i.fa.fa-credit-card
+          .flexbox.push-half--bottom
+            .flexbox__item.nowrap.soft-half--right
+              Date d'expiration
+            .flexbox__item
+              %input.credit-card-expiry.one-whole{ placeholder: 'MM / AAAA'}
+          .push-half--bottom
+            .input-with-icon
+              %input.credit-card-cvc.one-whole{ placeholder: 'Code de sécurité', type: 'tel' }
+              %i.cursor-help.fa.fa-lock{ data: { toggle: 'popover', content: 'Le code de sécurité est imprimé au dos de votre carte bancaire : ce sont les 3 derniers chiffres', placement: 'left' } }
+          .text--center
+            = link_to 'Payer 99€', '#', class: 'btn btn btn--green btn--full', id: 'submit'
+            %div.epsilon.soft-half--top
+              %strong Paiement sécurisé
+              %i.fa.fa-lock
+            .soft-half--top
+              Notre site est sécurisé made in France par
+              %br
+              = image_tag 'test/credit_mutuel.png', height: 15
+
+
+= render 'structures/checkout_footer_bis'
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        mixpanel.track("PASS | Inscription réussi");
+        $('#submit').click(function() {
+            if ($('.credit-card-number').val().length < 10 ||
+                $('.credit-card-expiry').val().length < 4 ||
+                $('.credit-card-cvc').val().length < 3) {
+                $('.alert--error').slideDown();
+                return false;
+            } else {
+                mixpanel.track("PASS | Paiement envoyé");
+                $.fancybox.open($('#final-popup'), { padding: 0, width: 500, maxWidth: 500});
+            }
+        });
+        $('.credit-card-number').payment('formatCardNumber');
+        $('.credit-card-expiry').payment('formatCardExpiry');
+        $('.credit-card-cvc').payment('formatCardCVC');
+    });
+
+
+.white-box.text--center.soft#final-popup.hidden
+  %h1 Bientôt disponible :-)
+  %p.epsilon.line-height-1-3
+    Merci de votre intérêt pour le Pass #{@subject.name} ! Il sera disponible dans quelques jours, nous vous enverrons un e-mail dès le lancement. En attendant, vous pouvez parcourir tous les cours de #{@subject.name} à Paris :
+  = link_to 'Voir tous les cours à Paris', search_page_path(@subject.root, @subject, 'paris'), class: 'btn btn--blue-green'
+

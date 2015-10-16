@@ -11,12 +11,13 @@ module.exports = {
             aroundLatLng: data.aroundLatLng,
             distinct:     true,
             aroundRadius: 100000, // 100km
-            facets: '*'
+            facets: ['id', 'active'],
+            disjunctiveFacets: ['subjects.slug']
         };
 
         var card_search_helper = algoliasearchHelper(client, structure_index, state);
 
-        card_search_helper.addExclude('id', data.structure_id);
+        card_search_helper.addFacetExclusion('id', data.structure_id);
         card_search_helper.addRefine('active', 'true');
 
         if (data.subjects) {
@@ -32,18 +33,19 @@ module.exports = {
     },
 
     searchSimilarCards: function searchSimilarCards (data, successCallback, errorCallback) {
-        var structure_index = 'IndexableCard_' + ENV.SERVER_ENVIRONMENT;
+        var structure_index = 'IndexableCard_by_popularity_desc_' + ENV.SERVER_ENVIRONMENT;
         var state = {
             hitsPerPage: data.hitsPerPage || 12,
             aroundLatLng: data.aroundLatLng,
             distinct: true,
             aroundRadius: 100000,
-            facets: '*',
+            facets: ['id', 'has_course'],
+            disjunctiveFacets: ['subjects.slug']
         };
-
         var card_search_helper = algoliasearchHelper(client, structure_index, state);
+        card_search_helper.addFacetRefinement('has_course', true);
 
-        card_search_helper.addExclude('id', data.indexable_card_id);
+        card_search_helper.addFacetExclusion('id', data.indexable_card_id);
 
         if (data.subjects) {
             _.each(data.subjects, function (subject) {

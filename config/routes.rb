@@ -496,11 +496,19 @@ CoursAvenue::Application.routes.draw do
 
     resources :structures, only: [:index], path: 'etablissements', to: 'redirect#structures_index'
     resources :structures, only: [:show], path: 'etablissements', controller: 'structures' do
+      collection do
+        get  :checkout_step_1_collection, path: 'pass-inscription'
+        get  :checkout_step_2_collection, path: 'pass-paiement'
+        get  :checkout_step_3_collection, path: 'pass-finalisation'
+      end
       member do
         get  :toggle_pure_player
         post :add_to_favorite
         post :remove_from_favorite
-        get :reviews, path: 'livre-d-or'
+        get  :reviews, path: 'livre-d-or'
+        get  :checkout_step_1, path: 'inscription'
+        get  :checkout_step_2, path: 'mise-en-relation'
+        get  :checkout_step_3, path: 'inscription-envoyee'
       end
       collection do
         post :recommendation
