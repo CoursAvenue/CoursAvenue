@@ -19,7 +19,7 @@ var LessonPlanning = React.createClass({
     bookPlanning: function bookPlanning (event) {
         if (_.isEmpty(CoursAvenue.currentAdmin().attributes)) {
             if (event.target.tagName != 'A') {
-                window.location = Routes.root_vertical_page_with_city_path(this.props.course.get('dominant_root_subject_vp_slug'), window.city, { structure: this.props.course.get('structure_slug') });
+                window.location = Routes.root_vertical_page_with_city_path(this.props.course.get('dominant_root_subject_vp_slug'), (window.city || 'paris'), { structure: this.props.course.get('structure_slug') });
             }
         } else {
             // We generate a random key to make sure a new is created every time.
@@ -66,7 +66,7 @@ var LessonPlanning = React.createClass({
         var location_td, subscribe_button, time, href;
         if (this.props.showSubscribeButton()) {
             if (_.isEmpty(CoursAvenue.currentAdmin().attributes)) {
-                href = Routes.root_vertical_page_with_city_path(this.props.course.get('dominant_root_subject_vp_slug'), window.city, { structure: this.props.course.get('structure_slug') });
+                href = Routes.root_vertical_page_with_city_path(this.props.course.get('dominant_root_subject_vp_slug'), (window.city || 'paris'), { structure: this.props.course.get('structure_slug') });
             } else {
                 if (this.props.show_planning_link) {
                     href = Routes.reservation_structure_path(this.props.course.get('structure_slug')) + '#' + this.props.planning.id
