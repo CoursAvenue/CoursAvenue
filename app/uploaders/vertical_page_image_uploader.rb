@@ -17,6 +17,11 @@ class VerticalPageImageUploader < CarrierWave::Uploader::Base
                               flags: :progressive, quality: 70
   end
 
+  version :small_square do
+    cloudinary_transformation transformation: [{ width: 250, height: 250, crop: :fill }],
+                              flags: :progressive, quality: 70
+  end
+
   version :autocomplete do
     cloudinary_transformation transformation: [{ width: 80, height: 45, crop: :fill }],
                               flags: :progressive, quality: 70

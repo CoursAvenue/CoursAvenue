@@ -9,7 +9,7 @@
 .relative.search-page-filters__panel-height.palm-height-auto
   .soft--ends.absolute.north.west.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto.z-index-10000
     .flexbox__item.v-middle
-      = image_tag @vertical_page.image.url(), class: 'center-block rounded--circle', width: 125, height: 125
+      = image_tag @vertical_page.image.url(:small_square), class: 'center-block rounded--circle', width: 125, height: 125
       %h1.soft--sides.white.text--center.f-size-really-big.line-height-1-3
         - if @subject.slug == 'dessin-peinture-arts-plastiques'
           Des centaines de cours d'arts plastiques.
