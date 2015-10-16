@@ -142,7 +142,7 @@ gem 'roadie-rails'              , '~> 1.0.6'
 
 gem 'browserify-rails'          , '~> 1.0.1'
 gem 'react-rails'               , '~> 1.0.0'
-gem 'handlebars_assets'         , '~> 0.20.1'
+gem 'handlebars_assets'         , '~> 0.21.0'
 # Decorator
 gem 'draper'                    , '~> 1.4.0'
 # allows sharing of handlebars templates
