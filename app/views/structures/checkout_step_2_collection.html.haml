@@ -108,7 +108,7 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        mixpanel.track("PASS | Inscription réussi", { subject: "#{@subject.try(:name)}", city: '#{params[:city]}'});
+        mixpanel.track("PASS | Inscription réussi", { subject: "#{@subject.try(:name)}", city: '#{params[:city]}', email: '#{current_user.email}' });
         $('#submit').click(function() {
             if ($('.credit-card-number').val().length < 10 ||
                 $('.credit-card-expiry').val().length < 4 ||
@@ -116,7 +116,7 @@
                 $('.alert--error').slideDown();
                 return false;
             } else {
-                mixpanel.track("PASS | Paiement envoyé", { subject: "#{@subject.try(:name)}", city: '#{params[:city]}'});
+                mixpanel.track("PASS | Paiement envoyé", { subject: "#{@subject.try(:name)}", city: '#{params[:city]}', email: '#{current_user.email}' });
                 $.fancybox.open($('#final-popup'), { padding: 0, width: 500, maxWidth: 500});
             }
         });
