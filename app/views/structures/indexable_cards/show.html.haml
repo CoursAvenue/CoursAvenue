@@ -182,7 +182,7 @@
 
   :javascript
       $(function() {
-          mixpanel.track("PASS | Landing cours");
+          mixpanel.track("PASS | Landing cours", { type: 'cours' });
       });
 :javascript
   window.city = '#{@structure.city.slug}'

@@ -102,7 +102,7 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        mixpanel.track("PASS | Landing profil");
+        mixpanel.track("PASS | Landing cours", { type: 'profil' });
         $(document.body).on('coursavenue:started', function() {
             CoursAvenue.statistic.logView(#{@structure.id});
         });
