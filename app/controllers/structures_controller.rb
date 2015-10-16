@@ -22,7 +22,8 @@ class StructuresController < ApplicationController
   end
 
   def checkout_step_1_collection
-    @subject = Subject.find(params[:subject] || 'danse')
+    @subject   = Subject.find(params[:subject] || 'danse')
+    @structure = Structure.find(params[:structure]) if params[:structure].present?
     if current_user
       if params[:gift].present?
         redirect_to checkout_step_2_collection_structures_path(subject: params[:subject], gift: true), error: 'Vous devez être connecté pour continuer.'

@@ -7,13 +7,17 @@
   09 82 24 27 74
 
 
+- if @structure
+  = render partial: 'structures/popup_from_structure'
+
 = render partial: 'structures/checkout_header_bis', locals: { current: 1 }
 
 .center-block.push--bottom.soft--ends{ style: 'max-width: 800px;' }
   %h1.text--center
-    Devenez membre pour contacter
-    %br
-    tous les professeurs
+    - if params[:gift]
+      Devenez membre pour offrir un Pass Zumba
+    - else
+      Devenez membre pour obtenir votre Pass #{@subject.name}
   .grid--full
     - if @subject
       .grid__item.one-third>

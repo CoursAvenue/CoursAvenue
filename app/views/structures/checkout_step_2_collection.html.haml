@@ -3,6 +3,35 @@
 
 .step-2= render partial: 'structures/checkout_header_bis', locals: { current: 2 }
 
+- if params[:gift]
+%div Informations concernant le bénéficiaire du Pass
+%div
+  Nous vous enverrons le Pass Zumba par e-mail que vous pourrez ensuite offrir au bénéficiaire. Nous pourrons également l'envoyer pour vous.
+%div
+  %input{ type: 'checkbox' }
+  Je ne sais pas encore à qui l'offrir, je renseignerai ces informations plus tard
+
+.grid
+  .grid__item.one-half>
+    Prénom du bénéficiaire
+  .grid__item.one-half>
+    %input.one-whole{ type: 'text' }
+.grid
+  .grid__item.one-half>
+    Nom du bénéficiaire
+  .grid__item.one-half>
+    %input.one-whole{ type: 'text' }
+.grid
+  .grid__item.one-half>
+    E-mail du bénéficiaire
+  .grid__item.one-half>
+    %input.one-whole{ type: 'text' }
+.grid
+  .grid__item.one-half>
+    Téléphone du bénéficiaire
+  .grid__item.one-half>
+    %input.one-whole{ type: 'text' }
+
 .main-container.soft--bottom
   .grid.center-block.soft--top{ style: 'max-width: 800px;' }
     .grid__item.one-half>
