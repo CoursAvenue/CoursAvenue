@@ -51,11 +51,11 @@
   = content_for :scripts do
     :javascript
         $(function() {
-            mixpanel.track("PASS | Landing Pass", { type: 'Cadeau' });
+            mixpanel.track("PASS | Landing Pass", { type: 'Cadeau', subject: "#{@subject.try(:name)}" });
         });
 - else
   = content_for :scripts do
     :javascript
         $(function() {
-            mixpanel.track("PASS | Landing Pass", { type: 'Achat' });
+            mixpanel.track("PASS | Landing Pass", { type: 'Achat', subject: "#{@subject.try(:name)}" });
         });

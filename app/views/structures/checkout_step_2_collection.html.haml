@@ -107,7 +107,7 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        mixpanel.track("PASS | Inscription réussi");
+        mixpanel.track("PASS | Inscription réussi", { subject: "#{@subject.try(:name)}" });
         $('#submit').click(function() {
             if ($('.credit-card-number').val().length < 10 ||
                 $('.credit-card-expiry').val().length < 4 ||
@@ -115,7 +115,7 @@
                 $('.alert--error').slideDown();
                 return false;
             } else {
-                mixpanel.track("PASS | Paiement envoyé");
+                mixpanel.track("PASS | Paiement envoyé", { subject: "#{@subject.try(:name)}" });
                 $.fancybox.open($('#final-popup'), { padding: 0, width: 500, maxWidth: 500});
             }
         });

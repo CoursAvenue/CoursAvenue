@@ -150,5 +150,5 @@
 = content_for :scripts do
   :javascript
       $(function() {
-          mixpanel.track("PASS | Landing Pass");
+          mixpanel.track("PASS | Landing Pass", { subject: "#{@subject.try(:name)}" });
       });
