@@ -27,8 +27,8 @@
 
 
       .text--center
-        = link_to "Obtenir mon Pass", checkout_step_1_collection_structures_path(subject: @subject.slug), class: 'btn btn--blue-green btn--bigger'
-        = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(subject: @subject.slug, gift: true), class: 'btn btn--white-transparent btn--white-transparent--white btn--bigger push--left'
+        = link_to "Obtenir mon Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug), class: 'btn btn--blue-green btn--bigger'
+        = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug, gift: true), class: 'btn btn--white-transparent btn--white-transparent--white btn--bigger push--left'
 
   - map_zoom = 12 if @city and @city.size == 3
   - map_zoom = 14 if @city and @city.size != 3
@@ -67,8 +67,8 @@
         Dès qu'un cours vous convient, fournissez le numéro de votre Pass au professeur qui déduira les 99€ de votre 1er abonnement : ainsi, votre Pass ne vous coûte rien !
 
   .text--center.push--bottom.soft--bottom
-    = link_to "Obtenir mon Pass", checkout_step_1_collection_structures_path(subject: @subject.slug), class: 'btn btn--blue-green btn--bigger'
-    = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(subject: @subject.slug, gift: true), class: 'btn btn--white btn--bigger push--left'
+    = link_to "Obtenir mon Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug), class: 'btn btn--blue-green btn--bigger'
+    = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug, gift: true), class: 'btn btn--white btn--bigger push--left'
 
 
   - _comments = CommentSearch.search(subject_slug: @subject.slug, per_page: 50)

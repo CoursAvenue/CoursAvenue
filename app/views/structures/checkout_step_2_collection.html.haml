@@ -1,3 +1,4 @@
+- @city = City.find(params[:city] || 'paris')
 = content_for :right_after_head do
   %meta{ name: 'robots', content: 'noindex,follow' }
 
@@ -42,7 +43,7 @@
           .grid__item.four-tenths>
             Offre
           .grid__item.six-tenths.text--right>
-            %strong Pass #{@subject.try(:name)} Paris
+            %strong Pass #{@subject.try(:name)} #{@city.name}
         %hr.push-half--ends
         .grid.push-half--bottom.epsilon
           .grid__item.four-tenths>
@@ -128,6 +129,6 @@
 .white-box.text--center.soft#final-popup.hidden
   %h1 Bientôt disponible :-)
   %p.epsilon.line-height-1-3
-    Merci de votre intérêt pour le Pass #{@subject.name} ! Il sera disponible dans quelques jours, nous vous enverrons un e-mail dès le lancement. En attendant, vous pouvez parcourir tous les cours de #{@subject.name} à Paris :
-  = link_to 'Voir tous les cours à Paris', search_page_path(@subject.root, @subject, 'paris'), class: 'btn btn--blue-green'
+    Merci de votre intérêt pour le Pass #{@subject.name} ! Il sera disponible dans quelques jours, nous vous enverrons un e-mail dès le lancement. En attendant, vous pouvez parcourir tous les cours de #{@subject.name} à #{@city.name} :
+  = link_to "Voir tous les cours à #{@city.name}", search_page_path(@subject.root, @subject, @city), class: 'btn btn--blue-green'
 
