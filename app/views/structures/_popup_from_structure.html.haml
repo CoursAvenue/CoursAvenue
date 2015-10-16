@@ -1,7 +1,7 @@
 .white-box.text--center.soft#welcome-popup.hidden
-  %h1 Vous souhaitez vous mettre à la #{@subject.name} ?
+  %h1 #{@subject.name} : vous souhaitez vous lancer ?
   %p.epsilon.line-height-1-3
-    Vous avez bien raison :-) Pour réserver une séance d'essai auprès de #{@structure.name}, obtenez votre Pass #{@subject.name} à 99€ : si le cours vous convient, dites-le à votre professeur qui déduira le prix du Pass de votre 1er abonnement. Si vous ne trouvez rien, essayez 1 845 autres cours de #{@subject.name} à Paris ou faites-vous rembourser. Ainsi, votre Pass ne vous coûtera rien.
+    Vous avez bien raison :-) Pour réserver une séance d'essai auprès de #{@structure.name}, obtenez votre Pass #{@subject.name} à 99€ : si le cours vous convient, dites-le à votre professeur qui déduira le prix du Pass de votre 1er abonnement. Si vous ne trouvez rien, essayez #{@subject.indexable_cards.count * 3} autres cours de #{@subject.name} à Paris ou faites-vous rembourser. Ainsi, votre Pass ne vous coûtera rien.
 
 = content_for :scripts do
   :javascript

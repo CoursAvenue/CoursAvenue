@@ -1,9 +1,15 @@
 - cookies[:test] = '100_dolls_pass'
 - @paris = City.find('paris')
 - @city ||= @paris
+
+- @structure = Structure.find(params[:structure]) if params[:structure].present?
+- if @structure
+  = render partial: 'structures/popup_from_structure'
+
 .relative.search-page-filters__panel-height.palm-height-auto
   .soft--ends.absolute.north.west.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto.z-index-10000
     .flexbox__item.v-middle
+      = image_tag @vertical_page.image.url(), class: 'center-block rounded--circle', width: 125, height: 125
       %h1.soft--sides.white.text--center.f-size-really-big.line-height-1-3
         - if @subject.slug == 'dessin-peinture-arts-plastiques'
           Des centaines de cours d'arts plastiques.
@@ -17,10 +23,11 @@
         Une seule formule pour se lancer.
       .main-container.main-container--medium.white.text--center
         %h4.center-block
-          Le Pass #{@vertical_page.subject_name} permet de tester gratuitement chacune des #{@subject.indexable_cards.count * 3} séances de #{@vertical_page.subject_name} à Paris. Dès qu'un cours vous convient, faites-en part à votre professeur qui déduira les 99€ du Pass de votre 1er abonnement. Si vous ne trouvez rien, nous vous remboursons sans délai. Ainsi, votre Pass ne vous coûte rien.
+          Le Pass #{@vertical_page.subject_name} permet de tester gratuitement chacune des #{@subject.indexable_cards.count * 3} séances de #{@vertical_page.subject_name} à Paris. Dès qu'un cours vous convient, votre professeur déduira de votre 1er abonnement le prix du Pass, soit 99€. Si aucun cours ne vous plaît, nous vous remboursons. Ainsi, vous ne prenez aucun risque et votre Pass ne coûte rien
+
 
       .text--center
-        = link_to "Obtenir mon pass", checkout_step_1_collection_structures_path(subject: @subject.slug), class: 'btn btn--blue-green btn--bigger'
+        = link_to "Obtenir mon Pass", checkout_step_1_collection_structures_path(subject: @subject.slug), class: 'btn btn--blue-green btn--bigger'
         = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(subject: @subject.slug, gift: true), class: 'btn btn--white-transparent btn--white-transparent--white btn--bigger push--left'
 
   - map_zoom = 12 if @city and @city.size == 3
@@ -31,7 +38,6 @@
 .text--center.bg-white.soft
   %strong.epsilon Pass à 99€
   %strong.epsilon.soft--sides.blue-green •
-  -# %strong.epsilon #{@subject.indexable_cards.count * 3} séances de #{@vertical_page.subject_name} ouvertes à l'essai - 1 mois de cours inclus -
   %strong.epsilon Déduit de votre 1er abonnement ou remboursé
   %strong.epsilon.soft--sides.blue-green •
   %strong.epsilon Valable à vie
@@ -43,7 +49,10 @@
         = image_tag 'test/test2-logo1.png', height: 100
       %h4.gamma Obtenez votre Pass
 
-      %p Renseignez vos coordonnées avant de régler votre Pass à 99€ : si un cours vous plaît, les 99€ seront déduits de votre 1er abonnement. Sinon, nous vous remboursons sans délai.
+      %p
+        Si un cours vous plaît, les 99€ de votre Pass seront déduits de votre 1er abonnement (par exemple, vous ne paierez que 151€ pour un trimestre à 250€).
+        %br
+        Sinon, nous vous remboursons.
     .grid__item.one-third.text--center>
       .soft--ends
         = image_tag 'test/test2-logo2.png', height: 100
@@ -55,10 +64,10 @@
         = image_tag 'test/test2-logo3.png', height: 100
       %h4.gamma Abonnez-vous sans frais
       %p
-        Dès qu'un cours vous convient, fournissez le numéro de votre pass au professeur qui déduira les 99€ de votre 1er abonnement : ainsi, votre Pass ne vous coûte rien !
+        Dès qu'un cours vous convient, fournissez le numéro de votre Pass au professeur qui déduira les 99€ de votre 1er abonnement : ainsi, votre Pass ne vous coûte rien !
 
   .text--center.push--bottom.soft--bottom
-    = link_to "Obtenir mon pass", checkout_step_1_collection_structures_path(subject: @subject.slug), class: 'btn btn--blue-green btn--bigger'
+    = link_to "Obtenir mon Pass", checkout_step_1_collection_structures_path(subject: @subject.slug), class: 'btn btn--blue-green btn--bigger'
     = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(subject: @subject.slug, gift: true), class: 'btn btn--white btn--bigger push--left'
 
 
@@ -107,7 +116,7 @@
       .flexbox.dark-blue-box.text--center.white{ style: 'height: 20em;' }>
         .flexbox__item
           %i.fa.fa-3x.fa-face-happy.push--bottom
-          .alpha 96%
+          .alpha 98%
           .gamma de nos utilisateurs sont satisfaits
     .grid__item.one-third>
       .flexbox.v-top.white-box{ style: 'height: 20em;' }>
@@ -141,5 +150,5 @@
 = content_for :scripts do
   :javascript
       $(function() {
-          mixpanel.track("TEST PASS | Landed", { subject: "#{@vertical_page.subject_name}" });
+          mixpanel.track("PASS | Landing Pass");
       });

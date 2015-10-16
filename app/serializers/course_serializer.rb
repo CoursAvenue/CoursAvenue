@@ -2,14 +2,14 @@ class CourseSerializer < ActiveModel::Serializer
 
   cached
   def cache_key
-    'CourseSerializer/' + object.cache_key + '/v7'
+    'CourseSerializer/' + object.cache_key + '/v8'
   end
 
   attributes :id, :name, :description, :db_type, :structure_id, :structure_slug,
              :is_individual, :is_lesson, :frequency, :on_appointment,
              :is_open_for_trial, :min_price_amount, :no_trial, :indexable_card_slug,
              :teaches_at_home, :accepts_payment, :start_date, :end_date, :structure_is_active,
-             :cant_be_joined_during_year
+             :cant_be_joined_during_year, :dominant_root_subject_vp_slug
 
   has_many :plannings,           serializer: PlanningSerializer
   has_many :price_group_prices,  serializer: PriceSerializer
@@ -72,5 +72,9 @@ class CourseSerializer < ActiveModel::Serializer
 
   def indexable_card_slug
     object.indexable_cards.sample.slug if object.indexable_cards.any?
+  end
+
+  def dominant_root_subject_vp_slug
+    object.dominant_root_subject.vertical_pages.first.slug
   end
 end

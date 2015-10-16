@@ -57,3 +57,8 @@
     - @root_subject.descendants.each do |subject|
       = link_to "#{subject.name} à #{@city.name} (#{@city.zip_code})".html_safe, search_page_path(@root_subject, subject, @city)
 
+= content_for :scripts do
+  :javascript
+      $(function() {
+          mixpanel.track("PASS | Moteur de recherche");
+      });

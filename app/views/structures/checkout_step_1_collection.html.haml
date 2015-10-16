@@ -7,9 +7,6 @@
   09 82 24 27 74
 
 
-- if @structure
-  = render partial: 'structures/popup_from_structure'
-
 = render partial: 'structures/checkout_header_bis', locals: { current: 1 }
 
 .center-block.push--bottom.soft--ends{ style: 'max-width: 800px;' }
@@ -50,15 +47,15 @@
             } });
       });
 
-- if cookies[:test] == '100_dolls_pass'
+- if cookies[:gift].present?
   = content_for :scripts do
     :javascript
         $(function() {
-            mixpanel.track("TEST PASS | Checkout 1", { });
+            mixpanel.track("PASS | Landing Pass", { type: 'Cadeau' });
         });
 - else
   = content_for :scripts do
     :javascript
         $(function() {
-            mixpanel.track("TEST 1 | Checkout 1", { });
+            mixpanel.track("PASS | Landing Pass", { type: 'Achat' });
         });

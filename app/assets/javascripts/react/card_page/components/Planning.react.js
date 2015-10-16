@@ -18,7 +18,7 @@ var LessonPlanning = React.createClass({
 
     bookPlanning: function bookPlanning (event) {
         if (event.target.tagName != 'A') {
-            window.location = Routes.checkout_step_1_collection_structures_path();
+            window.location = Routes.root_vertical_page_with_city_path(this.props.course.get('dominant_root_subject_vp_slug'), 'paris', { structure: this.props.course.get('structure_slug') });
         }
         // // We generate a random key to make sure a new is created every time.
         // var popup = (<BookPopup planning={this.props.planning}
@@ -65,7 +65,7 @@ var LessonPlanning = React.createClass({
             // if (this.props.show_planning_link) {
             //     href = Routes.reservation_structure_path(this.props.course.get('structure_slug')) + '#' + this.props.planning.id
             // }
-            href = Routes.checkout_step_1_collection_structures_path();
+            href = Routes.root_vertical_page_with_city_path(this.props.course.get('dominant_root_subject_vp_slug'), 'paris', { structure: this.props.course.get('structure_slug') });
             if (this.props.planning.info) {
                 subscribe_button = (<div>
                             <a href={href}
