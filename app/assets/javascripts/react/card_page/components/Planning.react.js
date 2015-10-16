@@ -17,7 +17,7 @@ var LessonPlanning = React.createClass({
     },
 
     bookPlanning: function bookPlanning (event) {
-        if (_.isEmpty(CoursAvenue.currentAdmin().attributes)) {
+        if (_.isEmpty(CoursAvenue.currentAdmin().attributes) && window.city) {
             if (event.target.tagName != 'A') {
                 window.location = Routes.root_vertical_page_with_city_path(this.props.course.get('dominant_root_subject_vp_slug'), (window.city || 'paris'), { structure: this.props.course.get('structure_slug') });
             }
@@ -65,7 +65,7 @@ var LessonPlanning = React.createClass({
     render: function render () {
         var location_td, subscribe_button, time, href;
         if (this.props.showSubscribeButton()) {
-            if (_.isEmpty(CoursAvenue.currentAdmin().attributes)) {
+            if (_.isEmpty(CoursAvenue.currentAdmin().attributes) && window.city) {
                 href = Routes.root_vertical_page_with_city_path(this.props.course.get('dominant_root_subject_vp_slug'), (window.city || 'paris'), { structure: this.props.course.get('structure_slug') });
             } else {
                 if (this.props.show_planning_link) {
