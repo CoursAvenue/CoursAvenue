@@ -143,7 +143,15 @@
 .soft-double.soft--bottom.palm-hard#card-suggestions
   .grid--full.push--bottom
     %h2.text--center Des centaines de séances ouvertes toute l'année
-    = react_component('SimilarCardList', { card:  @card_redux })
+    - root_subject = @subject.root
+    .main-container.main-container--1000
+      = react_component('ResultList', { root_subject: (root_subject ? root_subject : nil),
+                                        hide_help_card: true,
+                                        subject: (@subject and @subject != root_subject ? @subject : nil),
+                                        address: { name: (@neighborhood || @city || @paris).name, latitude: (@neighborhood || @city || @paris).latitude, longitude: (@neighborhood || @city || @paris).longitude, city: (@neighborhood || @city || @paris).name, is_address: false , is_neighborhood: @neighborhood.present? },
+                                        per_line: 4,
+                                        per_page: 8,
+                                        follow_links: true })
     .text--center
       = @vertical_page_decorator.button(@subject, @city, @neighborhood, true)
 
