@@ -43,7 +43,7 @@
       $(function() {
           new CoursAvenue.Views.SignUpView({ after_sign_in_popup: '', el: $('#sign-up'),
             success: function() {
-                window.location = Routes.checkout_step_2_collection_structures_path();
+                window.location = Routes.checkout_step_2_collection_structures_path({ city: '#{params[:city]}', subject: '#{params[:subject]}'});
             } });
       });
 
