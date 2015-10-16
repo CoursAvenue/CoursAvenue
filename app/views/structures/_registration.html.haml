@@ -52,7 +52,7 @@
 - else
   .soft.bg-blue-green.white.soft-double.relative.border-color-blue-green-darker.bordered
     .relative
-      = link_to "M'inscrire à une séance", root_vertical_page_with_city_path(@structure.dominant_root_subject.vertical_pages.first, @structure.city, structure: @structure.slug), class: 'btn btn--white-transparent btn--white-transparent--white btn--full push-half--bottom'
+      = link_to "M'inscrire à une séance", root_vertical_page_with_city_path(@structure.dominant_root_subject.vertical_pages.first, (@structure.city || 'paris'), { structure: @structure.slug }), class: 'btn btn--white-transparent btn--white-transparent--white btn--full push-half--bottom'
       .grid
         .grid__item.one-half>
           %strong Satisfaction garantie !
