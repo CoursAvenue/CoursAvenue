@@ -102,15 +102,15 @@ var HelperCollection = Backbone.Collection.extend({
 
 module.exports = new HelperCollection(
     [
-        {
-            url:            Routes.guide_path('quelle-activite-pour-mon-enfant'),
-            title:          'C’est la rentrée !',
-            type:           'info',
-            icon:           'family',
-            cookie_key:     'info-guide-quelle-activite-pour-mon-enfant',
-            description:    'Trouvez une activité pour vos enfants grâce à notre guide interactif.',
-            call_to_action: 'Suivez le guide',
-        },
+        // {
+        //     url:            Routes.guide_path('quelle-activite-pour-mon-enfant'),
+        //     title:          'C’est la rentrée !',
+        //     type:           'info',
+        //     icon:           'family',
+        //     cookie_key:     'info-guide-quelle-activite-pour-mon-enfant',
+        //     description:    'Trouvez une activité pour vos enfants grâce à notre guide interactif.',
+        //     call_to_action: 'Suivez le guide',
+        // },
         {
             title:          'Astuce',
             type:           'astuce',
