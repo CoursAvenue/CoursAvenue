@@ -59,3 +59,11 @@
         $(function() {
             mixpanel.track("PASS | Landing Pass inscription", { type: 'Achat', subject: "#{@subject.try(:name)} à #{params[:city]}" });
         });
+= content_for :scripts do
+  :javascript
+      $(function() {
+          $('.btn--facebook').parent().hide();
+          $('.btn--facebook').parent().next().hide();
+          $('.btn--facebook').parent().next().next().hide();
+          $('[data-behavior=sign-up-with-email]').click();
+      });

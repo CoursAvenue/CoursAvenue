@@ -15,22 +15,22 @@
     <div data-type="email-section" class="{{#unless errors}}hidden{{/unless}}">
         <form action="/">
             <div class="push-half--bottom">
-                <div class="input-addon">
-                    <div class="input-prefix epsilon"><i class="fa-user"></i></div>
-                    <input type="text" name="first_name" placeholder="Prénom" class="one-whole input--large" value="{{first_name}}">
+                <div class="grid">
+                    <div class="grid__item  one-half">
+                        <div class="input-addon">
+                            <div class="input-prefix epsilon"><i class="fa-user"></i></div>
+                            <input type="text" name="first_name" placeholder="Prénom" class="one-whole input--large" value="{{first_name}}">
+                        </div>
+                        {{#if errors.first_name}}
+                            <div class="input_field_error red f-weight-bold text--right">{{errors.first_name}}</div>
+                        {{/if}}
+                    </div><div class="grid__item  one-half">
+                        <input type="text" name="last_name" placeholder="Nom" class="one-whole input--large" value="{{last_name}}">
+                        {{#if errors.last_name}}
+                            <div class="input_field_error red f-weight-bold text--right">{{errors.last_name}}</div>
+                        {{/if}}
+                    </div>
                 </div>
-                {{#if errors.first_name}}
-                    <div class="input_field_error red f-weight-bold text--right">{{errors.first_name}}</div>
-                {{/if}}
-            </div>
-            <div class="push-half--bottom">
-                <div class="input-addon">
-                    <div class="input-prefix epsilon"><i class="fa-user"></i></div>
-                    <input type="text" name="last_name" placeholder="Nom" class="one-whole input--large" value="{{last_name}}">
-                </div>
-                {{#if errors.last_name}}
-                    <div class="input_field_error red f-weight-bold text--right">{{errors.last_name}}</div>
-                {{/if}}
             </div>
             <div class="push-half--bottom">
                 <div class="input-addon">
@@ -39,6 +39,15 @@
                 </div>
                 {{#if errors.zip_code}}
                     <div class="input_field_error red f-weight-bold text--right">{{errors.zip_code}}</div>
+                {{/if}}
+            </div>
+            <div class="push-half--bottom">
+                <div class="input-addon">
+                    <div class="input-prefix epsilon"><i class="fa fa-phone-o"></i></div>
+                    <input type="phone_number" name="phone_number" placeholder="Téléphone" class="one-whole input--large" value="{{phone_number}}">
+                </div>
+                {{#if errors.phone_number}}
+                    <div class="input_field_error red f-weight-bold text--right">{{errors.phone_number}}</div>
                 {{/if}}
             </div>
             <div class="push-half--bottom">
