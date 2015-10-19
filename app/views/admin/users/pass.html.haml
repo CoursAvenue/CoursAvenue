@@ -31,5 +31,7 @@
           %div= user.phone_number
         %td
           %div= "#{user.test_pass_subject} / #{user.test_pass_city}"
+          - if user.test_pass_city.blank?
+            = user.city.try(:name)
 
 .text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
