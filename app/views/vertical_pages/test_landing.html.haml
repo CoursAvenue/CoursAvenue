@@ -1,6 +1,8 @@
 - cookies[:test] = '100_dolls_pass'
 - @paris = City.find('paris')
 - @city ||= @paris
+- if @city.name.include?('Paris')
+  - @city = @paris
 
 - @structure = Structure.find(params[:structure]) if params[:structure].present?
 - if @structure
@@ -20,7 +22,7 @@
         - else
           Des centaines de cours de #{@vertical_page.subject_name}.
         %br
-        Une seule formule pour se lancer.
+        Un seul Pass pour se lancer.
       .main-container.main-container--medium.white.text--center
         %h4.center-block
           Le Pass #{@vertical_page.subject_name} permet de tester gratuitement chacune des #{@subject.indexable_cards.count * 3} séances de #{@vertical_page.subject_name} à #{@city.name}. Dès qu'un cours vous convient, votre professeur déduira de votre 1er abonnement le prix du Pass, soit 99€. Si aucun cours ne vous plaît, nous vous remboursons. Ainsi, vous ne prenez aucun risque et votre Pass ne coûte rien

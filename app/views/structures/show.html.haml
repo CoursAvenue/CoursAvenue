@@ -29,6 +29,15 @@
               - else
                 .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{@structure.dominant_root_subject.slug}" }
                   %i.fa.fa-user-big.alpha
+              %div
+                %i.fa.fa-star.yellow
+                %i.fa.fa-star.yellow
+                %i.fa.fa-star.yellow
+                %i.fa.fa-star.yellow
+                %i.fa.fa-star.yellow
+                %div
+                  %strong= "#{@structure.comments_count} avis"
+
             .grid__item.v-top.four-fifths.palm-one-whole>
               .float--right.epsilon
                 = image_tag 'https://coursavenue-public.s3.amazonaws.com/test/check.png', height: 30, width: 30, class: 'block', data: { toggle: 'popover', content: 'Profil vérifié' }

@@ -39,7 +39,7 @@ var CourseFooter = React.createClass({
     render: function render () {
         var padding_class, price_button, description_button;
         var course = this.state.course_store.getCourseByID(this.props.course_id);
-        if (course.get('price_group_prices') && course.get('price_group_prices').length > 0) {
+        if (false) {//course.get('price_group_prices') && course.get('price_group_prices').length > 0) {
             price_button = (<a href="javascript:void(0)"
                                className='btn btn--small btn--white'
                                data-behavior='toggleable'

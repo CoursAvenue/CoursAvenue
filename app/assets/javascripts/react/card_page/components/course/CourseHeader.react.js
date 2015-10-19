@@ -12,6 +12,7 @@ var CourseHeader = React.createClass({
     },
 
     getPrice: function getPrice (course) {
+        return null;
         if (this.props.hide_header_details) { return; }
         var price;
         if (!course || !course.get('min_price_amount')) { return; }
