@@ -37,6 +37,9 @@ class StructuresController < ApplicationController
     if current_user.nil?
       redirect_to checkout_step_1_collection_structures_path(subject: params[:subject], city: (params[:city] || 'paris')), error: 'Vous devez être connecté pour continuer.'
     end
+    current_user.test_pass_subject = @subject.name
+    current_user.test_pass_city    = params[:city] || 'paris'
+    current_user.save
   end
 
   def checkout_step_3_collection

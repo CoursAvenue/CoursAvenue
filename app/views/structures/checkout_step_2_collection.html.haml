@@ -117,7 +117,8 @@
                 return false;
             } else {
                 mixpanel.track("PASS | Paiement envoyé", { subject: "#{@subject.try(:name)} à #{params[:city]}", email: '#{current_user.email}' });
-                $.fancybox.open($('#final-popup'), { padding: 0, width: 500, maxWidth: 500});
+                $.fancybox.open($('#final-popup'), { padding: 0, width: 500, maxWidth: 500 });
+                $.post(Routes.paid_for_pass_user_path('#{current_user.slug}'));
             }
         });
         $('.credit-card-number').payment('formatCardNumber');

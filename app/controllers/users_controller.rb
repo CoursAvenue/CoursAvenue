@@ -23,6 +23,13 @@ class UsersController < InheritedResources::Base
     end
   end
 
+  def paid_for_pass
+    @user = User.find(params[:id])
+    @user.paid_for_pass = true
+    @user.save
+    render json: { success: true }
+  end
+
   def waiting_for_activation
   end
 

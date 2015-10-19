@@ -1,6 +1,10 @@
 # encoding: utf-8
 class Admin::UsersController < Admin::AdminController
 
+  def pass
+    @users = User.where("meta_data -> 'test_pass_subject' LIKE '%'").page(params[:page] || 1)
+  end
+
   def index
     if params[:name].present?
       @users = User.where(User.arel_table[:email].matches("%#{params[:name]}%")

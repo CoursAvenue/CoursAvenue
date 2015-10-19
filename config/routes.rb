@@ -12,7 +12,11 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: 'pro' do
     # For super admin
     namespace :admin do
-      resources :users, only: [:index]
+      resources :users, only: [:index] do
+        collection do
+          get :pass
+        end
+      end
       resources :flyers, only: [:index, :update]
       resources :press_articles
       resources :newsletters, only: [:index]
@@ -468,6 +472,7 @@ CoursAvenue::Application.routes.draw do
         get :welcome
       end
       member do
+        post  :paid_for_pass
         get   :passions
         get   :destroy_confirmation
         get   :edit_private_infos, path: 'mon-compte'

@@ -1,0 +1,35 @@
+= side_menu_currently_at 'pro_dashboard'
+
+= render partial: 'pro/shared/dashboard_tabs', locals: { current: 'users' }
+
+.text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
+
+%table.table--striped.table-responsive#dataTable
+  %thead
+    %tr
+      %th
+      %th Nom
+      %th Payé
+      %th E-mail
+      %th Tel
+      %th Discipline / Ville
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td.text--center{ data: { th: '' } }
+          %div= image_tag user.avatar_url(:small), height: 40, class: 'rounded--circle'
+        %td{ data: { th: 'Nom' } }
+          %div
+            = user.name
+        %td{ data: { th: '' } }
+          %div
+            - if user.paid_for_pass == 'true'
+              %i.fa-check
+        %td{ data: { th: '' } }
+          %div= link_to user.email, "mailto:#{user.email}"
+        %td
+          %div= user.phone_number
+        %td
+          %div= "#{user.test_pass_subject} / #{user.test_pass_city}"
+
+.text--center.push-half--ends= paginate @users, window: 1, outer_window: 3

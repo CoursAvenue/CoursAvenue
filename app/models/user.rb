@@ -35,7 +35,8 @@ class User < ActiveRecord::Base
 
   # To store hashes into hstore
   store_accessor :meta_data, :after_sign_up_url,
-                             :test_name, :interested_at, :subscription_from
+                             :test_name, :interested_at, :subscription_from,
+                             :test_pass_subject, :test_pass_city, :paid_for_pass
 
   define_boolean_accessor_for :meta_data
 
