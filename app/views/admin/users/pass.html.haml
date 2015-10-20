@@ -38,7 +38,7 @@
 
 .text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
 
-- groupped_users = @users.group_by{ |u| u.current_sign_in_at.to_date }
+- groupped_users = @users.group_by{ |u| u.current_sign_in_at.to_date }.to_a.sort_by{|a| a.first}
 = content_for :scripts do
   = javascript_include_tag 'libs/highcharts/highcharts'
   = javascript_include_tag 'libs/highcharts/modules/exporting'
