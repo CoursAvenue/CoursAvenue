@@ -10,9 +10,9 @@
         %br
         remboursons. Ainsi, vous ne prenez aucun risque et votre satisfaction est garantie.
       .soft--top
-        = link_to root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--yellow btn--large push-half--right' do
+        = link_to checkout_step_1_collection_structures_path, class: 'btn btn--yellow btn--large push-half--right' do
           Obtenir mon pass
-        = link_to root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--green btn--large' do
+        = link_to checkout_step_1_collection_structures_path(gift: true), class: 'btn btn--green btn--large' do
           Offrir le pass
 
 .flexbox
@@ -28,7 +28,7 @@
 
 
 .flexbox.palm-block
-  %a.show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-theatre.jpg");', href: root_search_page_without_subject_path('paris', groupe: 1, show_subject_panel: 'true') }>
+  %a.show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-theatre.jpg");', href: checkout_step_2_collection_structures_path(groupe: 1) }>
     .search-page-filters__image-button-curtain
     .relative.flexbox.search-page-filters__panel-height
       .flexbox__item.v-middle.soft--sides.hide-for-fout
@@ -39,7 +39,7 @@
           .f-size-14.btn.btn--white-transparent
             Offrir le pass
 
-  %a.show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-yoga.jpg");', href: root_search_page_without_subject_path('paris', groupe: 2, show_subject_panel: 'true') }>
+  %a.show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-yoga.jpg");', href: checkout_step_2_collection_structures_path(groupe: 2) }>
     .search-page-filters__image-button-curtain
     .relative.flexbox.search-page-filters__panel-height
       .flexbox__item.v-middle.soft--sides.hide-for-fout
@@ -50,7 +50,7 @@
           .f-size-14.btn.btn--white-transparent
             Offrir le pass
 
-  %a.show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-arts.jpg"); ', href: root_search_page_without_subject_path('paris', groupe: 3, show_subject_panel: 'true') }>
+  %a.show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-arts.jpg"); ', href: checkout_step_2_collection_structures_path(groupe: 3) }>
     .search-page-filters__image-button-curtain
     .relative.flexbox.search-page-filters__panel-height
       .flexbox__item.v-middle.soft--sides.hide-for-fout
@@ -86,11 +86,11 @@
       .grid__item.one-third.text--center.v-middle>
         %h3 Déduisez le prix du Pass ou nous vous remboursons
     .grid
-      .grid__item.one-third.text--center.v-middle>
+      .grid__item.one-third.text--center.soft--sides>
         %p.epsilon.line-height-1-3 Payez en ligne par carte bleue : votre Pass à 70€ vous permet de réserver autant de séances d'essai que vous le souhaitez sans date limite. D'une valeur de 100€, vous pourrez économiser 30€ si un cours vous plaît.
-      .grid__item.one-third.text--center>
+      .grid__item.one-third.text--center.soft--sides>
         %p.epsilon.line-height-1-3 Visualisez toutes les séances sur une carte géographique en fonction de vos critères (avis, lieu, créneau horaire, niveau, etc.) puis inscrivez-vous aux séances d'essai de votre choix
-      .grid__item.one-third.text--center>
+      .grid__item.one-third.text--center.soft--sides>
         %p.epsilon.line-height-1-3 Si un cours vous plaît, déduisez de votre 1er abonnement la valeur de votre Pass, soit 100€. Sinon, nous vous remboursons. Ainsi, vous ne prenez aucun risque et vous économisez 30€
 
 

@@ -6,14 +6,24 @@
       - else
         %i.fa.fa-check.white
     %br
-    %div{ class: ( current > 2 ? 'blue-green' : '') } Demande
+    %div{ class: ( current > 2 ? 'blue-green' : '') } Sélection
   .v-middle.text--center.soft-half.inline-block.f-weight-600{ style: 'width: 2.5em;' }
     %i.fa.fa-chevron-right
-  .v-middle.text--center.soft-half.inline-block.f-weight-600{ style: 'width: 10em;', class: ( current == 2 ? 'bg-site-background' : (current == 3 ? 'blue-green' : '')) }
-    .bordered.rounded--circle.inline-block{ style: 'line-height: 2.4em; height: 2.5em; width: 2.5em; margin-bottom: 5px;', class: ( current == 2 ? 'bg-dark-gray white' : (current == 3 ? 'bg-blue-green border-color-blue-green' : '')) }
-      - if current == 3
+  .v-middle.text--center.soft-half.inline-block.f-weight-600{ style: 'width: 10em;', class: ( current == 2 ? 'bg-site-background' : '') }
+    .bordered.rounded--circle.inline-block{ style: 'line-height: 2.4em; height: 2.5em; width: 2.5em; margin-bottom: 5px;', class: ( current == 2 ? 'bg-dark-gray white' : ( current > 2 ? 'bg-blue-green border-color-blue-green' : '')) }
+      - if current < 3
+        2
+      - else
+        %i.fa.fa-check.white
+    %br
+    %div{ class: ( current > 2 ? 'blue-green' : '') } Inscription
+  .v-middle.text--center.soft-half.inline-block.f-weight-600{ style: 'width: 2.5em;' }
+    %i.fa.fa-chevron-right
+  .v-middle.text--center.soft-half.inline-block.f-weight-600{ style: 'width: 10em;', class: ( current == 3 ? 'bg-site-background' : (current == 4 ? 'blue-green' : '')) }
+    .bordered.rounded--circle.inline-block{ style: 'line-height: 2.4em; height: 2.5em; width: 2.5em; margin-bottom: 5px;', class: ( current == 3 ? 'bg-dark-gray white' : (current == 4 ? 'bg-blue-green border-color-blue-green' : '')) }
+      - if current == 4
         %i.fa.fa-check.white
       - else
-        2
+        3
     %br
     Paiement
