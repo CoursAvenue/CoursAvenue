@@ -1,7 +1,9 @@
-- %w(danse theatre-scene musique-chant)
-- %w(sports-arts-martiaux yoga-bien-etre-sante cuisine-vins)
-- %w(deco-mode-bricolage dessin-peinture-arts-plastiques photo-video)
-
+- if %w(danse theatre-scene musique-chant).include?(@subject.root.slug)
+  - subject = 'Danse, Théâtre & Musique'
+- if %w(sports-arts-martiaux yoga-bien-etre-sante cuisine-vins).include?(@subject.root.slug)
+  - subject = 'Sports, Yoga & Bien-être'
+- if %w(deco-mode-bricolage dessin-peinture-arts-plastiques photo-video).include?(@subject.root.slug)
+  - subject = 'Arts créatifs'
 
 - cookies[:test] = '100_dolls_pass'
 - @paris = City.find('paris')
@@ -13,33 +15,35 @@
 - if @structure
   = render partial: 'structures/popup_from_structure'
 
-.relative.search-page-filters__panel-height.palm-height-auto
-  .soft--ends.absolute.north.west.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto.z-index-10000
-    .flexbox__item.v-middle
-      = image_tag @vertical_page.image.url(:small_square), class: 'center-block rounded--circle', width: 125, height: 125
-      %h1.soft--sides.white.text--center.f-size-really-big.line-height-1-3
-        - if @subject.slug == 'dessin-peinture-arts-plastiques'
-          Des centaines de cours d'arts plastiques.
-        - elsif @subject.slug == 'theatre-scene'
-          Des centaines de cours de théâtre
-        - elsif @subject.slug == 'yoga-bien-etre-sante'
-          Des centaines de cours de yoga & de bien-être
-        - else
-          Des centaines de cours de #{@vertical_page.subject_name}.
+.relative.text--center.palm-height-auto.soft--ends.bg-blue-green
+  .relative.flexbox.on-top
+    .flexbox__item.v-middle.soft
+      %h1.flush.f-weight-bold.f-size-really-big.white.soft--sides
+        Le coup de pouce qui va vous motiver à vous lancer
+      %h2.delta.white.line-height-1-3
+        Le Pass #{subject} vous permet d'essayer les meilleures activités de loisirs près de chez vous, puis de bénéficier
         %br
-        Un seul Pass pour se lancer.
-      .main-container.main-container--medium.white.text--center
-        %h4.center-block
-          Le Pass #{@vertical_page.subject_name} permet de tester gratuitement chacune des #{@subject.indexable_cards.count * 3} séances de #{@vertical_page.subject_name} à #{@city.name}. Dès qu'un cours vous convient, votre professeur déduira de votre 1er abonnement le prix du Pass, soit 99€. Si aucun cours ne vous plaît, nous vous remboursons. Ainsi, vous ne prenez aucun risque et votre Pass ne coûte rien
+        d'une réduction sur votre 1er abonnement si un cours vous plaît. Si aucune séance ne vous convient, nous vous
+        %br
+        remboursons. Ainsi, vous ne prenez aucun risque et votre satisfaction est garantie.
+      .soft--top
+        = link_to checkout_step_1_collection_structures_path, class: 'btn btn--yellow btn--large push-half--right' do
+          Obtenir mon pass #{subject}
+        = link_to checkout_step_1_collection_structures_path(gift: true), class: 'btn btn--green btn--large' do
+          Offrir le pass
 
-      .text--center
-        = link_to "Obtenir mon Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug), class: 'btn btn--blue-green btn--bigger'
-        = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug, gift: true), class: 'btn btn--white-transparent btn--white-transparent--white btn--bigger push--left'
 
-  - map_zoom = 12 if @city and @city.size == 3
-  - map_zoom = 14 if @city and @city.size != 3
-  - map_zoom = 15 if @neighborhood
-  = react_component('MapContainer', { zoom: map_zoom, center: [(@neighborhood || @city || @paris).latitude, (@neighborhood || @city || @paris).longitude] })
+.flexbox
+  .bg-danse.btn--danse.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-theatre-scene.btn--theatre-scene.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-musique-chant.btn--musique-chant.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-cuisine-vins.btn--cuisine-vins.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-yoga-bien-etre-sante.btn--yoga-bien-etre-sante.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-sports-arts-martiaux.btn--sports-arts-martiaux.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-photo-video.btn--photo-video.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-deco-mode-bricolage.btn--deco-mode-bricolage.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-dessin-peinture-arts-plastiques.btn--dessin-peinture-arts-plastiques.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+
 
 .text--center.bg-white.soft
   %strong.epsilon Pass à 70€ d'une valeur de 100€
@@ -73,7 +77,7 @@
         Dès qu'un cours vous convient, fournissez le numéro de votre Pass au professeur qui déduira les 99€ de votre 1er abonnement : ainsi, votre Pass ne vous coûte rien !
 
   .text--center.push--bottom.soft--bottom
-    = link_to "Obtenir mon Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug), class: 'btn btn--blue-green btn--bigger'
+    = link_to "Obtenir mon Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug), class: 'btn btn--yellow btn--bigger'
     = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug, gift: true), class: 'btn btn--white btn--bigger push--left'
 
 

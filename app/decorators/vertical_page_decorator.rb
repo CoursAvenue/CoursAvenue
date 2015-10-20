@@ -52,7 +52,7 @@ class VerticalPageDecorator < Draper::Decorator
         if large and city
           zip_code = (city.size == 3 ? city.department_code : city.zip_code)
         end
-        "<i class=\"fa fa-map-marker\"></i> Voir les cours #{city ? "à #{city.name}" : 'autour de moi'} #{zip_code}".html_safe
+        "<i class=\"fa fa-map-marker\"></i> Voir les cours #{city ? "à #{city.name}" : 'autour de moi'}".html_safe
       end
     end
   end
