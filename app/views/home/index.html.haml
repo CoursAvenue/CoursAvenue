@@ -94,9 +94,10 @@
   %strong.epsilon.soft--sides.blue-green •
   %strong.epsilon Valable à vie
 
-%h2.alpha.soft--bottom.text--center.push--top.f-weight-400 Déjà approuvé par plus de 38 982 membres.
-.main-container.main-container--medium.mega-soft--ends
-  = render 'home/bottom_comments'
+.mega-soft--ends
+  %h2.alpha.soft--bottom.text--center.push--top.f-weight-400 Déjà approuvé par plus de 38 982 membres.
+  .main-container.main-container--medium
+    = render 'home/bottom_comments'
 
 .visuallyhidden
   - cache ['home#index@blog', Blog::Article::UserArticle.published.order('published_at DESC').first] do
