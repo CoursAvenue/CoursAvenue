@@ -16,7 +16,7 @@
       %th Tel
       %th Discipline / Ville
   %tbody
-    - @users.order('last_sign_in_at DESC').each do |user|
+    - @users.order('current_sign_in_at DESC').each do |user|
       %tr
         %td.text--center{ data: { th: '' } }
           %div= image_tag user.avatar_url(:small), height: 40, class: 'rounded--circle'
@@ -38,7 +38,7 @@
 
 .text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
 
-- groupped_users = @users.group_by{ |u| u.last_sign_in_at.to_date }
+- groupped_users = @users.group_by{ |u| u.current_sign_in_at.to_date }
 = content_for :scripts do
   = javascript_include_tag 'libs/highcharts/highcharts'
   = javascript_include_tag 'libs/highcharts/modules/exporting'
