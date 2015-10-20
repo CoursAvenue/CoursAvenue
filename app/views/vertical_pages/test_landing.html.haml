@@ -1,3 +1,8 @@
+- %w(danse theatre-scene musique-chant)
+- %w(sports-arts-martiaux yoga-bien-etre-sante cuisine-vins)
+- %w(deco-mode-bricolage dessin-peinture-arts-plastiques photo-video)
+
+
 - cookies[:test] = '100_dolls_pass'
 - @paris = City.find('paris')
 - @city ||= @paris
@@ -27,7 +32,6 @@
         %h4.center-block
           Le Pass #{@vertical_page.subject_name} permet de tester gratuitement chacune des #{@subject.indexable_cards.count * 3} séances de #{@vertical_page.subject_name} à #{@city.name}. Dès qu'un cours vous convient, votre professeur déduira de votre 1er abonnement le prix du Pass, soit 99€. Si aucun cours ne vous plaît, nous vous remboursons. Ainsi, vous ne prenez aucun risque et votre Pass ne coûte rien
 
-
       .text--center
         = link_to "Obtenir mon Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug), class: 'btn btn--blue-green btn--bigger'
         = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug, gift: true), class: 'btn btn--white-transparent btn--white-transparent--white btn--bigger push--left'
@@ -38,7 +42,7 @@
   = react_component('MapContainer', { zoom: map_zoom, center: [(@neighborhood || @city || @paris).latitude, (@neighborhood || @city || @paris).longitude] })
 
 .text--center.bg-white.soft
-  %strong.epsilon Pass à 99€
+  %strong.epsilon Pass à 70€ d'une valeur de 100€
   %strong.epsilon.soft--sides.blue-green •
   %strong.epsilon Déduit de votre 1er abonnement ou remboursé
   %strong.epsilon.soft--sides.blue-green •

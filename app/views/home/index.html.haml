@@ -1,15 +1,31 @@
 .relative.text--center.palm-height-auto.soft--ends.bg-blue-green
   .relative.flexbox.on-top
-    .flexbox__item.v-middle.soft--ends
+    .flexbox__item.v-middle.soft
       %h1.flush.f-weight-bold.f-size-really-big.white.soft--sides
-        Souriez. Il est temps de penser à vous.
+        Le coup de pouce qui va vous motiver à vous lancer
       %h2.delta.white
-        CoursAvenue vous promet un quotidien artistique, créatif et sportif.
+        Le Pass CoursAvenue vous permet d'essayer les meilleures activités de loisirs près de chez vous, puis de bénéficier
+        %br
+        d'une réduction sur votre 1er abonnement si un cours vous plaît. Si aucune séance ne vous convient, nous vous
+        %br
+        remboursons. Ainsi, vous ne prenez aucun risque et votre satisfaction est garantie.
       .soft--top
-        = link_to root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--white-transparent btn--white-transparent--white btn--large push-half--right' do
+        = link_to root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--yellow btn--large push-half--right' do
           Obtenir mon pass
         = link_to root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--green btn--large' do
           Offrir le pass
+
+.flexbox
+  .bg-danse.btn--danse.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-theatre-scene.btn--theatre-scene.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-musique-chant.btn--musique-chant.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-cuisine-vins.btn--cuisine-vins.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-yoga-bien-etre-sante.btn--yoga-bien-etre-sante.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-sports-arts-martiaux.btn--sports-arts-martiaux.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-photo-video.btn--photo-video.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-deco-mode-bricolage.btn--deco-mode-bricolage.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+  .bg-dessin-peinture-arts-plastiques.btn--dessin-peinture-arts-plastiques.text--center.white.flexbox__item.one-ninth.palm-one-third.very-soft>
+
 
 .flexbox.palm-block
   %a.show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-theatre.jpg");', href: root_search_page_without_subject_path('paris', groupe: 1, show_subject_panel: 'true') }>
@@ -18,7 +34,7 @@
       .flexbox__item.v-middle.soft--sides.hide-for-fout
         Danse, Théâtre & Musique
         .soft--top.show-on-hover__child.absolute.west.one-whole.text--center
-          .f-size-14.btn.btn--blue-green
+          .f-size-14.btn.btn--yellow
             Obtenir mon pass
           .f-size-14.btn.btn--white-transparent
             Offrir le pass
@@ -29,7 +45,7 @@
       .flexbox__item.v-middle.soft--sides.hide-for-fout
         Sports, Yoga & Bien-être
         .soft--top.show-on-hover__child.absolute.west.one-whole.text--center
-          .f-size-14.btn.btn--blue-green
+          .f-size-14.btn.btn--yellow
             Obtenir mon pass
           .f-size-14.btn.btn--white-transparent
             Offrir le pass
@@ -40,13 +56,13 @@
       .flexbox__item.v-middle.soft--sides.hide-for-fout
         Arts créatifs
         .soft--top.show-on-hover__child.absolute.west.one-whole.text--center
-          .f-size-14.btn.btn--blue-green
+          .f-size-14.btn.btn--yellow
             Obtenir mon pass
           .f-size-14.btn.btn--white-transparent
             Offrir le pass
 
 .mega-soft--ends
-  %h2.alpha.soft--bottom.text--center.push--top.f-weight-400 Des centaines d'activités de loisirs, un seul Pass, une vie passionnante.
+  %h2.alpha.soft--bottom.text--center.push--top.f-weight-400 Le meilleur moyen pour trouver son cours de loisir idéal
   .main-container.main-container--medium
     .grid
       .grid__item.one-third.text--center>
@@ -64,15 +80,15 @@
         %h3 Déduisez le prix du Pass ou nous vous remboursons
     .grid
       .grid__item.one-third.text--center.v-middle>
-        %p.epsilon.line-height-1-3 Payez directement en ligne par carte bleue : votre Pass à 99€ n'a pas de date de validité et vous permet de réserver autant de cours d'essai que vous le souhaitez
+        %p.epsilon.line-height-1-3 Payez en ligne par carte bleue : votre Pass à 70€ vous permet de réserver autant de séances d'essai que vous le souhaitez sans date limite. D'une valeur de 100€, vous pourrez économiser 30€ si un cours vous plaît.
       .grid__item.one-third.text--center>
-        %p.epsilon.line-height-1-3 Visualisez toutes les séances sur une carte géographique, puis inscrivez-vous en ligne en fonction de vos critères : avis, lieu, créneau horaire, niveau, etc.
+        %p.epsilon.line-height-1-3 Visualisez toutes les séances sur une carte géographique en fonction de vos critères (avis, lieu, créneau horaire, niveau, etc.) puis inscrivez-vous aux séances d'essai de votre choix
       .grid__item.one-third.text--center>
-        %p.epsilon.line-height-1-3 Si un cours vous convient, déduisez de votre 1er abonnement le prix du Pass, soit 99€. Sinon, nous vous remboursons. Ainsi, votre Pass ne vous coûte rien.
+        %p.epsilon.line-height-1-3 Si un cours vous plaît, déduisez de votre 1er abonnement la valeur de votre Pass, soit 100€. Sinon, nous vous remboursons. Ainsi, vous ne prenez aucun risque et vous économisez 30€
 
 
 .text--center.bg-white.soft
-  %strong.epsilon Pass à 99€
+  %strong.epsilon Pass à 70€ d'une valeur de 100€
   %strong.epsilon.soft--sides.blue-green •
   %strong.epsilon Déduit de votre 1er abonnement ou remboursé
   %strong.epsilon.soft--sides.blue-green •
