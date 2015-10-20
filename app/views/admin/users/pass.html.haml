@@ -38,7 +38,7 @@
 
 .text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
 
-- groupped_users = @users.group_by{|u| u.created_at.to_date}
+- groupped_users = @users.group_by{ |u| u.created_at.to_date }
 = content_for :scripts do
   = javascript_include_tag 'libs/highcharts/highcharts'
   = javascript_include_tag 'libs/highcharts/modules/exporting'
@@ -47,9 +47,9 @@
         new Highcharts.Chart({
             chart: { renderTo: 'users', type: 'column' },
             title: { text: null },
-            xAxis: { categories: #{groupped_users.map{|date, users| l(Date.parse(date.to_s), format: :short)}} },
+            xAxis: { categories: #{groupped_users.map{|date, users| l(Date.parse(date.to_s), format: :short)}.reverse } },
             yAxis: { title: { text: ''}, min: 0 },
-            series: [{ data: #{groupped_users.map{ |date, users| users.length }},
+            series: [{ data: #{groupped_users.map{ |date, users| users.length }.reverse},
                        type: 'column',
                        name: 'Élèves'
                       }]
