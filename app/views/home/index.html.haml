@@ -1,12 +1,12 @@
-.search-page-filters__panel-height.relative.text--center.palm-height-auto.soft--ends.bg-blue-green
-  .relative.flexbox.search-page-filters__panel-height.on-top
-    .flexbox__item.v-middle
+.relative.text--center.palm-height-auto.soft--ends.bg-blue-green
+  .relative.flexbox.on-top
+    .flexbox__item.v-middle.soft--ends
       %h1.flush.f-weight-bold.f-size-really-big.white.soft--sides
         Souriez. Il est temps de penser à vous.
       %h2.delta.white
         CoursAvenue vous promet un quotidien artistique, créatif et sportif.
       .soft--top
-        = link_to root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--white-transparent btn--white-transparent--white btn--large' do
+        = link_to root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--white-transparent btn--white-transparent--white btn--large push-half--right' do
           Obtenir mon pass
         = link_to root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--green btn--large' do
           Offrir le pass
@@ -45,29 +45,30 @@
           .f-size-14.btn.btn--white-transparent
             Offrir le pass
 
-.main-container.main-container--medium.mega-soft--ends
+.mega-soft--ends
   %h2.alpha.soft--bottom.text--center.push--top.f-weight-400 Des centaines d'activités de loisirs, un seul Pass, une vie passionnante.
-  .grid
-    .grid__item.one-third.text--center>
-      = image_tag 'https://coursavenue-public.s3.amazonaws.com/test/test2-logo3.png', height: 100
-    .grid__item.one-third.text--center>
-      = image_tag 'https://coursavenue-public.s3.amazonaws.com/test/test2-logo2.png', height: 100
-    .grid__item.one-third.text--center>
-      = image_tag 'https://coursavenue-public.s3.amazonaws.com/test/test2-logo1.png', height: 100
-  .grid
-    .grid__item.one-third.text--center.v-middle>
-      %h3 Obtenez votre pass
-    .grid__item.one-third.text--center.v-middle>
-      %h3 Essayez différentes séances
-    .grid__item.one-third.text--center.v-middle>
-      %h3 Déduisez le prix du Pass ou nous vous remboursons
-  .grid
-    .grid__item.one-third.text--center.v-middle>
-      %p.epsilon.line-height-1-3 Payez directement en ligne par carte bleue : votre Pass à 99€ n'a pas de date de validité et vous permet de réserver autant de cours d'essai que vous le souhaitez
-    .grid__item.one-third.text--center>
-      %p.epsilon.line-height-1-3 Visualisez toutes les séances sur une carte géographique, puis inscrivez-vous en ligne en fonction de vos critères : avis, lieu, créneau horaire, niveau, etc.
-    .grid__item.one-third.text--center>
-      %p.epsilon.line-height-1-3 Si un cours vous convient, déduisez de votre 1er abonnement le prix du Pass, soit 99€. Sinon, nous vous remboursons. Ainsi, votre Pass ne vous coûte rien.
+  .main-container.main-container--medium
+    .grid
+      .grid__item.one-third.text--center>
+        = image_tag 'https://coursavenue-public.s3.amazonaws.com/test/test2-logo3.png', height: 100
+      .grid__item.one-third.text--center>
+        = image_tag 'https://coursavenue-public.s3.amazonaws.com/test/test2-logo2.png', height: 100
+      .grid__item.one-third.text--center>
+        = image_tag 'https://coursavenue-public.s3.amazonaws.com/test/test2-logo1.png', height: 100
+    .grid
+      .grid__item.one-third.text--center.v-middle>
+        %h3 Obtenez votre pass
+      .grid__item.one-third.text--center.v-middle>
+        %h3 Essayez différentes séances
+      .grid__item.one-third.text--center.v-middle>
+        %h3 Déduisez le prix du Pass ou nous vous remboursons
+    .grid
+      .grid__item.one-third.text--center.v-middle>
+        %p.epsilon.line-height-1-3 Payez directement en ligne par carte bleue : votre Pass à 99€ n'a pas de date de validité et vous permet de réserver autant de cours d'essai que vous le souhaitez
+      .grid__item.one-third.text--center>
+        %p.epsilon.line-height-1-3 Visualisez toutes les séances sur une carte géographique, puis inscrivez-vous en ligne en fonction de vos critères : avis, lieu, créneau horaire, niveau, etc.
+      .grid__item.one-third.text--center>
+        %p.epsilon.line-height-1-3 Si un cours vous convient, déduisez de votre 1er abonnement le prix du Pass, soit 99€. Sinon, nous vous remboursons. Ainsi, votre Pass ne vous coûte rien.
 
 
 .text--center.bg-white.soft
@@ -77,8 +78,8 @@
   %strong.epsilon.soft--sides.blue-green •
   %strong.epsilon Valable à vie
 
+%h2.alpha.soft--bottom.text--center.push--top.f-weight-400 Déjà approuvé par plus de 38 982 membres.
 .main-container.main-container--medium.mega-soft--ends
-  %h2.alpha.soft--bottom.text--center.push--top.f-weight-400 Déjà approuvé par plus de 38 982 membres.
   = render 'home/bottom_comments'
 
 .visuallyhidden
