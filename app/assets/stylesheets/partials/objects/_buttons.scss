@@ -35,10 +35,11 @@
     line-height     : 1.2;
     font-weight     : 700;
     padding         : 0.7em 1.5em;
-    border-radius: $brand-round;
+    border-radius   : $brand-round;
     border          : 1px solid #DEDEDE;
     background-color: #fefefe;
     color           : #555555;
+    font-family     : $brand-face;
     &[type=submit] {
         font-weight: 600;
     }
