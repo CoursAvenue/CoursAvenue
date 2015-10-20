@@ -4,6 +4,8 @@
 
 .text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
 
+%h1.text--center= "#{@users.count} élèves"
+
 #users
 
 %table.table--striped.table-responsive#dataTable
@@ -15,6 +17,7 @@
       %th E-mail
       %th Tel
       %th Discipline / Ville
+      %th Date
   %tbody
     - @users.order('current_sign_in_at DESC').each do |user|
       %tr
@@ -35,6 +38,8 @@
           %div= "#{user.test_pass_subject} / #{user.test_pass_city}"
           - if user.test_pass_city.blank?
             = user.city.try(:name)
+        %td
+          %div= l(user.current_sign_in_at, format: :long)
 
 .text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
 
