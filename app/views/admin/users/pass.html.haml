@@ -4,6 +4,8 @@
 
 .text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
 
+%h1.text--center= "#{@users.count} élèves"
+
 #users
 
 %table.table--striped.table-responsive#dataTable
@@ -15,8 +17,9 @@
       %th E-mail
       %th Tel
       %th Discipline / Ville
+      %th Date
   %tbody
-    - @users.order('created_at DESC').each do |user|
+    - @users.order('current_sign_in_at DESC').each do |user|
       %tr
         %td.text--center{ data: { th: '' } }
           %div= image_tag user.avatar_url(:small), height: 40, class: 'rounded--circle'
@@ -35,10 +38,12 @@
           %div= "#{user.test_pass_subject} / #{user.test_pass_city}"
           - if user.test_pass_city.blank?
             = user.city.try(:name)
+        %td
+          %div= l(user.current_sign_in_at, format: :long)
 
 .text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
 
-- groupped_users = @users.group_by{ |u| u.created_at.to_date }
+- groupped_users = @users.group_by{ |u| u.current_sign_in_at.to_date }.to_a.sort_by{|a| a.first}
 = content_for :scripts do
   = javascript_include_tag 'libs/highcharts/highcharts'
   = javascript_include_tag 'libs/highcharts/modules/exporting'
@@ -47,9 +52,9 @@
         new Highcharts.Chart({
             chart: { renderTo: 'users', type: 'column' },
             title: { text: null },
-            xAxis: { categories: #{groupped_users.map{|date, users| l(Date.parse(date.to_s), format: :short)}.reverse } },
+            xAxis: { categories: #{groupped_users.map{|date, users| l(Date.parse(date.to_s), format: :short)} } },
             yAxis: { title: { text: ''}, min: 0 },
-            series: [{ data: #{groupped_users.map{ |date, users| users.length }.reverse},
+            series: [{ data: #{groupped_users.map{ |date, users| users.length } },
                        type: 'column',
                        name: 'Élèves'
                       }]
