@@ -21,9 +21,13 @@
 .center-block.push--bottom.soft--ends{ style: 'max-width: 800px;' }
   %h1.text--center
     - if params[:gift]
-      Devenez membre pour offrir un Pass Zumba
+      Devenez membre pour offrir
+      %br
+      le Pass #{subject}
     - else
-      Devenez membre pour obtenir votre Pass #{subject}
+      Devenez membre pour obtenir
+      %br
+      votre Pass #{subject}
   .grid--full
     .grid__item.one-third>
       - if params[:groupe].blank? or params[:groupe] == '1'

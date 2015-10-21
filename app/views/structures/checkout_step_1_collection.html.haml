@@ -27,7 +27,7 @@
         %i.fa.fa-check.green
         1664 lieux
       .push-half--ends
-        = link_to 'Choisir ce pass', checkout_step_2_collection_structures_path(groupe: 1), class: 'btn btn--white'
+        = link_to 'Choisir ce Pass', checkout_step_2_collection_structures_path(groupe: 1), class: 'btn btn--white'
       %div
         = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 1), target: :_blank
 
@@ -49,7 +49,7 @@
         %i.fa.fa-check.green
         865 lieux
       .push-half--ends
-        = link_to 'Choisir ce pass', checkout_step_2_collection_structures_path(groupe: 2), class: 'btn btn--white'
+        = link_to 'Choisir ce Pass', checkout_step_2_collection_structures_path(groupe: 2), class: 'btn btn--white'
       %div
         = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 2), target: :_blank
 
@@ -71,28 +71,8 @@
         %i.fa.fa-check.green
         335 lieux
       .push-half--ends
-        = link_to 'Choisir ce pass', checkout_step_2_collection_structures_path(groupe: 3), class: 'btn btn--white'
+        = link_to 'Choisir ce Pass', checkout_step_2_collection_structures_path(groupe: 3), class: 'btn btn--white'
       %div
         = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 3), target: :_blank
 
-.main-container
-  .grid
-    .grid__item.one-third.text--center>
-      .soft-half--bottom
-        %i.fa.fa-star-o.fa-5x
-      %h4 Qualité
-
-      %p Les cours disponibles à la réservation ont fait l'objet d'une sélection par l'équipe CoursAvenue. Les 10 000 avis de nos clients collectés par avis-verifies.com vous permettent également d'être guidés vers les séances les plus appréciées de notre communauté. Ainsi, votre Pass vous guide vers les meilleures activités.
-    .grid__item.one-third.text--center>
-      .soft-half--bottom
-        %i.fa.fa-eur.fa-5x
-      %h4 Cadeau idéal
-
-      %p A l'issue de ses séances d'essai, dès qu'un cours lui convient, le bénéficiaire du Pass déduira du prix de l'abonnement souscrit auprès du professeur la valeur du Pass, soit 100€. Par exemple, un abonnement trimestriel à 250€ ne lui reviendra qu'à 150€ seulement.
-    .grid__item.one-third.text--center>
-      .soft-half--bottom
-        %i.fa.fa-bold.fa-5x
-      %h4 Efficacité
-
-      %p Grâce au Pass CoursAvenue, trouver un cours de qualité n'a jamais été aussi simple, l'inscription en ligne vous fait gagner beaucoup de temps, et votre satisfaction est garantie : nous vous remboursons si aucun cours ne vous convient, sinon vous gagnez 30€ sur votre 1er abonnement. A ce jour, 46 893 élèves nous ont fait confiance et ont trouvé leur passion !
-
+= render 'structures/checkout_footer_bis'

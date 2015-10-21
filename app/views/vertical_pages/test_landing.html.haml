@@ -16,28 +16,28 @@
 
 - @structure = Structure.find(params[:structure]) if params[:structure].present?
 - if @structure
-  = render partial: 'structures/popup_from_structure'
+  = render partial: 'structures/popup_from_structure', locals: { pass_name: subject }
 
 .relative.search-page-filters__panel-height.palm-height-auto
   .soft--ends.absolute.north.west.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto.z-index-10000
     .flexbox__item.v-middle
-      = image_tag image_url, class: 'center-block rounded--circle', width: 125, height: 125
-      %h1.soft--sides.white.text--center.f-size-really-big.line-height-1-3
+      .center-block.bg-cover.rounded--circle{ style: "width: 125px; height: 125px; background-image: url(#{image_url})"}
+      %h1.soft--sides.white.text--center.f-size-really-big.line-height-1-3.f-weight-400
         Le coup de pouce qui va vous motiver à vous lancer
       .white.text--center
         %h4.center-block
-          Le Pass #{subject} vous permet d'essayer les meilleures activités de loisirs près de chez vous, puis de bénéficier
+          Le Pass CoursAvenue vous permet d'essayer les meilleures activités de loisirs près de chez vous, puis de
           %br
-          d'une réduction sur votre 1er abonnement si un cours vous plaît. Si aucune séance ne vous convient, nous vous
+          bénéficier d'une réduction sur votre 1er abonnement si un cours vous plaît. Si aucune séance ne vous
           %br
-          remboursons. Ainsi, vous ne prenez aucun risque et votre satisfaction est garantie.
+          convient, nous vous remboursons. Ainsi, vous ne prenez aucun risque et votre satisfaction est garantie.
 
 
       .text--center
         = link_to checkout_step_1_collection_structures_path, class: 'btn btn--yellow btn--large push-half--right' do
-          Obtenir mon pass #{subject}
+          Obtenir mon Pass #{subject}
         = link_to checkout_step_1_collection_structures_path(gift: true), class: 'btn btn--white btn--white-transparent btn--white-transparent--white btn--large' do
-          Offrir le pass
+          Offrir le Pass
 
   - map_zoom = 12 if @city and @city.size == 3
   - map_zoom = 14 if @city and @city.size != 3
@@ -63,36 +63,39 @@
   %strong.epsilon Déduit de votre 1er abonnement ou remboursé
   %strong.epsilon.soft--sides.blue-green •
   %strong.epsilon Valable à vie
-.main-container.soft--ends
 
-  .grid.push--bottom
-    .grid__item.one-third.text--center>
-      .soft--ends
+.soft--ends
+  %h2.alpha.soft--bottom.text--center.push--top.f-weight-400 Le meilleur moyen pour trouver son cours de loisir idéal
+  .main-container.main-container--medium
+    .grid
+      .grid__item.one-third.text--center>
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/test/test2-logo3.png', height: 100
-      %h4.gamma Obtenez votre Pass
-
-      %p
-        Si un cours vous plaît, les 99€ de votre Pass seront déduits de votre 1er abonnement (par exemple, vous ne paierez que 151€ pour un trimestre à 250€).
-        %br
-        Sinon, nous vous remboursons.
-    .grid__item.one-third.text--center>
-      .soft--ends
+      .grid__item.one-third.text--center>
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/test/test2-logo2.png', height: 100
-      %h4.gamma Essayez différentes séances
-
-      %p Grâce aux 10 000 avis, inscrivez-vous directement en ligne en fonction de vos critères : lieu, créneau horaire, niveau, etc.
-    .grid__item.one-third.text--center>
-      .soft--ends
+      .grid__item.one-third.text--center>
         = image_tag 'https://coursavenue-public.s3.amazonaws.com/test/test2-logo1.png', height: 100
-      %h4.gamma Abonnez-vous sans frais
-      %p
-        Dès qu'un cours vous convient, fournissez le numéro de votre Pass au professeur qui déduira les 99€ de votre 1er abonnement : ainsi, votre Pass ne vous coûte rien !
+    .grid
+      .grid__item.one-third.text--center.v-middle>
+        %h3 Obtenez votre pass
+      .grid__item.one-third.text--center.v-middle>
+        %h3 Essayez différentes séances
+      .grid__item.one-third.text--center.v-middle>
+        %h3 Déduisez le prix du Pass ou nous vous remboursons
+    .grid
+      .grid__item.one-third.text--center.soft--sides>
+        %p.epsilon.line-height-1-3 Payez en ligne par carte bleue : votre Pass à 70€ vous permet de réserver autant de séances d'essai que vous le souhaitez sans date limite. D'une valeur de 100€, vous pourrez économiser 30€ si un cours vous plaît.
+      .grid__item.one-third.text--center.soft--sides>
+        %p.epsilon.line-height-1-3 Visualisez toutes les séances sur une carte géographique en fonction de vos critères (avis, lieu, créneau horaire, niveau, etc.) puis inscrivez-vous aux séances d'essai de votre choix
+      .grid__item.one-third.text--center.soft--sides>
+        %p.epsilon.line-height-1-3 Si un cours vous plaît, déduisez de votre 1er abonnement la valeur de votre Pass, soit 100€. Sinon, nous vous remboursons. Ainsi, vous ne prenez aucun risque et vous économisez 30€
+
 
   .text--center.push--bottom.soft--bottom
     = link_to "Obtenir mon Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug), class: 'btn btn--yellow btn--bigger'
     = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug, gift: true), class: 'btn btn--white btn--bigger push--left'
 
 
+.main-container
   - _comments = CommentSearch.search(subject_slug: @subject.slug, per_page: 50)
   - comments  = _comments.group_by(&:structure).map(&:last).map(&:first)
   - if comments.length == 2
@@ -107,7 +110,7 @@
 
   .grid.push--bottom
     .grid__item.one-third>
-      .flexbox.green-box.text--center.white{ style: 'height: 20em;' }>
+      .flexbox.bg-blue-green.text--center.white{ style: 'height: 20em;' }>
         .flexbox__item.soft--sides
           %i.fa.fa-3x.fa-comment.push--bottom
           .alpha 10 000 avis
