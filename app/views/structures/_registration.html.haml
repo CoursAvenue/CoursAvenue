@@ -53,10 +53,12 @@
   .soft.bg-blue-green.white.soft-double.relative.border-color-blue-green-darker.bordered
     .relative
       - if @indexable_card
-        - if @indexable_card.subjects.length == 1
+        - if @indexable_card.subjects.length == 1 and @indexable_card.subjects.first.root.vertical_pages.any?
           = link_to "M'inscrire à une séance", vertical_page_with_city_path(@indexable_card.subjects.first.root.vertical_pages.first, @indexable_card.subjects.first.vertical_pages.first, (@indexable_card.place.try(:city) || @structure.city || 'paris'), { structure: @structure.slug }), class: 'btn btn--white-transparent btn--white-transparent--white btn--full push-half--bottom'
-        - else
+        - elsif @structure.dominant_root_subject.vertical_pages.first
           = link_to "M'inscrire à une séance", root_vertical_page_with_city_path(@structure.dominant_root_subject.vertical_pages.first, (@indexable_card.place.try(:city) || @structure.city || 'paris'), { structure: @structure.slug }), class: 'btn btn--white-transparent btn--white-transparent--white btn--full push-half--bottom'
+        - else
+          = link_to "M'inscrire à une séance", root_path, class: 'btn btn--white-transparent btn--white-transparent--white btn--full push-half--bottom'
       - else
         = link_to "M'inscrire à une séance", root_vertical_page_with_city_path(@structure.dominant_root_subject.vertical_pages.first, (@structure.city || 'paris'), { structure: @structure.slug }), class: 'btn btn--white-transparent btn--white-transparent--white btn--full push-half--bottom'
       .grid
