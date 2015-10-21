@@ -28,7 +28,7 @@
 
 
 .flexbox.palm-block
-  .cursor-default.show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-theatre.jpg");' }>
+  .show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-theatre.jpg");', data: { behavior: 'follow-link'} }>
     .search-page-filters__image-button-curtain
     .relative.flexbox.search-page-filters__panel-height
       .flexbox__item.v-middle.soft--sides.hide-for-fout
@@ -41,7 +41,7 @@
         .soft--top.show-on-hover__child.absolute.west.one-whole.text--center.south.soft--bottom
           = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 1), class: 'f-size-13 white', target: :_blank
 
-  .cursor-default.show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-yoga.jpg");' }>
+  .show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-yoga.jpg");', data: { behavior: 'follow-link'} }>
     .search-page-filters__image-button-curtain
     .relative.flexbox.search-page-filters__panel-height
       .flexbox__item.v-middle.soft--sides.hide-for-fout
@@ -54,7 +54,7 @@
         .soft--top.show-on-hover__child.absolute.west.one-whole.text--center.south.soft--bottom
           = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 2), class: 'f-size-13 white', target: :_blank
 
-  .cursor-default.show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-arts.jpg"); ' }>
+  .show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-arts.jpg"); ', data: { behavior: 'follow-link'} }>
     .search-page-filters__image-button-curtain
     .relative.flexbox.search-page-filters__panel-height
       .flexbox__item.v-middle.soft--sides.hide-for-fout
@@ -137,6 +137,11 @@
 = content_for :scripts do
   :javascript
       $(function() {
+          $('[data-behavior=follow-link]').click(function(event) {
+              if (event.target.nodeName != 'A') {
+                  window.location = $(this).find('a').first().attr('href');
+              }
+          });
           $('[data-behavior=update-home-page]').hover(function() {
               $('[data-curtain][data-slug=' + $(this).data('slug') + ']').removeClass('invisible');
               $('[data-behavior=h1-text]').text($(this).data('text'));
