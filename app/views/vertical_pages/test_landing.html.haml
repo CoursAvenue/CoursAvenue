@@ -1,10 +1,13 @@
 - if %w(danse theatre-scene musique-chant).include?(@subject.root.slug)
+  - groupe = 1
   - subject = 'Danse, Théâtre & Musique'
   - image_url = "https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-theatre.jpg"
 - if %w(sports-arts-martiaux yoga-bien-etre-sante cuisine-vins).include?(@subject.root.slug)
+  - groupe = 2
   - subject = 'Sports, Yoga & Bien-être'
   - image_url = "https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-yoga.jpg"
 - if %w(deco-mode-bricolage dessin-peinture-arts-plastiques photo-video).include?(@subject.root.slug)
+  - groupe = 3
   - subject = 'Arts créatifs'
   - image_url = "https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-arts.jpg"
 
@@ -33,9 +36,9 @@
 
 
       .text--center
-        = link_to checkout_step_1_collection_structures_path, class: 'btn btn--yellow btn--large push-half--right' do
+        = link_to checkout_step_2_collection_structures_path(groupe: groupe), class: 'btn btn--yellow btn--large push-half--right' do
           Obtenir mon Pass #{subject}
-        = link_to checkout_step_1_collection_structures_path(gift: true), class: 'btn btn--white btn--white-transparent btn--white-transparent--yellow btn--large' do
+        = link_to checkout_step_2_collection_structures_path(groupe: groupe, gift: true), class: 'btn btn--white btn--white-transparent btn--white-transparent--yellow btn--large' do
           Offrir le Pass
 
   - map_zoom = 12 if @city and @city.size == 3
@@ -90,8 +93,8 @@
 
 
   .text--center.push--bottom.soft--bottom
-    = link_to "Obtenir mon Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug), class: 'btn btn--yellow btn--bigger'
-    = link_to "Offrir le Pass", checkout_step_1_collection_structures_path(city: @city.slug, subject: @subject.slug, gift: true), class: 'btn btn--white btn--bigger push--left'
+    = link_to "Obtenir mon Pass", checkout_step_2_collection_structures_path(groupe: groupe, city: @city.slug, subject: @subject.slug), class: 'btn btn--yellow btn--bigger'
+    = link_to "Offrir le Pass", checkout_step_2_collection_structures_path(groupe: groupe, city: @city.slug, subject: @subject.slug, gift: true), class: 'btn btn--white btn--bigger push--left'
 
 
 .main-container
