@@ -84,11 +84,11 @@
   = content_for :scripts do
     :javascript
         $(function() {
-            mixpanel.track("PASS | Choix du Pass", { type: 'Cadeau', subject: "#{subject}" });
+            mixpanel.track("PASS | Choix du Pass", { type: 'Cadeau' });
         });
 - else
   = content_for :scripts do
     :javascript
         $(function() {
-            mixpanel.track("PASS | Choix du Pass", { type: 'Achat', subject: "#{subject}" });
+            mixpanel.track("PASS | Choix du Pass", { type: 'Achat' });
         });
