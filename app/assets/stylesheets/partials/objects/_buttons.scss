@@ -260,6 +260,11 @@
             color           : $blue-green;
             &:hover { border-color: white !important; }
         }
+        &.btn--white-transparent--yellow {
+            border-color    : $yellow!important;
+            background-color: transparent;
+            &::after, &.btn--active { background-color: $yellow; }
+        }
         &.btn--white-transparent--orange {
             border-color    : $orange!important;
             &::after, &.btn--active { background-color: $orange; }

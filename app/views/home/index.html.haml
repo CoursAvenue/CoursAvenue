@@ -1,7 +1,7 @@
 .relative.text--center.palm-height-auto.soft--ends.bg-blue-green
   .relative.flexbox.on-top
     .flexbox__item.v-middle.soft
-      %h1.push-half--bottom.f-size-really-big.white.soft--sides.f-weight-400
+      %h1.push-half--bottom.white.soft--sides.f-weight-400{ style: 'font-size: 53px;' }
         L'ultime coup de pouce pour se lancer
       %h2.delta.white.line-height-1-3
         N’attendez plus demain pour vivre vos passions : le Pass CoursAvenue vous permet d'essayer les meilleures
@@ -36,10 +36,10 @@
         .soft--top.show-on-hover__child.absolute.west.one-whole.text--center
           = link_to checkout_step_2_collection_structures_path(groupe: 1), class: 'f-size-14 btn btn--yellow' do
             Obtenir mon Pass
-          = link_to checkout_step_2_collection_structures_path(groupe: 1, gift: true), class: 'f-size-14 btn btn--white-transparent' do
+          = link_to checkout_step_2_collection_structures_path(groupe: 1, gift: true), class: 'f-size-14 btn btn--white-transparent btn--white-transparent--yellow' do
             Offrir le Pass
-          .push-half--top
-            = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 1, show_subject_panel: 'true'), class: 'btn btn--white-transparent f-size-14 btn--small'
+        .soft--top.show-on-hover__child.absolute.west.one-whole.text--center.south.soft--bottom
+          = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 1, show_subject_panel: 'true'), class: 'f-size-13 white'
 
   .show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-yoga.jpg");' }>
     .search-page-filters__image-button-curtain
@@ -49,10 +49,10 @@
         .soft--top.show-on-hover__child.absolute.west.one-whole.text--center
           = link_to checkout_step_2_collection_structures_path(groupe: 2), class: 'f-size-14 btn btn--yellow' do
             Obtenir mon Pass
-          = link_to checkout_step_2_collection_structures_path(groupe: 2, gift: true), class: 'f-size-14 btn btn--white-transparent' do
+          = link_to checkout_step_2_collection_structures_path(groupe: 2, gift: true), class: 'f-size-14 btn btn--white-transparent btn--white-transparent--yellow' do
             Offrir le Pass
-          .push-half--top
-            = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 1, show_subject_panel: 'true'), class: 'btn btn--white-transparent f-size-14 btn--small'
+        .soft--top.show-on-hover__child.absolute.west.one-whole.text--center.south.soft--bottom
+          = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 1, show_subject_panel: 'true'), class: 'f-size-13 white'
 
   .show-on-hover__wrapper.muted-link.flexbox__item.v-middle.search-page-filters__image-button.search-page-filters__panel-height.palm-one-whole.palm-block.one-third.bg-cover{ style: 'background-image: url("https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-arts.jpg"); ' }>
     .search-page-filters__image-button-curtain
@@ -62,10 +62,10 @@
         .soft--top.show-on-hover__child.absolute.west.one-whole.text--center
           = link_to checkout_step_2_collection_structures_path(groupe: 3), class: 'f-size-14 btn btn--yellow' do
             Obtenir mon Pass
-          = link_to checkout_step_2_collection_structures_path(groupe: 3, gift: true), class: 'f-size-14 btn btn--white-transparent' do
+          = link_to checkout_step_2_collection_structures_path(groupe: 3, gift: true), class: 'f-size-14 btn btn--white-transparent btn--white-transparent--yellow' do
             Offrir le Pass
-          .push-half--top
-            = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 1, show_subject_panel: 'true'), class: 'btn btn--white-transparent f-size-14 btn--small'
+        .soft--top.show-on-hover__child.absolute.west.one-whole.text--center.south.soft--bottom
+          = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 1, show_subject_panel: 'true'), class: 'f-size-13 white'
 
 .text--center.soft
   %strong.epsilon Pass à 70€ d'une valeur de 100€

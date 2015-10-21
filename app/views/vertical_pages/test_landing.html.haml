@@ -35,7 +35,7 @@
       .text--center
         = link_to checkout_step_1_collection_structures_path, class: 'btn btn--yellow btn--large push-half--right' do
           Obtenir mon Pass #{subject}
-        = link_to checkout_step_1_collection_structures_path(gift: true), class: 'btn btn--white btn--white-transparent btn--white-transparent--white btn--large' do
+        = link_to checkout_step_1_collection_structures_path(gift: true), class: 'btn btn--white btn--white-transparent btn--white-transparent--yellow btn--large' do
           Offrir le Pass
 
   - map_zoom = 12 if @city and @city.size == 3
