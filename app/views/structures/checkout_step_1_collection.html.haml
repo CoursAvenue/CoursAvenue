@@ -79,3 +79,16 @@
       = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 3), target: :_blank
 
 = render 'structures/checkout_footer_bis'
+
+- if cookies[:gift].present?
+  = content_for :scripts do
+    :javascript
+        $(function() {
+            mixpanel.track("PASS | Choix du Pass", { type: 'Cadeau', subject: "#{subject}" });
+        });
+- else
+  = content_for :scripts do
+    :javascript
+        $(function() {
+            mixpanel.track("PASS | Choix du Pass", { type: 'Achat', subject: "#{subject}" });
+        });

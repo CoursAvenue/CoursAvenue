@@ -27,15 +27,8 @@
             } });
       });
 
-- if cookies[:test] == '100_dolls_pass'
-  = content_for :scripts do
-    :javascript
-        $(function() {
-            mixpanel.track("TEST PASS | Checkout 1", { });
-        });
-- else
-  = content_for :scripts do
-    :javascript
-        $(function() {
-            mixpanel.track("TEST 1 | Checkout 1", { });
-        });
+= content_for :scripts do
+  :javascript
+      $(function() {
+          mixpanel.track("TEST 1 | Checkout 1", { });
+      });

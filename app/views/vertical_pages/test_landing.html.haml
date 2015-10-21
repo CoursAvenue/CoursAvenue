@@ -8,7 +8,6 @@
   - subject = 'Arts créatifs'
   - image_url = "https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-arts.jpg"
 
-- cookies[:test] = '100_dolls_pass'
 - @paris = City.find('paris')
 - @city ||= @paris
 - if @city.name.include?('Paris')
@@ -22,8 +21,8 @@
   .soft--ends.absolute.north.west.home-page-curtain.one-whole.flexbox.search-page-filters__panel-height.palm-static.palm-height-auto.z-index-10000
     .flexbox__item.v-middle
       .center-block.bg-cover.rounded--circle{ style: "width: 125px; height: 125px; background-image: url(#{image_url})"}
-      %h1.soft--sides.white.text--center.f-size-really-big.line-height-1-3.f-weight-400
-        Le coup de pouce qui va vous motiver à vous lancer
+      %h1.push-half--bottom.soft--sides.white.text--center.f-size-really-big.line-height-1-3.f-weight-400
+        L'ultime coup de pouce pour se lancer
       .white.text--center
         %h4.center-block
           Le Pass CoursAvenue vous permet d'essayer les meilleures activités de loisirs près de chez vous, puis de

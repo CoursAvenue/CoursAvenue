@@ -13,17 +13,14 @@
       Réserver votre 1ère séance avec
       %br
       #{@structure.name}
-    - if false# cookies[:test] == '100_dolls_pass'
-      Blidablou
-    - else
-      .text--center.soft--top
-        %h4
-          = ab_test(:pass, "Pour contacter #{@structure.name} et autant de professeurs que vous souhaitez, vous avez besoin d'un Pass élève.", "Pour réserver votre séance, indiquez votre carte bleue : vous ne serez débité que si le professeur accepte votre demande d'inscription")
-          %br
-          - if @structure.courses.first.prices.first.try(:amount) > 19
-            = ab_test(:pass, "Ce pass élève coûte 19 euros si un professeur accepte votre demande, rien sinon ! Ce pass comprend :", "La séance d'essai est gratuite. Votre carte bleue fonctionne comme une caution : si vous ne vous présentez pas à la séance sans l'avoir annulée, vous serez débité de 19€. Sinon, rien ne vous sera prélevé")
-          - else
-            = ab_test(:pass, "Ce pass élève coûte 19 euros si un professeur accepte votre demande, rien sinon ! Ce pass comprend :", "La séance d'essai est gratuite. Votre carte bleue fonctionne comme une caution : si vous ne vous présentez pas à la séance sans l'avoir annulée, vous serez débité de 19€. Sinon, rien ne vous sera prélevé")
+    .text--center.soft--top
+      %h4
+        = ab_test(:pass, "Pour contacter #{@structure.name} et autant de professeurs que vous souhaitez, vous avez besoin d'un Pass élève.", "Pour réserver votre séance, indiquez votre carte bleue : vous ne serez débité que si le professeur accepte votre demande d'inscription")
+        %br
+        - if @structure.courses.first.prices.first.try(:amount) > 19
+          = ab_test(:pass, "Ce pass élève coûte 19 euros si un professeur accepte votre demande, rien sinon ! Ce pass comprend :", "La séance d'essai est gratuite. Votre carte bleue fonctionne comme une caution : si vous ne vous présentez pas à la séance sans l'avoir annulée, vous serez débité de 19€. Sinon, rien ne vous sera prélevé")
+        - else
+          = ab_test(:pass, "Ce pass élève coûte 19 euros si un professeur accepte votre demande, rien sinon ! Ce pass comprend :", "La séance d'essai est gratuite. Votre carte bleue fonctionne comme une caution : si vous ne vous présentez pas à la séance sans l'avoir annulée, vous serez débité de 19€. Sinon, rien ne vous sera prélevé")
       .grid.push--bottom
         .grid__item.one-quarter.text--center>
           %div
@@ -138,12 +135,8 @@
 = render 'structures/checkout_footer'
 
 
-- if cookies[:test] == '100_dolls_pass'
-  :javascript
-    var test_name = "TEST PASS"
-- else
-  :javascript
-    var test_name = "TEST 1"
+:javascript
+  var test_name = "TEST 1"
 
 = content_for :scripts do
   :javascript
