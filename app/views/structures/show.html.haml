@@ -118,4 +118,4 @@
     });
 
 :javascript
-  window.city = '#{@structure.city.slug}'
+  window.city = '#{@structure.city.try(:slug) || @structure.places.first.try(:city).try(:slug) || 'paris'}'
