@@ -1,0 +1,45 @@
+- subject = 'Danse, Théâtre & Musique'
+- params[:groupe] ||= '1'
+- case params[:groupe]
+- when '1'
+  - subject = 'Danse, Théâtre & Musique'
+- when '2'
+  - subject = 'Sports, Yoga & Bien-être'
+- when '3'
+  - subject = 'Arts créatifs'
+
+- @city = City.find(params[:city].present? ? params[:city] : 'paris')
+= content_for :right_after_head do
+  %meta{ name: 'robots', content: 'noindex,follow' }
+
+.step-2= render partial: 'structures/checkout_header_bis', locals: { current: 4 }
+
+.text--center.soft.main-container.main-container--1000
+  %h1 Bientôt disponible :-)
+  %p.epsilon.line-height-1-3
+    Merci de votre intérêt pour le Pass #{subject} !
+    %br
+    Il sera disponible dans quelques jours, nous vous enverrons un e-mail dès le lancement.
+    %br
+    En attendant, vous pouvez parcourir tous les cours de #{subject}
+  = link_to "Voir tous les cours", root_search_page_without_subject_path('paris', groupe: params[:group]), class: 'btn btn--blue-green'
+
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        mixpanel.track("PASS | Paiement envoyé", { subject: "#{subject}", email: '#{current_user.email}' });
+    });
+
+= content_for :head do
+  -# Facebook
+  :javascript
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','//connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1652883014958782');
+    fbq('track', "PageView");
+
+  <noscript><img height="1" width="1" style="display:none"src="https://www.facebook.com/tr?id=1652883014958782&ev=PageView&noscript=1"/></noscript>

@@ -8,7 +8,7 @@ class StructuresController < ApplicationController
   before_filter :set_current_structure, except: [:index, :search, :typeahead,
                                                  :add_to_favorite, :remove_from_favorite,
                                                  :checkout_step_1_collection, :checkout_step_2_collection,
-                                                 :checkout_step_3_collection]
+                                                 :checkout_step_3_collection, :checkout_step_4_collection]
   before_filter :authenticate_pro_admin!, only: [:toggle_pure_player]
 
   respond_to :json
@@ -42,6 +42,15 @@ class StructuresController < ApplicationController
     else
       current_user.test_pass_subject = @subject.name
       current_user.test_pass_city    = params[:city] || 'paris'
+      current_user.save
+    end
+  end
+
+  def checkout_step_4_collection
+    if current_user.nil?
+      redirect_to checkout_step_1_collection_structures_path(subject: params[:subject], city: (params[:city] || 'paris')), error: 'Vous devez être connecté pour continuer.'
+    else
+      current_user.paid_for_pass = true
       current_user.save
     end
   end
@@ -118,7 +127,7 @@ class StructuresController < ApplicationController
   private
 
   def get_layout
-    if %(checkout_step_1 checkout_step_2 checkout_step_3 checkout_step_1_collection checkout_step_2_collection checkout_step_3_collection).include?(action_name)
+    if %(checkout_step_1 checkout_step_2 checkout_step_3 checkout_step_1_collection checkout_step_2_collection checkout_step_3_collection checkout_step_4_collection).include?(action_name)
       'empty'
     elsif action_name == 'reviews'
       'reservations/website'

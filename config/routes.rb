@@ -505,6 +505,7 @@ CoursAvenue::Application.routes.draw do
         get  :checkout_step_1_collection, path: 'pass-selection'
         get  :checkout_step_2_collection, path: 'pass-inscription'
         get  :checkout_step_3_collection, path: 'pass-paiement'
+        get  :checkout_step_4_collection, path: 'pass-envoyee'
       end
       member do
         get  :toggle_pure_player
