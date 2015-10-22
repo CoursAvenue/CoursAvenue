@@ -123,12 +123,12 @@
     .grid__item.one-third>
       .flexbox.v-top.white-box{ style: 'height: 20em;' }>
         .flexbox__item.v-top
-          - image_url = (comments[0] || Comment.offset(3).last(1).first).structure.logo.url(:thumbnail_email_cropped)
-          = link_to '', structure_path((comments[0] || Comment.offset(3).last(1).first).structure), class: 'bg-cover block', target: :_blank, style: "background-image: url('#{image_url}'); height: 10em;"
+          - image_url = (comments[0] || Comment::Review.offset(3).last(1).first).structure.logo.url(:thumbnail_email_cropped)
+          = link_to '', structure_path((comments[0] || Comment::Review.offset(3).last(1).first).structure), class: 'bg-cover block', target: :_blank, style: "background-image: url('#{image_url}'); height: 10em;"
           .soft
-            .line-height-1-3.quoted= truncate((comments[0] || Comment.offset(3).last(1).first).content, length: 150)
+            .line-height-1-3.quoted= truncate((comments[0] || Comment::Review.offset(3).last(1).first).content, length: 150)
             .float--right
-              %strong= "Par #{(comments[0] || Comment.offset(3).last(1).first).author_name}"
+              %strong= "Par #{(comments[0] || Comment::Review.offset(3).last(1).first).author_name}"
     .grid__item.one-third>
       .flexbox.yellow-box.text--center.white{ style: 'height: 20em;' }>
         .flexbox__item.soft--sides
