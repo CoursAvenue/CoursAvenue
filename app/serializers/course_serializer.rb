@@ -75,6 +75,10 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def dominant_root_subject_vp_slug
-    object.dominant_root_subject.vertical_pages.first.slug
+    if object.dominant_root_subject
+      object.dominant_root_subject.vertical_pages.first.slug
+    else
+      'danse'
+    end
   end
 end
