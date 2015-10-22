@@ -171,6 +171,7 @@
             = link_to "Cours de #{vertical_page.subject_name.downcase}", vertical_page_path(vertical_page.root_subject, vertical_page), class: 'white semi-muted-link block'
 
 - @indexable_card = @subject.indexable_cards.sample
+- @indexable_card = IndexableCard.last if @indexable_card.nil?
 - @card_redux = { id: @indexable_card.id, slug: @indexable_card.slug, subjects: @indexable_card.subjects.pluck(:slug), position: { lat: @city.latitude, lng: @city.longitude } }
 
 .soft-double.soft--bottom.palm-hard#card-suggestions
