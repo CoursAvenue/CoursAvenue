@@ -1,15 +1,18 @@
 - if %w(danse theatre-scene musique-chant).include?(@subject.root.slug)
-  - groupe = 1
-  - subject = 'Danse, Théâtre & Musique'
-  - image_url = "https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-theatre.jpg"
+  - groupe      = 1
+  - subject_bis = 'de Danse, Théâtre & Musique'
+  - subject     = 'Danse, Théâtre & Musique'
+  - image_url   = "https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-theatre.jpg"
 - if %w(sports-arts-martiaux yoga-bien-etre-sante cuisine-vins).include?(@subject.root.slug)
-  - groupe = 2
-  - subject = 'Sports, Yoga & Bien-être'
-  - image_url = "https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-yoga.jpg"
+  - groupe      = 2
+  - subject_bis = 'Sports, Yoga & Bien-être'
+  - subject     = 'Sports, Yoga & Bien-être'
+  - image_url   = "https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-yoga.jpg"
 - if %w(deco-mode-bricolage dessin-peinture-arts-plastiques photo-video).include?(@subject.root.slug)
-  - groupe = 3
-  - subject = 'Arts créatifs'
-  - image_url = "https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-arts.jpg"
+  - groupe      = 3
+  - subject_bis = "d'Arts créatifs"
+  - subject     = 'Arts créatifs'
+  - image_url   = "https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-arts.jpg"
 
 - @paris = City.find('paris')
 - @city ||= @paris
@@ -30,7 +33,7 @@
         %h4.center-block
           N’attendez plus demain pour vivre vos passions : le Pass CoursAvenue vous permet d'essayer les meilleures
           %br
-          activités de loisirs près de chez vous, puis de bénéficier d'une réduction sur le 1er abonnement du cours
+          activités #{subject_bis} près de chez vous, puis de bénéficier d'une réduction sur le 1er abonnement du cours
           %br
           de votre choix. Si aucune séance ne vous convient, nous vous remboursons. Satisfaction garantie.
 
