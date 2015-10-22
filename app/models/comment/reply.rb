@@ -4,7 +4,9 @@ class Comment::Reply < Comment
 
   belongs_to :commentable, polymorphic: true, touch: true
 
-  has_one :structure, through: :commentable
+  def structure
+    commentable.try(:structure)
+  end
 
   attr_accessor :show_to_everyone
 end
