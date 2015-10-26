@@ -96,7 +96,7 @@
   .panel__header { display: none; }
 
 
-- if cookies[:gift].present?
+- if params[:gift].present?
   = content_for :scripts do
     :javascript
         $(function() {
