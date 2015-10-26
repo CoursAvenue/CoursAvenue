@@ -45,13 +45,14 @@
           - if user.test_pass_city.blank?
             = user.city.try(:name)
         %td
-          %div= l(user.sign_up_at, format: :long)
+          - if user.sign_up_at
+            %div= l(user.sign_up_at.to_date, format: :short)
         %td
           = simple_form_for [:admin, user] do |f|
             %div= f.input :pass_comment, as: :text, label: false, input_html: { class: 'one-whole very-soft', style: 'height: 5em; width: 15em; font-size: 12px;'}, wrapper_html: { class: 'flush--bottom'}
             %div= f.submit 'Save', class: 'btn btn--small btn--full'
 
-- groupped_users = @users.group_by{ |u| u.sign_up_at.to_date }.to_a.sort_by{|a| a.first}
+- groupped_users = @users.group_by{ |u| u.sign_up_at.try(:to_date) || Date.today }.to_a.sort_by{|a| a.first}
 = content_for :scripts do
   = javascript_include_tag 'libs/highcharts/highcharts'
   = javascript_include_tag 'libs/highcharts/modules/exporting'
