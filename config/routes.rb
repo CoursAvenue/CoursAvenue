@@ -12,7 +12,7 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: 'pro' do
     # For super admin
     namespace :admin do
-      resources :users, only: [:index] do
+      resources :users, only: [:index, :update] do
         collection do
           get :pass
         end

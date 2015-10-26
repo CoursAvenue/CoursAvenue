@@ -10,7 +10,7 @@
 
 .main-container.text--center.push--bottom.soft--ends
   .inline-block.v-top{ style: 'width: 300px; '}
-    = link_to checkout_step_2_collection_structures_path(groupe: 1), class: 'block muted-link white-box search-page-card__content show-on-hover__wrapper' do
+    = link_to checkout_step_2_collection_structures_path(groupe: 1, gift: params[:gift].present?), class: 'block muted-link white-box search-page-card__content show-on-hover__wrapper' do
       .flexbox.bg-cover{ style: "background-image: url(https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-theatre.jpg); height: 200px;" }
         .white.f-weight-bold.delta.smooth-black-text-shadow.flexbox__item.v-middle.show-on-hover__child.text--center{ style: 'line-height: 200px; height: 200px;' }
           Choisir ce Pass
@@ -33,7 +33,7 @@
       = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 1), target: :_blank
 
   .inline-block.v-top.push--sides{ style: 'width: 300px; '}
-    = link_to checkout_step_2_collection_structures_path(groupe: 2), class: 'block muted-link white-box search-page-card__content show-on-hover__wrapper' do
+    = link_to checkout_step_2_collection_structures_path(groupe: 2, gift: params[:gift]), class: 'block muted-link white-box search-page-card__content show-on-hover__wrapper' do
       .flexbox.bg-cover{ style: "background-image: url(https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-yoga.jpg); height: 200px;" }
         .white.f-weight-bold.delta.smooth-black-text-shadow.flexbox__item.v-middle.show-on-hover__child.text--center{ style: 'line-height: 200px; height: 200px;' }
           Choisir ce Pass
@@ -56,7 +56,7 @@
       = link_to 'Voir tous les cours', root_search_page_without_subject_path('paris', groupe: 2), target: :_blank
 
   .inline-block.v-top{ style: 'width: 300px; '}
-    = link_to checkout_step_2_collection_structures_path(groupe: 3), class: 'block muted-link white-box search-page-card__content show-on-hover__wrapper' do
+    = link_to checkout_step_2_collection_structures_path(groupe: 3, gift: params[:gift]), class: 'block muted-link white-box search-page-card__content show-on-hover__wrapper' do
       .flexbox.bg-cover{ style: "background-image: url(https://dqggv9zcmarb3.cloudfront.net/assets/search-page-app/group-subject-arts.jpg); height: 200px;" }
         .white.f-weight-bold.delta.smooth-black-text-shadow.flexbox__item.v-middle.show-on-hover__child.text--center{ style: 'line-height: 200px; height: 200px;' }
           Choisir ce Pass
@@ -80,7 +80,7 @@
 
 = render 'structures/checkout_footer_bis'
 
-- if cookies[:gift].present?
+- if params[:gift].present?
   = content_for :scripts do
     :javascript
         $(function() {

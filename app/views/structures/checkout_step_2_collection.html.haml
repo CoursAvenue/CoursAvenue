@@ -94,26 +94,29 @@
 
 :css
   .panel__header { display: none; }
-= content_for :scripts do
-  :javascript
-      $(function() {
-          new CoursAvenue.Views.SignUpView({ after_sign_in_popup: '', el: $('#sign-up'),
-            success: function() {
-                window.location = Routes.checkout_step_3_collection_structures_path({ city: '#{params[:city]}', groupe: '#{params[:groupe]}'});
-            } });
-      });
+
 
 - if cookies[:gift].present?
   = content_for :scripts do
     :javascript
         $(function() {
             mixpanel.track("PASS | Landing Pass inscription", { type: 'Cadeau', subject: "#{subject} à #{params[:city]}" });
+            new CoursAvenue.Views.SignUpView({ after_sign_in_popup: '', el: $('#sign-up'),
+              success: function() {
+                  window.location = Routes.checkout_step_3_collection_structures_path({ city: '#{params[:city]}', groupe: '#{params[:groupe]}', gift: 'true'});
+              }
+            });
         });
 - else
   = content_for :scripts do
     :javascript
         $(function() {
             mixpanel.track("PASS | Landing Pass inscription", { type: 'Achat', subject: "#{subject} à #{params[:city]}" });
+            new CoursAvenue.Views.SignUpView({ after_sign_in_popup: '', el: $('#sign-up'),
+              success: function() {
+                  window.location = Routes.checkout_step_3_collection_structures_path({ city: '#{params[:city]}', groupe: '#{params[:groupe]}'});
+              }
+            });
         });
 
 = content_for :scripts do

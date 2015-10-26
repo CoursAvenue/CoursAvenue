@@ -1,8 +1,15 @@
 # encoding: utf-8
 class Admin::UsersController < Admin::AdminController
 
+  def update
+    @user = User.find(params[:id])
+    @user.pass_comment =  params[:user][:pass_comment]
+    @user.save
+    redirect_to pass_admin_users_path
+  end
+
   def pass
-    @users = User.where("meta_data -> 'test_pass_subject' LIKE '%'").page(params[:page] || 1)
+    @users = User.where("meta_data -> 'test_pass_subject' LIKE '%'")
   end
 
   def index

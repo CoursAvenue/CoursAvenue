@@ -26,10 +26,11 @@
     = link_to "Voir tous les cours", root_search_page_without_subject_path('paris', groupe: params[:group]), class: 'btn btn--blue-green'
 
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        fbq('track', 'Purchase', {value: '70.00', currency: 'EUR'});
-        mixpanel.track("PASS | Paiement envoyé", { subject: "#{subject}", email: '#{current_user.email}' });
-    });
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          fbq('track', 'Purchase', {value: '70.00', currency: 'EUR'});
+          mixpanel.track("PASS | Paiement envoyé", { subject: "#{subject}", email: '#{current_user.email}' });
+      });
 

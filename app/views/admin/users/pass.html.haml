@@ -2,8 +2,6 @@
 
 = render partial: 'pro/shared/dashboard_tabs', locals: { current: 'users' }
 
-.text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
-
 %h1.text--center= "#{@users.count} élèves"
 
 #users
@@ -13,11 +11,15 @@
     %tr
       %th
       %th Nom
-      %th Payé
+      %th
+        %i.fa.fa-credit-card
+      %th
+        %i.fa.fa-gift
       %th E-mail
       %th Tel
       %th Discipline / Ville
       %th Date
+      %th Comments
   %tbody
     - @users.order('current_sign_in_at DESC').each do |user|
       %tr
@@ -31,6 +33,10 @@
             - if user.paid_for_pass == 'true'
               %i.fa-check
         %td{ data: { th: '' } }
+          %div
+            - if user.wants_a_gift_pass == 'true'
+              %i.fa-check
+        %td{ data: { th: '' } }
           %div= link_to user.email, "mailto:#{user.email}"
         %td
           %div= user.phone_number
@@ -40,8 +46,10 @@
             = user.city.try(:name)
         %td
           %div= l(user.current_sign_in_at, format: :long)
-
-.text--center.push-half--ends= paginate @users, window: 1, outer_window: 3
+        %td
+          = simple_form_for [:admin, user] do |f|
+            %div= f.input :pass_comment, as: :text, label: false, input_html: { class: 'one-whole very-soft', style: 'height: 5em; width: 15em; font-size: 12px;'}, wrapper_html: { class: 'flush--bottom'}
+            %div= f.submit 'Save', class: 'btn btn--small btn--full'
 
 - groupped_users = @users.group_by{ |u| u.current_sign_in_at.to_date }.to_a.sort_by{|a| a.first}
 = content_for :scripts do
@@ -60,3 +68,7 @@
                       }]
         });
     });
+:css
+  .main-container {
+    max-width: 1250px;
+  }

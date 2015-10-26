@@ -134,3 +134,10 @@
         $('.credit-card-cvc').payment('formatCardCVC');
     });
 
+- if Rails.env.production?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          fbq('track', 'Purchase', { value: '70.00', currency: 'EUR' });
+      });
+

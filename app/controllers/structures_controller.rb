@@ -42,6 +42,7 @@ class StructuresController < ApplicationController
     else
       current_user.test_pass_subject = @subject.name
       current_user.test_pass_city    = params[:city] || 'paris'
+      current_user.wants_a_gift_pass = true if params[:gift].present?
       current_user.save
     end
   end
