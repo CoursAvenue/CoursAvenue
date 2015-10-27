@@ -40,10 +40,11 @@ class StructuresController < ApplicationController
     if current_user.nil?
       redirect_to checkout_step_1_collection_structures_path(subject: params[:subject], city: (params[:city] || 'paris')), error: 'Vous devez être connecté pour continuer.'
     else
-      current_user.sign_up_at        = Time.now
-      current_user.test_pass_subject = @subject.name
-      current_user.test_pass_city    = params[:city] || 'paris'
-      current_user.wants_a_gift_pass = true if params[:gift].present?
+      current_user.sign_up_from_facebook = true if cookies[:from_facebook]
+      current_user.sign_up_at            = Time.now
+      current_user.test_pass_subject     = @subject.name
+      current_user.test_pass_city        = params[:city] || 'paris'
+      current_user.wants_a_gift_pass     = true if params[:gift].present?
       current_user.save
     end
   end

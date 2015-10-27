@@ -37,7 +37,10 @@
             - if user.wants_a_gift_pass == 'true'
               %i.fa-check
         %td{ data: { th: '' } }
-          %div= link_to user.email, "mailto:#{user.email}"
+          %div
+            = link_to user.email, "mailto:#{user.email}"
+            - if user.sign_up_from_facebook.present?
+              (Facebook)
         %td
           %div= user.phone_number
         %td

@@ -106,3 +106,5 @@
     -# :javascript
     -#     window.prerenderReady = false;
     = render 'layouts/typekit'
+    - if params[:utm_source] == 'facebook'
+      - cookies[:from_facebook] = true
