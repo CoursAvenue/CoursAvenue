@@ -17,25 +17,19 @@ var LessonPlanning = React.createClass({
     },
 
     bookPlanning: function bookPlanning (event) {
-        if (_.isEmpty(CoursAvenue.currentAdmin().attributes) && window.city) {
-            if (event.target.tagName != 'A') {
-                window.location = Routes.root_vertical_page_with_city_path(this.props.course.get('dominant_root_subject_vp_slug'), (window.city || 'paris'), { structure: this.props.course.get('structure_slug') });
-            }
-        } else {
-            // We generate a random key to make sure a new is created every time.
-            var popup = (<BookPopup planning={this.props.planning}
-                          dont_register_user={this.props.dont_register_user}
-                                      course={this.props.course}
-                                         key={Math.random()}/>);
-            if ($('#mfp-hide').length == 0) { $('body').append('<div id="mfp-hide" class="center-block relative" style="max-width: 530px;">'); }
-            var rendered_popup = React.render(popup, $('#mfp-hide')[0]);
-            $.magnificPopup.open({
-                  items: {
-                      src: rendered_popup.getDOMNode().parentElement,
-                      type: 'inline'
-                  }
-            });
-        }
+        // We generate a random key to make sure a new is created every time.
+        var popup = (<BookPopup planning={this.props.planning}
+                      dont_register_user={this.props.dont_register_user}
+                                  course={this.props.course}
+                                     key={Math.random()}/>);
+        if ($('#mfp-hide').length == 0) { $('body').append('<div id="mfp-hide" class="center-block relative" style="max-width: 530px;">'); }
+        var rendered_popup = React.render(popup, $('#mfp-hide')[0]);
+        $.magnificPopup.open({
+              items: {
+                  src: rendered_popup.getDOMNode().parentElement,
+                  type: 'inline'
+              }
+        });
     },
 
     startDateDatetime: function startDateDatetime () {
@@ -65,12 +59,8 @@ var LessonPlanning = React.createClass({
     render: function render () {
         var location_td, subscribe_button, time, href;
         if (this.props.showSubscribeButton()) {
-            if (_.isEmpty(CoursAvenue.currentAdmin().attributes) && window.city) {
-                href = Routes.root_vertical_page_with_city_path(this.props.course.get('dominant_root_subject_vp_slug'), (window.city || 'paris'), { structure: this.props.course.get('structure_slug') });
-            } else {
-                if (this.props.show_planning_link) {
-                    href = Routes.reservation_structure_path(this.props.course.get('structure_slug')) + '#' + this.props.planning.id
-                }
+            if (this.props.show_planning_link) {
+                href = Routes.reservation_structure_path(this.props.course.get('structure_slug')) + '#' + this.props.planning.id
             }
             if (this.props.planning.info) {
                 subscribe_button = (<div>

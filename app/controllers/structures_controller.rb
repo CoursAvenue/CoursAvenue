@@ -6,9 +6,7 @@ class StructuresController < ApplicationController
   skip_before_filter :verify_authenticity_token, only: [:add_to_favorite, :remove_from_favorite]
 
   before_filter :set_current_structure, except: [:index, :search, :typeahead,
-                                                 :add_to_favorite, :remove_from_favorite,
-                                                 :checkout_step_1_collection, :checkout_step_2_collection,
-                                                 :checkout_step_3_collection, :checkout_step_4_collection]
+                                                 :add_to_favorite, :remove_from_favorite]
   before_filter :authenticate_pro_admin!, only: [:toggle_pure_player]
 
   respond_to :json
@@ -19,69 +17,6 @@ class StructuresController < ApplicationController
     @structure.pure_player = (@structure.pure_player? ? false : true)
     @structure.save
     redirect_to structure_path(@structure)
-  end
-
-  def checkout_step_1_collection
-  end
-
-  def checkout_step_2_collection
-    @subject   = Subject.find(params[:subject].present? ? params[:subject] : 'danse')
-    if current_user
-      if params[:gift].present?
-        redirect_to checkout_step_3_collection_structures_path(city: (params[:city] || 'paris'), subject: params[:subject], groupe: params[:groupe], gift: true), error: 'Vous devez être connecté pour continuer.'
-      else
-        redirect_to checkout_step_3_collection_structures_path(city: (params[:city] || 'paris'), subject: params[:subject], groupe: params[:groupe]), error: 'Vous devez être connecté pour continuer.'
-      end
-    end
-  end
-
-  def checkout_step_3_collection
-    @subject   = Subject.find(params[:subject].present? ? params[:subject] : 'danse')
-    if current_user.nil?
-      redirect_to checkout_step_1_collection_structures_path(subject: params[:subject], city: (params[:city] || 'paris')), error: 'Vous devez être connecté pour continuer.'
-    else
-      current_user.sign_up_from_facebook = true if cookies[:from_facebook]
-      current_user.sign_up_at            = Time.now
-      current_user.test_pass_subject     = @subject.name
-      current_user.test_pass_city        = params[:city] || 'paris'
-      current_user.wants_a_gift_pass     = true if params[:gift].present?
-      current_user.save
-    end
-  end
-
-  def checkout_step_4_collection
-    if current_user.nil?
-      redirect_to checkout_step_1_collection_structures_path(subject: params[:subject], city: (params[:city] || 'paris')), error: 'Vous devez être connecté pour continuer.'
-    else
-      current_user.paid_for_pass = true
-      current_user.save
-    end
-  end
-
-  def checkout_step_1
-    if current_user
-      redirect_to checkout_step_2_structure_path(@structure, planning: params[:planning]), error: 'Vous devez être connecté pour continuer.'
-    end
-  end
-
-  def checkout_step_2
-    if params[:planning].present?
-      @planning = @structure.plannings.find(params[:planning])
-      @course   = @planning.course
-    elsif params[:course].present?
-      @course = @structure.courses.find(params[:course])
-    end
-    if current_user.nil?
-      redirect_to checkout_step_1_structure_path(@structure), error: 'Vous devez être connecté pour continuer.'
-    end
-  end
-
-  def checkout_step_3
-    if current_user.nil? or params[:participation_request_id].blank?
-      redirect_to checkout_step_1_structure_path(@structure), error: 'Vous devez être connecté pour continuer.'
-    else
-      @participation_request = @structure.participation_requests.find(params[:participation_request_id])
-    end
   end
 
   # GET /etablissements/:id
@@ -130,9 +65,7 @@ class StructuresController < ApplicationController
   private
 
   def get_layout
-    if %(checkout_step_1 checkout_step_2 checkout_step_3 checkout_step_1_collection checkout_step_2_collection checkout_step_3_collection checkout_step_4_collection).include?(action_name)
-      'empty'
-    elsif action_name == 'reviews'
+    if action_name == 'reviews'
       'reservations/website'
     elsif action_name == 'index'
       'search'

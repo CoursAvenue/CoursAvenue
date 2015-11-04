@@ -37,17 +37,11 @@
               - else
                 .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{dominant_root_subject_slug}" }
                   %i.fa.fa-user-big.alpha
-              %div
-                %i.fa.fa-star.yellow
-                %i.fa.fa-star.yellow
-                %i.fa.fa-star.yellow
-                %i.fa.fa-star.yellow
-                %i.fa.fa-star.yellow
-                %div
-                  %strong= "#{@structure.comments_count} avis"
             .grid__item.v-top.four-fifths.palm-one-whole>
               .float--right.epsilon
-                = image_tag 'https://coursavenue-public.s3.amazonaws.com/test/check.png', height: 30, width: 30, class: 'block', data: { toggle: 'popover', content: 'Profil vérifié' }
+                %strong
+                  %i.fa.fa-coursavenue-marker-logo
+                  = "#{@structure.comments_count} avis"
               %h1.flush= @indexable_card.name
               %h2.delta.flush
                 Par
@@ -120,7 +114,7 @@
         .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', stop_at_el: '#card-suggestions', update_on_scroll: 'true' } }
           = render partial: 'structures/registration'
 
-      -# = react_component('Favorite', { logged_in: current_user.present?, type: 'indexable_card', favorited: @favorited })
+      = react_component('Favorite', { logged_in: current_user.present?, type: 'indexable_card', favorited: @favorited })
 
       - if (@course.teaches_at_home? and home_place) or @place.present?
         .bg-white.push--bottom

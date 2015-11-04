@@ -1,73 +1,67 @@
 %footer.main-footer.relative.print--hidden#coursavenue-footer
-  -# - cache 'footer_v5' do
-  -#   .main-container.soft.palm-text--center
-  -#     .grid
-  -#       .grid__item.one-fifth.palm-one-whole>
-  -#         %p.push-half--bottom.epsilon
-  -#           %strong À propos
-  -#         %p.line-height-1-7
-  -#           CoursAvenue est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent.
+  - cache 'footer_v5' do
+    .main-container.soft.palm-text--center
+      .grid
+        .grid__item.one-fifth.palm-one-whole>
+          %p.push-half--bottom.epsilon
+            %strong À propos
+          %p.line-height-1-7
+            CoursAvenue est le premier moteur de recherche de cours de loisirs qui permet de relier chacun de nous aux meilleurs professeurs, associations et écoles qui nous entourent.
 
-  -#       .grid__item.one-fifth.visuallyhidden--palm>
-  -#         - if on_pro_subdomain?
-  -#           %p.push-half--bottom.epsilon
-  -#             %strong Fonctionnalités
-  -#           %ul.no-bullet-list.line-height-2
-  -#             %li= link_to 'Visibilité'    , pro_pages_features_url(anchor: 'visibilite', subdomain: 'pro'), title: "Comment ça marche ?", rel: :nofollow
-  -#             %li= link_to 'Inscriptions'  , pro_pages_features_url(anchor: 'inscriptions', subdomain: 'pro'), title: "Comment ça marche ?", rel: :nofollow
-  -#             %li= link_to 'Fidélisation'  , pro_pages_features_url(anchor: 'fidelisation', subdomain: 'pro'), title: "Comment ça marche ?", rel: :nofollow
-  -#         - else
-  -#           %p.push-half--bottom.epsilon
-  -#             %strong Élèves
-  -#           %ul.no-bullet-list.line-height-2
-  -#             %li= link_to 'Comment ça marche ?'  , pages_what_is_it_url(subdomain: 'www'), title: "Comment ça marche ?", rel: :nofollow
-  -#             %li= link_to 'Guide des disciplines', vertical_pages_url(subdomain: 'www'), title: 'Foire aux questions Utilisateurs', rel: :nofollow
-  -#             %li= link_to 'Blog'                 , blog_articles_url(subdomain: 'www'), title: 'Blog CoursAvenue'
-  -#             %li= link_to 'Aide'                 , pages_faq_users_url(subdomain: 'www'), title: 'Aide', rel: :nofollow
+        .grid__item.one-fifth.visuallyhidden--palm>
+          - if on_pro_subdomain?
+            %p.push-half--bottom.epsilon
+              %strong Fonctionnalités
+            %ul.no-bullet-list.line-height-2
+              %li= link_to 'Visibilité'    , pro_pages_features_url(anchor: 'visibilite', subdomain: 'pro'), title: "Comment ça marche ?", rel: :nofollow
+              %li= link_to 'Inscriptions'  , pro_pages_features_url(anchor: 'inscriptions', subdomain: 'pro'), title: "Comment ça marche ?", rel: :nofollow
+              %li= link_to 'Fidélisation'  , pro_pages_features_url(anchor: 'fidelisation', subdomain: 'pro'), title: "Comment ça marche ?", rel: :nofollow
+          - else
+            %p.push-half--bottom.epsilon
+              %strong Élèves
+            %ul.no-bullet-list.line-height-2
+              %li= link_to 'Comment ça marche ?'  , pages_what_is_it_url(subdomain: 'www'), title: "Comment ça marche ?", rel: :nofollow
+              %li= link_to 'Guide des disciplines', vertical_pages_url(subdomain: 'www'), title: 'Foire aux questions Utilisateurs', rel: :nofollow
+              %li= link_to 'Blog'                 , blog_articles_url(subdomain: 'www'), title: 'Blog CoursAvenue'
+              %li= link_to 'Aide'                 , pages_faq_users_url(subdomain: 'www'), title: 'Aide', rel: :nofollow
 
-  -#       - if !current_user
-  -#         .grid__item.one-fifth.visuallyhidden--palm>
-  -#           %p.push-half--bottom.epsilon
-  -#             %strong Professionnels
-  -#           %ul.no-bullet-list.line-height-2
-  -#             %li= link_to 'Accueil'          , root_url(subdomain: 'pro'), title: 'Accueil CoursAvenue pour les professionnels', rel: :nofollow
-  -#             %li= link_to 'Publiez vos cours', inscription_pro_structures_url(subdomain: 'pro'), title: 'Publiez vos cours', rel: :nofollow
-  -#             %li= link_to 'Blog'        , pro_blog_articles_url(subdomain: 'pro'), title: 'Blog des professionnels', rel: :nofollow
-  -#             -# %li= link_to 'Offres & Tarifs'  , pro_pages_price_url(subdomain: 'pro'), title: 'Découvrez nos offres & tarifs', rel: :nofollow
-  -#             -# %li= link_to "Livre d'Or"       , pro_pages_widget_url(subdomain: 'pro'), title: "Qu'est ce que le Livre d'Or CoursAvenue ?", rel: :nofollow
-  -#             -# %li= link_to 'Tout sur les avis', pro_pages_why_be_recommended_url(subdomain: 'pro'), title: 'Tout sur les avis', rel: :nofollow
-  -#             %li= link_to 'Livres Blancs'    , pro_pages_white_books_url(subdomain: 'pro'), title: "Accédez à nos études destinées à aider les professionnels des loisirs", rel: :nofollow
-  -#             %li= link_to 'Aide'             , pro_pages_questions_url(subdomain: 'pro'), title: 'Questions les plus fréquentes', rel: :nofollow
+        - if !current_user
+          .grid__item.one-fifth.visuallyhidden--palm>
+            %p.push-half--bottom.epsilon
+              %strong Professionnels
+            %ul.no-bullet-list.line-height-2
+              %li= link_to 'Accueil'          , root_url(subdomain: 'pro'), title: 'Accueil CoursAvenue pour les professionnels', rel: :nofollow
+              %li= link_to 'Publiez vos cours', inscription_pro_structures_url(subdomain: 'pro'), title: 'Publiez vos cours', rel: :nofollow
+              %li= link_to 'Blog'        , pro_blog_articles_url(subdomain: 'pro'), title: 'Blog des professionnels', rel: :nofollow
+              -# %li= link_to 'Offres & Tarifs'  , pro_pages_price_url(subdomain: 'pro'), title: 'Découvrez nos offres & tarifs', rel: :nofollow
+              -# %li= link_to "Livre d'Or"       , pro_pages_widget_url(subdomain: 'pro'), title: "Qu'est ce que le Livre d'Or CoursAvenue ?", rel: :nofollow
+              -# %li= link_to 'Tout sur les avis', pro_pages_why_be_recommended_url(subdomain: 'pro'), title: 'Tout sur les avis', rel: :nofollow
+              %li= link_to 'Livres Blancs'    , pro_pages_white_books_url(subdomain: 'pro'), title: "Accédez à nos études destinées à aider les professionnels des loisirs", rel: :nofollow
+              %li= link_to 'Aide'             , pro_pages_questions_url(subdomain: 'pro'), title: 'Questions les plus fréquentes', rel: :nofollow
 
-  -#       .grid__item.one-fifth.visuallyhidden--palm>
-  -#         %p.push-half--bottom.epsilon
-  -#           %strong Société
-  -#         %ul.no-bullet-list.line-height-2
-  -#           %li= link_to 'Nous recrutons !'                       , jobs_url(subdomain: 'www'), title: 'Jobs'
-  -#           %li= link_to 'Qui sommes-nous ?'                      , pages_who_are_we_url(subdomain: 'www'), rel: :nofollow
-  -#           %li= link_to 'Presse'                                 , pages_press_url(subdomain: 'www'), title: 'Presse', rel: :nofollow
-  -#           %li= link_to 'Contact'                                , pages_contact_url(subdomain: 'www'), title: 'Contact', rel: :nofollow
-  -#           %li= link_to 'Conditions générales et confidentialité', pages_terms_and_conditions_url(subdomain: 'www'), title: 'Conditions générales et confidentialité', rel: :nofollow
+        .grid__item.one-fifth.visuallyhidden--palm>
+          %p.push-half--bottom.epsilon
+            %strong Société
+          %ul.no-bullet-list.line-height-2
+            %li= link_to 'Nous recrutons !'                       , jobs_url(subdomain: 'www'), title: 'Jobs'
+            %li= link_to 'Qui sommes-nous ?'                      , pages_who_are_we_url(subdomain: 'www'), rel: :nofollow
+            %li= link_to 'Presse'                                 , pages_press_url(subdomain: 'www'), title: 'Presse', rel: :nofollow
+            %li= link_to 'Contact'                                , pages_contact_url(subdomain: 'www'), title: 'Contact', rel: :nofollow
+            %li= link_to 'Conditions générales et confidentialité', pages_terms_and_conditions_url(subdomain: 'www'), title: 'Conditions générales et confidentialité', rel: :nofollow
 
-  -#       .grid__item.one-fifth.visuallyhidden--palm>
-  -#         %p.push-half--bottom.epsilon
-  -#           %strong Disciplines
-  -#         - if @test_landing
-  -#           %ul.no-bullet-list.line-height-2
-  -#             %li= link_to 'Danse', root_vertical_page_with_city_path('danse', 'paris', subdomain: 'www')
-  -#             %li= link_to 'Dessin', root_vertical_page_with_city_path('dessin-de-peinture-et-d-arts-plastiques', 'paris', subdomain: 'www')
-  -#             %li= link_to 'Yoga & bien être', root_vertical_page_with_city_path('theatre-et-de-scene', 'paris', subdomain: 'www')
-  -#         - else
-  -#           %ul.no-bullet-list.line-height-2
-  -#             %li= link_to 'Danse', root_search_page_url('danse', 'paris', subdomain: 'www'), title: 'Cours de Danse à Paris'
-  -#             %li= link_to 'Théâtre & Scène', root_search_page_url('theatre-scene', 'paris', subdomain: 'www'), title: 'Cours de Théâtre & Scène à Paris'
-  -#             %li= link_to 'Yoga, Bien-être & Santé', root_search_page_url('yoga-bien-etre-sante', 'paris', subdomain: 'www'), title: 'Cours de Yoga, Bien-être & Santé à Paris'
-  -#             %li= link_to 'Musique & Chant', root_search_page_url('musique-chant', 'paris', subdomain: 'www'), title: 'Cours de Musique & Chant à Paris'
-  -#             %li= link_to 'Dessin, Peinture & Arts', root_search_page_url('dessin-peinture-arts-plastiques', 'paris', subdomain: 'www'), title: 'Cours de Dessin, Peinture & Arts à Paris'
-  -#             %li= link_to 'Sports', root_search_page_url('sports-arts-martiaux', 'paris', subdomain: 'www'), title: 'Cours de Sports & Arts martiaux à Paris'
-  -#             %li= link_to 'Cuisine & Vins', root_search_page_url('cuisine-vins', 'paris', subdomain: 'www'), title: 'Cours de Cuisine & Vins à Paris'
-  -#             %li= link_to 'Photo & Vidéo', root_search_page_url('photo-video', 'paris', subdomain: 'www'), title: 'Cours de Photo & Vidéo à Paris'
-  -#             %li= link_to 'Déco, Mode & Bricolage', root_search_page_url('deco-mode-bricolage', 'paris', subdomain: 'www'), title: 'Cours de Déco, Mode & Bricolage à Paris'
+        .grid__item.one-fifth.visuallyhidden--palm>
+          %p.push-half--bottom.epsilon
+            %strong Disciplines
+          %ul.no-bullet-list.line-height-2
+            %li= link_to 'Danse', root_search_page_url('danse', 'paris', subdomain: 'www'), title: 'Cours de Danse à Paris'
+            %li= link_to 'Théâtre & Scène', root_search_page_url('theatre-scene', 'paris', subdomain: 'www'), title: 'Cours de Théâtre & Scène à Paris'
+            %li= link_to 'Yoga, Bien-être & Santé', root_search_page_url('yoga-bien-etre-sante', 'paris', subdomain: 'www'), title: 'Cours de Yoga, Bien-être & Santé à Paris'
+            %li= link_to 'Musique & Chant', root_search_page_url('musique-chant', 'paris', subdomain: 'www'), title: 'Cours de Musique & Chant à Paris'
+            %li= link_to 'Dessin, Peinture & Arts', root_search_page_url('dessin-peinture-arts-plastiques', 'paris', subdomain: 'www'), title: 'Cours de Dessin, Peinture & Arts à Paris'
+            %li= link_to 'Sports', root_search_page_url('sports-arts-martiaux', 'paris', subdomain: 'www'), title: 'Cours de Sports & Arts martiaux à Paris'
+            %li= link_to 'Cuisine & Vins', root_search_page_url('cuisine-vins', 'paris', subdomain: 'www'), title: 'Cours de Cuisine & Vins à Paris'
+            %li= link_to 'Photo & Vidéo', root_search_page_url('photo-video', 'paris', subdomain: 'www'), title: 'Cours de Photo & Vidéo à Paris'
+            %li= link_to 'Déco, Mode & Bricolage', root_search_page_url('deco-mode-bricolage', 'paris', subdomain: 'www'), title: 'Cours de Déco, Mode & Bricolage à Paris'
 
   .text--center
     %p.push--bottom.epsilon

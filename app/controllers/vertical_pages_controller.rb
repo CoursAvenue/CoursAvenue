@@ -24,22 +24,13 @@ class VerticalPagesController < ApplicationController
     @vertical_page_decorator = @vertical_page.decorate
 
     @descendants = SUBJECT_1_DESCENDANTS[@subject.slug].map{|slug| VerticalPage.find(slug)} if SUBJECT_1_DESCENDANTS[@subject.slug]
-    @test_landing = true
-    if current_pro_admin
-      render action: :show
-    else
-      render 'test_landing'
-    end
+    render action: :show
   end
 
   def show
     @vertical_page_decorator = @vertical_page.decorate
     @subject                 = @vertical_page.subject
     @ancestors               = @subject.ancestors
-    @test_landing = true
-    if !current_pro_admin
-      render 'test_landing'
-    end
   end
 
   def show_with_neighborhood

@@ -29,18 +29,11 @@
               - else
                 .inline-block.rounded--circle-100.white.text--center{ class: "bg-#{@structure.dominant_root_subject.slug}" }
                   %i.fa.fa-user-big.alpha
-              %div
-                %i.fa.fa-star.yellow
-                %i.fa.fa-star.yellow
-                %i.fa.fa-star.yellow
-                %i.fa.fa-star.yellow
-                %i.fa.fa-star.yellow
-                %div
-                  %strong= "#{@structure.comments_count} avis"
-
             .grid__item.v-top.four-fifths.palm-one-whole>
               .float--right.epsilon
-                = image_tag 'https://coursavenue-public.s3.amazonaws.com/test/check.png', height: 30, width: 30, class: 'block', data: { toggle: 'popover', content: 'Profil vérifié' }
+                %strong
+                  %i.fa.fa-coursavenue-marker-logo
+                  = "#{@structure.comments_count} avis"
               %h1.flush= @structure.name
               .delta.f-weight-500.push-half--bottom.gray= @structure_decorator.structure_type
 
@@ -79,7 +72,7 @@
         .on-top-of-the-world{ data: { behavior: 'sticky', old_width: 'true', update_on_scroll: 'true' } }
           = render 'registration'
 
-      -# = react_component('Favorite', { logged_in: current_user.present?, type: 'structure', favorited: @favorited })
+      = react_component('Favorite', { logged_in: current_user.present?, type: 'structure', favorited: @favorited })
 
       .push--bottom= render 'places'
 
