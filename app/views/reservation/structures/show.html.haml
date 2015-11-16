@@ -17,7 +17,7 @@
       = render partial: 'structures/plannings', locals: { dont_register_user: true, always_show_registration: true }
 
     .grid__item.four-twelfths.palm-one-whole>
-      .push--bottom{ data: { behavior: 'sticky', old_width: 'true', offset_top: '39' } }
+      .push--bottom
         = render 'structures/places'
       - if @structure.comments_count > 0
         .bg-pink.soft--sides.soft-half--ends.bordered--top.bordered--sides.white.border-color-pink-darker
