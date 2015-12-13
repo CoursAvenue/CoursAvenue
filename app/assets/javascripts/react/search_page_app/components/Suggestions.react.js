@@ -1,10 +1,14 @@
-var FilterActionCreators = require('../actions/FilterActionCreators');
+var FilterActionCreators   = require('../actions/FilterActionCreators'),
+    LocationActionCreators = require('../actions/LocationActionCreators'),
+    LocationStore          = require('../stores/LocationStore');
 
 Suggestions = React.createClass({
 
     showMoreResults: function showMoreResults () {
-        FilterActionCreators.clearAllTheData();
-        FilterActionCreators.search();
+        var zoom = LocationStore.get('zoom') || LocationStore.getInitialZoom();
+        if (zoom > 10) {
+            LocationActionCreators.updateZoom(zoom - 2);
+        }
     },
 
     render: function render () {

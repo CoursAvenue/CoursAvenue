@@ -87,6 +87,10 @@ var MapComponent = React.createClass({
                     this.setLocationOnMap();
                 }
             }
+            if (this.state.location_store.changed.hasOwnProperty('zoom')) {
+                this.map.setView([this.state.location_store.get('address').latitude,
+                    this.state.location_store.get('address').longitude], this.state.location_store.get('zoom'));
+            }
         }.bind(this));
     },
 
