@@ -1,40 +1,69 @@
-- course_decorator                = participation_request.course.decorate
-- participation_request_decorator = participation_request.decorate
+- updated_date = (updated_date.present? ? updated_date : false)
 
 %table{ align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
   %tr{ valign: 'top' }
     %td.v-top.content-block{ colspan: 3, style: 'padding: 8px 0;' }
       .title.hard--ends.soft Récapitulatif de la demande d'inscription
+
   %tr.table-row-alternate-color{ valign: 'top' }
-    %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;' }
-      .p.hard--bottom.soft--left
-        %strong Élève
-    %td.v-top.content-block{ width: '75%', style: 'padding: 8px 4px;' }
-      .p.hard
-        = participation_request.user.name
-        = "(#{link_to 'voir les coordonnées', pro_structure_participation_request_url(@structure, @participation_request, subdomain: 'pro')})".html_safe
-  %tr{ valign: 'top' }
     %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;' }
       .p.hard--bottom.soft--left
         %strong Statut
     %td.v-top.content-block{ width: '75%', style: 'padding: 8px 4px;' }
       .p.hard
         = I18n.t("participation_request.state.#{participation_request.state}")
+
+  %tr{ valign: 'top' }
+    %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;' }
+      .p.hard--bottom.soft--left
+        %strong Profil
+    %td.v-top.content-block{ width: '75%', style: 'padding: 8px 4px;' }
+      .p.hard
+        = link_to participation_request.structure.name, structure_url(participation_request.structure, subdomain: 'www')
+
   %tr.table-row-alternate-color{ valign: 'top' }
     %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;'}
       .p.hard--bottom.soft--left
         %strong= "Participant".pluralize(@participation_request.nb_participants)
     %td.v-top.content-block{ width: '75%', style: 'padding: 8px 4px;'}
       .p.hard
-        = participation_request_decorator.details
+        = participation_request.details
+
   %tr{ valign: 'top' }
     %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;' }
       .p.hard--bottom.soft--left
-        %strong Cours et date
+        %strong Cours
     %td.v-top.content-block{ width: '75%', style: 'padding: 8px 4px;' }
       .p.hard
         = participation_request.course.name
-        = "le #{participation_request_decorator.day_and_hour(false)}"
+
+  - if updated_date
+    %tr{ valign: 'top' }
+      %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;' }
+        .p.hard--bottom.soft--left
+          %strong Ancien créneau
+      %td.v-top.content-block{ width: '75%', style: 'padding: 8px 4px;' }
+        .p.hard
+          - previous_time = participation_request.previously_planned_at.to_time
+          - previous_date = participation_request.previously_planned_at.to_date
+          = "#{ l(previous_date, format: :semi_long) } à #{ l(previous_time, format: :short).gsub('00', '') }"
+
+    %tr{ valign: 'top' }
+      %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;' }
+        .p.hard--bottom.soft--left
+          %strong Nouveau créneau
+      %td.v-top.content-block{ width: '75%', style: 'padding: 8px 4px;' }
+        .p.hard
+          %strong= participation_request.day_and_hour(false)
+  - else
+    %tr{ valign: 'top' }
+      %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;' }
+        .p.hard--bottom.soft--left
+          %strong Jour et heure
+      %td.v-top.content-block{ width: '75%', style: 'padding: 8px 4px;' }
+        .p.hard
+          %strong= participation_request.day_and_hour(false)
+
   - if participation_request.at_student_home?
     %tr.table-row-alternate-color{ valign: 'top' }
       %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;' }
@@ -42,6 +71,7 @@
           %strong Lieu
       %td.v-top.content-block{ width: '75%', style: 'padding: 8px 4px;' }
         .p.hard Chez l'élève
+
   - elsif participation_request.place
     %tr.table-row-alternate-color{ valign: 'top' }
       %td.v-top.content-block{ width: '25%', style: 'padding: 8px 0;' }

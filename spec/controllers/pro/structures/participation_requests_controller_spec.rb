@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Pro::Structures::ParticipationRequestsController do
+describe Pro::Structures::ParticipationRequestsController, pr: true do
   include Devise::TestHelpers
 
   let(:structure) { FactoryGirl.create(:structure_with_admin) }

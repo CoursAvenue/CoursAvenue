@@ -4,31 +4,28 @@
   Répondez à #{@structure.name} en répondant directement à cet e-mail
   %hr
 
-.p
-  Bonjour #{@user.first_name},
+%table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+  %tr
+    %td.content-block{ colspan: '2' }
+      .soft.text--center
+        .epsilon.blue-green Refus de votre demande d'inscription
+      .bg-blue-green.soft
+        .delta.white
+          Bonjour #{ @user.name },
+        .epsilon.line-height-1-5.white.hard--bottom
+          #{ @participation_request.structure.name } vient de refuser votre demande d'inscription pour la séance de
+          #{ @participation_request.course.name } le #{ @participation_request_decorator.day_and_hour(false) }.
 
-%em
-  Malheureusement, votre inscription au cours "#{ @course.name } avec #{ @structure.name } est annulée.
-  - if @participation_request.cancelation_reason and !@participation_request.cancelation_reason.hidden?
-    Motif : "#{t(@participation_request.cancelation_reason.name).downcase}".
+  - if @message
+    %tr
+      %td.content-block.soft--ends{ colspan: '2' }
+        = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
 
-- if @message
-  %p
-    Message :
-    = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
-    .p.action.soft--top
-      = link_to "Répondre", user_participation_request_url(@user, @participation_request, subdomain: 'www'), class: 'btn'
+  %tr
+    %td.content-block{ colspan: '2' }
+      .p.action.soft--bottom
+        = link_to "Choisir un autre cours de #{ @structure.name }", structure_url(@structure, subdomain: 'www'), class: 'btn btn--green'
 
-.p.soft--top
-  Pour éviter qu'une telle situation se reproduise, notre équipe prendra contact avec ce partenaire pour comprendre les raisons de son annulation.
-  %br
-  Merci pour votre compréhension, à très bientôt,
-
-.p
-  = image_tag 'https://coursavenue-public.s3.amazonaws.com/public_assets/emails_logo/signature.png', height: 25, width: 177, class: 'soft-half--top', alt: "L'équipe CoursAvenue"
-
-
-- content_for :under_content_gray do
-  = render 'participation_request_mailer/shared/user_faq'
-
-
+  %tr
+    %td.content-block{ colspan: '2' }
+      .soft--sides.soft--top= render 'shared/mailers/footer'

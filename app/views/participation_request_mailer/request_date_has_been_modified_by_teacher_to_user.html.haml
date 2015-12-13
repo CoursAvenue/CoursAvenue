@@ -1,0 +1,56 @@
+- content_for :email_title do
+  REPONDEZ AU DESSUS DE CETTE LIGNE
+  %br
+  #{ @structure.name } vous propose une nouvelle date
+  %hr
+
+- content_for :under_content_no_box do
+  %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+    %tr
+      %td.content-block{ colspan: '2' }
+        .soft.text--center
+          .epsilon.blue-green #{ @structure.name } vous propose une nouvelle date
+        .bg-blue-green.soft
+          .delta.white
+            Bonjour #{ @user.name },
+          .epsilon.line-height-1-5.white.hard--bottom
+            #{ @structure.name } vous propose une nouvelle date pour la séance de
+            %strong= @participation_request.course.name
+            le
+            %strong= "#{ @participation_request_decorator.day_and_hour(false) }"
+
+    %tr
+      %td.v-middle.content-block.text--right{ width: '75' }
+        .soft-half--right
+          = image_tag "icons/calendar.png", alt: 'Clock', width: "36", height: "36"
+      %td.v-middle.content-block{ width: '525' }
+        .soft--sides.soft--top
+          .p
+            Si cette date vous convient, vous n'avez rien à faire : votre inscription est confirmée.
+
+    %tr
+      %td.v-middle.content-block.text--right{ width: '75' }
+        .soft-half--right
+          = image_tag "icons/sms.png", alt: 'Clock', width: "36", height: "36"
+      %td.v-middle.content-block{ width: '525' }
+        .soft--sides.soft--top
+          .p
+            Un e-mail et un SMS de rappel vous seront envoyés la veille de votre séance.
+
+    %tr
+      %td.content-block{ colspan: '2' }
+        - if @message
+          = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user }
+        .soft-half--sides.soft--top
+          .bordered= render partial: 'email_user_recap', locals: { participation_request: @participation_request.decorate }
+
+    %tr
+      %td.content-block{ colspan: '2' }
+        .p.action.soft--sides.soft--top
+          Si vous n’êtes pas disponible à ce créneau, proposez une nouvelle date :
+        .p.action.soft--sides.soft--top
+          = link_to "Proposer une nouvelle date", user_participation_request_url(@user, @participation_request, subdomain: 'pro'), class: 'btn btn--green'
+
+    %tr
+      %td.content-block{ colspan: '2' }
+        .soft--sides.soft--top= render 'shared/mailers/footer'

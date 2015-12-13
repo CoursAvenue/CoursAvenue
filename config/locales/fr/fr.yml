@@ -104,7 +104,7 @@ fr:
       default_only_time: "%H:%M:%S" # => 12:30:28
       default: "%d %B %Y %H:%M:%S" # => 11 août 2015 12:30:28
       short: "%Hh%M" # => 12h30
-      long: "%A %d %B %Y %H:%M"
+      long: "%A %d %B %H:%M"
       long_human: "%d/%m/%Y à %H:%M"
       very_long_human: "%d/%m/%Y à %H:%M:%S"
       date: "%A %d %B"

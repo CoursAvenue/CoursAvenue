@@ -4,8 +4,28 @@
   Répondez à #{@structure.name} en répondant directement à cet e-mail
   %hr
 
-- if @message.present?
-  = simple_format(@message.body).gsub('<p>', '<div class="p">').gsub('</p>', '</div>').html_safe
+%table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+  %tr
+    %td.content-block{ colspan: '2' }
+      .soft.text--center
+        .epsilon.blue-green Refus de votre demande d'inscription
+      .bg-blue-green.soft
+        .delta.white
+          Bonjour #{ @user.name },
+        .epsilon.line-height-1-5.white.hard--bottom
+          #{ @participation_request.structure.name } vient de refuser votre demande d'inscription pour la séance de
+          #{ @participation_request.course.name } le #{ @participation_request_decorator.day_and_hour(false) }.
 
-- content_for :under_content do
-  = render partial: 'participation_request_mailer/shared/user_participation_recap', locals: { participation_request: @participation_request }
+  - if @message
+    %tr
+      %td.content-block.soft--ends{ colspan: '2' }
+        = render partial: 'mailboxer_message_mailer/message_to_user', locals: { message: @message, structure: @structure }
+
+  %tr
+    %td.content-block{ colspan: '2' }
+      .p.action.soft--bottom
+        = link_to "Choisir un autre cours de #{ @structure.name }", reservation_structure_url(@structure, subdomain: 'www'), class: 'btn btn--green'
+
+  %tr
+    %td.content-block{ colspan: '2' }
+      .soft--sides.soft--top= render 'shared/mailers/footer'

@@ -1,24 +1,20 @@
 - content_for :email_title do
   REPONDEZ AU DESSUS DE CETTE LIGNE
   %br
-  Acceptez la demande d'inscription de #{@user.name} en répondant directement à cet e-mail
+  Acceptez la nouvelle proposition de #{@user.name} en répondant directement à cet e-mail
   %hr
-
-- content_for :email_action do
-  - if @reply_token.persisted?
-    = confirm_action(@reply_token)
 
 - content_for :under_content_no_box do
   %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
     %tr
       %td.content-block{ colspan: '2' }
         .soft.text--center
-          .epsilon.blue-green Nouvelle demande d'inscription
+          .epsilon.blue-green #{ @user.name } vous propose une nouvelle date
         .bg-blue-green.soft
           .delta.white
-            Bonne nouvelle !
+            Bonjour #{ @structure.name },
           .epsilon.line-height-1-5.white.hard--bottom
-            #{@user.name.capitalize} souhaiterait s'inscrire au cours
+            #{@user.name.capitalize} vous propose une nouvelle date pour la séance de
             %strong= @participation_request.course.name
             le
             %strong= "#{@participation_request_decorator.day_and_hour(false)}"
@@ -38,7 +34,7 @@
         - if @message
           = render partial: 'mailboxer_message_mailer/message_to_admin', locals: { message: @message, user: @user }
         .soft-half--sides.soft--top
-          .bordered= render partial: 'participation_request_mailer/shared/participation_recap', locals: { participation_request: @participation_request }
+          .bordered= render partial: 'email_recap', locals: { participation_request: @participation_request.decorate }
 
     %tr
       %td.content-block{ colspan: '2' }

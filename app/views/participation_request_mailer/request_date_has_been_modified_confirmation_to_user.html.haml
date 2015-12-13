@@ -1,0 +1,51 @@
+- content_for :under_content_no_box do
+  %table.promo-table{ border: '0', cellpadding: '0', cellspacing: '0', width: '100%' }
+    %tr
+      %td.content-block{ colspan: '2' }
+        .soft.text--center
+          .epsilon.blue-green Proposition d'une nouvelle date
+        .bg-blue-green.soft
+          .delta.white
+            Bonjour #{ @user.name },
+          .epsilon.line-height-1-5.white.hard--bottom
+            Votre nouvelle demande d'inscription à la séance de
+            %strong= @participation_request.course.name
+            le
+            %strong= "#{@participation_request_decorator.day_and_hour(false)}"
+            vient d'être transmise à #{ @structure.name }
+
+    %tr
+      %td.v-middle.content-block.text--right{ width: '75' }
+        .soft-half--right
+          = image_tag "icons/clock.png", alt: 'Clock', width: "36", height: "36"
+      %td.v-middle.content-block{ width: '525' }
+        .soft--sides.soft--top
+          .p
+            #{ @structure.name } a jusqu'au #{ l(@reply_limit_date, format: :semi_short) }
+            pour accepter votre demande.
+
+    - if (@user.phone_number and @user.uses_mobile?(@user.phone_number) and @user.sms_opt_in?)
+      %tr
+        %td.v-middle.content-block.text--right{ width: '75' }
+          .soft-half--right
+            = image_tag "icons/sms.png", alt: 'SMS', width: "36", height: "36"
+        %td.v-middle.content-block{ width: '525' }
+          .soft--sides.soft--top
+            .p
+              Nous vous informerons par e-mail et par SMS (au #{ @user.phone_number }) dès que
+              #{ @structure.name } accepte votre demande.
+
+    %tr
+      %td.content-block{ colspan: '2' }
+        .soft-half--sides.soft--top
+          .bordered= render partial: 'email_user_recap', locals: { participation_request: @participation_request.decorate, updated_date: true }
+
+    %tr
+      %td.content-block{ colspan: '2' }
+        .p.action.soft--sides.soft--top
+          = link_to 'Voir mon inscription', user_participation_request_url(@user, @participation_request, subdomain: 'www'), class: 'btn btn--green'
+
+    %tr
+      %td.content-block{ colspan: '2' }
+        .soft--sides.soft--top= render 'shared/mailers/footer'
+

@@ -139,7 +139,6 @@ describe Structures::ParticipationRequestsController, type: :controller do
                         participation_request: {
                           message: { body: 'Lorem' }
                         }
-        expect(assigns(:participation_request).accepted?).to be_truthy
         expect(response).to be_redirect
       end
     end

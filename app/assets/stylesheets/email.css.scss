@@ -112,6 +112,10 @@ div {
                 font-size: 12px;
             }
         }
+        .p.white {
+            color: white!important;
+        }
+
         a {
             text-decoration: none;
         }
@@ -171,4 +175,10 @@ div {
     height  : auto !important;
     width   : auto !important;
     margin  : inherit !important;
+}
+// Here to overrides the responsive .soft--sides that is in helper and that is
+// applied by roadie
+.soft--sides {
+    padding-left: $base-spacing-unit!important;
+    padding-right: $base-spacing-unit!important;
 }
