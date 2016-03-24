@@ -35,4 +35,8 @@ class Pro::CommentsController < InheritedResources::Base
     redirect_to pro_comments_path, notice: "L'avis a été rétabli"
   end
 
+  def all
+    @comments = @structure.comments
+  end
+
 end

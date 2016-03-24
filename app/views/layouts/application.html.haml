@@ -37,6 +37,15 @@
     = csrf_meta_tags unless response.cache_control[:public]
 
   %body
+    .end-of-coursavenue
+      - if current_pro_admin and current_pro_admin.structure
+        - cache ["the-end-pro", Date.parse("2016/04/30")] do
+          CoursAvenue fermera le 30 avril (J-#{(Date.parse("2016/04/30") - Date.today).to_i})
+          = link_to 'Récupérer toutes mes recommandations', all_structure_comments_path(current_pro_admin.structure)
+      - elsif
+        - cache ["the-end-www", Date.parse("2016/04/30")] do
+          CoursAvenue fermera le 30 avril (J-#{(Date.parse("2016/04/30") - Date.today).to_i})
+
     - unless response.cache_control[:public]
       - flash.each do |key, msg|
         .flash{ class: key, data: { behavior: 'flash', type: key } }

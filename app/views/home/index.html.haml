@@ -3,23 +3,23 @@
     = ""
     = JSON.pretty_generate(@google_search_box_metadata).html_safe
 
-.search-page-filters__panel-height.relative.text--center.palm-height-auto.soft--ends
-  = react_component('SearchPageAppMap', { center: [48.8592, 2.3417] }, { class: ' absolute north west height-100-percent one-whole' })
-  - %w(danse theatre-scene musique-chant cuisine-vins yoga-bien-etre-sante sports-arts-martiaux photo-video deco-mode-bricolage dessin-peinture-arts-plastiques).each do |slug|
-    .transition-all-300.invisible.absolute.north.west.height-100-percent.one-whole.bg-cover.on-top{ style: "background-image: url('#{Subject.find(slug).image.url(:homepage)}')", data: { slug: slug, curtain: true } }
-  .home-page-curtain.absolute.north.west.height-100-percent.one-whole.on-top
-  .relative.flexbox.search-page-filters__panel-height.on-top
-    .flexbox__item.v-middle
-      %h1.flush.f-weight-bold.f-size-really-big.white.soft--sides
-        Toutes les activités
-        %span{ data: { behavior: 'h1-text' } } de loisirs
-        près de chez vous
-      %h2.delta.white
-        Recommandées par des milliers de passionnés
-      .soft--top
-        = link_to root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--green btn--large' do
-          %i.fa.fa-map-marker
-          Autour de moi
+-# .search-page-filters__panel-height.relative.text--center.palm-height-auto.soft--ends
+-#   = react_component('SearchPageAppMap', { center: [48.8592, 2.3417] }, { class: ' absolute north west height-100-percent one-whole' })
+-#   - %w(danse theatre-scene musique-chant cuisine-vins yoga-bien-etre-sante sports-arts-martiaux photo-video deco-mode-bricolage dessin-peinture-arts-plastiques).each do |slug|
+-#     .transition-all-300.invisible.absolute.north.west.height-100-percent.one-whole.bg-cover.on-top{ style: "background-image: url('#{Subject.find(slug).image.url(:homepage)}')", data: { slug: slug, curtain: true } }
+-#   .home-page-curtain.absolute.north.west.height-100-percent.one-whole.on-top
+-#   .relative.flexbox.search-page-filters__panel-height.on-top
+-#     .flexbox__item.v-middle
+-#       %h1.flush.f-weight-bold.f-size-really-big.white.soft--sides
+-#         Toutes les activités
+-#         %span{ data: { behavior: 'h1-text' } } de loisirs
+-#         près de chez vous
+-#       %h2.delta.white
+-#         Recommandées par des milliers de passionnés
+-#       .soft--top
+-#         = link_to root_search_page_without_subject_path('paris', locate_user: 'on'), class: 'btn btn--green btn--large' do
+-#           %i.fa.fa-map-marker
+-#           Autour de moi
 
 .grid--full
   %a.bg-danse.btn--danse.text--center.white.grid__item.one-ninth.palm-one-third.soft-double--ends{ href: root_search_page_path('danse', 'paris', locate_user: 'on'), data: { behavior: 'update-home-page', slug: 'danse', text: 'de danse' } }>
@@ -71,17 +71,17 @@
   %h5.text--center.delta.push--bottom.soft--bottom.f-weight-400 Des milliers d'avis d'élèves pour trouver le meilleur cours
   = render 'home/bottom_comments'
 
-- cache ['home#index@blog', Blog::Article::UserArticle.published.order('published_at DESC').first] do
-  .home-screen-promotion-wrapper
-    .main-container.main-container--medium.mega-soft--ends
-      %h2.text--center.push--top.push-half--bottom.f-size-big.f-weight-400 Découvrez notre blog
-      %h5.text--center.delta.push--bottom.soft--bottom.f-weight-400 Insolite. Créatif. Énergique. Zen. Tendance.
-      = render partial: 'blog/articles/article', locals: { article: Blog::Article::UserArticle.published.order('published_at DESC').first, horizontal: true, index: 0, homepage: true }
-      %hr.push--ends
-      .text--center
-        = link_to blog_articles_path, class: 'delta' do
-          Découvrir les autres articles
-          %i.fa-chevron-right
+-# - cache ['home#index@blog', Blog::Article::UserArticle.published.order('published_at DESC').first] do
+-#   .home-screen-promotion-wrapper
+-#     .main-container.main-container--medium.mega-soft--ends
+-#       %h2.text--center.push--top.push-half--bottom.f-size-big.f-weight-400 Découvrez notre blog
+-#       %h5.text--center.delta.push--bottom.soft--bottom.f-weight-400 Insolite. Créatif. Énergique. Zen. Tendance.
+-#       = render partial: 'blog/articles/article', locals: { article: Blog::Article::UserArticle.published.order('published_at DESC').first, horizontal: true, index: 0, homepage: true }
+-#       %hr.push--ends
+-#       .text--center
+-#         = link_to blog_articles_path, class: 'delta' do
+-#           Découvrir les autres articles
+-#           %i.fa-chevron-right
 
 - cache 'home#index@vertical_pages' do
   .home-screen-promotion-wrapper.border-none#vivez-passionnement
