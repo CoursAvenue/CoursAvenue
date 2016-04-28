@@ -36,15 +36,16 @@
     = javascript_include_tag 'modernizr'
     = csrf_meta_tags unless response.cache_control[:public]
 
-  %body
+  %body{ class: (current_pro_admin and @structure ? 'is-pro-and-connnected' : '')}
     .end-of-coursavenue
-      - if current_pro_admin and current_pro_admin.structure
-        - cache ["the-end-pro", Date.parse("2016/04/30")] do
-          CoursAvenue fermera le 30 avril (J-#{(Date.parse("2016/04/30") - Date.today).to_i})
-          = link_to 'Récupérer toutes mes recommandations', all_structure_comments_path(current_pro_admin.structure)
+      - if current_pro_admin and @structure
+        - cache ["the-end-pro", Date.parse("2016/05/30")] do
+          CoursAvenue fermera le 30 mai (J-#{(Date.parse("2016/05/30") - Date.today).to_i})
+          %br
+          = link_to 'Cliquez ici pour récupérer toutes mes recommandations', all_pro_structure_comments_path(@structure), class: 'f-color-white'
       - elsif
-        - cache ["the-end-www", Date.parse("2016/04/30")] do
-          CoursAvenue fermera le 30 avril (J-#{(Date.parse("2016/04/30") - Date.today).to_i})
+        - cache ["the-end-www", Date.parse("2016/05/30")] do
+          CoursAvenue fermera le 30 mai (J-#{(Date.parse("2016/05/30") - Date.today).to_i})
 
     - unless response.cache_control[:public]
       - flash.each do |key, msg|

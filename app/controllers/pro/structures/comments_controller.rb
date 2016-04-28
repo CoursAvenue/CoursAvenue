@@ -39,6 +39,10 @@ class Pro::Structures::CommentsController < Pro::ProController
     end
   end
 
+  def all
+    @comments = @structure.comments
+  end
+
   private
 
   def comment_params

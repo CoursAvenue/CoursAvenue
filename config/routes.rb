@@ -306,6 +306,7 @@ CoursAvenue::Application.routes.draw do
             patch :ask_for_deletion
           end
           collection do
+            get :all
             get :comments_on_website, path: 'livre-d-or'
           end
           resources :comment_replies, controller: 'structures/comments/comment_replies' do
