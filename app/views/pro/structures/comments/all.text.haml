@@ -1,0 +1,13 @@
+- @comments.each do |review|
+  - cache [review, 'pro/structure/comments/all'] do
+    = review.title
+    = " "
+    = review.content
+    = " "
+    = "De #{review.author_name} (#{review.email})"
+    - if review.course_name.present?
+      = "Pours le cours : #{review.course_name}"
+
+    = " "
+    = " "
+    = " "

@@ -1,0 +1,7 @@
+- @comments.each do |comment|
+  .title= comment.title
+  %div= "De #{comment.author_name} (#{comment.email})"
+  - if comment.course_name.present?
+    %div= "Pours le cours de : #{comment.course_name}"
+  %div= comment.content
+  %hr

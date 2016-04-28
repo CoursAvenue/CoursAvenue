@@ -8,7 +8,15 @@ class AdminMailer < ActionMailer::Base
 
   default from: 'CoursAvenue <hello@coursavenue.com>'
 
-  ######################################################################
+  def all_comments(structure)
+    @structure = structure
+    @comments  = structure.comments
+    mail to: @structure.admin.email,
+         subject: 'Vos avis CoursAvenue',
+         from: 'CoursAvenue <contact@coursavenue.com>'
+  end
+
+ ######################################################################
   # For premium users                                                  #
   ######################################################################
   def commercial_email_2
