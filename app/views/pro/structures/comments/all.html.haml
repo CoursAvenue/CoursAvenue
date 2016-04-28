@@ -1,5 +1,11 @@
-.text--center.push--bottom
-  = link_to 'Telecharger au format text', all_pro_structure_comments_path(@structure, format: 'txt'), class: 'btn btn--green', target: :_blank
+.text--center.push--bottom.print-hidden
+  = link_to all_pro_structure_comments_path(@structure, format: 'txt'), class: 'btn btn--green push-half--right', target: :_blank do
+    %i.fa.fa-download
+    Telecharger au format text
+  = link_to 'javascript:print();', class: 'btn btn--green', target: :_blank do
+    %i.fa.fa-print
+    Imprimer
+
 - @comments.each do |review|
   - cache [review, 'pro/structure/comments/all'] do
     %strong= review.title
@@ -10,3 +16,21 @@
         %span= "— Pours le cours : #{review.course_name}"
 
     %hr.push--ends
+
+:css
+  @media print {
+    body {
+      margin-top: 0 !important;
+    }
+    .bordered--orange {
+      border: none !important;
+    }
+    .print-hidden {
+      display: none !important;
+    }
+    .soft-double--sides {
+      padding: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+  }

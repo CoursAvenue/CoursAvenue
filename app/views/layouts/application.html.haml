@@ -37,7 +37,7 @@
     = csrf_meta_tags unless response.cache_control[:public]
 
   %body{ class: (current_pro_admin and @structure ? 'is-pro-and-connnected' : '')}
-    .end-of-coursavenue
+    .end-of-coursavenue.print-hidden
       - if current_pro_admin and @structure
         - cache ["the-end-pro", Date.parse("2016/05/30")] do
           CoursAvenue fermera le 30 mai (J-#{(Date.parse("2016/05/30") - Date.today).to_i})
