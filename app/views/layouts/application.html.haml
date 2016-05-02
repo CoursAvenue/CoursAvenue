@@ -38,13 +38,11 @@
 
   %body{ class: (current_pro_admin and @structure ? 'is-pro-and-connnected' : '')}
     .end-of-coursavenue.print-hidden
-      - if current_pro_admin and @structure
+      - cache ["the-end-www", Date.today] do
         CoursAvenue fermera le 30 mai (J-#{(Date.parse("2016/05/30") - Date.today).to_i})
+      - if current_pro_admin and @structure
         %br
         = link_to 'Cliquez ici pour récupérer toutes mes recommandations', all_pro_structure_comments_path(@structure), class: 'f-color-white'
-      - elsif
-        - cache ["the-end-www", Date.today] do
-          CoursAvenue fermera le 30 mai (J-#{(Date.parse("2016/05/30") - Date.today).to_i})
 
     - unless response.cache_control[:public]
       - flash.each do |key, msg|
