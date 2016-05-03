@@ -22,12 +22,12 @@
             %span.push-half--sides= '|'
 
           .inline-block.v-middle.drop-down__wrapper
-            = link_to structure_url(@structure, subdomain: 'www'), target: :_blank, class: 'white block soft-half--ends muted-link f-weight-bold', title: 'Voir&nbsp;mon&nbsp;profil&nbsp;public', data: { toggle: 'tooltip', placement: 'right', html: true } do
-              %i.fa-eye.v-middle.epsilon
-              = truncate(@structure.name, length: 80)
-              - if current_pro_admin
-                .fa.fa-caret-down.very-soft--left
             - if current_pro_admin
+              = link_to structure_url(@structure, subdomain: 'www'), target: :_blank, class: 'white block soft-half--ends muted-link f-weight-bold', title: 'Voir&nbsp;mon&nbsp;profil&nbsp;public', data: { toggle: 'tooltip', placement: 'right', html: true } do
+                %i.fa-eye.v-middle.epsilon
+                = truncate(@structure.name, length: 80)
+                - if current_pro_admin
+                  .fa.fa-caret-down.very-soft--left
               .drop-down__el.drop-down__el--left
                 %ul.drop-down__el-inner-box.text--left
                   - if current_pro_admin and current_pro_admin.super_admin?

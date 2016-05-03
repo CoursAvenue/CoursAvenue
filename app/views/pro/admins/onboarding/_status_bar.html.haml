@@ -9,9 +9,10 @@
               .bar.bar-success{style: "width: #{admin_current_onboarding_percentage(@structure)}%;"}
           .inline-block.v-middle.soft-half--left
             = admin_current_onboarding_step(@structure)
-      .flexbox__item.two-twelves.v-middle.palm-block.palm-text--left.text--right>
-        %a.btn.btn--white.btn--small{ href: 'javascript:void(0)', data: { onboarding: 'show' } }
-          Voir le guide de démarrage
+      - if current_pro_admin
+        .flexbox__item.two-twelves.v-middle.palm-block.palm-text--left.text--right>
+          %a.btn.btn--white.btn--small{ href: 'javascript:void(0)', data: { onboarding: 'show' } }
+            Voir le guide de démarrage
 
 
 = content_for :scripts do

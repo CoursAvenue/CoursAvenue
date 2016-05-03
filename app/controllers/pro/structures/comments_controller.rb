@@ -1,8 +1,8 @@
 # encoding: utf-8
 class Pro::Structures::CommentsController < Pro::ProController
-  before_action :authenticate_pro_admin!
+  before_action :authenticate_pro_admin!, except: :all
 
-  load_and_authorize_resource :structure, find_by: :slug
+  load_and_authorize_resource :structure, find_by: :slug, except: :all
 
   layout 'admin'
 
@@ -40,6 +40,7 @@ class Pro::Structures::CommentsController < Pro::ProController
   end
 
   def all
+    @structure = Structure.find(params[:structure_id])
     @comments = @structure.comments
   end
 
