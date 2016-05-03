@@ -36,7 +36,8 @@
     = javascript_include_tag 'modernizr'
     = csrf_meta_tags unless response.cache_control[:public]
 
-  %body{ class: (current_pro_admin and @structure ? 'is-pro-and-connnected' : '')}
+  %body
+    -# { class: (current_pro_admin and @structure ? 'is-pro-and-connnected' : '')}
     -# .end-of-coursavenue.print-hidden
     -#   - cache ["the-end-www", Date.today] do
     -#     CoursAvenue fermera le 30 mai (J-#{(Date.parse("2016/05/30") - Date.today).to_i})
