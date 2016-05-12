@@ -8,11 +8,19 @@ class AdminMailer < ActionMailer::Base
 
   default from: 'CoursAvenue <hello@coursavenue.com>'
 
+  def the_end(structure)
+    @structure = structure
+    mail to: @structure.admin.email,
+         subject: "C'est la fin du site CoursAvenue",
+         from: 'CoursAvenue <contact@coursavenue.com>'
+  end
+
   def all_comments(structure)
     @structure = structure
     @comments  = structure.comments
+    return if @comments.empty?
     mail to: @structure.admin.email,
-         subject: 'Vos avis CoursAvenue',
+         subject: 'Tous vos avis CoursAvenue',
          from: 'CoursAvenue <contact@coursavenue.com>'
   end
 

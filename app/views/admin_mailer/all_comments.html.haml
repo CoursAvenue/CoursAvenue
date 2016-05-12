@@ -1,7 +1,13 @@
+- content_for :email_title do
+  Récupérez toutes vos recommandations
+
+.p.action
+  = link_to 'Imprimer mes recommandations', all_pro_structure_comments_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+
 - @comments.each do |comment|
   .title= comment.title
-  %div= "De #{comment.author_name} (#{comment.email})"
+  %div= "De : #{comment.author_name} (#{comment.email}) le #{l(comment.created_at.to_date)}"
   - if comment.course_name.present?
-    %div= "Pours le cours de : #{comment.course_name}"
-  %div= comment.content
+    %div= "Cours : #{comment.course_name}"
+  %div= "\"#{comment.content}\""
   %hr
