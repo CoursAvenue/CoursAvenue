@@ -10,6 +10,12 @@ class UserMailer < ActionMailer::Base
 
   default from: "\"L'équipe CoursAvenue\" <contact@coursavenue.com>"
 
+  def the_end(user)
+    mail to: user.email,
+         subject: "C'est la fin du site CoursAvenue",
+         from: 'CoursAvenue <contact@coursavenue.com>'
+  end
+
   def subscribed_to_newsletter(user)
     @user    = user
     mail to: @user.email, subject: "Votre inscription à la newsletter de CoursAvenue.com"
