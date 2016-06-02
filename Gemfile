@@ -177,6 +177,9 @@ gem 'roo'                       , '~> 1.13.2'
 
 # XLSX spreadsheet generation
 gem 'axlsx'                     , '~> 2.0.1'
+gem 'axlsx_styler', '~>0.1.3'
+gem 'axlsx_rails' , '~>0.4.0'
+
 
 # Rack::UTF8Sanitizer is a Rack middleware which cleans up invalid UTF8 characters in request URI and headers.
 # https://github.com/whitequark/rack-utf8_sanitizer

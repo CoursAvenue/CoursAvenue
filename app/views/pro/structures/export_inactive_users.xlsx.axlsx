@@ -1,0 +1,37 @@
+wb = xlsx_package.workbook
+styles = {}
+
+wb.styles do |s|
+  wb.add_worksheet(name: 'Users inactif') do |sheet|
+    sheet.add_row([
+      "Email",
+      "CP (adresse principale du prof)",
+      "Ville (adresse principale du prof)",
+      "Disciplines 1 pratiquées",
+      "Disciplines 2 pratiquées",
+      "Disciplines 3 pratiquées",
+    ])
+    User.inactive.offset((@page - 1) * @limit).limit(@limit).each do |user|
+      datas = []
+      # Email
+      datas << user.email
+      subjects = (user.subjects + user.structures.flat_map(&:subjects)).uniq
+      subjects += subjects.flat_map do |s|
+        [s.parent, s.parent.try(:parent)].compact
+      end
+      # CP
+      datas << structures.map(&:zip_code).join(';')
+      # Villes
+      datas << structures.map{|s| s.city.try(:name) }.compact.join(';')
+      subjects = subjects.uniq.reject(&:blank?)
+      # Subject 1
+      datas << subjects.select{ |s| s.depth == 0 }.map(&:name).join(';')
+      # Subject 2
+      datas << subjects.select{ |s| s.depth == 1 }.map(&:name).join(';')
+      # Subject 3
+      datas << subjects.select{ |s| s.depth == 2 }.map(&:name).join(';')
+      structures = user.structures
+      sheet.add_row(datas)
+    end
+  end
+end

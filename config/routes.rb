@@ -170,6 +170,9 @@ CoursAvenue::Application.routes.draw do
           post :import
           get :imported_structures
           get :duplicates
+          get :export
+          get :export_active_users
+          get :export_inactive_users
           post :update_duplicates
         end
         member do

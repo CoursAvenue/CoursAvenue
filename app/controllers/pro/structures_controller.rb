@@ -18,6 +18,28 @@ class Pro::StructuresController < Pro::ProController
 
   respond_to :json
 
+  def export
+    respond_to do |format|
+      format.xlsx
+    end
+  end
+
+  def export_active_users
+    @page  = (params[:page].present? ? params[:page].to_i : 1)
+    @limit = (params[:limit].present? ? params[:limit].to_i : 5000)
+    respond_to do |format|
+      format.xlsx
+    end
+  end
+
+  def export_inactive_users
+    @page  = (params[:page].present? ? params[:page].to_i : 1)
+    @limit = (params[:limit].present? ? params[:limit].to_i : 10000)
+    respond_to do |format|
+      format.xlsx
+    end
+  end
+
   # GET member
   def dashboard
     @structure_decorator = @structure.decorate

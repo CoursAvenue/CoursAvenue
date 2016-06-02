@@ -1,0 +1,56 @@
+wb = xlsx_package.workbook
+styles = {}
+
+wb.styles do |s|
+  wb.add_worksheet(name: 'Établissement') do |sheet|
+    header = [
+      "Email",
+      "Nom",
+      "Type d'établissement",
+      "Site web",
+      "Disciplines 1 pratiquées",
+      "Disciplines 2 pratiquées",
+      "Disciplines 3 pratiquées",
+      "Tel",
+      "Adresse",
+      "CP",
+      "Ville"
+    ]
+    10.times { |i| header += ["Nom lieu #{i + 1}", "Adresse #{i + 1}", "CP #{i + 1}", "Ville #{i + 1}"] }
+    sheet.add_row(header)
+    Admin.find_each do |admin|
+      structure = admin.structure
+      next if structure.nil?
+      datas = []
+      # Email
+      datas << admin.email
+      # Nom
+      datas << structure.name
+      # Type d'établissement
+      datas << structure.structure_type
+      # Site internet
+      datas << structure.website
+      # Subj 1
+      datas << structure.subjects.at_depth(0).map(&:name).join(', ')
+      # Subj 2
+      datas << structure.subjects.at_depth(1).map(&:name).join(', ')
+      # Subj 3
+      datas << structure.subjects.at_depth(2).map(&:name).join(', ')
+      # Tel
+      datas << [structure.contact_phone, structure.contact_mobile_phone].compact.join(', ')
+      # Adresse
+      datas << structure.street
+      # CP
+      datas << structure.zip_code
+      # Ville
+      datas << structure.city.try(:name)
+      structure.places.each do |place|
+        datas << place.name
+        datas << place.street
+        datas << place.zip_code
+        datas << place.city.name
+      end
+      sheet.add_row(datas)
+    end
+  end
+end

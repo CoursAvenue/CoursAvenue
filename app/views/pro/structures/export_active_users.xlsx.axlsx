@@ -1,0 +1,46 @@
+wb = xlsx_package.workbook
+styles = {}
+
+wb.styles do |s|
+  wb.add_worksheet(name: 'User') do |sheet|
+    sheet.add_row([
+      "Email",
+      "Nom",
+      "Prénom",
+      "Discipline pratiqués 1",
+      "Discipline pratiqués 2",
+      "Discipline pratiqués 3",
+      "Age",
+      "Sexe",
+    ])
+    User.active.offset((@page - 1) * @limit).limit(@limit).each do |user|
+      datas = []
+      # Email
+      datas << user.email
+      # Nom
+      datas << user.last_name
+      # Prénom
+      datas << user.first_name
+      # Discipline 1
+      subjects = user.subjects
+      if user.participation_requests.any?
+        subjects += user.participation_requests.map(&:course).reject(&:blank?).flat_map(&:subjects)
+      end
+      subjects += subjects.flat_map do |s|
+        [s.parent, s.parent.try(:parent)].compact
+      end
+      subjects = subjects.uniq.reject(&:blank?)
+
+      datas << subjects.select{ |s| s.depth == 0 }.map(&:name).join(';')
+      # Discipline 2
+      datas << subjects.select{ |s| s.depth == 1 }.map(&:name).join(';')
+      # Discipline 3
+      datas << subjects.select{ |s| s.depth == 2 }.map(&:name).join(';')
+      # Age
+      datas << user.age
+      # Sexe
+      datas << user.gender
+      sheet.add_row(datas)
+    end
+  end
+end
