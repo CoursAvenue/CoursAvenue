@@ -8,6 +8,12 @@ class AdminMailer < ActionMailer::Base
 
   default from: 'CoursAvenue <hello@coursavenue.com>'
 
+  def hello_asso(email)
+    mail to: email,
+         subject: "Une grande nouvelle",
+         from: 'CoursAvenue <contact@coursavenue.com>'
+  end
+
   def the_end(structure)
     @structure = structure
     mail to: @structure.admin.email,
