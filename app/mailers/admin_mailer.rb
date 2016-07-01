@@ -10,7 +10,7 @@ class AdminMailer < ActionMailer::Base
 
   def hello_asso(email)
     mail to: email,
-         subject: "Une grande nouvelle",
+         subject: "Une grande nouvelle : CoursAvenue rejoint HelloAsso",
          from: 'CoursAvenue <contact@coursavenue.com>'
   end
 
