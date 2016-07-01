@@ -15,19 +15,24 @@
   %strong Ce rapprochement poursuit notre ambition de démocratiser l'usage du numérique pour relier chacun de nous aux associations qui nous entourent
 
 
+.text--center.soft--ends
+  = link_to 'https://www.helloasso.com/' do
+    = image_tag 'https://www.helloasso.com/Areas/HelloAsso/img/helloasso-logo.png', height: 51, width: 220
+
 .p.text--center
   %strong Qu'est-ce que cela change pour votre association?
 
 %ul
   %li
-    %string Aucune intervention n’est nécessaire de votre part !
+    %strong Aucune intervention n’est nécessaire de votre part !
     .p Vos cours, stages et la page de votre association restent accessibles, fonctionnels et conservent les mêmes urls.
   %li
-    %string Vos élèves peuvent à partir de maintenant régler directement les cours et les stages en ligne, par carte bleue !
+    %strong Vos élèves peuvent à partir de maintenant régler directement les cours et les stages en ligne, par carte bleue !
     .p 100% des montants collectés sont reversés à votre association. HelloAsso ne prend aucune commission. Les donateurs pourront, s’ils le souhaitent, laisser un pourboire volontaire pour HelloAsso.
 
   %li
-    %string Vous bénéficiez de nouvelles fonctionnalités sur HelloAsso :
+    %strong Vous bénéficiez de
+    = link_to 'nouvelles fonctionnalités sur HelloAsso :', 'https://www.helloasso.com/', style: 'font-weight: bold'
     .p  possibilité de lancer un crowdfunding, de gérer vos cotisations, de faire votre billetterie en ligne, etc.
 
 
@@ -37,7 +42,9 @@
   et vous recevrez en début de semaine prochaine un mail de HelloAsso comportant le lien vers votre nouvel espace d’administration.
 
 .p
-  Nous sommes impatients de vous retrouver sur le site HelloAsso et sommes convaincus que ce rapprochement vous aidera à développer vos projets sur Internet.
+  Nous sommes impatients de vous retrouver sur
+  = link_to 'le site HelloAsso', 'https://www.helloasso.com/'
+  et sommes convaincus que ce rapprochement vous aidera à développer vos projets sur Internet.
 
 .p A très bientôt,
 .p Nicolas, Nima et toute l'équipe CoursAvenue
